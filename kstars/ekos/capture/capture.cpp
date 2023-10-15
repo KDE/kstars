@@ -169,7 +169,10 @@ Capture::Capture()
 
     connect(addToQueueB, &QPushButton::clicked, this, [this]()
     {
-        addJob(SequenceJob::JOBTYPE_BATCH);
+        if (m_JobUnderEdit)
+            editJobFinished();
+        else
+            createJob();
     });
     connect(queueUpB, &QPushButton::clicked, [this]()
     {
@@ -187,7 +190,10 @@ Capture::Capture()
     connect(resetB, &QPushButton::clicked, this, &Capture::resetJobs);
     connect(queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &Capture::selectedJobChanged);
     connect(queueTable, &QAbstractItemView::doubleClicked, this, &Capture::editJob);
-    connect(queueTable, &QTableWidget::itemSelectionChanged, this, &Capture::resetJobEdit);
+    connect(queueTable, &QTableWidget::itemSelectionChanged, this, [&]()
+    {
+        resetJobEdit(m_JobUnderEdit);
+    });
     connect(setTemperatureB, &QPushButton::clicked, this, [&]()
     {
         if (devices()->getActiveCamera())
@@ -259,42 +265,37 @@ Capture::Capture()
     ////////////////////////////////////////////////////////////////////////
     /// Settings
     ////////////////////////////////////////////////////////////////////////
+    syncGUIToGeneralSettings();
     // Start Guide Deviation Check
-    m_LimitsUI->startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
     connect(m_LimitsUI->startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceStartGuiderDrift(checked);
     });
 
     // Start Guide Deviation Value
-    m_LimitsUI->startGuiderDriftN->setValue(Options::startGuideDeviation());
     connect(m_LimitsUI->startGuiderDriftN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setStartGuideDeviation(m_LimitsUI->startGuiderDriftN->value());
     });
 
     // Abort Guide Deviation Check
-    m_LimitsUI->limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
     connect(m_LimitsUI->limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceGuideDeviation(checked);
     });
 
     // Guide Deviation Value
-    m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
     connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
     });
 
-    m_LimitsUI->limitGuideDeviationRepsN->setValue(static_cast<int>(Options::guideDeviationReps()));
     connect(m_LimitsUI->limitGuideDeviationRepsN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
     {
         Options::setGuideDeviationReps(static_cast<uint>(m_LimitsUI->limitGuideDeviationRepsN->value()));
     });
 
     // Autofocus HFR Check
-    m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocusHFR());
     connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceAutofocusHFR(checked);
@@ -314,28 +315,24 @@ Capture::Capture()
     });
 
     // Autofocus temperature Check
-    m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
     connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, this,  [ = ](bool checked)
     {
         Options::setEnforceAutofocusOnTemperature(checked);
     });
 
     // Autofocus temperature Delta
-    m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
     connect(m_LimitsUI->limitFocusDeltaTN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
     });
 
     // Refocus Every Check
-    m_LimitsUI->limitRefocusS->setChecked(Options::enforceRefocusEveryN());
     connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, this, [](bool checked)
     {
         Options::setEnforceRefocusEveryN(checked);
     });
 
     // Refocus Every Value
-    m_LimitsUI->limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
     connect(m_LimitsUI->limitRefocusN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
     {
         Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
@@ -351,8 +348,11 @@ Capture::Capture()
     QCheckBox * const checkBoxes[] =
     {
         m_LimitsUI->limitGuideDeviationS,
+        m_LimitsUI->startGuiderDriftS,
         m_LimitsUI->limitRefocusS,
-        m_LimitsUI->limitGuideDeviationS,
+        m_LimitsUI->limitFocusDeltaTS,
+        m_LimitsUI->limitFocusHFRS,
+        m_LimitsUI->meridianRefocusS,
     };
     for (const QCheckBox * control : checkBoxes)
         connect(control, &QCheckBox::toggled, this, [&]()
@@ -365,6 +365,7 @@ Capture::Capture()
         m_LimitsUI->limitFocusHFRN,
         m_LimitsUI->limitFocusDeltaTN,
         m_LimitsUI->limitGuideDeviationN,
+        m_LimitsUI->startGuiderDriftN
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]()
@@ -488,10 +489,11 @@ Capture::Capture()
     connect(m_captureProcess.data(), &CaptureProcess::jobExecutionPreparationStarted, this,
             &Capture::jobExecutionPreparationStarted);
     connect(m_captureProcess.data(), &CaptureProcess::sequenceChanged, this, &Capture::sequenceChanged);
-    connect(m_captureProcess.data(), &CaptureProcess::addJob, [this](SequenceJob::SequenceJobType jobType)
+    connect(m_captureProcess.data(), &CaptureProcess::addJob, this, &Capture::addJob);
+    connect(m_captureProcess.data(), &CaptureProcess::createJob, [this](SequenceJob::SequenceJobType jobType)
     {
         // report the result back to the process
-        process()->jobAdded(addJob(jobType));
+        process()->jobCreated(createJob(jobType));
     });
     connect(m_captureProcess.data(), &CaptureProcess::jobPrepared, this, &Capture::jobPrepared);
     connect(m_captureProcess.data(), &CaptureProcess::captureImageStarted, this, &Capture::captureImageStarted);
@@ -628,6 +630,11 @@ void Capture::setFilterWheel(QString name)
         emit settingsUpdated(getPresetSettings());
 }
 
+bool Capture::setDome(ISD::Dome *device)
+{
+    return m_captureProcess->setDome(device);
+}
+
 void Capture::setRotator(QString name)
 {
     ISD::Rotator *Rotator = devices()->rotator();
@@ -702,16 +709,21 @@ void Capture::refreshCameraSettings()
 {
     // Make sure we have a valid chip and valid base device.
     // Make sure we are not in capture process.
+    auto camera = activeCamera();
+
+    if (!camera)
+        return;
+
     ISD::CameraChip *targetChip = devices()->getActiveChip();
     if (!targetChip || !targetChip->getCCD() || targetChip->isCapturing())
         return;
 
-    if (activeCamera()->hasCoolerControl())
+    if (camera->hasCoolerControl())
     {
         coolerOnB->setEnabled(true);
         coolerOffB->setEnabled(true);
-        coolerOnB->setChecked(activeCamera()->isCoolerOn());
-        coolerOffB->setChecked(!activeCamera()->isCoolerOn());
+        coolerOnB->setChecked(camera->isCoolerOn());
+        coolerOffB->setChecked(!camera->isCoolerOn());
     }
     else
     {
@@ -723,7 +735,34 @@ void Capture::refreshCameraSettings()
 
     updateFrameProperties();
 
-    QStringList frameTypes = devices()->getActiveChip()->getFrameTypes();
+    updateCaptureFormats();
+
+    customPropertiesDialog->setCCD(camera);
+
+    liveVideoB->setEnabled(camera->hasVideoStream());
+    if (camera->hasVideoStream())
+        setVideoStreamEnabled(camera->isStreamingEnabled());
+    else
+        liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
+
+    connect(camera, &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
+            Qt::UniqueConnection);
+
+    syncCameraInfo();
+
+    // update values received by the device adaptor
+    // connect(activeCamera(), &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature, Qt::UniqueConnection);
+
+    DarkLibrary::Instance()->checkCamera();
+}
+
+void Capture::updateCaptureFormats()
+{
+    QStringList frameTypes = process()->frameTypes();
 
     captureTypeS->clear();
 
@@ -749,28 +788,6 @@ void Capture::refreshCameraSettings()
     captureEncodingS->addItems(activeCamera()->getEncodingFormats());
     captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
     captureEncodingS->blockSignals(false);
-
-    customPropertiesDialog->setCCD(activeCamera());
-
-    liveVideoB->setEnabled(activeCamera()->hasVideoStream());
-    if (activeCamera()->hasVideoStream())
-        setVideoStreamEnabled(activeCamera()->isStreamingEnabled());
-    else
-        liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
-
-    connect(activeCamera(), &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
-    connect(activeCamera(), &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
-            Qt::UniqueConnection);
-
-    syncCameraInfo();
-
-    // update values received by the device adaptor
-    // connect(activeCamera(), &ISD::Camera::newTemperatureValue, this, &Capture::updateCCDTemperature, Qt::UniqueConnection);
-
-    DarkLibrary::Instance()->checkCamera();
 }
 
 void Capture::syncCameraInfo()
@@ -1129,8 +1146,8 @@ void Capture::updateFrameProperties(int reset)
         settings["y"]    = 0;
         settings["w"]    = captureFrameWN->maximum();
         settings["h"]    = captureFrameHN->maximum();
-        settings["binx"] = 1;
-        settings["biny"] = 1;
+        settings["binx"] = captureBinHN->value();
+        settings["biny"] = captureBinVN->value();
 
         state()->frameSettings()[devices()->getActiveChip()] = settings;
     }
@@ -1154,6 +1171,8 @@ void Capture::updateFrameProperties(int reset)
         settings["y"] = y;
         settings["w"] = w;
         settings["h"] = h;
+        settings["binx"] = captureBinHN->value();
+        settings["biny"] = captureBinVN->value();
 
         state()->frameSettings()[devices()->getActiveChip()] = settings;
     }
@@ -1203,6 +1222,8 @@ void Capture::processCameraNumber(INDI::Property prop)
     else if ((prop.isNameMatch("CCD_INFO") && state()->useGuideHead() == false) ||
              (prop.isNameMatch("GUIDER_INFO") && state()->useGuideHead()))
         updateFrameProperties(2);
+    else if (prop.isNameMatch("CCD_TRANSFER_FORMAT") || prop.isNameMatch("CCD_CAPTURE_FORMAT"))
+        updateCaptureFormats();
     else if (prop.isNameMatch("CCD_CONTROLS"))
     {
         auto nvp = prop.getNumber();
@@ -1230,9 +1251,7 @@ void Capture::syncFrameType(const QString &name)
     if (!activeCamera() || name != activeCamera()->getDeviceName())
         return;
 
-    ISD::CameraChip * tChip = devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
-
-    QStringList frameTypes = tChip->getFrameTypes();
+    QStringList frameTypes = process()->frameTypes();
 
     captureTypeS->clear();
 
@@ -1242,6 +1261,7 @@ void Capture::syncFrameType(const QString &name)
     {
         captureTypeS->setEnabled(true);
         captureTypeS->addItems(frameTypes);
+        ISD::CameraChip *tChip = devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
         captureTypeS->setCurrentIndex(tChip->getFrameType());
     }
 }
@@ -1300,7 +1320,7 @@ void Capture::refreshFilterSettings()
 
     process()->updateFilterInfo();
 
-    FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
+    FilterPosCombo->addItems(process()->filterLabels());
 
     updateCurrentFilterPosition();
 
@@ -1494,275 +1514,117 @@ void Capture::updateRotatorAngle(double value)
         m_RotatorControlPanel->updateGauge(value);
 }
 
-SequenceJob *Capture::addJob(SequenceJob::SequenceJobType jobtype, FilenamePreviewType filenamePreview)
+void Capture::addJob(SequenceJob *job)
 {
-    if (state()->getCaptureState() != CAPTURE_IDLE && state()->getCaptureState() != CAPTURE_ABORTED
-            && state()->getCaptureState() != CAPTURE_COMPLETE)
+    // add the job to the job list
+    state()->allJobs().append(job);
+
+    // create a new row
+    createNewJobTableRow(job);
+}
+
+SequenceJob *Capture::createJob(SequenceJob::SequenceJobType jobtype, FilenamePreviewType filenamePreview)
+{
+    SequenceJob *job = new SequenceJob(devices(), state(), jobtype);
+
+    updateJobFromUI(job, filenamePreview);
+
+    // Nothing more to do if preview or for placeholder calculations
+    if (jobtype == SequenceJob::JOBTYPE_PREVIEW || filenamePreview != NOT_PREVIEW)
+        return job;
+
+    // check if the upload paths are correct
+    if (checkUploadPaths(filenamePreview) == false)
         return nullptr;
 
-    bool isPreview = jobtype == SequenceJob::JOBTYPE_PREVIEW;
-    bool isDarkFlat = jobtype == SequenceJob::JOBTYPE_DARKFLAT;
+    // all other jobs will be added to the job list
+    state()->allJobs().append(job);
 
-    SequenceJob * job = nullptr;
+    // create a new row
+    createNewJobTableRow(job);
 
-    if (filenamePreview == NOT_PREVIEW)
-    {
-        if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
-        {
-            KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
-            return nullptr;
-        }
+    return job;
+}
 
-        if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
-        {
-            KSNotification::error(i18n("You must set local directory for Client & Both modes."));
-            return nullptr;
-        }
-    }
+void Ekos::Capture::createNewJobTableRow(SequenceJob *job)
+{
+    int currentRow = queueTable->rowCount();
+    queueTable->insertRow(currentRow);
 
-    if (m_JobUnderEdit && filenamePreview == NOT_PREVIEW)
-    {
-        job = state()->allJobs().at(queueTable->currentRow());
-        job->setJobType(jobtype);
-    }
-    else
-    {
-        job = new SequenceJob(m_captureDeviceAdaptor, state(), jobtype);
-    }
+    // create job table widgets
+    QTableWidgetItem *status = new QTableWidgetItem();
+    status->setTextAlignment(Qt::AlignHCenter);
+    status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    Q_ASSERT_X(job, __FUNCTION__, "Capture Job is invalid.");
-
-    job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
-    job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
-
-    if (captureISOS)
-        job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
-
-    if (getGain() >= 0)
-        job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
-
-    if (getOffset() >= 0)
-        job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
-
-    job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
-
-    if (cameraTemperatureN->isEnabled())
-    {
-        job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
-        job->setTargetTemperature(cameraTemperatureN->value());
-    }
-
-    job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
-    job->setScripts(state()->scripts());
-    job->setFlatFieldDuration(state()->flatFieldDuration());
-    job->setFlatFieldSource(state()->flatFieldSource());
-    job->setPreMountPark(state()->preMountPark());
-    job->setPreDomePark(state()->preDomePark());
-    job->setWallCoord(state()->wallCoord());
-    job->setCoreProperty(SequenceJob::SJ_TargetADU, state()->targetADU());
-    job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());
-    job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
-
-    job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
-                         && Options::enforceStartGuiderDrift()));
-    job->setTargetStartGuiderDrift(Options::startGuideDeviation());
-
-    //if (filterSlot != nullptr && currentFilter != nullptr)
-    if (FilterPosCombo->currentIndex() != -1 && devices()->filterWheel() != nullptr)
-        job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
-
-    job->setCoreProperty(SequenceJob::SJ_Exposure, captureExposureN->value());
-
-    job->setCoreProperty(SequenceJob::SJ_Count, captureCountN->value());
-
-    job->setCoreProperty(SequenceJob::SJ_Binning, QPoint(captureBinHN->value(), captureBinVN->value()));
-
-    /* in ms */
-    job->setCoreProperty(SequenceJob::SJ_Delay, captureDelayN->value() * 1000);
-
-    // Custom Properties
-    job->setCustomProperties(customPropertiesDialog->getCustomProperties());
-    /* remove enforceJobPA
-    if (devices()->rotator() && m_RotatorControlPanel && m_RotatorControlPanel->isRotationEnforced())
-    {
-       job->setTargetRotation(m_RotatorControlPanel->getCameraPA());
-    }
-    */
-    job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
-                         captureFrameHN->value()));
-    job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
-    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectoryT->text());
-    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
-    job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
-
-    if (m_JobUnderEdit == false || filenamePreview != NOT_PREVIEW)
-    {
-        // JM 2018-09-24: If this is the first job added
-        // We always ignore job progress by default.
-        if (state()->allJobs().isEmpty() && isPreview == false)
-            state()->setIgnoreJobProgress(true);
-
-        // Nothing more to do if preview
-        if (isPreview)
-            return job;
-
-        // preview jobs will not be added to the job list
-        state()->allJobs().append(job);
-    }
-
-    QJsonObject jsonJob = {{"Status", "Idle"}};
-
-    auto placeholderPath = PlaceholderPath();
-    placeholderPath.addJob(job, state()->targetName());
-
-    int currentRow = 0;
-    if (m_JobUnderEdit == false)
-    {
-        currentRow = queueTable->rowCount();
-        queueTable->insertRow(currentRow);
-    }
-    else
-        currentRow = queueTable->currentRow();
-
-    QTableWidgetItem * status = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_STATUS) : new QTableWidgetItem();
-
-    QTableWidgetItem * filter = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_FILTER) : new QTableWidgetItem();
-    filter->setText("--");
-    jsonJob.insert("Filter", "--");
-    if (FilterPosCombo->count() > 0 && (captureTypeS->currentIndex() == FRAME_LIGHT
-                                        || captureTypeS->currentIndex() == FRAME_FLAT || isDarkFlat))
-    {
-        filter->setText(FilterPosCombo->currentText());
-        jsonJob.insert("Filter", FilterPosCombo->currentText());
-    }
-
+    QTableWidgetItem *filter = new QTableWidgetItem();
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * count = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_COUNTS) : new QTableWidgetItem();
-    updateJobTableCountCell(job, count);
-    jsonJob.insert("Count", count->text());
+    QTableWidgetItem *count = new QTableWidgetItem();
+    count->setTextAlignment(Qt::AlignHCenter);
+    count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * exp = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_EXP) : new QTableWidgetItem();
-    exp->setText(QString("%L1").arg(captureExposureN->value(), 0, 'f', captureExposureN->decimals()));
+    QTableWidgetItem *exp = new QTableWidgetItem();
     exp->setTextAlignment(Qt::AlignHCenter);
     exp->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Exp", exp->text());
 
-    QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_TYPE) : new QTableWidgetItem();
-    type->setText(isDarkFlat ? i18n("Dark Flat") : captureTypeS->currentText());
+    QTableWidgetItem *type = new QTableWidgetItem();
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : type->text());
 
-    QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_BINNING) : new QTableWidgetItem();
-    bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
+    QTableWidgetItem *bin = new QTableWidgetItem();
     bin->setTextAlignment(Qt::AlignHCenter);
     bin->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Bin", bin->text());
 
-    QTableWidgetItem * iso = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_ISO) : new QTableWidgetItem();
-    if (captureISOS && captureISOS->currentIndex() != -1)
-    {
-        iso->setText(captureISOS->currentText());
-        jsonJob.insert("ISO/Gain", iso->text());
-    }
-    else if (job->getCoreProperty(SequenceJob::SJ_Gain).toDouble() >= 0)
-    {
-        iso->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Gain).toDouble(), 'f', 1));
-        jsonJob.insert("ISO/Gain", iso->text());
-    }
-    else
-    {
-        iso->setText("--");
-        jsonJob.insert("ISO/Gain", "--");
-    }
+    QTableWidgetItem *iso = new QTableWidgetItem();
     iso->setTextAlignment(Qt::AlignHCenter);
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, JOBTABLE_COL_OFFSET) : new QTableWidgetItem();
-    if (job->getCoreProperty(SequenceJob::SJ_Offset).toDouble() >= 0)
-    {
-        offset->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Offset).toDouble(), 'f', 1));
-        jsonJob.insert("Offset", offset->text());
-    }
-    else
-    {
-        offset->setText("--");
-        jsonJob.insert("Offset", "--");
-    }
+    QTableWidgetItem *offset = new QTableWidgetItem();
     offset->setTextAlignment(Qt::AlignHCenter);
     offset->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    if (m_JobUnderEdit == false)
-    {
-        status->setTextAlignment(Qt::AlignHCenter);
-        count->setTextAlignment(Qt::AlignHCenter);
-        status->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-        count->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    // add the widgets to the table
+    queueTable->setItem(currentRow, JOBTABLE_COL_STATUS, status);
+    queueTable->setItem(currentRow, JOBTABLE_COL_FILTER, filter);
+    queueTable->setItem(currentRow, JOBTABLE_COL_COUNTS, count);
+    queueTable->setItem(currentRow, JOBTABLE_COL_EXP, exp);
+    queueTable->setItem(currentRow, JOBTABLE_COL_TYPE, type);
+    queueTable->setItem(currentRow, JOBTABLE_COL_BINNING, bin);
+    queueTable->setItem(currentRow, JOBTABLE_COL_ISO, iso);
+    queueTable->setItem(currentRow, JOBTABLE_COL_OFFSET, offset);
 
-        queueTable->setItem(currentRow, JOBTABLE_COL_STATUS, status);
-        queueTable->setItem(currentRow, JOBTABLE_COL_FILTER, filter);
-        queueTable->setItem(currentRow, JOBTABLE_COL_COUNTS, count);
-        queueTable->setItem(currentRow, JOBTABLE_COL_EXP, exp);
-        queueTable->setItem(currentRow, JOBTABLE_COL_TYPE, type);
-        queueTable->setItem(currentRow, JOBTABLE_COL_BINNING, bin);
-        queueTable->setItem(currentRow, JOBTABLE_COL_ISO, iso);
-        queueTable->setItem(currentRow, JOBTABLE_COL_OFFSET, offset);
+    // full update to the job table row
+    updateJobTable(job, true);
 
-        state()->getSequence().append(jsonJob);
-        emit sequenceChanged(state()->getSequence());
-    }
+    // Create a new JSON object. Needs to be called after the new row has been filled
+    QJsonObject jsonJob = createJsonJob(job, currentRow);
+    state()->getSequence().append(jsonJob);
+    emit sequenceChanged(state()->getSequence());
 
     removeFromQueueB->setEnabled(true);
+}
 
-    if (queueTable->rowCount() > 0)
-    {
-        queueSaveAsB->setEnabled(true);
-        queueSaveB->setEnabled(true);
-        resetB->setEnabled(true);
-        state()->setDirty(true);
-    }
 
-    if (queueTable->rowCount() > 1)
-    {
-        queueUpB->setEnabled(true);
-        queueDownB->setEnabled(true);
-    }
+void Capture::editJobFinished()
+{
+    if (queueTable->currentRow() < 0)
+        qCWarning(KSTARS_EKOS_CAPTURE()) << "Editing finished, but no row selected!";
 
-    if (m_JobUnderEdit && filenamePreview == NOT_PREVIEW)
-    {
-        m_JobUnderEdit = false;
-        resetJobEdit();
-        appendLogText(i18n("Job #%1 changes applied.", currentRow + 1));
+    int currentRow = queueTable->currentRow();
+    SequenceJob *job = state()->allJobs().at(currentRow);
+    updateJobFromUI(job);
 
-        state()->getSequence().replace(currentRow, jsonJob);
-        emit sequenceChanged(state()->getSequence());
-    }
+    // full update to the job table row
+    updateJobTable(job, true);
 
-    QString signature = placeholderPath.generateSequenceFilename(*job, state()->targetName(),
-                        filenamePreview != REMOTE_PREVIEW, true, 1,
-                        ".fits", "", false, true);
-    job->setCoreProperty(SequenceJob::SJ_Signature, signature);
+    // Update the JSON object for the current row. Needs to be called after the new row has been filled
+    QJsonObject jsonJob = createJsonJob(job, currentRow);
+    state()->getSequence().replace(currentRow, jsonJob);
+    emit sequenceChanged(state()->getSequence());
 
-    auto remoteUpload = placeholderPath.generateSequenceFilename(*job,
-                        state()->targetName(),
-                        false,
-                        true,
-                        1,
-                        ".fits",
-                        "",
-                        false,
-                        true);
-
-    auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
-    auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
-    auto remoteFilename = QString("%1_XXX").arg(remoteUpload.mid(lastSeparator + 1));
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, remoteFilename);
-
-    updateJobTableRow(job);
-    return job;
+    resetJobEdit();
+    appendLogText(i18n("Job #%1 changes applied.", currentRow + 1));
 }
 
 void Capture::removeJobFromQueue()
@@ -1792,7 +1654,7 @@ bool Capture::removeJob(int index)
 
     if (m_JobUnderEdit)
     {
-        resetJobEdit();
+        resetJobEdit(true);
         return false;
     }
 
@@ -2097,365 +1959,21 @@ bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
     state()->clearCapturedFramesMap();
     clearSequenceQueue();
 
-    LilXML * xmlParser = newLilXML();
+    const bool result = process()->loadSequenceQueue(fileURL, ignoreTarget);
+    // cancel if loading fails
+    if (result == false)
+        return result;
 
-    char errmsg[MAXRBUF];
-    XMLEle * root = nullptr;
-    XMLEle * ep   = nullptr;
-    char c;
+    // update general settings
+    setObserverName(state()->observerName());
+    syncGUIToGeneralSettings();
 
-    // We expect all data read from the XML to be in the C locale - QLocale::c().
-    QLocale cLocale = QLocale::c();
+    // select the first one of the loaded jobs
+    if (state()->allJobs().size() > 0)
+        syncGUIToJob(state()->allJobs().first());
 
-    while (sFile.getChar(&c))
-    {
-        root = readXMLEle(xmlParser, c, errmsg);
-
-        if (root)
-        {
-            double sqVersion = cLocale.toDouble(findXMLAttValu(root, "version"));
-            if (sqVersion < SQ_COMPAT_VERSION)
-            {
-                appendLogText(i18n("Deprecated sequence file format version %1. Please construct a new sequence file.",
-                                   sqVersion));
-                return false;
-            }
-
-            for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
-            {
-                if (!strcmp(tagXMLEle(ep), "Observer"))
-                {
-                    setObserverName(QString(pcdataXMLEle(ep)));
-                }
-                else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
-                {
-                    m_LimitsUI->limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    m_LimitsUI->limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
-                }
-                else if (!strcmp(tagXMLEle(ep), "CCD"))
-                {
-                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
-                }
-                else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
-                {
-                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
-                }
-                else if (!strcmp(tagXMLEle(ep), "GuideStartDeviation"))
-                {
-                    m_LimitsUI->startGuiderDriftS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    m_LimitsUI->startGuiderDriftN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
-                }
-                else if (!strcmp(tagXMLEle(ep), "Autofocus"))
-                {
-                    m_LimitsUI->limitFocusHFRS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    double const HFRValue = cLocale.toDouble(pcdataXMLEle(ep));
-                    // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
-                    // Note that HFR value will only be serialized to XML when option "Save Sequence HFR to File" is enabled
-                    state()->setFileHFR(HFRValue > 0.0 ? HFRValue : 0.0);
-                    m_LimitsUI->limitFocusHFRN->setValue(state()->getFileHFR());
-                }
-                else if (!strcmp(tagXMLEle(ep), "RefocusOnTemperatureDelta"))
-                {
-                    m_LimitsUI->limitFocusDeltaTS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    double const deltaValue = cLocale.toDouble(pcdataXMLEle(ep));
-                    m_LimitsUI->limitFocusDeltaTN->setValue(deltaValue);
-                }
-                else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
-                {
-                    m_LimitsUI->limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
-                    // Set the refocus period from XML, or reset it to zero, don't let another unrelated older refocus period be used.
-                    m_LimitsUI->limitRefocusN->setValue(minutesValue > 0 ? minutesValue : 0);
-                }
-                else if (!strcmp(tagXMLEle(ep), "RefocusOnMeridianFlip"))
-                {
-                    m_LimitsUI->meridianRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                }
-                else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
-                {
-                    // meridian flip is managed by the mount only
-                    // older files might nevertheless contain MF settings
-                    if (! strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                        appendLogText(
-                            i18n("Meridian flip configuration has been shifted to the mount module. Please configure the meridian flip there."));
-                }
-                else
-                {
-                    processJobInfo(ep, ignoreTarget);
-                }
-            }
-            delXMLEle(root);
-        }
-        else if (errmsg[0])
-        {
-            appendLogText(QString(errmsg));
-            delLilXML(xmlParser);
-            return false;
-        }
-    }
-
-    state()->setSequenceURL(QUrl::fromLocalFile(fileURL));
-    state()->setDirty(false);
-    delLilXML(xmlParser);
     // update save button tool tip
     queueSaveB->setToolTip("Save to " + sFile.fileName());
-
-    syncRefocusOptionsFromGUI();
-    return true;
-}
-
-bool Capture::processJobInfo(XMLEle * root, bool ignoreTarget)
-{
-    XMLEle * ep;
-    XMLEle * subEP;
-    /* remove enforceJobPA
-    if (m_RotatorControlPanel)
-        m_RotatorControlPanel->setRotationEnforced(false);
-    */
-    bool isDarkFlat = false;
-    state()->scripts().clear();
-    QLocale cLocale = QLocale::c();
-
-    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
-    {
-        if (!strcmp(tagXMLEle(ep), "Exposure"))
-            captureExposureN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
-        else if (!strcmp(tagXMLEle(ep), "Format"))
-            captureFormatS->setCurrentText(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "Encoding"))
-        {
-            captureEncodingS->setCurrentText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Binning"))
-        {
-            subEP = findXMLEle(ep, "X");
-            if (subEP)
-                captureBinHN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
-            subEP = findXMLEle(ep, "Y");
-            if (subEP)
-                captureBinVN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Frame"))
-        {
-            subEP = findXMLEle(ep, "X");
-            if (subEP)
-                captureFrameXN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
-            subEP = findXMLEle(ep, "Y");
-            if (subEP)
-                captureFrameYN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
-            subEP = findXMLEle(ep, "W");
-            if (subEP)
-                captureFrameWN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
-            subEP = findXMLEle(ep, "H");
-            if (subEP)
-                captureFrameHN->setValue(cLocale.toInt(pcdataXMLEle(subEP)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Temperature"))
-        {
-            if (cameraTemperatureN->isEnabled())
-                cameraTemperatureN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
-
-            // If force attribute exist, we change cameraTemperatureS, otherwise do nothing.
-            if (!strcmp(findXMLAttValu(ep, "force"), "true"))
-                cameraTemperatureS->setChecked(true);
-            else if (!strcmp(findXMLAttValu(ep, "force"), "false"))
-                cameraTemperatureS->setChecked(false);
-        }
-        else if (!strcmp(tagXMLEle(ep), "Filter"))
-        {
-            //FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
-            if (FilterPosCombo->findText(pcdataXMLEle(ep)) == -1)
-            {
-                appendLogText(i18n("Warning: Filter %1 not found in filter wheel.", pcdataXMLEle(ep)));
-                qWarning(KSTARS_EKOS_CAPTURE) << QString("Filter  %1 not found in filter wheel.").arg(pcdataXMLEle(ep));
-            }
-            FilterPosCombo->setCurrentText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Type"))
-        {
-            captureTypeS->setCurrentText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Prefix"))
-        {
-            // RawPrefix is outdated and will be ignored
-            subEP = findXMLEle(ep, "RawPrefix");
-            if (subEP && ignoreTarget == false)
-            {
-                if (strcmp(pcdataXMLEle(subEP), "") != 0)
-                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(subEP));
-            }
-            bool filterEnabled = false, expEnabled = false, tsEnabled = false;
-            subEP = findXMLEle(ep, "FilterEnabled");
-            if (subEP)
-                filterEnabled = !strcmp("1", pcdataXMLEle(subEP));
-            subEP = findXMLEle(ep, "ExpEnabled");
-            if (subEP)
-                expEnabled = !strcmp("1", pcdataXMLEle(subEP));
-            subEP = findXMLEle(ep, "TimeStampEnabled");
-            if (subEP)
-                tsEnabled = !strcmp("1", pcdataXMLEle(subEP));
-            // build default format
-            placeholderFormatT->setText(PlaceholderPath::defaultFormat(filterEnabled, expEnabled, tsEnabled));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Count"))
-        {
-            captureCountN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Delay"))
-        {
-            captureDelayN->setValue(cLocale.toInt(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
-        {
-            state()->scripts()[SCRIPT_POST_CAPTURE] = pcdataXMLEle(ep);
-        }
-        else if (!strcmp(tagXMLEle(ep), "PreCaptureScript"))
-        {
-            state()->scripts()[SCRIPT_PRE_CAPTURE] = pcdataXMLEle(ep);
-        }
-        else if (!strcmp(tagXMLEle(ep), "PostJobScript"))
-        {
-            state()->scripts()[SCRIPT_POST_JOB] = pcdataXMLEle(ep);
-        }
-        else if (!strcmp(tagXMLEle(ep), "PreJobScript"))
-        {
-            state()->scripts()[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
-        }
-        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
-        {
-            fileDirectoryT->setText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
-        {
-            placeholderFormatT->setText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
-        {
-            formatSuffixN->setValue(cLocale.toUInt(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
-        {
-            fileRemoteDirT->setText(pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "UploadMode"))
-        {
-            fileUploadModeS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
-        {
-            if (captureISOS)
-                captureISOS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Rotation") && m_RotatorControlPanel)
-        {
-            /* remove enforceJobPA
-            m_RotatorControlPanel->setRotationEnforced(true);
-            */
-            m_RotatorControlPanel->setCameraPA(cLocale.toDouble(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "Properties"))
-        {
-            QMap<QString, QMap<QString, QVariant>> propertyMap;
-
-            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
-            {
-                QMap<QString, QVariant> elements;
-                XMLEle * oneElement = nullptr;
-                for (oneElement = nextXMLEle(subEP, 1); oneElement != nullptr; oneElement = nextXMLEle(subEP, 0))
-                {
-                    const char * name = findXMLAttValu(oneElement, "name");
-                    bool ok = false;
-                    // String
-                    auto xmlValue = pcdataXMLEle(oneElement);
-                    // Try to load it as double
-                    auto value = cLocale.toDouble(xmlValue, &ok);
-                    if (ok)
-                        elements[name] = value;
-                    else
-                        elements[name] = xmlValue;
-                }
-
-                const char * name = findXMLAttValu(subEP, "name");
-                propertyMap[name] = elements;
-            }
-
-            customPropertiesDialog->setCustomProperties(propertyMap);
-            const double gain = getGain();
-            if (gain >= 0)
-                captureGainN->setValue(gain);
-            const double offset = getOffset();
-            if (offset >= 0)
-                captureOffsetN->setValue(offset);
-        }
-        else if (!strcmp(tagXMLEle(ep), "Calibration"))
-        {
-            subEP = findXMLEle(ep, "FlatSource");
-            if (subEP)
-            {
-                XMLEle * typeEP = findXMLEle(subEP, "Type");
-                if (typeEP)
-                {
-                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
-                        state()->setFlatFieldSource(SOURCE_MANUAL);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "FlatCap"))
-                        state()->setFlatFieldSource(SOURCE_FLATCAP);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "DarkCap"))
-                        state()->setFlatFieldSource(SOURCE_DARKCAP);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
-                    {
-                        XMLEle * azEP  = findXMLEle(subEP, "Az");
-                        XMLEle * altEP = findXMLEle(subEP, "Alt");
-
-                        if (azEP && altEP)
-                        {
-                            state()->setFlatFieldSource(SOURCE_WALL);
-                            state()->wallCoord().setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
-                            state()->wallCoord().setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
-                        }
-                    }
-                    else
-                        state()->setFlatFieldSource(SOURCE_DAWN_DUSK);
-                }
-            }
-
-            subEP = findXMLEle(ep, "FlatDuration");
-            if (subEP)
-            {
-                const char * dark = findXMLAttValu(subEP, "dark");
-                isDarkFlat = !strcmp(dark, "true");
-
-                XMLEle * typeEP = findXMLEle(subEP, "Type");
-                if (typeEP)
-                {
-                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
-                        state()->setFlatFieldDuration(DURATION_MANUAL);
-                }
-
-                XMLEle * aduEP = findXMLEle(subEP, "Value");
-                if (aduEP)
-                {
-                    state()->setFlatFieldDuration(DURATION_ADU);
-                    state()->setTargetADU(cLocale.toDouble(pcdataXMLEle(aduEP)));
-                }
-
-                aduEP = findXMLEle(subEP, "Tolerance");
-                if (aduEP)
-                {
-                    state()->setTargetADUTolerance(cLocale.toDouble(pcdataXMLEle(aduEP)));
-                }
-            }
-
-            subEP = findXMLEle(ep, "PreMountPark");
-            if (subEP)
-                state()->setPreMountPark(!strcmp(pcdataXMLEle(subEP), "True"));
-
-            subEP = findXMLEle(ep, "PreDomePark");
-            if (subEP)
-                state()->setPreDomePark(!strcmp(pcdataXMLEle(subEP), "True"));
-        }
-    }
-
-    addJob(isDarkFlat ? SequenceJob::JOBTYPE_DARKFLAT : SequenceJob::JOBTYPE_BATCH);
 
     return true;
 }
@@ -2494,7 +2012,7 @@ void Capture::saveSequenceQueue()
 
     if (state()->sequenceURL().isValid())
     {
-        if ((saveSequenceQueue(state()->sequenceURL().toLocalFile())) == false)
+        if ((process()->saveSequenceQueue(state()->sequenceURL().toLocalFile())) == false)
         {
             KSNotification::error(i18n("Failed to save sequence queue"), i18n("Save"));
             return;
@@ -2517,179 +2035,8 @@ void Capture::saveSequenceQueueAs()
 
 bool Capture::saveSequenceQueue(const QString &path)
 {
-    QFile file;
-    const QMap<QString, CCDFrameType> frameTypes =
-    {
-        { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
-    };
-
-    file.setFileName(path);
-
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        QString message = i18n("Unable to write to file %1", path);
-        KSNotification::sorry(message, i18n("Could not open file"));
-        return false;
-    }
-
-    QTextStream outstream(&file);
-
-    // We serialize sequence data to XML using the C locale
-    QLocale cLocale = QLocale::c();
-
-    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
-    outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << Qt::endl;
-    if (getObserverName().isEmpty() == false)
-        outstream << "<Observer>" << getObserverName() << "</Observer>" << Qt::endl;
-    outstream << "<GuideDeviation enabled='" << (m_LimitsUI->limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(m_LimitsUI->limitGuideDeviationN->value()) << "</GuideDeviation>" << Qt::endl;
-    outstream << "<GuideStartDeviation enabled='" << (m_LimitsUI->startGuiderDriftS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(m_LimitsUI->startGuiderDriftN->value()) << "</GuideStartDeviation>" << Qt::endl;
-    // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
-    if (m_LimitsUI->limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
-        appendLogText(i18n(
-                          "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to File\" is not enabled. "
-                          "Current HFR value will not be written to sequence file."));
-    outstream << "<Autofocus enabled='" << (m_LimitsUI->limitFocusHFRS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(Options::saveHFRToFile() ? m_LimitsUI->limitFocusHFRN->value() : 0) << "</Autofocus>" << Qt::endl;
-    outstream << "<RefocusOnTemperatureDelta enabled='" << (m_LimitsUI->limitFocusDeltaTS->isChecked() ? "true" : "false") <<
-              "'>"
-              << cLocale.toString(m_LimitsUI->limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << Qt::endl;
-    outstream << "<RefocusEveryN enabled='" << (m_LimitsUI->limitRefocusS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(m_LimitsUI->limitRefocusN->value()) << "</RefocusEveryN>" << Qt::endl;
-    outstream << "<RefocusOnMeridianFlip enabled='" << (m_LimitsUI->meridianRefocusS->isChecked() ? "true" : "false") << "'/>"
-              << Qt::endl;
-    for (auto &job : state()->allJobs())
-    {
-        auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
-
-        outstream << "<Job>" << Qt::endl;
-
-        outstream << "<Exposure>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) << "</Exposure>" <<
-                  Qt::endl;
-        outstream << "<Format>" << job->getCoreProperty(SequenceJob::SJ_Format).toString() << "</Format>" << Qt::endl;
-        outstream << "<Encoding>" << job->getCoreProperty(SequenceJob::SJ_Encoding).toString() << "</Encoding>" << Qt::endl;
-        outstream << "<Binning>" << Qt::endl;
-        outstream << "<X>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << Qt::endl;
-        outstream << "<Y>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</Y>" << Qt::endl;
-        outstream << "</Binning>" << Qt::endl;
-        outstream << "<Frame>" << Qt::endl;
-        outstream << "<X>" << cLocale.toString(roi.x()) << "</X>" << Qt::endl;
-        outstream << "<Y>" << cLocale.toString(roi.y()) << "</Y>" << Qt::endl;
-        outstream << "<W>" << cLocale.toString(roi.width()) << "</W>" << Qt::endl;
-        outstream << "<H>" << cLocale.toString(roi.height()) << "</H>" << Qt::endl;
-        outstream << "</Frame>" << Qt::endl;
-        if (job->getTargetTemperature() != Ekos::INVALID_VALUE)
-            outstream << "<Temperature force='" << (job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool() ? "true" :
-                                                    "false") << "'>"
-                      << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << Qt::endl;
-        if (job->getTargetFilter() >= 0)
-            outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << Qt::endl;
-        outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << Qt::endl;
-        outstream << "<Count>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Count).toInt()) << "</Count>" << Qt::endl;
-        // ms to seconds
-        outstream << "<Delay>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0) << "</Delay>" <<
-                  Qt::endl;
-        if (job->getScript(SCRIPT_PRE_CAPTURE).isEmpty() == false)
-            outstream << "<PreCaptureScript>" << job->getScript(SCRIPT_PRE_CAPTURE) << "</PreCaptureScript>" << Qt::endl;
-        if (job->getScript(SCRIPT_POST_CAPTURE).isEmpty() == false)
-            outstream << "<PostCaptureScript>" << job->getScript(SCRIPT_POST_CAPTURE) << "</PostCaptureScript>" << Qt::endl;
-        if (job->getScript(SCRIPT_PRE_JOB).isEmpty() == false)
-            outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << Qt::endl;
-        if (job->getScript(SCRIPT_POST_JOB).isEmpty() == false)
-            outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << Qt::endl;
-        outstream << "<FITSDirectory>" << job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
-                  Qt::endl;
-        outstream << "<PlaceholderFormat>" << job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString() <<
-                  "</PlaceholderFormat>" <<
-                  Qt::endl;
-        outstream << "<PlaceholderSuffix>" << job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt() <<
-                  "</PlaceholderSuffix>" <<
-                  Qt::endl;
-        outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << Qt::endl;
-        if (job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString().isEmpty() == false)
-            outstream << "<RemoteDirectory>" << job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString() << "</RemoteDirectory>"
-                      << Qt::endl;
-        if (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt() != -1)
-            outstream << "<ISOIndex>" << (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()) << "</ISOIndex>" << Qt::endl;
-        if (job->getTargetRotation() != Ekos::INVALID_VALUE)
-            outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << Qt::endl;
-        QMapIterator<QString, QMap<QString, QVariant>> customIter(job->getCustomProperties());
-        outstream << "<Properties>" << Qt::endl;
-        while (customIter.hasNext())
-        {
-            customIter.next();
-            outstream << "<PropertyVector name='" << customIter.key() << "'>" << Qt::endl;
-            QMap<QString, QVariant> elements = customIter.value();
-            QMapIterator<QString, QVariant> iter(elements);
-            while (iter.hasNext())
-            {
-                iter.next();
-                if (iter.value().type() == QVariant::String)
-                {
-                    outstream << "<OneElement name='" << iter.key()
-                              << "'>" << iter.value().toString() << "</OneElement>" << Qt::endl;
-                }
-                else
-                {
-                    outstream << "<OneElement name='" << iter.key()
-                              << "'>" << iter.value().toDouble() << "</OneElement>" << Qt::endl;
-                }
-            }
-            outstream << "</PropertyVector>" << Qt::endl;
-        }
-        outstream << "</Properties>" << Qt::endl;
-
-        outstream << "<Calibration>" << Qt::endl;
-        outstream << "<FlatSource>" << Qt::endl;
-        if (job->getFlatFieldSource() == SOURCE_MANUAL)
-            outstream << "<Type>Manual</Type>" << Qt::endl;
-        else if (job->getFlatFieldSource() == SOURCE_FLATCAP)
-            outstream << "<Type>FlatCap</Type>" << Qt::endl;
-        else if (job->getFlatFieldSource() == SOURCE_DARKCAP)
-            outstream << "<Type>DarkCap</Type>" << Qt::endl;
-        else if (job->getFlatFieldSource() == SOURCE_WALL)
-        {
-            outstream << "<Type>Wall</Type>" << Qt::endl;
-            outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << Qt::endl;
-            outstream << "<Alt>" << cLocale.toString(job->getWallCoord().alt().Degrees()) << "</Alt>" << Qt::endl;
-        }
-        else
-            outstream << "<Type>DawnDust</Type>" << Qt::endl;
-        outstream << "</FlatSource>" << Qt::endl;
-
-        outstream << "<FlatDuration dark='" << (job->jobType() == SequenceJob::JOBTYPE_DARKFLAT ? "true" : "false")
-                  << "'>" << Qt::endl;
-        if (job->getFlatFieldDuration() == DURATION_MANUAL)
-            outstream << "<Type>Manual</Type>" << Qt::endl;
-        else
-        {
-            outstream << "<Type>ADU</Type>" << Qt::endl;
-            outstream << "<Value>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble()) << "</Value>" <<
-                      Qt::endl;
-            outstream << "<Tolerance>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble()) <<
-                      "</Tolerance>" << Qt::endl;
-        }
-        outstream << "</FlatDuration>" << Qt::endl;
-
-        outstream << "<PreMountPark>" << (job->getPreMountPark() ? "True" : "False") <<
-                  "</PreMountPark>" << Qt::endl;
-        outstream << "<PreDomePark>" << (job->getPreDomePark() ? "True" : "False") <<
-                  "</PreDomePark>" << Qt::endl;
-        outstream << "</Calibration>" << Qt::endl;
-
-        outstream << "</Job>" << Qt::endl;
-    }
-
-    outstream << "</SequenceQueue>" << Qt::endl;
-
-    appendLogText(i18n("Sequence queue saved to %1", path));
-    file.flush();
-    file.close();
-    // update save button tool tip
-    queueSaveB->setToolTip("Save to " + file.fileName());
-
-    return true;
+    // forward it to the process engine
+    return process()->saveSequenceQueue(path);
 }
 
 void Capture::resetJobs()
@@ -2704,7 +2051,7 @@ void Capture::resetJobs()
         if (nullptr != job)
         {
             job->resetStatus();
-            updateJobTableRow(job);
+            updateJobTable(job);
         }
     }
     else
@@ -2719,7 +2066,7 @@ void Capture::resetJobs()
         foreach (SequenceJob * job, state()->allJobs())
         {
             job->resetStatus();
-            updateJobTableRow(job);
+            updateJobTable(job);
         }
     }
 
@@ -2784,12 +2131,10 @@ void Capture::syncGUIToJob(SequenceJob * job)
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     state()->setFlatFieldDuration(job->getFlatFieldDuration());
-    state()->setFlatFieldSource(job->getFlatFieldSource());
+    state()->setCalibrationPreAction(job->getCalibrationPreAction());
     state()->setTargetADU(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble());
     state()->setTargetADUTolerance(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble());
     state()->setWallCoord(job->getWallCoord());
-    state()->setPreMountPark(job->getPreMountPark());
-    state()->setPreDomePark(job->getPreDomePark());
 
     // Script options
     state()->setScripts(job->getScripts());
@@ -2833,6 +2178,22 @@ void Capture::syncGUIToJob(SequenceJob * job)
     }
 
     emit settingsUpdated(getPresetSettings());
+}
+
+void Capture::syncGUIToGeneralSettings()
+{
+    m_LimitsUI->startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
+    m_LimitsUI->startGuiderDriftN->setValue(Options::startGuideDeviation());
+    m_LimitsUI->limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
+    m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
+    m_LimitsUI->limitGuideDeviationRepsN->setValue(static_cast<int>(Options::guideDeviationReps()));
+    m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocusHFR());
+    m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
+    m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
+    m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
+    m_LimitsUI->limitRefocusS->setChecked(Options::enforceRefocusEveryN());
+    m_LimitsUI->limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
+    m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
 }
 
 QJsonObject Capture::getPresetSettings()
@@ -2924,9 +2285,9 @@ void Capture::editJob(QModelIndex i)
     m_JobUnderEdit = true;
 }
 
-void Capture::resetJobEdit()
+void Capture::resetJobEdit(bool cancelled)
 {
-    if (m_JobUnderEdit)
+    if (cancelled == true)
         appendLogText(i18n("Editing job canceled."));
 
     m_JobUnderEdit = false;
@@ -3001,45 +2362,20 @@ void Capture::openCalibrationDialog()
     Ui_calibrationOptions calibrationOptions;
     calibrationOptions.setupUi(&calibrationDialog);
 
-    if (devices()->mount())
+    calibrationOptions.parkMountC->setEnabled(devices()->mount() && devices()->mount()->canPark());
+    calibrationOptions.parkDomeC->setEnabled(devices()->dome() && devices()->dome()->canPark());
+
+    calibrationOptions.parkMountC->setChecked(false);
+    calibrationOptions.parkDomeC->setChecked(false);
+    calibrationOptions.gotoWallC->setChecked(false);
+
+    calibrationOptions.parkMountC->setChecked(state()->calibrationPreAction() & ACTION_PARK_MOUNT);
+    calibrationOptions.parkDomeC->setChecked(state()->calibrationPreAction() & ACTION_PARK_DOME);
+    if (state()->calibrationPreAction() & ACTION_WALL)
     {
-        calibrationOptions.parkMountC->setEnabled(devices()->mount()->canPark());
-        calibrationOptions.parkMountC->setChecked(state()->preMountPark());
-    }
-    else
-        calibrationOptions.parkMountC->setEnabled(false);
-
-    if (devices()->dome())
-    {
-        calibrationOptions.parkDomeC->setEnabled(devices()->dome()->canPark());
-        calibrationOptions.parkDomeC->setChecked(state()->preDomePark());
-    }
-    else
-        calibrationOptions.parkDomeC->setEnabled(false);
-
-    switch (state()->flatFieldSource())
-    {
-        case SOURCE_MANUAL:
-            calibrationOptions.manualSourceC->setChecked(true);
-            break;
-
-        case SOURCE_FLATCAP:
-            calibrationOptions.flatDeviceSourceC->setChecked(true);
-            break;
-
-        case SOURCE_DARKCAP:
-            calibrationOptions.darkDeviceSourceC->setChecked(true);
-            break;
-
-        case SOURCE_WALL:
-            calibrationOptions.wallSourceC->setChecked(true);
-            calibrationOptions.azBox->setText(state()->wallCoord().az().toDMSString());
-            calibrationOptions.altBox->setText(state()->wallCoord().alt().toDMSString());
-            break;
-
-        case SOURCE_DAWN_DUSK:
-            calibrationOptions.dawnDuskFlatsC->setChecked(true);
-            break;
+        calibrationOptions.gotoWallC->setChecked(true);
+        calibrationOptions.azBox->setText(state()->wallCoord().az().toDMSString());
+        calibrationOptions.altBox->setText(state()->wallCoord().alt().toDMSString());
     }
 
     switch (state()->flatFieldDuration())
@@ -3057,13 +2393,12 @@ void Capture::openCalibrationDialog()
 
     if (calibrationDialog.exec() == QDialog::Accepted)
     {
-        if (calibrationOptions.manualSourceC->isChecked())
-            state()->setFlatFieldSource(SOURCE_MANUAL);
-        else if (calibrationOptions.flatDeviceSourceC->isChecked())
-            state()->setFlatFieldSource(SOURCE_FLATCAP);
-        else if (calibrationOptions.darkDeviceSourceC->isChecked())
-            state()->setFlatFieldSource(SOURCE_DARKCAP);
-        else if (calibrationOptions.wallSourceC->isChecked())
+        state()->setCalibrationPreAction(ACTION_NONE);
+        if (calibrationOptions.parkMountC->isChecked())
+            state()->setCalibrationPreAction(state()->calibrationPreAction() | ACTION_PARK_MOUNT);
+        if (calibrationOptions.parkDomeC->isChecked())
+            state()->setCalibrationPreAction(state()->calibrationPreAction() | ACTION_PARK_DOME);
+        if (calibrationOptions.gotoWallC->isChecked())
         {
             dms wallAz, wallAlt;
             bool azOk = false, altOk = false;
@@ -3073,18 +2408,16 @@ void Capture::openCalibrationDialog()
 
             if (azOk && altOk)
             {
-                state()->setFlatFieldSource(SOURCE_WALL);
+                state()->setCalibrationPreAction((state()->calibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
                 state()->wallCoord().setAz(wallAz);
                 state()->wallCoord().setAlt(wallAlt);
             }
             else
             {
-                calibrationOptions.manualSourceC->setChecked(true);
+                calibrationOptions.gotoWallC->setChecked(false);
                 KSNotification::error(i18n("Wall coordinates are invalid."));
             }
         }
-        else
-            state()->setFlatFieldSource(SOURCE_DAWN_DUSK);
 
         if (calibrationOptions.manualDurationC->isChecked())
             state()->setFlatFieldDuration(DURATION_MANUAL);
@@ -3095,12 +2428,9 @@ void Capture::openCalibrationDialog()
             state()->setTargetADUTolerance(calibrationOptions.ADUTolerance->value());
         }
 
-        state()->setPreMountPark(calibrationOptions.parkMountC->isChecked());
-        state()->setPreDomePark(calibrationOptions.parkDomeC->isChecked());
-
         state()->setDirty(true);
 
-        Options::setCalibrationFlatSourceIndex(state()->flatFieldSource());
+        Options::setCalibrationPreActionIndex(state()->calibrationPreAction());
         Options::setCalibrationFlatDurationIndex(state()->flatFieldDuration());
         Options::setCalibrationWallAz(state()->wallCoord().az().Degrees());
         Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
@@ -3574,39 +2904,122 @@ void Capture::clearCameraConfiguration()
             i18n("Confirmation"), 30);
 }
 
-void Capture::updateJobTable(SequenceJob *job)
+void Capture::updateJobTable(SequenceJob *job, bool full)
 {
-    if (job != nullptr)
-    {
-        updateJobTableRow(job);
-    }
-    else
+    if (job == nullptr)
     {
         QListIterator<SequenceJob *> iter(state()->allJobs());
         while (iter.hasNext())
-            updateJobTableRow(iter.next());
+            updateJobTable(iter.next(), full);
     }
-}
-
-void Capture::updateJobTableRow(SequenceJob *job)
-{
-    // do nothing if no job is given
-    if (job == nullptr)
-        return;
-    // find the job's row
-    int row = state()->allJobs().indexOf(job);
-    if (row >= 0 && row < queueTable->rowCount())
+    else
     {
-        QTableWidgetItem *statusCell = queueTable->item(row, JOBTABLE_COL_STATUS);
-        QTableWidgetItem *countCell  = queueTable->item(row, JOBTABLE_COL_COUNTS);
-        statusCell->setText(job->getStatusString());
-        updateJobTableCountCell(job, countCell);
+        // find the job's row
+        int row = state()->allJobs().indexOf(job);
+        if (row >= 0 && row < queueTable->rowCount())
+        {
+            QTableWidgetItem *status = queueTable->item(row, JOBTABLE_COL_STATUS);
+            QTableWidgetItem *count  = queueTable->item(row, JOBTABLE_COL_COUNTS);
+            status->setText(job->getStatusString());
+            updateJobTableCountCell(job, count);
+
+            if (full)
+            {
+                bool isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
+
+                QTableWidgetItem *filter = queueTable->item(row, JOBTABLE_COL_FILTER);
+                if (FilterPosCombo->findText(job->getCoreProperty(SequenceJob::SJ_Filter).toString()) >= 0 &&
+                        (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT || isDarkFlat) )
+                    filter->setText(job->getCoreProperty(SequenceJob::SJ_Filter).toString());
+                else
+                    filter->setText("--");
+
+                QTableWidgetItem *exp = queueTable->item(row, JOBTABLE_COL_EXP);
+                exp->setText(QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f',
+                                                captureExposureN->decimals()));
+
+                QTableWidgetItem *type = queueTable->item(row, JOBTABLE_COL_TYPE);
+                type->setText(isDarkFlat ? i18n("Dark Flat") : CCDFrameTypeNames[job->getFrameType()]);
+
+                QTableWidgetItem *bin = queueTable->item(row, JOBTABLE_COL_BINNING);
+                QPoint binning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+                bin->setText(QString("%1x%2").arg(binning.x()).arg(binning.y()));
+
+                QTableWidgetItem *iso = queueTable->item(row, JOBTABLE_COL_ISO);
+                if (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt() != -1)
+                    iso->setText(captureISOS->itemText(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()));
+                else if (job->getCoreProperty(SequenceJob::SJ_Gain).toDouble() >= 0)
+                    iso->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Gain).toDouble(), 'f', 1));
+                else
+                    iso->setText("--");
+
+                QTableWidgetItem *offset = queueTable->item(row, JOBTABLE_COL_OFFSET);
+                if (job->getCoreProperty(SequenceJob::SJ_Offset).toDouble() >= 0)
+                    offset->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Offset).toDouble(), 'f', 1));
+                else
+                    offset->setText("--");
+            }
+
+            // update button enablement
+            if (queueTable->rowCount() > 0)
+            {
+                queueSaveAsB->setEnabled(true);
+                queueSaveB->setEnabled(true);
+                resetB->setEnabled(true);
+                state()->setDirty(true);
+            }
+
+            if (queueTable->rowCount() > 1)
+            {
+                queueUpB->setEnabled(true);
+                queueDownB->setEnabled(true);
+            }
+        }
     }
 }
 
 void Capture::updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell)
 {
     countCell->setText(QString("%L1/%L2").arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+}
+
+bool Capture::checkUploadPaths(FilenamePreviewType filenamePreview)
+{
+    // only relevant if we do not generate file name previews
+    if (filenamePreview != NOT_PREVIEW)
+        return true;
+
+    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
+    {
+        KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
+        return false;
+    }
+
+    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
+    {
+        KSNotification::error(i18n("You must set local directory for Client & Both modes."));
+        return false;
+    }
+    // everything OK
+    return true;
+}
+
+QJsonObject Capture::createJsonJob(SequenceJob *job, int currentRow)
+{
+    if (job == nullptr)
+        return QJsonObject();
+
+    QJsonObject jsonJob = {{"Status", "Idle"}};
+    bool isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
+    jsonJob.insert("Filter", FilterPosCombo->currentText());
+    jsonJob.insert("Count", queueTable->item(currentRow, JOBTABLE_COL_COUNTS)->text());
+    jsonJob.insert("Exp", queueTable->item(currentRow, JOBTABLE_COL_EXP)->text());
+    jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : queueTable->item(currentRow, JOBTABLE_COL_TYPE)->text());
+    jsonJob.insert("Bin", queueTable->item(currentRow, JOBTABLE_COL_BINNING)->text());
+    jsonJob.insert("ISO/Gain", queueTable->item(currentRow, JOBTABLE_COL_ISO)->text());
+    jsonJob.insert("Offset", queueTable->item(currentRow, JOBTABLE_COL_OFFSET)->text());
+
+    return jsonJob;
 }
 
 void Capture::setCoolerToggled(bool enabled)
@@ -3650,48 +3063,8 @@ void Capture::setGain(double value)
         return;
 
     QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
-
-    // Gain is manifested in two forms
-    // Property CCD_GAIN and
-    // Part of CCD_CONTROLS properties.
-    // Therefore, we have to find what the currently camera supports first.
-    if (devices()->getActiveCamera()->getProperty("CCD_GAIN"))
-    {
-        QMap<QString, QVariant> ccdGain;
-        ccdGain["GAIN"] = value;
-        customProps["CCD_GAIN"] = ccdGain;
-    }
-    else if (devices()->getActiveCamera()->getProperty("CCD_CONTROLS"))
-    {
-        QMap<QString, QVariant> ccdGain = customProps["CCD_CONTROLS"];
-        ccdGain["Gain"] = value;
-        customProps["CCD_CONTROLS"] = ccdGain;
-    }
-
+    process()->updateGain(value, customProps);
     customPropertiesDialog->setCustomProperties(customProps);
-}
-
-double Capture::getGain()
-{
-    if (!devices()->getActiveCamera())
-        return -1;
-
-    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
-
-    // Gain is manifested in two forms
-    // Property CCD_GAIN and
-    // Part of CCD_CONTROLS properties.
-    // Therefore, we have to find what the currently camera supports first.
-    if (devices()->getActiveCamera()->getProperty("CCD_GAIN"))
-    {
-        return customProps["CCD_GAIN"].value("GAIN", -1).toDouble();
-    }
-    else if (devices()->getActiveCamera()->getProperty("CCD_CONTROLS"))
-    {
-        return customProps["CCD_CONTROLS"].value("Gain", -1).toDouble();
-    }
-
-    return -1;
 }
 
 void Capture::setOffset(double value)
@@ -3701,48 +3074,11 @@ void Capture::setOffset(double value)
 
     QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
-    // Offset is manifested in two forms
-    // Property CCD_OFFSET and
-    // Part of CCD_CONTROLS properties.
-    // Therefore, we have to find what the currently camera supports first.
-    if (devices()->getActiveCamera()->getProperty("CCD_OFFSET"))
-    {
-        QMap<QString, QVariant> ccdOffset;
-        ccdOffset["OFFSET"] = value;
-        customProps["CCD_OFFSET"] = ccdOffset;
-    }
-    else if (devices()->getActiveCamera()->getProperty("CCD_CONTROLS"))
-    {
-        QMap<QString, QVariant> ccdOffset = customProps["CCD_CONTROLS"];
-        ccdOffset["Offset"] = value;
-        customProps["CCD_CONTROLS"] = ccdOffset;
-    }
-
+    process()->updateOffset(value, customProps);
     customPropertiesDialog->setCustomProperties(customProps);
 }
 
-double Capture::getOffset()
-{
-    if (!devices()->getActiveCamera())
-        return -1;
 
-    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
-
-    // Gain is manifested in two forms
-    // Property CCD_GAIN and
-    // Part of CCD_CONTROLS properties.
-    // Therefore, we have to find what the currently camera supports first.
-    if (devices()->getActiveCamera()->getProperty("CCD_OFFSET"))
-    {
-        return customProps["CCD_OFFSET"].value("OFFSET", -1).toDouble();
-    }
-    else if (devices()->getActiveCamera()->getProperty("CCD_CONTROLS"))
-    {
-        return customProps["CCD_CONTROLS"].value("Offset", -1).toDouble();
-    }
-
-    return -1;
-}
 
 void Capture::editFilterName()
 {
@@ -3806,21 +3142,27 @@ void Capture::showTemperatureRegulation()
     devices()->getActiveCamera()->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_SLOPE", &rMin, &rMax, &rStep);
     devices()->getActiveCamera()->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_THRESHOLD", &tMin, &tMax, &tStep);
 
-    QLabel rampLabel(i18nc("Temperature ramp celcius per minute", "Ramp (C/min):"));
+    QLabel rampLabel(i18nc("Maximum temperature variation over time when regulating.", "Ramp (°C/min):"));
     QDoubleSpinBox rampSpin;
     rampSpin.setMinimum(rMin);
     rampSpin.setMaximum(rMax);
     rampSpin.setSingleStep(rStep);
     rampSpin.setValue(currentRamp);
-    rampSpin.setToolTip(i18n("Maximum temperature change per minute when cooling or warming the camera. Set zero to disable."));
+    rampSpin.setToolTip(i18n("<html><body>"
+                             "<p>Maximum temperature change per minute when cooling or warming the camera. Set zero to disable."
+                             "<p>This setting is read from and stored in the INDI camera driver configuration."
+                             "</body></html>"));
 
-    QLabel thresholdLabel(i18n("Threshold:"));
+    QLabel thresholdLabel(i18nc("Temperature threshold above which regulation triggers.", "Threshold (°C):"));
     QDoubleSpinBox thresholdSpin;
     thresholdSpin.setMinimum(tMin);
     thresholdSpin.setMaximum(tMax);
     thresholdSpin.setSingleStep(tStep);
     thresholdSpin.setValue(currentThreshold);
-    thresholdSpin.setToolTip(i18n("Maximum difference between camera and target temperatures"));
+    thresholdSpin.setToolTip(i18n("<html><body>"
+                                  "<p>Maximum difference between camera and target temperatures triggering regulation."
+                                  "<p>This setting is read from and stored in the INDI camera driver configuration."
+                                  "</body></html>"));
 
     QFormLayout layout;
     layout.addRow(&rampLabel, &rampSpin);
@@ -3873,7 +3215,7 @@ void Capture::generateDarkFlats()
         syncGUIToJob(state()->allJobs().at(i));
 
         captureTypeS->setCurrentIndex(FRAME_DARK);
-        addJob(SequenceJob::JOBTYPE_DARKFLAT);
+        createJob(SequenceJob::JOBTYPE_DARKFLAT);
         jobsAdded++;
     }
 
@@ -3881,6 +3223,86 @@ void Capture::generateDarkFlats()
     {
         appendLogText(i18np("One dark flats job was created.", "%1 dark flats jobs were created.", jobsAdded));
     }
+}
+
+void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview)
+{
+    job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
+    job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
+
+    if (captureISOS)
+        job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
+
+    if (getGain() >= 0)
+        job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
+
+    if (getOffset() >= 0)
+        job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
+
+    if (cameraTemperatureN->isEnabled())
+    {
+        job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
+        job->setTargetTemperature(cameraTemperatureN->value());
+    }
+
+    job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
+    job->setScripts(state()->scripts());
+    job->setFlatFieldDuration(state()->flatFieldDuration());
+    job->setCalibrationPreAction(state()->calibrationPreAction());
+    job->setWallCoord(state()->wallCoord());
+    job->setCoreProperty(SequenceJob::SJ_TargetADU, state()->targetADU());
+    job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());
+    job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
+
+    job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
+                         && Options::enforceStartGuiderDrift()));
+    job->setTargetStartGuiderDrift(Options::startGuideDeviation());
+
+    if (FilterPosCombo->currentIndex() != -1 && devices()->filterWheel() != nullptr)
+        job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
+
+    job->setCoreProperty(SequenceJob::SJ_Exposure, captureExposureN->value());
+
+    job->setCoreProperty(SequenceJob::SJ_Count, captureCountN->value());
+
+    job->setCoreProperty(SequenceJob::SJ_Binning, QPoint(captureBinHN->value(), captureBinVN->value()));
+
+    /* in ms */
+    job->setCoreProperty(SequenceJob::SJ_Delay, captureDelayN->value() * 1000);
+
+    // Custom Properties
+    job->setCustomProperties(customPropertiesDialog->getCustomProperties());
+
+    job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
+                         captureFrameHN->value()));
+    job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
+    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectoryT->text());
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
+
+    auto placeholderPath = PlaceholderPath();
+    placeholderPath.addJob(job, state()->targetName());
+
+    QString signature = placeholderPath.generateSequenceFilename(*job, state()->targetName(),
+                        filenamePreview != REMOTE_PREVIEW, true, 1,
+                        ".fits", "", false, true);
+    job->setCoreProperty(SequenceJob::SJ_Signature, signature);
+
+    auto remoteUpload = placeholderPath.generateSequenceFilename(*job,
+                        state()->targetName(),
+                        false,
+                        true,
+                        1,
+                        ".fits",
+                        "",
+                        false,
+                        true);
+
+    auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
+    auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
+    auto remoteFilename = QString("%1_XXX").arg(remoteUpload.mid(lastSeparator + 1));
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
+    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, remoteFilename);
 }
 
 void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
@@ -4024,7 +3446,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
     else
     {
         // create temporarily a sequence job
-        SequenceJob *m_job = addJob(SequenceJob::JOBTYPE_PREVIEW, previewType);
+        SequenceJob *m_job = createJob(SequenceJob::JOBTYPE_PREVIEW, previewType);
         if (m_job == nullptr)
             return previewText;
 

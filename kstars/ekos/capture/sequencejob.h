@@ -227,9 +227,9 @@ class SequenceJob : public QObject
         ISD::Camera::UploadMode getUploadMode() const;
 
         // Setter: Set flat field source
-        void setFlatFieldSource(FlatFieldSource value);
+        void setCalibrationPreAction(uint32_t value);
         // Getter: Get flat field source
-        FlatFieldSource getFlatFieldSource() const;
+        uint32_t getCalibrationPreAction() const;
 
         // Setter: Set Wall SkyPoint Azimuth coords
         void setWallCoord(const SkyPoint &value);
@@ -326,24 +326,6 @@ class SequenceJob : public QObject
         void setTargetRotation(double value)
         {
             state->targetPositionAngle = value;
-        }
-
-        bool getPreMountPark() const
-        {
-            return state->preMountPark;
-        }
-        void setPreMountPark(bool value)
-        {
-            state->preMountPark = value;
-        }
-
-        bool getPreDomePark() const
-        {
-            return state->preDomePark;
-        }
-        void setPreDomePark(bool value)
-        {
-            state->preDomePark = value;
         }
 
         SequenceJobState::CalibrationStage getCalibrationStage() const

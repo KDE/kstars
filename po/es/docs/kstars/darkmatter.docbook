@@ -63,10 +63,12 @@
 
 <tip>
 <para
->Puede ver los cúmulos de galaxias que el profesor Zwicky estudió para descubrir la materia oscura. Utilice la ventana de búsqueda de objetos de &kstars; (<keycombo action="simul"
+>Puede ver los cúmulos de galaxias que el profesor Zwicky estudió para descubrir la materia oscura. Use la ventana <guilabel
+>Buscar objeto</guilabel
+> de &kstars; (<keycombo action="simul"
 >&Ctrl;<keycap
 >F</keycap
 ></keycombo
-> ) para centrarse en «M 87» y encontrar el cúmulo de Virgo, y en «NGC 4884» para encontrar el cúmulo de Coma. Es posible que tenga que ampliar la imagen en esas galaxias. Tenga en cuenta que el cúmulo de Virgo parece ser mucho más grande en el cielo. En realidad Coma es el cúmulo más grande de los dos, aunque parecer se más pequeño debido a que se encuentra más lejos. </para>
+> ) para centrarse en «M 87» y encontrar el cúmulo de Virgo, y en «NGC 4884» para encontrar el cúmulo de Coma. Es posible que tenga que ampliar la imagen en esas galaxias. Tenga en cuenta que el cúmulo de Virgo parece ser mucho más grande en el cielo. En realidad, Coma es el cúmulo más grande de los dos, aunque parecer se más pequeño debido a que se encuentra más lejos. </para>
 </tip>
 </sect1>

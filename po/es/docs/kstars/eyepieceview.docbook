@@ -31,7 +31,7 @@
 >Para usar esta función, debe definir antes los campos visuales de sus oculares usando el <link linkend="customize"
 >Editor del símbolo de campo visual</link
 >.</para>
- 
+
 <para
 >A continuación dispone de dos modos de usar esta función: <itemizedlist>
     <listitem
@@ -48,17 +48,17 @@
 ></listitem>
 </itemizedlist>
 </para>
-    
+
 <para
 >Cuando se usa esta herramienta por primera vez, se le mostrará un diálogo para seleccionar el campo visual que desee para mostrar la vista. Para comparar la vista generada con una imagen real del cielo, pulse el botón <guibutton
 >Obtener imagen DSS</guibutton
 > para descargar una imagen DSS. Puede ajustar manualmente la vista para que coincida con la de su ocular usando el deslizador de rotación y las casillas de verificación <guilabel
->invertir vista</guilabel
+>Invertir vista</guilabel
 > y <guilabel
->voltear vista</guilabel
->. De forma alternativa, puede usar una cantidad de rotación calculada previamente usando uno de los <guilabel
->Preajustes</guilabel
-> a medida para distintos sistemas ópticos.</para>
+>Voltear vista</guilabel
+>. De forma alternativa, puede usar una cantidad de rotación calculada previamente usando uno de los elementos de la lista desplegable <guilabel
+>Preajuste</guilabel
+> que están preparados a medida para distintos sistemas ópticos.</para>
 
 <screenshot>
 <screeninfo

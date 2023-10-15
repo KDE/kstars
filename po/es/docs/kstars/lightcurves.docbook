@@ -42,7 +42,7 @@
 <title
 >Introducción</title>
 <para
->&kstars; puede mostrar curvas de luminosidad de estrellas variables del programa de observación de la <ulink url="http://www.aavso.org"
+>&kstars; puede mostrar curvas de luminosidad de estrellas variables del programa de observación de la <ulink url="https://www.aavso.org"
 >Asociación Americana de Observadores de Estrellas Variables</ulink
 > (<abbrev
 >AAVSO</abbrev
@@ -101,8 +101,7 @@
 >Los datos</title>
 
 <para
->Este es un sumario de los diferentes tipos de datos disponibles en las curvas de luminosidad: <itemizedlist
->  
+>Este es un sumario de los diferentes tipos de datos disponibles en las curvas de luminosidad: <itemizedlist>
 <listitem
 ><para
 ><firstterm

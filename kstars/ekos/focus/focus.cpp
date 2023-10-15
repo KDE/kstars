@@ -5111,7 +5111,7 @@ void Focus::checkMosaicMaskLimits()
     focusMosaicTileWidth->setMaximum(100 * min / (3 * width));
 }
 
-void Focus::connectSettings()
+void Focus::connectSyncSettings()
 {
     // All Combo Boxes
     for (auto &oneWidget : findChildren<QComboBox*>())
@@ -5132,6 +5132,11 @@ void Focus::connectSettings()
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+}
+
+void Focus::connectSettings()
+{
+    connectSyncSettings();
 
     // Radio buttons (except mask radio buttons)
     connect(focusSubFrame, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
@@ -5146,7 +5151,7 @@ void Focus::connectSettings()
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
 }
 
-void Focus::disconnectSettings()
+void Focus::disconnectSyncSettings()
 {
     // All Combo Boxes
     for (auto &oneWidget : findChildren<QComboBox*>())
@@ -5167,6 +5172,11 @@ void Focus::disconnectSettings()
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         disconnect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
+}
+
+void Focus::disconnectSettings()
+{
+    disconnectSyncSettings();
 
     // All Radio Buttons
     disconnect(focusSubFrame, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
@@ -6481,7 +6491,8 @@ bool Focus::scopeHasObstruction(QString scopeType)
 
 void Focus::setState(FocusState newState)
 {
-    qCDebug(KSTARS_EKOS_FOCUS) << "Focus State changes from" << getFocusStatusString(m_state) << "to" << getFocusStatusString(newState);
+    qCDebug(KSTARS_EKOS_FOCUS) << "Focus State changes from" << getFocusStatusString(m_state) << "to" << getFocusStatusString(
+                                   newState);
     m_state = newState;
     emit newStatus(m_state);
 }
@@ -6541,7 +6552,7 @@ void Focus::setAllSettings(const QVariantMap &settings)
 {
     // Disconnect settings that we don't end up calling syncSettings while
     // performing the changes.
-    disconnectSettings();
+    disconnectSyncSettings();
 
     for (auto &name : settings.keys())
     {
@@ -6597,7 +6608,7 @@ void Focus::setAllSettings(const QVariantMap &settings)
     m_Settings = settings;
 
     // Restablish connections
-    connectSettings();
+    connectSyncSettings();
 
     // Once settings have been loaded run through routines to set state variables
     m_CurveFit = static_cast<CurveFitting::CurveFit> (focusCurveFit->currentIndex());

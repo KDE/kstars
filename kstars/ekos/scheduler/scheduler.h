@@ -12,7 +12,6 @@
 #include "ui_scheduler.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
-#include "ekos/auxiliary/solverutils.h"
 #include "schedulerjob.h"
 
 #include <lilxml.h>
@@ -32,7 +31,7 @@ class SchedulerJob;
 class SkyObject;
 class KConfigDialog;
 class TestSchedulerUnit;
-
+class SolverUtils;
 class TestEkosSchedulerOps;
 
 namespace Ekos

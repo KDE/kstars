@@ -295,7 +295,7 @@ class Camera : public ConcreteDevice
         QStringList m_EncodingFormats;
         QStringList m_CaptureFormats;
         bool m_StreamingEnabled {true};
-        int m_CaptureFormatIndex;
+        int m_CaptureFormatIndex {-1};
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };
 
         // Gain, since it is spread among different vector properties, let's try to find the property itself.

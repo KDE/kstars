@@ -73,7 +73,7 @@
 <answer>
 <para
 >Si desea usar una posición que no esté en la lista, introduzca su información relevante (longitud, latitud, nombre de la ciudad, nombre de la provincia y nombre del país); pulse a continuación el botón <guibutton
->Añadir a la lista</guibutton
+>Añadir ciudad</guibutton
 >. Debe rellenar todos los campos, excepto el de la provincia, que es opcional. También puede modificar los valores de una ciudad existente (para ello solo tiene que cambiar los valores que se muestran en la ventana) y añadirlos a la lista. </para>
 </answer>
 </qandaentry>
@@ -114,7 +114,7 @@
 >El manual de &kstars; incluye el <link linkend="astroinfo"
 >Proyecto AstroInfo</link
 >, una serie de artículos cortos y entrelazados sobre temas astronómicos que se pueden explorar e ilustrar con &kstars;. AstroInfo es un esfuerzo de la comunidad, como GNUpedia o Everything2. Si quiere colaborar con AstroInfo, únase a nuestra lista de correo: <email
->kstars-devel@kde.org</email
+>kstars-devel AT kde.org</email
 >. </para>
 </answer>
 </qandaentry>
@@ -126,7 +126,9 @@
 </question>
 <answer>
 <para
->Sí. Par iniciar &kstars; con una fecha/hora diferente, use el argumento «--date» seguido por una cadena que contenga una fecha, como «4 Julio 1976 12:30:00». </para>
+>Sí. Par iniciar &kstars; con una fecha/hora diferente, use el argumento <option
+>--date</option
+> seguido por una cadena que contenga una fecha, como «4 Julio 1976 12:30:00». </para>
 </answer>
 </qandaentry>
 
@@ -137,7 +139,9 @@
 </question>
 <answer>
 <para
->Sí. Para iniciar &kstars; con el reloj en pausa, añada el argumento «--paused» en la línea de órdenes. </para>
+>Sí. Para iniciar &kstars; con el reloj en pausa, añada el argumento <option
+>--paused</option
+> en la línea de órdenes. </para>
 </answer>
 </qandaentry>
 
@@ -200,10 +204,14 @@
 <answer>
 <para
 >Por supuesto. Preséntese en nuestra lista de correo: <email
->kstars-devel@kde.org</email
->. Si desea ayudar con la programación, descargue la última versión del código <ulink url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars_KF5"
->Git de &kstars;</ulink
-> y sumérjase en él. Encontrará varios archivos README en la distribución que explican algunos de los subsistemas del código. Si necesita ideas para comenzar a trabajar, consulte el archivo TODO. Puede enviar parches a kstars-devel y consultar cualquier duda que pudiera tener sobre el código con total libertad. </para
+>kstars-devel AT kde.org</email
+>. Si desea ayudar con la programación, descargue la última versión del código <ulink url="https://invent.kde.org/education/kstars"
+>&git; de &kstars;</ulink
+> y sumérjase en él. Encontrará varios archivos <filename
+>README</filename
+> en la distribución que explican algunos de los subsistemas del código. Si necesita ideas para comenzar a trabajar, consulte el archivo <filename
+>TODO</filename
+>. Puede enviar parches a la lista de distribución kstars-devel y consultar cualquier duda que pudiera tener sobre el código con total libertad. </para
 ><para
 >Si no sabe programar, siempre puede ayudarnos con la internacionalización, la documentación, los artículos de AstroInfo, enlaces &URL;, informes de fallos y haciendo sugerencias. </para>
 </answer>

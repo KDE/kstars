@@ -328,24 +328,6 @@ class CaptureModuleState: public QObject
             m_lightBoxLightEnabled = value;
         }
 
-        bool preMountPark() const
-        {
-            return m_preMountPark;
-        }
-        void setPreMountPark(bool value)
-        {
-            m_preMountPark = value;
-        }
-
-        bool preDomePark() const
-        {
-            return m_preDomePark;
-        }
-        void setPreDomePark(bool value)
-        {
-            m_preDomePark = value;
-        }
-
         CapState getDustCapState() const
         {
             return m_dustCapState;
@@ -946,13 +928,13 @@ class CaptureModuleState: public QObject
             m_flatFieldDuration = value;
         }
 
-        FlatFieldSource flatFieldSource() const
+        uint32_t calibrationPreAction() const
         {
-            return m_flatFieldSource;
+            return m_CalibrationPreAction;
         }
-        void setFlatFieldSource(FlatFieldSource value)
+        void setCalibrationPreAction(uint32_t value)
         {
-            m_flatFieldSource = value;
+            m_CalibrationPreAction = value;
         }
 
         QList<QMap<QString, QVariant> > &DSLRInfos()
@@ -1099,10 +1081,8 @@ private:
         double m_TargetADUTolerance { 1000 };
         double m_targetADU { 0 };
         SkyPoint m_wallCoord;
-        bool m_preMountPark { false };
-        bool m_preDomePark { false };
         FlatFieldDuration m_flatFieldDuration { DURATION_MANUAL };
-        FlatFieldSource m_flatFieldSource { SOURCE_MANUAL };
+        uint32_t m_CalibrationPreAction { ACTION_NONE };
         bool m_lightBoxLightEnabled { false };
         // Allowed camera exposure times
         DoubleRange m_ExposureRange;

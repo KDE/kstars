@@ -607,6 +607,10 @@ protected:
          * @brief loadSettings Load setting from Options and set them accordingly.
          */
         void loadGlobalSettings();
+
+        void disconnectSyncSettings();
+        void connectSyncSettings();
+
         /**
          * @brief checkMosaicMaskLimits Check if the maximum values configured
          * for the aberration style mosaic tile sizes fit into the CCD frame size.

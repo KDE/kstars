@@ -450,7 +450,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         m_Manager->captureModule()->setCalibrationSettings(payload["calibration"].toObject());
 
         // Now add job
-        capture->addJob();
+        capture->createJob();
     }
     else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
     {

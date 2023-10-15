@@ -535,7 +535,24 @@ void DriverManager::activateHostDisconnection()
 
 ClientManager *DriverManager::getClientManager(const QSharedPointer<DriverInfo> &driver)
 {
-    return driver->getClientManager();
+    auto cm = driver->getClientManager();
+    if (cm)
+        return cm;
+    // If no client manager found for the driver, return the first client manager on the same host and port number
+    else if (!clients.isEmpty())
+    {
+        auto host = driver->getHost();
+        auto port = driver->getPort();
+        auto it = std::find_if(clients.begin(), clients.end(), [host, port](const auto & oneClient)
+        {
+            return oneClient->getHost() == host && oneClient->getPort() == port;
+        }
+                              );
+        if (it != clients.end())
+            return *it;
+    }
+
+    return nullptr;
 }
 
 void DriverManager::updateLocalTab()

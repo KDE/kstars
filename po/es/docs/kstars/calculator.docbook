@@ -11,76 +11,7 @@
 <para
 >La calculadora astronómica de &kstars; proporciona varios módulos que le permiten acceso directo a los algoritmos utilizados por el programa. Los módulos están ordenados por asunto. <itemizedlist
 ><title
->Conversores de coordenadas</title>
-<listitem
-><para
-><link linkend="calc-angdist"
->Distancia angular</link
-></para
-></listitem>
-<listitem
-><para
-><link linkend="calc-apcoords"
->Coordenadas aparentes</link
-></para
-></listitem>
-<listitem
-><para
-><link linkend="calc-ecliptic"
->Coordenadas eclípticas</link
-></para
-></listitem>
-<listitem
-><para
-><link linkend="calc-eqgal"
->Coordenadas ecuatoriales/galácticas</link
-></para
-></listitem>
-<listitem
-><para
-><link linkend="calc-horiz"
->Coordenadas horizontales</link
-></para
-></listitem>
-<listitem
-><para
-><link linkend="calc-geodetic"
->Coordenadas geodésicas</link
-></para
-></listitem>
-<!-- missing
-LSR Velocity
- -->
-</itemizedlist>
-<itemizedlist
-><title
->Sistema Solar</title>
-<listitem
-><para
-><link linkend="calc-planetcoords"
->Coordenadas planetarias</link
-></para
-></listitem>
-<!-- missing
-Conjunctions
-Moon Phase Almanach
- -->
-</itemizedlist>
-<itemizedlist
-><title
 >Calculadores de tiempos</title>
-<listitem
-><para
-><link linkend="calc-dayduration"
->Almanaque</link
-></para
-></listitem>
-<listitem
-><para
-><link linkend="calc-equinox"
->Equinoccios y solsticios</link
-></para
-></listitem>
 <listitem
 ><para
 ><link linkend="calc-julian"
@@ -93,7 +24,93 @@ Moon Phase Almanach
 >Tiempo sidéreo</link
 ></para
 ></listitem>
+<listitem
+><para
+><link linkend="calc-dayduration"
+>Almanaque</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-equinox"
+>Equinoccios y solsticios</link
+></para
+></listitem>
 </itemizedlist>
-</para>
-&calc-angdist; &calc-apcoords; &calc-ecliptic; &calc-eqgal; &calc-horiz; &calc-geodetic; &calc-planetcoords; &calc-dayduration; &calc-equinox; &calc-julian; &calc-sidereal; </sect1>
+
+<itemizedlist
+><title
+>Conversores de coordenadas</title>
+<listitem
+><para
+><link linkend="calc-eqgal"
+>Coordenadas ecuatoriales/galácticas</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-apcoords"
+>Coordenadas aparentes</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-horiz"
+>Coordenadas horizontales</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-ecliptic"
+>Coordenadas eclípticas</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-angdist"
+>Distancia angular</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-geodetic"
+>Coordenadas geodésicas</link
+></para
+></listitem>
+<!-- missing
+<listitem
+><para
+><link linkend="calc-lsr-velocity"
+>LSR Velocity</link
+></para
+></listitem>
+ -->
+</itemizedlist>
+<itemizedlist
+><title
+>Sistema Solar</title>
+<listitem
+><para
+><link linkend="calc-planetcoords"
+>Coordenadas planetarias</link
+></para
+></listitem>
+<!-- missing
+<listitem
+><para
+><link linkend="calc-conjunctions"
+>Conjunctions</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-eclipses"
+>Eclipses</link
+></para
+></listitem>
+Moon Phase Almanach
+ -->
+</itemizedlist>
+</para
+>&calc-julian; &calc-sidereal; &calc-dayduration; &calc-equinox; &calc-eqgal; &calc-apcoords; &calc-horiz; &calc-ecliptic; &calc-angdist; &calc-geodetic; &calc-planetcoords; </sect1>
 

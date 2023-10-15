@@ -6,79 +6,67 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>434</width>
-    <height>235</height>
+    <width>575</width>
+    <height>160</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Calibration Options</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="toolTip">
-        <string>Specify the source the flat field evenly illuminated light source</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which actions to perform before a Bias/Dark/Flat frame is captured.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
-        <string>Flat Source</string>
+        <string>Calibration Pre-Actions</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QRadioButton" name="manualSourceC">
-          <property name="toolTip">
-           <string>Light source triggered by the user manually</string>
-          </property>
-          <property name="text">
-           <string>Manual</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">flatSourceGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="flatDeviceSourceC">
-          <property name="toolTip">
-           <string>For dark and bias frames, close the dust cap before proceeding. For flat frames, close the dust cap and turn on the light source.</string>
-          </property>
-          <property name="text">
-           <string>Dust Cover with Built-in Flat Light</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">flatSourceGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="darkDeviceSourceC">
-          <property name="toolTip">
-           <string>For dark and bias frames, close the dust cap before proceeding. For flat frames, open the dust cap and turn on the light source.</string>
-          </property>
-          <property name="text">
-           <string>Dust Cover with External Flat Light</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">flatSourceGroup</string>
-          </attribute>
-         </widget>
-        </item>
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QRadioButton" name="wallSourceC">
+           <widget class="QCheckBox" name="gotoWallC">
             <property name="toolTip">
              <string>Slew mount to the specified Azimuth/Altitude coordinates before taking flat field images</string>
             </property>
             <property name="text">
-             <string>Wall</string>
+             <string>Goto Wall</string>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">flatSourceGroup</string>
+             <string notr="true">mountMotionGroup</string>
             </attribute>
            </widget>
           </item>
@@ -113,19 +101,20 @@
          </layout>
         </item>
         <item>
-         <widget class="QRadioButton" name="dawnDuskFlatsC">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Use Dawn and Dusk light</string>
-          </property>
+         <widget class="QCheckBox" name="parkMountC">
           <property name="text">
-           <string>Dawn/Dusk</string>
+           <string>Park Mount</string>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">flatSourceGroup</string>
+           <string notr="true">mountMotionGroup</string>
           </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="parkDomeC">
+          <property name="text">
+           <string>Park Dome</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -150,6 +139,21 @@
         <string>Flat Duration</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
@@ -241,20 +245,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="parkMountC">
-     <property name="text">
-      <string>Park Mount</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="parkDomeC">
-     <property name="text">
-      <string>Park Dome</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -275,16 +265,15 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>manualSourceC</tabstop>
-  <tabstop>flatDeviceSourceC</tabstop>
-  <tabstop>darkDeviceSourceC</tabstop>
-  <tabstop>wallSourceC</tabstop>
+  <tabstop>gotoWallC</tabstop>
   <tabstop>azBox</tabstop>
   <tabstop>altBox</tabstop>
-  <tabstop>dawnDuskFlatsC</tabstop>
+  <tabstop>parkMountC</tabstop>
+  <tabstop>parkDomeC</tabstop>
   <tabstop>manualDurationC</tabstop>
   <tabstop>ADUC</tabstop>
   <tabstop>ADUValue</tabstop>
+  <tabstop>ADUTolerance</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -322,7 +311,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="flatSourceGroup"/>
   <buttongroup name="flatDurationGroup"/>
+  <buttongroup name="mountMotionGroup"/>
  </buttongroups>
 </ui>

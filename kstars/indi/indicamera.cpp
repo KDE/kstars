@@ -1265,7 +1265,7 @@ bool Camera::setTemperature(double value)
 
 bool Camera::setEncodingFormat(const QString &value)
 {
-    if (value == m_EncodingFormat)
+    if (value.isEmpty() || value == m_EncodingFormat)
         return true;
 
     auto svp = getSwitch("CCD_TRANSFER_FORMAT");

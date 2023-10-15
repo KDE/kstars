@@ -24,7 +24,7 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     getGuideDeviationTimer().setInterval(GD_TIMER_TIMEOUT);
     connect(&m_guideDeviationTimer, &QTimer::timeout, this, &CaptureModuleState::checkGuideDeviationTimeout);
 
-    setFlatFieldSource(static_cast<FlatFieldSource>(Options::calibrationFlatSourceIndex()));
+    setCalibrationPreAction(static_cast<CalibrationPreActions>(Options::calibrationPreActionIndex()));
     setFlatFieldDuration(static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex()));
     wallCoord().setAz(Options::calibrationWallAz());
     wallCoord().setAlt(Options::calibrationWallAlt());
@@ -157,7 +157,8 @@ void CaptureModuleState::setCaptureState(CaptureState value)
     // Only emit status if it changed
     if (m_CaptureState != value)
     {
-        qCDebug(KSTARS_EKOS_CAPTURE()) << "Capture State changes from" << getCaptureStatusString(m_CaptureState) << "to" << getCaptureStatusString(value);
+        qCDebug(KSTARS_EKOS_CAPTURE()) << "Capture State changes from" << getCaptureStatusString(
+                                           m_CaptureState) << "to" << getCaptureStatusString(value);
         m_CaptureState = value;
         getMeridianFlipState()->setCaptureState(m_CaptureState);
         emit newStatus(m_CaptureState);
@@ -458,7 +459,7 @@ bool CaptureModuleState::checkMeridianFlipReady()
 
     // If active job is taking flat field image at a wall source
     // then do not flip.
-    if (m_activeJob && m_activeJob->getFrameType() == FRAME_FLAT && m_activeJob->getFlatFieldSource() == SOURCE_WALL)
+    if (m_activeJob && m_activeJob->getFrameType() == FRAME_FLAT && m_activeJob->getCalibrationPreAction() == ACTION_WALL)
         return false;
 
     if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_REQUESTED)
@@ -1166,14 +1167,12 @@ QJsonObject CaptureModuleState::calibrationSettings()
 {
     QJsonObject settings =
     {
-        {"source", flatFieldSource()},
+        {"preAction", static_cast<int>(calibrationPreAction())},
         {"duration", flatFieldDuration()},
         {"az", wallCoord().az().Degrees()},
         {"al", wallCoord().alt().Degrees()},
         {"adu", targetADU()},
         {"tolerance", targetADUTolerance()},
-        {"parkMount", preMountPark()},
-        {"parkDome", preDomePark()},
     };
 
     return settings;
@@ -1181,23 +1180,19 @@ QJsonObject CaptureModuleState::calibrationSettings()
 
 void CaptureModuleState::setCalibrationSettings(const QJsonObject &settings)
 {
-    const int source = settings["source"].toInt(flatFieldSource());
+    const int preAction = settings["preAction"].toInt(calibrationPreAction());
     const int duration = settings["duration"].toInt(flatFieldDuration());
     const double az = settings["az"].toDouble(wallCoord().az().Degrees());
     const double al = settings["al"].toDouble(wallCoord().alt().Degrees());
     const int adu = settings["adu"].toInt(static_cast<int>(std::round(targetADU())));
     const int tolerance = settings["tolerance"].toInt(static_cast<int>(std::round(targetADUTolerance())));
-    const bool parkMount = settings["parkMount"].toBool(preMountPark());
-    const bool parkDome = settings["parkDome"].toBool(preDomePark());
 
-    setFlatFieldSource(static_cast<FlatFieldSource>(source));
+    setCalibrationPreAction(static_cast<CalibrationPreActions>(preAction));
     setFlatFieldDuration(static_cast<FlatFieldDuration>(duration));
     wallCoord().setAz(az);
     wallCoord().setAlt(al);
     setTargetADU(adu);
     setTargetADUTolerance(tolerance);
-    setPreMountPark(parkMount);
-    setPreDomePark(parkDome);
 }
 
 bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)

@@ -167,18 +167,10 @@ void SequenceJobState::checkAllActionsReady()
                         return;
 
                     // 1. Check if the selected flats light source is ready
-                    if (checkFlatsLightCoverReady() != IPS_OK)
+                    if (checkFlatsCoverReady() != IPS_OK)
                         return;
 
-                    // 2. Light source ready, now check if we need to perform mount prepark
-                    if (checkPreMountParkReady() != IPS_OK)
-                        return;
-
-                    // 3. Check if we need to perform dome prepark
-                    if (checkPreDomeParkReady() != IPS_OK)
-                        return;
-
-                    // 4. If we used AUTOFOCUS before for a specific frame (e.g. Lum)
+                    // 2. If we used AUTOFOCUS before for a specific frame (e.g. Lum)
                     //    then the absolute focus position for Lum is recorded in the filter manager
                     //    when we take flats again, we always go back to the same focus position as the light frames to ensure
                     //    near identical focus for both frames.
@@ -202,15 +194,7 @@ void SequenceJobState::checkAllActionsReady()
                     if (checkDarksCoverReady() != IPS_OK)
                         return;
 
-                    // 2. Light source ready, now check if we need to perform mount prepark
-                    if (checkPreMountParkReady() != IPS_OK)
-                        return;
-
-                    // 3. Check if we need to perform dome prepark
-                    if (checkPreDomeParkReady() != IPS_OK)
-                        return;
-
-                    // avoid doubled events
+                    // 2. avoid doubled events
                     if (m_PreparationState == PREP_BUSY)
                     {
                         m_PreparationState = PREP_COMPLETED;
@@ -332,67 +316,81 @@ void SequenceJobState::prepareRotatorCheck()
     }
 }
 
-IPState SequenceJobState::checkFlatsLightCoverReady()
+IPState SequenceJobState::checkCalibrationPreActionsReady()
 {
     IPState result = IPS_OK;
 
-    switch (flatFieldSource)
+    if (m_CalibrationPreAction & ACTION_WALL)
+        result = checkWallPositionReady(FRAME_FLAT);
+
+    if (result != IPS_OK)
+        return result;
+
+    if (m_CalibrationPreAction & ACTION_PARK_MOUNT)
+        result = checkPreMountParkReady();
+
+    if (result != IPS_OK)
+        return result;
+
+    if (m_CalibrationPreAction & ACTION_PARK_DOME)
+        result = checkPreDomeParkReady();
+
+    return result;
+}
+
+IPState SequenceJobState::checkFlatsCoverReady()
+{
+    auto result = checkCalibrationPreActionsReady();
+    if (result == IPS_OK)
     {
-        case SOURCE_MANUAL:
-            result = checkManualCoverReady(true);
-            break;
-        case SOURCE_DAWN_DUSK:
-            // Not implemented.
-            result = IPS_ALERT;
-            break;
-        case SOURCE_FLATCAP:
-            result = checkFlatCapReady();
-            break;
-        case SOURCE_WALL:
-            result = checkWallPositionReady(FRAME_FLAT);
-            break;
-        case SOURCE_DARKCAP:
-            result = checkDustCapReady(FRAME_FLAT);
-            break;
+        if (m_CaptureModuleState->hasDustCap && m_CaptureModuleState->hasLightBox)
+            return checkDustCapReady(FRAME_FLAT);
+        // In case we have a wall action then we are facing a flat light source and we can immediately continue to next step
+        else if (m_CalibrationPreAction == ACTION_WALL)
+            return IPS_OK;
+        else
+        {
+            // In case we ONLY have a lightbox then we need to ensure it's toggled correctly first
+            if (m_CaptureModuleState->hasLightBox)
+            {
+                auto lightBoxState = checkDustCapReady(FRAME_FLAT);
+                if (lightBoxState != IPS_OK)
+                    return lightBoxState;
+            }
+
+            return checkManualCoverReady(true);
+        }
     }
+
     return result;
 }
 
 IPState SequenceJobState::checkDarksCoverReady()
 {
-    IPState result = IPS_OK;
+    IPState result = checkCalibrationPreActionsReady();;
 
-    // 1. check if the CCD has a shutter
-    result = checkHasShutter();
-    if (result != IPS_OK)
-        return result;
-
-    // 2. check if the selected cover is ready for darks
-    switch (flatFieldSource)
+    if (result == IPS_OK)
     {
-        // All these are manual when it comes to dark frames
-        case SOURCE_MANUAL:
-        case SOURCE_DAWN_DUSK:
-            // For cameras without a shutter, we need to ask the user to cover the telescope
-            // if the telescope is not already covered.
-            result = checkManualCoverReady(false);
-            break;
-        case SOURCE_FLATCAP:
-        case SOURCE_DARKCAP:
-            result = checkDustCapReady(FRAME_DARK);
-            break;
+        // 1. check if the CCD has a shutter
+        result = checkHasShutter();
+        if (result != IPS_OK)
+            return result;
 
-        case SOURCE_WALL:
-            result = checkWallPositionReady(FRAME_DARK);
-            break;
+        if (m_CaptureModuleState->hasDustCap)
+            return checkDustCapReady(FRAME_DARK);
+        // In case we have a wall action then we are facing a designated location and we can immediately continue to next step
+        else if (m_CalibrationPreAction == ACTION_WALL)
+            return IPS_OK;
+        else
+            return checkManualCoverReady(false);
     }
     return result;
 }
 
-IPState SequenceJobState::checkManualCoverReady(bool light)
+IPState SequenceJobState::checkManualCoverReady(bool lightSourceRequired)
 {
     // Manual mode we need to cover mount with evenly illuminated field.
-    if (light && m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT)
+    if (lightSourceRequired && m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT)
     {
         if (coverQueryState == CAL_CHECK_CONFIRMATION)
             return IPS_BUSY;
@@ -404,7 +402,7 @@ IPState SequenceJobState::checkManualCoverReady(bool light)
 
         return IPS_BUSY;
     }
-    else if (!light && m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANUAL_COVER_CLOSED_DARK &&
+    else if (!lightSourceRequired && m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANUAL_COVER_CLOSED_DARK &&
              m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_NO)
     {
         if (coverQueryState == CAL_CHECK_CONFIRMATION)
@@ -420,41 +418,6 @@ IPState SequenceJobState::checkManualCoverReady(bool light)
     return IPS_OK;
 }
 
-IPState SequenceJobState::checkFlatCapReady()
-{
-    // flat light is on
-    if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_ON)
-        return IPS_OK;
-    // turning on flat light running
-    if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_BUSY ||
-            m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_PARKING)
-        return IPS_BUSY;
-    // error occured
-    if (m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_ERROR)
-        return IPS_ALERT;
-
-    // #1 if using the dust cap, first park the dust cap
-    if (m_CaptureModuleState->hasDustCap && m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_PARKED)
-    {
-        m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKING);
-        emit parkDustCap(true);
-        emit newLog(i18n("Parking dust cap..."));
-        return IPS_BUSY;
-    }
-
-    // #2 Then we check if we need to turn on light box, if any
-    if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_ON)
-    {
-        m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
-        emit setLightBoxLight(true);
-        emit newLog(i18n("Turn light box light on..."));
-        return IPS_BUSY;
-    }
-
-    // nothing more to do
-    return IPS_OK;
-}
-
 IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 {
     // turning on flat light running
@@ -466,20 +429,21 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     if (m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_ERROR)
         return IPS_ALERT;
 
-    bool captureFlats = (frameType == FRAME_FLAT);
+    auto captureLights = (frameType == FRAME_LIGHT);
 
     // for flats open the cap and close it otherwise
-    CaptureModuleState::CapState targetCapState = captureFlats ? CaptureModuleState::CAP_IDLE : CaptureModuleState::CAP_PARKED;
+    CaptureModuleState::CapState targetCapState = captureLights ? CaptureModuleState::CAP_IDLE : CaptureModuleState::CAP_PARKED;
     // If cap is parked, unpark it since dark cap uses external light source.
     if (m_CaptureModuleState->hasDustCap && m_CaptureModuleState->getDustCapState() != targetCapState)
     {
-        m_CaptureModuleState->setDustCapState(captureFlats ? CaptureModuleState::CAP_UNPARKING : CaptureModuleState::CAP_PARKING);
-        emit parkDustCap(!captureFlats);
-        emit newLog(captureFlats ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
+        m_CaptureModuleState->setDustCapState(captureLights ? CaptureModuleState::CAP_UNPARKING : CaptureModuleState::CAP_PARKING);
+        emit parkDustCap(!captureLights);
+        emit newLog(captureLights ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
         return IPS_BUSY;
     }
 
-    CaptureModuleState::LightState targetLightBoxStatus = (frameType == FRAME_FLAT) ? CaptureModuleState::CAP_LIGHT_ON :
+    auto captureFlats = (frameType == FRAME_FLAT);
+    CaptureModuleState::LightState targetLightBoxStatus = captureFlats ? CaptureModuleState::CAP_LIGHT_ON :
             CaptureModuleState::CAP_LIGHT_OFF;
 
     if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != targetLightBoxStatus)
@@ -543,7 +507,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 
 IPState SequenceJobState::checkPreMountParkReady()
 {
-    if (preMountPark && m_CaptureModuleState->hasTelescope && flatFieldSource != SOURCE_WALL)
+    if (m_CaptureModuleState->hasTelescope)
     {
         if (m_CaptureModuleState->getScopeParkState() == ISD::PARK_ERROR)
         {
@@ -567,7 +531,7 @@ IPState SequenceJobState::checkPreMountParkReady()
 
 IPState SequenceJobState::checkPreDomeParkReady()
 {
-    if (preDomePark && m_CaptureModuleState->hasDome)
+    if (m_CaptureModuleState->hasDome)
     {
         if (m_CaptureModuleState->getDomeState() == ISD::Dome::DOME_ERROR)
         {
@@ -626,59 +590,50 @@ IPState SequenceJobState::checkHasShutter()
 
 IPState SequenceJobState::checkLightFrameScopeCoverOpen()
 {
-    switch (flatFieldSource)
+    // Account for light box only (no dust cap)
+    if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_OFF)
     {
-        // All these are considered MANUAL when it comes to light frames
-        case SOURCE_MANUAL:
-        case SOURCE_DAWN_DUSK:
-        case SOURCE_WALL:
-            // If telescopes were MANUALLY covered before
-            // we need to manually uncover them.
-            if (m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANAUL_COVER_OPEN)
-            {
-                // If we already asked for confirmation and waiting for it
-                // let us see if the confirmation is fulfilled
-                // otherwise we return.
-                if (coverQueryState == CAL_CHECK_CONFIRMATION)
-                    return IPS_BUSY;
+        if (m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_BUSY)
+        {
+            m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
+            emit setLightBoxLight(false);
+            emit newLog(i18n("Turn light box light off..."));
+        }
+        return IPS_BUSY;
+    }
 
-                emit askManualScopeOpen(m_CaptureModuleState->m_ManualCoverState == CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT);
-
-                return IPS_BUSY;
-            }
-            break;
-        case SOURCE_FLATCAP:
-        case SOURCE_DARKCAP:
-            // if no state update happened, wait.
-            if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_BUSY ||
-                    m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_UNPARKING)
-                return IPS_BUSY;
-
-            // Account for light box only (no dust cap)
-            if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_OFF)
-            {
-                m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
-                emit setLightBoxLight(false);
-                emit newLog(i18n("Turn light box light off..."));
-                return IPS_BUSY;
-            }
-
-            if (m_CaptureModuleState->hasDustCap == false)
-            {
-                emit newLog("Skipping flat/dark cap since it is not connected.");
-                return IPS_OK;
-            }
-
-            // If cap is parked, we need to unpark it
-            if (m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_IDLE)
+    // If we have a dust cap, then we must unpark
+    if (m_CaptureModuleState->hasDustCap)
+    {
+        if (m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_IDLE)
+        {
+            if (m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_UNPARKING)
             {
                 m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_UNPARKING);
                 emit parkDustCap(false);
                 emit newLog(i18n("Unparking dust cap..."));
-                return IPS_BUSY;
             }
-            break;
+            return IPS_BUSY;
+        }
+
+        return IPS_OK;
     }
+
+    // If telescopes were MANUALLY covered before
+    // we need to manually uncover them.
+    if (m_CaptureModuleState->m_ManualCoverState != CaptureModuleState::MANAUL_COVER_OPEN)
+    {
+        // If we already asked for confirmation and waiting for it
+        // let us see if the confirmation is fulfilled
+        // otherwise we return.
+        if (coverQueryState == CAL_CHECK_CONFIRMATION)
+            return IPS_BUSY;
+
+        emit askManualScopeOpen(m_CaptureModuleState->m_ManualCoverState == CaptureModuleState::MANUAL_COVER_CLOSED_LIGHT);
+
+        return IPS_BUSY;
+    }
+
     // scope cover open (or no scope cover)
     return IPS_OK;
 }

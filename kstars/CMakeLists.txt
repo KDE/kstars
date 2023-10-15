@@ -400,6 +400,7 @@ if (CFITSIO_FOUND)
     set (fitsui_SRCS
         fitsviewer/fitsheaderdialog.ui
         fitsviewer/statform.ui
+        fitsviewer/platesolve.ui
         fitsviewer/fitsdebayer.ui
         indi/streamform.ui
         indi/recordingoptions.ui

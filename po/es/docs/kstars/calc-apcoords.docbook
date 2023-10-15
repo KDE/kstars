@@ -40,6 +40,6 @@
 >. De forma alternativa, puede fijar las coordenadas del catálogo seleccionando un objeto en el diálogo <guilabel
 >Buscar objeto</guilabel
 >. También puede especificar la época del catálogo aquí (habitualmente 2000.0 para catálogos de objetos modernos). Tras ello, se mostrarán las coordenadas de los objetos para la fecha final en la sección de <guilabel
->coordenadas aparentes</guilabel
+>Coordenadas aparentes:</guilabel
 >. </para>
 </sect2>

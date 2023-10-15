@@ -32,7 +32,7 @@
 >, y viceversa. Rellene los correspondientes valores de las coordenadas en la sección de <guilabel
 >coordenadas galácticas</guilabel
 > o de <guilabel
->coordenadas ecuatoriales</guilabel
+>coordenadas ecuatoriales (J2000)</guilabel
 >. De forma alternativa, puede fijar las coordenadas ecuatoriales seleccionando un objeto mediante el diálogo <guilabel
 >Buscar objeto</guilabel
 >. A continuación se mostrarán las coordenadas complementarias. </para>
