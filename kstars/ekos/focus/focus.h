@@ -682,6 +682,10 @@ protected:
 
         void initView();
 
+        /** @brief Sets the plot vectors for Analyze after Autofocus. Used by Linear and Linear1Pass
+         */
+        void updatePlotPosition();
+
         /**
          * @brief prepareCapture Set common settings for capture for focus module
          * @param targetChip target Chip
