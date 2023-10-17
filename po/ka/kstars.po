@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-15 00:39+0000\n"
-"PO-Revision-Date: 2023-10-08 05:46+0200\n"
+"PO-Revision-Date: 2023-10-16 06:15+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -12969,23 +12969,19 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select which actions to perform before a Bias/Dark/"
 "Flat frame is captured.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.</"
-"p></body></html>"
+"<html><head/><body><p>აირჩიეთ, რომელი ქმედებები შესრულდება ბნელი/ბრტყელი "
+"კადრის გადაღებისას.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Calibration error"
+#, kde-format
 msgid "Calibration Pre-Actions"
-msgstr "კალიბრაციის შეცდომა"
+msgstr "კალიბრაციისწინა ქმედებები"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:63
@@ -12997,10 +12993,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:66
-#, fuzzy, kde-format
-#| msgid "Wall"
+#, kde-format
 msgid "Goto Wall"
-msgstr "კედელი"
+msgstr "კედელზე გადასვლა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountC)
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountCheck)
@@ -25845,10 +25840,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:131 fitsviewer/platesolve.ui:14
-#, fuzzy, kde-format
-#| msgid "Watney Solver"
+#, kde-format
 msgid "Plate Solving"
-msgstr "Watney ამომხსნელი"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:142
 #, kde-format
@@ -25883,28 +25877,24 @@ msgid "File saved to %1"
 msgstr "ფაილი შენახულია %1-ში"
 
 #: fitsviewer/fitstab.cpp:632
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Extracting..."
-msgstr "მოლოდინი…"
+msgstr "გაშლა..."
 
 #: fitsviewer/fitstab.cpp:650
-#, fuzzy, kde-format
-#| msgid "Settling..."
+#, kde-format
 msgid "Solving..."
-msgstr "პარამეტრები..."
+msgstr "ამოხსნა..."
 
 #: fitsviewer/fitstab.cpp:663
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#, kde-format
 msgid "Extractor timed out: %1s"
-msgstr "ამომხსნელთან დაკავშირების დრო გავიდა: %1წმ %2"
+msgstr "გამომტანის მოლოდინის დრო ამოიწურა: %1 წმ"
 
 #: fitsviewer/fitstab.cpp:672
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgid "Extractor failed: %1s"
-msgstr "ამომხსნელის შეცდომა: %1წმ %2"
+msgstr "გამომტანი ჩავარდა: %1 წმ"
 
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
@@ -25912,16 +25902,14 @@ msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:728
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#, kde-format
 msgid "Solver timed out: %1s"
-msgstr "ამომხსნელთან დაკავშირების დრო გავიდა: %1წმ %2"
+msgstr "ამომხსნელის მოლოდინის დრო ამოიწურა: %1 წმ"
 
 #: fitsviewer/fitstab.cpp:733
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s %2"
+#, kde-format
 msgid "Solver failed: %1s"
-msgstr "ამომხსნელის შეცდომა: %1წმ %2"
+msgstr "ამომხსნელი ჩავარდა: %1 წმ"
 
 #: fitsviewer/fitstab.cpp:822
 #, kde-format
@@ -26598,24 +26586,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:108
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width º"
-msgstr "გამოსახულების სიგანე:"
+msgstr "გამოსახულების სიგანე º"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:113
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width '"
-msgstr "გამოსახულების სიგანე:"
+msgstr "გამოსახულების სიგანე '"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:118
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "arcsec/pixel"
-msgstr "არკწამი"
+msgstr "არკწამი/პიქსელი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:139
@@ -26635,10 +26620,9 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, fuzzy, kde-format
-#| msgid "Camera position angle is %1 degrees."
+#, kde-format
 msgid "The solved rotation angle in degrees."
-msgstr "კამერის მდებარეობის კუთხე %1 გრადუსია."
+msgstr "ამოხსნილი ბრუნვის კუთხე გრადუსებში."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
