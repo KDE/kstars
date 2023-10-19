@@ -12994,21 +12994,17 @@ msgstr "Možnosti kalibrace"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select which actions to perform before a Bias/Dark/"
 "Flat frame is captured.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "Calibration Pre-Actions"
-msgstr "Možnosti kalibrace"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:63
@@ -13020,10 +13016,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:66
-#, fuzzy, kde-format
-#| msgid "Wall"
+#, kde-format
 msgid "Goto Wall"
-msgstr "Stěna"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountC)
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountCheck)
@@ -25857,28 +25852,24 @@ msgid "File saved to %1"
 msgstr "Soubor uložen do %1"
 
 #: fitsviewer/fitstab.cpp:632
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Extracting..."
-msgstr "Čeká se..."
+msgstr "Rozbaluje se..."
 
 #: fitsviewer/fitstab.cpp:650
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Solving..."
-msgstr "Probíhá načítání..."
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:663
-#, fuzzy, kde-format
-#| msgid "Transit time: %1"
+#, kde-format
 msgid "Extractor timed out: %1s"
-msgstr "Čas kulminace: %1"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:672
-#, fuzzy, kde-format
-#| msgid "Profile: %1"
+#, kde-format
 msgid "Extractor failed: %1s"
-msgstr "Profil: %1"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
@@ -25886,17 +25877,14 @@ msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:728
-#, fuzzy, kde-format
-#| msgctxt "the time at which an object falls below the horizon"
-#| msgid "Set time: %1"
+#, kde-format
 msgid "Solver timed out: %1s"
-msgstr "Čas západu: %1"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:733
-#, fuzzy, kde-format
-#| msgid "Profile: %1"
+#, kde-format
 msgid "Solver failed: %1s"
-msgstr "Profil: %1"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:822
 #, kde-format
@@ -26575,24 +26563,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:108
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width º"
-msgstr "Šířka obrázku:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:113
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width '"
-msgstr "Šířka obrázku:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:118
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "arcsec/pixel"
-msgstr "úhl.sekund"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:139
@@ -26612,10 +26597,9 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, fuzzy, kde-format
-#| msgid "Geographic Longitude, in degrees."
+#, kde-format
 msgid "The solved rotation angle in degrees."
-msgstr "Zeměpisná délka ve stupních."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
@@ -32507,10 +32491,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1818
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "ORed list of calibration pre-actions."
-msgstr "Možnosti kalibrace"
+msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
 #: kstars.kcfg:1822
