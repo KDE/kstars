@@ -162,7 +162,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
     </textobject>
   </mediaobject>
 </screenshot>
-<para>Near the bottom of the window are controls for stretching the image and displaying its histogram. They are discribed below from left to right.</para>
+<para>Near the bottom of the window are controls for stretching the image and displaying its histogram. They are described below from left to right.</para>
             <itemizedlist>
                 <listitem><para>Enable Stretching: On the very left of this display is a button that enables or disables stretching.</para></listitem>
                 <listitem><para>Shadow Value: The value below which pixels are displayed as black can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para></listitem>
@@ -295,7 +295,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
     </para>
             <itemizedlist>
                 <listitem><para>Solve Button. Pressing this button starts plate solving. When the system is plate solving, the button becomes an abort button.</para></listitem>
-                <listitem><para>Scale: Checking the Use Scale checkbox constains the solver to use approximately the pixel or image scale given. The scale is entered in the box and the units for the scale can be chosen from image width in degrees, image width in arc-minutes, and arc-seconds per pixel. When a solve successfully completes, it replaces the value in the box with solution's scale.</para></listitem>
+                <listitem><para>Scale: Checking the Use Scale checkbox contains the solver to use approximately the pixel or image scale given. The scale is entered in the box and the units for the scale can be chosen from image width in degrees, image width in arc-minutes, and arc-seconds per pixel. When a solve successfully completes, it replaces the value in the box with solution's scale.</para></listitem>
                 <listitem><para>Position: Checking the Use Position checkbox constains the solver to search near the RA and DEC coordinates given. The extent of the search is given by the user in the Radius box in degrees. Note that RA is input in hours-minutes-seconds, e.g. 13h, and DEC is input in degrees-minutes-seconds, e.g. 85. When a solve successfully completes, it replaces the value in the RA and DEC boxes with solution's coordinates. In addition it fills in the Angle field with the solutions angle value in degrees.</para></listitem>
                 <listitem><para>Use SkyMap Position: There is a button just below the Use Position checkbox that fills in RA and DEC boxes with the current center of the SkyMap display.</para></listitem>
                 <listitem><para>Profile: The Profile menu selects which StellarSolver preset, among those used in the Ekos Align module, should be used for plate solving. This is further discussed below.</para></listitem>
