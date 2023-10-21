@@ -150,7 +150,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
                 </listitem>
             </itemizedlist>
     </listitem>            
-    <listitem>Stretching Controls. 
+    <listitem><para>Stretching Controls</para>
 <screenshot>
   <screeninfo>The Stretch Controls in the FITS Viewer</screeninfo>
   <mediaobject>
@@ -178,7 +178,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
               The histogram, if it is enabled, may be zoomed by using the mouse's scroll wheel, and panned by dragging with the mouse. A cursor in the histogram shows the position of the pixel in the image under the mouse.
               </para>
     </listitem>
-    <listitem>Status Bar
+    <listitem><para>Status Bar</para>
 <screenshot>
   <screeninfo>The Status Display in the FITS Viewer</screeninfo>
   <mediaobject>
