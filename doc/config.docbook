@@ -1478,6 +1478,47 @@ be hidden in the <guilabel>Configure Hidden Objects</guilabel> section.
 </para>
 </sect1>
 
+<sect1 id="developer">
+<title>Developer</title>
+<screenshot>
+<screeninfo>Developer Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Developer Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Developer page</secondary></indexterm>
+The <guilabel>Developer</guilabel> page provides a few checkboxes that can help
+debug issues with &kstars;. There are checkboxes for saving images
+in logging directories that might help debug issues. Of course, saving images
+can take up disk space and should be used judiciously.
+</para><para>
+  The images that can be saved are
+  <itemizedlist>
+<listitem><para>
+    all focus images,
+</para></listitem>
+<listitem><para>
+    all guider images,
+</para></listitem>
+<listitem><para>
+    all align images, and
+</para></listitem>
+<listitem><para>
+    align images where the plate-solving failed.
+</para></listitem>
+  </itemizedlist>
+    The images are all saved in folders parallel to the main
+  logging directory. They are in folders named guide, autofocus, align, and align/failed.
+</para>
+</sect1>
+
 <sect1 id="customize">
 <title>Customizing the Display</title>
 
