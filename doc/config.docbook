@@ -1499,7 +1499,7 @@ debug issues with &kstars;. There are checkboxes for saving images
 in logging directories that might help debug issues. Of course, saving images
 can take up disk space and should be used judiciously.
 </para><para>
-  The images that can be saved are
+  The images that can be saved are</para>
   <itemizedlist>
 <listitem><para>
     all focus images,
@@ -1513,7 +1513,7 @@ can take up disk space and should be used judiciously.
 <listitem><para>
     align images where the plate-solving failed.
 </para></listitem>
-  </itemizedlist>
+  </itemizedlist><para>
     The images are all saved in folders parallel to the main
   logging directory. They are in folders named guide, autofocus, align, and align/failed.
 </para>

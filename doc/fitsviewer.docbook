@@ -166,7 +166,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
             <itemizedlist>
                 <listitem><para>Enable Stretching: On the very left of this display is a button that enables or disables stretching.</para></listitem>
                 <listitem><para>Shadow Value: The value below which pixels are displayed as black can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para></listitem>
-                <listitem><para>Midtones Value: The midtones value which controls the brightness of the iamge can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para></listitem>
+                <listitem><para>Midtones Value: The midtones value which controls the brightness of the image can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para></listitem>
                 <listitem><para>Highlights Value: The value above which pixels are displayed as white can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para></listitem>
                 <listitem><para>Show Histogram: A button that displays or hides the image histogram is to the right of the highlights number box.</para></listitem>
                 <listitem><para>Auto Stretch: A button (magic wand icon) that will automatically create a pleasing stretch is found on the right. It is disabled if the stretch is already at the automatically computed value.</para></listitem>
@@ -300,7 +300,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
                 <listitem><para>Use SkyMap Position: There is a button just below the Use Position checkbox that fills in RA and DEC boxes with the current center of the SkyMap display.</para></listitem>
                 <listitem><para>Profile: The Profile menu selects which StellarSolver preset, among those used in the Ekos Align module, should be used for plate solving. This is further discussed below.</para></listitem>
                 <listitem><para>Solution: The Solution section will display the number of stars found and the time taken to solve. The solution values for RA, DEC, Scale and Angle are displayed in those boxes above.</para></listitem>
-                <listitem><para>Image: For any image where stars were detected, if the Mark Stars button is activated above the image display,
+                <listitem><para>Image: For any image where stars were detected, if the Mark Stars button is activated above the image display, then the detected stars are circled in red.</para>
     <screenshot>
         <screeninfo>
             FITS Viewer Mark Stars Button
@@ -314,8 +314,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
             </textobject>
         </mediaobject>
     </screenshot>
-                    then the detected stars are circled in red.
-                </para></listitem>
+                </listitem>
             </itemizedlist>
             <para>
               Using this tool the user can try and debug solving issues as follows.
