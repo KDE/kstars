@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:39+0000\n"
-"PO-Revision-Date: 2023-10-14 12:21+0200\n"
+"POT-Creation-Date: 2023-10-18 00:39+0000\n"
+"PO-Revision-Date: 2023-10-17 22:38+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1490,7 +1490,7 @@ msgstr "Trieu un camp de visió"
 #: auxiliary/xplanetimageviewer.cpp:1119
 #, kde-format
 msgid "FOV to render in XPlanet:"
-msgstr "Renderitza CDV a Xplanet:"
+msgstr "Renderitza CDV en Xplanet:"
 
 #: auxiliary/xplanetimageviewer.cpp:1243
 #, kde-format
@@ -4940,7 +4940,7 @@ msgid ""
 "menu and in the \"Edit FOV Symbols\" tool."
 msgstr ""
 "El nom del símbol del camp de visió (CDV). Este nom apareixerà en el menú "
-"CDV i a l'eina «Editeu els símbols de CDV»."
+"CDV i en l'eina «Editeu els símbols de CDV»."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
@@ -5910,7 +5910,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "S'ha produït un error: s'ha perdut la connexió amb la roda de filtres."
 
 #: ekos/align/align.cpp:1456 ekos/capture/captureprocess.cpp:185
-#: ekos/capture/captureprocess.cpp:578 ekos/focus/focus.cpp:4819
+#: ekos/capture/captureprocess.cpp:578 ekos/focus/focus.cpp:4852
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5953,7 +5953,7 @@ msgid "Capturing image..."
 msgstr "S'està capturant una imatge..."
 
 #: ekos/align/align.cpp:1655 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2587
+#: ekos/focus/focus.cpp:2591
 #, kde-format
 msgid "Image received."
 msgstr "S'ha rebut la imatge."
@@ -6099,7 +6099,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2512 ekos/capture/capture.cpp:1466
-#: ekos/focus/focus.cpp:3964 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1899
+#: ekos/focus/focus.cpp:3997 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1899
 #: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:912
 #, kde-format
@@ -6236,7 +6236,7 @@ msgstr "Alineeu el fotograma"
 #: ekos/align/align.cpp:3402
 #, kde-format
 msgid "StellarSolver Options"
-msgstr "Opcions d'StellarSolver"
+msgstr "Opcions de StellarSolver"
 
 #: ekos/align/align.cpp:3407
 #, kde-format
@@ -6270,7 +6270,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
 #: ekos/align/align.cpp:3545 ekos/capture/capture.cpp:2627
-#: ekos/focus/focus.cpp:4711
+#: ekos/focus/focus.cpp:4744
 #, kde-format
 msgid "Filter operation failed."
 msgstr "No s'ha pogut fer l'operació del filtre."
@@ -6947,7 +6947,7 @@ msgid ""
 "Options&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Per a desactivar la validació del rotor, desmarqueu "
-"«Control automàtic i manual del rotor», a les «Opcions d'StellarSolver».</"
+"«Control automàtic i manual del rotor», en les «Opcions de StellarSolver».</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
@@ -7544,7 +7544,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"center\">Selecciona el mètode de solució de "
 "plaques amb la biblioteca StellarSolver</p><ul><li>L'opció «SEP intern» "
-"utilitza la construcció interna d'StellarSolver d'Astrometry.net i no "
+"utilitza la construcció interna de StellarSolver d'Astrometry.net i no "
 "requerix programes externs. </li><li>L'«Astrometria local» utilitza una "
 "instal·lació local des de la línia d'ordres amb «astrometry.net» a Linux i "
 "Mac, o ANSVR a Windows.</li><li>«ASTAP local» utilitza una instal·lació "
@@ -8353,8 +8353,8 @@ msgid ""
 "<html><head/><body><p>This displays the path to the folder for the "
 "Astrometry Index Files on your computer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el camí cap a la carpeta per als fitxers "
-"d'índex de l'astrometria que hi ha en l'ordinador.</p></body></html>"
+"<html><head/><body><p>Mostra el camí a la carpeta per als fitxers d'índex de "
+"l'astrometria que hi ha en l'ordinador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/align/opsastrometryindexfiles.ui:231
@@ -9433,12 +9433,12 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:176
 #, kde-format
 msgid "Refresh solver timed out: %1s"
-msgstr "Temps límit d'actualització del solucionador: %1 s"
+msgstr "Temps límit d'actualització del solucionador: %1s"
 
 #: ekos/align/polaralignmentassistant.cpp:181
 #, kde-format
 msgid "Refresh solver failed: %1s"
-msgstr "L'actualització del solucionador ha fallat: %1 s"
+msgstr "L'actualització del solucionador ha fallat: %1s"
 
 #: ekos/align/polaralignmentassistant.cpp:574
 #, kde-format
@@ -15650,7 +15650,7 @@ msgstr ""
 #: ekos/capture/captureprocess.cpp:1551
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
-msgstr "Temps de baixada: %1 s, Estimació del temps de baixada: %2 s."
+msgstr "Temps de baixada: %1s, Estimació del temps de baixada: %2s."
 
 #: ekos/capture/captureprocess.cpp:1599
 #, kde-format
@@ -15698,12 +15698,12 @@ msgstr "L'script %1 anterior a la tasca ha finalitzat amb el codi %1."
 msgid "Post job script finished with code %1."
 msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:1892 ekos/focus/focus.cpp:4861
+#: ekos/capture/captureprocess.cpp:1892 ekos/focus/focus.cpp:4894
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps límit d'exposició. S'interromp..."
 
-#: ekos/capture/captureprocess.cpp:1915 ekos/focus/focus.cpp:4866
+#: ekos/capture/captureprocess.cpp:1915 ekos/focus/focus.cpp:4899
 #: ekos/guide/guide.cpp:892
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16951,7 +16951,7 @@ msgstr "L'enfocament adaptatiu no ha pogut moure l'enfocador"
 msgid "No Focuser connected."
 msgstr "No s'ha connectat cap enfocador."
 
-#: ekos/focus/focus.cpp:1135 ekos/focus/focus.cpp:4012
+#: ekos/focus/focus.cpp:1135 ekos/focus/focus.cpp:4045
 #, kde-format
 msgid "No CCD connected."
 msgstr "No s'ha connectat cap CCD."
@@ -17169,7 +17169,7 @@ msgstr "L'operació d'enfocament automàtic s'ha completat amb èxit"
 msgid "Autofocus operation failed"
 msgstr "No s'ha pogut fer l'operació d'enfocament automàtic"
 
-#: ekos/focus/focus.cpp:2368
+#: ekos/focus/focus.cpp:2372
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -17177,98 +17177,98 @@ msgstr[0] "S'ha completat el procediment d'enfocament després d'%1 iteració."
 msgstr[1] ""
 "S'ha completat el procediment d'enfocament després de %1 iteracions."
 
-#: ekos/focus/focus.cpp:2452
+#: ekos/focus/focus.cpp:2456
 #, kde-format
 msgid "Settling for %1s..."
-msgstr "S'està fent el posicionament durant %1 s..."
+msgstr "S'està fent el posicionament durant %1s..."
 
-#: ekos/focus/focus.cpp:2459
+#: ekos/focus/focus.cpp:2463
 #, kde-format
 msgid "Settling complete."
 msgstr "S'ha completat el posicionament."
 
-#: ekos/focus/focus.cpp:2472
+#: ekos/focus/focus.cpp:2476
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "No s'ha pogut fer l'enfocament automàtic, s'està retornant a la posició "
 "inicial de l'enfocament %1."
 
-#: ekos/focus/focus.cpp:2509
+#: ekos/focus/focus.cpp:2513
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "S'ha rebut FITS. No s'ha detectat cap estrela."
 
-#: ekos/focus/focus.cpp:2664
+#: ekos/focus/focus.cpp:2668
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "No s'ha pogut seleccionar automàticament cap estrela. Seleccioneu-ne una "
 "manualment."
 
-#: ekos/focus/focus.cpp:2758
+#: ekos/focus/focus.cpp:2762
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "S'ha completat la captura. Seleccioneu l'estrela que s'enfocarà."
 
-#: ekos/focus/focus.cpp:2789
+#: ekos/focus/focus.cpp:2793
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "No s'ha detectat cap estrela mentre es provava l'HFR. Es tornarà a "
 "capturar..."
 
-#: ekos/focus/focus.cpp:2916
+#: ekos/focus/focus.cpp:2920
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 "L'enfocament automàtic no ha aconseguit enfocar. Proveu-ho incrementant el "
 "valor de la tolerància."
 
-#: ekos/focus/focus.cpp:2927 ekos/focus/focus.cpp:3566
+#: ekos/focus/focus.cpp:2931 ekos/focus/focus.cpp:3590
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "No s'ha detectat cap estrela. S'està tornant a capturar..."
 
-#: ekos/focus/focus.cpp:2933 ekos/focus/focus.cpp:3572
+#: ekos/focus/focus.cpp:2937 ekos/focus/focus.cpp:3596
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
 "No s'ha pogut detectar qualsevol estrela en la posició %1. S'està "
 "continuant..."
 
-#: ekos/focus/focus.cpp:2938 ekos/focus/focus.cpp:3577
+#: ekos/focus/focus.cpp:2942 ekos/focus/focus.cpp:3601
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "No s'han pogut detectar les estreles. Reinicieu el fotograma i torneu-ho a "
 "intentar."
 
-#: ekos/focus/focus.cpp:3164
+#: ekos/focus/focus.cpp:3166
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Ha fallat la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2. S'està "
 "tornant a intentar..."
 
-#: ekos/focus/focus.cpp:3171
+#: ekos/focus/focus.cpp:3173
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Ha tornat a fallar la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2, "
 "però es continua..."
 
-#: ekos/focus/focus.cpp:3214
+#: ekos/focus/focus.cpp:3216
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "S'ha rebut FITS. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3216
+#: ekos/focus/focus.cpp:3218
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "S'ha rebut FITS. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3277
+#: ekos/focus/focus.cpp:3279
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -17277,26 +17277,26 @@ msgstr ""
 "El canvi a HFR és massa xicotet. Proveu incrementant la mida del pas o "
 "disminuïnt la tolerància."
 
-#: ekos/focus/focus.cpp:3284
+#: ekos/focus/focus.cpp:3286
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "No s'ha pogut detectar una estrela que s'haja d'enfocar en el fotograma. "
 "Captureu i seleccioneu una estrela que s'haja d'enfocar."
 
-#: ekos/focus/focus.cpp:3389
+#: ekos/focus/focus.cpp:3391
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "S'ha trobat la solució polinòmica @ %1"
 
-#: ekos/focus/focus.cpp:3453
+#: ekos/focus/focus.cpp:3455
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "L'enfocador no pot anar més enllà, s'ha arribat al límit del dispositiu. "
 "S'ha interromput l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:3464
+#: ekos/focus/focus.cpp:3466
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -17304,24 +17304,24 @@ msgstr ""
 "Fluctuacions inestables. Intenteu-ho incrementant la mida inicial del pas o "
 "el temps d'exposició."
 
-#: ekos/focus/focus.cpp:3474
+#: ekos/focus/focus.cpp:3476
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "S'ha arribat a un punt mort. Proveu-ho amb una configuració diferent."
 
-#: ekos/focus/focus.cpp:3503
+#: ekos/focus/focus.cpp:3505
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "S'ha arribat al límit màxim del recorregut. S'ha interromput l'enfocament "
 "automàtic."
 
-#: ekos/focus/focus.cpp:3551
+#: ekos/focus/focus.cpp:3575
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "S'ha rebut FITS. HFR %1. Delta (%2%) HFR mínim (%3)"
 
-#: ekos/focus/focus.cpp:3555
+#: ekos/focus/focus.cpp:3579
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -17329,85 +17329,85 @@ msgstr ""
 "L'enfocament automàtic no ha aconseguit enfocar. Proveu-ho ajustant el valor "
 "de la tolerància."
 
-#: ekos/focus/focus.cpp:3645 ekos/focus/focus.cpp:3658
-#: ekos/focus/focus.cpp:3779 ekos/focus/focus.cpp:3851
-#: ekos/focus/focus.cpp:3912 ekos/focus/focus.cpp:3956
+#: ekos/focus/focus.cpp:3669 ekos/focus/focus.cpp:3682
+#: ekos/focus/focus.cpp:3812 ekos/focus/focus.cpp:3884
+#: ekos/focus/focus.cpp:3945 ekos/focus/focus.cpp:3989
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "S'ha produït un error de l'enfocador, comproveu el quadro d'INDI."
 
-#: ekos/focus/focus.cpp:3689 ekos/focus/focus.cpp:3795
+#: ekos/focus/focus.cpp:3718 ekos/focus/focus.cpp:3828
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simula una fallada de les comunicacions amb l'enfocador..."
 
-#: ekos/focus/focus.cpp:3760 ekos/focus/focus.cpp:3836
-#: ekos/focus/focus.cpp:3897 ekos/focus/focus.cpp:3930
+#: ekos/focus/focus.cpp:3793 ekos/focus/focus.cpp:3869
+#: ekos/focus/focus.cpp:3930 ekos/focus/focus.cpp:3963
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "S'està reiniciant el procés d'enfocament automàtic..."
 
-#: ekos/focus/focus.cpp:4028
+#: ekos/focus/focus.cpp:4061
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "S'està iniciant l'exposició contínua..."
 
-#: ekos/focus/focus.cpp:4292
+#: ekos/focus/focus.cpp:4325
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "S'ha desactivat la selecció automàtica de l'estrela, ja que la casella de "
 "selecció de l'estrela s'ha mogut manualment."
 
-#: ekos/focus/focus.cpp:4297
+#: ekos/focus/focus.cpp:4330
 #, kde-format
 msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrela que s'enfocarà."
 
-#: ekos/focus/focus.cpp:4425
+#: ekos/focus/focus.cpp:4458
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "No s'ha seleccionat cap estrela. S'està emprant l'última posició coneguda..."
 
-#: ekos/focus/focus.cpp:4431
+#: ekos/focus/focus.cpp:4464
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "No s'ha seleccionat cap estrela. S'interromp..."
 
-#: ekos/focus/focus.cpp:4542
+#: ekos/focus/focus.cpp:4575
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Enquadreu l'enfocament"
 
-#: ekos/focus/focus.cpp:4879
+#: ekos/focus/focus.cpp:4912
 #, kde-format
 msgid "Capturing image again..."
 msgstr "S'està tornant a capturar una imatge..."
 
-#: ekos/focus/focus.cpp:4894
+#: ekos/focus/focus.cpp:4927
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "No s'ha pogut guardar la imatge. S'interromp..."
 
-#: ekos/focus/focus.cpp:4904
+#: ekos/focus/focus.cpp:4937
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Fallada de l'exposició. S'interromp..."
 
-#: ekos/focus/focus.cpp:4909
+#: ekos/focus/focus.cpp:4942
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Fallada de l'exposició. Es reinicia l'exposició..."
 
-#: ekos/focus/focus.cpp:5197
+#: ekos/focus/focus.cpp:5230
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relatiu"
 
-#: ekos/focus/focus.cpp:6389
+#: ekos/focus/focus.cpp:6422
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17454,7 +17454,7 @@ msgstr ""
 "El tercer pas és establir el multiplicador del pas exterior. Comenceu amb el "
 "valor predeterminat suggerit."
 
-#: ekos/focus/focus.cpp:6405
+#: ekos/focus/focus.cpp:6438
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17475,7 +17475,7 @@ msgstr ""
 "acceptable. Ajusteu «Múltiples passos enfora:» fins que es corresponga amb "
 "este interval de moviment de l'enfocador."
 
-#: ekos/focus/focus.cpp:6412
+#: ekos/focus/focus.cpp:6445
 #, kde-format
 msgid ""
 "\n"
@@ -17512,7 +17512,7 @@ msgstr ""
 "de banda ampla, p. ex., Luminància\n"
 "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:6422
+#: ekos/focus/focus.cpp:6455
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Assessor d'enfocament"
@@ -19726,7 +19726,7 @@ msgstr "PHD2: S'ha perdut la posició de bloqueig, continua el calibratge."
 #: ekos/guide/externalguide/phd2.cpp:677
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
-msgstr "PHD2: S'ha perdut l'estrela. S'intenta tornar a obtindre durant %1 s."
+msgstr "PHD2: S'ha perdut l'estrela. S'intenta tornar a obtindre durant %1s."
 
 #: ekos/guide/externalguide/phd2.cpp:683
 #, kde-format
@@ -19741,7 +19741,7 @@ msgstr "PHD2: S'ha posat en pausa el guiatge."
 #: ekos/guide/externalguide/phd2.cpp:694
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
-msgstr "PHD2: S'està calibrant, venç en %1 s."
+msgstr "PHD2: S'està calibrant, venç en %1s."
 
 #: ekos/guide/externalguide/phd2.cpp:703
 #, kde-format
@@ -21892,7 +21892,7 @@ msgid ""
 "The StellarSolver profile to use when detecting stars--used with the SEP "
 "MultiStar and SEP algorithms."
 msgstr ""
-"El perfil d'StellarSolver que s'utilitzarà en detectar estreles -utilitzat "
+"El perfil de StellarSolver que s'utilitzarà en detectar estreles -utilitzat "
 "amb els algorismes «SEP del MultiStar» i «SEP»-."
 
 #. i18n: ectx: property (text), widget (QLabel, l_20)
@@ -25200,11 +25200,11 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Si heu planificat utilitzar SkySafari per a vigilar i "
 "controlar la muntura, marqueu esta casella per a iniciar el servidor "
-"SkySafari d'INDI. Podeu connectar SkySafari a este servidor i vos hauria de "
-"permetre connectar i controlar la muntura. Per a més detalls, reviseu la <a "
-"href=\"https://indilib.org/devices/telescopes/skysafari.html\"><span style="
-"\"text-decoration: underline; color:#007af4;\">documentació d'SkySafari "
-"d'INDI.</span></a></p></body></html>"
+"SkySafari d'INDI. Podeu connectar SkySafari amb este servidor i vos hauria "
+"de permetre connectar i controlar la muntura. Per a més detalls, reviseu la "
+"<a href=\"https://indilib.org/devices/telescopes/skysafari.html\"><span "
+"style=\"text-decoration: underline; color:#007af4;\">documentació de "
+"SkySafari d'INDI.</span></a></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSkySafariCheck)
 #: ekos/profilewizard.ui:1084
@@ -25388,7 +25388,7 @@ msgstr "Recupera"
 #: ekos/scheduler/framingassistant.ui:350
 #, kde-format
 msgid "Go to Grid Selection page"
-msgstr "Va a la pàgina de selecció de la quadrícula"
+msgstr "Va fins a la pàgina de selecció de la quadrícula"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToSelectGridB)
 #. i18n: ectx: property (text), widget (QPushButton, backToSelectGrid)
@@ -25665,7 +25665,7 @@ msgstr " est del nord"
 #: ekos/scheduler/framingassistant.ui:934
 #, kde-format
 msgid "Go to equipment selection page"
-msgstr "Va a la pàgina de selecció d'equip"
+msgstr "Va fins a la pàgina de selecció d'equip"
 
 #. i18n: ectx: property (text), widget (QPushButton, backToEquipmentB)
 #: ekos/scheduler/framingassistant.ui:937
@@ -25701,7 +25701,7 @@ msgstr "Torna a centrar"
 #: ekos/scheduler/framingassistant.ui:985
 #, kde-format
 msgid "Go to grid adjustment page"
-msgstr "Va a la pàgina d'ajustament de la quadrícula"
+msgstr "Va fins a la pàgina d'ajustament de la quadrícula"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToAdjustGrid)
 #: ekos/scheduler/framingassistant.ui:988
@@ -25737,7 +25737,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:1666
 #, kde-format
 msgid "Go to grid selection page"
-msgstr "Va a la pàgina de selecció de la quadrícula"
+msgstr "Va fins a la pàgina de selecció de la quadrícula"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goSolveB)
 #: ekos/scheduler/framingassistant.ui:1156
@@ -25755,7 +25755,7 @@ msgstr "Ves i soluciona"
 #: ekos/scheduler/framingassistant.ui:1170
 #, kde-format
 msgid "Go to scheduler job creation page"
-msgstr "Va a la pàgina de creació de tasques del programador"
+msgstr "Va fins a la pàgina de creació de tasques del programador"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToJobsB)
 #. i18n: ectx: property (text), widget (QPushButton, createJobsB)
@@ -26035,7 +26035,7 @@ msgid ""
 msgstr ""
 "Llista del programador de tasques.\n"
 "Feu-hi clic per a editar una tasca.\n"
-"Feu doble clic per a reiniciar l'estat d'una tasca."
+"Feu-hi doble clic per a reiniciar l'estat d'una tasca."
 
 #: ekos/scheduler/scheduler.cpp:488
 #, kde-format
@@ -27214,12 +27214,12 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:7529
 #, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "Temps límit del solucionador: %1 s %2"
+msgstr "Temps límit del solucionador: %1s %2"
 
 #: ekos/scheduler/scheduler.cpp:7531
 #, kde-format
 msgid "Solver failed: %1s %2"
-msgstr "El solucionador ha fallat: %1 s %2"
+msgstr "El solucionador ha fallat: %1s %2"
 
 #: ekos/scheduler/scheduler.cpp:7566
 #, kde-format
@@ -28524,12 +28524,12 @@ msgstr "S'està solucionant..."
 #: fitsviewer/fitstab.cpp:663
 #, kde-format
 msgid "Extractor timed out: %1s"
-msgstr "L'extractor ha excedit els temps límit: %1 s"
+msgstr "L'extractor ha excedit els temps límit: %1s"
 
 #: fitsviewer/fitstab.cpp:672
 #, kde-format
 msgid "Extractor failed: %1s"
-msgstr "L'extractor ha fallat: %1 s"
+msgstr "L'extractor ha fallat: %1s"
 
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
@@ -28539,17 +28539,17 @@ msgstr "S'han extret %1 estreles (%2 sense filtrar) en %3 s"
 #: fitsviewer/fitstab.cpp:728
 #, kde-format
 msgid "Solver timed out: %1s"
-msgstr "El solucionador ha excedit el temps límit: %1 s"
+msgstr "El solucionador ha excedit el temps límit: %1s"
 
 #: fitsviewer/fitstab.cpp:733
 #, kde-format
 msgid "Solver failed: %1s"
-msgstr "El solucionador ha fallat: %1 s"
+msgstr "El solucionador ha fallat: %1s"
 
 #: fitsviewer/fitstab.cpp:822
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
-msgstr "Avís! Esta eina només admet el solucionador intern d'StellarSolver."
+msgstr "Avís! Esta eina només admet el solucionador intern de StellarSolver."
 
 #: fitsviewer/fitstab.cpp:823
 #, kde-format
@@ -29255,7 +29255,7 @@ msgid ""
 "speed up detecting stars. This may significantly speed up source extraction "
 "but may result in unstable operation."
 msgstr ""
-"Activa la partició d'StellarSolver. Fa la partició de les imatges en "
+"Activa la partició de StellarSolver. Fa la partició de les imatges en "
 "múltiples fils per a accelerar la detecció de les estreles. Açò pot "
 "accelerar significativament l'extracció de fonts però pot provocar "
 "inestabilitat operativa."
@@ -29264,7 +29264,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:482
 #, kde-format
 msgid "StellarSolver Partitioning"
-msgstr "Partició d'StellarSolver"
+msgstr "Partició de StellarSolver"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SolveButton)
 #: fitsviewer/platesolve.ui:47
@@ -31125,7 +31125,7 @@ msgid ""
 "Sorry. KStars failed to detect any attached telescopes, please check your "
 "settings and try again."
 msgstr ""
-"Ho sentim. KStars no ha pogut detectar cap telescopi connectat, Comproveu la "
+"Ho sentim. KStars no ha pogut detectar cap telescopi connectat, comproveu la "
 "vostra configuració i proveu-ho una altra vegada."
 
 #: indi/telescopewizardprocess.cpp:354
@@ -32192,8 +32192,8 @@ msgid ""
 "If true, clicking on the skymap will select the closest object and "
 "highlights it."
 msgstr ""
-"Si està marcada, en fer clic damunt del mapa celeste se seleccionarà "
-"l'objecte més proper i es ressaltarà."
+"Si està marcada, fent clic damunt del mapa celeste se seleccionarà l'objecte "
+"més proper i es ressaltarà."
 
 #. i18n: ectx: label, entry (DefaultCursor), group (View)
 #: kstars.kcfg:371
@@ -34338,14 +34338,14 @@ msgstr ""
 #: kstars.kcfg:1155 kstars.kcfg:1156
 #, kde-format
 msgid "Width of xplanet window"
-msgstr "Amplària de la finestra de «xplanet»"
+msgstr "Amplària de la finestra d'«xplanet»"
 
 #. i18n: ectx: label, entry (XplanetHeight), group (Xplanet)
 #. i18n: ectx: whatsthis, entry (XplanetHeight), group (Xplanet)
 #: kstars.kcfg:1160 kstars.kcfg:1161
 #, kde-format
 msgid "Height of xplanet window"
-msgstr "Alçària de la finestra de «xplanet»"
+msgstr "Alçària de la finestra d'«xplanet»"
 
 #. i18n: ectx: label, entry (XplanetLabel), group (Xplanet)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetLabel)
@@ -76557,17 +76557,17 @@ msgstr ""
 #: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Temps límit del solucionador en %1 s"
+msgstr "Temps límit del solucionador en %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:799
 #, kde-format
 msgid "Solver failed in %1s"
-msgstr "El solucionador ha fallat en %1 s"
+msgstr "El solucionador ha fallat en %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr "El solucionador ha finalitzat en %1 s: AR %2 Dec %3 Escala %4 Angle %5"
+msgstr "El solucionador ha finalitzat en %1s: AR %2 Dec %3 Escala %4 Angle %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
@@ -78904,7 +78904,7 @@ msgid ""
 "location has been selected, the City, Province and Country fields will be "
 "filled in."
 msgstr ""
-"Premeu este botó per a obrir el diàleg Establix emplaçament, el qual us "
+"Premeu este botó per a obrir el diàleg «Establiu un emplaçament», el qual us "
 "permetrà triar un emplaçament des d'un llistat de 2.500 ciutats al voltant "
 "del món. Una vegada seleccionat, s'emplenaran els camps de ciutat, província "
 "i país."
@@ -81322,7 +81322,7 @@ msgstr "Obri el diàleg Busca"
 #: tools/observinglist.ui:326
 #, kde-format
 msgid "Open the Find Dialog for adding objects to the list"
-msgstr "Obri el diàleg Busca per a afegir objectes a la llista"
+msgstr "Obri el diàleg «Busca» per a afegir objectes a la llista"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:342
@@ -81337,8 +81337,8 @@ msgid ""
 "Opens the What's up Tonight dialog, from which objects can be added to the "
 "list"
 msgstr ""
-"Obri el diàleg «Què passa esta nit», des del qual podeu afegir objectes a la "
-"llista"
+"Obri el diàleg «Què passa esta nit», des del qual podreu afegir objectes a "
+"la llista"
 
 #. i18n: ectx: property (text), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:348
@@ -81362,7 +81362,7 @@ msgstr "Llista de desitjats"
 #: tools/observinglist.ui:451
 #, kde-format
 msgid "Session Plan"
-msgstr "Planificació de la sessió"
+msgstr "Planifiqueu la sessió"
 
 #. i18n: ectx: property (text), widget (QLabel, scheduledTimeLabel)
 #: tools/observinglist.ui:502

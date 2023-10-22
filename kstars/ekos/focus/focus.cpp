@@ -2365,6 +2365,10 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
         {
             if (plot)
                 emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
+
+            // Update the plot_position and plot_value vectors (used by Analyze)
+            updatePlotPosition();
+
             appendLogText(i18np("Focus procedure completed after %1 iteration.",
                                 "Focus procedure completed after %1 iterations.", plot_position.count()));
 
@@ -3128,8 +3132,6 @@ void Focus::autoFocusLinear()
         }
     }
 
-    addPlotPosition(currentPosition, currentMeasure, false);
-
     // Only use the relativeHFR algorithm if full field is enabled with one capture/measurement.
     bool useFocusStarsHFR = focusUseFullField->isChecked() && focusFramesCount->value() == 1;
     auto focusStars = useFocusStarsHFR || (m_FocusAlgorithm == FOCUS_LINEAR1PASS) ? &(m_ImageData->getStarCenters()) : nullptr;
@@ -3540,6 +3542,28 @@ void Focus::addPlotPosition(int pos, double value, bool plot)
         emit newHFRPlotPosition(static_cast<double>(pos), value, 1.0, false, pulseDuration);
 }
 
+// Synchronises the plot_position and plot_value vectors with the data used by linearFocuser
+// This keeps the 2 sets of data in sync for the Linear and Linear1Pass algorithms.
+// For Iterative and Polynomial these vectors are built during the focusing cycle so nothing to do here
+void Focus::updatePlotPosition()
+{
+    if (m_FocusAlgorithm == FOCUS_LINEAR1PASS || m_FocusAlgorithm == FOCUS_LINEAR)
+    {
+        QVector<double> weights;
+        QVector<int> positions;
+        linearFocuser->getMeasurements(&positions, &plot_value, &weights);
+        plot_position.clear();
+        for (int i = 0; i < positions.count(); i++)
+            plot_position.append(positions[i]);
+        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+        {
+            // For L1P add in the solution datapoint. Linear already has this included.
+            plot_position.append(linearFocuser->solution());
+            plot_value.append(linearFocuser->solutionValue());
+        }
+    }
+}
+
 void Focus::autoFocusRel()
 {
     static int noStarCount = 0;
@@ -3658,6 +3682,11 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         appendLogText(i18n("Focuser error, check INDI panel."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
+    else
+        qCDebug(KSTARS_EKOS_FOCUS) <<
+                                   QString("autoFocusProcessPositionChange called with state %1 (%2), focuserAdditionalMovement=%3, inAutoFocus=%4, captureInProgress=%5, currentPosition=%6")
+                                   .arg(state).arg(pstateStr(state)).arg(focuserAdditionalMovement).arg(inAutoFocus).arg(captureInProgress)
+                                   .arg(currentPosition);
 }
 
 void Focus::updateProperty(INDI::Property prop)
@@ -3703,7 +3732,11 @@ void Focus::updateProperty(INDI::Property prop)
             // Therefore we ignore it if both value and state are the same as last time.
             // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
             if (currentPosition == newPosition && currentPositionState == nvp->s)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << "Focuser position " << currentPosition << " and state:"
+                                           << pstateStr(currentPositionState) << " unchanged";
                 return;
+            }
 
             currentPositionState = nvp->s;
 
@@ -3723,7 +3756,7 @@ void Focus::updateProperty(INDI::Property prop)
             {
                 // We had something back from the focuser but we're not done yet, so
                 // restart motion timer in case focuser gets stuck.
-                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer...";
+                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer, state " << pstateStr(nvp->s);
                 m_FocusMotionTimer.start();
             }
         }
