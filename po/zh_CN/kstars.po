@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-18 00:39+0000\n"
-"PO-Revision-Date: 2023-10-10 14:29\n"
+"PO-Revision-Date: 2023-10-21 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -13212,21 +13212,17 @@ msgstr "校准选项"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Percentage of total images captured</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select which actions to perform before a Bias/Dark/"
 "Flat frame is captured.</p></body></html>"
-msgstr "<html><head/><body><p>拍摄的全部图像所占百分比</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "Calibration Pre-Actions"
-msgstr "校准选项"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:63
@@ -13238,10 +13234,9 @@ msgstr "平场拍摄之前旋转赤道仪到指定的 方位/高度 坐标"
 
 #. i18n: ectx: property (text), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:66
-#, fuzzy, kde-format
-#| msgid "Wall"
+#, kde-format
 msgid "Goto Wall"
-msgstr "墙壁"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountC)
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountCheck)
@@ -26344,10 +26339,9 @@ msgstr "当前 FITS 文件有未保存的更改。您希望在关闭前保存它
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:131 fitsviewer/platesolve.ui:14
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgid "Plate Solving"
-msgstr "平面解析"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:142
 #, kde-format
@@ -26382,28 +26376,24 @@ msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
 #: fitsviewer/fitstab.cpp:632
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Extracting..."
-msgstr "请稍等..."
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:650
-#, fuzzy, kde-format
-#| msgid "Settling..."
+#, kde-format
 msgid "Solving..."
-msgstr "安定..."
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:663
-#, fuzzy, kde-format
-#| msgid "Capture timed out."
+#, kde-format
 msgid "Extractor timed out: %1s"
-msgstr "拍摄超时。"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:672
-#, fuzzy, kde-format
-#| msgid "Profile: %1"
+#, kde-format
 msgid "Extractor failed: %1s"
-msgstr "配置: %1"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
@@ -26411,16 +26401,14 @@ msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:728
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out: %1s"
-msgstr "解析超时。"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:733
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solver failed: %1s"
-msgstr "解析失败."
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:822
 #, kde-format
@@ -27126,35 +27114,29 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:108
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width º"
-msgstr "图像宽度："
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:113
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width '"
-msgstr "图像宽度："
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:118
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "arcsec/pixel"
-msgstr "角秒"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:139
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set estimated position to speed up astrometry solver as it does not have "
-#| "to search in other areas of the sky."
+#, kde-format
 msgid ""
 "Use the given position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
-msgstr "设置预估的位置以加速天体测量解析器，因为它无需搜索天空其他区域。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpdatePosition)
 #: fitsviewer/platesolve.ui:164
@@ -27166,10 +27148,9 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, fuzzy, kde-format
-#| msgid "Rotation magnitude in degrees"
+#, kde-format
 msgid "The solved rotation angle in degrees."
-msgstr "以度为单位的旋转角度"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
@@ -32634,10 +32615,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsSolverProfile), group (FITSViewer)
 #: kstars.kcfg:1526
-#, fuzzy, kde-format
-#| msgid "Options Profile for Solving."
+#, kde-format
 msgid "Options Profile for Fitsviewer Solving."
-msgstr "解析器的选项配置文件。"
+msgstr ""
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1530
@@ -33096,10 +33076,9 @@ msgstr "测量值与目标ADU值之间最大差值，用以评议该值是可接
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1818
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "ORed list of calibration pre-actions."
-msgstr "校准选项"
+msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
 #: kstars.kcfg:1822
@@ -80471,38 +80450,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Specify the source the flat field evenly illuminated light source"
-#~ msgstr "指定均匀的平场照明光源"
-
-#~ msgid "Flat Source"
-#~ msgstr "平场源"
-
-#~ msgid "Light source triggered by the user manually"
-#~ msgstr "光源由用户手动触发"
-
-#~ msgid ""
-#~ "For dark and bias frames, close the dust cap before proceeding. For flat "
-#~ "frames, close the dust cap and turn on the light source."
-#~ msgstr ""
-#~ "拍摄暗场及偏置帧时，请先关闭防尘盖。拍摄平场帧时，请先关闭防尘盖并点亮光"
-#~ "源。"
-
-#~ msgid "Dust Cover with Built-in Flat Light"
-#~ msgstr "防尘盖有内置平场光"
-
-#~ msgid ""
-#~ "For dark and bias frames, close the dust cap before proceeding. For flat "
-#~ "frames, open the dust cap and turn on the light source."
-#~ msgstr ""
-#~ "拍摄暗场及偏置帧时，请先关闭防尘盖。拍摄平场帧时，请先打开防尘盖并点亮光"
-#~ "源。"
-
-#~ msgid "Dust Cover with External Flat Light"
-#~ msgstr "防尘盖有外部平场光"
-
-#~ msgid "Use Dawn and Dusk light"
-#~ msgstr "使用黎明和黄昏的光线"
-
-#~ msgid "Dawn/Dusk"
-#~ msgstr "黎明/黄昏"

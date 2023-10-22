@@ -11,18 +11,16 @@
 </indexterm>
 
 <para
->FITS (Flexible Image Transport System) est le format standard pour représenter les images et les données en astronomie.</para>
+>FITS, or Flexible Image Transport System, is the standard format for representing images and data in Astronomy. The &kstars; FITS Viewer is a tool to view those images. It is not designed for editing of FITS Images.</para>
 
 <para
->L'outil d'affichage FITS de &kstars; est intégré avec l'infrastructure <link linkend="indi"
->INDI</link
-> permettant un affichage fluide et la manipulation des images FITS. Pour ouvrir un fichier FITS, sélectionnez depuis le menu <menuchoice
+>The FITS Viewer can be automatically invoked for images received from the camera. It can also be invoked directly from the main &kstars; menu. To open a FITS file, select the <menuchoice
 ><guimenu
->Fichier</guimenu
+>File</guimenu
 > <guimenuitem
->Ouvrir FITS…</guimenuitem
+>Open Image...</guimenuitem
 ></menuchoice
-> ou appuyez sur <keycombo action="simul"
+> menu item, or press <keycombo action="simul"
 >&Ctrl;<keycap
 >O</keycap
 ></keycombo
@@ -33,7 +31,7 @@
 >L'outil d'affichage FITS</screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="fitsviewer.png" format="PNG"/>
+      <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
@@ -43,7 +41,28 @@
 </screenshot>
 
 <para
->Le diagramme ci-dessus illustre la zone de travail et la fenêtre de l'afficheur FITS. L'outil fournit les fonctions de base pour l'affichage des images. La profondeur des données FITS est préservée durant tout le processus, ainsi que les fonctions d'ouverture et d'enregistrement. Bien que l'outil adhère au standard FITS, il ne prend pas en charge touttes les fonctionnalités possibles de FITS :</para>
+>The above diagram illustrates the FITS Viewer main work area and window. There is also a hidden area that can be exposed by moving the mouse over the 6 small dots on the left side (about center of the image vertically) and pressing and holding the mouse, sliding it over to the right a bit.</para>
+
+<screenshot>
+  <screeninfo
+>The FITS Viewer Tool with sliding panel open</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer2.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>FITS Viewer Tool with sliding panel open</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+
+<sect2 id="fits-viewer-main-controls">
+    <title
+>Main Controls</title>
+
+<para
+>The various controls and displays for the FITS Viewer are shown below. The tool provides basic functions for image display. While the tool adhere to the FITS standard, it does not support all possible FITS features:</para>
 <itemizedlist>
   <listitem
 ><para
@@ -69,7 +88,7 @@
             <itemizedlist>
                 <listitem
 ><para
->Actions standards Ouvrir, Enregistrer et Enregistrer sous.</para
+>Standard Open, Save, and Save As.</para
 ></listitem>
                 <listitem
 ><para
@@ -114,6 +133,10 @@
                 <listitem
 ><para
 >Marquage d'étoiles : détecter et marquer les étoiles dans l'image.</para
+></listitem>
+                <listitem
+><para
+>Show Clipping: Display in red which stars have pixels that appear to be clipped.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -187,6 +210,14 @@
 ></listitem>
                 <listitem
 ><para
+>Marquage d'étoiles : détecter et marquer les étoiles dans l'image.</para
+></listitem>
+                <listitem
+><para
+>Show Clipping: Display in red which stars have pixels that appear to be clipped.</para
+></listitem>
+                <listitem
+><para
 >Afficher la grille équatoriale : bascule la grille équatoriale si le fichier FITS contient une en-tête WCS valable.</para
 ></listitem>
                 <listitem
@@ -225,7 +256,11 @@
 ></listitem>
                 <listitem
 ><para
->Histogramme : affiche l'histogramme de l'image avec la possibilité d'ajuster les valeurs minimum et maximum pour chaque canal. Les échelles linéaires et logarithmiques sont disponibles pour application à l'image.</para
+>Plate Solving: A tool plate-solve the loaded image. This is useful to debug plate-solving issues.</para
+></listitem>
+                <listitem
+><para
+>Histogram: Displays image histogram with controls to adjust the minimum and maximum values for each channel. Both linear and logarithmic scalings are available to apply to the image. This is somewhat redundant with the below-image histogram and may be removed in the future.</para
 ></listitem>
                 <listitem
 ><para
@@ -239,11 +274,133 @@
     </listitem>
     <listitem
 ><para
->Aire d'affichage de l'image. Le survol de l'image par la souris indiquera les valeurs en conséquence.</para>
+>Image Display Area.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Mouse: Hovering over the image will update the status bar values accordingly.</para
+></listitem>
+                <listitem
+><para
+>Mouse: Hovering over the image will move a cursor in the histogram display below the image, if that histogram is activated.</para
+></listitem>
+                <listitem
+><para
+>Control key: Holding down the control key and then moving the mouse will show a magnified portion of the image.</para>
+<screenshot>
+  <screeninfo
+>The Magnifier in the FITS Viewer</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-magnifier.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>The magnifier in the FITS Viewer</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+                </listitem>
+                <listitem
+><para
+>Statistiques d'une région d'intérêt</para>
+                <para
+>Fournit des statistiques simples : moyenne, écart-type moyen et médiane moyenne de la région sélectionnée par l'utilisateur dans une infobulle. </para>
+                <screenshot>
+                    <screeninfo
+>Afficheur « FITS » </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Sélectionnez des statistiques</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>The user can either set the selection region by <keycombo
+>&Shift;<keycap
+>Left Click</keycap
+></keycombo
+> dragging (when the selection statistics is activated) or by choosing an entry from the drop down menu of the Toggle Selection Rectangle button. In addition to this, the user can translate the region by simple <keycap
+>Left Click</keycap
+> drag of the mouse. The statistics of the region are shown as a tooltip once the cursor is brought over the selection region. For smaller images, the statistics are updated instantly, and for larger images, the statistics are updated once the user releases the <keycap
+>Left Click</keycap
+> button after modification of the region. </para>
+                </listitem>
+            </itemizedlist>
+    </listitem
+>            
+    <listitem
+><para
+>Stretching Controls</para>
+<screenshot>
+  <screeninfo
+>The Stretch Controls in the FITS Viewer</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-stretch.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>The Stretch Controls in the FITS Viewer</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>Near the bottom of the window are controls for stretching the image and displaying its histogram. They are described below from left to right.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Enable Stretching: On the very left of this display is a button that enables or disables stretching.</para
+></listitem>
+                <listitem
+><para
+>Shadow Value: The value below which pixels are displayed as black can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para
+></listitem>
+                <listitem
+><para
+>Midtones Value: The midtones value which controls the brightness of the iamge can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para
+></listitem>
+                <listitem
+><para
+>Highlights Value: The value above which pixels are displayed as white can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para
+></listitem>
+                <listitem
+><para
+>Show Histogram: A button that displays or hides the image histogram is to the right of the highlights number box.</para
+></listitem>
+                <listitem
+><para
+>Auto Stretch: A button (magic wand icon) that will automatically create a pleasing stretch is found on the right. It is disabled if the stretch is already at the automatically computed value.</para
+></listitem>
+            </itemizedlist>
+            <para
+>In addition, there are sliders that can be used to adjust the Shadow, Midtones and Highlights values. Adjusting them will change the values displayed. </para>
+            <para
+>The histogram, if it is enabled, may be zoomed by using the mouse's scroll wheel, and panned by dragging with the mouse. A cursor in the histogram shows the position of the pixel in the image under the mouse. </para>
     </listitem>
     <listitem
 ><para
->Barre d'état : les indicateurs d'état suivant sont (droite vers gauche) :</para>
+>Status Bar</para>
+<screenshot>
+  <screeninfo
+>The Status Display in the FITS Viewer</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-status.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>The Status Display in the FITS Viewer</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>From right to left, the following status indicators are available:</para
+>      
             <itemizedlist>
                 <listitem
 ><para
@@ -251,17 +408,34 @@
 ></listitem>
                 <listitem
 ><para
->Résolution : la résolution de l'image en pixels.</para
+>Resolution: Image resolution in pixels. 4656x3520 in the screenshot above.</para
 ></listitem>
                 <listitem
 ><para
->Coordonnées cartésiennes : affiche et actualise la position courante de la souris en passant au-dessus de l'image. Cela inclut la position en X et en Y ainsi que la valeur courante.</para
+>Zoom Percentage. 13% above.</para
 ></listitem>
                 <listitem
 ><para
->Coordonnées équatoriales : si l'image contient une en-tête WCS valable, l'ascension droite J2000 (AD) et la déclinaison (Déc) sont affichées.</para
+>Cartesian Coordinates: Displays and updates the current mouse position as you hover over the image. X:769 Y:3508 above.</para
 ></listitem>
-            </itemizedlist>
+                <listitem
+><para
+>Pixel Value: Value of the pixel under the mouse. 1,792 above.</para
+></listitem>
+                <listitem
+><para
+>Equatorial Coordinates: If the image contains a valid WCS header, the J2000 Right Ascension (RA) and declination (DE) values are displayed. 13h 14' 22" 42 37' 35" above.</para
+></listitem>
+                <listitem
+><para
+>Image Stats: Displays the HFR, Eccentricity and number of stars if computed. HFR:1.96 Ecc:0.43 143 stars above.</para
+></listitem>
+                <listitem
+><para
+>Clipped Stars: If Show Clipping is activated in the main toolbar, it displays the number of possibly clipped pixels. Clip:403 above.</para
+></listitem>
+            </itemizedlist
+>                  
     </listitem>
 </orderedlist>
 <para
@@ -297,59 +471,10 @@
 </screenshot>
 <para
 >Le survol d'une option affichera une infobulle détaillée expliquant sa fonction. </para>
+</sect2>
 <sect2 id="fits-viewer-features">
     <title
 >Fonctionnalités</title>
-    <itemizedlist>
-        <listitem>
-            <para
->Gestion des formats sur 8, 16, 32, IEEE-32 et IEEE-64 octets </para>
-        </listitem>
-        <listitem>
-            <para
->Gère les images FITS couleurs (cubes 3D) et les images FITS de Bayer. </para>
-        </listitem>
-        <listitem>
-            <para
->Histogramme avec les échelles linéaire, logarithmique et racine carrée. </para>
-        </listitem>
-        <listitem>
-            <para
->Contrôles de luminosité / contraste </para>
-        </listitem>
-        <listitem>
-            <para
->panoramique et zoom, </para>
-        </listitem>
-        <listitem>
-            <para
->niveaux automatiques, </para>
-        </listitem>
-        <listitem>
-            <para
->statistiques, </para>
-        </listitem>
-        <listitem>
-            <para
->Statistiques d'une la région d'intérêt (Rectangle). </para>
-        </listitem>
-        <listitem>
-            <para
->Grille rectangulaire et équatoriales (si l'info WCS est présente). </para>
-        </listitem>
-        <listitem>
-            <para
->Détection et mise en valeur des étoiles. </para>
-        </listitem>
-        <listitem>
-            <para
->requête d'en-tête FITS, </para>
-        </listitem>
-        <listitem>
-            <para
->annuler / refaire. </para>
-        </listitem>
-    </itemizedlist>
     <variablelist>
         <varlistentry>
             <term
@@ -388,38 +513,103 @@
 >Fournit des statistiques simples pour les valeurs minimales et maximales de pixel et leurs emplacements respectifs. La profondeur, la dimension, la moyenne et l'écart-type FITS. </para>
             </listitem>
         </varlistentry>
-        <varlistentry>
-            <term
->Statistiques d'une région d'intérêt</term>
-            <listitem>
-                <screenshot>
-                    <screeninfo
->Afficheur « FITS » </screeninfo>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
-                        </imageobject>
-                        <textobject>
-                            <phrase
->Sélectionnez des statistiques</phrase>
-                        </textobject>
-                    </mediaobject>
-                </screenshot>
-                <para
->Fournit des statistiques simples : moyenne, écart-type moyen et médiane moyenne de la région sélectionnée par l'utilisateur dans une infobulle. </para>
-                <para
->L'utilisateur peut soit sélectionner une région en glissant le pointeur après un <keycombo
->&Maj;<keycap
->Clic gauche</keycap
-></keycombo
-> ou en choisissant une entrée du menu déroulant du bouton de sélection de rectangle. De plus, l'utilisateur peut translater la région d'un simple <keycap
->Clic gauche</keycap
-> de la souris. Les statistiques de la région sont affichées en surimpression lors d'un survol de la région sélectionnée. Les statistiques sont mises à jour instantanément pour les petites images et pour les grandes images, celles-ci sont mises à jour au relâchement du <keycap
->Clic gauche</keycap
-> après modification de la région. </para>
-            </listitem>
-        </varlistentry>
     </variablelist>
+</sect2>
+
+<sect2 id="fits-viewer-solver">
+    <title
+>FITS Viewer Solver</title>
+    <screenshot>
+        <screeninfo
+>FITS Viewer Solver </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer-solver.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>FITS Viewer Solver</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>The FITS Viewer Solver is used to plate-solve the image loaded in the FITS Viewer's tab. It only works with the internal StellarSolver. You get the RA and DEC coordinates for the center of the image, the image's scale, the angle of rotation, and the number of stars detected in the image. Its main use case is debugging plate-solving issues in Ekos, though the information displayed can be generally useful. The controls and displays are described below. </para>
+            <itemizedlist>
+                <listitem
+><para
+>Solve Button. Pressing this button starts plate solving. When the system is plate solving, the button becomes an abort button.</para
+></listitem>
+                <listitem
+><para
+>Scale: Checking the Use Scale checkbox contains the solver to use approximately the pixel or image scale given. The scale is entered in the box and the units for the scale can be chosen from image width in degrees, image width in arc-minutes, and arc-seconds per pixel. When a solve successfully completes, it replaces the value in the box with solution's scale.</para
+></listitem>
+                <listitem
+><para
+>Position: Checking the Use Position checkbox constains the solver to search near the RA and DEC coordinates given. The extent of the search is given by the user in the Radius box in degrees. Note that RA is input in hours-minutes-seconds, e.g. 13h, and DEC is input in degrees-minutes-seconds, e.g. 85. When a solve successfully completes, it replaces the value in the RA and DEC boxes with solution's coordinates. In addition it fills in the Angle field with the solutions angle value in degrees.</para
+></listitem>
+                <listitem
+><para
+>Use SkyMap Position: There is a button just below the Use Position checkbox that fills in RA and DEC boxes with the current center of the SkyMap display.</para
+></listitem>
+                <listitem
+><para
+>Profile: The Profile menu selects which StellarSolver preset, among those used in the Ekos Align module, should be used for plate solving. This is further discussed below.</para
+></listitem>
+                <listitem
+><para
+>Solution: The Solution section will display the number of stars found and the time taken to solve. The solution values for RA, DEC, Scale and Angle are displayed in those boxes above.</para
+></listitem>
+                <listitem
+><para
+>Image: For any image where stars were detected, if the Mark Stars button is activated above the image display, <screenshot
+> <screeninfo
+> FITS Viewer Mark Stars Button </screeninfo
+> <mediaobject
+> <imageobject
+> <imagedata fileref="fitsviewer-mark-stars.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>FITS Viewer Mark Stars Button</phrase
+> </textobject
+> </mediaobject
+> </screenshot
+> then the detected stars are circled in red. </para
+></listitem>
+            </itemizedlist>
+            <para
+>Using this tool the user can try and debug solving issues as follows. </para>
+            <itemizedlist>
+              <listitem
+><para
+>He/she might have the KStars -> Settings -> Developer -> <link linkend="developer"
+>Save Failed Align Images checkbox</link
+> enabled.</para
+></listitem>
+              <listitem
+><para
+>Then a difficult image (for whom alignment failed) <link linkend="developer"
+>could be located</link
+> and loaded into the fitsviewer.</para
+></listitem>
+              <listitem
+><para
+>The image could be inspected to see if there were obvious visual issues.</para
+></listitem>
+              <listitem
+><para
+>Clicking Solve in this tool for that image would show how many stars were detected, and the user could then decide if it is a star detection issue and experiment with adjusting the profile or star-detection parameters. </para
+></listitem>
+              <listitem
+><para
+>The user could manually upload the image to astrometry.net to get scale and position values (or just see if it is a problematic image). </para
+></listitem>
+              <listitem
+><para
+>The user could experiment with Use Position and Use Scale, using accurate values for those constraints (or disabling them) to see if those were the problem, or adjust the parameters in the align profile being used.</para
+></listitem>
+            </itemizedlist>
+            <para
+>To inspect or modify the profile, the user would open the align tab in Ekos, go to the Options menu, select the StellarSolver Options tab, make sure the right Options profile is selected, and click the pencil to view or edit that profile. </para>
 </sect2>
 
 <sect2 id="fits-viewer-embedded">
