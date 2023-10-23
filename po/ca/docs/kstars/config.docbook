@@ -1929,6 +1929,56 @@
 >. </para>
 </sect1>
 
+<sect1 id="developer">
+<title
+>Desenvolupador</title>
+<screenshot>
+<screeninfo
+>Finestra del desenvolupador</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra del desenvolupador</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina del desenvolupador</secondary
+></indexterm
+>La pàgina <guilabel
+>Desenvolupador</guilabel
+> proporciona diverses caselles de selecció que poden ajudar a depurar problemes amb el &kstars;. Hi ha caselles de selecció per a desar imatges en els directoris de registre que podrien ajudar a depurar problemes. Per descomptat, desar imatges pot ocupar espai al disc i s'ha d'utilitzar amb prudència. </para
+><para
+>The images that can be saved are</para>
+  <itemizedlist>
+<listitem
+><para
+>all focus images, </para
+></listitem>
+<listitem
+><para
+>all guider images, </para
+></listitem>
+<listitem
+><para
+>all align images, and </para
+></listitem>
+<listitem
+><para
+>align images where the plate-solving failed. </para
+></listitem>
+  </itemizedlist
+><para
+>The images are all saved in folders parallel to the main logging directory. They are in folders named guide, autofocus, align, and align/failed. </para>
+</sect1>
+
 <sect1 id="customize">
 <title
 >Personalitzar la vista</title>

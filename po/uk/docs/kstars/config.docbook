@@ -1901,6 +1901,56 @@
 >. </para>
 </sect1>
 
+<sect1 id="developer">
+<title
+>Розробник</title>
+<screenshot>
+<screeninfo
+>Сторінка «Розробник»</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Вікно «Розробник»</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Вікно налаштування &kstars;</primary>
+<secondary
+>Сторінка для розробників</secondary
+></indexterm
+>На сторінці <guilabel
+>Розробник</guilabel
+> розташовано декілька пунктів, які можуть допомогти у діагностиці вад у &kstars;. Передбачено пункти для збереження зображення у каталогах журналу, що може допомогти у виявлені джерел негараздів. Звичайно, збереження зображень призведе до зменшення вільного місця на диску, тому цим слід користуватися обережно. </para
+><para
+>Можна зберегти такі зображення:</para>
+  <itemizedlist>
+<listitem
+><para
+>усі зображення фокусування, </para
+></listitem>
+<listitem
+><para
+>усі зображення наведення, </para
+></listitem>
+<listitem
+><para
+>усі зображення вирівнювання і </para
+></listitem>
+<listitem
+><para
+>зображення вирівнювання, які не вдалося розв'язати. </para
+></listitem>
+  </itemizedlist
+><para
+>Зображення буде збережено до тек поряд із основним каталогом журналу. Назвами тек будуть «guide», «autofocus», «align» і «align/failed». </para>
+</sect1>
+
 <sect1 id="customize">
 <title
 >Налаштування показу</title>
