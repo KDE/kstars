@@ -15,7 +15,6 @@
 
 #include <QTableWidgetItem>
 
-class SchedulerJob;
 /**
  * @class SequenceJob
  * @short Sequence Job is a container for the details required to capture a series of images.

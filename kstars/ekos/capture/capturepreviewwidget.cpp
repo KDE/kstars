@@ -68,8 +68,8 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.frameType = job->getFrameType();
     if (job->getFrameType() == FRAME_LIGHT)
     {
-        if (schedulerModule != nullptr && schedulerModule->getCurrentJob() != nullptr)
-            m_currentFrame.target = schedulerModule->getCurrentJob()->getName();
+        if (schedulerModule != nullptr && schedulerModule->activeJob() != nullptr)
+            m_currentFrame.target = schedulerModule->activeJob()->getName();
         else
             m_currentFrame.target = m_mountTarget;
     }
