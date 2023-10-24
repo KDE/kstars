@@ -1952,27 +1952,27 @@
 >Ontwikkelaar</guilabel
 > levert een paar keuzevakken die kunnen helpen problemen te debuggen met &kstars;. Dit zijn keuzevakken voor opslaan van afbeeldingen in loggingmappen die kunnen helpen bij debuggen van problemen. Natuurlijk kan het opslaan van afbeeldingen schijfruimte kosten en zou voorzichtig moeten worden gebruikt. </para
 ><para
->The images that can be saved are</para>
+>De afbeeldingen die opgeslagen kunnen worden zijn</para>
   <itemizedlist>
 <listitem
 ><para
->all focus images, </para
+>alle focusafbeeldingen, </para
 ></listitem>
 <listitem
 ><para
->all guider images, </para
+>alle gidsafbeeldingen, </para
 ></listitem>
 <listitem
 ><para
->all align images, and </para
+>alle uitlijnafbeelding en </para
 ></listitem>
 <listitem
 ><para
->align images where the plate-solving failed. </para
+>uitlijnafbeeldingen waarvan plaat-oplossen is mislukt. </para
 ></listitem>
   </itemizedlist
 ><para
->The images are all saved in folders parallel to the main logging directory. They are in folders named guide, autofocus, align, and align/failed. </para>
+>De afbeeldingen worden allemaal opgeslagen in mappen parallel aan de hoofdmap voor loggen. Ze zijn in mappen genaamd guide, autofocus, align en align/failed. </para>
 </sect1>
 
 <sect1 id="customize">
