@@ -8,7 +8,6 @@
 #define ANALYZE_H
 
 #include <memory>
-#include "qcustomplot.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
 #include "indi/indimount.h"
@@ -17,6 +16,7 @@
 
 class FITSViewer;
 class OffsetDateTimeTicker;
+class QCustomPlot;
 
 namespace Ekos
 {

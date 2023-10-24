@@ -13,6 +13,7 @@
 #include "Options.h"
 #include "scheduler.h"
 #include "ksalmanac.h"
+#include "ksmoon.h"
 
 #include <knotification.h>
 

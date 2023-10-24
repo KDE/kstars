@@ -10,7 +10,6 @@
 
 #include <QUrl>
 #include <QMap>
-#include "ksmoon.h"
 #include "kstarsdatetime.h"
 #include <QJsonObject>
 

@@ -12,6 +12,7 @@
 #include "ekos/profileeditor.h"
 #include "ekos/guide/internalguide/gmath.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "kstarsdata.h"
 
 TestEkosHelper::TestEkosHelper(QString guider)
 {

@@ -23,6 +23,8 @@
 #include "fitsviewer/fitsdata.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilterwheel.h"
+#include "indi/indicamera.h"
+#include "indi/indirotator.h"
 #include "oal/observeradd.h"
 #include "ekos/guide/guide.h"
 #include "exposurecalculator/exposurecalculatordialog.h"

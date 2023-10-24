@@ -5,9 +5,11 @@
 */
 #include "schedulerprocess.h"
 #include "schedulermodulestate.h"
+#include "schedulerjob.h"
 #include "Options.h"
 #include "ksmessagebox.h"
 #include "ksnotification.h"
+#include "kstarsdata.h"
 #include "indi/indistd.h"
 #include "skymapcomposite.h"
 #include "mosaiccomponent.h"

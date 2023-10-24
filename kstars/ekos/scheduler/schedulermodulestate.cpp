@@ -6,6 +6,8 @@
 #include "schedulermodulestate.h"
 #include <ekos_scheduler_debug.h>
 #include "schedulerprocess.h"
+#include "schedulerjob.h"
+#include "kstarsdata.h"
 
 namespace Ekos
 {

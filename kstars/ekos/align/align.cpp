@@ -48,6 +48,7 @@
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilterwheel.h"
+#include "indi/indirotator.h"
 #include "profileinfo.h"
 
 // System Includes

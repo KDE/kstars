@@ -9,9 +9,11 @@
 #include <QList>
 #include <QMap>
 #include <QDateTime>
+#include <QObject>
 #include <QString>
 #include <QVector>
-#include "schedulerjob.h"
+
+class SchedulerJob;
 
 namespace Ekos
 {

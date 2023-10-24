@@ -14,6 +14,7 @@
 #include "fov.h"
 #include "kstarsdata.h"
 #include "ekos/manager.h"
+#include "indi/indirotator.h"
 #include <indicom.h>
 #include <basedevice.h>
 #include <cmath>

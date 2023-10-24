@@ -40,6 +40,7 @@
 #include "indi/indiwebmanager.h"
 #include "indi/indigps.h"
 #include "indi/indiguider.h"
+#include "indi/indirotator.h"
 #include "mount/meridianflipstatuswidget.h"
 
 #include "ekoslive/ekosliveclient.h"

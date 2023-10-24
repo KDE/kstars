@@ -682,7 +682,7 @@ class TestEkosHelper : public QObject
          * @param focallenght focal length in mm
          * @return scope object
          */
-        Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
+        OAL::Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
 
 private:
         // current mount status

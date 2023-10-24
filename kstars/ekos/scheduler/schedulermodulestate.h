@@ -9,8 +9,12 @@
 #include <QObject>
 #include <QProcess>
 #include "ekos/ekos.h"
-#include "schedulerjob.h"
+#include "kstarsdatetime.h"
 #include "schedulertypes.h"
+#include <QDateTime>
+#include <QUrl>
+
+class SchedulerJob;
 
 namespace Ekos
 {

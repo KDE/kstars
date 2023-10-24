@@ -6,6 +6,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "test_ekos_scheduler_helper.h"
+#include "skyobject.h"
 
 TestEkosSchedulerHelper::TestEkosSchedulerHelper(): TestEkosHelper() {}
 

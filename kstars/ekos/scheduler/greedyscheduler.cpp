@@ -12,6 +12,7 @@
 #include "scheduler.h"
 #include "ekos/ekos.h"
 #include "ui_scheduler.h"
+#include "schedulerjob.h"
 
 #define TEST_PRINT if (false) fprintf
 

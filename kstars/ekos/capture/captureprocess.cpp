@@ -11,6 +11,7 @@
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/guide/guide.h"
 #include "indi/indilistener.h"
+#include "indi/indirotator.h"
 #include "ksmessagebox.h"
 
 #include "ksnotification.h"
