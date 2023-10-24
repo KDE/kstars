@@ -177,7 +177,7 @@
         <para>
           This applies if you are using the (recommended) <guilabel>Internal Solver</guilabel> <guilabel>Solving Method</guilabel>.
       </para><para>
-          You can choose an <guilabel>Options Profile</guilabel> on the <guilabel>StellarSolver Options</guilabel> tab. Profiles are simply collections of parameters to configure the performance of the star-extraction and plate-solving system inside of StellarSolver.  The <guilabel>1-Default</guilabel> profile is the recommended one to start with. There are a few other possible profiles such as <guilabel>Large Scale Solving</guilabel>, <guilabel>Small Scall Solving</guilabel>, and <guilabel>Single Thread Solving</guilabel>.
+          You can choose an <guilabel>Options Profile</guilabel> on the <guilabel>StellarSolver Options</guilabel> tab. Profiles are simply collections of parameters to configure the performance of the star-extraction and plate-solving system inside of StellarSolver.  The <guilabel>1-Default</guilabel> profile is the recommended one to start with. There are a few other possible profiles such as <guilabel>Large Scale Solving</guilabel>, <guilabel>Small Scale Solving</guilabel>, and <guilabel>Single Thread Solving</guilabel>.
         </para><para>In the <guilabel>Align Options Profile Editor</guilabel> tab you can view and edit profiles. There are many parameters, most of which you need not change to solve issues. There are 3 types of parameters.
          </para>
         <itemizedlist>
