@@ -4,9 +4,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "captureprocess.h"
+#include "capturedeviceadaptor.h"
 #include "sequencejob.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/auxiliary/darkprocessor.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/guide/guide.h"

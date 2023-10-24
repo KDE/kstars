@@ -17,6 +17,7 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/guide/guide.h"
+#include "ekos/mount/mount.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"

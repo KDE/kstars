@@ -10,7 +10,13 @@
 #include <ekos_capture_debug.h>
 #include "ksutils.h"
 #include "ksmessagebox.h"
+#include "ekos/mount/mount.h"
 #include "Options.h"
+#include "capture.h"
+#include "sequencejob.h"
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/summaryfitsview.h"
+#include "ekos/scheduler/scheduler.h"
 
 using Ekos::SequenceJob;
 

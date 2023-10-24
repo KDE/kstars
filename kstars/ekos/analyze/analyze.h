@@ -13,6 +13,7 @@
 #include "indi/indimount.h"
 #include "yaxistool.h"
 #include "ui_analyze.h"
+#include "ekos/manager/meridianflipstate.h"
 
 class FITSViewer;
 class OffsetDateTimeTicker;

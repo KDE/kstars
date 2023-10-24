@@ -29,6 +29,8 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
+#include "ekos/manager/meridianflipstate.h"
+#include "ekos/align/polaralignmentassistant.h"
 
 #include "kstars.h"
 #include "skymapcomposite.h"
@@ -2067,4 +2069,8 @@ void Mount::disconnectSettings()
     disconnect(mf_state.get(), &MeridianFlipState::slewTelescope, nullptr, nullptr);
 }
 
+double Mount::initialHA()
+{
+    return mf_state->initialPositionHA();
+}
 }

@@ -11,10 +11,10 @@
 #include "ekos/ekos.h"
 #include "ekos/guide/internalguide/starcorrespondence.h"
 #include "polaralign.h"
-#include "alignview.h"
 #include "align.h"
 #include "indi/indimount.h"
 
+class AlignView;
 class QProgressIndicator;
 class SolverUtils;
 

@@ -10,6 +10,7 @@
 
 #include "config-kstars.h"
 #include "test_ekos.h"
+#include "ekos/mount/mount.h"
 
 #if defined(HAVE_INDI)
 #include "indicom.h"

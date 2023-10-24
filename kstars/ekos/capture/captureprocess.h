@@ -7,16 +7,18 @@
 #pragma once
 
 #include "capturemodulestate.h"
-#include "capturedeviceadaptor.h"
 #include "sequencejob.h"
 
 #include "indiapi.h"
-#include "ekos/auxiliary/darkprocessor.h"
 
 #include <QObject>
 
 namespace Ekos
 {
+
+class CaptureDeviceAdaptor;
+class DarkProcessor;
+
 /**
  * @class CaptureProcess
  * @brief The CaptureProcess class holds the entire business logic to control capturing execution.

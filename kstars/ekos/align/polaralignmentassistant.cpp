@@ -8,6 +8,7 @@
 #include "polaralignmentassistant.h"
 
 #include "align.h"
+#include "alignview.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksmessagebox.h"

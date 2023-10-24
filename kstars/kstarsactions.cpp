@@ -83,6 +83,7 @@
 #include "ekos/manager.h"
 #include "ekos/scheduler/framingassistantui.h"
 #include "ekos/opsekos.h"
+#include "ekos/mount/mount.h"
 #endif
 #endif
 
@@ -333,7 +334,11 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("show_mount_box"))
     {
+#ifdef HAVE_CFITSIO
+#ifdef HAVE_INDI
         Ekos::Manager::Instance()->mountModule()->toggleMountToolBox();
+#endif
+#endif
     }
     else if (a == actionCollection()->action("show_sensor_fov"))
     {

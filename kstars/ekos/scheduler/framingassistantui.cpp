@@ -15,6 +15,7 @@
 #include "scheduler.h"
 #include "skymap.h"
 #include "ekos/manager.h"
+#include "ekos/mount/mount.h"
 #include "skymapcomposite.h"
 #include "ksparser.h"
 

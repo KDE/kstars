@@ -8,11 +8,11 @@
 
 #include "ui_manualrotator.h"
 #include "ekos/ekos.h"
-#include "align.h"
-
 
 namespace Ekos
 {
+
+class Align;
 
 class ManualRotator : public QDialog, public Ui::ManualRotator
 {

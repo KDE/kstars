@@ -10,14 +10,19 @@
 #include "ui_capturepreviewwidget.h"
 #include "captureprocessoverlay.h"
 
-#include "capture.h"
-#include "sequencejob.h"
-#include "fitsviewer/fitsdata.h"
-#include "fitsviewer/summaryfitsview.h"
-#include "ekos/scheduler/scheduler.h"
-
 #include <QObject>
 #include <QWidget>
+
+class FITSData;
+class SummaryFITSView;
+
+namespace Ekos
+{
+class Capture;
+class Mount;
+class Scheduler;
+class SequenceJob;
+}
 
 class CapturePreviewWidget : public QWidget, public Ui::CapturePreviewWidget
 {

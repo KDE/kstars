@@ -9,13 +9,14 @@
 
 #include "ui_mountmodel.h"
 #include "ekos/ekos.h"
-#include "starobject.h"
+#include "skypoint.h"
 
 #include <QDialog>
 #include <QUrl>
 
 class QProgressIndicator;
 class SkyObject;
+class StarObject;
 
 namespace Ekos
 {

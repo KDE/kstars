@@ -7,16 +7,11 @@
 
 #pragma once
 
-#include "ekos/auxiliary/filtermanager.h"
 #include "ui_focus.h"
-#include "focusprofileplot.h"
-#include "focusfwhm.h"
 #include "focusfourierpower.h"
 #include "ekos/ekos.h"
-#include "ekos/auxiliary/stellarsolverprofileeditor.h"
-#include "ekos/auxiliary/darkprocessor.h"
-#include "ekos/mount/mount.h"
-#include "fitsviewer/fitsviewer.h"
+#include "parameters.h"
+
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"
 #include "indi/indistd.h"
@@ -25,11 +20,20 @@
 
 #include <parameters.h>
 
+class FocusProfilePlot;
+class FITSData;
+class FITSView;
+class FitsViewer;
+
 namespace Ekos
 {
 
+class DarkProcessor;
+class FilterManager;
 class FocusAlgorithmInterface;
+class FocusFWHM;
 class PolynomialFit;
+class StellarSolverProfileEditor;
 
 /**
  * @class Focus

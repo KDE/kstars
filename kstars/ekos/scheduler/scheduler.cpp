@@ -31,6 +31,7 @@
 #include "skyobjects/starobject.h"
 #include "greedyscheduler.h"
 #include "ekos/auxiliary/solverutils.h"
+#include "ekos/auxiliary/stellarsolverprofile.h"
 
 #include <KConfigDialog>
 #include <KActionCollection>

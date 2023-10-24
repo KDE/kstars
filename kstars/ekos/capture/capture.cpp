@@ -6,6 +6,9 @@
 
 #include "capture.h"
 
+#include "captureprocess.h"
+#include "capturemodulestate.h"
+#include "capturedeviceadaptor.h"
 #include "captureadaptor.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -28,6 +31,7 @@
 #include "oal/observeradd.h"
 #include "ekos/guide/guide.h"
 #include "exposurecalculator/exposurecalculatordialog.h"
+#include "dslrinfodialog.h"
 #include <basedevice.h>
 
 #include <ekos_capture_debug.h>
@@ -3511,4 +3515,58 @@ void Capture::openExposureCalculatorDialog()
     anExposureCalculatorDialog->show();
 }
 
+bool Capture::hasCoolerControl()
+{
+    return process()->hasCoolerControl();
+}
+
+bool Capture::setCoolerControl(bool enable)
+{
+    return process()->setCoolerControl(enable);
+}
+
+void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
+{
+    process()->removeDevice(device);
+}
+
+void Capture::start()
+{
+    process()->startNextPendingJob();
+}
+
+void Capture::stop(CaptureState targetState)
+{
+    process()->stopCapturing(targetState);
+}
+
+void Capture::toggleVideo(bool enabled)
+{
+    process()->toggleVideo(enabled);
+}
+
+void Capture::restartCamera(const QString &name)
+{
+    process()->restartCamera(name);
+}
+
+void Capture::capturePreview()
+{
+    process()->capturePreview();
+}
+
+void Capture::startFraming()
+{
+    process()->capturePreview(true);
+}
+
+double Capture::getGain()
+{
+    return process()->getGain(customPropertiesDialog->getCustomProperties());
+}
+
+double Capture::getOffset()
+{
+    return process()->getOffset(customPropertiesDialog->getCustomProperties());
+}
 }
