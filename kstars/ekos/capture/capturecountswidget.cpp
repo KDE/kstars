@@ -7,8 +7,10 @@
 
 #include "capturecountswidget.h"
 #include "Options.h"
-#include "ekos/ekos.h"
 #include "ekos/manager.h"
+#include "ekos/scheduler/scheduler.h"
+#include "ekos/capture/capture.h"
+#include "ekos/capture/sequencejob.h"
 
 using Ekos::SequenceJob;
 

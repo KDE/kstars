@@ -43,6 +43,7 @@
 #include "indi/indiguider.h"
 #include "indi/indirotator.h"
 #include "mount/meridianflipstatuswidget.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 #include "ekoslive/ekosliveclient.h"
 #include "ekoslive/message.h"

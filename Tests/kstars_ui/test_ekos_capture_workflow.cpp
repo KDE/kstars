@@ -15,6 +15,7 @@
 #include "Options.h"
 #include "skymapcomposite.h"
 #include "ekos/capture/sequencejobstate.h"
+#include "ekos/capture/capture.h"
 
 #define SHUTTER_UNKNOWN -1
 #define SHUTTER_NO       0

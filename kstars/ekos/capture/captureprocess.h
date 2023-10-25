@@ -760,10 +760,7 @@ private:
     /**
      * @brief activeCamera Shortcut to the active camera held in the device adaptor
      */
-    ISD::Camera *activeCamera()
-    {
-        return devices()->getActiveCamera();
-    }
+    ISD::Camera *activeCamera();
 
     /**
      * @brief resetAllJobs Iterate over all jobs and reset them.

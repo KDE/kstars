@@ -10,6 +10,7 @@
 #include "Options.h"
 #include "indi/indistd.h"
 #include "ekos_capture_debug.h"
+#include "sequencejobstate.h"
 
 #include "indi/indicamera.h"
 #include "indi/indidustcap.h"

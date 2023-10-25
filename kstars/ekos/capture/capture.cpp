@@ -10,6 +10,7 @@
 #include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
 #include "captureadaptor.h"
+#include "refocusstate.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -32,6 +33,7 @@
 #include "ekos/guide/guide.h"
 #include "exposurecalculator/exposurecalculatordialog.h"
 #include "dslrinfodialog.h"
+#include "ekos/auxiliary/rotatorutils.h"
 #include <basedevice.h>
 
 #include <ekos_capture_debug.h>
@@ -3568,5 +3570,15 @@ double Capture::getGain()
 double Capture::getOffset()
 {
     return process()->getOffset(customPropertiesDialog->getCustomProperties());
+}
+
+void Capture::setHFR(double newHFR, int)
+{
+    state()->getRefocusState()->setFocusHFR(newHFR);
+}
+
+ISD::Camera *Capture::activeCamera()
+{
+    return m_captureDeviceAdaptor->getActiveCamera();
 }
 }

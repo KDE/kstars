@@ -7,13 +7,13 @@
 #pragma once
 
 #include "sequencejobstate.h"
-#include "capturedeviceadaptor.h"
 #include "indi/indistd.h"
 #include "indi/indicamera.h"
-#include "ekos/auxiliary/filtermanager.h"
-#include "skyobjects/skypoint.h"
+////#include "ekos/auxiliary/filtermanager.h"
 
 #include <QTableWidgetItem>
+
+class SkyPoint;
 
 /**
  * @class SequenceJob
@@ -24,6 +24,9 @@
  */
 namespace Ekos
 {
+
+class CaptureDeviceAdaptor;
+
 class SequenceJob : public QObject
 {
         Q_OBJECT

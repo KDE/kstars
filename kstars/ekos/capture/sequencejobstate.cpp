@@ -9,6 +9,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "indicom.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 namespace Ekos
 {

@@ -13,6 +13,7 @@
 #include "ekos_debug.h"
 #include "version.h"
 #include "../fitsviewer/fpack.h"
+#include "Options.h"
 
 #include <QtConcurrent>
 #include <QFutureWatcher>

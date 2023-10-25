@@ -10,6 +10,8 @@
 
 #include "test_ekos.h"
 #include "ekos/capture/scriptsmanager.h"
+#include "ekos/capture/capture.h"
+#include "ekos/scheduler/scheduler.h"
 #include "Options.h"
 
 TestEkosCaptureHelper::TestEkosCaptureHelper(QString guider) : TestEkosHelper(guider) {}

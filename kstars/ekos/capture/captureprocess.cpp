@@ -5,6 +5,7 @@
 */
 #include "captureprocess.h"
 #include "capturedeviceadaptor.h"
+#include "refocusstate.h"
 #include "sequencejob.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
@@ -14,6 +15,8 @@
 #include "ekos/guide/guide.h"
 #include "indi/indilistener.h"
 #include "indi/indirotator.h"
+#include "indi/blobmanager.h"
+#include "indi/indilightbox.h"
 #include "ksmessagebox.h"
 
 #include "ksnotification.h"
@@ -3092,5 +3095,10 @@ void CaptureProcess::updateOffset(double value, QMap<QString, QMap<QString, QVar
         ccdOffset["Offset"] = value;
         propertyMap["CCD_CONTROLS"] = ccdOffset;
     }
+}
+
+ISD::Camera *CaptureProcess::activeCamera()
+{
+    return devices()->getActiveCamera();
 }
 } // Ekos namespace

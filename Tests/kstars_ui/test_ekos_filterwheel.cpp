@@ -14,6 +14,7 @@
 #include "test_ekos_simulator.h"
 #include "ekos/profileeditor.h"
 #include "fitsviewer/fitsdata.h"
+#include "ekos/capture/capture.h"
 
 TestEkosFilterWheel::TestEkosFilterWheel(QObject *parent) : QObject(parent)
 {

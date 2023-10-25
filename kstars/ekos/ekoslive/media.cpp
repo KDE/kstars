@@ -16,6 +16,7 @@
 #include "kstarsdata.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/guide/guide.h"
+#include "ekos/align/align.h"
 #include "kspaths.h"
 #include "Options.h"
 

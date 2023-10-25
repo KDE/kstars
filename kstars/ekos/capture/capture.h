@@ -859,10 +859,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setHFR Receive the measured HFR value of the latest frame
          */
-        void setHFR(double newHFR, int)
-        {
-            state()->getRefocusState()->setFocusHFR(newHFR);
-        }
+        void setHFR(double newHFR, int);
 
         // Filter
         void setFilterStatus(FilterState filterState);
@@ -1061,10 +1058,7 @@ class Capture : public QWidget, public Ui::Capture
             return state()->getActiveJob();
         }
         // Shortcut to the active camera held in the device adaptor
-        ISD::Camera *activeCamera()
-        {
-            return m_captureDeviceAdaptor->getActiveCamera();
-        }
+        ISD::Camera *activeCamera();
 
         // Filename preview
         void generatePreviewFilename();

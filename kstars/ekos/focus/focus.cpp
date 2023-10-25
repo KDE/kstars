@@ -14,6 +14,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "stellarsolver.h"
 
 // Modules
 #include "ekos/guide/guide.h"

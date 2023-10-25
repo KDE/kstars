@@ -12,6 +12,7 @@
 
 #include "kstars_ui_tests.h"
 #include "Options.h"
+#include "ekos/capture/capture.h"
 
 TestEkosMeridianFlipSpecials::TestEkosMeridianFlipSpecials(QObject *parent) : TestEkosMeridianFlipBase(parent)
 {

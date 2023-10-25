@@ -11,22 +11,24 @@
 #include "indi/indicommon.h"
 #include "indiapi.h"
 
-#include "ekos/auxiliary/filtermanager.h"
+#include "indi/indidome.h"
+#include "indi/indicamerachip.h"
+#include "indi/indidustcap.h"
+#include "indi/indimount.h"
 
-#include "sequencejobstate.h"
+#include "ekos/auxiliary/filtermanager.h"
 
 namespace {
 class Camera;
-class CameraChip;
-class DustCap;
-class Dome;
 class LightBox;
-class Mount;
 class Rotator;
 }
 
 namespace Ekos
 {
+
+class SequenceJobState;
+
 class CaptureDeviceAdaptor: public QObject
 {
         Q_OBJECT

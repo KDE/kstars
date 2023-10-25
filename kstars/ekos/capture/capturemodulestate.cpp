@@ -7,6 +7,8 @@
 #include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
+#include "ekos/capture/refocusstate.h"
+#include "fitsviewer/fitsdata.h"
 
 #include "ksnotification.h"
 #include <ekos_capture_debug.h>

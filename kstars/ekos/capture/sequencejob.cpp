@@ -8,6 +8,8 @@
 
 #include <KNotifications/KNotification>
 #include <ekos_capture_debug.h>
+#include "capturedeviceadaptor.h"
+#include "skyobjects/skypoint.h"
 
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4

@@ -49,6 +49,7 @@
 #include "skycomponents/imageoverlaycomponent.h"
 #ifdef HAVE_INDI
 #include "skyobjects/mosaictiles.h"
+#include "indi/indidome.h"
 #endif
 #include "tools/altvstime.h"
 #include "tools/astrocalc.h"
@@ -82,6 +83,7 @@
 #ifdef HAVE_INDI
 #include "ekos/manager.h"
 #include "ekos/scheduler/framingassistantui.h"
+#include "ekos/scheduler/scheduler.h"
 #include "ekos/opsekos.h"
 #include "ekos/mount/mount.h"
 #endif
@@ -351,6 +353,7 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("show_mosaic_panel"))
     {
+#ifdef HAVE_INDI
         Options::setShowMosaicPanel(a->isChecked());
         // TODO
         // If scheduler is not running, then we should also show the Mosaic Planner dialog.
@@ -365,6 +368,7 @@ void KStars::slotINDIToolBar()
                 assistant->show();
             }
         }
+#endif
     }
 
 #endif

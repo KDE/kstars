@@ -20,6 +20,7 @@
 #include "ksutils.h"
 #include "indicom.h"
 #include "Options.h"
+#include "ekos/capture/capture.h"
 
 TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QObject *parent) :
     TestEkosMeridianFlipBase::TestEkosMeridianFlipBase("Internal", parent) {}

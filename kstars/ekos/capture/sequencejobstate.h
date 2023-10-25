@@ -11,7 +11,6 @@
 #include "capturemodulestate.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "fitsviewer/fitscommon.h"
-#include "ekos/auxiliary/rotatorutils.h"
 
 #include <QWidget>
 #include <QVector>
