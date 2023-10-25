@@ -8,10 +8,8 @@
 
 #pragma once
 
-#include "fitsviewer/fitsdata.h"
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
-#include "guidelog.h"
 #include "calibration.h"
 
 #include <QFile>
@@ -24,6 +22,7 @@
 class QVector3D;
 class GuideView;
 class Edge;
+class GuideLog;
 
 namespace Ekos
 {

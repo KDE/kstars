@@ -30,6 +30,9 @@
 #include "internalguide/internalguider.h"
 #include "guideview.h"
 #include "guidegraph.h"
+#include "guidestatewidget.h"
+#include "manualpulse.h"
+#include "ekos/auxiliary/darkprocessor.h"
 
 #include <KConfigDialog>
 

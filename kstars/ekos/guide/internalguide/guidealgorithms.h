@@ -12,8 +12,8 @@
 #include "vect.h"
 #include <QPointer>
 #include <cstdint>
-#include "fitsviewer/fitsdata.h"
 
+class FITSData;
 class Edge;
 
 // Traditional guiding functions for star detection.

@@ -7,9 +7,6 @@
 #pragma once
 
 #include "ui_opsdither.h"
-#include "guide.h"
-#include "ksutils.h"
-#include "kspaths.h"
 
 class KConfigDialog;
 

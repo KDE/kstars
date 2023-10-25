@@ -7,7 +7,6 @@
 #pragma once
 
 #include "../guideinterface.h"
-#include "fitsviewer/fitsview.h"
 
 #include <QAbstractSocket>
 #include <QJsonArray>
@@ -15,6 +14,7 @@
 #include <QPointer>
 #include <QTimer>
 
+class FITSView;
 class QTcpSocket;
 
 namespace Ekos

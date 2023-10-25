@@ -9,6 +9,7 @@
 #include "klocalizedstring.h"
 #include "ksnotification.h"
 #include "kstarsdata.h"
+#include "guideinterface.h"
 #include "Options.h"
 
 // Qt version calming

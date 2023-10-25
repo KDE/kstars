@@ -10,12 +10,11 @@
 #include <QList>
 #include <QVector3D>
 
-#include "fitsviewer/fitsdata.h"
-#include "fitsviewer/fitssepdetector.h"
 #include "starcorrespondence.h"
 #include "vect.h"
-#include "../guideview.h"
 #include "calibration.h"
+
+class GuideView;
 
 namespace SSolver
 {
