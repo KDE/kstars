@@ -113,62 +113,68 @@ void FocusDialog::checkLineEdits()
 void FocusDialog::validatePoint()
 {
     bool raOk(false), decOk(false), azOk(false), altOk(false);
-
-    //false means expressed in hours
-    dms ra(fd->raBox->createDms(&raOk));
-    dms dec(fd->decBox->createDms(&decOk));
-
     QString message;
 
-    if (raOk && decOk)
+    if (fd->fdTab->currentWidget() == fd->rdTab)
     {
-        //make sure values are in valid range
-        if (ra.Hours() < 0.0 || ra.Hours() > 24.0)
-            message = i18n("The Right Ascension value must be between 0.0 and 24.0.");
-        if (dec.Degrees() < -90.0 || dec.Degrees() > 90.0)
-            message += '\n' + i18n("The Declination value must be between -90.0 and 90.0.");
-        if (!message.isEmpty())
-        {
-            KSNotification::sorry(message, i18n("Invalid Coordinate Data"));
-            return;
-        }
+        //false means expressed in hours
+        dms ra(fd->raBox->createDms(&raOk));
+        dms dec(fd->decBox->createDms(&decOk));
 
-        bool ok { false };
-        double epoch0   = KStarsDateTime::stringToEpoch(fd->epochBox->text(), ok);
-        if (!ok)
+        if (raOk && decOk)
         {
-            KSNotification::sorry(message, i18n("Invalid Epoch format"));
-            return;
-        }
-        long double jd0 = KStarsDateTime::epochToJd(epoch0);
+            //make sure values are in valid range
+            if (ra.Hours() < 0.0 || ra.Hours() > 24.0)
+                message = i18n("The Right Ascension value must be between 0.0 and 24.0.");
+            if (dec.Degrees() < -90.0 || dec.Degrees() > 90.0)
+                message += '\n' + i18n("The Declination value must be between -90.0 and 90.0.");
+            if (!message.isEmpty())
+            {
+                KSNotification::sorry(message, i18n("Invalid Coordinate Data"));
+                return;
+            }
 
-        // Set RA and Dec to whatever epoch we have been given (may be J2000, JNow or something completely different)
-        Point->setRA(ra);
-        Point->setDec(dec);
+            bool ok { false };
+            double epoch0   = KStarsDateTime::stringToEpoch(fd->epochBox->text(), ok);
+            if (!ok)
+            {
+                KSNotification::sorry(message, i18n("Invalid Epoch format"));
+                return;
+            }
+            long double jd0 = KStarsDateTime::epochToJd(epoch0);
 
-        if (jd0 != J2000)
-        {
-            // Compute and set the J2000 coordinates of Point
-            Point->catalogueCoord(jd0);
+            // Set RA and Dec to whatever epoch we have been given (may be J2000, JNow or something completely different)
+            Point->setRA(ra);
+            Point->setDec(dec);
+
+            if (jd0 != J2000)
+            {
+                // Compute and set the J2000 coordinates of Point
+                Point->catalogueCoord(jd0);
+            }
+            else
+            {
+                Point->setRA0(ra);
+                Point->setDec0(dec);
+            }
+
+            // N.B. At this point (ra, dec) and (ra0, dec0) are both
+            // J2000.0 values Therefore, we precess again to get the
+            // values for the present draw epoch into (ra, dec)
+            Point->apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->updateNum()->julianDay());
+
+            Point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            // At this point, both (RA, Dec) and (Alt, Az) should correspond to current time
+            // (RA0, Dec0) will be J2000.0 -- asimha
+
+            QDialog::accept();
         }
         else
         {
-            Point->setRA0(ra);
-            Point->setDec0(dec);
+            QDialog::reject();
         }
-
-        // N.B. At this point (ra, dec) and (ra0, dec0) are both
-        // J2000.0 values Therefore, we precess again to get the
-        // values for the present draw epoch into (ra, dec)
-        Point->apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->updateNum()->julianDay());
-
-        Point->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        // At this point, both (RA, Dec) and (Alt, Az) should correspond to current time
-        // (RA0, Dec0) will be J2000.0 -- asimha
-
-        QDialog::accept();
     }
-    else
+    else  // Az/Alt tab is active
     {
         dms az(fd->azBox->createDms(&azOk));
         dms alt(fd->altBox->createDms(&altOk));
