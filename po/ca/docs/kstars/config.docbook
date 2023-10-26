@@ -1956,27 +1956,27 @@
 >Desenvolupador</guilabel
 > proporciona diverses caselles de selecció que poden ajudar a depurar problemes amb el &kstars;. Hi ha caselles de selecció per a desar imatges en els directoris de registre que podrien ajudar a depurar problemes. Per descomptat, desar imatges pot ocupar espai al disc i s'ha d'utilitzar amb prudència. </para
 ><para
->The images that can be saved are</para>
+>Les imatges que es poden desar són</para>
   <itemizedlist>
 <listitem
 ><para
->all focus images, </para
+>totes les imatges d'enfocament, </para
 ></listitem>
 <listitem
 ><para
->all guider images, </para
+>totes les imatges del sistema de guiatge, </para
 ></listitem>
 <listitem
 ><para
->all align images, and </para
+>totes les imatges d'alineació i </para
 ></listitem>
 <listitem
 ><para
->align images where the plate-solving failed. </para
+>les imatges d'alineació en les quals ha fallat la soluci´ño de les plaques. </para
 ></listitem>
   </itemizedlist
 ><para
->The images are all saved in folders parallel to the main logging directory. They are in folders named guide, autofocus, align, and align/failed. </para>
+>Les imatges es desen en carpetes paral·leles al directori de registre principal. Es troben en carpetes anomenades guia, enfocament automàtic, alineament i alineament/fracàs. </para>
 </sect1>
 
 <sect1 id="customize">

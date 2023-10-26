@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-25 00:39+0000\n"
+"POT-Creation-Date: 2023-10-26 00:39+0000\n"
 "PO-Revision-Date: 2023-10-21 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -180,7 +180,7 @@ msgstr "可见卫星"
 
 #: auxiliary/colorscheme.cpp:59 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1108 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1117 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -193,7 +193,7 @@ msgstr "卫星标签"
 
 #: auxiliary/colorscheme.cpp:61 data/qml/whatisinteresting/wiview.qml:526
 #: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1111 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1120 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -228,7 +228,7 @@ msgstr "赤经导星错误"
 msgid "DEC Guide Error"
 msgstr "赤纬导星错误"
 
-#: auxiliary/colorscheme.cpp:66 ekos/align/align.cpp:96
+#: auxiliary/colorscheme.cpp:66 ekos/align/align.cpp:101
 #, kde-format
 msgid "Solver FOV"
 msgstr "解析器视场"
@@ -395,9 +395,9 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
-#: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2019
-#: ekos/scheduler/scheduler.cpp:3084
+#: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2025
+#: ekos/scheduler/scheduler.cpp:3085
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -450,15 +450,15 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "保存图像"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3839
-#: ekos/guide/guidedriftgraph.cpp:465 kstarsactions.cpp:1326
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3844
+#: ekos/guide/guidedriftgraph.cpp:466 kstarsactions.cpp:1335
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "名为“%1”的文件已经存在。覆盖吗？"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3842
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1327
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3847
+#: ekos/guide/guidedriftgraph.cpp:469 kstarsactions.cpp:1336
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -519,7 +519,7 @@ msgstr "否"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:780
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:781
 #, kde-format
 msgid "Warning"
 msgstr "警告"
@@ -546,17 +546,17 @@ msgstr "取消"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:21 ekos/manager.cpp:1069 ekos/manager.cpp:1084
-#: ekos/manager.cpp:1114 ekos/scheduler/schedulerjob.cpp:621
+#: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1071 ekos/manager.cpp:1086
+#: ekos/manager.cpp:1116 ekos/scheduler/schedulerjob.cpp:621
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
-#: indi/indimount.cpp:33 kstarsactions.cpp:480 kstarsactions.cpp:488
-#: kstarsactions.cpp:498 skycomponents/imageoverlaycomponent.cpp:519
+#: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
+#: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:519
 #, kde-format
 msgid "Error"
 msgstr "错误"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:768
+#: ekos/scheduler/framingassistantui.cpp:769
 #, kde-format
 msgid "Sorry"
 msgstr "抱歉"
@@ -733,10 +733,10 @@ msgstr "无法解压缩略图 %1: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "无法写入 %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:179
-#: ekos/scheduler/framingassistantui.cpp:194
-#: ekos/scheduler/framingassistantui.cpp:854
-#: ekos/scheduler/framingassistantui.cpp:873 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:180
+#: ekos/scheduler/framingassistantui.cpp:195
+#: ekos/scheduler/framingassistantui.cpp:855
+#: ekos/scheduler/framingassistantui.cpp:874 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -1874,14 +1874,14 @@ msgstr "状态："
 #. i18n: ectx: property (text), widget (QLabel, idlingStateLabel)
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
-#: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:27
+#: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
 #: ekos/analyze/analyze.cpp:2853 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
-#: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:21
+#: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:23
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:573 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:575 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1252
 #: ekos/scheduler/schedulerjob.cpp:614 ekos/scheduler/schedulerjob.cpp:638
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
@@ -2472,11 +2472,11 @@ msgid ""
 "to the Google search engine?"
 msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索？"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3850
-#: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1942
-#: ekos/capture/capture.cpp:2028 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2727 ekos/scheduler/scheduler.cpp:3094
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3855
+#: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
+#: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1948
+#: ekos/capture/capture.cpp:2034 ekos/guide/guidedriftgraph.cpp:477
+#: ekos/scheduler/scheduler.cpp:2728 ekos/scheduler/scheduler.cpp:3095
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -2766,7 +2766,7 @@ msgid "Type Mapping"
 msgstr "类型映射"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
-#: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:258
+#: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:260
 #: fitsviewer/fitsviewer.cpp:607 indi/indicamera.cpp:926
 #, kde-format
 msgid "Preview"
@@ -3192,7 +3192,7 @@ msgid "Clone..."
 msgstr "复制..."
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1126
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1135
 #, kde-format
 msgid "Colors"
 msgstr "颜色"
@@ -3485,7 +3485,7 @@ msgstr "链接"
 msgid "Could not add the link."
 msgstr "未能添加该链接。"
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1153
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1162
 #, kde-format
 msgid "Advanced"
 msgstr "高级"
@@ -3538,7 +3538,7 @@ msgid "Could not update the user log."
 msgstr "未能更新用户日志。"
 
 #: dialogs/detaildialog.cpp:1108 dialogs/detaildialog.cpp:1140
-#: kstarsactions.cpp:303 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: kstarsactions.cpp:306 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, kde-format
@@ -3546,7 +3546,7 @@ msgid "No connected mounts found."
 msgstr "未找到已连接的支架。"
 
 #: dialogs/detaildialog.cpp:1119 fitsviewer/fitslabel.cpp:436
-#: kstarsactions.cpp:288 tools/observinglist.cpp:698
+#: kstarsactions.cpp:291 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -3640,14 +3640,14 @@ msgstr "0.0 秒差距"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:924
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:929
 #: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1054
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/capture.cpp:895 ekos/capture/capture.cpp:933
-#: ekos/focus/focus.cpp:368 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
+#: ekos/capture/capture.cpp:901 ekos/capture/capture.cpp:939
+#: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -4129,7 +4129,7 @@ msgstr "图例位置："
 msgid "Any"
 msgstr "任意"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1105 kstarsinit.cpp:472
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1114 kstarsinit.cpp:472
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -4249,33 +4249,33 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "手动设置坐标"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "赤经值必须介于 0.0 和 24.0 之间。"
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
+#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "赤纬值必须介于 -90.0 和 90.0 之间。"
 
-#: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
+#: dialogs/focusdialog.cpp:133 dialogs/focusdialog.cpp:191
 #: tools/flagmanager.cpp:189
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "无效的坐标数据"
 
-#: dialogs/focusdialog.cpp:140
+#: dialogs/focusdialog.cpp:141
 #, kde-format
 msgid "Invalid Epoch format"
 msgstr "无效的历元格式"
 
-#: dialogs/focusdialog.cpp:180
+#: dialogs/focusdialog.cpp:186
 #, kde-format
 msgid "The Azimuth value must be between 0.0 and 360.0."
 msgstr "方位角必须介于 0.0 和 360.0 之间。"
 
-#: dialogs/focusdialog.cpp:182
+#: dialogs/focusdialog.cpp:188
 #, kde-format
 msgid "The Altitude value must be between -90.0 and 90.0."
 msgstr "高度角必须介于 -90.0 和 90.0 之间。"
@@ -5671,7 +5671,7 @@ msgstr ""
 "<p>这个向导会帮助您设定一些最基本的选项，比如说您在地球上的位置。</p><p>要开"
 "始设定，请点击 <b>下一步</b> 按钮。</p>"
 
-#: ekos/align/align.cpp:328
+#: ekos/align/align.cpp:333
 #, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">Object %1: %2</th></tr><tr><td>RA:</td><td>%3</"
@@ -5682,39 +5682,39 @@ msgstr ""
 "td></tr><tr><td>DE:</td><td>%4</td></tr><tr><td>dRA:</td><td>%5</td></"
 "tr><tr><td>dDE:</td><td>%6</td></tr></table>"
 
-#: ekos/align/align.cpp:458
+#: ekos/align/align.cpp:463
 #, kde-format
 msgid "Are you sure you want to clear all of the solution points?"
 msgstr "您确定要清除所有的解析点吗？"
 
-#: ekos/align/align.cpp:459
+#: ekos/align/align.cpp:464
 #, kde-format
 msgid "Clear Solution Points"
 msgstr "清除解析点"
 
-#: ekos/align/align.cpp:532
+#: ekos/align/align.cpp:537
 #, kde-format
 msgid "Solver timed out."
 msgstr "解析超时。"
 
-#: ekos/align/align.cpp:824
+#: ekos/align/align.cpp:829
 #, kde-format
 msgid "Mount does not support syncing."
 msgstr "赤道仪不支持同步。"
 
-#: ekos/align/align.cpp:1029
+#: ekos/align/align.cpp:1034
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr "有效望远镜焦距已更新为 %1 毫米。"
 
-#: ekos/align/align.cpp:1071
+#: ekos/align/align.cpp:1076
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr "警告！计算所得视野已经超界 (%1)，请确保望远镜焦距和相机像素大小正确。"
 
-#: ekos/align/align.cpp:1110
+#: ekos/align/align.cpp:1115
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5724,84 +5724,84 @@ msgstr ""
 "<p>以角分为单位的有效视场。</p><p>请拍摄并解析一次以测量有效视场或手动输入其"
 "值。</p><p>计算出的视场： %1</p>"
 
-#: ekos/align/align.cpp:1119
+#: ekos/align/align.cpp:1124
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>以角分为单位的有效视场大小</p>"
 
-#: ekos/align/align.cpp:1400
+#: ekos/align/align.cpp:1405
 #, kde-format
 msgid "Error: No camera detected."
 msgstr "错误：未检测到相机。"
 
-#: ekos/align/align.cpp:1406
+#: ekos/align/align.cpp:1411
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "错误：相机连接中断。"
 
-#: ekos/align/align.cpp:1407 ekos/align/align.cpp:2312
+#: ekos/align/align.cpp:1412 ekos/align/align.cpp:2317
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Astrometry 对齐失败"
 
-#: ekos/align/align.cpp:1423
+#: ekos/align/align.cpp:1428
 #, kde-format
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
 "train settings and try again."
 msgstr "望远镜光圈及焦距设置缺失，请检查您的设置并重试。"
 
-#: ekos/align/align.cpp:1429
+#: ekos/align/align.cpp:1434
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
 msgstr "CCD 像素尺寸缺失。请检查您的驱动设置并重试。"
 
-#: ekos/align/align.cpp:1437
+#: ekos/align/align.cpp:1442
 #, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "错误：与滤镜轮的连接中断。"
 
-#: ekos/align/align.cpp:1457 ekos/capture/captureprocess.cpp:186
-#: ekos/capture/captureprocess.cpp:579 ekos/focus/focus.cpp:4852
+#: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4857
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr "这架相机已禁用图像传输功能。要启用它吗？"
 
-#: ekos/align/align.cpp:1477
+#: ekos/align/align.cpp:1482
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr "无法拍摄，因为聚焦模块正在工作，请在 %1 秒后重试..."
 
-#: ekos/align/align.cpp:1485
+#: ekos/align/align.cpp:1490
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr "CCD 曝光正在进行时无法拍摄。 %1 秒后重试..."
 
-#: ekos/align/align.cpp:1494
+#: ekos/align/align.cpp:1499
 #, kde-format
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
 msgstr "无法拍摄，因为旋转模块正在工作，请在 %1 秒后重试..."
 
-#: ekos/align/align.cpp:1512 ekos/align/align.cpp:2980
+#: ekos/align/align.cpp:1517 ekos/align/align.cpp:2985
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr "未检测到远程 astrometry 程序，切换到 StellarSoler。"
 
-#: ekos/align/align.cpp:1566 ekos/focus/focus.cpp:1735
+#: ekos/align/align.cpp:1571 ekos/focus/focus.cpp:1740
 #, kde-format
 msgid "Capturing image..."
 msgstr "拍摄图像中..."
 
-#: ekos/align/align.cpp:1656 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2591
+#: ekos/align/align.cpp:1661 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/focus/focus.cpp:2596
 #, kde-format
 msgid "Image received."
 msgstr "图像已接收。"
 
-#: ekos/align/align.cpp:1786
+#: ekos/align/align.cpp:1791
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -5811,44 +5811,44 @@ msgstr ""
 "未在您系统的索引文件目录中找到索引文件。请下载索引文件或将正确的目录添加到列"
 "表中。"
 
-#: ekos/align/align.cpp:1845
+#: ekos/align/align.cpp:1850
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "正在进行未知图像尺寸的解析..."
 
-#: ekos/align/align.cpp:1853
+#: ekos/align/align.cpp:1858
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "正在进行未知图像位置的解析..."
 
-#: ekos/align/align.cpp:1885
+#: ekos/align/align.cpp:1890
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "加载的图像没有码头信息"
 
-#: ekos/align/align.cpp:1890
+#: ekos/align/align.cpp:1895
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "加载的图像被带到码头 %1"
 
-#: ekos/align/align.cpp:1994
+#: ekos/align/align.cpp:1999
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "解析成功，用时 %1 秒。"
 
-#: ekos/align/align.cpp:2010
+#: ekos/align/align.cpp:2015
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr "解析器的赤经(%1) 赤纬 (%2) 方向(%3) 像素大小 (%4) 奇偶性 (%5)"
 
-#: ekos/align/align.cpp:2077
+#: ekos/align/align.cpp:2082
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr "WCS 信息更新。从这个点之后拍摄的照片都将有有效的 WCS。"
 
-#: ekos/align/align.cpp:2095
+#: ekos/align/align.cpp:2100
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -5857,39 +5857,39 @@ msgstr ""
 "解决方案坐标：RA(%1) DEC(%2) 望远镜坐标：RA(%3) DEC(%4) 目标坐标：RA(%5) "
 "DEC(%6)"
 
-#: ekos/align/align.cpp:2106
+#: ekos/align/align.cpp:2111
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "目标在解析坐标 %1 度范围内。"
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2151
+#: ekos/align/align.cpp:2156
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "相机位置角是 %1 度。"
 
-#: ekos/align/align.cpp:2173 ekos/align/align.cpp:2605
-#: ekos/align/align.cpp:2645
+#: ekos/align/align.cpp:2178 ekos/align/align.cpp:2610
+#: ekos/align/align.cpp:2650
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Astrometry 对准成功完成"
 
-#: ekos/align/align.cpp:2195
+#: ekos/align/align.cpp:2200
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "达到最大迭代次数。解析失败。"
 
-#: ekos/align/align.cpp:2224
+#: ekos/align/align.cpp:2229
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "目标在可接受的范围内。"
 
-#: ekos/align/align.cpp:2307
+#: ekos/align/align.cpp:2312
 #, kde-format
 msgid "Solver Failed."
 msgstr "解析失败."
 
-#: ekos/align/align.cpp:2310
+#: ekos/align/align.cpp:2315
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -5899,251 +5899,251 @@ msgstr ""
 "请检查您在图像中是否有足够的星点，指定视场是否正确，是否安装了必要的索引文"
 "件。 在设置选项卡 -> 日志中启用校准日志以获取关于失败的详细信息。"
 
-#: ekos/align/align.cpp:2369
+#: ekos/align/align.cpp:2374
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "设置相机位置角为 %1 度..."
 
-#: ekos/align/align.cpp:2376
+#: ekos/align/align.cpp:2381
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "相机位置角在可接受范围内。"
 
-#: ekos/align/align.cpp:2390
+#: ekos/align/align.cpp:2395
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "当前 PA %1；目标 PA %2；改变量：%3"
 
-#: ekos/align/align.cpp:2457
+#: ekos/align/align.cpp:2462
 #, kde-format
 msgid "Refresh is complete."
 msgstr "刷新完成。"
 
-#: ekos/align/align.cpp:2464 ekos/auxiliary/darklibrary.cpp:1411
-#: ekos/focus/focus.cpp:1506
+#: ekos/align/align.cpp:2469 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/focus/focus.cpp:1511
 #, kde-format
 msgid "Capture aborted."
 msgstr "拍摄已中止。"
 
-#: ekos/align/align.cpp:2470
+#: ekos/align/align.cpp:2475
 #, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "解析中止，用时 %1 秒。"
 
-#: ekos/align/align.cpp:2513 ekos/capture/capture.cpp:1468
-#: ekos/focus/focus.cpp:3997 ekos/guide/guide.cpp:1118 ekos/manager.cpp:1900
-#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:807
+#: ekos/align/align.cpp:2518 ekos/capture/capture.cpp:1474
+#: ekos/focus/focus.cpp:4002 ekos/guide/guide.cpp:1121 ekos/manager.cpp:1902
+#: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
+#: ekos/scheduler/scheduler.cpp:808
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2576
+#: ekos/align/align.cpp:2581
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr "赤道仪完成旋转至天极附近。请再次拍摄进行验证。"
 
-#: ekos/align/align.cpp:2599
+#: ekos/align/align.cpp:2604
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "赤道仪已同步到解决方案坐标。"
 
-#: ekos/align/align.cpp:2634 ekos/align/align.cpp:2664
-#: ekos/align/align.cpp:3975 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2639 ekos/align/align.cpp:2669
+#: ekos/align/align.cpp:3980 ekos/align/polaralignmentassistant.cpp:638
 #, kde-format
 msgid "Settling..."
 msgstr "安定..."
 
-#: ekos/align/align.cpp:2640
+#: ekos/align/align.cpp:2645
 #, kde-format
 msgid "Differential slewing complete."
 msgstr "较差转动已完成。"
 
-#: ekos/align/align.cpp:2654
+#: ekos/align/align.cpp:2659
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr "旋转完毕。未达到目标精度，再次运行解析器..."
 
-#: ekos/align/align.cpp:2656
+#: ekos/align/align.cpp:2661
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "旋转完毕。解析对齐点..."
 
-#: ekos/align/align.cpp:2699 ekos/align/align.cpp:2851
+#: ekos/align/align.cpp:2704 ekos/align/align.cpp:2856
 #, kde-format
 msgid "Syncing failed."
 msgstr "同步失败。"
 
-#: ekos/align/align.cpp:2701
+#: ekos/align/align.cpp:2706
 #, kde-format
 msgid "Slewing failed."
 msgstr "旋转失败。"
 
-#: ekos/align/align.cpp:2744
+#: ekos/align/align.cpp:2749
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "旋转模块已经到达相机位置角。"
 
-#: ekos/align/align.cpp:2756
+#: ekos/align/align.cpp:2761
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr "旋转模块未能到达请求的位置角度 (偏差 %1 弧分)。"
 
-#: ekos/align/align.cpp:2801
+#: ekos/align/align.cpp:2806
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "检测到转动，正在暂停解析..."
 
-#: ekos/align/align.cpp:2845
+#: ekos/align/align.cpp:2850
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "同步到 赤经 (%1) 赤纬 (%2)"
 
-#: ekos/align/align.cpp:2869
+#: ekos/align/align.cpp:2874
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "转动到目标坐标： 赤经（%1）赤纬（%2）。"
 
-#: ekos/align/align.cpp:2874
+#: ekos/align/align.cpp:2879
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr "旋转到目标坐标：RA(%1) DEC(%2) 被拒绝 (见通知)"
 
-#: ekos/align/align.cpp:2893
+#: ekos/align/align.cpp:2898
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Ekos 工作 (%1)-望远镜同步完毕"
 
-#: ekos/align/align.cpp:2949
+#: ekos/align/align.cpp:2954
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "加载图像"
 
-#: ekos/align/align.cpp:3179
+#: ekos/align/align.cpp:3184
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "世界坐标系统（WCS）已启用。"
 
-#: ekos/align/align.cpp:3184
+#: ekos/align/align.cpp:3189
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "世界坐标系统（WCS）被禁用。"
 
-#: ekos/align/align.cpp:3203
+#: ekos/align/align.cpp:3208
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "拍摄失败。中止..."
 
-#: ekos/align/align.cpp:3208 ekos/capture/captureprocess.cpp:1459
-#: ekos/capture/captureprocess.cpp:1954
+#: ekos/align/align.cpp:3213 ekos/capture/captureprocess.cpp:1464
+#: ekos/capture/captureprocess.cpp:1959
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "尝试重新启动拍摄 #%1"
 
-#: ekos/align/align.cpp:3328
+#: ekos/align/align.cpp:3333
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "校准帧"
 
-#: ekos/align/align.cpp:3403
+#: ekos/align/align.cpp:3408
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "StellarSolver 选项"
 
-#: ekos/align/align.cpp:3408
+#: ekos/align/align.cpp:3413
 #, kde-format
 msgid "External & Online Programs"
 msgstr "外部和在线的程序"
 
-#: ekos/align/align.cpp:3412
+#: ekos/align/align.cpp:3417
 #, kde-format
 msgid "Scale & Position"
 msgstr "缩放和位置"
 
-#: ekos/align/align.cpp:3416
+#: ekos/align/align.cpp:3421
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "校准选项配置编辑器"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3434 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3439 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "索引文件"
 
-#: ekos/align/align.cpp:3499 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3504 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "赤经误差(角秒)"
 
-#: ekos/align/align.cpp:3500 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3505 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "赤纬误差(角秒)"
 
-#: ekos/align/align.cpp:3546 ekos/capture/capture.cpp:2629
-#: ekos/focus/focus.cpp:4744
+#: ekos/align/align.cpp:3551 ekos/capture/capture.cpp:2635
+#: ekos/focus/focus.cpp:4749
 #, kde-format
 msgid "Filter operation failed."
 msgstr "滤镜操作失败。"
 
-#: ekos/align/align.cpp:3558 ekos/capture/capture.cpp:2565
+#: ekos/align/align.cpp:3563 ekos/capture/capture.cpp:2571
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
-#: ekos/align/align.cpp:3565 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:2570
+#: ekos/align/align.cpp:3570 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/capture/capture.cpp:2576
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "更改滤镜至 %1..."
 
-#: ekos/align/align.cpp:3570 ekos/capture/capture.cpp:2575
+#: ekos/align/align.cpp:3575 ekos/capture/capture.cpp:2581
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "更换滤镜后自动对焦..."
 
-#: ekos/align/align.cpp:3691
+#: ekos/align/align.cpp:3696
 #, kde-format
 msgid "Invalid FOV."
 msgstr "无效的视场。"
 
-#: ekos/align/align.cpp:3826
+#: ekos/align/align.cpp:3831
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "导出已解析的点"
 
-#: ekos/align/align.cpp:3849 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:1941
-#: ekos/capture/capture.cpp:2027 ekos/guide/guidedriftgraph.cpp:475
-#: ekos/scheduler/scheduler.cpp:2726 ekos/scheduler/scheduler.cpp:3093
+#: ekos/align/align.cpp:3854 ekos/align/mountmodel.cpp:264
+#: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1947
+#: ekos/capture/capture.cpp:2033 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/scheduler/scheduler.cpp:2727 ekos/scheduler/scheduler.cpp:3094
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "无效的网址：%1"
 
-#: ekos/align/align.cpp:3858 ekos/align/mountmodel.cpp:400
-#: ekos/capture/captureprocess.cpp:2635 ekos/guide/guidedriftgraph.cpp:484
-#: ekos/scheduler/scheduler.cpp:4583 ekos/scheduler/schedulerprocess.cpp:1148
+#: ekos/align/align.cpp:3863 ekos/align/mountmodel.cpp:401
+#: ekos/capture/captureprocess.cpp:2640 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/scheduler/scheduler.cpp:4584 ekos/scheduler/schedulerprocess.cpp:1148
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "无法写入到文件 %1"
 
-#: ekos/align/align.cpp:3859 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:1957
-#: ekos/capture/captureprocess.cpp:2265 ekos/guide/guidedriftgraph.cpp:485
-#: ekos/scheduler/scheduler.cpp:2770 ekos/scheduler/scheduler.cpp:4527
-#: ekos/scheduler/scheduler.cpp:4584 ekos/scheduler/schedulerprocess.cpp:1149
-#: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1375
+#: ekos/align/align.cpp:3864 ekos/align/mountmodel.cpp:284
+#: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1963
+#: ekos/capture/captureprocess.cpp:2270 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/scheduler/scheduler.cpp:2771 ekos/scheduler/scheduler.cpp:4528
+#: ekos/scheduler/scheduler.cpp:4585 ekos/scheduler/schedulerprocess.cpp:1149
+#: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -6156,27 +6156,27 @@ msgstr "无法写入到文件 %1"
 msgid "Could Not Open File"
 msgstr "无法打开文件"
 
-#: ekos/align/align.cpp:3880
+#: ekos/align/align.cpp:3885
 #, kde-format
 msgid "Error in table structure."
 msgstr "表结构错误。"
 
-#: ekos/align/align.cpp:3889
+#: ekos/align/align.cpp:3894
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "解析点另存为： %1"
 
-#: ekos/align/align.cpp:3903
+#: ekos/align/align.cpp:3908
 #, kde-format
 msgid "Polar Alignment"
 msgstr "极轴校准"
 
-#: ekos/align/align.cpp:4432
+#: ekos/align/align.cpp:4437
 #, kde-format
 msgid "Capture timed out."
 msgstr "拍摄超时。"
 
-#: ekos/align/align.cpp:4441
+#: ekos/align/align.cpp:4446
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "拍摄仍在进行， %1 秒后重试..."
@@ -6221,7 +6221,7 @@ msgstr "加载并转动"
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:456 ekos/guide/guide.ui:153 ekos/manager.cpp:223
+#: ekos/focus/focus.ui:456 ekos/guide/guide.ui:153 ekos/manager.cpp:225
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -6750,78 +6750,78 @@ msgstr "目标 PA"
 msgid "Take Another Image"
 msgstr "再拍摄一张图片"
 
-#: ekos/align/mountmodel.cpp:255
+#: ekos/align/mountmodel.cpp:256
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:1956
-#: ekos/capture/captureprocess.cpp:2264 ekos/scheduler/scheduler.cpp:2769
-#: ekos/scheduler/scheduler.cpp:4526
+#: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1962
+#: ekos/capture/captureprocess.cpp:2269 ekos/scheduler/scheduler.cpp:2770
+#: ekos/scheduler/scheduler.cpp:4527
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "无法打开文件 %1"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/captureprocess.cpp:2290
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2295
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
 "file."
 msgstr "已弃用的序列文件格式版本 %1。请新建序列文件。"
 
-#: ekos/align/mountmodel.cpp:366
+#: ekos/align/mountmodel.cpp:367
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Alignment List"
 msgstr "保存 Ekos 校准列表"
 
-#: ekos/align/mountmodel.cpp:383
+#: ekos/align/mountmodel.cpp:384
 #, kde-format
 msgid "Failed to save alignment list"
 msgstr "未能保存对准列表"
 
-#: ekos/align/mountmodel.cpp:429
+#: ekos/align/mountmodel.cpp:430
 #, kde-format
 msgid "Alignment List saved to %1"
 msgstr "对齐方式列表保存到 %1"
 
-#: ekos/align/mountmodel.cpp:541 ekos/align/mountmodel.cpp:549
+#: ekos/align/mountmodel.cpp:542 ekos/align/mountmodel.cpp:550
 #, kde-format
 msgid "DEC is below the altitude limit"
 msgstr "赤纬低于地平维度限制"
 
-#: ekos/align/mountmodel.cpp:628
+#: ekos/align/mountmodel.cpp:629
 #, kde-format
 msgid "Point calculation error."
 msgstr "指向计算错误"
 
-#: ekos/align/mountmodel.cpp:650
+#: ekos/align/mountmodel.cpp:651
 #, kde-format
 msgid "Sky Point"
 msgstr "天空中的点"
 
-#: ekos/align/mountmodel.cpp:858
+#: ekos/align/mountmodel.cpp:859
 #, kde-format
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "您确定要清除所有的对准点吗？"
 
-#: ekos/align/mountmodel.cpp:859
+#: ekos/align/mountmodel.cpp:860
 #, kde-format
 msgid "Clear Align Points"
 msgstr "清除对准点"
 
-#: ekos/align/mountmodel.cpp:964
+#: ekos/align/mountmodel.cpp:965
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr "赤道仪模型工具已重置。"
 
-#: ekos/align/mountmodel.cpp:1001
+#: ekos/align/mountmodel.cpp:1002
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr "请检查对准点。"
 
-#: ekos/align/mountmodel.cpp:1008
+#: ekos/align/mountmodel.cpp:1009
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -6831,22 +6831,22 @@ msgstr ""
 "在校准模块里，解析器动作被选为“无操作”。 这意味着赤道仪模型工具将不会同步/校"
 "准您的赤道仪，而只会指出赤道仪模型错误。 您想要继续吗？"
 
-#: ekos/align/mountmodel.cpp:1011
+#: ekos/align/mountmodel.cpp:1012
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr "只显示指向模块报告吗？"
 
-#: ekos/align/mountmodel.cpp:1028
+#: ekos/align/mountmodel.cpp:1029
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr "赤道仪模型工具已启动。"
 
-#: ekos/align/mountmodel.cpp:1037
+#: ekos/align/mountmodel.cpp:1038
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr "赤道仪模型工具已暂停。"
 
-#: ekos/align/mountmodel.cpp:1096
+#: ekos/align/mountmodel.cpp:1097
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr "赤道仪模型工具已执行完毕。"
@@ -8974,200 +8974,200 @@ msgstr "API Key"
 msgid "API Key:"
 msgstr "API Key："
 
-#: ekos/align/polaralignmentassistant.cpp:28
+#: ekos/align/polaralignmentassistant.cpp:29
 #, kde-format
 msgid "First Capture"
 msgstr "第一轮拍摄"
 
-#: ekos/align/polaralignmentassistant.cpp:29
+#: ekos/align/polaralignmentassistant.cpp:30
 #, kde-format
 msgid "First Solve"
 msgstr "第一次解析"
 
-#: ekos/align/polaralignmentassistant.cpp:30
+#: ekos/align/polaralignmentassistant.cpp:31
 #, kde-format
 msgid "Finding CP"
 msgstr "正在搜索天极"
 
-#: ekos/align/polaralignmentassistant.cpp:31
+#: ekos/align/polaralignmentassistant.cpp:32
 #, kde-format
 msgid "First Rotation"
 msgstr "第一轮旋转"
 
-#: ekos/align/polaralignmentassistant.cpp:32
+#: ekos/align/polaralignmentassistant.cpp:33
 #, kde-format
 msgid "First Settle"
 msgstr "第一次安定"
 
-#: ekos/align/polaralignmentassistant.cpp:33
+#: ekos/align/polaralignmentassistant.cpp:34
 #, kde-format
 msgid "Second Capture"
 msgstr "第二轮拍摄"
 
-#: ekos/align/polaralignmentassistant.cpp:34
+#: ekos/align/polaralignmentassistant.cpp:35
 #, kde-format
 msgid "Second Solve"
 msgstr "第二次解析"
 
-#: ekos/align/polaralignmentassistant.cpp:35
+#: ekos/align/polaralignmentassistant.cpp:36
 #, kde-format
 msgid "Second Rotation"
 msgstr "第二轮旋转"
 
-#: ekos/align/polaralignmentassistant.cpp:36
+#: ekos/align/polaralignmentassistant.cpp:37
 #, kde-format
 msgid "Second Settle"
 msgstr "第二次安定"
 
-#: ekos/align/polaralignmentassistant.cpp:37
+#: ekos/align/polaralignmentassistant.cpp:38
 #, kde-format
 msgid "Third Capture"
 msgstr "第三轮拍摄"
 
-#: ekos/align/polaralignmentassistant.cpp:38
+#: ekos/align/polaralignmentassistant.cpp:39
 #, kde-format
 msgid "Third Solve"
 msgstr "第三次解析"
 
-#: ekos/align/polaralignmentassistant.cpp:39
+#: ekos/align/polaralignmentassistant.cpp:40
 #, kde-format
 msgid "Select Star"
 msgstr "选择星点"
 
-#: ekos/align/polaralignmentassistant.cpp:40
+#: ekos/align/polaralignmentassistant.cpp:41
 #, kde-format
 msgid "Refreshing"
 msgstr "刷新"
 
-#: ekos/align/polaralignmentassistant.cpp:41
+#: ekos/align/polaralignmentassistant.cpp:42
 #, kde-format
 msgid "Refresh Complete"
 msgstr "刷新完成"
 
-#: ekos/align/polaralignmentassistant.cpp:121
+#: ekos/align/polaralignmentassistant.cpp:122
 #, kde-format
 msgid "<p>Polar Alignment tool requires a German Equatorial Mount.</p>"
 msgstr "<p>极轴校准工具需要使用德式赤道仪。</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:176
+#: ekos/align/polaralignmentassistant.cpp:177
 #, kde-format
 msgid "Refresh solver timed out: %1s"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:181
+#: ekos/align/polaralignmentassistant.cpp:182
 #, kde-format
 msgid "Refresh solver failed: %1s"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:574
+#: ekos/align/polaralignmentassistant.cpp:575
 #, kde-format
 msgid "PAA: Stopping, solver failed too many times."
 msgstr "PAA：停止，解析器失败太多次。"
 
-#: ekos/align/polaralignmentassistant.cpp:603
+#: ekos/align/polaralignmentassistant.cpp:604
 #, kde-format
 msgid "Mount first rotation is complete."
 msgstr "赤道仪第一次旋转完毕。"
 
-#: ekos/align/polaralignmentassistant.cpp:610
+#: ekos/align/polaralignmentassistant.cpp:611
 #, kde-format
 msgid "Mount second rotation is complete."
 msgstr "赤道仪第二次旋转完毕。"
 
-#: ekos/align/polaralignmentassistant.cpp:649
+#: ekos/align/polaralignmentassistant.cpp:650
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr "赤道仪中止。反转赤经轴方向，然后重试。"
 
-#: ekos/align/polaralignmentassistant.cpp:734
+#: ekos/align/polaralignmentassistant.cpp:735
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
 "mode."
 msgstr "警告：处在有限资源模式下，将不会绘制赤道网格线。"
 
-#: ekos/align/polaralignmentassistant.cpp:738
+#: ekos/align/polaralignmentassistant.cpp:739
 #, kde-format
 msgid "Clearing mount Alignment Model..."
 msgstr "清除赤道仪对准模型..."
 
-#: ekos/align/polaralignmentassistant.cpp:779
+#: ekos/align/polaralignmentassistant.cpp:780
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr "这可能会使望远镜越过子午圈。"
 
-#: ekos/align/polaralignmentassistant.cpp:829
+#: ekos/align/polaralignmentassistant.cpp:830
 #, kde-format
 msgid "Parking the mount..."
 msgstr "归位赤道仪…"
 
-#: ekos/align/polaralignmentassistant.cpp:869
+#: ekos/align/polaralignmentassistant.cpp:870
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "请等待，直到赤道仪旋转至 赤经 (%1) 赤纬 (%2) 完毕"
 
-#: ekos/align/polaralignmentassistant.cpp:885
-#: ekos/align/polaralignmentassistant.cpp:891
+#: ekos/align/polaralignmentassistant.cpp:886
+#: ekos/align/polaralignmentassistant.cpp:892
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "极轴对准助手：findCorrectedPixel 失败"
 
-#: ekos/align/polaralignmentassistant.cpp:917
+#: ekos/align/polaralignmentassistant.cpp:918
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "极轴对准助手：未能找到赤经轴中心。"
 
-#: ekos/align/polaralignmentassistant.cpp:988
+#: ekos/align/polaralignmentassistant.cpp:989
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr "无法在刷新时更改极轴校准星，因为这可能会影响到误差测量。"
 
-#: ekos/align/polaralignmentassistant.cpp:1005
+#: ekos/align/polaralignmentassistant.cpp:1006
 #, kde-format
 msgid "First manual rotation done."
 msgstr "第一次手动旋转完成。"
 
-#: ekos/align/polaralignmentassistant.cpp:1010
+#: ekos/align/polaralignmentassistant.cpp:1011
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "第二次手动旋转完成。"
 
-#: ekos/align/polaralignmentassistant.cpp:1053
+#: ekos/align/polaralignmentassistant.cpp:1054
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr "赤道仪已被同步至天极。您现在可以继续运行极轴校准助手。"
 
-#: ekos/align/polaralignmentassistant.cpp:1072
+#: ekos/align/polaralignmentassistant.cpp:1073
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "WCS 数据正在处理，请稍候..."
 
-#: ekos/align/polaralignmentassistant.cpp:1103
+#: ekos/align/polaralignmentassistant.cpp:1104
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "WCS 数据处理完毕。"
 
-#: ekos/align/polaralignmentassistant.cpp:1112
+#: ekos/align/polaralignmentassistant.cpp:1113
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "WCS 信息有效。拍摄下一帧..."
 
-#: ekos/align/polaralignmentassistant.cpp:1154
+#: ekos/align/polaralignmentassistant.cpp:1155
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "无法处理世界坐标系统： %1。再试一次。"
 
-#: ekos/align/polaralignmentassistant.cpp:1172
+#: ekos/align/polaralignmentassistant.cpp:1173
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA：找不到赤经轴。退出。"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.cpp:1204
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9175,59 +9175,59 @@ msgid ""
 "capturing the first image...</p>"
 msgstr "<p>助手需要三张图像才能定位。Ekos 现在正在抓取第一张图像...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1205
+#: ekos/align/polaralignmentassistant.cpp:1206
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1207
+#: ekos/align/polaralignmentassistant.cpp:1208
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1209
+#: ekos/align/polaralignmentassistant.cpp:1210
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1211
+#: ekos/align/polaralignmentassistant.cpp:1212
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1213
+#: ekos/align/polaralignmentassistant.cpp:1214
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>拍摄第二张图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1215
+#: ekos/align/polaralignmentassistant.cpp:1216
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>解析<i>第二张</i>图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1217
+#: ekos/align/polaralignmentassistant.cpp:1218
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>执行 <i>第二次 </i>支架旋转中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1219
+#: ekos/align/polaralignmentassistant.cpp:1220
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>拍摄 <i>第三张</i> 及最后图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1221
+#: ekos/align/polaralignmentassistant.cpp:1222
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>解析<i>第三张</i>图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1224
+#: ekos/align/polaralignmentassistant.cpp:1225
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1227
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9236,7 +9236,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1229
+#: ekos/align/polaralignmentassistant.cpp:1230
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -9245,7 +9245,7 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1231
+#: ekos/align/polaralignmentassistant.cpp:1232
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -9254,7 +9254,7 @@ msgid ""
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1247
+#: ekos/align/polaralignmentassistant.cpp:1248
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -9531,7 +9531,7 @@ msgstr "在最近调节后的极轴对齐方位角误差。"
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:141 ekos/manager.cpp:229 ekos/manager.cpp:581
+#: ekos/manager.cpp:143 ekos/manager.cpp:231 ekos/manager.cpp:583
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -9581,7 +9581,7 @@ msgid "Slew"
 msgstr "旋转"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:325
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:327
 #, kde-format
 msgid "Setup"
 msgstr "设置"
@@ -9700,7 +9700,7 @@ msgstr "找不到图像 %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1875 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:2019 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:2021 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:445
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
@@ -9708,7 +9708,7 @@ msgid "Focus"
 msgstr "对焦"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:1993
+#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:1995
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:398
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
@@ -9720,8 +9720,8 @@ msgstr "对准"
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
-#: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2173
+#: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2175
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
@@ -9739,7 +9739,7 @@ msgstr "翻转"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1879 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/manager.cpp:2102 ekos/manager.ui:665
+#: ekos/manager.cpp:2104 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "支架"
@@ -9771,7 +9771,7 @@ msgstr ""
 "数。设置后，将会探测新拍摄图像中的星点。"
 
 #: ekos/analyze/analyze.cpp:2855 ekos/auxiliary/ledstatuswidget.cpp:78
-#: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:21 ekos/ekos.h:72
+#: ekos/capture/sequencejob.cpp:23 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:620
 #, kde-format
@@ -11274,7 +11274,7 @@ msgid "Filter exposure time during focus"
 msgstr "对焦时滤镜曝光时间"
 
 #: ekos/auxiliary/filtermanager.cpp:112
-#: ekos/capture/capturecountswidget.cpp:154
+#: ekos/capture/capturecountswidget.cpp:156
 #, kde-format
 msgid "Exposure"
 msgstr "曝光"
@@ -11450,7 +11450,7 @@ msgid "Waiting..."
 msgstr "请稍等..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:337
+#: ekos/capture/capturemodulestate.cpp:339
 #, kde-format
 msgid "Dithering..."
 msgstr "像素偏移..."
@@ -11470,7 +11470,7 @@ msgstr "更换滤镜..."
 msgid "Aligning..."
 msgstr "对准..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1417
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:1423
 #, kde-format
 msgid "Calibrating..."
 msgstr "校准..."
@@ -11550,8 +11550,8 @@ msgstr "记录 Ekos 调度模块的活动"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:330 ekos/opsekos.ui:184
-#: ekos/scheduler/framingassistantui.cpp:666
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:332 ekos/opsekos.ui:184
+#: ekos/scheduler/framingassistantui.cpp:667
 #, kde-format
 msgid "Scheduler"
 msgstr "调度器"
@@ -11588,7 +11588,7 @@ msgstr "Ekos 出问题了吗？可以开启出了问题的 Ekos 模块的日志�
 #: ekos/auxiliary/opslogs.ui:133 ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1141 kstarsinit.cpp:454
+#: kstarsactions.cpp:1150 kstarsinit.cpp:454
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -11630,7 +11630,7 @@ msgid "Log INDI devices activity"
 msgstr "记录 INDI 设备活动"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1137
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1146
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -11644,7 +11644,7 @@ msgstr "记录 FITS 处理的活动"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:194
-#: kstarsactions.cpp:1131
+#: kstarsactions.cpp:1140
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -11739,7 +11739,7 @@ msgstr "<html><head/><body><p>记录 Ekos Observatory 模块活动</p></body></h
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2213
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2215
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -13082,7 +13082,7 @@ msgstr "在可能的多核心上运行多线程以快速解析的算法"
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946 indi/drivermanager.cpp:1329
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1817 kstarsinit.cpp:788
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1826 kstarsinit.cpp:788
 #: kstarsinit.cpp:789 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
@@ -13333,243 +13333,243 @@ msgstr ""
 msgid "Tolerance:"
 msgstr "公差："
 
-#: ekos/capture/capture.cpp:256 ekos/capture/capture.cpp:2298
+#: ekos/capture/capture.cpp:262 ekos/capture/capture.cpp:2304
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "将作业添加到序列队列"
 
-#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:2299
+#: ekos/capture/capture.cpp:263 ekos/capture/capture.cpp:2305
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "从序列队列中删除作业"
 
-#: ekos/capture/capture.cpp:504
+#: ekos/capture/capture.cpp:510
 #, kde-format
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: ekos/capture/capture.cpp:684
+#: ekos/capture/capture.cpp:690
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr "警告：选择了 in-sequence 对焦，但自动对焦进程尚未启动"
 
-#: ekos/capture/capture.cpp:686
+#: ekos/capture/capture.cpp:692
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr "警告：选择了温度漂移检查，但自动导星进程尚未启动"
 
-#: ekos/capture/capture.cpp:1358
+#: ekos/capture/capture.cpp:1364
 #, kde-format
 msgid "Framing..."
 msgstr "连续曝光中..."
 
-#: ekos/capture/capture.cpp:1369
+#: ekos/capture/capture.cpp:1375
 #, kde-format
 msgid "Captured image received"
 msgstr "收到拍摄的图像"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1387 ekos/capture/capture.ui:2245
+#: ekos/capture/capture.cpp:1393 ekos/capture/capture.ui:2245
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "曝光(-/-):"
 
-#: ekos/capture/capture.cpp:1451
+#: ekos/capture/capture.cpp:1457
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "正在拍摄 %1-秒 %2 图像..."
 
-#: ekos/capture/capture.cpp:1629
+#: ekos/capture/capture.cpp:1635
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "任务 #%1 更改生效。"
 
-#: ekos/capture/capture.cpp:1805
+#: ekos/capture/capture.cpp:1811
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "正在设置温度至 %1 摄氏度..."
 
-#: ekos/capture/capture.cpp:1806
+#: ekos/capture/capture.cpp:1812
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "设置温度至 %1 摄氏度..."
 
-#: ekos/capture/capture.cpp:1810
+#: ekos/capture/capture.cpp:1816
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1812
+#: ekos/capture/capture.cpp:1818
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "等待导星 < “%1”..."
 
-#: ekos/capture/capture.cpp:1817
+#: ekos/capture/capture.cpp:1823
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1818
+#: ekos/capture/capture.cpp:1824
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1861 ekos/capture/capture.cpp:1862
+#: ekos/capture/capture.cpp:1867 ekos/capture/capture.cpp:1868
 #, kde-format
 msgid "Focus complete."
 msgstr "对焦完成。"
 
-#: ekos/capture/capture.cpp:1866
+#: ekos/capture/capture.cpp:1872
 #, kde-format
 msgid "Autofocus failed."
 msgstr "自动对焦失败."
 
-#: ekos/capture/capture.cpp:1888
+#: ekos/capture/capture.cpp:1894
 #, kde-format
 msgid "Paused..."
 msgstr "暂停..."
 
-#: ekos/capture/capture.cpp:1893
+#: ekos/capture/capture.cpp:1899
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "中天翻转..."
 
-#: ekos/capture/capture.cpp:1894
+#: ekos/capture/capture.cpp:1900
 #, kde-format
 msgid "Meridian flip started"
 msgstr "开始中天翻转"
 
-#: ekos/capture/capture.cpp:1898
+#: ekos/capture/capture.cpp:1904
 #, kde-format
 msgid "Flip complete."
 msgstr "翻转完成。"
 
-#: ekos/capture/capture.cpp:1923 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:1929 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS 保存目录"
 
-#: ekos/capture/capture.cpp:1933
+#: ekos/capture/capture.cpp:1939
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "打开 Ekos 序列队列"
 
-#: ekos/capture/capture.cpp:1998
+#: ekos/capture/capture.cpp:2004
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "保存 Ekos 序列队列"
 
-#: ekos/capture/capture.cpp:2019
+#: ekos/capture/capture.cpp:2025
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "保存序列队列失败"
 
-#: ekos/capture/capture.cpp:2062
+#: ekos/capture/capture.cpp:2068
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/capture.cpp:2062 ekos/capture/captureprocess.cpp:2879
+#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2884
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
 
-#: ekos/capture/capture.cpp:2277
+#: ekos/capture/capture.cpp:2283
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "编辑任务 #%1..."
 
-#: ekos/capture/capture.cpp:2280 ekos/scheduler/scheduler.cpp:1543
+#: ekos/capture/capture.cpp:2286 ekos/scheduler/scheduler.cpp:1544
 #, kde-format
 msgid "Apply job changes."
 msgstr "应用作业更改。"
 
-#: ekos/capture/capture.cpp:2281
+#: ekos/capture/capture.cpp:2287
 #, kde-format
 msgid "Cancel job changes."
 msgstr "取消作业更改"
 
-#: ekos/capture/capture.cpp:2293
+#: ekos/capture/capture.cpp:2299
 #, kde-format
 msgid "Editing job canceled."
 msgstr "取消编辑任务"
 
-#: ekos/capture/capture.cpp:2420
+#: ekos/capture/capture.cpp:2426
 #, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "墙坐标无效。"
 
-#: ekos/capture/capture.cpp:2504
+#: ekos/capture/capture.cpp:2510
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "选择当前观测员"
 
-#: ekos/capture/capture.cpp:2506
+#: ekos/capture/capture.cpp:2512
 #, kde-format
 msgid "Current Observer:"
 msgstr "当前观测员："
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:2517 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:2523 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "管理观测员"
 
-#: ekos/capture/capture.cpp:2582
+#: ekos/capture/capture.cpp:2588
 #, kde-format
 msgid "Filter set to %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2904
+#: ekos/capture/capture.cpp:2910
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "重置 %1 配置为默认值吗？"
 
-#: ekos/capture/capture.cpp:2906
+#: ekos/capture/capture.cpp:2912
 #, kde-format
 msgid "Confirmation"
 msgstr "确认"
 
-#: ekos/capture/capture.cpp:2944 ekos/capture/capture.cpp:3019
+#: ekos/capture/capture.cpp:2950 ekos/capture/capture.cpp:3025
 #, kde-format
 msgid "Dark Flat"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2996
+#: ekos/capture/capture.cpp:3002
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "您必须为”当地 & 均存放“模式设置远程目录。"
 
-#: ekos/capture/capture.cpp:3002
+#: ekos/capture/capture.cpp:3008
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "您必须为“客户端” 和“两端”模式设置本地目录。"
 
-#: ekos/capture/capture.cpp:3040
+#: ekos/capture/capture.cpp:3046
 #, kde-format
 msgid "Cooler is on"
 msgstr "制冷已打开"
 
-#: ekos/capture/capture.cpp:3040
+#: ekos/capture/capture.cpp:3046
 #, kde-format
 msgid "Cooler is off"
 msgstr "制冷已关闭"
 
-#: ekos/capture/capture.cpp:3147
+#: ekos/capture/capture.cpp:3153
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3153
+#: ekos/capture/capture.cpp:3159
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -13577,13 +13577,13 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3158
+#: ekos/capture/capture.cpp:3164
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3164
+#: ekos/capture/capture.cpp:3170
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -13591,23 +13591,23 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3177
+#: ekos/capture/capture.cpp:3183
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "设置温度管控"
 
-#: ekos/capture/capture.cpp:3195
+#: ekos/capture/capture.cpp:3201
 #, kde-format
 msgid "Stop Sequence"
 msgstr "停止序列"
 
-#: ekos/capture/capture.cpp:3201
+#: ekos/capture/capture.cpp:3207
 #, kde-format
 msgid "Resume Sequence"
 msgstr "继续序列"
 
-#: ekos/capture/capture.cpp:3226
+#: ekos/capture/capture.cpp:3232
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -14317,7 +14317,7 @@ msgstr "角秒"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:99
+#: ekos/capture/capturecountswidget.cpp:101
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -14325,7 +14325,7 @@ msgid "Sequence"
 msgstr "序列"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:102
+#: ekos/capture/capturecountswidget.cpp:104
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -14427,193 +14427,193 @@ msgstr "总计"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:572
+#: ekos/capture/capturedeviceadaptor.cpp:573
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "移开望远镜盖子以继续。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:573
+#: ekos/capture/capturedeviceadaptor.cpp:574
 #, kde-format
 msgid "Telescope Covered"
 msgstr "望远镜已盖上"
 
-#: ekos/capture/capturedeviceadaptor.cpp:705
+#: ekos/capture/capturedeviceadaptor.cpp:706
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 有快门吗？"
 
-#: ekos/capture/capturedeviceadaptor.cpp:706
-#: ekos/capture/sequencejobstate.cpp:412
+#: ekos/capture/capturedeviceadaptor.cpp:707
+#: ekos/capture/sequencejobstate.cpp:413
 #, kde-format
 msgid "Dark Exposure"
 msgstr "暗场曝光"
 
-#: ekos/capture/capturemodulestate.cpp:130
+#: ekos/capture/capturemodulestate.cpp:132
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr "警告：选择了导星，但自动导星进程尚未启动"
 
-#: ekos/capture/capturemodulestate.cpp:196
+#: ekos/capture/capturemodulestate.cpp:198
 #, kde-format
 msgid "Dithering succeeded."
 msgstr "抖动成功。"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:203
+#: ekos/capture/capturemodulestate.cpp:205
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "像素偏移完成。在 %1 秒后恢复..."
 
-#: ekos/capture/capturemodulestate.cpp:211
+#: ekos/capture/capturemodulestate.cpp:213
 #, kde-format
 msgid "Dither complete."
 msgstr "像素偏移完毕。"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:225
+#: ekos/capture/capturemodulestate.cpp:227
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "警告: 像素偏移失败。在 %1 秒后恢复..."
 
-#: ekos/capture/capturemodulestate.cpp:234
+#: ekos/capture/capturemodulestate.cpp:236
 #, kde-format
 msgid "Warning: Dithering failed."
 msgstr "警告: 像素偏移失败。"
 
-#: ekos/capture/capturemodulestate.cpp:432
+#: ekos/capture/capturemodulestate.cpp:434
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "成功完成过中天翻转"
 
-#: ekos/capture/capturemodulestate.cpp:528
+#: ekos/capture/capturemodulestate.cpp:530
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "正在执行翻转后重校准及导星..."
 
-#: ekos/capture/capturemodulestate.cpp:541
+#: ekos/capture/capturemodulestate.cpp:543
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "过中天翻转后校准错误。正在重新启动..."
 
-#: ekos/capture/capturemodulestate.cpp:561
+#: ekos/capture/capturemodulestate.cpp:563
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "自动导星停止，正在等待自动对焦完成..."
 
-#: ekos/capture/capturemodulestate.cpp:570
+#: ekos/capture/capturemodulestate.cpp:572
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "导星停止。中止..."
 
-#: ekos/capture/capturemodulestate.cpp:577
+#: ekos/capture/capturemodulestate.cpp:579
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "过中天翻转后校准错误。中止..."
 
-#: ekos/capture/capturemodulestate.cpp:597
+#: ekos/capture/capturemodulestate.cpp:599
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:621
+#: ekos/capture/capturemodulestate.cpp:623
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "自动对焦失败。中止曝光..."
 
-#: ekos/capture/capturemodulestate.cpp:768
+#: ekos/capture/capturemodulestate.cpp:770
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "正在执行翻转后重新对齐..."
 
-#: ekos/capture/capturemodulestate.cpp:786
+#: ekos/capture/capturemodulestate.cpp:788
 #, kde-format
 msgid "Guide module timed out."
 msgstr "导星模块超时。"
 
-#: ekos/capture/capturemodulestate.cpp:818
+#: ekos/capture/capturemodulestate.cpp:820
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:827
+#: ekos/capture/capturemodulestate.cpp:829
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:849
+#: ekos/capture/capturemodulestate.cpp:851
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "过中天翻转校准成功完成。"
 
-#: ekos/capture/capturemodulestate.cpp:863
+#: ekos/capture/capturemodulestate.cpp:865
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:877
+#: ekos/capture/capturemodulestate.cpp:879
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:904
+#: ekos/capture/capturemodulestate.cpp:906
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:951
+#: ekos/capture/capturemodulestate.cpp:953
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr "导星偏离 %1 小于 %2 角秒的限定值，重新开始曝光。"
 
-#: ekos/capture/capturemodulestate.cpp:955
+#: ekos/capture/capturemodulestate.cpp:957
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr "导星偏离 %1 小于 %2 角秒的限定值，%3 秒后重新开始曝光。"
 
-#: ekos/capture/capturemodulestate.cpp:970
+#: ekos/capture/capturemodulestate.cpp:972
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "导星偏差 %1 仍高于限制值 %2 角秒。"
 
-#: ekos/capture/capturemodulestate.cpp:1345
+#: ekos/capture/capturemodulestate.cpp:1347
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "翻转后重新对准成功。"
 
-#: ekos/capture/capturemodulestate.cpp:1364
+#: ekos/capture/capturemodulestate.cpp:1366
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "翻转后对准失败。"
 
-#: ekos/capture/capturemodulestate.cpp:1369
+#: ekos/capture/capturemodulestate.cpp:1371
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "翻转后对准失败。正在重试..."
 
-#: ekos/capture/capturepreviewwidget.cpp:138
+#: ekos/capture/capturepreviewwidget.cpp:144
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr ""
 
-#: ekos/capture/capturepreviewwidget.cpp:195
+#: ekos/capture/capturepreviewwidget.cpp:201
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "您确定要从文件系统中删除 %1 吗？"
 
-#: ekos/capture/capturepreviewwidget.cpp:197
+#: ekos/capture/capturepreviewwidget.cpp:203
 #, kde-format
 msgid "Delete %1"
 msgstr "删除 %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:197
+#: ekos/capture/capturepreviewwidget.cpp:203
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -14627,244 +14627,244 @@ msgstr "删除"
 msgid "Target: "
 msgstr "目标: "
 
-#: ekos/capture/captureprocess.cpp:187 ekos/capture/captureprocess.cpp:580
+#: ekos/capture/captureprocess.cpp:192 ekos/capture/captureprocess.cpp:585
 #, kde-format
 msgid "Image Transfer"
 msgstr "图像传输"
 
-#: ekos/capture/captureprocess.cpp:206
+#: ekos/capture/captureprocess.cpp:211
 #, kde-format
 msgid "Sequence resumed."
 msgstr "序列已恢复"
 
-#: ekos/capture/captureprocess.cpp:242
+#: ekos/capture/captureprocess.cpp:247
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr "未找到挂起的任务。请添加任务至序列队列中。"
 
-#: ekos/capture/captureprocess.cpp:256
+#: ekos/capture/captureprocess.cpp:261
 #, kde-format
 msgid "No new job created."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:279 ekos/capture/captureprocess.cpp:813
+#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:818
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "对焦模块忙，无法拍摄。"
 
-#: ekos/capture/captureprocess.cpp:286
+#: ekos/capture/captureprocess.cpp:291
 #, kde-format
 msgid "Starting framing..."
 msgstr "开始连续曝光..."
 
-#: ekos/capture/captureprocess.cpp:316
+#: ekos/capture/captureprocess.cpp:321
 #, kde-format
 msgid "CCD capture suspended"
 msgstr "CCD 拍摄挂起"
 
-#: ekos/capture/captureprocess.cpp:321
+#: ekos/capture/captureprocess.cpp:326
 #, kde-format
 msgid "CCD capture complete"
 msgstr "CCD 拍摄完成"
 
-#: ekos/capture/captureprocess.cpp:326
+#: ekos/capture/captureprocess.cpp:331
 #, kde-format
 msgid "CCD capture aborted"
 msgstr "CCD 拍摄中止"
 
-#: ekos/capture/captureprocess.cpp:331
+#: ekos/capture/captureprocess.cpp:336
 #, kde-format
 msgid "CCD capture stopped"
 msgstr "CCD 拍摄中止"
 
-#: ekos/capture/captureprocess.cpp:405
+#: ekos/capture/captureprocess.cpp:410
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr "只有在拍摄时才能暂停。"
 
-#: ekos/capture/captureprocess.cpp:412
+#: ekos/capture/captureprocess.cpp:417
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "当前曝光完毕后将暂停序列。"
 
-#: ekos/capture/captureprocess.cpp:443
+#: ekos/capture/captureprocess.cpp:448
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr "无用于预览的视图。是否已启用 FITS 查看器？"
 
-#: ekos/capture/captureprocess.cpp:444
+#: ekos/capture/captureprocess.cpp:449
 #, kde-format
 msgid "Display preview"
 msgstr "显示预览"
 
-#: ekos/capture/captureprocess.cpp:528
+#: ekos/capture/captureprocess.cpp:533
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr "作业需要 %1秒的图像 %2 张，已经拍摄 %3/%4 ，无需运行。"
 
-#: ekos/capture/captureprocess.cpp:541
+#: ekos/capture/captureprocess.cpp:546
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr "作业需要 %1秒图像 %2 张，已经拍摄 %3/%4 帧并将被处理。"
 
-#: ekos/capture/captureprocess.cpp:759
+#: ekos/capture/captureprocess.cpp:764
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "自动导星恢复。"
 
-#: ekos/capture/captureprocess.cpp:803
+#: ekos/capture/captureprocess.cpp:808
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "设置子帧失败。"
 
-#: ekos/capture/captureprocess.cpp:808
+#: ekos/capture/captureprocess.cpp:813
 #, kde-format
 msgid "Failed to set binning."
 msgstr "设置合并像素失败。"
 
-#: ekos/capture/captureprocess.cpp:1059
+#: ekos/capture/captureprocess.cpp:1064
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "远程图像保存到 %1"
 
-#: ekos/capture/captureprocess.cpp:1158
+#: ekos/capture/captureprocess.cpp:1163
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "暂停导星。"
 
-#: ekos/capture/captureprocess.cpp:1187
+#: ekos/capture/captureprocess.cpp:1192
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "警告： 校准过程被提前终止。"
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1253
+#: ekos/capture/captureprocess.cpp:1258
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD 拍摄队列完毕"
 
-#: ekos/capture/captureprocess.cpp:1310
+#: ekos/capture/captureprocess.cpp:1315
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "错误：与 CCD 的连接中断。"
 
-#: ekos/capture/captureprocess.cpp:1339
+#: ekos/capture/captureprocess.cpp:1344
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "非 FITS 图像无法计算 ADU 强度。"
 
-#: ekos/capture/captureprocess.cpp:1451 ekos/capture/captureprocess.cpp:1946
+#: ekos/capture/captureprocess.cpp:1456 ekos/capture/captureprocess.cpp:1951
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
 
-#: ekos/capture/captureprocess.cpp:1552
+#: ekos/capture/captureprocess.cpp:1557
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "下载时间: %1 s, 新下载时间预估: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1600
+#: ekos/capture/captureprocess.cpp:1605
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "接收到图像 %2 张中的 %1 张。"
 
-#: ekos/capture/captureprocess.cpp:1633
+#: ekos/capture/captureprocess.cpp:1638
 #, kde-format
 msgid "Captured %1"
 msgstr "已拍摄 %1"
 
-#: ekos/capture/captureprocess.cpp:1638
+#: ekos/capture/captureprocess.cpp:1643
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "警告：遗留着可能在 %2 的未知占位符  %1 "
 
-#: ekos/capture/captureprocess.cpp:1670
+#: ekos/capture/captureprocess.cpp:1675
 #, kde-format
 msgid "Executing capture script %1"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1685
+#: ekos/capture/captureprocess.cpp:1690
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "预拍摄脚本以代码 %1 完成"
 
-#: ekos/capture/captureprocess.cpp:1693
+#: ekos/capture/captureprocess.cpp:1698
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "后拍摄脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1705
+#: ekos/capture/captureprocess.cpp:1710
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "正在中天翻转..."
 
-#: ekos/capture/captureprocess.cpp:1715
+#: ekos/capture/captureprocess.cpp:1720
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "预作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1720
+#: ekos/capture/captureprocess.cpp:1725
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "后作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1893 ekos/focus/focus.cpp:4894
+#: ekos/capture/captureprocess.cpp:1898 ekos/focus/focus.cpp:4899
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
-#: ekos/capture/captureprocess.cpp:1916 ekos/focus/focus.cpp:4899
-#: ekos/guide/guide.cpp:892
+#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4904
+#: ekos/guide/guide.cpp:895
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
 
-#: ekos/capture/captureprocess.cpp:2005
+#: ekos/capture/captureprocess.cpp:2010
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
 
-#: ekos/capture/captureprocess.cpp:2016
+#: ekos/capture/captureprocess.cpp:2021
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2038
+#: ekos/capture/captureprocess.cpp:2043
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
 
-#: ekos/capture/captureprocess.cpp:2071
+#: ekos/capture/captureprocess.cpp:2076
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
 
-#: ekos/capture/captureprocess.cpp:2079
+#: ekos/capture/captureprocess.cpp:2084
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2350
+#: ekos/capture/captureprocess.cpp:2355
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr "中天翻转配置已移到赤道仪模块。请在那里配置中天翻转。"
 
-#: ekos/capture/captureprocess.cpp:2636
+#: ekos/capture/captureprocess.cpp:2641
 #, kde-format
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ekos/capture/captureprocess.cpp:2656
+#: ekos/capture/captureprocess.cpp:2661
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14874,41 +14874,41 @@ msgstr ""
 "警告：基于 HFR 的自动焦点已设置，但未启用“保存序列 HFR 值至文件”选项。 当前 "
 "HFR 值将不会被写入序列文件。"
 
-#: ekos/capture/captureprocess.cpp:2777
+#: ekos/capture/captureprocess.cpp:2782
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "序列队列已保存到 %1"
 
-#: ekos/capture/captureprocess.cpp:2825
+#: ekos/capture/captureprocess.cpp:2830
 #, kde-format
 msgid "Sequence paused."
 msgstr "序列已暂停。"
 
-#: ekos/capture/captureprocess.cpp:2878
+#: ekos/capture/captureprocess.cpp:2883
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
 
-#: ekos/capture/captureprocess.cpp:2892
+#: ekos/capture/captureprocess.cpp:2897
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
 
-#: ekos/capture/captureprocess.cpp:3007
+#: ekos/capture/captureprocess.cpp:3012
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您确定要重新启动相机 %1 驱动吗？"
 
-#: ekos/capture/captureprocess.cpp:3008
+#: ekos/capture/captureprocess.cpp:3013
 #, kde-format
 msgid "Driver Restart"
 msgstr "重启设备"
 
-#: ekos/capture/captureprocessoverlay.cpp:107
+#: ekos/capture/captureprocessoverlay.cpp:106
 #, kde-format
 msgid "No target"
 msgstr "无目标"
@@ -15401,7 +15401,7 @@ msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr "Ekos 将尽快重新对焦，上次对焦是 在 %1 秒前。"
 
-#: ekos/capture/rotatorsettings.cpp:118
+#: ekos/capture/rotatorsettings.cpp:123
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
 msgstr ""
@@ -15633,95 +15633,95 @@ msgstr "后拍摄脚本:"
 msgid "Post-Job Script:"
 msgstr "后作业脚本:"
 
-#: ekos/capture/sequencejob.cpp:21 ekos/ekos.h:71 ekos/ekos.h:119
+#: ekos/capture/sequencejob.cpp:23 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
 #, kde-format
 msgid "In Progress"
 msgstr "进行中"
 
-#: ekos/capture/sequencejob.cpp:22 ekos/ekos.h:75 ekos/ekos.h:118
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:75 ekos/ekos.h:118
 #: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:619
 #, kde-format
 msgid "Complete"
 msgstr "完成"
 
-#: ekos/capture/sequencejobstate.cpp:399
+#: ekos/capture/sequencejobstate.cpp:400
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:400
+#: ekos/capture/sequencejobstate.cpp:401
 #, kde-format
 msgid "Flat Frame"
 msgstr "平场"
 
-#: ekos/capture/sequencejobstate.cpp:411
+#: ekos/capture/sequencejobstate.cpp:412
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "盖上望远镜以拍摄暗场。"
 
-#: ekos/capture/sequencejobstate.cpp:441 ekos/capture/sequencejobstate.cpp:614
+#: ekos/capture/sequencejobstate.cpp:442 ekos/capture/sequencejobstate.cpp:615
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "防尘盖开启中..."
 
-#: ekos/capture/sequencejobstate.cpp:441
+#: ekos/capture/sequencejobstate.cpp:442
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "防尘盖关闭中..."
 
-#: ekos/capture/sequencejobstate.cpp:453 ekos/capture/sequencejobstate.cpp:499
+#: ekos/capture/sequencejobstate.cpp:454 ekos/capture/sequencejobstate.cpp:500
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "打开 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:453 ekos/capture/sequencejobstate.cpp:499
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:454 ekos/capture/sequencejobstate.cpp:500
+#: ekos/capture/sequencejobstate.cpp:601
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "关闭 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:471
+#: ekos/capture/sequencejobstate.cpp:472
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr "赤道仪旋转至墙的位置..."
 
-#: ekos/capture/sequencejobstate.cpp:482 ekos/capture/sequencejobstate.cpp:486
+#: ekos/capture/sequencejobstate.cpp:483 ekos/capture/sequencejobstate.cpp:487
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "转到 wall position 已完成，停止跟踪。"
 
-#: ekos/capture/sequencejobstate.cpp:514
+#: ekos/capture/sequencejobstate.cpp:515
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "赤道仪归位失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:524
+#: ekos/capture/sequencejobstate.cpp:525
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位赤道仪..."
 
-#: ekos/capture/sequencejobstate.cpp:538
+#: ekos/capture/sequencejobstate.cpp:539
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "归位圆顶失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:548
+#: ekos/capture/sequencejobstate.cpp:549
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位圆顶..."
 
-#: ekos/capture/sequencejobstate.cpp:793
+#: ekos/capture/sequencejobstate.cpp:794
 #, kde-format
 msgid "Light box on."
 msgstr "Light box 打开。"
 
-#: ekos/capture/sequencejobstate.cpp:808
+#: ekos/capture/sequencejobstate.cpp:809
 #, kde-format
 msgid "Dust cap parked."
 msgstr "防尘盖已关闭。"
 
-#: ekos/capture/sequencejobstate.cpp:812
+#: ekos/capture/sequencejobstate.cpp:813
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "防尘盖已开启。"
@@ -15908,7 +15908,7 @@ msgstr "在线"
 msgid "Offline"
 msgstr "离线"
 
-#: ekos/ekoslive/message.cpp:929
+#: ekos/ekoslive/message.cpp:932
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
@@ -15923,454 +15923,454 @@ msgstr "Ekos Live 服务器身份验证错误：%1"
 msgid "Error parsing server response: %1"
 msgstr "解析服务器响应时出错： %1"
 
-#: ekos/focus/focus.cpp:102
+#: ekos/focus/focus.cpp:107
 #, kde-format
 msgid "Idle."
 msgstr "空闲。"
 
-#: ekos/focus/focus.cpp:124
+#: ekos/focus/focus.cpp:129
 #, kde-format
 msgid "Focus Options Profile Editor"
 msgstr "对焦选项配置编辑器"
 
-#: ekos/focus/focus.cpp:836
+#: ekos/focus/focus.cpp:841
 #, kde-format
 msgid "Finally found temperature source %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:961
+#: ekos/focus/focus.cpp:966
 #, kde-format
 msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
 msgstr ""
 
-#: ekos/focus/focus.cpp:975
+#: ekos/focus/focus.cpp:980
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
 
-#: ekos/focus/focus.cpp:983
+#: ekos/focus/focus.cpp:988
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
 
-#: ekos/focus/focus.cpp:989
+#: ekos/focus/focus.cpp:994
 #, kde-format
 msgid "Adaptive Focus moving from %1 to %2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1003
+#: ekos/focus/focus.cpp:1008
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1128
+#: ekos/focus/focus.cpp:1133
 #, kde-format
 msgid "No Focuser connected."
 msgstr "未连接到电调"
 
-#: ekos/focus/focus.cpp:1135 ekos/focus/focus.cpp:4045
+#: ekos/focus/focus.cpp:1140 ekos/focus/focus.cpp:4050
 #, kde-format
 msgid "No CCD connected."
 msgstr "没有 CCD 连接。"
 
-#: ekos/focus/focus.cpp:1142
+#: ekos/focus/focus.cpp:1147
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr "起始脉冲步太慢。增加步长至 %1 或更高..."
 
-#: ekos/focus/focus.cpp:1150
+#: ekos/focus/focus.cpp:1155
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr "自动对焦已经在运行，放弃开始请求。"
 
-#: ekos/focus/focus.cpp:1155
+#: ekos/focus/focus.cpp:1160
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1160
+#: ekos/focus/focus.cpp:1165
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1300
+#: ekos/focus/focus.cpp:1305
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "正在自动对焦..."
 
-#: ekos/focus/focus.cpp:1302
+#: ekos/focus/focus.cpp:1307
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr "请等待图像拍摄完成..."
 
-#: ekos/focus/focus.cpp:1316
+#: ekos/focus/focus.cpp:1321
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "启动自动对焦"
 
-#: ekos/focus/focus.cpp:1403
+#: ekos/focus/focus.cpp:1408
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1411
+#: ekos/focus/focus.cpp:1416
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1413
+#: ekos/focus/focus.cpp:1418
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1420
+#: ekos/focus/focus.cpp:1425
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1432
+#: ekos/focus/focus.cpp:1437
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1434
+#: ekos/focus/focus.cpp:1439
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1444
+#: ekos/focus/focus.cpp:1449
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1452
+#: ekos/focus/focus.cpp:1457
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1466
+#: ekos/focus/focus.cpp:1471
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1512
+#: ekos/focus/focus.cpp:1517
 #, kde-format
 msgid "Detection in progress, please wait."
 msgstr "正在进行检测，请稍候。"
 
-#: ekos/focus/focus.cpp:1546
+#: ekos/focus/focus.cpp:1551
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "自动对焦已终止。"
 
-#: ekos/focus/focus.cpp:1630
+#: ekos/focus/focus.cpp:1635
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "错误：未检测到相机。"
 
-#: ekos/focus/focus.cpp:1637
+#: ekos/focus/focus.cpp:1642
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "错误：相机连接中断。"
 
-#: ekos/focus/focus.cpp:1658
+#: ekos/focus/focus.cpp:1663
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "错误：未检测到滤镜轮。"
 
-#: ekos/focus/focus.cpp:1664
+#: ekos/focus/focus.cpp:1669
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "错误：与滤镜轮的连接中断。"
 
-#: ekos/focus/focus.cpp:1803
+#: ekos/focus/focus.cpp:1808
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "错误：未检测到电调。"
 
-#: ekos/focus/focus.cpp:1810
+#: ekos/focus/focus.cpp:1815
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "错误：与调焦器的连接中断。"
 
-#: ekos/focus/focus.cpp:1822
+#: ekos/focus/focus.cpp:1827
 #, kde-format
 msgid "outward"
 msgstr "向外"
 
-#: ekos/focus/focus.cpp:1822
+#: ekos/focus/focus.cpp:1827
 #, kde-format
 msgid "inward"
 msgstr "向内"
 
-#: ekos/focus/focus.cpp:1836
+#: ekos/focus/focus.cpp:1841
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "以 %1 步对焦 %2 中..."
 
-#: ekos/focus/focus.cpp:1842
+#: ekos/focus/focus.cpp:1847
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "以 %1 步对焦 %2 中..."
 
-#: ekos/focus/focus.cpp:1848
+#: ekos/focus/focus.cpp:1853
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "以 %1 毫秒对焦 %2 中..."
 
-#: ekos/focus/focus.cpp:1886
+#: ekos/focus/focus.cpp:1891
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1893
+#: ekos/focus/focus.cpp:1898
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1904
+#: ekos/focus/focus.cpp:1909
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1960
+#: ekos/focus/focus.cpp:1965
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1969
+#: ekos/focus/focus.cpp:1974
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2018
+#: ekos/focus/focus.cpp:2023
 #, kde-format
 msgid "Detection complete."
 msgstr "检测完成。"
 
-#: ekos/focus/focus.cpp:2210
+#: ekos/focus/focus.cpp:2215
 #, kde-format
 msgid "Detecting sources..."
 msgstr "正在检测源..."
 
-#: ekos/focus/focus.cpp:2324
+#: ekos/focus/focus.cpp:2329
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "自动对焦操作成功完成"
 
-#: ekos/focus/focus.cpp:2336
+#: ekos/focus/focus.cpp:2341
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "自动对焦操作失败"
 
-#: ekos/focus/focus.cpp:2372
+#: ekos/focus/focus.cpp:2377
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "经过 %1 次迭代，对焦完毕。"
 
-#: ekos/focus/focus.cpp:2456
+#: ekos/focus/focus.cpp:2461
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "安定%1s 中..."
 
-#: ekos/focus/focus.cpp:2463
+#: ekos/focus/focus.cpp:2468
 #, kde-format
 msgid "Settling complete."
 msgstr "安定完成"
 
-#: ekos/focus/focus.cpp:2476
+#: ekos/focus/focus.cpp:2481
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr "自动对焦失败，移动回初始对焦位置 %1。"
 
-#: ekos/focus/focus.cpp:2513
+#: ekos/focus/focus.cpp:2518
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS 接收完毕。未检测到星点。"
 
-#: ekos/focus/focus.cpp:2668
+#: ekos/focus/focus.cpp:2673
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "自动选择星点失败，请手动选择。"
 
-#: ekos/focus/focus.cpp:2762
+#: ekos/focus/focus.cpp:2767
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "拍摄完毕。请选择星点来进行对焦。"
 
-#: ekos/focus/focus.cpp:2793
+#: ekos/focus/focus.cpp:2798
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "测试 HFR 时未检测到任何星点，正在重新拍摄..."
 
-#: ekos/focus/focus.cpp:2920
+#: ekos/focus/focus.cpp:2925
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr "自动对焦无法到达合适的焦点。请尝试增大容忍值。"
 
-#: ekos/focus/focus.cpp:2931 ekos/focus/focus.cpp:3590
+#: ekos/focus/focus.cpp:2936 ekos/focus/focus.cpp:3595
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "未检测到星点，正在重新拍摄图像..."
 
-#: ekos/focus/focus.cpp:2937 ekos/focus/focus.cpp:3596
+#: ekos/focus/focus.cpp:2942 ekos/focus/focus.cpp:3601
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "未能在位置 %1 检测到任何星点。正在继续..."
 
-#: ekos/focus/focus.cpp:2942 ekos/focus/focus.cpp:3601
+#: ekos/focus/focus.cpp:2947 ekos/focus/focus.cpp:3606
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "自动选择星点失败，请手动选择。"
 
-#: ekos/focus/focus.cpp:3166
+#: ekos/focus/focus.cpp:3171
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3173
+#: ekos/focus/focus.cpp:3178
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3216
+#: ekos/focus/focus.cpp:3221
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS 接收完毕。 HFR %1 @ %2。 Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3218
+#: ekos/focus/focus.cpp:3223
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "收到 FITS。HFR %1 @ %2。"
 
-#: ekos/focus/focus.cpp:3279
+#: ekos/focus/focus.cpp:3284
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr "HFR 的值变化太小。请增大单步大小或减小容忍值。"
 
-#: ekos/focus/focus.cpp:3286
+#: ekos/focus/focus.cpp:3291
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr "在帧中未能检测到对焦星。重新拍摄并选择一颗对焦星。"
 
-#: ekos/focus/focus.cpp:3391
+#: ekos/focus/focus.cpp:3396
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "找到多项式解 @ %1"
 
-#: ekos/focus/focus.cpp:3455
+#: ekos/focus/focus.cpp:3460
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr "电调无法进一步移动，已达设备极限。自动对焦已中止。"
 
-#: ekos/focus/focus.cpp:3466
+#: ekos/focus/focus.cpp:3471
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr "不稳定的波动。请尝试增加初始步长或曝光时间。"
 
-#: ekos/focus/focus.cpp:3476
+#: ekos/focus/focus.cpp:3481
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "遇到死锁。请尝试使用不同的设置。"
 
-#: ekos/focus/focus.cpp:3505
+#: ekos/focus/focus.cpp:3510
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "已达最大行程。自动对焦已中止。"
 
-#: ekos/focus/focus.cpp:3575
+#: ekos/focus/focus.cpp:3580
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS 已接收：HFR %1。 Delta(%2%) 最小 HFR (%3)"
 
-#: ekos/focus/focus.cpp:3579
+#: ekos/focus/focus.cpp:3584
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr "自动对焦无法到达合适的焦点。请尝试调节容忍值。"
 
-#: ekos/focus/focus.cpp:3669 ekos/focus/focus.cpp:3682
-#: ekos/focus/focus.cpp:3812 ekos/focus/focus.cpp:3884
-#: ekos/focus/focus.cpp:3945 ekos/focus/focus.cpp:3989
+#: ekos/focus/focus.cpp:3674 ekos/focus/focus.cpp:3687
+#: ekos/focus/focus.cpp:3817 ekos/focus/focus.cpp:3889
+#: ekos/focus/focus.cpp:3950 ekos/focus/focus.cpp:3994
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "调焦器错误，请检查 INDI 面板。"
 
-#: ekos/focus/focus.cpp:3718 ekos/focus/focus.cpp:3828
+#: ekos/focus/focus.cpp:3723 ekos/focus/focus.cpp:3833
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3793 ekos/focus/focus.cpp:3869
-#: ekos/focus/focus.cpp:3930 ekos/focus/focus.cpp:3963
+#: ekos/focus/focus.cpp:3798 ekos/focus/focus.cpp:3874
+#: ekos/focus/focus.cpp:3935 ekos/focus/focus.cpp:3968
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "重启自动对焦过程..."
 
-#: ekos/focus/focus.cpp:4061
+#: ekos/focus/focus.cpp:4066
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "开始连续曝光..."
 
-#: ekos/focus/focus.cpp:4325
+#: ekos/focus/focus.cpp:4330
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr "禁用自动选星因为选框已被手动移动。"
 
-#: ekos/focus/focus.cpp:4330
+#: ekos/focus/focus.cpp:4335
 #, kde-format
 msgid "Focus star is selected."
 msgstr "对焦星已选择。"
 
-#: ekos/focus/focus.cpp:4458
+#: ekos/focus/focus.cpp:4463
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "没有星星被选择。使用最后一个已知位置......"
 
-#: ekos/focus/focus.cpp:4464
+#: ekos/focus/focus.cpp:4469
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "没有对焦星被选中。中止..."
 
-#: ekos/focus/focus.cpp:4575
+#: ekos/focus/focus.cpp:4580
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "对焦帧"
 
-#: ekos/focus/focus.cpp:4912
+#: ekos/focus/focus.cpp:4917
 #, kde-format
 msgid "Capturing image again..."
 msgstr "再次拍摄图像..."
 
-#: ekos/focus/focus.cpp:4927
+#: ekos/focus/focus.cpp:4932
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "保存图像失败。中止中..."
 
-#: ekos/focus/focus.cpp:4937
+#: ekos/focus/focus.cpp:4942
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "曝光失败，中止中..."
 
-#: ekos/focus/focus.cpp:4942
+#: ekos/focus/focus.cpp:4947
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "曝光失败。重启曝光…"
 
-#: ekos/focus/focus.cpp:5230
+#: ekos/focus/focus.cpp:5235
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "相关配置"
 
-#: ekos/focus/focus.cpp:6422
+#: ekos/focus/focus.cpp:6427
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -16395,7 +16395,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6438
+#: ekos/focus/focus.cpp:6443
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -16407,7 +16407,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6445
+#: ekos/focus/focus.cpp:6450
 #, kde-format
 msgid ""
 "\n"
@@ -16428,7 +16428,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6455
+#: ekos/focus/focus.cpp:6460
 #, kde-format
 msgid "Focus Advisor"
 msgstr ""
@@ -18082,7 +18082,7 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/externalguide/linguider.cpp:70
-#: ekos/guide/externalguide/phd2.cpp:278
+#: ekos/guide/externalguide/phd2.cpp:279
 #, kde-format
 msgid ""
 "The host was not found. Please check the host name and port settings in "
@@ -18098,7 +18098,7 @@ msgstr ""
 "连接被拒绝。请确认 LinGuider 正在运行，并检查主机名和端口设置是否正确。"
 
 #: ekos/guide/externalguide/linguider.cpp:79
-#: ekos/guide/externalguide/phd2.cpp:285
+#: ekos/guide/externalguide/phd2.cpp:286
 #, kde-format
 msgid "The following error occurred: %1."
 msgstr "出现了以下错误： %1。"
@@ -18161,274 +18161,274 @@ msgstr "未能获取赤经/赤纬漂移。"
 msgid "Failed to set dither range."
 msgstr "未能设置像素偏移范围。"
 
-#: ekos/guide/externalguide/phd2.cpp:134
+#: ekos/guide/externalguide/phd2.cpp:135
 #, kde-format
 msgid "PHD2: There was no dithering response from PHD2, but continue guiding."
 msgstr "PHD2: 像素偏移无响应, 但仍在继续导星。"
 
-#: ekos/guide/externalguide/phd2.cpp:150
+#: ekos/guide/externalguide/phd2.cpp:151
 #, kde-format
 msgid "Giving up reconnecting."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:154
+#: ekos/guide/externalguide/phd2.cpp:155
 #, kde-format
 msgid "Reconnecting to PHD2 Host: %1, on port %2. . ."
 msgstr "正在连接 PHD2 主机: %1, 在端口 %2..."
 
-#: ekos/guide/externalguide/phd2.cpp:191
+#: ekos/guide/externalguide/phd2.cpp:192
 #, kde-format
 msgid "Connecting to PHD2 Host: %1, on port %2. . ."
 msgstr "连接到 PHD2 主机: %1, 在端口 %2..."
 
-#: ekos/guide/externalguide/phd2.cpp:246
+#: ekos/guide/externalguide/phd2.cpp:247
 #, kde-format
 msgid "Aborting any capture before disconnecting equipment..."
 msgstr "在断开设备之前中止所有拍摄..."
 
-#: ekos/guide/externalguide/phd2.cpp:259
+#: ekos/guide/externalguide/phd2.cpp:260
 #, kde-format
 msgid "Disconnected from PHD2 Host: %1, on port %2."
 msgstr "已断开 PHD2 主机: %1, 在端口 %2..."
 
-#: ekos/guide/externalguide/phd2.cpp:275
+#: ekos/guide/externalguide/phd2.cpp:276
 #, kde-format
 msgid "The host disconnected."
 msgstr "主机已断开连接。"
 
-#: ekos/guide/externalguide/phd2.cpp:281
+#: ekos/guide/externalguide/phd2.cpp:282
 #, kde-format
 msgid ""
 "The connection was refused by the peer. Make sure the PHD2 is running, and "
 "check that the host name and port settings are correct."
 msgstr "连接被拒绝。请确认 PHD2 正在运行，并检查主机名和端口设置是否正确。"
 
-#: ekos/guide/externalguide/phd2.cpp:307
+#: ekos/guide/externalguide/phd2.cpp:308
 #, kde-format
 msgid "PHD2: invalid response received: %1"
 msgstr "PHD2： 收到无效响应： %1"
 
-#: ekos/guide/externalguide/phd2.cpp:308
+#: ekos/guide/externalguide/phd2.cpp:309
 #, kde-format
 msgid "PHD2: JSON error: %1"
 msgstr "PHD2: JSON 错误: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:332
+#: ekos/guide/externalguide/phd2.cpp:333
 #, kde-format
 msgid "Unknown PHD2 event: %1"
 msgstr "未知的 PHD2 事件： %1"
 
-#: ekos/guide/externalguide/phd2.cpp:341
+#: ekos/guide/externalguide/phd2.cpp:342
 #, kde-format
 msgid "PHD2: Version %1"
 msgstr "PHD2： 版本 %1"
 
-#: ekos/guide/externalguide/phd2.cpp:345
+#: ekos/guide/externalguide/phd2.cpp:346
 #, kde-format
 msgid "PHD2: Calibration Complete."
 msgstr "PHD2： 完成校准。"
 
-#: ekos/guide/externalguide/phd2.cpp:355
+#: ekos/guide/externalguide/phd2.cpp:356
 #, kde-format
 msgid "PHD2: Waiting for guiding to settle."
 msgstr "PHD2： 等待导星镇定。"
 
-#: ekos/guide/externalguide/phd2.cpp:378
+#: ekos/guide/externalguide/phd2.cpp:379
 #, kde-format
 msgid "PHD2: Calibration Failed (%1)."
 msgstr "PHD2： 校准失败 (%1)。"
 
-#: ekos/guide/externalguide/phd2.cpp:383
+#: ekos/guide/externalguide/phd2.cpp:384
 #, kde-format
 msgid "Calibration Data Flipped."
 msgstr "翻转校准数据。"
 
-#: ekos/guide/externalguide/phd2.cpp:411
+#: ekos/guide/externalguide/phd2.cpp:412
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2： 安定失败 (%1)。"
 
-#: ekos/guide/externalguide/phd2.cpp:430
+#: ekos/guide/externalguide/phd2.cpp:431
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr "PHD2: 有一个像素偏移错误, 但继续导星。"
 
-#: ekos/guide/externalguide/phd2.cpp:439
+#: ekos/guide/externalguide/phd2.cpp:440
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "PHD2： 安定失败，已中止。"
 
-#: ekos/guide/externalguide/phd2.cpp:445
+#: ekos/guide/externalguide/phd2.cpp:446
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "PHD2： 安定完成，导星已开始。"
 
-#: ekos/guide/externalguide/phd2.cpp:474
+#: ekos/guide/externalguide/phd2.cpp:475
 #, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: 找到被导星，导星恢复。"
 
-#: ekos/guide/externalguide/phd2.cpp:556
+#: ekos/guide/externalguide/phd2.cpp:557
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:610
+#: ekos/guide/externalguide/phd2.cpp:611
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2： 循环曝光停止。"
 
-#: ekos/guide/externalguide/phd2.cpp:615
+#: ekos/guide/externalguide/phd2.cpp:616
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2： 导星停止。"
 
-#: ekos/guide/externalguide/phd2.cpp:634
+#: ekos/guide/externalguide/phd2.cpp:635
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2： 锁定位置设置成功。"
 
-#: ekos/guide/externalguide/phd2.cpp:645
+#: ekos/guide/externalguide/phd2.cpp:646
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2： 已选择被导星。"
 
-#: ekos/guide/externalguide/phd2.cpp:655
+#: ekos/guide/externalguide/phd2.cpp:656
 #, kde-format
 msgid "PHD2: Guiding resumed."
 msgstr "PHD2： 导星恢复。"
 
-#: ekos/guide/externalguide/phd2.cpp:660
+#: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
 msgid "PHD2: Guiding started."
 msgstr "PHD2： 导星已开始。"
 
-#: ekos/guide/externalguide/phd2.cpp:671
+#: ekos/guide/externalguide/phd2.cpp:672
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2： 锁定位置丢失，继续校准。"
 
-#: ekos/guide/externalguide/phd2.cpp:677
+#: ekos/guide/externalguide/phd2.cpp:678
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "PHD2: 被导星丢失,，试图为%1s重新获取。"
 
-#: ekos/guide/externalguide/phd2.cpp:683
+#: ekos/guide/externalguide/phd2.cpp:684
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2： 锁定位置丢失。"
 
-#: ekos/guide/externalguide/phd2.cpp:689
+#: ekos/guide/externalguide/phd2.cpp:690
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2： 导星暂停。"
 
-#: ekos/guide/externalguide/phd2.cpp:694
+#: ekos/guide/externalguide/phd2.cpp:695
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2： 校准中，%1s后超时。"
 
-#: ekos/guide/externalguide/phd2.cpp:703
+#: ekos/guide/externalguide/phd2.cpp:704
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2： 校准已失败，转为循环拍摄。"
 
-#: ekos/guide/externalguide/phd2.cpp:707
+#: ekos/guide/externalguide/phd2.cpp:708
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2： 循环曝光中。"
 
-#: ekos/guide/externalguide/phd2.cpp:713
+#: ekos/guide/externalguide/phd2.cpp:714
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:741
+#: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2： 校准已清除"
 
-#: ekos/guide/externalguide/phd2.cpp:837
+#: ekos/guide/externalguide/phd2.cpp:838
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2： DEC 导星模式设置为： %1"
 
-#: ekos/guide/externalguide/phd2.cpp:847
+#: ekos/guide/externalguide/phd2.cpp:848
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: 曝光时间设置为: "
 
-#: ekos/guide/externalguide/phd2.cpp:855
+#: ekos/guide/externalguide/phd2.cpp:856
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: 有效曝光时间: 自动， "
 
-#: ekos/guide/externalguide/phd2.cpp:886
+#: ekos/guide/externalguide/phd2.cpp:887
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr "PHD2: 请在 PHD2 中设置 CCD 和望远镜参数, 像素缩放无效。"
 
-#: ekos/guide/externalguide/phd2.cpp:888
+#: ekos/guide/externalguide/phd2.cpp:889
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2： 像素尺寸为 %1 弧秒/像素"
 
-#: ekos/guide/externalguide/phd2.cpp:1003
+#: ekos/guide/externalguide/phd2.cpp:1004
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 错误：未能处理的“%1”"
 
-#: ekos/guide/externalguide/phd2.cpp:1135
-#: ekos/guide/externalguide/phd2.cpp:1153
-#: ekos/guide/externalguide/phd2.cpp:1304
-#: ekos/guide/externalguide/phd2.cpp:1419
-#: ekos/guide/externalguide/phd2.cpp:1448
-#: ekos/guide/externalguide/phd2.cpp:1477
+#: ekos/guide/externalguide/phd2.cpp:1136
+#: ekos/guide/externalguide/phd2.cpp:1154
+#: ekos/guide/externalguide/phd2.cpp:1305
+#: ekos/guide/externalguide/phd2.cpp:1420
+#: ekos/guide/externalguide/phd2.cpp:1449
+#: ekos/guide/externalguide/phd2.cpp:1478
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "PHD2 错误： 设备未连接。"
 
-#: ekos/guide/externalguide/phd2.cpp:1297
+#: ekos/guide/externalguide/phd2.cpp:1298
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2： 导星已在运行。"
 
-#: ekos/guide/externalguide/phd2.cpp:1363
+#: ekos/guide/externalguide/phd2.cpp:1364
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: 连接设备..."
 
-#: ekos/guide/externalguide/phd2.cpp:1365
+#: ekos/guide/externalguide/phd2.cpp:1366
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: 断开设备..."
 
-#: ekos/guide/guide.cpp:66
+#: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
 msgstr "校准"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
-#: ekos/guide/guide.cpp:70 ekos/guide/opsdither.ui:102
+#: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
 #, kde-format
 msgid "Dither"
 msgstr "抖动"
 
-#: ekos/guide/guide.cpp:74
+#: ekos/guide/guide.cpp:77
 #, kde-format
 msgid "GPG RA Guider"
 msgstr "高斯过程赤经导星（GPG）"
 
-#: ekos/guide/guide.cpp:412
+#: ekos/guide/guide.cpp:415
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 
-#: ekos/guide/guide.cpp:422
+#: ekos/guide/guide.cpp:425
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -18436,180 +18436,180 @@ msgid ""
 "using the SubFrame checkbox."
 msgstr ""
 
-#: ekos/guide/guide.cpp:571
+#: ekos/guide/guide.cpp:574
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "与导星 CCD 的连接丢失。"
 
-#: ekos/guide/guide.cpp:743
+#: ekos/guide/guide.cpp:746
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "错误：与 CCD 的连接中断。"
 
-#: ekos/guide/guide.cpp:911
+#: ekos/guide/guide.cpp:914
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "曝光超时。中止自动导星。"
 
-#: ekos/guide/guide.cpp:913
+#: ekos/guide/guide.cpp:916
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "曝光超时。中止像素偏移。"
 
-#: ekos/guide/guide.cpp:915
+#: ekos/guide/guide.cpp:918
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "曝光超时。中止校准。"
 
-#: ekos/guide/guide.cpp:1272
+#: ekos/guide/guide.cpp:1275
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "支架已归位，请解除归位以开始导星。"
 
-#: ekos/guide/guide.cpp:1375
+#: ekos/guide/guide.cpp:1378
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "检测到立柱偏向改变。正在清除校准数据。"
 
-#: ekos/guide/guide.cpp:1389
+#: ekos/guide/guide.cpp:1392
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "赤道仪正在移动，正在重置校准..."
 
-#: ekos/guide/guide.cpp:1405
+#: ekos/guide/guide.cpp:1408
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "赤道仪正在归位，中止导星..."
 
-#: ekos/guide/guide.cpp:1407
+#: ekos/guide/guide.cpp:1410
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "赤道仪正在转动，中止导星..."
 
-#: ekos/guide/guide.cpp:1470
+#: ekos/guide/guide.cpp:1473
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "校准已清除。"
 
-#: ekos/guide/guide.cpp:1491
+#: ekos/guide/guide.cpp:1494
 #, kde-format
 msgid "External guider connected."
 msgstr "外部导星器连接成功。"
 
-#: ekos/guide/guide.cpp:1509
+#: ekos/guide/guide.cpp:1512
 #, kde-format
 msgid "External guider disconnected."
 msgstr "外部到星期连接断开。"
 
-#: ekos/guide/guide.cpp:1526
+#: ekos/guide/guide.cpp:1529
 #, kde-format
 msgid "Calibration completed."
 msgstr "校准完毕。"
 
-#: ekos/guide/guide.cpp:1544
+#: ekos/guide/guide.cpp:1547
 #, kde-format
 msgid "Calibration started."
 msgstr "校准开始。"
 
-#: ekos/guide/guide.cpp:1551
+#: ekos/guide/guide.cpp:1554
 #, kde-format
 msgid "Guiding resumed."
 msgstr "自动导星已经恢复。"
 
-#: ekos/guide/guide.cpp:1554
+#: ekos/guide/guide.cpp:1557
 #, kde-format
 msgid "Autoguiding started."
 msgstr "自动导星已启动。"
 
-#: ekos/guide/guide.cpp:1566
+#: ekos/guide/guide.cpp:1569
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "自动导星已中止。"
 
-#: ekos/guide/guide.cpp:1571
+#: ekos/guide/guide.cpp:1574
 #, kde-format
 msgid "Guiding suspended."
 msgstr "自动导星暂停。"
 
-#: ekos/guide/guide.cpp:1580
+#: ekos/guide/guide.cpp:1583
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "手动抖动中"
 
-#: ekos/guide/guide.cpp:1584
+#: ekos/guide/guide.cpp:1587
 #, kde-format
 msgid "Dithering in progress."
 msgstr "正在进行像素偏移。"
 
-#: ekos/guide/guide.cpp:1588
+#: ekos/guide/guide.cpp:1591
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 
-#: ekos/guide/guide.cpp:1593
+#: ekos/guide/guide.cpp:1596
 #, kde-format
 msgid "Dithering failed."
 msgstr "像素偏移失败。"
 
-#: ekos/guide/guide.cpp:1604
+#: ekos/guide/guide.cpp:1607
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "像素偏移成功完成。"
 
-#: ekos/guide/guide.cpp:1650
+#: ekos/guide/guide.cpp:1653
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1672
+#: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "曝光失败。重新启动曝光..."
 
-#: ekos/guide/guide.cpp:1798
+#: ekos/guide/guide.cpp:1801
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "激活后无法改变导星器类型。"
 
-#: ekos/guide/guide.cpp:1889
+#: ekos/guide/guide.cpp:1892
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr "警告：已启用导星校准重置。建议关闭此 PHD2 选项。"
 
-#: ekos/guide/guide.cpp:2272
+#: ekos/guide/guide.cpp:2275
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "校准启动失败。"
 
-#: ekos/guide/guide.cpp:2423
+#: ekos/guide/guide.cpp:2426
 #, kde-format
 msgid "Auto star selected."
 msgstr "自动选中被导星。"
 
-#: ekos/guide/guide.cpp:2427
+#: ekos/guide/guide.cpp:2430
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "自动选择被导星失败。"
 
-#: ekos/guide/guide.cpp:2436
+#: ekos/guide/guide.cpp:2439
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "选择一颗被导星来进行校准。"
 
-#: ekos/guide/guide.cpp:2682
+#: ekos/guide/guide.cpp:2685
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (像素)"
 
-#: ekos/guide/guide.cpp:2683
+#: ekos/guide/guide.cpp:2686
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (像素)"
 
-#: ekos/guide/guide.cpp:2794 ekos/guide/guide.cpp:2920
+#: ekos/guide/guide.cpp:2797 ekos/guide/guide.cpp:2923
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -18618,7 +18618,7 @@ msgstr ""
 "PHD2 的相机在 Ekos 不可用，所以您未能看到拍摄的图像。 但您在导星时仍可看到被"
 "导星图像。"
 
-#: ekos/guide/guide.cpp:2798 ekos/guide/guide.cpp:2924
+#: ekos/guide/guide.cpp:2801 ekos/guide/guide.cpp:2927
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -18628,7 +18628,7 @@ msgstr ""
 "为了接收 PHD2 图像而不是被导星图像，必须取消勾选截幅。 请现在取消勾选以拍摄图"
 "像。您可以在导星前重新启用它。"
 
-#: ekos/guide/guide.cpp:3083
+#: ekos/guide/guide.cpp:3086
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -19109,18 +19109,18 @@ msgstr ""
 "<html><head/><body><p>在漂移图中设置期望的导星精度，代表绿色同心圆的半径。</"
 "p></body></html>"
 
-#: ekos/guide/guidedriftgraph.cpp:66
+#: ekos/guide/guidedriftgraph.cpp:67
 #, kde-format
 msgid "drift (arcsec)"
 msgstr "漂移 (角秒)"
 
-#: ekos/guide/guidedriftgraph.cpp:67
+#: ekos/guide/guidedriftgraph.cpp:68
 #, kde-format
 msgid "pulse (ms)"
 msgstr "脉冲 (毫秒)"
 
-#: ekos/guide/guidedriftgraph.cpp:223 ekos/guide/guidedriftgraph.cpp:625
-#: ekos/guide/guidedriftgraph.cpp:700
+#: ekos/guide/guidedriftgraph.cpp:224 ekos/guide/guidedriftgraph.cpp:626
+#: ekos/guide/guidedriftgraph.cpp:701
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -19134,8 +19134,8 @@ msgstr ""
 "td></tr><tr><td>赤纬:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 "
 "\"</td></tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 
-#: ekos/guide/guidedriftgraph.cpp:242 ekos/guide/guidedriftgraph.cpp:641
-#: ekos/guide/guidedriftgraph.cpp:716
+#: ekos/guide/guidedriftgraph.cpp:243 ekos/guide/guidedriftgraph.cpp:642
+#: ekos/guide/guidedriftgraph.cpp:717
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -19153,7 +19153,7 @@ msgstr ""
 "td><td>%6 毫秒</td></tr><tr><td>赤纬脉冲:   </td><td>%7 毫秒</td></tr></"
 "table>"
 
-#: ekos/guide/guidedriftgraph.cpp:281 ekos/guide/guidetargetplot.cpp:200
+#: ekos/guide/guidedriftgraph.cpp:282 ekos/guide/guidetargetplot.cpp:200
 #: kstarslite/skyitems/horizonitem.cpp:29
 #: skycomponents/horizoncomponent.cpp:118 skymapdrawabstract.cpp:184
 #, kde-format
@@ -19161,7 +19161,7 @@ msgctxt "North"
 msgid "N"
 msgstr "北"
 
-#: ekos/guide/guidedriftgraph.cpp:289 ekos/guide/guidetargetplot.cpp:208
+#: ekos/guide/guidedriftgraph.cpp:290 ekos/guide/guidetargetplot.cpp:208
 #: kstarslite/skyitems/horizonitem.cpp:25
 #: skycomponents/horizoncomponent.cpp:114
 #, kde-format
@@ -19169,7 +19169,7 @@ msgctxt "South"
 msgid "S"
 msgstr "南"
 
-#: ekos/guide/guidedriftgraph.cpp:297 ekos/guide/guidetargetplot.cpp:216
+#: ekos/guide/guidedriftgraph.cpp:298 ekos/guide/guidetargetplot.cpp:216
 #: kstarslite/skyitems/horizonitem.cpp:27
 #: skycomponents/horizoncomponent.cpp:116
 #, kde-format
@@ -19177,7 +19177,7 @@ msgctxt "West"
 msgid "W"
 msgstr "西"
 
-#: ekos/guide/guidedriftgraph.cpp:305 ekos/guide/guidetargetplot.cpp:224
+#: ekos/guide/guidedriftgraph.cpp:306 ekos/guide/guidetargetplot.cpp:224
 #: kstarslite/skyitems/horizonitem.cpp:23
 #: skycomponents/horizoncomponent.cpp:112
 #, kde-format
@@ -19185,7 +19185,7 @@ msgctxt "East"
 msgid "E"
 msgstr "东"
 
-#: ekos/guide/guidedriftgraph.cpp:453
+#: ekos/guide/guidedriftgraph.cpp:454
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guide Data"
@@ -19208,51 +19208,51 @@ msgstr "准备"
 msgid "Run"
 msgstr "运行"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:176
+#: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
 msgid "RA drifting forward..."
 msgstr "赤经正向漂移......"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:180
+#: ekos/guide/internalguide/calibrationprocess.cpp:182
 #, kde-format
 msgid "Guide Star found."
 msgstr "被导星已找到。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:200
+#: ekos/guide/internalguide/calibrationprocess.cpp:202
 #, kde-format
 msgid "Calibrating RA Out"
 msgstr ""
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:239
+#: ekos/guide/internalguide/calibrationprocess.cpp:241
 #, kde-format
 msgid "RA drifting reverse..."
 msgstr "赤经反向漂移..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:245
-#: ekos/guide/internalguide/calibrationprocess.cpp:383
-#: ekos/guide/internalguide/calibrationprocess.cpp:601
+#: ekos/guide/internalguide/calibrationprocess.cpp:247
+#: ekos/guide/internalguide/calibrationprocess.cpp:385
+#: ekos/guide/internalguide/calibrationprocess.cpp:603
 #, kde-format
 msgid ""
 "Calibration rejected. Star drift is too short. Check for mount, cable, or "
 "backlash problems."
 msgstr "校准结果被拒。星点漂移太短，请检查支架、线缆或回程差。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:248
+#: ekos/guide/internalguide/calibrationprocess.cpp:250
 #, kde-format
 msgid "Calibration Failed: Drift too short."
 msgstr "校准失败：漂移太短。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:277
+#: ekos/guide/internalguide/calibrationprocess.cpp:279
 #, kde-format
 msgid "Calibrating RA In"
 msgstr ""
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:334
+#: ekos/guide/internalguide/calibrationprocess.cpp:336
 #, kde-format
 msgid "Calibration Failed: couldn't reach start."
 msgstr "校准失败：无法回到起点。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:335
+#: ekos/guide/internalguide/calibrationprocess.cpp:337
 #, kde-format
 msgid ""
 "Guide RA: Scope cannot reach the start point after %1 iteration. Possible "
@@ -19264,47 +19264,47 @@ msgstr[0] ""
 "赤经导星：在 %1 次迭代后，望远镜仍无法回到起始点。\n"
 "可能是赤道仪或回差的问题..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:354
+#: ekos/guide/internalguide/calibrationprocess.cpp:356
 #, kde-format
 msgid "DEC backlash..."
 msgstr "赤纬回差..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:367
-#: ekos/guide/internalguide/calibrationprocess.cpp:420
+#: ekos/guide/internalguide/calibrationprocess.cpp:369
+#: ekos/guide/internalguide/calibrationprocess.cpp:422
 #, kde-format
 msgid "DEC drifting forward..."
 msgstr "赤纬正向漂移..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:386
-#: ekos/guide/internalguide/calibrationprocess.cpp:602
+#: ekos/guide/internalguide/calibrationprocess.cpp:388
+#: ekos/guide/internalguide/calibrationprocess.cpp:604
 #, kde-format
 msgid "Calibration Failed: drift too short."
 msgstr "校准失败：漂移过短。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:406
-#: ekos/guide/internalguide/calibrationprocess.cpp:423
+#: ekos/guide/internalguide/calibrationprocess.cpp:408
+#: ekos/guide/internalguide/calibrationprocess.cpp:425
 #, kde-format
 msgid "Calibrating DEC Backlash"
 msgstr "校准赤纬回差"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:432
+#: ekos/guide/internalguide/calibrationprocess.cpp:434
 #, kde-format
 msgid "Calibrating DEC Out"
 msgstr ""
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:468
+#: ekos/guide/internalguide/calibrationprocess.cpp:470
 #, kde-format
 msgid "DEC drifting reverse..."
 msgstr "赤纬反向漂移..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:478
-#: ekos/guide/internalguide/calibrationprocess.cpp:566
+#: ekos/guide/internalguide/calibrationprocess.cpp:480
+#: ekos/guide/internalguide/calibrationprocess.cpp:568
 #, kde-format
 msgid "Calibration Failed: couldn't reach start point."
 msgstr "校准失败：无法回到起点。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:479
-#: ekos/guide/internalguide/calibrationprocess.cpp:568
+#: ekos/guide/internalguide/calibrationprocess.cpp:481
+#: ekos/guide/internalguide/calibrationprocess.cpp:570
 #, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
@@ -19316,86 +19316,86 @@ msgstr[0] ""
 "赤纬导星：在 %1 次迭代后，望远镜仍无法回到起始点。\n"
 "可能是赤道仪或回差的问题..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:511
+#: ekos/guide/internalguide/calibrationprocess.cpp:513
 #, kde-format
 msgid "Calibrating DEC In"
 msgstr ""
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:584
+#: ekos/guide/internalguide/calibrationprocess.cpp:586
 #, kde-format
 msgid "DEC swap enabled."
 msgstr "赤纬交换允许。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:586
+#: ekos/guide/internalguide/calibrationprocess.cpp:588
 #, kde-format
 msgid "DEC swap disabled."
 msgstr "赤纬交换禁止。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:590
+#: ekos/guide/internalguide/calibrationprocess.cpp:592
 #, kde-format
 msgid "Calibration Successful"
 msgstr "校准成功"
 
-#: ekos/guide/internalguide/internalguider.cpp:435
+#: ekos/guide/internalguide/internalguider.cpp:437
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr "警告：抖动失败。如果抖动失败，自动导星应将按设定继续。"
 
-#: ekos/guide/internalguide/internalguider.cpp:505
+#: ekos/guide/internalguide/internalguider.cpp:507
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "警告: 手动抖动失败。"
 
-#: ekos/guide/internalguide/internalguider.cpp:555
+#: ekos/guide/internalguide/internalguider.cpp:557
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "%1 信息丢失。请在 INDI 控制面板内设置相应的值。"
 
-#: ekos/guide/internalguide/internalguider.cpp:556
+#: ekos/guide/internalguide/internalguider.cpp:558
 #, kde-format
 msgid "Missing Information"
 msgstr "缺少的信息"
 
-#: ekos/guide/internalguide/internalguider.cpp:581
+#: ekos/guide/internalguide/internalguider.cpp:583
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "已复用导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:633
+#: ekos/guide/internalguide/internalguider.cpp:635
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr "失去被导星的踪迹。请尝试增大方框尺寸或减小脉冲宽度。"
 
-#: ekos/guide/internalguide/internalguider.cpp:636
+#: ekos/guide/internalguide/internalguider.cpp:638
 #, kde-format
 msgid "Guide Star lost."
 msgstr "被导星已丢失。"
 
-#: ekos/guide/internalguide/internalguider.cpp:668
+#: ekos/guide/internalguide/internalguider.cpp:670
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "导星校准失败"
 
-#: ekos/guide/internalguide/internalguider.cpp:675
+#: ekos/guide/internalguide/internalguider.cpp:677
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "已成功完成导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:999
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "丢失被导星。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1001
+#: ekos/guide/internalguide/internalguider.cpp:1003
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Delta RMS 超出阈值。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1185
+#: ekos/guide/internalguide/internalguider.cpp:1187
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "找不到合适的导星目标。正在中止..."
@@ -20132,7 +20132,7 @@ msgstr "GPG完整估算周期时必须采样的最小周期数。"
 msgid "Num Periods for Period Estimate"
 msgstr "用于周期估计的周期数"
 
-#: ekos/guide/opsguide.cpp:41
+#: ekos/guide/opsguide.cpp:43
 #, kde-format
 msgid "Guide Options Profile Editor"
 msgstr "导星选项配置编辑器"
@@ -20473,39 +20473,39 @@ msgstr ""
 msgid "Robotic (Experimental)"
 msgstr "Robotic（实验性）"
 
-#: ekos/manager.cpp:224
+#: ekos/manager.cpp:226
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - %1 配置文件"
 
-#: ekos/manager.cpp:234
+#: ekos/manager.cpp:236
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "连接正在进行中，点击中止。"
 
-#: ekos/manager.cpp:254
+#: ekos/manager.cpp:256
 #, kde-format
 msgid "Logging"
 msgstr "日志"
 
-#: ekos/manager.cpp:341
+#: ekos/manager.cpp:343
 #, kde-format
 msgid "Analyze"
 msgstr "分析"
 
-#: ekos/manager.cpp:605
+#: ekos/manager.cpp:607
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:810 ekos/manager.cpp:836
+#: ekos/manager.cpp:812 ekos/manager.cpp:838
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr "Ekos 需要至少一个 CCD 或者导星器来执行操作。"
 
-#: ekos/manager.cpp:898
+#: ekos/manager.cpp:900
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -20514,17 +20514,17 @@ msgstr ""
 "Ekos 检测到 PTP 相机正在运行，并且可能会阻止佳能或尼康的相机连接到 Ekos 。您"
 "想现在退出 PTP 相机吗？"
 
-#: ekos/manager.cpp:899
+#: ekos/manager.cpp:901
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP 相机"
 
-#: ekos/manager.cpp:914
+#: ekos/manager.cpp:916
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "启动 INDI 服务..."
 
-#: ekos/manager.cpp:945
+#: ekos/manager.cpp:947
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -20533,80 +20533,80 @@ msgstr ""
 "Ekos 检测到一个 INDI 服务器实例正在运行。您希望在启动新实例前先关闭它吗？"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:947 indi/opsindi.ui:375
+#: ekos/manager.cpp:949 indi/opsindi.ui:375
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI 服务器"
 
-#: ekos/manager.cpp:962
+#: ekos/manager.cpp:964
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "正在连接远程 INDI 服务器 %1 的端口 %2 ..."
 
-#: ekos/manager.cpp:982
+#: ekos/manager.cpp:984
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "在远程 INDI 网页管理器上启动配置文件失败。"
 
-#: ekos/manager.cpp:986
+#: ekos/manager.cpp:988
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "正在远程 INDI 网页管理器启动配置文件..."
 
-#: ekos/manager.cpp:999
+#: ekos/manager.cpp:1001
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "正在与远程 INDI 网页管理器建立通信..."
 
-#: ekos/manager.cpp:1019
+#: ekos/manager.cpp:1021
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "警告：INDI Web 管理器未在线。"
 
-#: ekos/manager.cpp:1042
+#: ekos/manager.cpp:1044
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI 服务在端口 %1 启动。"
 
-#: ekos/manager.cpp:1045
+#: ekos/manager.cpp:1047
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "INDI 服务在端口 %1 启动。请连接设备。"
 
-#: ekos/manager.cpp:1050
+#: ekos/manager.cpp:1052
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1060
+#: ekos/manager.cpp:1062
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1062
+#: ekos/manager.cpp:1064
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1075
+#: ekos/manager.cpp:1077
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1077
+#: ekos/manager.cpp:1079
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1154
+#: ekos/manager.cpp:1156
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1156
+#: ekos/manager.cpp:1158
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -20614,7 +20614,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1184
+#: ekos/manager.cpp:1186
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -20622,13 +20622,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr "无法创建：%1 请确保设备已连接并通电。"
 
-#: ekos/manager.cpp:1188 ekos/manager.cpp:1196 ekos/manager.cpp:1226
-#: ekos/manager.cpp:1234
+#: ekos/manager.cpp:1190 ekos/manager.cpp:1198 ekos/manager.cpp:1228
+#: ekos/manager.cpp:1236
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Ekos 启动错误"
 
-#: ekos/manager.cpp:1192
+#: ekos/manager.cpp:1194
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -20636,7 +20636,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr "无法创建以下设备：%1 请确保每台设备已连接并通电。"
 
-#: ekos/manager.cpp:1222
+#: ekos/manager.cpp:1224
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -20644,7 +20644,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr "无法远程创建：%1 请确保设备已连接并通电。"
 
-#: ekos/manager.cpp:1230
+#: ekos/manager.cpp:1232
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -20652,32 +20652,32 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr "无法远程创建以下设备：%1 请确保每台设备已连接并通电。"
 
-#: ekos/manager.cpp:1285
+#: ekos/manager.cpp:1287
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "连接 INDI 设备..."
 
-#: ekos/manager.cpp:1296
+#: ekos/manager.cpp:1298
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "断开 INDI 设备..."
 
-#: ekos/manager.cpp:1334
+#: ekos/manager.cpp:1336
 #, kde-format
 msgid "INDI services stopped."
 msgstr "INDI 服务已停止。"
 
-#: ekos/manager.cpp:1408
+#: ekos/manager.cpp:1410
 #, kde-format
 msgid "Remote devices established."
 msgstr "远程设备创建成功。"
 
-#: ekos/manager.cpp:1410
+#: ekos/manager.cpp:1412
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "远程设备已建立。请连接设备。"
 
-#: ekos/manager.cpp:1471
+#: ekos/manager.cpp:1473
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -20686,104 +20686,104 @@ msgstr ""
 "%1 连接失败。\n"
 "请确保设备已连接并开启。"
 
-#: ekos/manager.cpp:1478
+#: ekos/manager.cpp:1480
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 已断开连接。"
 
-#: ekos/manager.cpp:1497 ekos/manager.cpp:1506 ekos/manager.cpp:1539
+#: ekos/manager.cpp:1499 ekos/manager.cpp:1508 ekos/manager.cpp:1541
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 在线。"
 
-#: ekos/manager.cpp:1514
+#: ekos/manager.cpp:1516
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 滤镜在线。"
 
-#: ekos/manager.cpp:1523
+#: ekos/manager.cpp:1525
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "%1 调焦器在线。"
 
-#: ekos/manager.cpp:1530
+#: ekos/manager.cpp:1532
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "旋像器 %1 在线中。"
 
-#: ekos/manager.cpp:1546
+#: ekos/manager.cpp:1548
 #, kde-format
 msgid "%1 Weather is online."
 msgstr ""
 
-#: ekos/manager.cpp:1553
+#: ekos/manager.cpp:1555
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS 在线中。"
 
-#: ekos/manager.cpp:1562
+#: ekos/manager.cpp:1564
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr ""
 
-#: ekos/manager.cpp:1569
+#: ekos/manager.cpp:1571
 #, kde-format
 msgid "%1 Light box is online."
 msgstr ""
 
-#: ekos/manager.cpp:1703
+#: ekos/manager.cpp:1705
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 离线。"
 
-#: ekos/manager.cpp:1950
+#: ekos/manager.cpp:1952
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2230
+#: ekos/manager.cpp:2232
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "端口 %1 的导星器已就绪。"
 
-#: ekos/manager.cpp:2419
+#: ekos/manager.cpp:2421
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "您确定要删除此配置文件吗？"
 
-#: ekos/manager.cpp:2420
+#: ekos/manager.cpp:2422
 #, kde-format
 msgid "Confirm Delete"
 msgstr "确认删除"
 
-#: ekos/manager.cpp:2472
+#: ekos/manager.cpp:2474
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "站址更新至 %1。"
 
-#: ekos/manager.cpp:2474
+#: ekos/manager.cpp:2476
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "更新站址至 %1 失败。未能找到城市。"
 
-#: ekos/manager.cpp:2723
+#: ekos/manager.cpp:2725
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "为%1启用调试日志记录"
 
-#: ekos/manager.cpp:2731
+#: ekos/manager.cpp:2733
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "为%1禁用调试日志"
 
-#: ekos/manager.cpp:2759
+#: ekos/manager.cpp:2761
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "为%1重新启用调试日志"
 
-#: ekos/manager.cpp:2771
+#: ekos/manager.cpp:2773
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "为%1重新禁用调试日志"
@@ -21057,125 +21057,125 @@ msgstr "过中天翻转完毕."
 msgid "Meridian Flip Status"
 msgstr "中天翻转状态"
 
-#: ekos/mount/mount.cpp:94
+#: ekos/mount/mount.cpp:96
 #, kde-format
 msgid "Are you sure you want to clear all mount configurations?"
 msgstr "您确定要清除支架的所有配置吗？"
 
-#: ekos/mount/mount.cpp:95
+#: ekos/mount/mount.cpp:97
 #, kde-format
 msgid "Mount Configuration"
 msgstr "赤道仪配置"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:148 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "赤道仪控制"
 
-#: ekos/mount/mount.cpp:371
+#: ekos/mount/mount.cpp:373
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr "检测到 GPS 设备。KStars 和支架的时间和位置设置现在同步到 GPS 设备。"
 
-#: ekos/mount/mount.cpp:386
+#: ekos/mount/mount.cpp:388
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "检测到 GPS 。您想要切换到 GPS 的时间和位置吗？"
 
-#: ekos/mount/mount.cpp:387
+#: ekos/mount/mount.cpp:389
 #, kde-format
 msgid "GPS Settings"
 msgstr "GPS设置"
 
-#: ekos/mount/mount.cpp:515
+#: ekos/mount/mount.cpp:517
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "您确定要停止赤道仪跟踪吗？"
 
-#: ekos/mount/mount.cpp:516
+#: ekos/mount/mount.cpp:518
 #, kde-format
 msgid "Mount Tracking"
 msgstr "赤道仪跟踪"
 
-#: ekos/mount/mount.cpp:603
+#: ekos/mount/mount.cpp:605
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr "望远镜高度角小于 %1 的最小高度角限制。中止运动......"
 
-#: ekos/mount/mount.cpp:619
+#: ekos/mount/mount.cpp:621
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr "望远镜高度角大于 %1 的最大高度角限制。中止运动......"
 
-#: ekos/mount/mount.cpp:671
+#: ekos/mount/mount.cpp:673
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr "望远镜时角度超过 %1的最大时角。中止运动..."
 
-#: ekos/mount/mount.cpp:813
+#: ekos/mount/mount.cpp:815
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "中天翻转设置在极轴校准时处于非活动状态。"
 
-#: ekos/mount/mount.cpp:827
+#: ekos/mount/mount.cpp:829
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "已完成极轴对齐动作，已激活中天翻转。"
 
-#: ekos/mount/mount.cpp:850
+#: ekos/mount/mount.cpp:852
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1|/|$[~stripAccel %1]"
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1450
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "对准模块清除完毕。"
 
-#: ekos/mount/mount.cpp:1452
+#: ekos/mount/mount.cpp:1454
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "清除对准模块失败。"
 
-#: ekos/mount/mount.cpp:1562 ekos/scheduler/schedulerprocess.cpp:1461
+#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:1461
 #, kde-format
 msgid "Mount already parked."
 msgstr "赤道仪已经归位完毕。"
 
-#: ekos/mount/mount.cpp:1587
+#: ekos/mount/mount.cpp:1589
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "归位时间不能是过去的。"
 
-#: ekos/mount/mount.cpp:1596
+#: ekos/mount/mount.cpp:1598
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "归位时间必须在当前时间的24小时内。"
 
-#: ekos/mount/mount.cpp:1601
+#: ekos/mount/mount.cpp:1603
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "警告！归位时间已经超过12小时。"
 
-#: ekos/mount/mount.cpp:1603
+#: ekos/mount/mount.cpp:1605
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "注意：调度器处于活动状态时请不要使用自动归位。"
 
-#: ekos/mount/mount.cpp:1622
+#: ekos/mount/mount.cpp:1624
 #, kde-format
 msgid "Parking timer is up."
 msgstr "归位计时器已开启。"
 
-#: ekos/mount/mount.cpp:1631
+#: ekos/mount/mount.cpp:1633
 #, kde-format
 msgid "Starting auto park..."
 msgstr "启动自动归位..."
@@ -21840,7 +21840,7 @@ msgstr "关闭快门"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1932 ekos/scheduler/scheduler.cpp:1958
+#: ekos/scheduler/scheduler.cpp:1933 ekos/scheduler/scheduler.cpp:1959
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "停止调度程序"
@@ -23399,14 +23399,14 @@ msgid ""
 msgstr "创建配置文件及选择设备"
 
 #: ekos/scheduler/framingassistant.cpp:539
-#: ekos/scheduler/framingassistantui.cpp:555
+#: ekos/scheduler/framingassistantui.cpp:556
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
 msgstr[0] " 调度器任务"
 
 #: ekos/scheduler/framingassistant.cpp:541
-#: ekos/scheduler/framingassistantui.cpp:557
+#: ekos/scheduler/framingassistantui.cpp:558
 #, kde-format
 msgid " (first only)"
 msgstr ""
@@ -24115,34 +24115,34 @@ msgstr "重复直到中止(&T)"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:993
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:994
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "选择序列队列"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:995
+#: ekos/scheduler/framingassistantui.cpp:696 ekos/scheduler/scheduler.cpp:996
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Ekos 序列队列 (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:707
+#: ekos/scheduler/framingassistantui.cpp:708
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:709
+#: ekos/scheduler/framingassistantui.cpp:710
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:768
+#: ekos/scheduler/framingassistantui.cpp:769
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:847
+#: ekos/scheduler/framingassistantui.cpp:848
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
@@ -24153,7 +24153,7 @@ msgstr "选择作业目录"
 msgid "Job '%1' has no more batches remaining."
 msgstr "任务“%1”没有尚未完成的批量任务。"
 
-#: ekos/scheduler/scheduler.cpp:370
+#: ekos/scheduler/scheduler.cpp:371
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -24164,7 +24164,7 @@ msgstr ""
 "请单击选中列表中作业。\n"
 "双击移编辑左手边的作业。"
 
-#: ekos/scheduler/scheduler.cpp:377
+#: ekos/scheduler/scheduler.cpp:378
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -24173,22 +24173,22 @@ msgstr ""
 "从观测列表中删除所选作业。\n"
 "删除作业前属性会被复制到编辑区。"
 
-#: ekos/scheduler/scheduler.cpp:381
+#: ekos/scheduler/scheduler.cpp:382
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:384
+#: ekos/scheduler/scheduler.cpp:385
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:388
+#: ekos/scheduler/scheduler.cpp:389
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:392
+#: ekos/scheduler/scheduler.cpp:393
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -24199,84 +24199,84 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:629 ekos/scheduler/scheduler.cpp:4507
+#: ekos/scheduler/scheduler.cpp:630 ekos/scheduler/scheduler.cpp:4508
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:870
+#: ekos/scheduler/scheduler.cpp:871
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:924
+#: ekos/scheduler/scheduler.cpp:925
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "FITS 文件头：找不到 OBJCTRA (%1)。"
 
-#: ekos/scheduler/scheduler.cpp:943
+#: ekos/scheduler/scheduler.cpp:944
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "FITS 头：找不到 OBJCTDEC (%1)。"
 
-#: ekos/scheduler/scheduler.cpp:1003
+#: ekos/scheduler/scheduler.cpp:1004
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "选择启动脚本"
 
-#: ekos/scheduler/scheduler.cpp:1005 ekos/scheduler/scheduler.cpp:1020
+#: ekos/scheduler/scheduler.cpp:1006 ekos/scheduler/scheduler.cpp:1021
 #, kde-format
 msgid "Script (*)"
 msgstr "脚本（*）"
 
-#: ekos/scheduler/scheduler.cpp:1018
+#: ekos/scheduler/scheduler.cpp:1019
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "选择关机脚本"
 
-#: ekos/scheduler/scheduler.cpp:1120
+#: ekos/scheduler/scheduler.cpp:1121
 #, kde-format
 msgid "Warning: You cannot add or modify a job while the scheduler is running."
 msgstr "警告：在调度器运行时，您不能添加或修改作业。"
 
-#: ekos/scheduler/scheduler.cpp:1126
+#: ekos/scheduler/scheduler.cpp:1127
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "警告：需要目标名称。"
 
-#: ekos/scheduler/scheduler.cpp:1132
+#: ekos/scheduler/scheduler.cpp:1133
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "警告：序列文件是必需的。"
 
-#: ekos/scheduler/scheduler.cpp:1139
+#: ekos/scheduler/scheduler.cpp:1140
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "警告：目标坐标是必需的。"
 
-#: ekos/scheduler/scheduler.cpp:1149
+#: ekos/scheduler/scheduler.cpp:1150
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "警告：赤经值 %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:1155
+#: ekos/scheduler/scheduler.cpp:1156
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "警告：赤纬值 %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:1257
+#: ekos/scheduler/scheduler.cpp:1258
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1265
+#: ekos/scheduler/scheduler.cpp:1266
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -24284,354 +24284,354 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1273
+#: ekos/scheduler/scheduler.cpp:1274
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1463
+#: ekos/scheduler/scheduler.cpp:1464
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1473
+#: ekos/scheduler/scheduler.cpp:1474
 #, kde-format
 msgid "Warning: you cannot add or modify a job while the scheduler is running."
 msgstr "警告：在调度器运行时，您不能添加或修改作业。"
 
-#: ekos/scheduler/scheduler.cpp:1536
+#: ekos/scheduler/scheduler.cpp:1537
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1801
+#: ekos/scheduler/scheduler.cpp:1802
 #, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "任务“%1”尚未在调度器停止前处理，标记为已中止。"
 
-#: ekos/scheduler/scheduler.cpp:1808
+#: ekos/scheduler/scheduler.cpp:1809
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "调度程序中止。"
 
-#: ekos/scheduler/scheduler.cpp:1867
+#: ekos/scheduler/scheduler.cpp:1868
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "调度程序挂起，直到下一份作业准备就绪"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1893 ekos/scheduler/scheduler.ui:1124
+#: ekos/scheduler/scheduler.cpp:1894 ekos/scheduler/scheduler.ui:1124
 #, kde-format
 msgid "Start Scheduler"
 msgstr "启动调度程序"
 
-#: ekos/scheduler/scheduler.cpp:1913
+#: ekos/scheduler/scheduler.cpp:1914
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "警告：启动脚本 URL %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:1921
+#: ekos/scheduler/scheduler.cpp:1922
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "警告：关机脚本 URL %1 无效。"
 
-#: ekos/scheduler/scheduler.cpp:1951
+#: ekos/scheduler/scheduler.cpp:1952
 #, kde-format
 msgid "Scheduler started."
 msgstr "调度器已开始。"
 
-#: ekos/scheduler/scheduler.cpp:1971
+#: ekos/scheduler/scheduler.cpp:1972
 #, kde-format
 msgid "Scheduler resuming."
 msgstr "调度器恢复。"
 
-#: ekos/scheduler/scheduler.cpp:1984
+#: ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1988
+#: ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "恢复调度程序"
 
-#: ekos/scheduler/scheduler.cpp:1997
+#: ekos/scheduler/scheduler.cpp:1998
 #, kde-format
 msgid "Scheduler paused."
 msgstr "调度程序暂停。"
 
-#: ekos/scheduler/scheduler.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2020
 #, kde-format
 msgid "No job running"
 msgstr "没有作业运行"
 
-#: ekos/scheduler/scheduler.cpp:2087
+#: ekos/scheduler/scheduler.cpp:2088
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "在估计后，调度队列中没有留下任何作业。"
 
-#: ekos/scheduler/scheduler.cpp:2095
+#: ekos/scheduler/scheduler.cpp:2096
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr "评估后，调度器队列中只剩下中断的作业，正在重新安排这些作业。"
 
-#: ekos/scheduler/scheduler.cpp:2109
+#: ekos/scheduler/scheduler.cpp:2110
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "未安排作业。"
 
-#: ekos/scheduler/scheduler.cpp:2123
+#: ekos/scheduler/scheduler.cpp:2124
 #, kde-format
 msgid "Scheduler is awake."
 msgstr "调度器被唤醒。"
 
-#: ekos/scheduler/scheduler.cpp:2129
+#: ekos/scheduler/scheduler.cpp:2130
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr "调度器被唤醒。准备就绪后将开始作业..."
 
-#: ekos/scheduler/scheduler.cpp:2131
+#: ekos/scheduler/scheduler.cpp:2132
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2195
+#: ekos/scheduler/scheduler.cpp:2196
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Ekos 作业开始 (%1)"
 
-#: ekos/scheduler/scheduler.cpp:2210
+#: ekos/scheduler/scheduler.cpp:2211
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "天文台处于关闭流程中"
 
-#: ekos/scheduler/scheduler.cpp:2295
+#: ekos/scheduler/scheduler.cpp:2296
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2425 ekos/scheduler/scheduler.cpp:5107
+#: ekos/scheduler/scheduler.cpp:2426 ekos/scheduler/scheduler.cpp:5108
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对齐校准失败，标记已中止。"
 
-#: ekos/scheduler/scheduler.cpp:2453
+#: ekos/scheduler/scheduler.cpp:2454
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "警告：任务“%1”的拍摄失败，标记为已中止。"
 
-#: ekos/scheduler/scheduler.cpp:2480 ekos/scheduler/scheduler.cpp:5342
+#: ekos/scheduler/scheduler.cpp:2481 ekos/scheduler/scheduler.cpp:5343
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对焦失败，标记已中止。"
 
-#: ekos/scheduler/scheduler.cpp:2504 ekos/scheduler/scheduler.cpp:5181
+#: ekos/scheduler/scheduler.cpp:2505 ekos/scheduler/scheduler.cpp:5182
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "警告：任务“%1”的导星失败，标记已中止。"
 
-#: ekos/scheduler/scheduler.cpp:2530
+#: ekos/scheduler/scheduler.cpp:2531
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "警告：任务“%1”断开了与支架的连接，正在尝试重新连接。"
 
-#: ekos/scheduler/scheduler.cpp:2550
+#: ekos/scheduler/scheduler.cpp:2551
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "警告：任务“%1”断开了连接圆顶的连接，正在尝试重新连接。"
 
-#: ekos/scheduler/scheduler.cpp:2588
+#: ekos/scheduler/scheduler.cpp:2589
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "导星已经在运行，直接开始拍摄。"
 
-#: ekos/scheduler/scheduler.cpp:2600
+#: ekos/scheduler/scheduler.cpp:2601
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2716
+#: ekos/scheduler/scheduler.cpp:2717
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "打开 Ekos 调度器列表"
 
-#: ekos/scheduler/scheduler.cpp:3065
+#: ekos/scheduler/scheduler.cpp:3066
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "保存 Ekos 调度器列表"
 
-#: ekos/scheduler/scheduler.cpp:3084
+#: ekos/scheduler/scheduler.cpp:3085
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "未能保存计划列表"
 
-#: ekos/scheduler/scheduler.cpp:3138
+#: ekos/scheduler/scheduler.cpp:3139
 #, kde-format
 msgid "Job '%1' is slewing to target."
 msgstr "任务“%1”正在转动到目标。"
 
-#: ekos/scheduler/scheduler.cpp:3181
+#: ekos/scheduler/scheduler.cpp:3182
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr "警告：任务“%1”无法进行自动对焦，不被支持。"
 
-#: ekos/scheduler/scheduler.cpp:3264
+#: ekos/scheduler/scheduler.cpp:3265
 #, kde-format
 msgid "Job '%1' is focusing."
 msgstr "任务“%1”正在对焦。"
 
-#: ekos/scheduler/scheduler.cpp:3314
+#: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr "任务“%1”因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:3316
+#: ekos/scheduler/scheduler.cpp:3317
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr "任务“%1”已中止。"
 
-#: ekos/scheduler/scheduler.cpp:3329
+#: ekos/scheduler/scheduler.cpp:3330
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr "等待 %1 秒重启作业 '%2'。"
 
-#: ekos/scheduler/scheduler.cpp:3335
+#: ekos/scheduler/scheduler.cpp:3336
 #, kde-format
 msgid "Scheduler waits for a retry."
 msgstr "调度器等待重试。"
 
-#: ekos/scheduler/scheduler.cpp:3372
+#: ekos/scheduler/scheduler.cpp:3373
 #, kde-format
 msgid "Job '%1' is complete."
 msgstr "任务“%1”已完成。"
 
-#: ekos/scheduler/scheduler.cpp:3417
+#: ekos/scheduler/scheduler.cpp:3418
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:3466 ekos/scheduler/scheduler.cpp:3509
+#: ekos/scheduler/scheduler.cpp:3467 ekos/scheduler/scheduler.cpp:3510
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:3513
+#: ekos/scheduler/scheduler.cpp:3514
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr "任务“%1”正在重复执行，无限次循环。"
 
-#: ekos/scheduler/scheduler.cpp:3533
+#: ekos/scheduler/scheduler.cpp:3534
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
 "Job '%1' stopping, reached completion time with #%2 batches done."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:3563
+#: ekos/scheduler/scheduler.cpp:3564
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
 "Job '%1' completed #%2 batches before completion time, restarted."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:3609
+#: ekos/scheduler/scheduler.cpp:3610
 #, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3622
+#: ekos/scheduler/scheduler.cpp:3623
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3633
+#: ekos/scheduler/scheduler.cpp:3634
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3640
+#: ekos/scheduler/scheduler.cpp:3641
 #, kde-format
 msgid "Job '%1' is plate solving %2."
 msgstr "任务“%1”正在解析 %2。"
 
-#: ekos/scheduler/scheduler.cpp:3655
+#: ekos/scheduler/scheduler.cpp:3656
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3672
+#: ekos/scheduler/scheduler.cpp:3673
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3686
+#: ekos/scheduler/scheduler.cpp:3687
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3697
+#: ekos/scheduler/scheduler.cpp:3698
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3703
+#: ekos/scheduler/scheduler.cpp:3704
 #, kde-format
 msgid "Job '%1' is capturing and plate solving."
 msgstr "任务“%1”正在拍摄及解析。"
 
-#: ekos/scheduler/scheduler.cpp:3718
+#: ekos/scheduler/scheduler.cpp:3719
 #, kde-format
 msgid "Guiding already running for %1 ..."
 msgstr "正在为 %1 导星..."
 
-#: ekos/scheduler/scheduler.cpp:3746
+#: ekos/scheduler/scheduler.cpp:3747
 #, kde-format
 msgid "Starting guiding procedure for %1 ..."
 msgstr "正在启动 %1 的导星程序..."
 
-#: ekos/scheduler/scheduler.cpp:3832
+#: ekos/scheduler/scheduler.cpp:3833
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr "Ekos 作业 (%1) - 拍摄已启动"
 
-#: ekos/scheduler/scheduler.cpp:3835
+#: ekos/scheduler/scheduler.cpp:3836
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr "作业%1的拍摄进行中（脚本 #%2）..."
 
-#: ekos/scheduler/scheduler.cpp:3837
+#: ekos/scheduler/scheduler.cpp:3838
 #, kde-format
 msgid "Job '%1' capture is in progress..."
 msgstr "任务“%1”正在拍摄..."
 
-#: ekos/scheduler/scheduler.cpp:4052
+#: ekos/scheduler/scheduler.cpp:4053
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "警告：任务“%1”含不可访问序列“%2”，标记为无效。"
 
-#: ekos/scheduler/scheduler.cpp:4123
+#: ekos/scheduler/scheduler.cpp:4124
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
 "procedures currently set in its sequence will not occur."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4151
+#: ekos/scheduler/scheduler.cpp:4152
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "任务“%1”%2x%3\" %4"
 
-#: ekos/scheduler/scheduler.cpp:4616
+#: ekos/scheduler/scheduler.cpp:4617
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
@@ -24640,219 +24640,219 @@ msgstr ""
 "关闭天文晨昏检查可能会导致观测台在白天运行。这可能会对您的设备造成不可逆转的"
 "损坏！"
 
-#: ekos/scheduler/scheduler.cpp:4618
+#: ekos/scheduler/scheduler.cpp:4619
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr "天文曙暮光告警"
 
-#: ekos/scheduler/scheduler.cpp:4643
+#: ekos/scheduler/scheduler.cpp:4644
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "无法打开序列队列文件“%1”"
 
-#: ekos/scheduler/scheduler.cpp:4781
+#: ekos/scheduler/scheduler.cpp:4782
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
 "ready..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5072
+#: ekos/scheduler/scheduler.cpp:5073
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "任务“%1”的对齐校准已完成。"
 
-#: ekos/scheduler/scheduler.cpp:5091
+#: ekos/scheduler/scheduler.cpp:5092
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "警告：任务“%1”的对齐校准失败。"
 
-#: ekos/scheduler/scheduler.cpp:5097
+#: ekos/scheduler/scheduler.cpp:5098
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr "警告：任务“%1”在校准失败后强制重置赤道仪模型 #%2。"
 
-#: ekos/scheduler/scheduler.cpp:5102 ekos/scheduler/scheduler.cpp:5169
+#: ekos/scheduler/scheduler.cpp:5103 ekos/scheduler/scheduler.cpp:5170
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "重启 %1 对准流程..."
 
-#: ekos/scheduler/scheduler.cpp:5141
+#: ekos/scheduler/scheduler.cpp:5142
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "任务“%1”的导星进行中。"
 
-#: ekos/scheduler/scheduler.cpp:5153
+#: ekos/scheduler/scheduler.cpp:5154
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "警告：任务“%1”的导星失败。"
 
-#: ekos/scheduler/scheduler.cpp:5155
+#: ekos/scheduler/scheduler.cpp:5156
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "警告：任务“%1”的校准失败。"
 
-#: ekos/scheduler/scheduler.cpp:5174
+#: ekos/scheduler/scheduler.cpp:5175
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "任务“%1”正在导星，导星过程将在 %2 秒后重启。"
 
-#: ekos/scheduler/scheduler.cpp:5233
+#: ekos/scheduler/scheduler.cpp:5234
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "警告：任务“'%1”拍摄目标失败。"
 
-#: ekos/scheduler/scheduler.cpp:5246
+#: ekos/scheduler/scheduler.cpp:5247
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
 "%3)."
 msgstr "任务“%1”正在拍摄，且正在重新启动其导星程序 (尝试 #%2 of %3)。"
 
-#: ekos/scheduler/scheduler.cpp:5255
+#: ekos/scheduler/scheduler.cpp:5256
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "警告：任务“%1”的拍摄过程失败，正在重启拍摄。"
 
-#: ekos/scheduler/scheduler.cpp:5261
+#: ekos/scheduler/scheduler.cpp:5262
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "警告：任务“%1”的拍摄过程失败，标记为已中止。"
 
-#: ekos/scheduler/scheduler.cpp:5270
+#: ekos/scheduler/scheduler.cpp:5271
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Ekos 作业 (%1) - 拍摄已完毕"
 
-#: ekos/scheduler/scheduler.cpp:5318
+#: ekos/scheduler/scheduler.cpp:5319
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "任务“%1”对焦已完成。"
 
-#: ekos/scheduler/scheduler.cpp:5328
+#: ekos/scheduler/scheduler.cpp:5329
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "警告：任务“%1”对焦失败。"
 
-#: ekos/scheduler/scheduler.cpp:5332
+#: ekos/scheduler/scheduler.cpp:5333
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "任务“%1”正在重启其对焦程序。"
 
-#: ekos/scheduler/scheduler.cpp:5374
+#: ekos/scheduler/scheduler.cpp:5375
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "任务“%1”的转动已完成。"
 
-#: ekos/scheduler/scheduler.cpp:5380
+#: ekos/scheduler/scheduler.cpp:5381
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr "警告：任务“%1”的转动失败，标记为因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:5386
+#: ekos/scheduler/scheduler.cpp:5387
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "警告：任务“%1”发现未在转动，正在重启。"
 
-#: ekos/scheduler/scheduler.cpp:5399
+#: ekos/scheduler/scheduler.cpp:5400
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "任务“%1”的重新定位已完成。"
 
-#: ekos/scheduler/scheduler.cpp:5405
+#: ekos/scheduler/scheduler.cpp:5406
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr "警告：任务“%1”重新定位失败，标记为因错误而终止。"
 
-#: ekos/scheduler/scheduler.cpp:5411
+#: ekos/scheduler/scheduler.cpp:5412
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "警告：任务“%1”发现未在移位，正在重启。"
 
-#: ekos/scheduler/scheduler.cpp:5432
+#: ekos/scheduler/scheduler.cpp:5433
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "天气条件具备。"
 
-#: ekos/scheduler/scheduler.cpp:5436
+#: ekos/scheduler/scheduler.cpp:5437
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "警告：天气条件在警告区。"
 
-#: ekos/scheduler/scheduler.cpp:5440
+#: ekos/scheduler/scheduler.cpp:5441
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "注意：天气条件处于危险区！"
 
-#: ekos/scheduler/scheduler.cpp:5462
+#: ekos/scheduler/scheduler.cpp:5463
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "天气条件在警戒区"
 
-#: ekos/scheduler/scheduler.cpp:5471
+#: ekos/scheduler/scheduler.cpp:5472
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "天气恶劣。立即关闭天文台"
 
-#: ekos/scheduler/scheduler.cpp:5492
+#: ekos/scheduler/scheduler.cpp:5493
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "因天气恶劣，启动关机流程。"
 
-#: ekos/scheduler/scheduler.cpp:5520
+#: ekos/scheduler/scheduler.cpp:5521
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr "任务“%1”计划在 %2 执行。观测将计划关闭，直到下次任务准备就绪。"
 
-#: ekos/scheduler/scheduler.cpp:5543
+#: ekos/scheduler/scheduler.cpp:5544
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5553
+#: ekos/scheduler/scheduler.cpp:5554
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5555
+#: ekos/scheduler/scheduler.cpp:5556
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "调度器处于睡眠模式"
 
-#: ekos/scheduler/scheduler.cpp:5563
+#: ekos/scheduler/scheduler.cpp:5564
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5686
+#: ekos/scheduler/scheduler.cpp:5687
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5688
+#: ekos/scheduler/scheduler.cpp:5689
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5723
+#: ekos/scheduler/scheduler.cpp:5724
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "拍摄的图像距离目标 %1角分 ，正在重新对齐..."
 
-#: ekos/scheduler/scheduler.cpp:6017
+#: ekos/scheduler/scheduler.cpp:6018
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "手动启动过程已成功完成。"
 
-#: ekos/scheduler/scheduler.cpp:6021
+#: ekos/scheduler/scheduler.cpp:6022
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "手动启动过程因错误而终止。"
@@ -26690,7 +26690,7 @@ msgstr "像素网格线"
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1284
+#: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1293
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
@@ -29166,17 +29166,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:314 kstarsactions.cpp:1553 skymap.cpp:427
+#: kstars.cpp:314 kstarsactions.cpp:1562 skymap.cpp:427
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "停止跟踪(&T)"
 
-#: kstars.cpp:322 kstarsactions.cpp:1722 kstarsinit.cpp:263
+#: kstars.cpp:322 kstarsactions.cpp:1731 kstarsinit.cpp:263
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "切换天球仪视角（赤道坐标）(&C)"
 
-#: kstars.cpp:323 kstarsactions.cpp:1701 kstarsinit.cpp:264
+#: kstars.cpp:323 kstarsactions.cpp:1710 kstarsinit.cpp:264
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr ""
@@ -63791,19 +63791,19 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "其他"
 
-#: kstarsactions.cpp:208
+#: kstarsactions.cpp:211
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "禁止折射效果"
 
-#: kstarsactions.cpp:209
+#: kstarsactions.cpp:212
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr "当关闭地平线的时候，折射效应将临时不可用。"
 
-#: kstarsactions.cpp:448
+#: kstarsactions.cpp:457
 #, kde-format
 msgid ""
 "Due to a known issue in the kde frameworks, updating already downloaded "
@@ -63813,33 +63813,33 @@ msgstr ""
 "由于 kde 框架中已知的问题，目前无法更新已下载的项目。 <br> 请卸载并重新安装这"
 "些项目以更新。"
 
-#: kstarsactions.cpp:481
+#: kstarsactions.cpp:490
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "星表 \"%1\" 已损坏。"
 
-#: kstarsactions.cpp:489
+#: kstarsactions.cpp:498
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr "目录\"%1\" 已损坏。<br>期望 id=%2 但得到 id=%3"
 
-#: kstarsactions.cpp:499
+#: kstarsactions.cpp:508
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "无法导入星表 \"%1\"<br>%2"
 
-#: kstarsactions.cpp:553
+#: kstarsactions.cpp:562
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "光污染设置"
 
-#: kstarsactions.cpp:555
+#: kstarsactions.cpp:564
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "仪器设置 - 仪器类型与参数"
 
-#: kstarsactions.cpp:664 kstarsactions.cpp:701 kstarsactions.cpp:744
-#: kstarsactions.cpp:783
+#: kstarsactions.cpp:673 kstarsactions.cpp:710 kstarsactions.cpp:753
+#: kstarsactions.cpp:792
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -63847,7 +63847,7 @@ msgid ""
 msgstr ""
 "无法找到 INDI 服务器。请确认提供“indiserver”可执行文件的软件包已正确安装。"
 
-#: kstarsactions.cpp:718
+#: kstarsactions.cpp:727
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -63856,91 +63856,91 @@ msgstr ""
 "INDI 设备管理器只能被高级技术用户使用。 它不能与 Ekos一起使用。您仍然想打开 "
 "INDI 设备管理器吗？"
 
-#: kstarsactions.cpp:721
+#: kstarsactions.cpp:730
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "INDI 设备管理器"
 
-#: kstarsactions.cpp:1102
+#: kstarsactions.cpp:1111
 #, kde-format
 msgid "Catalogs"
 msgstr "星表"
 
-#: kstarsactions.cpp:1114
+#: kstarsactions.cpp:1123
 #, kde-format
 msgid "Guides"
 msgstr "指南"
 
-#: kstarsactions.cpp:1117
+#: kstarsactions.cpp:1126
 #, kde-format
 msgid "Terrain"
 msgstr "地景"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1120 options/opsimageoverlay.ui:191
+#: kstarsactions.cpp:1129 options/opsimageoverlay.ui:191
 #, kde-format
 msgid "Image Overlays"
 msgstr ""
 
-#: kstarsactions.cpp:1150
+#: kstarsactions.cpp:1159
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1156
+#: kstarsactions.cpp:1165
 #, kde-format
 msgid "Developer"
 msgstr "开发者"
 
-#: kstarsactions.cpp:1174 kstarsactions.cpp:1934 kstarsinit.cpp:268
+#: kstarsactions.cpp:1183 kstarsactions.cpp:1943 kstarsinit.cpp:268
 #, kde-format
 msgid "Hide Terrain"
 msgstr "隐藏地景"
 
-#: kstarsactions.cpp:1174 kstarsactions.cpp:1934 kstarsinit.cpp:269
+#: kstarsactions.cpp:1183 kstarsactions.cpp:1943 kstarsinit.cpp:269
 #, kde-format
 msgid "Show Terrain"
 msgstr "显示地景"
 
-#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:273
+#: kstarsactions.cpp:1187 kstarsactions.cpp:1953 kstarsinit.cpp:273
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr ""
 
-#: kstarsactions.cpp:1178 kstarsactions.cpp:1944 kstarsinit.cpp:274
+#: kstarsactions.cpp:1187 kstarsactions.cpp:1953 kstarsinit.cpp:274
 #, kde-format
 msgid "Show Image Overlays"
 msgstr ""
 
-#: kstarsactions.cpp:1297
+#: kstarsactions.cpp:1306
 #, kde-format
 msgid "Open FITS"
 msgstr ""
 
-#: kstarsactions.cpp:1312
+#: kstarsactions.cpp:1321
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "导出图像"
 
-#: kstarsactions.cpp:1358 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1367 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "KStars 脚本 (*.kstars)"
 
-#: kstarsactions.cpp:1366
+#: kstarsactions.cpp:1375
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "不支持执行远程脚本。"
 
-#: kstarsactions.cpp:1374 oal/execute.cpp:319 tools/observinglist.cpp:909
+#: kstarsactions.cpp:1383 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
 msgid "Could not open file %1"
 msgstr "无法打开文件 %1"
 
-#: kstarsactions.cpp:1399
+#: kstarsactions.cpp:1408
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -63951,27 +63951,27 @@ msgstr ""
 "您选择的脚本还有难以识别的代码，这表明它不是使用 KStars 脚本编辑器编写的。这"
 "个脚本可能无法工作，甚至含有恶意代码。您是否坚决强制执行它？"
 
-#: kstarsactions.cpp:1404
+#: kstarsactions.cpp:1413
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "脚本验证失败"
 
-#: kstarsactions.cpp:1404
+#: kstarsactions.cpp:1413
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "强制执行"
 
-#: kstarsactions.cpp:1411
+#: kstarsactions.cpp:1420
 #, kde-format
 msgid "Running script: %1"
 msgstr "正运行脚本：%1"
 
-#: kstarsactions.cpp:1429
+#: kstarsactions.cpp:1438
 #, kde-format
 msgid "Script finished."
 msgstr "脚本完成。"
 
-#: kstarsactions.cpp:1441
+#: kstarsactions.cpp:1450
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -63981,90 +63981,90 @@ msgstr ""
 "您可以指定[星图]配色方案，以便使用白色背景节约打印机用墨。您想临时切换到[星"
 "图]配色方案打印吗？"
 
-#: kstarsactions.cpp:1446
+#: kstarsactions.cpp:1455
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "切换到恒星图配色吗？"
 
-#: kstarsactions.cpp:1447
+#: kstarsactions.cpp:1456
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "切换配色方案"
 
-#: kstarsactions.cpp:1447
+#: kstarsactions.cpp:1456
 #, kde-format
 msgid "Do Not Switch"
 msgstr "不切换"
 
-#: kstarsactions.cpp:1530 kstarsinit.cpp:236
+#: kstarsactions.cpp:1539 kstarsinit.cpp:236
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "启动跟踪(&T)"
 
-#: kstarsactions.cpp:1644
+#: kstarsactions.cpp:1653
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "表观视场：%1 度"
 
-#: kstarsactions.cpp:1649
+#: kstarsactions.cpp:1658
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "表观视场：%1 角分"
 
-#: kstarsactions.cpp:1655
+#: kstarsactions.cpp:1664
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "表观视场：%1 角秒"
 
-#: kstarsactions.cpp:1672
+#: kstarsactions.cpp:1681
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "输入希望的视场角度"
 
-#: kstarsactions.cpp:1673
+#: kstarsactions.cpp:1682
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "输入视场角度（单位：度）： "
 
-#: kstarsactions.cpp:1704 kstarsinit.cpp:716
+#: kstarsactions.cpp:1713 kstarsinit.cpp:716
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr ""
 
-#: kstarsactions.cpp:1707 kstarsinit.cpp:725
+#: kstarsactions.cpp:1716 kstarsinit.cpp:725
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr ""
 
-#: kstarsactions.cpp:1725 kstarsinit.cpp:716
+#: kstarsactions.cpp:1734 kstarsinit.cpp:716
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr ""
 
-#: kstarsactions.cpp:1728 kstarsinit.cpp:725
+#: kstarsactions.cpp:1737 kstarsinit.cpp:725
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr ""
 
-#: kstarsactions.cpp:1886
+#: kstarsactions.cpp:1895
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr "尝试从图像进行确定"
 
-#: kstarsactions.cpp:1888
+#: kstarsactions.cpp:1897
 #, kde-format
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "目镜视图：选择视场"
 
-#: kstarsactions.cpp:1889
+#: kstarsactions.cpp:1898
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr "眼镜视图的视场大小："

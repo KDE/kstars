@@ -100,7 +100,7 @@
 >setTracking</firstterm
 > després de lookToward. </para
 ><para
->Ara que hem pres cura d'apuntar a la Lluna, tot seguit desitgem establir un pas temporal accelerat. Utilitzeu la funció <firstterm
+>Ara que hem pres cura d'apuntar cap a la Lluna, tot seguit desitgem establir un pas temporal accelerat. Utilitzeu la funció <firstterm
 >setClockScale</firstterm
 > per a açò. Afegiu-la a l'script fent doble clic damunt seu en el Navegador de funcions. El quadro Arguments de la funció contindrà un botó de selecció de valors de pas temporal per a establir-lo al temps desitjat per al rellotge de simulació. Canvieu el pas temporal a 3 hores. </para
 ><para

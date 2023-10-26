@@ -45,7 +45,7 @@
                     <listitem>
                         <para
 ><guilabel
->L'equip està connectat a este dispositiu</guilabel
+>L'equip està connectat amb este dispositiu</guilabel
 >: Seleccioneu esta opció si Ekos s'està executant al vostre StellarMate (a través de HDMI o VNC), ordinador amb &Windows;, &Linux; o &MacOS;. </para>
                     </listitem>
                     <listitem>

@@ -134,7 +134,7 @@
 >El telescopi necessita ser alineat abans de poder-lo utilitzar correctament. Alineeu-lo (alineació d'una o dues estreles) segons l'il·lustrat en el vostre manual del telescopi. </para>
 
 <para
->&kstars; necessita verificar la configuració de temps i emplaçament abans de connectar amb el telescopi. Açò assegura un seguiment i sincronització adequada entre el telescopi i &kstars;. Els passos següents vos permetran connectar amb un dispositiu que estiga connectat al vostre ordinador. Per a connectar i controlar els dispositius remots, per favor, consulteu la secció <link linkend="indi-remote-control"
+>&kstars; necessita verificar la configuració de temps i emplaçament abans de connectar amb el telescopi. Açò assegura un seguiment i sincronització adequada entre el telescopi i &kstars;. Els passos següents vos permetran connectar amb un dispositiu que estiga connectat amb el vostre ordinador. Per a connectar i controlar els dispositius remots, per favor, consulteu la secció <link linkend="indi-remote-control"
 >control remot del dispositiu</link
 >. </para>
 
@@ -549,7 +549,7 @@
 ><guilabel
 >Punt de mira del telescopi:</guilabel
 > Quan està marcada, &kstars; mostrarà el punt de mira de l'objectiu del telescopi en el mapa celeste. El punt de mira es mostra després d'una connexió amb èxit amb el telescopi, i el seu emplaçament és actualitzat periòdicament. El nom del telescopi es mostra al costat del punt de mira. &kstars; mostrarà un punt de mira per a cada telescopi connectat. Per a canviar el color del punt de mira del telescopi, obriu la finestra <link linkend="viewops"
->Configureu &kstars;</link
+>Configuració de &kstars;</link
 >. Seleccioneu la pàgina <guilabel
 >Colors</guilabel
 > i canvieu a continuació el color de l'element <guimenuitem
@@ -844,7 +844,7 @@
  -d m     : Deixa anar els blobs de transmissió si el client obté més MB al darrere, per a inhabilitar-ho de manera predeterminada és 5.0.
  -p p     : Port IP alternatiu, el valor predeterminat és 7624.
  -r r     : Màxim on el controlador reinicia l'error, el valor predeterminat és 10.
- -f path  : Camí al FIFO per a l'inici i tancament dinàmic dels controladors.
+ -f path  : Camí cap al FIFO per a l'inici i tancament dinàmic dels controladors.
  -v       : Mostra els esdeveniments clau, menys trànsit.
  -vv      : -v + el contingut del missatge clau.
  -vvv     : -vv + &XML; complet.
@@ -1008,7 +1008,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 <para
 >L'ordre <command
 >Orienta</command
-> fa que el telescopi es desplace a un objectiu en particular, i una vegada trobar, mantinga el seu seguiment a un ritme <emphasis
+> fa que el telescopi es desplace cap a un objectiu en particular, i una vegada trobat, mantinga el seu seguiment a un ritme <emphasis
 >sideri</emphasis
 > (&ead;, el ritme al que les estreles es mouen en el cel). Açò treballa bé amb les estreles, objectes Messier i amb qualsevol cosa que estiga fora del nostre Sistema Solar. Però els objectes del Sistema Solar viatgen d'una manera diferent a través del cel, i per açò utilitzem l'orde <command
 >Track</command
@@ -1055,7 +1055,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
    </listitem>
    <listitem>
 <para
->Comprovar que el corrent arriba al telescopi, assegureu-vos que el corrent està encés i que el telescopi n'està obtenint prou.</para>
+>Comprovar que el corrent arriba fins al telescopi, assegureu-vos que el corrent està encés i que el telescopi n'està obtenint prou.</para>
    </listitem>
    <listitem>
 <para

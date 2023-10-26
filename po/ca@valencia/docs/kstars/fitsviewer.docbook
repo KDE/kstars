@@ -11,10 +11,10 @@
 </indexterm>
 
 <para
->El sistema de transport flexible d'imatges (Flexible Image Transport System -FITS-) és el format estàndard per a representar imatges i dades en astronomia.</para>
+>El sistema de transport flexible d'imatges (Flexible Image Transport System -FITS-) és el format estàndard per a representar imatges i dades en astronomia. Els visor FITS de &kstars; és una eina per a visualitzar-les. No està dissenyat per a editar les imatges FITS.</para>
 
 <para
->L'eina del visor FITS de &kstars; és invocada automàticament quan es reben imatges noves des de la càmera. Principalment s'utilitza per a veure i examinar les dades FITS. No està dissenyada per a editar les imatges FITS. Per a obrir un fitxer FITS, seleccioneu l'element de menú <menuchoice
+>El visor FITS és invocat automàticament quan es reben imatges noves des de la càmera. També es pot invocar directament des del menú principal de &kstars;. Per a obrir un fitxer FITS, seleccioneu l'element de menú <menuchoice
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem
@@ -31,7 +31,7 @@
 >L'eina del visor FITS</screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="fitsviewer.png" format="PNG"/>
+      <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
@@ -41,7 +41,28 @@
 </screenshot>
 
 <para
->El diagrama superior il·lustra l'àrea de treball i la finestra del visor FITS. L'eina proporciona funcions bàsiques per a mostrar imatges. La profunditat de les dades FITS es conserva durant tot el procés i en les funcions obrir i guardar. Encara que esta eina siga estàndard FITS, no té en compte totes les característiques possibles de FITS:</para>
+>El diagrama anterior il·lustra la finestra i l'àrea de treball principal del visor FITS. També hi ha una àrea oculta que es pot exposar movent el ratolí per damunt dels 6 punts petits que hi ha a la banda esquerra (prop del centre de la imatge verticalment) i prement i mantenint premut el botó del ratolí, fent lliscar una mica cap a la dreta.</para>
+
+<screenshot>
+  <screeninfo
+>L'eina del visor FITS amb un quadro lliscant obert</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer2.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>L'eina del visor FITS amb un quadro lliscant obert</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+
+<sect2 id="fits-viewer-main-controls">
+    <title
+>Controls principals</title>
+
+<para
+>A continuació es mostren els diferents controls i pantalles del visor FITS. L'eina proporciona funcions bàsiques per a visualitzar les imatges. Si bé l'eina complix l'estàndard FITS, no admet totes les característiques possibles de FITS:</para>
 <itemizedlist>
   <listitem
 ><para
@@ -67,7 +88,13 @@
             <itemizedlist>
                 <listitem
 ><para
->Les accions estàndards obri, guarda i guarda com a.</para
+>Les accions estàndard són <guimenuitem
+>Obri...</guimenuitem
+>, <guimenuitem
+>Guarda</guimenuitem
+> i <guimenuitem
+>Anomena i guarda...</guimenuitem
+>.</para
 ></listitem>
                 <listitem
 ><para
@@ -112,6 +139,10 @@
                 <listitem
 ><para
 >Marca estreles: detecta i marca les estreles en la imatge.</para
+></listitem>
+                <listitem
+><para
+>Mostra els retalls: mostra en roig quines estreles tenen píxels que pareixen estar retallats.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -183,6 +214,14 @@
 ></listitem>
                 <listitem
 ><para
+>Marca estreles: detecta i marca les estreles en la imatge.</para
+></listitem>
+                <listitem
+><para
+>Mostra els retalls: mostra en roig quines estreles tenen píxels que pareixen estar retallats.</para
+></listitem>
+                <listitem
+><para
 >Mostra les línies de la quadrícula equatorial: alterna la quadrícula equatorial si FITS conté una capçalera WCS vàlida.</para
 ></listitem>
                 <listitem
@@ -195,7 +234,7 @@
 ></listitem>
                 <listitem
 ><para
->Histograma: alterna la visualització de l'histograma al quadro lateral.</para
+>Histograma: alterna la vista de l'histograma al quadro lateral.</para
 ></listitem>
                 <listitem
 ><para
@@ -221,7 +260,11 @@
 ></listitem>
                 <listitem
 ><para
->Histograma: mostra l'histograma de la imatge amb els controls per a ajustar els valors mínims i màxims de cada canal. Tant les escalades lineals com logarítmiques estan disponibles per a aplicar-les a la imatge.</para
+>Solució de plaques: una eina per a solucionar la placa de la imatge carregada. Açò és útil per a depurar problemes amb la solució de plaques.</para
+></listitem>
+                <listitem
+><para
+>Histograma: mostra l'histograma de la imatge amb els controls per a ajustar els valors mínims i màxims de cada canal. Estan disponibles tant les escales lineals com les logarítmiques per a aplicar-les a la imatge. Açò és una mica redundant amb l'histograma de la imatge davall i es pot eliminar en el futur.</para
 ></listitem>
                 <listitem
 ><para
@@ -235,11 +278,143 @@
     </listitem>
     <listitem
 ><para
->Àrea de visualització de la imatge. En passar el cursor per damunt de la imatge, s'actualitzaran els valors de la barra d'estat.</para>
+>Àrea de visualització d'imatges.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Ratolí: passar el cursor per damunt de la imatge actualitzarà en conseqüència els valors de la barra d'estat.</para
+></listitem>
+                <listitem
+><para
+>Ratolí: passar el cursor per damunt de la imatge mourà un cursor en la vista de l'histograma davall la imatge, si este histograma està activat.</para
+></listitem>
+                <listitem
+><para
+>Tecla de control: si manteniu premuda la tecla &Ctrl; i després moveu el ratolí, es mostrarà una part ampliada de la imatge.</para>
+<screenshot>
+  <screeninfo
+>La lupa en el visor FITS</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-magnifier.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>La lupa en el visor FITS</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+                </listitem>
+                <listitem
+><para
+>Dades estadístiques d'una regió d'interés</para>
+                <para
+>Proporciona una mitjana estadística simple, una desviació estàndard mitjana i una mediana mitjana de la regió seleccionada per l'usuari en un consell d'eina. </para>
+                <screenshot>
+                    <screeninfo
+>Visor FITS </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Estadístiques de selecció</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>L'usuari pot establir la regió de selecció arrossegant amb <keycombo
+>&Maj;<keycap
+>Clic esquerre</keycap
+></keycombo
+> (quan les estadístiques de selecció estan activades) o triant una entrada del menú desplegable del botó per a canviar el <guibutton
+>Rectangle de selecció</guibutton
+>. A més d'açò, l'usuari pot moure la regió senzillament arrossegant amb el <keycap
+>Clic esquerre</keycap
+> del ratolí. Les estadístiques de la regió es mostren com un consell d'eina una vegada el cursor s'ha mogut per damunt de la regió de selecció. Per a les imatges més xicotetes, les estadístiques s'actualitzen instantàniament, i per a les imatges més grans, les estadístiques s'actualitzen una vegada que l'usuari allibera el botó <keycap
+>Clic esquerre</keycap
+> després de la modificació de la regió. </para>
+                </listitem>
+            </itemizedlist>
+    </listitem
+>            
+    <listitem
+><para
+>Controls d'estirament</para>
+<screenshot>
+  <screeninfo
+>Els controls d'estirament en el visor FITS</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-stretch.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Els controls d'estirament en el visor FITS</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>A prop de la part inferior de la finestra hi ha controls per a estirar la imatge i mostrar el seu histograma. Es descriuen a continuació d'esquerra a dreta.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Habilitar l'estirament: en l'extrem esquerre d'esta pantalla hi ha un botó que habilita o inhabilita l'estirament.</para
+></listitem>
+                <listitem
+><para
+>Valor per a les ombres: el valor per davall del qual es mostraran els píxels en negre es pot introduir manualment (l'escala va des de 0 fins a 1,0, fins i tot per a valors enters de píxels).</para
+></listitem>
+                <listitem
+><para
+>Valor per als tons mitjans: este valor controla la brillantor de la imatge que es pot introduir manualment (l'escala va des de 0 fins a 1,0, fins i tot per a valors enters de píxels).</para
+></listitem>
+                <listitem
+><para
+>Valor per a les llums intenses: el valor per damunt del qual es mostraran els píxels en blanc es pot introduir manualment (l'escala va des de 0 fins a 1,0, fins i tot per a valors enters de píxels).</para
+></listitem>
+                <listitem
+><para
+>Mostrar l'histograma: un botó que mostra o oculta l'histograma de la imatge es troba a la dreta del quadro d'entrada per a les <guilabel
+>Llums intenses:</guilabel
+>.</para
+></listitem>
+                <listitem
+><para
+>Estirament automàtic: a la dreta hi ha un botó (icona de vareta màgica) que crearà automàticament un estirament agradable. Estarà inhabilitat si l'estirament ja està al valor calculat automàticament.</para
+></listitem>
+            </itemizedlist>
+            <para
+>A més, hi ha controls lliscants que es poden utilitzar per a ajustar els valors de les <guilabel
+>Ombres:</guilabel
+>, els <guilabel
+>Tons mitjans:</guilabel
+> i les <guilabel
+>Llums intenses:</guilabel
+>. Ajustar-los canviarà els valors mostrats. </para>
+            <para
+>L'histograma, si està habilitat, es pot fer zoom utilitzant la roda de desplaçament del ratolí i desplaçar-se arrossegant amb el ratolí. A davall del ratolí, un cursor en l'histograma mostra la posició del píxel en la imatge. </para>
     </listitem>
     <listitem
 ><para
->Barra d'estat: de dreta a esquerra, hi ha disponibles els següents indicadors d'estat:</para>
+>Barra d'estat</para>
+<screenshot>
+  <screeninfo
+>La pantalla d'estat en el visor FITS</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-status.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>La pantalla d'estat en el visor FITS</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>De dreta a esquerra, hi ha disponibles els indicadors d'estat següents:</para
+>      
             <itemizedlist>
                 <listitem
 ><para
@@ -247,17 +422,36 @@
 ></listitem>
                 <listitem
 ><para
->Resolució: resolució de la imatge en píxels.</para
+>Resolució: resolució de la imatge en píxels. 4656x3520 en la captura de pantalla de dalt.</para
 ></listitem>
                 <listitem
 ><para
->Coordenades cartesianes: mostra i actualitza la posició actual del ratolí mentre passeu el cursor per damunt de la imatge. Inclou la posició X i Y, a més del valor actual.</para
+>Percentatge de zoom. A dalt és del 13%.</para
 ></listitem>
                 <listitem
 ><para
->Coordenades equatorials: si la imatge conté una capçalera WCS vàlida, es mostraran els valors ascensió recta (AR) i declinació (Dec) al J2000.</para
+>Coordenades cartesianes: mostra i actualitza la posició actual del ratolí mentre passeu el cursor per damunt de la imatge. A dalt és de X:769 Y:3508.</para
 ></listitem>
-            </itemizedlist>
+                <listitem
+><para
+>Valor del píxel: davall del ratolí. A dalt és de 1,792.</para
+></listitem>
+                <listitem
+><para
+>Coordenades equatorials: si la imatge conté una capçalera WCS vàlida, es mostraran els valors ascensió recta (AR) i declinació (Dec) en el J2000. A dalt és de 13h 14' 22" 42 37' 35".</para
+></listitem>
+                <listitem
+><para
+>Estadístiques de la imatge: mostra l'HFR, l'excentricitat i el nombre d'estreles si es calculen.  A dalt és de HFR:1,96 Ecc:0,43 143 estreles.</para
+></listitem>
+                <listitem
+><para
+>Estreles retallades: si està activat el bote <guibutton
+>Mostra el retallat</guibutton
+> en la barra d'eines principal, es mostrarà el nombre de píxels possiblement retallats. A dalt és de Retallats:403.</para
+></listitem>
+            </itemizedlist
+>                  
     </listitem>
 </orderedlist>
 <para
@@ -293,59 +487,10 @@
 </screenshot>
 <para
 >Passant el cursor per damunt de qualsevol opció, es mostrarà un detallat consell d'eina explicant la seua funció. </para>
+</sect2>
 <sect2 id="fits-viewer-features">
     <title
 >Característiques</title>
-    <itemizedlist>
-        <listitem>
-            <para
->Suport per als formats de 8, 16, 32, IEEE-32 i IEEE-64 bits. </para>
-        </listitem>
-        <listitem>
-            <para
->Admet imatges FITS en color (cubs en 3D) i imatges FITS construïdes amb el filtre mosaic de Bayer. </para>
-        </listitem>
-        <listitem>
-            <para
->Histograma amb escales lineals, logarítmiques i quadràtiques. </para>
-        </listitem>
-        <listitem>
-            <para
->Controls de brillantor/contrast. </para>
-        </listitem>
-        <listitem>
-            <para
->Desplaçament i ampliació. </para>
-        </listitem>
-        <listitem>
-            <para
->Nivells automàtics. </para>
-        </listitem>
-        <listitem>
-            <para
->Estadístiques. </para>
-        </listitem>
-        <listitem>
-            <para
->Dades estadístiques d'una regió d'interés (rectangle). </para>
-        </listitem>
-        <listitem>
-            <para
->Quadrícules rectangulars i equatorials (si hi ha informació WCS). </para>
-        </listitem>
-        <listitem>
-            <para
->Detecció i ressaltat de les estreles. </para>
-        </listitem>
-        <listitem>
-            <para
->Consulta de capçaleres FITS. </para>
-        </listitem>
-        <listitem>
-            <para
->Desfer/refer. </para>
-        </listitem>
-    </itemizedlist>
     <variablelist>
         <varlistentry>
             <term
@@ -384,38 +529,170 @@
 >Proveïx estadístiques simples per als valors de píxel mínim i màxim i les seues respectives posicions. La profunditat FITS, dimensió, mitjana i desviació estàndard. </para>
             </listitem>
         </varlistentry>
-        <varlistentry>
-            <term
->Dades estadístiques d'una regió d'interés</term>
-            <listitem>
-                <screenshot>
-                    <screeninfo
->Visor FITS </screeninfo>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
-                        </imageobject>
-                        <textobject>
-                            <phrase
->Estadístiques de selecció</phrase>
-                        </textobject>
-                    </mediaobject>
-                </screenshot>
-                <para
->Proporciona una mitjana estadística simple, una desviació estàndard mitjana i una mediana mitjana de la regió seleccionada per l'usuari en un consell d'eina. </para>
-                <para
->L'usuari pot establir la regió de selecció arrossegant amb <keycombo
->&Maj;<keycap
->Clic esquerre</keycap
-></keycombo
-> o triant una entrada del menú desplegable del botó Canvia rectangle de selecció. A més d'açò, l'usuari pot moure la regió senzillament arrossegant amb el <keycap
->Clic esquerre</keycap
-> del ratolí. Les estadístiques de la regió es mostren com un consell d'eina una vegada el cursor s'ha mogut sobre la regió de selecció. Per a les imatges més xicotetes, les estadístiques s'actualitzen instantàniament, i per a les imatges més grans, les estadístiques s'actualitzen una vegada que l'usuari allibera el botó <keycap
->Clic esquerre</keycap
-> després de la modificació de la regió. </para>
-            </listitem>
-        </varlistentry>
     </variablelist>
+</sect2>
+
+<sect2 id="fits-viewer-solver">
+    <title
+>Solucionador del visor FITS</title>
+    <screenshot>
+        <screeninfo
+>Solucionador del visor FITS </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer-solver.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Solucionador del visor FITS</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>El solucionador del visor FITS s'utilitza per a solucionar la placa de la imatge carregada en la pestanya <guilabel
+>Visor FITS</guilabel
+>. Només funciona amb StellarSolver intern. Obté les coordenades RA i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la solució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
+            <itemizedlist>
+                <listitem
+><para
+>El botó <guibutton
+>Soluciona</guibutton
+>. En prémer este botó s'inicia la solució de la placa. Quan el sistema la resol, el botó esdevindrà en un botó <guibutton
+>Cancel·la</guibutton
+>.</para
+></listitem>
+                <listitem
+><para
+>Escala: marcar la casella de selecció <guilabel
+>Utilitza una escala</guilabel
+> obligarà al solucionador a utilitzar aproximadament l'escala de píxels o la imatge donada. L'escala s'introduïx en el quadro i les unitats per a l'escala es poden triar entre l'amplària de la imatge en graus, l'amplària de la imatge en minuts d'arc i segons d'arc per píxel. Quan es completa amb èxit una solució, se substituïxen els valors al quadro amb l'escala de la solució.</para
+></listitem>
+                <listitem
+><para
+>Posició: marcar la casella de selecció <guilabel
+>Utilitza una posició</guilabel
+> obligarà al solucionador a buscar a prop de les coordenades <guilabel
+>AR:</guilabel
+> i <guilabel
+>Dec:</guilabel
+> indicades. L'extensió de la busca la proporciona l'usuari en el quadro <guilabel
+>Radi:</guilabel
+> en graus. Cal tindre en compte que l'<guilabel
+>AR:</guilabel
+> s'introduïx en hores, minuts i segons, p. ex., 13h, i la <guilabel
+>Dec:</guilabel
+> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una solució, se substituiran els valors als quadros <guilabel
+>AR:</guilabel
+> i <guilabel
+>Dec:</guilabel
+> amb les coordenades de la solució. A més emplena el camp <guilabel
+>Angle:</guilabel
+> amb el valor de l'angle en graus de la solució.</para
+></listitem>
+                <listitem
+><para
+>Utilitzar la posició del mapa celeste: hi ha un botó just davall de la casella de selecció <guilabel
+>Utilitza una posició</guilabel
+> que emplena els quadros <guilabel
+>AR:</guilabel
+> i <guilabel
+>Dec:</guilabel
+> amb el centre actual de la vista del mapa celeste.</para
+></listitem>
+                <listitem
+><para
+>Perfil: en esta llista desplegable se selecciona un ajustament predefinit de StellarSolver, entre els utilitzats en el mòdul <guilabel
+>Alinea</guilabel
+> d'Ekos, que s'utilitzarà per a la solució de les plaques. Açò es debat més avant.</para
+></listitem>
+                <listitem
+><para
+>Solució: esta secció mostra la quantitat d'estreles trobades i el temps necessari per a resoldre-les. Els valors de la solució per a <guilabel
+>AR:</guilabel
+>, <guilabel
+>Dec:</guilabel
+>, <guilabel
+>Escala:</guilabel
+> i <guilabel
+>Angle:</guilabel
+> es mostren als quadros de dalt.</para
+></listitem>
+                <listitem
+><para
+>Imatge: Per a qualsevol imatge on s'han detectat estreles, si està activat el botó <guibutton
+>Marca les estreles</guibutton
+> sobre la visualització de la imatge, les estreles detectades apareixeran en un cercle roig.</para>
+    <screenshot>
+        <screeninfo
+>El botó «Marca les estreles» en el visor FITS </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer-mark-stars.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>El botó «Marca les estreles» en el visor FITS</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+                </listitem>
+            </itemizedlist>
+            <para
+>Amb esta eina, l'usuari pot intentar depurar i resoldre problemes de la manera següent. </para>
+            <itemizedlist>
+              <listitem
+><para
+>És possible que tingueu habilitada la casella de selecció <guilabel
+>Guarda les imatges de l'alineació fallida</guilabel
+> (vegeu <link linkend="developer"
+>ací</link
+>) en la pàgina de configuració <guilabel
+>Desenvolupador</guilabel
+> de l'element de menú <menuchoice
+><guimenu
+>Configuració</guimenu
+> <guimenuitem
+>Configura &kstars;...</guimenuitem
+></menuchoice
+>.</para
+></listitem>
+              <listitem
+><para
+>Després, <link linkend="developer"
+>es podria ubicar</link
+> una imatge difícil (en la que ha fallat l'alineació) i carregar-la dins del visor FITS.</para
+></listitem>
+              <listitem
+><para
+>La imatge es podrà inspeccionar per a veure si hi havia algun problema visual obvi.</para
+></listitem>
+              <listitem
+><para
+>Quan feu clic en <guibutton
+>Soluciona</guibutton
+> en esta eina, per a esta imatge, es mostraran quantes estreles s'han detectat i l'usuari podrà decidir si es tracta d'un problema de detecció d'estreles i fer experiments ajustant el perfil o els paràmetres de la detecció d'estreles. </para
+></listitem>
+              <listitem
+><para
+>L'usuari podrà carregar manualment la imatge a astrometry.net per a obtindre els valors d'escala i de posició (o senzillament veure si és una imatge problemàtica). </para
+></listitem>
+              <listitem
+><para
+>L'usuari podrà fer experiments amb <guilabel
+>Utilitza una posició</guilabel
+> i <guilabel
+>Utilitza una escala</guilabel
+>, utilitzant valors precisos per a estes restriccions (o inhabilitar-les) per a veure si este era el problema, o ajustar els paràmetres en el perfil d'alineació que s'està utilitzant.</para
+></listitem>
+            </itemizedlist>
+            <para
+>Per a inspeccionar o modificar el perfil, l'usuari obrirà la pestanya <guilabel
+>Alinea</guilabel
+> a Ekos, anirà fins al menú <guimenu
+>Opcions</guimenu
+>, seleccionarà la pestanya <guilabel
+>Opcions</guilabel
+> de StellarSolver, s'assegurarà que està seleccionat el perfil d'opcions correcte i farà clic damunt del botó de llapis per a veure o editar este perfil. </para>
 </sect2>
 
 <sect2 id="fits-viewer-embedded">
@@ -435,7 +712,7 @@
         </mediaobject>
     </screenshot>
     <para
->Als mòduls <link linkend="ekos-focus"
+>En els mòduls <link linkend="ekos-focus"
 >Enfocament</link
 >, <link linkend="ekos-guide"
 >Guiatge</link
@@ -531,7 +808,7 @@
         </mediaobject>
     </screenshot>
     <para
->A l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible a la <guilabel
+>En l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible a la <guilabel
 >Pantalla de resum</guilabel
 >, al <link linkend="ekos-align"
 >mòdul per a l'alineació</link

@@ -360,7 +360,7 @@
 ></listitem>
                 <listitem
 ><para
->Midtones Value: The midtones value which controls the brightness of the image can be manually entered (scale is 0 to 1.0, even for integer pixel values).</para
+>Valor dels tons mitjans: el valor dels tons mitjans que controla la brillantor de la imatge es pot introduir manualment (l'escala és de 0 a 1,0, fins i tot per als valors enters de píxels).</para
 ></listitem>
                 <listitem
 ><para
@@ -559,17 +559,17 @@
 ></listitem>
                 <listitem
 ><para
->Image: For any image where stars were detected, if the Mark Stars button is activated above the image display, then the detected stars are circled in red.</para>
+>Imatge: per a qualsevol imatge on s'han detectat estrelles, si s'activa el botó «Marca les estrelles» per sobre de la pantalla de la imatge, llavors les estrelles detectades s'encerclen en vermell.</para>
     <screenshot>
         <screeninfo
->FITS Viewer Mark Stars Button </screeninfo>
+>Botó «Marca les estrelles» del visualitzador FITS </screeninfo>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="fitsviewer-mark-stars.png" format="PNG"/>
             </imageobject>
             <textobject>
                 <phrase
->FITS Viewer Mark Stars Button</phrase>
+>Botó «Marca les estrelles» del visualitzador FITS</phrase>
             </textobject>
         </mediaobject>
     </screenshot>

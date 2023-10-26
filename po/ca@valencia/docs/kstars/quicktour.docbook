@@ -246,7 +246,7 @@
 <seealso
 >Menú emergent</seealso
 ></indexterm
->La secció inferior conté enllaços cap a imatges i/o pàgines web informatives sobre l'objecte seleccionat. Si coneixeu algun &URL; addicional amb informació o una imatge d'algun objecte, podeu afegir un enllaç a mida al menú emergent de l'objecte. Utilitzeu l'element <guimenuitem
+>La secció inferior conté enllaços cap a imatges i/o pàgines web informatives sobre l'objecte seleccionat. Si coneixeu algun &URL; addicional amb informació o una imatge d'algun objecte, podeu afegir un enllaç personalitzat al menú emergent de l'objecte. Utilitzeu l'element <guimenuitem
 >Detalls</guimenuitem
 > en el menú emergent per a obrir el diàleg <guilabel
 >Detalls de l'objecte</guilabel
@@ -445,7 +445,7 @@
 ></term>
 <listitem>
 <para
->Afig l'objecte seleccionat a la <link linkend="tool-obsplanner"
+>Afig l'objecte seleccionat en la <link linkend="tool-obsplanner"
 >llista d'observació</link
 >.</para>
 </listitem>
