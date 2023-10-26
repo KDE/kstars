@@ -161,6 +161,15 @@
 </othercredit>
 
 <othercredit role="developer">
+<firstname>John</firstname>
+<surname>Evans</surname>
+<affiliation>
+<address><email>john DOT e DOT evans DOT email AT gmail DOT com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
 <firstname>Mark</firstname>
 <surname>Holloman</surname>
 <affiliation>

@@ -13,8 +13,6 @@
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
 #include "indi/indimount.h"
-#include "ekos/manager/meridianflipstate.h"
-#include "ekos/align/polaralignmentassistant.h"
 
 class QQuickView;
 class QQuickItem;
@@ -29,6 +27,7 @@ namespace Ekos
  */
 
 class OpticalTrainManager;
+class MeridianFlipState;
 
 class Mount : public QWidget, public Ui::Mount
 {
@@ -277,10 +276,7 @@ class Mount : public QWidget, public Ui::Mount
              * This is used to manage the meridian flip for mounts which do not report pier side.
              * only one attempt to flip is done.
              */
-        Q_SCRIPTABLE double initialHA()
-        {
-            return mf_state->initialPositionHA();
-        }
+        Q_SCRIPTABLE double initialHA();
 
         /** DBUS interface function.
              * Aborts the mount motion

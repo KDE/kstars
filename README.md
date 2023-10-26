@@ -392,6 +392,7 @@ Jasem Mutlaq <mutlaqja@ikarustech.com>
 * Hy Murveit <murveit@gmail.com>
 * James Bowlin <bowlin@mindspring.com>
 * Jérôme Sonrier <jsid@emor3j.fr.eu.org>
+* John Evans <john.e.evans.email@gmail.com>
 * Mark Hollomon <mhh@mindspring.com>
 * Martin Piskernig <martin.piskernig@stuwo.at>
 * Médéric Boquien <mboquien@free.fr>

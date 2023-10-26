@@ -9,6 +9,7 @@
 #pragma once
 
 #include "test_ekos_helper.h"
+#include "ekos/scheduler/schedulerjob.h"
 
 class TestEkosSchedulerHelper : public TestEkosHelper
 {

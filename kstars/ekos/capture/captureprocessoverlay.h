@@ -9,9 +9,10 @@
 #include "ui_captureprocessoverlay.h"
 
 #include "indi/indicommon.h"
-#include "fitsviewer/fitsdata.h"
 
 #include <QWidget>
+
+class FITSData;
 
 class CaptureProcessOverlay : public QWidget,  public Ui::CaptureProcessOverlay
 {

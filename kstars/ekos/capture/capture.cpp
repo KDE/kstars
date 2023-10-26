@@ -6,7 +6,11 @@
 
 #include "capture.h"
 
+#include "captureprocess.h"
+#include "capturemodulestate.h"
+#include "capturedeviceadaptor.h"
 #include "captureadaptor.h"
+#include "refocusstate.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -23,9 +27,13 @@
 #include "fitsviewer/fitsdata.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilterwheel.h"
+#include "indi/indicamera.h"
+#include "indi/indirotator.h"
 #include "oal/observeradd.h"
 #include "ekos/guide/guide.h"
 #include "exposurecalculator/exposurecalculatordialog.h"
+#include "dslrinfodialog.h"
+#include "ekos/auxiliary/rotatorutils.h"
 #include <basedevice.h>
 
 #include <ekos_capture_debug.h>
@@ -3509,4 +3517,68 @@ void Capture::openExposureCalculatorDialog()
     anExposureCalculatorDialog->show();
 }
 
+bool Capture::hasCoolerControl()
+{
+    return process()->hasCoolerControl();
+}
+
+bool Capture::setCoolerControl(bool enable)
+{
+    return process()->setCoolerControl(enable);
+}
+
+void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
+{
+    process()->removeDevice(device);
+}
+
+void Capture::start()
+{
+    process()->startNextPendingJob();
+}
+
+void Capture::stop(CaptureState targetState)
+{
+    process()->stopCapturing(targetState);
+}
+
+void Capture::toggleVideo(bool enabled)
+{
+    process()->toggleVideo(enabled);
+}
+
+void Capture::restartCamera(const QString &name)
+{
+    process()->restartCamera(name);
+}
+
+void Capture::capturePreview()
+{
+    process()->capturePreview();
+}
+
+void Capture::startFraming()
+{
+    process()->capturePreview(true);
+}
+
+double Capture::getGain()
+{
+    return process()->getGain(customPropertiesDialog->getCustomProperties());
+}
+
+double Capture::getOffset()
+{
+    return process()->getOffset(customPropertiesDialog->getCustomProperties());
+}
+
+void Capture::setHFR(double newHFR, int)
+{
+    state()->getRefocusState()->setFocusHFR(newHFR);
+}
+
+ISD::Camera *Capture::activeCamera()
+{
+    return m_captureDeviceAdaptor->getActiveCamera();
+}
 }

@@ -195,7 +195,7 @@
 ></term>
 <listitem
 ><para
->Retrocedix un pas en el temps a la simulació de la carta estrel·lar de &kstars;. La duració del pas temporal es pot configurar després prement el botó <guilabel
+>Retrocedix un pas en el temps a la simulació de la carta estel·lar de &kstars;. La duració del pas temporal es pot configurar després prement el botó <guilabel
 >&gt;</guilabel
 > en la barra d'eines de &kstars;. </para
 ></listitem>
@@ -229,7 +229,7 @@
 ></term>
 <listitem
 ><para
->Avança un pas en el temps a la simulació de la carta estrel·lar de &kstars;. La duració del pas temporal es pot configurar després prement el botó <guilabel
+>Avança un pas en el temps a la simulació de la carta estel·lar de &kstars;. La duració del pas temporal es pot configurar després prement el botó <guilabel
 >&gt;</guilabel
 > en la barra d'eines de &kstars;. </para
 ></listitem>
@@ -593,7 +593,7 @@
 ></term>
   <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equivalent"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equivalent"
 >azimutal homologràfica de Lambert</ulink
 >.</para
 ></listitem>
@@ -612,7 +612,7 @@
 ></term>
   <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equidistant"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equidistant"
 >azimutal equidistant</ulink
 >.</para
 ></listitem>
@@ -631,7 +631,7 @@
 ></term>
   <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_ortogràfica"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_ortogràfica"
 >ortogràfica</ulink
 >.</para
 ></listitem>
@@ -650,7 +650,7 @@
 ></term>
   <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_cilíndrica_equidistant"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_cilíndrica_equidistant"
 >cilíndrica equidistant</ulink
 >.</para
 ></listitem>
@@ -669,7 +669,7 @@
 ></term>
   <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_estereogràfica"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_estereogràfica"
 >estereogràfica</ulink
 >.</para
 ></listitem>
@@ -688,7 +688,7 @@
 ></term>
   <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_gnomònica"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_gnomònica"
 >gnomònica</ulink
 >.</para
 ></listitem>
@@ -951,13 +951,13 @@
 > <guimenu
 >Eines</guimenu
 > <guimenuitem
->Simulador del sistema solar XPlanet</guimenuitem
+>Simulador del sistema solar Xplanet</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
 <para
 >Este element de menú només apareixerà si primer heu instal·lat el paquet opcional <application
->XPlanet</application
+>Xplanet</application
 >. </para>
 </listitem>
 </varlistentry>
@@ -1067,7 +1067,7 @@
 <para
 >Obri l'eina <guilabel
 >Gestor d'indicadors</guilabel
->, la qual es pot utilitzar per a assignar indicadors de color i icones a determinades posicions en la carta estrel·lar. </para>
+>, la qual es pot utilitzar per a assignar indicadors de color i icones a determinades posicions en la carta estel·lar. </para>
 </listitem>
 </varlistentry>
 
@@ -1638,12 +1638,12 @@
 ><guimenu
 >Configuració</guimenu
 > <guisubmenu
->Esquemes de colors</guisubmenu
+>Esquemes de color</guisubmenu
 > </menuchoice
 ></term>
     <listitem
 ><para
->Este submenú conté tots els esquemes de colors definits: Clàssic, Carta estrel·lar, Visió nocturna i Nit de lluna nova. També hi podeu incloure els vostres esquemes de colors personalitzats. En seleccionar un element s'establirà este esquema de color.</para
+>Este submenú conté tots els esquemes de color definits: Clàssic, Carta estel·lar, Visió nocturna i Nit de lluna nova. També hi podeu incloure els vostres esquemes de color personalitzats. En seleccionar un element s'establirà este esquema de color.</para
 ></listitem>
   </varlistentry>
 
@@ -1775,7 +1775,7 @@
 ><para
 >Ara que ja heu trobat l'acció desitjada, podeu afegir una drecera nova fent clic en el seu nom. Després de fer clic en el nom de l'acció, premeu la casella de selecció <guibutton
 >Personalitza</guibutton
->. Hi ha un botó situat al costat que s'utilitza per a afegir dreceres noves. De manera predeterminada, si una acció no té una drecera personalitzada, s'assignarà l'etiqueta «Cap» a este botó. Feu clic sobre este botó i després afegiu la drecera personalitzada. Per exemple, per a l'Horitzó artificial, podeu utilitzar la drecera &Ctrl;+H. Manteniu premuda la tecla &Ctrl; i premeu la tecla H. La drecera es guardarà automàticament, per tant, la podreu utilitzar la pròxima vegada que obriu &kstars;.</para
+>. Hi ha un botó situat al costat que s'utilitza per a afegir dreceres noves. De manera predeterminada, si una acció no té una drecera personalitzada, s'assignarà l'etiqueta «Cap» a este botó. Feu clic sobre este botó i després afegiu la drecera personalitzada. Per exemple, per a l'Horitzó artificial, podeu utilitzar la drecera &Ctrl;+H. Manteniu premuda la tecla &Ctrl; i premeu la tecla «H». La drecera es guardarà automàticament, per tant, la podreu utilitzar la pròxima vegada que obriu &kstars;.</para
 ></listitem>
       </itemizedlist>
     </para
@@ -1977,9 +1977,9 @@
 >Encadena les estreles d'ací a</guilabel
 > serà el vostre punt de partida. Quan establiu el punt de partida, apareixerà una línia de punts, els quals vos permetran decidir quin serà el vostre punt final. Heu de moure el cursor del ratolí cap a la posició de l'objecte de destinació i fer clic dret damunt seu. A continuació, apareixerà un diàleg, el qual requerirà que establiu CDV utilitzat per als salts entre estreles. Per a la selecció d'un CDV, cal fer una elecció des de la llista de valors del quadro combinat FOV. Els valors que podeu triar inclouen els valors CDV predeterminats (Prismàtics 7x35, Visor del punt roig, Un grau, HST WFPC2 i 30 m a 1,3 cm), a més dels vostres CDV personalitzats. Una vegada seleccionat CDV, &kstars; trobarà un camí. Per tant, el diàleg contindrà una llista dels objectes utilitzats en el traçat que encadena les estreles. Si &kstars; no aconseguix trobar un camí, mostrarà un diàleg d'error, el que vos donarà una vegada de mà. Una vegada finalitze l'algorisme que encadena les estreles, el diàleg contindrà una llista dels objectes utilitzats en el traçat que encadena les estreles. Per a cada objecte de la llista, podreu realitzar un conjunt d'accions: podeu demanar detalls utilitzant el botó <guibutton
 >Detalls</guibutton
->, centrar l'objecte seleccionat al mapa utilitzant el botó <guibutton
+>, centrar l'objecte seleccionat en el mapa utilitzant el botó <guibutton
 >Centra en el mapa</guibutton
-> o podeu anar a la següent estrela prement el botó <guibutton
+> o podeu anar fins a la següent estrela prement el botó <guibutton
 >Següent</guibutton
 >. Recordeu que quan es passe a la següent estrela, se centrarà automàticament en el mapa. A més, l'eina Encadena les estreles oferix adreces a les estreles encadenades per a tots els objectes de la llista. </para
 ></listitem>
@@ -2548,7 +2548,7 @@
 ></term>
 <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equivalent"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equivalent"
 >azimutal homologràfica de Lambert</ulink
 >. </para
 ></listitem>
@@ -2561,7 +2561,7 @@
 ></term>
 <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equidistant"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_equidistant"
 >azimutal equidistant</ulink
 >. </para
 ></listitem>
@@ -2574,7 +2574,7 @@
 ></term>
 <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_ortogràfica"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_ortogràfica"
 >ortogràfica</ulink
 >.</para
 ></listitem>
@@ -2587,7 +2587,7 @@
 ></term>
 <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_cilíndrica_equidistant"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_cilíndrica_equidistant"
 >cilíndrica equidistant</ulink
 >. </para
 ></listitem>
@@ -2600,7 +2600,7 @@
 ></term>
 <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_estereogràfica"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_estereogràfica"
 >estereogràfica</ulink
 >. </para
 ></listitem>
@@ -2613,7 +2613,7 @@
 ></term>
 <listitem
 ><para
->Canvia la vista de la carta estrel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_gnomònica"
+>Canvia la vista de la carta estel·lar a la projecció <ulink url="https://ca.wikipedia.org/wiki/Projecció_azimutal_gnomònica"
 >gnomònica</ulink
 >. </para
 ></listitem>

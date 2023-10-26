@@ -16,6 +16,7 @@
 #include "starobject.h"
 #include "skymapcomposite.h"
 #include "skyobject.h"
+#include "starobject.h"
 #include "dialogs/finddialog.h"
 #include "QProgressIndicator.h"
 

@@ -12,6 +12,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "ekos/scheduler/scheduler.h"
 
 TestEkosScheduler::TestEkosScheduler(QObject *parent) : QObject(parent)
 {
@@ -78,7 +79,8 @@ void TestEkosScheduler::testScheduleManipulation_data()
                         << o.dec().toDMSString();
                 count++;
             }
-            else QWARN(QString("Fixture '%1' altitude is '%2' degrees, discarding.").arg(name).arg(so->alt().Degrees()).toStdString().c_str());
+            else QWARN(QString("Fixture '%1' altitude is '%2' degrees, discarding.").arg(name).arg(
+                               so->alt().Degrees()).toStdString().c_str());
         }
     }
 
@@ -113,15 +115,19 @@ void TestEkosScheduler::testScheduleManipulation()
 
     raBox->setText("1h 2' 3\"");
     decBox->setText("1° 2' 3\"");
-    sequenceEdit->setText(QString("%1%201x1s_Lum.esq").arg(QDir::current().currentPath()).arg(QDir::separator())); // %20 to retain the next '1'
+    sequenceEdit->setText(QString("%1%201x1s_Lum.esq").arg(QDir::current().currentPath()).arg(
+                              QDir::separator())); // %20 to retain the next '1'
 
-    QEXPECT_FAIL("", "The sequence file editbox cannot be edited directly, and changing its text does not allow to add a job", Continue);
+    QEXPECT_FAIL("", "The sequence file editbox cannot be edited directly, and changing its text does not allow to add a job",
+                 Continue);
     QTRY_VERIFY_WITH_TIMEOUT(addToQueueB->isEnabled(), 200);
 
     const int count = 20;
     QStringList seqs;
-    seqs << QString("%1%201x1s_Lum.esq").arg(QDir::current().currentPath()).arg(QDir::separator()); // %20 to retain the next '1'
-    seqs << QString("%1%201x1s_RGBLumRGB.esq").arg(QDir::current().currentPath()).arg(QDir::separator()); // %20 to retain the next '1'
+    seqs << QString("%1%201x1s_Lum.esq").arg(QDir::current().currentPath()).arg(
+             QDir::separator()); // %20 to retain the next '1'
+    seqs << QString("%1%201x1s_RGBLumRGB.esq").arg(QDir::current().currentPath()).arg(
+             QDir::separator()); // %20 to retain the next '1'
 
     KTRY_SCHEDULER_GADGET(QTableWidget, queueTable);
 
@@ -132,11 +138,11 @@ void TestEkosScheduler::testScheduleManipulation()
 
         nameEdit->setText(QString("Object-%1").arg(i));
 
-        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i/10 + (double)count/2, 45.0);
+        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i / 10 + (double)count / 2, 45.0);
         raBox->setText(o.ra().toHMSString());
-        QVERIFY(abs(raBox->createDms().Hours() - o.ra().Hours()) <= 15.0/3600.0);
+        QVERIFY(abs(raBox->createDms().Hours() - o.ra().Hours()) <= 15.0 / 3600.0);
         decBox->setText(o.dec().toDMSString());
-        QVERIFY(abs(decBox->createDms().Degrees() - o.dec().Degrees()) <= 1.0/3600.0);
+        QVERIFY(abs(decBox->createDms().Degrees() - o.dec().Degrees()) <= 1.0 / 3600.0);
         sequenceEdit->setText(seqs[i % seqs.count()]);
 
         Ekos::Manager::Instance()->schedulerModule()->addObject(&o);
@@ -154,7 +160,7 @@ void TestEkosScheduler::testScheduleManipulation()
         queueTable->selectRow(i % queueTable->rowCount());
         QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(i)));
         QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[i % seqs.count()]));
-        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i/10 + (double)count/2, 45.0);
+        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i / 10 + (double)count / 2, 45.0);
         QCOMPARE(qPrintable(dms::fromString(raBox->text(), false).toHMSString()), qPrintable(o.ra().toHMSString()));
         QCOMPARE(qPrintable(dms::fromString(decBox->text(), true).toDMSString()), qPrintable(o.dec().toDMSString()));
     }
@@ -172,7 +178,7 @@ void TestEkosScheduler::testScheduleManipulation()
 
         QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(i)));
         QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[i % seqs.count()]));
-        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i/10 + (double)count/2, 45.0);
+        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i / 10 + (double)count / 2, 45.0);
         QCOMPARE(qPrintable(dms::fromString(raBox->text(), false).toHMSString()), qPrintable(o.ra().toHMSString()));
         QCOMPARE(qPrintable(dms::fromString(decBox->text(), true).toDMSString()), qPrintable(o.dec().toDMSString()));
     }

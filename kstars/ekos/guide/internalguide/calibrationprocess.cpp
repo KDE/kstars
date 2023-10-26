@@ -3,6 +3,8 @@
 #include "gmath.h"
 #include "ekos_guide_debug.h"
 #include "gmath.h"
+#include "guidelog.h"
+
 #include "Options.h"
 
 namespace Ekos

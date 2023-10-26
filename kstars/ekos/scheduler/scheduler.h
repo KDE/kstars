@@ -10,13 +10,13 @@
 #pragma once
 
 #include "ui_scheduler.h"
+#include "schedulertypes.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
 #include "schedulerjob.h"
 
 #include <lilxml.h>
 
-#include <QProcess>
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
@@ -27,7 +27,6 @@
 class QProgressIndicator;
 
 class GeoLocation;
-class SchedulerJob;
 class SkyObject;
 class KConfigDialog;
 class TestSchedulerUnit;
@@ -39,6 +38,8 @@ namespace Ekos
 
 class SequenceJob;
 class GreedyScheduler;
+class SchedulerProcess;
+class SchedulerModuleState;
 
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
@@ -54,60 +55,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         Q_PROPERTY(QString profile READ profile WRITE setProfile)
 
     public:
-        typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_STOPPING, EKOS_READY } EkosState;
-        typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_DISCONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
-        typedef enum
-        {
-            STARTUP_IDLE,
-            STARTUP_SCRIPT,
-            STARTUP_UNPARK_DOME,
-            STARTUP_UNPARKING_DOME,
-            STARTUP_UNPARK_MOUNT,
-            STARTUP_UNPARKING_MOUNT,
-            STARTUP_UNPARK_CAP,
-            STARTUP_UNPARKING_CAP,
-            STARTUP_ERROR,
-            STARTUP_COMPLETE
-        } StartupState;
-        typedef enum
-        {
-            SHUTDOWN_IDLE,
-            SHUTDOWN_PARK_CAP,
-            SHUTDOWN_PARKING_CAP,
-            SHUTDOWN_PARK_MOUNT,
-            SHUTDOWN_PARKING_MOUNT,
-            SHUTDOWN_PARK_DOME,
-            SHUTDOWN_PARKING_DOME,
-            SHUTDOWN_SCRIPT,
-            SHUTDOWN_SCRIPT_RUNNING,
-            SHUTDOWN_ERROR,
-            SHUTDOWN_COMPLETE
-        } ShutdownState;
-        typedef enum
-        {
-            PARKWAIT_IDLE,
-            PARKWAIT_PARK,
-            PARKWAIT_PARKING,
-            PARKWAIT_PARKED,
-            PARKWAIT_UNPARK,
-            PARKWAIT_UNPARKING,
-            PARKWAIT_UNPARKED,
-            PARKWAIT_ERROR
-        } ParkWaitStatus;
-
-        /** @brief options what should happen if an error or abort occurs */
-        typedef enum
-        {
-            ERROR_DONT_RESTART,
-            ERROR_RESTART_AFTER_TERMINATION,
-            ERROR_RESTART_IMMEDIATELY
-        } ErrorHandlingStrategy;
-
-        /** @brief Algorithms, in the same order as UI. */
-        typedef enum
-        {
-            ALGORITHM_GREEDY = 1
-        } SchedulerAlgorithm;
 
         /** @brief Columns, in the same order as UI. */
         typedef enum
@@ -138,10 +85,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         ~Scheduler() = default;
 
         QString getCurrentJobName();
-        SchedulerJob *getCurrentJob()
-        {
-            return currentJob;
-        }
+
+        // shortcut
+        SchedulerJob *activeJob();
 
         void appendLogText(const QString &);
         QStringList logText()
@@ -190,16 +136,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
              */
         void getNextAction();
-
-        /**
-             * @brief disconnectINDI disconnect all INDI devices from server.
-             */
-        void disconnectINDI();
-
-        /**
-             * @brief stopEkos shutdown Ekos completely
-             */
-        void stopEkos();
 
         /**
              * @brief stopGuiding After guiding is done we need to stop the process
@@ -263,10 +199,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         Q_SCRIPTABLE void sortJobsPerAltitude();
 
-        Ekos::SchedulerState status()
-        {
-            return state;
-        }
+        Ekos::SchedulerState status();
 
         void setProfile(const QString &profile)
         {
@@ -394,11 +327,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * jobUnderEdit determines whether to add or edit
          */
         void saveJob();
-
-        const QList<SchedulerJob *> &getJobs() const
-        {
-            return jobs;
-        }
 
         QJsonArray getJSONJobs();
 
@@ -566,6 +494,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void syncGUIToJob(SchedulerJob *job);
 
         /**
+         * @brief syncGUIToGeneralSettings set all UI fields that are not job specific
+         */
+        void syncGUIToGeneralSettings();
+
+        /**
              * @brief jobSelectionChanged Update UI state when the job list is clicked once.
              */
         void clickQueueTable(QModelIndex index);
@@ -599,7 +532,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         bool shouldSchedulerSleep(SchedulerJob *currentJob);
 
-        bool completeShutdown();
         void pause();
         void setPaused();
         void save();
@@ -650,23 +582,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void stopCurrentJobAction();
 
         /**
-             * @brief manageConnectionLoss Mitigate loss of connection with the INDI server.
-             * @return true if connection to Ekos/INDI should be attempted again, false if not mitigation is available or needed.
-             */
-        bool manageConnectionLoss();
-
-        /**
-             * @brief readProcessOutput read running script process output and display it in Ekos
-             */
-        void readProcessOutput();
-
-        /**
-             * @brief checkProcessExit Check script process exist status. This is called when the process exists either normally or abnormally.
-             * @param exitCode exit code from the script process. Depending on the exist code, the status of startup/shutdown procedure is set accordingly.
-             */
-        void checkProcessExit(int exitCode);
-
-        /**
              * @brief resumeCheckStatus If the scheduler primary loop was suspended due to weather or sleep event, resume it again.
              */
         void resumeCheckStatus();
@@ -690,12 +605,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
              */
         void checkTwilightWarning(bool enabled);
-
-        void runStartupProcedure();
-        void checkStartupProcedure();
-
-        void runShutdownProcedure();
-        void checkShutdownProcedure();
 
         void setINDICommunicationStatus(Ekos::CommunicationStatus status);
         void setEkosCommunicationStatus(Ekos::CommunicationStatus status);
@@ -755,103 +664,16 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         bool executeJob(SchedulerJob *job);
 
-        void executeScript(const QString &filename);
-
         /**
              * @brief calculateDawnDusk Get dawn and dusk times for today
              */
         static void calculateDawnDusk();
 
         /**
-             * @brief checkEkosState Check ekos startup stages and take whatever action necessary to get Ekos up and running
-             * @return True if Ekos is running, false if Ekos start up is in progress.
-             */
-        bool checkEkosState();
-
-        /**
-             * @brief isINDIConnected Determines the status of the INDI connection.
-             * @return True if INDI connection is up and usable, else false.
-             */
-        bool isINDIConnected();
-
-        /**
-             * @brief checkINDIState Check INDI startup stages and take whatever action necessary to get INDI devices connected.
-             * @return True if INDI devices are connected, false if it is under progress.
-             */
-        bool checkINDIState();
-
-        /**
-             * @brief checkStartupState Check startup procedure stages and make sure all stages are complete.
-             * @return True if startup is complete, false otherwise.
-             */
-        bool checkStartupState();
-
-        /**
              * @brief checkShutdownState Check shutdown procedure stages and make sure all stages are complete.
              * @return
              */
         bool checkShutdownState();
-
-        /**
-             * @brief checkParkWaitState Check park wait state.
-             * @return If parking/unparking in progress, return false. If parking/unparking complete, return true.
-             */
-        bool checkParkWaitState();
-
-        /**
-             * @brief parkMount Park mount
-             */
-        void parkMount();
-
-        /**
-             * @brief unParkMount Unpark mount
-             */
-        void unParkMount();
-
-        /**
-             * @return True if mount is parked
-             */
-        bool isMountParked();
-
-        /**
-             * @brief parkDome Park dome
-             */
-        void parkDome();
-
-        /**
-             * @brief unParkDome Unpark dome
-             */
-        void unParkDome();
-
-        /**
-             * @return True if dome is parked
-             */
-        bool isDomeParked();
-
-        /**
-             * @brief parkCap Close dust cover
-             */
-        void parkCap();
-
-        /**
-             * @brief unCap Open dust cover
-             */
-        void unParkCap();
-
-        /**
-             * @brief checkMountParkingStatus check mount parking status and updating corresponding states accordingly.
-             */
-        void checkMountParkingStatus();
-
-        /**
-             * @brief checkDomeParkingStatus check dome parking status and updating corresponding states accordingly.
-             */
-        void checkDomeParkingStatus();
-
-        /**
-             * @brief checkDomeParkingStatus check dome parking status and updating corresponding states accordingly.
-             */
-        void checkCapParkingStatus();
 
         /**
              * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
@@ -871,8 +693,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void processFITSSelection();
 
-        void loadProfiles();
-
+        /**
+         * @brief updateProfiles React upon changed profiles and update the UI
+         */
+        void updateProfiles();
 
 
         /**
@@ -921,11 +745,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // retrieve the guiding status
         GuideState getGuidingStatus();
 
-        // Returns milliseconds since startCurrentOperationTImer() was called.
-        qint64 getCurrentOperationMsec();
-        // Starts the above operation timer.
-        void startCurrentOperationTimer();
-
         // Controls for the guiding timer, which restarts guiding after failure.
         void cancelGuidingTimer();
         bool isGuidingTimerActive();
@@ -949,17 +768,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         int sequenceExecutionCounter = 1;
 
         Ekos::Scheduler *ui { nullptr };
-        //DBus interfaces
-        QPointer<QDBusInterface> indiInterface { nullptr };
-        QPointer<QDBusInterface> focusInterface { nullptr };
-        QPointer<QDBusInterface> ekosInterface { nullptr };
-        QPointer<QDBusInterface> captureInterface { nullptr };
-        QPointer<QDBusInterface> mountInterface { nullptr };
-        QPointer<QDBusInterface> alignInterface { nullptr };
-        QPointer<QDBusInterface> guideInterface { nullptr };
-        QPointer<QDBusInterface> domeInterface { nullptr };
-        QPointer<QDBusInterface> weatherInterface { nullptr };
-        QPointer<QDBusInterface> capInterface { nullptr };
 
         // Interface strings for the dbus. Changeable for mocks when testing. Private so only tests can change.
         QString schedulerPathString { "/KStars/Ekos/Scheduler" };
@@ -1070,34 +878,34 @@ class Scheduler : public QWidget, public Ui::Scheduler
             dustCapPathString = interface;
         }
 
-        // Scheduler and job state and stages
-        void setStartupState(StartupState state);
-        void setShutdownState(ShutdownState state);
-        void setEkosState(EkosState state);
-        void setIndiState(INDIState state);
-        void setParkWaitState(ParkWaitStatus state);
-        SchedulerState state { SCHEDULER_IDLE };
-        EkosState ekosState { EKOS_IDLE };
-        INDIState indiState { INDI_IDLE };
-        StartupState startupState { STARTUP_IDLE };
-        ShutdownState shutdownState { SHUTDOWN_IDLE };
-        ParkWaitStatus parkWaitState { PARKWAIT_IDLE };
-        Ekos::CommunicationStatus m_EkosCommunicationStatus { Ekos::Idle };
-        Ekos::CommunicationStatus m_INDICommunicationStatus { Ekos::Idle };
-        /// List of all jobs as entered by the user or file
-        QList<SchedulerJob *> jobs;
-        /// Active job
-        SchedulerJob *currentJob { nullptr };
+        // the state machine holding all states
+        QSharedPointer<SchedulerModuleState> m_moduleState;
+        QSharedPointer<SchedulerModuleState> moduleState() const
+        {
+            return m_moduleState;
+        }
+        // process engine implementing all process steps
+        QPointer<SchedulerProcess> m_process;
+        QPointer<SchedulerProcess> process()
+        {
+            return m_process;
+        }
+
+        // react upon changes of EKOS and INDI state
+        void ekosStateChanged(EkosState state);
+        void indiStateChanged(INDIState state);
+
+        // react upon state changes
+        void startupStateChanged(StartupState state);
+        void shutdownStateChanged(ShutdownState state);
+        void parkWaitStateChanged(ParkWaitState state);
+
         /// URL to store the scheduler file
         QUrl schedulerURL;
         /// URL for Ekos Sequence
         QUrl sequenceURL;
         /// FITS URL to solve
         QUrl fitsURL;
-        /// Startup script URL
-        QUrl startupScriptURL;
-        /// Shutdown script URL
-        QUrl shutdownScriptURL;
         /// Store all log strings
         QStringList m_LogText;
         /// Busy indicator widget
@@ -1108,38 +916,19 @@ class Scheduler : public QWidget, public Ui::Scheduler
         GeoLocation *geo { nullptr };
         /// How many repeated job batches did we complete thus far?
         uint16_t captureBatch { 0 };
-        /// Startup and Shutdown scripts process
-        QProcess scriptProcess;
         /// Store next dawn to calculate dark skies range
         static QDateTime Dawn;
         /// Store next dusk to calculate dark skies range
         static QDateTime Dusk;
         /// Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
         static QDateTime preDawnDateTime;
-        /// Was job modified and needs saving?
-        bool mDirty { false };
         /// Keep watch of weather status
         ISD::Weather::Status weatherStatus { ISD::Weather::WEATHER_IDLE };
-        /// Keep track of how many times we didn't receive weather updates
-        uint8_t noWeatherCounter { 0 };
-
-        // Utilities to control the preemptiveShutdown feature.
-        // Is the scheduler shutting down until later when it will resume a job?
-        void enablePreemptiveShutdown(const QDateTime &wakeupTime);
-        void disablePreemptiveShutdown();
-        QDateTime getPreemptiveShutdownWakeupTime();
-        bool preemptiveShutdown();
-        // The various preemptiveShutdown states are controlled by this one variable.
-        QDateTime preemptiveShutdownWakeupTime;
 
         /// Keep track of Load & Slew operation
         bool loadAndSlewProgress { false };
         /// Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
         bool autofocusCompleted { false };
-        /// Keep track of INDI connection failures
-        uint8_t indiConnectFailureCount { 0 };
-        /// Keep track of Ekos connection failures
-        uint8_t ekosConnectFailureCount { 0 };
         /// Keep track of Ekos focus module failures
         uint8_t focusFailureCount { 0 };
         /// Keep track of Ekos guide module failures
@@ -1159,19 +948,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         int restartGuidingInterval { -1 };
         KStarsDateTime restartGuidingTime;
 
-        /// Generic time to track timeout of current operation in progress.
-        /// Used by startCurrentOperationTimer() and getCurrentOperationMsec().
-        KStarsDateTime currentOperationTime;
-        bool currentOperationTimeStarted { false };
-
         QUrl dirPath;
 
         QMap<QString, uint16_t> m_CapturedFramesCount;
-
-        bool m_MountReady { false };
-        bool m_CaptureReady { false };
-        bool m_DomeReady { false };
-        bool m_CapReady { false };
 
         // When a module is commanded to perform an action, wait this many milliseconds
         // before check its state again. If State is still IDLE, then it either didn't received the command

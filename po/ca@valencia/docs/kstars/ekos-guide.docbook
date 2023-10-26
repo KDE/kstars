@@ -26,113 +26,97 @@
         <title
 >Introducció</title>
         <para
->El mòdul per al guiatge d'Ekos permet el guiatge automàtic emprant el potent sistema de guiatge integrat, o bé, a la vostra opció, el guiatge extern a través de <ulink url="https://openphdguiding.org/"
+>El mòdul per al guiatge d'Ekos realitza el guiatge automàtic emprant el potent sistema de guiatge integrat, o bé, a la vostra opció, el guiatge extern a través de <ulink url="https://openphdguiding.org/"
 >PHD2</ulink
 > o <ulink url="https://sourceforge.net/projects/linguider/"
 >lin_guider</ulink
->. Utilitzant el guiatge intern, els fotogrames del CCD del sistema de guiatge seran capturats i enviats a Ekos per a l'anàlisi. Depenent de les desviacions de l'estrela guia des de la posició bloquejada, les correccions amb polsos per al guiatge s'enviaran a la vostra muntura <guilabel
->Via</guilabel
-> qualsevol dispositiu que admeta els ports ST4. Com a alternativa, podeu enviar les correccions <emphasis
->directament</emphasis
-> a la vostra muntura, si ho admet el controlador de la muntura. La majoria de les opcions de la &IGU; en el mòdul per al guiatge estan ben documentades, de manera que senzillament passeu el ratolí per damunt d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
-        <para
->Per a dur a terme el guiatge, haureu de seleccionar un CCD del sistema de guiatge en la <link linkend="ekos-profile-wizard"
->configuració del perfil d'Ekos</link
->. L'obertura del telescopi i la distància focal s'hauran d'ajustar al controlador del telescopi. Si el CCD del sistema de guiatge s'adjunta a una guia telescòpica separada, també haureu d'establir la <guilabel
->Distància focal</guilabel
-> i l'<guilabel
->Obertura</guilabel
-> de l'àmbit del guiatge. Podeu establir estos valors a la pestanya <guilabel
->Opcions</guilabel
-> del <link linkend="indi-telescope-setup"
->controlador del telescopi</link
-> o al mòdul per a la muntura. El guiatge automàtic és un procés de dos passos: calibratge i guiatge. </para>
-        <mediaobject>
-            <videoobject>
-                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/aza2fGIF7YE"
-></videodata>
-            </videoobject>
-            <caption>
-                <para>
+>. Utilitzant el guiatge intern, els fotogrames de la càmera del sistema de guiatge seran capturats i enviats a Ekos per a l'anàlisi. Depenent de les desviacions de les estreles de les seues posicions de bloqueig, s'enviaran polsos de correcció als motors dels eixos AR i Dec de la muntura. La majoria de les opcions de la &IGU; en el mòdul per al guiatge estan ben documentades, de manera que senzillament passeu el ratolí per damunt d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
+    </sect3>
+
+    <sect3 id="guide-Setup">
+        <title
+>Configuració</title>
+        <screenshot>
+            <screeninfo
+>Seleccioneu el sistema de guiatge d'Ekos </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_profile_guide.png" format="PNG"/>
+                </imageobject>
+                <textobject>
                     <phrase
->Introducció al guiatge</phrase>
-                </para>
-            </caption>
-        </mediaobject>
+>Seleccioneu el sistema de guiatge d'Ekos</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para
->Durant els dos processos, haureu d'establir el següent: </para>
+>Per a realitzar el guiatge, cal seleccionar (una vegada) un sistema de guiatge a l'editor de perfils per al perfil que utilitzareu. En l'editor de perfils, escolliu Intern o PHD2 per al sistema de guiatge intern d'Ekos. </para>
+        <screenshot>
+            <screeninfo
+>Tren òptic de guiatge d'Ekos </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_optical_train.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Tren òptic de guiatge d'Ekos</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>També haureu de configurar el tren òptic del sistema de guiatge. Este segon tren òptic quasi sempre és diferent del que esteu utilitzant amb captura/alineació/enfocament. Vegeu la imatge anterior per a veure un exemple de configuració. Cal tindre en compte que el telescopi triat és el de guiatge, el qual pot ser el mateix que el telescopi principal si utilitzeu un esquema OAG (fora de l'eix) o ONAG del sistema de guiatge. La càmera seleccionada serà, per descomptat, la càmera guia. El mitjà del sistema de guiatge  hauria de ser la muntura, assumint que esteu enviant polsos de guiatge directament a la muntura o el nom del dispositiu ST4 (&pex;, la vostra càmera) en el cas que utilitzeu polsos de guiatge ST4. </para>
+        <para
+>Doneu una ullada a la pàgina <guilabel
+>Guia</guilabel
+> principal que es mostra al començament d'esta secció. Hi ha moltes opcions que també es poden ajustar, algunes de les quals es llisten a continuació: </para>
         <itemizedlist>
             <listitem>
                 <para
 ><guilabel
->Sistema de guiatge</guilabel
->: Seleccioneu el CCD del sistema de guiatge. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Via</guilabel
->: Seleccioneu quin dispositiu rebrà els polsos per a la correcció del guiatge automàtic des d'Ekos. En general, els CCD del sistema de guiatge tenen un port ST4. Si utilitzeu el ST4 del sistema de guiatge per a fer el guiatge automàtic del vostre telescopi, establiu el sistema de guiatge al quadro combinat <guilabel
->Via</guilabel
->. El CCD del sistema de guiatge rebrà els polsos per a la correcció des d'Ekos i els transmetrà a la muntura a través del port ST4. D'altra banda, alguns telescopis admeten ordres de pols i podreu seleccionar el telescopi com a receptor dels polsos per a la correcció des d'Ekos. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
 >Exposició</guilabel
->: Exposició del CCD en segons. </para>
+>: Podeu ajustar el temps d'exposició del guiatge. Quan la càmera guia completa l'exposició, l'algoritme de guia calcula i envia els polsos de guiatge a la muntura, després espera un retard configurable per l'usuari i després comença l'exposició següent. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
 >Agrupament</guilabel
->: Distribució en subgrups del CCD. </para>
+>: Agrupament de píxels per a la imatge guia. En general, té sentit agrupar els píxels 2x2. Els algorismes encara poden trobar posicions d'estreles en els subpíxels i enviar polsos de guiatge adequats a la muntura. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
 >Quadro</guilabel
->: Mida del quadro que conté l'estrela guia. Seleccioneu una mida adequada que no siga massa gran o massa xicoteta per a l'estrela seleccionada. </para>
+>: Açò només és aplicable als algorismes de guiatge diferents del MultiStar, i MultiStar és l'esquema de guiatge recomanat. Mida del quadro que conté l'estrela guia. Seleccioneu una mida adequada que no siga massa gran o massa xicoteta per a l'estrela seleccionada. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Efectes</guilabel
->: Especifiqueu el filtre que s'aplicarà a la imatge per a millorar-la. </para>
+>Direccions</guilabel
+>: Normalment voldreu mantindre marcades totes les caselles de direccions. En desmarcar-les, s'inhabilitarà el guiatge en estes direccions. Per exemple, és possible inhabilitar el guiatge Dec en la direcció nord. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Fosc</guilabel
+>: Marqueu-la opció per a habilitar les correccions de marc fosc a la vostra imatge guia. Vegeu més avall. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Neteja el calibratge</guilabel
+>: Marqueu-la per a suprimir les dades de calibratge. Vegeu la secció de calibratge a continuació. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Submarc</guilabel
+> o <guilabel
+>Estrela automàtica</guilabel
+>: Estes opcions només s'apliquen a algorismes de guiatge diferents de MultiStar, i MultiStar és l'esquema de guiatge recomanat. </para>
             </listitem>
         </itemizedlist>
     </sect3>
-
-    <sect3 id="guide-dark-frames">
-        <title
->Fotogrames foscos</title>
-        <para
->Els fotogrames foscos són <emphasis
->immensament</emphasis
-> útils per a reduir el soroll en els fotogrames guia. Es recomana prendre fotogrames foscos abans de començar amb el procediment de calibratge o guiatge. Per a prendre un fotograma fosc, marqueu la casella de selecció <guilabel
->Fosc</guilabel
-> i feu clic en <guibutton
->Captura</guibutton
->. Es realitzarà per primera vegada, Ekos vos demanarà sobre l'obturador de la càmera. Si la vostra càmera no té obturador, Ekos vos avisarà en qualsevol moment mentre preneu el fotograma fosc perquè cobriu la càmera/telescopi abans de continuar amb la captura. D'altra banda, si la càmera ja inclou un obturador, Ekos procedirà directament amb el fotograma fosc. Tots els fotogrames foscos es guardaran automàticament en la biblioteca de fotogrames foscos d'Ekos. De manera predeterminada, la biblioteca fosca mantindrà els fotogrames foscos per a la seua reutilització durant 30 dies després del qual capturarà fotogrames foscos nous. Este valor és configurable i es pot ajustar en la <link linkend="ekos"
->configuració d'Ekos</link
->, al diàleg de configuració de &kstars;. </para>
-        <screenshot>
-            <screeninfo
->Biblioteca de fotogrames foscos d'Ekos </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="dark_library.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Biblioteca de fotogrames foscos d'Ekos</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
-        <para
->Es recomana prendre fotogrames foscos que cobrisquen diversos valors d'agrupament i exposició, de manera que Ekos els puga reutilitzar de forma transparent quan siga necessari. </para>
-    </sect3>
-
     <sect3 id="guide-calibration">
         <title
 >Calibratge</title>
@@ -151,55 +135,92 @@
             </mediaobject>
         </screenshot>
         <para
->En la fase del calibratge, haureu de capturar una imatge, seleccionar una estrela guia i fer clic en <guibutton
->Guiatge</guibutton
-> per a iniciar el procés del calibratge. Si el calibratge ja s'ha completat amb èxit abans, llavors el procés del guiatge automàtic començarà immediatament, en cas contrari, començaria el procés de calibratge. Si l'opció <guilabel
->Estrela automàtica</guilabel
-> està marcada, només caldrà que feu clic en <guibutton
->Captura</guibutton
-> i Ekos seleccionarà automàticament l'estrela guia més adequada que trobe en la imatge i continuarà automàticament el procés de calibratge. Si <guilabel
->Estrela automàtica</guilabel
-> està inhabilitada, Ekos intentarà ressaltar automàticament la millor estrela guia del camp. Haureu de confirmar o canviar la selecció abans de poder iniciar el procés de calibratge. Les opcions del calibratge són: </para>
+>El guiatge automàtic és un procés de dos passos: calibratge i guiatge. El calibratge és necessari perquè l'esquema comprenga l'orientació de la càmera en relació amb els eixos AR i Dec, així com també els efectes dels polsos de guiatge (&pex;, quant mourà normalment l'eix AR un pols de guiatge de 100 ms). Una vegada estimats estos valors, el sistema de guiatge podrà corregir la posició de la muntura de manera efectiva. Podeu veure els valors calibrats per a estos paràmetres a la imatge de dalt a la secció «Valors calibrats». </para>
+        <para
+>Igual que amb altres sistemes de guiatge, vos recomanem calibrar acuradament una vegada i després tornar a calibrar només quan siga necessari. Caldrà tornar a calibrar quan la càmera es moga (&pex;, es gire) en relació amb la muntura. No cal calibrar cada vegada que es gira la muntura. Haureu de calibrar quan apunteu a prop del meridià i al llarg de l'equador celeste (probablement just a l'oest seu). El sistema de guiatge (i el calibratge de la guia) és problemàtic prop del pol -probablement no funcionarà-. Esta <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
+>presentació de diapositives</ulink
+> conté bons consells sobre com calibrar el sistema de guiatge intern i/o PHD2. </para>
+        <para
+>Les opcions importants a la pàgina <guilabel
+>Calibratge</guilabel
+> (a dalt) són: </para>
         <itemizedlist>
             <listitem>
                 <para
-><guilabel
+>Mida del <guilabel
 >Pols</guilabel
->: La duració dels polsos en mil·lisegons que s'enviaran a la muntura. Este valor hauria de ser prou gran per a provocar un moviment notable a l'estrela guia. Si augmenteu el valor i no observeu cap moviment de l'estrela guia, açò suggerirà possibles problemes de la muntura, com ara problemes d'embús o connexió a través del cable ST4. </para>
+>: Hauria de ser prou gran com per a moure la imatge uns quants píxels. </para>
+            </listitem>
+            <listitem>
+                <para
+>Tornar a utilitzar el calibratge: Hi ha dues caselles de selecció relacionades amb mantindre el calibratge. Recomanem marcar <guilabel
+>Emmagatzema i reusa el calibratge del guiatge si és possible</guilabel
+> i desmarcar <guilabel
+>Reinicia el calibratge del guiatge després de cada orientació de la muntura</guilabel
+>. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Dos eixos</guilabel
->: Comproveu si voleu que el procés de calibratge faça el calibratge tant a l'AR com a la Dec. Si no està marcada, el calibratge només es realitzarà a l'AR. </para>
+>Invertix la Dec en canviar el costat del moll quan es reusa el calibratge</guilabel
+>: També és important marcar-la o desmarcar-la (depén de la muntura). Per a trobar la configuració correcta per a la muntura, haureu de calibrar correctament en un costat del moll, assegureu-vos que el sistema de guiatge funcione bé en este costat i després canvieu a l'altre. Feu el guiatge durant un minut o dos. Si la Dec s'escapa, llavors probablement tindreu una configuració incorrecta per a esta casella de selecció. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
->Estrela automàtica</guilabel
->: Si està marcada, Ekos intentarà seleccionar la millor estrela guia del fotograma i començarà automàticament el procés de calibratge. </para>
+>Moviment màx. (px)</guilabel
+> i <guilabel
+>Màxim d'iteracions</guilabel
+>: recomanem mantindre el màxim d'iteracions gran (&pex;, 10), així com un moviment màxim gran (&pex;, més de 20 píxels). D'esta manera hauríeu d'obtindre una bona estimació dels paràmetres de calibratge del guiatge. El calibratge hauria de ser una cosa que feu rarament, per la qual cosa és millor dedicar-hi una mica més de temps i fer-ho bé. </para>
             </listitem>
         </itemizedlist>
         <para
->La posició de retícula, és la posició de l'estrela guia seleccionada (o amb la selecció automàtica) en la imatge capturada pel sistema de guiatge. Haureu de seleccionar una estrela que no siga a prop de la vora. Si la imatge no està clara, podreu seleccionar diferents <guilabel
->Efectes</guilabel
-> per a millorar-la. </para>
+>Per a (re)calibrar, netegeu el calibratge a la pàgina <guilabel
+>Guia</guilabel
+> principal i després senzillament feu clic en el botó <guibutton
+>Guia</guibutton
+>. Cal tindre en compte que si el calibratge ja s'ha completat amb èxit abans i no l'heu netejat, llavors estareu reutilitzant-lo i el procés de guiatge automàtic començarà immediatament; altrament, s'iniciarà el procés de calibratge. </para>
         <para
->Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura a l'AR i Dec. Si falla el procés de calibratge per una corba curta, intenteu augmentar la duració del pols. Per a netejar el calibratge, feu clic damunt de la icona de paperera que hi ha en el costat del botó <guibutton
->Guiatge</guibutton
->. </para>
-        <warning>
+>Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura en l'AR i Dec. Impulsa l'eix de l'AR cap a fora i després l'impulsa cap a dins. Després d'açò es mou una mica en la Dec per a netejar i compensar el rebot que poguera existir, i llavors impulsa cap enfora i torna cap a dins la Dec. Per a veure-ho gràficament, feu clic en la subpestanya «Traçat del calibratge» en la pàgina principal del guiatge. </para>
+        <sect4 id="guide-calibration-failures">
+        <title
+>Fallades del calibratge</title>
             <para
->El calibratge pot fallar per diversos motius. Per a millorar les possibilitats d'èxit, proveu amb els consells a continuació. </para>
-        </warning>
+>El calibratge pot fallar per diversos motius. Per a millorar les possibilitats d'èxit, proveu amb els consells a continuació: </para>
         <itemizedlist>
+            <listitem>
+                <para
+>Males condicions del cel. Si les condicions del cel no són bones, pot ser que no valga la pena lluitar contra el sistema de guiatge/calibració. </para>
+            </listitem>
+            <listitem>
+                <para
+>Enfocament de la càmera guia. </para>
+            </listitem>
+            <listitem>
+                <para
+>Deixeu l'algorisme al valor predeterminat (<guimenuitem
+>SEP</guimenuitem
+> del MultiStar) a la pestanya <guilabel
+>Processament</guilabel
+> de la pàgina <guilabel
+>Enfocament</guilabel
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+>Proveu els paràmetres de detecció d'estreles SEP «Sistema de guiatge predeterminat» (a la pestanya  <guilabel
+>Processament</guilabel
+> de la pàgina <guilabel
+>Enfocament</guilabel
+>) i ajusteu-los si cal. </para>
+            </listitem>
             <listitem>
                 <para
 ><guilabel
 >Millora l'alineació polar</guilabel
->: Açò és fonamental per a l'èxit de qualsevol sessió d'astrofotografia. Realitzeu una ràpida alineació polar amb un àmbit polar (si està disponible) o utilitzant el <link linkend="ekos-align-polaralignment"
+>: Açò és fonamental per a l'èxit de qualsevol sessió d'astrofotografia. Utilitzeu el <link linkend="ekos-align-polaralignment"
 >procediment Alineació polar</link
-> amb el mòdul per a l'<guilabel
+> d'Ekos en el mòdul per a l'<guilabel
 >Alineació</guilabel
 >. </para>
             </listitem>
@@ -211,33 +232,11 @@
             </listitem>
             <listitem>
                 <para
->És preferible utilitzar el cable ST4 entre el guiatge/càmera i la muntura emprant les ordres de pols de la muntura. </para>
-            </listitem>
-            <listitem>
-                <para
->Seleccioneu un filtre diferent (&pex;, alt contrast) i vegeu si açò fa la diferència per a reduir el soroll. </para>
-            </listitem>
-            <listitem>
-                <para
->Mida xicoteta del quadrat. </para>
-            </listitem>
-            <listitem>
-                <para
 >Prendre fotogrames foscos per a reduir el soroll. </para>
             </listitem>
-            <listitem>
-                <para
->Jugueu amb el guany proporcional de la Dec o desactiveu del tot el control de la Dec i vegeu la diferència. </para>
-            </listitem>
-            <listitem>
-                <para
->Deixeu l'algorisme al valor predeterminat (<guimenuitem
->Intel·ligent</guimenuitem
->). </para>
-            </listitem>
         </itemizedlist>
+    </sect4>
     </sect3>
-
     <sect3 id="guide-guiding">
         <title
 >Guiatge</title>
@@ -264,19 +263,63 @@
 >Blau</guilabel
 > en la Dec. Els colors de les línies de l'AR/Dec es poden canviar en l'<link linkend="colors"
 >esquema de color de &kstars;</link
-> al diàleg de configuració. L'eix vertical indica la desviació en segons d'arc des de la posició central de l'estrela guia i l'eix horitzontal indica el temps. Podeu passar el cursor per damunt de la línia per a obtindre la desviació exacta en este moment concret. A més, també podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. </para>
+> en el diàleg de configuració. L'eix vertical indica la desviació en segons d'arc de la posició de bloqueig i l'eix horitzontal indica el temps. Podeu passar el cursor per damunt de la línia per a obtindre la desviació exacta en este moment concret. També podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. Un altre lloc convenient per a examinar el rendiment del guiatge és la pestanya <guilabel
+>Analitza</guilabel
+>. </para>
         <para
->Ekos pot utilitzar múltiples algorismes per a determinar el centre de la massa de l'estrela guia. De manera predeterminada, l'algorisme intel·ligent és el més adequat per a la majoria de situacions. L'algorisme ràpid es basa en els càlculs de l'HFR. Podeu intentar de canviar els algorismes del guiatge si Ekos no pot mantindre correctament l'estrela guia dins del quadrat del guiatge. </para>
+>Ekos pot utilitzar múltiples algorismes per a determinar la deriva des de la posició de bloqueig (original), però de lluny el més precís és l'algorisme <guilabel
+>SEP</guilabel
+> del MultiStar (predeterminat). Utilitza la posició detectada de moltes estreles (en la configuració anterior, fins a 50) per a determinar la seua millor estimació de la deriva actual. Depén d'una detecció precisa de les estreles. Per tant, pot ser important ajustar els paràmetres de la detecció d'estreles. Comenceu amb el perfil SEP predeterminat per al guiatge i, de manera opcional, editeu els paràmetres si creieu que les estreles no es detecten amb prou precisió. </para>
         <para
->La regió d'informació mostra la informació sobre el telescopi i CDV, a més de les desviacions des de l'estrela guia, juntament amb els polsos per a la correcció enviats a la muntura. El valor RMS per a cada eix es mostra juntament amb el valor RMS total en segons d'arc. El sistema de guiatge intern utilitza el <ulink url="https://en.wikipedia.org/wiki/PID_controller"
->controlador PID</ulink
-> per a corregir el seguiment de la muntura. Actualment, els <emphasis
->únics</emphasis
-> guanys proporcionals i integrals s'utilitzen dins de l'algorisme, de manera que ajustar-lo hauria d'afectar a la llargària dels polsos generats en mil·lisegons que s'han enviat a la muntura. </para>
+>Estos són alguns dels paràmetres que potser voleu ajustar. De nou, hi ha un bon consell a l'hora de triar paràmetres a Internet, p. ex., des de <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
+>el passe de diapositives anterior</ulink
+>. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Agressivitat (0-1.0)</guilabel
+>: Amb quina rapidesa voleu que el sistema de guiatge corregisca l'error. Els valors de 0,5 o 0,6 solen ser els millors (&ead; corregixen aproximadament la meitat de l'error observat). De manera poc intuïtiva, pareix que corregir el 100% de l'error pot provocar un rendiment deficient, ja que sovint el sistema de guiatge oscil·larà amb correccions excessives. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Algorisme</guilabel
+>: Recomanem que utilitzeu l'algorisme més actualitzat: <guimenuitem
+>SEP MultiStar</guimenuitem
+>. Pràcticament l'única raó per a no fer-ho seria si no es pot aconseguir que la detecció d'estreles del SEP funcione adequadament. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Perfil SEP</guilabel
+>: Comenceu amb el <guimenuitem
+>Guiatge predeterminat</guimenuitem
+>, tot i que podeu triar altres si hi ha estreles molt grans o xicotetes (en termes de nombre de píxels de diàmetre). </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+    <sect3 id="guide-dithering">
+        <title
+>Tramat</title>
+
+        <screenshot>
+            <screeninfo
+>Configureu el tramat </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_dithering_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Configureu el tramat</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para
 >Per a activar el tramat automàtic entre fotogrames, assegureu-vos de marcar la casella de selecció <guilabel
 >Tramat</guilabel
->. De manera predeterminada, Ekos hauria de fer el tramat (&pex;, moure) del quadro de guiatge de fins a 3 píxels després de cada fotograma capturat en el <link linkend="ekos-capture"
+>. De manera predeterminada, Ekos hauria de fer el tramat (&pex;, moure) del quadro de guiatge de fins a 3 píxels després de cada N fotogrames capturats en el <link linkend="ekos-capture"
 >mòdul per a la captura d'Ekos</link
 >. La duració i la direcció del moviment seran aleatoris. Atés que el rendiment del guiatge pot oscil·lar immediatament després del tramat, podeu establir la duració del <guilabel
 >Posicionament</guilabel
@@ -286,82 +329,17 @@
 >Interromp el guiatge automàtic en fallar</guilabel
 > per a seleccionar el comportament desitjat. </para>
         <para
+>El tramat no produïx una divergència llarga des de la posició original de l'objectiu. Ekos realitza un seguiment de les posicions original i actual de l'objectiu, i mou l'objectiu cap a l'objectiu original si la posició s'ha desviat massa. </para>
+        <para
+>El tramat d'un pols és una opció interessant i més ràpida que envia un pols al tramat, però no verifica que el tramat haja arribat fins a la seua ubicació desitjada. És possible que el tramat per a qualsevol tramat determinat no siga tant com es vol, però l'efecte general hauria de ser bo. </para>
+        <para
 >També s'admet el tramat sense guiatge. Açò és útil quan no hi ha cap càmera guia o quan es fan exposicions curtes. En este cas, es pot ordenar que la muntura faça el tramat en una direcció aleatòria fins al pols especificat en l'opció <guilabel
 >Pols del tramat sense guiatge</guilabel
 >. </para>
-        <para
->Ekos admet múltiples mètodes de guiatge: Intern, PHD2 i LinGuider. Haureu de seleccionar el sistema de guiatge desitjat al vostre perfil d'equip d'Ekos: </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Sistema de guia intern</guilabel
->: Utilitzeu el sistema de guiatge intern d'Ekos. Esta és l'opció predeterminada i recomanada. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->PHD2</guilabel
->: Utilitzeu PHD2 com a sistema de guiatge extern. Si està seleccionada, especifiqueu l'amfitrió i el port de PHD2. Deixeu els valors predeterminats si Ekos i PHD2 s'estan executant a la mateixa màquina. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->LinGuider</guilabel
->: Utilitzeu LinGuider com a sistema de guiatge extern. Si està seleccionada, especifiqueu l'amfitrió i el port de LinGuider. Deixeu els valors predeterminats si Ekos i LinGuider s'executen a la mateixa màquina. </para>
-            </listitem>
-        </itemizedlist>
     </sect3>
-
-    <sect3 id="guide-direction-control">
-        <title
->Control de la direcció del guiatge</title>
-        <screenshot>
-            <screeninfo
->Control de la direcció del guiatge </screeninfo>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="ekos_profile_guider_select.png" format="PNG"/>
-                </imageobject>
-                <textobject>
-                    <phrase
->Control de la direcció del guiatge</phrase>
-                </textobject>
-            </mediaobject>
-        </screenshot>
-        <para
->Podeu ajustar el rendiment del guiatge a la secció de control. El procés del guiatge automàtic funciona com un <ulink url="https://en.wikipedia.org/wiki/PID_controller"
->controlador PID</ulink
-> quan s'envien les ordres de correcció a la muntura. Si és necessari, podeu alterar els guanys proporcionals i integrals per a millorar el rendiment del guiatge. De manera predeterminada, els correctius del guiatge són enviats a l'eix de la muntura en totes les direccions: positiu i negatiu. Podeu ajustar el control seleccionant quins eixos rebran els polsos correctius del guiatge i dins de cada eix, podeu indicar quina direcció <guilabel
->(Positiva) +</guilabel
-> o <guilabel
->Negativa (-)</guilabel
-> rebrà els polsos del guiatge. Per exemple, per a l'eix de la declinació, la direcció <guilabel
->+</guilabel
-> és nord i <guilabel
->-</guilabel
-> és sud. </para>
-    </sect3>
-
-    <sect3 id="guide-guiding-rate">
-        <title
->Velocitat del guiatge</title>
-        <para
->Cada muntura té una velocitat de guiatge en particular (x15"/seg) i, en general, oscil·la l'interval entre 0,1x i 1,0x, amb un valor comú de 0,5x que utilitzen moltes muntures. La velocitat de guiatge predeterminada és sidèria de 0,5x, la qual és equivalent al guany proporcional de 133,33. Per tant, podeu establir el valor de la velocitat del guiatge a qualsevol valor emprat per la vostra muntura, i Ekos haurà de mostrar el valor del guany proporcional <emphasis
->recomanat</emphasis
-> que podeu establir al camp del guany proporcional davall <guilabel
->Paràmetres de control</guilabel
->. En establir este valor <emphasis
->no es farà cap</emphasis
-> canvi a la velocitat del guiatge de la muntura. Haureu de canviar la velocitat del guiatge de la muntura a través del <link linkend="indi-telescope-setup"
->controlador INDI</link
->, si està admés o mitjançant el controlador manual. </para>
-    </sect3>
-
     <sect3 id="guide-drift-graphics">
         <title
 >Gràfics de la deriva</title>
-
         <screenshot>
             <screeninfo
 >Gràfics de la deriva </screeninfo>
@@ -415,10 +393,54 @@
     <sect3 id="guide-gpg">
         <title
 >Guiatge amb GPG</title>
+        <screenshot>
+            <screeninfo
+>Guiatge amb GPG </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_gpg_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Guiatge amb GPG</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para
->El sistema de guiatge intern pot utilitzar el guiatge predictiu i adaptatiu habilitant el guiatge GPG. Açò modela adaptativament l'error periòdic de la muntura i afig la seua contribució predita a cada impuls guia. De manera opcional, en habilitar el guiatge fosc, es poden emetre les correccions predites molt més ràpid que la velocitat d'exposició de la càmera guia, realitzant de manera efectiva una correcció d'errors periòdics i permetent exposicions més llargues de la càmera guia. </para>
+>Amb el sistema de guiatge GPG, el sistema de guiatge intern utilitza  un guiatge predictiu i adaptatiu per a l'eix AR. Açò modela de manera adaptativa l'error periòdic de la muntura i afig la contribució predita a cada pols de guiatge. </para>
+        <para
+>Els paràmetres principals a considerar són el període major i el període estimat. Si coneixeu el període del cuc per a la muntura, potser examinant <ulink url="https://github.com/OpenPHDGuiding/phd2/wiki/Mount-Worm-Period-Info"
+>esta taula</ulink
+>, desmarqueu el període estimat i introduïu el període principal conegut. Si no, marqueu el període estimat. El guiatge fosc intra-fotograma es pot utilitzar per a dispersar la predicció GPG. Per exemple, si es guia a 5s, es pot establir l'interval de guiatge fosc a 1s i la seua predicció es polsa cada segon, però la correcció de la deriva del guiatge s'enviaria cada 5s. D'esta manera, emet les correccions predites molt més ràpid que la velocitat d'exposició de la càmera guia, realitzant efectivament la correcció periòdica d'errors i permetent exposicions de la càmera guia més llargues. És millor deixar tots els altres paràmetres als valors predeterminats. </para>
     </sect3>
-
+    <sect3 id="guide-dark-frames">
+        <title
+>Fotogrames foscos</title>
+        <para
+>Els fotogrames foscos poden ser útils útils per a reduir el soroll en els fotogrames guia. Si trieu utilitzar esta opció, vos recomanem que preneu fotogrames foscos abans de començar amb el procediment de calibratge o guiatge. Per a prendre un fotograma fosc, marqueu la casella de selecció <guilabel
+>Fosc</guilabel
+> i feu clic en <guibutton
+>Captura</guibutton
+>. Es realitzarà per primera vegada, Ekos vos demanarà sobre l'obturador de la càmera. Si la vostra càmera no té obturador, Ekos vos avisarà en qualsevol moment mentre preneu el fotograma fosc perquè cobriu la càmera/telescopi abans de continuar amb la captura. D'altra banda, si la càmera ja inclou un obturador, Ekos procedirà directament amb el fotograma fosc. Tots els fotogrames foscos es guardaran automàticament en la biblioteca de fotogrames foscos d'Ekos. De manera predeterminada, la biblioteca fosca mantindrà els fotogrames foscos per a la seua reutilització durant 30 dies després del qual capturarà fotogrames foscos nous. Este valor és configurable i es pot ajustar en la <link linkend="ekos"
+>configuració d'Ekos</link
+>, al diàleg de configuració de &kstars;. </para>
+        <screenshot>
+            <screeninfo
+>Biblioteca de fotogrames foscos d'Ekos </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="dark_library.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Biblioteca de fotogrames foscos d'Ekos</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Es recomana prendre fotogrames foscos que cobrisquen diversos valors d'agrupament i exposició, de manera que Ekos els puga reutilitzar de forma transparent quan siga necessari. </para>
+    </sect3>
+    
     <sect3 id="guide-phd2-support">
         <title
 >Admet PHD2</title>
@@ -455,12 +477,16 @@
 >Connecta</guibutton
 >. A l'inici, Ekos intentarà connectar-se automàticament amb PHD2. Una vegada establida la connexió, podreu iniciar immediatament el guiatge fent clic en el botó <guibutton
 >Guiatge</guibutton
->. PHD2 haurà de realitzar el calibratge si és necessari. Si se selecciona el tramat, s'haurà d'ordenar a PHD2 que proporcione els píxels indicats del desplaçament i, una vegada que el guiatge siga regi i estable, es reprendrà el procés de captura a Ekos. </para>
-        <note>
-            <para
->Ekos guarda les dades de registre de la guia en CSV, el qual pot ser útil per a l'anàlisi del rendiment de la muntura davall <filename
->~/.local/share/kstars/guide_log.txt</filename
->. Este registre només estarà disponible quan s'utilitze el sistema de guiatge incorporat. </para>
-        </note>
+>. PHD2 realitzarà el calibratge si és necessari. Si se selecciona el tramat, s'ordenarà a PHD2 que trami els píxels de desplaçament indicats i, una vegada que el guiatge s'haja ubicat i siga estable, es reprendrà el procés de captura a Ekos. </para>
+    </sect3>
+    <sect3 id="guide-logs">
+        <title
+>Registre del sistema de guiatge</title>
+        <para
+>El sistema de guiatge intern d'Ekos guarda un registre de guiatge en CSV, el qual pot ser útil per a l'anàlisi del rendiment de la muntura. A Linux, este s'emmagatzema a <filename
+>~/.local/share/kstars/guidelogs/</filename
+>. Este registre només estarà disponible quan s'utilitze el sistema de guiatge intern d'Ekos. Hauria de ser compatible amb el <ulink url="https://openphdguiding.org/phd2-log-viewer/"
+>Visor del registre de guiatge de PHD2</ulink
+>. </para>
     </sect3>
 </sect2>

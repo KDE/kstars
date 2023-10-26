@@ -14,6 +14,7 @@
 #include "mountmodel.h"
 #include "Options.h"
 #include "indi/guimanager.h"
+#include "ekos/align/align.h"
 
 #include "skymapcomposite.h"
 

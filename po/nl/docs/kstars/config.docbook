@@ -1925,6 +1925,56 @@
 >. </para>
 </sect1>
 
+<sect1 id="developer">
+<title
+>Ontwikkelaar</title>
+<screenshot>
+<screeninfo
+>Venster van ontwikkelaar</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Venster van ontwikkelaar</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Venster &kstars; instellen</primary>
+<secondary
+>Ontwikkelaarpagina</secondary
+></indexterm
+>De pagina <guilabel
+>Ontwikkelaar</guilabel
+> levert een paar keuzevakken die kunnen helpen problemen te debuggen met &kstars;. Dit zijn keuzevakken voor opslaan van afbeeldingen in loggingmappen die kunnen helpen bij debuggen van problemen. Natuurlijk kan het opslaan van afbeeldingen schijfruimte kosten en zou voorzichtig moeten worden gebruikt. </para
+><para
+>De afbeeldingen die opgeslagen kunnen worden zijn</para>
+  <itemizedlist>
+<listitem
+><para
+>alle focusafbeeldingen, </para
+></listitem>
+<listitem
+><para
+>alle gidsafbeeldingen, </para
+></listitem>
+<listitem
+><para
+>alle uitlijnafbeelding en </para
+></listitem>
+<listitem
+><para
+>uitlijnafbeeldingen waarvan plaat-oplossen is mislukt. </para
+></listitem>
+  </itemizedlist
+><para
+>De afbeeldingen worden allemaal opgeslagen in mappen parallel aan de hoofdmap voor loggen. Ze zijn in mappen genaamd guide, autofocus, align en align/failed. </para>
+</sect1>
+
 <sect1 id="customize">
 <title
 >Het beeld instellen</title>

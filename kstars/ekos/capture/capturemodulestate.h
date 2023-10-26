@@ -19,19 +19,20 @@
 #include "indi/indidome.h"
 
 #include "ekos/manager/meridianflipstate.h"
-#include "ekos/capture/refocusstate.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
-#include "fitsviewer/fitsdata.h"
 
 // Wait 3-minutes as maximum beyond exposure
 // value.
 #define CAPTURE_TIMEOUT_THRESHOLD  180000
 
+class FITSData;
+
 namespace Ekos
 {
 
 class SequenceJob;
+class RefocusState;
 
 class CaptureModuleState: public QObject
 {

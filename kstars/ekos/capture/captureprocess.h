@@ -7,16 +7,18 @@
 #pragma once
 
 #include "capturemodulestate.h"
-#include "capturedeviceadaptor.h"
 #include "sequencejob.h"
 
 #include "indiapi.h"
-#include "ekos/auxiliary/darkprocessor.h"
 
 #include <QObject>
 
 namespace Ekos
 {
+
+class CaptureDeviceAdaptor;
+class DarkProcessor;
+
 /**
  * @class CaptureProcess
  * @brief The CaptureProcess class holds the entire business logic to control capturing execution.
@@ -758,10 +760,7 @@ private:
     /**
      * @brief activeCamera Shortcut to the active camera held in the device adaptor
      */
-    ISD::Camera *activeCamera()
-    {
-        return devices()->getActiveCamera();
-    }
+    ISD::Camera *activeCamera();
 
     /**
      * @brief resetAllJobs Iterate over all jobs and reset them.

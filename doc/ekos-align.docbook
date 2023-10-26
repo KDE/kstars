@@ -21,118 +21,216 @@
             </mediaobject>
         </screenshot>
         <para>
-            Ekos Alignment Module enables highly accurate GOTOs to within sub-arcseconds accuracy and can measure and correct polar alignment errors. This is possible thanks to the astrometry.net solver. Ekos begins by capturing an image of a star field, feeding that image to <ulink url="https://astrometry.net">astrometry.net</ulink> solver, and getting the central coordinates (RA, DEC) of the image. The solver essentially performs a pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known.
+            The Ekos Alignment Module enables highly accurate GOTOs and can measure and correct polar alignment errors. This is possible thanks to third-party plate-solving technology. The main plate-solving software used is the StellarSolver package, which itself makes use of the offline (and online) astrometry.net, ASTAP and Watney solvers.  Ekos begins by capturing an image of a star field, feeding that image to the chosen solver (e.g. see <ulink url="https://astrometry.net">astrometry.net</ulink>, <ulink url="https://github.com/rlancaste/stellarsolver">StellarSolver</ulink> or <ulink url="https://www.hnsky.org/astap">ASTAP</ulink>), and gets in return the central coordinates (RA, DEC), scale, and orientation of the image. The solver essentially performs pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known.
         </para>
         <para>
-            Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can then correct the discrepancy by either syncing to the new coordinates, or by slewing the mount to the desired target originally requested.
+            Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can correct the discrepancy by syncing to the new coordinates, and then slewing the mount to the desired target originally requested.
         </para>
         <para>
-            Furthermore, Ekos provides a Polar Alignment Assistant Tool to correct polar alignment errors. It takes three images, slewing between the images, and calculates the offset between the mount axis and polar axis. It feeds back to the user the altitude and azimuth adjustments needed to align these axes. These images are typically taken near the celestial pole (Close to Polaris for Northern Hemisphere) but can work well taken from anywhere, usually starting near the meridian and slewing either East or West.
+            Ekos also provides a Polar Alignment Assistant Tool to correct polar alignment errors. It takes three images, slewing between the images, and calculates the offset between the mount axis and polar axis. It feeds back to the user the altitude and azimuth adjustments needed to align these axes. These images are typically taken near the celestial pole (close to Polaris for Northern Hemisphere) but can work well taken from anywhere, usually starting near the meridian and slewing either East or West.
         </para>
         <para>
             At a minimum, you need a CCD/Webcam and a telescope that supports Slew &amp; Sync commands. Most popular commercial telescope nowadays support such commands.
         </para>
-        <para>
-            For the Ekos Alignment Module to work, you have an option of either utilizing the <emphasis>online</emphasis> astrometry.net solver, <emphasis>offline</emphasis>, or <emphasis>remote</emphasis> solver:
-        </para>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <guilabel>Online Solver</guilabel>: The online solver requires no configuration, and depending on your Internet bandwidth, it might take a while to upload and solve the image.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Offline Solver</guilabel>: The offline solver can be faster and requires no Internet connection. In order to use the offline solver, you must install astrometry.net in addition to the necessary index files.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <guilabel>Remote Solver</guilabel>: The remote solver is an offline solver the resides on a different machine (for example, you can use Astrometry solver on StellarMate). Captured images are solved on the remote machine.
-                </para>
-            </listitem>
-        </itemizedlist>
     </sect3>
 
-    <sect3 id="ekos-align-get-astrometry">
-        <title>Get astrometry.net</title>
-
-        <para>
-            If you are planning to use <emphasis>Offline</emphasis> astrometry then you need to download astrometry.net application.
-        </para>
-        <note>
+        <sect3 id="ekos-align-typical">
+            <title>Typical use</title>
             <para>
-                Astrometry.net is already shipped with StellarMate so there is no need to install it. Index files from 16 arcminutes and above (4206 to 4019) are included with StellarMate. For any additional index files, you need to install them as necessary. To use Astrometry in StellarMate from a remote Ekos on &Linux;/&Windows;/&MacOS;, make sure to select <guimenuitem>Remote</guimenuitem> option in Ekos Alignment Module. Furthermore, make sure that the <guimenuitem>Astrometry</guimenuitem> driver is selected in your equipment profile.
+                Using Ekos Alignment Module, aligning your mount using the controller's 1, 2, or 3 star alignment is <emphasis>not</emphasis> strictly necessary, though for some mounts it is recommended to perform a rough 1 or 2 star alignment before using Ekos alignment module. If you are using EQMod, you can start using Ekos alignment module right away. A typical workflow for GOTO alignment involves the following steps:
             </para>
-        </note>
+            <orderedlist>
+                <listitem>
+                    <para>
+                        Start KStars and Ekos and connect to INDI. 
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Unpark your mount from its home position (usually the NCP for equatorial mounts).
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Slew to a nearby bright star using the slew telescope command in the SkyMap using the <guilabel>Slew the telescope to the mouse-pointer position</guilabel> command.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Select <guilabel>Slew to Target</guilabel> in the <guilabel>Solver Action</guilabel> on the Align page.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        After slew is complete, click <guibutton>Capture &amp; Solve</guibutton> on the Align page.
+                    </para>
+                </listitem>
+            </orderedlist>
+            <para>
+                Align will capture an image and try to solve it. If the solver is successful, Ekos will send a sync command to the mount and then slew to the star. The results are displayed in the <guilabel>Solution Results</guilabel> tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis>thinks</emphasis> it is looking vs. its actual pointing position in the sky as determined by the solver). Align will stop if it is within the desired error tolerance, otherwise it will repeat the Slew/Capture/Solve/Sync process until it is within tolerance.
+            </para>
+            <para>
+                Each time the solver is executed and returns successful results, Ekos can run on the following actions:
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <guilabel>Sync</guilabel>: Syncs the telescope coordinates to the solution coordinates.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <guilabel>Slew to Target</guilabel>: Syncs the telescope coordinates to the solution coordinates and then slew to the target.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <guilabel>Nothing</guilabel>: Just solve the image and display the solution coordinates.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+    
+    <sect3 id="ekos-solver-options">
+      <title>Configure StellarSolver Options </title>
         <screenshot>
             <screeninfo>
-                Ekos Remote Astrometry
+                StellarSolver Options
             </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="ekos_remote_astrometry.png" format="PNG"/>
+                    <imagedata fileref="ekos_stellarsolver_options.png" format="PNG"/>
                 </imageobject>
                 <textobject>
-                    <phrase>Ekos Remote Astrometry</phrase>
+                    <phrase>StellarSolver Options</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
-        <variablelist>
-            <varlistentry>
-                <term>&Windows;</term>
-                <listitem>
-                    <para>
-                        To use astrometry.net under &Windows;, you need to download and install the <ulink url="https://adgsoftware.com/ansvr/">ANSVR Local Astrometry.net solver</ulink>. The ANSVR mimics the astrometry.net online server on your local computer; thus the internet not required for any astrometry queries.
-                    </para>
-                    <para>
-                        After installing the ANSVR server and downloading the appropriate index files for your setup, make sure ANSVR server is up and running and then go to Ekos Alignment options where you can simply change the <guilabel>API URL</guilabel> to use the ANSVR server as illustrated below:
-                    </para>
-                    <screenshot>
-                        <screeninfo>
-                            ANSVR Parameters
-                        </screeninfo>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="astrometry_windows_ansvr.png" format="PNG"/>
-                            </imageobject>
-                            <textobject>
-                                <phrase>ANSVR Parameters</phrase>
-                            </textobject>
-                        </mediaobject>
-                    </screenshot>
-                    <para>
-                        In Ekos Align module, you must set the solver type to <guimenuitem>Online</guimenuitem> so that it uses the local ANSVR server for all astrometry queries. Then you can use the align module as you would normally do.
-                    </para>
-                    <para>
-                        Remember as indicated above that StellarMate <emphasis>already</emphasis> includes astrometry.net. Therefore, if you would like to use StellarMate remotely to solve your images, simply change solver type to <guimenuitem>Remote</guimenuitem> and ensure that your equipment profile includes <emphasis role="bold">Astrometry</emphasis> driver which can be selected under the <guilabel>Auxiliary</guilabel> dropdown. This is applicable to all operating systems and not just &Windows;.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>&MacOS;</term>
-                <listitem>
-                    <para>
-                        Astrometry.net is already included with &kstars; for &MacOS;, so no need to install it.
-                    </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term>&Linux;</term>
-                <listitem>
-                    <para>
-                        Astrometry.net is already included with &kstars; bleeding version. But if astrometry is not installed, then you can install it by running the following command under &ubuntu;:
-                    </para>
-                    <para>
-                        <command>sudo apt-get install astrometry.net</command>
-                    </para>
-                </listitem>
-            </varlistentry>
-        </variablelist>
+      <para>
+        To use the solvers, you must first configure the StellarSolver options. The above page is displayed when clicking on the <guilabel>Options</guilabel> button on the lower right of the Align page, then selecting the <guilabel>StellarSolver Options</guilabel> tab. Start with the <guilabel>Builtin method for solver</guilabel> <guilabel>Source Extraction method</guilabel> so that each solver uses its preferred star-extraction code. For <guilabel>Solving Method</guilabel> we recommend choosing <guilabel>Internal Solver</guilabel> to use StellarSolver's copy of the Astrometry.net code, or choose <guilabel>Local ASTAP</guilabel> if you prefer that. The online astrometry solver is accurate, but can take a long time to solve because of all the data transfer required. For <guilabel>Options Profile</guilabel>, start with the <guilabel>1-Default</guilabel> profile.
+      </para>
+      <para>
+        There are two other minor options. <guilabel>WCS</guilabel> or  World-Coordinate-System is a system for embedding equatorial coordinate information within the image. When you view a solved image, you can hover it and view the coordinate for each pixel. You can also click anywhere in the image and command to the telescope to slew there. It is highly recommended to keep this option on. <guilabel>Overlay</guilabel> overlays captured images unto the sky map of &kstars;.
+        </para>
+    </sect3>
+    
+    <sect3 id="ekos-solver-external">
+      <title>Configure StellarSolver External Programs </title>
+        <screenshot>
+            <screeninfo>
+                StellarSolver External Programs
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_stellarsolver_external.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>StellarSolver External Programs</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+      <para>
+        This is only required if you choose one of the external programs for your <guilabel>Solving Method</guilabel>. If you choose <guilabel>Internal Solver</guilabel>, then it is not necessary.
+        </para>
+      <para>
+        You will need to make sure the paths are correct for the solver you choose. The top menu item <guilabel>select to load one of the default sets</guilabel> usually configures the boxes correctly.
+        </para>
     </sect3>
 
+    <sect3 id="ekos-solver-scale">
+      <title>Configure StellarSolver Scale and Position </title>
+        <screenshot>
+            <screeninfo>
+                StellarSolver Scale and Position
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_stellarsolver_scale.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>StellarSolver Scale and Position</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+      <para>
+        This page tells Ekos whether you want to constrain your plate-solving search by scale or position.
+        </para><para>Scale can be the image width in degrees (<guilabel>dw</guilabel>), the image width in arc-minutes (<guilabel>aw</guilabel>), or the pixel width in arc-seconds (<guilabel>app</guilabel>). All should work, but arc-seconds per pixel is recommended. Typically you want to use this constraint for faster solving, so we recommend you check this box. The system doesn't require that the scale be exactly right--it allows deviations of 10-20%. However, frequently issues related to solving are due to an inaccurate scale being used. Therefore, if you have plate-solving problems, you may want to uncheck <guilabel>Use Scale</guilabel> until those issues are resolved. This will likely result in longer solving times. <guilabel>Auto-update</guilabel> will automatically fill the scale box with the scale found in the most-recent successful solve.
+        </para><para>The RA and DEC positions are usually filled in from the position the telescope thinks it is pointing. Naturally, the system doesn't require an exactly correct positional constraint--afterall the purpose of plate-solving is to find that position. The maximum distance in degrees from the specified position to the actual position is given by the <guilabel>Radius</guilabel> field. Plate-solving will fail if the specified position is further away.  Typically you want to enable <guilabel>Use Position</guilabel> for faster solving, so we recommend you check this box. However, frequently issues related to solving are due to using a poor positional estimate (e.g. the telescope is significantly misaligned). Therefore, if you have plate-solving problems, you may want to uncheck <guilabel>Use Position</guilabel> until those issues are resolved. As mentioned, this will result in longer solving times. <guilabel>Auto-update</guilabel> will fill the position box with the position found in the most-recent successful solve. However, a slew will update the position to the position where the telescope thinks it is pointing after the slew.
+        </para>
+    </sect3>
+
+    <sect3 id="ekos-align-profiles">
+      <title>Configure StellarSolver Profiles </title>
+        <screenshot>
+            <screeninfo>
+                StellarSolver Profiles
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_stellarsolver_profiles.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>StellarSolver Profiles</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+          This applies if you are using the (recommended) <guilabel>Internal Solver</guilabel> <guilabel>Solving Method</guilabel>.
+      </para><para>
+          You can choose an <guilabel>Options Profile</guilabel> on the <guilabel>StellarSolver Options</guilabel> tab. Profiles are simply collections of parameters to configure the performance of the star-extraction and plate-solving system inside of StellarSolver.  The <guilabel>1-Default</guilabel> profile is the recommended one to start with. There are a few other possible profiles such as <guilabel>Large Scale Solving</guilabel>, <guilabel>Small Scale Solving</guilabel>, and <guilabel>Single Thread Solving</guilabel>.
+        </para><para>In the <guilabel>Align Options Profile Editor</guilabel> tab you can view and edit profiles. There are many parameters, most of which you need not change to solve issues. There are 3 types of parameters.
+         </para>
+        <itemizedlist>
+         <listitem><para>The top section labelled <guilabel>Sextractor Parameters</guilabel> (with column headings <guilabel>Extraction Parameters</guilabel>, <guilabel>Deblending Params</guilabel>, and <guilabel>Photometry Params</guilabel>) are star extraction parameters--that is those that help find stars in your image.</para></listitem>
+         <listitem><para>The second section labelled <guilabel>Star Filtering Parameters</guilabel> filters/reduces the number of stars extracted before sending the list to either the plate-solver (when aligning or polar-aligning), or to autofocus or the internal guider (when just a list of stars is needed).</para></listitem>
+         <listitem><para>The third section labelled Astrometry Parameters adjusts the performance of plate solving.</para></listitem>
+        </itemizedlist>
+        <para>
+          All the input fields have tooltips that are displayed if you hover your mouse over the input box.
+          </para><para>You can make changes to the values and save the profile if you like, or restore the profile's original values.
+          </para>
+        <sect4 id="profile-star-extraction">
+          <title>Star-Extraction Parameters</title>
+          <para>
+            The column headings are links to the Sextractor manual which is the main source for these parameters. View those links to find details on all the parameters. We will touch upon some of the parameters you might consider adjusting. However, it's probably best not to get into the weeds of modifying most of these values.
+            </para>
+        <itemizedlist>
+         <listitem><para><guilabel>Thresh Multiple</guilabel> and <guilabel>Thresh Offset</guilabel> relate to how sensitive the system will be to pixel values. The level of the background is multiplied by <guilabel>Thresh Multiple</guilabel> and then <guilabel>Thresh Offset</guilabel> is added to that. If a pixel's value exceeds the result, then it may be used to detect a star. Therefore, lower values (especially for multiple) may cause even dim pixels to be detected as stars. Higher values will reduce the number of stars detected.</para></listitem>
+         <listitem><para><guilabel>Min Area</guilabel> is the minimum area for a star detection--area is in square pixels where all pixels have higher-than-threshold pixel values. If you are detecting small noise spikes as stars, you might want to increase this. If you are not detecting desired smaller real stars, perhaps your <guilabel>Min Area</guilabel> is too high.</para></listitem>
+         <listitem><para><guilabel>Conv FWHM</guilabel> should be adjusted to roughly the seeing in your area in pixels. The image is smoothed by this amount before star detection is initiated.</para></listitem>
+        </itemizedlist>
+        </sect4>    
+
+        <sect4 id="profile-star-filtering">
+        <title>Star-Filtering Parameters</title>
+          <para>
+            This filtering is done for the sake of speed mostly, as well as for removing clipped stars, or very elliptical objects which might be galaxies. We will touch upon some of the parameters you might consider adjusting. Zero values for these parameters disable the filter. However, once again it's probably best not to get into the weeds of modifying most of these values.
+            </para>
+             <itemizedlist>
+         <listitem><para><guilabel>Initial Keep</guilabel> and <guilabel>Stars Keep #</guilabel> relates to the number of stars returned by the system. The system will initially run its detection algorithm and find some number of possible detections. It will filter that list, keeping only the <guilabel>Initial Keep</guilabel> brightest stars. It will then run the rest of the filtering, including computing the HFR of all those stars and  finally only return a list of <guilabel>Stars Keep #</guilabel> stars. None of the uses (alignment, autofocus, guiding) of StellarSolver require thousands of stars to be able to do their job, and the more stars processed the slower the operation. An initial list of 1000 stars and a few hundred returned stars should be sufficient for most applications.</para></listitem>
+         <listitem><para><guilabel>Max Size</guilabel> and <guilabel>Min Size</guilabel> filter stars by their sizes (pixel diameters), and are similar in usage to <guilabel>Min Area</guilabel> above.</para></listitem>
+         <listitem><para><guilabel>Max Ellipse</guilabel> specifies how elliptical a star can be before being removed. 2 would mean the larger axis could be twice as large as the smaller axis.</para></listitem>
+         <listitem><para><guilabel>Cut Brightest</guilabel> and <guilabel>Cut Dimmest</guilabel> remove the X% brightest or dimmest stars from consideration. <guilabel>Sat Limit</guilabel> removes stars whose pixel values exceed that percentage of the maximum pixel value--to remove saturated stars.</para></listitem>
+             </itemizedlist>
+        </sect4>
+
+        <sect4 id="profile-plate-solving">
+          <title>Plate-Solving Parameters</title>
+          <para>
+            These plate-solving parameters mostly relate to computation resources.
+            </para>
+             <itemizedlist>
+         <listitem><para><guilabel>Search Radius</guilabel> is the distance from the position estimate in degrees that may be searched if <guilabel>Use Position</guilabel> is checked. </para></listitem>
+         <listitem><para><guilabel>Maximum Time</guilabel> is the maximum number of seconds that the plate-solving will run before it times out.</para></listitem>
+             </itemizedlist>
+        </sect4>    
+    </sect3>    
+    
     <sect3 id="ekos-align-download-index-files">
-        <title>Download Index Files</title>
+      <title>Download Index Files</title>
+      <para>
+        Index files are required if you choose the <guilabel>Internal Solver</guilabel> or <guilabel>Local Astrometry</guilabel> <guilabel>Solving Method</guilabel>.
+        </para>
         <para>
             For offline (and remote) solvers, index files are necessary for the solver to work. The complete collection of index files is huge (over 30 GB), but you only need to download what is necessary for your equipment setup. Index files are sorted by the Field-Of-View (FOV) range they cover. There are two methods to fetch the necessary index files: The new download support in Align module, and the old manual way.
         </para>
@@ -303,15 +401,95 @@
             </sect4>
         </sect3>
 
+    <sect3 id="ekos-align-get-astrometry">
+        <title>Optionally get astrometry.net</title>
+
+        <para>
+          This is only required if you choose the <guilabel>Local Astrometry</guilabel> option for <guilabel>Source Extraction Method</guilabel> which is no longer recommended.
+          </para>
+        <note>
+            <para>
+                Astrometry.net is already shipped with StellarMate so there is no need to install it. Index files from 16 arcminutes and above (4206 to 4019) are included with StellarMate. For any additional index files, you need to install them as necessary. To use Astrometry in StellarMate from a remote Ekos on &Linux;/&Windows;/&MacOS;, make sure to select <guimenuitem>Remote</guimenuitem> option in Ekos Alignment Module. Furthermore, make sure that the <guimenuitem>Astrometry</guimenuitem> driver is selected in your equipment profile.
+            </para>
+        </note>
+        <screenshot>
+            <screeninfo>
+                Ekos Remote Astrometry
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_remote_astrometry.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Ekos Remote Astrometry</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <variablelist>
+            <varlistentry>
+                <term>&Windows;</term>
+                <listitem>
+                    <para>
+                        To use astrometry.net under &Windows;, you need to download and install the <ulink url="https://adgsoftware.com/ansvr/">ANSVR Local Astrometry.net solver</ulink>. The ANSVR mimics the astrometry.net online server on your local computer; thus the internet not required for any astrometry queries.
+                    </para>
+                    <para>
+                        After installing the ANSVR server and downloading the appropriate index files for your setup, make sure ANSVR server is up and running and then go to Ekos Alignment options where you can simply change the <guilabel>API URL</guilabel> to use the ANSVR server as illustrated below:
+                    </para>
+                    <screenshot>
+                        <screeninfo>
+                            ANSVR Parameters
+                        </screeninfo>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="astrometry_windows_ansvr.png" format="PNG"/>
+                            </imageobject>
+                            <textobject>
+                                <phrase>ANSVR Parameters</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                    <para>
+                        In Ekos Align module, you must set the solver type to <guimenuitem>Online</guimenuitem> so that it uses the local ANSVR server for all astrometry queries. Then you can use the align module as you would normally do.
+                    </para>
+                    <para>
+                        Remember as indicated above that StellarMate <emphasis>already</emphasis> includes astrometry.net. Therefore, if you would like to use StellarMate remotely to solve your images, simply change solver type to <guimenuitem>Remote</guimenuitem> and ensure that your equipment profile includes <emphasis role="bold">Astrometry</emphasis> driver which can be selected under the <guilabel>Auxiliary</guilabel> dropdown. This is applicable to all operating systems and not just &Windows;.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>&MacOS;</term>
+                <listitem>
+                    <para>
+                        Astrometry.net is already included with &kstars; for &MacOS;, so no need to install it.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>&Linux;</term>
+                <listitem>
+                    <para>
+                        Astrometry.net is already included with &kstars; bleeding version. But if astrometry is not installed, then you can install it by running the following command under &ubuntu;:
+                    </para>
+                    <para>
+                        <command>sudo apt-get install astrometry.net</command>
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect3>
+    
         <sect3 id="ekos-align-how-to-use">
             <title>How to Use?</title>
             <para>
-                Ekos Align Module offers multiple functions to aid you in achieving accurate GOTOs. Start with your mount in home position with the telescope tube looking directly at the celestial pole. For users in Northern Hemisphere, point the telescope as close as possible to Polaris. It is not necessary to perform 2 or 3 star alignments, but it can be useful for some mount types. Make sure your camera is focused and stars are resolved.
+                Ekos Align Module offers multiple functions to aid you in achieving accurate GOTOs. For some mounts it is useful to start your session with your mount in home position with the telescope tube looking directly at the celestial pole. For users in Northern Hemisphere, point the telescope as close as possible to Polaris. It is not necessary to perform 2 or 3 star alignments, but it can be useful for some mount types. Make sure your camera is focused.
+            </para>
+            <para>
+              At the top left of the Align page you can find two solver commands, and two actions to take given the solver solution.
             </para>
             <itemizedlist>
                 <listitem>
                     <para>
-                        <guilabel>Capture &amp; Solve</guilabel>: Capture an image and determine what region in the sky the telescope is exactly looking at. The astrometry results include the equatorial coordinates (RA &amp; DEC) of the center of the captured image in addition to pixel scale and field rotation. Depending on the Solver Action settings, the results can be used to Sync the mount or Sync and then Slew to the target location. For example, suppose you slewed the mount to Vega then used <emphasis>Capture &amp; Solve</emphasis>. If the actual telescope location is different from Vega, it will be first synced to the solved coordinate and then Ekos shall command the mount to slew to Vega. After slew is complete, the Alignment module will repeat Capture &amp; Solve process again until the error between reported and actual position falls below the accuracy thresholds (30 arcseconds by default).
+                        <guilabel>Capture &amp; Solve</guilabel>: Capture an image and determine exactly where in the sky the telescope is pointing. The astrometry results include the equatorial coordinates (RA &amp; DEC) of the center of the captured image and the pixel scale and field rotation. Depending on the Solver Action settings, the results can be used to Sync the mount or Sync and then Slew to the target location. For example, suppose you slewed the mount to Vega then used <emphasis>Capture &amp; Solve</emphasis>. If the actual telescope location is different from Vega, it will be first synced to the solved coordinate and then Ekos shall command the mount to slew to Vega. After slew is complete, the Alignment module will repeat Capture &amp; Solve process again until the error between reported and actual position falls below the accuracy thresholds (30 arcseconds by default).
                     </para>
                 </listitem>
                 <listitem>
@@ -319,41 +497,28 @@
                         <guilabel>Load &amp; Slew</guilabel>: Load a FITS or JPEG file, solve it, and then slew to it.
                     </para>
                 </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Polar Alignment Assistant</guilabel>: A simple tool to aid in polar alignment of German Equatorial Mounts.
-                    </para>
-                </listitem>
             </itemizedlist>
             <warning>
                 <para>
-                    <emphasis role="bold">Never</emphasis> solve an image at or near the celestial pole (unless Ekos Polar Alignment Assistant Tool is used). Slew at least 20 degrees away from the celestial pole before solving the first image. Solving very close to the poles will make your mount pointing worse so avoid it.
+                    <emphasis role="bold">Never</emphasis> solve an image at or near the celestial pole (unless Ekos Polar Alignment Assistant Tool is used). Slew at least 20 degrees away from the celestial pole before solving the first image. Solving very close to the poles will make your mount pointing worse, so avoid it.
                 </para>
             </warning>
         </sect3>
-
+        
         <sect3 id="ekos-align-alignment-settings">
             <title>Alignment Settings</title>
-            <screenshot>
-                <screeninfo>
-                    Astrometry.net Settings
-                </screeninfo>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
-                    </imageobject>
-                    <textobject>
-                        <phrase>Astrometry.net Settings</phrase>
-                    </textobject>
-                </mediaobject>
-            </screenshot>
             <para>
-                Before you begin the alignment process, select the desired CCD &amp; Telescope. You can explore astrometry.net options that are passed to the astrometry.net solver each time an image is captured:
+                Before you begin the alignment process, select the desired optical train. You can explore astrometry.net options that are passed to the astrometry.net solver each time an image is captured:
             </para>
             <itemizedlist>
                 <listitem>
                     <para>
-                        <guilabel>CCD</guilabel>: Select CCD to capture from.
+                        <guilabel>Accuracy</guilabel>: Acceptable difference between the desired target position and the solved coordinates from the captured image. If the difference exceeds this many arc-seconds, then the system will continue to capture, solve and slew until the solved position is close enough to the target position.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <guilabel>Train</guilabel>: Select the Optical Train which will be used to capture the image to be aligned. It is also used to compute the image scale.
                     </para>
                 </listitem>
                 <listitem>
@@ -363,152 +528,22 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Accuracy</guilabel>: Acceptable difference between reported telescope coordinate and actually solved coordinate.
+                        <guilabel>Bin</guilabel>: The binning of the image before solving.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Bin X</guilabel>: Set horizontal binning of the CCD.
+                        <guilabel>Gain/ISO</guilabel>: The camera gain or ISO.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Bin Y</guilabel>: Set vertical binning of the CCD.
+                        <guilabel>Filter/Use Current</guilabel>: The filter to use when capturing the image. <guilabel>Use Current</guilabel> uses whatever filter is currently active.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Scope</guilabel>: Set the active telescope in case you have different Primary and Guide scopes. FOV is re-calculated when selecting a different telescope.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Options</guilabel>: Options that are passed to the astrometry.net solver. Click the edit button <inlinemediaobject><imageobject><imagedata fileref="document-edit.png" format="PNG"/></imageobject></inlinemediaobject> to explore the options in detail.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Solver</guilabel>: Select solver type (Online, Offline, Remote). The remote solver is only available when connecting to a remote device.
-                    </para>
-                </listitem>
-            </itemizedlist>
-            <para>
-                By default, the solver will search all over the sky to determine the coordinates of the captured image. This can <emphasis>take a lot of time</emphasis>; therefore, in order to speed up the solver, you can restrict it to only search within a specified area in the sky designated by the <guilabel>RA</guilabel>, <guilabel>DEC</guilabel>, and <guilabel>Radius</guilabel> options above.
-            </para>
-        </sect3>
-
-        <sect3 id="ekos-align-astrometry-net-settings">
-            <title>Astrometry.net Options</title>
-            <para>
-                Options for offline and online solvers.
-            </para>
-            <screenshot>
-                <screeninfo>
-                    Astrometry.net Options
-                </screeninfo>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
-                    </imageobject>
-                    <textobject>
-                        <phrase>Astrometry.net Options</phrase>
-                    </textobject>
-                </mediaobject>
-            </screenshot>
-            <para>
-                Most of the options are sufficient by default. If you have astrometry.net installed in a non-standard location, you can change the paths as necessary.
-            </para>
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        <guilabel>WCS</guilabel>: World-Coordinate-System is a system for embedding equatorial coordinate information within the image. Therefore, when you view the image, you can hover it and view the coordinate for each pixel. You can also click anywhere in the image and command to the telescope to slew there. It is highly recommended to keep this option on.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Verbose</guilabel>: If the solver repeatedly fails to solve, check this option to enable <emphasis>verbose</emphasis> output of the solver to help you identify any problems.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Overlay</guilabel>: Overlay captured images unto the sky map of &kstars;.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Upload JPG</guilabel>: When using online astrometry.net, upload all images are JPEGs to save bandwidth as FITS images can be large.
-                    </para>
-                </listitem>
-            </itemizedlist>
-        </sect3>
-
-        <sect3 id="ekos-align-solver-options">
-            <title>Solver Options</title>
-            <para>
-                Ekos selects and updates the optimal options by default to accelerate the performance of the solver. You may opt to change the options that are passed to the solver in case the default options are not sufficient.
-            </para>
-            <screenshot>
-                <screeninfo>
-                    Solver Settings
-                </screeninfo>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="solver_settings.png" format="PNG"/>
-                    </imageobject>
-                    <textobject>
-                        <phrase>Solver Settings</phrase>
-                    </textobject>
-                </mediaobject>
-            </screenshot>
-        </sect3>
-
-        <sect3 id="ekos-align-capture-and-solve">
-            <title>Capture &amp; Solve</title>
-            <para>
-                Using Ekos Alignment Module, aligning your mount using the controller's 1, 2, or 3 star alignment is <emphasis>not</emphasis> strictly necessary, though for some mounts it is recommended to perform a rough 1 or 2 star alignment before using Ekos alignment module. If you are using EQMod, you can start using Ekos alignment module right away. A typical workflow for GOTO alignment involves the following steps:
-            </para>
-            <orderedlist>
-                <listitem>
-                    <para>
-                        Set your mount to its home position (usually the NCP for equatorial mounts).
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Select <guilabel>Slew to Target</guilabel> in the <guilabel>Solver Action</guilabel>.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Slew to a nearby bright star.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        After slew is complete, click <guibutton>Capture &amp; Solve</guibutton>.
-                    </para>
-                </listitem>
-            </orderedlist>
-            <para>
-                If the solver is successful, Ekos will sync and then slew to the star. The results are displayed in the <guilabel>Solution Results</guilabel> tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis>thinks</emphasis> it is looking at) vs. its actual position in the sky as determined by the solver.
-            </para>
-            <para>
-                Each time the solver is executed and returns successful results, Ekos can run on the following actions:
-            </para>
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        <guilabel>Sync</guilabel>: Syncs the telescope coordinates to the solution coordinates.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Slew to Target</guilabel>: Syncs the telescope coordinates to the solution coordinates and then slew to the target.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <guilabel>Nothing</guilabel>: Just solve the image and display the solution coordinates.
+                        <guilabel>Dark</guilabel>: Whether to use the dark-image subtraction scheme before analyzing the captured image.
                     </para>
                 </listitem>
             </itemizedlist>
@@ -557,7 +592,7 @@
                     Before starting the process, point the mount as close as possible to the celestial pole with the counterweights down. If you are living in the Northern Hemisphere, point it as close as possible to Polaris. If Polaris is not visible (&eg; blocked by trees or  buildings) you may point elsewhere, preferably near the Meridian. Make sure there is at least 30-60 degrees of sky viewable in an arc East or West of the Meridian from the position you choose. Select the direction of free sky, the number of degrees for each of two slews, the mount slew speed, and whether the mount will be slewing automatically (recommended) or manually.
                 </para>
                 <para>
-                    The tool works by capturing and solving three images. After capturing each, the mount rotates by the fixed amount you entered and another image is captured and solved. If you chose manual, you will need to slew the mount by roughly the angle chosen.
+                    The tool works by capturing and solving three images. After capturing each, the mount rotates by the fixed amount you entered and another image is captured and solved. If you choose manual, you will need to slew the mount by roughly the angle chosen.
                 </para>
                 <screenshot>
                     <screeninfo>

@@ -17,12 +17,10 @@
 #include <QTime>
 #include <QVector>
 #include <QFile>
+#include <QElapsedTimer>
 
 #include <cstdint>
 #include <sys/types.h>
-#include "guidelog.h"
-#include "starcorrespondence.h"
-#include "fitsviewer/fitssepdetector.h"
 #include "guidestars.h"
 #include "calibration.h"
 
@@ -30,6 +28,7 @@
 
 class FITSData;
 class Edge;
+class GuideLog;
 
 // For now also copied in guidealgorithms.cpp
 #define SMART_THRESHOLD    0

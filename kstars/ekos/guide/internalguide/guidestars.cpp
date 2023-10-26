@@ -8,6 +8,8 @@
 
 #include "ekos_guide_debug.h"
 #include "../guideview.h"
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitssepdetector.h"
 #include "Options.h"
 
 #include <math.h>

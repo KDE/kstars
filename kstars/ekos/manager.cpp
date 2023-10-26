@@ -28,6 +28,7 @@
 #include "auxiliary/ksmessagebox.h"
 #include "auxiliary/profilesettings.h"
 #include "capture/sequencejob.h"
+#include "capture/captureprocess.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "indi/clientmanager.h"
@@ -40,7 +41,9 @@
 #include "indi/indiwebmanager.h"
 #include "indi/indigps.h"
 #include "indi/indiguider.h"
+#include "indi/indirotator.h"
 #include "mount/meridianflipstatuswidget.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 #include "ekoslive/ekosliveclient.h"
 #include "ekoslive/message.h"

@@ -9,7 +9,6 @@
 #include "Options.h"
 #include "kstars.h"
 #include "auxiliary/ksnotification.h"
-#include "internalguide/internalguider.h"
 
 #include <KConfigDialog>
 

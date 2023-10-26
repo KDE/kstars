@@ -15,6 +15,7 @@
 #include "ekos_guide_debug.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "Options.h"
+#include "fitsviewer/fitsdata.h"
 
 #define SMART_THRESHOLD    0
 #define SEP_THRESHOLD      1

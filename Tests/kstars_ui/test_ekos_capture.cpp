@@ -13,6 +13,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "ekos/capture/capture.h"
 
 TestEkosCapture::TestEkosCapture(QObject *parent) : QObject(parent)
 {

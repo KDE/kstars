@@ -8,11 +8,14 @@
 #pragma once
 
 #include "ui_rotatorsettings.h"
-#include "ekos/capture/capturedeviceadaptor.h"
-#include "ekos/align/opsalign.h"
 #include "indi/indimount.h"
 #include "qloggingcategory.h"
 #include <QDialog>
+
+namespace Ekos
+{
+class CaptureDeviceAdaptor;
+}
 
 class RotatorSettings : public QDialog, public Ui::RotatorDialog
 {

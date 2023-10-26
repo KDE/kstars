@@ -14,9 +14,15 @@
 #include "fov.h"
 #include "kstarsdata.h"
 #include "ekos/manager.h"
+#include "indi/indirotator.h"
 #include <indicom.h>
 #include <basedevice.h>
 #include <cmath>
+#include "capture.h"
+#include "ekos/align/align.h"
+#include "ekos/capture/capturedeviceadaptor.h"
+#include "ekos/align/opsalign.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 #include "ekos_capture_debug.h"
 

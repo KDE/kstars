@@ -12,9 +12,14 @@
 #include <QTime>
 
 #include "ui_capturecountswidget.h"
-#include "ekos/scheduler/scheduler.h"
-#include "ekos/capture/capture.h"
-#include "ekos/capture/sequencejob.h"
+#include "ekos/ekos.h"
+
+namespace Ekos
+{
+class Capture;
+class SequenceJob;
+class Scheduler;
+}
 
 class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
 {

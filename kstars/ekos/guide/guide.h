@@ -8,12 +8,9 @@
 
 #include "ui_guide.h"
 #include "guideinterface.h"
-#include "guidestatewidget.h"
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
 #include "indi/indimount.h"
-#include "manualpulse.h"
-#include "ekos/auxiliary/darkprocessor.h"
 
 #include <QTime>
 #include <QTimer>
@@ -37,6 +34,9 @@ class OpsGPG;
 class InternalGuider;
 class PHD2;
 class LinGuider;
+class GuideStateWidget;
+class ManualPulse;
+class DarkProcessor;
 
 /**
  * @class Guide

@@ -11,12 +11,16 @@
 #include "test_ekos_debug.h"
 #include "test_ekos_simulator.h"
 #include "ekos/guide/guide.h"
+#include "ekos/manager/meridianflipstate.h"
 
 #include "indi/indidevice.h"
 #include "indi/indigroup.h"
+#include "indi/indidome.h"
 #include "indi/indiproperty.h"
 #include "indi/indielement.h"
 #include "indi/guimanager.h"
+#include "oal/oal.h"
+#include "ekos/scheduler/scheduler.h"
 
 #include <QObject>
 
@@ -682,7 +686,7 @@ class TestEkosHelper : public QObject
          * @param focallenght focal length in mm
          * @return scope object
          */
-        Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
+        OAL::Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
 
 private:
         // current mount status

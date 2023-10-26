@@ -253,6 +253,9 @@ if (INDI_FOUND)
             # Scheduler
             ekos/scheduler/schedulerjob.cpp
             ekos/scheduler/scheduler.cpp
+            ekos/scheduler/schedulermodulestate.cpp
+            ekos/scheduler/schedulerprocess.cpp
+            ekos/scheduler/schedulertypes.cpp
             ekos/scheduler/framingassistantui.cpp
             ekos/scheduler/mosaictilesmanager.cpp
             ekos/scheduler/mosaictilesmodel.cpp

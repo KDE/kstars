@@ -9,10 +9,12 @@
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
 #include "focusfwhm.h"
+#include "focusprofileplot.h"
 #include "polynomialfit.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "stellarsolver.h"
 
 // Modules
 #include "ekos/guide/guide.h"
@@ -24,14 +26,17 @@
 
 // Ekos Auxiliary
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/auxiliary/darkprocessor.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 // FITS
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
+#include "fitsviewer/fitsviewer.h"
 
 // Devices
 #include "indi/indifilterwheel.h"

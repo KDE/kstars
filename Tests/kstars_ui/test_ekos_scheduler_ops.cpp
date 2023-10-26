@@ -12,8 +12,10 @@
 #include "test_ekos_scheduler_ops.h"
 #include "test_ekos_scheduler_helper.h"
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/scheduler/greedyscheduler.h"
+#include "ekos/scheduler/schedulerprocess.h"
 
 #include "skymapcomposite.h"
 
@@ -126,7 +128,7 @@ void TestEkosSchedulerOps::init()
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
     Options::setSettingAltitudeCutoff(0);
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
 }
 
 void TestEkosSchedulerOps::cleanup()
@@ -181,11 +183,11 @@ int TestEkosSchedulerOps::timeTolerance(int seconds)
 // work between the scheduler and the mock modules.
 void TestEkosSchedulerOps::testBasics()
 {
-    QVERIFY(scheduler->focusInterface.isNull());
-    QVERIFY(scheduler->mountInterface.isNull());
-    QVERIFY(scheduler->captureInterface.isNull());
-    QVERIFY(scheduler->alignInterface.isNull());
-    QVERIFY(scheduler->guideInterface.isNull());
+    QVERIFY(scheduler->process()->focusInterface().isNull());
+    QVERIFY(scheduler->process()->mountInterface().isNull());
+    QVERIFY(scheduler->process()->captureInterface().isNull());
+    QVERIFY(scheduler->process()->alignInterface().isNull());
+    QVERIFY(scheduler->process()->guideInterface().isNull());
 
     ekos->addModule(QString("Focus"));
     ekos->addModule(QString("Mount"));
@@ -202,15 +204,15 @@ void TestEkosSchedulerOps::testBasics()
     //qApp->processEvents();
     QTest::qWait(10 * QWAIT_TIME);
 
-    QVERIFY(!scheduler->focusInterface.isNull());
-    QVERIFY(!scheduler->mountInterface.isNull());
-    QVERIFY(!scheduler->captureInterface.isNull());
-    QVERIFY(!scheduler->alignInterface.isNull());
-    QVERIFY(!scheduler->guideInterface.isNull());
+    QVERIFY(!scheduler->process()->focusInterface().isNull());
+    QVERIFY(!scheduler->process()->mountInterface().isNull());
+    QVERIFY(!scheduler->process()->captureInterface().isNull());
+    QVERIFY(!scheduler->process()->alignInterface().isNull());
+    QVERIFY(!scheduler->process()->guideInterface().isNull());
 
     // Verify the mocks can use the DBUS.
     QVERIFY(!focuser->isReset);
-    scheduler->focusInterface->call(QDBus::AutoDetect, "resetFrame");
+    scheduler->process()->focusInterface()->call(QDBus::AutoDetect, "resetFrame");
 
     //qApp->processEvents();  // this fails, is it because dbus calls are on a separate thread?
     QTest::qWait(10 * QWAIT_TIME);
@@ -312,8 +314,8 @@ void TestEkosSchedulerOps::initFiles(QTemporaryDir *dir, const QVector<QString> 
 
         QVERIFY(TestEkosSchedulerHelper::writeSimpleSequenceFiles(esls[i], eslFile, esqs[i], esqFile));
         scheduler->load(i == 0, QString("file://%1").arg(eslFile));
-        QVERIFY(scheduler->jobs.size() == (i + 1));
-        scheduler->jobs[i]->setSequenceFile(QUrl(QString("file://%1").arg(esqFile)));
+        QVERIFY(scheduler->moduleState()->jobs().size() == (i + 1));
+        scheduler->moduleState()->jobs()[i]->setSequenceFile(QUrl(QString("file://%1").arg(esqFile)));
         fprintf(stderr, "seq file: %s \"%s\"\n", esqFile.toLatin1().data(), QString("file://%1").arg(esqFile).toLatin1().data());
     }
 }
@@ -385,7 +387,7 @@ void TestEkosSchedulerOps::startupJobs(
         {
             // check if there is a job scheduled
             bool scheduled_job = false;
-            foreach (SchedulerJob *sched_job, scheduler->jobs)
+            foreach (SchedulerJob *sched_job, scheduler->moduleState()->jobs())
                 if (sched_job->state == SchedulerJob::JOB_SCHEDULED)
                     scheduled_job = true;
             if (scheduled_job)
@@ -414,8 +416,8 @@ void TestEkosSchedulerOps::startupJobs(
         bool sentOnce = false, readyOnce = false;
         QVERIFY(iterateScheduler("Wait for Indi and Ekos", 30, &sleepMs, &currentUTime, [&]() -> bool
         {
-            if ((scheduler->indiState == Scheduler::INDI_READY) &&
-                    (scheduler->ekosState == Scheduler::EKOS_READY))
+            if ((scheduler->moduleState()->indiState() == Ekos::INDI_READY) &&
+                    (scheduler->moduleState()->ekosState() == Ekos::EKOS_READY))
             {
                 return true;
             }
@@ -433,8 +435,8 @@ void TestEkosSchedulerOps::startupJobs(
                     ekos->addModule("Align");
                     ekos->addModule("Guide");
                 }
-                else if (scheduler->mountInterface != nullptr &&
-                         scheduler->captureInterface != nullptr && !readyOnce)
+                else if (scheduler->process()->mountInterface() != nullptr &&
+                         scheduler->process()->captureInterface() != nullptr && !readyOnce)
                 {
                     // Can't send the ready messages until the devices are registered.
                     readyOnce = true;
@@ -506,10 +508,10 @@ bool TestEkosSchedulerOps::checkLastSlew(const SkyObject* targetObject)
 void TestEkosSchedulerOps::printJobs(const QString &label)
 {
     fprintf(stderr, "%-30s: ", label.toLatin1().data());
-    for (int i = 0; i < scheduler->jobs.size(); ++i)
+    for (int i = 0; i < scheduler->moduleState()->jobs().size(); ++i)
     {
-        fprintf(stderr, "(%d) %s %-15s ", i, scheduler->jobs[i]->getName().toLatin1().data(),
-                SchedulerJob::jobStatusString(scheduler->jobs[i]->getState()).toLatin1().data());
+        fprintf(stderr, "(%d) %s %-15s ", i, scheduler->moduleState()->jobs()[i]->getName().toLatin1().data(),
+                SchedulerJob::jobStatusString(scheduler->moduleState()->jobs()[i]->getState()).toLatin1().data());
     }
     fprintf(stderr, "\n");
 }
@@ -565,8 +567,8 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
 
     QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->currentJob != nullptr &&
-                scheduler->currentJob->getStage() == SchedulerJob::STAGE_CAPTURING);
+        return (scheduler->activeJob() != nullptr &&
+                scheduler->activeJob()->getStage() == SchedulerJob::STAGE_CAPTURING);
     }));
 
     {
@@ -581,7 +583,7 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
         }));
         QVERIFY(iterateScheduler("Wait for Shutdown", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
         {
-            return (scheduler->shutdownState == Scheduler::SHUTDOWN_COMPLETE);
+            return (scheduler->moduleState()->shutdownState() == Ekos::SHUTDOWN_COMPLETE);
         }));
 
         // Here the scheduler sends a message to ekosInterface to disconnectDevices,
@@ -782,8 +784,8 @@ void TestEkosSchedulerOps::wakeupAndRestart(const QDateTime &restartTime, KStars
         bool readyOnce = false;
         QVERIFY(iterateScheduler("Wait for Job Startup & Unparked", 50, &sleepMs, &currentUTime, [&]() -> bool
         {
-            if (scheduler->mountInterface != nullptr &&
-                    scheduler->captureInterface != nullptr && !readyOnce)
+            if (scheduler->process()->mountInterface() != nullptr &&
+                    scheduler->process()->captureInterface() != nullptr && !readyOnce)
             {
                 // Send a ready signal since the scheduler expects it.
                 readyOnce = true;
@@ -967,7 +969,7 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
 
 void TestEkosSchedulerOps::testGreedySchedulerRun()
 {
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
     // This test will iterate the scheduler every 40 simulated seconds (to save testing time).
     WithInterval interval(40000, scheduler);
 
@@ -1081,7 +1083,8 @@ void TestEkosSchedulerOps::testRememberJobProgress()
     QFETCH(bool, scheduled);
 
     // verify if the job is scheduled as expected
-    QVERIFY(scheduler->jobs[0]->getState() == (scheduled ? SchedulerJob::JOB_SCHEDULED : SchedulerJob::JOB_COMPLETE));
+    QVERIFY(scheduler->moduleState()->jobs()[0]->getState() == (scheduled ? SchedulerJob::JOB_SCHEDULED :
+            SchedulerJob::JOB_COMPLETE));
 }
 
 void TestEkosSchedulerOps::loadGreedySchedule(
@@ -1155,7 +1158,7 @@ void TestEkosSchedulerOps::testGreedy()
     // so 10 minutes is approx 5 of these timesteps.
     constexpr int checkScheduleTolerance = 600;
 
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
 
     // Setup geo and an artificial horizon.
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
@@ -1262,7 +1265,7 @@ void TestEkosSchedulerOps::testGroups()
     // so 10 minutes is approx 5 of these timesteps.
     constexpr int checkScheduleTolerance = 600;
 
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
 
     // Setup geo and an artificial horizon.
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
@@ -1294,14 +1297,14 @@ void TestEkosSchedulerOps::testGroups()
     // Given the grouping we should see jobs scheduled about every 30 minutes
     // orderdc as: J1, J2, J3, J2 (skips the completed J1), J3, J2 (looing forever as J3 is now done).
     loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob30minutes, 30);
-    scheduler->getJobs().last()->setName("J1finish");
-    scheduler->getJobs().last()->setGroup("group1");
+    scheduler->moduleState()->jobs().last()->setName("J1finish");
+    scheduler->moduleState()->jobs().last()->setGroup("group1");
     loadGreedySchedule(false, "Altair", asapStartupCondition, loopCompletionCondition, dir, schedJob30minutes, 30);
-    scheduler->getJobs().last()->setName("J2loop");
-    scheduler->getJobs().last()->setGroup("group1");
+    scheduler->moduleState()->jobs().last()->setName("J2loop");
+    scheduler->moduleState()->jobs().last()->setGroup("group1");
     loadGreedySchedule(false, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob30minutes, 30);
-    scheduler->getJobs().last()->setName("J3repeat2");
-    scheduler->getJobs().last()->setGroup("group1");
+    scheduler->moduleState()->jobs().last()->setName("J3repeat2");
+    scheduler->moduleState()->jobs().last()->setGroup("group1");
     scheduler->evaluateJobs(false);
 
     QVERIFY(checkSchedule(
@@ -1318,11 +1321,11 @@ void TestEkosSchedulerOps::testGroups()
     // Now do the same thing, but this time disable the group scheduling (by not assigning groups).
     // This time J1 should run then J2 will just run/repeat forever.
     loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob30minutes, 30);
-    scheduler->getJobs().last()->setName("J1finish");
+    scheduler->moduleState()->jobs().last()->setName("J1finish");
     loadGreedySchedule(false, "Altair", asapStartupCondition, loopCompletionCondition, dir, schedJob30minutes, 30);
-    scheduler->getJobs().last()->setName("J2loop");
+    scheduler->moduleState()->jobs().last()->setName("J2loop");
     loadGreedySchedule(false, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob30minutes, 30);
-    scheduler->getJobs().last()->setName("J3repeat2");
+    scheduler->moduleState()->jobs().last()->setName("J3repeat2");
     scheduler->evaluateJobs(false);
 
     QVERIFY(checkSchedule(
@@ -1335,13 +1338,13 @@ void TestEkosSchedulerOps::testGroups()
 
 void TestEkosSchedulerOps::testGreedyAborts()
 {
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
 
     // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
     // so 10 minutes is approx 5 of these timesteps.
     constexpr int checkScheduleTolerance = 600;
 
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
     SchedulerJob::setHorizon(nullptr);
 
     // Setup geo and an artificial horizon.
@@ -1403,14 +1406,14 @@ void TestEkosSchedulerOps::testGreedyAborts()
                        enforceTwilight, enforceHorizon, errorDelay);
 
     // Otherwise time changes below will trigger reschedules and mess up test.
-    scheduler->state = Ekos::SCHEDULER_RUNNING;
+    scheduler->moduleState()->setSchedulerState(Ekos::SCHEDULER_RUNNING);
 
     // Find the M 104 job and make it aborted at 12:59am
     KStarsDateTime abortUTime(QDate(2022, 2, 28), QTime(8, 59, 00), Qt::UTC);
     KStarsData::Instance()->changeDateTime(abortUTime);
 
     SchedulerJob *m104Job = nullptr;
-    foreach (auto &job, scheduler->jobs)
+    foreach (auto &job, scheduler->moduleState()->jobs())
         if (job->getName() == "M 104")
         {
             m104Job = job;
@@ -1443,21 +1446,21 @@ void TestEkosSchedulerOps::testGreedyAborts()
 
     // And ngc3628 should not be preempted right away,
     QDateTime localTime(QDate(2022, 2, 28), QTime(1, 00, 00), Qt::LocalTime);
-    bool keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->jobs, localTime, ngc3628);
+    bool keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
     QVERIFY(keepRunning);
 
     // nor in a half-hour.
     auto newTime = evalUTime.addSecs(1800);
     KStarsData::Instance()->changeDateTime(newTime);
     localTime = localTime.addSecs(1800);
-    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->jobs, localTime, ngc3628);
+    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
     QVERIFY(keepRunning);
 
     // But if we wait until 2am, m104 should preempt it,
     newTime = newTime.addSecs(1800);
     KStarsData::Instance()->changeDateTime(newTime);
     localTime = localTime.addSecs(1800);
-    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->jobs, localTime, ngc3628);
+    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
     QVERIFY(!keepRunning);
 
     // and M104 should be scheduled to start running "now" (2am).
@@ -1472,7 +1475,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
 void TestEkosSchedulerOps::testArtificialCeiling()
 {
     constexpr int checkScheduleTolerance = 600;
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
 
     ArtificialHorizon horizon;
     QVector<double> az1  = {259.0, 260.0, 299.0, 300.0, 330.0,   0.0,  30.0,  70.0,  71.0,  90.0, 120.0, 150.0, 180.0, 210.0, 240.0, 259.99};
@@ -1526,7 +1529,7 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
     Options::setSettingAltitudeCutoff(3);
     Options::setPreDawnTime(0);
 
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
     SchedulerJob::setHorizon(nullptr);
 
     GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
@@ -1585,9 +1588,9 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
 
     // This is fixed, and now, when re-evaluated at 22:28 it should not be preempted.
     auto greedy = scheduler->getGreedyScheduler();
-    SchedulerJob *job2359 = scheduler->getJobs()[0];
+    SchedulerJob *job2359 = scheduler->moduleState()->jobs()[0];
     auto time1Local = (Qt::UTC == time1.timeSpec() ? geo.UTtoLT(KStarsDateTime(time1)) : time1);
-    QVERIFY(greedy->checkJob(scheduler->getJobs(), time1Local, job2359));
+    QVERIFY(greedy->checkJob(scheduler->moduleState()->jobs(), time1Local, job2359));
 }
 
 // This creates empty/dummy fits files to be discovered inside estimateJobTime, when it
@@ -1618,7 +1621,7 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
     Options::setDitherEnabled(true);
     Options::setDitherFrames(1);
 
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
     SchedulerJob::setHorizon(nullptr);
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
@@ -1729,7 +1732,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
     Options::setSettingAltitudeCutoff(3);
     Options::setPreDawnTime(0);
     Options::setRememberJobProgress(false);
-    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
 
     GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
     const QDateTime time1 = QDateTime(QDate(2022, 3, 7), QTime(21, 28, 55), Qt::UTC); //22:28 local

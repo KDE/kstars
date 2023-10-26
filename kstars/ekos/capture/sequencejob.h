@@ -7,15 +7,14 @@
 #pragma once
 
 #include "sequencejobstate.h"
-#include "capturedeviceadaptor.h"
 #include "indi/indistd.h"
 #include "indi/indicamera.h"
-#include "ekos/auxiliary/filtermanager.h"
-#include "skyobjects/skypoint.h"
+////#include "ekos/auxiliary/filtermanager.h"
 
 #include <QTableWidgetItem>
 
-class SchedulerJob;
+class SkyPoint;
+
 /**
  * @class SequenceJob
  * @short Sequence Job is a container for the details required to capture a series of images.
@@ -25,6 +24,9 @@ class SchedulerJob;
  */
 namespace Ekos
 {
+
+class CaptureDeviceAdaptor;
+
 class SequenceJob : public QObject
 {
         Q_OBJECT

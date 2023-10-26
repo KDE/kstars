@@ -8,7 +8,6 @@
 #pragma once
 
 #include "ui_opsastrometry.h"
-#include "parameters.h"
 
 #include <QWidget>
 

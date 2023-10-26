@@ -12,7 +12,7 @@
 #include "test_ekos.h"
 #include "Options.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
-
+#include "ekos/capture/capture.h"
 #include "test_ekos_capture_helper.h"
 
 /* *****************************************************************************

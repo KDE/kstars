@@ -13,8 +13,11 @@
 
 #include "qcustomplot.h"
 #include "guidegraph.h"
-#include "guideinterface.h"
 
+namespace Ekos
+{
+class GuideInterface;
+}
 class GuideDriftGraph : public QCustomPlot
 {
     Q_OBJECT

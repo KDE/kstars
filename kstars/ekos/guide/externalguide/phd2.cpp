@@ -13,6 +13,7 @@
 #include "ekos/manager.h"
 #include "fitsviewer/fitsdata.h"
 #include "ekos/guide/guide.h"
+#include "fitsviewer/fitsview.h"
 
 #include <cassert>
 #include <fitsio.h>

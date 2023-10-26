@@ -15,6 +15,7 @@
 #include "indi/indiproperty.h"
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/placeholderpath.h"
+#include "geolocation.h"
 #include "Options.h"
 
 #include <QTest>

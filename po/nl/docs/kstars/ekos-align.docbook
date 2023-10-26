@@ -26,142 +26,390 @@
             </mediaobject>
         </screenshot>
         <para
->De uitlijnmodule van Ekos maakt zeer accurate GOTO's mogelijk met een nauwkeurigheid van minder dan een boogseconde, en kan uitlijnfouten op de pool meten en corrigeren. Dit is mogelijk dankzij de oplosser (solver) van astrometry.net. Ekos begint met een opname te maken van een sterrengebied, en voert die in in de oplosser van <ulink url="https://astrometry.net"
+>The Ekos Alignment Module enables highly accurate GOTOs and can measure and correct polar alignment errors. This is possible thanks to third-party plate-solving technology. The main plate-solving software used is the StellarSolver package, which itself makes use of the offline (and online) astrometry.net, ASTAP and Watney solvers. Ekos begins by capturing an image of a star field, feeding that image to the chosen solver (e.g. see <ulink url="https://astrometry.net"
 >astrometry.net</ulink
->, voor het verkrijgen van de centrale coördinaten (RK, dec) van de afbeelding. In principe voert de oplosser een patroonherkenning uit aan de hand van een catalogus van miljoenen sterren. Als die coördinaten bekend zijn, is de werkelijke positie bekend waarop de kijker is gericht. </para>
+>, <ulink url="https://github.com/rlancaste/stellarsolver"
+>StellarSolver</ulink
+> or <ulink url="https://www.hnsky.org/astap"
+>ASTAP</ulink
+>), and gets in return the central coordinates (RA, DEC), scale, and orientation of the image. The solver essentially performs pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known. </para>
         <para
->Vaak is er een verschil tussen de bekende kijkrichting van de telescoop, en de werkelijke kijkrichting. Dit verschil kan oplopen van een paar boogminuten, tot aan een aantal graden. Ekos kan dit verschil opheffen door of de coördinaten aan te passen, of door de opstelling te draaien tot aan het aanvankelijk gewenste doel. </para>
+>Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can correct the discrepancy by syncing to the new coordinates, and then slewing the mount to the desired target originally requested. </para>
         <para
->Verder biedt Ekos een assisterend hulpmiddel voor polair uitlijnen om polaire uitlijnfouten te corrigeren. Het neemt drie afbeeldingen, met zwenken tussen de afbeeldingen en berekent de offset tussen de as van de opstelling en de polaire as. Het koppelt terug aan de gebruiker de aanpassingen in hoogte en azimuth nodig om deze assen uit te lijnen. Deze afbeeldingen worden typisch genomen dichtbij de hemelpool (Dichtbij de Poolster voor het Noordelijk halfrond) maar kan goed werken van overal elders, gewoonlijk beginnend dichtbij de meridiaan en zwenkend Oost of West. </para>
+>Ekos also provides a Polar Alignment Assistant Tool to correct polar alignment errors. It takes three images, slewing between the images, and calculates the offset between the mount axis and polar axis. It feeds back to the user the altitude and azimuth adjustments needed to align these axes. These images are typically taken near the celestial pole (close to Polaris for Northern Hemisphere) but can work well taken from anywhere, usually starting near the meridian and slewing either East or West. </para>
         <para
 >U heeft minstens een CCD/Webcam nodig en een telescoop die luistert naar commando's voor draaien &amp; sync. De meeste commerciële telescopen voldoen hier tegenwoordig aan. </para>
-        <para
->Voor het werken met de uitlijnmodule van Ekos kunt u kiezen tussen het gebruiken van de <emphasis
->online</emphasis
-> astrometry.net oplosser, de <emphasis
->offline</emphasis
->, of de <emphasis
->externe</emphasis
-> oplosser: </para>
-        <itemizedlist>
-            <listitem>
-                <para
-><guilabel
->Online oplosser</guilabel
->: Voor de online oplosser zijn geen instellingen nodig, en afhankelijk van de bandbreedte van uw internetverbinding, kan het uploaden van een afbeelding enige tijd duren . </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Offline oplosser</guilabel
->: Offline oplossen kan sneller zijn, en er is geen internetverbinding nodig. Om de offline oplosser te kunnen gebruiken moet u astrometry.net installeren, en een paar nodige index-bestanden. </para>
-            </listitem>
-            <listitem>
-                <para
-><guilabel
->Externe oplosser</guilabel
->: De externe oplosser is een offline oplosser op een andere machine (bijvoorbeeld, u gebruikt de Astrometry solver in StellarMate). Opgenomen afbeeldingen worden opgelost op de externe machine. </para>
-            </listitem>
-        </itemizedlist>
     </sect3>
 
-    <sect3 id="ekos-align-get-astrometry">
-        <title
->Verkrijgen van astrometry.net</title>
-
-        <para
->Indien u <emphasis
->Offline</emphasis
-> astrometry wilt gebruiken, moet u de applicatie voor astrometry.net downloaden. </para>
-        <note>
+        <sect3 id="ekos-align-typical">
+            <title
+>Typical use</title>
             <para
->Astrometry zit al in StellarMate, dus hoeft het hier niet in te worden geïnstalleerd. Ook indexbestanden van 16 boogminuten en hoger (4206 tot 4019) zitten al in StellarMate. Extra indexbestanden moet u zelf waar nodig installeren. Als u Astrometry in StellarMate wilt gebruiken, vanaf een externe Ekos op &Linux;/&Windows;/&MacOS;, moet u de optie  <guimenuitem
->Extern</guimenuitem
-> kiezen in de uitlijnmodule van Ekos. Verder moet u ervoor zorgen dat de <guimenuitem
->Astrometry</guimenuitem
->-driver is geselecteerd in het profiel van uw apparatuur. </para>
-        </note>
+>Voordat u de uitlijnmodule gebruikt van Ekos, is het uitlijnen van uw opstellingen met behulp van uitlijnen met 1, 2 of 3 sterren <emphasis
+>niet</emphasis
+> echt nodig, maar bij sommige opstellingen (monteringen) wordt eerst ruw uitlijnen met 1 of 2 sterren aanbevolen, voordat u meteen begint met de uitlijnmodule van Ekos. Als u EQMod gebruikt kunt u de uitlijnmodule van Ekos meteen gebruiken. GOTO uitlijnen houdt typisch de volgende stappen in: </para>
+            <orderedlist>
+                <listitem>
+                    <para
+>Start KStars and Ekos and connect to INDI. </para>
+                </listitem>
+                <listitem>
+                    <para
+>Unpark your mount from its home position (usually the NCP for equatorial mounts). </para>
+                </listitem>
+                <listitem>
+                    <para
+>Slew to a nearby bright star using the slew telescope command in the SkyMap using the <guilabel
+>Slew the telescope to the mouse-pointer position</guilabel
+> command. </para>
+                </listitem>
+                <listitem>
+                    <para
+>Select <guilabel
+>Slew to Target</guilabel
+> in the <guilabel
+>Solver Action</guilabel
+> on the Align page. </para>
+                </listitem>
+                <listitem>
+                    <para
+>After slew is complete, click <guibutton
+>Capture &amp; Solve</guibutton
+> on the Align page. </para>
+                </listitem>
+            </orderedlist>
+            <para
+>Align will capture an image and try to solve it. If the solver is successful, Ekos will send a sync command to the mount and then slew to the star. The results are displayed in the <guilabel
+>Solution Results</guilabel
+> tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis
+>thinks</emphasis
+> it is looking vs. its actual pointing position in the sky as determined by the solver). Align will stop if it is within the desired error tolerance, otherwise it will repeat the Slew/Capture/Solve/Sync process until it is within tolerance. </para>
+            <para
+>Elke keer na het met succes oplossen, kan Ekos het volgende doen: </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>Sync</guilabel
+>: Maakt de telescoopcoördinaten gelijk aan de berekende coördinaten. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Draaien naar doel</guilabel
+>: Maakt de telescoopcoördinaten gelijk aan de berekende coördinaten, en draait de opstelling daarna naar het doel. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Niets</guilabel
+>: Alleen oplossen van afbeelding, en de oplossing tonen </para>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+    
+    <sect3 id="ekos-solver-options">
+      <title
+>Configure StellarSolver Options </title>
         <screenshot>
             <screeninfo
->Ekos Externe astrometrie </screeninfo>
+>StellarSolver Options </screeninfo>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="ekos_remote_astrometry.png" format="PNG"/>
+                    <imagedata fileref="ekos_stellarsolver_options.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Ekos Externe astrometrie</phrase>
+>StellarSolver Options</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
-        <variablelist>
-            <varlistentry>
-                <term
->&Windows;</term>
-                <listitem>
-                    <para
->Om astrometry.net te kunnen gebruiken in &Windows;, moet u de <ulink url="https://adgsoftware.com/ansvr/"
->ANSVR Local Astrometry.net solver</ulink
-> downloaden en installeren. De ANSVR bootst de online astrometry.net server na op uw lokale computer, en er is dus geen internetverbinding nodig. </para>
-                    <para
->Na het installeren van de ANSVR-server en het downloaden van de toepasselijke indexbestanden, start u de ANSVR-server op, en gaat u daarna naar opties voor de Ekos uitlijnmodule, waarin u eenvoudig de  <guilabel
->API URL</guilabel
-> wijzigt om de ANSVR-server te gebruiken, zoals hieronder: </para>
-                    <screenshot>
-                        <screeninfo
->ANSVR -parameters </screeninfo>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="astrometry_windows_ansvr.png" format="PNG"/>
-                            </imageobject>
-                            <textobject>
-                                <phrase
->ANSVR -parameters</phrase>
-                            </textobject>
-                        </mediaobject>
-                    </screenshot>
-                    <para
->In de uitlijnmodule van Ekos moet u het oplostype instellen op <guimenuitem
->Online</guimenuitem
->, zodat die de lokale ANSVR-server gebruikt voor alle astrometry-vragen. U kunt daarna de uitlijnmodule op dezelfde manier gebruiken die u gewend bent. </para>
-                    <para
->Onthoud dat, zoals hierboven al is gezegd, dat astrometry.net <emphasis
->reeds</emphasis
-> in StellarMate aanwezig is. U kunt dus, als u StellarMate gebruikt voor het extern oplossen van uw afbeeldingen, eenvoudigweg het oplostype wijzigen in <guimenuitem
->Extern</guimenuitem
->, en ervoor zorgen dat het profiel van uw apparatuur de <emphasis role="bold"
->Astrometry</emphasis
->-driver bevat in het neerklapmenu <guilabel
->Hulpapparatuur</guilabel
->. Dit is van toepassing voor alle besturingssystemen, en niet alleen in &Windows;. </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term
->&MacOS;</term>
-                <listitem>
-                    <para
->Astrometry.net is al in &kstars; voor &MacOS;, dus is installeren niet nodig. </para>
-                </listitem>
-            </varlistentry>
-            <varlistentry>
-                <term
->&Linux;</term>
-                <listitem>
-                    <para
->Astrometry.net is al in de nieuwste versie van &kstars;. Maar indien niet geïnstalleerd, kunt u het installeren met de volgende opdracht in &ubuntu;: </para>
-                    <para>
-                        <command
->sudo apt-get install astrometry.net</command>
-                    </para>
-                </listitem>
-            </varlistentry>
-        </variablelist>
+      <para
+>To use the solvers, you must first configure the StellarSolver options. The above page is displayed when clicking on the <guilabel
+>Options</guilabel
+> button on the lower right of the Align page, then selecting the <guilabel
+>StellarSolver Options</guilabel
+> tab. Start with the <guilabel
+>Builtin method for solver</guilabel
+> <guilabel
+>Source Extraction method</guilabel
+> so that each solver uses its preferred star-extraction code. For <guilabel
+>Solving Method</guilabel
+> we recommend choosing <guilabel
+>Internal Solver</guilabel
+> to use StellarSolver's copy of the Astrometry.net code, or choose <guilabel
+>Local ASTAP</guilabel
+> if you prefer that. The online astrometry solver is accurate, but can take a long time to solve because of all the data transfer required. For <guilabel
+>Options Profile</guilabel
+>, start with the <guilabel
+>1-Default</guilabel
+> profile. </para>
+      <para
+>There are two other minor options. <guilabel
+>WCS</guilabel
+> or World-Coordinate-System is a system for embedding equatorial coordinate information within the image. When you view a solved image, you can hover it and view the coordinate for each pixel. You can also click anywhere in the image and command to the telescope to slew there. It is highly recommended to keep this option on. <guilabel
+>Overlay</guilabel
+> overlays captured images unto the sky map of &kstars;. </para>
+    </sect3>
+    
+    <sect3 id="ekos-solver-external">
+      <title
+>Configure StellarSolver External Programs </title>
+        <screenshot>
+            <screeninfo
+>StellarSolver External Programs </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_stellarsolver_external.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>StellarSolver External Programs</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+      <para
+>This is only required if you choose one of the external programs for your <guilabel
+>Solving Method</guilabel
+>. If you choose <guilabel
+>Internal Solver</guilabel
+>, then it is not necessary. </para>
+      <para
+>You will need to make sure the paths are correct for the solver you choose. The top menu item <guilabel
+>select to load one of the default sets</guilabel
+> usually configures the boxes correctly. </para>
     </sect3>
 
-    <sect3 id="ekos-align-download-index-files">
+    <sect3 id="ekos-solver-scale">
+      <title
+>Configure StellarSolver Scale and Position </title>
+        <screenshot>
+            <screeninfo
+>StellarSolver Scale and Position </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_stellarsolver_scale.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>StellarSolver Scale and Position</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+      <para
+>This page tells Ekos whether you want to constrain your plate-solving search by scale or position. </para
+><para
+>Scale can be the image width in degrees (<guilabel
+>dw</guilabel
+>), the image width in arc-minutes (<guilabel
+>aw</guilabel
+>), or the pixel width in arc-seconds (<guilabel
+>app</guilabel
+>). All should work, but arc-seconds per pixel is recommended. Typically you want to use this constraint for faster solving, so we recommend you check this box. The system doesn't require that the scale be exactly right--it allows deviations of 10-20%. However, frequently issues related to solving are due to an inaccurate scale being used. Therefore, if you have plate-solving problems, you may want to uncheck <guilabel
+>Use Scale</guilabel
+> until those issues are resolved. This will likely result in longer solving times. <guilabel
+>Auto-update</guilabel
+> will automatically fill the scale box with the scale found in the most-recent successful solve. </para
+><para
+>The RA and DEC positions are usually filled in from the position the telescope thinks it is pointing. Naturally, the system doesn't require an exactly correct positional constraint--afterall the purpose of plate-solving is to find that position. The maximum distance in degrees from the specified position to the actual position is given by the <guilabel
+>Radius</guilabel
+> field. Plate-solving will fail if the specified position is further away. Typically you want to enable <guilabel
+>Use Position</guilabel
+> for faster solving, so we recommend you check this box. However, frequently issues related to solving are due to using a poor positional estimate (e.g. the telescope is significantly misaligned). Therefore, if you have plate-solving problems, you may want to uncheck <guilabel
+>Use Position</guilabel
+> until those issues are resolved. As mentioned, this will result in longer solving times. <guilabel
+>Auto-update</guilabel
+> will fill the position box with the position found in the most-recent successful solve. However, a slew will update the position to the position where the telescope thinks it is pointing after the slew. </para>
+    </sect3>
+
+    <sect3 id="ekos-align-profiles">
+      <title
+>Configure StellarSolver Profiles </title>
+        <screenshot>
+            <screeninfo
+>StellarSolver Profiles </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_stellarsolver_profiles.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>StellarSolver Profiles</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>This applies if you are using the (recommended) <guilabel
+>Internal Solver</guilabel
+> <guilabel
+>Solving Method</guilabel
+>. </para
+><para
+>You can choose an <guilabel
+>Options Profile</guilabel
+> on the <guilabel
+>StellarSolver Options</guilabel
+> tab. Profiles are simply collections of parameters to configure the performance of the star-extraction and plate-solving system inside of StellarSolver. The <guilabel
+>1-Default</guilabel
+> profile is the recommended one to start with. There are a few other possible profiles such as <guilabel
+>Large Scale Solving</guilabel
+>, <guilabel
+>Small Scall Solving</guilabel
+>, and <guilabel
+>Single Thread Solving</guilabel
+>. </para
+><para
+>In the <guilabel
+>Align Options Profile Editor</guilabel
+> tab you can view and edit profiles. There are many parameters, most of which you need not change to solve issues. There are 3 types of parameters. </para>
+        <itemizedlist>
+         <listitem
+><para
+>The top section labelled <guilabel
+>Sextractor Parameters</guilabel
+> (with column headings <guilabel
+>Extraction Parameters</guilabel
+>, <guilabel
+>Deblending Params</guilabel
+>, and <guilabel
+>Photometry Params</guilabel
+>) are star extraction parameters--that is those that help find stars in your image.</para
+></listitem>
+         <listitem
+><para
+>The second section labelled <guilabel
+>Star Filtering Parameters</guilabel
+> filters/reduces the number of stars extracted before sending the list to either the plate-solver (when aligning or polar-aligning), or to autofocus or the internal guider (when just a list of stars is needed).</para
+></listitem>
+         <listitem
+><para
+>The third section labelled Astrometry Parameters adjusts the performance of plate solving.</para
+></listitem>
+        </itemizedlist>
+        <para
+>All the input fields have tooltips that are displayed if you hover your mouse over the input box. </para
+><para
+>You can make changes to the values and save the profile if you like, or restore the profile's original values. </para>
+        <sect4 id="profile-star-extraction">
+          <title
+>Star-Extraction Parameters</title>
+          <para
+>The column headings are links to the Sextractor manual which is the main source for these parameters. View those links to find details on all the parameters. We will touch upon some of the parameters you might consider adjusting. However, it's probably best not to get into the weeds of modifying most of these values. </para>
+        <itemizedlist>
+         <listitem
+><para
+><guilabel
+>Thresh Multiple</guilabel
+> and <guilabel
+>Thresh Offset</guilabel
+> relate to how sensitive the system will be to pixel values. The level of the background is multiplied by <guilabel
+>Thresh Multiple</guilabel
+> and then <guilabel
+>Thresh Offset</guilabel
+> is added to that. If a pixel's value exceeds the result, then it may be used to detect a star. Therefore, lower values (especially for multiple) may cause even dim pixels to be detected as stars. Higher values will reduce the number of stars detected.</para
+></listitem>
+         <listitem
+><para
+><guilabel
+>Min Area</guilabel
+> is the minimum area for a star detection--area is in square pixels where all pixels have higher-than-threshold pixel values. If you are detecting small noise spikes as stars, you might want to increase this. If you are not detecting desired smaller real stars, perhaps your <guilabel
+>Min Area</guilabel
+> is too high.</para
+></listitem>
+         <listitem
+><para
+><guilabel
+>Conv FWHM</guilabel
+> should be adjusted to roughly the seeing in your area in pixels. The image is smoothed by this amount before star detection is initiated.</para
+></listitem>
+        </itemizedlist>
+        </sect4
+>    
+
+        <sect4 id="profile-star-filtering">
         <title
+>Star-Filtering Parameters</title>
+          <para
+>This filtering is done for the sake of speed mostly, as well as for removing clipped stars, or very elliptical objects which might be galaxies. We will touch upon some of the parameters you might consider adjusting. Zero values for these parameters disable the filter. However, once again it's probably best not to get into the weeds of modifying most of these values. </para>
+             <itemizedlist>
+         <listitem
+><para
+><guilabel
+>Initial Keep</guilabel
+> and <guilabel
+>Stars Keep #</guilabel
+> relates to the number of stars returned by the system. The system will initially run its detection algorithm and find some number of possible detections. It will filter that list, keeping only the <guilabel
+>Initial Keep</guilabel
+> brightest stars. It will then run the rest of the filtering, including computing the HFR of all those stars and finally only return a list of <guilabel
+>Stars Keep #</guilabel
+> stars. None of the uses (alignment, autofocus, guiding) of StellarSolver require thousands of stars to be able to do their job, and the more stars processed the slower the operation. An initial list of 1000 stars and a few hundred returned stars should be sufficient for most applications.</para
+></listitem>
+         <listitem
+><para
+><guilabel
+>Max Size</guilabel
+> and <guilabel
+>Min Size</guilabel
+> filter stars by their sizes (pixel diameters), and are similar in usage to <guilabel
+>Min Area</guilabel
+> above.</para
+></listitem>
+         <listitem
+><para
+><guilabel
+>Max Ellipse</guilabel
+> specifies how elliptical a star can be before being removed. 2 would mean the larger axis could be twice as large as the smaller axis.</para
+></listitem>
+         <listitem
+><para
+><guilabel
+>Cut Brightest</guilabel
+> and <guilabel
+>Cut Dimmest</guilabel
+> remove the X% brightest or dimmest stars from consideration. <guilabel
+>Sat Limit</guilabel
+> removes stars whose pixel values exceed that percentage of the maximum pixel value--to remove saturated stars.</para
+></listitem>
+             </itemizedlist>
+        </sect4>
+
+        <sect4 id="profile-plate-solving">
+          <title
+>Plate-Solving Parameters</title>
+          <para
+>These plate-solving parameters mostly relate to computation resources. </para>
+             <itemizedlist>
+         <listitem
+><para
+><guilabel
+>Search Radius</guilabel
+> is the distance from the position estimate in degrees that may be searched if <guilabel
+>Use Position</guilabel
+> is checked. </para
+></listitem>
+         <listitem
+><para
+><guilabel
+>Maximum Time</guilabel
+> is the maximum number of seconds that the plate-solving will run before it times out.</para
+></listitem>
+             </itemizedlist>
+        </sect4
+>    
+    </sect3
+>    
+    
+    <sect3 id="ekos-align-download-index-files">
+      <title
 >Downloaden Index-bestanden</title>
+      <para
+>Index files are required if you choose the <guilabel
+>Internal Solver</guilabel
+> or <guilabel
+>Local Astrometry</guilabel
+> <guilabel
+>Solving Method</guilabel
+>. </para>
         <para
 >Voor offline (en externe) oplossers, zijn indexbestanden nodig. De complete verzameling indexbestanden is enorm (meer dan 30 GB), maar u hoeft alleen de nodige bestanden te downloaden. Indexbestanden zijn gesorteerd op GV (gezichtsveld, FOV: field of view)-bereik. Er zijn twee manieren voor het ophalen van de nodige indexbestanden: de nieuwe downloadondersteuning in de uitlijnmodule, en de oude handmatige manier. </para>
         <sect4 id="ekos-align-automatic-download">
@@ -441,19 +689,117 @@
             </sect4>
         </sect3>
 
+    <sect3 id="ekos-align-get-astrometry">
+        <title
+>Optionally get astrometry.net</title>
+
+        <para
+>This is only required if you choose the <guilabel
+>Local Astrometry</guilabel
+> option for <guilabel
+>Source Extraction Method</guilabel
+> which is no longer recommended. </para>
+        <note>
+            <para
+>Astrometry zit al in StellarMate, dus hoeft het hier niet in te worden geïnstalleerd. Ook indexbestanden van 16 boogminuten en hoger (4206 tot 4019) zitten al in StellarMate. Extra indexbestanden moet u zelf waar nodig installeren. Als u Astrometry in StellarMate wilt gebruiken, vanaf een externe Ekos op &Linux;/&Windows;/&MacOS;, moet u de optie  <guimenuitem
+>Extern</guimenuitem
+> kiezen in de uitlijnmodule van Ekos. Verder moet u ervoor zorgen dat de <guimenuitem
+>Astrometry</guimenuitem
+>-driver is geselecteerd in het profiel van uw apparatuur. </para>
+        </note>
+        <screenshot>
+            <screeninfo
+>Ekos Externe astrometrie </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_remote_astrometry.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos Externe astrometrie</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <variablelist>
+            <varlistentry>
+                <term
+>&Windows;</term>
+                <listitem>
+                    <para
+>Om astrometry.net te kunnen gebruiken in &Windows;, moet u de <ulink url="https://adgsoftware.com/ansvr/"
+>ANSVR Local Astrometry.net solver</ulink
+> downloaden en installeren. De ANSVR bootst de online astrometry.net server na op uw lokale computer, en er is dus geen internetverbinding nodig. </para>
+                    <para
+>Na het installeren van de ANSVR-server en het downloaden van de toepasselijke indexbestanden, start u de ANSVR-server op, en gaat u daarna naar opties voor de Ekos uitlijnmodule, waarin u eenvoudig de  <guilabel
+>API URL</guilabel
+> wijzigt om de ANSVR-server te gebruiken, zoals hieronder: </para>
+                    <screenshot>
+                        <screeninfo
+>ANSVR -parameters </screeninfo>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="astrometry_windows_ansvr.png" format="PNG"/>
+                            </imageobject>
+                            <textobject>
+                                <phrase
+>ANSVR -parameters</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                    <para
+>In de uitlijnmodule van Ekos moet u het oplostype instellen op <guimenuitem
+>Online</guimenuitem
+>, zodat die de lokale ANSVR-server gebruikt voor alle astrometry-vragen. U kunt daarna de uitlijnmodule op dezelfde manier gebruiken die u gewend bent. </para>
+                    <para
+>Onthoud dat, zoals hierboven al is gezegd, dat astrometry.net <emphasis
+>reeds</emphasis
+> in StellarMate aanwezig is. U kunt dus, als u StellarMate gebruikt voor het extern oplossen van uw afbeeldingen, eenvoudigweg het oplostype wijzigen in <guimenuitem
+>Extern</guimenuitem
+>, en ervoor zorgen dat het profiel van uw apparatuur de <emphasis role="bold"
+>Astrometry</emphasis
+>-driver bevat in het neerklapmenu <guilabel
+>Hulpapparatuur</guilabel
+>. Dit is van toepassing voor alle besturingssystemen, en niet alleen in &Windows;. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term
+>&MacOS;</term>
+                <listitem>
+                    <para
+>Astrometry.net is al in &kstars; voor &MacOS;, dus is installeren niet nodig. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term
+>&Linux;</term>
+                <listitem>
+                    <para
+>Astrometry.net is al in de nieuwste versie van &kstars;. Maar indien niet geïnstalleerd, kunt u het installeren met de volgende opdracht in &ubuntu;: </para>
+                    <para>
+                        <command
+>sudo apt-get install astrometry.net</command>
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect3>
+    
         <sect3 id="ekos-align-how-to-use">
             <title
 >Hoe te gebruiken?</title>
             <para
->De uitlijnmodule van Ekos heeft meerdere functies die u helpen met het verkrijgen van accurate GOTO's. Start met uw opstelling in de basispositie, met de telescoopbuis recht gericht op de hemelpool. Op het Noordelijk Halfrond richt u de telescoop zo goed mogelijk op de poolster, Polaris. Het is niet nodig uit te lijnen met 2 of 3 sterren, hoewel bij sommige opstellingen dit wel nuttig kan zijn. Let erop dat uw camera goed scherp is gesteld op de sterren. </para>
+>Ekos Align Module offers multiple functions to aid you in achieving accurate GOTOs. For some mounts it is useful to start your session with your mount in home position with the telescope tube looking directly at the celestial pole. For users in Northern Hemisphere, point the telescope as close as possible to Polaris. It is not necessary to perform 2 or 3 star alignments, but it can be useful for some mount types. Make sure your camera is focused. </para>
+            <para
+>At the top left of the Align page you can find two solver commands, and two actions to take given the solver solution. </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->Opnemen &amp; Oplossen</guilabel
->: Maak een afbeelding en bepaal op welk gebied aan de hemel de telescoop is gericht. De antwoorden van astrometry zijn onder meer de equatoriale coördinaten (RK &amp; dec) van de afbeelding, en daarnaast de pixelschaal en de veldrotatie. Afhankelijk van de instellingen van de oplosser, kunnen de antwoorden gebruikt voor het syncen van de opstelling of  syncen en daarna draaien naar de doellocatie. Bijvoorbeeld, stel dat u de opstelling heeft heeft gedraaid naar Wega, en daarna <emphasis
->Opnemen &amp; Oplossen</emphasis
-> gebruikt. Indien de werkelijke kijkrichting van de telescoop niet precies naar Wega is, wordt die eerst gesynced naar de opgeloste coördinaten, en zal Ekos de telescoop naar Wega laten draaien.Na dit draaien herhaalt de uitlijnmodule  het proces van Opname &amp; Oplossen nog een keer, net zo lang totdat de fout tussen de berekende en actuele positie binnen de gewenste drempelwaarde valt (standaard 30 boogseconden). </para>
+>Capture &amp; Solve</guilabel
+>: Capture an image and determine exactly where in the sky the telescope is pointing. The astrometry results include the equatorial coordinates (RA &amp; DEC) of the center of the captured image and the pixel scale and field rotation. Depending on the Solver Action settings, the results can be used to Sync the mount or Sync and then Slew to the target location. For example, suppose you slewed the mount to Vega then used <emphasis
+>Capture &amp; Solve</emphasis
+>. If the actual telescope location is different from Vega, it will be first synced to the solved coordinate and then Ekos shall command the mount to slew to Vega. After slew is complete, the Alignment module will repeat Capture &amp; Solve process again until the error between reported and actual position falls below the accuracy thresholds (30 arcseconds by default). </para>
                 </listitem>
                 <listitem>
                     <para
@@ -461,45 +807,32 @@
 >Inlezen &amp; Draaien</guilabel
 >: Een FITS- of JPEG-bestand inlezen, het oplossen, en daarna er naar toe draaien. </para>
                 </listitem>
-                <listitem>
-                    <para
-><guilabel
->Assistent  uitlijnen op de pool</guilabel
->: Een eenvoudig hulpmiddel voor het op de pool uitlijnen van Duitse equatoriale opstellingen. </para>
-                </listitem>
             </itemizedlist>
             <warning>
                 <para
 ><emphasis role="bold"
->Nooit</emphasis
-> een afbeelding oplossen van een afbeelding op of nabij de hemelpool (behalve bij gebruik van de assistent voor uitlijnen op de pool). Draai minstens 20  graden weg van de hemelpool, voordat de eerste opname wordt opgelost. Oplossen heel dicht bij de polen maakt de richtfout van uw opstelling slechter, dus dat moet worden voorkomen. </para>
+>Never</emphasis
+> solve an image at or near the celestial pole (unless Ekos Polar Alignment Assistant Tool is used). Slew at least 20 degrees away from the celestial pole before solving the first image. Solving very close to the poles will make your mount pointing worse, so avoid it. </para>
             </warning>
         </sect3>
-
+        
         <sect3 id="ekos-align-alignment-settings">
             <title
 >Uitlijninstellingen</title>
-            <screenshot>
-                <screeninfo
->Astrometry.net instellingen </screeninfo>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
-                    </imageobject>
-                    <textobject>
-                        <phrase
->Astrometry.net instellingen</phrase>
-                    </textobject>
-                </mediaobject>
-            </screenshot>
             <para
->Voordat u met het uitlijnen begint, selecteert u de gewenste CCD &amp; Telescoop. U kunt de opties van astrometry.net die naar de oplosser van astrometry.net worden gestuurd, bij elke opname bekijken: </para>
+>Before you begin the alignment process, select the desired optical train. You can explore astrometry.net options that are passed to the astrometry.net solver each time an image is captured: </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->CCD</guilabel
->: Selecteer CCD opname. </para>
+>Accuracy</guilabel
+>: Acceptable difference between the desired target position and the solved coordinates from the captured image. If the difference exceeds this many arc-seconds, then the system will continue to capture, solve and slew until the solved position is close enough to the target position. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Train</guilabel
+>: Select the Optical Train which will be used to capture the image to be aligned. It is also used to compute the image scale. </para>
                 </listitem>
                 <listitem>
                     <para
@@ -510,183 +843,28 @@
                 <listitem>
                     <para
 ><guilabel
->Nauwkeurigheid</guilabel
->: Toegestane verschil tussen de gerapporteerde telescoopcoördinaten en de werkelijke berekende waarden. </para>
+>Bin</guilabel
+>: The binning of the image before solving. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Bin X</guilabel
->: Horizontale binning van de CCD instellen. </para>
+>Gain/ISO</guilabel
+>: The camera gain or ISO. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Bin Y</guilabel
->: Verticale binning van de CCD instellen. </para>
+>Filter/Use Current</guilabel
+>: The filter to use when capturing the image. <guilabel
+>Use Current</guilabel
+> uses whatever filter is currently active. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Telescoop</guilabel
->: Stel de actieve telescoop in, in het geval dat u verschillende primaire en volgtelescopen gebruikt. GV (FOV) wordt berekend bij het selecteren van een andere telescoop. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Opties</guilabel
->: Opties voor de oplosser van astrometry.net. Klik op de knop <inlinemediaobject
-><imageobject
-><imagedata fileref="document-edit.png" format="PNG"/></imageobject
-></inlinemediaobject
-> om de opties in detail te bekijken. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->OPlosser</guilabel
->: Selecteer type oplosser (Online, Offline, Extern). De externe oplosser is alleen beschikbaar bij verbinden met een extern apparaat. </para>
-                </listitem>
-            </itemizedlist>
-            <para
->Standaard zoekt de oplosser over de hele hemel voor het oplossen van de coördinaten van een afbeelding. Dit kan <emphasis
->veel tijd kosten</emphasis
->. Daarom, om het oplossen te versnellen, kunt het zoeken inperken tot het zoeken in een bepaald gebied aan de hemel, aangegeven met de bovenstaande opties <guilabel
->RK</guilabel
->, <guilabel
->dec</guilabel
->, en <guilabel
->Straal</guilabel
->. </para>
-        </sect3>
-
-        <sect3 id="ekos-align-astrometry-net-settings">
-            <title
->Astrometry.net Opties</title>
-            <para
->Opties voor offline en online oplossers. </para>
-            <screenshot>
-                <screeninfo
->Astrometry.net Opties </screeninfo>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
-                    </imageobject>
-                    <textobject>
-                        <phrase
->Astrometry.net Opties</phrase>
-                    </textobject>
-                </mediaobject>
-            </screenshot>
-            <para
->De meeste opties zijn standaard voldoende. Indien astrometry.net in een niet-standaard locatie is geïnstalleerd, kunt u de paden er naar toe wijzigen als nodig. </para>
-            <itemizedlist>
-                <listitem>
-                    <para
-><guilabel
->WCS</guilabel
->: World-Coordinate-System is een systeem voor het inbedden van informatie over equatoriale coördinaten in de afbeelding. Dus, bij het beschouwen van een afbeelding, kunt u de muisaanwijzer er boven houden en de coördinaten bekijken van elke pixel afzonderlijk. U kunt ook ergens in de afbeelding klikken, en de telescoop opdracht geven daar naar toe te draaien. Het is zeer aan te raden deze optie in te schakelen. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Uitvoerig</guilabel
->: Als het oplossen herhaaldelijk mislukt, kiest u deze optie voor <emphasis
->uitvoerige</emphasis
-> uitvoer van de oplosser, om u te helpen met het onderzoeken van dit probleem. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Overleg</guilabel
->: Opgenomen afbeeldingen overleggen op de hemelkaart van &kstars;. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Upload JPG</guilabel
->: Als u online astrometry.net gebruikt, kan het uploaden van afbeeldingen als JPG- in plaats van als FITS-bestanden, veel bandbreedte schelen. </para>
-                </listitem>
-            </itemizedlist>
-        </sect3>
-
-        <sect3 id="ekos-align-solver-options">
-            <title
->Opties voor oplossen (solver)</title>
-            <para
->Ekos selecteert en houdt de optimale opties standaard bij om de snelheid van het oplossen te verbeteren. U kunt kiezen of u de aan de solver door te geven opties wilt wijzigen, in het geval dat de standaard opties niet voldoen. </para>
-            <screenshot>
-                <screeninfo
->Oplossen Instellingen </screeninfo>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="solver_settings.png" format="PNG"/>
-                    </imageobject>
-                    <textobject>
-                        <phrase
->Oplossen Instellingen</phrase>
-                    </textobject>
-                </mediaobject>
-            </screenshot>
-        </sect3>
-
-        <sect3 id="ekos-align-capture-and-solve">
-            <title
->Opnemen &amp; Oplossen</title>
-            <para
->Voordat u de uitlijnmodule gebruikt van Ekos, is het uitlijnen van uw opstellingen met behulp van uitlijnen met 1, 2 of 3 sterren <emphasis
->niet</emphasis
-> echt nodig, maar bij sommige opstellingen (monteringen) wordt eerst ruw uitlijnen met 1 of 2 sterren aanbevolen, voordat u meteen begint met de uitlijnmodule van Ekos. Als u EQMod gebruikt kunt u de uitlijnmodule van Ekos meteen gebruiken. GOTO uitlijnen houdt typisch de volgende stappen in: </para>
-            <orderedlist>
-                <listitem>
-                    <para
->Breng uw opstelling naar zijn basispositie (gewoonlijk de NCP (noordelijke hemelpool) voor equatoriale opstellingen). </para>
-                </listitem>
-                <listitem>
-                    <para
->Selecteer <guilabel
->Draaien naar doel</guilabel
->in de <guilabel
->Oplosactie</guilabel
->. </para>
-                </listitem>
-                <listitem>
-                    <para
->Draaien naar nabije heldere ster. </para>
-                </listitem>
-                <listitem>
-                    <para
->Nadat draaien klaar is, klikken op <guibutton
->Opnemen &amp; Oplossen</guibutton
->. </para>
-                </listitem>
-            </orderedlist>
-            <para
->Lukt het oplossen, dan zal Ekos naar de ster syncen en draaien. De resultaten worden getoond in het tabblad <guilabel
->Oplosresultaten</guilabel
->, samen met een doelwit-diagram waarin het verschil wordt getoond van de telescoopcoördinaten (&ie; dat is het punt waarnaar de telescoop <emphasis
->meldt</emphasis
-> dat die kijkt) vs. de werkelijke positie aan de hemel, als berekend met oplossen. </para>
-            <para
->Elke keer na het met succes oplossen, kan Ekos het volgende doen: </para>
-            <itemizedlist>
-                <listitem>
-                    <para
-><guilabel
->Sync</guilabel
->: Maakt de telescoopcoördinaten gelijk aan de berekende coördinaten. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Draaien naar doel</guilabel
->: Maakt de telescoopcoördinaten gelijk aan de berekende coördinaten, en draait de opstelling daarna naar het doel. </para>
-                </listitem>
-                <listitem>
-                    <para
-><guilabel
->Niets</guilabel
->: Alleen oplossen van afbeelding, en de oplossing tonen </para>
+>Dark</guilabel
+>: Whether to use the dark-image subtraction scheme before analyzing the captured image. </para>
                 </listitem>
             </itemizedlist>
         </sect3>
@@ -734,7 +912,7 @@
                 <para
 >Alvorens het proces te beginnen, laat de opstelling zo dicht mogelijk naar de hemelpool wijzen met de contragewichten omlaag. Als u leeft op het Noordelijke halfrond, wis dan zo dicht mogelijk naar de Poolster. Als de Poolster niet zichtbaar (&eg; geblokkeerd door bomen of gebouwen) dan kunt u ergens anders naar wijzen, bij voorkeur dichtbij de meridiaan. Ga na is dat er minstens 30-60 graden hemel zichtbaar is in een boog Oost of West van de meridiaan vanaf de positie die u kiest. Selecteer de richting van de vrije hemel, het aantal graden voor elk van de twee zwenkingen, de zwenksnelheid van de opstelling en of de opstelling automatisch (aanbevolen) of handmatig zwenkt. </para>
                 <para
->Door het hulpmiddel worden drie afbeeldingen opgenomen en opgelost. Na elke opname draait de opstelling over de vaste afstand, die u hebt ingevoerd, voordat de volgende opname wordt gemaakt en opgelost. Als u handmatig kiest, moet u de opstelling verdraaien met ruwweg de gekozen hoek. </para>
+>The tool works by capturing and solving three images. After capturing each, the mount rotates by the fixed amount you entered and another image is captured and solved. If you choose manual, you will need to slew the mount by roughly the angle chosen. </para>
                 <screenshot>
                     <screeninfo
 >Assistent uitlijnen op pool </screeninfo>

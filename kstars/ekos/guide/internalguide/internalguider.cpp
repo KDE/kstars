@@ -17,6 +17,8 @@
 #include "guidealgorithms.h"
 #include "ksnotification.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#include "fitsviewer/fitsdata.h"
+#include "../guideview.h"
 
 #include <KMessageBox>
 

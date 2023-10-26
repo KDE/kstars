@@ -21,6 +21,7 @@
 #include "ksutils.h"
 #include "ekos/guide/internalguide/gmath.h"
 #include "Options.h"
+#include "ekos/capture/capture.h"
 
 /* *****************************************************************************
  *

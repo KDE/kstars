@@ -7,16 +7,18 @@
 #pragma once
 
 #include "ui_opsguide.h"
+
 #include "guide.h"
 #include "stellarsolver.h"
-#include "ksutils.h"
-#include "kspaths.h"
-#include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#include "parameters.h"
 
 class KConfigDialog;
 
 namespace Ekos
 {
+
+class StellarSolverProfileEditor;
+
 /**
  * @class OpsGuide
  *

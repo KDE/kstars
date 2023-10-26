@@ -10,6 +10,8 @@
 #include "kstars.h"
 #include "auxiliary/ksnotification.h"
 #include "internalguide/internalguider.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#include "kspaths.h"
 
 #include <KConfigDialog>
 

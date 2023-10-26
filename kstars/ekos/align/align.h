@@ -9,16 +9,12 @@
 
 #pragma once
 
-#include "ekos/auxiliary/filtermanager.h"
 #include "ui_align.h"
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
 #include "indi/indistd.h"
 #include "indi/indimount.h"
-#include "indi/indidome.h"
-#include "ksuserdb.h"
-#include "ekos/auxiliary/darkprocessor.h"
-#include "ekos/auxiliary/rotatorutils.h"
+#include "skypoint.h"
 
 #include <QTime>
 #include <QTimer>
@@ -45,6 +41,8 @@ class RotatorSettings;
 namespace Ekos
 {
 class AstrometryParser;
+class DarkProcessor;
+class FilterManager;
 class RemoteAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;

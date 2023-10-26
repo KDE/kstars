@@ -31,23 +31,29 @@
 // Auxiliary
 #include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
+#include "ekos/auxiliary/darkprocessor.h"
+#include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ksnotification.h"
 #include "kspaths.h"
+#include "ksuserdb.h"
 #include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymapcomposite.h"
 #include "ekos/auxiliary/solverutils.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 // INDI
 #include "ekos/manager.h"
+#include "indi/indidome.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilterwheel.h"
+#include "indi/indirotator.h"
 #include "profileinfo.h"
 
 // System Includes

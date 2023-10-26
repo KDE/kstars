@@ -10,6 +10,14 @@
 #include "Options.h"
 #include "indi/indistd.h"
 #include "ekos_capture_debug.h"
+#include "sequencejobstate.h"
+
+#include "indi/indicamera.h"
+#include "indi/indidustcap.h"
+#include "indi/indidome.h"
+#include "indi/indilightbox.h"
+#include "indi/indimount.h"
+#include "indi/indirotator.h"
 
 namespace Ekos
 {

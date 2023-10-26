@@ -6,9 +6,10 @@
 
 #pragma once
 
-#include "ekos/guide/guideinterface.h"
 #include "ui_manualpulse.h"
 #include "indi/indicommon.h"
+#include "skypoint.h"
+#include "ekos/guide/guideinterface.h"
 
 #include <QDialog>
 

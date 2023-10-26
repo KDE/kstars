@@ -8,15 +8,16 @@
 #define ANALYZE_H
 
 #include <memory>
-#include "qcustomplot.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
 #include "indi/indimount.h"
 #include "yaxistool.h"
 #include "ui_analyze.h"
+#include "ekos/manager/meridianflipstate.h"
 
 class FITSViewer;
 class OffsetDateTimeTicker;
+class QCustomPlot;
 
 namespace Ekos
 {

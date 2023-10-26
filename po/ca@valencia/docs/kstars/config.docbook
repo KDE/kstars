@@ -101,7 +101,7 @@
 ></menuchoice
 > o bé feu clic damunt de la icona <guiicon
 >Para el rellotge</guiicon
-> de la barra d'eines. Podeu fer que el rellotge funcione més lent o més ràpid del normal, o fins i tot que vaja arrere, utilitzant el botó de selecció de valors de passos de temps que hi ha en la barra d'eines. Este botó de selecció de valors posseïx dos jocs de botons amunt/avall. El primer estarà disponible per als primers 83 passos de temps, un a un. El segon saltarà a la següent unitat de temps més gran (o més xicoteta), el qual us permetrà realitzar canvis més grans de passos de temps d'una manera ràpida. </para>
+> de la barra d'eines. Podeu fer que el rellotge funcione més lent o més ràpid del normal, o fins i tot que vaja arrere, utilitzant el botó de selecció de valors de passos de temps que hi ha en la barra d'eines. Este botó de selecció de valors posseïx dos jocs de botons amunt/avall. El primer estarà disponible per als primers 83 passos de temps, un a un. El segon saltarà fins a la següent unitat de temps més gran (o més xicoteta), el qual us permetrà realitzar canvis més grans de passos de temps d'una manera ràpida. </para>
 <para>
 <indexterm
 ><primary
@@ -175,7 +175,7 @@
 <para
 >La finestra <guilabel
 >Configuració - &kstars;</guilabel
-> està dividida en dotze pàgines: <guilabel
+> està dividida en catorze pàgines: <guilabel
 >Catàlegs</guilabel
 >, <guilabel
 >Sistema solar</guilabel
@@ -188,6 +188,8 @@
 >, <guilabel
 >Terreny</guilabel
 >, <guilabel
+>Superposicions d'imatges</guilabel
+>, <guilabel
 >Colors</guilabel
 >, <guilabel
 >FITS</guilabel
@@ -197,8 +199,10 @@
 >Ekos</guilabel
 >, <guilabel
 >Xplanet</guilabel
-> i <guilabel
+>, <guilabel
 >Avançat</guilabel
+> i <guilabel
+>Desenvolupador</guilabel
 >. </para>
 
 <!-- Catalogs page: -->
@@ -296,6 +300,24 @@
 >Terreny</guilabel
 > permet establir el terreny o la imatge del paisatge i configurar les seues opcions d'acceleració. </para>
 
+<!-- Image Overlays page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració de &kstars;</primary>
+<secondary
+>La pàgina Superposicions d'imatges</secondary
+></indexterm>
+<indexterm
+><primary
+>Superposicions d'imatges</primary>
+<secondary
+>Personalitzar</secondary
+></indexterm
+>La pàgina <guilabel
+>Superposicions d'imatges</guilabel
+> permet afegir i gestionar les vostres pròpies imatges que es mostraran en el mapa celeste. </para>
+
 <!-- Colors page: -->
 <para>
 <indexterm
@@ -363,6 +385,18 @@
 >La pàgina <guilabel
 >Avançat</guilabel
 > proveïx un acurat control sobre els comportaments més subtils de &kstars;. </para>
+
+<!-- Developer page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració de &kstars;</primary>
+<secondary
+>La pàgina Avançat</secondary
+></indexterm
+>La pàgina <guilabel
+>Desenvolupador</guilabel
+> permet activar o desactivar algunes opcions, sobretot útils per a desenvolupadors o per a persones que busquen ajudar a depurar problemes. Actualment, estes permeten guardar les imatges durant l'enfocament automàtic, el guiatge i l'alineació amb Ekos. </para>
 </sect1>
 
 <sect1 id="catalogs">
@@ -399,7 +433,7 @@
 >Catàlegs</guilabel
 >, podreu configurar quins catàlegs d'objectes es mostraran en &kstars;, així com la quantitat d'informació que vos agradaria incloure en el mapa celeste. De manera predeterminada, &kstars; inclou unes 300.000 estreles amb nom i sense nom fins a 8 de magnitud. Per als objectes del cel profund, el catàleg inclòs és el Nou catàleg general (<quote
 >NGC</quote
->), que inclou el Catàleg d'índex (<quote
+>), el qual inclou el Catàleg d'índex (<quote
 >IC</quote
 >) i el Catàleg Messier. </para>
 
@@ -1500,6 +1534,127 @@
 </tip>
 </sect1>
 
+<sect1 id="imageOverlays">
+<title
+>Superposicions d'imatges</title>
+<screenshot>
+<screeninfo
+>Superposicions d'imatges en el mapa celeste</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays2.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Superposicions d'imatges en el mapa celeste</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració de &kstars;</primary>
+<secondary
+>La pàgina Superposicions d'imatges</secondary
+></indexterm
+>Les superposicions d'imatges són imatges personalitzades (normalment <literal role="extension"
+>.jpg</literal
+>) que es representen en el mapa celeste sobre les estreles i altres elements del mapa celeste, però davall el terreny. Estes imatges les afegiu vosaltres, els usuaris, una mena de catàleg personal del cel. Si es configura correctament, estes imatges personals es poden mostrar quasi perfectament alineades amb els altres objectes en el cel. </para>
+<screenshot>
+<screeninfo
+>Finestra amb Superposicions d'imatges</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imageOverlays1.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Superposicions d'imatges</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>La pàgina <guilabel
+>Superposicions d'imatges</guilabel
+> permet configurar si les superposicions d'imatges es mostraran en el mapa celeste i ajuda a afegir-les al sistema. La imatge al començament d'esta secció mostra el mapa celeste amb les superposicions d'imatges habilitades i algunes superposicions d'imatges carregades. </para>
+<para
+>Cada vegada que s'inicia, &kstars; buscarà imatges superposades noves en un directori especial, paral·lel al directori de registres, anomenat <literal
+>imageOverlays</literal
+>. A Linux, açò es pot trobar a <filename class="directory"
+>~/.local/share/kstars/imageOverlays</filename
+>. La ubicació exacta en el vostre sistema es pot trobar fent clic en el botó <guibutton
+>Directori de superposicions</guibutton
+> a prop de la part superior de la pàgina de configuració <guilabel
+>Superposicions d'imatges</guilabel
+> que es mostra a la part superior d'esta secció. Per a començar, afegiu les vostres imatges a este directori. De manera ideal, per raons de rendiment, estos no són fitxers massius, però probablement les imatges amb amplàries de 1.000 o 2.000 haurien d'estar bé. Per a afegir imatges addicionals en el futur, afegiu-les al mateix directori i reinicieu &kstars;. </para>
+<para
+>Inicieu &kstars; una vegada tingueu les imatges en el directori <literal
+>imageOverlays</literal
+>. Si després aneu fins a la pàgina de configuració <guilabel
+>Superposicions d'imatges</guilabel
+>, hauríeu de veure els fitxers nous enumerats a la taula. Les el seu estat com a <guilabel
+>Sense processar</guilabel
+>. Només les imatges l'estat de les quals siga <guilabel
+>D'acord</guilabel
+> es mostraran en el mapa celeste. Açò és perquè &kstars; necessita conéixer la ubicació, la mida i l'orientació en el cel d'estes imatges abans de mostrar-les. Per a canviar l'estat a <guilabel
+>D'acord</guilabel
+>, s'han de resoldre les plaques de les imatges o afegir manualment la informació requerida, vegeu a continuació. </para>
+<para
+>Per a preparar les imatges per a visualitzar-les, s'han de resoldre les plaques de les imatges (una sola vegada). Per a fer-ho, busqueu una imatge a la taula, feu clic en el seu nom de fitxer i feu clic en <guibutton
+>Soluciona</guibutton
+> davall la taula. L'etiqueta del botó hauria de canviar a <guibutton
+>Cancel·la</guibutton
+> durant la solució, i després, quan es completa amb èxit, els paràmetres resolts es mostraran a la taula i l'estat canvia a <guilabel
+>D'acord</guilabel
+>. La informació d'una solució de placa amb èxit s'emmagatzema a la base de dades de l'usuari de manera que no calga repetir la solució. La imatge resolta hauria d'aparéixer a partir d'aleshores en la seua posició adequada en el mapa celeste. Podeu solucionar plaques de múltiples imatges en una sola operació fent clic damunt del nom de fitxer de la primera imatge i després fent clic damunt d'un altre nom de fitxer. S'han de seleccionar tots els fitxers d'imatge entre els noms de fitxer. Després, fent clic en <guibutton
+>Soluciona</guibutton
+>, s'intentaran solucionar totes les imatges. No obstant açò, &kstars; no intentarà resoldre les imatges l'estat de les quals siga <guilabel
+>D'acord</guilabel
+>, sinó que les ometrà. (Si voleu tornar a solucionar les plaques de les imatges amb l'estat <guilabel
+>D'acord</guilabel
+>, canvieu manualment el seu estat a <guilabel
+>Sense processar</guilabel
+> i feu clic en <guibutton
+>Soluciona</guibutton
+>). És possible que si seleccioneu diverses imatges, algunes no es resolguen amb èxit. </para>
+<para
+>La solució de plaques d'estes imatges de vegades pot ser difícil. Açò és perquè, en este punt, el sistema no té informació sobre l'escala o la posició per on mirar i, per tant, és una solució cega. Per a millorar les vostres possibilitats d'èxit, podeu introduir una posició aproximada AR/Dec del centre del cel a les columnes <guilabel
+>AR</guilabel
+> i <guilabel
+>Dec</guilabel
+> per a la fila que esteu intentant resoldre. També podeu afegir una escala d'imatge, en segons d'arc per píxel. Podeu afegir una escala predeterminada a la dreta del botó <guibutton
+>Soluciona</guibutton
+> en el quadro anomenat <guilabel
+>Seg. d'arc/px predeterminats</guilabel
+> de manera que tots els intents de solució utilitzen esta escala de manera predeterminada. També podeu afegir una escala directament a la taula, fila i columna, el qual anul·larà el valor predeterminat. Podeu triar quin perfil de StellarSolver utilitza el solucionador (estos perfils es poden editar a la pestanya <guilabel
+>Alinea</guilabel
+> d'Ekos). Finalment, podeu ajustar el <guilabel
+>Temps d'espera</guilabel
+> del solucionador en segons. </para>
+<para
+>Si teniu imatges problemàtiques que no es resolen, encara podreu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres AR, Dec, segon d'arc per píxel, angle d'orientació i est a la dreta (o oest a la dreta). Una vegada ho hàgeu fet, podreu canviar l'estat a <guilabel
+>OK</guilabel
+> i &kstars; guardarà estos valors a la base de dades de l'usuari com si s'hagessin resolt automàticament. </para>
+<para
+>Hi ha alguns controls més a la pàgina de configuració <guilabel
+>Superposicions d'imatges</guilabel
+>. La casella de selecció <guilabel
+>Mostra les superposicions d'imatges</guilabel
+> a la part superior de la pàgina activa o desactiva esta característica, és a dir, canvia si es mostraran o no les superposicions d'imatges en el mapa celeste. </para>
+<para
+>El botó de selecció de valors <guilabel
+>Dimensió màxima de les imatges:</guilabel
+> permet fer variar la dimensió màxima de la imatge utilitzada per a les imatges. És a dir, si col·loqueu imatges que tenen, per exemple, 5.000 píxels d'amplària a dins del directori <literal
+>imageOverlays</literal
+>, però el valor d'este quadro d'entrada és 1.000, llavors es llegiran les imatges de 5.000 píxels, però després es reduiran a 1.000 píxels d'amplària abans de visualitzar-les. Açò es fa per a reduir el consum de memòria i l'ús de la CPU d'esta característica. Seria més eficient afegir fitxers d'imatge amb l'amplària d'imatge desitjada. </para>
+<para
+>La casella de selecció <guilabel
+>Centra el mapa celeste en la selecció</guilabel
+> permet navegar amb facilitat per les imatges superposades sense manipular directament el mapa celeste. Amb açò habilitat, seleccioneu una fila a la taula de superposició (&pex;, fent clic damunt del camp del nom de fitxer) i el mapa celeste es mourà fins a esta imatge si l'estat de la imatge és <guilabel
+>D'acord</guilabel
+>. En este punt, podeu passar d'una imatge a la següent amb les ordres de teclat &Up; i &Down;. </para>
+</sect1>
+
 <sect1 id="colors">
 <title
 >Colors</title>
@@ -1544,7 +1699,7 @@
 >El quadro dret llista els esquemes de color definits. Hi ha quatre esquemes predefinits: l'esquema <guilabel
 >Colors predeterminats</guilabel
 >, la <guilabel
->Carta estrel·lar</guilabel
+>Carta estel·lar</guilabel
 >, la qual utilitza estreles negres sobre un fons blanc, la <guilabel
 >Visió nocturna</guilabel
 >, la qual només utilitza capes de roig per a protegir la visió adaptada a l'obscuritat i la <guilabel
@@ -1774,6 +1929,56 @@
 >. </para>
 </sect1>
 
+<sect1 id="developer">
+<title
+>Desenvolupador</title>
+<screenshot>
+<screeninfo
+>La finestra Desenvolupador</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>La finestra Desenvolupador</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració de &kstars;</primary>
+<secondary
+>La pàgina Desenvolupador</secondary
+></indexterm
+>La pàgina <guilabel
+>Desenvolupador</guilabel
+> proporciona algunes caselles de selecció que poden ajudar a depurar problemes amb &kstars;. Hi ha caselles de selecció per a guardar les imatges en directoris de registre que poden ajudar a depurar problemes. Per descomptat, guardar les imatges pot ocupar espai en el disc i s'ha d'emprar amb prudència. </para
+><para
+>Les imatges que es poden guardar són:</para>
+  <itemizedlist>
+<listitem
+><para
+>totes les imatges de l'enfocament, </para
+></listitem>
+<listitem
+><para
+>totes les imatges del sistema de guiatge, </para
+></listitem>
+<listitem
+><para
+>totes les imatges de l'alineació, i </para
+></listitem>
+<listitem
+><para
+>les imatges de l'alineació on ha fallat la solució de plaques. </para
+></listitem>
+  </itemizedlist
+><para
+>Totes les imatges es guarden en carpetes paral·leles al directori de registre principal. Estan en carpetes anomenades «guide» (guia), «autofocus» (enfocament automàtic), «align» (alineació) i «align/failed» (alineació/fallida). </para>
+</sect1>
+
 <sect1 id="customize">
 <title
 >Personalitzar la vista</title>
@@ -1803,7 +2008,7 @@
 ></menuchoice
 >. A més, podeu manipular els tres rètols informatius amb el ratolí. Cadascun dels rètols conté línies addicionals de dades que resten ocultes de manera predeterminada. Podeu canviar-ne la <quote
 >visibilitat</quote
-> fent doble clic damunt seu. També és possible canviar-ne la ubicació arrossegant-lo amb el ratolí. Quan un rètol arriba a tocar la vora d'una finestra, serà <quote
+> fent doble clic damunt seu. També és possible canviar-ne la ubicació arrossegant-lo amb el ratolí. Quan un rètol arriba fins a tocar la vora d'una finestra, serà <quote
 >adherida</quote
 > a esta quan es modifique la grandària de la finestra. </para
 ></listitem>
@@ -1985,7 +2190,7 @@
 ></listitem>
       <listitem
 ><para
->Càmera en un telescopi muntat equatorialment: trieu les Coordenades equatorials i ajusteu l'orientació del mapa celeste perquè coincidisca amb la càmera. Com que la muntura apunta a regions diferents del cel, l'orientació s'ha de renderitzar correctament.</para
+>Càmera en un telescopi muntat equatorialment: trieu les Coordenades equatorials i ajusteu l'orientació del mapa celeste perquè coincidisca amb la càmera. Com que la muntura apunta cap a regions diferents del cel, l'orientació s'ha de renderitzar correctament.</para
 ></listitem>
       <listitem
 ><para

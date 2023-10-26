@@ -5,7 +5,6 @@
  */
 
 #include "captureprocessoverlay.h"
-
 #include "QTime"
 #include "QFileInfo"
 

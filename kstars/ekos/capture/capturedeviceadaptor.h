@@ -10,18 +10,25 @@
 #include "ekos/ekos.h"
 #include "indi/indicommon.h"
 #include "indiapi.h"
-#include "indi/indicamera.h"
-#include "indi/indidustcap.h"
+
 #include "indi/indidome.h"
-#include "indi/indilightbox.h"
+#include "indi/indicamerachip.h"
+#include "indi/indidustcap.h"
 #include "indi/indimount.h"
-#include "indi/indirotator.h"
+
 #include "ekos/auxiliary/filtermanager.h"
 
-#include "sequencejobstate.h"
+namespace {
+class Camera;
+class LightBox;
+class Rotator;
+}
 
 namespace Ekos
 {
+
+class SequenceJobState;
+
 class CaptureDeviceAdaptor: public QObject
 {
         Q_OBJECT

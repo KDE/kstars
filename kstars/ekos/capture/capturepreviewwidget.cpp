@@ -10,7 +10,13 @@
 #include <ekos_capture_debug.h>
 #include "ksutils.h"
 #include "ksmessagebox.h"
+#include "ekos/mount/mount.h"
 #include "Options.h"
+#include "capture.h"
+#include "sequencejob.h"
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/summaryfitsview.h"
+#include "ekos/scheduler/scheduler.h"
 
 using Ekos::SequenceJob;
 
@@ -68,8 +74,8 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.frameType = job->getFrameType();
     if (job->getFrameType() == FRAME_LIGHT)
     {
-        if (schedulerModule != nullptr && schedulerModule->getCurrentJob() != nullptr)
-            m_currentFrame.target = schedulerModule->getCurrentJob()->getName();
+        if (schedulerModule != nullptr && schedulerModule->activeJob() != nullptr)
+            m_currentFrame.target = schedulerModule->activeJob()->getName();
         else
             m_currentFrame.target = m_mountTarget;
     }

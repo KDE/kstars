@@ -19,6 +19,7 @@
 #include <QTest>
 #include "ekos/manager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/mount/mount.h"
 
 #define KTRY_EKOS_SELECT_PROFILE(profile) do { \
     QString const p(profile); \

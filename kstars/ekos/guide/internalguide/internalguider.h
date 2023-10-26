@@ -9,7 +9,6 @@
 #pragma once
 
 #include "matr.h"
-#include "fitsviewer/fitsdata.h"
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
 #include "guidelog.h"
@@ -25,7 +24,7 @@
 #include <memory>
 
 class QVector3D;
-
+class FITSData;
 class cgmath;
 class GuideView;
 class Edge;

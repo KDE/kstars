@@ -16,6 +16,8 @@
 #include "ekos_guide_debug.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "guidealgorithms.h"
+#include "guidelog.h"
+#include "../guideview.h"
 
 #include <QVector3D>
 #include <cmath>

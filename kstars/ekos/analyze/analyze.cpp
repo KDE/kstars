@@ -20,7 +20,9 @@
 #include "fitsviewer/fitsviewer.h"
 #include "ksmessagebox.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "Options.h"
+#include "qcustomplot.h"
 
 #include <ekos_analyze_debug.h>
 #include <KHelpClient>

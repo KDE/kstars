@@ -7,23 +7,16 @@
 #pragma once
 
 #include "ui_capture.h"
-#include "captureprocess.h"
-#include "capturemodulestate.h"
-#include "capturedeviceadaptor.h"
+
 #include "sequencejob.h"
-// #include "ekos/manager.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
-#include "ekos/mount/mount.h"
 #include "indi/indicamera.h"
 #include "indi/indidustcap.h"
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
-#include "ekos/auxiliary/darkprocessor.h"
-#include "ekos/auxiliary/rotatorutils.h"
-#include "dslrinfodialog.h"
 #include "ui_limits.h"
 
 #include <QTimer>
@@ -32,6 +25,7 @@
 
 #include <memory>
 
+class DSLRInfo;
 class QProgressIndicator;
 class QTableWidgetItem;
 class KDirWatch;
@@ -71,7 +65,9 @@ class RotatorSettings;
 namespace Ekos
 {
 
-class SequenceJob;
+class CaptureDeviceAdaptor;
+class CaptureModuleState;
+class CaptureProcess;
 
 /**
  *@class Capture
@@ -189,19 +185,13 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Does the CCD has a cooler control (On/Off) ?
              */
-        Q_SCRIPTABLE bool hasCoolerControl()
-        {
-            return process()->hasCoolerControl();
-        }
+        Q_SCRIPTABLE bool hasCoolerControl();
 
         /** DBUS interface function.
              * Set the CCD cooler ON/OFF
              *
              */
-        Q_SCRIPTABLE bool setCoolerControl(bool enable)
-        {
-            return process()->setCoolerControl(enable);
-        }
+        Q_SCRIPTABLE bool setCoolerControl(bool enable);
 
         /** DBUS interface function.
              * @return Returns the percentage of completed captures in all active jobs
@@ -396,10 +386,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief Generic method for removing any connected device.
          */
-        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
-        {
-            process()->removeDevice(device);
-        }
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
         /**
          * @brief registerNewModule Register an Ekos module as it arrives via DBus
@@ -571,10 +558,7 @@ class Capture : public QWidget, public Ui::Capture
              *    If no, the user is asked whether the jobs should be reset. If the user declines,
              *    starting is aborted.
              */
-        Q_SCRIPTABLE Q_NOREPLY void start()
-        {
-            process()->startNextPendingJob();
-        }
+        Q_SCRIPTABLE Q_NOREPLY void start();
 
         /** DBUS interface function.
              * Stops currently running jobs:
@@ -585,10 +569,7 @@ class Capture : public QWidget, public Ui::Capture
              *        CAPTURE_SUSPEND: capture suspended and waiting to be restarted
              * @param targetState status of the job after stop
              */
-        Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE)
-        {
-            process()->stopCapturing(targetState);
-        };
+        Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE);
 
         /** DBUS interface function.
              * Aborts all jobs and mark current state as ABORTED. It simply calls stop(CAPTURE_ABORTED)
@@ -627,10 +608,7 @@ class Capture : public QWidget, public Ui::Capture
              * Toggle video streaming if supported by the device.
              * @param enabled Set to true to start video streaming, false to stop it if active.
              */
-        Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled)
-        {
-            process()->toggleVideo(enabled);
-        };
+        Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
 
 
         /** DBus interface function
@@ -638,10 +616,7 @@ class Capture : public QWidget, public Ui::Capture
          * @param name Name of camera to restart. If a driver defined multiple cameras, they would be removed and added again
          * after driver restart.
          */
-        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name)
-        {
-            process()->restartCamera(name);
-        };
+        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name);
 
         /** DBus interface function
          * @brief Set the name of the target to be captured.
@@ -689,18 +664,12 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief capturePreview Capture a single preview image
          */
-        void capturePreview()
-        {
-            process()->capturePreview();
-        }
+        void capturePreview();
 
         /**
          * @brief startFraming Like captureOne but repeating.
          */
-        void startFraming()
-        {
-            process()->capturePreview(true);
-        }
+        void startFraming();
 
         /**
          * @brief generateDarkFlats Generate a list of dark flat jobs from available flat frames.
@@ -890,10 +859,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setHFR Receive the measured HFR value of the latest frame
          */
-        void setHFR(double newHFR, int)
-        {
-            state()->getRefocusState()->setFocusHFR(newHFR);
-        }
+        void setHFR(double newHFR, int);
 
         // Filter
         void setFilterStatus(FilterState filterState);
@@ -1092,10 +1058,7 @@ class Capture : public QWidget, public Ui::Capture
             return state()->getActiveJob();
         }
         // Shortcut to the active camera held in the device adaptor
-        ISD::Camera *activeCamera()
-        {
-            return m_captureDeviceAdaptor->getActiveCamera();
-        }
+        ISD::Camera *activeCamera();
 
         // Filename preview
         void generatePreviewFilename();
@@ -1188,16 +1151,10 @@ class Capture : public QWidget, public Ui::Capture
         // This sets and gets the custom properties target gain
         // it does not access the ccd gain property
         void setGain(double value);
-        double getGain()
-        {
-            return process()->getGain(customPropertiesDialog->getCustomProperties());
-        }
+        double getGain();
 
         void setOffset(double value);
-        double getOffset()
-        {
-            return process()->getOffset(customPropertiesDialog->getCustomProperties());
-        }
+        double getOffset();
 
         /**
          * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
