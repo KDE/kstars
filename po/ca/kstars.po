@@ -7,12 +7,13 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
+# Josep M. Ferrer <txemaq@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-26 00:39+0000\n"
-"PO-Revision-Date: 2023-10-25 10:43+0200\n"
+"PO-Revision-Date: 2023-10-26 13:27+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -50858,7 +50859,7 @@ msgstr "Khanti-Mansisk"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Kharkiv"
-msgstr "Kharkiv"
+msgstr "Khàrkiv"
 
 #: kstars_i18n.cpp:2212
 #, kde-kuit-format
@@ -63054,7 +63055,7 @@ msgstr "Minnesota"
 #, kde-kuit-format
 msgctxt "Region/state in USA"
 msgid "Mississippi"
-msgstr "Mississipí"
+msgstr "Mississipi"
 
 #: kstars_i18n.cpp:4240
 #, kde-kuit-format
@@ -64536,7 +64537,7 @@ msgstr "Togo"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Trinidad and Tobago"
-msgstr "Trinitat i Tobago"
+msgstr "Trinidad i Tobago"
 
 #: kstars_i18n.cpp:4487
 #, kde-kuit-format
