@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-26 00:39+0000\n"
-"PO-Revision-Date: 2023-10-14 21:00+0200\n"
+"PO-Revision-Date: 2023-10-27 07:02+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -12440,33 +12440,27 @@ msgstr "Optik"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the scope or lens used in the optical train."
-#| "</p><p>To add, edit, or delete optical elements, tap the <span style=\" "
-#| "font-weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
 "This is a required selection in all trains.</p><p>To add, edit, or delete "
 "optical elements, tap the <span style=\" font-weight:600;\">Telescope &amp; "
 "Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Välj teleskop eller lins använd i optiken.</p><p>För "
-"att lägga till, redigera eller ta bort optiska element, klicka på knappen "
-"<span style=\" font-weight:600;\">Teleskop och lins</span>.</p></body></html>"
+"<html><head/><body><p>Välj teleskop eller lins använd i optiken. Det är en "
+"nödvändig inställning för all optik.</p><p>För att lägga till, redigera "
+"eller ta bort optiska element, klicka på knappen <span style=\" font-"
+"weight:600;\">Teleskop och lins</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sekvens: <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>Teleskop/lins: <span style=\" color:#ff0000;\">*</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:162
@@ -12487,26 +12481,22 @@ msgstr "Stativ:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
-msgstr "<html><head/><body><p>Välj bildkamera för optiken.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Välj bildkamera för optiken. Det är en nödvändig "
+"inställning för all optik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Mål: <span style=\" color:#ff0000;\">*</span></p></"
+"<html><head/><body><p>Kamera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)

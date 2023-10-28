@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-26 00:39+0000\n"
-"PO-Revision-Date: 2023-10-17 22:38+0200\n"
+"PO-Revision-Date: 2023-10-27 02:43+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8068,7 +8068,7 @@ msgstr ""
 #: ekos/align/opsastrometry.ui:325 fitsviewer/platesolve.ui:142
 #, kde-format
 msgid "Use Position"
-msgstr "Utilitza la posició"
+msgstr "Utilitza una posició"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_44)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
@@ -12604,11 +12604,7 @@ msgstr "Tren òptic"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the scope or lens used in the optical train."
-#| "</p><p>To add, edit, or delete optical elements, tap the <span style=\" "
-#| "font-weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
 "This is a required selection in all trains.</p><p>To add, edit, or delete "
@@ -12616,22 +12612,19 @@ msgid ""
 "Lens</span> button.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu l'instrument de visió o la lent emprada en "
-"el tren òptic.</p><p>Per a afegir, editar o suprimir elements òptics, premeu "
-"el botó <span style=\"font-weight:600;\">Telescopis i lents</span>.</p></"
-"body></html>"
+"el tren òptic. Esta és una selecció requerida en tots els trens.</p><p>Per a "
+"afegir, editar o suprimir elements òptics, premeu el botó <span style=\"font-"
+"weight:600;\">Telescopis i lents</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seqüència: <span style=\"color:#ff0000;\">*</span></"
-"p></body></html>"
+"<html><head/><body><p>Instrument de visió/lent: <span style=\"color:#ff0000;"
+"\">*</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:162
@@ -12652,28 +12645,23 @@ msgstr "Muntura:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la càmera per a prendre imatges en este "
-"tren òptic.</p></body></html>"
+"<html><head/><body><p>Seleccioneu la càmera per a  l'obtenció d'imatges per "
+"a este tren òptic. Esta és una selecció requerida en tots els trens.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Objectiu: <span style=\"color:#ff0000;\">*</span></p></"
+"<html><head/><body><p>Càmera: <span style=\"color:#ff0000;\">*</span></p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
@@ -13512,7 +13500,7 @@ msgid ""
 "\">Deblending Params</a>"
 msgstr ""
 "<a href=\"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html"
-"\">Paràmetres de desbarreig</a>"
+"\">Paràmetres per a traure el barreig</a>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:537
@@ -28763,7 +28751,7 @@ msgstr "Zoom fins que ajuste"
 #: fitsviewer/fitsviewer.cpp:265 fitsviewer/fitsviewer.cpp:1228
 #, kde-format
 msgid "Mark Stars"
-msgstr "Marca estreles"
+msgstr "Marca les estreles"
 
 #: fitsviewer/fitsviewer.cpp:273 fitsviewer/fitsviewer.cpp:706
 #: fitsviewer/fitsviewer.cpp:1220
@@ -28910,7 +28898,7 @@ msgstr "Alçària"
 #: fitsviewer/fitsviewer.cpp:1233
 #, kde-format
 msgid "Unmark Stars"
-msgstr "Desmarca estreles"
+msgstr "Desmarca les estreles"
 
 #: fitsviewer/fitsviewer.cpp:1249
 #, kde-format
@@ -50907,7 +50895,7 @@ msgstr "Khanti-Mansisk"
 #, kde-kuit-format
 msgctxt "City in Ukraine"
 msgid "Kharkiv"
-msgstr "Kharkiv"
+msgstr "Khàrkiv"
 
 #: kstars_i18n.cpp:2212
 #, kde-kuit-format
@@ -63103,7 +63091,7 @@ msgstr "Minnesota"
 #, kde-kuit-format
 msgctxt "Region/state in USA"
 msgid "Mississippi"
-msgstr "Mississipí"
+msgstr "Mississipi"
 
 #: kstars_i18n.cpp:4240
 #, kde-kuit-format
@@ -64585,7 +64573,7 @@ msgstr "Togo"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Trinidad and Tobago"
-msgstr "Trinitat i Tobago"
+msgstr "Trinidad i Tobago"
 
 #: kstars_i18n.cpp:4487
 #, kde-kuit-format
@@ -84499,6 +84487,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Scope/Lense:"
-#~ msgstr "Instrument de visió/lent:"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-26 00:39+0000\n"
-"PO-Revision-Date: 2023-10-16 06:15+0200\n"
+"PO-Revision-Date: 2023-10-27 06:03+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1199,7 +1199,7 @@ msgstr "საშუალებას გაძლევთ მონიშნ�
 #: auxiliary/xplanetimageviewer.cpp:234
 #, kde-format
 msgid "from"
-msgstr "-დან"
+msgstr "საიდან"
 
 #: auxiliary/xplanetimageviewer.cpp:237
 #, kde-format
@@ -11758,16 +11758,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
-#| "\">2</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
-"\">2</span></p></body></html>"
+"<html><head/><body><p>ლინზა/დიაპაზონი: <span style=\" color:#ff0000;\">*</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:162
@@ -11786,29 +11783,23 @@ msgstr "მიმაგრება:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.</"
-"p></body></html>"
+"<html><head/><body><p>აირჩიეთ გადასაღები კამერა ამ ოპტიკური მატარებლისთვის.  "
+"ეს აუცილებელი არჩევანია ყველა მატარებელში</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
-#| "\">2</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
-"\">2</span></p></body></html>"
+"<html><head/><body><p>კამერა: <span style=\" color:#ff0000;\">*</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:208
