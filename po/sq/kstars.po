@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-26 00:39+0000\n"
+"POT-Creation-Date: 2023-10-30 00:39+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -6270,8 +6270,8 @@ msgstr ""
 msgid "Capture error. Aborting..."
 msgstr "Kap Imazihn"
 
-#: ekos/align/align.cpp:3213 ekos/capture/captureprocess.cpp:1464
-#: ekos/capture/captureprocess.cpp:1959
+#: ekos/align/align.cpp:3213 ekos/capture/captureprocess.cpp:1468
+#: ekos/capture/captureprocess.cpp:1963
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6372,7 +6372,7 @@ msgid "Invalid URL: %1"
 msgstr "URL e pavlefshme: %1"
 
 #: ekos/align/align.cpp:3863 ekos/align/mountmodel.cpp:401
-#: ekos/capture/captureprocess.cpp:2640 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/capture/captureprocess.cpp:2644 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:4584 ekos/scheduler/schedulerprocess.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
@@ -6381,7 +6381,7 @@ msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
 #: ekos/align/align.cpp:3864 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1963
-#: ekos/capture/captureprocess.cpp:2270 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/capture/captureprocess.cpp:2274 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2771 ekos/scheduler/scheduler.cpp:4528
 #: ekos/scheduler/scheduler.cpp:4585 ekos/scheduler/schedulerprocess.cpp:1149
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
@@ -7030,14 +7030,14 @@ msgid "Open Ekos Alignment List"
 msgstr "Etiketa e listës së vështrimit"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1962
-#: ekos/capture/captureprocess.cpp:2269 ekos/scheduler/scheduler.cpp:2770
+#: ekos/capture/captureprocess.cpp:2273 ekos/scheduler/scheduler.cpp:2770
 #: ekos/scheduler/scheduler.cpp:4527
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Unable to open file %1"
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2295
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2299
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -13911,7 +13911,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Jeni i sigurtë se doni ta hiqni lidhjen %1?"
 
-#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2884
+#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2888
 #, kde-format
 msgid "Reset job status"
 msgstr ""
@@ -15131,7 +15131,7 @@ msgstr ""
 msgid "No new job created."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:818
+#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:822
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
@@ -15201,170 +15201,170 @@ msgid ""
 "processed."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:764
+#: ekos/capture/captureprocess.cpp:768
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Autoguiding resumed."
 msgstr "Guidat"
 
-#: ekos/capture/captureprocess.cpp:808
+#: ekos/capture/captureprocess.cpp:812
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Failed to set sub frame."
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/capture/captureprocess.cpp:813
+#: ekos/capture/captureprocess.cpp:817
 #, kde-format
 msgid "Failed to set binning."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1064
+#: ekos/capture/captureprocess.cpp:1068
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Skedarët e të dhënave u regjistruan tek %1"
 
-#: ekos/capture/captureprocess.cpp:1163
+#: ekos/capture/captureprocess.cpp:1167
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Autoguiding suspended."
 msgstr "Guidat"
 
-#: ekos/capture/captureprocess.cpp:1192
+#: ekos/capture/captureprocess.cpp:1196
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1258
+#: ekos/capture/captureprocess.cpp:1262
 #, fuzzy, kde-format
 #| msgid "supernova remnant"
 msgid "CCD capture sequence completed"
 msgstr "ngelje e një supernova"
 
-#: ekos/capture/captureprocess.cpp:1315
+#: ekos/capture/captureprocess.cpp:1319
 #, fuzzy, kde-format
 #| msgid "constellation"
 msgid "Error: Lost connection to CCD."
 msgstr "konstelacion"
 
-#: ekos/capture/captureprocess.cpp:1344
+#: ekos/capture/captureprocess.cpp:1348
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1456 ekos/capture/captureprocess.cpp:1951
+#: ekos/capture/captureprocess.cpp:1460 ekos/capture/captureprocess.cpp:1955
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1557
+#: ekos/capture/captureprocess.cpp:1561
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1605
+#: ekos/capture/captureprocess.cpp:1609
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1638
+#: ekos/capture/captureprocess.cpp:1642
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured %1"
 msgstr "Kap Imazihn"
 
-#: ekos/capture/captureprocess.cpp:1643
+#: ekos/capture/captureprocess.cpp:1647
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1675
+#: ekos/capture/captureprocess.cpp:1679
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Duke nisur skriptin: %1"
 
-#: ekos/capture/captureprocess.cpp:1690
+#: ekos/capture/captureprocess.cpp:1694
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1698
+#: ekos/capture/captureprocess.cpp:1702
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1710
+#: ekos/capture/captureprocess.cpp:1714
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1720
+#: ekos/capture/captureprocess.cpp:1724
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1725
+#: ekos/capture/captureprocess.cpp:1729
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1898 ekos/focus/focus.cpp:4899
+#: ekos/capture/captureprocess.cpp:1902 ekos/focus/focus.cpp:4899
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Exposure timeout. Aborting..."
 msgstr "Kap Imazihn"
 
-#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4904
+#: ekos/capture/captureprocess.cpp:1925 ekos/focus/focus.cpp:4904
 #: ekos/guide/guide.cpp:895
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2010
+#: ekos/capture/captureprocess.cpp:2014
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2021
+#: ekos/capture/captureprocess.cpp:2025
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2043
+#: ekos/capture/captureprocess.cpp:2047
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2076
+#: ekos/capture/captureprocess.cpp:2080
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2084
+#: ekos/capture/captureprocess.cpp:2088
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2355
+#: ekos/capture/captureprocess.cpp:2359
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2641
+#: ekos/capture/captureprocess.cpp:2645
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Nuk mund të hapim skedarin %1"
 
-#: ekos/capture/captureprocess.cpp:2661
+#: ekos/capture/captureprocess.cpp:2665
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15372,19 +15372,19 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2782
+#: ekos/capture/captureprocess.cpp:2786
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "Skedari FITS u regjistrua tek %1"
 
-#: ekos/capture/captureprocess.cpp:2830
+#: ekos/capture/captureprocess.cpp:2834
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence paused."
 msgstr "Skedari FITS u regjistrua tek %1"
 
-#: ekos/capture/captureprocess.cpp:2883
+#: ekos/capture/captureprocess.cpp:2887
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15392,20 +15392,20 @@ msgid ""
 "restart capturing?"
 msgstr "Jeni i sigurtë se doni ta hiqni lidhjen %1?"
 
-#: ekos/capture/captureprocess.cpp:2897
+#: ekos/capture/captureprocess.cpp:2901
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:3012
+#: ekos/capture/captureprocess.cpp:3016
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "A jeni i sigurtë që doni ta hiqni klientin %1?"
 
-#: ekos/capture/captureprocess.cpp:3013
+#: ekos/capture/captureprocess.cpp:3017
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
@@ -25748,7 +25748,8 @@ msgid "Target Position Angle"
 msgstr "Këndi i Pozicionit"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:85
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
+#: ekos/scheduler/scheduler.ui:85 fitsviewer/platesolve.ui:318
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "PAVO"
@@ -27402,12 +27403,12 @@ msgstr "Guidat"
 msgid "Solver failed: %1s"
 msgstr "Jo FOV"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -28166,18 +28167,8 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "set Clock to New Time"
 #| msgid "&Set Time..."
-msgid "The solved rotation angle in degrees."
+msgid "The solved image position angle, East of North (degrees)."
 msgstr "&Vendose Kohën..."
-
-#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: fitsviewer/platesolve.ui:318 skycomponents/imageoverlaycomponent.cpp:62
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgid "Main Toolbar"
-msgid "Angle"
-msgstr "Shiriti Kryesor"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -75873,6 +75864,15 @@ msgstr ""
 #| msgid "Star Name"
 msgid "Filename"
 msgstr "Emri i Yllit"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, fuzzy, kde-format
+#| msgid "Main Toolbar"
+msgid "Angle"
+msgstr "Shiriti Kryesor"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format

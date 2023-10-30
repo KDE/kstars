@@ -312,10 +312,10 @@
       <item row="7" column="1">
        <widget class="QLabel" name="FitsSolverAngleLabel">
         <property name="toolTip">
-         <string>The solved rotation angle in degrees.</string>
+         <string>The solved image position angle, East of North (degrees).</string>
         </property>
         <property name="text">
-         <string>Angle</string>
+         <string>PA</string>
         </property>
        </widget>
       </item>
@@ -328,7 +328,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>The solved rotation angle in degrees.</string>
+         <string>The solved image position angle, East of North (degrees).</string>
         </property>
        </widget>
       </item>

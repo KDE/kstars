@@ -162,6 +162,16 @@ public:
      * @return True if added successfully, false if duplicate or failed to add.
     */
     bool setCamera(ISD::Camera *device);
+
+    /**
+     * @brief setScope Set active train telescope name
+     * @param name Name of scope
+     */
+    void setScope(const QString &name)
+    {
+        m_Scope = name;
+    }
+
     /**
       * @brief Connect or disconnect the camera device
       * @param connection flag if connect (=true) or disconnect (=false)
@@ -728,6 +738,7 @@ private:
 
     // Pre-/post capture script process
     QProcess m_CaptureScript;
+    QString m_Scope;
     // Flat field automation
     QVector<double> ExpRaw, ADURaw;
     ADUAlgorithm targetADUAlgorithm { ADU_LEAST_SQUARES };

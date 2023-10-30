@@ -740,7 +740,8 @@ void FITSTab::solverDone(bool timedOut, bool success, const FITSImage::Solution 
         m_View->imageData()->loadWCS();
 
         const QString result = QString("Solved in %1s").arg(elapsedSeconds, 0, 'f', 1);
-        m_PlateSolveUI.FitsSolverAngle->setText(QString("%1º").arg(solution.orientation, 0, 'f', 2));
+        const double solverPA = KSUtils::rotationToPositionAngle(solution.orientation);
+        m_PlateSolveUI.FitsSolverAngle->setText(QString("%1º").arg(solverPA, 0, 'f', 2));
 
         // Set the scale widget to the current result
         const int imageWidth = m_View->imageData()->width();

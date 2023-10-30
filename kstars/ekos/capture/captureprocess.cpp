@@ -650,6 +650,7 @@ void CaptureProcess::executeJob()
         FITSHeaders.append(FITSData::Record("Observer", Options::defaultObserver(), "Observer"));
     if (state()->targetName().isEmpty() == false)
         FITSHeaders.append(FITSData::Record("Object", state()->targetName(), "Object"));
+    FITSHeaders.append(FITSData::Record("TELESCOP", m_Scope, "Telescope"));
 
     if (!FITSHeaders.isEmpty())
         activeCamera()->setFITSHeaders(FITSHeaders);
@@ -708,6 +709,9 @@ void CaptureProcess::refreshOpticalTrain(QString name)
 {
     auto mount = OpticalTrainManager::Instance()->getMount(name);
     setMount(mount);
+
+    auto scope = OpticalTrainManager::Instance()->getScope(name);
+    setScope(scope["name"].toString());
 
     auto camera = OpticalTrainManager::Instance()->getCamera(name);
     setCamera(camera);

@@ -26,24 +26,24 @@
             </mediaobject>
         </screenshot>
         <para
->The Ekos Alignment Module enables highly accurate GOTOs and can measure and correct polar alignment errors. This is possible thanks to third-party plate-solving technology. The main plate-solving software used is the StellarSolver package, which itself makes use of the offline (and online) astrometry.net, ASTAP and Watney solvers. Ekos begins by capturing an image of a star field, feeding that image to the chosen solver (e.g. see <ulink url="https://astrometry.net"
+>De uitlijnmodule van Ekos schakelt hoog accurate GOTO's in en kan polaire uitlijnfouten meten en corrigeren. Dit is mogelijk dankzij  plaat-oplostechnologie van derden. De gebruikte hoofd plaat-oplossoftware is het StellarSolver pakket, die zelf gebruik maakt van het offline (en online) astrometry.net, ASTAP en Watney oplossers. Ekos begint met het opnemen van een afbeelding van een sterrenveld, die afbeelding wordt ingevoerd in de gekozen oplosser (bijv. zie <ulink url="https://astrometry.net"
 >astrometry.net</ulink
 >, <ulink url="https://github.com/rlancaste/stellarsolver"
 >StellarSolver</ulink
-> or <ulink url="https://www.hnsky.org/astap"
+> of <ulink url="https://www.hnsky.org/astap"
 >ASTAP</ulink
->), and gets in return the central coordinates (RA, DEC), scale, and orientation of the image. The solver essentially performs pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known. </para>
+>) en krijgt terug de centrale coördinaten (RK, DEC), schaal en oriëntatie van de afbeelding. De oplosser voert in essentie patroonherkenning uit tegen een catalogus van miljoenen sterren. Nadat de coördinaten zijn bepaald, is de ware richting van de telescoop bekend. </para>
         <para
->Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can correct the discrepancy by syncing to the new coordinates, and then slewing the mount to the desired target originally requested. </para>
+>Vaak is er een verschil tussen de bekende kijkrichting van de telescoop, en de werkelijke kijkrichting. Dit verschil kan oplopen van een paar boogminuten, tot aan een aantal graden. Ekos kan dit verschil opheffen door de nieuwe coördinaten te synchroniseren en dan de opstelling te draaien tot aan het aanvankelijk gewenste doel. </para>
         <para
->Ekos also provides a Polar Alignment Assistant Tool to correct polar alignment errors. It takes three images, slewing between the images, and calculates the offset between the mount axis and polar axis. It feeds back to the user the altitude and azimuth adjustments needed to align these axes. These images are typically taken near the celestial pole (close to Polaris for Northern Hemisphere) but can work well taken from anywhere, usually starting near the meridian and slewing either East or West. </para>
+>Ekos biedt ook een assisterend hulpmiddel voor polair uitlijnen om polaire uitlijnfouten te corrigeren. Het neemt drie afbeeldingen, met zwenken tussen de afbeeldingen en berekent de offset tussen de as van de opstelling en de polaire as. Het koppelt terug aan de gebruiker de aanpassingen in hoogte en azimuth nodig om deze assen uit te lijnen. Deze afbeeldingen worden typisch genomen dichtbij de hemelpool (dichtbij de Poolster voor het Noordelijk halfrond) maar kan goed werken van overal elders, gewoonlijk beginnend dichtbij de meridiaan en zwenkend Oost of West. </para>
         <para
 >U heeft minstens een CCD/Webcam nodig en een telescoop die luistert naar commando's voor draaien &amp; sync. De meeste commerciële telescopen voldoen hier tegenwoordig aan. </para>
     </sect3>
 
         <sect3 id="ekos-align-typical">
             <title
->Typical use</title>
+>Typisch gebruik</title>
             <para
 >Voordat u de uitlijnmodule gebruikt van Ekos, is het uitlijnen van uw opstellingen met behulp van uitlijnen met 1, 2 of 3 sterren <emphasis
 >niet</emphasis
@@ -51,39 +51,39 @@
             <orderedlist>
                 <listitem>
                     <para
->Start KStars and Ekos and connect to INDI. </para>
+>Start KStars en Ekos en verbind met INDI. </para>
                 </listitem>
                 <listitem>
                     <para
->Unpark your mount from its home position (usually the NCP for equatorial mounts). </para>
+>Breng uw opstelling uit de parkeer stand naar zijn basispositie (gewoonlijk de NCP (noordelijke hemelpool) voor equatoriale opstellingen). </para>
                 </listitem>
                 <listitem>
                     <para
->Slew to a nearby bright star using the slew telescope command in the SkyMap using the <guilabel
->Slew the telescope to the mouse-pointer position</guilabel
-> command. </para>
+>Draai naar een dichtbije heldere ster met het commando draai telescoop in de Hemelkaart met het commando <guilabel
+>Draai de telescoop naar de positie van de muisaanwijzer</guilabel
+>. </para>
                 </listitem>
                 <listitem>
                     <para
->Select <guilabel
->Slew to Target</guilabel
-> in the <guilabel
->Solver Action</guilabel
-> on the Align page. </para>
+>Selecteer <guilabel
+>Draaien naar doel</guilabel
+>in de <guilabel
+>Oplosactie</guilabel
+> op de uitlijnpagina. </para>
                 </listitem>
                 <listitem>
                     <para
->After slew is complete, click <guibutton
->Capture &amp; Solve</guibutton
-> on the Align page. </para>
+>Nadat draaien klaar is, klikken op <guibutton
+>Opnemen &amp; Oplossen</guibutton
+> op de uitlijnpagina. </para>
                 </listitem>
             </orderedlist>
             <para
->Align will capture an image and try to solve it. If the solver is successful, Ekos will send a sync command to the mount and then slew to the star. The results are displayed in the <guilabel
->Solution Results</guilabel
-> tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis
->thinks</emphasis
-> it is looking vs. its actual pointing position in the sky as determined by the solver). Align will stop if it is within the desired error tolerance, otherwise it will repeat the Slew/Capture/Solve/Sync process until it is within tolerance. </para>
+>Uitlijnen zal een afbeelding opnemen en het proberen op te lossen. Lukt het oplossen, dan zal Ekos een sync-opdracht naar de opstelling zenden en er naar draaien. De resultaten worden getoond in het tabblad <guilabel
+>Oplosresultaten</guilabel
+>, samen met een doelwit-diagram waarin het verschil wordt getoond van de telescoopcoördinaten (&ie; dat is het punt waarnaar de telescoop <emphasis
+>denkt</emphasis
+> dat deze kijkt) vs. de werkelijke positierichting aan de hemel, zoals berekend met oplossen). Uitlijnen zal stoppen als het binnen de gewenste fouttolerantie is, anders zal het het proces Draaien/Opnemen/Oplossen/Synchroniseren herhalen totdat het binnen de tolerantie is. </para>
             <para
 >Elke keer na het met succes oplossen, kan Ekos het volgende doen: </para>
             <itemizedlist>
@@ -110,217 +110,217 @@
     
     <sect3 id="ekos-solver-options">
       <title
->Configure StellarSolver Options </title>
+>Opties voor StellarSolver configureren </title>
         <screenshot>
             <screeninfo
->StellarSolver Options </screeninfo>
+>Opties voor StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_options.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver Options</phrase>
+>Opties voor StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
       <para
->To use the solvers, you must first configure the StellarSolver options. The above page is displayed when clicking on the <guilabel
->Options</guilabel
-> button on the lower right of the Align page, then selecting the <guilabel
->StellarSolver Options</guilabel
-> tab. Start with the <guilabel
->Builtin method for solver</guilabel
+>Om de oplossers te gebruiken moet u eerst de opties van StellarSolver configureren. De bovenstaande pagina wordt getoond bij klikken op de knop <guilabel
+>Opties</guilabel
+> rechtsonder op de pagina Uitlijnen, selecteer daarna het tabblad <guilabel
+>StellarSolver opties</guilabel
+>. Begin met de <guilabel
+>Ingebouwde methode voor oplosser</guilabel
 > <guilabel
->Source Extraction method</guilabel
-> so that each solver uses its preferred star-extraction code. For <guilabel
->Solving Method</guilabel
-> we recommend choosing <guilabel
->Internal Solver</guilabel
-> to use StellarSolver's copy of the Astrometry.net code, or choose <guilabel
->Local ASTAP</guilabel
-> if you prefer that. The online astrometry solver is accurate, but can take a long time to solve because of all the data transfer required. For <guilabel
->Options Profile</guilabel
->, start with the <guilabel
->1-Default</guilabel
-> profile. </para>
+>Methode van bronextractie</guilabel
+> zodat elke oplosser zijn code met voorkeur voor sterextractie gebruikt. Voor <guilabel
+>Oplosmethode</guilabel
+> bevelen we het kiezen van <guilabel
+>Interne oplosser</guilabel
+> aan om de kopie van StellarSolver van de code van Astrometry.net te gebruiken of kies <guilabel
+>Lokale ASTAP</guilabel
+> als u daar de voorkeur aan geeft. De online astrometry oplosser is accuraat, maar kan lang duren om op te lossen vanwege alle vereiste gegevenstransport. Voor <guilabel
+>Optiesprofiel</guilabel
+>, begin met het profiel <guilabel
+>1-Standaard</guilabel
+>. </para>
       <para
->There are two other minor options. <guilabel
+>Er zijn twee andere kleinere opties. <guilabel
 >WCS</guilabel
-> or World-Coordinate-System is a system for embedding equatorial coordinate information within the image. When you view a solved image, you can hover it and view the coordinate for each pixel. You can also click anywhere in the image and command to the telescope to slew there. It is highly recommended to keep this option on. <guilabel
+>: World-Coordinate-System is een systeem voor het inbedden van informatie over equatoriale coördinaten in de afbeelding. Wanneer bij het beschouwen van een opgeloste afbeelding, kunt u de muisaanwijzer er boven houden en de coördinaten bekijken van elke pixel afzonderlijk. U kunt ook ergens in de afbeelding klikken, en de telescoop opdracht geven daar naar toe te draaien. Het is zeer aan te raden deze optie in te schakelen. <guilabel
 >Overlay</guilabel
-> overlays captured images unto the sky map of &kstars;. </para>
+> legt opgenomen afbeeldingen over de hemelkaart van &kstars;. </para>
     </sect3>
     
     <sect3 id="ekos-solver-external">
       <title
->Configure StellarSolver External Programs </title>
+>Externe programma's van StellarSolver configureren </title>
         <screenshot>
             <screeninfo
->StellarSolver External Programs </screeninfo>
+>Externe programma's van StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_external.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver External Programs</phrase>
+>Externe programma's van StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
       <para
->This is only required if you choose one of the external programs for your <guilabel
->Solving Method</guilabel
->. If you choose <guilabel
->Internal Solver</guilabel
->, then it is not necessary. </para>
+>Dit is alleen vereist als u een van de externe programma's voor uw <guilabel
+>Oplosmethode</guilabel
+> kiest. Als u <guilabel
+>Interne oplosser</guilabel
+> kiest, dan is dat niet nodig. </para>
       <para
->You will need to make sure the paths are correct for the solver you choose. The top menu item <guilabel
->select to load one of the default sets</guilabel
-> usually configures the boxes correctly. </para>
+>U moet nagaan dat de paden juist zijn voor de door u gekozen oplosser. Het hoofdmenu-item <guilabel
+>selecteer een van de standaard sets</guilabel
+> configureert de vakken gewoonlijk juist. </para>
     </sect3>
 
     <sect3 id="ekos-solver-scale">
       <title
->Configure StellarSolver Scale and Position </title>
+>Schaal en positie van StellarSolver configureren </title>
         <screenshot>
             <screeninfo
->StellarSolver Scale and Position </screeninfo>
+>Schaal en positie van StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_scale.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver Scale and Position</phrase>
+>Schaal en positie van StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
       <para
->This page tells Ekos whether you want to constrain your plate-solving search by scale or position. </para
+>Deze pagina vertelt Ekos of u uw zoeken van plaat-oplossen wilt beperken tot schaal of positie. </para
 ><para
->Scale can be the image width in degrees (<guilabel
+>Schaal kan de breedte van de afbeelding in graden zijn (<guilabel
 >dw</guilabel
->), the image width in arc-minutes (<guilabel
+>), de breedte van de afbeelding in boogminuten (<guilabel
 >aw</guilabel
->), or the pixel width in arc-seconds (<guilabel
+>) of de pixelbreedte in boogseconden (<guilabel
 >app</guilabel
->). All should work, but arc-seconds per pixel is recommended. Typically you want to use this constraint for faster solving, so we recommend you check this box. The system doesn't require that the scale be exactly right--it allows deviations of 10-20%. However, frequently issues related to solving are due to an inaccurate scale being used. Therefore, if you have plate-solving problems, you may want to uncheck <guilabel
->Use Scale</guilabel
-> until those issues are resolved. This will likely result in longer solving times. <guilabel
->Auto-update</guilabel
-> will automatically fill the scale box with the scale found in the most-recent successful solve. </para
+>). Alles zou moeten werken, maar boogseconden per pixel is aanbevolen. U wilt deze beperking typisch gebruiken voor sneller oplossen, we bevelen dus aan dit vak te accentueren. Het systeem vereist niet dat de schaal exact juist is--het staat afwijkingen van 10-20% toe. Echter, frequente problemen gerelateerd aan oplossen zijn vanwege een gebruikte inaccurate schaal. Daarom, als u problemen hebt met plaat-oplossen, dan zou u <guilabel
+>Schaal gebruiken</guilabel
+> willen deactiveren totdat die problemen zijn opgelost. Dit zal waarschijnlijk resulteren in langere oplostijden. <guilabel
+>Automatisch bijwerken</guilabel
+> zal automatisch het schaalvak invullen met de schaal gevonden in de meest recente succesvolle oplossing. </para
 ><para
->The RA and DEC positions are usually filled in from the position the telescope thinks it is pointing. Naturally, the system doesn't require an exactly correct positional constraint--afterall the purpose of plate-solving is to find that position. The maximum distance in degrees from the specified position to the actual position is given by the <guilabel
->Radius</guilabel
-> field. Plate-solving will fail if the specified position is further away. Typically you want to enable <guilabel
->Use Position</guilabel
-> for faster solving, so we recommend you check this box. However, frequently issues related to solving are due to using a poor positional estimate (e.g. the telescope is significantly misaligned). Therefore, if you have plate-solving problems, you may want to uncheck <guilabel
->Use Position</guilabel
-> until those issues are resolved. As mentioned, this will result in longer solving times. <guilabel
->Auto-update</guilabel
-> will fill the position box with the position found in the most-recent successful solve. However, a slew will update the position to the position where the telescope thinks it is pointing after the slew. </para>
+>De RA en DEC posities zijn gewoonlijk ingevuld uit de positie waarvan de telescoop denkt dat het naar wijst. Natuurlijk vereist het systeem geen exact correcte positionele beperking--het doel van plaat-oplossen is het vinden van die positie. De maximale afstand in graden van de gespecificeerde positie naar de actuele positie is gegeven door het veld <guilabel
+>Straal</guilabel
+>. Plaat-oplossen zal mislukken als de gespecificeerde positie verder weg is. U wilt typisch <guilabel
+>Positie gebruiken</guilabel
+> gebruiken voor sneller oplossen, we bevelen dus het activeren van dit vak aan. Echter, frequente problemen gerelateerd aan oplossen zijn vanwege het gebruiken van een slechte positionele schatting (bijv. de telescoop is belangrijk verkeert uitgelijnd). Daarom, als u prob hebt plaat-oplossen, dan zou u <guilabel
+>Positie gebruiken</guilabel
+> willen deactiveren totdat die problemen zijn opgelost. Zoals genoemd, dit zal resulteren in langere oplostijden. <guilabel
+>Automatisch bijwerken</guilabel
+> zal het vak positie met de positie gevonden in de meest recente succesvolle oplossing invullen. Echter, een draaiing zal de positie naar de positie waar de telescoop denkt naar te wijzen na de draaiing bijwerken. </para>
     </sect3>
 
     <sect3 id="ekos-align-profiles">
       <title
->Configure StellarSolver Profiles </title>
+>Profielen van StellarSolver configureren </title>
         <screenshot>
             <screeninfo
->StellarSolver Profiles </screeninfo>
+>Profielen van StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_profiles.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver Profiles</phrase>
+>Profielen van StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
         <para
->This applies if you are using the (recommended) <guilabel
->Internal Solver</guilabel
-> <guilabel
->Solving Method</guilabel
+>Dit van toepassing als u de (aanbevolen) <guilabel
+>Interne oplosser</guilabel
+> gebruikt <guilabel
+>Oplosmethode</guilabel
 >. </para
 ><para
->You can choose an <guilabel
->Options Profile</guilabel
-> on the <guilabel
->StellarSolver Options</guilabel
-> tab. Profiles are simply collections of parameters to configure the performance of the star-extraction and plate-solving system inside of StellarSolver. The <guilabel
->1-Default</guilabel
-> profile is the recommended one to start with. There are a few other possible profiles such as <guilabel
->Large Scale Solving</guilabel
+>U kunt een <guilabel
+>Optiesprofiel</guilabel
+> kiezen op het tabblad <guilabel
+>Opties van StellarSolver</guilabel
+>. Profielen zijn eenvoudig verzamelingen van parameters om de prestaties van het systeem sterextractie en plaat-oplossen binnen StellarSolver te configureren. Het profiel <guilabel
+>1-Standaard</guilabel
+> is aanbevolen om mee te beginnen. Er zijn een paar andere mogelijke profielen zoals <guilabel
+>Grote schaal oplossen</guilabel
 >, <guilabel
->Small Scall Solving</guilabel
->, and <guilabel
->Single Thread Solving</guilabel
+>Kleine schaal oplossen</guilabel
+> en <guilabel
+>Enkel thread oplossen</guilabel
 >. </para
 ><para
->In the <guilabel
->Align Options Profile Editor</guilabel
-> tab you can view and edit profiles. There are many parameters, most of which you need not change to solve issues. There are 3 types of parameters. </para>
+>In het tabblad <guilabel
+>Profielbewerker van uitlijnopties</guilabel
+> kunt u profielen bekijken en bewerken. Er zijn vele parameters, de meeste ervan hoeft u niet te wijzigen op problemen op te lossen. Er zijn 3 typen parameters. </para>
         <itemizedlist>
          <listitem
 ><para
->The top section labelled <guilabel
+>De bovenste sectie met label <guilabel
 >Sextractor Parameters</guilabel
-> (with column headings <guilabel
->Extraction Parameters</guilabel
+> (met kolomkoppen <guilabel
+>Extractie parameters</guilabel
 >, <guilabel
->Deblending Params</guilabel
->, and <guilabel
->Photometry Params</guilabel
->) are star extraction parameters--that is those that help find stars in your image.</para
+>Ontmenging parameters</guilabel
+> en <guilabel
+>Fotometrie parameters</guilabel
+>) zijn sterextractie parameters--dat zijn diegenen die helpen bij het vinden van sterren in uw afbeelding.</para
 ></listitem>
          <listitem
 ><para
->The second section labelled <guilabel
->Star Filtering Parameters</guilabel
-> filters/reduces the number of stars extracted before sending the list to either the plate-solver (when aligning or polar-aligning), or to autofocus or the internal guider (when just a list of stars is needed).</para
+>De tweede sectie met label <guilabel
+>Ster filter parameters</guilabel
+> filtert/reduceert het aantal geëxtraheerde sterren voor het verzenden van de lijst naar ofwel de plaat-oplosser (bij uitlijnen of polaire uitlijning) of voor autofocus of de interne gids (wanneer alleen een lijst met sterren nodig is).</para
 ></listitem>
          <listitem
 ><para
->The third section labelled Astrometry Parameters adjusts the performance of plate solving.</para
+>De derde sectie met label Astrometry parameters past de prestatie van plaat-oplossen aan.</para
 ></listitem>
         </itemizedlist>
         <para
->All the input fields have tooltips that are displayed if you hover your mouse over the input box. </para
+>Alle invoervelden hebben tekstballonnen die getoond worden als u uw muis boven het invoervak laat zweven. </para
 ><para
->You can make changes to the values and save the profile if you like, or restore the profile's original values. </para>
+>U kunt wijzigingen in de waarden aanbrengen en het profiel opslaan als u dat wil of de originele waarden van het profiel herstellen. </para>
         <sect4 id="profile-star-extraction">
           <title
->Star-Extraction Parameters</title>
+>Sterextractie parameters</title>
           <para
->The column headings are links to the Sextractor manual which is the main source for these parameters. View those links to find details on all the parameters. We will touch upon some of the parameters you might consider adjusting. However, it's probably best not to get into the weeds of modifying most of these values. </para>
+>De kolomkoppen zijn koppelingen naar de handleiding van Sextractor die de hoofdbron voor deze parameters is. Bekijk die koppelingen om details te vinden over alle parameters. We zullen sommige van de parameters die u misschien zou willen aanpassen, even aanraken. Het is waarschijnlijk het beste niet te verdwalen in het wijzigen van de meeste van deze waarden. </para>
         <itemizedlist>
          <listitem
 ><para
 ><guilabel
->Thresh Multiple</guilabel
-> and <guilabel
->Thresh Offset</guilabel
-> relate to how sensitive the system will be to pixel values. The level of the background is multiplied by <guilabel
->Thresh Multiple</guilabel
-> and then <guilabel
->Thresh Offset</guilabel
-> is added to that. If a pixel's value exceeds the result, then it may be used to detect a star. Therefore, lower values (especially for multiple) may cause even dim pixels to be detected as stars. Higher values will reduce the number of stars detected.</para
+>Drempelmeervoud</guilabel
+> en <guilabel
+>Drempeloffset</guilabel
+> hebben te maken met hoe gevoelig het systeem zal zijn op pixelwaarden. Het niveau van de achtergrond wordt vermenigvuldigt met <guilabel
+>Drempelmeervoud</guilabel
+> en daarna wordt <guilabel
+>Drempeloffset</guilabel
+> er bij opgeteld. Als een waarde van een pixel groter is dan het resultaat, dan kan het gebruikt worden om een ster te detecteren. Daarom kunnen lagere waarden (speciaal voor meervoud) zelfs vage pixels gedetecteerd worden als sterren. Hogere waarden zullen het aantal gedetecteerde sterren verminderen.</para
 ></listitem>
          <listitem
 ><para
 ><guilabel
->Min Area</guilabel
-> is the minimum area for a star detection--area is in square pixels where all pixels have higher-than-threshold pixel values. If you are detecting small noise spikes as stars, you might want to increase this. If you are not detecting desired smaller real stars, perhaps your <guilabel
->Min Area</guilabel
-> is too high.</para
+>Min gebied</guilabel
+> is het minimale gebied voor een detectie van een ster--gebied is is in vierkante pixels waar alle pixels waarden hebben hoger dan de drempelwaarden. Als u kleine ruis pieken als sterren detecteert, dan zou u dit willen verhogen. Als u gewenste kleinere echte sterren niet detecteert, misschien is uw <guilabel
+>Min gebied</guilabel
+> te hoog.</para
 ></listitem>
          <listitem
 ><para
 ><guilabel
 >Conv FWHM</guilabel
-> should be adjusted to roughly the seeing in your area in pixels. The image is smoothed by this amount before star detection is initiated.</para
+> zou aangepast moeten worden tot ruwweg het geziene in uw gebied in pixels. De afbeelding wordt glad gestreken met deze hoeveelheid voordat detectie van sterren wordt geïnitieerd.</para
 ></listitem>
         </itemizedlist>
         </sect4
@@ -328,70 +328,70 @@
 
         <sect4 id="profile-star-filtering">
         <title
->Star-Filtering Parameters</title>
+>Filterparameters van ster</title>
           <para
->This filtering is done for the sake of speed mostly, as well as for removing clipped stars, or very elliptical objects which might be galaxies. We will touch upon some of the parameters you might consider adjusting. Zero values for these parameters disable the filter. However, once again it's probably best not to get into the weeds of modifying most of these values. </para>
+>Deze filtering wordt meestal gedaan omwille van snelheid, evenals voor verwijderen van afgesneden sterren of erg elliptische objecten die sterrenstelsels kunnen zijn. We zullen kort iets zeggen over sommige van de parameters die u zou kunnen aanpassen. Nul waarden voor deze parameters schakelen het filter uit. Echter, nog eens, het is waarschijnlijk het beste niet te rommelen met het wijzigen van de meeste van deze waarden. </para>
              <itemizedlist>
          <listitem
 ><para
 ><guilabel
->Initial Keep</guilabel
-> and <guilabel
->Stars Keep #</guilabel
-> relates to the number of stars returned by the system. The system will initially run its detection algorithm and find some number of possible detections. It will filter that list, keeping only the <guilabel
->Initial Keep</guilabel
-> brightest stars. It will then run the rest of the filtering, including computing the HFR of all those stars and finally only return a list of <guilabel
->Stars Keep #</guilabel
-> stars. None of the uses (alignment, autofocus, guiding) of StellarSolver require thousands of stars to be able to do their job, and the more stars processed the slower the operation. An initial list of 1000 stars and a few hundred returned stars should be sufficient for most applications.</para
+>Initieel behouden</guilabel
+> en <guilabel
+>Sterren behouden #</guilabel
+> heeft een relatie met het aantal sterren teruggegeven door het systeem. Het systeem zal initieel zin detectie-algoritme uitvoeren en een aantal mogelijke detecties vinden. Het zal die lijst filteren, waarbij alleen de <guilabel
+>Initieel behouden</guilabel
+> helderste sterren worden behouden. Het zal daarna de rest van de filtering uitvoeren, inclusief de HFR van al die sterren uitrekenen en tenslotte alleen een lijst starren met <guilabel
+>Sterren behouden #</guilabel
+>. Geen van (uitlijnen, autofocus, richten) type gebruik van StellarSolver vereist duizenden sterren om hun taak uit te voeren en hoe meer sterren te verwerken hoe langzamer de bewerking. Een initiële lijst met 1000 sterren en een paar honderd teruggegeven sterren zou voldoende moeten zijn voor de meeste toepassingen.</para
 ></listitem>
          <listitem
 ><para
 ><guilabel
->Max Size</guilabel
-> and <guilabel
->Min Size</guilabel
-> filter stars by their sizes (pixel diameters), and are similar in usage to <guilabel
->Min Area</guilabel
-> above.</para
+>Max grootte</guilabel
+> en <guilabel
+>Min grootte</guilabel
+> filtert sterren op hun groottes (pixeldiameters) en zijn gelijk in gebruik naast bovenstaand <guilabel
+>Min gebied</guilabel
+>.</para
 ></listitem>
          <listitem
 ><para
 ><guilabel
->Max Ellipse</guilabel
-> specifies how elliptical a star can be before being removed. 2 would mean the larger axis could be twice as large as the smaller axis.</para
+>Max ellips</guilabel
+> specificeert hoe elliptisch een star mag zijn voordat het wordt verwijderd. 2 zou betekenen dat de grootste as twee keer groter mag zijn dan de de kleine as.</para
 ></listitem>
          <listitem
 ><para
 ><guilabel
->Cut Brightest</guilabel
-> and <guilabel
->Cut Dimmest</guilabel
-> remove the X% brightest or dimmest stars from consideration. <guilabel
->Sat Limit</guilabel
-> removes stars whose pixel values exceed that percentage of the maximum pixel value--to remove saturated stars.</para
+>Helderste afsnijden</guilabel
+> en <guilabel
+>Zwakste afsnijden</guilabel
+> verwijdert de X% helderste of zwakste sterren uit de beschouwing. <guilabel
+>Sat limiet</guilabel
+> verwijdert sterren waarvan de pixelwaarden dat percentage van de maximale pixelwaarde overschrijdt--om verzadigde sterren te verwijderen.</para
 ></listitem>
              </itemizedlist>
         </sect4>
 
         <sect4 id="profile-plate-solving">
           <title
->Plate-Solving Parameters</title>
+>Parameters voor oplossen van platen</title>
           <para
->These plate-solving parameters mostly relate to computation resources. </para>
+>Deze parameters voor oplossen van platen hebben meestal te maken met hulpbronnen voor rekenen. </para>
              <itemizedlist>
          <listitem
 ><para
 ><guilabel
->Search Radius</guilabel
-> is the distance from the position estimate in degrees that may be searched if <guilabel
->Use Position</guilabel
-> is checked. </para
+>Zoekstraal</guilabel
+> is de afstand van de schatting van de positie in graden die doorzocht mag worden als <guilabel
+>Positie gebruiken</guilabel
+> is geactiveerd. </para
 ></listitem>
          <listitem
 ><para
 ><guilabel
->Maximum Time</guilabel
-> is the maximum number of seconds that the plate-solving will run before it times out.</para
+>Maximale tijd</guilabel
+> is het maximale aantal seconden dat plaat-oplossen zal draaien voordat de tijd verloopt.</para
 ></listitem>
              </itemizedlist>
         </sect4
@@ -403,12 +403,12 @@
       <title
 >Downloaden Index-bestanden</title>
       <para
->Index files are required if you choose the <guilabel
->Internal Solver</guilabel
-> or <guilabel
->Local Astrometry</guilabel
+>Indexbestanden zijn vereist als u de <guilabel
+>Interne oplosser</guilabel
+> kiest of <guilabel
+>Lokale astrometrie</guilabel
 > <guilabel
->Solving Method</guilabel
+>Oplosmethode</guilabel
 >. </para>
         <para
 >Voor offline (en externe) oplossers, zijn indexbestanden nodig. De complete verzameling indexbestanden is enorm (meer dan 30 GB), maar u hoeft alleen de nodige bestanden te downloaden. Indexbestanden zijn gesorteerd op GV (gezichtsveld, FOV: field of view)-bereik. Er zijn twee manieren voor het ophalen van de nodige indexbestanden: de nieuwe downloadondersteuning in de uitlijnmodule, en de oude handmatige manier. </para>
@@ -691,14 +691,14 @@
 
     <sect3 id="ekos-align-get-astrometry">
         <title
->Optionally get astrometry.net</title>
+>Verkrijg optioneel astrometry.net</title>
 
         <para
->This is only required if you choose the <guilabel
->Local Astrometry</guilabel
-> option for <guilabel
->Source Extraction Method</guilabel
-> which is no longer recommended. </para>
+>Dit is alleen vereist als u de optie <guilabel
+>Lokale astrometrie</guilabel
+> kiest voor <guilabel
+>Bronextractiemethode</guilabel
+> die niet langer wordt aanbevolen. </para>
         <note>
             <para
 >Astrometry zit al in StellarMate, dus hoeft het hier niet in te worden geïnstalleerd. Ook indexbestanden van 16 boogminuten en hoger (4206 tot 4019) zitten al in StellarMate. Extra indexbestanden moet u zelf waar nodig installeren. Als u Astrometry in StellarMate wilt gebruiken, vanaf een externe Ekos op &Linux;/&Windows;/&MacOS;, moet u de optie  <guimenuitem
@@ -789,17 +789,17 @@
             <title
 >Hoe te gebruiken?</title>
             <para
->Ekos Align Module offers multiple functions to aid you in achieving accurate GOTOs. For some mounts it is useful to start your session with your mount in home position with the telescope tube looking directly at the celestial pole. For users in Northern Hemisphere, point the telescope as close as possible to Polaris. It is not necessary to perform 2 or 3 star alignments, but it can be useful for some mount types. Make sure your camera is focused. </para>
+>De uitlijnmodule van Ekos heeft meerdere functies die u helpen met het verkrijgen van accurate GOTO's. Voor sommige opstellingen is het nuttig om uw sessie te starten met uw opstelling in de basispositie, met de telescoopbuis recht gericht op de hemelpool. Op het Noordelijk Halfrond richt u de telescoop zo goed mogelijk op de poolster, Polaris. Het is niet nodig uit te lijnen met 2 of 3 sterren, hoewel bij sommige opstellingen dit wel nuttig kan zijn. Let erop dat uw camera goed scherp is gesteld. </para>
             <para
->At the top left of the Align page you can find two solver commands, and two actions to take given the solver solution. </para>
+>In de linker bovenhoek van de pagina Uitlijnen kunt u twee commando's voor oplossen vinden en twee acties om de gegeven oplossing van de oplosser te nemen. </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->Capture &amp; Solve</guilabel
->: Capture an image and determine exactly where in the sky the telescope is pointing. The astrometry results include the equatorial coordinates (RA &amp; DEC) of the center of the captured image and the pixel scale and field rotation. Depending on the Solver Action settings, the results can be used to Sync the mount or Sync and then Slew to the target location. For example, suppose you slewed the mount to Vega then used <emphasis
->Capture &amp; Solve</emphasis
->. If the actual telescope location is different from Vega, it will be first synced to the solved coordinate and then Ekos shall command the mount to slew to Vega. After slew is complete, the Alignment module will repeat Capture &amp; Solve process again until the error between reported and actual position falls below the accuracy thresholds (30 arcseconds by default). </para>
+>Opnemen &amp; Oplossen</guilabel
+>: Maak een afbeelding en bepaal exact waar aan de hemel de telescoop op is gericht. De antwoorden van astrometry zijn onder meer de equatoriale coördinaten (RK &amp; dec) van de afbeelding, en de pixelschaal en de veldrotatie. Afhankelijk van de instellingen van de oplosser, kunnen de antwoorden gebruikt voor het synchroniseren van de opstelling of synchroniseren en daarna draaien naar de doellocatie. Bijvoorbeeld, stel dat u de opstelling heeft heeft gedraaid naar Wega en daarna <emphasis
+>Opnemen &amp; Oplossen</emphasis
+> gebruikt. Indien de werkelijke kijkrichting van de telescoop niet precies naar Wega is, wordt die eerst gesynchroniseerd naar de opgeloste coördinaten en zal Ekos de telescoop naar Wega laten draaien. Na dit draaien herhaalt de uitlijnmodule het proces van Opname &amp; Oplossen nog een keer, net zo lang totdat de fout tussen de berekende en actuele positie binnen de gewenste drempelwaarde valt (standaard 30 boogseconden). </para>
                 </listitem>
                 <listitem>
                     <para
@@ -811,8 +811,8 @@
             <warning>
                 <para
 ><emphasis role="bold"
->Never</emphasis
-> solve an image at or near the celestial pole (unless Ekos Polar Alignment Assistant Tool is used). Slew at least 20 degrees away from the celestial pole before solving the first image. Solving very close to the poles will make your mount pointing worse, so avoid it. </para>
+>Nooit</emphasis
+> een afbeelding oplossen van een afbeelding op of nabij de hemelpool (behalve bij gebruik van de assistent voor uitlijnen op de pool). Draai minstens 20  graden weg van de hemelpool, voordat de eerste opname wordt opgelost. Oplossen heel dicht bij de polen maakt de richtfout van uw opstelling slechter, dus dat moet worden voorkomen. </para>
             </warning>
         </sect3>
         
@@ -820,19 +820,19 @@
             <title
 >Uitlijninstellingen</title>
             <para
->Before you begin the alignment process, select the desired optical train. You can explore astrometry.net options that are passed to the astrometry.net solver each time an image is captured: </para>
+>Voordat u met het uitlijnen begint, selecteert u de gewenste optische trein. U kunt de opties van astrometry.net die naar de oplosser van astrometry.net worden gestuurd, bij elke opname bekijken: </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->Accuracy</guilabel
->: Acceptable difference between the desired target position and the solved coordinates from the captured image. If the difference exceeds this many arc-seconds, then the system will continue to capture, solve and slew until the solved position is close enough to the target position. </para>
+>Nauwkeurigheid</guilabel
+>: acceptabel verschil tussen de gewenste doelpositie en de opgeloste coördinaten uit de opgenomen afbeelding. Als het verschil deze hoeveelheid boogseconden overschrijdt, zal het systeem doorgaan met opnemen, oplossen en draaien totdat de opgeloste positie dicht genoeg bij de doelpositie is. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Train</guilabel
->: Select the Optical Train which will be used to capture the image to be aligned. It is also used to compute the image scale. </para>
+>Trein</guilabel
+>: selecteer de Optische trein die gebruikt zal worden om de uit te lijnen afbeelding op te nemen. Deze wordt ook gebruikt om de schaal van de afbeelding te berekenen. </para>
                 </listitem>
                 <listitem>
                     <para
@@ -844,27 +844,27 @@
                     <para
 ><guilabel
 >Bin</guilabel
->: The binning of the image before solving. </para>
+>: de binning van de afbeelding voor oplossen. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Gain/ISO</guilabel
->: The camera gain or ISO. </para>
+>Versterking/ISO</guilabel
+>: de versterking van de camera of ISO. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Filter/Use Current</guilabel
->: The filter to use when capturing the image. <guilabel
->Use Current</guilabel
-> uses whatever filter is currently active. </para>
+>Filter/Huidige gebruiken</guilabel
+>: het te gebruiken filter bij opnemen van de afbeelding. <guilabel
+>Huidige gebruiken</guilabel
+> gebruikt het filter dat nu actief is. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Dark</guilabel
->: Whether to use the dark-image subtraction scheme before analyzing the captured image. </para>
+>Donker</guilabel
+>: of het aftrekschema donkere-afbeelding gebruiken voor het analyseren van de opgenomen afbeelding. </para>
                 </listitem>
             </itemizedlist>
         </sect3>
@@ -912,7 +912,7 @@
                 <para
 >Alvorens het proces te beginnen, laat de opstelling zo dicht mogelijk naar de hemelpool wijzen met de contragewichten omlaag. Als u leeft op het Noordelijke halfrond, wis dan zo dicht mogelijk naar de Poolster. Als de Poolster niet zichtbaar (&eg; geblokkeerd door bomen of gebouwen) dan kunt u ergens anders naar wijzen, bij voorkeur dichtbij de meridiaan. Ga na is dat er minstens 30-60 graden hemel zichtbaar is in een boog Oost of West van de meridiaan vanaf de positie die u kiest. Selecteer de richting van de vrije hemel, het aantal graden voor elk van de twee zwenkingen, de zwenksnelheid van de opstelling en of de opstelling automatisch (aanbevolen) of handmatig zwenkt. </para>
                 <para
->The tool works by capturing and solving three images. After capturing each, the mount rotates by the fixed amount you entered and another image is captured and solved. If you choose manual, you will need to slew the mount by roughly the angle chosen. </para>
+>Door het hulpmiddel worden drie afbeeldingen opgenomen en opgelost. Na elke opname draait de opstelling over de vaste afstand, die u hebt ingevoerd, voordat de volgende opname wordt gemaakt en opgelost. Als u handmatig kiest, moet u de opstelling verdraaien met ruwweg de gekozen hoek. </para>
                 <screenshot>
                     <screeninfo
 >Assistent uitlijnen op pool </screeninfo>

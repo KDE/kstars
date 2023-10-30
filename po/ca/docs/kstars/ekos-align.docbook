@@ -26,7 +26,7 @@
             </mediaobject>
         </screenshot>
         <para
->El mòdul d'alineació de l'Ekos permet fer un GOTO molt i pot mesurar i corregir els errors de l'alineació polar. Això és possible gràcies a la tecnologia de resolució de plaques de tercers. El programari principal de solució de plaques que es fa servir és el paquet StellarSolver, el qual fa ús dels solucionadors «astrometry.net» fora de línia (i en línia), ASTAP i Watney. L'Ekos començarà capturant una imatge d'un camp estel·lar, enviarà aquesta imatge al solucionador triat (p. ex. vegeu <ulink url="https://astrometry.net"
+>El mòdul d'alineació de l'Ekos permet fer un GOTO molt precís i pot mesurar i corregir els errors de l'alineació polar. Això és possible gràcies a la tecnologia de resolució de plaques de tercers. El programari principal de solució de plaques que es fa servir és el paquet StellarSolver, el qual fa ús dels solucionadors «astrometry.net» fora de línia (i en línia), ASTAP i Watney. L'Ekos començarà capturant una imatge d'un camp estel·lar, enviarà aquesta imatge al solucionador triat (p. ex. vegeu <ulink url="https://astrometry.net"
 >astrometry.net</ulink
 >, <ulink url="https://github.com/rlancaste/stellarsolver"
 >StellarSolver</ulink
@@ -47,7 +47,7 @@
             <para
 >En utilitzar el mòdul d'alineació de l'Ekos, l'alineació de la muntura emprant l'alineació d'1, 2 o 3 estrelles del controlador <emphasis
 >no</emphasis
-> és estrictament necessari, encara que per a algunes muntures es recomana realitzar una alineació aproximada d'1 o 2 estrelles abans d'utilitzar el mòdul d'alineació de l'Ekos. Si esteu utilitzant EQMod, podeu començar a utilitzar immediatament el mòdul d'alineació de l'Ekos. Un flux de treball típic per a l'alineació GOTO implica els passos següents: </para>
+> és estrictament necessària, encara que per a algunes muntures es recomana realitzar una alineació aproximada d'1 o 2 estrelles abans d'utilitzar el mòdul d'alineació de l'Ekos. Si esteu utilitzant EQMod, podeu començar a utilitzar immediatament el mòdul d'alineació de l'Ekos. Un flux de treball típic per a l'alineació GOTO implica els passos següents: </para>
             <orderedlist>
                 <listitem>
                     <para
@@ -85,18 +85,18 @@
 >creu</emphasis
 > que està mirant en comparació amb la seva posició real en el cel tal com determina el solucionador). L'alineació s'aturarà si es troba dins de la tolerància d'error desitjada, en cas contrari repetirà el procés Orientació/Captura/Solució/Sincronització fins que estigui dins de la tolerància. </para>
             <para
->Cada vegada que s'executa el solucionador i retorna resultats amb èxit, l'Ekos podrà executar-se en les accions següents: </para>
+>Cada vegada que s'executa el solucionador i retorna resultats correctes, l'Ekos podrà executar-se en les accions següents: </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->Sincronitza</guilabel
->: Sincronitza les coordenades del telescopi amb les coordenades de la solució. </para>
+>Sincronització</guilabel
+>: Sincronitza les coordenades del telescopi a les coordenades de la solució. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Orienta a l'objectiu</guilabel
+>Orientació a l'objectiu</guilabel
 >: Sincronitza les coordenades del telescopi amb les coordenades de la solució, i després orienta cap a l'objectiu. </para>
                 </listitem>
                 <listitem>
@@ -302,7 +302,7 @@
 >Multiplicador del llindar</guilabel
 > i <guilabel
 >Desplaçament del llindar</guilabel
->) es refereixen a la sensibilitat del sistema als valors dels píxels. El nivell del fons es multiplica pel <guilabel
+> es refereixen a la sensibilitat del sistema als valors dels píxels. El nivell del fons es multiplica pel <guilabel
 >Multiplicador del llindar</guilabel
 > i després s'afegeix el <guilabel
 >Desplaçament del llindar</guilabel
@@ -338,9 +338,9 @@
 >Mantén d'inici</guilabel
 > i <guilabel
 >Nombre d'estrelles a mantenir</guilabel
-> es relaciona amb el nombre d'estrelles retornades pel sistema. El sistema executarà inicialment el seu algorisme de detecció i trobarà un nombre concret de possibles deteccions. Filtrarà aquesta llista, mantenint només les <guilabel
+> es relacionen amb el nombre d'estrelles retornades pel sistema. El sistema executarà inicialment el seu algorisme de detecció i trobarà un nombre concret de possibles deteccions. Filtrarà aquesta llista, mantenint només el nombre d'estrelles més brillants indicat a <guilabel
 >Mantén d'inici</guilabel
-> estrelles més brillants. Llavors executarà la resta del filtratge, incloent calcular l'HFR de totes aquestes estrelles i finalment només retornarà una llista de <guilabel
+>. Llavors executarà la resta del filtratge, incloent calcular l'HFR de totes aquestes estrelles i finalment només retornarà una llista de <guilabel
 >Nombre d'estrelles a mantenir</guilabel
 >. Cap dels usos (alineació, enfocament automàtic, guiatge) de l'StellarSolver requereix milers d'estrelles per poder fer el seu treball, i com més estrelles es processin, més lenta serà l'operació. Una llista inicial de 1000 estrelles i uns quants centenars d'estrelles retornades haurien de ser suficients per a la majoria de les aplicacions.</para
 ></listitem>
@@ -495,7 +495,7 @@
                                 <entry
 >CDV (minuts d'arc)</entry>
                                 <entry
->Paquet de la Debian</entry>
+>Paquet de Debian</entry>
                             </row>
                         </thead>
                         <tbody>
@@ -889,7 +889,7 @@
                 </mediaobject>
 
                 <para
->En l'obtenció de les imatges amb una exposició prolongada, hi ha una càmera adjuntada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre al mateix lloc de la fotografia si volem obtenir una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'aquesta manera: l'òptica, l'atmosfera, la qualitat del «seeing» dispersen i refracten conjuntament els fotons d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que segueixen una distribució de Poisson. Per a fonts puntuals com les estrelles, la funció de dispersió d'un punt descriu la manera com els fotons es distribueixen espacialment a través dels píxels. No obstant això, la idea general que volem és que els fotons d'origen colpegin en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos artefactes de rastre. </para>
+>En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera encastada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre al mateix lloc de la fotografia si volem obtenir una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'aquesta manera: l'òptica, l'atmosfera, la qualitat del «seeing» dispersen i refracten conjuntament els fotons d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que segueixen una distribució de Poisson. Per a fonts puntuals com les estrelles, la funció de dispersió d'un punt descriu la manera com els fotons es distribueixen espacialment a través dels píxels. No obstant això, la idea general que volem és que els fotons d'origen colpegin en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastres. </para>
                 <screenshot>
                     <screeninfo
 >Alineació polar </screeninfo>
