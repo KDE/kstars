@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-29 00:39+0000\n"
+"POT-Creation-Date: 2023-10-30 00:39+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -26618,7 +26618,8 @@ msgid "Target Position Angle"
 msgstr "位置角"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:85
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
+#: ekos/scheduler/scheduler.ui:85 fitsviewer/platesolve.ui:318
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "PAVO"
@@ -28318,12 +28319,12 @@ msgstr "入りの時刻: %1"
 msgid "Solver failed: %1s"
 msgstr "FOV 記号なし"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -29107,19 +29108,8 @@ msgstr ""
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
 #, fuzzy, kde-format
 #| msgid "Longitude in degrees"
-msgid "The solved rotation angle in degrees."
+msgid "The solved image position angle, East of North (degrees)."
 msgstr "経度 (-360 から 360 の値で)"
-
-#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: fitsviewer/platesolve.ui:318 skycomponents/imageoverlaycomponent.cpp:62
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Englewood"
-msgid "Angle"
-msgstr "エングルウッド"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -77192,6 +77182,16 @@ msgstr "地平線を作成中"
 #| msgid "File name:"
 msgid "Filename"
 msgstr "ファイル名:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Englewood"
+msgid "Angle"
+msgstr "エングルウッド"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format

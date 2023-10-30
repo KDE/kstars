@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-29 00:39+0000\n"
+"POT-Creation-Date: 2023-10-30 00:39+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -25385,7 +25385,8 @@ msgid "Target Position Angle"
 msgstr "Kut položaja"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:85
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
+#: ekos/scheduler/scheduler.ui:85 fitsviewer/platesolve.ui:318
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "PAVO"
@@ -27002,12 +27003,12 @@ msgstr "Vodiči"
 msgid "Solver failed: %1s"
 msgstr "Bez lozinke"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -27745,17 +27746,8 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
 #, fuzzy, kde-format
-msgid "The solved rotation angle in degrees."
+msgid "The solved image position angle, East of North (degrees)."
 msgstr "Geografska lokacija"
-
-#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: fitsviewer/platesolve.ui:318 skycomponents/imageoverlaycomponent.cpp:62
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-msgid "Angle"
-msgstr "Eagle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -80951,6 +80943,14 @@ msgstr "Mladi Mjesec"
 #, fuzzy, kde-format
 msgid "Filename"
 msgstr "Naziv datoteke:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, fuzzy, kde-format
+msgid "Angle"
+msgstr "Eagle"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-29 00:39+0000\n"
+"POT-Creation-Date: 2023-10-30 00:39+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -24320,7 +24320,8 @@ msgid "Target Position Angle"
 msgstr "មុំ​ទីតាំង"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:85
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
+#: ekos/scheduler/scheduler.ui:85 fitsviewer/platesolve.ui:318
 #, kde-format
 msgid "PA"
 msgstr ""
@@ -25856,12 +25857,12 @@ msgstr "របារ​ឧបករណ៍"
 msgid "Solver failed: %1s"
 msgstr "មិន​បំពេញ"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -26566,17 +26567,8 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
 #, fuzzy, kde-format
-msgid "The solved rotation angle in degrees."
+msgid "The solved image position angle, East of North (degrees)."
 msgstr "រយៈបណ្ដោយ ៖"
-
-#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: fitsviewer/platesolve.ui:318 skycomponents/imageoverlaycomponent.cpp:62
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-msgid "Angle"
-msgstr "ប្រុស"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -72473,6 +72465,14 @@ msgstr ""
 #, fuzzy, kde-format
 msgid "Filename"
 msgstr "ឈ្មោះ​ឯកសារ ៖"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, fuzzy, kde-format
+msgid "Angle"
+msgstr "ប្រុស"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format

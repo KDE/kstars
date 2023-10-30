@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.6\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-29 00:39+0000\n"
+"POT-Creation-Date: 2023-10-30 00:39+0000\n"
 "PO-Revision-Date: 2023-09-14 15:58+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -26916,7 +26916,8 @@ msgid "Target Position Angle"
 msgstr "Angle de position cible"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:85
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
+#: ekos/scheduler/scheduler.ui:85 fitsviewer/platesolve.ui:318
 #, kde-format
 msgid "PA"
 msgstr "AP"
@@ -28614,12 +28615,12 @@ msgstr "Fin du délai imparti au résolveur : %1s %2"
 msgid "Solver failed: %1s"
 msgstr "Échec du résolveur : %1s %2"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -29399,17 +29400,8 @@ msgstr ""
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
 #, fuzzy, kde-format
 #| msgid "Rotation magnitude in degrees"
-msgid "The solved rotation angle in degrees."
+msgid "The solved image position angle, East of North (degrees)."
 msgstr "Ampleur de la rotation en degrés"
-
-#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: fitsviewer/platesolve.ui:318 skycomponents/imageoverlaycomponent.cpp:62
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, kde-format
-msgid "Angle"
-msgstr "Angle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -76459,6 +76451,14 @@ msgstr "Création de l'horizon"
 #, kde-format
 msgid "Filename"
 msgstr "Nom du fichier"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, kde-format
+msgid "Angle"
+msgstr "Angle"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format

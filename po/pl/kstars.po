@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1663550 $
+# Version: $Revision: 1663629 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-29 00:39+0000\n"
-"PO-Revision-Date: 2023-10-28 09:16+0200\n"
+"POT-Creation-Date: 2023-10-30 00:39+0000\n"
+"PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -6570,10 +6570,10 @@ msgstr "R:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #: ekos/align/align.ui:524
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
-msgstr "<html><head/><body><p>Wybierak gniazd urządzenia</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Współczynnik reduktora lub Barlowa</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:534
@@ -7654,7 +7654,7 @@ msgstr ""
 #: ekos/align/opsalign.ui:329
 #, kde-format
 msgid "Flip Policy: "
-msgstr ""
+msgstr "Zasady odbijania: "
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
@@ -11086,11 +11086,12 @@ msgstr "# Przebiegów Ogniskowej"
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr ""
+"Filtruj. * wskazuje filtr odniesienia. Naciśnij dwukrotnie, aby zmienić"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:185
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
-msgstr ""
+msgstr "# Przebiegów ogniskowania. Ustaw na filtr. 0 aby pominąć"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:322
 #, kde-format
@@ -11125,12 +11126,13 @@ msgstr "Nowe przesunięcie"
 #: ekos/auxiliary/buildfilteroffsets.cpp:339
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
-msgstr ""
+msgstr "Nowe przesunięcie. Obliczone względem filtra z *. Dostępny do zmiany."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:346
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
+"Zapisz. Zaznacz, aby zapisać nowe przesunięcie dla skojarzonego filtra."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
 #, kde-format
@@ -11154,7 +11156,7 @@ msgstr ""
 #: ekos/auxiliary/buildfilteroffsets.cpp:408
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
-msgstr ""
+msgstr "Nieoczekiwany błąd przy budowaniu przesunięć filtra"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:451
 #, kde-format
@@ -11185,7 +11187,7 @@ msgstr "(%1 podziałek)"
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
 msgid "(ΔAlt=%1)"
-msgstr ""
+msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
 #, kde-format
@@ -14200,14 +14202,15 @@ msgid "Threshold (°C):"
 msgstr "Próg (°C):"
 
 #: ekos/capture/capture.cpp:3170
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
 "triggering regulation.<p>This setting is read from and stored in the INDI "
 "camera driver configuration.</body></html>"
 msgstr ""
 "<html><body><p>Największa różnica pomiędzy temperaturami aparatu i docelową, "
-"która wywoła regulację.<p>.</body></html>"
+"która wywoła regulację.<p>To ustawienie jest odczytywane i przechowywane w "
+"ustawieniach sterownika aparatu INDI</body></html>"
 
 #: ekos/capture/capture.cpp:3183
 #, kde-format
@@ -16043,7 +16046,7 @@ msgstr "Zacznij tylko gdy odchylenie naprowadzania <"
 #: ekos/capture/limits.ui:134
 #, kde-format
 msgid "consecutive times"
-msgstr ""
+msgstr "liczba razy z rzędu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:160
@@ -26589,7 +26592,8 @@ msgid "Target Position Angle"
 msgstr "Docelowy kąt położenia"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: ekos/scheduler/scheduler.ui:85
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
+#: ekos/scheduler/scheduler.ui:85 fitsviewer/platesolve.ui:318
 #, kde-format
 msgid "PA"
 msgstr "PA"
@@ -26685,12 +26689,16 @@ msgstr ""
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
+"Rozpocznij samonaprowadzanie. Wykonywane na początku każdego zaplanowanego "
+"zadania."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
 #: ekos/scheduler/scheduler.ui:439
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
+"Wykonaj samoogniskowanie. Wykonywane na początku każdego zaplanowanego "
+"zadania."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copySkyCenterB)
 #: ekos/scheduler/scheduler.ui:526
@@ -28234,7 +28242,7 @@ msgstr "Niepowodzenie wydobywacza: %1s"
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
-msgstr ""
+msgstr "Wydobyto %1 gwiazdy (%2 niefiltrowanych) w %3s"
 
 #: fitsviewer/fitstab.cpp:728
 #, kde-format
@@ -28246,16 +28254,16 @@ msgstr "Czas programu rozwiązującego upłynął: %1s"
 msgid "Solver failed: %1s"
 msgstr "Niepowodzenie programu rozwiązującego: %1s"
 
-#: fitsviewer/fitstab.cpp:822
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Uwaga! To narzędzie obsługuje tylko wewnętrznego rozwiązywacza StellarSolver."
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
-msgstr ""
+msgstr "Zmień na to w menu ustawień wyrównywania Ekos."
 
 #: fitsviewer/fitsview.cpp:506 fitsviewer/fitsview.cpp:516
 #, kde-format
@@ -28970,13 +28978,13 @@ msgstr "Partycjonowanie StellarSolver"
 #: fitsviewer/platesolve.ui:47
 #, kde-format
 msgid "Plate solve the image using the parameters below."
-msgstr ""
+msgstr "Rozwiąż obraz astrofotografią używając poniższych parametrów."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:101
 #, kde-format
 msgid "<p>The units of the imager scale bounds."
-msgstr ""
+msgstr "<p>Jednostki granic skali programu obrazującego."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:108
@@ -29017,18 +29025,10 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, kde-format
-msgid "The solved rotation angle in degrees."
+#, fuzzy, kde-format
+#| msgid "The solved rotation angle in degrees."
+msgid "The solved image position angle, East of North (degrees)."
 msgstr "Rozwiązany kąt obrotu w stopniach."
-
-#. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: fitsviewer/platesolve.ui:318 skycomponents/imageoverlaycomponent.cpp:62
-#: tools/modcalcsimple.ui:93 tools/modcalcsimple.ui:183
-#, kde-format
-msgid "Angle"
-msgstr "Kąt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -34733,19 +34733,19 @@ msgstr ""
 #: kstars.kcfg:1514
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "Nieprzezroczystość nakładki HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1518
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "Przesunięcie X nakładki HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1522
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "Przesunięcie Y nakładki HiPS"
 
 #. i18n: ectx: label, entry (FitsSolverProfile), group (FITSViewer)
 #: kstars.kcfg:1526
@@ -34757,31 +34757,31 @@ msgstr "Profil ustawień do rozwiązywania w przeglądarce Fits."
 #: kstars.kcfg:1530
 #, kde-format
 msgid "Use scale for Fitsviewer Solving."
-msgstr ""
+msgstr "Użyj skali w rozwiązywaniu w przeglądarce FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUsePosition), group (FITSViewer)
 #: kstars.kcfg:1534
 #, kde-format
 msgid "Use position for Fitsviewer Solving."
-msgstr ""
+msgstr "Użyj położenia w rozwiązywaniu w przeglądarce FITS."
 
 #. i18n: ectx: label, entry (FitsSolverScale), group (FITSViewer)
 #: kstars.kcfg:1538
 #, kde-format
 msgid "Scale to use with Fitsviewer Solving."
-msgstr ""
+msgstr "Przeskaluj do użycia w rozwiązywaniu w przeglądarce FITS."
 
 #. i18n: ectx: label, entry (FitsSolverImageScaleUnits), group (FITSViewer)
 #: kstars.kcfg:1542
 #, kde-format
 msgid "Scale units to use with Fitsviewer Solving."
-msgstr ""
+msgstr "Przeskaluj jednostki do użycia w rozwiązywaniu w przeglądarce FITS."
 
 #. i18n: ectx: label, entry (FitsSolverRadius), group (FITSViewer)
 #: kstars.kcfg:1546
 #, kde-format
 msgid "Radius in position (degrees) to use with Fitsviewer Solving."
-msgstr ""
+msgstr "Promień w położeniu (stopnie) używany w rozwiązywaniu Fitsviewer."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1552
@@ -36166,7 +36166,7 @@ msgstr ""
 #: kstars.kcfg:2313
 #, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
-msgstr ""
+msgstr "Obrót PA 180° dla obrotnicy został przyjęty po odbiciu montażu."
 
 #. i18n: ectx: label, entry (SolverGotoOption), group (Align)
 #: kstars.kcfg:2317
@@ -37496,7 +37496,7 @@ msgstr ""
 #: kstars.kcfg:3162
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Wyświetl nakładki obrazu."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3163
@@ -37508,7 +37508,7 @@ msgstr "Przełącz wyświetlanie nakładek obrazu."
 #: kstars.kcfg:3167
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Wyśrodkuj mapę nieba na zaznaczonym obrazie nakładkowym."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3168
@@ -37537,24 +37537,30 @@ msgstr "Graniczne wymiary dla obrazów nakładkowych."
 #, kde-format
 msgid "Image overlay plate-solving timeout."
 msgstr ""
+"Czas oczekiwania na rozwiązanie na podstawie astrofotografii obrazu "
+"nakładkowego."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3178
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Czas oczekiwania na rozwiązanie z astrofotografii obrazu nakładkowego."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3182
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr ""
+"Domyślna skala do rozwiązywania na podstawie astrofotografii obrazu "
+"nakładkowego."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3183
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Domyślna skala (sekundy kątowe/piksel) do rozwiązywania na podstawie "
+"astrofotografii."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3189
@@ -72339,14 +72345,13 @@ msgstr "Wytwórca:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
 #: oal/equipmentwriter.ui:157
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
 msgstr ""
 "Oficjalna długość ogniskowej teleskopu, w milimetrach bez żadnych "
-"reduktorów, czy ."
+"reduktorów, czy barlowów."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
@@ -74221,6 +74226,8 @@ msgstr "Domyślne sekundy kątowe/piksel"
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
 msgstr ""
+"Czas oczekiwania na rozwiązanie z astrofotografii  obrazu nakładkowego "
+"(sekundy)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
@@ -75651,10 +75658,18 @@ msgstr "Rysowanie horyzontu"
 msgid "Filename"
 msgstr "Nazwa pliku"
 
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
+#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: tools/modcalcsimple.ui:183
+#, kde-format
+msgid "Angle"
+msgstr "Kąt"
+
 #: skycomponents/imageoverlaycomponent.cpp:62
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:63
 #, kde-format
@@ -75665,11 +75680,13 @@ msgstr "WschódPrawo"
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
+"Wpisano ciąg znaków o złym RA dla %1. Zerowanie do wartości pierwotnej."
 
 #: skycomponents/imageoverlaycomponent.cpp:177
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
+"Wpisano ciąg znaków o złym DEC dla %1. Zerowanie do wartości pierwotnej."
 
 #: skycomponents/imageoverlaycomponent.cpp:190
 #, kde-format
@@ -75682,48 +75699,53 @@ msgstr ""
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Wpisano ciąg znaków o złym kącie skali dla %1. Zerowanie do wartości "
+"pierwotnej."
 
 #: skycomponents/imageoverlaycomponent.cpp:231
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Nie można ustawić stanu na OK. Wymagana prawidłowa niezerowa wartość RA."
 
 #: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Nie można ustawić stanu na OK. Wymagana prawidłowa niezerowa wartość DEC."
 
 #: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr ""
+msgstr "Nie można ustawić stanu na OK. Wymagana prawidłowa wartość kierunku."
 
 #: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Nie można ustawić stanu na OK. Wymagana prawidłowa niezerowa wartość a-s/px."
 
 #: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Zachowano stan OK dla %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Uaktualnianie z katalogu: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:436
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 nakładek (%2 nowych, %3 usuniętych) %4 rozwiązanych"
 
 #: skycomponents/imageoverlaycomponent.cpp:438
 #: skycomponents/imageoverlaycomponent.cpp:556
 #: skycomponents/imageoverlaycomponent.cpp:845
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Nakładki obrazu.  %1 obrazy, %2 dostępne."
 
 #: skycomponents/imageoverlaycomponent.cpp:451
 #, kde-format
@@ -75778,12 +75800,12 @@ msgstr "Rozwiązywanie: %1."
 #: skycomponents/imageoverlaycomponent.cpp:664
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Nie można pokazać %1. Nie rozwiązano na podstawie astrofotografii."
 
 #: skycomponents/imageoverlaycomponent.cpp:669
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Nie można pokazać %1. Obraz nie został wczytany."
 
 #: skycomponents/imageoverlaycomponent.cpp:702
 #, kde-format
@@ -75793,17 +75815,17 @@ msgstr "Przerwano rozwiązywanie."
 #: skycomponents/imageoverlaycomponent.cpp:737
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Pomijanie już rozwiązanych: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:756
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 już rozwiązany. Pomijanie."
 
 #: skycomponents/imageoverlaycomponent.cpp:774
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr ""
+msgstr "Ponowne wczytywanie. Tymczasowo wyłączono nakładki obrazu."
 
 #: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
@@ -75818,7 +75840,7 @@ msgstr "Niepowodzenie rozwiązywacza w %1s"
 #: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Powodzenie rozwiązywacza w %1s: RA %2 DEC %3 Skala %4 Kąt %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
