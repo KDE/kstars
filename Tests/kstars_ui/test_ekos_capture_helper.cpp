@@ -156,10 +156,9 @@ bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequenc
         KVERIFY_SUB(value.indexOf(":") > -1);
         QString filter = value.left(value.indexOf(":"));
         int count      = value.right(value.length() - value.indexOf(":") - 1).toInt();
-        Ekos::Manager::Instance()->captureModule()->setTargetName(target);
         KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), placeholderFormatT, format);
         if (count > 0)
-            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, delay, filter, fitsDirectory));
+            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, delay, filter, target, fitsDirectory));
         // ensure that no old values are present
         Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter, fitsDirectory), 0);
     }
@@ -185,34 +184,36 @@ void TestEkosCaptureHelper::cleanupScheduler()
     Ekos::Manager::Instance()->schedulerModule()->removeAllJobs();
 }
 
-QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs)
+QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs,
+        ESQVersion version)
 {
-    QStringList result = serializeGeneralSettings(settings);
+    QStringList result = serializeGeneralSettings(settings, version);
 
 
     for (QVector<SimpleCaptureLightsJob>::iterator job_iter = jobs.begin(); job_iter !=  jobs.end(); job_iter++)
-        result.append(serializeJob(*job_iter));
+        result.append(serializeJob(*job_iter, version));
 
     result.append("</SequenceQueue>");
     return result;
 }
 
-QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs)
+QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs,
+        ESQVersion version)
 {
-    QStringList result = serializeGeneralSettings(settings);
+    QStringList result = serializeGeneralSettings(settings, version);
 
 
     for (QVector<SimpleCaptureCalibratingJob>::iterator job_iter = jobs.begin(); job_iter !=  jobs.end(); job_iter++)
-        result.append(serializeJob(*job_iter));
+        result.append(serializeJob(*job_iter, version));
 
     result.append("</SequenceQueue>");
     return result;
 }
 
-QStringList TestEkosCaptureHelper::serializeGeneralSettings(CaptureSettings settings)
+QStringList TestEkosCaptureHelper::serializeGeneralSettings(CaptureSettings settings, ESQVersion version)
 {
     QStringList result({"<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-                        "<SequenceQueue version='2.5'><CCD>CCD Simulator</CCD>",
+                        QString("<SequenceQueue version='%1'><CCD>CCD Simulator</CCD>").arg(version == ESQ_VERSION_2_7 ? "2.7" : "2.6"),
                         "<FilterWheel>CCD Simulator</FilterWheel>",
                         QString("<Observer>%1</Observer>").arg(settings.observer),
                         QString("<GuideDeviation enabled='%1'>%2</GuideDeviation>").arg(settings.guideDeviation.enabled ? "true" : "false").arg(settings.guideDeviation.value),
@@ -225,7 +226,8 @@ QStringList TestEkosCaptureHelper::serializeGeneralSettings(CaptureSettings sett
     return result;
 }
 
-QStringList TestEkosCaptureHelper::serializeJob(const TestEkosCaptureHelper::SimpleCaptureLightsJob &job)
+QStringList TestEkosCaptureHelper::serializeJob(const TestEkosCaptureHelper::SimpleCaptureLightsJob &job,
+        ESQVersion version)
 {
     QStringList result({"<Job>",
                         QString("<Exposure>%1</Exposure>").arg(job.exposureTime),
@@ -238,23 +240,34 @@ QStringList TestEkosCaptureHelper::serializeJob(const TestEkosCaptureHelper::Sim
                         QString("<Type>%1</Type>").arg(job.type),
                         QString("<Count>%1</Count>").arg(job.count),
                         QString("<Delay>%1</Delay>").arg(job.delayMS / 1000),
+                        QString("<TargetName>%1</TargetName>").arg(job.targetName),
                         QString("<PlaceholderFormat>%1</PlaceholderFormat>").arg(job.placeholderFormat),
                         QString("<PlaceholderSuffix>%1</PlaceholderSuffix>").arg(job.formatSuffix),
                         QString("<FITSDirectory>%1</FITSDirectory>").arg(job.fitsDirectory),
                         QString("<UploadMode>%1</UploadMode>").arg(job.uploadMode),
                         "<Properties />",
-                        "<Calibration>",
-                        "<FlatSource><Type>Manual</Type></FlatSource>",
-                        "<FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>",
-                        "<PreMountPark>False</PreMountPark>",
-                        "<PreDomePark>False</PreDomePark>",
-                        "</Calibration>",
-                        "</Job>"});
-
+                        "<Calibration>"});
+    switch (version)
+    {
+        case ESQ_VERSION_2_6:
+            result.append({"<FlatSource><Type>Manual</Type></FlatSource>",
+                           "<FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>",
+                           "<PreMountPark>False</PreMountPark>",
+                           "<PreDomePark>False</PreDomePark>",
+                           "</Calibration>",
+                           "</Job>"});
+            break;
+        case ESQ_VERSION_2_7:
+            result.append({QString("<PreAction><Type>%1</Type></PreAction>").arg(0),
+                           "<FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>",
+                           "</Calibration>",
+                           "</Job>"});
+            break;
+    }
     return result;
 }
 
-QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJob &job)
+QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJob &job, ESQVersion version)
 {
     QStringList result({"<Job>",
                         QString("<Exposure>%1</Exposure>").arg(job.exposureTime),
@@ -275,25 +288,41 @@ QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJo
                         "<Calibration>"});
 
 
-    result.append(QString("<FlatSource><Type>%1</Type></FlatSource>").arg(job.preAction));
-    if (job.preAction & ACTION_WALL)
+    switch (version)
     {
-        result.append(QString("<Az>%1</Az>").arg(job.wall_az));
-        result.append(QString("<Alt>%1</Alt>").arg(job.wall_alt));
-    }
-    result.append(QString("</FlatSource>"));
+        case ESQ_VERSION_2_6:
+            if (job.preAction & ACTION_WALL)
+            {
+                result.append("<FlatSource><Type>Wall</Type>");
+                result.append(QString("<Az>%1</Az>").arg(job.wall_az));
+                result.append(QString("<Alt>%1</Alt>").arg(job.wall_alt));
+                result.append(QString("</FlatSource>"));
+            }
+            else
+                result.append("<FlatSource><Type>Manual</Type></FlatSource>");
 
+            result.append({QString("<PreMountPark>%1</PreMountPark>").arg((job.preAction & ACTION_PARK_MOUNT) > 0 ? "True" : "False"),
+                           QString("<PreDomePark>%1</PreDomePark>").arg((job.preAction & ACTION_PARK_DOME) > 0 ? "True" : "False")});
+            break;
+
+        case ESQ_VERSION_2_7:
+            result.append(QString("<PreAction><Type>%1</Type>").arg(job.preAction));
+            if (job.preAction & ACTION_WALL)
+                result.append({QString("<Az>%1</Az>").arg(job.wall_az),
+                               QString("<Alt>%1</Alt>").arg(job.wall_alt)});
+            result.append("</PreAction>");
+            break;
+    }
     result.append("<FlatDuration dark='false'>");
     if (job.duration_manual)
         result.append("<Type>Manual</Type>");
     else if (job.duration_adu)
         result.append(QString("<Type>ADU</Type><Value>%1</Value><Tolerance>%2</Tolerance>").arg(job.adu).arg(job.tolerance));
-    result.append("</FlatDuration>");
-    result.append({QString("<PreMountPark>%1</PreMountPark>").arg(job.park_mount ? "True" : "False"),
-                   QString("<PreDomePark>%1</PreDomePark>").arg(job.park_dome ? "True" : "False"),
+
+    result.append({"</FlatDuration>",
                    "</Calibration>",
-                   "</Job>"
-                  });
+                   "</Job>"});
+
     return result;
 
 }

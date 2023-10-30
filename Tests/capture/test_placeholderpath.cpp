@@ -79,7 +79,7 @@ XMLEle* buildXML(
     QString Filter,
     QString Type,
     QString Prefix,
-    QString RawPrefix,
+    QString TargetName,
     QString FilterEnabled,
     QString ExpEnabled,
     QString TimeStampEnabled,
@@ -110,14 +110,15 @@ XMLEle* buildXML(
         editXMLEle(ep, Type.toStdString().c_str());
     }
 
+    if (!TargetName.isEmpty())
+    {
+        ep = addXMLEle(root, "TargetName");
+        editXMLEle(ep, TargetName.toStdString().c_str());
+    }
+
     if (!Prefix.isEmpty())
     {
         ep = addXMLEle(root, "Prefix");
-        if (!RawPrefix.isEmpty())
-        {
-            subEP = addXMLEle(ep, "RawPrefix");
-            editXMLEle(subEP, RawPrefix.toStdString().c_str());
-        }
         if (!FilterEnabled.isEmpty())
         {
             subEP = addXMLEle(ep, "FilterEnabled");
@@ -194,7 +195,6 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
     QFETCH(QString, Filter);
     QFETCH(QString, Type);
     QFETCH(QString, Prefix);
-    QFETCH(QString, RawPrefix);
     QFETCH(QString, FilterEnabled);
     QFETCH(QString, ExpEnabled);
     QFETCH(QString, FITSDirectory);
@@ -208,7 +208,7 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
                        Filter,
                        Type,
                        Prefix,
-                       RawPrefix,
+                       targetName,
                        FilterEnabled,
                        ExpEnabled,
                        "",
@@ -216,9 +216,9 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
                        PlaceholderFormat,
                        PlaceholderSuffix);
 
-    Ekos::SequenceJob job(root);
+    Ekos::SequenceJob job(root, targetName);
     auto placeholderPath = Ekos::PlaceholderPath();
-    placeholderPath.processJobInfo(&job, targetName);
+    placeholderPath.processJobInfo(&job);
 
     QCOMPARE(job.getSignature(), signature);
 
@@ -556,7 +556,7 @@ void TestPlaceholderPath::testFlexibleNaming()
                        Filter,
                        Type,
                        Prefix,
-                       RawPrefix,
+                       targetName,
                        FilterEnabled,
                        ExpEnabled,
                        TimeStampEnabled,
@@ -564,15 +564,15 @@ void TestPlaceholderPath::testFlexibleNaming()
                        PlaceholderFormat,
                        PlaceholderSuffix);
 
-    Ekos::SequenceJob job(root);
+    Ekos::SequenceJob job(root, targetName);
     auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
     bool bm = bool(batch_mode.toInt());
     int i = nextSequenceID.toInt();
-    QString filename = placeholderPath.generateSequenceFilename(job, targetName, true, bm, i, ".fits", "");
+    QString filename = placeholderPath.generateSequenceFilename(job, true, bm, i, ".fits", "");
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
 
-    placeholderPath.setGenerateFilenameSettings(job, targetName);
+    placeholderPath.setGenerateFilenameSettings(job);
     filename = placeholderPath.generateOutputFilename(true, bm, i, ".fits", "");
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
@@ -631,13 +631,13 @@ void TestPlaceholderPath::testFlexibleNamingGlob()
                        PlaceholderFormat,
                        PlaceholderSuffix);
 
-    Ekos::SequenceJob job(root);
+    Ekos::SequenceJob job(root, "");
     auto placeholderPath = Ekos::PlaceholderPath("");
     bool bm = false;
     int i = nextSequenceID.toInt();
-    QString filename = placeholderPath.generateSequenceFilename(job, "", true, bm, i, ".fits", "", true);
+    QString filename = placeholderPath.generateSequenceFilename(job, true, bm, i, ".fits", "", true);
     QCOMPARE(filename, result);
-    placeholderPath.setGenerateFilenameSettings(job, "");
+    placeholderPath.setGenerateFilenameSettings(job);
     filename = placeholderPath.generateOutputFilename(true, bm, i, ".fits", "", true);
     QCOMPARE(filename, result);
 #endif
@@ -719,7 +719,6 @@ void TestPlaceholderPath::testGetCompletedFileIds()
     QFETCH(QString, Filter);
     QFETCH(QString, Type);
     QFETCH(QString, Prefix);
-    QFETCH(QString, RawPrefix);
     QFETCH(QString, FilterEnabled);
     QFETCH(QString, ExpEnabled);
     QFETCH(QString, TimeStampEnabled);
@@ -734,7 +733,7 @@ void TestPlaceholderPath::testGetCompletedFileIds()
                        Filter,
                        Type,
                        Prefix,
-                       RawPrefix,
+                       targetName,
                        FilterEnabled,
                        ExpEnabled,
                        TimeStampEnabled,
@@ -742,16 +741,16 @@ void TestPlaceholderPath::testGetCompletedFileIds()
                        PlaceholderFormat,
                        "1");
 
-    Ekos::SequenceJob job(root);
+    Ekos::SequenceJob job(root, targetName);
     auto placeholderPath = Ekos::PlaceholderPath(seqFilename);
     bool bm = true;
-    placeholderPath.setGenerateFilenameSettings(job, targetName);
+    placeholderPath.setGenerateFilenameSettings(job);
     int nextSequenceID;
     for (int id = 1; id < 4; id++)
     {
-        nextSequenceID = placeholderPath.getCompletedFiles(job, targetName);
+        nextSequenceID = placeholderPath.getCompletedFiles(job);
         QCOMPARE(nextSequenceID, id - 1);
-        nextSequenceID = placeholderPath.checkSeqBoundary(job, targetName);
+        nextSequenceID = placeholderPath.checkSeqBoundary(job);
         QCOMPARE(nextSequenceID, id);
         QString filename = placeholderPath.generateOutputFilename(true, bm, id, ".fits", "");
         QDir path;

@@ -158,9 +158,9 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
              * @param fileURL full URL of the filename
-             * @param ignoreTarget ignore target defined in the sequence queue file (necessary for using the target of the scheduler)
+             * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, bool ignoreTarget = false);
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -621,14 +621,9 @@ class Capture : public QWidget, public Ui::Capture
         /** DBus interface function
          * @brief Set the name of the target to be captured.
          */
-        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName)
-        {
-            state()->setTargetName(newTargetName);
-        };
-        Q_SCRIPTABLE QString getTargetName()
-        {
-            return state()->targetName();
-        }
+        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
+
+        Q_SCRIPTABLE QString getTargetName();
 
         /** DBus interface function
          * @brief Set the observer name.
@@ -955,6 +950,7 @@ class Capture : public QWidget, public Ui::Capture
         void adaptiveFocus();
         void suspendGuiding();
         void resumeGuiding();
+        void captureTarget(QString targetName);
         void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
         void newExposureProgress(SequenceJob *job);
         void newDownloadProgress(double);

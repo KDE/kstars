@@ -27,9 +27,37 @@ const QStringList SequenceJob::StatusStrings()
 }
 
 
-void SequenceJob::init(SequenceJobType jobType)
+/**
+ * @brief SequenceJob::SequenceJob Construct job from XML source
+ * @param root pointer to valid job stored in XML format.
+ */
+SequenceJob::SequenceJob(XMLEle * root, QString targetName)
+{
+    // set own unconnected state machine
+    QSharedPointer<CaptureModuleState> sharedState;
+    sharedState.reset(new CaptureModuleState);
+    state.reset(new SequenceJobState(sharedState));
+    // set simple device adaptor
+    devices.reset(new CaptureDeviceAdaptor());
+
+    init(SequenceJob::JOBTYPE_BATCH, root, sharedState, targetName);
+}
+
+SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
+                         const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType, XMLEle *root,
+                         QString targetName)
+{
+    devices = cp;
+    init(jobType, root, sharedState, targetName);
+}
+
+
+void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState,
+                             QString targetName)
 {
     setJobType(jobType);
+    // initialize the state machine
+    state.reset(new SequenceJobState(sharedState));
     // Set default property values
     m_CoreProperties[SJ_Exposure] = -1;
     m_CoreProperties[SJ_Gain] = -1;
@@ -42,15 +70,6 @@ void SequenceJob::init(SequenceJobType jobType)
     m_CoreProperties[SJ_EnforceTemperature] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
     m_CoreProperties[SJ_Encoding] = "FITS";
-}
-
-SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
-                         const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType)
-{
-    init(jobType);
-    devices = cp;
-    // initialize the state machine
-    state.reset(new SequenceJobState(sharedState));
 
     // signal forwarding between this and the state machine
     connect(this, &SequenceJob::updateGuiderDrift, state.data(), &SequenceJobState::setCurrentGuiderDrift);
@@ -60,155 +79,278 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
     connect(state.data(), &SequenceJobState::newLog, this, &SequenceJob::newLog);
     // start capturing as soon as the capture initialization is complete
     connect(state.data(), &SequenceJobState::initCaptureComplete, this, &SequenceJob::capture);
-}
 
-/**
- * @brief SequenceJob::SequenceJob Construct job from XML source
- * @param root pointer to valid job stored in XML format.
- */
-SequenceJob::SequenceJob(XMLEle *root)
-{
-    init(SequenceJob::JOBTYPE_BATCH);
-    XMLEle *ep    = nullptr;
-    XMLEle *subEP = nullptr;
+    // finish if XML document empty
+    if (root == nullptr)
+        return;
 
-    // set own unconnected state machine
-    QSharedPointer<CaptureModuleState> sharedState;
-    sharedState.reset(new CaptureModuleState);
-    state.reset(new SequenceJobState(sharedState));
-
-    // We expect all data read from the XML to be in the C locale - QLocale::c().
+    bool isDarkFlat = false;
+    sharedState->scripts().clear();
     QLocale cLocale = QLocale::c();
-
-    const QMap<QString, CCDFrameType> frameTypes =
-    {
-        { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
-    };
-
-    setFrameType(FRAME_NONE);
-    setCoreProperty(SJ_Exposure, 0);
-    /* Reset light frame presence flag before enumerating */
-    // JM 2018-09-14: If last sequence job is not LIGHT
-    // then scheduler job light frame is set to whatever last sequence job is
-    // so if it was non-LIGHT, this value is set to false which is wrong.
-    //if (nullptr != schedJob)
-    //    schedJob->setLightFramesRequired(false);
-
+    XMLEle * ep;
+    XMLEle * subEP;
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
-        {
-            setCoreProperty(SJ_Exposure, atof(pcdataXMLEle(ep)));
-        }
+            setCoreProperty(SequenceJob::SJ_Exposure, cLocale.toDouble(pcdataXMLEle(ep)));
         else if (!strcmp(tagXMLEle(ep), "Format"))
-        {
-            setCoreProperty(SJ_Format, pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
-        {
-            setCoreProperty(SJ_PlaceholderFormat, pcdataXMLEle(ep));
-        }
-        else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
-        {
-            setCoreProperty(SJ_PlaceholderSuffix, pcdataXMLEle(ep));
-        }
+            setCoreProperty(SequenceJob::SJ_Format, pcdataXMLEle(ep));
         else if (!strcmp(tagXMLEle(ep), "Encoding"))
         {
-            setCoreProperty(SJ_Encoding, pcdataXMLEle(ep));
+            setCoreProperty(SequenceJob::SJ_Encoding, pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Binning"))
+        {
+            QPoint binning(1, 1);
+            subEP = findXMLEle(ep, "X");
+            if (subEP)
+                binning.setX(cLocale.toInt(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "Y");
+            if (subEP)
+                binning.setY(cLocale.toInt(pcdataXMLEle(subEP)));
+
+            setCoreProperty(SequenceJob::SJ_Binning, binning);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Frame"))
+        {
+            QRect roi(0, 0, 0, 0);
+            subEP = findXMLEle(ep, "X");
+            if (subEP)
+                roi.setX(cLocale.toInt(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "Y");
+            if (subEP)
+                roi.setY(cLocale.toInt(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "W");
+            if (subEP)
+                roi.setWidth(cLocale.toInt(pcdataXMLEle(subEP)));
+            subEP = findXMLEle(ep, "H");
+            if (subEP)
+                roi.setHeight(cLocale.toInt(pcdataXMLEle(subEP)));
+
+            setCoreProperty(SequenceJob::SJ_ROI, roi);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Temperature"))
+        {
+            setTargetTemperature(cLocale.toDouble(pcdataXMLEle(ep)));
+
+            // If force attribute exist, we change cameraTemperatureS, otherwise do nothing.
+            if (!strcmp(findXMLAttValu(ep, "force"), "true"))
+                setCoreProperty(SequenceJob::SJ_EnforceTemperature, true);
+            else if (!strcmp(findXMLAttValu(ep, "force"), "false"))
+                setCoreProperty(SequenceJob::SJ_EnforceTemperature, false);
         }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
-            setCoreProperty(SJ_Filter, QString(pcdataXMLEle(ep)));
+            const auto name = pcdataXMLEle(ep);
+            const auto index = std::max(1, filterLabels().indexOf(name) + 1);
+            setTargetFilter(index, name);
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
-            /* Record frame type and mark presence of light frames for this sequence */
-            QString frameTypeStr = QString(pcdataXMLEle(ep));
-            if (frameTypes.contains(frameTypeStr))
+            int index = frameTypes().indexOf(pcdataXMLEle(ep));
+            setFrameType(static_cast<CCDFrameType>(qMax(0, index)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "TargetName"))
+        {
+            if (targetName == "")
             {
-                setFrameType(frameTypes[frameTypeStr]);
+                setCoreProperty(SequenceJob::SJ_TargetName, pcdataXMLEle(ep));
             }
-            //if (FRAME_LIGHT == frameType && nullptr != schedJob)
-            //schedJob->setLightFramesRequired(true);
+            else
+            {
+                // targetName overrides values from the file
+                setCoreProperty(SequenceJob::SJ_TargetName, targetName);
+                if (strcmp(pcdataXMLEle(ep), "") != 0)
+                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(ep));
+            }
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
+            // RawPrefix is outdated and will be ignored
+            subEP = findXMLEle(ep, "RawPrefix");
+            if (subEP)
+            {
+                if (targetName == "")
+                {
+                    setCoreProperty(SequenceJob::SJ_TargetName, pcdataXMLEle(subEP));
+                }
+                else
+                {
+                    // targetName overrides values from the file
+                    setCoreProperty(SequenceJob::SJ_TargetName, targetName);
+                    if (strcmp(pcdataXMLEle(subEP), "") != 0)
+                        qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(subEP));
+                }
+            }
             bool filterEnabled = false, expEnabled = false, tsEnabled = false;
             subEP = findXMLEle(ep, "FilterEnabled");
             if (subEP)
                 filterEnabled = !strcmp("1", pcdataXMLEle(subEP));
-
             subEP = findXMLEle(ep, "ExpEnabled");
             if (subEP)
                 expEnabled = !strcmp("1", pcdataXMLEle(subEP));
-
             subEP = findXMLEle(ep, "TimeStampEnabled");
             if (subEP)
                 tsEnabled = !strcmp("1", pcdataXMLEle(subEP));
-
             // build default format
-            setCoreProperty(SJ_PlaceholderFormat, PlaceholderPath::defaultFormat(filterEnabled, expEnabled, tsEnabled));
+            setCoreProperty(SequenceJob::SJ_PlaceholderFormat,
+                            PlaceholderPath::defaultFormat(filterEnabled, expEnabled, tsEnabled));
         }
         else if (!strcmp(tagXMLEle(ep), "Count"))
         {
-            setCoreProperty(SJ_Count, atoi(pcdataXMLEle(ep)));
+            setCoreProperty(SequenceJob::SJ_Count, cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Delay"))
         {
-            setCoreProperty(SJ_Delay, atoi(pcdataXMLEle(ep)));
+            setCoreProperty(SequenceJob::SJ_Delay, cLocale.toInt(pcdataXMLEle(ep)) * 1000);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
+        {
+            sharedState->scripts()[SCRIPT_POST_CAPTURE] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PreCaptureScript"))
+        {
+            sharedState->scripts()[SCRIPT_PRE_CAPTURE] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PostJobScript"))
+        {
+            sharedState->scripts()[SCRIPT_POST_JOB] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "PreJobScript"))
+        {
+            sharedState->scripts()[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
-            setCoreProperty(SJ_LocalDirectory, (pcdataXMLEle(ep)));
+            setCoreProperty(SequenceJob::SJ_LocalDirectory, pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
+        {
+            setCoreProperty(SequenceJob::SJ_PlaceholderFormat, pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
+        {
+            setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, cLocale.toUInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
-            setCoreProperty(SJ_RemoteDirectory, (pcdataXMLEle(ep)));
+            setCoreProperty(SequenceJob::SJ_RemoteDirectory, pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
-            setUploadMode(static_cast<ISD::Camera::UploadMode>(atoi(pcdataXMLEle(ep))));
+            setUploadMode(static_cast<ISD::Camera::UploadMode>(cLocale.toInt(pcdataXMLEle(ep))));
+        }
+        else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
+        {
+            setCoreProperty(SequenceJob::SJ_ISOIndex, cLocale.toInt(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Rotation"))
+        {
+            setTargetRotation(cLocale.toDouble(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Properties"))
+        {
+            QMap<QString, QMap<QString, QVariant>> propertyMap;
+
+            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
+            {
+                QMap<QString, QVariant> elements;
+                XMLEle * oneElement = nullptr;
+                for (oneElement = nextXMLEle(subEP, 1); oneElement != nullptr; oneElement = nextXMLEle(subEP, 0))
+                {
+                    const char * name = findXMLAttValu(oneElement, "name");
+                    bool ok = false;
+                    // String
+                    auto xmlValue = pcdataXMLEle(oneElement);
+                    // Try to load it as double
+                    auto value = cLocale.toDouble(xmlValue, &ok);
+                    if (ok)
+                        elements[name] = value;
+                    else
+                        elements[name] = xmlValue;
+                }
+
+                const char * name = findXMLAttValu(subEP, "name");
+                propertyMap[name] = elements;
+            }
+
+            setCustomProperties(propertyMap);
+            // read the gain and offset values from the custom properties
+            setCoreProperty(SequenceJob::SJ_Gain, devices->cameraGain(propertyMap));
+            setCoreProperty(SequenceJob::SJ_Offset, devices->cameraOffset(propertyMap));
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
+            // SQ_FORMAT_VERSION >= 2.7
             subEP = findXMLEle(ep, "PreAction");
             if (subEP)
             {
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
                 if (typeEP)
                 {
-                    setCalibrationPreAction(ACTION_NONE);
-                    if (!strcmp(pcdataXMLEle(typeEP), "ParkMount"))
-                        setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_MOUNT);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "ParkDome"))
-                        setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_DOME);
-                    else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
+                    setCalibrationPreAction(cLocale.toUInt(pcdataXMLEle(typeEP)));
+                    if (getCalibrationPreAction() == ACTION_WALL)
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
                         XMLEle * altEP = findXMLEle(subEP, "Alt");
 
                         if (azEP && altEP)
                         {
-                            // If we have wall, then we need to disable park mount
                             setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
                             SkyPoint wallCoord;
-                            wallCoord.setAz(dms::fromString(pcdataXMLEle(azEP), true));
-                            wallCoord.setAlt(dms::fromString(pcdataXMLEle(altEP), true));
+                            wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
+                            wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
+                            setWallCoord(wallCoord);
+                        }
+                        else
+                            setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_WALL) | ACTION_NONE);
+                    }
+                }
+            }
+
+            // SQ_FORMAT_VERSION < 2.7
+            subEP = findXMLEle(ep, "FlatSource");
+            if (subEP)
+            {
+                XMLEle * typeEP = findXMLEle(subEP, "Type");
+                if (typeEP)
+                {
+                    // default
+                    setCalibrationPreAction(ACTION_NONE);
+                    if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
+                    {
+                        XMLEle * azEP  = findXMLEle(subEP, "Az");
+                        XMLEle * altEP = findXMLEle(subEP, "Alt");
+
+                        if (azEP && altEP)
+                        {
+                            setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
+                            SkyPoint wallCoord;
+                            wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
+                            wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
                             setWallCoord(wallCoord);
                         }
                     }
                 }
             }
 
+            // SQ_FORMAT_VERSION < 2.7
+            subEP = findXMLEle(ep, "PreMountPark");
+            if (subEP && !strcmp(pcdataXMLEle(subEP), "True"))
+                setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_MOUNT);
+
+            // SQ_FORMAT_VERSION < 2.7
+            subEP = findXMLEle(ep, "PreDomePark");
+            if (subEP && !strcmp(pcdataXMLEle(subEP), "True"))
+                setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_DOME);
+
             subEP = findXMLEle(ep, "FlatDuration");
             if (subEP)
             {
                 const char * dark = findXMLAttValu(subEP, "dark");
-                if (!strcmp(dark, "true"))
-                    setJobType(JOBTYPE_DARKFLAT);
+                isDarkFlat = !strcmp(dark, "true");
 
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
-
                 if (typeEP)
                 {
                     if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
@@ -219,17 +361,28 @@ SequenceJob::SequenceJob(XMLEle *root)
                 if (aduEP)
                 {
                     setFlatFieldDuration(DURATION_ADU);
-                    setCoreProperty(SJ_TargetADU, cLocale.toDouble(pcdataXMLEle(aduEP)));
+                    setCoreProperty(SequenceJob::SJ_TargetADU, QVariant(cLocale.toDouble(pcdataXMLEle(aduEP))));
                 }
 
                 aduEP = findXMLEle(subEP, "Tolerance");
                 if (aduEP)
                 {
-                    setCoreProperty(SJ_TargetADUTolerance, cLocale.toDouble(pcdataXMLEle(aduEP)));
+                    setCoreProperty(SequenceJob::SJ_TargetADUTolerance, QVariant(cLocale.toDouble(pcdataXMLEle(aduEP))));
                 }
             }
         }
     }
+    if(isDarkFlat)
+        setJobType(SequenceJob::JOBTYPE_DARKFLAT);
+
+    // copy general state attributes
+    // TODO: does this really make sense? This is a general setting - sterne-jaeger@openfuture.de, 2023-09-21
+    setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, Options::enforceStartGuiderDrift());
+    setTargetStartGuiderDrift(Options::startGuideDeviation());
+
+    // create signature with current target
+    auto placeholderPath = Ekos::PlaceholderPath();
+    placeholderPath.processJobInfo(this);
 }
 
 void SequenceJob::resetStatus(JOBStatus status)
@@ -294,6 +447,26 @@ int SequenceJob::getJobRemainingTime(double estimatedDownloadTime)
 void SequenceJob::setStatus(JOBStatus const in_status)
 {
     state->reset(in_status);
+}
+
+QStringList SequenceJob::frameTypes()
+{
+    if (!devices->getActiveCamera())
+        return QStringList({"Light", "Bias", "Dark", "Flat"});
+
+    ISD::CameraChip *tChip = devices->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
+
+    return tChip->getFrameTypes();
+
+}
+
+QStringList SequenceJob::filterLabels()
+{
+    if (devices->getFilterManager().isNull())
+        return QStringList();
+
+    return devices->getFilterManager()->getFilterLabels();
+
 }
 
 void SequenceJob::connectDeviceAdaptor()
@@ -606,22 +779,22 @@ void SequenceJob::updateDeviceStates()
     setDustCap(devices->dustCap());
 }
 
-void SequenceJob::setLightBox(ISD::LightBox *lightBox)
+void SequenceJob::setLightBox(ISD::LightBox * lightBox)
 {
     state->m_CaptureModuleState->hasLightBox = (lightBox != nullptr);
 }
 
-void SequenceJob::setDustCap(ISD::DustCap *dustCap)
+void SequenceJob::setDustCap(ISD::DustCap * dustCap)
 {
     state->m_CaptureModuleState->hasDustCap = (dustCap != nullptr);
 }
 
-void SequenceJob::addMount(ISD::Mount *scope)
+void SequenceJob::addMount(ISD::Mount * scope)
 {
     state->m_CaptureModuleState->hasTelescope = (scope != nullptr);
 }
 
-void SequenceJob::setDome(ISD::Dome *dome)
+void SequenceJob::setDome(ISD::Dome * dome)
 {
     state->m_CaptureModuleState->hasDome = (dome != nullptr);
 }

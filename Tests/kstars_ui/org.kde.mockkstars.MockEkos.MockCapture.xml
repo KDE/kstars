@@ -15,7 +15,7 @@
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
-      <arg name="ignoreTarget" type="b" direction="in"/>
+      <arg name="targetName" type="s" direction="in"/>
     </method>
     <method name="clearAutoFocusHFR">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

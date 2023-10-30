@@ -204,9 +204,9 @@ class MockCapture : public QObject
     public:
         MockCapture();
         Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR() {}
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, bool ignoreTarget = false)
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "")
         {
-            Q_UNUSED(ignoreTarget)
+            Q_UNUSED(targetName)
             fprintf(stderr, "%d @@@MockCapture::loadSequenceQueue(%s)\n", __LINE__, fileURL.toLatin1().data());
             m_fileURL = fileURL;
             return true;

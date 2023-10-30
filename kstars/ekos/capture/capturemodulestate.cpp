@@ -26,7 +26,7 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     getGuideDeviationTimer().setInterval(GD_TIMER_TIMEOUT);
     connect(&m_guideDeviationTimer, &QTimer::timeout, this, &CaptureModuleState::checkGuideDeviationTimeout);
 
-    setCalibrationPreAction(static_cast<CalibrationPreActions>(Options::calibrationPreActionIndex()));
+    setCalibrationPreAction(Options::calibrationPreActionIndex());
     setFlatFieldDuration(static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex()));
     wallCoord().setAz(Options::calibrationWallAz());
     wallCoord().setAlt(Options::calibrationWallAlt());
@@ -288,15 +288,6 @@ void CaptureModuleState::setMeridianFlipState(QSharedPointer<MeridianFlipState> 
     mf_state = state;
     connect(mf_state.data(), &Ekos::MeridianFlipState::newMountMFStatus, this, &Ekos::CaptureModuleState::updateMFMountState,
             Qt::UniqueConnection);
-}
-
-void CaptureModuleState::setTargetName(const QString &value)
-{
-    if (isCaptureRunning() == false)
-    {
-        m_TargetName = value;
-        emit newTargetName(value);
-    }
 }
 
 void CaptureModuleState::setObserverName(const QString &value)
@@ -1242,7 +1233,7 @@ void CaptureModuleState::checkSeqBoundary(QUrl sequenceURL)
         return;
 
     auto placeholderPath = PlaceholderPath(sequenceURL.toLocalFile());
-    setNextSequenceID(placeholderPath.checkSeqBoundary(*getActiveJob(), targetName()));
+    setNextSequenceID(placeholderPath.checkSeqBoundary(*getActiveJob()));
 }
 
 bool CaptureModuleState::isModelinDSLRInfo(const QString &model)

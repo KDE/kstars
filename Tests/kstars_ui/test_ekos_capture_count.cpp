@@ -422,10 +422,11 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
     // check estimated duration time (only relevant for repeats
     if (completionCondition == SchedulerJob::FINISH_REPEAT)
     {
-        QString estimation = queueTable->item(0, 7)->text();
-        QTime estimatedDuration = QTime::fromString(estimation, "HH:mm:ss");
-        int duration = estimatedDuration.second() + 60 * estimatedDuration.minute() + 3600 * estimatedDuration.hour();
-        KVERIFY2_SUB(std::fabs((total_repeat_expected - captured_expected)*exptime - duration) <= 1,
+        QTime startTime = QTime::fromString(queueTable->item(0, 4)->text(), "HH:mm");
+        QTime endTime = QTime::fromString(queueTable->item(0, 5)->text().right(5), "HH:mm");
+
+        int duration = startTime.secsTo(endTime);
+        KVERIFY2_SUB(std::fabs((total_repeat_expected - captured_expected)*exptime - duration) <= 60,
                      QString("Scheduler job table shows %1 seconds expected instead of %2.").arg(duration).arg((
                                  total_repeat_expected - captured_expected)*exptime).toStdString().c_str());
     }

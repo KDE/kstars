@@ -589,16 +589,9 @@ public:
     /**
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
-     * @param ignoreTarget ignore target defined in the sequence queue file (necessary for using the target of the scheduler)
+     * @param targetName override the target defined in the sequence queue file (necessary for using the target of the scheduler)
      */
-     bool loadSequenceQueue(const QString &fileURL, bool ignoreTarget = false);
-
-     /**
-      * @brief loadSequenceJob Create a single job from an XML definition.
-      * @param root XML root holding the job definition
-      * @param ignoreTarget true iff the target from the XML should be ignored
-      */
-     SequenceJob *loadSequenceJob(XMLEle *root, bool ignoreTarget = false);
+     bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
 
     /**
      * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -668,19 +661,17 @@ public:
     QStringList filterLabels();
 
     /**
-     * @brief getGain Retrieve the gain value from the custom property value. Depending
+     * @brief getGain Update the gain value from the custom property value. Depending
      *        on the camera, it is either stored as GAIN property value of CCD_GAIN or as
      *        Gain property value from CCD_CONTROLS.
      */
-    double getGain(QMap<QString, QMap<QString, QVariant> > propertyMap);
     void updateGain(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap);
 
     /**
-     * @brief getOffset Retrieve the offset value from the custom property value. Depending
+     * @brief getOffset Update the offset value from the custom property value. Depending
      *        on the camera, it is either stored as OFFSET property value of CCD_OFFSET or as
      *        Offset property value from CCD_CONTROLS.
      */
-    double getOffset(QMap<QString, QMap<QString, QVariant> > propertyMap);
     void updateOffset(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap);
 
 
@@ -706,6 +697,7 @@ signals:
     void jobExecutionPreparationStarted();
     void jobPrepared(SequenceJob *job);
     void captureImageStarted();
+    void captureTarget(QString targetName);
     void captureRunning();
     void newExposureProgress(SequenceJob *job);
     void newDownloadProgress(double downloadTimeLeft);

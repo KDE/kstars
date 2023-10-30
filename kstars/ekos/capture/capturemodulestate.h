@@ -382,12 +382,6 @@ class CaptureModuleState: public QObject
             return m_refocusState;
         }
 
-        const QString &targetName() const
-        {
-            return m_TargetName;
-        }
-        void setTargetName(const QString &value);
-
         const QString &observerName() const
         {
             return m_ObserverName;
@@ -960,8 +954,6 @@ class CaptureModuleState: public QObject
         void executeActiveJob();
         void updatePrepareState(CaptureState state);
         void captureStarted(CAPTUREResult rc);
-        // new target to be captured
-        void newTargetName(QString name);
         // mount meridian flip status update event
         void newMeridianFlipStage(MeridianFlipState::MFStage status);
         // meridian flip started
@@ -1062,8 +1054,6 @@ private:
         int m_nextSequenceID { 0 };
         // how to continue after pausing
         ContinueAction m_ContinueAction { CONTINUE_ACTION_NONE };
-        // name of the capture target
-        QString m_TargetName;
         // name of the observer
         QString m_ObserverName;
         // ignore already captured files

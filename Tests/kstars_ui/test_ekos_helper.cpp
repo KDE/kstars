@@ -403,6 +403,7 @@ void TestEkosHelper::prepareOpticalTrains()
     primaryTrain["focuser"] = m_FocuserDevice == "" ? "-" : m_FocuserDevice;
     primaryTrain["rotator"] = m_RotatorDevice == "" ? "-" : m_RotatorDevice;
     primaryTrain["lightbox"] = m_LightPanelDevice == "" ? "-" : m_LightPanelDevice;
+    primaryTrain["dustcap"] = m_DustCapDevice == "" ? "-" : m_DustCapDevice;
     KStarsData::Instance()->userdb()->UpdateOpticalTrain(primaryTrain, primaryTrain["id"].toInt());
     if (m_GuiderDevice != "")
     {

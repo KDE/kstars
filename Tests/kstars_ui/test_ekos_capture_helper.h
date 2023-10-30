@@ -75,9 +75,10 @@
  * @param count is the number of exposures to execute.
  * @param delay is the delay after exposure.
  * @param filter is the filter name to set.
+ * @param target name of the target.
  * @param destination is the folder to store fames to.
  */
-#define KTRY_CAPTURE_CONFIGURE_FRAME(frametype, exposure, count, delay, filter, destination) do { \
+#define KTRY_CAPTURE_CONFIGURE_FRAME(frametype, exposure, count, delay, filter, target, destination) do { \
     KTRY_CAPTURE_GADGET(QDoubleSpinBox, captureExposureN); \
     captureExposureN->setValue(static_cast<double>(exposure)); \
     KTRY_CAPTURE_GADGET(QSpinBox, captureCountN); \
@@ -88,6 +89,8 @@
     KTRY_CAPTURE_COMBO_SET(captureTypeS, frametype); \
     KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo); \
     KTRY_CAPTURE_COMBO_SET(FilterPosCombo, (filter)); \
+    KTRY_CAPTURE_GADGET(QLineEdit, targetNameT); \
+    targetNameT->setText(target); \
     KTRY_CAPTURE_GADGET(QLineEdit, fileDirectoryT); \
     fileDirectoryT->setText(destination); } while(false)
 
@@ -97,12 +100,13 @@
  * @param count is the number of exposures to execute.
  * @param delay is the delay after exposure.
  * @param filter is the filter name to set.
+ * @param target name of the target.
  * @param destination is the folder to store fames to.
  */
-#define KTRY_CAPTURE_ADD_FRAME(frametype, exposure, count, delay, filter, destination) do { \
+#define KTRY_CAPTURE_ADD_FRAME(frametype, exposure, count, delay, filter, target, destination) do { \
     KTRY_CAPTURE_GADGET(QTableWidget, queueTable); \
     int const jcount = queueTable->rowCount(); \
-    KTRY_CAPTURE_CONFIGURE_FRAME(frametype, exposure, count, delay, filter, destination); \
+    KTRY_CAPTURE_CONFIGURE_FRAME(frametype, exposure, count, delay, filter, target, destination); \
     KTRY_CAPTURE_CLICK(addToQueueB); \
     QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == (jcount+1), 1000); } while(false);
 
@@ -112,20 +116,22 @@
  * @param count is the number of exposures to execute.
  * @param delay is the delay after exposure.
  * @param filter is the filter name to set.
+ * @param target name of the target.
  * @param destination is the folder to store fames to.
  */
-#define KTRY_CAPTURE_CONFIGURE_LIGHT(exposure, count, delay, filter, destination) \
-    KTRY_CAPTURE_CONFIGURE_FRAME("Light", exposure, count, delay, filter, destination)
+#define KTRY_CAPTURE_CONFIGURE_LIGHT(exposure, count, delay, filter, target, destination) \
+    KTRY_CAPTURE_CONFIGURE_FRAME("Light", exposure, count, delay, filter, target, destination)
 
 /** @brief Helper to add a Light frame to a Capture job.
  * @param exposure is the exposure duration.
  * @param count is the number of exposures to execute.
  * @param delay is the delay after exposure.
  * @param filter is the filter name to set.
+ * @param target name of the target.
  * @param destination is the folder to store fames to.
  */
-#define KTRY_CAPTURE_ADD_LIGHT(exposure, count, delay, filter, destination) \
-    KTRY_CAPTURE_ADD_FRAME("Light", exposure, count, delay, filter, destination)
+#define KTRY_CAPTURE_ADD_LIGHT(exposure, count, delay, filter, target, destination) \
+    KTRY_CAPTURE_ADD_FRAME("Light", exposure, count, delay, filter, target, destination)
 
 
 /** @brief Helper to configure a Flat frame.
@@ -136,7 +142,7 @@
  * @param destination is the folder to store fames to.
  */
 #define KTRY_CAPTURE_CONFIGURE_FLAT(exposure, count, delay, filter, destination) \
-    KTRY_CAPTURE_CONFIGURE_FRAME("Flat", exposure, count, delay, filter, destination)
+    KTRY_CAPTURE_CONFIGURE_FRAME("Flat", exposure, count, delay, filter, "", destination)
 
 /** @brief Helper to add a flat frame to a Capture job.
  * @param exposure is the exposure duration.
@@ -146,7 +152,7 @@
  * @param destination is the folder to store fames to.
  */
 #define KTRY_CAPTURE_ADD_FLAT(exposure, count, delay, filter, destination) \
-    KTRY_CAPTURE_ADD_FRAME("Flat", exposure, count, delay, filter, destination)
+    KTRY_CAPTURE_ADD_FRAME("Flat", exposure, count, delay, filter, "", destination)
 
 
 
@@ -165,6 +171,13 @@ public:
         double value = 0;
     };
 
+    typedef enum {
+        ESQ_VERSION_2_6,
+        ESQ_VERSION_2_7
+    } ESQVersion;
+
+    const QList<QString> esqVersionNames = {"2.6", "2.7"};
+
     struct CaptureSettings {
         QString observer = "";
         OptDouble guideDeviation, startGuideDeviation;
@@ -175,6 +188,7 @@ public:
 
     struct SimpleCaptureLightsJob
     {
+        ESQVersion version = ESQ_VERSION_2_7;
         int exposureTime = 1.0;
         int count = 1;
         int delayMS = 0; // delay in milliseconds
@@ -183,6 +197,7 @@ public:
         QString filterName = "Luminance";
         QString type = "Light";
         QString encoding = "FITS";
+        QString targetName = "test";
         QString fitsDirectory = "/home/pi";
         QString placeholderFormat = "/%t/%T/%F/%t_%T_%F_%e_%D";
         int formatSuffix = 3;
@@ -192,14 +207,14 @@ public:
 
     struct SimpleCaptureCalibratingJob
     {
+        ESQVersion version = ESQ_VERSION_2_7;
         int exposureTime = 1.0;
         QString type = "Flat";
         int count = 1;
-        int preAction = 0;
+        uint preAction = 0;
         double wall_az = 90, wall_alt = 0;
         bool duration_manual = true, duration_adu = false;
         int adu = 10000, tolerance = 1000;
-        bool park_mount = false, park_dome = false;
     };
 
     explicit TestEkosCaptureHelper(QString guider = nullptr);
@@ -252,32 +267,34 @@ public:
      * @brief getSimpleEsqContent Create a simple lights capture sequence file
      * @param settings overall settings
      * @param jobs list of sequence jobs
+     * @param version file version
      * @return XML string list
      */
-    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs);
+    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs, ESQVersion version = ESQ_VERSION_2_7);
 
     /**
      * @brief getSimpleEsqContent Create a simple flats capture sequence file
      * @param settings overall settings
      * @param jobs list of sequence jobs
+     * @param version file version
      * @return XML string list
      */
-    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs);
+    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs, ESQVersion version = ESQ_VERSION_2_7);
 
     /**
      * @brief serializeGeneralSettings Create the XML representation of the general settings
      */
-    QStringList serializeGeneralSettings(CaptureSettings settings);
+    QStringList serializeGeneralSettings(CaptureSettings settings, ESQVersion version = ESQ_VERSION_2_7);
 
     /**
      * @brief serializeJob Create the XML representation of a single lights job
      */
-    QStringList serializeJob(const SimpleCaptureLightsJob &job);
+    QStringList serializeJob(const SimpleCaptureLightsJob &job, ESQVersion version = ESQ_VERSION_2_7);
 
     /**
      * @brief serializeJob Create the XML representation of a single flats job
      */
-    QStringList serializeJob(const SimpleCaptureCalibratingJob &job);
+    QStringList serializeJob(const SimpleCaptureCalibratingJob &job, ESQVersion version = ESQ_VERSION_2_7);
 
     /**
      * @brief calculateSignature Calculate the signature of a given filter
