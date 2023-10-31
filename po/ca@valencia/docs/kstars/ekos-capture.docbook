@@ -570,15 +570,15 @@
 >exemples</ulink
 > per als AP diferents. </para>
         <para
->Per a calibrar l'angle de posició (AP), captureu i solucioneu una imatge al <link linkend="ekos-align"
->mòdul per a l'alineació d'Ekos</link
+>Per a calibrar l'angle de posició (AP), captureu i resoleu una imatge al <link linkend="ekos-align"
+>mòdul «Alinea» d'Ekos</link
 >. S'aplicaran un <emphasis
 >desplaçament</emphasis
 > i un <emphasis
 >multiplicador</emphasis
 > a l'angle brut per a produir l'angle de posició. El diàleg del rotor d'Ekos permet el control directe de l'angle brut i també de l'AP. El desplaçament i el multiplicador es poden canviar manualment per a sincronitzar l'angle brut del rotor amb l'AP real. Marqueu <guilabel
 >Sincronitza CDV amb l'AP</guilabel
-> per a girar l'actual indicador del camp de visió (CDV) en el mapa celeste amb el valor AP a mesura que el canvieu al diàleg. </para>
+> per a fer girar l'actual indicador del camp de visió (CDV) en el mapa celeste amb el valor AP a mesura que el canvieu en el diàleg. </para>
 
         <mediaobject>
             <videoobject>

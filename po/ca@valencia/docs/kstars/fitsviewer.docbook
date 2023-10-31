@@ -260,7 +260,7 @@
 ></listitem>
                 <listitem
 ><para
->Solució de plaques: una eina per a solucionar la placa de la imatge carregada. Açò és útil per a depurar problemes amb la solució de plaques.</para
+>Resolució de plaques: una eina per a resoldre la placa de la imatge carregada. Açò és útil per a depurar problemes amb la resolució de plaques.</para
 ></listitem>
                 <listitem
 ><para
@@ -549,28 +549,28 @@
         </mediaobject>
     </screenshot>
     <para
->El solucionador del visor FITS s'utilitza per a solucionar la placa de la imatge carregada en la pestanya <guilabel
+>El solucionador del visor FITS s'utilitza per a resoldre la placa de la imatge carregada en la pestanya <guilabel
 >Visor FITS</guilabel
->. Només funciona amb StellarSolver intern. Obté les coordenades RA i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la solució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
+>. Només funciona amb StellarSolver intern. Obté les coordenades RA i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
             <itemizedlist>
                 <listitem
 ><para
 >El botó <guibutton
->Soluciona</guibutton
->. En prémer este botó s'inicia la solució de la placa. Quan el sistema la resol, el botó esdevindrà en un botó <guibutton
+>Resol</guibutton
+>. En prémer este botó s'inicia la resolució de plaques. Quan el sistema les resol, el botó esdevindrà en un botó <guibutton
 >Cancel·la</guibutton
 >.</para
 ></listitem>
                 <listitem
 ><para
 >Escala: marcar la casella de selecció <guilabel
->Utilitza una escala</guilabel
-> obligarà al solucionador a utilitzar aproximadament l'escala de píxels o la imatge donada. L'escala s'introduïx en el quadro i les unitats per a l'escala es poden triar entre l'amplària de la imatge en graus, l'amplària de la imatge en minuts d'arc i segons d'arc per píxel. Quan es completa amb èxit una solució, se substituïxen els valors al quadro amb l'escala de la solució.</para
+>Utilitza l'escala</guilabel
+> obligarà al solucionador a utilitzar aproximadament l'escala de píxels o la imatge donada. L'escala s'introduïx en el quadro i les unitats per a l'escala es poden triar entre l'amplària de la imatge en graus, l'amplària de la imatge en minuts d'arc i segons d'arc per píxel. Quan es completa amb èxit una resolució, se substituïxen els valors al quadro amb l'escala de la solució.</para
 ></listitem>
                 <listitem
 ><para
 >Posició: marcar la casella de selecció <guilabel
->Utilitza una posició</guilabel
+>Utilitza la posició</guilabel
 > obligarà al solucionador a buscar a prop de les coordenades <guilabel
 >AR:</guilabel
 > i <guilabel
@@ -581,7 +581,7 @@
 >AR:</guilabel
 > s'introduïx en hores, minuts i segons, p. ex., 13h, i la <guilabel
 >Dec:</guilabel
-> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una solució, se substituiran els valors als quadros <guilabel
+> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una resolució, se substituiran els valors als quadros <guilabel
 >AR:</guilabel
 > i <guilabel
 >Dec:</guilabel
@@ -592,7 +592,7 @@
                 <listitem
 ><para
 >Utilitzar la posició del mapa celeste: hi ha un botó just davall de la casella de selecció <guilabel
->Utilitza una posició</guilabel
+>Utilitza la posició</guilabel
 > que emplena els quadros <guilabel
 >AR:</guilabel
 > i <guilabel
@@ -603,7 +603,7 @@
 ><para
 >Perfil: en esta llista desplegable se selecciona un ajustament predefinit de StellarSolver, entre els utilitzats en el mòdul <guilabel
 >Alinea</guilabel
-> d'Ekos, que s'utilitzarà per a la solució de les plaques. Açò es debat més avant.</para
+> d'Ekos, que s'utilitzarà per a la resolució de plaques. Açò es debat més avant.</para
 ></listitem>
                 <listitem
 ><para
@@ -669,8 +669,8 @@
               <listitem
 ><para
 >Quan feu clic en <guibutton
->Soluciona</guibutton
-> en esta eina, per a esta imatge, es mostraran quantes estreles s'han detectat i l'usuari podrà decidir si es tracta d'un problema de detecció d'estreles i fer experiments ajustant el perfil o els paràmetres de la detecció d'estreles. </para
+>Resol</guibutton
+> en esta eina, per a esta imatge, es mostraran quantes estreles s'han detectat i l'usuari podrà decidir si es tracta d'un problema en la detecció d'estreles i fer experiments ajustant el perfil o els paràmetres de la detecció d'estreles. </para
 ></listitem>
               <listitem
 ><para
@@ -679,9 +679,9 @@
               <listitem
 ><para
 >L'usuari podrà fer experiments amb <guilabel
->Utilitza una posició</guilabel
+>Utilitza la posició</guilabel
 > i <guilabel
->Utilitza una escala</guilabel
+>Utilitza l'escala</guilabel
 >, utilitzant valors precisos per a estes restriccions (o inhabilitar-les) per a veure si este era el problema, o ajustar els paràmetres en el perfil d'alineació que s'està utilitzant.</para
 ></listitem>
             </itemizedlist>
