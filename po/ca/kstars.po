@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-31 00:39+0000\n"
-"PO-Revision-Date: 2023-10-30 10:12+0100\n"
+"PO-Revision-Date: 2023-10-31 10:08+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16680,11 +16680,10 @@ msgstr ""
 "seguiment."
 
 #: ekos/capture/sequencejobstate.cpp:483
-#, fuzzy, kde-format
-#| msgid "Slew to wall position complete, stop tracking."
+#, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
-"S'ha completat l'orientació cap a la posició de la paret, s'atura el "
+"S'ha completat l'orientació cap a la posició de la paret, s'ha aturat el "
 "seguiment."
 
 #: ekos/capture/sequencejobstate.cpp:511
