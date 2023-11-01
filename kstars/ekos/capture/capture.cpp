@@ -3254,7 +3254,7 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
 
     if (captureISOS)
-        job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
+        job->setISO(captureISOS->currentIndex());
 
     if (getGain() >= 0)
         job->setCoreProperty(SequenceJob::SJ_Gain, getGain());

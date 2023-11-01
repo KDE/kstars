@@ -32,7 +32,9 @@ class PlaceholderPath
             PP_DARKFLAT,   // bool
             PP_EXPOSURE,   // double
             PP_FILTER,     // QString
+            PP_BIN,        // Point
             PP_GAIN,       // double
+            PP_ISO,        // uint
             PP_OFFSET,     // double
             PP_PIERSIDE,   // ISD::Mount::PierSide (int)
             PP_TEMPERATURE // double
@@ -79,7 +81,7 @@ class PlaceholderPath
          */
         QString generateSequenceFilename(const SequenceJob &job, bool local, const bool batch_mode,
                                  const int nextSequenceID, const QString &extension, const QString &filename,
-                                 const bool glob = false, const bool gettingSignature = false) const;
+                                 const bool glob = false, const bool gettingSignature = false);
 
         /**
          * @brief generateFilename performs the data for tag substituion in the filename
@@ -101,7 +103,10 @@ class PlaceholderPath
          * @brief setGenerateFilenameSettings loads the placeHolderPath with settings from the passed job
          * @param sequence job to be processed
          */
-        void setGenerateFilenameSettings(const SequenceJob &job);
+        void setGenerateFilenameSettings(const SequenceJob &job)
+        {
+            setGenerateFilenameSettings(job, m_PathPropertyMap, true);
+        }
 
         /**
          * @brief remainingPlaceholders finds placeholder tags in filename
@@ -166,6 +171,14 @@ private:
         QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
                                  const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
+        /**
+         * @brief setGenerateFilenameSettings Generate property map from job settings
+         * @param job sequence job holding the attributes
+         * @param pathPropertyMap property map to be filled
+         * @param local set true if local file directory should be used
+         */
+        void setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap, bool local);
+
         QString getFrameType(CCDFrameType frameType) const
         {
             if (m_frameTypes.contains(frameType))
@@ -181,9 +194,9 @@ private:
         {
             return m_PathPropertyMap[prop];
         }
-        void setPathProperty(PathProperty prop, QVariant value)
+        void setPathProperty(QMap<PathProperty, QVariant> &pathPropertyMap, PathProperty prop, QVariant value)
         {
-            m_PathPropertyMap[prop] = value;
+            pathPropertyMap[prop] = value;
         }
 
         QMap<CCDFrameType, QString> m_frameTypes;

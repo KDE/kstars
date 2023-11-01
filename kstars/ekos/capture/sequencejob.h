@@ -62,6 +62,8 @@ class SequenceJob : public QObject
             SJ_Count,
             // Int
             SJ_Delay,
+            // QString
+            SJ_ISO,
             // Int
             SJ_ISOIndex,
             // Double
@@ -215,6 +217,10 @@ class SequenceJob : public QObject
         {
             m_Scripts[type] = value;
         }
+
+        // helper function setting both ISO index and ISO value
+        void setISO(int index);
+
         // Custom Properties
         const QMap<QString, QMap<QString, QVariant> > getCustomProperties() const
         {

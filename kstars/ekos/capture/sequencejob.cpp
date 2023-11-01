@@ -51,7 +51,6 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
     init(jobType, root, sharedState, targetName);
 }
 
-
 void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState,
                              QString targetName)
 {
@@ -242,7 +241,7 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
         }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
-            setCoreProperty(SequenceJob::SJ_ISOIndex, cLocale.toInt(pcdataXMLEle(ep)));
+            setISO(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation"))
         {
@@ -449,6 +448,14 @@ void SequenceJob::setStatus(JOBStatus const in_status)
     state->reset(in_status);
 }
 
+void SequenceJob::setISO(int index)
+{
+    setCoreProperty(SequenceJob::SJ_ISOIndex, index);
+    const auto isolist = devices->getActiveChip()->getISOList();
+    if (isolist.count() > index && index >= 0)
+        setCoreProperty(SequenceJob::SJ_ISO, isolist[index]);
+}
+
 QStringList SequenceJob::frameTypes()
 {
     if (!devices->getActiveCamera())
@@ -457,7 +464,6 @@ QStringList SequenceJob::frameTypes()
     ISD::CameraChip *tChip = devices->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
 
     return tChip->getFrameTypes();
-
 }
 
 QStringList SequenceJob::filterLabels()
