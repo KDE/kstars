@@ -83,6 +83,10 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
     if (root == nullptr)
         return;
 
+    // targetName overrides values from the XML document
+    if (targetName != "")
+        setCoreProperty(SequenceJob::SJ_TargetName, targetName);
+
     bool isDarkFlat = false;
     sharedState->scripts().clear();
     QLocale cLocale = QLocale::c();
@@ -151,17 +155,14 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
         }
         else if (!strcmp(tagXMLEle(ep), "TargetName"))
         {
+            auto jobTarget = pcdataXMLEle(ep);
+
             if (targetName == "")
-            {
-                setCoreProperty(SequenceJob::SJ_TargetName, pcdataXMLEle(ep));
-            }
-            else
-            {
-                // targetName overrides values from the file
-                setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-                if (strcmp(pcdataXMLEle(ep), "") != 0)
-                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(ep));
-            }
+                // use the target from the XML document
+                setCoreProperty(SequenceJob::SJ_TargetName, jobTarget);
+            else if (strcmp(jobTarget, "") != 0)
+                // issue a warning that target from the XML document is ignored
+                qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job target name %1 ignored.").arg(jobTarget);
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
@@ -169,17 +170,14 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
             {
+                auto jobTarget = pcdataXMLEle(subEP);
+
                 if (targetName == "")
-                {
-                    setCoreProperty(SequenceJob::SJ_TargetName, pcdataXMLEle(subEP));
-                }
-                else
-                {
-                    // targetName overrides values from the file
-                    setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-                    if (strcmp(pcdataXMLEle(subEP), "") != 0)
-                        qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(subEP));
-                }
+                    // use the target from the XML document
+                    setCoreProperty(SequenceJob::SJ_TargetName, jobTarget);
+                else if (strcmp(jobTarget, "") != 0)
+                    // issue a warning that target from the XML document is ignored
+                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(jobTarget);
             }
             bool filterEnabled = false, expEnabled = false, tsEnabled = false;
             subEP = findXMLEle(ep, "FilterEnabled");
