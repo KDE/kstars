@@ -3772,9 +3772,9 @@ void Scheduler::startCapture(bool restart)
     {
         QList<QVariant> dbusargs;
         dbusargs.append(url);
-        // ignore targets from sequence queue file
-        QVariant ignoreTarget(true);
-        dbusargs.append(ignoreTarget);
+        // override targets from sequence queue file
+        QVariant targetName(activeJob()->getName());
+        dbusargs.append(targetName);
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "loadSequenceQueue");
         QDBusReply<bool> const captureReply = process()->captureInterface()->callWithArgumentList(QDBus::AutoDetect,
                                               "loadSequenceQueue",
@@ -4692,12 +4692,12 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
 
 SequenceJob * Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
 {
-    SequenceJob *job = new SequenceJob(root);
+    SequenceJob *job = new SequenceJob(root, schedJob->getName());
     if (FRAME_LIGHT == job->getFrameType() && nullptr != schedJob)
         schedJob->setLightFramesRequired(true);
 
     auto placeholderPath = Ekos::PlaceholderPath();
-    placeholderPath.processJobInfo(job, schedJob->getName());
+    placeholderPath.processJobInfo(job);
 
     return job;
 }

@@ -70,7 +70,10 @@ public:
      */
     void reset();
 
-signals:
+    /**
+     * @brief set the target name
+     */
+    void setTargetName(QString name);
 
 public slots:
     /**
@@ -109,5 +112,4 @@ private:
 
     // move to trash or delete finally
     bool m_permanentlyDelete {false};
-
 };

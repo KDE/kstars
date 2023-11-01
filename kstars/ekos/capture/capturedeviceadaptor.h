@@ -172,6 +172,20 @@ public:
          */
         void abortFastExposure();
 
+        /**
+         * @brief getGain Retrieve the gain value from the custom property value. Depending
+         *        on the camera, it is either stored as GAIN property value of CCD_GAIN or as
+         *        Gain property value from CCD_CONTROLS.
+         */
+        double cameraGain(QMap<QString, QMap<QString, QVariant> > propertyMap);
+
+        /**
+         * @brief getOffset Retrieve the offset value from the custom property value. Depending
+         *        on the camera, it is either stored as OFFSET property value of CCD_OFFSET or as
+         *        Offset property value from CCD_CONTROLS.
+         */
+        double cameraOffset(QMap<QString, QMap<QString, QVariant> > propertyMap);
+
         //////////////////////////////////////////////////////////////////////
         // Filter wheel commands
         //////////////////////////////////////////////////////////////////////

@@ -1618,7 +1618,7 @@
 >Soluciona</guibutton
 >). És possible que si seleccioneu diverses imatges, algunes no es resolguen amb èxit. </para>
 <para
->La solució de plaques d'estes imatges de vegades pot ser difícil. Açò és perquè, en este punt, el sistema no té informació sobre l'escala o la posició per on mirar i, per tant, és una solució cega. Per a millorar les vostres possibilitats d'èxit, podeu introduir una posició aproximada AR/Dec del centre del cel a les columnes <guilabel
+>La resolució de plaques d'estes imatges de vegades pot ser difícil. Açò és perquè, en este punt, el sistema no té informació sobre l'escala o la posició per on mirar i, per tant, és una solució cega. Per a millorar les vostres possibilitats d'èxit, podeu introduir una posició aproximada AR/Dec del centre del cel a les columnes <guilabel
 >AR</guilabel
 > i <guilabel
 >Dec</guilabel
@@ -1972,7 +1972,7 @@
 ></listitem>
 <listitem
 ><para
->les imatges de l'alineació on ha fallat la solució de plaques. </para
+>les imatges de l'alineació on ha fallat la resolució de plaques. </para
 ></listitem>
   </itemizedlist
 ><para

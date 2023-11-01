@@ -451,6 +451,41 @@ void CaptureDeviceAdaptor::abortFastExposure()
         m_ActiveChip->abortExposure();
 }
 
+double CaptureDeviceAdaptor::cameraGain(QMap<QString, QMap<QString, QVariant> > propertyMap)
+{
+    if (!getActiveCamera())
+        return -1;
+
+    if (getActiveCamera()->getProperty("CCD_GAIN"))
+    {
+        return propertyMap["CCD_GAIN"].value("GAIN", -1).toDouble();
+    }
+    else if (getActiveCamera()->getProperty("CCD_CONTROLS"))
+    {
+        return propertyMap["CCD_CONTROLS"].value("Gain", -1).toDouble();
+    }
+
+    return -1;
+
+}
+
+double CaptureDeviceAdaptor::cameraOffset(QMap<QString, QMap<QString, QVariant> > propertyMap)
+{
+    if (!getActiveCamera())
+        return -1;
+
+    if (getActiveCamera()->getProperty("CCD_OFFSET"))
+    {
+        return propertyMap["CCD_OFFSET"].value("OFFSET", -1).toDouble();
+    }
+    else if (getActiveCamera()->getProperty("CCD_CONTROLS"))
+    {
+        return propertyMap["CCD_CONTROLS"].value("Offset", -1).toDouble();
+    }
+
+    return -1;
+}
+
 void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy)
 {
     if (m_FilterManager.isNull() == false && m_ActiveFilterWheel != nullptr)

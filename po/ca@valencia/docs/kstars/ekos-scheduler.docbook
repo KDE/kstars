@@ -75,7 +75,7 @@
         <para
 >El programador planifica regularment (i replanifica) quines tasques s'han d'executar, i quan. Pot començar a executar una tasca determinada, i després avançar-la per una de nova. Pot quedar-se inactiu si no es poden executar tasques (&pex;, a la llum del dia), i descansar fins que torne a estar actiu. El seu objectiu és mantindre l'equip el més ocupat possible, respectant les prioritats de la taula de programació. Així és com funciona. </para>
         <para
->Quan s'inicia el planificador (o quan replanifica, que ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la tasca de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat totes les imatges desitjades... </para>
+>Quan s'inicia el programador (o quan replanifica, que ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la tasca de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat totes les imatges desitjades... </para>
     <para
 >L'algoritme mostra les hores d'inici i les hores de parada previstes per a totes les tasques a la taula del programador. També mostra la seua estimació de les vegades que les tasques s'executaran durant les properes 48 hores en el quadro de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del planificador a la part superior d'esta secció. </para>
         <para
@@ -97,7 +97,7 @@
 >Seqüència</guilabel
 > abans de poder afegir una tasca al programador. </para>
         <para
->Cada tasca d'observació es compon del següent: </para>
+>Cada tasca del programador es compon del següent: </para>
         <itemizedlist>
             <listitem>
                 <para

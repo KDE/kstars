@@ -69,6 +69,8 @@ class SequenceJob : public QObject
             // Double
             SJ_Offset,
             // QString
+            SJ_TargetName,
+            //QString
             SJ_LocalDirectory,
             // QString
             SJ_PlaceholderFormat,
@@ -100,8 +102,8 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
-        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType);
-        SequenceJob(XMLEle *root);
+        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType, XMLEle *root = nullptr, QString targetName = "");
+        SequenceJob(XMLEle *root, QString targetName);
         ~SequenceJob() = default;
 
         ////////////////////////////////////////////////////////////////////////
@@ -398,8 +400,10 @@ class SequenceJob : public QObject
         void updateGuiderDrift(double deviation_rms);
 
 private:
-        // Initialisation inside of the constructors
-        void init (SequenceJobType jobType);
+        /**
+         * @brief init Initialize the sequence job from its XML representation
+         */
+        void init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState, QString targetName);
 
         // job type (batch, preview, ...)
         SequenceJobType m_jobType;
@@ -434,10 +438,22 @@ private:
         bool m_JobProgressIgnored {false};
 
         //////////////////////////////////////////////////////////////
+        /// Device access
+        //////////////////////////////////////////////////////////////
+
+        /**
+         * @brief frameTypes Retrieve the frame types from the active camera's primary chip.
+         */
+        QStringList frameTypes();
+        /**
+         * @brief filterLabels list of currently available filter labels
+         */
+        QStringList filterLabels();
+
+        //////////////////////////////////////////////////////////////
         /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
         QSharedPointer<CaptureDeviceAdaptor> devices;
         QSharedPointer<SequenceJobState> state;
-
 };
 }

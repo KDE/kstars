@@ -26,7 +26,7 @@
 >verdader</emphasis
 > (&pex;, una òrbita completa de la Terra al voltant del Sol, també anomenat un <firstterm
 >any tropical</firstterm
->) és un xic més llarg que els 365 dies. En altres paraules, en el temps en el qual la Terra completa un cicle orbital, gira en rotació 365,24219 vegades. No vos sorpreneu per a açò. No hi ha motiu per a esperar que els moviments rotatoris i orbitals de la Terra estiguen sincronitzats. No obstant açò, provoca que el fet de marcar el temps en el calendari siga un xic més complicat... </para
+>) és un xic més llarg que els 365 dies. En altres paraules, en el temps en el qual la Terra completa un cicle orbital, gira en rotació 365,24219 vegades. No vos sorpreneu per açò. No hi ha motiu per a esperar que els moviments rotatoris i orbitals de la Terra estiguen sincronitzats. No obstant açò, provoca que el fet de marcar el temps en el calendari siga un xic més complicat... </para
 ><para
 >Què passaria si senzillament s'ignoraren les 0,24219 rotacions extres al final de l'any, i senzillament es definira el calendari amb els 365 dies? El calendari és bàsicament una representació sobre el paper del progrés de la Terra al voltant del Sol. Si ignorem este excedent al final de cada any, aleshores amb el pas dels anys, la data del calendari s'aniria endarrerint en respecte a la posició verdadera de la Terra al voltant del Sol. En unes poques dècades, les dates dels solsticis i equinoccis haurien derivat notablement. </para
 ><para
@@ -40,7 +40,7 @@
 >calendari julià</firstterm
 >, el qual incorporava els primers <firstterm
 >anys bixests</firstterm
-> del món. Es decretà que un de cada 4 anys tindria 366 dies, de manera que la duració d'un any era de 365,25 dies de mitjana. Així que bàsicament es resolgué el problema de la divergència del calendari. </para
+> del món. Es decretà que un de cada 4 anys tindria 366 dies, de manera que la duració d'un any era de 365,25 dies de mitjana. Així que bàsicament es resolgué el problema de la divergència en el calendari. </para
 ><para
 >No obstant açò, el problema no quedava completament resolt amb el calendari julià, atés que la llargària d'un any tropical no és de 365,25 dies, sinó de 365,24219 dies. D'esta manera encara existix un problema de deriva, el que passa és que tarda més a fer-se notable. Pel que, en 1582, el papa Gregori XIII instituí el <firstterm
 >Calendari gregorià</firstterm

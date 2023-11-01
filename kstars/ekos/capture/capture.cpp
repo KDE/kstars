@@ -470,7 +470,6 @@ Capture::Capture()
             &CaptureProcess::captureStarted);
     connect(m_captureModuleState.data(), &CaptureModuleState::newLog, this, &Capture::appendLogText);
     connect(m_captureModuleState.data(), &CaptureModuleState::newStatus, this, &Capture::newStatus);
-    connect(m_captureModuleState.data(), &CaptureModuleState::newTargetName, this, &Capture::newTargetName);
     connect(m_captureModuleState.data(), &CaptureModuleState::sequenceChanged, this, &Capture::sequenceChanged);
     connect(m_captureModuleState.data(), &CaptureModuleState::checkFocus, this, &Capture::checkFocus);
     connect(m_captureModuleState.data(), &CaptureModuleState::runAutoFocus, this, &Capture::runAutoFocus);
@@ -505,6 +504,7 @@ Capture::Capture()
     });
     connect(m_captureProcess.data(), &CaptureProcess::jobPrepared, this, &Capture::jobPrepared);
     connect(m_captureProcess.data(), &CaptureProcess::captureImageStarted, this, &Capture::captureImageStarted);
+    connect(m_captureProcess.data(), &CaptureProcess::captureTarget, this, &Capture::captureTarget);
     connect(m_captureProcess.data(), &CaptureProcess::downloadingFrame, this, [this]()
     {
         captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
@@ -569,7 +569,6 @@ Capture::Capture()
             &Capture::generatePreviewFilename);
     connect(targetNameT, &QLineEdit::textEdited, this, [ = ]()
     {
-        state()->setTargetName(targetNameT->text());
         generatePreviewFilename();
         qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << targetNameT->text() << "because of user edit";
     });
@@ -1954,7 +1953,7 @@ void Capture::loadSequenceQueue()
     loadSequenceQueue(fileURL.toLocalFile());
 }
 
-bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
+bool Capture::loadSequenceQueue(const QString &fileURL, QString targetName)
 {
     QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
@@ -1967,7 +1966,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, bool ignoreTarget)
     state()->clearCapturedFramesMap();
     clearSequenceQueue();
 
-    const bool result = process()->loadSequenceQueue(fileURL, ignoreTarget);
+    const bool result = process()->loadSequenceQueue(fileURL, targetName);
     // cancel if loading fails
     if (result == false)
         return result;
@@ -2118,6 +2117,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     captureTypeS->setCurrentIndex(job->getFrameType());
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
+    targetNameT->setText(job->getCoreProperty(SequenceJob::SJ_TargetName).toString());
     fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
@@ -2164,6 +2164,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
         captureOffsetN->setValue(offset);
     else
         captureOffsetN->setValue(OffsetSpinSpecialValue);
+
+    // update place holder typ
+    generatePreviewFilename();
 
     if (m_RotatorControlPanel) // only if rotator is registered
     {
@@ -2398,6 +2401,18 @@ void Capture::openCalibrationDialog()
             calibrationOptions.ADUTolerance->setValue(static_cast<int>(std::round(state()->targetADUTolerance())));
             break;
     }
+
+    // avoid combination of ACTION_WALL and ACTION_PARK_MOUNT
+    connect(calibrationOptions.gotoWallC, &QCheckBox::clicked, [&](bool checked)
+    {
+        if (checked)
+            calibrationOptions.parkMountC->setChecked(false);
+    });
+    connect(calibrationOptions.parkMountC, &QCheckBox::clicked, [&](bool checked)
+    {
+        if (checked)
+            calibrationOptions.gotoWallC->setChecked(false);
+    });
 
     if (calibrationDialog.exec() == QDialog::Accepted)
     {
@@ -3285,19 +3300,19 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
                          captureFrameHN->value()));
     job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
     job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectoryT->text());
+    job->setCoreProperty(SequenceJob::SJ_TargetName, targetNameT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
 
     auto placeholderPath = PlaceholderPath();
-    placeholderPath.addJob(job, state()->targetName());
+    placeholderPath.addJob(job, placeholderFormatT->text());
 
-    QString signature = placeholderPath.generateSequenceFilename(*job, state()->targetName(),
+    QString signature = placeholderPath.generateSequenceFilename(*job,
                         filenamePreview != REMOTE_PREVIEW, true, 1,
                         ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
     auto remoteUpload = placeholderPath.generateSequenceFilename(*job,
-                        state()->targetName(),
                         false,
                         true,
                         1,
@@ -3475,7 +3490,7 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
             extension = ".xisf";
         else
             extension = ".[NATIVE]";
-        previewText = m_placeholderPath.generateSequenceFilename(*m_job, targetNameT->text(), previewType == LOCAL_PREVIEW, true, 1,
+        previewText = m_placeholderPath.generateSequenceFilename(*m_job, previewType == LOCAL_PREVIEW, true, 1,
                       extension, "", false);
         previewText = QDir::toNativeSeparators(previewText);
         // we do not use it any more
@@ -3547,6 +3562,23 @@ void Capture::toggleVideo(bool enabled)
     process()->toggleVideo(enabled);
 }
 
+void Capture::setTargetName(const QString &newTargetName)
+{
+    if (activeJob() != nullptr)
+    {
+        activeJob()->setCoreProperty(SequenceJob::SJ_TargetName, newTargetName);
+        targetNameT->setText(newTargetName);
+    }
+}
+
+QString Capture::getTargetName()
+{
+    if (activeJob())
+        return activeJob()->getCoreProperty(SequenceJob::SJ_TargetName).toString();
+    else
+        return "";
+}
+
 void Capture::restartCamera(const QString &name)
 {
     process()->restartCamera(name);
@@ -3564,12 +3596,12 @@ void Capture::startFraming()
 
 double Capture::getGain()
 {
-    return process()->getGain(customPropertiesDialog->getCustomProperties());
+    return devices()->cameraGain(customPropertiesDialog->getCustomProperties());
 }
 
 double Capture::getOffset()
 {
-    return process()->getOffset(customPropertiesDialog->getCustomProperties());
+    return devices()->cameraOffset(customPropertiesDialog->getCustomProperties());
 }
 
 void Capture::setHFR(double newHFR, int)

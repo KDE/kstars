@@ -43,6 +43,7 @@ void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
                 &CaptureCountsWidget::updateDownloadProgress);
         connect(captureModule, &Ekos::Capture::newExposureProgress, captureCountsWidget,
                 &CaptureCountsWidget::updateExposureProgress);
+        connect(captureModule, &Ekos::Capture::captureTarget, this, &CapturePreviewWidget::setTargetName);
     }
 }
 
@@ -55,10 +56,7 @@ void CapturePreviewWidget::shareSchedulerModule(Ekos::Scheduler *module)
 void CapturePreviewWidget::shareMountModule(Ekos::Mount *module)
 {
     mountModule = module;
-    connect(mountModule, &Ekos::Mount::newTargetName, this, [this](const QString & name)
-    {
-        m_mountTarget = name;
-    });
+    connect(mountModule, &Ekos::Mount::newTargetName, this, &CapturePreviewWidget::setTargetName);
 }
 
 void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data)
@@ -262,3 +260,13 @@ void CapturePreviewWidget::updateCaptureCountDown(int delta)
     // forward to sub widget
     captureCountsWidget->updateCaptureCountDown(delta);
 }
+
+void CapturePreviewWidget::setTargetName(QString name)
+{
+    targetLabel->setVisible(!name.isEmpty());
+    mountTarget->setVisible(!name.isEmpty());
+    mountTarget->setText(name);
+    m_mountTarget = name;
+    m_currentFrame.target = name;
+}
+

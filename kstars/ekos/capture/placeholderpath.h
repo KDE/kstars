@@ -45,9 +45,8 @@ class PlaceholderPath
         /**
          * @brief processJobInfo loads the placeHolderPath with properties from the SequenceJob
          * @param sequence job to be processed
-         * @param targetname name of the celestial target
          */
-        void processJobInfo(SequenceJob *job, const QString &targetName);
+        void processJobInfo(SequenceJob *job);
 
         /**
          * @brief addjob creates the directory suffix for the SequenceJob
@@ -78,7 +77,7 @@ class PlaceholderPath
          *
          * This overload of the function supports calls from the capture class
          */
-        QString generateSequenceFilename(const SequenceJob &job, const QString &targetName, bool local, const bool batch_mode,
+        QString generateSequenceFilename(const SequenceJob &job, bool local, const bool batch_mode,
                                  const int nextSequenceID, const QString &extension, const QString &filename,
                                  const bool glob = false, const bool gettingSignature = false) const;
 
@@ -101,9 +100,8 @@ class PlaceholderPath
         /**
          * @brief setGenerateFilenameSettings loads the placeHolderPath with settings from the passed job
          * @param sequence job to be processed
-         * @param targetName name of the target to be captured
          */
-        void setGenerateFilenameSettings(const SequenceJob &job, const QString &targetName);
+        void setGenerateFilenameSettings(const SequenceJob &job);
 
         /**
          * @brief remainingPlaceholders finds placeholder tags in filename
@@ -115,26 +113,23 @@ class PlaceholderPath
         /**
          * @brief remainingPlaceholders provides a list of already existing fileIDs from passed sequence job
          * @param sequence job to be processed
-         * @param targetName name of the celestial target
          * @return a QStringList of the existing fileIDs
          */
-        QList<int> getCompletedFileIds(const SequenceJob &job, const QString &targetName);
+        QList<int> getCompletedFileIds(const SequenceJob &job);
 
         /**
          * @brief getCompletedFiles provides the number of existing fileIDs
          * @param sequence job to be processed
-         * @param targetName name of the celestial target
          * @return number of existing fileIDs
          */
-        int getCompletedFiles(const SequenceJob &job, const QString &targetName);
+        int getCompletedFiles(const SequenceJob &job);
 
         /**
          * @brief checkSeqBoundary provides the ID to use for the next file
          * @param sequence job to be processed
-         * @param targetName name of the celestial target
          * @return number for the next fileIDs
          */
-        int checkSeqBoundary(const SequenceJob &job, const QString &targetName);
+        int checkSeqBoundary(const SequenceJob &job);
 
         /**
          * @brief defaultFormat provides a default format string

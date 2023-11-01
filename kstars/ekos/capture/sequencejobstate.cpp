@@ -347,17 +347,13 @@ IPState SequenceJobState::checkFlatsCoverReady()
         if (m_CaptureModuleState->hasDustCap && m_CaptureModuleState->hasLightBox)
             return checkDustCapReady(FRAME_FLAT);
         // In case we have a wall action then we are facing a flat light source and we can immediately continue to next step
-        else if (m_CalibrationPreAction == ACTION_WALL)
+        else if (m_CalibrationPreAction & ACTION_WALL)
             return IPS_OK;
         else
         {
             // In case we ONLY have a lightbox then we need to ensure it's toggled correctly first
             if (m_CaptureModuleState->hasLightBox)
-            {
-                auto lightBoxState = checkDustCapReady(FRAME_FLAT);
-                if (lightBoxState != IPS_OK)
-                    return lightBoxState;
-            }
+                return checkDustCapReady(FRAME_FLAT);
 
             return checkManualCoverReady(true);
         }
@@ -380,7 +376,7 @@ IPState SequenceJobState::checkDarksCoverReady()
         if (m_CaptureModuleState->hasDustCap)
             return checkDustCapReady(FRAME_DARK);
         // In case we have a wall action then we are facing a designated location and we can immediately continue to next step
-        else if (m_CalibrationPreAction == ACTION_WALL)
+        else if (m_CalibrationPreAction & ACTION_WALL)
             return IPS_OK;
         else
             return checkManualCoverReady(false);
@@ -484,7 +480,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
             return IPS_BUSY;
         }
         else if (wpScopeStatus == WP_TRACKING_OFF)
-            emit newLog(i18n("Slew to wall position complete, stop tracking."));
+            emit newLog(i18n("Slew to wall position complete, tracking stopped."));
 
         // wall position reached, check if we have a light box to turn on for flats and off otherwise
         bool captureFlats = (frametype == FRAME_FLAT);

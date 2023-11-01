@@ -56,9 +56,9 @@ QString PlaceholderPath::defaultFormat(bool useFilter, bool useExposure, bool us
     return tempFormat;
 }
 
-void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName)
+void PlaceholderPath::processJobInfo(SequenceJob *job)
 {
-    QString jobTargetName = targetName;
+    QString jobTargetName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     auto frameType = getFrameType(job->getFrameType());
     auto filterType = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     auto exposure    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
@@ -68,7 +68,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
         frameType = "DarkFlat";
 
     // Sanitize name
-    QString tempTargetName = KSUtils::sanitize(targetName);
+    QString tempTargetName = KSUtils::sanitize(jobTargetName);
 
     // Because scheduler sets the target name in capture module
     // it would be the same as the raw prefix
@@ -118,7 +118,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, const QString &targetName
 
     job->setCoreProperty(SequenceJob::SJ_FullPrefix, imagePrefix);
 
-    QString signature = generateSequenceFilename(*job, jobTargetName, true, true, 1, ".fits", "", false, true);
+    QString signature = generateSequenceFilename(*job, true, true, 1, ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 
@@ -208,7 +208,6 @@ QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &
 }
 
 QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
-        const QString &targetName,
         bool local,
         const bool batch_mode,
         const int nextSequenceID,
@@ -218,7 +217,7 @@ QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
         const bool gettingSignature) const
 {
     QMap<PathProperty, QVariant> pathPropertyMap;
-    pathPropertyMap[PP_TARGETNAME]  = QVariant(targetName);
+    pathPropertyMap[PP_TARGETNAME]  = job.getCoreProperty(SequenceJob::SJ_TargetName);
     pathPropertyMap[PP_FILTER]      = job.getCoreProperty(SequenceJob::SJ_Filter);
     pathPropertyMap[PP_DARKFLAT]    = job.jobType() == SequenceJob::JOBTYPE_DARKFLAT;
     pathPropertyMap[PP_DIRECTORY]   = job.getCoreProperty(local ? SequenceJob::SJ_LocalDirectory :
@@ -420,9 +419,9 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
     return tempFilename;
 }
 
-void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, const QString &targetName)
+void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
 {
-    setPathProperty(PP_TARGETNAME, QVariant(targetName));
+    setPathProperty(PP_TARGETNAME, job.getCoreProperty(SequenceJob::SJ_TargetName));
     setPathProperty(PP_FRAMETYPE, QVariant(job.getFrameType()));
     setPathProperty(PP_FILTER, job.getCoreProperty(SequenceJob::SJ_Filter));
     setPathProperty(PP_EXPOSURE, job.getCoreProperty(SequenceJob::SJ_Exposure));
@@ -455,9 +454,9 @@ QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
     return placeholders;
 }
 
-QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QString &targetName)
+QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job)
 {
-    QString path = generateSequenceFilename(job, targetName, true, true, 0, ".*", "", true);
+    QString path = generateSequenceFilename(job, true, true, 0, ".*", "", true);
     auto sanitizedPath = path;
 
     // This is needed for Windows as the regular expression confuses path search
@@ -491,14 +490,14 @@ QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job, const QS
     return ids;
 }
 
-int PlaceholderPath::getCompletedFiles(const SequenceJob &job, const QString &targetName)
+int PlaceholderPath::getCompletedFiles(const SequenceJob &job)
 {
-    return getCompletedFileIds(job, targetName).length();
+    return getCompletedFileIds(job).length();
 }
 
-int PlaceholderPath::checkSeqBoundary(const SequenceJob &job, const QString &targetName)
+int PlaceholderPath::checkSeqBoundary(const SequenceJob &job)
 {
-    auto ids = getCompletedFileIds(job, targetName);
+    auto ids = getCompletedFileIds(job);
     if (ids.length() > 0)
         return *std::max_element(ids.begin(), ids.end()) + 1;
     else

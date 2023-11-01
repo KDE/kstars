@@ -348,7 +348,10 @@ do {\
         { \
             QList<QPushButton*> pb = dialog->findChildren<QPushButton*>(); \
             QTest::mouseClick(pb[button_nr], Qt::MouseButton::LeftButton); \
+            qCInfo(KSTARS_EKOS_TEST) << "Button clicked:" << button_nr; \
         } \
+        else \
+            qCWarning(KSTARS_EKOS_TEST) << "No active modal widget found!" ; \
     }); \
     } while (false)
 
@@ -382,6 +385,8 @@ class TestEkosHelper : public QObject
         QString m_FocuserDevice = "";
         // Flat light panel device
         QString m_LightPanelDevice = "";
+        // Dust cap device
+        QString m_DustCapDevice = "";
         // Dome device
         QString m_DomeDevice = "";
 
