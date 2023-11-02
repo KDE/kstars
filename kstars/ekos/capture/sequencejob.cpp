@@ -51,7 +51,6 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
     init(jobType, root, sharedState, targetName);
 }
 
-
 void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState,
                              QString targetName)
 {
@@ -83,6 +82,10 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
     // finish if XML document empty
     if (root == nullptr)
         return;
+
+    // targetName overrides values from the XML document
+    if (targetName != "")
+        setCoreProperty(SequenceJob::SJ_TargetName, targetName);
 
     bool isDarkFlat = false;
     sharedState->scripts().clear();
@@ -152,17 +155,14 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
         }
         else if (!strcmp(tagXMLEle(ep), "TargetName"))
         {
+            auto jobTarget = pcdataXMLEle(ep);
+
             if (targetName == "")
-            {
-                setCoreProperty(SequenceJob::SJ_TargetName, pcdataXMLEle(ep));
-            }
-            else
-            {
-                // targetName overrides values from the file
-                setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-                if (strcmp(pcdataXMLEle(ep), "") != 0)
-                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(ep));
-            }
+                // use the target from the XML document
+                setCoreProperty(SequenceJob::SJ_TargetName, jobTarget);
+            else if (strcmp(jobTarget, "") != 0)
+                // issue a warning that target from the XML document is ignored
+                qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job target name %1 ignored.").arg(jobTarget);
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
@@ -170,17 +170,14 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
             {
+                auto jobTarget = pcdataXMLEle(subEP);
+
                 if (targetName == "")
-                {
-                    setCoreProperty(SequenceJob::SJ_TargetName, pcdataXMLEle(subEP));
-                }
-                else
-                {
-                    // targetName overrides values from the file
-                    setCoreProperty(SequenceJob::SJ_TargetName, targetName);
-                    if (strcmp(pcdataXMLEle(subEP), "") != 0)
-                        qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(pcdataXMLEle(subEP));
-                }
+                    // use the target from the XML document
+                    setCoreProperty(SequenceJob::SJ_TargetName, jobTarget);
+                else if (strcmp(jobTarget, "") != 0)
+                    // issue a warning that target from the XML document is ignored
+                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(jobTarget);
             }
             bool filterEnabled = false, expEnabled = false, tsEnabled = false;
             subEP = findXMLEle(ep, "FilterEnabled");
@@ -242,7 +239,7 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
         }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
-            setCoreProperty(SequenceJob::SJ_ISOIndex, cLocale.toInt(pcdataXMLEle(ep)));
+            setISO(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation"))
         {
@@ -449,6 +446,14 @@ void SequenceJob::setStatus(JOBStatus const in_status)
     state->reset(in_status);
 }
 
+void SequenceJob::setISO(int index)
+{
+    setCoreProperty(SequenceJob::SJ_ISOIndex, index);
+    const auto isolist = devices->getActiveChip()->getISOList();
+    if (isolist.count() > index && index >= 0)
+        setCoreProperty(SequenceJob::SJ_ISO, isolist[index]);
+}
+
 QStringList SequenceJob::frameTypes()
 {
     if (!devices->getActiveCamera())
@@ -457,7 +462,6 @@ QStringList SequenceJob::frameTypes()
     ISD::CameraChip *tChip = devices->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
 
     return tChip->getFrameTypes();
-
 }
 
 QStringList SequenceJob::filterLabels()

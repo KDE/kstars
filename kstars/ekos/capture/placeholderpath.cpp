@@ -214,22 +214,10 @@ QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
         const QString &extension,
         const QString &filename,
         const bool glob,
-        const bool gettingSignature) const
+        const bool gettingSignature)
 {
     QMap<PathProperty, QVariant> pathPropertyMap;
-    pathPropertyMap[PP_TARGETNAME]  = job.getCoreProperty(SequenceJob::SJ_TargetName);
-    pathPropertyMap[PP_FILTER]      = job.getCoreProperty(SequenceJob::SJ_Filter);
-    pathPropertyMap[PP_DARKFLAT]    = job.jobType() == SequenceJob::JOBTYPE_DARKFLAT;
-    pathPropertyMap[PP_DIRECTORY]   = job.getCoreProperty(local ? SequenceJob::SJ_LocalDirectory :
-                                      SequenceJob::SJ_RemoteDirectory);
-    pathPropertyMap[PP_FORMAT]      = job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat);
-    pathPropertyMap[PP_SUFFIX]      = job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix);
-    pathPropertyMap[PP_EXPOSURE]    = job.getCoreProperty(SequenceJob::SJ_Exposure);
-    pathPropertyMap[PP_FRAMETYPE]   = QVariant(job.getFrameType());
-    pathPropertyMap[PP_TEMPERATURE] = QVariant(job.getTargetTemperature());
-    pathPropertyMap[PP_GAIN]        = job.getCoreProperty(SequenceJob::SJ_Gain);
-    pathPropertyMap[PP_OFFSET]      = job.getCoreProperty(SequenceJob::SJ_Offset);
-    pathPropertyMap[PP_PIERSIDE]    = QVariant(job.getPierSide());
+    setGenerateFilenameSettings(job, pathPropertyMap, local);
 
     return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob,
                                     gettingSignature);
@@ -281,12 +269,10 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
 #endif
     QRegularExpressionMatch match;
     QRegularExpression
-    // This is the original regex with %p & %d tags - disabled for now to simply
-    // re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|temperature|C|gain|G|offset|O|pierside|P|sequence|s|directory|d|path|p))(?<level>\\d+)?)(?<sep>[_/])?");
 #if defined(Q_OS_WIN)
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|temperature|C|gain|G|offset|O|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
 #else
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|Filter|F|target|t|temperature|C|gain|G|offset|O|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|bin|B|C|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
 #endif
 
     while ((i = tempFormat.indexOf(re, i, &match)) != -1)
@@ -314,17 +300,21 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
             else
                 replacement = getFrameType(frameType);
         }
-        else if ((match.captured("name") == "exposure") || (match.captured("name") == "e"))
+        else if ((match.captured("name") == "exposure") || (match.captured("name") == "e") ||
+                 (match.captured("name") == "exp") || (match.captured("name") == "E"))
         {
             double fractpart, intpart;
             double exposure = pathPropertyMap[PP_EXPOSURE].toDouble();
             fractpart = std::modf(exposure, &intpart);
             if (fractpart == 0)
-                replacement = QString::number(exposure, 'd', 0) + QString("_secs");
+                replacement = QString::number(exposure, 'd', 0);
             else if (exposure >= 1e-3)
-                replacement = QString::number(exposure, 'f', 3) + QString("_secs");
+                replacement = QString::number(exposure, 'f', 3);
             else
-                replacement = QString::number(exposure, 'f', 6) + QString("_secs");
+                replacement = QString::number(exposure, 'f', 6);
+            // append _secs for placeholders "exposure" and "e"
+            if ((match.captured("name") == "exposure") || (match.captured("name") == "e"))
+                replacement += QString("_secs");
         }
         else if ((match.captured("name") == "Filter") || (match.captured("name") == "F"))
         {
@@ -347,6 +337,12 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         {
             replacement = QString::number(pathPropertyMap[PP_TEMPERATURE].toDouble(), 'd', 0) + QString("C");
         }
+        else if (((match.captured("name") == "bin") || (match.captured("name") == "B"))
+                 && pathPropertyMap[PP_BIN].isValid())
+        {
+            auto bin = pathPropertyMap[PP_BIN].toPoint();
+            replacement = QString("%1x%2").arg(bin.x()).arg(bin.y());
+        }
         else if (((match.captured("name") == "gain") || (match.captured("name") == "G"))
                  && pathPropertyMap[PP_GAIN].isValid())
         {
@@ -356,6 +352,11 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
                  && pathPropertyMap[PP_OFFSET].isValid())
         {
             replacement = QString::number(pathPropertyMap[PP_OFFSET].toDouble(), 'd', 0);
+        }
+        else if (((match.captured("name") == "iso") || (match.captured("name") == "I"))
+                 && pathPropertyMap[PP_ISO].isValid())
+        {
+            replacement = pathPropertyMap[PP_ISO].toString();
         }
         else if (((match.captured("name") == "pierside") || (match.captured("name") == "P"))
                  && pathPropertyMap[PP_PIERSIDE].isValid())
@@ -419,20 +420,24 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
     return tempFilename;
 }
 
-void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
+void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap,
+        bool local)
 {
-    setPathProperty(PP_TARGETNAME, job.getCoreProperty(SequenceJob::SJ_TargetName));
-    setPathProperty(PP_FRAMETYPE, QVariant(job.getFrameType()));
-    setPathProperty(PP_FILTER, job.getCoreProperty(SequenceJob::SJ_Filter));
-    setPathProperty(PP_EXPOSURE, job.getCoreProperty(SequenceJob::SJ_Exposure));
-    setPathProperty(PP_DIRECTORY, job.getCoreProperty(SequenceJob::SJ_LocalDirectory));
-    setPathProperty(PP_FORMAT, job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat));
-    setPathProperty(PP_SUFFIX, job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix));
-    setPathProperty(PP_DARKFLAT, job.jobType() == SequenceJob::JOBTYPE_DARKFLAT);
-    setPathProperty(PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
-    setPathProperty(PP_GAIN, job.getCoreProperty(SequenceJob::SJ_Gain));
-    setPathProperty(PP_OFFSET, job.getCoreProperty(SequenceJob::SJ_Offset));
-    setPathProperty(PP_PIERSIDE, QVariant(job.getPierSide()));
+    setPathProperty(pathPropertyMap, PP_TARGETNAME, job.getCoreProperty(SequenceJob::SJ_TargetName));
+    setPathProperty(pathPropertyMap, PP_FRAMETYPE, QVariant(job.getFrameType()));
+    setPathProperty(pathPropertyMap, PP_FILTER, job.getCoreProperty(SequenceJob::SJ_Filter));
+    setPathProperty(pathPropertyMap, PP_EXPOSURE, job.getCoreProperty(SequenceJob::SJ_Exposure));
+    setPathProperty(pathPropertyMap, PP_DIRECTORY,
+                    job.getCoreProperty(local ? SequenceJob::SJ_LocalDirectory : SequenceJob::SJ_RemoteDirectory));
+    setPathProperty(pathPropertyMap, PP_FORMAT, job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat));
+    setPathProperty(pathPropertyMap, PP_SUFFIX, job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix));
+    setPathProperty(pathPropertyMap, PP_DARKFLAT, job.jobType() == SequenceJob::JOBTYPE_DARKFLAT);
+    setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
+    setPathProperty(pathPropertyMap, PP_BIN, job.getCoreProperty(SequenceJob::SJ_Binning));
+    setPathProperty(pathPropertyMap, PP_GAIN, job.getCoreProperty(SequenceJob::SJ_Gain));
+    setPathProperty(pathPropertyMap, PP_ISO, job.getCoreProperty(SequenceJob::SJ_ISO));
+    setPathProperty(pathPropertyMap, PP_OFFSET, job.getCoreProperty(SequenceJob::SJ_Offset));
+    setPathProperty(pathPropertyMap, PP_PIERSIDE, QVariant(job.getPierSide()));
 }
 
 QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)

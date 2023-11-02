@@ -1089,6 +1089,8 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings()
 
     // create the job
     TestEkosCaptureHelper::SimpleCaptureLightsJob job;
+    QFETCH(uint, esqVersion);
+    job.version = static_cast<TestEkosCaptureHelper::ESQVersion>(esqVersion);
     QFETCH(double, exposureTime);
     job.exposureTime = exposureTime;
     QFETCH(QString, targetName);
@@ -1152,6 +1154,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings()
     QTRY_COMPARE(FilterPosCombo->currentText(), filter);
     QTRY_COMPARE(captureTypeS->currentText(), type);
     QTRY_COMPARE(captureEncodingS->currentText(), encoding);
+    QTRY_COMPARE(targetNameT->text(), esqVersion == TestEkosCaptureHelper::ESQ_VERSION_2_5 ? "Test Target" : targetName);
     QTRY_COMPARE(fileDirectoryT->text(), fitsDirectory);
     QTRY_COMPARE(placeholderFormatT->text(), placeholderFormat);
     QTRY_COMPARE(formatSuffixN->value(), formatSuffix);
@@ -1193,6 +1196,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings()
 
     // create the job
     TestEkosCaptureHelper::SimpleCaptureCalibratingJob job;
+    job.version = static_cast<TestEkosCaptureHelper::ESQVersion>(esqVersion);
     job.exposureTime = exposureTime;
     job.type = type;
     job.count = count;
@@ -1413,7 +1417,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
     QTest::addColumn<bool>("refocusEveryN");            /*!< Enable focusing after every n capture   */
     QTest::addColumn<bool>("refocusAfterMeridianFlip"); /*!< Enable refocus after a meridian flip    */
 
-    uint version = TestEkosCaptureHelper::ESQ_VERSION_2_7;
+    uint version = TestEkosCaptureHelper::ESQ_VERSION_2_6;
     QTest::newRow(QString("observer v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())
             << version << "KStars Freak" << false << false << false << false << false << false;
     QTest::newRow(QString("guideDeviation v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
@@ -1432,6 +1436,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
 
 void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings_data()
 {
+    QTest::addColumn<uint>("esqVersion");             /*!< ESQ XML version             */
     QTest::addColumn<double>("exposureTime");         /*!< Exposure time               */
     QTest::addColumn<QString>("targetName");          /*!< Capture target              */
     QTest::addColumn<int>("count");                   /*!< Number of frames            */
@@ -1464,10 +1469,16 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings_data()
     QString fitsDirectory("/home/astro");
     QString placeholderFormat("/%t/%T/%T_%t_%e");
 
-    QTest::newRow(QString("%2x %5 %3 %1s bin=%6x%7 dir=%4").arg(exposureTime).arg(count).arg(filter).arg(fitsDirectory).arg(
-                      type).arg(binX).arg(binY).toLatin1())
-            << exposureTime << target << count << delay << filter << type << encoding << binX << binY << x << y << w << h <<
-            fitsDirectory << placeholderFormat << formatSuffix << cameraTemperature << cameraCooling << fileUploadMode;
+    for (uint version :
+            {
+                TestEkosCaptureHelper::ESQ_VERSION_2_4, TestEkosCaptureHelper::ESQ_VERSION_2_5, TestEkosCaptureHelper::ESQ_VERSION_2_6
+            })
+    {
+        QTest::newRow(QString("%2x %5 %3 %1s bin=%6x%7 dir=%4 v=%8").arg(exposureTime).arg(count).arg(filter)
+                      .arg(fitsDirectory).arg(type).arg(binX).arg(binY).arg(m_CaptureHelper->esqVersionNames[version]).toLatin1())
+                << version << exposureTime << target << count << delay << filter << type << encoding << binX << binY << x << y << w << h <<
+                fitsDirectory << placeholderFormat << formatSuffix << cameraTemperature << cameraCooling << fileUploadMode;
+    }
 }
 
 void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
@@ -1486,7 +1497,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
 
     for (uint version :
             {
-                TestEkosCaptureHelper::ESQ_VERSION_2_6, TestEkosCaptureHelper::ESQ_VERSION_2_7
+                TestEkosCaptureHelper::ESQ_VERSION_2_5, TestEkosCaptureHelper::ESQ_VERSION_2_6
             })
     {
         QTest::newRow(QString("Flat pre_action=wall adu=manual v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())

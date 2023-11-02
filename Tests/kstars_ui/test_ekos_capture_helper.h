@@ -172,11 +172,12 @@ public:
     };
 
     typedef enum {
-        ESQ_VERSION_2_6,
-        ESQ_VERSION_2_7
+        ESQ_VERSION_2_4,
+        ESQ_VERSION_2_5,
+        ESQ_VERSION_2_6
     } ESQVersion;
 
-    const QList<QString> esqVersionNames = {"2.6", "2.7"};
+    const QList<QString> esqVersionNames = {"2.4", "2.5", "2.6"};
 
     struct CaptureSettings {
         QString observer = "";
@@ -188,7 +189,7 @@ public:
 
     struct SimpleCaptureLightsJob
     {
-        ESQVersion version = ESQ_VERSION_2_7;
+        ESQVersion version = ESQ_VERSION_2_6;
         int exposureTime = 1.0;
         int count = 1;
         int delayMS = 0; // delay in milliseconds
@@ -207,7 +208,7 @@ public:
 
     struct SimpleCaptureCalibratingJob
     {
-        ESQVersion version = ESQ_VERSION_2_7;
+        ESQVersion version = ESQ_VERSION_2_6;
         int exposureTime = 1.0;
         QString type = "Flat";
         int count = 1;
@@ -270,7 +271,7 @@ public:
      * @param version file version
      * @return XML string list
      */
-    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs, ESQVersion version = ESQ_VERSION_2_7);
+    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs, ESQVersion version = ESQ_VERSION_2_6);
 
     /**
      * @brief getSimpleEsqContent Create a simple flats capture sequence file
@@ -279,22 +280,22 @@ public:
      * @param version file version
      * @return XML string list
      */
-    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs, ESQVersion version = ESQ_VERSION_2_7);
+    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs, ESQVersion version = ESQ_VERSION_2_6);
 
     /**
      * @brief serializeGeneralSettings Create the XML representation of the general settings
      */
-    QStringList serializeGeneralSettings(CaptureSettings settings, ESQVersion version = ESQ_VERSION_2_7);
+    QStringList serializeGeneralSettings(CaptureSettings settings, ESQVersion version = ESQ_VERSION_2_6);
 
     /**
      * @brief serializeJob Create the XML representation of a single lights job
      */
-    QStringList serializeJob(const SimpleCaptureLightsJob &job, ESQVersion version = ESQ_VERSION_2_7);
+    QStringList serializeJob(const SimpleCaptureLightsJob &job, ESQVersion version = ESQ_VERSION_2_6);
 
     /**
      * @brief serializeJob Create the XML representation of a single flats job
      */
-    QStringList serializeJob(const SimpleCaptureCalibratingJob &job, ESQVersion version = ESQ_VERSION_2_7);
+    QStringList serializeJob(const SimpleCaptureCalibratingJob &job, ESQVersion version = ESQ_VERSION_2_6);
 
     /**
      * @brief calculateSignature Calculate the signature of a given filter

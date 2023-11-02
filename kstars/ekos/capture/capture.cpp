@@ -43,7 +43,7 @@
 
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.5
+#define SQ_FORMAT_VERSION 2.6
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
@@ -3254,7 +3254,7 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
 
     if (captureISOS)
-        job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
+        job->setISO(captureISOS->currentIndex());
 
     if (getGain() >= 0)
         job->setCoreProperty(SequenceJob::SJ_Gain, getGain());

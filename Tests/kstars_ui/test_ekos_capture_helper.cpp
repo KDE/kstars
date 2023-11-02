@@ -213,7 +213,7 @@ QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings,
 QStringList TestEkosCaptureHelper::serializeGeneralSettings(CaptureSettings settings, ESQVersion version)
 {
     QStringList result({"<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-                        QString("<SequenceQueue version='%1'><CCD>CCD Simulator</CCD>").arg(version == ESQ_VERSION_2_7 ? "2.7" : "2.6"),
+                        QString("<SequenceQueue version='%1'><CCD>CCD Simulator</CCD>").arg(esqVersionNames[version]),
                         "<FilterWheel>CCD Simulator</FilterWheel>",
                         QString("<Observer>%1</Observer>").arg(settings.observer),
                         QString("<GuideDeviation enabled='%1'>%2</GuideDeviation>").arg(settings.guideDeviation.enabled ? "true" : "false").arg(settings.guideDeviation.value),
@@ -239,17 +239,29 @@ QStringList TestEkosCaptureHelper::serializeJob(const TestEkosCaptureHelper::Sim
                         QString("<Filter>%1</Filter>").arg(job.filterName),
                         QString("<Type>%1</Type>").arg(job.type),
                         QString("<Count>%1</Count>").arg(job.count),
-                        QString("<Delay>%1</Delay>").arg(job.delayMS / 1000),
-                        QString("<TargetName>%1</TargetName>").arg(job.targetName),
-                        QString("<PlaceholderFormat>%1</PlaceholderFormat>").arg(job.placeholderFormat),
-                        QString("<PlaceholderSuffix>%1</PlaceholderSuffix>").arg(job.formatSuffix),
-                        QString("<FITSDirectory>%1</FITSDirectory>").arg(job.fitsDirectory),
-                        QString("<UploadMode>%1</UploadMode>").arg(job.uploadMode),
-                        "<Properties />",
-                        "<Calibration>"});
+                        QString("<Delay>%1</Delay>").arg(job.delayMS / 1000)});
     switch (version)
     {
+        case ESQ_VERSION_2_4:
+            result.append(QString("<Prefix><RawPrefix>%1</RawPrefix></Prefix>").arg(job.targetName));
+        case ESQ_VERSION_2_5:
+            // no target specified
+            break;
         case ESQ_VERSION_2_6:
+            result.append(QString("<TargetName>%1</TargetName>").arg(job.targetName));
+            break;
+    }
+
+    result.append({QString("<PlaceholderFormat>%1</PlaceholderFormat>").arg(job.placeholderFormat),
+                   QString("<PlaceholderSuffix>%1</PlaceholderSuffix>").arg(job.formatSuffix),
+                   QString("<FITSDirectory>%1</FITSDirectory>").arg(job.fitsDirectory),
+                   QString("<UploadMode>%1</UploadMode>").arg(job.uploadMode),
+                   "<Properties />",
+                   "<Calibration>"});
+    switch (version)
+    {
+        case ESQ_VERSION_2_4:
+        case ESQ_VERSION_2_5:
             result.append({"<FlatSource><Type>Manual</Type></FlatSource>",
                            "<FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>",
                            "<PreMountPark>False</PreMountPark>",
@@ -257,7 +269,7 @@ QStringList TestEkosCaptureHelper::serializeJob(const TestEkosCaptureHelper::Sim
                            "</Calibration>",
                            "</Job>"});
             break;
-        case ESQ_VERSION_2_7:
+        case ESQ_VERSION_2_6:
             result.append({QString("<PreAction><Type>%1</Type></PreAction>").arg(0),
                            "<FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>",
                            "</Calibration>",
@@ -290,7 +302,8 @@ QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJo
 
     switch (version)
     {
-        case ESQ_VERSION_2_6:
+        case ESQ_VERSION_2_4:
+        case ESQ_VERSION_2_5:
             if (job.preAction & ACTION_WALL)
             {
                 result.append("<FlatSource><Type>Wall</Type>");
@@ -305,7 +318,7 @@ QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJo
                            QString("<PreDomePark>%1</PreDomePark>").arg((job.preAction & ACTION_PARK_DOME) > 0 ? "True" : "False")});
             break;
 
-        case ESQ_VERSION_2_7:
+        case ESQ_VERSION_2_6:
             result.append(QString("<PreAction><Type>%1</Type>").arg(job.preAction));
             if (job.preAction & ACTION_WALL)
                 result.append({QString("<Az>%1</Az>").arg(job.wall_az),
