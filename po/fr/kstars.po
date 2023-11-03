@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.7\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-02 00:39+0000\n"
-"PO-Revision-Date: 2023-10-28 17:27+0200\n"
+"POT-Creation-Date: 2023-11-03 00:39+0000\n"
+"PO-Revision-Date: 2023-11-01 16:15+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -12601,11 +12601,7 @@ msgstr "Train optique"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the scope or lens used in the optical train."
-#| "</p><p>To add, edit, or delete optical elements, tap the <span style=\" "
-#| "font-weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
 "This is a required selection in all trains.</p><p>To add, edit, or delete "
@@ -12613,22 +12609,20 @@ msgid ""
 "Lens</span> button.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sélectionner le télescope ou l'objectif à utiliser "
-"dans le train optique.</p><p>Pour ajouter, modifier ou supprimer un élément "
-"optique, cliquez sur le bouton <span style=\"font-weight:600;\">Télescope "
-"&amp; Objectif.</span></p></body></html>"
+"dans le train optique. Sélection requise pour tous les trains.</p><p>Pour "
+"ajouter, modifier ou supprimer un élément optique, cliquez sur le bouton "
+"<span style=\"font-weight:600;\">Télescope &amp; Objectif.</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Séquence <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>Télescope/Objectif <span style=\" color:#ff0000;\">*</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:162
@@ -12649,28 +12643,22 @@ msgstr "Monture"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sélectionner la caméra principale pour ce train "
-"optique.</p></body></html>"
+"optique. Sélection requise pour tous les trains optiques.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Cible <span style=\" color:#ff0000;\">*</span></p></"
+"<html><head/><body><p>Appareil <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
@@ -14796,7 +14784,7 @@ msgid ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Placeholder<span style=\" font-weight:704;\"> %E</span> or <span style=\" "
 "font-weight:704;\">%exp</span>: The exposure duration in seconds as plain "
-"number, whithout any unit as suffix.</li></ul><li style=\" margin-top:0px; "
+"number, without any unit as suffix.</li></ul><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %F</span> "
 "or <span style=\" font-weight:704;\">%Filter</span>: The active filter name."
@@ -16742,8 +16730,7 @@ msgid "Slew to wall position complete, stop tracking."
 msgstr "Pointage terminé vers la position du mur, arrêt du suivi."
 
 #: ekos/capture/sequencejobstate.cpp:483
-#, fuzzy, kde-format
-#| msgid "Slew to wall position complete, stop tracking."
+#, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Pointage terminé vers la position du mur, arrêt du suivi."
 
@@ -20995,7 +20982,7 @@ msgstr "Magnitude"
 #: ekos/guide/manualpulse.ui:37
 #, kde-format
 msgid "North / DE+"
-msgstr "Nord / DEC+"
+msgstr "Nord / DEC+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:46
@@ -21007,13 +20994,13 @@ msgstr "Ouest / AD-"
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr "Est / AD+"
+msgstr "Est / AD+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
 #, kde-format
 msgid "South / DE-"
-msgstr "Sud / DEC-"
+msgstr "Sud / DEC-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
@@ -21032,13 +21019,13 @@ msgstr " ms"
 #: ekos/guide/manualpulse.ui:112
 #, kde-format
 msgid "RA Offset\":"
-msgstr "Décalage en AD\""
+msgstr "Décalage en AD :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
 #, kde-format
 msgid "DE Offset\":"
-msgstr "Décalage en DEC\""
+msgstr "Décalage en DEC :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -23233,8 +23220,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Active ou désactive la limite de l'angle horaire de la "
 "monture. Une fois activé, Ekos surveille l'angle horaire de la monture "
-"pendant sa rotation ou son suivi. Si celui-ci tourne/suit au delà de la "
-"limite et que l' état courant du côté de la butée ne le permet pas, alors il "
+"pendant sa rotation ou son suivi. Si celui-ci tourne / suit au delà de la "
+"limite et que l'état courant du côté de la butée ne le permet pas, alors il "
 "recevra une commande d'arrêt et le suivi sera désactivé. Cela nécessite une "
 "monture fournissant correctement le côté de pied.</p></body></html>"
 
@@ -29444,10 +29431,9 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, fuzzy, kde-format
-#| msgid "Rotation magnitude in degrees"
+#, kde-format
 msgid "The solved image position angle, East of North (degrees)."
-msgstr "Ampleur de la rotation en degrés"
+msgstr "L'angle de position de l'image résolue, à l'est du nord (en degrés)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -36067,7 +36053,7 @@ msgstr "Emplacement du dossier pour l'enregistrement des images."
 #: kstars.kcfg:1910
 #, kde-format
 msgid "How to format captured image filename."
-msgstr "Comment formatter le nom du fichier de l'image acquise."
+msgstr "Comment formater le nom du fichier de l'image acquise."
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:1914
@@ -73707,7 +73693,7 @@ msgstr "A&pparence"
 #, kde-format
 msgid "Adjust speed of zooming when scrolling in and out with the mouse wheel"
 msgstr ""
-"Ajuster la vitesse de zoom lors de l'usage de la roulette de souris en avant "
+"Ajuster la vitesse de zoom lors de l'usage de la molette de souris en avant "
 "ou arrière."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -75007,7 +74993,7 @@ msgstr ""
 "d'échec et si vous souhaitez tout de même afficher les images, il est "
 "toujours possible de saisir les données d'AD, de DEC, d'échelle et "
 "d'orientation dans les colonnes appropriées de la ligne adéquate et ensuite "
-"régler manuellement l'état à OK, mais vous pouvez aussi régler l'état à "
+"régler manuellement l'état à Ok, mais vous pouvez aussi régler l'état à "
 "quelque chose d'autre pour activer la résolution.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
@@ -76536,30 +76522,30 @@ msgstr ""
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
-"Impossible de régler l'état à OK. Valeur différente de 0 pour l'AD requise."
+"Impossible de régler l'état à Ok. Valeur différente de 0 pour l'AD requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
-"Impossible de régler l'état à OK. Valeur différente de 0 pour la DEC requise."
+"Impossible de régler l'état à Ok. Valeur différente de 0 pour la DEC requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr "Impossible de régler l'état à OK. Valeur de l'orientation requise."
+msgstr "Impossible de régler l'état à Ok. Valeur de l'orientation requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
-"Impossible de régler l'état à OK. Valeur différente de 0 en secondes d'arc "
+"Impossible de régler l'état à Ok. Valeur différente de 0 en secondes d'arc "
 "requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr "État OK enregistré pour %1."
+msgstr "État Ok enregistré pour %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
