@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: kstars_3.6.7\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-03 00:39+0000\n"
-"PO-Revision-Date: 2023-11-01 16:15+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
+"PO-Revision-Date: 2023-11-02 16:10+0100\n"
+"Last-Translator: stax <stax@ik.me>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.0\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -19355,13 +19355,13 @@ msgstr ""
 #: ekos/focus/focus.ui:3332
 #, kde-format
 msgid "Settings Tab Parameters"
-msgstr "Onglet de réglages des paramètres"
+msgstr "Paramètres de l'onglet Configuration"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/focus.ui:3355
 #, kde-format
 msgid "Process Tab Parameters"
-msgstr "Traiter les paramètres de l'onglet"
+msgstr "Paramètres de l'onglet Traitement"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3368
@@ -19403,7 +19403,7 @@ msgstr "Conseiller de mise au point"
 #: ekos/focus/focus.ui:3407
 #, kde-format
 msgid "Mechanics Tab Parameters"
-msgstr "Onglet des paramètres de mécanique"
+msgstr "Paramètres de l'onglet Mécanique"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3449
@@ -20982,7 +20982,7 @@ msgstr "Magnitude"
 #: ekos/guide/manualpulse.ui:37
 #, kde-format
 msgid "North / DE+"
-msgstr "Nord / DEC+"
+msgstr "Nord / DEC+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:46
@@ -20994,13 +20994,13 @@ msgstr "Ouest / AD-"
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr "Est / AD+"
+msgstr "Est / AD+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
 #, kde-format
 msgid "South / DE-"
-msgstr "Sud / DEC-"
+msgstr "Sud / DEC-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
@@ -21019,13 +21019,13 @@ msgstr " ms"
 #: ekos/guide/manualpulse.ui:112
 #, kde-format
 msgid "RA Offset\":"
-msgstr "Décalage en AD :"
+msgstr "Décalage en AD\""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
 #, kde-format
 msgid "DE Offset\":"
-msgstr "Décalage en DEC :"
+msgstr "Décalage en DEC\""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -23220,8 +23220,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Active ou désactive la limite de l'angle horaire de la "
 "monture. Une fois activé, Ekos surveille l'angle horaire de la monture "
-"pendant sa rotation ou son suivi. Si celui-ci tourne / suit au delà de la "
-"limite et que l'état courant du côté de la butée ne le permet pas, alors il "
+"pendant sa rotation ou son suivi. Si celui-ci tourne/suit au delà de la "
+"limite et que l' état courant du côté de la butée ne le permet pas, alors il "
 "recevra une commande d'arrêt et le suivi sera désactivé. Cela nécessite une "
 "monture fournissant correctement le côté de pied.</p></body></html>"
 
@@ -36053,7 +36053,7 @@ msgstr "Emplacement du dossier pour l'enregistrement des images."
 #: kstars.kcfg:1910
 #, kde-format
 msgid "How to format captured image filename."
-msgstr "Comment formater le nom du fichier de l'image acquise."
+msgstr "Comment formatter le nom du fichier de l'image acquise."
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:1914
@@ -73693,7 +73693,7 @@ msgstr "A&pparence"
 #, kde-format
 msgid "Adjust speed of zooming when scrolling in and out with the mouse wheel"
 msgstr ""
-"Ajuster la vitesse de zoom lors de l'usage de la molette de souris en avant "
+"Ajuster la vitesse de zoom lors de l'usage de la roulette de souris en avant "
 "ou arrière."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -74993,7 +74993,7 @@ msgstr ""
 "d'échec et si vous souhaitez tout de même afficher les images, il est "
 "toujours possible de saisir les données d'AD, de DEC, d'échelle et "
 "d'orientation dans les colonnes appropriées de la ligne adéquate et ensuite "
-"régler manuellement l'état à Ok, mais vous pouvez aussi régler l'état à "
+"régler manuellement l'état à OK, mais vous pouvez aussi régler l'état à "
 "quelque chose d'autre pour activer la résolution.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
@@ -76522,30 +76522,30 @@ msgstr ""
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
-"Impossible de régler l'état à Ok. Valeur différente de 0 pour l'AD requise."
+"Impossible de régler l'état à OK. Valeur différente de 0 pour l'AD requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:242
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
-"Impossible de régler l'état à Ok. Valeur différente de 0 pour la DEC requise."
+"Impossible de régler l'état à OK. Valeur différente de 0 pour la DEC requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:253
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr "Impossible de régler l'état à Ok. Valeur de l'orientation requise."
+msgstr "Impossible de régler l'état à OK. Valeur de l'orientation requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:264
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
-"Impossible de régler l'état à Ok. Valeur différente de 0 en secondes d'arc "
+"Impossible de régler l'état à OK. Valeur différente de 0 en secondes d'arc "
 "requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:294
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr "État Ok enregistré pour %1."
+msgstr "État OK enregistré pour %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:387
 #, kde-format
