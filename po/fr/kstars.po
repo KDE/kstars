@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.7\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-02 00:39+0000\n"
-"PO-Revision-Date: 2023-10-28 17:27+0200\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
+"POT-Creation-Date: 2023-11-03 00:39+0000\n"
+"PO-Revision-Date: 2023-11-02 16:10+0100\n"
+"Last-Translator: stax <stax@ik.me>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -12601,11 +12601,7 @@ msgstr "Train optique"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the scope or lens used in the optical train."
-#| "</p><p>To add, edit, or delete optical elements, tap the <span style=\" "
-#| "font-weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
 "This is a required selection in all trains.</p><p>To add, edit, or delete "
@@ -12613,22 +12609,20 @@ msgid ""
 "Lens</span> button.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sélectionner le télescope ou l'objectif à utiliser "
-"dans le train optique.</p><p>Pour ajouter, modifier ou supprimer un élément "
-"optique, cliquez sur le bouton <span style=\"font-weight:600;\">Télescope "
-"&amp; Objectif.</span></p></body></html>"
+"dans le train optique. Sélection requise pour tous les trains.</p><p>Pour "
+"ajouter, modifier ou supprimer un élément optique, cliquez sur le bouton "
+"<span style=\"font-weight:600;\">Télescope &amp; Objectif.</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Séquence <span style=\" color:#ff0000;\">*</span></p></"
-"body></html>"
+"<html><head/><body><p>Télescope/Objectif <span style=\" color:#ff0000;\">*</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:162
@@ -12649,28 +12643,22 @@ msgstr "Monture"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sélectionner la caméra principale pour ce train "
-"optique.</p></body></html>"
+"optique. Sélection requise pour tous les trains optiques.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Cible <span style=\" color:#ff0000;\">*</span></p></"
+"<html><head/><body><p>Appareil <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
@@ -14796,7 +14784,7 @@ msgid ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Placeholder<span style=\" font-weight:704;\"> %E</span> or <span style=\" "
 "font-weight:704;\">%exp</span>: The exposure duration in seconds as plain "
-"number, whithout any unit as suffix.</li></ul><li style=\" margin-top:0px; "
+"number, without any unit as suffix.</li></ul><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %F</span> "
 "or <span style=\" font-weight:704;\">%Filter</span>: The active filter name."
@@ -16742,8 +16730,7 @@ msgid "Slew to wall position complete, stop tracking."
 msgstr "Pointage terminé vers la position du mur, arrêt du suivi."
 
 #: ekos/capture/sequencejobstate.cpp:483
-#, fuzzy, kde-format
-#| msgid "Slew to wall position complete, stop tracking."
+#, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Pointage terminé vers la position du mur, arrêt du suivi."
 
@@ -19368,13 +19355,13 @@ msgstr ""
 #: ekos/focus/focus.ui:3332
 #, kde-format
 msgid "Settings Tab Parameters"
-msgstr "Onglet de réglages des paramètres"
+msgstr "Paramètres de l'onglet Configuration"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/focus.ui:3355
 #, kde-format
 msgid "Process Tab Parameters"
-msgstr "Traiter les paramètres de l'onglet"
+msgstr "Paramètres de l'onglet Traitement"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3368
@@ -19416,7 +19403,7 @@ msgstr "Conseiller de mise au point"
 #: ekos/focus/focus.ui:3407
 #, kde-format
 msgid "Mechanics Tab Parameters"
-msgstr "Onglet des paramètres de mécanique"
+msgstr "Paramètres de l'onglet Mécanique"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/focus.ui:3449
@@ -29444,10 +29431,9 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, fuzzy, kde-format
-#| msgid "Rotation magnitude in degrees"
+#, kde-format
 msgid "The solved image position angle, East of North (degrees)."
-msgstr "Ampleur de la rotation en degrés"
+msgstr "L'angle de position de l'image résolue, à l'est du nord (en degrés)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
