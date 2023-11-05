@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-03 00:39+0000\n"
+"POT-Creation-Date: 2023-11-05 12:23+0000\n"
 "PO-Revision-Date: 2023-11-03 08:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -1237,10 +1237,8 @@ msgstr ""
 
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
-msgid ""
-"Reset XPlanet Location to the location specified in the XPlanet Options"
-msgstr ""
-"Відновити місце для XPlanet до місця, яке вказано у параметрах XPlanet"
+msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
+msgstr "Відновити місце для XPlanet до місця, яке вказано у параметрах XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:269
 #, kde-format
@@ -1279,8 +1277,7 @@ msgstr ""
 
 #: auxiliary/xplanetimageviewer.cpp:330
 #, kde-format
-msgid ""
-"Zoom to a specific FOV. This has no effect when hovering over an object"
+msgid "Zoom to a specific FOV. This has no effect when hovering over an object"
 msgstr ""
 "Масштабувати до вказаного поля зору. Не впливає на масштаб, якщо вказівник "
 "перебуває над об'єктом."
@@ -1323,8 +1320,7 @@ msgstr "Відкрити вікно параметрів XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:405
 #, kde-format
-msgid ""
-"Allows you to set the XPlanet time to a different date/time from KStars"
+msgid "Allows you to set the XPlanet time to a different date/time from KStars"
 msgstr "Надає вам змогу встановити інше значення дати і часу XPlanet з KStars"
 
 #: auxiliary/xplanetimageviewer.cpp:414
@@ -3611,8 +3607,7 @@ msgstr "Не знайдено з'єднаних лафетів."
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr ""
-"Лафет %1 не під'єднано. Будь ласка, з'єднайте його та спробуйте знову."
+msgstr "Лафет %1 не під'єднано. Будь ласка, з'єднайте його та спробуйте знову."
 
 #: dialogs/detaildialog.cpp:1131
 #, kde-format
@@ -5875,8 +5870,7 @@ msgstr "Помилка: втрачено з'єднання із барабано
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
-msgstr ""
-"Передавання зображень для цієї камери вимкнено. Хочете його увімкнути?"
+msgstr "Передавання зображень для цієї камери вимкнено. Хочете його увімкнути?"
 
 #: ekos/align/align.cpp:1482
 #, kde-format
@@ -8119,8 +8113,7 @@ msgstr "4"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryAutoUpdatePosition)
 #: ekos/align/opsastrometry.ui:505
 #, kde-format
-msgid ""
-"Automatically update position coordinates when mount completes slewing."
+msgid "Automatically update position coordinates when mount completes slewing."
 msgstr ""
 "Автоматично оновлювати координати позиції, якщо лафет продовжує обертання."
 
@@ -9613,8 +9606,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1248
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
-msgstr ""
-"Неможливо змінити алгоритм на MoveStar, коли вже розпочалося оновлення"
+msgstr "Неможливо змінити алгоритм на MoveStar, коли вже розпочалося оновлення"
 
 #. i18n: ectx: property (toolTip), widget (QStackedWidget, PAHWidgets)
 #: ekos/align/polaralignmentassistant.ui:44
@@ -11420,8 +11412,7 @@ msgstr "Темні кадри"
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDefectsRadio)
 #: ekos/auxiliary/darklibrary.ui:131
 #, kde-format
-msgid ""
-"For the selected camera, remove noise by means of defect map filtering."
+msgid "For the selected camera, remove noise by means of defect map filtering."
 msgstr ""
 "Вилучити шум за допомогою фільтрування за картою дефектів для позначеної "
 "камери."
@@ -12769,8 +12760,7 @@ msgstr "Мережевий"
 
 #: ekos/auxiliary/portselector.cpp:80
 #, kde-format
-msgid ""
-"Select <b>Network</b> if your device is connected via Ethernet or WiFi."
+msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 "Виберіть пункт <b>Мережевий</b>, якщо пристрій з'єднано за допомогою "
 "Ethernet або WiFi."
@@ -13164,8 +13154,7 @@ msgstr ""
 msgid ""
 "Saves your current set of profiles in this group somewhere else on your "
 "computer"
-msgstr ""
-"Зберігає поточний набір профілів у цій групі десь на вашому комп'ютері"
+msgstr "Зберігає поточний набір профілів у цій групі десь на вашому комп'ютері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadDefaults)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:172
@@ -13549,8 +13538,7 @@ msgstr "Пор. коефіцієнт"
 #, kde-format
 msgid ""
 "Add the multiple times the rms background level to the detection threshold."
-msgstr ""
-"Додати декілька разів рівень тла СКВ до порогового значення виявлення."
+msgstr "Додати декілька разів рівень тла СКВ до порогового значення виявлення."
 
 #. i18n: ectx: property (text), widget (QLineEdit, threshMultiple)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:658
@@ -14506,8 +14494,7 @@ msgstr "Керування обертанням"
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/capture.ui:785
 #, kde-format
-msgid ""
-"<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
+msgid "<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Калькулятор оптимальної підекспозиції</p></body></html>"
 
@@ -14648,83 +14635,6 @@ msgstr "Ціль"
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/capture.ui:1094
 #, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Format is used to define the image file names by "
-#| "the use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %f</span> or <span style=\" font-weight:704;"
-#| "\">%filename</span>: The name of the .esq file, without extension.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %D</span> or <span style=\" font-weight:704;"
-#| "\">%Datetime</span>: The current time and date <span style=\" font-"
-#| "weight:704;\">when the file is saved.</span></li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %T</span> or <span style=\" font-weight:704;\">%Type</span>: The "
-#| "frame type eg: 'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Placeholder<span style=\" font-weight:704;"
-#| "\"> %e</span> or <span style=\" font-weight:704;\">%exposure</span>: The "
-#| "exposure duration in seconds, with '_secs' as suffix.</li><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %E</span> or "
-#| "<span style=\" font-weight:704;\">%exp</span>: The exposure duration in "
-#| "seconds as plain number, whithout any unit as suffix.</li></ul><li style="
-#| "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Placeholder<span style=\" font-"
-#| "weight:704;\"> %F</span> or <span style=\" font-weight:704;\">%Filter</"
-#| "span>: The active filter name.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %t</span> or "
-#| "<span style=\" font-weight:704;\">%target</span>: The Target name.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder "
-#| "<span style=\" font-weight:600;\">%C</span> or <span style=\" font-"
-#| "weight:600;\">%temperature</span>: The camera temperature of capturing.</"
-#| "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%B</"
-#| "span> or <span style=\" font-weight:600;\">%bin</span>: The binning "
-#| "configured for capturing.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Placeholder <span style=\" font-weight:600;\">%G</span> or "
-#| "<span style=\" font-weight:600;\">%gain</span>: The gain configured for "
-#| "capturing.</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%O</span> or <span style="
-#| "\" font-weight:600;\">%offset</span>: The offset configured for capturing."
-#| "</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%I</"
-#| "span> or <span style=\" font-weight:600;\">%iso</span>: The ISO value "
-#| "(DSLRs only).</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
-#| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Placeholder <span style=\" font-weight:600;\">%P</span> or <span style="
-#| "\" font-weight:600;\">%pierside</span>: The current mount's pier side.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Placeholder<span "
-#| "style=\" font-weight:704;\"> %s*</span> or <span style=\" font-weight:704;"
-#| "\">%sequence</span>: The image sequence identifier where * is the number "
-#| "of digits used (1-9). <span style=\" font-weight:704;\">This tag is "
-#| "mandatory and must be the last element in the format.</span></li></"
-#| "ul><p>Arbitrary text may also be included within the Format string, <span "
-#| "style=\" font-weight:704;\">except the % and \\ characters.</span> The / "
-#| "path character can be used to define arbitrary directories.</p><p>Notes:</"
-#| "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-#| "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Tags are case sensitive in both their short and long "
-#| "forms.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Only "
-#| "use the %Datetime tag in the filename portion of the format, not in the "
-#| "path definition.</li></ul></body></html>"
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -15309,8 +15219,7 @@ msgstr "Час до захоплення для поточного знімка"
 #: ekos/capture/capturecountswidget.ui:495
 #, kde-format
 msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Час, який лишився до виконання</p></body></html>"
+msgstr "<html><head/><body><p>Час, який лишився до виконання</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, jobRemainingTime)
 #: ekos/capture/capturecountswidget.ui:438
@@ -15481,8 +15390,7 @@ msgstr ""
 
 #: ekos/capture/capturemodulestate.cpp:870
 #, kde-format
-msgid ""
-"Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
+msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, є нижчим за обмеження у %2 "
 "кутових секунд."
@@ -15760,8 +15668,7 @@ msgstr "Обробляємо перехід за меридіаном…"
 #: ekos/capture/captureprocess.cpp:1726
 #, kde-format
 msgid "Pre job script finished with code %1."
-msgstr ""
-"Роботу скрипту обробки перед виконанням завдання завершено з кодом %1."
+msgstr "Роботу скрипту обробки перед виконанням завдання завершено з кодом %1."
 
 #: ekos/capture/captureprocess.cpp:1731
 #, kde-format
@@ -17285,8 +17192,7 @@ msgstr ""
 
 #: ekos/focus/focus.cpp:2925
 #, kde-format
-msgid ""
-"Autofocus failed to reach proper focus. Try increasing tolerance value."
+msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 "Засобу автоматичного фокусування не вдалося отримати належне фокусування. "
 "Спробуйте збільшити значення допуску."
@@ -17304,8 +17210,7 @@ msgstr "Не вдалося виявити жодної зірки у позиц
 #: ekos/focus/focus.cpp:2947 ekos/focus/focus.cpp:3606
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
-msgstr ""
-"Не вдалося знайти жодної зірки. Скиньте кадрування і повторіть спробу."
+msgstr "Не вдалося знайти жодної зірки. Скиньте кадрування і повторіть спробу."
 
 #: ekos/focus/focus.cpp:3171
 #, kde-format
@@ -17415,8 +17320,7 @@ msgstr "Розпочинаємо неперервне експонування�
 
 #: ekos/focus/focus.cpp:4330
 #, kde-format
-msgid ""
-"Disabling Auto Star Selection as star selection box was moved manually."
+msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Вимикаємо автоматичний вибір зірок, оскільки область вибору зірки було "
 "пересунуто вручну."
@@ -17772,8 +17676,7 @@ msgstr "Маска мозаїки:"
 msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
 "html>"
-msgstr ""
-"<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
+msgstr "<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -17817,8 +17720,7 @@ msgstr "Кільцева маска:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/focus.ui:1012
 #, kde-format
-msgid ""
-"<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
 msgstr "<html><head/><body><p>Розмір підкадру у пікселях.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
@@ -17969,10 +17871,8 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1211
 #, kde-format
-msgid ""
-"<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Одиниці показу для РПФ і ПШПМ.</p></body></html>"
+msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
+msgstr "<html><head/><body><p>Одиниці показу для РПФ і ПШПМ.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/focus.ui:1215
@@ -20251,8 +20151,7 @@ msgstr "Від'єднатися від зовнішньої програми д�
 #: ekos/guide/guide.ui:398
 #, kde-format
 msgid "Apply filter to image after capture to enhance it"
-msgstr ""
-"Застосувати для удосконалення зображення фільтрування після захоплення"
+msgstr "Застосувати для удосконалення зображення фільтрування після захоплення"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/guide/guide.ui:408
@@ -20556,8 +20455,7 @@ msgstr ""
 #: ekos/guide/guide.ui:1361
 #, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Зменшення масштабу за віссю X.</p></body></html>"
+msgstr "<html><head/><body><p>Зменшення масштабу за віссю X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1387
@@ -21069,8 +20967,7 @@ msgstr "Макс. рух (пікселі):"
 #: ekos/guide/opscalibration.ui:122 kstars.kcfg:2513
 #, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
-msgstr ""
-"Максимальна кількість пікселів зсуву під час калібрування (приблизно)."
+msgstr "Максимальна кількість пікселів зсуву під час калібрування (приблизно)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TwoAxisEnabled)
 #: ekos/guide/opscalibration.ui:143
@@ -21475,8 +21372,7 @@ msgstr "Інтервал наведення «у темну»"
 #, kde-format
 msgid ""
 "The length in seconds of the mount's major period (that's being corrected)."
-msgstr ""
-"Тривалість основного періоду лафета у секундах (підлягає виправленню)."
+msgstr "Тривалість основного періоду лафета у секундах (підлягає виправленню)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs0a)
 #: ekos/guide/opsgpg.ui:149
@@ -21503,8 +21399,7 @@ msgstr "Підсилення прогнозу"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGDarkGuiding)
 #: ekos/guide/opsgpg.ui:166 ekos/guide/opsgpg.ui:254
 #, kde-format
-msgid ""
-"Enable predictive corrections during acquisition of guide camera images"
+msgid "Enable predictive corrections during acquisition of guide camera images"
 msgstr ""
 "Увімкнути випереджувальні виправлення під час отримання зображень камери "
 "наведення"
@@ -21764,8 +21659,7 @@ msgstr "Короткодіапазонна дисперсія"
 #: ekos/guide/opsgpg.ui:583 ekos/guide/opsgpg.ui:593
 #, kde-format
 msgid "Number of points used in the Gaussian Process approximation"
-msgstr ""
-"Кількість точок, які буде використано у апроксимації гаусового процесу"
+msgstr "Кількість точок, які буде використано у апроксимації гаусового процесу"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas6a)
 #: ekos/guide/opsgpg.ui:586
@@ -22059,8 +21953,7 @@ msgstr "Алгоритм"
 #: ekos/guide/opsguide.ui:524 ekos/guide/opsguide.ui:576 kstars.kcfg:2553
 #, kde-format
 msgid "Minimum number of stars detected for SEP MultiStar to initialize."
-msgstr ""
-"Мінімальна кількість виявлених зірок для ініціалізації ПдЕП MultiStar."
+msgstr "Мінімальна кількість виявлених зірок для ініціалізації ПдЕП MultiStar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/guide/opsguide.ui:579
@@ -22825,8 +22718,7 @@ msgstr ""
 
 #: ekos/mount/mount.cpp:388
 #, kde-format
-msgid ""
-"GPS is detected. Do you want to switch time and location source to GPS?"
+msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "Виявлено GPS. Хочете перемкнути джерело даних щодо часу і розташування на "
 "GPS?"
@@ -22857,8 +22749,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
-msgstr ""
-"Висота телескопа перевищила максимальну, обмежену %1, перериваємо рух."
+msgstr "Висота телескопа перевищила максимальну, обмежену %1, перериваємо рух."
 
 #: ekos/mount/mount.cpp:673
 #, kde-format
@@ -24104,8 +23995,7 @@ msgstr "Інші"
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/opsekos.ui:612
 #, kde-format
-msgid ""
-"Wait this many seconds after guiding is resumed before starting capture"
+msgid "Wait this many seconds after guiding is resumed before starting capture"
 msgstr ""
 "Очікувати вказану кількість секунд після відновлення наведення перед тим, як "
 "розпочнеться захоплення зображення"
@@ -24551,8 +24441,7 @@ msgstr "Вузол:"
 #: ekos/profileeditor.ui:216
 #, kde-format
 msgid "<html><body><p>INDI Web Manager port.</p></body></html>"
-msgstr ""
-"<html><body><p>Порту засобу інтернет-керування INDI.</p></body></html>"
+msgstr "<html><body><p>Порту засобу інтернет-керування INDI.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, INDIWebManagerPort)
 #: ekos/profileeditor.ui:219
@@ -25637,8 +25526,7 @@ msgstr "Прозорість плиток:"
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
 #: ekos/scheduler/framingassistant.ui:682
 #, kde-format
-msgid ""
-"Camera FOV in arc minutes as determined from equipment parameters above"
+msgid "Camera FOV in arc minutes as determined from equipment parameters above"
 msgstr ""
 "Поле зору камери у кутових мінутах, як його визначено з вказаних вище "
 "параметрів обладнання"
@@ -25851,10 +25739,8 @@ msgstr "↓Створити завдання планувальника"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/framingassistant.ui:1223
 #, kde-format
-msgid ""
-"Perform calibration and autoguiding before proceeding to the next step."
-msgstr ""
-"Виконати калібрування і автонаведення до переходу до наступного кроку."
+msgid "Perform calibration and autoguiding before proceeding to the next step."
+msgstr "Виконати калібрування і автонаведення до переходу до наступного кроку."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, directoryEdit)
 #: ekos/scheduler/framingassistant.ui:1236
@@ -25897,8 +25783,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:1278
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
-msgstr ""
-"Виберіть, які кроки слід виконувати перед запуском процесу захоплення."
+msgstr "Виберіть, які кроки слід виконувати перед запуском процесу захоплення."
 
 #. i18n: ectx: property (text), widget (QLabel, alignEveryLabel)
 #: ekos/scheduler/framingassistant.ui:1294
@@ -26202,8 +26087,7 @@ msgstr "Виберіть скрипт вимикання"
 
 #: ekos/scheduler/scheduler.cpp:1121
 #, kde-format
-msgid ""
-"Warning: You cannot add or modify a job while the scheduler is running."
+msgid "Warning: You cannot add or modify a job while the scheduler is running."
 msgstr ""
 "Увага! Не можна додавати або змінювати завдання, доки працює планувальник."
 
@@ -26265,8 +26149,7 @@ msgstr "%1 %2 %3"
 
 #: ekos/scheduler/scheduler.cpp:1474
 #, kde-format
-msgid ""
-"Warning: you cannot add or modify a job while the scheduler is running."
+msgid "Warning: you cannot add or modify a job while the scheduler is running."
 msgstr ""
 "Увага! Не можна додавати або змінювати завдання, доки працює планувальник."
 
@@ -26433,8 +26316,7 @@ msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2551
 #, kde-format
-msgid ""
-"Warning: job '%1' lost connection to the dome, attempting to reconnect."
+msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Увага! У завданні «%1» втрачено з'єднання із куполом. Намагаємося відновити "
 "з'єднання."
@@ -26609,8 +26491,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:3698
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
-msgstr ""
-"Увага! Не вдалося виконати запит щодо captureAndSolve у завданні «%1»."
+msgstr "Увага! Не вдалося виконати запит щодо captureAndSolve у завданні «%1»."
 
 #: ekos/scheduler/scheduler.cpp:3704
 #, kde-format
@@ -26734,8 +26615,7 @@ msgstr "Увага! Не вдалося виконати калібруванн�
 
 #: ekos/scheduler/scheduler.cpp:5175
 #, kde-format
-msgid ""
-"Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
+msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "Виконуємо завдання «%1», процедуру наведення буде перезапущено за %2 секунд."
 
@@ -26873,8 +26753,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:5554
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
-msgstr ""
-"Присипляємо до того, як буде готове завдання зі спостереження %1 о %2…"
+msgstr "Присипляємо до того, як буде готове завдання зі спостереження %1 о %2…"
 
 #: ekos/scheduler/scheduler.cpp:5556
 #, kde-format
@@ -27224,8 +27103,7 @@ msgstr "Обмеження завдання"
 #, kde-format
 msgid ""
 "The moon separation must remain equal to or higher than the given value."
-msgstr ""
-"Відхилення від Місяця має бути рівним або більшим за вказане значення."
+msgstr "Відхилення від Місяця має бути рівним або більшим за вказане значення."
 
 #. i18n: ectx: property (text), widget (QCheckBox, moonSeparationCheck)
 #: ekos/scheduler/scheduler.ui:1588
@@ -27236,8 +27114,7 @@ msgstr "Місяць > "
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altConstraintCheck)
 #: ekos/scheduler/scheduler.ui:1604
 #, kde-format
-msgid ""
-"The object's altitude must remain equal or higher than the given value."
+msgid "The object's altitude must remain equal or higher than the given value."
 msgstr "Висота об'єкта має залишатися рівною або вищою за вказане значення."
 
 #. i18n: ectx: property (text), widget (QCheckBox, altConstraintCheck)
@@ -27768,8 +27645,7 @@ msgstr "Потрібне зняття купола з паркування, ал
 
 #: ekos/scheduler/schedulerprocess.cpp:248
 #, kde-format
-msgid ""
-"Warning: mount device not ready after timeout, attempting to recover..."
+msgid "Warning: mount device not ready after timeout, attempting to recover..."
 msgstr ""
 "Попередження: пристрій лафета не готовий після завершення часу очікування — "
 "намагаємося відновити стан…"
@@ -31666,8 +31542,7 @@ msgstr "Показувати координати Висота/Азимут у �
 msgid ""
 "Toggle display of the Horizontal coordinates of the mouse cursor in the "
 "status bar."
-msgstr ""
-"Перемикач показу горизонтальних координат курсора миші у смужці стану."
+msgstr "Перемикач показу горизонтальних координат курсора миші у смужці стану."
 
 #. i18n: ectx: label, entry (ShowRADecField), group (GUI)
 #: kstars.kcfg:91
@@ -32454,8 +32329,7 @@ msgstr "Ховати додаткові об'єкти під час руху?"
 #. i18n: ectx: whatsthis, entry (HideOther), group (View)
 #: kstars.kcfg:442
 #, kde-format
-msgid ""
-"Toggle whether extra objects are hidden while the display is in motion."
+msgid "Toggle whether extra objects are hidden while the display is in motion."
 msgstr ""
 "Перемикач того, чи буде сховано додаткові об'єкти під час зміщення області "
 "показу."
@@ -33393,8 +33267,7 @@ msgstr ""
 #: kstars.kcfg:805
 #, kde-format
 msgid "Orients the sky-map to account for an erect observer at the eyepiece"
-msgstr ""
-"Орієнтує карту неба з врахуванням висоти спостерігача на рівні окуляра"
+msgstr "Орієнтує карту неба з врахуванням висоти спостерігача на рівні окуляра"
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:806
@@ -33464,8 +33337,7 @@ msgstr "Щільність міток для назв астероїдів"
 #: kstars.kcfg:828
 #, kde-format
 msgid "Controls the relative number of asteroid name labels drawn in the map."
-msgstr ""
-"Контролює відносну кількість міток з назвами астероїдів на карті неба."
+msgstr "Контролює відносну кількість міток з назвами астероїдів на карті неба."
 
 #. i18n: ectx: label, entry (MagLimitDrawDeepSky), group (View)
 #: kstars.kcfg:832
@@ -34321,8 +34193,7 @@ msgstr "Показувати позначку"
 #: kstars.kcfg:1166
 #, kde-format
 msgid "If true, display a label in the upper right corner."
-msgstr ""
-"Якщо має значення «true» показувати позначку у верхньому правому куті."
+msgstr "Якщо має значення «true» показувати позначку у верхньому правому куті."
 
 #. i18n: ectx: label, entry (XplanetLabelLocalTime), group (Xplanet)
 #. i18n: ectx: label, entry (XplanetLabelGMT), group (Xplanet)
@@ -34624,8 +34495,7 @@ msgstr "Файл склепіння"
 #. i18n: ectx: whatsthis, entry (XplanetArcFile), group (Xplanet)
 #: kstars.kcfg:1277
 #, kde-format
-msgid ""
-"If checked, use an arc file to be plotted against the background stars."
+msgid "If checked, use an arc file to be plotted against the background stars."
 msgstr ""
 "Якщо позначено, використовувати файл небесного склепіння, який буде показано "
 "під зірками тла."
@@ -35093,8 +34963,7 @@ msgstr "Показувати усі відкриті FITS у одному вік
 #: kstars.kcfg:1470
 #, kde-format
 msgid "Display all opened FITS images in a single FITS Viewer window."
-msgstr ""
-"Показувати усі відкриті зображення FITS у одному вікні перегляду FITS."
+msgstr "Показувати усі відкриті зображення FITS у одному вікні перегляду FITS."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1474
@@ -35200,8 +35069,7 @@ msgstr "Профіль параметрів для розв'язування у 
 #: kstars.kcfg:1530
 #, kde-format
 msgid "Use scale for Fitsviewer Solving."
-msgstr ""
-"Скористатися масштабуванням для розв'язування у засобі перегляду FITS."
+msgstr "Скористатися масштабуванням для розв'язування у засобі перегляду FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUsePosition), group (FITSViewer)
 #: kstars.kcfg:1534
@@ -35641,8 +35509,7 @@ msgstr "Примусове повторне фокусування кожні N 
 #: kstars.kcfg:1791
 #, kde-format
 msgid "Number of minute between forced refocus attempts"
-msgstr ""
-"Проміжок часу у хвилинах між примусовими спробами повторно фокусування"
+msgstr "Проміжок часу у хвилинах між примусовими спробами повторно фокусування"
 
 #. i18n: ectx: whatsthis, entry (RefocusEveryN), group (Capture)
 #: kstars.kcfg:1792
@@ -36182,8 +36049,7 @@ msgstr "Мінімальне прийнятне значення R2 для ап�
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:2058
 #, kde-format
-msgid ""
-"Whether to refine the curve fit by looking for and discarding outliers."
+msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
 "Визначає, чи слід удосконалювати апроксимацію кривої шляхом пошуку і "
 "відкидання викидів."
@@ -37053,8 +36919,7 @@ msgstr "Кроки наведення."
 #: kstars.kcfg:2525
 #, kde-format
 msgid "Automatically select calibration star and perform calibration."
-msgstr ""
-"Автоматично вибирати зірку для калібрування і виконувати калібрування."
+msgstr "Автоматично вибирати зірку для калібрування і виконувати калібрування."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2533
@@ -37120,8 +36985,7 @@ msgstr ""
 #: kstars.kcfg:2569
 #, kde-format
 msgid "Automatically save internal guider user logs."
-msgstr ""
-"Автоматично зберігати журнал користувача вбудованого засобу наведення."
+msgstr "Автоматично зберігати журнал користувача вбудованого засобу наведення."
 
 #. i18n: ectx: label, entry (GuideDarkFrame), group (Guide)
 #: kstars.kcfg:2573
@@ -37345,8 +37209,7 @@ msgstr "Скидати модель лафета перед початком к�
 #: kstars.kcfg:2782
 #, kde-format
 msgid "Always Reset guiding calibration before starting each job."
-msgstr ""
-"Завжди скидати калібрування наведення перед початком кожного завдання."
+msgstr "Завжди скидати калібрування наведення перед початком кожного завдання."
 
 #. i18n: ectx: label, entry (ForceAlignmentBeforeJob), group (Scheduler)
 #: kstars.kcfg:2786
@@ -37761,8 +37624,7 @@ msgstr ""
 #: kstars.kcfg:3015
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
-msgstr ""
-"Показувати пульсації схилення на кресленні статистичних даних аналізу."
+msgstr "Показувати пульсації схилення на кресленні статистичних даних аналізу."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
 #: kstars.kcfg:3019
@@ -37835,8 +37697,7 @@ msgstr "Показувати бік стійки на кресленні ста�
 #: kstars.kcfg:3059
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
-msgstr ""
-"Збережені верхня і нижня межі вісі Y для креслення аналізу статистики."
+msgstr "Збережені верхня і нижня межі вісі Y для креслення аналізу статистики."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
 #: kstars.kcfg:3064
@@ -37878,8 +37739,7 @@ msgstr "Назва каталогу початкових даних HIPS."
 #: kstars.kcfg:3089
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
-msgstr ""
-"Використовувати білінійну інтерполяцію під час обробки зображень HiPS?"
+msgstr "Використовувати білінійну інтерполяцію під час обробки зображень HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
 #: kstars.kcfg:3093
@@ -38174,8 +38034,7 @@ msgstr "Стан погоди для стану обсерваторії."
 #: kstars.kcfg:3244
 #, kde-format
 msgid "Scale the sensor graph value axis to the values range."
-msgstr ""
-"Масштабувати вісь значень графіка даних датчика за діапазоном значень."
+msgstr "Масштабувати вісь значень графіка даних датчика за діапазоном значень."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
 #: kstars.kcfg:3250
@@ -72521,8 +72380,7 @@ msgstr "Ксаба Кертеш"
 #: main.cpp:140
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
-msgstr ""
-"Двійковий список астероїдів, база даних віддалених об'єктів і каталоги"
+msgstr "Двійковий список астероїдів, база даних віддалених об'єктів і каталоги"
 
 #: main.cpp:141
 #, kde-format
@@ -74919,8 +74777,7 @@ msgstr "Додати позначки з назвами до основних т
 #, kde-format
 msgid ""
 "If checked, name labels will be attached to the planets, the Sun and the Moon"
-msgstr ""
-"Якщо позначено, до планет, Сонця та Місяця буде додано мітки з назвами"
+msgstr "Якщо позначено, до планет, Сонця та Місяця буде додано мітки з назвами"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPlanetNames)
 #: options/opssolarsystem.ui:101
@@ -75414,8 +75271,7 @@ msgstr "Кут виправлення висоти зображення ланд
 #: options/opsterrain.ui:175
 #, kde-format
 msgid "Rotate terrain in altitude degrees so north is actually north"
-msgstr ""
-"Обертання висоти ландшафту для встановлення істинного напрямку півночі"
+msgstr "Обертання висоти ландшафту для встановлення істинного напрямку півночі"
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainSpeedupGroupBox_2)
 #: options/opsterrain.ui:214
@@ -83169,10 +83025,8 @@ msgstr "Тривалість ночі у вибрану дату"
 #. i18n: ectx: property (whatsThis), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:230
 #, kde-format
-msgid ""
-"Displays the duration between sunset and sunrise for the selected date."
-msgstr ""
-"Показує тривалість періоду між заходом та сходом Сонця у вибрану дату."
+msgid "Displays the duration between sunset and sunrise for the selected date."
+msgstr "Показує тривалість періоду між заходом та сходом Сонця у вибрану дату."
 
 #. i18n: ectx: property (text), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:233
