@@ -277,14 +277,25 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             QToolTip::hideText();
     }
 
-    double HFR = view->imageData()->getHFR(x, y);
+    double HFR = view->imageData()->getHFR(x + 1, y + 1, scale);
 
 
     if (HFR > 0)
-        QToolTip::showText(e->globalPos(), QToolTip::text() + '\n' + i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g',
-                           3)), this);
-
-    //setCursor(Qt::CrossCursor);
+    {
+        QString tip = QToolTip::text();
+        // Don't i18n away HFR: because the RegExp below checks for HFR: to make sure there aren't duplicate strings added.
+        QString hfrStr = QString("HFR: %1").arg(HFR, 4, 'f', 2);
+        if (tip.isEmpty() || tip == hfrStr)
+            QToolTip::showText(e->globalPos(), hfrStr, this);
+        else
+        {
+            QRegExp hfrRegEx("HFR\\: \\d+\\.\\d\\d");
+            if (tip.contains(hfrRegEx))
+                QToolTip::showText(e->globalPos(), tip.replace(hfrRegEx, hfrStr), this);
+            else
+                QToolTip::showText(e->globalPos(), QToolTip::text() + '\n' + hfrStr, this);
+        }
+    }
 
     e->accept();
 }
