@@ -718,6 +718,11 @@ void Focus::checkFocuser()
         absMotionMin    = 0;
     }
 
+    qCDebug(KSTARS_EKOS_FOCUS)  << "Focuser properties:"
+                                << " CanAbsMove = " << (canAbsMove ? "yes" : "no" )
+                                << " CanRelMove = " << (canRelMove ? "yes" : "no" )
+                                << " CanTimerMove = " << (canTimerMove ? "yes" : "no" );
+
     m_FocusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
     profilePlot->setFocusAuto(m_FocusType == FOCUS_AUTO);
 
@@ -1233,6 +1238,7 @@ void Focus::start()
     FWHMOut->setText("");
 
     qCInfo(KSTARS_EKOS_FOCUS)  << "Starting Autofocus on" << focuserLabel->text()
+                               << " Position:" << currentPosition
                                << " Filter:" << filter()
                                << " Exp:" << focusExposure->value()
                                << " Bin:" << focusBinning->currentText()
@@ -1479,7 +1485,7 @@ int Focus::adaptStartPosition(int position, QString *AFfilter)
     }
 }
 
-int Focus::adjustLinearPosition(int position, int newPosition, int overscan)
+int Focus::adjustLinearPosition(int position, int newPosition, int overscan, bool updateDir)
 {
     if (overscan > 0 && newPosition > position)
     {
@@ -1491,6 +1497,7 @@ int Focus::adjustLinearPosition(int position, int newPosition, int overscan)
             adjustment = static_cast<int>(absMotionMax) - newPosition;
 
         focuserAdditionalMovement = adjustment;
+        focuserAdditionalMovementUpdateDir = updateDir;
 
         return newPosition + adjustment;
     }
@@ -1570,6 +1577,7 @@ void Focus::stop(Ekos::FocusState completionState)
     inAdaptiveFocus = false;
     inBuildOffsets = false;
     focuserAdditionalMovement = 0;
+    focuserAdditionalMovementUpdateDir = true;
     inFocusLoop = false;
     captureInProgress = false;
     isVShapeSolution = false;
@@ -1793,7 +1801,7 @@ bool Focus::focusOut(int ms)
 
 // Routine to manage focus movements. All moves are now subject to overscan
 // + amount indicates a movement out; - amount indictaes a movement in
-bool Focus::changeFocus(int amount)
+bool Focus::changeFocus(int amount, bool updateDir)
 {
     // Retry capture if we stay at the same position
     // Allow 1 step of tolerance--Have seen stalls with amount==1.
@@ -1817,7 +1825,8 @@ bool Focus::changeFocus(int amount)
         return false;
     }
 
-    const int newPosition = adjustLinearPosition(currentPosition, currentPosition + amount, focusAFOverscan->value());
+    const int newPosition = adjustLinearPosition(currentPosition, currentPosition + amount, focusAFOverscan->value(),
+                            updateDir);
     if (newPosition == currentPosition)
         return true;
 
@@ -1825,6 +1834,9 @@ bool Focus::changeFocus(int amount)
     const int absNewAmount = abs(newAmount);
     const bool focusingOut = newAmount > 0;
     const QString dirStr = focusingOut ? i18n("outward") : i18n("inward");
+    // update the m_LastFocusDirection unless in Iterative / Polynomial which controls this variable itself.
+    if (updateDir)
+        m_LastFocusDirection = (focusingOut) ? FOCUS_OUT : FOCUS_IN;
 
     if (focusingOut)
         m_Focuser->focusOut();
@@ -3269,7 +3281,7 @@ void Focus::autoFocusAbs()
             }
 
             m_LastFocusDirection = (pulseDuration > 0) ? FOCUS_OUT : FOCUS_IN;
-            if (!changeFocus(pulseDuration))
+            if (!changeFocus(pulseDuration, false))
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
             break;
@@ -3532,7 +3544,7 @@ void Focus::autoFocusAbs()
             }
 
             m_LastFocusDirection = (lastDelta > 0) ? FOCUS_OUT : FOCUS_IN;
-            if (!changeFocus(lastDelta))
+            if (!changeFocus(lastDelta, false))
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
             break;
@@ -3617,7 +3629,7 @@ void Focus::autoFocusRel()
             lastHFR = currentHFR;
             minHFR  = 1e6;
             m_LastFocusDirection = FOCUS_IN;
-            changeFocus(-pulseDuration);
+            changeFocus(-pulseDuration, false);
             break;
 
         case FOCUS_IN:
@@ -3632,7 +3644,7 @@ void Focus::autoFocusRel()
                     minHFR = currentHFR;
 
                 lastHFR = currentHFR;
-                changeFocus(m_LastFocusDirection == FOCUS_IN ? -pulseDuration : pulseDuration);
+                changeFocus(m_LastFocusDirection == FOCUS_IN ? -pulseDuration : pulseDuration, false);
                 HFRInc = 0;
             }
             else
@@ -3645,7 +3657,7 @@ void Focus::autoFocusRel()
 
                 pulseDuration *= 0.75;
 
-                if (!changeFocus(m_LastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration))
+                if (!changeFocus(m_LastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration, false))
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
                 // HFR getting worse so reverse direction
@@ -3669,7 +3681,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
             focuserAdditionalMovement = 0;
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Undoing overscan extension. Moving back in by %1").arg(temp);
 
-            if (!focusIn(temp))
+            if (!changeFocus(-temp, focuserAdditionalMovementUpdateDir))
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -3900,8 +3912,8 @@ void Focus::updateProperty(INDI::Property prop)
         {
             currentPosition += pos->value * (m_LastFocusDirection == FOCUS_IN ? -1 : 1);
             qCDebug(KSTARS_EKOS_FOCUS)
-                    << QString("Rel Focuser position changed by %1 to %2")
-                    .arg(pos->value).arg(currentPosition);
+                    << QString("Rel Focuser position moved %1 by %2 to %3")
+                    .arg((m_LastFocusDirection == FOCUS_IN) ? "in" : "out").arg(pos->value).arg(currentPosition);
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
             emit absolutePositionChanged(currentPosition);
         }
@@ -3985,8 +3997,8 @@ void Focus::updateProperty(INDI::Property prop)
             {
                 currentPosition += pos->value * (m_LastFocusDirection == FOCUS_IN ? -1 : 1);
                 qCDebug(KSTARS_EKOS_FOCUS)
-                        << QString("Timer Focuser position changed by %1 to %2")
-                        .arg(pos->value).arg(currentPosition);
+                        << QString("Timer Focuser position moved %1 by %2 to %3")
+                        .arg((m_LastFocusDirection == FOCUS_IN) ? "in" : "out").arg(pos->value).arg(currentPosition);
             }
             autoFocusProcessPositionChange(nvp->s);
         }
