@@ -4266,7 +4266,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         {
             unsigned int const captures_to_go = captures_required - captures_completed;
             const double secsPerCapture = (seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() +
-                                           seqJob->getCoreProperty(SequenceJob::SJ_Delay).toInt());
+                                           (seqJob->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0));
             totalImagingTime += fabs(secsPerCapture * captures_to_go);
             imagingTimePerRepeat += fabs(secsPerCapture * seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
             imagingTimeLeftThisRepeat += fabs(secsPerCapture * capturesLeftThisRepeat);
