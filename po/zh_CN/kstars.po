@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:23+0000\n"
+"POT-Creation-Date: 2023-11-09 00:39+0000\n"
 "PO-Revision-Date: 2023-10-21 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3545,7 +3545,7 @@ msgstr "未能更新用户日志。"
 msgid "No connected mounts found."
 msgstr "未找到已连接的支架。"
 
-#: dialogs/detaildialog.cpp:1119 fitsviewer/fitslabel.cpp:436
+#: dialogs/detaildialog.cpp:1119 fitsviewer/fitslabel.cpp:447
 #: kstarsactions.cpp:291 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
@@ -26070,40 +26070,40 @@ msgstr ""
 msgid "Failed to write image: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2778 fitsviewer/fitsdata.cpp:2789
-#: fitsviewer/fitsdata.cpp:2825 fitsviewer/fitsdata.cpp:2861
-#: fitsviewer/fitsdata.cpp:2908
+#: fitsviewer/fitsdata.cpp:2780 fitsviewer/fitsdata.cpp:2791
+#: fitsviewer/fitsdata.cpp:2827 fitsviewer/fitsdata.cpp:2863
+#: fitsviewer/fitsdata.cpp:2910
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "未能找到世界坐标系统。"
 
-#: fitsviewer/fitsdata.cpp:3630
+#: fitsviewer/fitsdata.cpp:3632
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "只支持 8 和 16 位拜耳图像。"
 
-#: fitsviewer/fitsdata.cpp:3663
+#: fitsviewer/fitsdata.cpp:3665
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "不支持的拜耳模式 %1。"
 
-#: fitsviewer/fitsdata.cpp:3694
+#: fitsviewer/fitsdata.cpp:3696
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "不支持的拜耳偏移 %1 %2。"
 
-#: fitsviewer/fitsdata.cpp:3762 fitsviewer/fitsdata.cpp:3809
-#: fitsviewer/fitsdata.cpp:3854 fitsviewer/fitsdata.cpp:3901
+#: fitsviewer/fitsdata.cpp:3764 fitsviewer/fitsdata.cpp:3811
+#: fitsviewer/fitsdata.cpp:3856 fitsviewer/fitsdata.cpp:3903
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "无法为临时拜耳缓冲区分配内存：%1"
 
-#: fitsviewer/fitsdata.cpp:3772 fitsviewer/fitsdata.cpp:3864
+#: fitsviewer/fitsdata.cpp:3774 fitsviewer/fitsdata.cpp:3866
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "无法为临时拜耳缓冲区分配内存。"
 
-#: fitsviewer/fitsdata.cpp:3792 fitsviewer/fitsdata.cpp:3884
+#: fitsviewer/fitsdata.cpp:3794 fitsviewer/fitsdata.cpp:3886
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "解拜耳失败 (%1)"
@@ -26303,18 +26303,12 @@ msgstr "B"
 msgid "Apply"
 msgstr "执行"
 
-#: fitsviewer/fitslabel.cpp:284
-#, kde-format
-msgctxt "Half Flux Radius"
-msgid "HFR: %1"
-msgstr "HFR：%1"
-
-#: fitsviewer/fitslabel.cpp:342 tools/whatsinteresting/wiview.cpp:332
+#: fitsviewer/fitslabel.cpp:353 tools/whatsinteresting/wiview.cpp:332
 #, kde-format
 msgid "Continue Slew"
 msgstr "继续转动"
 
-#: fitsviewer/fitslabel.cpp:425 fitsviewer/fitslabel.cpp:452
+#: fitsviewer/fitslabel.cpp:436 fitsviewer/fitslabel.cpp:463
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr ""
@@ -80501,6 +80495,10 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
+
+#~ msgctxt "Half Flux Radius"
+#~ msgid "HFR: %1"
+#~ msgstr "HFR：%1"
 
 #~ msgid "Scope/Lense:"
 #~ msgstr "望远镜/主镜："
