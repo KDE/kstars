@@ -319,7 +319,7 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool guideDe
 }
 
 bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useAlign,
-        SchedulerJob::CompletionCondition completionCondition, int iterations)
+        Ekos::CompletionCondition completionCondition, int iterations)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
@@ -364,12 +364,12 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useAl
     // set the completion condition
     switch (completionCondition)
     {
-        case SchedulerJob::FINISH_REPEAT:
+        case Ekos::FINISH_REPEAT:
             // repeat the job for a fixed amount
             KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
             KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
             break;
-        case SchedulerJob::FINISH_LOOP:
+        case Ekos::FINISH_LOOP:
             KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
             break;
         default:

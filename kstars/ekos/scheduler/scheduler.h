@@ -54,7 +54,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
         Q_PROPERTY(QString profile READ profile WRITE setProfile)
 
-    public:
+public:
 
         /** @brief Columns, in the same order as UI. */
         typedef enum
@@ -66,16 +66,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
             SCHEDCOL_STARTTIME,
             SCHEDCOL_ENDTIME,
         } SchedulerColumns;
-
-        /** @brief IterationTypes, the different types of scheduler iterations that are run. */
-        typedef enum
-        {
-            RUN_WAKEUP = 0,
-            RUN_SCHEDULER,
-            RUN_JOBCHECK,
-            RUN_SHUTDOWN,
-            RUN_NOTHING
-        } SchedulerTimerState;
 
         /** @brief Constructor, the starndard scheduler constructor. */
         Scheduler();
@@ -104,28 +94,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void addObject(SkyObject *object);
 
         /**
-             * @brief startSlew DBus call for initiating slew
-             */
-        void startSlew();
-
-        /**
-             * @brief startFocusing DBus call for feeding ekos the specified settings and initiating focus operation
-             */
-        void startFocusing();
-
-        /**
-             * @brief startAstrometry initiation of the capture and solve operation. We change the job state
-             * after solver is started
-             */
-        void startAstrometry();
-
-        /**
-             * @brief startGuiding After ekos is fed the calibration options, we start the guiding process
-             * @param resetCalibration By default calibration is not reset until it is explicitly requested
-             */
-        void startGuiding(bool resetCalibration = false);
-
-        /**
              * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
              * @param restart Set to true if the goal to restart an existing sequence. The only difference is that when a sequence is restarted, sequence file
              * is not loaded from disk again since that results in erasing all the history of the capture process.
@@ -136,17 +104,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
              */
         void getNextAction();
-
-        /**
-             * @brief stopGuiding After guiding is done we need to stop the process
-             */
-        void stopGuiding();
-
-        /**
-             * @brief setSolverAction set the GOTO mode for the solver
-             * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
-             */
-        void setSolverAction(Align::GotoMode mode);
 
         /**
          * @brief importMosaic Import mosaic into planner and generate jobs for the scheduler.
@@ -227,17 +184,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // e.g. SchedulerPlanner or SchedulerJobEval
 
         /**
-             * @brief setupJob Massive initialization of a SchedulerJob for testing and exectution
-             * @param job Target
-        */
-        static void setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra,
-            const dms &dec, double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl,
-            SchedulerJob::StartupCondition startup, const QDateTime &startupTime,
-            SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
-            double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
-            bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide);
-
-        /**
              * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
              * @param job target job
              * @param capturedFramesCount a map of what's been captured already
@@ -259,30 +205,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         static bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
                                       bool &hasAutoFocus, Scheduler *scheduler);
 
-        /** @brief Setter used in testing to fix the local time. Otherwise getter gets from KStars instance. */
-        /** @{ */
-        static KStarsDateTime getLocalTime();
-        static void setLocalTime(KStarsDateTime *time)
-        {
-            storedLocalTime = time;
-        }
-        static bool hasLocalTime()
-        {
-            return storedLocalTime != nullptr;
-        }
-        /** @} */
-
         // Scheduler Settings
         void setSettings(const QJsonObject &settings);
-
-        void setUpdateInterval(int ms)
-        {
-            m_UpdatePeriodMs = ms;
-        }
-        int getUpdateInterval()
-        {
-            return m_UpdatePeriodMs;
-        }
 
         // Primary Settings
         void setPrimarySettings(const QJsonObject &settings);
@@ -356,8 +280,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void updateTable();
 
-
-    private:
+        // the state machine
+        QSharedPointer<SchedulerModuleState> moduleState() const
+        {
+            return m_moduleState;
+        }
+        
+private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
              * @param root the filename
@@ -384,13 +313,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // a separate Scheduler-related class.
 
         /*@{*/
-
-    private:
         /** @internal Safeguard flag to avoid registering signals from widgets multiple times.
          */
         bool jobChangesAreWatched { false };
 
-    protected:
+protected:
+
         /** @internal Enables signal watch on SchedulerJob form values in order to apply changes to current job.
           * @param enable is the toggle flag, true to watch for changes, false to ignore them.
           */
@@ -404,13 +332,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void setDirty();
         /** @} */
 
-    protected:
         /** @internal Associate job table cells on a row to the corresponding SchedulerJob.
          * @param row is an integer indexing the row to associate cells from, and also the index of the job in the job list..
          */
         void setJobStatusCells(int row);
 
-    protected slots:
+protected slots:
 
         /**
          * @brief registerNewModule Register an Ekos module as it arrives via DBus
@@ -630,7 +557,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void setCaptureComplete(const QVariantMap &metadata);
 
-    signals:
+signals:
         void newLog(const QString &text);
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
@@ -643,7 +570,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void jobEnded(const QString &jobName, const QString &endReason);
         void jobsUpdated(QJsonArray jobsList);
 
-    private:
+private:
         /**
              * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
              * Given that score, the scheduler will decide which is the best job that needs to be executed.
@@ -741,15 +668,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
                                               int &completedIterations);
 
         int getCompletedFiles(const QString &path);
-
-        // retrieve the guiding status
-        GuideState getGuidingStatus();
-
-        // Controls for the guiding timer, which restarts guiding after failure.
-        void cancelGuidingTimer();
-        bool isGuidingTimerActive();
-        void startGuidingTimer(int milliseconds);
-        void processGuidingTimer();
 
         // Returns true if the job is storing its captures on the same machine as the scheduler.
         bool canCountCaptures(const SchedulerJob &job);
@@ -880,10 +798,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         // the state machine holding all states
         QSharedPointer<SchedulerModuleState> m_moduleState;
-        QSharedPointer<SchedulerModuleState> moduleState() const
-        {
-            return m_moduleState;
-        }
         // process engine implementing all process steps
         QPointer<SchedulerProcess> m_process;
         QPointer<SchedulerProcess> process()
@@ -914,43 +828,19 @@ class Scheduler : public QWidget, public Ui::Scheduler
         int jobUnderEdit { -1 };
         /// Pointer to Geographic location
         GeoLocation *geo { nullptr };
-        /// How many repeated job batches did we complete thus far?
-        uint16_t captureBatch { 0 };
         /// Store next dawn to calculate dark skies range
         static QDateTime Dawn;
         /// Store next dusk to calculate dark skies range
         static QDateTime Dusk;
         /// Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
         static QDateTime preDawnDateTime;
-        /// Keep watch of weather status
-        ISD::Weather::Status weatherStatus { ISD::Weather::WEATHER_IDLE };
 
-        /// Keep track of Load & Slew operation
-        bool loadAndSlewProgress { false };
-        /// Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
-        bool autofocusCompleted { false };
-        /// Keep track of Ekos focus module failures
-        uint8_t focusFailureCount { 0 };
-        /// Keep track of Ekos guide module failures
-        uint8_t guideFailureCount { 0 };
-        /// Keep track of Ekos align module failures
-        uint8_t alignFailureCount { 0 };
-        /// Keep track of Ekos capture module failures
-        uint8_t captureFailureCount { 0 };
         /// Counter to keep debug logging in check
         uint8_t checkJobStageCounter { 0 };
         /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
         //QTimer weatherTimer;
 
-        /// Delay for restarting the guider
-        /// used by cancelGuidingTimer(), isGuidingTimerActive(), startGuidingTimer
-        /// and processGuidingTimer.
-        int restartGuidingInterval { -1 };
-        KStarsDateTime restartGuidingTime;
-
         QUrl dirPath;
-
-        QMap<QString, uint16_t> m_CapturedFramesCount;
 
         // When a module is commanded to perform an action, wait this many milliseconds
         // before check its state again. If State is still IDLE, then it either didn't received the command
@@ -972,14 +862,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Run a single scheduler iteration.
         int runSchedulerIteration();
 
-        // This is the time between typical scheduler iterations.
-        // The time can be modified for testing.
-        int m_UpdatePeriodMs = 1000;
-
-        // Setup the parameters for the next scheduler iteration.
-        // When milliseconds is not passed in, it uses m_UpdatePeriodMs.
-        void setupNextIteration(SchedulerTimerState nextState);
-        void setupNextIteration(SchedulerTimerState nextState, int milliseconds);
         // True if the scheduler is between iterations and delaying longer than the typical update period.
         bool currentlySleeping();
         // Used by the constructor in testing mainly so a mock ekos could be used.
@@ -988,31 +870,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void printStates(const QString &label);
 
 
-        // The type of scheduler iteration that should be run next.
-        SchedulerTimerState timerState { RUN_NOTHING };
-        // Variable keeping the number of millisconds the scheduler should wait
-        // after the current scheduler iteration.
-        int timerInterval { -1 };
-        // Whether the scheduler has been setup for the next iteration,
-        // that is, whether timerInterval and timerState have been set this iteration.
-        bool iterationSetup { false };
-        // The timer used to wakeup the scheduler between iterations.
-        QTimer iterationTimer;
-        // Counter for how many scheduler iterations have been processed.
-        int schedulerIteration { 0 };
-        // The time when the scheduler first started running iterations.
-        qint64 startMSecs { 0 };
-
         /// Target coordinates for pointing check
         QSharedPointer<SolverUtils> m_Solver;
         // Used when solving position every nth capture.
         uint32_t m_SolverIteration {0};
-
-        // Restricts (the internal solver) to using the index and healpix
-        // from the previous solve, if that solve was successful, when
-        // doing the pointing check. -1 means no restriction.
-        int m_IndexToUse { -1 };
-        int m_HealpixToUse { -1 };
 
         void syncGreedyParams();
         QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;

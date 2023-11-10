@@ -16,13 +16,13 @@ class TestEkosSchedulerHelper : public TestEkosHelper
     public:
         struct StartupCondition
         {
-            SchedulerJob::StartupCondition type;
+            Ekos::StartupCondition type;
             int culminationOffset;
             QDateTime atLocalDateTime;  // This is in local time, not universal time.
         };
         struct CompletionCondition
         {
-            SchedulerJob::CompletionCondition type;
+            Ekos::CompletionCondition type;
             int repeat;
             QDateTime atLocalDateTime;  // This is in local time, not universal time.
         };

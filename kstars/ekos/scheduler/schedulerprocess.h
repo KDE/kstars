@@ -7,17 +7,19 @@
 #pragma once
 
 #include "schedulertypes.h"
+#include "ekos/align/align.h"
+#include "indi/indiweather.h"
+#include "dms.h"
 
 #include <QObject>
 #include <QPointer>
 #include <QDBusInterface>
 #include <QProcess>
 
-class SchedulerJob;
-
 namespace Ekos
 {
 
+class SchedulerJob;
 class SchedulerModuleState;
 
 /**
@@ -35,6 +37,58 @@ public:
     // ////////////////////////////////////////////////////////////////////
     // process steps
     // ////////////////////////////////////////////////////////////////////
+
+    /**
+     * @brief startSlew DBus call for initiating slew
+     */
+    void startSlew();
+
+    /**
+     * @brief startFocusing DBus call for feeding ekos the specified settings and initiating focus operation
+     */
+    void startFocusing();
+
+    /**
+     * @brief startAstrometry initiation of the capture and solve operation. We change the job state
+     * after solver is started
+     */
+    void startAstrometry();
+
+    /**
+     * @brief startGuiding After ekos is fed the calibration options, we start the guiding process
+     * @param resetCalibration By default calibration is not reset until it is explicitly requested
+     */
+    void startGuiding(bool resetCalibration = false);
+
+    /**
+     * @brief stopGuiding After guiding is done we need to stop the process
+     */
+    void stopGuiding();
+
+    /**
+     * @brief processGuidingTimer Check the guiding timer, and possibly restart guiding.
+     */
+    void processGuidingTimer();
+
+    /**
+     * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
+     * @param restart Set to true if the goal to restart an existing sequence. The only difference is that when a sequence is restarted, sequence file
+     * is not loaded from disk again since that results in erasing all the history of the capture process.
+     */
+    void startCapture(bool restart = false);
+
+    /**
+     * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
+     * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
+     */
+    void updateCompletedJobsCount(bool forced = false);
+
+    /**
+     * @brief setSolverAction set the GOTO mode for the solver
+     * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
+     */
+    void setSolverAction(Align::GotoMode mode);
+
     /**
      * @brief loadProfiles Load the existing EKOS profiles
      */
@@ -112,6 +166,13 @@ public:
     // ////////////////////////////////////////////////////////////////////
     // device handling
     // ////////////////////////////////////////////////////////////////////
+    void setAlignStatus(Ekos::AlignState status);
+    void setGuideStatus(Ekos::GuideState status);
+    void setCaptureStatus(Ekos::CaptureState status);
+    void setFocusStatus(Ekos::FocusState status);
+    void setMountStatus(ISD::Mount::Status status);
+    void setWeatherStatus(ISD::Weather::Status status);
+
     /**
      * @return True if mount is parked
      */
@@ -217,6 +278,20 @@ public:
     // helper functions
     // ////////////////////////////////////////////////////////////////////
 
+    /**
+     * @brief setupJob Initialize a job with all fields accessible from the UI.
+     */
+    static void setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra, const dms &dec,
+                         double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl, StartupCondition startup,
+                         const QDateTime &startupTime, CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
+                         double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
+                         bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide);
+
+    /**
+     * @brief getGuidingStatus Retrieve the guiding status.
+     */
+    GuideState getGuidingStatus();
+
     QProcess &scriptProcess()
     {
         return m_scriptProcess;
@@ -228,6 +303,8 @@ signals:
     // controls for scheduler execution
     void stopScheduler();
     void stopCurrentJobAction();
+    void findNextJob();
+    void getNextAction();
 
 private:
     // DBus interfaces to devices
@@ -304,6 +381,7 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // helper functions
     // ////////////////////////////////////////////////////////////////////
+
     /**
      * @brief checkStartupProcedure restart regularly {@see #checkStartupState()} until completed
      */

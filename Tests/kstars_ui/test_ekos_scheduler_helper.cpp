@@ -40,20 +40,20 @@ QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject,
     QString sequence = QString("<Sequence>%1</Sequence>");
 
     QString startupConditionStr;
-    if (startupCondition.type == SchedulerJob::START_ASAP)
+    if (startupCondition.type == Ekos::START_ASAP)
         startupConditionStr = QString("<Condition>ASAP</Condition>");
-    else if (startupCondition.type == SchedulerJob::START_AT)
+    else if (startupCondition.type == Ekos::START_AT)
         startupConditionStr = QString("<Condition value='%1'>At</Condition>").arg(
                                   startupCondition.atLocalDateTime.toString(Qt::ISODate));
 
     QString completionConditionStr;
-    if (completionCondition.type == SchedulerJob::FINISH_SEQUENCE)
+    if (completionCondition.type == Ekos::FINISH_SEQUENCE)
         completionConditionStr = QString("<Condition>Sequence</Condition>");
-    else if (completionCondition.type == SchedulerJob::FINISH_REPEAT)
+    else if (completionCondition.type == Ekos::FINISH_REPEAT)
         completionConditionStr = QString("<Condition value='%1'>Repeat</Condition>").arg(completionCondition.repeat);
-    else if (completionCondition.type == SchedulerJob::FINISH_LOOP)
+    else if (completionCondition.type == Ekos::FINISH_LOOP)
         completionConditionStr = QString("<Condition>Loop</Condition>");
-    else if (completionCondition.type == SchedulerJob::FINISH_AT)
+    else if (completionCondition.type == Ekos::FINISH_AT)
         completionConditionStr = QString("<Condition value='%1'>At</Condition>").arg(
                                      completionCondition.atLocalDateTime.toString(Qt::ISODate));
 

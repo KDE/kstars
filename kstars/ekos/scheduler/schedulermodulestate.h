@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QProcess>
 #include "ekos/ekos.h"
+#include "indi/indiweather.h"
 #include "kstarsdatetime.h"
 #include "schedulertypes.h"
 #include <QDateTime>
@@ -170,27 +171,18 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     {
         m_ekosConnectFailureCount = newEkosConnectFailureCount;
     }
-    uint8_t increaseEkosConnectFailureCount()
-    {
-        return ++m_ekosConnectFailureCount;
-    }
+    bool increaseEkosConnectFailureCount();
 
     void resetParkingCapFailureCount(uint8_t value = 0)
     {
         m_parkingCapFailureCount = value;
     }
-    uint8_t increaseParkingCapFailureCount()
-    {
-        return ++m_parkingCapFailureCount;
-    }
+    bool increaseParkingCapFailureCount();
     void resetParkingMountFailureCount(uint8_t value = 0)
     {
         m_parkingMountFailureCount = value;
     }
-    uint8_t increaseParkingMountFailureCount()
-    {
-        return ++m_parkingMountFailureCount;
-    }
+    bool increaseParkingMountFailureCount();
     uint8_t parkingMountFailureCount() const
     {
         return m_parkingMountFailureCount;
@@ -199,10 +191,40 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     {
         m_parkingDomeFailureCount = value;
     }
-    uint8_t increaseParkingDomeFailureCount()
+    bool increaseParkingDomeFailureCount();
+
+    int indexToUse() const
     {
-        return ++m_parkingDomeFailureCount;
+        return m_IndexToUse;
     }
+    void setIndexToUse(int newIndexToUse)
+    {
+        m_IndexToUse = newIndexToUse;
+    }
+
+    int healpixToUse() const
+    {
+        return m_HealpixToUse;
+    }
+    void setHealpixToUse(int newHealpixToUse)
+    {
+        m_HealpixToUse = newHealpixToUse;
+    }
+
+    QMap<QString, uint16_t> &capturedFramesCount()
+    {
+        return m_CapturedFramesCount;
+    }
+
+    void setCapturedFramesCount(const QMap<QString, uint16_t> &newCapturedFramesCount)
+    {
+        m_CapturedFramesCount = newCapturedFramesCount;
+    }
+
+    /**
+     * @brief resetFailureCounters Reset all failure counters
+     */
+    void resetFailureCounters();
 
     // ////////////////////////////////////////////////////////////////////
     // overall INDI state
@@ -226,10 +248,7 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     {
         m_indiConnectFailureCount = newIndiConnectFailureCount;
     }
-    uint8_t increaseIndiConnectFailureCount()
-    {
-        return ++m_indiConnectFailureCount;
-    }
+    bool increaseIndiConnectFailureCount();
     /**
      * @brief isINDIConnected Determines the status of the INDI connection.
      * @return True if INDI connection is up and usable, else false.
@@ -274,9 +293,89 @@ void setJobs(QList<SchedulerJob *> &newJobs)
         m_CapReady = readiness;
     }
 
+    uint16_t captureBatch() const
+    {
+        return m_captureBatch;
+    }
+    void resetCaptureBatch()
+    {
+        m_captureBatch = 0;
+    }
+    uint16_t increaseCaptureBatch()
+    {
+        return m_captureBatch++;
+    }
+
+    uint8_t captureFailureCount() const
+    {
+        return m_captureFailureCount;
+    }
+    void resetCaptureFailureCount()
+    {
+        m_captureFailureCount = 0;
+    }
+    bool increaseCaptureFailureCount();
+
+    uint8_t focusFailureCount() const
+    {
+        return m_focusFailureCount;
+    }
+    void resetFocusFailureCount()
+    {
+        m_focusFailureCount = 0;
+    }
+    bool increaseFocusFailureCount();
+
+    bool autofocusCompleted() const
+    {
+        return m_autofocusCompleted;
+    }
+    void setAutofocusCompleted(bool value)
+    {
+        m_autofocusCompleted = value;
+    }
+
+    uint8_t guideFailureCount() const
+    {
+        return m_guideFailureCount;
+    }
+    void resetGuideFailureCount()
+    {
+        m_guideFailureCount = 0;
+    }
+    bool increaseGuideFailureCount();
+
+    uint8_t alignFailureCount() const
+    {
+        return m_alignFailureCount;
+    }
+    void resetAlignFailureCount()
+    {
+        m_alignFailureCount = 0;
+    }
+    bool increaseAlignFailureCount();
+
+    int restartGuidingInterval() const
+    {
+        return m_restartGuidingInterval;
+    }
+
+    const KStarsDateTime &restartGuidingTime() const
+    {
+        return m_restartGuidingTime;
+    }
+
+    ISD::Weather::Status weatherStatus() const
+    {
+        return m_weatherStatus;
+    }
+    void setWeatherStatus(ISD::Weather::Status newWeatherStatus)
+    {
+        m_weatherStatus = newWeatherStatus;
+    }
 
     // ////////////////////////////////////////////////////////////////////
-    // Timers
+    // Timers and time
     // ////////////////////////////////////////////////////////////////////
     // Returns milliseconds since startCurrentOperationTImer() was called.
     qint64 getCurrentOperationMsec() const;
@@ -287,9 +386,93 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     // so that the simulated clock can be used.
     void startCurrentOperationTimer();
 
-    // The various preemptiveShutdown states are controlled by this one variable.
-    QDateTime m_preemptiveShutdownWakeupTime;
+    // Controls for the guiding timer, which restarts guiding after failure.
+    void cancelGuidingTimer();
+    bool isGuidingTimerActive();
+    void startGuidingTimer(int milliseconds);
 
+    /** @brief Setter used in testing to fix the local time. Otherwise getter gets from KStars instance. */
+    /** @{ */
+    static KStarsDateTime getLocalTime();
+    static void setLocalTime(KStarsDateTime *time)
+    {
+        storedLocalTime = time;
+    }
+    static bool hasLocalTime()
+    {
+        return storedLocalTime != nullptr;
+    }
+    /** @} */
+
+    // ////////////////////////////////////////////////////////////////////
+    // Scheduler iterations
+    // ////////////////////////////////////////////////////////////////////
+
+    // Setup the parameters for the next scheduler iteration.
+    // When milliseconds is not passed in, it uses m_UpdatePeriodMs.
+    void setupNextIteration(SchedulerTimerState nextState);
+    void setupNextIteration(SchedulerTimerState nextState, int milliseconds);
+
+    SchedulerTimerState timerState() const
+    {
+        return m_timerState;
+    }
+
+    void setTimerState(SchedulerTimerState newTimerState)
+    {
+        m_timerState = newTimerState;
+    }
+
+    QTimer &iterationTimer()
+    {
+        return m_iterationTimer;
+    }
+
+    bool iterationSetup() const
+    {
+        return m_iterationSetup;
+    }
+    void setIterationSetup(bool setup)
+    {
+        m_iterationSetup = setup;
+    }
+
+    qint64 startMSecs() const
+    {
+        return m_startMSecs;
+    }
+    void setStartMSecs(qint64 value)
+    {
+        m_startMSecs = value;
+    }
+    int increaseSchedulerIteration()
+    {
+        return ++m_schedulerIteration;
+    }
+    void resetSchedulerIteration()
+    {
+        m_schedulerIteration = 0;
+    }
+
+    int timerInterval() const
+    {
+        return m_timerInterval;
+    }
+    void setTimerInterval(int value)
+    {
+        m_timerInterval = value;
+    }
+
+    void setUpdatePeriodMs(int ms)
+    {
+        m_UpdatePeriodMs = ms;
+    }
+     int updatePeriodMs() const
+    {
+        return m_UpdatePeriodMs;
+    }
+
+     static uint maxFailureAttempts();
 
 signals:
     // ////////////////////////////////////////////////////////////////////
@@ -356,6 +539,18 @@ private:
     bool m_DomeReady { false };
     bool m_CapReady { false };
 
+    // Restricts (the internal solver) to using the index and healpix
+    // from the previous solve, if that solve was successful, when
+    // doing the pointing check. -1 means no restriction.
+    int m_IndexToUse { -1 };
+    int m_HealpixToUse { -1 };
+
+    // Check if initial autofocus is completed and do not run autofocus until
+    // there is a change is telescope position/alignment.
+    bool m_autofocusCompleted { false };
+
+    // Keep watch of weather status
+    ISD::Weather::Status m_weatherStatus { ISD::Weather::WEATHER_IDLE };
 
     // ////////////////////////////////////////////////////////////////////
     // counters
@@ -370,6 +565,40 @@ private:
     uint8_t m_parkingMountFailureCount { 0 };
     // failures parking dome
     uint8_t m_parkingDomeFailureCount { 0 };
+    // How many repeated job batches did we complete thus far?
+    uint16_t m_captureBatch { 0 };
+    // Keep track of Ekos capture module failures
+    uint8_t m_captureFailureCount { 0 };
+    // Keep track of Ekos focus module failures
+    uint8_t m_focusFailureCount { 0 };
+    // Keep track of Ekos guide module failures
+    uint8_t m_guideFailureCount { 0 };
+    // Keep track of Ekos align module failures
+    uint8_t m_alignFailureCount { 0 };
+    // frames count for all signatures
+    QMap<QString, uint16_t> m_CapturedFramesCount;
+
+    // ////////////////////////////////////////////////////////////////////
+    // Scheduler iterations
+    // ////////////////////////////////////////////////////////////////////
+
+    // The type of scheduler iteration that should be run next.
+    SchedulerTimerState m_timerState { RUN_NOTHING };
+    // Variable keeping the number of millisconds the scheduler should wait
+    // after the current scheduler iteration.
+    int m_timerInterval { -1 };
+    // Whether the scheduler has been setup for the next iteration,
+    // that is, whether timerInterval and timerState have been set this iteration.
+    bool m_iterationSetup { false };
+    // The timer used to wakeup the scheduler between iterations.
+    QTimer m_iterationTimer;
+    // Counter for how many scheduler iterations have been processed.
+    int m_schedulerIteration { 0 };
+    // The time when the scheduler first started running iterations.
+    qint64 m_startMSecs { 0 };
+    // This is the time between typical scheduler iterations.
+    // The time can be modified for testing.
+    int m_UpdatePeriodMs = 1000;
 
     // ////////////////////////////////////////////////////////////////////
     // timers
@@ -378,5 +607,12 @@ private:
     // Used by startCurrentOperationTimer() and getCurrentOperationMsec().
     KStarsDateTime currentOperationTime;
     bool currentOperationTimeStarted { false };
+    // Delay for restarting the guider
+    int m_restartGuidingInterval { -1 };
+    KStarsDateTime m_restartGuidingTime;
+    // Used in testing, instead of KStars::Instance() resources
+    static KStarsDateTime *storedLocalTime;
+    // The various preemptiveShutdown states are controlled by this one variable.
+    QDateTime m_preemptiveShutdownWakeupTime;
 };
 } // Ekos namespace

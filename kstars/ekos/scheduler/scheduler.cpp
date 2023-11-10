@@ -44,7 +44,6 @@
 #include <qtendl.h>
 
 #define BAD_SCORE                -1000
-#define MAX_FAILURE_ATTEMPTS      5
 #define RESTART_GUIDING_DELAY_MS  5000
 
 #define DEFAULT_MIN_ALTITUDE        15
@@ -74,24 +73,6 @@ namespace Ekos
 {
 
 // Functions to make human-readable debug messages for the various enums.
-
-QString timerStr(Scheduler::SchedulerTimerState state)
-{
-    switch (state)
-    {
-        case Scheduler::RUN_WAKEUP:
-            return QString("RUN_WAKEUP");
-        case Scheduler::RUN_SCHEDULER:
-            return QString("RUN_SCHEDULER");
-        case Scheduler::RUN_JOBCHECK:
-            return QString("RUN_JOBCHECK");
-        case Scheduler::RUN_SHUTDOWN:
-            return QString("RUN_SHUTDOWN");
-        case Scheduler::RUN_NOTHING:
-            return QString("RUN_NOTHING");
-    }
-    return QString("????");
-}
 
 QString commStatusString(Ekos::CommunicationStatus state)
 {
@@ -136,9 +117,9 @@ void Scheduler::printStates(const QString &label)
     TEST_PRINT(stderr, "%s",
                QString("%1 %2 %3%4 %5 %6 %7 %8 %9\n")
                .arg(label)
-               .arg(timerStr(timerState))
+               .arg(timerStr(moduleState()->timerState()))
                .arg(schedulerStateString(moduleState()->schedulerState()))
-               .arg((timerState == Scheduler::RUN_JOBCHECK && activeJob() != nullptr) ?
+               .arg((moduleState()->timerState() == RUN_JOBCHECK && activeJob() != nullptr) ?
                     QString("(%1 %2)").arg(SchedulerJob::jobStatusString(activeJob()->getState()))
                     .arg(SchedulerJob::jobStageString(activeJob()->getStage())) : "")
                .arg(ekosStateString(moduleState()->ekosState()))
@@ -150,26 +131,16 @@ void Scheduler::printStates(const QString &label)
 
 QDateTime Scheduler::Dawn, Scheduler::Dusk, Scheduler::preDawnDateTime;
 
-// Allows for unit testing of static Scheduler methods,
-// as can't call KStarsData::Instance() during unit testing.
-KStarsDateTime *Scheduler::storedLocalTime = nullptr;
-KStarsDateTime Scheduler::getLocalTime()
-{
-    if (hasLocalTime())
-        return *storedLocalTime;
-    return KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc());
-}
-
 // This is the initial conditions that need to be set before starting.
 void Scheduler::init()
 {
     // This is needed to get wakeupScheduler() to call start() and startup,
     // instead of assuming it is already initialized (if preemptiveShutdown was not set).
     // The time itself is not used.
-    moduleState()->enablePreemptiveShutdown(getLocalTime());
+    moduleState()->enablePreemptiveShutdown(SchedulerModuleState::getLocalTime());
 
-    iterationSetup = false;
-    setupNextIteration(RUN_WAKEUP, 10);
+    moduleState()->setIterationSetup(false);
+    moduleState()->setupNextIteration(RUN_WAKEUP, 10);
 }
 
 // Setup the main loop and start.
@@ -197,34 +168,34 @@ void Scheduler::iterate()
     if (msSleep < 0)
         return;
 
-    connect(&iterationTimer, &QTimer::timeout, this, &Scheduler::iterate, Qt::UniqueConnection);
-    iterationTimer.setSingleShot(true);
-    iterationTimer.start(msSleep);
+    connect(&moduleState()->iterationTimer(), &QTimer::timeout, this, &Scheduler::iterate, Qt::UniqueConnection);
+    moduleState()->iterationTimer().setSingleShot(true);
+    moduleState()->iterationTimer().start(msSleep);
 }
 
 bool Scheduler::currentlySleeping()
 {
-    return iterationTimer.isActive() && timerState == RUN_WAKEUP;
+    return moduleState()->iterationTimer().isActive() && moduleState()->timerState() == RUN_WAKEUP;
 }
 
 int Scheduler::runSchedulerIteration()
 {
     qint64 now = QDateTime::currentMSecsSinceEpoch();
-    if (startMSecs == 0)
-        startMSecs = now;
+    if (moduleState()->startMSecs() == 0)
+        moduleState()->setStartMSecs(now);
 
     printStates(QString("\nrunScheduler Iteration %1 @ %2")
-                .arg(++schedulerIteration)
-                .arg((now - startMSecs) / 1000.0, 1, 'f', 3));
+                .arg(moduleState()->increaseSchedulerIteration())
+                .arg((now - moduleState()->startMSecs()) / 1000.0, 1, 'f', 3));
 
-    SchedulerTimerState keepTimerState = timerState;
+    SchedulerTimerState keepTimerState = moduleState()->timerState();
 
     // TODO: At some point we should require that timerState and timerInterval
     // be explicitly set in all iterations. Not there yet, would require too much
     // refactoring of the scheduler. When we get there, we'd exectute the following here:
     // timerState = RUN_NOTHING;    // don't like this comment, it should always set a state and interval!
     // timerInterval = -1;
-    iterationSetup = false;
+    moduleState()->setIterationSetup(false);
     switch (keepTimerState)
     {
         case RUN_WAKEUP:
@@ -240,54 +211,21 @@ int Scheduler::runSchedulerIteration()
             checkShutdownState();
             break;
         case RUN_NOTHING:
-            timerInterval = -1;
+            moduleState()->setTimerInterval(-1);
             break;
     }
-    if (!iterationSetup)
+    if (!moduleState()->iterationSetup())
     {
         // See the above TODO.
         // Since iterations aren't yet always set up, we repeat the current
         // iteration type if one wasn't set up in the current iteration.
         // qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler iteration never set up.";
-        timerInterval = m_UpdatePeriodMs;
+        moduleState()->setTimerInterval(moduleState()->updatePeriodMs());
         TEST_PRINT(stderr, "Scheduler iteration never set up--repeating %s with %d...\n",
-                   timerStr(timerState).toLatin1().data(), timerInterval);
+                   timerStr(moduleState()->timerState()).toLatin1().data(), moduleState()->timerInterval());
     }
-    printStates(QString("End iteration, sleep %1: ").arg(timerInterval));
-    return timerInterval;
-}
-void Scheduler::setupNextIteration(SchedulerTimerState nextState)
-{
-    setupNextIteration(nextState, m_UpdatePeriodMs);
-}
-
-void Scheduler::setupNextIteration(SchedulerTimerState nextState, int milliseconds)
-{
-    if (iterationSetup)
-    {
-        qCDebug(KSTARS_EKOS_SCHEDULER)
-                << QString("Multiple setupNextIteration calls: current %1 %2, previous %3 %4")
-                .arg(nextState).arg(milliseconds).arg(timerState).arg(timerInterval);
-        TEST_PRINT(stderr, "Multiple setupNextIteration calls: current %s %d, previous %s %d.\n",
-                   timerStr(nextState).toLatin1().data(), milliseconds,
-                   timerStr(timerState).toLatin1().data(), timerInterval);
-    }
-    timerState = nextState;
-    // check if setup is called from a thread outside of the iteration timer thread
-    if (iterationTimer.isActive())
-    {
-        // restart the timer to ensure the correct startup delay
-        int remaining = iterationTimer.remainingTime();
-        iterationTimer.stop();
-        timerInterval = std::max(0, milliseconds - remaining);
-        iterationTimer.start(timerInterval);
-    }
-    else
-    {
-        // setup called from inside the iteration timer thread
-        timerInterval = milliseconds;
-    }
-    iterationSetup = true;
+    printStates(QString("End iteration, sleep %1: ").arg(moduleState()->timerInterval()));
+    return moduleState()->timerInterval();
 }
 
 Scheduler::Scheduler()
@@ -318,7 +256,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     // Get current KStars time and set seconds to zero
-    QDateTime currentDateTime = getLocalTime();
+    QDateTime currentDateTime = SchedulerModuleState::getLocalTime();
     QTime currentTime         = currentDateTime.time();
     currentTime.setHMS(currentTime.hour(), currentTime.minute(), 0);
     currentDateTime.setTime(currentTime);
@@ -506,6 +444,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::newLog, this, &Scheduler::appendLogText);
     connect(process().data(), &SchedulerProcess::stopScheduler, this, &Scheduler::stop);
     connect(process().data(), &SchedulerProcess::stopCurrentJobAction, this, &Scheduler::stopCurrentJobAction);
+    connect(process().data(), &SchedulerProcess::findNextJob, this, &Scheduler::findNextJob);
+    connect(process().data(), &SchedulerProcess::getNextAction, this, &Scheduler::getNextAction);
     // Connect geographical location - when it is available
     //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
@@ -806,7 +746,7 @@ void Scheduler::appendLogText(const QString &text)
         m_LogText.removeLast();
 
     m_LogText.prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                            getLocalTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+                            SchedulerModuleState::getLocalTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << text;
 
@@ -1046,74 +986,6 @@ void Scheduler::addJob()
     emit jobsUpdated(getJSONJobs());
 }
 
-void Scheduler::setupJob(
-    SchedulerJob &job, const QString &name, const QString &group, const dms &ra, const dms &dec, double djd, double rotation,
-    const QUrl &sequenceUrl, const QUrl &fitsUrl, SchedulerJob::StartupCondition startup, const QDateTime &startupTime,
-    SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
-    double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
-    bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
-{
-    /* Configure or reconfigure the observation job */
-
-    job.setName(name);
-    job.setGroup(group);
-    // djd should be ut.djd
-    job.setTargetCoords(ra, dec, djd);
-    job.setPositionAngle(rotation);
-
-    /* Consider sequence file is new, and clear captured frames map */
-    job.setCapturedFramesMap(SchedulerJob::CapturedFramesMap());
-    job.setSequenceFile(sequenceUrl);
-    job.setFITSFile(fitsUrl);
-    // #1 Startup conditions
-
-    job.setStartupCondition(startup);
-    if (startup == SchedulerJob::START_AT)
-    {
-        job.setStartupTime(startupTime);
-    }
-    /* Store the original startup condition */
-    job.setFileStartupCondition(job.getStartupCondition());
-    job.setFileStartupTime(job.getStartupTime());
-
-    // #2 Constraints
-
-    job.setMinAltitude(minimumAltitude);
-    job.setMinMoonSeparation(minimumMoonSeparation);
-
-    // Check enforce weather constraints
-    job.setEnforceWeather(enforceWeather);
-    // twilight constraints
-    job.setEnforceTwilight(enforceTwilight);
-    job.setEnforceArtificialHorizon(enforceArtificialHorizon);
-
-    job.setCompletionCondition(completion);
-    if (completion == SchedulerJob::FINISH_AT)
-        job.setCompletionTime(completionTime);
-    else if (completion == SchedulerJob::FINISH_REPEAT)
-    {
-        job.setRepeatsRequired(completionRepeats);
-        job.setRepeatsRemaining(completionRepeats);
-    }
-    // Job steps
-    job.setStepPipeline(SchedulerJob::USE_NONE);
-    if (track)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_TRACK));
-    if (focus)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_FOCUS));
-    if (align)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_ALIGN));
-    if (guide)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_GUIDE));
-
-    /* Store the original startup condition */
-    job.setFileStartupCondition(job.getStartupCondition());
-    job.setFileStartupTime(job.getStartupTime());
-
-    /* Reset job state to evaluate the changes */
-    job.reset();
-}
-
 void Scheduler::saveJob()
 {
     if (moduleState()->schedulerState() == SCHEDULER_RUNNING)
@@ -1197,17 +1069,17 @@ void Scheduler::saveJob()
 
     // Get several job values depending on the state of the UI.
 
-    SchedulerJob::StartupCondition startCondition = SchedulerJob::START_AT;
+    StartupCondition startCondition = START_AT;
     if (asapConditionR->isChecked())
-        startCondition = SchedulerJob::START_ASAP;
+        startCondition = START_ASAP;
 
-    SchedulerJob::CompletionCondition stopCondition = SchedulerJob::FINISH_AT;
+    CompletionCondition stopCondition = FINISH_AT;
     if (sequenceCompletionR->isChecked())
-        stopCondition = SchedulerJob::FINISH_SEQUENCE;
+        stopCondition = FINISH_SEQUENCE;
     else if (repeatCompletionR->isChecked())
-        stopCondition = SchedulerJob::FINISH_REPEAT;
+        stopCondition = FINISH_REPEAT;
     else if (loopCompletionR->isChecked())
-        stopCondition = SchedulerJob::FINISH_LOOP;
+        stopCondition = FINISH_LOOP;
 
     double altConstraint = SchedulerJob::UNDEFINED_ALTITUDE;
     if (altConstraintCheck->isChecked())
@@ -1219,25 +1091,23 @@ void Scheduler::saveJob()
 
     // The reason for this kitchen-sink function is to separate the UI from the
     // job setup, to allow for testing.
-    setupJob(
-        *job, nameEdit->text(), groupEdit->text(), ra, dec,
-        KStarsData::Instance()->ut().djd(),
-        positionAngleSpin->value(), sequenceURL, fitsURL,
+    process()->setupJob(*job, nameEdit->text(), groupEdit->text(), ra, dec,
+                        KStarsData::Instance()->ut().djd(),
+                        positionAngleSpin->value(), sequenceURL, fitsURL,
 
-        startCondition, startupTimeEdit->dateTime(),
-        stopCondition, completionTimeEdit->dateTime(), repeatsSpin->value(),
+                        startCondition, startupTimeEdit->dateTime(),
+                        stopCondition, completionTimeEdit->dateTime(), repeatsSpin->value(),
 
-        altConstraint,
-        moonConstraint,
-        weatherCheck->isChecked(),
-        twilightCheck->isChecked(),
-        artificialHorizonCheck->isChecked(),
+                        altConstraint,
+                        moonConstraint,
+                        weatherCheck->isChecked(),
+                        twilightCheck->isChecked(),
+                        artificialHorizonCheck->isChecked(),
 
-        trackStepCheck->isChecked(),
-        focusStepCheck->isChecked(),
-        alignStepCheck->isChecked(),
-        guideStepCheck->isChecked()
-    );
+                        trackStepCheck->isChecked(),
+                        focusStepCheck->isChecked(),
+                        alignStepCheck->isChecked(),
+                        guideStepCheck->isChecked());
 
 
     /* Verifications */
@@ -1354,11 +1224,11 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
     switch (job->getFileStartupCondition())
     {
-        case SchedulerJob::START_ASAP:
+        case START_ASAP:
             asapConditionR->setChecked(true);
             break;
 
-        case SchedulerJob::START_AT:
+        case START_AT:
             startupTimeConditionR->setChecked(true);
             startupTimeEdit->setDateTime(job->getStartupTime());
             break;
@@ -1398,20 +1268,20 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
     switch (job->getCompletionCondition())
     {
-        case SchedulerJob::FINISH_SEQUENCE:
+        case FINISH_SEQUENCE:
             sequenceCompletionR->setChecked(true);
             break;
 
-        case SchedulerJob::FINISH_REPEAT:
+        case FINISH_REPEAT:
             repeatCompletionR->setChecked(true);
             repeatsSpin->setValue(job->getRepeatsRequired());
             break;
 
-        case SchedulerJob::FINISH_LOOP:
+        case FINISH_LOOP:
             loopCompletionR->setChecked(true);
             break;
 
-        case SchedulerJob::FINISH_AT:
+        case FINISH_AT:
             timeCompletionR->setChecked(true);
             completionTimeEdit->setDateTime(job->getCompletionTime());
             break;
@@ -1811,8 +1681,8 @@ void Scheduler::stop()
     }
 
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_NOTHING).toLatin1().data());
-    setupNextIteration(RUN_NOTHING);
-    cancelGuidingTimer();
+    moduleState()->setupNextIteration(RUN_NOTHING);
+    moduleState()->cancelGuidingTimer();
 
     moduleState()->setSchedulerState(SCHEDULER_IDLE);
     emit newStatus(moduleState()->schedulerState());
@@ -1849,15 +1719,8 @@ void Scheduler::stop()
     moduleState()->setShutdownState(SHUTDOWN_IDLE);
 
     setCurrentJob(nullptr);
-    captureBatch            = 0;
-    moduleState()->resetIndiConnectFailureCount();
-    moduleState()->resetEkosConnectFailureCount();
-    focusFailureCount       = 0;
-    guideFailureCount       = 0;
-    alignFailureCount       = 0;
-    captureFailureCount     = 0;
-    loadAndSlewProgress     = false;
-    autofocusCompleted      = false;
+    moduleState()->resetFailureCounters();
+    moduleState()->setAutofocusCompleted(false);
 
     startupB->setEnabled(true);
     shutdownB->setEnabled(true);
@@ -1868,11 +1731,11 @@ void Scheduler::stop()
         sleepLabel->setToolTip(i18n("Scheduler is in shutdown until next job is ready"));
         sleepLabel->show();
 
-        QDateTime const now = getLocalTime();
+        QDateTime const now = SchedulerModuleState::getLocalTime();
         int const nextObservationTime = now.secsTo(moduleState()->preemptiveShutdownWakeupTime());
-        setupNextIteration(RUN_WAKEUP,
-                           std::lround(((nextObservationTime + 1) * 1000)
-                                       / KStarsData::Instance()->clock()->scale()));
+        moduleState()->setupNextIteration(RUN_WAKEUP,
+                                          std::lround(((nextObservationTime + 1) * 1000)
+                                                  / KStarsData::Instance()->clock()->scale()));
         return;
 
     }
@@ -1947,7 +1810,7 @@ void Scheduler::execute()
             moduleState()->setSchedulerState(SCHEDULER_RUNNING);
             emit newStatus(moduleState()->schedulerState());
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-            setupNextIteration(RUN_SCHEDULER);
+            moduleState()->setupNextIteration(RUN_SCHEDULER);
 
             appendLogText(i18n("Scheduler started."));
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler started.";
@@ -1967,7 +1830,7 @@ void Scheduler::execute()
             moduleState()->setSchedulerState(SCHEDULER_RUNNING);
             emit newStatus(moduleState()->schedulerState());
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-            setupNextIteration(RUN_SCHEDULER);
+            moduleState()->setupNextIteration(RUN_SCHEDULER);
 
             appendLogText(i18n("Scheduler resuming."));
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler resuming.";
@@ -1994,7 +1857,7 @@ void Scheduler::setPaused()
     pauseB->setCheckable(true);
     pauseB->setChecked(true);
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_NOTHING).toLatin1().data());
-    setupNextIteration(RUN_NOTHING);
+    moduleState()->setupNextIteration(RUN_NOTHING);
     appendLogText(i18n("Scheduler paused."));
 }
 
@@ -2049,7 +1912,9 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
     QList<SchedulerJob *> jobsToProcess;
 
     syncGreedyParams();
-    jobsToProcess = m_GreedyScheduler->scheduleJobs(moduleState()->jobs(), getLocalTime(), m_CapturedFramesCount, this);
+    jobsToProcess = m_GreedyScheduler->scheduleJobs(moduleState()->jobs(), SchedulerModuleState::getLocalTime(),
+                    moduleState()->capturedFramesCount(),
+                    this);
     processJobs(jobsToProcess, evaluateOnly);
     emit jobsUpdated(getJSONJobs());
 }
@@ -2132,7 +1997,7 @@ void Scheduler::wakeUpScheduler()
             appendLogText(i18n("Scheduler is awake. Jobs shall be started when scheduler is resumed."));
 
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-        setupNextIteration(RUN_SCHEDULER);
+        moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
 }
 
@@ -2168,12 +2033,12 @@ bool Scheduler::executeJob(SchedulerJob *job)
     if (shouldSchedulerSleep(activeJob()))
         return false;
     // If job schedule isn't now, wait - continuing to execute would cancel a parking attempt
-    else if (0 < getLocalTime().secsTo(activeJob()->getStartupTime()))
+    else if (0 < SchedulerModuleState::getLocalTime().secsTo(activeJob()->getStartupTime()))
         return false;
 
     // From this point job can be executed now
 
-    if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
+    if (job->getCompletionCondition() == FINISH_SEQUENCE && Options::rememberJobProgress())
     {
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s\n", __LINE__, "captureInterface:setProperty", "targetName=",
                    job->getName().toLatin1().data());
@@ -2185,7 +2050,7 @@ bool Scheduler::executeJob(SchedulerJob *job)
 
     // Reset autofocus so that focus step is applied properly when checked
     // When the focus step is not checked, the capture module will eventually run focus periodically
-    autofocusCompleted = false;
+    moduleState()->setAutofocusCompleted(false);
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << activeJob()->getName();
 
@@ -2197,7 +2062,7 @@ bool Scheduler::executeJob(SchedulerJob *job)
 
     // No need to continue evaluating jobs as we already have one.
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_JOBCHECK).toLatin1().data());
-    setupNextIteration(RUN_JOBCHECK);
+    moduleState()->setupNextIteration(RUN_JOBCHECK);
     return true;
 }
 
@@ -2220,7 +2085,7 @@ bool Scheduler::checkShutdownState()
         setCurrentJob(nullptr);
 
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SHUTDOWN).toLatin1().data());
-        setupNextIteration(RUN_SHUTDOWN);
+        moduleState()->setupNextIteration(RUN_SHUTDOWN);
 
     }
 
@@ -2371,7 +2236,7 @@ void Scheduler::checkJobStage()
 
 
     syncGreedyParams();
-    if (!m_GreedyScheduler->checkJob(moduleState()->jobs(), getLocalTime(), activeJob()))
+    if (!m_GreedyScheduler->checkJob(moduleState()->jobs(), SchedulerModuleState::getLocalTime(), activeJob()))
     {
         activeJob()->setState(SchedulerJob::JOB_IDLE);
         stopCurrentJobAction();
@@ -2392,7 +2257,7 @@ void Scheduler::checkJobStageEplogue()
         return;
 
     // #5b Check the guiding timer, and possibly restart guiding.
-    processGuidingTimer();
+    process()->processGuidingTimer();
 
     // #6 Check each stage is processing properly
     // FIXME: Vanishing property should trigger a call to its event callback
@@ -2416,10 +2281,10 @@ void Scheduler::checkJobStageEplogue()
 
                 if (alignStatus == Ekos::ALIGN_IDLE)
                 {
-                    if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                    if (moduleState()->increaseAlignFailureCount())
                     {
                         qCDebug(KSTARS_EKOS_SCHEDULER) << "Align module timed out. Restarting request...";
-                        startAstrometry();
+                        process()->startAstrometry();
                     }
                     else
                     {
@@ -2444,10 +2309,10 @@ void Scheduler::checkJobStageEplogue()
 
                 if (captureStatus == Ekos::CAPTURE_IDLE)
                 {
-                    if (captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                    if (moduleState()->increaseCaptureFailureCount())
                     {
                         qCDebug(KSTARS_EKOS_SCHEDULER) << "capture module timed out. Restarting request...";
-                        startCapture();
+                        process()->startCapture();
                     }
                     else
                     {
@@ -2471,10 +2336,10 @@ void Scheduler::checkJobStageEplogue()
 
                 if (focusStatus == Ekos::FOCUS_IDLE || focusStatus == Ekos::FOCUS_WAITING)
                 {
-                    if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                    if (moduleState()->increaseFocusFailureCount())
                     {
                         qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus module timed out. Restarting request...";
-                        startFocusing();
+                        process()->startFocusing();
                     }
                     else
                     {
@@ -2491,14 +2356,14 @@ void Scheduler::checkJobStageEplogue()
             // Let's make sure guide module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > GUIDE_INACTIVITY_TIMEOUT)
             {
-                GuideState guideStatus = getGuidingStatus();
+                GuideState guideStatus = process()->getGuidingStatus();
 
                 if (guideStatus == Ekos::GUIDE_IDLE || guideStatus == Ekos::GUIDE_CONNECTED || guideStatus == Ekos::GUIDE_DISCONNECTED)
                 {
-                    if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                    if (moduleState()->increaseGuideFailureCount())
                     {
                         qCDebug(KSTARS_EKOS_SCHEDULER) << "guide module timed out. Restarting request...";
-                        startGuiding();
+                        process()->startGuiding();
                     }
                     else
                     {
@@ -2524,7 +2389,7 @@ void Scheduler::checkJobStageEplogue()
                 // Send the slew status periodically to avoid the situation where the mount is already at location and does not send any event
                 // FIXME: in that case, filter TRACKING events only?
                 ISD::Mount::Status const status = static_cast<ISD::Mount::Status>(slewStatus.toInt());
-                setMountStatus(status);
+                process()->setMountStatus(status);
             }
             else
             {
@@ -2575,24 +2440,24 @@ void Scheduler::getNextAction()
             if (activeJob()->getLightFramesRequired())
             {
                 if (activeJob()->getStepPipeline() & SchedulerJob::USE_TRACK)
-                    startSlew();
-                else if (activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+                    process()->startSlew();
+                else if (activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS && moduleState()->autofocusCompleted() == false)
                 {
-                    qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 3485";
-                    startFocusing();
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "process()->startFocusing on 3485";
+                    process()->startFocusing();
                 }
                 else if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                    startAstrometry();
+                    process()->startAstrometry();
                 else if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                    if (getGuidingStatus() == GUIDE_GUIDING)
+                    if (process()->getGuidingStatus() == GUIDE_GUIDING)
                     {
                         appendLogText(i18n("Guiding already running, directly start capturing."));
-                        startCapture();
+                        process()->startCapture();
                     }
                     else
-                        startGuiding();
+                        process()->startGuiding();
                 else
-                    startCapture();
+                    process()->startCapture();
             }
             else
             {
@@ -2600,32 +2465,32 @@ void Scheduler::getNextAction()
                     appendLogText(
                         i18n("Job '%1' is proceeding directly to capture stage because only calibration frames are pending.",
                              activeJob()->getName()));
-                startCapture();
+                process()->startCapture();
             }
 
             break;
 
         case SchedulerJob::STAGE_SLEW_COMPLETE:
-            if (activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+            if (activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS && moduleState()->autofocusCompleted() == false)
             {
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 3514";
-                startFocusing();
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "process()->startFocusing on 3514";
+                process()->startFocusing();
             }
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                startAstrometry();
+                process()->startAstrometry();
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
+                process()->startGuiding();
             else
-                startCapture();
+                process()->startCapture();
             break;
 
         case SchedulerJob::STAGE_FOCUS_COMPLETE:
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN)
-                startAstrometry();
+                process()->startAstrometry();
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
+                process()->startGuiding();
             else
-                startCapture();
+                process()->startCapture();
             break;
 
         case SchedulerJob::STAGE_ALIGN_COMPLETE:
@@ -2638,24 +2503,24 @@ void Scheduler::getNextAction()
             if ((activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS) && activeJob()->getInSequenceFocus())
                 // Post alignment re-focusing
             {
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 3544";
-                startFocusing();
+                qCDebug(KSTARS_EKOS_SCHEDULER) << "process()->startFocusing on 3544";
+                process()->startFocusing();
             }
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
+                process()->startGuiding();
             else
-                startCapture();
+                process()->startCapture();
             break;
 
         case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                startGuiding();
+                process()->startGuiding();
             else
-                startCapture();
+                process()->startCapture();
             break;
 
         case SchedulerJob::STAGE_GUIDING_COMPLETE:
-            startCapture();
+            process()->startCapture();
             break;
 
         default:
@@ -2706,7 +2571,7 @@ void Scheduler::stopCurrentJobAction()
     }
 
     /* Guiding being a parallel process, check to stop it */
-    stopGuiding();
+    process()->stopGuiding();
 }
 
 void Scheduler::load(bool clearQueue, const QString &filename)
@@ -3096,176 +2961,6 @@ void Scheduler::save()
     }
 }
 
-
-
-void Scheduler::startSlew()
-{
-    Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting slewing must be valid");
-
-    // If the mount was parked by a pause or the end-user, unpark
-    if (process()->isMountParked())
-    {
-        moduleState()->setParkWaitState(PARKWAIT_UNPARK);
-        return;
-    }
-
-    if (Options::resetMountModelBeforeJob())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:call", "resetModel");
-        process()->mountInterface()->call(QDBus::AutoDetect, "resetModel");
-    }
-
-    SkyPoint target = activeJob()->getTargetCoords();
-    QList<QVariant> telescopeSlew;
-    telescopeSlew.append(target.ra().Hours());
-    telescopeSlew.append(target.dec().Degrees());
-
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s,%s\n", __LINE__, "mountInterface:callWithArgs", "slew: ",
-               target.ra().toHMSString().toLatin1().data(), target.dec().toDMSString().toLatin1().data());
-    QDBusReply<bool> const slewModeReply = process()->mountInterface()->callWithArgumentList(QDBus::AutoDetect, "slew",
-                                           telescopeSlew);
-    TEST_PRINT(stderr, "  @@@dbus received %s\n", slewModeReply.error().type() == QDBusError::NoError ? "no error" : "error");
-
-    if (slewModeReply.error().type() != QDBusError::NoError)
-    {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' slew request received DBUS error: %2").arg(
-                                              activeJob()->getName(), QDBusError::errorString(slewModeReply.error().type()));
-        if (!process()->manageConnectionLoss())
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
-    }
-    else
-    {
-        activeJob()->setStage(SchedulerJob::STAGE_SLEWING);
-        appendLogText(i18n("Job '%1' is slewing to target.", activeJob()->getName()));
-    }
-}
-
-void Scheduler::startFocusing()
-{
-    Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting focusing must be valid");
-
-    // 2017-09-30 Jasem: We're skipping post align focusing now as it can be performed
-    // when first focus request is made in capture module
-    if (activeJob()->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
-            activeJob()->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
-    {
-        // Clear the HFR limit value set in the capture module
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "captureInterface", "clearAutoFocusHFR");
-        process()->captureInterface()->call(QDBus::AutoDetect, "clearAutoFocusHFR");
-        // Reset Focus frame so that next frame take a full-resolution capture first.
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "resetFrame");
-        process()->focusInterface()->call(QDBus::AutoDetect, "resetFrame");
-        activeJob()->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
-        getNextAction();
-        return;
-    }
-
-    // Check if autofocus is supported
-    QDBusReply<bool> focusModeReply;
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "canAutoFocus");
-    focusModeReply = process()->focusInterface()->call(QDBus::AutoDetect, "canAutoFocus");
-
-    if (focusModeReply.error().type() != QDBusError::NoError)
-    {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' canAutoFocus request received DBUS error: %2").arg(
-                                              activeJob()->getName(), QDBusError::errorString(focusModeReply.error().type()));
-        if (!process()->manageConnectionLoss())
-        {
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
-            findNextJob();
-        }
-        return;
-    }
-
-    if (focusModeReply.value() == false)
-    {
-        appendLogText(i18n("Warning: job '%1' is unable to proceed with autofocus, not supported.", activeJob()->getName()));
-        activeJob()->setStepPipeline(
-            static_cast<SchedulerJob::StepPipeline>(activeJob()->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
-        activeJob()->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
-        getNextAction();
-        return;
-    }
-
-    // Clear the HFR limit value set in the capture module
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "captureInterface", "clearAutoFocusHFR");
-    process()->captureInterface()->call(QDBus::AutoDetect, "clearAutoFocusHFR");
-
-    QDBusMessage reply;
-
-    // We always need to reset frame first
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "resetFrame");
-    if ((reply = process()->focusInterface()->call(QDBus::AutoDetect, "resetFrame")).type() == QDBusMessage::ErrorMessage)
-    {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' resetFrame request received DBUS error: %2").arg(
-                                              activeJob()->getName(), reply.errorMessage());
-        if (!process()->manageConnectionLoss())
-        {
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
-            findNextJob();
-        }
-        return;
-    }
-
-
-    // If we have a LIGHT filter set, let's set it.
-    if (!activeJob()->getInitialFilter().isEmpty())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "focusInterface:setProperty");
-        process()->focusInterface()->setProperty("filter", activeJob()->getInitialFilter());
-    }
-
-    // Set autostar if full field option is false
-    if (Options::focusUseFullField() == false)
-    {
-        QList<QVariant> autoStar;
-        autoStar.append(true);
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "setAutoStarEnabled");
-        if ((reply = process()->focusInterface()->callWithArgumentList(QDBus::AutoDetect, "setAutoStarEnabled", autoStar)).type() ==
-                QDBusMessage::ErrorMessage)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setAutoFocusStar request received DBUS error: %1").arg(
-                                                  activeJob()->getName(), reply.errorMessage());
-            if (!process()->manageConnectionLoss())
-            {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-            return;
-        }
-    }
-
-    // Start auto-focus
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "start");
-    if ((reply = process()->focusInterface()->call(QDBus::AutoDetect, "start")).type() == QDBusMessage::ErrorMessage)
-    {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' startFocus request received DBUS error: %2").arg(
-                                              activeJob()->getName(), reply.errorMessage());
-        if (!process()->manageConnectionLoss())
-        {
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
-            findNextJob();
-        }
-        return;
-    }
-
-    /*if (getActiveJob()->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
-        getActiveJob()->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
-    {
-        getActiveJob()->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING);
-        appendLogText(i18n("Post-alignment focusing for %1 ...", getActiveJob()->getName()));
-    }
-    else
-    {
-        getActiveJob()->setStage(SchedulerJob::STAGE_FOCUSING);
-        appendLogText(i18n("Focusing %1 ...", getActiveJob()->getName()));
-    }*/
-
-    activeJob()->setStage(SchedulerJob::STAGE_FOCUSING);
-    appendLogText(i18n("Job '%1' is focusing.", activeJob()->getName()));
-    moduleState()->startCurrentOperationTimer();
-}
-
 bool Scheduler::canCountCaptures(const SchedulerJob &job)
 {
     QList<SequenceJob*> seqjobs;
@@ -3302,14 +2997,17 @@ void Scheduler::findNextJob()
                __FUNCTION__, "Finding next job requires current to be in error, aborted, idle or complete");
 
     // Reset failed count
-    alignFailureCount = guideFailureCount = focusFailureCount = captureFailureCount = 0;
+    moduleState()->resetAlignFailureCount();
+    moduleState()->resetGuideFailureCount();
+    moduleState()->resetFocusFailureCount();
+    moduleState()->resetCaptureFailureCount();
 
     if (activeJob()->getState() == SchedulerJob::JOB_ERROR || activeJob()->getState() == SchedulerJob::JOB_ABORTED)
     {
         emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
-        captureBatch = 0;
+        moduleState()->resetCaptureBatch();
         // Stop Guiding if it was used
-        stopGuiding();
+        process()->stopGuiding();
 
         if (activeJob()->getState() == SchedulerJob::JOB_ERROR)
             appendLogText(i18n("Job '%1' is terminated due to errors.", activeJob()->getName()));
@@ -3331,8 +3029,8 @@ void Scheduler::findNextJob()
 
             // wait the given delay until the jobs will be evaluated again
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_WAKEUP).toLatin1().data());
-            setupNextIteration(RUN_WAKEUP, std::lround((errorHandlingDelaySB->value() * 1000) /
-                               KStarsData::Instance()->clock()->scale()));
+            moduleState()->setupNextIteration(RUN_WAKEUP, std::lround((errorHandlingDelaySB->value() * 1000) /
+                                              KStarsData::Instance()->clock()->scale()));
             sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
             sleepLabel->show();
             return;
@@ -3341,7 +3039,7 @@ void Scheduler::findNextJob()
         // otherwise start re-evaluation
         setCurrentJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-        setupNextIteration(RUN_SCHEDULER);
+        moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
     else if (activeJob()->getState() == SchedulerJob::JOB_IDLE)
     {
@@ -3350,11 +3048,11 @@ void Scheduler::findNextJob()
         // job constraints no longer valid, start re-evaluation
         setCurrentJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-        setupNextIteration(RUN_SCHEDULER);
+        moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
     // Job is complete, so check completion criteria to optimize processing
     // In any case, we're done whether the job completed successfully or not.
-    else if (activeJob()->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
+    else if (activeJob()->getCompletionCondition() == FINISH_SEQUENCE)
     {
         emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
 
@@ -3366,9 +3064,9 @@ void Scheduler::findNextJob()
                     a_job->setState(SchedulerJob::JOB_IDLE);
         }
 
-        captureBatch = 0;
+        moduleState()->resetCaptureBatch();
         // Stop Guiding if it was used
-        stopGuiding();
+        process()->stopGuiding();
 
         appendLogText(i18n("Job '%1' is complete.", activeJob()->getName()));
 
@@ -3382,9 +3080,9 @@ void Scheduler::findNextJob()
 
         setCurrentJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-        setupNextIteration(RUN_SCHEDULER);
+        moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
-    else if (activeJob()->getCompletionCondition() == SchedulerJob::FINISH_REPEAT &&
+    else if (activeJob()->getCompletionCondition() == FINISH_REPEAT &&
              (activeJob()->getRepeatsRemaining() <= 1))
     {
         /* If the job is about to repeat, decrease its repeat count and reset its start time */
@@ -3423,7 +3121,7 @@ void Scheduler::findNextJob()
                 setCurrentJob(nullptr);
             }
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-            setupNextIteration(RUN_SCHEDULER);
+            moduleState()->setupNextIteration(RUN_SCHEDULER);
         }
         /* If job requires more work, continue current observation */
         else
@@ -3435,33 +3133,33 @@ void Scheduler::findNextJob()
             /* JM 2020-08-23: If user opts to force realign instead of for each job then we force this FIRST */
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
             {
-                stopGuiding();
+                process()->stopGuiding();
                 activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
-                startAstrometry();
+                process()->startAstrometry();
             }
             /* If we are guiding, continue capturing */
             else if ( (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE) )
             {
                 activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
-                startCapture();
+                process()->startCapture();
             }
             /* If we are not guiding, but using alignment, realign */
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN)
             {
                 activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
-                startAstrometry();
+                process()->startAstrometry();
             }
             /* Else if we are neither guiding nor using alignment, slew back to target */
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_TRACK)
             {
                 activeJob()->setStage(SchedulerJob::STAGE_SLEWING);
-                startSlew();
+                process()->startSlew();
             }
             /* Else just start capturing */
             else
             {
                 activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
-                startCapture();
+                process()->startCapture();
             }
 
             appendLogText(i18np("Job '%1' is repeating, #%2 batch remaining.",
@@ -3469,15 +3167,15 @@ void Scheduler::findNextJob()
                                 activeJob()->getName(), activeJob()->getRepeatsRemaining()));
             /* getActiveJob() remains the same */
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_JOBCHECK).toLatin1().data());
-            setupNextIteration(RUN_JOBCHECK);
+            moduleState()->setupNextIteration(RUN_JOBCHECK);
         }
     }
-    else if ((activeJob()->getCompletionCondition() == SchedulerJob::FINISH_LOOP) ||
-             (activeJob()->getCompletionCondition() == SchedulerJob::FINISH_REPEAT &&
+    else if ((activeJob()->getCompletionCondition() == FINISH_LOOP) ||
+             (activeJob()->getCompletionCondition() == FINISH_REPEAT &&
               activeJob()->getRepeatsRemaining() > 0))
     {
         /* If the job is about to repeat, decrease its repeat count and reset its start time */
-        if ((activeJob()->getCompletionCondition() == SchedulerJob::FINISH_REPEAT) &&
+        if ((activeJob()->getCompletionCondition() == FINISH_REPEAT) &&
                 (activeJob()->getRepeatsRemaining() > 1))
         {
             // If we can remember job progress, this is done in estimateJobTime()
@@ -3494,19 +3192,19 @@ void Scheduler::findNextJob()
 
         if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
         {
-            stopGuiding();
+            process()->stopGuiding();
             activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
-            startAstrometry();
+            process()->startAstrometry();
         }
         else
         {
             activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
-            startCapture();
+            process()->startCapture();
         }
 
-        captureBatch++;
+        moduleState()->increaseCaptureBatch();
 
-        if (activeJob()->getCompletionCondition() == SchedulerJob::FINISH_REPEAT )
+        if (activeJob()->getCompletionCondition() == FINISH_REPEAT )
             appendLogText(i18np("Job '%1' is repeating, #%2 batch remaining.",
                                 "Job '%1' is repeating, #%2 batches remaining.",
                                 activeJob()->getName(), activeJob()->getRepeatsRemaining()));
@@ -3515,11 +3213,11 @@ void Scheduler::findNextJob()
 
         /* getActiveJob() remains the same */
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_JOBCHECK).toLatin1().data());
-        setupNextIteration(RUN_JOBCHECK);
+        moduleState()->setupNextIteration(RUN_JOBCHECK);
     }
-    else if (activeJob()->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    else if (activeJob()->getCompletionCondition() == FINISH_AT)
     {
-        if (getLocalTime().secsTo(activeJob()->getCompletionTime()) <= 0)
+        if (SchedulerModuleState::getLocalTime().secsTo(activeJob()->getCompletionTime()) <= 0)
         {
             emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
 
@@ -3529,18 +3227,18 @@ void Scheduler::findNextJob()
                     a_job->setState(SchedulerJob::JOB_IDLE);
             stopCurrentJobAction();
 
-            captureBatch = 0;
+            moduleState()->resetCaptureBatch();
 
             appendLogText(i18np("Job '%1' stopping, reached completion time with #%2 batch done.",
                                 "Job '%1' stopping, reached completion time with #%2 batches done.",
-                                activeJob()->getName(), captureBatch + 1));
+                                activeJob()->getName(), moduleState()->captureBatch() + 1));
 
             // Always reset job stage
             activeJob()->setStage(SchedulerJob::STAGE_IDLE);
 
             setCurrentJob(nullptr);
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-            setupNextIteration(RUN_SCHEDULER);
+            moduleState()->setupNextIteration(RUN_SCHEDULER);
         }
         else
         {
@@ -3549,24 +3247,24 @@ void Scheduler::findNextJob()
 
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
             {
-                stopGuiding();
+                process()->stopGuiding();
                 activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
-                startAstrometry();
+                process()->startAstrometry();
             }
             else
             {
                 activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
-                startCapture();
+                process()->startCapture();
             }
 
-            captureBatch++;
+            moduleState()->increaseCaptureBatch();
 
             appendLogText(i18np("Job '%1' completed #%2 batch before completion time, restarted.",
                                 "Job '%1' completed #%2 batches before completion time, restarted.",
-                                activeJob()->getName(), captureBatch));
+                                activeJob()->getName(), moduleState()->captureBatch()));
             /* getActiveJob() remains the same */
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_JOBCHECK).toLatin1().data());
-            setupNextIteration(RUN_JOBCHECK);
+            moduleState()->setupNextIteration(RUN_JOBCHECK);
         }
     }
     else
@@ -3580,290 +3278,8 @@ void Scheduler::findNextJob()
 
         setCurrentJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-        setupNextIteration(RUN_SCHEDULER);
+        moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
-}
-
-void Scheduler::startAstrometry()
-{
-    Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting aligning must be valid");
-
-    QDBusMessage reply;
-    setSolverAction(Align::GOTO_SLEW);
-
-    // Always turn update coords on
-    //QVariant arg(true);
-    //alignInterface->call(QDBus::AutoDetect, "setUpdateCoords", arg);
-
-    // Reset the solver speedup (using the last successful index file and healpix for the
-    // pointing check) when re-aligning.
-    m_IndexToUse = -1;
-    m_HealpixToUse = -1;
-
-    // If FITS file is specified, then we use load and slew
-    if (activeJob()->getFITSFile().isEmpty() == false)
-    {
-        auto path = activeJob()->getFITSFile().toString(QUrl::PreferLocalFile);
-        // check if the file exists
-        if (QFile::exists(path) == false)
-        {
-            appendLogText(i18n("Warning: job '%1' target FITS file does not exist.", activeJob()->getName()));
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
-            findNextJob();
-            return;
-        }
-
-        QList<QVariant> solveArgs;
-        solveArgs.append(path);
-
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "loadAndSlew");
-        if ((reply = process()->alignInterface()->callWithArgumentList(QDBus::AutoDetect, "loadAndSlew", solveArgs)).type() ==
-                QDBusMessage::ErrorMessage)
-        {
-            appendLogText(i18n("Warning: job '%1' loadAndSlew request received DBUS error: %2",
-                               activeJob()->getName(), reply.errorMessage()));
-            if (!process()->manageConnectionLoss())
-            {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-            return;
-        }
-        else if (reply.arguments().first().toBool() == false)
-        {
-            appendLogText(i18n("Warning: job '%1' loadAndSlew request failed.", activeJob()->getName()));
-            activeJob()->setState(SchedulerJob::JOB_ABORTED);
-            findNextJob();
-            return;
-        }
-
-        loadAndSlewProgress = true;
-        appendLogText(i18n("Job '%1' is plate solving %2.", activeJob()->getName(), activeJob()->getFITSFile().fileName()));
-    }
-    else
-    {
-        // JM 2020.08.20: Send J2000 TargetCoords to Align module so that we always resort back to the
-        // target original targets even if we drifted away due to any reason like guiding calibration failures.
-        const SkyPoint targetCoords = activeJob()->getTargetCoords();
-        QList<QVariant> targetArgs, rotationArgs;
-        targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
-        rotationArgs << activeJob()->getPositionAngle();
-
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetCoords");
-        if ((reply = process()->alignInterface()->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords",
-                     targetArgs)).type() == QDBusMessage::ErrorMessage)
-        {
-            appendLogText(i18n("Warning: job '%1' setTargetCoords request received DBUS error: %2",
-                               activeJob()->getName(), reply.errorMessage()));
-            if (!process()->manageConnectionLoss())
-            {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-            return;
-        }
-
-        // Only send if it has valid value.
-        if (activeJob()->getPositionAngle() >= -180)
-        {
-            TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetPositionAngle");
-            if ((reply = process()->alignInterface()->callWithArgumentList(QDBus::AutoDetect, "setTargetPositionAngle",
-                         rotationArgs)).type() == QDBusMessage::ErrorMessage)
-            {
-                appendLogText(i18n("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
-                                  activeJob()->getName(), reply.errorMessage()));
-                if (!process()->manageConnectionLoss())
-                {
-                    activeJob()->setState(SchedulerJob::JOB_ERROR);
-                    findNextJob();
-                }
-                return;
-            }
-        }
-
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "captureAndSolve");
-        if ((reply = process()->alignInterface()->call(QDBus::AutoDetect, "captureAndSolve")).type() == QDBusMessage::ErrorMessage)
-        {
-            appendLogText(i18n("Warning: job '%1' captureAndSolve request received DBUS error: %2").arg(
-                              activeJob()->getName(), reply.errorMessage()));
-            if (!process()->manageConnectionLoss())
-            {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-            return;
-        }
-        else if (reply.arguments().first().toBool() == false)
-        {
-            appendLogText(i18n("Warning: job '%1' captureAndSolve request failed.", activeJob()->getName()));
-            activeJob()->setState(SchedulerJob::JOB_ABORTED);
-            findNextJob();
-            return;
-        }
-
-        appendLogText(i18n("Job '%1' is capturing and plate solving.", activeJob()->getName()));
-    }
-
-    /* FIXME: not supposed to modify the job */
-    activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
-    moduleState()->startCurrentOperationTimer();
-}
-
-void Scheduler::startGuiding(bool resetCalibration)
-{
-    Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting guiding must be valid");
-
-    // avoid starting the guider twice
-    if (resetCalibration == false && getGuidingStatus() == GUIDE_GUIDING)
-    {
-        appendLogText(i18n("Guiding already running for %1 ...", activeJob()->getName()));
-        activeJob()->setStage(SchedulerJob::STAGE_GUIDING);
-        moduleState()->startCurrentOperationTimer();
-        return;
-    }
-
-    // Connect Guider
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "connectGuider");
-    process()->guideInterface()->call(QDBus::AutoDetect, "connectGuider");
-
-    // Set Auto Star to true
-    QVariant arg(true);
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "setAutoStarEnabled");
-    process()->guideInterface()->call(QDBus::AutoDetect, "setAutoStarEnabled", arg);
-
-    // Only reset calibration on trouble
-    // and if we are allowed to reset calibration (true by default)
-    if (resetCalibration && Options::resetGuideCalibration())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "clearCalibration");
-        process()->guideInterface()->call(QDBus::AutoDetect, "clearCalibration");
-    }
-
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "guide");
-    process()->guideInterface()->call(QDBus::AutoDetect, "guide");
-
-    activeJob()->setStage(SchedulerJob::STAGE_GUIDING);
-
-    appendLogText(i18n("Starting guiding procedure for %1 ...", activeJob()->getName()));
-
-    moduleState()->startCurrentOperationTimer();
-}
-
-void Scheduler::startCapture(bool restart)
-{
-    Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting capturing must be valid");
-
-    // ensure that guiding is running before we start capturing
-    if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE && getGuidingStatus() != GUIDE_GUIDING)
-    {
-        // guiding should run, but it doesn't. So start guiding first
-        activeJob()->setStage(SchedulerJob::STAGE_GUIDING);
-        startGuiding();
-        return;
-    }
-
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s%s\n", __LINE__, "captureInterface:setProperty", "targetName=",
-               activeJob()->getName().toLatin1().data());
-    process()->captureInterface()->setProperty("targetName", activeJob()->getName());
-
-    QString url = activeJob()->getSequenceFile().toLocalFile();
-
-    if (restart == false)
-    {
-        QList<QVariant> dbusargs;
-        dbusargs.append(url);
-        // override targets from sequence queue file
-        QVariant targetName(activeJob()->getName());
-        dbusargs.append(targetName);
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "loadSequenceQueue");
-        QDBusReply<bool> const captureReply = process()->captureInterface()->callWithArgumentList(QDBus::AutoDetect,
-                                              "loadSequenceQueue",
-                                              dbusargs);
-        if (captureReply.error().type() != QDBusError::NoError)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' loadSequenceQueue request received DBUS error: %1").arg(activeJob()->getName()).arg(
-                                                  captureReply.error().message());
-            if (!process()->manageConnectionLoss())
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-            return;
-        }
-        // Check if loading sequence fails for whatever reason
-        else if (captureReply.value() == false)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' loadSequenceQueue request failed").arg(activeJob()->getName());
-            if (!process()->manageConnectionLoss())
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-            return;
-        }
-    }
-
-
-    SchedulerJob::CapturedFramesMap fMap = activeJob()->getCapturedFramesMap();
-
-    for (auto &e : fMap.keys())
-    {
-        QList<QVariant> dbusargs;
-        QDBusMessage reply;
-
-        dbusargs.append(e);
-        dbusargs.append(fMap.value(e));
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "setCapturedFramesMap");
-        if ((reply = process()->captureInterface()->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap",
-                     dbusargs)).type() ==
-                QDBusMessage::ErrorMessage)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(activeJob()->getName()).arg(
-                                                  reply.errorMessage());
-            if (!process()->manageConnectionLoss())
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-            return;
-        }
-    }
-
-    // Start capture process
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:call", "start");
-    process()->captureInterface()->call(QDBus::AutoDetect, "start");
-
-    activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
-
-    KSNotification::event(QLatin1String("EkosScheduledImagingStart"),
-                          i18n("Ekos job (%1) - Capture started", activeJob()->getName()), KSNotification::Scheduler);
-
-    if (captureBatch > 0)
-        appendLogText(i18n("Job '%1' capture is in progress (batch #%2)...", activeJob()->getName(), captureBatch + 1));
-    else
-        appendLogText(i18n("Job '%1' capture is in progress...", activeJob()->getName()));
-
-    moduleState()->startCurrentOperationTimer();
-}
-
-void Scheduler::stopGuiding()
-{
-    if (!process()->guideInterface())
-        return;
-
-    // Tell guider to abort if the current job requires guiding - end-user may enable guiding manually before observation
-    if (nullptr != activeJob() && (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE))
-    {
-        qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is stopping guiding...").arg(activeJob()->getName());
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "abort");
-        process()->guideInterface()->call(QDBus::AutoDetect, "abort");
-        guideFailureCount = 0;
-    }
-
-    // In any case, stop the automatic guider restart
-    if (isGuidingTimerActive())
-        cancelGuidingTimer();
-}
-
-void Scheduler::setSolverAction(Align::GotoMode mode)
-{
-    QVariant gotoMode(static_cast<int>(mode));
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "alignInterface:call", "setSolverAction");
-    process()->alignInterface()->call(QDBus::AutoDetect, "setSolverAction", gotoMode);
 }
 
 void Scheduler::setDirty()
@@ -3912,8 +3328,8 @@ void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<Sequ
     QMap<QString, uint16_t> expected;
     switch (oneJob->getCompletionCondition())
     {
-        case SchedulerJob::FINISH_SEQUENCE:
-        case SchedulerJob::FINISH_REPEAT:
+        case FINISH_SEQUENCE:
+        case FINISH_REPEAT:
             // Step 1: determine expected frames
             calculateExpectedCapturesMap(seqjobs, expected);
             // Step 2: compare with already captured frames
@@ -3976,7 +3392,7 @@ uint16_t Scheduler::fillCapturedFramesMap(const QMap<QString, uint16_t> &expecte
         }
         // If this condition is FINISH_REPEAT, and we've already completed enough iterations
         // Then set the currentIteratiion as 1 more than required. No need to go higher.
-        if (schedJob.getCompletionCondition() == SchedulerJob::FINISH_REPEAT
+        if (schedJob.getCompletionCondition() == FINISH_REPEAT
                 && minIterationsCompleted >= schedJob.getRepeatsRequired())
             currentIteration  = schedJob.getRepeatsRequired() + 1;
         else
@@ -4012,7 +3428,7 @@ uint16_t Scheduler::fillCapturedFramesMap(const QMap<QString, uint16_t> &expecte
             capture_map[key] = 0;
 
         // collect all captured frames counts
-        if (schedJob.getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+        if (schedJob.getCompletionCondition() == FINISH_LOOP)
             totalCompletedCount += capturedFramesCount[key];
         else
             totalCompletedCount += std::min(capturedFramesCount[key],
@@ -4037,7 +3453,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
     /* If update is forced, clear the frame map */
     if (forced)
-        m_CapturedFramesCount.clear();
+        moduleState()->capturedFramesCount().clear();
 
     /* Enumerate SchedulerJobs to count captures that are already stored */
     for (SchedulerJob *oneJob : moduleState()->jobs())
@@ -4072,8 +3488,9 @@ void Scheduler::updateCompletedJobsCount(bool forced)
                 continue;
 
             /* If signature was processed during an earlier run, use the earlier count */
-            QMap<QString, uint16_t>::const_iterator const earlierRunIterator = m_CapturedFramesCount.constFind(signature);
-            if (m_CapturedFramesCount.constEnd() != earlierRunIterator)
+            QMap<QString, uint16_t>::const_iterator const earlierRunIterator = moduleState()->capturedFramesCount().constFind(
+                        signature);
+            if (moduleState()->capturedFramesCount().constEnd() != earlierRunIterator)
             {
                 newFramesCount[signature] = earlierRunIterator.value();
                 continue;
@@ -4087,12 +3504,12 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         updateLightFramesRequired(oneJob, seqjobs, newFramesCount);
     }
 
-    m_CapturedFramesCount = newFramesCount;
+    moduleState()->setCapturedFramesCount(newFramesCount);
 
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Frame map summary:";
-        QMap<QString, uint16_t>::const_iterator it = m_CapturedFramesCount.constBegin();
-        for (; it != m_CapturedFramesCount.constEnd(); it++)
+        QMap<QString, uint16_t>::const_iterator it = moduleState()->capturedFramesCount().constBegin();
+        for (; it != moduleState()->capturedFramesCount().constEnd(); it++)
             qCDebug(KSTARS_EKOS_SCHEDULER) << " " << it.key() << ':' << it.value();
     }
 }
@@ -4175,7 +3592,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
             capturesLeftThisRepeat = 0;
         }
 
-        if (rememberJobProgress && schedJob->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
+        if (rememberJobProgress && schedJob->getCompletionCondition() != FINISH_LOOP)
         {
             /* Enumerate sequence jobs associated to this scheduler job, and assign them a completed count.
              *
@@ -4262,7 +3679,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         }
 
         /* If captures are not complete, we have imaging time left */
-        if (!areJobCapturesComplete || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+        if (!areJobCapturesComplete || schedJob->getCompletionCondition() == FINISH_LOOP)
         {
             unsigned int const captures_to_go = captures_required - captures_completed;
             const double secsPerCapture = (seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() +
@@ -4313,7 +3730,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
     // FIXME: Move those ifs away to the caller in order to avoid estimating in those situations!
 
     // We can't estimate times that do not finish when sequence is done
-    if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+    if (schedJob->getCompletionCondition() == FINISH_LOOP)
     {
         // We can't know estimated time if it is looping indefinitely
         schedJob->setEstimatedTime(-2);
@@ -4322,8 +3739,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
                                        .arg(schedJob->getName());
     }
     // If we know startup and finish times, we can estimate time right away
-    else if (schedJob->getStartupCondition() == SchedulerJob::START_AT &&
-             schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    else if (schedJob->getStartupCondition() == START_AT &&
+             schedJob->getCompletionCondition() == FINISH_AT)
     {
         // FIXME: SchedulerJob is probably doing this already
         qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
@@ -4334,10 +3751,10 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
                                        .arg(dms(diff * 15.0 / 3600.0f).toHMSString());
     }
     // If we know finish time only, we can roughly estimate the time considering the job starts now
-    else if (schedJob->getStartupCondition() != SchedulerJob::START_AT &&
-             schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    else if (schedJob->getStartupCondition() != START_AT &&
+             schedJob->getCompletionCondition() == FINISH_AT)
     {
-        qint64 const diff = getLocalTime().secsTo(schedJob->getCompletionTime());
+        qint64 const diff = SchedulerModuleState::getLocalTime().secsTo(schedJob->getCompletionTime());
         schedJob->setEstimatedTime(diff);
         qCDebug(KSTARS_EKOS_SCHEDULER) <<
                                        QString("Job '%1' has no startup time but fixed completion time, will run for %2 if started now.")
@@ -4466,7 +3883,7 @@ void Scheduler::resumeCheckStatus()
 {
     disconnect(this, &Scheduler::weatherChanged, this, &Scheduler::resumeCheckStatus);
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
-    setupNextIteration(RUN_SCHEDULER);
+    moduleState()->setupNextIteration(RUN_SCHEDULER);
 }
 
 ErrorHandlingStrategy Scheduler::getErrorHandlingStrategy()
@@ -4776,13 +4193,13 @@ void Scheduler::simClockScaleChanged(float newScale)
     if (currentlySleeping())
     {
         QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround(static_cast<double>
-                                      (iterationTimer.remainingTime())
+                                      (moduleState()->iterationTimer().remainingTime())
                                       * KStarsData::Instance()->clock()->scale()
                                       / newScale));
         appendLogText(i18n("Sleeping for %1 on simulation clock update until next observation job is ready...",
                            remainingTimeMs.toString("hh:mm:ss")));
-        iterationTimer.stop();
-        iterationTimer.start(remainingTimeMs.msecsSinceStartOfDay());
+        moduleState()->iterationTimer().stop();
+        moduleState()->iterationTimer().start(remainingTimeMs.msecsSinceStartOfDay());
     }
 }
 
@@ -4868,8 +4285,8 @@ void Scheduler::registerNewModule(const QString &name)
         delete process()->focusInterface();
         process()->setFocusInterface(new QDBusInterface(kstarsInterfaceString, focusPathString, focusInterfaceString,
                                      QDBusConnection::sessionBus(), this));
-        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)),
-                Qt::UniqueConnection);
+        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::FocusState)), this,
+                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
     else if (name == "Capture")
     {
@@ -4892,7 +4309,8 @@ void Scheduler::registerNewModule(const QString &name)
                                      QDBusConnection::sessionBus(), this));
 
         connect(process()->mountInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(process()->mountInterface(), SIGNAL(newStatus(ISD::Mount::Status)), this, SLOT(setMountStatus(ISD::Mount::Status)),
+        connect(process()->mountInterface(), SIGNAL(newStatus(ISD::Mount::Status)), process(),
+                SLOT(process()->setMountStatus(ISD::Mount::Status)),
                 Qt::UniqueConnection);
 
         checkInterfaceReady(process()->mountInterface());
@@ -4910,8 +4328,8 @@ void Scheduler::registerNewModule(const QString &name)
         delete process()->guideInterface();
         process()->setGuideInterface(new QDBusInterface(kstarsInterfaceString, guidePathString, guideInterfaceString,
                                      QDBusConnection::sessionBus(), this));
-        connect(process()->guideInterface(), SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setGuideStatus(Ekos::GuideState)),
-                Qt::UniqueConnection);
+        connect(process()->guideInterface(), SIGNAL(newStatus(Ekos::GuideState)), this,
+                SLOT(setGuideStatus(Ekos::GuideState)), Qt::UniqueConnection);
     }
 }
 
@@ -5046,156 +4464,14 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
     }
 }
 
-void Scheduler::setAlignStatus(Ekos::AlignState status)
+void Scheduler::setAlignStatus(AlignState status)
 {
-    TEST_PRINT(stderr, "sch%d @@@setAlignStatus(%d)%s\n", __LINE__, static_cast<int>(status),
-               (moduleState()->schedulerState() == SCHEDULER_PAUSED
-                || activeJob() == nullptr) ? "IGNORED" : "OK");
-
-    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
-        return;
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Align State" << Ekos::getAlignStatusString(status);
-
-    /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
-    {
-        QDateTime const now = getLocalTime();
-        if (now < activeJob()->getStartupTime())
-            return;
-    }
-
-    if (activeJob()->getStage() == SchedulerJob::STAGE_ALIGNING)
-    {
-        // Is solver complete?
-        if (status == Ekos::ALIGN_COMPLETE)
-        {
-            appendLogText(i18n("Job '%1' alignment is complete.", activeJob()->getName()));
-            alignFailureCount = 0;
-
-            activeJob()->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
-
-            // If we solved a FITS file, let's use its center coords as our target.
-            if (activeJob()->getFITSFile().isEmpty() == false)
-            {
-                QDBusReply<QList<double>> solutionReply = process()->alignInterface()->call("getTargetCoords");
-                if (solutionReply.isValid())
-                {
-                    QList<double> const values = solutionReply.value();
-                    activeJob()->setTargetCoords(dms(values[0] * 15.0), dms(values[1]), KStarsData::Instance()->ut().djd());
-                }
-            }
-            getNextAction();
-        }
-        else if (status == Ekos::ALIGN_FAILED || status == Ekos::ALIGN_ABORTED)
-        {
-            appendLogText(i18n("Warning: job '%1' alignment failed.", activeJob()->getName()));
-
-            if (alignFailureCount++ < MAX_FAILURE_ATTEMPTS)
-            {
-                if (Options::resetMountModelOnAlignFail() && MAX_FAILURE_ATTEMPTS - 1 < alignFailureCount)
-                {
-                    appendLogText(i18n("Warning: job '%1' forcing mount model reset after failing alignment #%2.", activeJob()->getName(),
-                                       alignFailureCount));
-                    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:call", "resetModel");
-                    process()->mountInterface()->call(QDBus::AutoDetect, "resetModel");
-                }
-                appendLogText(i18n("Restarting %1 alignment procedure...", activeJob()->getName()));
-                startAstrometry();
-            }
-            else
-            {
-                appendLogText(i18n("Warning: job '%1' alignment procedure failed, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
-
-                findNextJob();
-            }
-        }
-    }
+    process()->setAlignStatus(status);
 }
 
-void Scheduler::setGuideStatus(Ekos::GuideState status)
+void Scheduler::setGuideStatus(GuideState status)
 {
-    TEST_PRINT(stderr, "sch%d @@@setGuideStatus(%d)%s\n", __LINE__, static_cast<int>(status),
-               (moduleState()->schedulerState() == SCHEDULER_PAUSED
-                || activeJob() == nullptr) ? "IGNORED" : "OK");
-    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
-        return;
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Guide State" << Ekos::getGuideStatusString(status);
-
-    /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
-    {
-        QDateTime const now = getLocalTime();
-        if (now < activeJob()->getStartupTime())
-            return;
-    }
-
-    if (activeJob()->getStage() == SchedulerJob::STAGE_GUIDING)
-    {
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
-
-        // If calibration stage complete?
-        if (status == Ekos::GUIDE_GUIDING)
-        {
-            appendLogText(i18n("Job '%1' guiding is in progress.", activeJob()->getName()));
-            guideFailureCount = 0;
-            // if guiding recovered while we are waiting, abort the restart
-            cancelGuidingTimer();
-
-            activeJob()->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
-            getNextAction();
-        }
-        else if (status == Ekos::GUIDE_CALIBRATION_ERROR ||
-                 status == Ekos::GUIDE_ABORTED)
-        {
-            if (status == Ekos::GUIDE_ABORTED)
-                appendLogText(i18n("Warning: job '%1' guiding failed.", activeJob()->getName()));
-            else
-                appendLogText(i18n("Warning: job '%1' calibration failed.", activeJob()->getName()));
-
-            // if the timer for restarting the guiding is already running, we do nothing and
-            // wait for the action triggered by the timer. This way we avoid that a small guiding problem
-            // abort the scheduler job
-
-            if (isGuidingTimerActive())
-                return;
-
-            if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
-            {
-                if (status == Ekos::GUIDE_CALIBRATION_ERROR &&
-                        Options::realignAfterCalibrationFailure())
-                {
-                    appendLogText(i18n("Restarting %1 alignment procedure...", activeJob()->getName()));
-                    startAstrometry();
-                }
-                else
-                {
-                    appendLogText(i18n("Job '%1' is guiding, guiding procedure will be restarted in %2 seconds.", activeJob()->getName(),
-                                       (RESTART_GUIDING_DELAY_MS * guideFailureCount) / 1000));
-                    startGuidingTimer(RESTART_GUIDING_DELAY_MS * guideFailureCount);
-                }
-            }
-            else
-            {
-                appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
-
-                findNextJob();
-            }
-        }
-    }
-}
-
-GuideState Scheduler::getGuidingStatus()
-{
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:property", "status");
-    QVariant guideStatus = process()->guideInterface()->property("status");
-    TEST_PRINT(stderr, "  @@@dbus received %d\n", !guideStatus.isValid() ? -1 : guideStatus.toInt());
-    Ekos::GuideState gStatus = static_cast<Ekos::GuideState>(guideStatus.toInt());
-
-    return gStatus;
+    process()->setGuideStatus(status);
 }
 
 void Scheduler::setCaptureStatus(Ekos::CaptureState status)
@@ -5210,7 +4486,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
     {
-        QDateTime const now = getLocalTime();
+        QDateTime const now = SchedulerModuleState::getLocalTime();
         if (now < activeJob()->getStartupTime())
             return;
     }
@@ -5233,28 +4509,28 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
         {
             appendLogText(i18n("Warning: job '%1' failed to capture target.", activeJob()->getName()));
 
-            if (captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            if (moduleState()->increaseCaptureFailureCount())
             {
                 // If capture failed due to guiding error, let's try to restart that
                 if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
                 {
                     // Check if it is guiding related.
-                    Ekos::GuideState gStatus = getGuidingStatus();
+                    Ekos::GuideState gStatus = process()->getGuidingStatus();
                     if (gStatus == Ekos::GUIDE_ABORTED ||
                             gStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
                             gStatus == GUIDE_DITHERING_ERROR)
                     {
                         appendLogText(i18n("Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of %3).",
                                            activeJob()->getName(),
-                                           captureFailureCount, MAX_FAILURE_ATTEMPTS));
-                        startGuiding(true);
+                                           moduleState()->captureFailureCount(), moduleState()->maxFailureAttempts()));
+                        process()->startGuiding(true);
                         return;
                     }
                 }
 
                 /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
                 appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", activeJob()->getName()));
-                startCapture(true);
+                process()->startCapture(true);
             }
             else
             {
@@ -5282,143 +4558,25 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
                 updateCompletedJobsCount(true);
 
                 for (const auto &job : moduleState()->jobs())
-                    estimateJobTime(job, m_CapturedFramesCount, this);
+                    estimateJobTime(job, moduleState()->capturedFramesCount(), this);
             }
             // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
             else
                 activeJob()->setCompletedCount(activeJob()->getCompletedCount() + 1);
 
-            captureFailureCount = 0;
+            moduleState()->resetCaptureFailureCount();
         }
     }
 }
 
-void Scheduler::setFocusStatus(Ekos::FocusState status)
+void Scheduler::setFocusStatus(FocusState status)
 {
-    TEST_PRINT(stderr, "sch%d @@@setFocusStatus(%d)%s\n", __LINE__, static_cast<int>(status),
-               (moduleState()->schedulerState() == SCHEDULER_PAUSED
-                || activeJob() == nullptr) ? "IGNORED" : "OK");
-    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
-        return;
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus State" << Ekos::getFocusStatusString(status);
-
-    /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
-    {
-        QDateTime const now = getLocalTime();
-        if (now < activeJob()->getStartupTime())
-            return;
-    }
-
-    if (activeJob()->getStage() == SchedulerJob::STAGE_FOCUSING)
-    {
-        // Is focus complete?
-        if (status == Ekos::FOCUS_COMPLETE)
-        {
-            appendLogText(i18n("Job '%1' focusing is complete.", activeJob()->getName()));
-
-            autofocusCompleted = true;
-
-            activeJob()->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
-
-            getNextAction();
-        }
-        else if (status == Ekos::FOCUS_FAILED || status == Ekos::FOCUS_ABORTED)
-        {
-            appendLogText(i18n("Warning: job '%1' focusing failed.", activeJob()->getName()));
-
-            if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
-            {
-                appendLogText(i18n("Job '%1' is restarting its focusing procedure.", activeJob()->getName()));
-                // Reset frame to original size.
-                TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "focusInterface:call", "resetFrame");
-                process()->focusInterface()->call(QDBus::AutoDetect, "resetFrame");
-                // Restart focusing
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 6883";
-                startFocusing();
-            }
-            else
-            {
-                appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
-
-                findNextJob();
-            }
-        }
-    }
+    process()->setFocusStatus(status);
 }
 
 void Scheduler::setMountStatus(ISD::Mount::Status status)
 {
-    TEST_PRINT(stderr, "sch%d @@@setMountStatus(%d)%s\n", __LINE__, static_cast<int>(status),
-               (moduleState()->schedulerState() == SCHEDULER_PAUSED
-                || activeJob() == nullptr) ? "IGNORED" : "OK");
-    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
-        return;
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << status;
-
-    /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
-        if (static_cast<QDateTime const>(getLocalTime()) < activeJob()->getStartupTime())
-            return;
-
-    switch (activeJob()->getStage())
-    {
-        case SchedulerJob::STAGE_SLEWING:
-        {
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing stage...";
-
-            if (status == ISD::Mount::MOUNT_TRACKING)
-            {
-                appendLogText(i18n("Job '%1' slew is complete.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
-                /* getNextAction is deferred to checkJobStage for dome support */
-            }
-            else if (status == ISD::Mount::MOUNT_ERROR)
-            {
-                appendLogText(i18n("Warning: job '%1' slew failed, marking terminated due to errors.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-            else if (status == ISD::Mount::MOUNT_IDLE)
-            {
-                appendLogText(i18n("Warning: job '%1' found not slewing, restarting.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_IDLE);
-                getNextAction();
-            }
-        }
-        break;
-
-        case SchedulerJob::STAGE_RESLEWING:
-        {
-            qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
-
-            if (status == ISD::Mount::MOUNT_TRACKING)
-            {
-                appendLogText(i18n("Job '%1' repositioning is complete.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
-                /* getNextAction is deferred to checkJobStage for dome support */
-            }
-            else if (status == ISD::Mount::MOUNT_ERROR)
-            {
-                appendLogText(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
-                findNextJob();
-            }
-            else if (status == ISD::Mount::MOUNT_IDLE)
-            {
-                appendLogText(i18n("Warning: job '%1' found not repositioning, restarting.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_IDLE);
-                getNextAction();
-            }
-        }
-        break;
-
-        default:
-            break;
-    }
+    process()->setMountStatus(status);
 }
 
 void Scheduler::setWeatherStatus(ISD::Weather::Status status)
@@ -5445,17 +4603,17 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             break;
     }
 
-    if (newStatus != weatherStatus)
+    if (newStatus != moduleState()->weatherStatus())
     {
-        weatherStatus = newStatus;
+        moduleState()->setWeatherStatus(newStatus);
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
 
-        if (weatherStatus == ISD::Weather::WEATHER_OK)
+        if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_OK)
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-high")
                 .pixmap(QSize(32, 32)));
-        else if (weatherStatus == ISD::Weather::WEATHER_WARNING)
+        else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_WARNING)
         {
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-medium")
@@ -5463,7 +4621,7 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"),
                                   KSNotification::Scheduler, KSNotification::Warn);
         }
-        else if (weatherStatus == ISD::Weather::WEATHER_ALERT)
+        else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT)
         {
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-low")
@@ -5481,12 +4639,12 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 
         appendLogText(statusString);
 
-        emit weatherChanged(weatherStatus);
+        emit weatherChanged(moduleState()->weatherStatus());
     }
 
     // Shutdown scheduler if it was started and not already in shutdown
     // and if weather checkbox is checked.
-    if (weatherCheck->isChecked() && weatherStatus == ISD::Weather::WEATHER_ALERT
+    if (weatherCheck->isChecked() && moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT
             && moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE
             && moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN)
     {
@@ -5508,7 +4666,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
     if (job->getLightFramesRequired() == false)
         return false;
 
-    QDateTime const now = getLocalTime();
+    QDateTime const now = SchedulerModuleState::getLocalTime();
     int const nextObservationTime = now.secsTo(job->getStartupTime());
 
     // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
@@ -5571,41 +4729,13 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
         // FIXME: Implement waking up periodically before job is due for weather check.
         // int const nextWakeup = nextObservationTime < 60 ? nextObservationTime : 60;
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_WAKEUP).toLatin1().data());
-        setupNextIteration(RUN_WAKEUP, std::lround(((nextObservationTime + 1) * 1000) / KStarsData::Instance()->clock()->scale()));
+        moduleState()->setupNextIteration(RUN_WAKEUP,
+                                          std::lround(((nextObservationTime + 1) * 1000) / KStarsData::Instance()->clock()->scale()));
 
         return true;
     }
 
     return false;
-}
-
-// Operations on the guiding timer, which can restart guiding after failure.
-void Scheduler::startGuidingTimer(int milliseconds)
-{
-    restartGuidingInterval = milliseconds;
-    restartGuidingTime = KStarsData::Instance()->ut();
-}
-
-void Scheduler::cancelGuidingTimer()
-{
-    restartGuidingInterval = -1;
-    restartGuidingTime = KStarsDateTime();
-}
-
-bool Scheduler::isGuidingTimerActive()
-{
-    return (restartGuidingInterval > 0 &&
-            restartGuidingTime.msecsTo(KStarsData::Instance()->ut()) >= 0);
-}
-
-void Scheduler::processGuidingTimer()
-{
-    if ((restartGuidingInterval > 0) &&
-            (restartGuidingTime.msecsTo(KStarsData::Instance()->ut()) > restartGuidingInterval))
-    {
-        cancelGuidingTimer();
-        startGuiding(true);
-    }
 }
 
 void Scheduler::setCaptureComplete(const QVariantMap &metadata)
@@ -5654,7 +4784,7 @@ void Scheduler::setCaptureComplete(const QVariantMap &metadata)
             m_Solver->useScale(Options::astrometryUseImageScale(), lowScale, highScale);
             m_Solver->usePosition(Options::astrometryUsePosition(), activeJob()->getTargetCoords().ra().Degrees(),
                                   activeJob()->getTargetCoords().dec().Degrees());
-            m_Solver->setHealpix(m_IndexToUse, m_HealpixToUse);
+            m_Solver->setHealpix(moduleState()->indexToUse(), moduleState()->healpixToUse());
             m_Solver->runSolver(filename);
         }
     }
@@ -5668,19 +4798,22 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
         return;
 
     QString healpixString = "";
-    if (m_IndexToUse != -1 || m_HealpixToUse != -1)
-        healpixString = QString("Healpix %1 Index %2").arg(m_HealpixToUse).arg(m_IndexToUse);
+    if (moduleState()->indexToUse() != -1 || moduleState()->healpixToUse() != -1)
+        healpixString = QString("Healpix %1 Index %2").arg(moduleState()->healpixToUse()).arg(moduleState()->indexToUse());
 
     if (timedOut || !success)
     {
         // Don't use the previous index and healpix next time we solve.
-        m_IndexToUse = -1;
-        m_HealpixToUse = -1;
+        moduleState()->setIndexToUse(-1);
+        moduleState()->setHealpixToUse(-1);
     }
     else
     {
+        int index, healpix;
         // Get the index and healpix from the successful solve.
-        m_Solver->getSolutionHealpix(&m_IndexToUse, &m_HealpixToUse);
+        m_Solver->getSolutionHealpix(&index, &healpix);
+        moduleState()->setIndexToUse(index);
+        moduleState()->setHealpixToUse(healpix);
     }
 
     if (timedOut)
@@ -5724,7 +4857,7 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
             appendLogText(i18n("Captured frame is %1 arcminutes away from target, re-aligning...", QString::number(diffTotal / 60.0,
                                'f', 1)));
             stopCurrentJobAction();
-            startAstrometry();
+            process()->startAstrometry();
         }
     }
 }

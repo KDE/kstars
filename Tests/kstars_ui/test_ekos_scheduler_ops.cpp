@@ -51,12 +51,12 @@ class WithInterval
     public:
         WithInterval(int interval, QSharedPointer<Ekos::Scheduler> &_scheduler) : scheduler(_scheduler)
         {
-            keepInterval = scheduler->getUpdateInterval();
-            scheduler->setUpdateInterval(interval);
+            keepInterval = scheduler->moduleState()->updatePeriodMs();
+            scheduler->moduleState()->setUpdatePeriodMs(interval);
         }
         ~WithInterval()
         {
-            scheduler->setUpdateInterval(keepInterval);
+            scheduler->moduleState()->setUpdatePeriodMs(keepInterval);
         }
     private:
         int keepInterval;
@@ -122,8 +122,8 @@ void TestEkosSchedulerOps::init()
     Options::setDitherEnabled(false);
 
     // define START_ASAP and FINISH_SEQUENCE as default startup/completion conditions.
-    m_startupCondition.type = SchedulerJob::START_ASAP;
-    m_completionCondition.type = SchedulerJob::FINISH_SEQUENCE;
+    m_startupCondition.type = Ekos::START_ASAP;
+    m_completionCondition.type = Ekos::FINISH_SEQUENCE;
 
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
@@ -175,7 +175,7 @@ void TestEkosSchedulerOps::disableSkyMap()
 // the scheduler's iteration period to compensate for that.
 int TestEkosSchedulerOps::timeTolerance(int seconds)
 {
-    const int tolerance = std::max(seconds, 3 * (scheduler->m_UpdatePeriodMs / 1000));
+    const int tolerance = std::max(seconds, 3 * (scheduler->moduleState()->updatePeriodMs() / 1000));
     return tolerance;
 }
 
@@ -221,14 +221,14 @@ void TestEkosSchedulerOps::testBasics()
 
     // Run the scheduler with nothing setup. Should quickly exit.
     scheduler->init();
-    QVERIFY(scheduler->timerState == Scheduler::RUN_WAKEUP);
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
     int sleepMs = scheduler->runSchedulerIteration();
-    QVERIFY(scheduler->timerState == Scheduler::RUN_SCHEDULER);
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
     sleepMs = scheduler->runSchedulerIteration();
     QVERIFY(sleepMs == 1000);
-    QVERIFY(scheduler->timerState == Scheduler::RUN_SHUTDOWN);
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_SHUTDOWN);
     sleepMs = scheduler->runSchedulerIteration();
-    QVERIFY(scheduler->timerState == Scheduler::RUN_NOTHING);
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_NOTHING);
 }
 
 // Runs the scheduler for a number of iterations between 1 and the arg "iterations".
@@ -328,7 +328,7 @@ void TestEkosSchedulerOps::initScheduler(const GeoLocation &geo, const QDateTime
     initFiles(dir, esls, esqs);
     scheduler->evaluateJobs(false);
     scheduler->init();
-    QVERIFY(scheduler->timerState == Scheduler::RUN_WAKEUP);
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
 }
 
 void TestEkosSchedulerOps::startupJob(
@@ -354,10 +354,10 @@ void TestEkosSchedulerOps::startupJobs(
 
         KStarsDateTime currentUTime(startUTime);
         int sleepMs = 0;
-        QVERIFY(scheduler->timerState == Scheduler::RUN_WAKEUP);
+        QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
         QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
         {
-            return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+            return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
         }));
 
         if (wakeupTime.isValid())
@@ -366,7 +366,7 @@ void TestEkosSchedulerOps::startupJobs(
 
             QVERIFY(iterateScheduler("Wait for RUN_WAKEUP", 10, &sleepMs, &currentUTime, [&]() -> bool
             {
-                return (scheduler->timerState == Scheduler::RUN_WAKEUP);
+                return (scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
             }));
 
             // Verify that it's near the original start time.
@@ -376,7 +376,7 @@ void TestEkosSchedulerOps::startupJobs(
 
             QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
             {
-                return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+                return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
             }));
 
             // Verify that it wakes up at the right time, after the twilight constraint
@@ -387,8 +387,8 @@ void TestEkosSchedulerOps::startupJobs(
         {
             // check if there is a job scheduled
             bool scheduled_job = false;
-            foreach (SchedulerJob *sched_job, scheduler->moduleState()->jobs())
-                if (sched_job->state == SchedulerJob::JOB_SCHEDULED)
+            foreach (Ekos::SchedulerJob *sched_job, scheduler->moduleState()->jobs())
+                if (sched_job->state == Ekos::SchedulerJob::JOB_SCHEDULED)
                     scheduled_job = true;
             if (scheduled_job)
             {
@@ -401,7 +401,7 @@ void TestEkosSchedulerOps::startupJobs(
 
                 QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
                 {
-                    return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+                    return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
                 }));
             }
             else
@@ -511,7 +511,7 @@ void TestEkosSchedulerOps::printJobs(const QString &label)
     for (int i = 0; i < scheduler->moduleState()->jobs().size(); ++i)
     {
         fprintf(stderr, "(%d) %s %-15s ", i, scheduler->moduleState()->jobs()[i]->getName().toLatin1().data(),
-                SchedulerJob::jobStatusString(scheduler->moduleState()->jobs()[i]->getState()).toLatin1().data());
+                Ekos::SchedulerJob::jobStatusString(scheduler->moduleState()->jobs()[i]->getState()).toLatin1().data());
     }
     fprintf(stderr, "\n");
 }
@@ -524,19 +524,19 @@ void TestEkosSchedulerOps::initJob(const KStarsDateTime &startUTime, const KStar
     // wait for the scheduler select the configured job for execution
     QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+        return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
     }));
 
     // wait until the scheduler turns to the wakeup mode sleeping until the startup condition is met
     QVERIFY(iterateScheduler("Wait for RUN_WAKEUP", 10, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->timerState == Scheduler::RUN_WAKEUP);
+        return (scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
     }));
 
     // wait until the scheduler starts the job
     QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+        return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
     }));
 
     // check the distance from the expected start time
@@ -568,7 +568,7 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
     QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->activeJob() != nullptr &&
-                scheduler->activeJob()->getStage() == SchedulerJob::STAGE_CAPTURING);
+                scheduler->activeJob()->getStage() == Ekos::SchedulerJob::STAGE_CAPTURING);
     }));
 
     {
@@ -592,7 +592,7 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
         // This will cause the scheduler to shutdown.
         QVERIFY(iterateScheduler("Wait for Scheduler Complete", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
         {
-            return (scheduler->timerState == Scheduler::RUN_NOTHING);
+            return (scheduler->moduleState()->timerState() == Ekos::RUN_NOTHING);
         }));
     }
 }
@@ -682,7 +682,7 @@ void TestEkosSchedulerOps::slewAndRun(SkyObject *object, const QDateTime &startU
 {
     QVERIFY(iterateScheduler("Wait for Job Startup", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->timerState == Scheduler::RUN_JOBCHECK);
+        return (scheduler->moduleState()->timerState() == Ekos::RUN_JOBCHECK);
     }));
 
     double delta = KStarsData::Instance()->ut().secsTo(startUTime);
@@ -711,7 +711,7 @@ void TestEkosSchedulerOps::slewAndRun(SkyObject *object, const QDateTime &startU
         // When scheduler state JOBCHECK changes to RUN_SCHEDULER.
         QVERIFY(iterateScheduler("Wait for Job Interruption", 1000, &sleepMs, &currentUTime, [&]() -> bool
         {
-            return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+            return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
         }));
 
         delta = KStarsData::Instance()->ut().secsTo(interruptUTime);
@@ -760,7 +760,7 @@ void TestEkosSchedulerOps::parkAndSleep(KStarsDateTime &currentUTime, int &sleep
 
     QVERIFY(iterateScheduler("Wait for Sleep State", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->timerState == Scheduler::RUN_WAKEUP);
+        return (scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
     }));
 }
 
@@ -769,7 +769,7 @@ void TestEkosSchedulerOps::wakeupAndRestart(const QDateTime &restartTime, KStars
     // Make sure it wakes up at the proper time.
     QVERIFY(iterateScheduler("Wait for Wakeup Tomorrow", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
-        return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+        return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
     }));
 
     fprintf(stderr, "Times instance %s vs reference %s, diff %lld\n",
@@ -792,7 +792,7 @@ void TestEkosSchedulerOps::wakeupAndRestart(const QDateTime &restartTime, KStars
                 mount->sendReady();
                 capture->sendReady();
             }
-            return (scheduler->timerState == Scheduler::RUN_JOBCHECK &&
+            return (scheduler->moduleState()->timerState() == Ekos::RUN_JOBCHECK &&
                     mount->parkStatus() == ISD::PARK_UNPARKED);
         }));
     }
@@ -809,7 +809,7 @@ void TestEkosSchedulerOps::testFixedDateStartup()
     KStarsDateTime startUTime = jobStartUTime.addSecs(-1 * 3600 - Options::leadTime() * 60);
 
     // define culmination offset of 1h as startup condition
-    m_startupCondition.type = SchedulerJob::START_AT;
+    m_startupCondition.type = Ekos::START_AT;
     m_startupCondition.atLocalDateTime = jobStartLocalTime;
 
     // initialize the the scheduler
@@ -859,7 +859,7 @@ void TestEkosSchedulerOps::testTwilightStartup()
     // move forward in 20s steps
     WithInterval interval(20000, scheduler);
     // define culmination offset of 1h as startup condition
-    m_startupCondition.type = SchedulerJob::START_ASAP;
+    m_startupCondition.type = Ekos::START_ASAP;
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVector<QString> esqVector;
@@ -894,7 +894,7 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
 
     ArtificialHorizon horizon;
     addHorizonConstraint(&horizon, "r1", true, QVector<double>({100, 120}), QVector<double>({40, 40}));
-    SchedulerJob::setHorizon(&horizon);
+    Ekos::SchedulerJob::setHorizon(&horizon);
 
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
     QVector<SkyObject*> targetObjects;
@@ -913,7 +913,7 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
     // Re-check enforce artificial horizon, but remove the constraint, and the wakeup time also goes back to it's original time.
     init(); // Reset the scheduler.
     ArtificialHorizon emptyHorizon;
-    SchedulerJob::setHorizon(&emptyHorizon);
+    Ekos::SchedulerJob::setHorizon(&emptyHorizon);
     runSimpleJob(geo, targetObjects[0], startUTime, originalWakeupTime, /* enforce artificial horizon */ true);
 
     // Testing that the artificial horizon constraint will end a job
@@ -932,7 +932,7 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
         // cross past 180 and the scheduler will want to restart it before dawn.
         addHorizonConstraint(&shutdownHorizon, "h", true,
                              QVector<double>({175, 200}), QVector<double>({70, 70}));
-        SchedulerJob::setHorizon(&shutdownHorizon);
+        Ekos::SchedulerJob::setHorizon(&shutdownHorizon);
 
         // We'll start the scheduler at 3am local time.
         startUTime = QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC);
@@ -982,7 +982,7 @@ void TestEkosSchedulerOps::testGreedySchedulerRun()
     ArtificialHorizon shutdownHorizon;
     addHorizonConstraint(&shutdownHorizon, "h", true,
                          QVector<double>({175, 200}), QVector<double>({70, 70}));
-    SchedulerJob::setHorizon(&shutdownHorizon);
+    Ekos::SchedulerJob::setHorizon(&shutdownHorizon);
 
     // Start the scheduler about 9pm local
     const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), Qt::UTC);
@@ -1072,7 +1072,7 @@ void TestEkosSchedulerOps::testRememberJobProgress()
     QFETCH(int, iterations);
 
     TestEkosSchedulerHelper::CompletionCondition completionCondition;
-    completionCondition.type = SchedulerJob::FINISH_REPEAT;
+    completionCondition.type = Ekos::FINISH_REPEAT;
     completionCondition.repeat = iterations;
     startupJob(geo, startUTime, &dir,
                TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, completionCondition, {true, true, true, true},
@@ -1083,8 +1083,8 @@ void TestEkosSchedulerOps::testRememberJobProgress()
     QFETCH(bool, scheduled);
 
     // verify if the job is scheduled as expected
-    QVERIFY(scheduler->moduleState()->jobs()[0]->getState() == (scheduled ? SchedulerJob::JOB_SCHEDULED :
-            SchedulerJob::JOB_COMPLETE));
+    QVERIFY(scheduler->moduleState()->jobs()[0]->getState() == (scheduled ? Ekos::SchedulerJob::JOB_SCHEDULED :
+            Ekos::SchedulerJob::JOB_COMPLETE));
 }
 
 void TestEkosSchedulerOps::loadGreedySchedule(
@@ -1164,7 +1164,7 @@ void TestEkosSchedulerOps::testGreedy()
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
     ArtificialHorizon shutdownHorizon;
     addHorizonConstraint(&shutdownHorizon, "h", true, QVector<double>({175, 200}), QVector<double>({70, 70}));
-    SchedulerJob::setHorizon(&shutdownHorizon);
+    Ekos::SchedulerJob::setHorizon(&shutdownHorizon);
     // Start the scheduler about 9pm local
     const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), Qt::UTC);
     initTimeGeo(geo, startUTime);
@@ -1175,14 +1175,14 @@ void TestEkosSchedulerOps::testGreedy()
     TestEkosSchedulerHelper::StartupCondition asapStartupCondition, atStartupCondition;
     TestEkosSchedulerHelper::CompletionCondition finishCompletionCondition, loopCompletionCondition;
     TestEkosSchedulerHelper::CompletionCondition repeat2CompletionCondition, atCompletionCondition;
-    asapStartupCondition.type = SchedulerJob::START_ASAP;
-    atStartupCondition.type = SchedulerJob::START_AT;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    atStartupCondition.type = Ekos::START_AT;
     atStartupCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(1, 0, 0), Qt::LocalTime);
-    finishCompletionCondition.type = SchedulerJob::FINISH_SEQUENCE;
-    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
-    repeat2CompletionCondition.type = SchedulerJob::FINISH_REPEAT;
+    finishCompletionCondition.type = Ekos::FINISH_SEQUENCE;
+    loopCompletionCondition.type = Ekos::FINISH_LOOP;
+    repeat2CompletionCondition.type = Ekos::FINISH_REPEAT;
     repeat2CompletionCondition.repeat = 2;
-    atCompletionCondition.type = SchedulerJob::FINISH_AT;
+    atCompletionCondition.type = Ekos::FINISH_AT;
     atCompletionCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(3, 30, 0), Qt::LocalTime);
 
     // Write the scheduler and sequence files.
@@ -1271,7 +1271,7 @@ void TestEkosSchedulerOps::testGroups()
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
     ArtificialHorizon shutdownHorizon;
     addHorizonConstraint(&shutdownHorizon, "h", true, QVector<double>({175, 200}), QVector<double>({70, 70}));
-    SchedulerJob::setHorizon(&shutdownHorizon);
+    Ekos::SchedulerJob::setHorizon(&shutdownHorizon);
     // Start the scheduler about 9pm local
     const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), Qt::UTC);
     initTimeGeo(geo, startUTime);
@@ -1283,10 +1283,10 @@ void TestEkosSchedulerOps::testGroups()
     TestEkosSchedulerHelper::StartupCondition asapStartupCondition, atStartupCondition;
     TestEkosSchedulerHelper::CompletionCondition finishCompletionCondition, loopCompletionCondition;
     TestEkosSchedulerHelper::CompletionCondition repeat2CompletionCondition, atCompletionCondition;
-    asapStartupCondition.type = SchedulerJob::START_ASAP;
-    finishCompletionCondition.type = SchedulerJob::FINISH_SEQUENCE;
-    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
-    repeat2CompletionCondition.type = SchedulerJob::FINISH_REPEAT;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    finishCompletionCondition.type = Ekos::FINISH_SEQUENCE;
+    loopCompletionCondition.type = Ekos::FINISH_LOOP;
+    repeat2CompletionCondition.type = Ekos::FINISH_REPEAT;
     repeat2CompletionCondition.repeat = 2;
 
     // Write the scheduler and sequence files.
@@ -1345,7 +1345,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
     constexpr int checkScheduleTolerance = 600;
 
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
-    SchedulerJob::setHorizon(nullptr);
+    Ekos::SchedulerJob::setHorizon(nullptr);
 
     // Setup geo and an artificial horizon.
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
@@ -1357,8 +1357,8 @@ void TestEkosSchedulerOps::testGreedyAborts()
     auto schedJob200x60 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {200, 60, "Red", "."});
     TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
     TestEkosSchedulerHelper::CompletionCondition loopCompletionCondition;
-    asapStartupCondition.type = SchedulerJob::START_ASAP;
-    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    loopCompletionCondition.type = Ekos::FINISH_LOOP;
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
     // Parameters related to resheduling aborts and the delay times are in the scheduler .esl file created in loadGreedyScheduler.
@@ -1412,12 +1412,12 @@ void TestEkosSchedulerOps::testGreedyAborts()
     KStarsDateTime abortUTime(QDate(2022, 2, 28), QTime(8, 59, 00), Qt::UTC);
     KStarsData::Instance()->changeDateTime(abortUTime);
 
-    SchedulerJob *m104Job = nullptr;
+    Ekos::SchedulerJob *m104Job = nullptr;
     foreach (auto &job, scheduler->moduleState()->jobs())
         if (job->getName() == "M 104")
         {
             m104Job = job;
-            m104Job->setState(SchedulerJob::JOB_ABORTED);
+            m104Job->setState(Ekos::SchedulerJob::JOB_ABORTED);
         }
     QVERIFY(m104Job != nullptr);
 
@@ -1488,7 +1488,7 @@ void TestEkosSchedulerOps::testArtificialCeiling()
 
     // Setup geo and an artificial horizon.
     GeoLocation geo(dms(-75, 40), dms(45, 40), "New York", "NY", "USA", -5);
-    SchedulerJob::setHorizon(&horizon);
+    Ekos::SchedulerJob::setHorizon(&horizon);
     // Start the scheduler about 9pm local
     const QDateTime startUTime = QDateTime(QDate(2022, 8, 21), QTime(16, 0, 0), Qt::UTC);
     initTimeGeo(geo, startUTime);
@@ -1498,8 +1498,8 @@ void TestEkosSchedulerOps::testArtificialCeiling()
 
     TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
     TestEkosSchedulerHelper::CompletionCondition loopCompletionCondition;
-    asapStartupCondition.type = SchedulerJob::START_ASAP;
-    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    loopCompletionCondition.type = Ekos::FINISH_LOOP;
 
     // Write the scheduler and sequence files.
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
@@ -1530,7 +1530,7 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
     Options::setPreDawnTime(0);
 
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
-    SchedulerJob::setHorizon(nullptr);
+    Ekos::SchedulerJob::setHorizon(nullptr);
 
     GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
     const QDateTime time1 = QDateTime(QDate(2022, 3, 7), QTime(21, 28, 55), Qt::UTC); //22:28 local
@@ -1547,8 +1547,8 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
 
     TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
     TestEkosSchedulerHelper::CompletionCondition loopCompletionCondition;
-    asapStartupCondition.type = SchedulerJob::START_ASAP;
-    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    loopCompletionCondition.type = Ekos::FINISH_LOOP;
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
     loadGreedySchedule(true, "NGC 2359", asapStartupCondition, loopCompletionCondition, dir, wolfgangJob, 20);
@@ -1588,7 +1588,7 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
 
     // This is fixed, and now, when re-evaluated at 22:28 it should not be preempted.
     auto greedy = scheduler->getGreedyScheduler();
-    SchedulerJob *job2359 = scheduler->moduleState()->jobs()[0];
+    Ekos::SchedulerJob *job2359 = scheduler->moduleState()->jobs()[0];
     auto time1Local = (Qt::UTC == time1.timeSpec() ? geo.UTtoLT(KStarsDateTime(time1)) : time1);
     QVERIFY(greedy->checkJob(scheduler->moduleState()->jobs(), time1Local, job2359));
 }
@@ -1622,7 +1622,7 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
     Options::setDitherFrames(1);
 
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
-    SchedulerJob::setHorizon(nullptr);
+    Ekos::SchedulerJob::setHorizon(nullptr);
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
     GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
@@ -1640,10 +1640,10 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
 
     TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
     TestEkosSchedulerHelper::CompletionCondition loopCompletionCondition;
-    asapStartupCondition.type = SchedulerJob::START_ASAP;
-    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    loopCompletionCondition.type = Ekos::FINISH_LOOP;
     TestEkosSchedulerHelper::CompletionCondition repeat9;
-    repeat9.type = SchedulerJob::FINISH_REPEAT;
+    repeat9.type = Ekos::FINISH_REPEAT;
     repeat9.repeat = 9;
 
     makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/L/NGC_2359_Light_L"), 41);
@@ -1739,7 +1739,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
     initTimeGeo(geo, time1);
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 0 min altitude.");
-    SchedulerJob::setHorizon(nullptr);
+    Ekos::SchedulerJob::setHorizon(nullptr);
     scheduler->load(true, QString("file://%1").arg(esl0Path));
     const QVector<SPlan> scheduleMinAlt0 =
     {
@@ -1786,7 +1786,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
     QVERIFY(checkSchedule(scheduleMinAlt0, scheduler->getGreedyScheduler()->getSchedule(), 300));
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 30 min altitude.");
-    SchedulerJob::setHorizon(nullptr);
+    Ekos::SchedulerJob::setHorizon(nullptr);
     scheduler->load(true, QString("file://%1").arg(esl30Path));
     const QVector<SPlan> scheduleMinAlt30 =
     {
@@ -1850,7 +1850,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
         22.579722, 22.644444, 22.672222}));
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with large artificial horizon.");
-    SchedulerJob::setHorizon(&largeHorizon);
+    Ekos::SchedulerJob::setHorizon(&largeHorizon);
     scheduler->load(true, QString("file://%1").arg(esl30Path));
     const QVector<SPlan> scheduleAHMinAlt30 =
     {

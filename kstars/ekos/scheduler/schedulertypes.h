@@ -67,6 +67,33 @@ typedef enum
     ALGORITHM_GREEDY = 1
 } SchedulerAlgorithm;
 
+
+/** @brief Conditions under which a SchedulerJob may start. */
+typedef enum
+{
+    START_ASAP = 0,
+    START_AT   = 2
+} StartupCondition;
+
+/** @brief Conditions under which a SchedulerJob may complete. */
+typedef enum
+{
+    FINISH_SEQUENCE,
+    FINISH_REPEAT,
+    FINISH_LOOP,
+    FINISH_AT
+} CompletionCondition;
+
+/** @brief IterationTypes, the different types of scheduler iterations that are run. */
+typedef enum
+{
+    RUN_WAKEUP = 0,
+    RUN_SCHEDULER,
+    RUN_JOBCHECK,
+    RUN_SHUTDOWN,
+    RUN_NOTHING
+} SchedulerTimerState;
+
 // Functions to make human-readable debug messages for the various enums.
 
 QString ekosStateString(EkosState state);
@@ -74,5 +101,8 @@ QString indiStateString(INDIState state);
 QString startupStateString(StartupState state);
 QString shutdownStateString(ShutdownState state);
 QString parkWaitStateString(ParkWaitState state);
+QString timerStr(SchedulerTimerState state);
+QString startupConditionString(StartupCondition condition);
+QString completionConditionString(CompletionCondition condition);
 
 } // Ekos namespace

@@ -12,6 +12,7 @@
 #include "skymapcomposite.h"
 #include "Options.h"
 #include "scheduler.h"
+#include "schedulermodulestate.h"
 #include "ksalmanac.h"
 #include "ksmoon.h"
 
@@ -24,6 +25,8 @@
 #define BAD_SCORE -1000
 #define MIN_ALTITUDE 15.0
 
+namespace Ekos
+{
 bool SchedulerJob::m_UpdateGraphics = true;
 
 GeoLocation *SchedulerJob::storedGeo = nullptr;
@@ -92,19 +95,7 @@ QString SchedulerJob::jobStageString(JOBStage state)
     return QString("????");
 }
 
-QString SchedulerJob::startupConditionString(SchedulerJob::StartupCondition condition)
-{
-    switch(condition)
-    {
-        case START_ASAP:
-            return "ASAP";
-        case START_AT:
-            return "AT";
-    }
-    return QString("????");
-}
-
-QString SchedulerJob::jobStartupConditionString(SchedulerJob::StartupCondition condition) const
+QString SchedulerJob::jobStartupConditionString(StartupCondition condition) const
 {
     switch(condition)
     {
@@ -116,23 +107,7 @@ QString SchedulerJob::jobStartupConditionString(SchedulerJob::StartupCondition c
     return QString("????");
 }
 
-QString SchedulerJob::completionConditionString(SchedulerJob::CompletionCondition condition)
-{
-    switch(condition)
-    {
-        case FINISH_SEQUENCE:
-            return "FINISH";
-        case FINISH_REPEAT:
-            return "REPEAT";
-        case FINISH_LOOP:
-            return "LOOP";
-        case FINISH_AT:
-            return "AT";
-    }
-    return QString("????");
-}
-
-QString SchedulerJob::jobCompletionConditionString(SchedulerJob::CompletionCondition condition) const
+QString SchedulerJob::jobCompletionConditionString(CompletionCondition condition) const
 {
     switch(condition)
     {
@@ -181,7 +156,7 @@ void SchedulerJob::setCompletedIterations(int value)
 
 KStarsDateTime SchedulerJob::getLocalTime()
 {
-    return Ekos::Scheduler::getLocalTime();
+    return Ekos::SchedulerModuleState::getLocalTime();
 }
 
 GeoLocation const *SchedulerJob::getGeo()
@@ -1350,7 +1325,7 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
     // We do not consider job state here. It is the responsibility of the caller
     // to filter for that, if desired.
 
-    if (!runningJob && SchedulerJob::START_AT == getFileStartupCondition())
+    if (!runningJob && START_AT == getFileStartupCondition())
     {
         int secondsFromNow = ltWhen.secsTo(getFileStartupTime());
         if (secondsFromNow < -500)
@@ -1395,7 +1370,7 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
     // We do not consider job state here. It is the responsibility of the caller
     // to filter for that, if desired.
 
-    if (SchedulerJob::START_AT == getFileStartupCondition())
+    if (START_AT == getFileStartupCondition())
     {
         if (getFileStartupTime().secsTo(ltStart) < -120)
         {
@@ -1450,3 +1425,4 @@ QJsonObject SchedulerJob::toJson() const
         {"altitude", altitudeCell ? altitudeCell->text() : "--"},
     };
 }
+} // Ekos namespace

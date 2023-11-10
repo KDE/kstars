@@ -216,7 +216,7 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
 void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF()
 {
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(15, false, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(15, false, Ekos::FINISH_LOOP, 1));
     // start the scheduled procedure
     QVERIFY(startScheduler());
     // check if meridian flip runs and completes successfully
@@ -228,7 +228,7 @@ void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF()
 void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF()
 {
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(10, false, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(10, false, Ekos::FINISH_LOOP, 1));
     // update the initial focuser position
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
     initialFocusPosition = absTicksLabel->text().toInt();
@@ -303,7 +303,7 @@ void TestEkosMeridianFlipSpecials::testCaptureRealignMF()
     Options::setAlignCheckFrequency(1);
     Options::setAlignCheckThreshold(0.0);
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(17, true, SchedulerJob::FINISH_REPEAT, 1));
+    QVERIFY(prepareSchedulerTestcase(17, true, Ekos::FINISH_REPEAT, 1));
     // start the scheduled procedure
     QVERIFY(startScheduler());
     // make the alignment exposure so long that the flip happens while capturing the frame for alignment
@@ -336,7 +336,7 @@ void TestEkosMeridianFlipSpecials::testCapturePostRealignmentFailedHandling()
     // prepare for alignment tests
     m_CaptureHelper->prepareAlignmentModule();
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(17, true, SchedulerJob::FINISH_REPEAT, 1));
+    QVERIFY(prepareSchedulerTestcase(17, true, Ekos::FINISH_REPEAT, 1));
     // start the scheduled procedure
     QVERIFY(startScheduler());
     // check if meridian flip has been started

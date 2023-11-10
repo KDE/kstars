@@ -61,7 +61,7 @@ void TestEkosCaptureCount::testSchedulerCapture()
     expectedSchedulerStates.enqueue(Ekos::SCHEDULER_IDLE);
 
     KTELL("Prepare scheduler captures");
-    QVERIFY(prepareScheduledCapture(SchedulerJob::FINISH_REPEAT));
+    QVERIFY(prepareScheduledCapture(Ekos::FINISH_REPEAT));
 
     KTELL("Start scheduler job");
     KTRY_CLICK(Ekos::Manager::Instance()->schedulerModule(), startB);
@@ -79,7 +79,7 @@ void TestEkosCaptureCount::testSchedulerCapture()
 void TestEkosCaptureCount::testSchedulerCaptureInfiteLooping()
 {
     // prepare captured frames
-    QVERIFY(prepareScheduledCapture(SchedulerJob::FINISH_LOOP));
+    QVERIFY(prepareScheduledCapture(Ekos::FINISH_LOOP));
 }
 
 /* *********************************************************************************
@@ -271,7 +271,7 @@ bool TestEkosCaptureCount::prepareCapture()
     return true;
 }
 
-bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondition completionCondition)
+bool TestEkosCaptureCount::prepareScheduledCapture(Ekos::CompletionCondition completionCondition)
 {
     QFETCH(double, exptime);
     QFETCH(QString, sequence);
@@ -328,7 +328,7 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
 }
 
 bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap,
-        SchedulerJob::CompletionCondition completionCondition,
+        Ekos::CompletionCondition completionCondition,
         int iterations, bool rememberJobProgress, double exptime)
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
@@ -354,12 +354,12 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
     // set the completion condition
     switch (completionCondition)
     {
-        case SchedulerJob::FINISH_REPEAT:
+        case Ekos::FINISH_REPEAT:
             // repeat the job for a fixed amount
             KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
             KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
             break;
-        case SchedulerJob::FINISH_LOOP:
+        case Ekos::FINISH_LOOP:
             KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
             break;
         default:
@@ -379,7 +379,7 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
 }
 
 bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString capturedFramesMap,
-        SchedulerJob::CompletionCondition completionCondition,
+        Ekos::CompletionCondition completionCondition,
         int iterations, bool rememberJobProgress, double exptime)
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
@@ -392,7 +392,7 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
     int total = -1, captured = -1, total_repeat_expected = 0;
 
     // check display of expected frames
-    if (completionCondition == SchedulerJob::FINISH_REPEAT)
+    if (completionCondition == Ekos::FINISH_REPEAT)
     {
         total = displayedCounts.right(displayedCounts.length() - displayedCounts.indexOf("/") - 1).toInt();
         total_repeat_expected = totalCount(sequence) * iterations;
@@ -420,7 +420,7 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
                      captured_expected).toStdString().c_str());
 
     // check estimated duration time (only relevant for repeats
-    if (completionCondition == SchedulerJob::FINISH_REPEAT)
+    if (completionCondition == Ekos::FINISH_REPEAT)
     {
         QTime startTime = QTime::fromString(queueTable->item(0, 4)->text(), "HH:mm");
         QTime endTime = QTime::fromString(queueTable->item(0, 5)->text().right(5), "HH:mm");

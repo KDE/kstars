@@ -142,7 +142,7 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
     {
         switch (job->getCompletionCondition())
         {
-            case SchedulerJob::FINISH_AT:
+            case FINISH_AT:
                 /* If planned finishing time has passed, the job is set to IDLE waiting for a next chance to run */
                 if (job->getCompletionTime().isValid() && job->getCompletionTime() < now)
                 {
@@ -151,7 +151,7 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
                 }
                 break;
 
-            case SchedulerJob::FINISH_REPEAT:
+            case FINISH_REPEAT:
                 // In case of a repeating jobs, let's make sure we have more runs left to go
                 // If we don't, re-estimate imaging time for the scheduler job before concluding
                 if (job->getRepeatsRemaining() == 0)
@@ -291,7 +291,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
     constexpr int MAX_INTERRUPT_SECS = 30;
 
     // Don't interrupt START_AT jobs unless they can no longer run, or they're interrupted by another START_AT.
-    bool currentJobIsStartAt = (currentJob && currentJob->getFileStartupCondition() == SchedulerJob::START_AT &&
+    bool currentJobIsStartAt = (currentJob && currentJob->getFileStartupCondition() == START_AT &&
                                 currentJob->getFileStartupTime().isValid());
     QDateTime nextStart;
     SchedulerJob *nextJob = nullptr;
@@ -375,7 +375,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
             if (atJob == nextJob)
                 continue;
             const QDateTime atTime = atJob->getFileStartupTime();
-            if (atJob->getFileStartupCondition() == SchedulerJob::START_AT && atTime.isValid())
+            if (atJob->getFileStartupCondition() == START_AT && atTime.isValid())
             {
                 if (!allowJob(atJob, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
                     continue;
@@ -589,7 +589,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         foreach (SchedulerJob *job, simJobs)
         {
             if (job != selectedJob &&
-                    job->getStartupCondition() == SchedulerJob::START_AT &&
+                    job->getStartupCondition() == START_AT &&
                     jobStartTime.secsTo(job->getStartupTime()) > 0 &&
                     (job->getState() == SchedulerJob::JOB_EVALUATION ||
                      job->getState() == SchedulerJob::JOB_SCHEDULED))
@@ -644,9 +644,9 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         // This if clause handles the simulation of scheduler repeat groups
         // which applies to scheduler jobs with repeat-style completion conditions.
         if (!selectedJob->getGroup().isEmpty() &&
-                (selectedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP ||
-                 selectedJob->getCompletionCondition() == SchedulerJob::FINISH_REPEAT ||
-                 selectedJob->getCompletionCondition() == SchedulerJob::FINISH_AT))
+                (selectedJob->getCompletionCondition() == FINISH_LOOP ||
+                 selectedJob->getCompletionCondition() == FINISH_REPEAT ||
+                 selectedJob->getCompletionCondition() == FINISH_AT))
         {
             if (originalIteration.find(selectedJob) == originalIteration.end())
                 originalIteration[selectedJob] = selectedJob->getCompletedIterations();

@@ -13,12 +13,11 @@
 #include <QString>
 #include <QVector>
 
-class SchedulerJob;
-
 namespace Ekos
 {
 
 class Scheduler;
+class SchedulerJob;
 
 class GreedyScheduler : public QObject
 {

@@ -401,9 +401,9 @@ bool TestEkosAlign::alignWithScheduler(SkyObject *targetObject, QString fitsTarg
     Ekos::Scheduler *scheduler = ekos->schedulerModule();
     // start ASAP
     TestEkosSchedulerHelper::StartupCondition startupCondition;
-    startupCondition.type = SchedulerJob::START_ASAP;
+    startupCondition.type = Ekos::START_ASAP;
     TestEkosSchedulerHelper::CompletionCondition completionCondition;
-    completionCondition.type = SchedulerJob::FINISH_SEQUENCE;
+    completionCondition.type = Ekos::FINISH_SEQUENCE;
 
     // create the capture sequence file
     const QString sequenceFile = TestEkosSchedulerHelper::getDefaultEsqContent();

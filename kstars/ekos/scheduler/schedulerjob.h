@@ -7,6 +7,7 @@
 #pragma once
 
 #include "skypoint.h"
+#include "schedulertypes.h"
 
 #include <QUrl>
 #include <QMap>
@@ -21,6 +22,8 @@ class TestSchedulerUnit;
 class TestEkosSchedulerOps;
 class dms;
 
+namespace Ekos
+{
 class SchedulerJob
 {
     public:
@@ -60,22 +63,6 @@ class SchedulerJob
             STAGE_CAPTURING,
             STAGE_COMPLETE
         } JOBStage;
-
-        /** @brief Conditions under which a SchedulerJob may start. */
-        typedef enum
-        {
-            START_ASAP = 0,
-            START_AT   = 2
-        } StartupCondition;
-
-        /** @brief Conditions under which a SchedulerJob may complete. */
-        typedef enum
-        {
-            FINISH_SEQUENCE,
-            FINISH_REPEAT,
-            FINISH_LOOP,
-            FINISH_AT
-        } CompletionCondition;
 
         /** @brief Actions that may be processed when running a SchedulerJob.
          * FIXME: StepPipeLine is actually a mask, change this into a bitfield.
@@ -626,10 +613,8 @@ class SchedulerJob
         // Convenience debugging methods.
         static QString jobStatusString(JOBStatus status);
         static QString jobStageString(JOBStage stage);
-        static QString startupConditionString(SchedulerJob::StartupCondition condition);
-        QString jobStartupConditionString(SchedulerJob::StartupCondition condition) const;
-        static QString completionConditionString(SchedulerJob::CompletionCondition condition);
-        QString jobCompletionConditionString(SchedulerJob::CompletionCondition condition) const;
+        QString jobStartupConditionString(StartupCondition condition) const;
+        QString jobCompletionConditionString(CompletionCondition condition) const;
 
         static void enableGraphicsUpdates(bool update)
         {
@@ -807,3 +792,4 @@ class SchedulerJob
         static GeoLocation *storedGeo;
         static ArtificialHorizon *storedHorizon;
 };
+} // Ekos namespace

@@ -111,7 +111,7 @@ protected:
      * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
      * @return true iff preparation was successful
      */
-    bool prepareSchedulerTestcase(int secsToMF, bool useAlign, SchedulerJob::CompletionCondition completionCondition, int iterations);
+    bool prepareSchedulerTestcase(int secsToMF, bool useAlign, Ekos::CompletionCondition completionCondition, int iterations);
 
     /**
      * @brief Prepare test data iterating over all combination of parameters.
