@@ -73,7 +73,10 @@
       The algorithm shows its projected next start times and stop times for all job in the Scheduler table. It also shows its estimate of times jobs will run during the next 48 hours in the log panel at the bottom of the window. See the screenshot of the scheduler window at the top of this section.
         </para>
         <para>
-          The scheduling algorithm described in the above paragraph is known as the Greedy Scheduling algorithm. It is the recommended one to use. In previous versions of Ekos, there was another "Classic scheduling algorithm" which is currently being phased out. That scheme could not preempt running jobs, and thus did not make as much use of the equipment as the Greedy Algorithm. 
+          The scheduling algorithm described in the above paragraph is known as the Greedy Scheduling algorithm. It is the recommended one to use. In previous versions of Ekos, there was another "Classic scheduling algorithm" which is no longer in Ekos. That scheme could not preempt running jobs, and thus did not make as much use of the equipment as the Greedy Algorithm. 
+        </para>
+        <para>
+          There is a checkbox option in the scheduler options menu called <guilabel>Use greedy scheduling</guilabel> which defaults to being checked.  The system works as described above when it is checked. When it is unchecked the scheduler is prevented from scheduling lower priority jobs when uncompleted higher priority jobs cannot run. This results in less efficient use of the system, but may give you more control over scheduling.
         </para>
     </sect3>
     <sect3 id="scheduler-files">

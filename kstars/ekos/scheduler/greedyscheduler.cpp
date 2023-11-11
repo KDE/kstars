@@ -324,7 +324,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                 if (nextInterruption) *nextInterruption = QDateTime();
                 interruptStr = "";
             }
-            else
+            else if (Options::greedyScheduling())
             {
                 // Allow this job to be scheduled if it can run this many seconds
                 // before running into a higher priority job.
@@ -424,7 +424,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         // - the selected job is a repeating job and
         // - another group member is runnable now and
         // - that group mnember is behind the selected job's iteration.
-        if (nextJob && !nextJob->getGroup().isEmpty() && nextJob->getCompletedIterations() > 0)
+        if (nextJob && !nextJob->getGroup().isEmpty() && Options::greedyScheduling() && nextJob->getCompletedIterations() > 0)
         {
             // Iterate through the jobs list, first finding the selected job, the looking at all jobs after that.
             bool foundSelectedJob = false;

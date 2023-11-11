@@ -406,6 +406,19 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_GreedyScheduling">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked the scheduler tries to run lower priority jobs when no higher priority job can run. Recommended.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Use greedy scheduling</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>

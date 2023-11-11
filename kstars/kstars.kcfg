@@ -2813,6 +2813,10 @@
          <label>When processing a scheduled job, resume the sequence starting from the last image present in storage.</label>
          <default>true</default>
       </entry>
+      <entry name="GreedyScheduling" type="Bool">
+         <label>When true, the scheduler tries to run lower priority jobs when no higher priority job can run. Recommended.</label>
+         <default>true</default>
+      </entry>
       <entry name="LeadTime" type="Double">
          <label>Minimum time between jobs in minutes.</label>
          <default>5</default>
