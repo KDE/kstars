@@ -2238,15 +2238,17 @@ double FITSData::getHFR(HFRType type)
     return cacheHFR;
 }
 
-double FITSData::getHFR(int x, int y)
+double FITSData::getHFR(int x, int y, double scale)
 {
     if (starCenters.empty())
         return -1;
 
     for (int i = 0; i < starCenters.count(); i++)
     {
-        if (std::fabs(starCenters[i]->x - x) <= starCenters[i]->width / 2 &&
-                std::fabs(starCenters[i]->y - y) <= starCenters[i]->width / 2)
+        const int maxDist = std::max(2, static_cast<int>(0.5 + 2 * starCenters[i]->width / scale));
+        const int dx = std::fabs(starCenters[i]->x - x);
+        const int dy = std::fabs(starCenters[i]->y - y);
+        if (dx <= maxDist && dy <= maxDist)
         {
             m_SelectedHFRStar = *starCenters[i];
             return starCenters[i]->HFR;

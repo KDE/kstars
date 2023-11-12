@@ -10,8 +10,10 @@
  */
 
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulerprocess.h"
 #include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerjob.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 #include "indi/indiproperty.h"
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/placeholderpath.h"
@@ -46,10 +48,10 @@ class TestSchedulerUnit : public QObject
         void evaluateJobsTest();
 
     private:
-        void runSetupJob(SchedulerJob &job,
+        void runSetupJob(Ekos::SchedulerJob &job,
                          GeoLocation *geo, KStarsDateTime *localTime, const QString &name,
                          const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
-                         const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime, SchedulerJob::CompletionCondition eCond,
+                         const QUrl &fitsUrl, Ekos::StartupCondition sCond, const QDateTime &sTime, Ekos::CompletionCondition eCond,
                          const QDateTime &eTime, int eReps,
                          double minAlt, double minMoonSep = 0, bool enforceWeather = false, bool enforceTwilight = true,
                          bool enforceArtificialHorizon = true, bool track = true, bool focus = true, bool align = true, bool guide = true);
@@ -140,29 +142,29 @@ bool compareTimes(const QDateTime &t1, const QDateTime &t2, int toleranceSecs = 
 }
 
 // The runSetupJob() utility calls the static function Scheduler::setupJob() with all the args passed in
-// and tests to see that the resulting SchedulerJob object has the values that were requested.
-void TestSchedulerUnit::runSetupJob(
-    SchedulerJob &job, GeoLocation *geo, KStarsDateTime *localTime, const QString &name,
-    const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
-    const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
-    SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
-    double minAlt, double minMoonSep, bool enforceWeather, bool enforceTwilight,
-    bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
+// and tests to see that the resulting Ekos::SchedulerJob object has the values that were requested.
+void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, KStarsDateTime *localTime,
+                                    const QString &name,
+                                    const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
+                                    const QUrl &fitsUrl, Ekos::StartupCondition sCond, const QDateTime &sTime,
+                                    Ekos::CompletionCondition eCond, const QDateTime &eTime, int eReps,
+                                    double minAlt, double minMoonSep, bool enforceWeather, bool enforceTwilight,
+                                    bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     // Setup the time and geo.
     KStarsDateTime ut = geo->LTtoUT(*localTime);
     job.setGeo(geo);
-    Scheduler::setLocalTime(localTime);
-    QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
+    Ekos::SchedulerModuleState::setLocalTime(localTime);
+    QVERIFY(Ekos::SchedulerModuleState::hasLocalTime() && job.hasGeo());
 
     QString group = "";
-    Scheduler::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
-                        sequenceUrl, fitsUrl,
-                        sCond, sTime,
-                        eCond, eTime, eReps,
-                        minAlt, minMoonSep,
-                        enforceWeather, enforceTwilight, enforceArtificialHorizon,
-                        track, focus, align, guide);
+    Ekos::SchedulerProcess::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
+                                     sequenceUrl, fitsUrl,
+                                     sCond, sTime,
+                                     eCond, eTime, eReps,
+                                     minAlt, minMoonSep,
+                                     enforceWeather, enforceTwilight, enforceArtificialHorizon,
+                                     track, focus, align, guide);
     QVERIFY(name == job.getName());
     QVERIFY(ra == job.getTargetCoords().ra0());
     QVERIFY(dec == job.getTargetCoords().dec0());
@@ -178,10 +180,10 @@ void TestSchedulerUnit::runSetupJob(
     QVERIFY(sCond == job.getStartupCondition());
     switch (sCond)
     {
-        case SchedulerJob::START_AT:
+        case Ekos::START_AT:
             QVERIFY(sTime == job.getStartupTime());
             break;
-        case SchedulerJob::START_ASAP:
+        case Ekos::START_ASAP:
             QVERIFY(QDateTime() == job.getStartupTime());
             break;
     }
@@ -189,58 +191,58 @@ void TestSchedulerUnit::runSetupJob(
     QVERIFY(eCond == job.getCompletionCondition());
     switch (eCond)
     {
-        case SchedulerJob::FINISH_AT:
+        case Ekos::FINISH_AT:
             QVERIFY(eTime == job.getCompletionTime());
             QVERIFY(0 == job.getRepeatsRequired());
             QVERIFY(0 == job.getRepeatsRemaining());
             break;
-        case SchedulerJob::FINISH_REPEAT:
+        case Ekos::FINISH_REPEAT:
             QVERIFY(QDateTime() == job.getCompletionTime());
             QVERIFY(eReps == job.getRepeatsRequired());
             QVERIFY(eReps == job.getRepeatsRemaining());
             break;
-        case SchedulerJob::FINISH_SEQUENCE:
+        case Ekos::FINISH_SEQUENCE:
             QVERIFY(QDateTime() == job.getCompletionTime());
             QVERIFY(1 == job.getRepeatsRequired());
             QVERIFY(1 == job.getRepeatsRemaining());
             break;
-        case SchedulerJob::FINISH_LOOP:
+        case Ekos::FINISH_LOOP:
             QVERIFY(QDateTime() == job.getCompletionTime());
             QVERIFY(0 == job.getRepeatsRequired());
             QVERIFY(0 == job.getRepeatsRemaining());
             break;
     }
 
-    SchedulerJob::StepPipeline pipe = job.getStepPipeline();
-    QVERIFY((track && (pipe & SchedulerJob::USE_TRACK)) || (!track && !(pipe & SchedulerJob::USE_TRACK)));
-    QVERIFY((focus && (pipe & SchedulerJob::USE_FOCUS)) || (!focus && !(pipe & SchedulerJob::USE_FOCUS)));
-    QVERIFY((align && (pipe & SchedulerJob::USE_ALIGN)) || (!align && !(pipe & SchedulerJob::USE_ALIGN)));
-    QVERIFY((guide && (pipe & SchedulerJob::USE_GUIDE)) || (!guide && !(pipe & SchedulerJob::USE_GUIDE)));
+    Ekos::SchedulerJob::StepPipeline pipe = job.getStepPipeline();
+    QVERIFY((track && (pipe & Ekos::SchedulerJob::USE_TRACK)) || (!track && !(pipe & Ekos::SchedulerJob::USE_TRACK)));
+    QVERIFY((focus && (pipe & Ekos::SchedulerJob::USE_FOCUS)) || (!focus && !(pipe & Ekos::SchedulerJob::USE_FOCUS)));
+    QVERIFY((align && (pipe & Ekos::SchedulerJob::USE_ALIGN)) || (!align && !(pipe & Ekos::SchedulerJob::USE_ALIGN)));
+    QVERIFY((guide && (pipe & Ekos::SchedulerJob::USE_GUIDE)) || (!guide && !(pipe & Ekos::SchedulerJob::USE_GUIDE)));
 }
 
 void TestSchedulerUnit::setupGeoAndTimeTest()
 {
-    SchedulerJob job(nullptr);
-    QVERIFY(!Scheduler::hasLocalTime() && !job.hasGeo());
+    Ekos::SchedulerJob job(nullptr);
+    QVERIFY(!Ekos::SchedulerModuleState::hasLocalTime() && !job.hasGeo());
     job.setGeo(&siliconValley);
-    Scheduler::setLocalTime(&midNight);
-    QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
+    Ekos::SchedulerModuleState::setLocalTime(&midNight);
+    QVERIFY(Ekos::SchedulerModuleState::hasLocalTime() && job.hasGeo());
     QVERIFY(job.getGeo()->lat() == siliconValley.lat());
     QVERIFY(job.getGeo()->lng() == siliconValley.lng());
     QVERIFY(job.getLocalTime() == midNight);
 }
 
-Q_DECLARE_METATYPE(SchedulerJob::StartupCondition);
-Q_DECLARE_METATYPE(SchedulerJob::CompletionCondition);
+Q_DECLARE_METATYPE(Ekos::StartupCondition);
+Q_DECLARE_METATYPE(Ekos::CompletionCondition);
 
 // Test Scheduler::setupJob().
-// Calls runSetupJob (which calls SchedulerJob::setupJob(...)) in a few different ways
-// to test different kinds of SchedulerJob initializations.
+// Calls runSetupJob (which calls Ekos::SchedulerJob::setupJob(...)) in a few different ways
+// to test different kinds of Ekos::SchedulerJob initializations.
 void TestSchedulerUnit::setupJobTest_data()
 {
-    QTest::addColumn<SchedulerJob::StartupCondition>("START_CONDITION");
+    QTest::addColumn<Ekos::StartupCondition>("START_CONDITION");
     QTest::addColumn<QDateTime>("START_TIME");
-    QTest::addColumn<SchedulerJob::CompletionCondition>("END_CONDITION");
+    QTest::addColumn<Ekos::CompletionCondition>("END_CONDITION");
     QTest::addColumn<QDateTime>("END_TIME");
     QTest::addColumn<int>("REPEATS");
     QTest::addColumn<bool>("ENFORCE_WEATHER");
@@ -252,8 +254,8 @@ void TestSchedulerUnit::setupJobTest_data()
     QTest::addColumn<bool>("GUIDE");
 
     QTest::newRow("ASAP_TO_FINISH")
-            << SchedulerJob::START_ASAP << QDateTime() // start conditions
-            << SchedulerJob::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
+            << Ekos::START_ASAP << QDateTime() // start conditions
+            << Ekos::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
             << false  // enforce weather
             << true   // enforce twilight
             << true   // enforce artificial horizon
@@ -263,9 +265,9 @@ void TestSchedulerUnit::setupJobTest_data()
             << true;  // guide
 
     QTest::newRow("START_AT_FINISH_AT")
-            << SchedulerJob::START_AT // start conditions
+            << Ekos::START_AT // start conditions
             << QDateTime(QDate(2021, 4, 17), QTime(0, 1, 0), QTimeZone(-7 * 3600))
-            << SchedulerJob::FINISH_AT // end conditions
+            << Ekos::FINISH_AT // end conditions
             << QDateTime(QDate(2021, 4, 17), QTime(0, 2, 0), QTimeZone(-7 * 3600))
             << 1
             << true   // enforce weather
@@ -277,8 +279,8 @@ void TestSchedulerUnit::setupJobTest_data()
             << true;  // guide
 
     QTest::newRow("ASAP_TO_LOOP")
-            << SchedulerJob::START_ASAP << QDateTime() // start conditions
-            << SchedulerJob::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
+            << Ekos::START_ASAP << QDateTime() // start conditions
+            << Ekos::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
             << false  // enforce weather
             << false  // enforce twilight
             << true   // enforce artificial horizon
@@ -290,9 +292,9 @@ void TestSchedulerUnit::setupJobTest_data()
 
 void TestSchedulerUnit::setupJobTest()
 {
-    QFETCH(SchedulerJob::StartupCondition, START_CONDITION);
+    QFETCH(Ekos::StartupCondition, START_CONDITION);
     QFETCH(QDateTime, START_TIME);
-    QFETCH(SchedulerJob::CompletionCondition, END_CONDITION);
+    QFETCH(Ekos::CompletionCondition, END_CONDITION);
     QFETCH(QDateTime, END_TIME);
     QFETCH(int, REPEATS);
     QFETCH(bool, ENFORCE_WEATHER);
@@ -303,7 +305,7 @@ void TestSchedulerUnit::setupJobTest()
     QFETCH(bool, ALIGN);
     QFETCH(bool, GUIDE);
 
-    SchedulerJob job(nullptr);
+    Ekos::SchedulerJob job(nullptr);
     runSetupJob(job, &siliconValley, &midNight, "Job1",
                 midnightRA, testDEC, 5.0, QUrl("1"), QUrl("2"),
                 START_CONDITION, START_TIME,
@@ -336,8 +338,8 @@ void compareCaptureSequence(const QList<CaptureJobDetails> &details, const QList
 // A full test for capture sequences should be written in capture testing.
 void TestSchedulerUnit::loadSequenceQueueTest()
 {
-    // Create a new SchedulerJob and pass in a null moon pointer.
-    SchedulerJob schedJob(nullptr);
+    // Create a new Ekos::SchedulerJob and pass in a null moon pointer.
+    Ekos::SchedulerJob schedJob(nullptr);
 
     QList<Ekos::SequenceJob *> jobs;
     bool hasAutoFocus = false;
@@ -367,15 +369,15 @@ void TestSchedulerUnit::estimateJobTimeTest()
 {
     // Some computations use the local time, which is normally taken from KStars::Instance()->lt()
     // unless this is set. The Instance does not exist when running this unit test.
-    Scheduler::setLocalTime(&midNight);
+    Ekos::SchedulerModuleState::setLocalTime(&midNight);
 
     // First test, start ASAP and finish when the sequence is done.
-    SchedulerJob job(nullptr);
+    Ekos::SchedulerJob job(nullptr);
     runSetupJob(job, &siliconValley, &midNight, "Job1",
                 midnightRA, testDEC, 5.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(),
-                SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_SEQUENCE, QDateTime(), 1,
                 30.0, 5.0, false, false);
 
     // Initial map has no previous captures.
@@ -392,7 +394,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // Repeat the above test, but repeat the sequence 1,2,3,4,...,10 times.
     for (int i = 1; i <= 10; ++i)
     {
-        job.setCompletionCondition(SchedulerJob::FINISH_REPEAT);
+        job.setCompletionCondition(Ekos::FINISH_REPEAT);
         job.setRepeatsRequired(i);
         QVERIFY(Scheduler::estimateJobTime(&job, capturedFramesCount, nullptr));
         QVERIFY(compareFloat(overhead + i * exposureDuration, job.getEstimatedTime()));
@@ -406,13 +408,13 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // In this case the scheduler should estimate negative completion time, as the sequence doesn't
     // end until the user stops it (or it is interrupted by altitude or daylight). The scheduler
     // doesn't estimate those stopping conditions at this point.
-    job.setCompletionCondition(SchedulerJob::FINISH_LOOP);
+    job.setCompletionCondition(Ekos::FINISH_LOOP);
     QVERIFY(Scheduler::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(job.getEstimatedTime() < 0);
 
     // Test again with a fixed end time. The scheduler estimates the time from "now" until the end time.
     // Perhaps it should estimate the max of that and the FINISH_SEQUENCE time??
-    job.setCompletionCondition(SchedulerJob::FINISH_AT);
+    job.setCompletionCondition(Ekos::FINISH_AT);
     KStarsDateTime stopTime(QDateTime(QDate(2021, 4, 17), QTime(1, 0, 0), QTimeZone(-7 * 3600)));
     job.setCompletionTime(stopTime);
     QVERIFY(Scheduler::estimateJobTime(&job, capturedFramesCount, nullptr));
@@ -421,15 +423,15 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // Test again, similar to above but given a START_AT time as well.
     // Now it should return the interval between the start and end times.
     // Again, perhaps that should be max'd with the FINISH_SEQUENCE time?
-    job.setStartupCondition(SchedulerJob::START_AT);
+    job.setStartupCondition(Ekos::START_AT);
     job.setStartupTime(midNight.addSecs(1800));
     QVERIFY(Scheduler::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(midNight.secsTo(stopTime) - 1800 == job.getEstimatedTime());
 
     // Small test of accounting for already completed captures.
     // 1. Explicitly load the capture jobs
-    job.setStartupCondition(SchedulerJob::START_ASAP);
-    job.setCompletionCondition(SchedulerJob::FINISH_SEQUENCE);
+    job.setStartupCondition(Ekos::START_ASAP);
+    job.setCompletionCondition(Ekos::FINISH_SEQUENCE);
     QList<Ekos::SequenceJob *> jobs;
     bool hasAutoFocus = false;
     // The last arg is for logging. Use nullptr for testing.
@@ -460,9 +462,9 @@ void TestSchedulerUnit::evaluateJobsTest()
 {
     auto now = midNight;
     Ekos::GreedyScheduler scheduler;
-    Scheduler::setLocalTime(&now);
+    Ekos::SchedulerModuleState::setLocalTime(&now);
     // The nullptr is moon pointer. Not currently tested.
-    SchedulerJob job(nullptr);
+    Ekos::SchedulerJob job(nullptr);
 
     const double _dawn = .25, _dusk = .75;
     QDateTime const dawn = midNight.addSecs(_dawn * 24.0 * 3600.0);
@@ -470,8 +472,8 @@ void TestSchedulerUnit::evaluateJobsTest()
     const bool rescheduleErrors = true;
     const bool restart = true;
     const QMap<QString, uint16_t> capturedFrames;
-    QList<SchedulerJob *> jobs;
-    QList<SchedulerJob *> jobsToProcess;
+    QList<Ekos::SchedulerJob *> jobs;
+    QList<Ekos::SchedulerJob *> jobsToProcess;
     const double minAltitude = 30.0;
 
     // Test 1: Evaluating an empty jobs list should return an empty list.
@@ -485,8 +487,8 @@ void TestSchedulerUnit::evaluateJobsTest()
     runSetupJob(job, &siliconValley, &midNight, "Job1",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(),
-                SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_SEQUENCE, QDateTime(), 1,
                 minAltitude);
     jobs.append(&job);
 
@@ -522,25 +524,25 @@ void TestSchedulerUnit::evaluateJobsTest()
     // Start the scheduler at 8pm but minAltitude won't be reached until after 11pm.
     // Job repetition takes about 45 minutes plus a little overhead.
     // Thus, first job, with two repetitions will be scheduled 11:10pm --> 12:43am.
-    SchedulerJob job1(nullptr);
+    Ekos::SchedulerJob job1(nullptr);
     auto localTime8pm = midNight.addSecs(-4 * 3600);
     runSetupJob(job1, &siliconValley, &localTime8pm, "Job1",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(),
-                SchedulerJob::FINISH_REPEAT, QDateTime(), 2,
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_REPEAT, QDateTime(), 2,
                 80.0);
     jobs.append(&job1);
 
     // The second job has no blocking constraints, hence it will start immediately at 08:00 pm.
     // Since it lasts about 48 minutes, it should terminate at 08:48 pm and won't be suspended
     // by the first job.
-    SchedulerJob job2(nullptr);
+    Ekos::SchedulerJob job2(nullptr);
     runSetupJob(job2, &siliconValley, &localTime8pm, "Job2",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(),
-                SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_SEQUENCE, QDateTime(), 1,
                 30.0);
     jobs.append(&job2);
 
@@ -573,23 +575,23 @@ void TestSchedulerUnit::evaluateJobsTest()
     // The second job, therefore, should be initially scheduled to start "tomorrow" just after dusk.
 
     // Start the scheduler at 8pm but minAltitude won't be reached until ~11:10pm, and job3 estimated conclusion is 6:39am.
-    SchedulerJob job3(nullptr);
-    Scheduler::setLocalTime(&localTime8pm);
+    Ekos::SchedulerJob job3(nullptr);
+    Ekos::SchedulerModuleState::setLocalTime(&localTime8pm);
     runSetupJob(job3, &siliconValley, &localTime8pm, "Job1",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(),
-                SchedulerJob::FINISH_REPEAT, QDateTime(), 10,
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_REPEAT, QDateTime(), 10,
                 80.0);
     jobs.append(&job3);
 
     // The second job should be scheduled "tomorrow" starting after dusk
-    SchedulerJob job4(nullptr);
+    Ekos::SchedulerJob job4(nullptr);
     runSetupJob(job4, &siliconValley, &localTime8pm, "Job2",
                 midnightRA, testDEC, 0.0,
                 QUrl(QString("file:%1").arg(seqFile9Filters)), QUrl(""),
-                SchedulerJob::START_ASAP, QDateTime(),
-                SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
+                Ekos::START_ASAP, QDateTime(),
+                Ekos::FINISH_SEQUENCE, QDateTime(), 1,
                 80.0);
     jobs.append(&job4);
 

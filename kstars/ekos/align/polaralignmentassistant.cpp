@@ -566,6 +566,7 @@ bool PolarAlignmentAssistant::processSolverFailure()
             m_PAHStage == PAH_THIRD_SOLVE)
             && ++m_PAHRetrySolveCounter < 4)
     {
+        emit newLog(i18n("PAA: Solver failed, retrying."));
         emit captureAndSolve();
         return true;
     }

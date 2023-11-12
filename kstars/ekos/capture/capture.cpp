@@ -504,7 +504,7 @@ Capture::Capture()
     });
     connect(m_captureProcess.data(), &CaptureProcess::jobPrepared, this, &Capture::jobPrepared);
     connect(m_captureProcess.data(), &CaptureProcess::captureImageStarted, this, &Capture::captureImageStarted);
-    connect(m_captureProcess.data(), &CaptureProcess::captureTarget, this, &Capture::captureTarget);
+    connect(m_captureProcess.data(), &CaptureProcess::captureTarget, this, &Capture::setTargetName);
     connect(m_captureProcess.data(), &CaptureProcess::downloadingFrame, this, [this]()
     {
         captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
@@ -3564,10 +3564,22 @@ void Capture::toggleVideo(bool enabled)
 
 void Capture::setTargetName(const QString &newTargetName)
 {
-    if (activeJob() != nullptr)
+    // target is changed only if no job is running
+    if (activeJob() == nullptr)
     {
-        activeJob()->setCoreProperty(SequenceJob::SJ_TargetName, newTargetName);
+        // set the target name in the currently selected job
         targetNameT->setText(newTargetName);
+        auto rows = queueTable->selectionModel()->selectedRows();
+        if(rows.count() > 0)
+        {
+            // take the first one, since we are in single selection mode
+            int pos = rows.constFirst().row();
+
+            if (state()->allJobs().size() > pos)
+                state()->allJobs().at(pos)->setCoreProperty(SequenceJob::SJ_TargetName, newTargetName);
+        }
+
+        emit captureTarget(newTargetName);
     }
 }
 

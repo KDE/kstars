@@ -1958,6 +1958,18 @@ void Align::startSolving()
         remoteParser->startSolver(m_ImageData->filename(), generateRemoteArgs(m_ImageData), false);
     }
 
+    // In these cases, the error box is not used, and we don't want it polluted
+    // from some previous operation.
+    if (matchPAHStage(PAA::PAH_FIRST_CAPTURE) ||
+            matchPAHStage(PAA::PAH_SECOND_CAPTURE) ||
+            matchPAHStage(PAA::PAH_THIRD_CAPTURE) ||
+            matchPAHStage(PAA::PAH_FIRST_SOLVE) ||
+            matchPAHStage(PAA::PAH_SECOND_SOLVE) ||
+            matchPAHStage(PAA::PAH_THIRD_SOLVE) ||
+            nothingR->isChecked() ||
+            syncR->isChecked())
+        errOut->clear();
+
     // Kick off timer
     solverTimer.start();
 
@@ -1970,9 +1982,18 @@ void Align::solverComplete()
     disconnect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
     if(!m_StellarSolver->solvingDone() || m_StellarSolver->failed())
     {
-        // If processed, we retruned. Otherwise, it is a fail
-        if (CHECK_PAH(processSolverFailure()))
-            return;
+        if (matchPAHStage(PAA::PAH_FIRST_CAPTURE) ||
+                matchPAHStage(PAA::PAH_SECOND_CAPTURE) ||
+                matchPAHStage(PAA::PAH_THIRD_CAPTURE) ||
+                matchPAHStage(PAA::PAH_FIRST_SOLVE) ||
+                matchPAHStage(PAA::PAH_SECOND_SOLVE) ||
+                matchPAHStage(PAA::PAH_THIRD_SOLVE))
+        {
+            if (CHECK_PAH(processSolverFailure()))
+                return;
+            else
+                setState(ALIGN_ABORTED);
+        }
         solverFailed();
         return;
     }
@@ -2286,13 +2307,18 @@ void Align::solverFailed()
         QString name     = "failed_align_frame_" + now.toString("yyyy-MM-dd-HH-mm-ss") + extraFilenameInfo + ".fits";
         QString filename = path + QStringLiteral("/") + name;
         if (m_ImageData)
+        {
             m_ImageData->saveImage(filename);
+            appendLogText(i18n("Saving failed solver image to %1", filename));
+        }
+
     }
     if (state != ALIGN_ABORTED)
     {
         // Try to solve with scale turned off, if not turned off already
         if (Options::astrometryUseImageScale() && useBlindScale == BLIND_IDLE)
         {
+            appendLogText(i18n("Solver failed. Retrying without scale constraint."));
             useBlindScale = BLIND_ENGAGNED;
             setAlignTableResult(ALIGN_RESULT_FAILED);
             captureAndSolve();
@@ -2302,6 +2328,7 @@ void Align::solverFailed()
         // Try to solve with the position turned off, if not turned off already
         if (Options::astrometryUsePosition() && useBlindPosition == BLIND_IDLE)
         {
+            appendLogText(i18n("Solver failed. Retrying without position constraint."));
             useBlindPosition = BLIND_ENGAGNED;
             setAlignTableResult(ALIGN_RESULT_FAILED);
             captureAndSolve();
@@ -3745,7 +3772,9 @@ void Align::calculateAlignTargetDiff()
             matchPAHStage(PAA::PAH_THIRD_CAPTURE) ||
             matchPAHStage(PAA::PAH_FIRST_SOLVE) ||
             matchPAHStage(PAA::PAH_SECOND_SOLVE) ||
-            matchPAHStage(PAA::PAH_THIRD_SOLVE))
+            matchPAHStage(PAA::PAH_THIRD_SOLVE) ||
+            nothingR->isChecked() ||
+            syncR->isChecked())
         return;
     m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;
     m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;

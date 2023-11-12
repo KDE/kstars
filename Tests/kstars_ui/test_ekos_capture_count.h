@@ -38,7 +38,7 @@ protected:
      * @param completionCondition completion condition for the scheduler
      * @return true iff preparation was successful
      */
-    bool prepareScheduledCapture(SchedulerJob::CompletionCondition completionCondition);
+    bool prepareScheduledCapture(Ekos::CompletionCondition completionCondition);
 
     /**
      * @brief Prepare the scheduler for the test.
@@ -51,7 +51,7 @@ protected:
      * @param exptime exposure time (identical for all frames)
      * @return true iff preparation was successful
      */
-    bool setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition,
+    bool setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap, Ekos::CompletionCondition completionCondition,
                         int iterations, bool rememberJobProgress, double exptime);
 
     /**
@@ -64,7 +64,7 @@ protected:
      * @param exptime exposure time (identical for all frames)
      * @return true iff the displayed counts match the specification
      */
-    bool verifySchedulerCounting(QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition,
+    bool verifySchedulerCounting(QString sequence, QString capturedFramesMap, Ekos::CompletionCondition completionCondition,
                                  int iterations, bool rememberJobProgress, double exptime);
 
     /**

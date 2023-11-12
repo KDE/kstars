@@ -738,7 +738,7 @@ protected:
         void focusAdvisorHelp();
 
         // Move the focuser in (negative) or out (positive amount).
-        bool changeFocus(int amount);
+        bool changeFocus(int amount, bool updateDir = true);
 
         // Start up capture, or occasionally move focuser again, after current focus-move accomplished.
         void autoFocusProcessPositionChange(IPState state);
@@ -749,7 +749,7 @@ protected:
         // and set focuserAdditionalMovement to the extra motion, so that after this motion completes
         // we will then scan back in (back to the originally requested position). This "overscan dance" is done
         // to reduce backlash on such movement changes and so that we've always focused in before capture.
-        int adjustLinearPosition(int position, int newPosition, int overscan);
+        int adjustLinearPosition(int position, int newPosition, int overscan, bool updateDir);
 
         // Process the image to get star FWHMs
         void getFWHM(double *FWHM, double *weight);
@@ -1108,6 +1108,7 @@ protected:
         // Linear focuser.
         std::unique_ptr<FocusAlgorithmInterface> linearFocuser;
         int focuserAdditionalMovement { 0 };
+        bool focuserAdditionalMovementUpdateDir { true };
         int linearRequestedPosition { 0 };
 
         bool hasDeviation { false };

@@ -81,7 +81,7 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
 
     // do not change overall remaining time if scheduler is in endless loop
     if (schedulerProcess == nullptr || schedulerProcess->activeJob() == nullptr ||
-            schedulerProcess->activeJob()->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
+            schedulerProcess->activeJob()->getCompletionCondition() != Ekos::FINISH_LOOP)
     {
         overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
@@ -192,7 +192,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
         // FIXME: accessing the completed count might be one too low due to concurrency of updating the count and this loop
         total_completed = schedulerProcess->activeJob()->getCompletedCount();
         total_count     = schedulerProcess->activeJob()->getSequenceCount();
-        infinite_loop   = (schedulerProcess->activeJob()->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
+        infinite_loop   = (schedulerProcess->activeJob()->getCompletionCondition() == Ekos::FINISH_LOOP);
         if (total_count > 0)
             total_percentage = (100 * total_completed) / total_count;
         if (schedulerProcess->activeJob()->getEstimatedTime() > 0)

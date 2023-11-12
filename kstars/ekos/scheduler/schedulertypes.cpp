@@ -126,4 +126,51 @@ QString parkWaitStateString(ParkWaitState state)
     return QString("????");
 }
 
+QString timerStr(SchedulerTimerState state)
+{
+    switch (state)
+    {
+        case RUN_WAKEUP:
+            return QString("RUN_WAKEUP");
+        case RUN_SCHEDULER:
+            return QString("RUN_SCHEDULER");
+        case RUN_JOBCHECK:
+            return QString("RUN_JOBCHECK");
+        case RUN_SHUTDOWN:
+            return QString("RUN_SHUTDOWN");
+        case RUN_NOTHING:
+            return QString("RUN_NOTHING");
+    }
+    return QString("????");
+}
+
+QString startupConditionString(StartupCondition condition)
+{
+    switch(condition)
+    {
+        case START_ASAP:
+            return "ASAP";
+        case START_AT:
+            return "AT";
+    }
+    return QString("????");
+}
+
+QString completionConditionString(CompletionCondition condition)
+{
+    switch(condition)
+    {
+        case FINISH_SEQUENCE:
+            return "FINISH";
+        case FINISH_REPEAT:
+            return "REPEAT";
+        case FINISH_LOOP:
+            return "LOOP";
+        case FINISH_AT:
+            return "AT";
+    }
+    return QString("????");
+}
+
+
 } // Ekos namespace

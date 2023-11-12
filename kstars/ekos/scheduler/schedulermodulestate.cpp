@@ -9,6 +9,8 @@
 #include "schedulerjob.h"
 #include "kstarsdata.h"
 
+#define MAX_FAILURE_ATTEMPTS 5
+
 namespace Ekos
 {
 SchedulerModuleState::SchedulerModuleState() {}
@@ -99,6 +101,61 @@ void SchedulerModuleState::setEkosState(EkosState state)
     }
 }
 
+bool SchedulerModuleState::increaseEkosConnectFailureCount()
+{
+    return (++m_ekosConnectFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseParkingCapFailureCount()
+{
+    return (++m_parkingCapFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseParkingMountFailureCount()
+{
+    return (++m_parkingMountFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseParkingDomeFailureCount()
+{
+    return (++m_parkingDomeFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+void SchedulerModuleState::resetFailureCounters()
+{
+    resetIndiConnectFailureCount();
+    resetEkosConnectFailureCount();
+    resetFocusFailureCount();
+    resetGuideFailureCount();
+    resetAlignFailureCount();
+    resetCaptureFailureCount();
+}
+
+bool SchedulerModuleState::increaseIndiConnectFailureCount()
+{
+    return (++m_indiConnectFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseCaptureFailureCount()
+{
+    return (++m_captureFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseFocusFailureCount()
+{
+    return (++m_focusFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseGuideFailureCount()
+{
+    return (++m_guideFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseAlignFailureCount()
+{
+    return (++m_alignFailureCount <= MAX_FAILURE_ATTEMPTS);
+}
+
 void SchedulerModuleState::setIndiState(INDIState state)
 {
     if (m_indiState != state)
@@ -119,5 +176,69 @@ void SchedulerModuleState::startCurrentOperationTimer()
 {
     currentOperationTimeStarted = true;
     currentOperationTime = KStarsData::Instance()->ut();
+}
+
+void SchedulerModuleState::cancelGuidingTimer()
+{
+    m_restartGuidingInterval = -1;
+    m_restartGuidingTime = KStarsDateTime();
+}
+
+bool SchedulerModuleState::isGuidingTimerActive()
+{
+    return (m_restartGuidingInterval > 0 &&
+            m_restartGuidingTime.msecsTo(KStarsData::Instance()->ut()) >= 0);
+}
+
+void SchedulerModuleState::startGuidingTimer(int milliseconds)
+{
+    m_restartGuidingInterval = milliseconds;
+    m_restartGuidingTime = KStarsData::Instance()->ut();
+}
+
+// Allows for unit testing of static Scheduler methods,
+// as can't call KStarsData::Instance() during unit testing.
+KStarsDateTime *SchedulerModuleState::storedLocalTime = nullptr;
+KStarsDateTime SchedulerModuleState::getLocalTime()
+{
+    if (hasLocalTime())
+        return *storedLocalTime;
+    return KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc());
+}
+
+void SchedulerModuleState::setupNextIteration(SchedulerTimerState nextState)
+{
+    setupNextIteration(nextState, m_UpdatePeriodMs);
+}
+
+void SchedulerModuleState::setupNextIteration(SchedulerTimerState nextState, int milliseconds)
+{
+    if (iterationSetup())
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER)
+                << QString("Multiple setupNextIteration calls: current %1 %2, previous %3 %4")
+                .arg(nextState).arg(milliseconds).arg(timerState()).arg(timerInterval());
+    }
+    setTimerState(nextState);
+    // check if setup is called from a thread outside of the iteration timer thread
+    if (iterationTimer().isActive())
+    {
+        // restart the timer to ensure the correct startup delay
+        int remaining = iterationTimer().remainingTime();
+        iterationTimer().stop();
+        setTimerInterval(std::max(0, milliseconds - remaining));
+        iterationTimer().start(timerInterval());
+    }
+    else
+    {
+        // setup called from inside the iteration timer thread
+        setTimerInterval(milliseconds);
+    }
+    setIterationSetup(true);
+}
+
+uint SchedulerModuleState::maxFailureAttempts()
+{
+    return MAX_FAILURE_ATTEMPTS;
 }
 } // Ekos namespace
