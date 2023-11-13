@@ -11,6 +11,7 @@
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "auxiliary/imagemask.h"
+#include "aberrationinspectorutils.h"
 #include "curvefit.h"
 #include "../ekos.h"
 #include <ekos_focus_debug.h>
@@ -60,56 +61,147 @@ class FocusFourierPower
         ~FocusFourierPower();
 
         template <typename T>
-        void processFourierPower(const T imageBuffer, const QSharedPointer<FITSData> &imageData,
-                                 QSharedPointer<ImageMask> mask, double *fourierPower, double *weight)
+        void processFourierPower(const T &imageBuffer, const QSharedPointer<FITSData> &imageData,
+                                 const QSharedPointer<ImageMask> &mask, const int &tile, double *fourierPower, double *weight)
         {
             // Initialise outputs
             *fourierPower = INVALID_STAR_MEASURE;
             *weight = 1.0;
 
+            // Check mask & tile inputs
+            ImageMosaicMask *mosaicMask = nullptr;
+            if (tile >= 0)
+            {
+                if (mask)
+                {
+                    if (tile >= NUM_TILES)
+                    {
+                        qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Fourier Transform called with invalid mosaic tile %2").arg(__FUNCTION__)
+                                                   .arg(tile);
+                        return;
+                    }
+
+                    mosaicMask = dynamic_cast<ImageMosaicMask *>(mask.get());
+                    if (!mosaicMask)
+                    {
+                        qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Fourier Transform called with invalid 2 mosaic tile %2").arg(__FUNCTION__)
+                                                   .arg(tile);
+                        return;
+                    }
+                }
+                else
+                {
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Fourier Transform called for mosaic tile but no mask").arg(__FUNCTION__);
+                    return;
+                }
+            }
+
+            // Dimensions on area to perform Fourier Transform on; whole sensor or just tile
             auto stats = imageData->getStatistics();
-            const auto width = stats.width;
-            const auto height = stats.height;
-            const auto N = width * height;
-            double *image = new double[2 * N];
+            unsigned int width, height;
+            if (tile < 0)
+            {
+                width = stats.width;
+                height = stats.height;
+            }
+            else
+            {
+                // Calculating for a single (square) mosaic tile
+                width = mosaicMask->tiles()[tile].width();
+                height = width;
+            }
 
-            // Set the gsl error handler off as it aborts the program on error.
-            auto const oldErrorHandler = gsl_set_error_handler_off();
+            // Allocate memory for the Fourier Transform
+            unsigned long N = width * height;
+            double *image = new(std::nothrow) double[2 * N];
+            if (!image)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Unable to allocate memory to perform Fourier Transforms").arg(__FUNCTION__);
+                return;
+            }
 
-            /* alloc memory for complex wavetables, and workspace */
+            /* Allocate memory for GSL complex wavetables, and workspace */
             gsl_fft_complex_wavetable *rowWT = gsl_fft_complex_wavetable_alloc(width);
             gsl_fft_complex_workspace *rowWS = gsl_fft_complex_workspace_alloc(width);
             gsl_fft_complex_wavetable *colWT = gsl_fft_complex_wavetable_alloc(height);
             gsl_fft_complex_workspace *colWS = gsl_fft_complex_workspace_alloc(height);
+            if (!rowWT || !rowWS || !colWT || !colWS)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Unable to allocate memory2 to perform Fourier Transforms").arg(__FUNCTION__);
+                delete[] image;
+                return;
+            }
+
+            // Set the gsl error handler off as it aborts the program on error.
+            auto const oldErrorHandler = gsl_set_error_handler_off();
 
             // Convert the image to complex double datatype as required by GSL FFT
             // The real part is just the background subtracted pixel value clipped to zero
             // The imaginary part is zero.
-
             auto skyBackground = imageData->getSkyBackground();
             auto bg = skyBackground.mean + 3.0 * skyBackground.sigma;
 
-            uint16_t posX = 0, posY = 0;
-            for (long i = 0; i < N; i++)
+            // Load the "image" buffer from the passed in image data. As the loop is quite large I've created 3 loops
+            // each with minimal work inside. This makes the overall code larger but avoids repeated tests within the loop
+            if (tile < 0)
             {
-                if (mask.isNull() || mask->active() == false || mask->isVisible(posX, posY))
-                    image[i * 2] = std::max(0.0, (double) imageBuffer[i] - bg);
-                else
-                    image[i * 2] = 0.0;
-
-                // Imaginary value is always zero
-                image[i * 2 + 1] = 0.0;
-
-                if (++posX == width)
+                // Setup image for whole sensor
+                if (mask.isNull() || mask->active() == false)
                 {
-                    posX = 0;
-                    posY++;
+                    // No active mask
+                    for (unsigned long i = 0; i < N; i++)
+                    {
+                        image[i * 2] = std::max(0.0, (double) imageBuffer[i] - bg);
+                        image[i * 2 + 1] = 0.0;
+                    }
+                }
+                else
+                {
+                    // There is an active mask on the sensor so honour these settings
+                    unsigned int posX = 0, posY = 0;
+                    for (unsigned long i = 0; i < N; i++)
+                    {
+                        if (mask->isVisible(posX, posY))
+                            image[i * 2] = std::max(0.0, (double) imageBuffer[i] - bg);
+                        else
+                            image[i * 2] = 0.0;
+
+                        image[i * 2 + 1] = 0.0;
+
+                        if (++posX == stats.width)
+                        {
+                            posX = 0;
+                            posY++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // A mosaic tile has been specified so we know we are dealing with a mosaic mask
+                unsigned int posX = mosaicMask->tiles()[tile].topLeft().x();
+                unsigned int posY = mosaicMask->tiles()[tile].topLeft().y();
+
+                unsigned long offset = posY * stats.width + posX;
+                const unsigned int widthLimit = posX + width;
+
+                // Perform calc for a specific tile of a mosaic mask
+                for (unsigned long i = 0; i < N; i++)
+                {
+                    image[i * 2] = std::max(0.0, (double) imageBuffer[offset + i] - bg);
+                    image[i * 2 + 1] = 0.0;
+
+                    if (++posX == widthLimit)
+                    {
+                        posX = mosaicMask->tiles()[tile].topLeft().x();
+                        offset += stats.width - width;
+                    }
                 }
             }
 
             // Perform FFT on all the rows
             int status = 0;
-            for (int j = 0; j < height; j++)
+            for (unsigned int j = 0; j < height; j++)
             {
                 status = gsl_fft_complex_forward(&image[j * 2 * width], 1, width, rowWT, rowWS);
                 if (status != 0)
@@ -123,7 +215,7 @@ class FocusFourierPower
             if (status == 0)
             {
                 // Perform FFT on all the cols
-                for (int i = 0; i < width; i++)
+                for (unsigned int i = 0; i < width; i++)
                 {
                     status = gsl_fft_complex_forward(&image[2 * i], width, height, colWT, colWS);
                     if (status != 0)
@@ -138,17 +230,22 @@ class FocusFourierPower
             if (status == 0)
             {
                 double power = 0.0;
-                for (long i = 0; i < N; i++)
+                for (unsigned long i = 0; i < N; i++)
                     power += pow(image[i * 2], 2.0) + pow(image[i * 2 + 1], 2.0);
 
                 power /= pow(N, 2.0);
 
-                qCDebug(KSTARS_EKOS_FOCUS) << "FFT power=" << power;
+                if (tile < 0)
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("FFT power sensor %1x%2 = %3").arg(stats.width).arg(stats.height).arg(power);
+                else
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("FFT power tile %1 %2x%3 = %4").arg(tile).arg(stats.width).arg(stats.height).arg(
+                                                   power);
 
                 *fourierPower = power;
             }
 
-            /* free memory */
+            // free memory
+            delete[] image;
             gsl_fft_complex_wavetable_free(rowWT);
             gsl_fft_complex_workspace_free(rowWS);
             gsl_fft_complex_wavetable_free(colWT);

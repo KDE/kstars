@@ -18,7 +18,9 @@ namespace Ekos
 // solver as provided the Gnu Science Library (GSL). See the comments at the start of curvefit.cpp
 // for more details.
 //
-// 2 curves, hyperbola and parabola are provided.
+// Several curves are provided:
+// For lines: hyperbola, parabola
+// For surfaces: gaussian, plane
 // For compatibility with existing Ekos functionality a Quadratic option using the exising Ekos linear
 // least squares solver (again provided by GSL) is supported. The Quadratic and Parabola curves are
 // the same thing mathematically but Parabola uses the non-linear least squares LM solver whilst Quadratic
@@ -31,7 +33,7 @@ namespace Ekos
 class CurveFitting
 {
     public:
-        typedef enum { FOCUS_QUADRATIC, FOCUS_HYPERBOLA, FOCUS_PARABOLA, FOCUS_GAUSSIAN } CurveFit;
+        typedef enum { FOCUS_QUADRATIC, FOCUS_HYPERBOLA, FOCUS_PARABOLA, FOCUS_GAUSSIAN, FOCUS_PLANE } CurveFit;
         typedef enum { OPTIMISATION_MINIMISE, OPTIMISATION_MAXIMISE } OptimisationDirection;
         typedef enum { STANDARD, BEST, BEST_RETRY } FittingGoal;
 
@@ -62,7 +64,7 @@ class CurveFitting
         {
             double x;            // x position
             double y;            // y position
-            int z;               // value
+            double z;               // value
             double weight;       // the measurement weight, e.g. inverse variance
         };
 
@@ -75,7 +77,7 @@ class CurveFitting
                 Mathematics::RobustStatistics::SCALE_VARIANCE; // How to compute weights
 
             // Helper function to operate on the data structure
-            void push_back(double x, double y, int z, double weight = 1)
+            void push_back(double x, double y, double z, double weight = 1)
             {
                 dps.push_back({x, y, z, weight});
             }
@@ -109,10 +111,10 @@ class CurveFitting
                       const QVector<double> &weights, const QVector<bool> &outliers,
                       const CurveFit curveFit, const bool useWeights, const OptimisationDirection optDir);
 
-        // fitCurve3D 3-Dimensional version of fitCurve.
+        // fitCurve3D 3-Dimensional version of fitCurve
         // Data is passed in in imageBuffer - a 2D array of width x height
         // Approx star information is passed in to seed the LM solver initial parameters.
-        // Start and end define the x,y coordinates of a box around the star start is top left corner, end is bottom right
+        // Start and end define the x,y coordinates of a box around the star, start is top left corner, end is bottom right
         template <typename T>
         void fitCurve3D(const T *imageBuffer, const int imageWidth, const QPair<int, int> start, const QPair<int, int> end,
                         const StarParams &starParams, const CurveFit curveFit, const bool useWeights)
@@ -167,6 +169,9 @@ class CurveFitting
             m_LastCurveType    = m_CurveType;
             m_FirstSolverRun   = false;
         }
+
+        // Alternative form of fitCurve3D used on non-image data
+        void fitCurve3D(const DataPoint3DT data, const CurveFit curveFit);
 
         // Returns the minimum position and value in the pointers for the solved curve.
         // Returns false if the curve couldn't be solved
@@ -223,6 +228,7 @@ class CurveFitting
                                      const QVector<double> data_weights,
                                      bool useWeights, const OptimisationDirection optDir);
         QVector<double> gaussian_fit(DataPoint3DT data, const StarParams &starParams);
+        QVector<double> plane_fit(const DataPoint3DT data);
 
         bool minimumQuadratic(double expected, double minPosition, double maxPosition, double *position, double *value);
         bool minMaxHyperbola(double expected, double minPosition, double maxPosition, double *position, double *value,
@@ -243,6 +249,8 @@ class CurveFitting
                             double *ftol);
         void gauMakeGuess(const int attempt, const StarParams &starParams, gsl_vector * guess);
         void gauSetupParams(gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol, double *ftol);
+        void plaMakeGuess(const int attempt, gsl_vector * guess);
+        void plaSetupParams(gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol, double *ftol);
 
         // Get the reason code from the passed in info
         QString getLMReasonCode(int info);
