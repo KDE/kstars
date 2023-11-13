@@ -1,6 +1,6 @@
 # translation of kstars.po to Swedish
 #
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2002.
+# SPDX-FileCopyrightText: 2002, 2023 Stefan Asserhäll <stefan.asserhall@bredband.net>
 # Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
 # Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-12 00:39+0000\n"
-"PO-Revision-Date: 2023-11-11 09:36+0100\n"
+"PO-Revision-Date: 2023-11-12 10:46+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -23631,22 +23631,20 @@ msgstr "Kom ihåg jobbtillstånd"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-#| "moves minimally between jobs (S-shape).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>När markerat, ordnas mosaikplattorna så att stativet "
-"flyttas minimalt mellan jobb (S-form).</p></body></html>"
+"<html><head/><body><p>När markerat försöker schemaläggningen köra jobb med "
+"lägre prioritet när inget högre prioriterat jobb kan köras. Rekommenderas.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Använd girig schemaläggning"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -28266,7 +28264,7 @@ msgstr "Visa HiPS-överlagring"
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
 msgid "Auto Stretch"
-msgstr "Automatisk utsträckning"
+msgstr "Automatisk sträckning"
 
 #: fitsviewer/fitsviewer.cpp:39
 #, kde-format
@@ -28327,7 +28325,7 @@ msgstr "&Markeringsstatistik"
 #: fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Clipping"
-msgstr "Visa beskärning"
+msgstr "Visa klippning"
 
 #: fitsviewer/fitsviewer.cpp:253 fitsviewer/fitsviewer.cpp:983
 #, kde-format
@@ -28392,7 +28390,7 @@ msgstr "Hårkors"
 #: fitsviewer/fitsviewer.cpp:693 fitsviewer/fitsviewer.cpp:1142
 #, kde-format
 msgid "Clipping"
-msgstr "Beskärning"
+msgstr "Klippning"
 
 #: fitsviewer/fitsviewer.cpp:694 fitsviewer/fitsviewer.cpp:1155
 #, kde-format
@@ -28649,13 +28647,13 @@ msgstr "Förhandsgranskning av utsträckning:"
 #: fitsviewer/opsfits.ui:255
 #, kde-format
 msgid "Clipping Limits"
-msgstr "Beskärningsgränser"
+msgstr "Klippningsgränser"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:276
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr "Beskärningsvärden för 16-bitars värden."
+msgstr "Klippningsvärden för 16-bitars värden."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:279
@@ -28667,13 +28665,13 @@ msgstr "16-bitars tröskel:"
 #: fitsviewer/opsfits.ui:286
 #, kde-format
 msgid "64K Clipping value."
-msgstr "64K beskärningsvärde."
+msgstr "64K klippningsvärde."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:302
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr "Beskärningsvärden för 8-bitars värden."
+msgstr "Klippningsvärden för 8-bitars värden."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:305
@@ -28685,7 +28683,7 @@ msgstr "8-bitars tröskel:"
 #: fitsviewer/opsfits.ui:312
 #, kde-format
 msgid "Byte Clipping value."
-msgstr "Beskärningsvärden för byte."
+msgstr "Klippningsvärden för byte."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:333
@@ -28697,13 +28695,13 @@ msgstr "Behandlar"
 #: fitsviewer/opsfits.ui:354
 #, kde-format
 msgid "Always apply auto stretch to images in FITS Viewer"
-msgstr "Använd alltid automatisk utsträckning av bilder i FITS-visning"
+msgstr "Använd alltid automatisk sträckning av bilder i FITS-visning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:357
 #, kde-format
 msgid "Auto stretch"
-msgstr "Automatisk utsträckning"
+msgstr "Automatisk sträckning"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:364
@@ -35224,7 +35222,7 @@ msgstr ""
 #: kstars.kcfg:1874
 #, kde-format
 msgid "Perform auto stretch on captured images in FITS Viewer."
-msgstr "Utför automatisk utsträckning av tagna bilder i FITS-visning."
+msgstr "Utför automatisk sträckning av tagna bilder i FITS-visning."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:1882
@@ -35232,7 +35230,7 @@ msgstr "Utför automatisk utsträckning av tagna bilder i FITS-visning."
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
-"Minimalt antal bildpunkter som markeras som beskurna i FITS-visning för 16-"
+"Minimalt antal bildpunkter som markeras som klippta i FITS-visning för 16-"
 "bitars bilder."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
@@ -35241,7 +35239,7 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
-"Minimalt antal bildpunkter som markeras som beskurna i FITS-visning för 8-"
+"Minimalt antal bildpunkter som markeras som klippta i FITS-visning för 8-"
 "bitars bilder."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
@@ -36770,6 +36768,8 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"När sant, försöker schemaläggningen köra jobb med lägre prioritet när inget "
+"högre prioriterat jobb kan köras. Rekommenderas."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:2821

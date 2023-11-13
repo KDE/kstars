@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-12 00:39+0000\n"
-"PO-Revision-Date: 2023-11-11 11:05+0100\n"
+"PO-Revision-Date: 2023-11-12 15:50+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -24001,23 +24001,20 @@ msgstr "Recorda el progrés de la tasca"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-#| "moves minimally between jobs (S-shape).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Quan està marcat, ordena les tessel·les del mosaic de "
-"manera que els moviments de la muntura es minimitzin entre les tasques "
-"(forma S).</p></body></html>"
+"<html><head/><body><p>Quan està marcat, el programador intenta executar les "
+"tasques de prioritat més baixa quan no pot executar cap tasca de prioritat "
+"més alta. Recomanat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Usa la planificació voraç"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -37537,6 +37534,8 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"Quan està marcat, el programador intenta executar les tasques de prioritat "
+"més baixa quan no pot executar cap tasca de prioritat més alta. Recomanat."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:2821

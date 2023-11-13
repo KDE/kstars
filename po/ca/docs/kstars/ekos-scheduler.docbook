@@ -81,7 +81,11 @@
     <para
 >L'algoritme mostra les hores d'inici i les hores d'aturada previstes per a totes les tasques a la taula del programador. També mostra la seva estimació de les vegades que les tasques s'executaran durant les pròximes 48 hores en el panell de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del planificador a la part superior d'aquesta secció. </para>
         <para
->L'algorisme de planificació descrit en el paràgraf anterior es coneix com l'algorisme de planificació voraç. És el que es recomana utilitzar. En versions anteriors de l'Ekos, hi havia un altre «algorisme de planificació clàssica» que s'està eliminant gradualment. Aquest esquema no podia avançar-se a les tasques en funcionament, i per tant no feia tant ús de l'equip com l'algorisme voraç. </para>
+>L'algorisme de planificació descrit en el paràgraf anterior es coneix com l'algorisme de planificació voraç. És el que es recomana utilitzar. En versions anteriors de l'Ekos, hi havia un altre «algorisme de planificació clàssica» que ja no està a l'Ekos. Aquest esquema no podia avançar-se a les tasques en funcionament, i per tant no feia tant ús de l'equip com l'algorisme voraç. </para>
+        <para
+>Hi ha una opció de casella de selecció al menú d'opcions del programador anomenada <guilabel
+>Usa la planificació voraç</guilabel
+> que està marcada de manera predeterminada. El sistema funciona com es descriu més amunt quan està marcada. Quan està desmarcada, s'impedeix que el programador planifiqui tasques de prioritat més baixa quan les tasques de prioritat més alta no es poden executar sense completar. Això resulta en un ús menys eficient del sistema, però pot donar-vos més control sobre la planificació. </para>
     </sect3>
     <sect3 id="scheduler-files">
         <title

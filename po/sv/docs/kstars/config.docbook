@@ -1919,6 +1919,56 @@
 >. </para>
 </sect1>
 
+<sect1 id="developer">
+<title
+>Utvecklare</title>
+<screenshot>
+<screeninfo
+>Utvecklarfönster</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Utvecklarfönster</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Fönstret Anpassa &kstars;</primary>
+<secondary
+>Utvecklarsida</secondary
+></indexterm
+>Sidan <guilabel 
+>Utvecklare</guilabel 
+> innehåller några kryssrutor som kan hjälpa till att felsöka problem med &kstars;. Det finns kryssrutor för att spara bilder i loggningskataloger som kan hjälpa till att felsöka problem. Naturligtvis kan lagring av bilder ta upp diskutrymme och bör användas med omtanke. </para
+><para
+>Bilder som kan sparas är</para>
+  <itemizedlist>
+<listitem
+><para
+>alla fokuseringsbilder, </para
+></listitem>
+<listitem
+><para
+>alla guidningsbilder, </para
+></listitem>
+<listitem
+><para
+>alla inriktningsbilder, och </para
+></listitem>
+<listitem
+><para
+>inriktningsbilder där lösning av astrobilder misslyckades. </para
+></listitem>
+  </itemizedlist
+><para
+>Bilderna sparas alla i kataloger parallellt med huvudkatalogen för loggning. De finns i kataloger vid namn guide, autofocus, align och align/failed. </para>
+</sect1>
+
 <sect1 id="customize">
 <title
 >Anpassa skärmen</title>

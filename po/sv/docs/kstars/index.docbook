@@ -203,6 +203,21 @@
 
 <othercredit role="developer"
 ><firstname
+>John</firstname
+> <surname
+>Evans</surname
+> <affiliation
+> <address
+><email
+>john PUNKT e PUNKT evans PUNKT email SNABELA gmail PUNKT com</email
+></address>
+</affiliation>
+<contrib
+>Huvudutvecklare</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
 >Mark</firstname
 > <surname
 >Holloman</surname

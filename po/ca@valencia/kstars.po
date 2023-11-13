@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-12 00:39+0000\n"
-"PO-Revision-Date: 2023-11-10 20:39+0100\n"
+"PO-Revision-Date: 2023-11-12 18:30+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -24252,23 +24252,20 @@ msgstr "Recorda el progrés de la tasca"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-#| "moves minimally between jobs (S-shape).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Quan se selecciona, s'ordenaran les tessel·les del "
-"mosaic de manera que es minimitzen els moviments de la muntura entre les "
-"tasques (forma S).</p></body></html>"
+"<html><head/><body><p>Quan se selecciona, el programador intentarà executar "
+"les tasques de prioritat més baixa quan no es puga executar cap tasca de "
+"prioritat més alta. Recomanat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Utilitza la planificació voraç"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -27849,10 +27846,11 @@ msgid "Job '%1' is capturing and plate solving."
 msgstr "La tasca «%1» està capturant i resolent la placa."
 
 #: ekos/scheduler/schedulerprocess.cpp:306
-#, fuzzy, kde-format
-#| msgid "Guiding already running for %1 ..."
+#, kde-format
 msgid "Guiding already running for %1, starting next scheduler action..."
-msgstr "Ja s'està executant el guiatge per a %1..."
+msgstr ""
+"Ja s'està executant el guiatge per a %1, s'inicia l'acció següent del "
+"programador..."
 
 #: ekos/scheduler/schedulerprocess.cpp:330
 #, kde-format
@@ -37872,6 +37870,9 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"Quan se selecciona, el planificador intentarà executar les tasques de "
+"prioritat més baixa quan no es puga executar cap tasca de prioritat més "
+"alta. Recomanat."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:2821

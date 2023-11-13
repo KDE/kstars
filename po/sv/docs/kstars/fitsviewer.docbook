@@ -11,14 +11,14 @@
 </indexterm>
 
 <para
->FITS (Flexible Image Transport System) är standardformatet för att representera bilder och data i astronomi.</para>
+>FITS (Flexible Image Transport System) är standardformatet för att representera bilder och data i astronomi. FITS-visningsverktyget i &kstars; är ett verktyg för att visa bilderna. Det är inte konstruerat för att redigera FITS-bilder.</para>
 
 <para
->&kstars; FITS-visningsverktyg startas automatiskt när nya bilder tas emot från kameran. Det används huvudsakligen för att visa och undersöka FITS-data. Det är inte konstruerat för att redigera FITS-bilder. Välj menyalternativet <menuchoice
+>FITS-visningsverktyget startas automatiskt när nya bilder tas emot från kameran. Det kan också startas direkt från huvudmenyn i &kstars;. Välj menyalternativet <menuchoice
 ><guimenu
 >Arkiv</guimenu
 > <guimenuitem
->Öppna FITS...</guimenuitem
+>Öppna bild...</guimenuitem
 ></menuchoice
 >, eller tryck på <keycombo action="simul"
 >&Ctrl;<keycap
@@ -31,7 +31,7 @@
 >FITS-visningsverktyget</screeninfo>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="fitsviewer.png" format="PNG"/>
+      <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
@@ -41,7 +41,28 @@
 </screenshot>
 
 <para
->Diagrammet ovan illustrerar FITS-visningens arbetsområde och fönster. Verktyget tillhandahåller grundläggande funktioner för att visa bilder. FITS-datadjup bevaras genom all behandling, inklusive öppna och spara. Även om verktyget följer FITS-standarden, stöder det inte alla möjliga funktioner i FITS:</para>
+>Diagrammet ovan illustrerar FITS-visningsverktygets huvudarbetsområde och fönster. Det finns också ett dolt område som kan exponeras genom att hålla musen över de sex små prickarna på vänster sida (ungefär mitt på bilden vertikalt) och klicka med och hålla nere musknappen, och låta den glida över en bit till höger.</para>
+
+<screenshot>
+  <screeninfo
+>FITS-visningsverktyget med skjutpanel öppen</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer2.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>FITS-visningsverktyget med skjutpanel öppen</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+
+<sect2 id="fits-viewer-main-controls">
+    <title
+>Huvudstyrning</title>
+
+<para
+>De olika kontrollerna och skärmarna för FITS-visningsverktyget visas nedan. Verktyget tillhandahåller grundläggande funktioner för att visa bilder. Även om verktyget följer FITS-standarden, stöder det inte alla möjliga funktioner i FITS:</para>
 <itemizedlist>
   <listitem
 ><para
@@ -67,7 +88,7 @@
             <itemizedlist>
                 <listitem
 ><para
->Vanliga alternativ för att öppna, spara och spara som.</para
+>Vanliga alternativ för Öppna, Spara och Spara som.</para
 ></listitem>
                 <listitem
 ><para
@@ -112,6 +133,10 @@
                 <listitem
 ><para
 >Markera stjärnor: Detektera och markera stjärnor på bilden.</para
+></listitem>
+                <listitem
+><para
+>Visa klippning: Visa i rött vilka stjärnor som har bildpunkter som verkar vara klippta.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -183,6 +208,14 @@
 ></listitem>
                 <listitem
 ><para
+>Markera stjärnor: Detektera och markera stjärnor på bilden.</para
+></listitem>
+                <listitem
+><para
+>Visa klippning: Visa i rött vilka stjärnor som har bildpunkter som verkar vara klippta.</para
+></listitem>
+                <listitem
+><para
 >Visa ekvatoriella hjälplinjer: Visar eller döljer ekvatoriellt rutnät om FITS innehåller ett huvud med giltiga världskoordinater.</para
 ></listitem>
                 <listitem
@@ -221,7 +254,11 @@
 ></listitem>
                 <listitem
 ><para
->Histogram: Visar bildhistogram med kontroller för att justera minimalt och maximalt värde för varje kanal. Både linjär och logaritmisk skala är tillgänglig att använda för bilden.</para
+>Lösning av astrobilder: Ett verktyg som löser den inlästa astrobilden. Det är användbart för att felsöka problem med lösning av astrobilder.</para
+></listitem>
+                <listitem
+><para
+>Histogram: Visar bildhistogram med kontroller för att justera minimalt och maximalt värde för varje kanal. Både linjär och logaritmisk skala är tillgänglig att använda för bilden. Det är i viss mån överflödigt med bildhistogrammet nedanför och kan komma att tas bort i framtiden.</para
 ></listitem>
                 <listitem
 ><para
@@ -235,11 +272,131 @@
     </listitem>
     <listitem
 ><para
->Bildvisningsområde: Att hålla musen över bilden uppdaterar statusradens värden.</para>
+>Bildvisningsområde.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Mus: Att hålla muspekaren över bilden uppdaterar statusradens värden i enlighet med det.</para
+></listitem>
+                <listitem
+><para
+>Mus: Om muspekaren hålls över bilden flyttas en markör i visningen av histogrammet under bilden, om histogrammet är aktiverat.</para
+></listitem>
+                <listitem
+><para
+>Tangenten Ctrl: Om tangenten Ctrl hålls ner och muspekaren sedan flyttas visas en förstorad del av bilden.</para>
+<screenshot>
+  <screeninfo
+>Förstoringsglaset i FITS-visningsverktyget</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-magnifier.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Förstoringsglaset i FITS-visningsverktyget</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+                </listitem>
+                <listitem
+><para
+>Statistik för intresseområden</para>
+                <para
+>Tillhandahåller enkel statistiskt medelvärde, standardavvikelse och median för området markerat av användaren i ett verktygstips. </para>
+                <screenshot>
+                    <screeninfo
+>FITS-visning </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Markeringsstatistik</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Användaren kan antingen ange markerat området med <keycombo
+>&Shift;<keycap
+>vänsterklick</keycap
+></keycombo
+> och dra (när markeringsstatistik är aktiverad) eller genom att välja ett alternativ i kombinationsmenyn på knappen Ändra markeringsrektangel. Förutom det kan användaren enkelt förflytta området med <keycap
+>vänsterklick</keycap
+> och dra. Områdets statistik visas som ett verktygstips när markören hålls över det markerade området. För mindre bilder uppdateras statistiken omedelbart, och för större bilder uppdateras statistiken när användaren väl släpper vänsterknappen efter området har ändrats. </para>
+                </listitem>
+            </itemizedlist>
+    </listitem
+>            
+    <listitem
+><para
+>Utsträckningskontroller</para>
+<screenshot>
+  <screeninfo
+>Utsträckningskontroller i FITS-visningsverktyget</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-stretch.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Utsträckningskontroller i FITS-visningsverktyget</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>Nära fönstrets nederkant finns kontroller för att sträcka ut bilden och visa dess histogram. De beskrivs nedan från vänster till höger.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Aktivera sträckning: Längst till vänster på skärmen finns en knapp som aktiverar eller inaktiverar sträckning.</para
+></listitem>
+                <listitem
+><para
+>Skuggvärde: Värdet under vilket bildpunkter visas som svarta kan anges manuellt (skalan är 0 till 1,0, även för heltalsbildpunktsvärden).</para
+></listitem>
+                <listitem
+><para
+>Mellantonsvärde: Mellantonsvärdet som styr bildens ljusstyrka kan matas in manuellt (skalan är 0 till 1,0, även för heltalsbildpunktsvärden).</para
+></listitem>
+                <listitem
+><para
+>Dagervärde: Värdet ovanför vilket bildpunkter visas som vita kan anges manuellt (skalan är 0 till 1,0, även för heltalsbildpunktsvärden).</para
+></listitem>
+                <listitem
+><para
+>Visa histogram: En knapp som visar eller döljer bildhistogrammet finns till höger om nummerrutan för dagrar.</para
+></listitem>
+                <listitem
+><para
+>Automatisk sträckning: En knapp (trollstavsikon) som automatiskt skapar en behaglig sträckning finns till höger. Den är inaktiverad om sträckningen redan har det automatiskt beräknade värdet.</para
+></listitem>
+            </itemizedlist>
+            <para
+>Dessutom finns det skjutreglage som kan användas för att justera värdena för skugga, mellantoner och dagrar. Om du justerar dem ändras de visade värdena. </para>
+            <para
+>Histogrammet, om det är aktiverat, kan zoomas genom att använda musens rullningshjul och panoreras genom att dra med musen. En markör i histogrammet visar bildpunktens position i bilden under musen. </para>
     </listitem>
     <listitem
 ><para
->Statusrad: Från höger till vänster är följande statusindikering tillgänglig:</para>
+>Statusrad</para>
+<screenshot>
+  <screeninfo
+>Statusvisningen i FITS-visningsverktyget</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer-status.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Statusvisningen i FITS-visningsverktyget</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>Från höger till vänster är följande statusindikering tillgänglig:</para
+>      
             <itemizedlist>
                 <listitem
 ><para
@@ -247,17 +404,34 @@
 ></listitem>
                 <listitem
 ><para
->Upplösning: Bildens upplösning i bildpunkter.</para
+>Upplösning: Bildens upplösning i bildpunkter. 4656x3520 för skärmbilden ovan.</para
 ></listitem>
                 <listitem
 ><para
->Kartesiska koordinater: Visar och uppdaterar aktuell musposition medan den hålls över bilden. Det inkluderar x- och y-position förutom aktuellt värde.</para
+>Inzoomning i procent. 13 % ovan.</para
 ></listitem>
                 <listitem
 ><para
->Ekvatoriella koordinater: Om bilden innehåller ett huvud med giltigt världskoordinatsystem, visas J2000 rektascension (RA) och deklination (DE).</para
+>Kartesiska koordinater: Visar och uppdaterar aktuell musposition medan den hålls över bilden. X:769 Y:3508 ovan.</para
 ></listitem>
-            </itemizedlist>
+                <listitem
+><para
+>Bildpunktsvärde: Värdet på bildpunkten under musen. 1,792 ovan.</para
+></listitem>
+                <listitem
+><para
+>Ekvatoriella koordinater: Om bilden innehåller ett huvud med giltigt världskoordinatsystem, visas J2000 rektascension (RA) och deklination (DE). 13t 14' 22" 42 37' 35" ovan.</para
+></listitem>
+                <listitem
+><para
+>Bildstatistik: Visar HFR, excentricitet och antal stjärnor om de är beräknade. HFR:1,96 Exc:0,43 143 stjärnor ovan.</para
+></listitem>
+                <listitem
+><para
+>Klippta stjärnor: Om Visa klippning är aktiverat på huvudverktygsraden, visas antalet möjligen klippta bildpunkter. Klipp:403 ovan.</para
+></listitem>
+            </itemizedlist
+>                  
     </listitem>
 </orderedlist>
 <para
@@ -293,59 +467,10 @@
 </screenshot>
 <para
 >Hålls musen över vilket alternativ som helst ska ett detaljerat verktygstips visas som förklarar dess funktion. </para>
+</sect2>
 <sect2 id="fits-viewer-features">
     <title
 >Funktioner</title>
-    <itemizedlist>
-        <listitem>
-            <para
->Stöd för 8-, 16-, 32-, IEEE-32- och IEEE-64-bitars format. </para>
-        </listitem>
-        <listitem>
-            <para
->Stöd FITS-bilder i färg (tredimensionella kuber) och Bayer FITS-bilder </para>
-        </listitem>
-        <listitem>
-            <para
->Histogram med linjär, logaritmisk och kvadratrotsskala. </para>
-        </listitem>
-        <listitem>
-            <para
->Ljusstyrkekontroll och kontrastkontroll. </para>
-        </listitem>
-        <listitem>
-            <para
->Panorering och zoomning. </para>
-        </listitem>
-        <listitem>
-            <para
->Automatiska nivåer. </para>
-        </listitem>
-        <listitem>
-            <para
->Statistik. </para>
-        </listitem>
-        <listitem>
-            <para
->Statistik för intresseområden (rektangel) </para>
-        </listitem>
-        <listitem>
-            <para
->Rektangulära och ekvatoriella rutnät (om information om världskoordinatsystem finns). </para>
-        </listitem>
-        <listitem>
-            <para
->Detektering och färgläggning av stjärnor. </para>
-        </listitem>
-        <listitem>
-            <para
->Information om FITS-huvud. </para>
-        </listitem>
-        <listitem>
-            <para
->Ångra och Gör om. </para>
-        </listitem>
-    </itemizedlist>
     <variablelist>
         <varlistentry>
             <term
@@ -384,36 +509,104 @@
 >Tillhandahåller enkel statistik om minimala och maximala bildpunktsvärden och deras respektive positioner, FITS-djup, dimension, medelvärde, och standardavvikelse. </para>
             </listitem>
         </varlistentry>
-        <varlistentry>
-            <term
->Statistik för intresseområden</term>
-            <listitem>
-                <screenshot>
-                    <screeninfo
->FITS-visning </screeninfo>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
-                        </imageobject>
-                        <textobject>
-                            <phrase
->Markeringsstatistik</phrase>
-                        </textobject>
-                    </mediaobject>
-                </screenshot>
-                <para
->Tillhandahåller enkel statistiskt medelvärde, standardavvikelse och median för området markerat av användaren i ett verktygstips. </para>
-                <para
->Användaren kan antingen ange markerat området med <keycombo
->&Shift;<keycap
->vänsterklick</keycap
-></keycombo
-> och dra eller genom att välja ett alternativ i kombinationsmenyn på knappen Ändra markeringsrektangel. Förutom det kan användaren enkelt förflytta området med <keycap
->vänsterklick</keycap
-> och dra. Områdets statistik visas som ett verktygstips när markören hålls över det markerade området. För mindre bilder uppdateras statistiken omedelbart, och för större bilder uppdateras statistiken när användaren väl släpper vänsterknappen efter området har ändrats. </para>
-            </listitem>
-        </varlistentry>
     </variablelist>
+</sect2>
+
+<sect2 id="fits-viewer-solver">
+    <title
+>Lösningsverktyg i FITS-visningen</title>
+    <screenshot>
+        <screeninfo
+>Lösningsverktyg i FITS-visningen </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer-solver.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Lösningsverktyg i FITS-visningen</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>FITS-visningens lösningsverktyg används för att lösa astrobilden som lästs in på FITS-visningens flik. Det fungerar bara med intern StellarSolver. Man får RA- och DEK-koordinaterna för bildens mitt, bildens skala, rotationsvinkeln och antalet stjärnor som upptäcks på bilden. Dess huvudsakliga användarfall är att felsöka lösningsproblem i Ekos, även om informationen som visas kan vara allmänt användbar. Kontroller och visning beskrivs nedan. </para>
+            <itemizedlist>
+                <listitem
+><para
+>Lösningsknapp. Genom att trycka på knappen startas lösning av astrobilder. När systemet löser astrobilder blir knappen en avbrytningsknapp.</para
+></listitem>
+                <listitem
+><para
+>Skala: Om kryssrutan Använd skala markeras tvingas lösningsverktyget att använda ungefär den angivna bildpunkts- eller bildskalan. Skalan anges i rutan och enheterna för skalan kan väljas från bildbredd i grader, bildbredd i bågminuter och bågsekunder per bildpunkt. När en lösning är klar ersätter den värdet i rutan med lösningens skala.</para
+></listitem>
+                <listitem
+><para
+>Position: Om kryssrutan Använd position markeras tvingas lösningsverktyget att söka nära de angivna RA- och DEK-koordinaterna. Omfattningen av sökningen anges av användaren i rutan Radie i grader. Observera att RA matas in i timmar-minuter-sekunder, t.ex. 13t, och DEK matas in i grader-minuter-sekunder, t.ex. 85. När en lösning har slutförts, ersätter den värdet i RA- och DEK-rutorna med lösningens koordinater. Dessutom fylls fältet Vinkel i med lösningens vinkelvärde i grader.</para
+></listitem>
+                <listitem
+><para
+>Använd himmelskartans position: Det finns en knapp precis under kryssrutan Använd position som fyller i RA- och DEK-rutor med nuvarande centrum på himmelskartans skärm.</para
+></listitem>
+                <listitem
+><para
+>Profil: Profilmenyn väljer vilken förinställning för StellarSolver, bland de som används i Ekos inriktningsmodul, som ska användas för lösning av astrobilder. Det diskuteras vidare nedan.</para
+></listitem>
+                <listitem
+><para
+>Lösning: Lösningssektionen visar antalet stjärnor som hittats och tiden det tog att lösa. Lösningsvärdena för RA, DEK, Skala och Vinkel visas i rutorna ovan.</para
+></listitem>
+                <listitem
+><para
+>Bild: För alla bilder där stjärnor har upptäckts, om knappen Markera stjärnor är aktiverad ovanför visningen, är de upptäckta stjärnorna inringade i rött.</para>
+    <screenshot>
+        <screeninfo
+>Knappen Markera stjärnor i FITS-visningen </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer-mark-stars.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Knappen Markera stjärnor i FITS-visningen</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+                </listitem>
+            </itemizedlist>
+            <para
+>Med verktyget kan användaren försöka felsöka lösningsproblem enligt följande. </para>
+            <itemizedlist>
+              <listitem
+><para
+>Kryssrutan Kstars -> Inställningar -> Utvecklare -> <link linkend="developer"
+>Spara misslyckade inriktningsbilder</link
+> kanske är aktiverad.</para
+></listitem>
+              <listitem
+><para
+>Då kan en svår bild (som inriktning misslyckades för) <link linkend="developer"
+>lokaliseras</link
+> och läsas in i FITS-visningen.</para
+></listitem>
+              <listitem
+><para
+>Bilden kan inspekteras för att se om det finns uppenbara visuella problem.</para
+></listitem>
+              <listitem
+><para
+>Om man klickar på Lös i verktyget för bilden visas hur många stjärnor som upptäcktes, och användaren kan sedan avgöra om det är ett stjärndetekteringsproblem och experimentera med att justera profilen eller parametrarna för stjärndetektering. </para
+></listitem>
+              <listitem
+><para
+>Användaren kan ladda upp bilden manuellt till astrometry.net för att få skala och positionsvärden (eller bara se om det är en problematisk bild). </para
+></listitem>
+              <listitem
+><para
+>Användaren kan experimentera med Använd position och Använd skala, använda korrekta värden för begränsningarna (eller inaktivera dem) för att se om de var problemet, eller justera parametrarna i inriktningsprofilen som används.</para
+></listitem>
+            </itemizedlist>
+            <para
+>För att inspektera eller ändra profilen kan användaren öppna fliken Inriktning i Ekos, gå till menyn Alternativ, välja alternativfliken StellarSolver, se till att rätt alternativprofil är vald och klicka på pennan för att visa eller redigera profilen. </para>
 </sect2>
 
 <sect2 id="fits-viewer-embedded">
