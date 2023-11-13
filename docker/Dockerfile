@@ -37,6 +37,9 @@ RUN apt update && apt -y install --no-install-recommends \
       libgsl-dev \
       phonon4qt5-backend-vlc \
       qt5keychain-dev \
+      libqt5sql5-sqlite \
+      libqt5datavisualization5-dev \
+      qml-module-qtquick-controls \
       libsecret-1-dev
 
 # Suitable for tests
@@ -55,8 +58,6 @@ RUN apt update && apt -y --no-install-recommends install \
       kded5 \
       kinit \
       breeze-icon-theme \
-      libqt5sql5-sqlite \
-      qml-module-qtquick-controls \
       gsc gsc-data \
       phd2 \
       xvfb

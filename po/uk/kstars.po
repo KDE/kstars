@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-12 00:39+0000\n"
-"PO-Revision-Date: 2023-11-11 08:45+0200\n"
+"PO-Revision-Date: 2023-11-12 09:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -23919,23 +23919,20 @@ msgstr "Запам'ятовувати дані щодо поступу завд�
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-#| "moves minimally between jobs (S-shape).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Якщо позначено, упорядковує плитки мозаїки, щоб лафет "
-"мінімально пересувався між завданнями (за формою літери «S»).</p></body></"
-"html>"
+"<html><head/><body><p>Якщо позначено, засіб планування намагатиметься "
+"запускати низькопріоритетні завдання, якщо не може бути запущено якесь "
+"високопріоритетне завдання. Рекомендовано.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Використовувати «жадібне» планування"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -37316,6 +37313,9 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"Якщо має значення «true», засіб планування намагатиметься запускати "
+"низькопріоритетні завдання, якщо не може бути запущено якесь "
+"високопріоритетне завдання. Рекомендовано."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:2821

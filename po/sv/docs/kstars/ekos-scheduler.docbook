@@ -81,7 +81,11 @@
     <para
 >Algoritmen visar dess beräknade nästa start- och stopptider för alla jobb i schemaläggningstabellen. Den visar också en uppskattning av hur många gånger jobb kommer att utföras under de kommande 48 timmarna i loggpanelen längst ner i fönstret. Se skärmbilden av schemaläggningsfönstret överst i det här avsnittet. </para>
         <para
->Schemaläggningsalgoritmen som beskrivs i stycket ovan är känd som den giriga schemaläggningsalgoritmen. Det är den som rekommenderas att använda. I tidigare versioner av Ekos fanns en annan "klassisk schemaläggningsalgoritm" som för närvarande fasas ut. Det systemet kunde inte ersätta pågående jobb och använde sig därför inte lika mycket av utrustningen som den giriga algoritmen gör. </para>
+>Schemaläggningsalgoritmen som beskrivs i stycket ovan är känd som den giriga schemaläggningsalgoritmen. Det är den som rekommenderas att använda. I tidigare versioner av Ekos fanns en annan "klassisk schemaläggningsalgoritm" som inte längre finns i Ekos. Det systemet kunde inte ersätta pågående jobb och använde sig därför inte lika mycket av utrustningen som den giriga algoritmen gör. </para>
+        <para
+>Det finns ett alternativ med kryssruta i schemaläggningens alternativmeny som heter <guilabel 
+>Använd girig schemaläggning</guilabel 
+> som normalt är markerad. Systemet fungerar enligt beskrivningen ovan när det är markerat. När det är avmarkerad förhindras schemaläggningen från att schemalägga jobb med lägre prioritet när ofullbordade jobb med högre prioritet inte kan köras. Det resulterar i mindre effektiv användning av systemet, men kan ge mer kontroll över schemaläggningen. </para>
     </sect3>
     <sect3 id="scheduler-files">
         <title

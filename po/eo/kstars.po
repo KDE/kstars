@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-12 00:39+0000\n"
-"PO-Revision-Date: 2023-11-11 20:57+0100\n"
+"PO-Revision-Date: 2023-11-12 08:14+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -21127,7 +21127,7 @@ msgid ""
 "If checked, the GPG estimates the mount's major period. Otherwise, it uses "
 "the entry above."
 msgstr ""
-"Se kontrolite, la GPG taksas la plej gravan periodon de la muntaĵo. Alie, ĝi "
+"Se markita, la GPG taksas la plej gravan periodon de la muntaĵo. Alie, ĝi "
 "uzas la eniron supre."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs1a)
@@ -23579,22 +23579,20 @@ msgstr "Memori taskoprogreson"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-#| "moves minimally between jobs (S-shape).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se kontrolite, ordigas mozaikojn tiel ke la muntaĵo "
-"moviĝas minimume inter taskoj (S-formo).</p></body></html>"
+"<html><head/><body><p>Se markita, la planilo provas ruli pli malalt-"
+"prioritatajn labortaskojn kiam neniu pli altprioritata tasko povas ruliĝi. "
+"Rekomendita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Uzi avaran planadon"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -25118,7 +25116,7 @@ msgid ""
 "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
 "moves minimally between jobs (S-shape).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se kontrolite, ordigas mozaikojn tiel ke la muntaĵo "
+"<html><head/><body><p>Se markita, ordigas mozaikojn tiel ke la muntaĵo "
 "moviĝas minimume inter taskoj (S-formo).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
@@ -36637,6 +36635,8 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"Kiam vera, la planisto provas ruli pli malaltajn prioritatajn labortaskojn "
+"kiam ne pli altaj prioritata laboro povas ruli. Rekomendita."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:2821
@@ -72845,8 +72845,7 @@ msgid ""
 "If checked, then all solar system bodies will be hidden when the map is in "
 "motion."
 msgstr ""
-"Se kontrolite, tiam ĉiuj sunsistemaj korpoj estos kaŝitaj kiam la mapo "
-"moviĝos."
+"Se markita, tiam ĉiuj sunsistemaj korpoj estos kaŝitaj kiam la mapo moviĝos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HidePlanets)
 #. i18n: ectx: property (text), widget (QPushButton, SolarSystemButton)
@@ -73775,7 +73774,7 @@ msgid ""
 "ground beneath you.  Note that the ground is never drawn when using the "
 "Equatorial coordinate system."
 msgstr ""
-"Se kontrolite, la areo sub la horizonto estos plenigita, por simuli la teron "
+"Se markita, la areo sub la horizonto estos plenigita, por simuli la teron "
 "sub vi. Notu ke la grundo neniam estas desegnita kiam oni uzas la Ekvatoran "
 "koordinatsistemon."
 
@@ -73795,7 +73794,7 @@ msgstr "Ĉu desegni ĉielan ekvatoron?"
 #: options/opsguides.ui:345
 #, kde-format
 msgid "If checked, the celestial equator will be drawn in the sky map."
-msgstr "Se kontrolite, la ĉiela ekvatoro estos desegnita en la ĉielmapo."
+msgstr "Se markita, la ĉiela ekvatoro estos desegnita en la ĉielmapo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquator)
 #: options/opsguides.ui:348
@@ -74249,7 +74248,7 @@ msgstr "Ĉu desegni kometojn?"
 #: options/opssolarsystem.ui:317
 #, kde-format
 msgid "If checked, comets will be drawn on the map"
-msgstr "Se kontrolite, kometoj estos desegnitaj sur la mapo"
+msgstr "Se markita, kometoj estos desegnitaj sur la mapo"
 
 #. i18n: ectx: property (text), widget (QLabel, MagLimitAsteroidDownloadWarning)
 #: options/opssolarsystem.ui:349
@@ -74279,7 +74278,7 @@ msgid ""
 "vary in brightness in their orbits, so a faint magnitude is not effective in "
 "this case."
 msgstr ""
-"Se kontrolite, la kometoj proksime de la Suno havos nometikedojn alfiksitaj. "
+"Se markita, la kometoj proksime de la Suno havos nometikedojn alfiksitaj. "
 "Kometoj varias en brileco en siaj orbitoj, do malforta magnitudo ne efikas "
 "ĉi-kaze."
 
@@ -74374,8 +74373,8 @@ msgid ""
 "If checked then any solar system body will have a temporary trail attached "
 "while it is centered in the display."
 msgstr ""
-"Se kontrolite, iu ajn sunsistema korpo havos provizoran spuron alfiksita dum "
-"ĝi estas centrita en la ekrano."
+"Se markita, iu ajn sunsistema korpo havos provizoran spuron alfiksita dum ĝi "
+"estas centrita en la ekrano."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAutoTrail)
 #: options/opssolarsystem.ui:553
@@ -77855,8 +77854,8 @@ msgid ""
 "centered.  As time passes, the sky will then appear to drift by (due to the "
 "rotation of the Earth)."
 msgstr ""
-"Se kontrolite, la ĉielo restos koncentrita sur sia nuna pozicio aŭ objekto "
-"dum tempo pasas. Ĉi tio nomiĝas \"Spurado\". Notu, ke spurado estas aŭtomate "
+"Se markita, la ĉielo restos koncentrita sur sia nuna pozicio aŭ objekto dum "
+"tempo pasas. Ĉi tio nomiĝas \"Spurado\". Notu, ke spurado estas aŭtomate "
 "engaĝita kiam ajn objekto estas centrita ĉe la fokuspunkto. Do, se vi uzas "
 "\"lookToward\" kun objektonomo, vi ne bezonas fari spuradon. \n"
 "\n"

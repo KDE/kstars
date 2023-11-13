@@ -81,7 +81,11 @@
     <para
 >Het algoritme toont zijn geprojecteerde volgende starttijden en stoptijden voor alle taken in de plannertabel. Deze toont ook zijn schatting van het aantal keren dat de taken uitgevoerd zullen worden tijdens de volgende 48 uren in het logpaneel onderaan het venster. Zie de schermafdruk van het plannervenster bovenaan deze sectie. </para>
         <para
->Het planningsalgoritme beschreven in de bovenstaande paragraaf staat bekend als het Greedy planningsalgoritme. Deze is aanbevolen. In eerdere versies van Ekos was er een ander "Klassiek planningsalgoritme" dat nu uitgefaseerd wordt. Dat schema kon geen actieve jobs afbreken en maakte dus geen goed gebruik van de apparatuur zoals het Greedy algoritme. </para>
+>Het planningsalgoritme beschreven in de bovenstaande paragraaf staat bekend als het Greedy planningsalgoritme. Deze is aanbevolen. In eerdere versies van Ekos was er een ander "Klassiek planningsalgoritme" dat nu niet meer in Ekos is. Dat schema kon geen actieve jobs afbreken en maakte dus geen goed gebruik van de apparatuur zoals het Greedy algoritme. </para>
+        <para
+>Er is een keuzevak in het optiesmenu van de planner genaamd <guilabel
+>Gretige planning gebruiken</guilabel
+> die standaard is geactiveerd. Het systeem werkt zoals bovenstaand beschreven wanneer het is geactiveerd. Wanneer het niet is geactiveerd zal de planner het plannen van lagere prioriteit jobs voorkomen wanneer niet voltooide hogere prioriteit jobs niet kunnen draaien. Dit resulteert in minder efficiënt gebruik van het systeem, maar kan u meer controle over de planning geven. </para>
     </sect3>
     <sect3 id="scheduler-files">
         <title
