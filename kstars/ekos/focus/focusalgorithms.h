@@ -155,6 +155,9 @@ class FocusAlgorithmInterface
 
         virtual QString getTextStatus(double R2 = 0) const = 0;
 
+        // For Linear and L1P returns whether focuser is inFirstPass, other algos return true
+        virtual bool isInFirstPass() const = 0;
+
         // For testing.
         virtual FocusAlgorithmInterface *Copy() = 0;
 

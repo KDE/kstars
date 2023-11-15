@@ -2212,6 +2212,52 @@
          <default>false</default>
       </entry>
 
+      <entry name="abInsTileSelection" type="String">
+         <whatsthis>Which set of tiles to use in Aberration Inspector.</whatsthis>
+         <default>Centre and outer corners</default>
+      </entry>
+      <entry name="abInsShowLabels" type="Bool">
+         <label>Show Max Min labels on Aberration Inspector graph.</label>
+         <default>false</default>
+      </entry>
+      <entry name="abInsShowCFZ" type="Bool">
+         <label>Show Critical Focus Zone on Aberration Inspector graph.</label>
+         <default>false</default>
+      </entry>
+      <entry name="abInsOptCentres" type="Bool">
+         <label>Whether to optimise tile centres used in Aberration Inspector calcs.</label>
+         <default>false</default>
+      </entry>
+      <entry name="abInsHSplitter" type="String">
+         <label>Position of HSplitter in Aberration Inspector.</label>
+      </entry>
+      <entry name="abInsVSplitter" type="String">
+         <label>Position of VSplitter in Aberration Inspector.</label>
+      </entry>
+      <entry name="abInsSelection" type="String">
+         <whatsthis>Aberration Inspector 3D graphic selection mode.</whatsthis>
+         <default>None</default>
+      </entry>
+      <entry name="abInsTheme" type="String">
+         <whatsthis>Aberration Inspector 3D graphic theme.</whatsthis>
+         <default>Primary Colors</default>
+      </entry>
+      <entry name="abInsLabels" type="Bool">
+         <label>Aberration Inspector 3D graphic show labels.</label>
+         <default>true</default>
+      </entry>
+      <entry name="abInsSensor" type="Bool">
+         <label>Aberration Inspector 3D graphic show sensor.</label>
+         <default>true</default>
+      </entry>
+      <entry name="abInsPetzvalWire" type="Bool">
+         <label>Aberration Inspector 3D graphic show Petzval wire.</label>
+         <default>true</default>
+      </entry>
+      <entry name="abInsPetzvalSurface" type="Bool">
+         <label>Aberration Inspector 3D graphic show Petzval surface.</label>
+         <default>false</default>
+      </entry>
    </group>
    <group name="StellarSolver">
       <entry name="FocusSextractorType" type="UInt">

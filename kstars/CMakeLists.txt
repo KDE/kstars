@@ -180,6 +180,10 @@ if (INDI_FOUND)
             # INDI Hub
             ekos/indihub.ui
         )
+        # Aberration Inspector
+        if (Qt5DataVisualization_FOUND)
+            set(ekosui_SRCS ${ekosui_SRCS} ekos/focus/aberrationinspector.ui)
+        endif(Qt5DataVisualization_FOUND)
 
         set(ekos_SRCS
             ekos/ekos.cpp
@@ -340,6 +344,13 @@ if (INDI_FOUND)
             ekos/ekoslive/node.cpp
             ekos/ekoslive/nodemanager.cpp
         )
+        # Aberration Inspector
+        if (Qt5DataVisualization_FOUND)
+            set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspector.cpp)
+            set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspectorplot.cpp)
+            set(ekos_SRCS ${ekos_SRCS} ekos/focus/sensorgraphic.cpp)
+            set(ekos_SRCS ${ekos_SRCS} ekos/focus/abinstablewidget.cpp)
+        endif(Qt5DataVisualization_FOUND)
 
     endif(CFITSIO_FOUND)
 

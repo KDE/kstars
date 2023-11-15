@@ -71,6 +71,14 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
             return -1;
         }
 
+        bool isInFirstPass() const override
+        {
+            if (params.focusAlgorithm == Focus::FOCUS_LINEAR || params.focusAlgorithm == Focus::FOCUS_LINEAR1PASS)
+                return inFirstPass;
+            else
+                return true;
+        }
+
         QString getTextStatus(double R2 = 0) const override;
 
     private:

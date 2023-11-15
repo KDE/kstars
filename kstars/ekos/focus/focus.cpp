@@ -9,8 +9,8 @@
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
 #include "focusfwhm.h"
-#include "focusprofileplot.h"
-#include "polynomialfit.h"
+#include "aberrationinspector.h"
+#include "aberrationinspectorutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -1131,6 +1131,13 @@ void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperatur
 }
 #endif
 
+// Run Aberration Inspector
+void Focus::startAbIns()
+{
+    m_abInsOn = canAbInsStart();
+    start();
+}
+
 void Focus::start()
 {
     if (m_Focuser == nullptr)
@@ -1585,6 +1592,7 @@ void Focus::stop(Ekos::FocusState completionState)
     minimumRequiredHFR = INVALID_STAR_MEASURE;
     noStarCount = 0;
     starMeasureFrames.clear();
+    m_abInsOn = false;
 
     // Check if CCD was not removed due to crash or other reasons.
     if (m_Camera)
@@ -1946,6 +1954,7 @@ void Focus::selectImageMask(const ImageMaskType newMaskType)
 
     checkMosaicMaskLimits();
     m_currentImageMask = newMaskType;
+    startAbInsB->setEnabled(canAbInsStart());
 }
 
 void Focus::syncImageMaskSelection()
@@ -2082,7 +2091,7 @@ void Focus::starDetectionFinished()
         }
         else if (m_StarMeasure == FOCUS_STAR_FWHM)
         {
-            getFWHM(&currentFWHM, &currentWeight);
+            getFWHM(m_ImageData->getStarCenters(), &currentFWHM, &currentWeight);
             currentMeasure = currentFWHM;
         }
         else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
@@ -2106,7 +2115,7 @@ void Focus::starDetectionFinished()
 }
 
 // The image has been processed for star centroids and HFRs so now process it for star FWHMs
-void Focus::getFWHM(double *FWHM, double *weight)
+void Focus::getFWHM(const QList<Edge *> &stars, double *FWHM, double *weight)
 {
     *FWHM = INVALID_STAR_MEASURE;
     *weight = 0.0;
@@ -2116,35 +2125,36 @@ void Focus::getFWHM(double *FWHM, double *weight)
     switch (m_ImageData->getStatistics().dataType)
     {
         case TBYTE:
-            focusFWHM->processFWHM(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<uint8_t const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         case TSHORT: // Don't think short is used as its recorded as unsigned short
-            focusFWHM->processFWHM(reinterpret_cast<short const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<short const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         case TUSHORT:
-            focusFWHM->processFWHM(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<unsigned short const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM,
+                                   weight);
             break;
 
         case TLONG:  // Don't think long is used as its recorded as unsigned long
-            focusFWHM->processFWHM(reinterpret_cast<long const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<long const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         case TULONG:
-            focusFWHM->processFWHM(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<unsigned long const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         case TFLOAT:
-            focusFWHM->processFWHM(reinterpret_cast<float const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<float const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         case TLONGLONG:
-            focusFWHM->processFWHM(reinterpret_cast<long long const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<long long const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         case TDOUBLE:
-            focusFWHM->processFWHM(reinterpret_cast<double const *>(imageBuffer), m_ImageData, starFitting, FWHM, weight);
+            focusFWHM->processFWHM(reinterpret_cast<double const *>(imageBuffer), stars, m_ImageData, starFitting, FWHM, weight);
             break;
 
         default:
@@ -2155,7 +2165,7 @@ void Focus::getFWHM(double *FWHM, double *weight)
 }
 
 // The image has been processed for star centroids and HFRs so now process it for star FWHMs
-void Focus::getFourierPower(double *fourierPower, double *weight)
+void Focus::getFourierPower(double *fourierPower, double *weight, const int mosaicTile)
 {
     *fourierPower = INVALID_STAR_MEASURE;
     *weight = 1.0;
@@ -2166,43 +2176,42 @@ void Focus::getFourierPower(double *fourierPower, double *weight)
     {
         case TBYTE:
             focusFourierPower->processFourierPower(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData,
-                                                   m_FocusView->imageMask(),
-                                                   fourierPower, weight);
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TSHORT: // Don't think short is used as its recorded as unsigned short
-            focusFourierPower->processFourierPower(reinterpret_cast<short const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
-                                                   fourierPower, weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<short const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TUSHORT:
             focusFourierPower->processFourierPower(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData,
-                                                   m_FocusView->imageMask(), fourierPower, weight);
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TLONG:  // Don't think long is used as its recorded as unsigned long
-            focusFourierPower->processFourierPower(reinterpret_cast<long const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
-                                                   fourierPower, weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<long const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TULONG:
             focusFourierPower->processFourierPower(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData,
-                                                   m_FocusView->imageMask(), fourierPower, weight);
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TFLOAT:
-            focusFourierPower->processFourierPower(reinterpret_cast<float const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
-                                                   fourierPower, weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<float const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TLONGLONG:
             focusFourierPower->processFourierPower(reinterpret_cast<long long const *>(imageBuffer), m_ImageData,
-                                                   m_FocusView->imageMask(), fourierPower, weight);
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         case TDOUBLE:
-            focusFourierPower->processFourierPower(reinterpret_cast<double const *>(imageBuffer), m_ImageData, m_FocusView->imageMask(),
-                                                   fourierPower, weight);
+            focusFourierPower->processFourierPower(reinterpret_cast<double const *>(imageBuffer), m_ImageData,
+                                                   m_FocusView->imageMask(), mosaicTile, fourierPower, weight);
             break;
 
         default:
@@ -2594,6 +2603,91 @@ void Focus::setCurrentMeasure()
     m_FocusView->updateFrame();
 
     setHFRComplete();
+
+    if (m_abInsOn)
+        calculateAbInsData();
+}
+
+void Focus::calculateAbInsData()
+{
+    ImageMosaicMask *mosaicmask = dynamic_cast<ImageMosaicMask *>(m_FocusView->imageMask().get());
+    const QVector<QRect> tiles = mosaicmask->tiles();
+    auto stars = m_ImageData->getStarCenters();
+    QVector<QList<Edge *>> tileStars(NUM_TILES);
+
+    for (int star = 0; star < stars.count(); star++)
+    {
+        const int x = stars[star]->x;
+        const int y = stars[star]->y;
+        for (int tile = 0; tile < NUM_TILES; tile++)
+        {
+            QRect thisTile = tiles[tile];
+            if (thisTile.contains(x, y))
+            {
+                tileStars[tile].append(stars[star]);
+                break;
+            }
+        }
+    }
+
+    // Get the measure for each tile
+    for (int tile = 0; tile < tileStars.count(); tile++)
+    {
+        double measure, weight;
+
+        if (m_StarMeasure == FOCUS_STAR_NUM_STARS)
+        {
+            measure = tileStars[tile].count();
+            weight = 1.0;
+        }
+        else if (m_StarMeasure == FOCUS_STAR_FWHM)
+        {
+            getFWHM(tileStars[tile], &measure, &weight);
+        }
+        else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
+        {
+            getFourierPower(&measure, &weight, tile);
+        }
+        else
+        {
+            // HFR or HFR_adj
+            std::vector<double> HFRs;
+
+            for (int star = 0; star < tileStars[tile].count(); star++)
+            {
+                HFRs.push_back(tileStars[tile][star]->HFR);
+            }
+            measure = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_SIGMACLIPPING, HFRs, 2);
+            weight = calculateStarWeight(focusUseWeights->isChecked(), HFRs);
+        }
+
+        m_abInsMeasure[tile].append(measure);
+        m_abInsWeight[tile].append(weight);
+        m_abInsNumStars[tile].append(tileStars[tile].count());
+
+        if (!linearFocuser->isInFirstPass())
+        {
+            // This is the last datapoint so calculate average star position in the tile from the tile center
+            // FOCUS_STAR_FOURIER_POWER doesn't use stars directly so no need to calculate offset. The other
+            // measures all use stars: FOCUS_STAR_NUM_STARS, FOCUS_STAR_FWHM, FOCUS_STAR_HFR, FOCUS_STAR_HFR_ADJ
+            int xAv = 0, yAv = 0;
+            if (m_StarMeasure != FOCUS_STAR_FOURIER_POWER)
+            {
+                QPoint tileCenter = tiles[tile].center();
+                int xSum = 0.0, ySum = 0.0;
+                for (int star = 0; star < tileStars[tile].count(); star++)
+                {
+                    xSum += tileStars[tile][star]->x - tileCenter.x();
+                    ySum += tileStars[tile][star]->y - tileCenter.y();
+                }
+
+                xAv = (tileStars[tile].count() <= 0) ? 0 : xSum / tileStars[tile].count();
+                yAv = (tileStars[tile].count() <= 0) ? 0 : ySum / tileStars[tile].count();
+            }
+            m_abInsTileCenterOffset.append(QPoint(xAv, yAv));
+        }
+    }
+    m_abInsPosition.append(currentPosition);
 }
 
 void Focus::setCaptureComplete()
@@ -2924,6 +3018,23 @@ void Focus::clearDataPoints()
     plot_position.clear();
     plot_value.clear();
     isVShapeSolution = false;
+    m_abInsPosition.clear();
+    m_abInsTileCenterOffset.clear();
+    if (m_abInsMeasure.count() != NUM_TILES)
+    {
+        m_abInsMeasure.resize(NUM_TILES);
+        m_abInsWeight.resize(NUM_TILES);
+        m_abInsNumStars.resize(NUM_TILES);
+    }
+    else
+    {
+        for (int i = 0; i < m_abInsMeasure.count(); i++)
+        {
+            m_abInsMeasure[i].clear();
+            m_abInsWeight[i].clear();
+            m_abInsNumStars[i].clear();
+        }
+    }
 
     emit initHFRPlot(getyAxisLabel(m_StarMeasure), getStarUnits(m_StarMeasure, m_StarUnits),
                      m_OptDir == CurveFitting::OPTIMISATION_MINIMISE, focusUseWeights->isChecked(),
@@ -3131,6 +3242,41 @@ void Focus::plotLinearFinalUpdates()
     }
 }
 
+void Focus::startAberrationInspector()
+{
+    // Fill in the data structure to be passed to the Aberration Inspector
+    AberrationInspector::abInsData data;
+
+    ImageMosaicMask *mosaicmask = dynamic_cast<ImageMosaicMask *>(m_FocusView->imageMask().get());
+    if (!mosaicmask)
+    {
+        appendLogText(i18n("Unable to launch Aberration Inspector run %1...", m_abInsRun));
+        return;
+    }
+
+
+    data.run = ++m_abInsRun;
+    data.curveFit = m_CurveFit;
+    data.useWeights = focusUseWeights->isChecked();
+    data.optDir = m_OptDir;
+    data.sensorWidth = m_CcdWidth;
+    data.sensorHeight = m_CcdHeight;
+    data.pixelSize = m_CcdPixelSizeX;
+    data.tileWidth = mosaicmask->tiles()[0].width();
+    data.focuserStepMicrons = focusCFZStepSize->value();
+    data.yAxisLabel = getyAxisLabel(m_StarMeasure);
+    data.starUnits = getStarUnits(m_StarMeasure, m_StarUnits);
+    data.cfzSteps = m_cfzSteps;
+    data.isPositionBased = isPositionBased();
+
+    // Launch the Aberration Inspector.
+    appendLogText(i18n("Launching Aberration Inspector run %1...", m_abInsRun));
+    QPointer<AberrationInspector> abIns(new AberrationInspector(data, m_abInsPosition, m_abInsMeasure, m_abInsWeight,
+                                        m_abInsNumStars, m_abInsTileCenterOffset));
+    abIns->setAttribute(Qt::WA_DeleteOnClose);
+    abIns->show();
+}
+
 void Focus::autoFocusLinear()
 {
     if (!autoFocusChecks())
@@ -3155,8 +3301,12 @@ void Focus::autoFocusLinear()
 
     linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentMeasure, currentWeight, focusStars);
     if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone() && linearFocuser->solution() != -1)
+    {
         // Linear 1 Pass is done, graph is drawn, so just move to the focus position, and update the graph.
         plotLinearFinalUpdates();
+        if (m_abInsOn)
+            startAberrationInspector();
+    }
     else
         // Update the graph with the next datapoint, draw the curve, etc.
         plotLinearFocus();
@@ -4085,6 +4235,7 @@ void Focus::resetButtons()
     if (inFocusLoop)
     {
         startFocusB->setEnabled(false);
+        startAbInsB->setEnabled(false);
         startLoopB->setEnabled(false);
         stopFocusB->setEnabled(true);
         captureB->setEnabled(false);
@@ -4144,6 +4295,7 @@ void Focus::resetButtons()
         focusInB->setEnabled(true);
 
         startFocusB->setEnabled(m_FocusType == FOCUS_AUTO);
+        startAbInsB->setEnabled(canAbInsStart());
         stopFocusB->setEnabled(!enableCaptureButtons);
         startGotoB->setEnabled(canAbsMove);
         stopGotoB->setEnabled(true);
@@ -4154,10 +4306,20 @@ void Focus::resetButtons()
         focusInB->setEnabled(false);
 
         startFocusB->setEnabled(false);
+        startAbInsB->setEnabled(false);
         stopFocusB->setEnabled(false);
         startGotoB->setEnabled(false);
         stopGotoB->setEnabled(false);
     }
+}
+
+// Return whether the Aberration Inspector Start button should be enabled. The pre-requisties are:
+// - Automatic focuser
+// - Mosaic Mask is on
+// - Algorithm is LINEAR 1 PASS
+bool Focus::canAbInsStart()
+{
+    return m_FocusType == FOCUS_AUTO && m_FocusAlgorithm == FOCUS_LINEAR1PASS && m_currentImageMask == FOCUS_MASK_MOSAIC;
 }
 
 // Disable input widgets during an Autofocus run. Keep a record so after the AF run, widgets can be re-enabled
@@ -4605,6 +4767,7 @@ void Focus::setMountStatus(ISD::Mount::Status newState)
         case ISD::Mount::MOUNT_MOVING:
             captureB->setEnabled(false);
             startFocusB->setEnabled(false);
+            startAbInsB->setEnabled(false);
             startLoopB->setEnabled(false);
 
             // If mount is moved while we have a star selected and subframed
@@ -5287,8 +5450,9 @@ void Focus::initConnections()
     captureTimeout.setSingleShot(true);
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Focus::processCaptureTimeout);
 
-    // Start/Stop focus
+    // Start/Stop focus and the Aberration Inspector
     connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
+    connect(startAbInsB, &QPushButton::clicked, this, &Ekos::Focus::startAbIns);
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::abort);
 
     // Focus IN/OUT
@@ -5574,6 +5738,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                 focusGaussianKernelSize->show();
             }
 
+            // Aberration Inspector button
+            startAbInsB->setEnabled(canAbInsStart());
+
             // Settings tab changes
             // Disable adaptive focus
             focusAdaptive->setChecked(false);
@@ -5693,6 +5860,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                 focusGaussianKernelSize->show();
             }
 
+            // Aberration Inspector button
+            startAbInsB->setEnabled(canAbInsStart());
+
             // Settings tab changes
             // Disable adaptive focus
             focusAdaptive->setChecked(false);
@@ -5806,6 +5976,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                 gridLayoutProcess->addWidget(focusGaussianKernelSize, 5, 1);
                 focusGaussianKernelSize->show();
             }
+
+            // Aberration Inspector button
+            startAbInsB->setEnabled(canAbInsStart());
 
             // Settings tab changes
             // Disable adaptive focus
@@ -5927,6 +6100,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                 gridLayoutProcess->addWidget(focusGaussianKernelSize, 6, 1);
                 focusGaussianKernelSize->show();
             }
+
+            // Aberration Inspector button
+            startAbInsB->setEnabled(canAbInsStart());
 
             // Settings tab changes
             // Enable adaptive focus
@@ -6811,12 +6987,21 @@ void Focus::refreshOpticalTrain()
             // Get the pixel size of the active camera for later calculations
             auto nvp = camera->getNumber("CCD_INFO");
             if (!nvp)
+            {
                 m_CcdPixelSizeX = 0.0;
+                m_CcdWidth = m_CcdHeight = 0;
+            }
             else
             {
                 auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
                 if (np)
                     m_CcdPixelSizeX = np->getValue();
+                np = nvp->findWidgetByName("CCD_MAX_X");
+                if (np)
+                    m_CcdWidth = np->getValue();
+                np = nvp->findWidgetByName("CCD_MAX_Y");
+                if (np)
+                    m_CcdHeight = np->getValue();
             }
         }
         setCamera(camera);

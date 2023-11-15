@@ -28,13 +28,13 @@ class FocusFWHM
         ~FocusFWHM();
 
         template <typename T>
-        void processFWHM(const T imageBuffer, const QSharedPointer<FITSData> &imageData, std::unique_ptr<CurveFitting> &starFitting,
+        void processFWHM(const T &imageBuffer, const QList<Edge *> &focusStars, const QSharedPointer<FITSData> &imageData,
+                         std::unique_ptr<CurveFitting> &starFitting,
                          double *FWHM, double *weight)
         {
             CurveFitting::StarParams starParams, starParams2;
             std::vector<double> FWHMs, R2s;
 
-            auto focusStars = imageData->getStarCenters();
             auto skyBackground = imageData->getSkyBackground();
             auto stats = imageData->getStatistics();
 

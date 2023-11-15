@@ -68,6 +68,7 @@
         <file>icons/indihub_logo.svg</file>
         <file>icons/StellarSolverIcon.png</file>
         <file>icons/select_stat.png</file>
+        <file>icons/sensorgraphic.png</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

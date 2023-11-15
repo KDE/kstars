@@ -1,4 +1,3 @@
-
 /*
     SPDX-FileCopyrightText: 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
@@ -447,7 +446,7 @@ class Focus : public QWidget, public Ui::Focus
          */
         void adaptiveFocus();
 
-protected:
+    protected:
         void addPlotPosition(int pos, double hfr, bool plot = true);
 
     private slots:
@@ -477,6 +476,7 @@ protected:
 
         void starDetectionFinished();
         void setCurrentMeasure();
+        void startAbIns();
 
     signals:
         void newLog(const QString &text);
@@ -671,6 +671,9 @@ protected:
         // Linear final updates to the curve
         void plotLinearFinalUpdates();
 
+        // Launch the Aberation Inspector popup
+        void startAberrationInspector();
+
         // Get the curve fitting goal based on how the algorithm is progressing
         CurveFitting::FittingGoal getGoal(int numSteps);
 
@@ -682,6 +685,12 @@ protected:
             return (canAbsMove || canRelMove || (m_FocusAlgorithm == FOCUS_LINEAR) || (m_FocusAlgorithm == FOCUS_LINEAR1PASS));
         }
         void resetButtons();
+
+        /**
+         * @brief returns whether the Aberration Inspector can be used or not
+         * @return can / cant be started
+         */
+        bool canAbInsStart();
         void stop(FocusState completionState = FOCUS_ABORTED);
 
         void initView();
@@ -752,10 +761,11 @@ protected:
         int adjustLinearPosition(int position, int newPosition, int overscan, bool updateDir);
 
         // Process the image to get star FWHMs
-        void getFWHM(double *FWHM, double *weight);
+        void getFWHM(const QList<Edge *> &stars, double *FWHM, double *weight);
 
         // Process the image to get the Fourier Transform Power
-        void getFourierPower(double *fourierPower, double *weight);
+        // If tile = -1 use the whole image; if mosaicTile is specified use just that
+        void getFourierPower(double *fourierPower, double *weight, const int mosaicTile = -1);
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
@@ -1152,6 +1162,8 @@ protected:
         double m_FocalRatio = 0.0f;
         double m_Reducer = 0.0f;
         double m_CcdPixelSizeX = 0.0f;
+        int m_CcdWidth = 0;
+        int m_CcdHeight = 0;
         QString m_ScopeType;
 
         // CFZ
@@ -1187,5 +1199,15 @@ protected:
         double FAFocusMaxTravel = 0;
         int FAFocusCaptureTimeout = 30;
         int FAFocusMotionTimeout = 30;
+
+        // Aberration Inspector
+        void calculateAbInsData();
+        bool m_abInsOn = false;
+        int m_abInsRun = 0;
+        QVector<int> m_abInsPosition;
+        QVector<QVector<double>> m_abInsMeasure;
+        QVector<QVector<double>> m_abInsWeight;
+        QVector<QVector<int>> m_abInsNumStars;
+        QVector<QPoint> m_abInsTileCenterOffset;
 };
 }
