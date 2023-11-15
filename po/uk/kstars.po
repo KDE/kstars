@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-12 09:04+0200\n"
+"PO-Revision-Date: 2023-11-14 09:37+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -16903,12 +16903,12 @@ msgstr "Помилка під час обробки відповіді серв�
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
 msgid "Aberration Inspector - Run %1"
-msgstr ""
+msgstr "Інспектор аберації — прохід %1"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
 msgid "Tile"
-msgstr ""
+msgstr "Плитка"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
@@ -16927,102 +16927,89 @@ msgid "Solution"
 msgstr "Розв'язання"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgid " ticks"
+#, kde-format
 msgid "Delta (ticks)"
-msgstr " поділок"
+msgstr "Дельта (у поділках)"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Delta"
+#, kde-format
 msgid "Delta (μm)"
-msgstr "Делта"
+msgstr "Дельта (мкм)"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgid "Named Stars"
+#, kde-format
 msgid "Num Stars"
-msgstr "Іменовані зірки"
+msgstr "К-ть зірок"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
 #, kde-format
 msgid "R²"
-msgstr ""
+msgstr "R²"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Exclude"
-msgstr ""
+msgstr "Виключити"
 
 #: ekos/focus/aberrationinspector.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
+#, kde-format
 msgid "Focuser Solution"
-msgstr "Імітатор фокусування"
+msgstr "Розв'язок фокусування"
 
 #: ekos/focus/aberrationinspector.cpp:101
-#, fuzzy, kde-format
-#| msgid "Default Focuser step ticks"
+#, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Типова кількість позначок у кроці фокусування"
+msgstr "Дельта від центральної плитки у поділках"
 
 #: ekos/focus/aberrationinspector.cpp:102
-#, fuzzy, kde-format
-#| msgid "The size of a focuser tick in micrometers."
+#, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr "Розмір поділки засобу фокусування у мікрометрах."
+msgstr "Дельта від центральної плитки у мікрометрах"
 
 #: ekos/focus/aberrationinspector.cpp:103
-#, fuzzy, kde-format
-#| msgid "Minimum number of stars detected for SEP MultiStar to initialize."
+#, kde-format
 msgid "Min / max number of stars detected in the focus run"
-msgstr "Мінімальна кількість виявлених зірок для ініціалізації ПдЕП MultiStar."
+msgstr ""
+"Мінімальна/Максимальна кількість зірок, які виявляють при запуску засобу "
+"фокусування"
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr ""
+msgstr "Позначте, щоб виключити рядок з обчислень"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
 #: ekos/focus/aberrationinspector.cpp:583
 #: ekos/focus/aberrationinspector.cpp:584
-#, fuzzy, kde-format
-#| msgctxt "Not Applicable"
-#| msgid "N/A"
+#, kde-format
 msgid "N/A"
-msgstr "н/з"
+msgstr "н/д"
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Пересунути датчик ближче до вирівнювача"
 
 #: ekos/focus/aberrationinspector.cpp:572
 #, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Пересунути датчик далі від вирівнювача"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #: ekos/focus/aberrationinspector.ui:23
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Aberration Inspector"
-msgstr "Планування спостереження"
+msgstr "Інспектор аберації"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowLabels)
 #: ekos/focus/aberrationinspector.ui:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб було показано найновіші дані наведення "
-"та виконано автоматичне гортання графіка.</p></body></html>"
+"<html><head/><body><p>Позначте, щоб програма показала мітки на графіку.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -17035,10 +17022,9 @@ msgstr "Мітки"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/aberrationinspector.ui:64
-#, fuzzy, kde-format
-#| msgid "Files"
+#, kde-format
 msgid "Tiles:"
-msgstr "Файли"
+msgstr "Плитки:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:74
@@ -17048,6 +17034,9 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Виберіть комбінацію плиток мозаїки, яку слід "
+"використати для аналізу:</p><p>- «Усі» показує усі 9 плиток.</p><p>- Центр і "
+"зовнішні кути.</p><p>- Центр і внутрішній ромб.<br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
@@ -17058,30 +17047,25 @@ msgstr "Всі"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:86
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and outer corners"
-msgstr "Центрувати і стежити"
+msgstr "Центр і зовнішні кути"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:91
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and inner diamond"
-msgstr "Центрувати і стежити"
+msgstr "Центр і внутрішній ромб"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowCFZ)
 #: ekos/focus/aberrationinspector.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб було показано найновіші дані наведення "
-"та виконано автоматичне гортання графіка.</p></body></html>"
+"<html><head/><body><p>Позначте, щоб програма показала критичну зону "
+"фокусування на графіку.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
@@ -17094,74 +17078,53 @@ msgstr "КЗФ"
 #: ekos/focus/aberrationinspector.ui:118
 #, kde-format
 msgid "Optimise Tile Centres"
-msgstr ""
+msgstr "Оптимізувати центри плиток"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr "Внизу ліворуч"
+msgstr "Зсув згори-вниз:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:241
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total Tilt:"
-msgstr "Загальний час:"
+msgstr "Загальний зсув:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
-#| "The number represents the radius of the green concentric circle in "
-#| "arcseconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Backfocus delta is the difference in focus position "
 "between the sensor centre and the average of the centre corners.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Встановіть бажану точність наведення на кресленні "
-"зсуву. Число визначає радіус зеленого концентричного кола у кутових секундах."
-"</p></body></html>"
+"<html><head/><body><p>Дельта зворотного фокусування є різницею у позиціях "
+"фокусування між центром датчика і середньою точкою кутів центра.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
 #, kde-format
 msgid "Backfocus Δ:"
-msgstr ""
+msgstr "Δ зворотного фокусування:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "Left-Right Tilt:"
-msgstr "←/→"
+msgstr "Зсув ліворуч-праворуч:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
-#, fuzzy, kde-format
-#| msgid "Detection:"
+#, kde-format
 msgid "Selection:"
-msgstr "Виявлення:"
+msgstr "Вибір:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"center\">Options for the method of Star "
-#| "Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Internal SEP uses an internal library in "
-#| "KStars.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">External Sextractor requires an external program.</li><li style=\" "
-#| "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Built In Method uses whatever "
-#| "default Star Extraction process your selected Solving Method uses.</li></"
-#| "ul></body></html>"
+#, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
 "REC-html40/strict.dtd\">\n"
@@ -17182,18 +17145,24 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
 "slice through the graphic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"center\">Варіанти методу видобування даних "
-"зірок</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">«Внутрішній ПдЕП» використовує вбудовану до KStars "
-"бібліотеку.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">«Зовнішній Sextractor» потребує зовнішньої програми.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Вбудований метод використовує те, що "
-"використовує процес видобування даних зірок вибраного вами способу "
-"розв'язування.</li></ul></body></html>"
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
+"size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Режим вибору для "
+"просторової графіки:</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Немає.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Запис вибирає найближчу "
+"точку даних.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- «Зріз» створює плоский "
+"зріз графіки.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:127
@@ -17203,186 +17172,165 @@ msgstr "Елемент"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:350
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Alice"
+#, kde-format
 msgid "Slice"
-msgstr "Аліса"
+msgstr "Зріз"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
-#, fuzzy, kde-format
-#| msgid "&Themes"
+#, kde-format
 msgid "Theme:"
-msgstr "&Теми"
+msgstr "Тема:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:365
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Вилучити поточний кадр</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Виберіть тему кольорів для просторової графіки.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
-#, fuzzy, kde-format
-#| msgid "Primary Scope"
+#, kde-format
 msgid "Primary Colors"
-msgstr "Основний телескоп"
+msgstr "Основні кольори"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
 #, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Мох на камені"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Blue"
+#, kde-format
 msgid "Army Blue"
-msgstr "Синій"
+msgstr "Армійський синій"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Detroit"
+#, kde-format
 msgid "Retro"
-msgstr "Детройт"
+msgstr "Ретро"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Чорне дерево"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Isabella"
+#, kde-format
 msgid "Isabelle"
 msgstr "Ізабелла"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб застосувати адаптивне фокусування при "
-"запусках автоматичного фокусування.</p></body></html>"
+"<html><head/><body><p>Позначте, щоб було показано мітки датчика на плитці "
+"мозаїки.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-msgstr "<html><head/><body><p>Вилучити журнал даних датчика</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Позначте, щоб було показано датчик.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
-#, fuzzy, kde-format
-#| msgid "Sensor FOV"
+#, kde-format
 msgid "Sensor"
-msgstr "Поле зору датчика"
+msgstr "Датчик"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб було показано найновіші дані наведення "
-"та виконано автоматичне гортання графіка.</p></body></html>"
+"<html><head/><body><p>Позначте, щоб було показано сітку поверхні Пецваля.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
 #, kde-format
 msgid "Petzval Wire"
-msgstr ""
+msgstr "Сітка Пецваля"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
-msgstr "<html><head/><body><p>Створити оптичний тракт.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Позначте, щоб було показано поверхню Пецваля.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
 #, kde-format
 msgid "Petzval Surface"
-msgstr ""
+msgstr "Поверхня Пецваля"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Кут зсуву камери</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Позначте, для встановлення просторової графіки у "
+"режимі імітації</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Sim Mode"
-msgstr "Режим"
+msgstr "Режим іміт."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Повзунок зворотного фокусування</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step Size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Розмір кроку:</p></body></html>"
+msgstr "<html><head/><body><p>Повзунок зсуву зліва праворуч</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step Size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Розмір кроку:</p></body></html>"
+msgstr "<html><head/><body><p>Повзунок зсуву згори вниз</p></body></html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
-#, fuzzy, kde-format
-#| msgid ""
-#| "<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
-#| "tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitude:   </td><td>%4</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %2 is tile code; %3 is tile name, %4 is Focus Position; %5 "
 "is Focus Measure;"
@@ -17391,9 +17339,9 @@ msgid ""
 "color='%1'><table><tr><td>Tile: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
-"<table><tr><th colspan=\"2\">%1</th></tr><tr><td>МСЧ:   </td><td>%3</td></"
-"tr><tr><td>МЧ:   </td><td>%2</td></tr><tr><td>Висота:   </td><td>%4</td></"
-"tr></table>"
+"<style>table { background-color: white;}</style><font "
+"color='%1'><table><tr><td>Плитка: </td><td>%2 (%3)</td></tr><tr><td>Поз:  </"
+"td><td>%4</td></tr><tr><td>Знач: </td><td>%5</td></tr></table></font>"
 
 #: ekos/focus/focus.cpp:107
 #, kde-format
@@ -17737,12 +17685,12 @@ msgstr "Не вдалося знайти жодної зірки. Скиньте
 #: ekos/focus/focus.cpp:3253
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
-msgstr ""
+msgstr "Не вдалося виконати прохід %1 Інспектора аберації…"
 
 #: ekos/focus/focus.cpp:3273
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
-msgstr ""
+msgstr "Запускаємо прохід %1 Інспектора аберації…"
 
 #: ekos/focus/focus.cpp:3333
 #, kde-format
@@ -18087,27 +18035,22 @@ msgstr "Фокус всередину"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAbInsB)
 #: ekos/focus/focus.ui:450
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Adapt the Autofocus start position based on filter "
-#| "and the Adaptive Focus settings. This is an experimental feature.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run Aberration Inspector (Auto Focus will run first to "
 "collect data).</p><p>Note: Mosaic Mask must be set to activate this button.</"
 "p><p>This is an experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Адаптувати початкову позицію автофокусування на основі "
-"параметрів фільтра та адаптивного фокусування. Ця можливість є "
-"експериментальною.</p></body></html>"
+"<html><head/><body><p>Запустити Інспектор аберації (для збирання даних "
+"спочатку буде запущено автоматичне фокусування).</p><p>Зауваження: для "
+"активації цієї кнопки має бути встановлено мозаїчну маску.</p><p>Це "
+"експериментальна можливість.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
 #: ekos/focus/focus.ui:453
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Spectra"
+#, kde-format
 msgid "Inspector"
-msgstr "Спектри"
+msgstr "Інспектор"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:475
@@ -36902,73 +36845,75 @@ msgstr ""
 #: kstars.kcfg:2216
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
-msgstr ""
+msgstr "Визначає, який набір плиток використовувати у Інспекторі аберації."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2220
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
-msgstr ""
+msgstr "Показати мітки максимуму і мінімуму на графіку Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2224
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
-msgstr ""
+msgstr "Показати критичну зону фокусування на графіку Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2228
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
+"Визначає, чи слід оптимізувати центри плиток, які використано в обчисленнях "
+"Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2232
 #, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Позиція горизонтального роздільника на панелі Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2235
 #, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Позиція вертикального роздільника на панелі Інспектора аберації."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2238
 #, kde-format
 msgid "Aberration Inspector 3D graphic selection mode."
-msgstr ""
+msgstr "Режим вибору просторової графіки Інспектора аберації."
 
 #. i18n: ectx: whatsthis, entry (abInsTheme), group (Focus)
 #: kstars.kcfg:2242
 #, kde-format
 msgid "Aberration Inspector 3D graphic theme."
-msgstr ""
+msgstr "Тема просторової графіки Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsLabels), group (Focus)
 #: kstars.kcfg:2246
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
-msgstr ""
+msgstr "Показ міток у просторовій графіці Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2250
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr ""
+msgstr "Показ датчика у просторовій графіці Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2254
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr ""
+msgstr "Показ сітки Пецваля у просторовій графіці Інспектора аберації."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2258
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
-msgstr ""
+msgstr "Показ поверхні Пецваля у просторовій графіці Інспектора аберації."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2264

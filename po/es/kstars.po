@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-12 01:04+0100\n"
+"PO-Revision-Date: 2023-11-14 19:07+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -16950,12 +16950,12 @@ msgstr "Ha ocurrido un error al analizar la respuesta del servidor: %1"
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
 msgid "Aberration Inspector - Run %1"
-msgstr ""
+msgstr "Inspector de aberración: Ejecutar %1"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
 msgid "Tile"
-msgstr ""
+msgstr "Cuadrícula"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
@@ -16974,103 +16974,87 @@ msgid "Solution"
 msgstr "Solución"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgid " ticks"
+#, kde-format
 msgid "Delta (ticks)"
-msgstr " pulsos"
+msgstr "Delta (pulsos)"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Delta"
+#, kde-format
 msgid "Delta (μm)"
-msgstr "Delta"
+msgstr "Delta (μm)"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgid "Named Stars"
+#, kde-format
 msgid "Num Stars"
-msgstr "Estrellas con nombre"
+msgstr "Número de estrellas"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
 #, kde-format
 msgid "R²"
-msgstr ""
+msgstr "R²"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Exclude"
-msgstr ""
+msgstr "Excluir"
 
 #: ekos/focus/aberrationinspector.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
+#, kde-format
 msgid "Focuser Solution"
-msgstr "Simulador del enfocador"
+msgstr "Solución del enfocador"
 
 #: ekos/focus/aberrationinspector.cpp:101
-#, fuzzy, kde-format
-#| msgid "Default Focuser step ticks"
+#, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Pasos de avance por omisión del enfocador"
+msgstr "Delta de la cuadrícula central en pulsos"
 
 #: ekos/focus/aberrationinspector.cpp:102
-#, fuzzy, kde-format
-#| msgid "The size of a focuser tick in micrometers."
+#, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr "Tamaño de un pulso del enfocador, en micrómetros."
+msgstr "Delta de la cuadrícula central en micrómetros"
 
 #: ekos/focus/aberrationinspector.cpp:103
-#, fuzzy, kde-format
-#| msgid "Minimum number of stars detected for SEP MultiStar to initialize."
+#, kde-format
 msgid "Min / max number of stars detected in the focus run"
-msgstr ""
-"Número mínimo de estrellas detectadas para inicializar SEP multiestrella."
+msgstr "Número mínimo/máximo de estrellas detectadas al ejecutar el enfoque"
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr ""
+msgstr "Marque esto para excluir la fila de los cálculos"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
 #: ekos/focus/aberrationinspector.cpp:583
 #: ekos/focus/aberrationinspector.cpp:584
-#, fuzzy, kde-format
-#| msgctxt "Not Applicable"
-#| msgid "N/A"
+#, kde-format
 msgid "N/A"
 msgstr "N/d"
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Acercar el sensor al aplanador"
 
 #: ekos/focus/aberrationinspector.cpp:572
 #, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Alejar el sensor del aplanador"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #: ekos/focus/aberrationinspector.ui:23
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Aberration Inspector"
-msgstr "Planificador de observación"
+msgstr "Inspector de aberración"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowLabels)
 #: ekos/focus/aberrationinspector.ui:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar los últimos datos de guiado y "
-"desplazar automáticamente el gráfico.</p></body></html>"
+"<html><head/><body><p>Marque esto para mostrar etiquetas en el gráfico.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -17083,10 +17067,9 @@ msgstr "Etiquetas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/aberrationinspector.ui:64
-#, fuzzy, kde-format
-#| msgid "Files"
+#, kde-format
 msgid "Tiles:"
-msgstr "Archivos"
+msgstr "Cuadrículas:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:74
@@ -17096,40 +17079,39 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione la combinación de cuadrículas de mosaico "
+"que se debe usar para el análisis:</p><p>- Las 9 cuadrículas de todas las "
+"pantallas.</p><p>- Centro y esquinas exteriores.</p><p>- Centro y diamante "
+"interior.<br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
 #: ekos/focus/aberrationinspector.ui:81 tools/obslistwizard.ui:173
 #, kde-format
 msgid "All"
-msgstr "Todos"
+msgstr "Todas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:86
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and outer corners"
-msgstr "Centrar y seguir"
+msgstr "Centro y esquinas exteriores"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:91
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and inner diamond"
-msgstr "Centrar y seguir"
+msgstr "Centro y diamante interior"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowCFZ)
 #: ekos/focus/aberrationinspector.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar los últimos datos de guiado y "
-"desplazar automáticamente el gráfico.</p></body></html>"
+"<html><head/><body><p>Marque esto para mostrar la zona de enfoque crítica en "
+"el gráfico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
@@ -17142,74 +17124,53 @@ msgstr "CFZ"
 #: ekos/focus/aberrationinspector.ui:118
 #, kde-format
 msgid "Optimise Tile Centres"
-msgstr ""
+msgstr "Optimizar los centros de las cuadrículas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr "Abajo a la izquierda"
+msgstr "Inclinación de arriba a abajo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:241
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total Tilt:"
-msgstr "Tiempo total:"
+msgstr "Inclinación total:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
-#| "The number represents the radius of the green concentric circle in "
-#| "arcseconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Backfocus delta is the difference in focus position "
 "between the sensor centre and the average of the centre corners.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Definir la precisión de guiado deseada en el gráfico "
-"de deriva. El número representa el radio del círculo verde concéntrico en "
-"segundos de arco.</p></body></html>"
+"<html><head/><body><p>La delta de enfoque posterior es la diferencia en "
+"posición de enfoque entre el dentro del sensor y la media de las esquinas "
+"del centro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
 #, kde-format
 msgid "Backfocus Δ:"
-msgstr ""
+msgstr "Δ de enfoque posterior:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "Left-Right Tilt:"
-msgstr "Izquierda/derecha"
+msgstr "Inclinación de izquierda a derecha:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
-#, fuzzy, kde-format
-#| msgid "Detection:"
+#, kde-format
 msgid "Selection:"
-msgstr "Detección:"
+msgstr "Selección:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"center\">Options for the method of Star "
-#| "Extraction</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Internal SEP uses an internal library in "
-#| "KStars.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">External Sextractor requires an external program.</li><li style=\" "
-#| "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-#| "qt-block-indent:0; text-indent:0px;\">Built In Method uses whatever "
-#| "default Star Extraction process your selected Solving Method uses.</li></"
-#| "ul></body></html>"
+#, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
 "REC-html40/strict.dtd\">\n"
@@ -17230,18 +17191,24 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
 "slice through the graphic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"center\">Opciones para el método de extracción "
-"de estrellas</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">SEP interno usa una biblioteca interna de "
-"KStars.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">SExtractor externo "
-"necesita un programa externo.</li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">El método integrado usa cualquier proceso predeterminado de "
-"extracción de estrellas que utilice el método de resolución seleccionado.</"
-"li></ul></body></html>"
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
+"size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Modo de selección del "
+"gráfico 3D:</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Ninguna.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- El elemento selecciona "
+"el punto de datos más cercano.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Porción genera un corte "
+"2D a través del gráfico.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:127
@@ -17253,185 +17220,167 @@ msgstr "Elemento"
 #: ekos/focus/aberrationinspector.ui:350
 #, kde-format
 msgid "Slice"
-msgstr ""
+msgstr "Porción"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
-#, fuzzy, kde-format
-#| msgid "&Themes"
+#, kde-format
 msgid "Theme:"
-msgstr "&Temas"
+msgstr "Temas:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:365
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Borrar el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Seleccionar el tema de color del gráfico en 3D.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
-#, fuzzy, kde-format
-#| msgid "Primary Scope"
+#, kde-format
 msgid "Primary Colors"
-msgstr "Telescopio primario"
+msgstr "Colores primarios"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
 #, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Musgo de rocas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Blue"
+#, kde-format
 msgid "Army Blue"
-msgstr "Azul"
+msgstr "Azul militar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Detroit"
+#, kde-format
 msgid "Retro"
-msgstr "Detroit"
+msgstr "Retro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Ébano"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
-#, fuzzy, kde-format
-#| msgctxt "Region/state in France"
-#| msgid "Moselle"
+#, kde-format
 msgid "Isabelle"
-msgstr "Mosela"
+msgstr "Isabelle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para aplicar enfoque adaptativo a las "
-"ejecuciones de enfoque automático.</p></body></html>"
+"<html><head/><body><p>Marque esto para mostrar etiquetas del sensor de "
+"cuadrículas de mosaico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Borrar el historial de datos del sensor</p></body></"
-"html>"
+"<html><head/><body><p>Marque esto para mostrar el sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
-#, fuzzy, kde-format
-#| msgid "Sensor FOV"
+#, kde-format
 msgid "Sensor"
-msgstr "Campo visual del sensor"
+msgstr "Sensor"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar los últimos datos de guiado y "
-"desplazar automáticamente el gráfico.</p></body></html>"
+"<html><head/><body><p>Marque esto para mostrar la malla de la superficie de "
+"Petzval.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
 #, kde-format
 msgid "Petzval Wire"
-msgstr ""
+msgstr "Malla de Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
-msgstr "<html><head/><body><p>Crear un nuevo tren óptico.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Marque esto para mostrar la superficie de Petzval.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
 #, kde-format
 msgid "Petzval Surface"
-msgstr ""
+msgstr "Superficie de Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Ángulo de desplazamiento de la cámara</p></body></html>"
+"<html><head/><body><p>Marque esto para usar el gráfico 3D en el modo de "
+"simulación.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Sim Mode"
-msgstr "Modo"
+msgstr "Modo de simulación"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Deslizador de enfoque posterior</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step Size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Tamaño del paso:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Deslizador de inclinación de izquierda a derecha</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step Size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Tamaño del paso:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Deslizador de inclinación de arriba a abajo</p></"
+"body></html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
-#, fuzzy, kde-format
-#| msgid ""
-#| "<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
-#| "tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitude:   </td><td>%4</"
-#| "td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %2 is tile code; %3 is tile name, %4 is Focus Position; %5 "
 "is Focus Measure;"
@@ -17440,9 +17389,10 @@ msgid ""
 "color='%1'><table><tr><td>Tile: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
-"<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
-"tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitud:   </td><td>%4</td></"
-"tr></table>"
+"<style>table { background-color: white;}</style><font "
+"color='%1'><table><tr><td>Cuadrícula: </td><td>%2 (%3)</td></"
+"tr><tr><td>Pos:  </td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></"
+"table></font>"
 
 #: ekos/focus/focus.cpp:107
 #, kde-format
@@ -17783,12 +17733,12 @@ msgstr ""
 #: ekos/focus/focus.cpp:3253
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
-msgstr ""
+msgstr "No se ha podido lanzar la ejecución de %1 del inspector de aberración."
 
 #: ekos/focus/focus.cpp:3273
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
-msgstr ""
+msgstr "Lanzando la ejecución de %1 del inspector de aberración..."
 
 #: ekos/focus/focus.cpp:3333
 #, kde-format
@@ -18139,27 +18089,22 @@ msgstr "Enfocar hacia dentro"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAbInsB)
 #: ekos/focus/focus.ui:450
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Adapt the Autofocus start position based on filter "
-#| "and the Adaptive Focus settings. This is an experimental feature.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run Aberration Inspector (Auto Focus will run first to "
 "collect data).</p><p>Note: Mosaic Mask must be set to activate this button.</"
 "p><p>This is an experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Adaptar la posición de inicio del enfoque automático "
-"según el filtro y la configuración del enfoque adaptativo. Esta función es "
+"<html><head/><body><p>Ejecutar el «Inspector de aberración» (se realizará "
+"primero un enfoque automático para recopilar datos).</p><p>Nota: Debe marcar "
+"«Máscara de mosaico» para activar este botón.</p><p>Esta función es "
 "experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
 #: ekos/focus/focus.ui:453
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Spectra"
+#, kde-format
 msgid "Inspector"
-msgstr "Espectros"
+msgstr "Inspector"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:475
@@ -18287,8 +18232,8 @@ msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Tamaño del separador entre las cuadrículas.</p></"
-"body></html>"
+"<html><head/><body><p>Tamaño del separador entre cuadrículas.</p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
@@ -18517,11 +18462,11 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Los mosaicos son cuadrados con una longitud de borde "
-"calculada por el porcentaje indicado de la anchura de la imagen. El "
-"porcentaje está limitado de tal modo que el tamaño del mosaico no exceda un "
-"tercio del lado más corto de la imagen (en la mayoría de los casos, su "
-"altura).</p></body></html>"
+"<html><head/><body><p>Las cuadrículas son cuadrados con una longitud de "
+"borde calculada por el porcentaje indicado de la anchura de la imagen. El "
+"porcentaje está limitado de tal modo que el tamaño de la cuadrícula no "
+"exceda un tercio del lado más corto de la imagen (en la mayoría de los "
+"casos, su altura).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/focus/focus.ui:1288
@@ -24517,23 +24462,20 @@ msgstr "Recordar el avance del trabajo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-#| "moves minimally between jobs (S-shape).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si está marcado, ordena las baldosas del mosaico para "
-"que la montura se mueva lo mínimo posible entre los trabajos (en forma de S)."
-"</p></body></html>"
+"<html><head/><body><p>Si está marcado, el programador intenta ejecutar "
+"trabajos de prioridad inferior cuando no se puede ejecutar ningún trabajo de "
+"prioridad superior. Recomendado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Usar programación voraz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -26017,7 +25959,7 @@ msgstr "↓ Seleccionar cuadrícula"
 #: ekos/scheduler/framingassistant.ui:421
 #, kde-format
 msgid "Adjust tiles transparency"
-msgstr "Ajustar la transparencia de las baldosas"
+msgstr "Ajustar la transparencia de las cuadrículas"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/scheduler/framingassistant.ui:440
@@ -26048,7 +25990,7 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Altura del campo de la cámara en "
 "minutos de arco.</p><p align=\"justify\">Este valor se calcula a partir de "
 "la información del equipo y define la altura del campo cubierto por una "
-"baldosa del mosaico.</p></body></html>"
+"cuadrícula del mosaico.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraHFOVSpin)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetHFOVSpin)
@@ -26085,9 +26027,9 @@ msgid ""
 "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
 "moves minimally between jobs (S-shape).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si está marcado, ordena las baldosas del mosaico para "
-"que la montura se mueva lo mínimo posible entre los trabajos (en forma de S)."
-"</p></body></html>"
+"<html><head/><body><p>Si está marcado, ordena las cuadrículas del mosaico "
+"para que la montura se mueva lo mínimo posible entre los trabajos (en forma "
+"de S).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
 #: ekos/scheduler/framingassistant.ui:525
@@ -26106,8 +26048,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Altura mínima del campo que debe "
 "cubrir el mosaico, en minutos de arco.</p><p align=\"justify\">Al modificar "
-"este valor se cambia inmediatamente el número de baldosas de la altura del "
-"mosaico.</p></body></html>"
+"este valor se cambia inmediatamente el número de cuadrículas de la altura "
+"del mosaico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/scheduler/framingassistant.ui:590
@@ -26117,7 +26059,7 @@ msgid ""
 "number of tiles.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Volver a calcular el campo del "
-"mosaico a partir del número de baldosas.</p></body></html>"
+"mosaico a partir del número de cuadrículas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
 #: ekos/scheduler/framingassistant.ui:593
@@ -26133,8 +26075,8 @@ msgid ""
 "</p><p align=\"justify\">Modifying this value immediately changes the width "
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Número de baldosas de la anchura del "
-"mosaico.</p><p align=\"justify\">Al modificar este valor se cambia "
+"<html><head/><body><p align=\"justify\">Número de cuadrículas de la anchura "
+"del mosaico.</p><p align=\"justify\">Al modificar este valor se cambia "
 "inmediatamente la anchura del campo cubierto por el mosaico.</p></body></"
 "html>"
 
@@ -26162,7 +26104,7 @@ msgstr "Solapamiento:"
 #: ekos/scheduler/framingassistant.ui:666
 #, kde-format
 msgid "Tile Transparency:"
-msgstr "Transparencia de las baldosas:"
+msgstr "Transparencia de las cuadrículas:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
 #: ekos/scheduler/framingassistant.ui:682
@@ -26186,8 +26128,8 @@ msgid ""
 "</p><p align=\"justify\">Modifying this value immediately changes the height "
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Número de baldosas de la altura del "
-"mosaico.</p><p align=\"justify\">Al modificar este valor se cambia "
+"<html><head/><body><p align=\"justify\">Número de cuadrículas de la altura "
+"del mosaico.</p><p align=\"justify\">Al modificar este valor se cambia "
 "inmediatamente la altura del campo cubierto por el mosaico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
@@ -26216,7 +26158,7 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Anchura del campo de la cámara en "
 "minutos de arco.</p><p align=\"justify\">Este valor se calcula a partir de "
 "la información del equipo y define la anchura del campo cubierto por una "
-"baldosa del mosaico.</p></body></html>"
+"cuadrícula del mosaico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
 #: ekos/scheduler/framingassistant.ui:807
@@ -26236,8 +26178,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p align=\"justify\">Anchura mínima del campo que debe "
 "cubrir el mosaico, en minutos de arco.</p><p align=\"justify\">Al modificar "
-"este valor se cambia inmediatamente el número de baldosas de la anchura del "
-"mosaico.</p></body></html>"
+"este valor se cambia inmediatamente el número de cuadrículas de la anchura "
+"del mosaico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
 #: ekos/scheduler/framingassistant.ui:876
@@ -26247,7 +26189,7 @@ msgid ""
 "mosaic. See the main help icon in the corner of the sky chart.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Solapamiento entre cada baldosa del "
+"<html><head/><body><p align=\"justify\">Solapamiento entre cuadrículas del "
 "mosaico. Vea el icono de ayuda principal en la esquina del mapa del cielo.</"
 "p></body></html>"
 
@@ -32826,7 +32768,7 @@ msgid ""
 "The declination of the initial focus position of the sky map, in decimal "
 "degrees. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"La declinación de la posición inicial de apuntado en el mapa del cielo, en "
+"La declinación de la posición inicial de enfoque del mapa del cielo, en "
 "grados decimales. Este valor es volátil y por tanto se reinicia cuando el "
 "programa se cierra."
 
@@ -32845,7 +32787,7 @@ msgid ""
 "reset whenever the program shuts down."
 msgstr ""
 "El nombre del objeto que se centra y sigue al inicio. Si no desea apuntar a "
-"ningún objeto, seleccione «nada». Este valor es volátil, y se reinicia "
+"ningún objeto, seleccione «nada». Este valor es volátil y se reinicia "
 "siempre que se cierre el programa."
 
 #. i18n: ectx: label, entry (IsTracking), group (View)
@@ -37016,7 +36958,7 @@ msgstr ""
 #: kstars.kcfg:2205
 #, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Posición de FocusSplitter."
+msgstr "Posición de divisor de enfoque."
 
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2208
@@ -37037,72 +36979,79 @@ msgstr ""
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
 msgstr ""
+"El conjunto de cuadrículas que se debe usar en el «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2220
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
 msgstr ""
+"Mostrar etiquetas Máx y Mín en el gráfico del «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2224
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
 msgstr ""
+"Mostrar la zona de enfoque crítica en el gráfico del «Inspector de "
+"aberración»."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2228
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
+"Indica si se deben optimizar los centros de las cuadrículas que se usan en "
+"los cálculos del «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2232
 #, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Posición del divisor horizontal del «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2235
 #, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Posición del divisor vertical del «Inspector de aberración»."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2238
 #, kde-format
 msgid "Aberration Inspector 3D graphic selection mode."
-msgstr ""
+msgstr "Modo de selección del gráfico 3D del «Inspector de aberración»."
 
 #. i18n: ectx: whatsthis, entry (abInsTheme), group (Focus)
 #: kstars.kcfg:2242
 #, kde-format
 msgid "Aberration Inspector 3D graphic theme."
-msgstr ""
+msgstr "Tema del gráfico 3D del «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsLabels), group (Focus)
 #: kstars.kcfg:2246
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
-msgstr ""
+msgstr "Mostrar etiquetas del gráfico 3D del «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2250
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr ""
+msgstr "Mostrar sensor del gráfico 3D del «Inspector de aberración»."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2254
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr ""
+msgstr "El gráfico 3D del inspector de aberración muestra la malla de Petzval."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2258
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
 msgstr ""
+"El gráfico 3D del inspector de aberración muestra la superficie de Petzval."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2264
@@ -38031,6 +37980,9 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"Si es cierto, el programador intenta ejecutar trabajos de prioridad inferior "
+"cuando no se puede ejecutar ningún trabajo de prioridad más alta. "
+"Recomendado."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:2867
