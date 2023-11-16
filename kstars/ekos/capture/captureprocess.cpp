@@ -2405,7 +2405,7 @@ bool CaptureProcess::saveSequenceQueue(const QString &path)
         outstream << "<Observer>" << state()->observerName() << "</Observer>" << Qt::endl;
     outstream << "<GuideDeviation enabled='" << (Options::enforceGuideDeviation() ? "true" : "false") << "'>"
               << cLocale.toString(Options::guideDeviation()) << "</GuideDeviation>" << Qt::endl;
-    outstream << "<GuideStartDeviation enabled='" << (Options::enforceGuideDeviation() ? "true" : "false") << "'>"
+    outstream << "<GuideStartDeviation enabled='" << (Options::enforceStartGuiderDrift() ? "true" : "false") << "'>"
               << cLocale.toString(Options::startGuideDeviation()) << "</GuideStartDeviation>" << Qt::endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
     if (Options::enforceAutofocusHFR() && !Options::saveHFRToFile())
