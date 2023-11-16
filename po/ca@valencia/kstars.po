@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-14 23:38+0100\n"
+"PO-Revision-Date: 2023-11-15 15:17+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3654,7 +3654,7 @@ msgstr "No s'ha trobat cap muntura connectada."
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr "La muntura %1 no està en línia. Connecteu-la i torneu-ho a intentar."
+msgstr "La muntura «%1» no està en línia. Connecteu-la i torneu-ho a intentar."
 
 #: dialogs/detaildialog.cpp:1131
 #, kde-format
@@ -23134,54 +23134,54 @@ msgstr ""
 #: ekos/manager.cpp:1480
 #, kde-format
 msgid "%1 is disconnected."
-msgstr "El %1 està desconnectat."
+msgstr "El «%1» està desconnectat."
 
 #: ekos/manager.cpp:1499 ekos/manager.cpp:1508 ekos/manager.cpp:1541
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
-msgstr "El %1 està en línia."
+msgstr "El «%1» està en línia."
 
 #: ekos/manager.cpp:1516
 #, kde-format
 msgid "%1 filter is online."
-msgstr "El filtre de %1 està en línia."
+msgstr "El filtre de «%1» està en línia."
 
 #: ekos/manager.cpp:1525
 #, kde-format
 msgid "%1 focuser is online."
-msgstr "L'enfocador de %1 està en línia."
+msgstr "L'enfocador de «%1» està en línia."
 
 #: ekos/manager.cpp:1532
 #, kde-format
 msgid "Rotator %1 is online."
-msgstr "El rotor %1 està en línia."
+msgstr "El rotor «%1» està en línia."
 
 #: ekos/manager.cpp:1548
 #, kde-format
 msgid "%1 Weather is online."
-msgstr "La meteorologia de %1 està en línia."
+msgstr "La meteorologia de «%1» està en línia."
 
 #: ekos/manager.cpp:1555
 #, kde-format
 msgid "%1 GPS is online."
-msgstr "El GPS %1 està en línia."
+msgstr "El GPS «%1» està en línia."
 
 #: ekos/manager.cpp:1564
 #, kde-format
 msgid "%1 Dust cap is online."
-msgstr "La funda de protecció de %1 està en línia."
+msgstr "La funda de protecció de «%1» està en línia."
 
 # skip-rule: kct-box
 #: ekos/manager.cpp:1571
 #, kde-format
 msgid "%1 Light box is online."
-msgstr "La caixa de llum de %1 està en línia."
+msgstr "La caixa de llum de «%1» està en línia."
 
 #: ekos/manager.cpp:1705
 #, kde-format
 msgid "%1 is offline."
-msgstr "%1 està fora de línia."
+msgstr "El «%1» està fora de línia."
 
 #: ekos/manager.cpp:1952
 #, kde-format
@@ -23192,7 +23192,7 @@ msgstr "CCD"
 #: ekos/manager.cpp:2232
 #, kde-format
 msgid "Guider port from %1 is ready."
-msgstr "El port del sistema de guiatge de %1 està a punt."
+msgstr "El port del sistema de guiatge de «%1» està a punt."
 
 #: ekos/manager.cpp:2421
 #, kde-format
@@ -80671,7 +80671,8 @@ msgstr "Coordenades no vàlides."
 #: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
-msgstr "El telescopi %1 no està en línia. Connecteu-lo i torneu-ho a intentar."
+msgstr ""
+"El telescopi «%1» no està en línia. Connecteu-lo i torneu-ho a intentar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/flagmanager.ui:101
