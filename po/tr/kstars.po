@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-13 07:43+0300\n"
+"PO-Revision-Date: 2023-11-16 22:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28232,11 +28232,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, twilightCheck)
 #: ekos/scheduler/scheduler.ui:1686
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Twilight"
-msgstr "Işık"
+msgstr "Alacakaranlık"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/scheduler/scheduler.ui:1705
@@ -60686,7 +60684,7 @@ msgstr "Sunnyvale"
 #, kde-kuit-format
 msgctxt "City in Florida USA"
 msgid "Sunrise"
-msgstr "Sunrise"
+msgstr "Gündoğumu"
 
 #: kstars_i18n.cpp:3670
 #, kde-kuit-format
@@ -84491,7 +84489,7 @@ msgstr "Seçilen tarihte gecenin uzunluğu"
 #: tools/wutdialog.ui:230
 #, kde-format
 msgid "Displays the duration between sunset and sunrise for the selected date."
-msgstr "Seçilen tarihteki gün doğumu ve gün batımı arasındaki süreyi gösterir."
+msgstr "Seçili tarihteki gündoğumu ve günbatımı arasındaki süreyi gösterir."
 
 #. i18n: ectx: property (text), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:233
@@ -84503,19 +84501,19 @@ msgstr "Gece süresi: 11:00 saat"
 #: tools/wutdialog.ui:252
 #, kde-format
 msgid "Time of sunset"
-msgstr "Gün batımı zamanı"
+msgstr "Günbatımı zamanı"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, SunSetLabel)
 #: tools/wutdialog.ui:255
 #, kde-format
 msgid "Displays the time of sunset for the selected date."
-msgstr "Seçilen tarihteki gün batımı zamanını gösterir."
+msgstr "Seçili tarihteki günbatımı zamanını gösterir."
 
 #. i18n: ectx: property (text), widget (QLabel, SunSetLabel)
 #: tools/wutdialog.ui:258
 #, kde-format
 msgid "Sunset:  19:15"
-msgstr "Gün batımı:  19:15"
+msgstr "Günbatımı: 19:15"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonSetLabel)
 #: tools/wutdialog.ui:277
@@ -84539,19 +84537,19 @@ msgstr "Ay batımı:  04:27 "
 #: tools/wutdialog.ui:302
 #, kde-format
 msgid "Time of sunrise"
-msgstr "Gün doğumu zamanı"
+msgstr "Gündoğumu zamanı"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, SunRiseLabel)
 #: tools/wutdialog.ui:305
 #, kde-format
 msgid "Displays the time of sunrise for the selected date."
-msgstr "Seçilen tarihteki gün doğumu zamanını gösterir."
+msgstr "Seçili tarihteki gündoğumu zamanını gösterir."
 
 #. i18n: ectx: property (text), widget (QLabel, SunRiseLabel)
 #: tools/wutdialog.ui:308
 #, kde-format
 msgid "Sunrise:  07:15"
-msgstr "Gün doğumu:  07:15"
+msgstr "Gündoğumu: 07:15"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonIllumLabel)
 #: tools/wutdialog.ui:327
