@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-13 21:37+0100\n"
+"PO-Revision-Date: 2023-11-17 10:22+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -16839,12 +16839,12 @@ msgstr "Napaka med razčlenjevanjem odziva strežnika: %1"
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
 msgid "Aberration Inspector - Run %1"
-msgstr ""
+msgstr "Inšpektor odklona - zaženi %1"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
 msgid "Tile"
-msgstr ""
+msgstr "Tlakuj"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
@@ -16885,12 +16885,12 @@ msgstr "Poimenovane zvezde"
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
 #, kde-format
 msgid "R²"
-msgstr ""
+msgstr "R²"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Exclude"
-msgstr ""
+msgstr "Izloči"
 
 #: ekos/focus/aberrationinspector.cpp:100
 #, fuzzy, kde-format
@@ -16919,7 +16919,7 @@ msgstr "Najmanjše število zvezd, odkritih za sep MultiStar za inicializacijo."
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr ""
+msgstr "Potrdite, da izključite vrstico iz izračunov"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
@@ -16932,14 +16932,14 @@ msgid "N/A"
 msgstr "N/D"
 
 #: ekos/focus/aberrationinspector.cpp:570
-#, kde-format
+#, fuzzy, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Premakni tipalo bližje ploskovitemu"
 
 #: ekos/focus/aberrationinspector.cpp:572
-#, kde-format
+#, fuzzy, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Premakni tipalo stran od ploskovitega"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #: ekos/focus/aberrationinspector.ui:23
@@ -16981,6 +16981,9 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Izberite kombinacijo tlakovcev, ki jo želite uporabiti "
+"za analizo:</p><p>- Vse prikaže vseh 9 tlakovcev.</p><p>- Sredina in zunanji "
+"vogali.</p><p>- Sredina in notranji karo.<br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
@@ -17022,9 +17025,9 @@ msgstr "OKO"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsOptCentres)
 #: ekos/focus/aberrationinspector.ui:118
-#, kde-format
+#, fuzzy, kde-format
 msgid "Optimise Tile Centres"
-msgstr ""
+msgstr "Optimiziraj središča tlakovcev"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
@@ -17053,9 +17056,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
-#, kde-format
+#, fuzzy, kde-format
 msgid "Backfocus Δ:"
-msgstr ""
+msgstr "Δ hrbtne ostrine:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
@@ -17153,7 +17156,7 @@ msgstr "Element"
 #: ekos/focus/aberrationinspector.ui:350
 #, kde-format
 msgid "Slice"
-msgstr ""
+msgstr "Nareži"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
@@ -17176,7 +17179,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
@@ -17189,13 +17192,13 @@ msgstr "Primarna"
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
-#, kde-format
+#, fuzzy, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Stone Moss"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
@@ -17217,7 +17220,7 @@ msgstr "Detroit"
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Ebenovinasta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
@@ -17266,9 +17269,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
-#, kde-format
+#, fuzzy, kde-format
 msgid "Petzval Wire"
-msgstr ""
+msgstr "Žični model Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
@@ -17281,9 +17284,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
-#, kde-format
+#, fuzzy, kde-format
 msgid "Petzval Surface"
-msgstr ""
+msgstr "Površina Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
@@ -17673,12 +17676,12 @@ msgstr ""
 #: ekos/focus/focus.cpp:3253
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
-msgstr ""
+msgstr "Zagon inšpektorja odklona za %1 je spodletel …"
 
 #: ekos/focus/focus.cpp:3273
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
-msgstr ""
+msgstr "Zaganjanje inšpektorja odklona za %1 …"
 
 #: ekos/focus/focus.cpp:3333
 #, fuzzy, kde-format
@@ -37181,73 +37184,75 @@ msgstr ""
 #: kstars.kcfg:2216
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
-msgstr ""
+msgstr "Kateri nabor tlakovcev naj uporabi Inšpektor odklona."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2220
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
-msgstr ""
+msgstr "Pokaže oznake Najv in Najm na grafikonu Inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2224
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
-msgstr ""
+msgstr "Pokaže območje kritične ostrine na grafikonu Inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2228
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
+"Ali naj bodo središča tlakovcev, ki se uporabljajo v izračunih Inšpektorja "
+"odklona, optimizirana"
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2232
-#, kde-format
+#, fuzzy, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Položaj VdDelilnika v Inšpektorju odklona."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2235
-#, kde-format
+#, fuzzy, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Položaj NaDelilnika v Inšpektorju odklona."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2238
 #, kde-format
 msgid "Aberration Inspector 3D graphic selection mode."
-msgstr ""
+msgstr "Izbirni način 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: whatsthis, entry (abInsTheme), group (Focus)
 #: kstars.kcfg:2242
 #, kde-format
 msgid "Aberration Inspector 3D graphic theme."
-msgstr ""
+msgstr "Tema 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsLabels), group (Focus)
 #: kstars.kcfg:2246
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
-msgstr ""
+msgstr "Prikaz oznak 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2250
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr ""
+msgstr "Prikaz tipala 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2254
-#, kde-format
+#, fuzzy, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr ""
+msgstr "Prikaz žičnega modela Petzwal 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2258
-#, kde-format
+#, fuzzy, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
-msgstr ""
+msgstr "Prikaz žičnega površine Petzwal 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2264
