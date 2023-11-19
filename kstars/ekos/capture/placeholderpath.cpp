@@ -371,7 +371,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
                  && pathPropertyMap[PP_PIERSIDE].isValid())
         {
             if (glob || gettingSignature)
-                replacement = "(East)|(West)|(Unknown)";
+                replacement = "(East|West|Unknown)";
             else
             {
                 switch (static_cast<ISD::Mount::PierSide>(pathPropertyMap[PP_PIERSIDE].toInt()))
