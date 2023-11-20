@@ -6,8 +6,11 @@
 
 #pragma once
 
+#ifndef OPTIMALEXPOSURESTACK_H
+#define OPTIMALEXPOSURESTACK_H
 #include <QAbstractItemModel>
 
+QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 class OptimalExposureStack
@@ -32,3 +35,8 @@ class OptimalExposureStack
         double stackTotalNoise;
 };
 }
+QT_END_NAMESPACE
+
+
+
+#endif // OPTIMALEXPOSURESTACK_H

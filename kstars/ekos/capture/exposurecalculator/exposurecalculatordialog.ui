@@ -7,531 +7,938 @@
     <x>0</x>
     <y>0</y>
     <width>438</width>
-    <height>608</height>
+    <height>713</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
     <width>438</width>
-    <height>608</height>
+    <height>713</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>438</width>
-    <height>608</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Sub-Exposure Calculator</string>
   </property>
-  <widget class="QFrame" name="exposureCalculatorFrame">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>421</width>
-     <height>591</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QDoubleSpinBox" name="noiseTolerance">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>340</y>
-      <width>71</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Adjust the balance of the two noise sources</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="allowableNoiseLabel">
-    <property name="geometry">
-     <rect>
-      <x>204</x>
-      <y>340</y>
-      <width>131</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Noise Increase (%)</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QCustomPlot" name="qCustomPlotSubExposure" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>130</y>
-      <width>401</width>
-      <height>201</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Potential exposure time graph</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="exposureStackResult">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>446</y>
-      <width>401</width>
-      <height>131</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="SQMLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>91</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Sky Quality</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="userSkyQuality">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>10</y>
-      <width>82</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Adjust the quality of the sky</string>
-    </property>
-    <property name="decimals">
-     <number>3</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>40</y>
-      <width>111</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Filter Bandwidth:</string>
-    </property>
-   </widget>
-   <widget class="QFrame" name="gainSelectionNormalFrame">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>335</y>
-      <width>171</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="gainSliderLabel">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>3</y>
-       <width>41</width>
-       <height>27</height>
-      </rect>
+  <property name="toolTip">
+   <string/>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_4">
+   <item row="1" column="0">
+    <widget class="QFrame" name="exposureCalculatorFrame">
+     <property name="enabled">
+      <bool>true</bool>
      </property>
-     <property name="text">
-      <string>Gain</string>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-    </widget>
-    <widget class="QSpinBox" name="gainSelector">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>3</y>
-       <width>101</width>
-       <height>27</height>
-      </rect>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="gainSelectionISODiscreteFrame">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>335</y>
-      <width>171</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QComboBox" name="isoDiscreteSelector">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>3</y>
-       <width>101</width>
-       <height>27</height>
-      </rect>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
      </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>3</y>
-       <width>41</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ISO</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="gainSelectionFixedFrame">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>335</y>
-      <width>171</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="gainSelectionFixedLabel">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>3</y>
-       <width>141</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Read noise constant</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="skyQualityColor" native="true">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>10</y>
-      <width>27</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Bortle Zone Color</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="indiFocalRatio">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>40</y>
-      <width>82</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="indiFocalRationLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>71</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Focal Ratio</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="imagingCameraSelector">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>70</y>
-      <width>308</width>
-      <height>27</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="indiCameraLabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>51</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Camera</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="bortleScaleLabel">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>10</y>
-      <width>81</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Bortle Class:</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="filterBandwidth">
-    <property name="geometry">
-     <rect>
-      <x>343</x>
-      <y>40</y>
-      <width>65</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Apply a compensation for an optical filter</string>
-    </property>
-    <property name="decimals">
-     <number>1</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="bortleScaleValue">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>10</y>
-      <width>41</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Bortle class value</string>
-    </property>
-    <property name="text">
-     <string>9</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="cameraReadModeSelector">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>100</y>
-      <width>308</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Select read mode on cameras with multiple read modes.</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="indiCameraReadMode">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>81</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Read Mode</string>
-    </property>
-   </widget>
-   <widget class="QFrame" name="calculationResult">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>370</y>
-      <width>399</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>9</y>
-       <width>391</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
-       <number>6</number>
-      </property>
-      <property name="topMargin">
-       <number>1</number>
-      </property>
-      <property name="bottomMargin">
-       <number>1</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="subTimeLabel">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="SQMLabel">
         <property name="text">
-         <string>Exposure Time (sec)</string>
+         <string>Sky Quality</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="subExposureTime">
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="indiFocalRationLabel">
+        <property name="text">
+         <string>Focal Ratio</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLabel" name="label">
+        <property name="minimumSize">
+         <size>
+          <width>126</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Filter Bandwidth</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="7">
+       <widget class="QDoubleSpinBox" name="noiseTolerance">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>72</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Alter the bias of the noise sources</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3" colspan="2">
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="indiCameraLabel">
+        <property name="text">
+         <string>Camera</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLabel" name="bortleScaleLabel">
+        <property name="minimumSize">
+         <size>
+          <width>107</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Bortle Class</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="3">
+       <widget class="QFrame" name="gainSelectionFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>180</width>
+          <height>32</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="gainSpinnerLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>3</y>
+           <width>72</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>72</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Gain</string>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="gainSelector">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>3</y>
+           <width>81</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>81</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Select Camera Sensor Gain</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="gainISODiscreteSelector">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>3</y>
+           <width>81</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Select DSLR ISO Value</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="gainISOSelectorLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>3</y>
+           <width>72</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>72</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>ISO</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="gainSelectionFixedLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>3</y>
+           <width>151</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Read noise constant</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>gainISODiscreteSelector</zorder>
+        <zorder>gainSelectionFixedLabel</zorder>
+        <zorder>gainSpinnerLabel</zorder>
+        <zorder>gainSelector</zorder>
+        <zorder>gainISOSelectorLabel</zorder>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="8">
+       <widget class="QFrame" name="calculationResult">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="rightMargin">
+          <number>2</number>
+         </property>
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item row="0" column="4">
+            <widget class="QLabel" name="subShotNoise">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Noise in the sub-exposure from light pollution</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QLabel" name="subTotalNoiseLabel">
+             <property name="text">
+              <string>Total Noise</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="subPollutionLabel">
+             <property name="text">
+              <string>Pollution Electrons</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4">
+            <widget class="QLabel" name="subTotalNoise">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Total noise in the sub-exposure (light pollution + read-noise)</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLabel" name="subShotNoiseLabel">
+             <property name="text">
+              <string>Shot Noise</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="subPollutionElectrons">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Estimated light pollution electrons in the sub-exposure.</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="2">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="subExposureTime">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Duration of Sub-exposure</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="subTimeLabel">
+             <property name="text">
+              <string>Exposure Time (sec)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="7">
+       <widget class="QLabel" name="SensorType">
+        <property name="minimumSize">
+         <size>
+          <width>62</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="text">
          <string/>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="downloadCameraB">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Download additional camera data files</string>
+        </property>
+        <property name="text">
+         <string>+</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="subShotNoiseLabel">
+      <item row="0" column="7">
+       <widget class="QWidget" name="skyQualityColor" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Bortle Zone Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="QLabel" name="bortleScaleValue">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Bortle class value</string>
+        </property>
         <property name="text">
-         <string>Shot Noise</string>
+         <string>9</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QLabel" name="subShotNoise">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="2" colspan="6">
+       <widget class="QComboBox" name="cameraReadModeSelector">
         <property name="toolTip">
-         <string>Noise in the sub-exposure from light pollution</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>Select read mode on cameras with multple read modes.</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="subPollutionLabel">
-        <property name="text">
-         <string>Pollution Electrons</string>
+      <item row="0" column="2">
+       <widget class="QDoubleSpinBox" name="userSkyQuality">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="subPollutionElectrons">
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>27</height>
+         </size>
+        </property>
         <property name="toolTip">
-         <string>Calculated count of light pollution electrons in the sub-exposure.</string>
+         <string>Adjust the quality of the sky</string>
         </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="decimals">
+         <number>3</number>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="subTotalNoiseLabel">
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="indiCameraReadMode">
         <property name="text">
-         <string>Total Noise</string>
+         <string>Read Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="QDoubleSpinBox" name="filterBandwidth">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>48</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Apply a compensation for an optical filter</string>
+        </property>
+        <property name="decimals">
+         <number>1</number>
         </property>
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QLabel" name="subTotalNoise">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="2" colspan="5">
+       <widget class="QComboBox" name="imagingCameraSelector">
         <property name="toolTip">
-         <string>Total noise in the sub-exposure (light pollution + read-noise)</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>Camera Data Selection</string>
         </property>
        </widget>
       </item>
+      <item row="1" column="2">
+       <widget class="QDoubleSpinBox" name="indiFocalRatio">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>27</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="8">
+       <widget class="QCustomPlot" name="qCustomPlotSubExposure" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>180</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Potential exposure time graph</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="5">
+       <widget class="QLabel" name="allowableNoiseLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>122</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Noise Increase %</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="8">
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>192</height>
+         </size>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Table</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QTableWidget" name="exposureStackResult">
+            <property name="minimumSize">
+             <size>
+              <width>380</width>
+              <height>140</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>Graph</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="7">
+           <widget class="QLabel" name="exposureCountDifferential">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>40</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Slope of time to noise ratio curve at current exposure count</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="exposureCountLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>67</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Exposures</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4" colspan="2">
+           <widget class="QLabel" name="exposureCount">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>40</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Calculated exposure count for integration</string>
+            </property>
+            <property name="text">
+             <string>--</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="8">
+           <widget class="QCustomPlot" name="qCustomPlotIntegrationNoise" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>378</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Integration Time to Noise Ratio</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="targetNoiseLable">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>110</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Time/Noise Ratio</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <widget class="QLabel" name="exposureDiffLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>19</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>dy =</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDoubleSpinBox" name="targetNoiseRatio">
+            <property name="minimumSize">
+             <size>
+              <width>68</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Integration time to noise ratio (potential quality)</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>2000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>80.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
      </layout>
+     <zorder>qCustomPlotSubExposure</zorder>
+     <zorder>gainSelectionFrame</zorder>
+     <zorder>noiseTolerance</zorder>
+     <zorder>SQMLabel</zorder>
+     <zorder>userSkyQuality</zorder>
+     <zorder>skyQualityColor</zorder>
+     <zorder>indiFocalRatio</zorder>
+     <zorder>indiFocalRationLabel</zorder>
+     <zorder>imagingCameraSelector</zorder>
+     <zorder>indiCameraLabel</zorder>
+     <zorder>bortleScaleValue</zorder>
+     <zorder>cameraReadModeSelector</zorder>
+     <zorder>indiCameraReadMode</zorder>
+     <zorder>calculationResult</zorder>
+     <zorder>downloadCameraB</zorder>
+     <zorder>horizontalSpacer</zorder>
+     <zorder>horizontalSpacer_2</zorder>
+     <zorder>horizontalSpacer_5</zorder>
+     <zorder>SensorType</zorder>
+     <zorder>filterBandwidth</zorder>
+     <zorder>allowableNoiseLabel</zorder>
+     <zorder>label</zorder>
+     <zorder>bortleScaleLabel</zorder>
+     <zorder>tabWidget</zorder>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="downloadCameraB">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>70</y>
-      <width>27</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>(Future Release) Download additional camera data files</string>
-    </property>
-    <property name="text">
-     <string>+</string>
-    </property>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>
@@ -541,6 +948,20 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>userSkyQuality</tabstop>
+  <tabstop>indiFocalRatio</tabstop>
+  <tabstop>filterBandwidth</tabstop>
+  <tabstop>imagingCameraSelector</tabstop>
+  <tabstop>cameraReadModeSelector</tabstop>
+  <tabstop>gainSelector</tabstop>
+  <tabstop>gainISODiscreteSelector</tabstop>
+  <tabstop>noiseTolerance</tabstop>
+  <tabstop>targetNoiseRatio</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>exposureStackResult</tabstop>
+  <tabstop>downloadCameraB</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

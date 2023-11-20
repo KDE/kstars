@@ -4,7 +4,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-
+#include <stdio.h>
+#include <string.h>
+#include <bits/stdc++.h>
 #include <QLoggingCategory>
 #include <QDialog>
 #include <QDir>
@@ -19,32 +21,33 @@
 #include <QDirIterator>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
-
 #include "fileutilitycameradata.h"
-#include "fileutilitycameradatadialog.h"
 #include "imagingcameradata.h"
 #include "cameragainreadnoise.h"
-
+#include "exposurecalculatordialog.h"
 #include <ekos_capture_debug.h>
 #include <kspaths.h>
 
+/*
+ * Direct access to files on KDE/kstars git repository:
+ */
 QString const OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepositoryList
-    = "https://api.github.com/repos/Stingray65/ExposureCalculatorCameraData/git/trees/main?recursive=1";
+    = "https://api.github.com/repos/KDE/kstars/git/trees/03717dc46dfa8f10a1ad79b2b5cc6c5482219169";
 
 QString const OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepository
-    = "https://raw.githubusercontent.com/Stingray65/ExposureCalculatorCameraData/main/github_repo_cameradata_v1/exposure_calculator/";
+    = "https://raw.githubusercontent.com/KDE/kstars/master/kstars/data/cameradata/";
 
 QString const OptimalExposure::FileUtilityCameraData::cameraApplicationDataRepository
     = KSPaths::locate(QStandardPaths::AppDataLocation, QString("cameradata/"), QStandardPaths::LocateDirectory);
 
 QString const OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository
-    = KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString("cameradata/"), QStandardPaths::LocateDirectory);
-
+    = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("kstars/cameradata/");
 
 QStringList OptimalExposure::FileUtilityCameraData::getAvailableCameraFilesList()
 {
     QStringList cameraDataFiles;
     QStringList dirs;
+
 
     dirs << KSPaths::locateAll(QStandardPaths::GenericDataLocation,
                                QString::fromLatin1("kstars/cameradata"),
@@ -59,6 +62,7 @@ QStringList OptimalExposure::FileUtilityCameraData::getAvailableCameraFilesList(
             cameraDataFiles.append(it.next());
         }
     }
+
     return(cameraDataFiles);
 }
 
@@ -97,19 +101,23 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
     QDialog *aDialog)
 
 {
-    // Could not find an easy way to read a file listing from a folder in github.
-    // So relying upon git tree, but this approach requires parsing a large tree
-    // string for just the xml file names.
+
+    qCInfo(KSTARS_EKOS_CAPTURE) << "cameraDataRemoteRepositoryList: " <<
+                                OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepositoryList;
+    qCInfo(KSTARS_EKOS_CAPTURE) << "cameraDataRemoteRepository: " <<
+                                OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepository;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "cameraApplicationDataRepository: " << OptimalExposure::FileUtilityCameraData::cameraApplicationDataRepository;
+    qCInfo(KSTARS_EKOS_CAPTURE) << "cameraLocalDataRepository: " <<
+                                OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository;
+
+    // Using git tree to access camera file list, this approach requires parsing the tree
+    // string collect the xml (camera data) file names.
 
     FileUtilityCameraDataDialog *activeDialog = static_cast<FileUtilityCameraDataDialog *> (aDialog);
     activeDialog->setANetworkAccessManager(new QNetworkAccessManager(activeDialog));
 
-
-
     QString aCameraDataRemoteFolderURL = OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepositoryList;
     qCInfo(KSTARS_EKOS_CAPTURE) << "Attempting access of camera data file repository " << aCameraDataRemoteFolderURL;
-
-
 
     QNetworkRequest activeRequest = QNetworkRequest(QUrl(aCameraDataRemoteFolderURL));
     activeDialog->setRequest(&activeRequest);
@@ -124,12 +132,6 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
     });
 
     QVector<QString> *availableCameraDataFiles = new QVector<QString>();
-    // Could just hard-code a few for testing
-    // availableCameraDataFiles.append("ZWO_CCD_ASI071MC_Pro.xml");
-    // availableCameraDataFiles.append("ZWO_CCD_ASI178MC.xml");
-    // availableCameraDataFiles.append("QHY_CCD_268M.xml");
-
-
 
     activeDialog->connect(activeReply, &QNetworkReply::finished,
                           activeDialog,
@@ -143,30 +145,39 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
             return;
         }
 
-        // Need to parse the reply here
+        // Parse out the filenames from the tree
         std::string responseDataStr = activeReply->readAll().toStdString();
 
-        std::size_t index = 0;
+        // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data File Github Tree:\n" << QString::fromStdString(responseDataStr);
 
-        std::string prefixStr = "/exposure_calculator/";
-        std::string fileExtStr = ".xml";
+        std::string startdelimiter = "[";
+        std::string stopdelimiter = "]";
+        std::string treeStr = responseDataStr.substr(responseDataStr.find(startdelimiter) + 1, responseDataStr.find(stopdelimiter) - responseDataStr.find(startdelimiter));
 
-        std::size_t filePrefixIndex = responseDataStr.find(prefixStr, index);
-        while(filePrefixIndex != -1)
+        std::vector <std::string> tokens;
+        std::stringstream responseDataStream(treeStr);
+
+        std::string intermediate;
+
+        while(getline(responseDataStream, intermediate, ','))
         {
-            std::size_t fileNameIndex = filePrefixIndex + prefixStr.length();
+            tokens.push_back(intermediate);
+        }
 
-            std::size_t fileExtStrIndex = responseDataStr.find(fileExtStr, fileNameIndex);
-            std::size_t fileFullNameLength = fileExtStrIndex + fileExtStr.length() - fileNameIndex;
+        // Find the camera file name
+        for(int i = 0; i < tokens.size(); i++)
+        {
+            if(tokens[i].find("path") != std::string::npos)
+            {
 
-            std::string aCameraDataFileStr = responseDataStr.substr(fileNameIndex, fileFullNameLength);
-            QString aCameraDataFile = QString::fromStdString(aCameraDataFileStr);
+                std::string aCameraDataFileStr = tokens[i].substr(9,  tokens[i].length() - 14);
+                // std::cout << aCameraDataFileStr << '\n';
 
-            availableCameraDataFiles->append(aCameraDataFile);
+                QString aCameraDataFile = QString::fromStdString(aCameraDataFileStr);
 
-            index = fileNameIndex + aCameraDataFile.length();
-            filePrefixIndex = responseDataStr.find(prefixStr, index);
+                availableCameraDataFiles->append(aCameraDataFile);
 
+            }
         }
         activeDialog->setAvailableCameraDataFiles(*availableCameraDataFiles);
         activeDialog->refreshCameraList();
@@ -217,6 +228,11 @@ void OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(
     // File for local storage
     QString aCameraDataLocalFileName = OptimalExposure::FileUtilityCameraData::cameraLocalDataRepository
                                        + cameraDataFileName;
+
+    //QString aCameraDataLocalFileName = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+    //                                   QString("cameradata/%1").arg(cameraDataFileName));
+
+
 
     qCInfo(KSTARS_EKOS_CAPTURE) << "Attempting Download Camera Data from "
                                 << aCameraDataDownloadURL << "\n\tto " << aCameraDataLocalFileName;

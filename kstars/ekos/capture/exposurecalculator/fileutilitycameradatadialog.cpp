@@ -7,23 +7,25 @@
 #include <QLoggingCategory>
 #include <QDir>
 #include <QFile>
-#include "fileutilitycameradatadialog.h"
-#include "ui_fileutilitycameradatadialog.h"
-
+#include "fileutilitycameradata.h"
+#include "./ui_fileutilitycameradatadialog.h"
 #include <ekos_capture_debug.h>
 
 FileUtilityCameraDataDialog::FileUtilityCameraDataDialog(
     QWidget *parent,
     const QString &aPreferredCameraId) :
     QDialog(parent),
-    ui(new Ui::FileUtilityCameraDataDialog),
-    aPreferredCameraId(aPreferredCameraId)
+    aPreferredCameraId(aPreferredCameraId),
+    ui(new Ui::FileUtilityCameraDataDialog)
 {
     ui->setupUi(this);
 
     OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileList(this);
 
     connect(ui->downloadB, &QPushButton::clicked, this, &FileUtilityCameraDataDialog::startCameraDownload);
+
+    // ui->buttonBox->
+    // ui->buttonBox->Cancel
 
     ui->availableRemoteCameraList->clear();
     ui->availableRemoteCameraList->setSelectionMode(QAbstractItemView::ExtendedSelection);

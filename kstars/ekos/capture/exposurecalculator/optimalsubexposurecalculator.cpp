@@ -11,7 +11,6 @@
 #include "calculatedgainsubexposuretime.h"
 #include "cameraexposureenvelope.h"
 #include "optimalexposuredetail.h"
-
 #include <ekos_capture_debug.h>
 
 namespace OptimalExposure
@@ -216,6 +215,7 @@ double OptimalSubExposureCalculator::calculateLightPolutionForOpticFocalRatio(do
 double OptimalSubExposureCalculator::calculateCFactor(double aNoiseTolerance)
 {
     // cFactor = 1/( (((100+allowableNoiseIncreasePercent)/100)^2) -1)
+
     return((double) (1 / ( pow((((double)100 + (double) aNoiseTolerance) / (double)100), (double)2) - 1)));
 
 }
@@ -225,6 +225,16 @@ double OptimalSubExposureCalculator::calculateLightPollutionElectronBaseRate(dou
     // Conversion curve fitted from Dr Glover data
     double base = std::stod("1.25286030612621E+27");
     double power = (double) -19.3234809465887;
+
+    // New version of Dr Glover's function calculates the Electron rate at thet pixel level
+    // and requires pixel size in microns and QE of sensor.
+    // double baseV2 = 1009110388.7838
+    // Calculation of an initial electron rate will
+    // use a new fitted curve based upon a 1.0 micon pixel and 100% QE
+    // curve appears to be f(sqm) = 1009110388.7838 exp (-0.921471189594521 * sqm)
+    //
+
+
     return(base * pow(skyQuality, power));
 }
 
@@ -237,29 +247,32 @@ OptimalExposure::CameraExposureEnvelope OptimalSubExposureCalculator::calculateC
     */
 
     double lightPollutionElectronBaseRate = OptimalSubExposureCalculator::calculateLightPollutionElectronBaseRate(aSkyQuality);
-    //qCInfo(KSTARS_EKOS_CAPTURE) << "Calculating CameraExposureEnvelope...";
-    //   << "Using Sky Quality: " << aSkyQuality;
-    //   << "\tConverted to lightPollutionElectronBaseRate: " << lightPollutionElectronBaseRate;
-    //   << "Using an Optical Focal Ratio: " << aFocalRatio;
-
+    /*
+    qCInfo(KSTARS_EKOS_CAPTURE) << "Calculating CameraExposureEnvelope..."
+                                << "Using Sky Quality: " << aSkyQuality
+                                << "\nConverted to lightPollutionElectronBaseRate: " << lightPollutionElectronBaseRate
+                                << "Using an Optical Focal Ratio: " << aFocalRatio;
+    */
     double lightPollutionForOpticFocalRatio = calculateLightPolutionForOpticFocalRatio(lightPollutionElectronBaseRate,
             aFocalRatio, aFilterCompensation);
-    //qCInfo(KSTARS_EKOS_CAPTURE)
-    //  << "\tResulting in an Light Pollution Rate for the Optic of: "
-    //  << lightPollutionForOpticFocalRatio;
-
+    /*
+    qCInfo(KSTARS_EKOS_CAPTURE)
+            << "\tResulting in an Light Pollution Rate for the Optic of: "
+            << lightPollutionForOpticFocalRatio;
+    */
     // qCDebug(KSTARS_EKOS_CAPTURE) << "Using a camera Id: " << anImagingCameraData.getCameraId();
     OptimalExposure::CameraGainReadMode aSelectedReadMode =
         anImagingCameraData.getCameraGainReadModeVector()[aSelectedCameraReadMode];
-    // qCInfo(KSTARS_EKOS_CAPTURE) << "\t with camera read mode: "
-    //  << aSelectedReadMode.getCameraGainReadModeName();
-    //  << "\tWith a read-noise table of : "
-    //  << aSelectedReadMode.getCameraGainReadNoiseVector().size() << " values";
-
+    /*
+    qCInfo(KSTARS_EKOS_CAPTURE) << "\t with camera read mode: "
+                                << aSelectedReadMode.getCameraGainReadModeName()
+                                << "\tWith a read-noise table of : "
+                                << aSelectedReadMode.getCameraGainReadNoiseVector().size() << " values";
+    */
     // qCInfo(KSTARS_EKOS_CAPTURE) << "Using a Noise Tolerance of: " << aNoiseTolerance;
 
     double cFactor = calculateCFactor(aNoiseTolerance);
-    // qCDebug(KSTARS_EKOS_CAPTURE) << "Calculated CFactor is: " << cFactor;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Calculated CFactor is: " << cFactor;
 
     QVector<CalculatedGainSubExposureTime> aSubExposureTimeVector = calculateGainSubExposureVector(cFactor,
             lightPollutionForOpticFocalRatio);
@@ -285,7 +298,8 @@ OptimalExposure::CameraExposureEnvelope OptimalSubExposureCalculator::calculateC
     return(aCameraExposureEnvelope);
 }
 
-OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSubExposureDetail(int aSelectedGainValue)
+// OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSubExposureDetail(int aSelectedGainValue)
+OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSubExposureDetail()
 {
     /*
         This method calculates some details for a sub-exposure. It will interpolate between
@@ -295,6 +309,7 @@ OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSu
 
     // qCDebug(KSTARS_EKOS_CAPTURE) << "aSelectedGainValue: " << aSelectedGainValue;
 
+    int aSelectedGain = getASelectedGain();
 
     // Look for a matching gain from the camera gain read-noise table, or identify a bracket for interpolation.
     // Interpolation may result in slight errors when the read-noise data is curve. (there's probably a better way to code this)
@@ -308,19 +323,21 @@ OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSu
     QVector<OptimalExposure::CameraGainReadNoise> aCameraGainReadNoiseVector =
         aSelectedReadMode.getCameraGainReadNoiseVector();
 
+
+
     for(int readNoiseIndex = 0; readNoiseIndex < aSelectedReadMode.getCameraGainReadNoiseVector().size(); readNoiseIndex++)
     {
         if(!matched)
         {
             CameraGainReadNoise aCameraGainReadNoise = aSelectedReadMode.getCameraGainReadNoiseVector()[readNoiseIndex];
-            if(aCameraGainReadNoise.getGain() == aSelectedGainValue)
+            if(aCameraGainReadNoise.getGain() == aSelectedGain)
             {
                 matched = true;
                 // qCInfo(KSTARS_EKOS_CAPTURE) << " matched a camera gain ";
                 aReadNoise = aCameraGainReadNoise.getReadNoise();
                 break;
             }
-            if(aCameraGainReadNoise.getGain() < aSelectedGainValue)
+            if(aCameraGainReadNoise.getGain() < aSelectedGain)
             {
                 lowerReadNoiseIndex = readNoiseIndex;
             }
@@ -343,9 +360,9 @@ OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSu
             // interpolate a read-noise value
             double m = (anUpperIndexCameraReadNoise.getReadNoise() - aLowerIndexCameraReadNoise.getReadNoise()) /
                        (anUpperIndexCameraReadNoise.getGain() - aLowerIndexCameraReadNoise.getGain());
-            aReadNoise = aLowerIndexCameraReadNoise.getReadNoise() + (m * (aSelectedGainValue - aLowerIndexCameraReadNoise.getGain()));
+            aReadNoise = aLowerIndexCameraReadNoise.getReadNoise() + (m * (aSelectedGain - aLowerIndexCameraReadNoise.getGain()));
             // qCInfo(KSTARS_EKOS_CAPTURE)
-            // << "The camera read-noise for the selected gain value is interpolated to: " << aReadNoise;
+            //        << "The camera read-noise for the selected gain value is interpolated to: " << aReadNoise;
         }
         else
         {
@@ -360,7 +377,6 @@ OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSu
         // qCInfo(KSTARS_EKOS_CAPTURE)
         // << "The camera read-noise for the selected gain value was matched: " << aReadNoise;
     }
-
 
     double anOptimalSubExposure = 0.0;
 
@@ -410,10 +426,20 @@ OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSu
 
         OptimalExposureStack *anOptimalExposureStack
             = new OptimalExposureStack(sessionHours, anExposureCount, aStackTime, aStackTotalNoise);
+
+        /*
+                qCInfo(KSTARS_EKOS_CAPTURE) << sessionHours << "\t" << anExposureCount
+                                            << "\t" << aStackTime << "\t" << aStackTotalNoise
+                                            << "\t" << aStackTime / aStackTotalNoise;
+
+                //  << aSelectedGainValue << " is " << anOptimalSubExposure << " seconds";
+        */
         aStackSummary.push_back(*anOptimalExposureStack);
+
+
     }
 
-    OptimalExposureDetail anOptimalExposureDetail = OptimalExposureDetail(aSelectedGainValue, anOptimalSubExposure,
+    OptimalExposureDetail anOptimalExposureDetail = OptimalExposureDetail(getASelectedGain(), anOptimalSubExposure,
             anExposurePollutionElectrons, anExposureShotNoise,  anExposureTotalNoise, aStackSummary);
 
     return(anOptimalExposureDetail);

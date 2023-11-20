@@ -5,22 +5,20 @@
 */
 
 
-#include "fileutilitycameradata.h"
-#include "optimalsubexposurecalculator.h"
-#include "optimalexposuredetail.h"
-#include "kstars.h"
-#include "fileutilitycameradatadialog.h"
-#include "exposurecalculatordialog.h"
-#include "ui_exposurecalculatordialog.h"
-
 #include <QLoggingCategory>
 #include <QDir>
 #include <QVectorIterator>
 #include <QVariant>
 #include <QTableWidgetItem>
+#include "fileutilitycameradata.h"
+#include "optimalsubexposurecalculator.h"
+#include "optimalexposuredetail.h"
 #include <string>
 #include <iostream>
 #include <filesystem>
+#include "fileutilitycameradatadialog.h"
+#include "exposurecalculatordialog.h"
+#include "./ui_exposurecalculatordialog.h"
 #include <kspaths.h>
 #include <ekos_capture_debug.h>
 
@@ -35,61 +33,48 @@
  *
  */
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+OptimalExposure::OptimalExposureDetail
+aSubExposureDetail;  // Added during refactoring to simplify and better support the noise graph
+
 ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
         double aPreferredSkyQualityValue,
         double aPreferredFocalRatioValue,
         const QString &aPreferredCameraId) :
     QDialog(parent),
-    ui(new Ui::ExposureCalculatorDialog),
     aPreferredSkyQualityValue(aPreferredSkyQualityValue),
     aPreferredFocalRatioValue(aPreferredFocalRatioValue),
-    aPreferredCameraId(aPreferredCameraId)
+    aPreferredCameraId(aPreferredCameraId),
+    ui(new Ui::ExposureCalculatorDialog)
 {
     ui->setupUi(this);
 
-    // The download function is disabled in the initial release
-    //    if(!OptimalExposure::FileUtilityCameraData::isExposureCalculatorCameraDataAvailable())
-    //    {
-    //        if(QDir().mkpath(OptimalExposure::FileUtilityCameraData::cameraApplicationDataRepository))
-    //        {
-
-    //            // This could be used to build a set of camera files from code
-    //            // OptimalExposure::FileUtilityCameraData::buildCameraDataFile();
-
-    //            // Instead find data for the active camera in the remote repository
-    //            FileUtilityCameraDataDialog aCameraDownloadDialog(this, aPreferredCameraId);
-
-    //            aCameraDownloadDialog.setWindowModality(Qt::WindowModal);
-
-    //            aCameraDownloadDialog.exec();
-
-
-    //        }
-    //        else
-    //        {
-    //            qCCritical(KSTARS_EKOS_CAPTURE) << "Exposure calculator will fail without camera data!";
-    //        }
-    //    }
+    ui->exposureDiffLabel->setText(QString("\u0394="));
 
     QStringList availableCameraFiles = OptimalExposure::FileUtilityCameraData::getAvailableCameraFilesList();
 
+    if(availableCameraFiles.length() == 0)
+    {
+        // qCWarning(KSTARS_EKOS_CAPTURE) << "Exposure Calculator - No Camera data available, closing dialog";
+        // QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Exposure Calculator - No Camera data available, opening camera data download dialog";
+        FileUtilityCameraDataDialog aCameraDownloadDialog(this, aPreferredCameraId);
+        aCameraDownloadDialog.setWindowModality(Qt::WindowModal);
+        aCameraDownloadDialog.exec();
+        // QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+        // Look again for files...
+        availableCameraFiles = OptimalExposure::FileUtilityCameraData::getAvailableCameraFilesList();
+
+    }
+
+
     if(availableCameraFiles.length() > 0)
     {
-
         ui->imagingCameraSelector->clear();
         refreshCameraSelector(ui, availableCameraFiles, aPreferredCameraId);
 
         ui->exposureCalculatorFrame->setEnabled(false);
 
-        ui->gainSelectionISODiscreteFrame->setEnabled(false);
-        ui->gainSelectionISODiscreteFrame->setVisible(false);
-        ui->gainSelectionNormalFrame->setEnabled(false);
-        ui->gainSelectionNormalFrame->setVisible(false);
-        ui->gainSelectionFixedFrame->setEnabled(false);
-        ui->gainSelectionFixedFrame->setVisible(false);
+        hideGainSelectionWidgets();
 
         ui->gainSelector->setMinimum(0);
         ui->gainSelector->setMaximum(100);
@@ -108,8 +93,8 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
         // was coded ui->userSkyQuality->setValue(20.0);
         ui->userSkyQuality->setValue(aPreferredSkyQualityValue);
 
-        ui->noiseTolerance->setMinimum(0.05);
-        ui->noiseTolerance->setMaximum(25.00);
+        ui->noiseTolerance->setMinimum(0.02);
+        ui->noiseTolerance->setMaximum(200.00);
         ui->noiseTolerance->setSingleStep(0.25);
         ui->noiseTolerance->setValue(5.0);
 
@@ -145,7 +130,7 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
 
         */
 
-        // Set up plot colors to be night friendly
+        // Set up plot colors of Sub Exposure (night friendly)
         ui->qCustomPlotSubExposure->setBackground(QBrush(Qt::black));
         ui->qCustomPlotSubExposure->xAxis->setBasePen(QPen(Qt::white, 1));
         ui->qCustomPlotSubExposure->yAxis->setBasePen(QPen(Qt::white, 1));
@@ -166,6 +151,37 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
         ui->qCustomPlotSubExposure->yAxis->setLabel("Exposure Time");
 
         ui->qCustomPlotSubExposure->addGraph();
+
+
+        // Set up plot colors of Integrated Image Noise (night friendly)
+        ui->qCustomPlotIntegrationNoise->setBackground(QBrush(Qt::black));
+        ui->qCustomPlotIntegrationNoise->xAxis->setBasePen(QPen(Qt::white, 1));
+        ui->qCustomPlotIntegrationNoise->yAxis->setBasePen(QPen(Qt::white, 1));
+        ui->qCustomPlotIntegrationNoise->xAxis->setTickPen(QPen(Qt::white, 1));
+        ui->qCustomPlotIntegrationNoise->yAxis->setTickPen(QPen(Qt::white, 1));
+        ui->qCustomPlotIntegrationNoise->xAxis->setSubTickPen(QPen(Qt::white, 1));
+        ui->qCustomPlotIntegrationNoise->yAxis->setSubTickPen(QPen(Qt::white, 1));
+        ui->qCustomPlotIntegrationNoise->xAxis->setTickLabelColor(Qt::white);
+        ui->qCustomPlotIntegrationNoise->yAxis->setTickLabelColor(Qt::white);
+        ui->qCustomPlotIntegrationNoise->xAxis->setLabelColor(Qt::white);
+        ui->qCustomPlotIntegrationNoise->yAxis->setLabelColor(Qt::white);
+
+        ui->qCustomPlotIntegrationNoise->xAxis->grid()->setPen(QPen(Qt::darkGray));
+        ui->qCustomPlotIntegrationNoise->yAxis->grid()->setPen(QPen(Qt::darkGray));
+
+        ui->qCustomPlotIntegrationNoise->addGraph(ui->qCustomPlotIntegrationNoise->xAxis, ui->qCustomPlotIntegrationNoise->yAxis);
+        ui->qCustomPlotIntegrationNoise->graph(0)->setPen(QPen(Qt::yellow));
+        ui->qCustomPlotIntegrationNoise->graph(0)->setName("Integration Time to Noise Ratio");
+        ui->qCustomPlotIntegrationNoise->xAxis->setLabel("Stacked Exposures");
+        ui->qCustomPlotIntegrationNoise->yAxis->setLabel("Noise Ratio");
+
+        //        ui->qCustomPlotIntegrationNoise->addGraph(ui->qCustomPlotIntegrationNoise->xAxis, ui->qCustomPlotIntegrationNoise->yAxis);
+        //        ui->qCustomPlotIntegrationNoise->graph(1)->setPen(QPen(Qt::green));
+        //        ui->qCustomPlotIntegrationNoise->graph(1)->setName("Integration to Noise Ratio");
+        //        ui->qCustomPlotIntegrationNoise->yAxis2->setLabel("Noise Ratio");
+
+
+
 
         connect(ui->imagingCameraSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
                 &ExposureCalculatorDialog::applyInitialInputs);
@@ -188,34 +204,35 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
         connect(ui->noiseTolerance, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
                 &ExposureCalculatorDialog::handleUserAdjustment);
 
-        connect(ui->isoDiscreteSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+        connect(ui->gainISODiscreteSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
                 &ExposureCalculatorDialog::handleUserAdjustment);
 
-
+        connect(ui->targetNoiseRatio, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+                &ExposureCalculatorDialog::handleStackCalculation);
 
         // Hide the gain selector frames (until a camera is selected)
-
-        ui->gainSelectionFixedFrame->setEnabled(false);
-        ui->gainSelectionFixedFrame->setVisible(false);
-        ui->gainSelectionNormalFrame->setEnabled(false);
-        ui->gainSelectionNormalFrame->setVisible(false);
-        ui->gainSelectionISODiscreteFrame->setEnabled(false);
-        ui->gainSelectionISODiscreteFrame->setVisible(false);
+        hideGainSelectionWidgets();
 
         applyInitialInputs();
 
     }
-    else
-    {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "Exposure Calculator - No Camera data available, closing dialog";
-        QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
-    }
-
+    /*
+        else
+        {
+            // qCWarning(KSTARS_EKOS_CAPTURE) << "Exposure Calculator - No Camera data available, closing dialog";
+            // QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Exposure Calculator - No Camera data available, opening camera data download dialog";
+            FileUtilityCameraDataDialog aCameraDownloadDialog(this, aPreferredCameraId);
+            aCameraDownloadDialog.setWindowModality(Qt::WindowModal);
+            aCameraDownloadDialog.exec();
+            QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+        }
+    */
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 int ExposureCalculatorDialog::getGainSelection(OptimalExposure::GainSelectionType aGainSelectionType)
 {
     int aSelectedGain = 0;
@@ -229,12 +246,12 @@ int ExposureCalculatorDialog::getGainSelection(OptimalExposure::GainSelectionTyp
 
         case OptimalExposure::GAIN_SELECTION_TYPE_ISO_DISCRETE:
             // qCInfo(KSTARS_EKOS_CAPTURE) << " iso selector text: " << ui->isoDiscreteSelector->currentText();
-            aSelectedGain = ui->isoDiscreteSelector->currentText().toInt();
+            aSelectedGain = ui->gainISODiscreteSelector->currentText().toInt();
             break;
 
         case OptimalExposure::GAIN_SELECTION_TYPE_FIXED:
-            //            // qCInfo(KSTARS_EKOS_CAPTURE) << "Fixed read-noise cameras still under development";
-            aSelectedGain = 9;
+            // qCInfo(KSTARS_EKOS_CAPTURE) << "Fixed read-noise camera gain set to 0";
+            aSelectedGain = 0;  // Fixed noise cameras have read noise data at 0 gain.
             break;
 
     }
@@ -242,9 +259,7 @@ int ExposureCalculatorDialog::getGainSelection(OptimalExposure::GainSelectionTyp
     return(aSelectedGain);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
 QString skyQualityToBortleClassNumber(double anSQMValue)
 {
 
@@ -288,20 +303,20 @@ QColor makeASkyQualityColor(double anSQMValue)
     QColor aSkyBrightnessColor;
     int aHueDegree, aSaturation, aValue;
 
-    if (anSQMValue < 18.32)  // White Zone
+    if(anSQMValue < 18.32)  // White Zone
     {
         aHueDegree = 40;
         aSaturation = 0;    // Saturation must move from
         aValue = 254;       // Value must move from 254 to 240
     }
-    else if (anSQMValue < 18.44)  // From White Zone at 18.32 transitioning to Red Zone at 18.44
+    else if(anSQMValue < 18.44)  // From White Zone at 18.32 transitioning to Red Zone at 18.44
     {
         aHueDegree = 0;     // Hue is Red,
         // Saturation must transition from 0 to 255 as SQM moves from 18.32 to 18.44
         aSaturation = (int)(255 * ((anSQMValue - (double)18.32) / (18.44 - 18.32)));
         aValue = 254;
     }
-    else if (anSQMValue < 21.82 )
+    else if(anSQMValue < 21.82 )
     {
         // In the color range transitions hue of Bortle can be approximated with a polynomial
         aHueDegree = 17.351411032 * pow(anSQMValue, 4)
@@ -310,13 +325,13 @@ QColor makeASkyQualityColor(double anSQMValue)
                      - 549664.28976 * anSQMValue
                      + 2736244.0733;
 
-        if (aHueDegree < 0) aHueDegree = 0;
+        if(aHueDegree < 0) aHueDegree = 0;
 
         aSaturation = 255;
         aValue = 240;
 
     }
-    else if (anSQMValue < 21.92) // Transition from Blue to Dark Gray between 21.82 and 21.92
+    else if(anSQMValue < 21.92) // Transition from Blue to Dark Gray between 21.82 and 21.92
     {
         aHueDegree = 240;
         // Saturation must transition from 255 to 0
@@ -325,7 +340,7 @@ QColor makeASkyQualityColor(double anSQMValue)
         aValue = (int)(100 + (1400 * (21.92 - anSQMValue)));
 
     }
-    else if (anSQMValue < 21.99)  // Dark gray zone
+    else if(anSQMValue < 21.99)  // Dark gray zone
     {
         aHueDegree = 240;
         aSaturation = 0;
@@ -338,14 +353,16 @@ QColor makeASkyQualityColor(double anSQMValue)
         aValue = 0;
     }
 
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Sky Quality Color Hue: " << aHueDegree;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Sky Quality Color Saturation: " << aSaturation;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Sky Quality Color Value: " << aValue;
+
     aSkyBrightnessColor.setHsv(aHueDegree, aSaturation, aValue);
 
     return(aSkyBrightnessColor);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
 void refreshSkyQualityPresentation(Ui::ExposureCalculatorDialog *ui, double aSkyQualityValue)
 {
 
@@ -364,9 +381,7 @@ void refreshSkyQualityPresentation(Ui::ExposureCalculatorDialog *ui, double aSky
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
 void ExposureCalculatorDialog::handleUserAdjustment()
 {
 
@@ -404,12 +419,61 @@ void ExposureCalculatorDialog::handleUserAdjustment()
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+void ExposureCalculatorDialog::hideGainSelectionWidgets()
+{
+    ui->gainSelectionFrame->setEnabled(false);
+    ui->gainSelectionFrame->setVisible(false);
+
+    ui->gainSpinnerLabel->setVisible(false);
+    ui->gainSelector->setVisible(false);
+    ui->gainSelector->setEnabled(false);
+
+    ui->gainISOSelectorLabel->setVisible(false);
+    ui->gainISODiscreteSelector->setVisible(false);
+    ui->gainISODiscreteSelector->setEnabled(false);
+
+    ui->gainSelectionFixedLabel->setVisible(false);
+
+    /*
+    ui->gainSelectionISODiscreteFrame->setEnabled(false);
+    ui->gainSelectionISODiscreteFrame->setVisible(false);
+    ui->gainSelectionFixedFrame->setEnabled(false);
+    ui->gainSelectionFixedFrame->setVisible(false);
+    */
+}
+
+
+void ExposureCalculatorDialog::showGainSelectionNormalWidgets()
+{
+    ui->gainSpinnerLabel->setVisible(true);
+    ui->gainSelector->setEnabled(true);
+    ui->gainSelector->setVisible(true);
+
+    ui->gainSelectionFrame->setEnabled(true);
+    ui->gainSelectionFrame->setVisible(true);
+}
+
+void ExposureCalculatorDialog::showGainSelectionISODiscreteWidgets()
+{
+    ui->gainISOSelectorLabel->setVisible(true);
+    ui->gainISODiscreteSelector->setEnabled(true);
+    ui->gainISODiscreteSelector->setVisible(true);
+
+    ui->gainSelectionFrame->setEnabled(true);
+    ui->gainSelectionFrame->setVisible(true);
+}
+
+void ExposureCalculatorDialog::showGainSelectionFixedWidgets()
+{
+    ui->gainSelectionFixedLabel->setVisible(true);
+
+    ui->gainSelectionFrame->setEnabled(true);
+    ui->gainSelectionFrame->setVisible(true);
+}
+
+
 void ExposureCalculatorDialog::applyInitialInputs()
 {
-
     ui->exposureCalculatorFrame->setEnabled(false);
 
     // QString aSelectedImagingCameraName = ui->imagingCameraSelector->itemText(ui->imagingCameraSelector->currentIndex());
@@ -443,9 +507,81 @@ void ExposureCalculatorDialog::applyInitialInputs()
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
+void plotIntegratedNoise(Ui::ExposureCalculatorDialog *ui,
+                         OptimalExposure::OptimalExposureDetail *subExposureDetail)
+{
+
+    ui->qCustomPlotIntegrationNoise->graph()->data()->clear();
+
+    double aCoefficient = (subExposureDetail->getSubExposureTime() / subExposureDetail->getExposureTotalNoise());
+    /*
+        qCInfo(KSTARS_EKOS_CAPTURE) << "Noise Ratio Function: Noise Ratio = " << aCoefficient << " * Sqrt(Exposure Count)";
+
+        qCInfo(KSTARS_EKOS_CAPTURE) << "Differential of Noise Ratio Function: = " << aCoefficient << " / (2 * Sqrt(Exposure Count)";
+
+        qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Count Function (for desired Noise Ratio):"
+                                    << "Exposure Count = (Noise Ratio / " << aCoefficient << ") ^2  = pow(Noise Ratio / " << aCoefficient << ", 2)";
+    */
+    double aTargetNoiseRatio = ui->targetNoiseRatio->value();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Target Noise Ratio: " << aTargetNoiseRatio;
+
+    int aRequiredExposureCount = std::max(1, (int)(pow((aTargetNoiseRatio / aCoefficient), 2)));
+    ui->exposureCount->setText(QString::number(aRequiredExposureCount));
+
+    double aDifferential = aCoefficient / (2 * sqrt(aRequiredExposureCount));
+    ui->exposureCountDifferential->setText(QString::number(aDifferential, 'f', 2));
+
+
+    ui->qCustomPlotIntegrationNoise->graph()->data()->clear();
+
+    // ui->qCustomPlotIntegrationNoise
+    // ui->qCustomPlotIntegrationNoise->graph(0)->setData(ExposureCount, noise);
+
+    QVector<double> xValue((aRequiredExposureCount * 2) + 1), yValue((aRequiredExposureCount * 2) + 1);
+    for (int exposureCount = 1; exposureCount < (aRequiredExposureCount * 2) + 1; exposureCount++)
+    {
+        xValue[exposureCount] = exposureCount;
+        yValue[exposureCount] = aCoefficient * pow(exposureCount, 0.5);
+    }
+
+    ui->qCustomPlotIntegrationNoise->graph(0)->setData(xValue, yValue);
+
+    ui->qCustomPlotIntegrationNoise->xAxis->setRange(0, aRequiredExposureCount * 2);
+    ui->qCustomPlotIntegrationNoise->yAxis->setRange(0, yValue[yValue.size() - 1]);
+
+    // Also add a graph with a vertical line to show the computed integration
+    ui->qCustomPlotIntegrationNoise->addGraph();
+
+    QVector<double> selectedIntegrationSizeX(2), selectedIntegrationSizeY(2);
+    selectedIntegrationSizeX[0] = aRequiredExposureCount;
+    selectedIntegrationSizeY[0] = 0;
+    selectedIntegrationSizeX[1] = aRequiredExposureCount;
+    selectedIntegrationSizeY[1] = aTargetNoiseRatio;
+    ui->qCustomPlotIntegrationNoise->graph(1)->setData(selectedIntegrationSizeX, selectedIntegrationSizeY);
+
+    QPen penSelectedIntegrationSize;
+    penSelectedIntegrationSize.setWidth(1);
+    // penSelectedIntegrationSize.setColor(QColor(180, 0, 0));
+    // On the black background need more contrast
+    penSelectedIntegrationSize.setColor(QColor(240, 0, 0));
+
+    ui->qCustomPlotIntegrationNoise->graph(1)->setPen(penSelectedIntegrationSize);
+
+    ui->qCustomPlotIntegrationNoise->graph(1)->setScatterStyle(QCPScatterStyle::ssCircle);
+
+    ui->qCustomPlotIntegrationNoise->graph()->rescaleAxes(true);
+    ui->qCustomPlotIntegrationNoise->replot();
+
+}
+
+// Slot for adjustments made to desired noise ratio that require a refresh of the NR graph
+void ExposureCalculatorDialog::handleStackCalculation()
+{
+    plotIntegratedNoise(ui, &aSubExposureDetail);
+}
+
+
 void plotSubExposureEnvelope(Ui::ExposureCalculatorDialog *ui,
                              OptimalExposure::OptimalSubExposureCalculator *anOptimalSubExposureCalculator,
                              OptimalExposure::OptimalExposureDetail *subExposureDetail)
@@ -453,6 +589,11 @@ void plotSubExposureEnvelope(Ui::ExposureCalculatorDialog *ui,
 
     OptimalExposure::CameraExposureEnvelope aCameraExposureEnvelope =
         anOptimalSubExposureCalculator->calculateCameraExposureEnvelope();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Envelope has a set of: " << aCameraExposureEnvelope.getASubExposureVector().size();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Envelope has a minimum Exposure Time of " << aCameraExposureEnvelope.getExposureTimeMin();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Envelope has a maximum Exposure Time of " << aCameraExposureEnvelope.getExposureTimeMax();
+
+    // anOptimalSubExposureCalculator->getImagingCameraData()
 
     // Reset the graph axis (But maybe this was not necessary,
     ui->qCustomPlotSubExposure->xAxis->setRange(anOptimalSubExposureCalculator->getImagingCameraData().getGainMin(),
@@ -475,10 +616,8 @@ void plotSubExposureEnvelope(Ui::ExposureCalculatorDialog *ui,
 
     ui->qCustomPlotSubExposure->graph(0)->setData(gain, exposuretime);
 
-
     // Also add a graph with a vertical line to show the selected gain...
     ui->qCustomPlotSubExposure->addGraph();
-
 
     QVector<double> selectedExposureX(2), selectedExposureY(2);
     selectedExposureX[0] = subExposureDetail->getSelectedGain();
@@ -490,14 +629,14 @@ void plotSubExposureEnvelope(Ui::ExposureCalculatorDialog *ui,
     QPen penExposureEnvelope;
     penExposureEnvelope.setWidth(1);
     // penExposureEnvelope.setColor(QColor(0, 180, 180));
-    // On the black background need more contrtast
+    // On the black background need more contrast
     penExposureEnvelope.setColor(QColor(0, 220, 220));
     ui->qCustomPlotSubExposure->graph(0)->setPen(penExposureEnvelope);
 
     QPen penSelectedExposure;
     penSelectedExposure.setWidth(1);
     // penSelectedExposure.setColor(QColor(180, 0, 0));
-    // On the black background need more contrtast
+    // On the black background need more contrast
     penSelectedExposure.setColor(QColor(240, 0, 0));
 
     ui->qCustomPlotSubExposure->graph(1)->setPen(penSelectedExposure);
@@ -515,15 +654,48 @@ void plotSubExposureEnvelope(Ui::ExposureCalculatorDialog *ui,
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 void ExposureCalculatorDialog::initializeSubExposureCalculator(double aNoiseTolerance, double aSkyQualityValue,
         double aFocalRatioValue, double aFilterCompensationValue, QString aSelectedImagingCameraName)
 {
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "initializeSubExposureComputer";
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taNoiseTolerance: " << aNoiseTolerance;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taSkyQualityValue: " << aSkyQualityValue;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taFocalRatioValue: " << aFocalRatioValue;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taFilterCompensation: " << aFilterCompensationValue;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taSelectedImagingCamera: " << aSelectedImagingCameraName;
+
+    //    QVector<int> *aGainSelectionRange = new QVector<int>();
+
+    //    QVector<OptimalExposure::CameraGainReadNoise> *aCameraGainReadNoiseVector
+    //        = new QVector<OptimalExposure::CameraGainReadNoise>();
+
+    //    QVector<OptimalExposure::CameraGainReadMode>  *aCameraGainReadModeVector
+    //        = new QVector<OptimalExposure::CameraGainReadMode>();
+
+    //    // Initialize with some default values before attempting to load from file
+
+    //    anImagingCameraData = new OptimalExposure::ImagingCameraData(aSelectedImagingCameraName, OptimalExposure::SENSORTYPE_COLOR,
+    //                OptimalExposure::GAIN_SELECTION_TYPE_NORMAL, *aGainSelectionRange, *aCameraGainReadModeVector);
+
     anImagingCameraData = new OptimalExposure::ImagingCameraData();
     // Load camera data from file
     OptimalExposure::FileUtilityCameraData::readCameraDataFile(aSelectedImagingCameraName, anImagingCameraData);
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Loaded Imaging Camera Data for " + anImagingCameraData->getCameraId();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Gain Selection Type " +  QString::number(anImagingCameraData->getGainSelectionType());
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Read Mode Vector Size " + QString::number(
+    //  anImagingCameraData->getCameraGainReadModeVector().size());
+
+    switch(anImagingCameraData->getSensorType())
+    {
+        case OptimalExposure::SENSORTYPE_COLOR:
+            ui->SensorType->setText("Color");
+            break;
+        case OptimalExposure::SENSORTYPE_MONOCHROME:
+            ui->SensorType->setText("Mono");
+            break;
+    }
 
     ui->cameraReadModeSelector->clear();
     foreach(OptimalExposure::CameraGainReadMode aReadMode, anImagingCameraData->getCameraGainReadModeVector())
@@ -541,56 +713,45 @@ void ExposureCalculatorDialog::initializeSubExposureCalculator(double aNoiseTole
         ui->cameraReadModeSelector->setEnabled(false);
     }
 
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Gain Read-Noise Vector Size "
+    // + QString::number(anImagingCameraData->getCameraGainReadNoiseVector().size());
+
+
+
     switch( anImagingCameraData->getGainSelectionType() )
     {
         case OptimalExposure::GAIN_SELECTION_TYPE_FIXED:
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Gain Selection Type: GAIN_SELECTION_TYPE_FIXED";
-
-            ui->gainSelectionISODiscreteFrame->setEnabled(false);
-            ui->gainSelectionISODiscreteFrame->setVisible(false);
-            ui->gainSelectionNormalFrame->setEnabled(false);
-            ui->gainSelectionNormalFrame->setVisible(false);
-            ui->gainSelectionFixedFrame->setEnabled(true);
-            ui->gainSelectionFixedFrame->setVisible(true);
+            hideGainSelectionWidgets();
+            showGainSelectionFixedWidgets();
 
             break;
 
         case OptimalExposure::GAIN_SELECTION_TYPE_ISO_DISCRETE:
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Gain Selection Type: GAIN_SELECTION_TYPE_ISO_DISCRETE";
-            ui->gainSelectionFixedFrame->setEnabled(false);
-            ui->gainSelectionFixedFrame->setVisible(false);
-            ui->gainSelectionNormalFrame->setEnabled(false);
-            ui->gainSelectionNormalFrame->setVisible(false);
-            ui->gainSelectionISODiscreteFrame->setEnabled(false);
-            ui->gainSelectionISODiscreteFrame->setVisible(false);
+            hideGainSelectionWidgets();
 
-            // qCInfo(KSTARS_EKOS_CAPTURE) << "ui->isoDiscreteSelector->isEnabled(): " << ui->isoDiscreteSelector->isEnabled();
-            // qCInfo(KSTARS_EKOS_CAPTURE) << "ui->noiseTolerance->isEnabled(): " << ui->noiseTolerance->isEnabled();
-
-            ui->isoDiscreteSelector->clear();
+            ui->gainISODiscreteSelector->clear();
             // Load the ISO Combo from the camera data
             foreach(int isoSetting, anImagingCameraData->getGainSelectionRange())
             {
-                ui->isoDiscreteSelector->addItem(QString::number(isoSetting));
+                ui->gainISODiscreteSelector->addItem(QString::number(isoSetting));
             }
-            ui->isoDiscreteSelector->setCurrentIndex(0);
+            ui->gainISODiscreteSelector->setCurrentIndex(0);
 
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data Gain min " +  QString::number(anImagingCameraData->getGainMin());
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data Gain max " +  QString::number(anImagingCameraData->getGainMax());
 
-            ui->gainSelectionISODiscreteFrame->setEnabled(true);
-            ui->gainSelectionISODiscreteFrame->setVisible(true);
+            showGainSelectionISODiscreteWidgets();
 
             break;
 
         case OptimalExposure::GAIN_SELECTION_TYPE_NORMAL:
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Gain Selection Type: GAIN_SELECTION_TYPE_NORMAL";
-            ui->gainSelectionFixedFrame->setEnabled(false);
-            ui->gainSelectionFixedFrame->setVisible(false);
-            ui->gainSelectionISODiscreteFrame->setEnabled(false);
-            ui->gainSelectionISODiscreteFrame->setVisible(false);
-            ui->gainSelectionNormalFrame->setEnabled(true);
-            ui->gainSelectionNormalFrame->setVisible(true);
+
+            hideGainSelectionWidgets();
+            showGainSelectionNormalWidgets();
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data Gain min " +  QString::number(anImagingCameraData->getGainMin());
             // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Data Gain max " +  QString::number(anImagingCameraData->getGainMax());
             break;
@@ -600,59 +761,30 @@ void ExposureCalculatorDialog::initializeSubExposureCalculator(double aNoiseTole
     anOptimalSubExposureCalculator = new OptimalExposure::OptimalSubExposureCalculator(aNoiseTolerance, aSkyQualityValue,
             aFocalRatioValue, aFilterCompensationValue, *anImagingCameraData);
 
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Calculating... ";
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Noise Tolerance " << anOptimalSubExposureCalculator->getANoiseTolerance();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Sky Quality " << anOptimalSubExposureCalculator->getASkyQuality();
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Focal Ratio " << anOptimalSubExposureCalculator->getAFocalRatio();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Filter Compensation Value (ignored): " << anOptimalSubExposureCalculator->getAFilterCompensation();
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Camera Gain Min " << anOptimalSubExposureCalculator->getImagingCameraData().getGainMin();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Camera Gain Max " << anOptimalSubExposureCalculator->getImagingCameraData().getGainMax();
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void ExposureCalculatorDialog::calculateSubExposure(double aNoiseTolerance, double aSkyQualityValue,
-        double aFocalRatioValue, double aFilterCompensationValue, int aSelectedReadMode, int aSelectedGainValue)
+
+void refreshStackTable(Ui::ExposureCalculatorDialog *ui,
+                       OptimalExposure::OptimalExposureDetail *subExposureDetail)
 {
-
-    anOptimalSubExposureCalculator->setANoiseTolerance(aNoiseTolerance);
-    anOptimalSubExposureCalculator->setASkyQuality(aSkyQualityValue);
-    anOptimalSubExposureCalculator->setAFocalRatio(aFocalRatioValue);
-    anOptimalSubExposureCalculator->setAFilterCompensation(aFilterCompensationValue);
-    anOptimalSubExposureCalculator->setASelectedCameraReadMode(aSelectedReadMode);
-    anOptimalSubExposureCalculator->setASelectedGain(aSelectedGainValue);
-
-    anOptimalSubExposureCalculator->setAFilterCompensation(aFilterCompensationValue);
-
-    OptimalExposure::CameraExposureEnvelope aCameraExposureEnvelope =
-        anOptimalSubExposureCalculator->calculateCameraExposureEnvelope();
-
-    OptimalExposure::OptimalExposureDetail subExposureDetail = anOptimalSubExposureCalculator->calculateSubExposureDetail(
-                aSelectedGainValue);
-    // Get the exposure details into the ui
-    plotSubExposureEnvelope(ui, anOptimalSubExposureCalculator, &subExposureDetail);
-    if(ui->gainSelector->isEnabled())
-    {
-        // realignGainSlider();
-        ui->gainSelector->setMaximum(anOptimalSubExposureCalculator->getImagingCameraData().getGainMax());
-        ui->gainSelector->setMinimum(anOptimalSubExposureCalculator->getImagingCameraData().getGainMin());
-    }
-
-    ui->subExposureTime->setText(QString::number(subExposureDetail.getSubExposureTime(), 'f', 2));
-    ui->subPollutionElectrons->setText(QString::number(subExposureDetail.getExposurePollutionElectrons(), 'f', 0));
-    ui->subShotNoise->setText(QString::number(subExposureDetail.getExposureShotNoise(), 'f', 2));
-    ui->subTotalNoise->setText(QString::number(subExposureDetail.getExposureTotalNoise(), 'f', 2));
-
     QTableWidget *resultStackTable = ui->exposureStackResult;
-    resultStackTable->setColumnCount(5);
-    resultStackTable->verticalHeader()->setVisible(false);
 
-    QStringList stackDetailHeaders;
-    stackDetailHeaders << "Planned Hours" << "Exposure Count" << "Stack Time" << "Stack Noise" << "Ratio";
-    resultStackTable->setHorizontalHeaderLabels(stackDetailHeaders);
-    resultStackTable->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter | (Qt::Alignment)Qt::TextWordWrap);
-    resultStackTable->horizontalHeader()->setFixedHeight(32);
-
-    int stackSummarySize =  subExposureDetail.getStackSummary().size();
+    int stackSummarySize =  subExposureDetail->getStackSummary().size();
     resultStackTable->setRowCount(stackSummarySize);
 
     for(int stackSummaryIndex = 0; stackSummaryIndex < stackSummarySize; stackSummaryIndex++)
     {
-        OptimalExposure::OptimalExposureStack anOptimalExposureStack = subExposureDetail.getStackSummary()[stackSummaryIndex];
+        OptimalExposure::OptimalExposureStack anOptimalExposureStack = subExposureDetail->getStackSummary()[stackSummaryIndex];
 
         resultStackTable->setItem(stackSummaryIndex, 0,
                                   new QTableWidgetItem(QString::number(anOptimalExposureStack.getPlannedTime())));
@@ -675,15 +807,121 @@ void ExposureCalculatorDialog::calculateSubExposure(double aNoiseTolerance, doub
         resultStackTable->item(stackSummaryIndex, 4)->setTextAlignment(Qt::AlignRight);
 
         resultStackTable->setRowHeight(stackSummaryIndex, 22);
+        /*
+                qCInfo(KSTARS_EKOS_CAPTURE) << "Stack info: Hours: " << anOptimalExposureStack.getPlannedTime()
+                                            << " Exposure Count: " << anOptimalExposureStack.getExposureCount()
+                                            << " Stack Time: " << anOptimalExposureStack.getStackTime()
+                                            << " Stack Total Noise: " << anOptimalExposureStack.getStackTotalNoise();
+        */
+
+        /*
+             2023-10 Add plot of the ratio of Total Noise to Stack Integration Time into new plot widget qCustomPlotIntegrationNoise
+        */
 
     }
-
     resultStackTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
+void ExposureCalculatorDialog::calculateSubExposure(double aNoiseTolerance, double aSkyQualityValue,
+        double aFocalRatioValue, double aFilterCompensationValue, int aSelectedReadMode, int aSelectedGainValue)
+{
+
+    anOptimalSubExposureCalculator->setANoiseTolerance(aNoiseTolerance);
+    anOptimalSubExposureCalculator->setASkyQuality(aSkyQualityValue);
+    anOptimalSubExposureCalculator->setAFocalRatio(aFocalRatioValue);
+    anOptimalSubExposureCalculator->setAFilterCompensation(aFilterCompensationValue);
+    anOptimalSubExposureCalculator->setASelectedCameraReadMode(aSelectedReadMode);
+    anOptimalSubExposureCalculator->setASelectedGain(aSelectedGainValue);
+
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "initializeSubExposureComputer";
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taNoiseTolerance: " << aNoiseTolerance;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taSkyQualityValue: " << aSkyQualityValue;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taFocalRatioValue: " << aFocalRatioValue;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taFilterCompensation: (ignored) " << aFilterCompensationValue;
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "\taSelectedGainValue: " << aSelectedGainValue;
+
+    anOptimalSubExposureCalculator->setAFilterCompensation(aFilterCompensationValue);
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Calculating... ";
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Noise Tolerance " << anOptimalSubExposureCalculator->getANoiseTolerance();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Sky Quality " << anOptimalSubExposureCalculator->getASkyQuality();
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Focal Ratio " << anOptimalSubExposureCalculator->getAFocalRatio();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Filter Compensation Value (ignored): " << anOptimalSubExposureCalculator->getAFilterCompensation();
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Camera Gain Min " << anOptimalSubExposureCalculator->getImagingCameraData().getGainMin();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "A Camera Gain Max " << anOptimalSubExposureCalculator->getImagingCameraData().getGainMax();
+
+
+    OptimalExposure::CameraExposureEnvelope aCameraExposureEnvelope =
+        anOptimalSubExposureCalculator->calculateCameraExposureEnvelope();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Envelope has a set of: " << aCameraExposureEnvelope.getASubExposureVector().size();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Envelope has a minimum Exposure Time of " << aCameraExposureEnvelope.getExposureTimeMin();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Envelope has a maximum Exposure Time of " << aCameraExposureEnvelope.getExposureTimeMax();
+
+
+    //OptimalExposure::OptimalExposureDetail subExposureDetail = anOptimalSubExposureCalculator->calculateSubExposureDetail(
+    //            aSelectedGainValue);
+
+
+    aSubExposureDetail = anOptimalSubExposureCalculator->calculateSubExposureDetail();
+    // Get the exposure details into the ui
+    //ui->exposureCalculatonResult.
+
+    plotSubExposureEnvelope(ui, anOptimalSubExposureCalculator, &aSubExposureDetail);
+
+    if(ui->gainSelector->isEnabled())
+    {
+        // realignGainSlider();
+        ui->gainSelector->setMaximum(anOptimalSubExposureCalculator->getImagingCameraData().getGainMax());
+        ui->gainSelector->setMinimum(anOptimalSubExposureCalculator->getImagingCameraData().getGainMin());
+    }
+
+    ui->subExposureTime->setText(QString::number(aSubExposureDetail.getSubExposureTime(), 'f', 2));
+    ui->subPollutionElectrons->setText(QString::number(aSubExposureDetail.getExposurePollutionElectrons(), 'f', 0));
+    ui->subShotNoise->setText(QString::number(aSubExposureDetail.getExposureShotNoise(), 'f', 2));
+    ui->subTotalNoise->setText(QString::number(aSubExposureDetail.getExposureTotalNoise(), 'f', 2));
+
+
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Pollution Electrons: " << subExposureDetail.getExposurePollutionElectrons();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Shot Noise: " << subExposureDetail.getExposureShotNoise();
+    // qCInfo(KSTARS_EKOS_CAPTURE) << "Exposure Total Noise: " << subExposureDetail.getExposureTotalNoise();
+
+
+    QTableWidget *resultStackTable = ui->exposureStackResult;
+    resultStackTable->setColumnCount(5);
+    resultStackTable->verticalHeader()->setVisible(false);
+
+    QStringList stackDetailHeaders;
+    stackDetailHeaders << "Planned Hours" << "Exposure Count" << "Stack Time" << "Noise" << "Ratio";
+    resultStackTable->setHorizontalHeaderLabels(stackDetailHeaders);
+    resultStackTable->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter | (Qt::Alignment)Qt::TextWordWrap);
+    resultStackTable->horizontalHeader()->setFixedHeight(32);
+
+    resultStackTable->horizontalHeaderItem(1)->setToolTip("Sub-exposure count in stacked image");
+    resultStackTable->horizontalHeaderItem(2)->setToolTip("Integration time of stacked image (seconds)");
+    resultStackTable->horizontalHeaderItem(3)->setToolTip("Total Noise in Stacked Image");
+    resultStackTable->horizontalHeaderItem(4)->setToolTip("Integration time to noise ratio (potential quality)");
+
+    /*
+    double initializedTargetNoiseRatio = ceil((100.0 * aSubExposureDetail.getSubExposureTime()) /
+                                         aSubExposureDetail.getExposureTotalNoise()) / 10.0;
+
+    // Reinitialize the time/noise input in the stack calculator to produce a stack of 100 images.
+    ui->targetNoiseRatio->setValue(initializedTargetNoiseRatio);
+
+    */
+    refreshStackTable(ui, &aSubExposureDetail);
+
+    plotIntegratedNoise(ui, &aSubExposureDetail);
+
+}
+
+
+
 void ExposureCalculatorDialog::refreshCameraSelector(Ui::ExposureCalculatorDialog *ui,
         QStringList availableCameraFileNames, const QString aPreferredCameraId)
 {
@@ -695,9 +933,19 @@ void ExposureCalculatorDialog::refreshCameraSelector(Ui::ExposureCalculatorDialo
     int preferredIndex = 0;
     ui->imagingCameraSelector->clear();
 
-    for(auto &filename : availableCameraFileNames)
+    /*
+     *  2023-10-05 Added sorting to the filelist, but the full path is included in this
+     *  list, and since camera data can come from either the applicaton folder, or a user local folder
+     *  the sort result can produce two groupings of sorted camera ids.
+     *  In Linux, files from the user local folder will appear first in the QCombo.
+    */
+    availableCameraFileNames.sort();
+
+    foreach(QString filename, availableCameraFileNames)
     {
-        auto aCameraId = OptimalExposure::FileUtilityCameraData::cameraDataFileNameToCameraId(filename);
+        QString aCameraId = OptimalExposure::FileUtilityCameraData::cameraDataFileNameToCameraId(filename);
+
+        // qCInfo(KSTARS_EKOS_CAPTURE) << "Camera Filename: " << filename << " Camera Id:" << aCameraId;
 
         ui->imagingCameraSelector->addItem(aCameraId, filename);
         if(aPreferredCameraId != nullptr && aPreferredCameraId.length() > 0)
@@ -711,25 +959,20 @@ void ExposureCalculatorDialog::refreshCameraSelector(Ui::ExposureCalculatorDialo
 
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
+
 ExposureCalculatorDialog::~ExposureCalculatorDialog()
 {
     delete ui;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 void ExposureCalculatorDialog::on_downloadCameraB_clicked()
 {
     // User may want to add more camera files.
-    FileUtilityCameraDataDialog aCameraDownloadDialog(KStars::Instance(), aPreferredCameraId);
+    FileUtilityCameraDataDialog aCameraDownloadDialog(this, aPreferredCameraId);
     aCameraDownloadDialog.setWindowModality(Qt::WindowModal);
     aCameraDownloadDialog.exec();
 
-    // This refresh is causing an error because the combobox->clear is
+    // Using refresh is causing an error because the combobox->clear is
     // making the selection change.  Need to resolve this.
     // but for now, if a user adds more cameras they will be available
     // in the exposure calculator on the next start.

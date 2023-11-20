@@ -6,8 +6,11 @@
 
 #pragma once
 
-#include <QAbstractItemModel>
+#ifndef CAMERAGAINREADNOISE_H
+#define CAMERAGAINREADNOISE_H
 
+#include <QAbstractItemModel>
+QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 
@@ -29,9 +32,10 @@ class CameraGainReadNoise
 
 };
 
+
 }
-
-
+QT_END_NAMESPACE
+#endif // CAMERAGAINREADNOISE_H
 
 
 
