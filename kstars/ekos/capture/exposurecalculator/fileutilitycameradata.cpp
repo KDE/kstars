@@ -6,7 +6,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <bits/stdc++.h>
 #include <QLoggingCategory>
 #include <QDialog>
 #include <QDir>
@@ -26,6 +25,7 @@
 #include "cameragainreadnoise.h"
 #include "exposurecalculatordialog.h"
 #include <ekos_capture_debug.h>
+#include <sstream>
 #include <kspaths.h>
 
 /*
