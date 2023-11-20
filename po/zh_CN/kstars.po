@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-10-21 13:54\n"
+"PO-Revision-Date: 2023-11-19 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1285,7 +1285,7 @@ msgstr "设置所需的视场旋转角度"
 #: auxiliary/xplanetimageviewer.cpp:361
 #, kde-format
 msgid "Rotate the view 180 degrees"
-msgstr "旋转视图180 度"
+msgstr "旋转视图 (180 度)"
 
 #: auxiliary/xplanetimageviewer.cpp:370
 #, kde-format
@@ -5885,16 +5885,14 @@ msgid "Target is within acceptable range."
 msgstr "目标在可接受的范围内。"
 
 #: ekos/align/align.cpp:2312
-#, fuzzy, kde-format
-#| msgid "Saved image to %1"
+#, kde-format
 msgid "Saving failed solver image to %1"
-msgstr "将图像保存到 %1"
+msgstr ""
 
 #: ekos/align/align.cpp:2321
-#, fuzzy, kde-format
-#| msgid "Solver failed. Try again."
+#, kde-format
 msgid "Solver failed. Retrying without scale constraint."
-msgstr "解析失败。再试一次。"
+msgstr ""
 
 #: ekos/align/align.cpp:2331
 #, kde-format
@@ -9077,10 +9075,9 @@ msgid "Refresh solver failed: %1s"
 msgstr ""
 
 #: ekos/align/polaralignmentassistant.cpp:569
-#, fuzzy, kde-format
-#| msgid "Solver failed. Try again."
+#, kde-format
 msgid "PAA: Solver failed, retrying."
-msgstr "解析失败。再试一次。"
+msgstr ""
 
 #: ekos/align/polaralignmentassistant.cpp:576
 #, kde-format
@@ -11998,16 +11995,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/> <body><p><span style=\"font-weight:600;\"> 在线资源：</span></"
-"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:162
@@ -12026,29 +12018,19 @@ msgstr "赤道仪："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>选择绘图的输入。 这可以是当前的 Ekos 会话，也可以从文件"
-"读取。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/> <body><p><span style=\"font-weight:600;\"> 在线资源：</span></"
-"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:208
@@ -15735,10 +15717,9 @@ msgid "Slew to wall position complete, stop tracking."
 msgstr "转到 wall position 已完成，停止跟踪。"
 
 #: ekos/capture/sequencejobstate.cpp:483
-#, fuzzy, kde-format
-#| msgid "Slew to wall position complete, stop tracking."
+#, kde-format
 msgid "Slew to wall position complete, tracking stopped."
-msgstr "转到 wall position 已完成，停止跟踪。"
+msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:511
 #, kde-format
@@ -16004,17 +15985,14 @@ msgid "Delta (ticks)"
 msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Delta"
+#, kde-format
 msgid "Delta (μm)"
-msgstr "台达"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgid "Named Stars"
+#, kde-format
 msgid "Num Stars"
-msgstr "有名字的星星"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
 #, kde-format
@@ -16027,31 +16005,24 @@ msgid "Exclude"
 msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
+#, kde-format
 msgid "Focuser Solution"
-msgstr "调焦器模拟器"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:101
-#, fuzzy, kde-format
-#| msgid "Default Focuser step ticks"
+#, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "默认调焦器刻度"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:102
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr "相机像素宽度大小（微米）"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:103
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display number of stars detected in the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid "Min / max number of stars detected in the focus run"
-msgstr "在分析统计图上显示拍摄时检测到的星点数。"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
@@ -16062,11 +16033,9 @@ msgstr ""
 #: ekos/focus/aberrationinspector.cpp:582
 #: ekos/focus/aberrationinspector.cpp:583
 #: ekos/focus/aberrationinspector.cpp:584
-#, fuzzy, kde-format
-#| msgctxt "Not Applicable"
-#| msgid "N/A"
+#, kde-format
 msgid "N/A"
-msgstr "不适用"
+msgstr ""
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
@@ -16080,22 +16049,16 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #: ekos/focus/aberrationinspector.ui:23
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Aberration Inspector"
-msgstr "观测计划"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowLabels)
 #: ekos/focus/aberrationinspector.ui:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>选中以显示最新导星数据并自动滚动更新图表。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -16108,10 +16071,9 @@ msgstr "标记"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/aberrationinspector.ui:64
-#, fuzzy, kde-format
-#| msgid "Files"
+#, kde-format
 msgid "Tiles:"
-msgstr "文件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:74
@@ -16131,30 +16093,23 @@ msgstr "全部"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:86
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and outer corners"
-msgstr "置中并跟踪"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:91
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and inner diamond"
-msgstr "置中并跟踪"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowCFZ)
 #: ekos/focus/aberrationinspector.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>选中以显示最新导星数据并自动滚动更新图表。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: attribute (title), widget (QWidget, CFZTab)
@@ -16171,32 +16126,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr "左下"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:241
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total Tilt:"
-msgstr "时间合计:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
-#| "The number represents the radius of the green concentric circle in "
-#| "arcseconds.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Backfocus delta is the difference in focus position "
 "between the sensor centre and the average of the centre corners.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>在漂移图中设置期望的导星精度，代表绿色同心圆的半径。</"
-"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
@@ -16206,17 +16153,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "Left-Right Tilt:"
-msgstr "左/右"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
-#, fuzzy, kde-format
-#| msgid "Detection:"
+#, kde-format
 msgid "Selection:"
-msgstr "星点检测："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:333
@@ -16256,19 +16201,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
-#, fuzzy, kde-format
-#| msgid "&Themes"
+#, kde-format
 msgid "Theme:"
-msgstr "主题(&T)"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:365
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>删除当前帧</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
@@ -16278,10 +16221,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
-#, fuzzy, kde-format
-#| msgid "Primary"
+#, kde-format
 msgid "Primary Colors"
-msgstr "主要"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
@@ -16297,19 +16239,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Blue"
+#, kde-format
 msgid "Army Blue"
-msgstr "蓝色"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Detroit"
+#, kde-format
 msgid "Retro"
-msgstr "底特律"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
@@ -16319,51 +16257,37 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
-#, fuzzy, kde-format
-#| msgctxt "Region/state in France"
-#| msgid "Moselle"
+#, kde-format
 msgid "Isabelle"
-msgstr "摩泽尔"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>选中以显示最新导星数据并自动滚动更新图表。</p></body></"
-"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-msgstr "<html><head/><body><p>清除传感器数据历史</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
-#, fuzzy, kde-format
-#| msgid "Sensor FOV"
+#, kde-format
 msgid "Sensor"
-msgstr "传感器视场"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>选中以显示最新导星数据并自动滚动更新图表。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
@@ -16373,15 +16297,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>选中以显示最新导星数据并自动滚动更新图表。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
@@ -16391,50 +16310,38 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
 "html>"
-msgstr "<html><head/><body><p>完成前的剩余时间</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Sim Mode"
-msgstr "模式"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>设备端口选择器</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>缩小 X 轴。</p></body></html>"
+msgstr ""
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
-#| "deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR"
-#| msgid ""
-#| "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</"
-#| "td></tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 "
-#| "\"</td></tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; %2 is tile code; %3 is tile name, %4 is Focus Position; %5 "
 "is Focus Measure;"
@@ -16443,9 +16350,6 @@ msgid ""
 "color='%1'><table><tr><td>Tile: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
-"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>赤经:   </td><td>%2 \"</"
-"td></tr><tr><td>赤纬:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 "
-"\"</td></tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 
 #: ekos/focus/focus.cpp:107
 #, kde-format
@@ -17047,11 +16951,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
 #: ekos/focus/focus.ui:453
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Spectra"
+#, kde-format
 msgid "Inspector"
-msgstr "光谱"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:475
@@ -22171,7 +22073,7 @@ msgstr "移动 (相对)"
 #: ekos/observatory/observatory.ui:250
 #, kde-format
 msgid "Rotate clockwise"
-msgstr "顺时针旋转"
+msgstr "旋转 (顺时针)"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCWButton)
 #: ekos/observatory/observatory.ui:261
@@ -22183,7 +22085,7 @@ msgstr "顺时针(&C)"
 #: ekos/observatory/observatory.ui:286
 #, kde-format
 msgid "Rotate counter clockwise"
-msgstr "逆时针旋转"
+msgstr "旋转 (逆时针)"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCCWButton)
 #: ekos/observatory/observatory.ui:297
@@ -22762,16 +22664,11 @@ msgstr "记住作业进度"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If selected, the shutter needs to be open for the "
-#| "observatory status being &quot;READY&quot;.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>如果选中，需要打开快门，天文台状态才变为 &quot;就绪"
-"&quot;。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:415
@@ -25982,10 +25879,9 @@ msgid "Job '%1' is capturing and plate solving."
 msgstr "任务“%1”正在拍摄及解析。"
 
 #: ekos/scheduler/schedulerprocess.cpp:306
-#, fuzzy, kde-format
-#| msgid "Guiding already running for %1 ..."
+#, kde-format
 msgid "Guiding already running for %1, starting next scheduler action..."
-msgstr "正在为 %1 导星..."
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:330
 #, kde-format
@@ -27136,22 +27032,22 @@ msgstr "高斯模糊"
 #: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:102
 #, kde-format
 msgid "Rotate Right"
-msgstr "向右旋转"
+msgstr "旋转 (向右)"
 
 #: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:106
 #, kde-format
 msgid "Rotate Left"
-msgstr "向左旋转"
+msgstr "旋转 (向左)"
 
 #: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:110
 #, kde-format
 msgid "Flip Horizontal"
-msgstr "水平翻转"
+msgstr "翻转 (水平)"
 
 #: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:115
 #, kde-format
 msgid "Flip Vertical"
-msgstr "垂直翻转"
+msgstr "翻转 (垂直)"
 
 #: fitsviewer/fitsviewer.cpp:144
 #, kde-format
@@ -27736,10 +27632,9 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:315 fitsviewer/platesolve.ui:331
-#, fuzzy, kde-format
-#| msgid "Image rotation angle, East of North"
+#, kde-format
 msgid "The solved image position angle, East of North (degrees)."
-msgstr "图像旋转角度，北偏东"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
@@ -69133,7 +69028,7 @@ msgstr "还原"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rotation CW (degrees)"
-msgstr "顺时针旋转（度）"
+msgstr "旋转 (顺时针) (度)"
 
 #: libindi_strings.cpp:402
 #, kde-kuit-format
@@ -81087,10 +80982,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgctxt "Half Flux Radius"
-#~ msgid "HFR: %1"
-#~ msgstr "HFR：%1"
-
-#~ msgid "Scope/Lense:"
-#~ msgstr "望远镜/主镜："
