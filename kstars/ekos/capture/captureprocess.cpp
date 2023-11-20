@@ -908,7 +908,7 @@ IPState CaptureProcess::resumeSequence()
         }
 
         // set state to capture preparation
-        state()->setCaptureState(CAPTURE_PROGRESS);
+        state()->setCaptureState(CAPTURE_CALIBRATING);
 
         // JM 2020-12-06: Check if we need to execute pre-capture script first.
         if (runCaptureScript(SCRIPT_PRE_CAPTURE) == IPS_BUSY)

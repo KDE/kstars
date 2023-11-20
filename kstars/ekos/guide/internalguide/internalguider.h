@@ -139,6 +139,7 @@ class InternalGuider : public GuideInterface
         bool processGuiding();
         void startDarkGuiding();
         bool abortDither();
+        bool onePulseDither(double pixels);
 
         void reset();
 

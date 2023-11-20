@@ -796,6 +796,22 @@ void Guide::prepareCapture(ISD::CameraChip * targetChip)
     m_Camera->setEncodingFormat("FITS");
 }
 
+void Guide::abortExposure()
+{
+    if (m_Camera && guiderType == GUIDE_INTERNAL)
+    {
+        captureTimeout.stop();
+        m_PulseTimer.stop();
+        ISD::CameraChip *targetChip =
+            m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+        if (targetChip->isCapturing())
+        {
+            qCDebug(KSTARS_EKOS_GUIDE) << "Aborting guide capture";
+            targetChip->abortExposure();
+        }
+    }
+}
+
 bool Guide::abort()
 {
     if (m_Camera && guiderType == GUIDE_INTERNAL)
@@ -1303,7 +1319,7 @@ bool Guide::dither()
     ditherLabel->setText("Dither");
     ditherLabel->setFont(QFont(font().family(), 10));
 
-    if (guiderType == GUIDE_INTERNAL)
+    if (guiderType == GUIDE_INTERNAL && !Options::ditherWithOnePulse())
     {
         if (m_State != GUIDE_GUIDING)
             capture();
@@ -1935,6 +1951,7 @@ bool Guide::setGuiderType(int type)
         connect(m_GuiderInstance, &Ekos::GuideInterface::newAxisSigma, this, &Ekos::Guide::setAxisSigma);
         connect(m_GuiderInstance, &Ekos::GuideInterface::newSNR, this, &Ekos::Guide::setSNR);
         connect(m_GuiderInstance, &Ekos::GuideInterface::guideInfo, this, &Ekos::Guide::guideInfo);
+        connect(m_GuiderInstance, &Ekos::GuideInterface::abortExposure, this, &Ekos::Guide::abortExposure);
 
         driftGraph->connectGuider(m_GuiderInstance);
         targetPlot->connectGuider(m_GuiderInstance);

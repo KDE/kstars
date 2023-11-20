@@ -44,7 +44,6 @@ class CaptureModuleState: public QObject
             ACTION_FILTER,              /* Change the filter and wait until the correct filter is set.                                    */
             ACTION_TEMPERATURE,         /* Set the camera chip target temperature and wait until the target temperature has been reached. */
             ACTION_ROTATOR,             /* Set the camera rotator target angle and wait until the target angle has been reached.          */
-            ACTION_GUIDER_DRIFT,        /* Wait until the guiding deviation is below the configured threshold.                            */
             ACTION_PREPARE_LIGHTSOURCE, /* Setup the selected flat lights source.                                                         */
             ACTION_MOUNT_PARK,          /* Park the mount.                                                                                */
             ACTION_DOME_PARK,           /* Park the dome.                                                                                 */

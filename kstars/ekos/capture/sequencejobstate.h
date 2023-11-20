@@ -107,10 +107,9 @@ class SequenceJobState: public QObject
         /**
          * @brief Trigger all peparation actions before a capture may be started.
          * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
-         * @param enforceInitialGuidingDrift flag if the initial guiding drift must be below the target value.
          * @param isPreview flag if the captures are in the preview mode
          */
-        void prepareLightFrameCapture(bool enforceCCDTemp, bool enforceInitialGuidingDrift, bool isPreview);
+        void prepareLightFrameCapture(bool enforceCCDTemp, bool isPreview);
 
         /**
          * @brief Initiate tasks required so that capturing of flats may start.
@@ -142,11 +141,6 @@ class SequenceJobState: public QObject
          * @return true if the initialization is already completed
          */
         bool initCapture(CCDFrameType frameType, bool isPreview, bool isAutofocusReady, FITSMode mode);
-
-        /**
-         * @brief Set the flag if a maximal initial guiding deviation is required
-         */
-        void setEnforceInitialGuidingDrift(bool enforceInitialGuidingDrift);
 
         /**
          * @brief The current capture sequence job status
@@ -196,10 +190,6 @@ class SequenceJobState: public QObject
         {
             targetTemperature = value;
         }
-        /**
-         * @brief Update the current guiding deviation.
-         */
-        void setCurrentGuiderDrift(double value);
         /**
          * @brief Set the target guiding deviation when capture starts
          */
@@ -328,8 +318,6 @@ class SequenceJobState: public QObject
         bool m_isPreview { false };
         // should a certain temperature should be enforced?
         bool m_enforceTemperature { false };
-        // should the a certain maximal initial guiding drift should be enforced?
-        bool m_enforceInitialGuiding { false };
         // flag if auto focus has been completed for the selected filter
         bool autoFocusReady;
         // Capturing mode, necessary for the display in the FITS viewer

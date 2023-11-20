@@ -575,6 +575,8 @@ void CaptureModuleState::processGuidingFailed()
 
 void CaptureModuleState::updateAdaptiveFocusState(bool success)
 {
+    m_refocusState->setAdaptiveFocusDone(true);
+
     // Always process the adaptive focus state change, incl if a MF has also just started
     if (success)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Adaptive focus completed successfully";

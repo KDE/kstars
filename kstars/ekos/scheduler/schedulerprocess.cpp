@@ -1272,8 +1272,11 @@ bool SchedulerProcess::checkShutdownState()
                 // Turn it off
                 //QVariant arg(false);
                 //captureInterface->call(QDBus::AutoDetect, "setCoolerControl", arg);
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "Setting coolerControl=false";
-                captureInterface()->setProperty("coolerControl", false);
+                if (captureInterface())
+                {
+                    qCDebug(KSTARS_EKOS_SCHEDULER) << "Setting coolerControl=false";
+                    captureInterface()->setProperty("coolerControl", false);
+                }
             }
 
             // The following steps require a connection to the INDI server

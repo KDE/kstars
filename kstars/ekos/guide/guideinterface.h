@@ -87,6 +87,7 @@ class GuideInterface : public QObject
                         double snr, double skyBg, int numStars);
         void guideEquipmentUpdated();
         void guideInfo(const QString &);
+        void abortExposure();
 
     protected:
         Ekos::GuideState state { GUIDE_IDLE };
