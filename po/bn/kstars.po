@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-14 00:38+0000\n"
+"POT-Creation-Date: 2023-11-21 00:39+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -459,7 +459,7 @@ msgstr "ফাইল খুলতে সমস্যা"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadB)
 #: auxiliary/imageviewer.cpp:195
-#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:86
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:59
 #, fuzzy, kde-format
 #| msgid "&Download Data..."
 msgid "Download"
@@ -3929,6 +3929,7 @@ msgstr "০.০০ পার্সেক"
 #. i18n: ectx: property (text), widget (QLabel, masterMean)
 #. i18n: ectx: property (text), widget (QLabel, masterMedian)
 #. i18n: ectx: property (text), widget (QLabel, masterDeviation)
+#. i18n: ectx: property (text), widget (QLabel, exposureCount)
 #. i18n: ectx: property (text), widget (QLabel, l_FOV)
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
@@ -3940,6 +3941,7 @@ msgstr "০.০০ পার্সেক"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:900 ekos/capture/capture.cpp:938
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:814
 #: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -5374,7 +5376,7 @@ msgstr "FOV গণনা করো"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:312
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
 #, kde-format
 msgid "Camera"
 msgstr "ক্যামেরা"
@@ -6386,7 +6388,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1473
-#: ekos/focus/focus.cpp:4164 ekos/guide/guide.cpp:1121 ekos/manager.cpp:1902
+#: ekos/focus/focus.cpp:4164 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:748
 #, kde-format
@@ -6612,7 +6614,7 @@ msgstr "অবৈধ ইউ.আর.এল.: %1"
 
 #: ekos/align/align.cpp:3892 ekos/align/mountmodel.cpp:401
 #: ekos/capture/captureprocess.cpp:2392 ekos/guide/guidedriftgraph.cpp:485
-#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1570
+#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, fuzzy, kde-format
 #| msgid "Unable to read FITS data from file. %1.\n"
 msgid "Unable to write to file %1"
@@ -6622,7 +6624,7 @@ msgstr "ফাইল থেকে FITS তথ্য পড়া যায় নি�
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1962
 #: ekos/capture/captureprocess.cpp:2276 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
-#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1571
+#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -8551,7 +8553,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:511
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -15284,7 +15286,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:742
-#: ekos/capture/sequencejobstate.cpp:409
+#: ekos/capture/sequencejobstate.cpp:403
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Dark Exposure"
@@ -15358,89 +15360,89 @@ msgstr "মিলযুক্ত খ-বস্তু:"
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:590
+#: ekos/capture/capturemodulestate.cpp:592
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Adaptive focus complete."
 msgstr "সম্পন্ন"
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:616
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:761
+#: ekos/capture/capturemodulestate.cpp:763
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:779
+#: ekos/capture/capturemodulestate.cpp:781
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/capture/capturemodulestate.cpp:811
+#: ekos/capture/capturemodulestate.cpp:813
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:820
+#: ekos/capture/capturemodulestate.cpp:822
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:842
+#: ekos/capture/capturemodulestate.cpp:844
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:856
+#: ekos/capture/capturemodulestate.cpp:858
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:870
+#: ekos/capture/capturemodulestate.cpp:872
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:897
+#: ekos/capture/capturemodulestate.cpp:899
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:944
+#: ekos/capture/capturemodulestate.cpp:946
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:948
+#: ekos/capture/capturemodulestate.cpp:950
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:963
+#: ekos/capture/capturemodulestate.cpp:965
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1338
+#: ekos/capture/capturemodulestate.cpp:1340
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1357
+#: ekos/capture/capturemodulestate.cpp:1359
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1362
+#: ekos/capture/capturemodulestate.cpp:1364
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Post-flip alignment failed. Retrying..."
@@ -15689,7 +15691,7 @@ msgid "Exposure timeout. Aborting..."
 msgstr "সেকেন্ড এককে বিরতির দৈর্ঘ্য"
 
 #: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5079
-#: ekos/guide/guide.cpp:895
+#: ekos/guide/guide.cpp:911
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Restarting exposure..."
@@ -15965,59 +15967,69 @@ msgid "Invalid values. Please set all values."
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:26
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
 #, fuzzy, kde-format
 #| msgid "Time Calculators"
 msgid "Sub-Exposure Calculator"
 msgstr "সময় ক্যালকুলেটর"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:56
-#, kde-format
-msgid "Adjust the balance of the two noise sources"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:69
-#, no-c-format, kde-format
-msgid "Noise Increase (%)"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:85
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Total Eclipse Image"
-msgid "Potential exposure time graph"
-msgstr "পূর্ণ সূর্যগ্রহণের ছবি"
-
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:62
 #, fuzzy, kde-format
 msgid "Sky Quality"
 msgstr "হাই পয়েন্ট"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
-#, kde-format
-msgid "Adjust the quality of the sky"
-msgstr ""
+#. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
+#. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
+#. i18n: ectx: property (text), widget (QLabel, label51_2)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:75
+#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
+#, fuzzy, kde-format
+msgid "Focal Ratio"
+msgstr "কাজ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:143
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
 #, fuzzy, kde-format
 #| msgid "Filter:"
-msgid "Filter Bandwidth:"
+msgid "Filter Bandwidth"
 msgstr "ফিল্টার:"
 
-#. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
+#, kde-format
+msgid "Alter the bias of the noise sources"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
+#, fuzzy, kde-format
+msgid "Bortle Class"
+msgstr "কক্ষপথ"
+
+#. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
 #, kde-format
 msgid "Gain"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
+#. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
+#, fuzzy, kde-format
+#| msgctxt "Advanced URLs: description or category"
+#| msgid "Optical"
+msgid "Select Camera Sensor Gain"
+msgstr "দৃষ্টিসংক্রান্ত"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
+#, fuzzy, kde-format
+#| msgid "Open FITS..."
+msgid "Select DSLR ISO Value"
+msgstr "FITS খোলো..."
+
+#. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "USA"
@@ -16025,115 +16037,195 @@ msgid "ISO"
 msgstr "মার্কিন যুক্তরাষ্ট্র"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:267
 #, kde-format
 msgid "Read noise constant"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:266
+#. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:321
 #, kde-format
-msgid "Bortle Zone Color"
+msgid "Noise in the sub-exposure from light pollution"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
-#. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
-#. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
-#: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
+#. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:337
 #, fuzzy, kde-format
-msgid "Focal Ratio"
-msgstr "কাজ:"
+#| msgid "Local Time"
+msgid "Total Noise"
+msgstr "স্থানীয় সময়"
 
-#. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:325
+#. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:344
 #, fuzzy, kde-format
-msgid "Bortle Class:"
-msgstr "কক্ষপথ"
+#| msgid "Current color settings"
+msgid "Pollution Electrons"
+msgstr "বর্তমান রঙের বৈশিষ্ট্য"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:338
+#. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
 #, kde-format
-msgid "Apply a compensation for an optical filter"
+msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:354
-#, kde-format
-msgid "Bortle class value"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
-#, kde-format
-msgid "9"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:373
-#, kde-format
-msgid "Select read mode on cameras with multiple read modes."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
-#, fuzzy, kde-format
-#| msgid "Camera"
-msgid "Read Mode"
-msgstr "ক্যামেরা"
-
-#. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Total Eclipse Image"
-msgid "Exposure Time (sec)"
-msgstr "পূর্ণ সূর্যগ্রহণের ছবি"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:379
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Point Hope"
 msgid "Shot Noise"
 msgstr "পয়েন্ট হোপ"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:453
-#, kde-format
-msgid "Noise in the sub-exposure from light pollution"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:469
-#, fuzzy, kde-format
-#| msgid "Current color settings"
-msgid "Pollution Electrons"
-msgstr "বর্তমান রঙের বৈশিষ্ট্য"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:476
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
 #, kde-format
-msgid "Calculated count of light pollution electrons in the sub-exposure."
+msgid "Estimated light pollution electrons in the sub-exposure."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:492
+#. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, fuzzy, kde-format
-#| msgid "Local Time"
-msgid "Total Noise"
-msgstr "স্থানীয় সময়"
+#| msgid "Duration of the season:"
+msgid "Duration of Sub-exposure"
+msgstr "ঋতুর ব্যাপ্তি:"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:499
-#, kde-format
-msgid "Total noise in the sub-exposure (light pollution + read-noise)"
-msgstr ""
+#. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:468
+#, fuzzy, kde-format
+#| msgctxt "Image/info menu item (should be translated)"
+#| msgid "Total Eclipse Image"
+msgid "Exposure Time (sec)"
+msgstr "পূর্ণ সূর্যগ্রহণের ছবি"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:528
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
+#, fuzzy, kde-format
+msgid "Download additional camera data files"
+msgstr "অতিরিক্ত তথ্য ডাউনলোড করো"
+
+#. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
 #, kde-format
-msgid "(Future Release) Download additional camera data files"
+msgid "Bortle Zone Color"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:558
+#, kde-format
+msgid "Bortle class value"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:561
+#, kde-format
+msgid "9"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
+#, kde-format
+msgid "Select read mode on cameras with multple read modes."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
+#, kde-format
+msgid "Adjust the quality of the sky"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:613
+#, fuzzy, kde-format
+#| msgid "Camera"
+msgid "Read Mode"
+msgstr "ক্যামেরা"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
+#, kde-format
+msgid "Apply a compensation for an optical filter"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
+#, fuzzy, kde-format
+#| msgid "Data Selection"
+msgid "Camera Data Selection"
+msgstr "তথ্য নির্বাচন"
+
+#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
+#, fuzzy, kde-format
+#| msgctxt "Image/info menu item (should be translated)"
+#| msgid "Total Eclipse Image"
+msgid "Potential exposure time graph"
+msgstr "পূর্ণ সূর্যগ্রহণের ছবি"
+
+#. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
+#, no-c-format, kde-format
+msgid "Noise Increase %"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
+#, fuzzy, kde-format
+#| msgctxt "Show Detailed Information Dialog"
+#| msgid "Details"
+msgid "Table"
+msgstr "বিস্তারিত"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
+#, fuzzy, kde-format
+#| msgid "Geographic"
+msgid "Graph"
+msgstr "ভৌগলিক"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
+#, kde-format
+msgid "Slope of time to noise ratio curve at current exposure count"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
+#, fuzzy, kde-format
+#| msgid "Exposure:"
+msgid "Exposures"
+msgstr "এক্সপোজার:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
+#, kde-format
+msgid "Calculated exposure count for integration"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Huntington Station"
+msgid "Integration Time to Noise Ratio"
+msgstr "হান্টিংটন স্টেশন"
+
+#. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
+#, fuzzy, kde-format
+#| msgid "Image Reduction"
+msgid "Time/Noise Ratio"
+msgstr "ছবি ক্ষুদ্রকরণ"
+
+#. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
+#, kde-format
+msgid "dy ="
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
+#, kde-format
+msgid "Integration time to noise ratio (potential quality)"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
@@ -16144,7 +16236,7 @@ msgid "Camera Data Download"
 msgstr "তথ্য ডাউনলো&ড করো..."
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
-#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:73
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
 #, fuzzy, kde-format
 msgid "Select all cameras you wish to use:"
 msgstr "সকল প্রধান প্রধান খ-বস্তু বাছাই করো"
@@ -16571,99 +16663,99 @@ msgstr "অগ্রগতি"
 msgid "Complete"
 msgstr "সম্পন্ন"
 
-#: ekos/capture/sequencejobstate.cpp:396
+#: ekos/capture/sequencejobstate.cpp:390
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:397
+#: ekos/capture/sequencejobstate.cpp:391
 #, fuzzy, kde-format
 #| msgid "Dark Flat Frames"
 msgid "Flat Frame"
 msgstr "অন্ধকার সমতল ফ্রেম"
 
-#: ekos/capture/sequencejobstate.cpp:408
+#: ekos/capture/sequencejobstate.cpp:402
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:438 ekos/capture/sequencejobstate.cpp:611
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:605
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dust cap..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:438
+#: ekos/capture/sequencejobstate.cpp:432
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dust cap..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:496
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:496
-#: ekos/capture/sequencejobstate.cpp:597
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
+#: ekos/capture/sequencejobstate.cpp:591
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:468
+#: ekos/capture/sequencejobstate.cpp:462
 #, kde-format
 msgid "Mount slewing to wall position..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:479
+#: ekos/capture/sequencejobstate.cpp:473
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Slew to wall position complete, stop tracking."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/capture/sequencejobstate.cpp:483
+#: ekos/capture/sequencejobstate.cpp:477
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/capture/sequencejobstate.cpp:511
+#: ekos/capture/sequencejobstate.cpp:505
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount failed, aborting..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:521
+#: ekos/capture/sequencejobstate.cpp:515
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "ফার্মিংটন"
 
-#: ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:529
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome failed, aborting..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:539
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "ফার্মিংটন"
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:775
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:805
+#: ekos/capture/sequencejobstate.cpp:790
 #, fuzzy, kde-format
 msgid "Dust cap parked."
 msgstr "গুজ ক্রিক"
 
-#: ekos/capture/sequencejobstate.cpp:809
+#: ekos/capture/sequencejobstate.cpp:794
 #, fuzzy, kde-format
 msgid "Dust cap unparked."
 msgstr "গুজ ক্রিক"
@@ -19989,195 +20081,195 @@ msgstr ""
 msgid "Error: lost connection to CCD."
 msgstr "সংযোগ"
 
-#: ekos/guide/guide.cpp:914
+#: ekos/guide/guide.cpp:930
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "সেকেন্ড এককে বিরতির দৈর্ঘ্য"
 
-#: ekos/guide/guide.cpp:916
+#: ekos/guide/guide.cpp:932
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "সেকেন্ড এককে বিরতির দৈর্ঘ্য"
 
-#: ekos/guide/guide.cpp:918
+#: ekos/guide/guide.cpp:934
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "সেকেন্ড এককে বিরতির দৈর্ঘ্য"
 
-#: ekos/guide/guide.cpp:1275
+#: ekos/guide/guide.cpp:1291
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1378
+#: ekos/guide/guide.cpp:1394
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1392
+#: ekos/guide/guide.cpp:1408
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Monte Carlo"
 msgid "Mount is moving. Resetting calibration..."
 msgstr "মন্টে কার্লো"
 
-#: ekos/guide/guide.cpp:1408
+#: ekos/guide/guide.cpp:1424
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Monte Carlo"
 msgid "Mount is parking. Aborting guide..."
 msgstr "মন্টে কার্লো"
 
-#: ekos/guide/guide.cpp:1410
+#: ekos/guide/guide.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Date && Location"
 msgid "Mount is slewing. Aborting guide..."
 msgstr "তারিখ ও অবস্থান"
 
-#: ekos/guide/guide.cpp:1473
+#: ekos/guide/guide.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration is cleared."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/guide.cpp:1494
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1512
+#: ekos/guide/guide.cpp:1528
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1545
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration completed."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/guide.cpp:1547
+#: ekos/guide/guide.cpp:1563
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration started."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/guide.cpp:1554
+#: ekos/guide/guide.cpp:1570
 #, fuzzy, kde-format
 msgid "Guiding resumed."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/guide/guide.cpp:1557
+#: ekos/guide/guide.cpp:1573
 #, fuzzy, kde-format
 msgid "Autoguiding started."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/guide/guide.cpp:1569
+#: ekos/guide/guide.cpp:1585
 #, fuzzy, kde-format
 msgid "Autoguiding aborted."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/guide/guide.cpp:1574
+#: ekos/guide/guide.cpp:1590
 #, fuzzy, kde-format
 msgid "Guiding suspended."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1599
 #, fuzzy, kde-format
 msgid "Manual dithering in progress."
 msgstr "গুজ ক্রিক"
 
-#: ekos/guide/guide.cpp:1587
+#: ekos/guide/guide.cpp:1603
 #, fuzzy, kde-format
 msgid "Dithering in progress."
 msgstr "গুজ ক্রিক"
 
-#: ekos/guide/guide.cpp:1591
+#: ekos/guide/guide.cpp:1607
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:1596
+#: ekos/guide/guide.cpp:1612
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Dithering failed."
 msgstr "অন্যান্য"
 
-#: ekos/guide/guide.cpp:1607
+#: ekos/guide/guide.cpp:1623
 #, fuzzy, kde-format
 #| msgid "Celestial Coordinates"
 msgid "Dithering completed successfully."
 msgstr "খ-স্থানাঙ্ক"
 
-#: ekos/guide/guide.cpp:1653
+#: ekos/guide/guide.cpp:1669
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "%1x%1 guide binning is not supported."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/guide/guide.cpp:1675
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1801
+#: ekos/guide/guide.cpp:1817
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1892
+#: ekos/guide/guide.cpp:1908
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2275
+#: ekos/guide/guide.cpp:2292
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Calibration failed to start."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/guide.cpp:2426
+#: ekos/guide/guide.cpp:2443
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Auto star selected."
 msgstr "কোন বস্তু বাছাই করা হয় নি।"
 
-#: ekos/guide/guide.cpp:2430
+#: ekos/guide/guide.cpp:2447
 #, fuzzy, kde-format
 msgid "Failed to select an auto star."
 msgstr "ছবি লোড করা যায় নি"
 
-#: ekos/guide/guide.cpp:2439
+#: ekos/guide/guide.cpp:2456
 #, fuzzy, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "ইনপুট নির্বাচন করো"
 
-#: ekos/guide/guide.cpp:2685
+#: ekos/guide/guide.cpp:2702
 #, kde-format
 msgid "x (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2686
+#: ekos/guide/guide.cpp:2703
 #, kde-format
 msgid "y (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2797 ekos/guide/guide.cpp:2923
+#: ekos/guide/guide.cpp:2814 ekos/guide/guide.cpp:2940
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2801 ekos/guide/guide.cpp:2927
+#: ekos/guide/guide.cpp:2818 ekos/guide/guide.cpp:2944
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -20185,7 +20277,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3086
+#: ekos/guide/guide.cpp:3103
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -20916,72 +21008,72 @@ msgstr ""
 msgid "Calibration Successful"
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/internalguide/internalguider.cpp:437
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:507
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "অন্যান্য"
 
-#: ekos/guide/internalguide/internalguider.cpp:557
+#: ekos/guide/internalguide/internalguider.cpp:657
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:558
+#: ekos/guide/internalguide/internalguider.cpp:658
 #, fuzzy, kde-format
 msgid "Missing Information"
 msgstr "ঋতু সংক্রান্ত তথ্য"
 
-#: ekos/guide/internalguide/internalguider.cpp:583
+#: ekos/guide/internalguide/internalguider.cpp:683
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration restored"
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/internalguide/internalguider.cpp:635
+#: ekos/guide/internalguide/internalguider.cpp:735
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:638
+#: ekos/guide/internalguide/internalguider.cpp:738
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "নির্দেশিকা"
 
-#: ekos/guide/internalguide/internalguider.cpp:670
+#: ekos/guide/internalguide/internalguider.cpp:770
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration failed"
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:777
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration completed successfully"
 msgstr "ক্লায়েন্ট"
 
-#: ekos/guide/internalguide/internalguider.cpp:1001
+#: ekos/guide/internalguide/internalguider.cpp:1101
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1003
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1187
+#: ekos/guide/internalguide/internalguider.cpp:1287
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "ছবি লোড করা যায় নি"
@@ -22792,7 +22884,7 @@ msgstr "ক্লায়েন্ট"
 msgid "Failed to clear Alignment Model."
 msgstr "ফোকাসকৃত বস্তু: "
 
-#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2138
+#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2141
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
@@ -26114,7 +26206,7 @@ msgstr ""
 msgid "Starting job sequence iteration #%1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1803
+#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1806
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -26128,14 +26220,14 @@ msgstr "ফার্মিংটন"
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "ফার্মিংটন"
 
-#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1926
+#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1929
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "ফার্মিংটন"
 
-#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1874
+#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1877
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -27454,265 +27546,265 @@ msgstr ""
 msgid "Warming up CCD..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:1300
+#: ekos/scheduler/schedulerprocess.cpp:1303
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1424
+#: ekos/scheduler/schedulerprocess.cpp:1427
 #, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1443
+#: ekos/scheduler/schedulerprocess.cpp:1446
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Warning: executing startup procedure manually..."
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1450
+#: ekos/scheduler/schedulerprocess.cpp:1453
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1494
+#: ekos/scheduler/schedulerprocess.cpp:1497
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Startup procedure terminated."
 msgstr "ঘড়ি চালু করো"
 
-#: ekos/scheduler/schedulerprocess.cpp:1508
+#: ekos/scheduler/schedulerprocess.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1514
+#: ekos/scheduler/schedulerprocess.cpp:1517
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1559
+#: ekos/scheduler/schedulerprocess.cpp:1562
 #, kde-format
 msgid "Shutdown procedure terminated."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1743
+#: ekos/scheduler/schedulerprocess.cpp:1746
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler list saved to %1"
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
-#: ekos/scheduler/schedulerprocess.cpp:1769
+#: ekos/scheduler/schedulerprocess.cpp:1772
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Job '%1' alignment is complete."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/scheduler/schedulerprocess.cpp:1788
+#: ekos/scheduler/schedulerprocess.cpp:1791
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' alignment failed."
 msgstr "ফার্মিংটন"
 
-#: ekos/scheduler/schedulerprocess.cpp:1794
+#: ekos/scheduler/schedulerprocess.cpp:1797
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1798
-#: ekos/scheduler/schedulerprocess.cpp:1862
+#: ekos/scheduler/schedulerprocess.cpp:1801
+#: ekos/scheduler/schedulerprocess.cpp:1865
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Restarting %1 alignment procedure..."
 msgstr "ফার্মিংটন"
 
-#: ekos/scheduler/schedulerprocess.cpp:1834
+#: ekos/scheduler/schedulerprocess.cpp:1837
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Job '%1' guiding is in progress."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:1846
+#: ekos/scheduler/schedulerprocess.cpp:1849
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' guiding failed."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:1848
+#: ekos/scheduler/schedulerprocess.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Warning: job '%1' calibration failed."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/scheduler/schedulerprocess.cpp:1867
+#: ekos/scheduler/schedulerprocess.cpp:1870
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "ফার্মিংটন"
 
-#: ekos/scheduler/schedulerprocess.cpp:1903
+#: ekos/scheduler/schedulerprocess.cpp:1906
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' focusing is complete."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:1913
+#: ekos/scheduler/schedulerprocess.cpp:1916
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' focusing failed."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:1917
+#: ekos/scheduler/schedulerprocess.cpp:1920
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "ফার্মিংটন"
 
-#: ekos/scheduler/schedulerprocess.cpp:1955
+#: ekos/scheduler/schedulerprocess.cpp:1958
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' slew is complete."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:1961
+#: ekos/scheduler/schedulerprocess.cpp:1964
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1967
+#: ekos/scheduler/schedulerprocess.cpp:1970
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:1980
+#: ekos/scheduler/schedulerprocess.cpp:1983
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' repositioning is complete."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:1986
+#: ekos/scheduler/schedulerprocess.cpp:1989
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1992
+#: ekos/scheduler/schedulerprocess.cpp:1995
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/scheduler/schedulerprocess.cpp:2017
+#: ekos/scheduler/schedulerprocess.cpp:2020
 #, fuzzy, kde-format
 #| msgid "Celestial Coordinates"
 msgid "Manual shutdown procedure completed successfully."
 msgstr "খ-স্থানাঙ্ক"
 
-#: ekos/scheduler/schedulerprocess.cpp:2023
+#: ekos/scheduler/schedulerprocess.cpp:2026
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2038
+#: ekos/scheduler/schedulerprocess.cpp:2041
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2061
+#: ekos/scheduler/schedulerprocess.cpp:2064
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking Cap..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:2067
+#: ekos/scheduler/schedulerprocess.cpp:2070
 #, kde-format
 msgid "Cap already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2076
+#: ekos/scheduler/schedulerprocess.cpp:2079
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2098
+#: ekos/scheduler/schedulerprocess.cpp:2101
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking cap..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:2104
+#: ekos/scheduler/schedulerprocess.cpp:2107
 #, kde-format
 msgid "Cap already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2113
+#: ekos/scheduler/schedulerprocess.cpp:2116
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2171
+#: ekos/scheduler/schedulerprocess.cpp:2174
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount in progress..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:2185
+#: ekos/scheduler/schedulerprocess.cpp:2188
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2211
+#: ekos/scheduler/schedulerprocess.cpp:2214
 #, kde-format
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2309
+#: ekos/scheduler/schedulerprocess.cpp:2312
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2332
+#: ekos/scheduler/schedulerprocess.cpp:2335
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:2338
+#: ekos/scheduler/schedulerprocess.cpp:2341
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2348
+#: ekos/scheduler/schedulerprocess.cpp:2351
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2368
+#: ekos/scheduler/schedulerprocess.cpp:2371
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dome..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/scheduler/schedulerprocess.cpp:2374
+#: ekos/scheduler/schedulerprocess.cpp:2377
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2492
+#: ekos/scheduler/schedulerprocess.cpp:2495
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2497
+#: ekos/scheduler/schedulerprocess.cpp:2500
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
@@ -100370,9 +100462,6 @@ msgstr "গতিপথকে পটভূমির রঙের সাথে �
 #~ msgid "Sunrise:"
 #~ msgstr "সূর্যোদয়:"
 
-#~ msgid "Duration of the season:"
-#~ msgstr "ঋতুর ব্যাপ্তি:"
-
 #~ msgid "Start date & time:"
 #~ msgstr "আরম্ভের তারিখ ও সময়:"
 
@@ -100507,9 +100596,6 @@ msgstr "গতিপথকে পটভূমির রঙের সাথে �
 
 #~ msgid "End date for the light curve plot in mm/dd/yy or JD"
 #~ msgstr "আলোক বক্ররেখার প্লট-এ ব্যবহৃত সমাপ্তি তারিখ (মাস/দিন/বছর বা জুলিয়ান-দিবস)"
-
-#~ msgid "Data Selection"
-#~ msgstr "তথ্য নির্বাচন"
 
 #~ msgid "Average days must be a positive integer."
 #~ msgstr "গড় দিনসমূহ ধনাত্মক পূর্ণসংখ্যা হবে।"
