@@ -452,7 +452,7 @@ bool CaptureModuleState::checkMeridianFlipReady()
 
     // If active job is taking flat field image at a wall source
     // then do not flip.
-    if (m_activeJob && m_activeJob->getFrameType() == FRAME_FLAT && m_activeJob->getCalibrationPreAction() == ACTION_WALL)
+    if (m_activeJob && m_activeJob->getFrameType() == FRAME_FLAT && m_activeJob->getCalibrationPreAction() & ACTION_WALL)
         return false;
 
     if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_REQUESTED)

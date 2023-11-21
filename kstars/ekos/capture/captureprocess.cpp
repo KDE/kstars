@@ -2507,7 +2507,7 @@ bool CaptureProcess::saveSequenceQueue(const QString &path)
         outstream << "<Calibration>" << Qt::endl;
         outstream << "<PreAction>" << Qt::endl;
         outstream << QString("<Type>%1</Type>").arg(job->getCalibrationPreAction()) << Qt::endl;
-        if (job->getCalibrationPreAction() == ACTION_WALL)
+        if (job->getCalibrationPreAction() & ACTION_WALL)
         {
             outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << Qt::endl;
             outstream << "<Alt>" << cLocale.toString(job->getWallCoord().alt().Degrees()) << "</Alt>" << Qt::endl;

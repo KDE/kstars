@@ -459,7 +459,8 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
                                              KStarsData::Instance()->geo()->lat());
             wpScopeStatus = WP_SLEWING;
             emit slewTelescope(wallCoord);
-            emit newLog(i18n("Mount slewing to wall position..."));
+            emit newLog(i18n("Mount slewing to wall position (az =%1 alt =%2)",
+                             wallCoord.alt().toDMSString(), wallCoord.az().toDMSString()));
             return IPS_BUSY;
         }
         // wait until actions completed

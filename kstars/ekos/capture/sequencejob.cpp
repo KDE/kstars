@@ -285,7 +285,7 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
                 if (typeEP)
                 {
                     setCalibrationPreAction(cLocale.toUInt(pcdataXMLEle(typeEP)));
-                    if (getCalibrationPreAction() == ACTION_WALL)
+                    if (getCalibrationPreAction() & ACTION_WALL)
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
                         XMLEle * altEP = findXMLEle(subEP, "Alt");
@@ -299,7 +299,10 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
                             setWallCoord(wallCoord);
                         }
                         else
+                        {
+                            qCWarning(KSTARS_EKOS_CAPTURE) << "Wall position coordinates missing, disabling slew to wall position action.";
                             setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_WALL) | ACTION_NONE);
+                        }
                     }
                 }
             }
