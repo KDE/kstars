@@ -581,7 +581,7 @@
       <item row="4" column="2" colspan="6">
        <widget class="QComboBox" name="cameraReadModeSelector">
         <property name="toolTip">
-         <string>Select read mode on cameras with multple read modes.</string>
+         <string>Select read mode on cameras with multiple read modes.</string>
         </property>
        </widget>
       </item>
