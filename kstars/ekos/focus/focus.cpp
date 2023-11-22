@@ -533,6 +533,10 @@ void Focus::checkTemperatureSource(const QString &name )
 
 bool Focus::findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device)
 {
+    // protect for nullptr
+    if (device.isNull())
+        return false;
+
     auto temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
     if (!temperatureProperty)
         temperatureProperty = device->getProperty("CCD_TEMPERATURE");
@@ -4812,6 +4816,10 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
     {
         if (oneSource->getDeviceName() == name)
         {
+            // clear reference to avoid runtime exception in checkTemperatureSource()
+            if (m_LastSourceDeviceAutofocusTemperature && m_LastSourceDeviceAutofocusTemperature->getDeviceName() == name)
+                m_LastSourceDeviceAutofocusTemperature.reset(nullptr);
+
             m_TemperatureSources.removeAll(oneSource);
             QTimer::singleShot(1000, this, [this, name]()
             {
