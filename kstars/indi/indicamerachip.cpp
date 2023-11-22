@@ -408,6 +408,7 @@ bool CameraChip::capture(double exposure)
 
 bool CameraChip::abortExposure()
 {
+    if (!m_Camera) return false;
     ISwitchVectorProperty *abortProp = nullptr;
 
     switch (m_Type)
@@ -524,6 +525,7 @@ QStringList CameraChip::getISOList() const
 
 bool CameraChip::isCapturing()
 {
+    if (!m_Camera) return false;
     INumberVectorProperty *expProp = nullptr;
 
     switch (m_Type)

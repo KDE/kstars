@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-13 21:37+0100\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
+"PO-Revision-Date: 2023-11-17 10:22+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -439,7 +439,7 @@ msgstr "Potrditev odstranitve"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadB)
 #: auxiliary/imageviewer.cpp:195
-#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:86
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:59
 #, kde-format
 msgid "Download"
 msgstr "Prenesi"
@@ -3700,6 +3700,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, masterMean)
 #. i18n: ectx: property (text), widget (QLabel, masterMedian)
 #. i18n: ectx: property (text), widget (QLabel, masterDeviation)
+#. i18n: ectx: property (text), widget (QLabel, exposureCount)
 #. i18n: ectx: property (text), widget (QLabel, l_FOV)
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
@@ -3711,6 +3712,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:900 ekos/capture/capture.cpp:938
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:814
 #: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -5083,7 +5085,7 @@ msgstr "Izračunaj VP"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:312
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
 #, kde-format
 msgid "Camera"
 msgstr "Fotoaparat"
@@ -6070,7 +6072,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1473
-#: ekos/focus/focus.cpp:4164 ekos/guide/guide.cpp:1121 ekos/manager.cpp:1902
+#: ekos/focus/focus.cpp:4164 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:748
 #, kde-format
@@ -6279,7 +6281,7 @@ msgstr "Neveljaven URL: %1"
 
 #: ekos/align/align.cpp:3892 ekos/align/mountmodel.cpp:401
 #: ekos/capture/captureprocess.cpp:2392 ekos/guide/guidedriftgraph.cpp:485
-#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1570
+#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
@@ -6288,7 +6290,7 @@ msgstr "V datoteko %1 ni mogoče pisati"
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1962
 #: ekos/capture/captureprocess.cpp:2276 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
-#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1571
+#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -8366,7 +8368,7 @@ msgstr "Dodajte mapo, v kateri so shranjene indeksne datoteke"
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:511
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -15230,7 +15232,7 @@ msgid "Does %1 have a shutter?"
 msgstr "Ali ima %1 zaslonko?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:742
-#: ekos/capture/sequencejobstate.cpp:409
+#: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Osvetlitev teme"
@@ -15301,55 +15303,55 @@ msgstr "Samodejno vodenje zaustavljeno. Prekinjanje ..."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Napaka umerjanja po obratu čez poldnevnik. Prekinjanje..."
 
-#: ekos/capture/capturemodulestate.cpp:590
+#: ekos/capture/capturemodulestate.cpp:592
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Prilagodljivo ostrenje zaključeno."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:616
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Samodejno ostrenje ni uspelo. Prekinjanje osvetljevanja ..."
 
-#: ekos/capture/capturemodulestate.cpp:761
+#: ekos/capture/capturemodulestate.cpp:763
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Izvajanje ponovne poravnave po obratu..."
 
-#: ekos/capture/capturemodulestate.cpp:779
+#: ekos/capture/capturemodulestate.cpp:781
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Časovna omejitev modula vodenja je pretekla."
 
-#: ekos/capture/capturemodulestate.cpp:811
+#: ekos/capture/capturemodulestate.cpp:813
 #, fuzzy, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Začetni odklon vodenja %1 je še vedno pod mejno vrednostjo %2 kotnih s."
 
-#: ekos/capture/capturemodulestate.cpp:820
+#: ekos/capture/capturemodulestate.cpp:822
 #, fuzzy, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Začetni odklon vodenja %1 še vedno presega mejno vrednost %2 kotnih s."
 
-#: ekos/capture/capturemodulestate.cpp:842
+#: ekos/capture/capturemodulestate.cpp:844
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Umerjanje po obratu čez poldnevnik se je uspešno zaključilo."
 
-#: ekos/capture/capturemodulestate.cpp:856
+#: ekos/capture/capturemodulestate.cpp:858
 #, fuzzy, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
 
-#: ekos/capture/capturemodulestate.cpp:870
+#: ekos/capture/capturemodulestate.cpp:872
 #, fuzzy, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
 
-#: ekos/capture/capturemodulestate.cpp:897
+#: ekos/capture/capturemodulestate.cpp:899
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15361,7 +15363,7 @@ msgstr ""
 "Odstopanje vodenja %1 je sedaj manj kot %2 loč. sekund, nadaljevanje "
 "osvetljevanja v %3 sekundah."
 
-#: ekos/capture/capturemodulestate.cpp:944
+#: ekos/capture/capturemodulestate.cpp:946
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15370,7 +15372,7 @@ msgstr ""
 "Odstopanje vodenja %1 je sedaj manj kot %2 loč. sekund, nadaljevanje "
 "osvetljevanja."
 
-#: ekos/capture/capturemodulestate.cpp:948
+#: ekos/capture/capturemodulestate.cpp:950
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15379,23 +15381,23 @@ msgstr ""
 "Odstopanje vodenja %1 je sedaj manj kot %2 loč. sekund, nadaljevanje "
 "osvetljevanja v %3 sekundah."
 
-#: ekos/capture/capturemodulestate.cpp:963
+#: ekos/capture/capturemodulestate.cpp:965
 #, fuzzy, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Odklon s smernicami %1 je še vedno višji od mejne vrednosti %2 arcsecs."
 
-#: ekos/capture/capturemodulestate.cpp:1338
+#: ekos/capture/capturemodulestate.cpp:1340
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Ponovna poravnava po obratu se je uspešno zaključila."
 
-#: ekos/capture/capturemodulestate.cpp:1357
+#: ekos/capture/capturemodulestate.cpp:1359
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Poravnava po obratu ni uspela."
 
-#: ekos/capture/capturemodulestate.cpp:1362
+#: ekos/capture/capturemodulestate.cpp:1364
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Poravnava po obratu ni uspela. Poskušanje znova..."
@@ -15631,7 +15633,7 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Časovna uganka izpostavljenosti. Prekinitev..."
 
 #: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5079
-#: ekos/guide/guide.cpp:895
+#: ekos/guide/guide.cpp:911
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Časovna uganka izpostavljenosti. Ponovno zagon izpostavljenosti..."
@@ -15919,175 +15921,264 @@ msgid "Invalid values. Please set all values."
 msgstr "Neveljavne vrednosti. Nastavite vse vrednosti."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:26
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
 #, fuzzy, kde-format
 #| msgid "Time Calculators"
 msgid "Sub-Exposure Calculator"
 msgstr "Časovna računala"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:56
-#, fuzzy, kde-format
-msgid "Adjust the balance of the two noise sources"
-msgstr "Prilagodite ravnovesje dveh virov šuma"
-
-#. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:69
-#, fuzzy, no-c-format, kde-format
-msgid "Noise Increase (%)"
-msgstr "Povečanje šuma (%)"
-
-#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:85
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
-msgid "Potential exposure time graph"
-msgstr "Skupni čas osvetlitve (ms)"
-
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:62
 #, kde-format
 msgid "Sky Quality"
 msgstr "Kakovost neba"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
-#, kde-format
-msgid "Adjust the quality of the sky"
-msgstr "Prilagodite kakovost neba"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:143
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
-msgid "Filter Bandwidth:"
-msgstr "Število filtrov"
-
-#. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
-#, kde-format
-msgid "Gain"
-msgstr "Ojačitev"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
-#, kde-format
-msgid "ISO"
-msgstr "ISO"
-
-#. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
-#, fuzzy, kde-format
-msgid "Read noise constant"
-msgstr "Konstanta šuma pri branju"
-
-#. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:266
-#, fuzzy, kde-format
-msgid "Bortle Zone Color"
-msgstr "Barva območja Bortle"
-
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:75
 #: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Goriščno razmerje"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Filter Count"
+msgid "Filter Bandwidth"
+msgstr "Število filtrov"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
+#, fuzzy, kde-format
+msgid "Alter the bias of the noise sources"
+msgstr "Prilagodite ravnovesje dveh virov šuma"
+
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:325
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
 #, fuzzy, kde-format
 #| msgid "Orbit class:"
-msgid "Bortle Class:"
+msgid "Bortle Class"
 msgstr "Razred krožnice:"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:338
-#, fuzzy, kde-format
-msgid "Apply a compensation for an optical filter"
-msgstr "Uveljavite kompenzacijo za optični filter"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:354
-#, fuzzy, kde-format
-msgid "Bortle class value"
-msgstr "Vrednost razreda Bortle"
-
-#. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
+#. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
 #, kde-format
-msgid "9"
-msgstr "9"
+msgid "Gain"
+msgstr "Ojačitev"
 
-#. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:373
+#. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
 #, fuzzy, kde-format
-msgid "Select read mode on cameras with multiple read modes."
-msgstr "Izberite način branja na fotoaparatih z več načini branja."
+#| msgid "Camera Gain"
+msgid "Select Camera Sensor Gain"
+msgstr "Ojačenje kamere"
 
-#. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
-#, kde-format
-msgid "Read Mode"
-msgstr "Način branja"
+#. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Select FITS Image"
+msgid "Select DSLR ISO Value"
+msgstr "Izberite sliko FITS"
 
-#. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
+#. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
 #, kde-format
-msgid "Exposure Time (sec)"
-msgstr "Čas osvetlitve (s)"
+msgid "ISO"
+msgstr "ISO"
+
+#. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:267
+#, fuzzy, kde-format
+msgid "Read noise constant"
+msgstr "Konstanta šuma pri branju"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:321
+#, fuzzy, kde-format
+msgid "Noise in the sub-exposure from light pollution"
+msgstr "Šum pri podekspoziciji zaradi svetlobnega onesnaževanja"
+
+#. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:337
+#, fuzzy, kde-format
+#| msgid "Total Time:"
+msgid "Total Noise"
+msgstr "Celotni čas:"
+
+#. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:344
+#, fuzzy, kde-format
+#| msgid "Light Pollution Settings"
+msgid "Pollution Electrons"
+msgstr "Nastavitve onesnaženja s svetlobo"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
+#, fuzzy, kde-format
+msgid "Total noise in the sub-exposure (light pollution + read-noise)"
+msgstr ""
+"Skupni šum pri pod-ekspoziciji (svetlobno onesnaževanje + šum pri branju)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:379
 #, fuzzy, kde-format
 #| msgctxt "City in Congo"
 #| msgid "Pointe Noire"
 msgid "Shot Noise"
 msgstr "Pointe Noire"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:453
-#, fuzzy, kde-format
-msgid "Noise in the sub-exposure from light pollution"
-msgstr "Šum pri podekspoziciji zaradi svetlobnega onesnaževanja"
-
-#. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:469
-#, fuzzy, kde-format
-#| msgid "Light Pollution Settings"
-msgid "Pollution Electrons"
-msgstr "Nastavitve onesnaženja s svetlobo"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:476
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
 #, fuzzy, kde-format
-msgid "Calculated count of light pollution electrons in the sub-exposure."
+msgid "Estimated light pollution electrons in the sub-exposure."
 msgstr ""
 "Izračunano število elektronov svetlobnega onesnaževanja pri podekspoziciji."
 
-#. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:492
-#, fuzzy, kde-format
-#| msgid "Total Time:"
-msgid "Total Noise"
-msgstr "Celotni čas:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:499
-#, fuzzy, kde-format
-msgid "Total noise in the sub-exposure (light pollution + read-noise)"
+#. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
+#, kde-format
+msgid "Duration of Sub-exposure"
 msgstr ""
-"Skupni šum pri pod-ekspoziciji (svetlobno onesnaževanje + šum pri branju)"
+
+#. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:468
+#, kde-format
+msgid "Exposure Time (sec)"
+msgstr "Čas osvetlitve (s)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:528
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
 #, fuzzy, kde-format
-msgid "(Future Release) Download additional camera data files"
+msgid "Download additional camera data files"
 msgstr "(Prihodnja izdaja) Prenesite dodatne podatkovne datoteke fotoaparata"
+
+#. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
+#, fuzzy, kde-format
+msgid "Bortle Zone Color"
+msgstr "Barva območja Bortle"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:558
+#, fuzzy, kde-format
+msgid "Bortle class value"
+msgstr "Vrednost razreda Bortle"
+
+#. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:561
+#, kde-format
+msgid "9"
+msgstr "9"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
+#, fuzzy, kde-format
+msgid "Select read mode on cameras with multiple read modes."
+msgstr "Izberite način branja na fotoaparatih z več načini branja."
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
+#, kde-format
+msgid "Adjust the quality of the sky"
+msgstr "Prilagodite kakovost neba"
+
+#. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:613
+#, kde-format
+msgid "Read Mode"
+msgstr "Način branja"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
+#, fuzzy, kde-format
+msgid "Apply a compensation for an optical filter"
+msgstr "Uveljavite kompenzacijo za optični filter"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
+#, fuzzy, kde-format
+#| msgid "Customized DSS Download"
+msgid "Camera Data Selection"
+msgstr "Prilagojen prejem DSS"
+
+#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Total Exposure Time (ms)"
+msgid "Potential exposure time graph"
+msgstr "Skupni čas osvetlitve (ms)"
+
+#. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
+#, fuzzy, no-c-format, kde-format
+msgid "Noise Increase %"
+msgstr "Povečanje šuma (%)"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
+#, fuzzy, kde-format
+#| msgid "Enable"
+msgid "Table"
+msgstr "Omogoči"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
+#, fuzzy, kde-format
+#| msgid "Geographic"
+msgid "Graph"
+msgstr "Zemljepisne"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
+#, kde-format
+msgid "Slope of time to noise ratio curve at current exposure count"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
+#, fuzzy, kde-format
+#| msgid "Exposure"
+msgid "Exposures"
+msgstr "Ekspozicija"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
+#, kde-format
+msgid "Calculated exposure count for integration"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
+#, fuzzy, kde-format
+#| msgctxt "Satellite group name"
+#| msgid "International Space Station"
+msgid "Integration Time to Noise Ratio"
+msgstr "Mednarodna vesoljska postaja"
+
+#. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Noise Reduction"
+msgid "Time/Noise Ratio"
+msgstr "Odpravljanje šuma"
+
+#. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
+#, kde-format
+msgid "dy ="
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
+#, kde-format
+msgid "Integration time to noise ratio (potential quality)"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -16097,7 +16188,7 @@ msgid "Camera Data Download"
 msgstr "Prilagojen prejem DSS"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
-#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:73
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
 #, fuzzy, kde-format
 #| msgid "Select all items in the list"
 msgid "Select all cameras you wish to use:"
@@ -16544,92 +16635,93 @@ msgstr "V teku"
 msgid "Complete"
 msgstr "Zaključeno"
 
-#: ekos/capture/sequencejobstate.cpp:396
+#: ekos/capture/sequencejobstate.cpp:390
 #, fuzzy, kde-format
 #| msgid "Cover telescope with evenly illuminated light source."
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Prekrij teleskop z enakomerno osvetljenim svetlobnim virom."
 
-#: ekos/capture/sequencejobstate.cpp:397
+#: ekos/capture/sequencejobstate.cpp:391
 #, fuzzy, kde-format
 msgid "Flat Frame"
 msgstr "Ploščati okvir"
 
-#: ekos/capture/sequencejobstate.cpp:408
+#: ekos/capture/sequencejobstate.cpp:402
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Pokrijte vaš daljnogled ali fotoaparat za zajem posnetka teme."
 
-#: ekos/capture/sequencejobstate.cpp:438 ekos/capture/sequencejobstate.cpp:611
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, fuzzy, kde-format
 msgid "Unparking dust cap..."
 msgstr "Premikanje protiprašnega pokrova s parkirišča ..."
 
-#: ekos/capture/sequencejobstate.cpp:438
+#: ekos/capture/sequencejobstate.cpp:432
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Parkiranje protiprašnega pokrova..."
 
-#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:496
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, fuzzy, kde-format
 msgid "Turn light box light on..."
 msgstr "Prižgi svetilno škatlo …"
 
-#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:496
-#: ekos/capture/sequencejobstate.cpp:597
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, fuzzy, kde-format
 msgid "Turn light box light off..."
 msgstr "Ugasni svetilno škatlo …"
 
-#: ekos/capture/sequencejobstate.cpp:468
-#, kde-format
-msgid "Mount slewing to wall position..."
+#: ekos/capture/sequencejobstate.cpp:462
+#, fuzzy, kde-format
+#| msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Premikanje stojala na zid ..."
 
-#: ekos/capture/sequencejobstate.cpp:479
+#: ekos/capture/sequencejobstate.cpp:474
 #, fuzzy, kde-format
 #| msgid "Slew to wall position complete."
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Premikanje stojala na zid zaključeno."
 
-#: ekos/capture/sequencejobstate.cpp:483
+#: ekos/capture/sequencejobstate.cpp:478
 #, fuzzy, kde-format
 #| msgid "Slew to wall position complete."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Premikanje stojala na zid zaključeno."
 
-#: ekos/capture/sequencejobstate.cpp:511
+#: ekos/capture/sequencejobstate.cpp:506
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Parkiranje stojala ni uspelo. Prekinjanje ..."
 
-#: ekos/capture/sequencejobstate.cpp:521
+#: ekos/capture/sequencejobstate.cpp:516
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Parkiranje stojala pred zajemom umeritvenih posnetkov ..."
 
-#: ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:530
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Parkiranje kupole ni uspelo. Prekinjanje ..."
 
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:540
 #, fuzzy, kde-format
 #| msgid "Parking mount prior to calibration frames capture..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Parkiranje stojala pred zajemom umeritvenih posnetkov ..."
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:776
 #, fuzzy, kde-format
 msgid "Light box on."
 msgstr "Svetilna škatla prižgana."
 
-#: ekos/capture/sequencejobstate.cpp:805
+#: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Protiprašni pokrov parkiran."
 
-#: ekos/capture/sequencejobstate.cpp:809
+#: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Protiprašni pokrov ni več parkiran."
@@ -16839,12 +16931,12 @@ msgstr "Napaka med razčlenjevanjem odziva strežnika: %1"
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
 msgid "Aberration Inspector - Run %1"
-msgstr ""
+msgstr "Inšpektor odklona - zaženi %1"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
 msgid "Tile"
-msgstr ""
+msgstr "Tlakuj"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
@@ -16885,12 +16977,12 @@ msgstr "Poimenovane zvezde"
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
 #, kde-format
 msgid "R²"
-msgstr ""
+msgstr "R²"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Exclude"
-msgstr ""
+msgstr "Izloči"
 
 #: ekos/focus/aberrationinspector.cpp:100
 #, fuzzy, kde-format
@@ -16919,7 +17011,7 @@ msgstr "Najmanjše število zvezd, odkritih za sep MultiStar za inicializacijo."
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr ""
+msgstr "Potrdite, da izključite vrstico iz izračunov"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
@@ -16932,14 +17024,14 @@ msgid "N/A"
 msgstr "N/D"
 
 #: ekos/focus/aberrationinspector.cpp:570
-#, kde-format
+#, fuzzy, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Premakni tipalo bližje ploskovitemu"
 
 #: ekos/focus/aberrationinspector.cpp:572
-#, kde-format
+#, fuzzy, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Premakni tipalo stran od ploskovitega"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #: ekos/focus/aberrationinspector.ui:23
@@ -16981,6 +17073,9 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Izberite kombinacijo tlakovcev, ki jo želite uporabiti "
+"za analizo:</p><p>- Vse prikaže vseh 9 tlakovcev.</p><p>- Sredina in zunanji "
+"vogali.</p><p>- Sredina in notranji karo.<br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
@@ -17022,9 +17117,9 @@ msgstr "OKO"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsOptCentres)
 #: ekos/focus/aberrationinspector.ui:118
-#, kde-format
+#, fuzzy, kde-format
 msgid "Optimise Tile Centres"
-msgstr ""
+msgstr "Optimiziraj središča tlakovcev"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
@@ -17053,9 +17148,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
-#, kde-format
+#, fuzzy, kde-format
 msgid "Backfocus Δ:"
-msgstr ""
+msgstr "Δ hrbtne ostrine:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
@@ -17153,7 +17248,7 @@ msgstr "Element"
 #: ekos/focus/aberrationinspector.ui:350
 #, kde-format
 msgid "Slice"
-msgstr ""
+msgstr "Nareži"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
@@ -17176,7 +17271,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
@@ -17189,13 +17284,13 @@ msgstr "Primarna"
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
-#, kde-format
+#, fuzzy, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Stone Moss"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
@@ -17217,7 +17312,7 @@ msgstr "Detroit"
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Ebenovinasta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
@@ -17266,9 +17361,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
-#, kde-format
+#, fuzzy, kde-format
 msgid "Petzval Wire"
-msgstr ""
+msgstr "Žični model Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
@@ -17281,9 +17376,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
-#, kde-format
+#, fuzzy, kde-format
 msgid "Petzval Surface"
-msgstr ""
+msgstr "Površina Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
@@ -17673,12 +17768,12 @@ msgstr ""
 #: ekos/focus/focus.cpp:3253
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
-msgstr ""
+msgstr "Zagon inšpektorja odklona za %1 je spodletel …"
 
 #: ekos/focus/focus.cpp:3273
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
-msgstr ""
+msgstr "Zaganjanje inšpektorja odklona za %1 …"
 
 #: ekos/focus/focus.cpp:3333
 #, fuzzy, kde-format
@@ -20348,102 +20443,102 @@ msgstr "Povezava s CCD vodnika je bila izgubljena."
 msgid "Error: lost connection to CCD."
 msgstr "Napaka: povezava s CCD-jem izgubljena."
 
-#: ekos/guide/guide.cpp:914
+#: ekos/guide/guide.cpp:930
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Časovna uganka izpostavljenosti. Ugašam Avtoguide."
 
-#: ekos/guide/guide.cpp:916
+#: ekos/guide/guide.cpp:932
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Časovna uganka izpostavljenosti. Prekinitev ditheringa."
 
-#: ekos/guide/guide.cpp:918
+#: ekos/guide/guide.cpp:934
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Časovna uganka izpostavljenosti. Ukinitev kalibracije."
 
-#: ekos/guide/guide.cpp:1275
+#: ekos/guide/guide.cpp:1291
 #, fuzzy, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Nosilec je parkiran. Odparkirajte ga, da začnete voditi."
 
-#: ekos/guide/guide.cpp:1378
+#: ekos/guide/guide.cpp:1394
 #, fuzzy, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Zaznana sprememba pomola. Umerjanje klira."
 
-#: ekos/guide/guide.cpp:1392
+#: ekos/guide/guide.cpp:1408
 #, fuzzy, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Stativ se premika. Ponastavljanje umerjanja ..."
 
-#: ekos/guide/guide.cpp:1408
+#: ekos/guide/guide.cpp:1424
 #, fuzzy, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount je parkiranje. Vodnik za prekinitev..."
 
-#: ekos/guide/guide.cpp:1410
+#: ekos/guide/guide.cpp:1426
 #, fuzzy, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Mount je nateg. Vodnik za prekinitev..."
 
-#: ekos/guide/guide.cpp:1473
+#: ekos/guide/guide.cpp:1489
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Umerjanje je počiščeno."
 
-#: ekos/guide/guide.cpp:1494
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "External guider connected."
 msgstr "Zunanji vodnik povezan."
 
-#: ekos/guide/guide.cpp:1512
+#: ekos/guide/guide.cpp:1528
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Prekinjena povezava z zunanjim vodnikom."
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1545
 #, kde-format
 msgid "Calibration completed."
 msgstr "Umerjanje zaključeno."
 
-#: ekos/guide/guide.cpp:1547
+#: ekos/guide/guide.cpp:1563
 #, kde-format
 msgid "Calibration started."
 msgstr "Umerjanje začeto."
 
-#: ekos/guide/guide.cpp:1554
+#: ekos/guide/guide.cpp:1570
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Vodenje se nadaljuje."
 
-#: ekos/guide/guide.cpp:1557
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Samodejno vodenje se je začelo."
 
-#: ekos/guide/guide.cpp:1569
+#: ekos/guide/guide.cpp:1585
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Samodejno vodenje prekinjeno."
 
-#: ekos/guide/guide.cpp:1574
+#: ekos/guide/guide.cpp:1590
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Vodenje v pripravljenosti."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1599
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Ročno razprševanje poteka."
 
-#: ekos/guide/guide.cpp:1587
+#: ekos/guide/guide.cpp:1603
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Razprševanje poteka."
 
-#: ekos/guide/guide.cpp:1591
+#: ekos/guide/guide.cpp:1607
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -20452,33 +20547,33 @@ msgstr[1] "Umirjanje po razprševanju za %1 sekundo..."
 msgstr[2] "Umirjanje po razprševanju za %1 sekunde..."
 msgstr[3] "Umirjanje po razprševanju za %1 sekund..."
 
-#: ekos/guide/guide.cpp:1596
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "Dithering failed."
 msgstr "Razprševanje ni uspelo."
 
-#: ekos/guide/guide.cpp:1607
+#: ekos/guide/guide.cpp:1623
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Razprševanje se je uspešno zaključilo."
 
-#: ekos/guide/guide.cpp:1653
+#: ekos/guide/guide.cpp:1669
 #, fuzzy, kde-format
 #| msgid "Bit depth %1 is not supported."
 msgid "%1x%1 guide binning is not supported."
 msgstr "Bitna globina %1 ni podprta."
 
-#: ekos/guide/guide.cpp:1675
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja ..."
 
-#: ekos/guide/guide.cpp:1801
+#: ekos/guide/guide.cpp:1817
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Ni mogoče spremeniti vrste vodnika med dejavnostjo."
 
-#: ekos/guide/guide.cpp:1892
+#: ekos/guide/guide.cpp:1908
 #, fuzzy, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -20487,37 +20582,37 @@ msgstr ""
 "Opozorilo: Ponastavi umerjanje s smernicami je omogočeno. To možnost je "
 "priporočljivo izklopiti za PHD2."
 
-#: ekos/guide/guide.cpp:2275
+#: ekos/guide/guide.cpp:2292
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Umerjanja se ni uspelo zagnati."
 
-#: ekos/guide/guide.cpp:2426
+#: ekos/guide/guide.cpp:2443
 #, kde-format
 msgid "Auto star selected."
 msgstr "Izbrana samodejno zaznana zvezda."
 
-#: ekos/guide/guide.cpp:2430
+#: ekos/guide/guide.cpp:2447
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Izbor samodejno zaznane zvezde ni uspel."
 
-#: ekos/guide/guide.cpp:2439
+#: ekos/guide/guide.cpp:2456
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Za umerjanje izberite vodilno zvezdo."
 
-#: ekos/guide/guide.cpp:2685
+#: ekos/guide/guide.cpp:2702
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (pikslov)"
 
-#: ekos/guide/guide.cpp:2686
+#: ekos/guide/guide.cpp:2703
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (pikslov)"
 
-#: ekos/guide/guide.cpp:2797 ekos/guide/guide.cpp:2923
+#: ekos/guide/guide.cpp:2814 ekos/guide/guide.cpp:2940
 #, fuzzy, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -20526,7 +20621,7 @@ msgstr ""
 "Kamera PHD2 za Ekos ni na voljo, zato zajetih slik ne morete videti.  Toda "
 "še vedno boste videli sliko zvezde vodnika, ko boste vodnik."
 
-#: ekos/guide/guide.cpp:2801 ekos/guide/guide.cpp:2927
+#: ekos/guide/guide.cpp:2818 ekos/guide/guide.cpp:2944
 #, fuzzy, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -20537,7 +20632,7 @@ msgstr ""
 "podframe počistiti.  Zdaj ga snemate, da omogočite zajemanje slik.  Lahko ga "
 "ponovno omogočite, preden"
 
-#: ekos/guide/guide.cpp:3086
+#: ekos/guide/guide.cpp:3103
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -21300,7 +21395,7 @@ msgstr "Izmenjava DEKL. onemogočena."
 msgid "Calibration Successful"
 msgstr "Umerjanje uspešno"
 
-#: ekos/guide/internalguide/internalguider.cpp:437
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, fuzzy, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -21309,27 +21404,27 @@ msgstr ""
 "Opozorilo: Dithering ni uspel. Autoguiding se nadaljuje, kot je določeno v "
 "možnostih v primeru okvare."
 
-#: ekos/guide/internalguide/internalguider.cpp:507
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Opozorilo: Ročno razprševanje ni uspelo."
 
-#: ekos/guide/internalguide/internalguider.cpp:557
+#: ekos/guide/internalguide/internalguider.cpp:657
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "Podatki o %1 manjkajo. Vrednosti nastavite na nadzorni plošči INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:558
+#: ekos/guide/internalguide/internalguider.cpp:658
 #, kde-format
 msgid "Missing Information"
 msgstr "Manjkajo podatki"
 
-#: ekos/guide/internalguide/internalguider.cpp:583
+#: ekos/guide/internalguide/internalguider.cpp:683
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Umerjanje vodenja je obnovljeno"
 
-#: ekos/guide/internalguide/internalguider.cpp:635
+#: ekos/guide/internalguide/internalguider.cpp:735
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -21338,34 +21433,34 @@ msgstr ""
 "Sled za vodilno zvezdo se je izgubila. Poskusite povečati velikost kvadrata "
 "ali skrajšati trajanje pulza."
 
-#: ekos/guide/internalguide/internalguider.cpp:638
+#: ekos/guide/internalguide/internalguider.cpp:738
 #, fuzzy, kde-format
 #| msgid "Guide Star found."
 msgid "Guide Star lost."
 msgstr "Najdena vodilna zvezda."
 
-#: ekos/guide/internalguide/internalguider.cpp:670
+#: ekos/guide/internalguide/internalguider.cpp:770
 #, fuzzy, kde-format
 #| msgid "Guiding calibration restored"
 msgid "Guiding calibration failed"
 msgstr "Umerjanje vodenja je obnovljeno"
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:777
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Umerjanje vodenja se je uspešno zaključilo"
 
-#: ekos/guide/internalguide/internalguider.cpp:1001
+#: ekos/guide/internalguide/internalguider.cpp:1101
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Sled za vodilno zvezdo se je izgubila. Iščem vodilno zvezdo..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1003
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, fuzzy, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Vrednost praga delta RMS je presegala. Iskanje zvezd vodnikov..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1187
+#: ekos/guide/internalguide/internalguider.cpp:1287
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Ni uspelo najti nobenih primernih zvezd vodnikov. Prekinitev..."
@@ -23383,7 +23478,7 @@ msgstr "Model poravnave je počiščen."
 msgid "Failed to clear Alignment Model."
 msgstr "Modela poravnave ni uspelo počistiti."
 
-#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2138
+#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2141
 #, kde-format
 msgid "Mount already parked."
 msgstr "Stojalo je že parkirano."
@@ -26919,7 +27014,7 @@ msgstr "Opazovalnica se izklaplja"
 msgid "Starting job sequence iteration #%1"
 msgstr "Začetek ponovitve zaporedja opravil #%1"
 
-#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1803
+#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1806
 #, fuzzy, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -26931,14 +27026,14 @@ msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Opozorilo: postopek zajemanja »%1« ni uspel, označevanje je bilo ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1926
+#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1929
 #, fuzzy, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Opozorilo: postopek osredotočanja »%1« ni uspel, označevanje je bilo "
 "ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1874
+#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1877
 #, fuzzy, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "Opozorilo: opravilo »%1« ni uspelo, označevanje je bilo ugasnjeno."
@@ -28404,67 +28499,67 @@ msgstr "Ekos je že zagnan, preskakovanje zagonskega skripta ..."
 msgid "Warming up CCD..."
 msgstr "Ogrevanje CCD-ja ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1300
+#: ekos/scheduler/schedulerprocess.cpp:1303
 #, fuzzy, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr "Opozorilo: Zaobiti postopke parkiranja, brez INDI priključka."
 
-#: ekos/scheduler/schedulerprocess.cpp:1424
+#: ekos/scheduler/schedulerprocess.cpp:1427
 #, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr ""
 "postopek za čakanje na parkiranje/odparkiranje ni uspel, prekinjanje ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1443
+#: ekos/scheduler/schedulerprocess.cpp:1446
 #, fuzzy, kde-format
 #| msgid "Warning! Executing startup procedure manually..."
 msgid "Warning: executing startup procedure manually..."
 msgstr "Opozorilo! Ročno izvajanje postopka zagona ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1450
+#: ekos/scheduler/schedulerprocess.cpp:1453
 #, kde-format
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "Ali ste prepričani, da želite ročno izvesti postopek zagona?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1494
+#: ekos/scheduler/schedulerprocess.cpp:1497
 #, kde-format
 msgid "Startup procedure terminated."
 msgstr "Postopek zagona je bil prekinjen."
 
-#: ekos/scheduler/schedulerprocess.cpp:1508
+#: ekos/scheduler/schedulerprocess.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Warning! Executing shutdown procedure manually..."
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "Opozorilo! Ročno izvajanje postopka izklopa ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1514
+#: ekos/scheduler/schedulerprocess.cpp:1517
 #, kde-format
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "Ali ste prepričani, da želite ročno izvesti postopek izklopa?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1559
+#: ekos/scheduler/schedulerprocess.cpp:1562
 #, kde-format
 msgid "Shutdown procedure terminated."
 msgstr "Postopek izklopa je bil prekinjen."
 
-#: ekos/scheduler/schedulerprocess.cpp:1743
+#: ekos/scheduler/schedulerprocess.cpp:1746
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "Seznam razporejevalnika shranjen v %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1769
+#: ekos/scheduler/schedulerprocess.cpp:1772
 #, fuzzy, kde-format
 #| msgid "%1 alignment is complete."
 msgid "Job '%1' alignment is complete."
 msgstr "Poravnava %1 je zaključena."
 
-#: ekos/scheduler/schedulerprocess.cpp:1788
+#: ekos/scheduler/schedulerprocess.cpp:1791
 #, fuzzy, kde-format
 #| msgid "%1 alignment failed!"
 msgid "Warning: job '%1' alignment failed."
 msgstr "Poravnava %1 ni uspela!"
 
-#: ekos/scheduler/schedulerprocess.cpp:1794
+#: ekos/scheduler/schedulerprocess.cpp:1797
 #, fuzzy, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -28472,186 +28567,186 @@ msgstr ""
 "Opozorilo: delo »%1« pri sili v ponastavitev modela mounta po neuspešni "
 "poravnatvi #%2."
 
-#: ekos/scheduler/schedulerprocess.cpp:1798
-#: ekos/scheduler/schedulerprocess.cpp:1862
+#: ekos/scheduler/schedulerprocess.cpp:1801
+#: ekos/scheduler/schedulerprocess.cpp:1865
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Ponovno zaganjanje postopka poravnave %1 ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1834
+#: ekos/scheduler/schedulerprocess.cpp:1837
 #, fuzzy, kde-format
 #| msgid "%1 guiding is in progress..."
 msgid "Job '%1' guiding is in progress."
 msgstr "Vodenje %1 poteka ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1846
+#: ekos/scheduler/schedulerprocess.cpp:1849
 #, fuzzy, kde-format
 #| msgid "%1 guiding failed!"
 msgid "Warning: job '%1' guiding failed."
 msgstr "Vodenje %1 ni uspelo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:1848
+#: ekos/scheduler/schedulerprocess.cpp:1851
 #, fuzzy, kde-format
 #| msgid "%1 calibration failed!"
 msgid "Warning: job '%1' calibration failed."
 msgstr "Umerjanje %1 ni uspelo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:1867
+#: ekos/scheduler/schedulerprocess.cpp:1870
 #, fuzzy, kde-format
 #| msgid "Restarting %1 guiding procedure..."
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "Ponovno zaganjanje postopka vodenja %1 ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1903
+#: ekos/scheduler/schedulerprocess.cpp:1906
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "Ostrenje posla »%1« je zaključeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:1913
+#: ekos/scheduler/schedulerprocess.cpp:1916
 #, fuzzy, kde-format
 #| msgid "%1 focusing failed!"
 msgid "Warning: job '%1' focusing failed."
 msgstr "Ostrenje %1 ni uspelo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:1917
+#: ekos/scheduler/schedulerprocess.cpp:1920
 #, fuzzy, kde-format
 #| msgid "Restarting %1 focusing procedure..."
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "Ponoven zagon postopka ostrenja %1 ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1955
+#: ekos/scheduler/schedulerprocess.cpp:1958
 #, fuzzy, kde-format
 #| msgid "%1 slew is complete."
 msgid "Job '%1' slew is complete."
 msgstr "Premikanje %1 je zaključeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:1961
+#: ekos/scheduler/schedulerprocess.cpp:1964
 #, fuzzy, kde-format
 #| msgid "%1 observation job terminated due to errors."
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr "Posel opazovanja %1 je bil uničen zaradi napak."
 
-#: ekos/scheduler/schedulerprocess.cpp:1967
+#: ekos/scheduler/schedulerprocess.cpp:1970
 #, fuzzy, kde-format
 #| msgid "%1 focusing failed!"
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Ostrenje %1 ni uspelo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:1980
+#: ekos/scheduler/schedulerprocess.cpp:1983
 #, fuzzy, kde-format
 #| msgid "%1 repositioning is complete."
 msgid "Job '%1' repositioning is complete."
 msgstr "Ponovna nastavitev položaja %1 je zaključena."
 
-#: ekos/scheduler/schedulerprocess.cpp:1986
+#: ekos/scheduler/schedulerprocess.cpp:1989
 #, fuzzy, kde-format
 #| msgid "%1 observation job terminated due to errors."
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr "Posel opazovanja %1 je bil uničen zaradi napak."
 
-#: ekos/scheduler/schedulerprocess.cpp:1992
+#: ekos/scheduler/schedulerprocess.cpp:1995
 #, fuzzy, kde-format
 #| msgid "%1 focusing failed!"
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Ostrenje %1 ni uspelo!"
 
-#: ekos/scheduler/schedulerprocess.cpp:2017
+#: ekos/scheduler/schedulerprocess.cpp:2020
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Ročni postopek izklopa se je uspešno zaključil."
 
-#: ekos/scheduler/schedulerprocess.cpp:2023
+#: ekos/scheduler/schedulerprocess.cpp:2026
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Ročni postopek izklopa je bil prekinjen zaradi napak."
 
-#: ekos/scheduler/schedulerprocess.cpp:2038
+#: ekos/scheduler/schedulerprocess.cpp:2041
 #, fuzzy, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
-#: ekos/scheduler/schedulerprocess.cpp:2061
+#: ekos/scheduler/schedulerprocess.cpp:2064
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Parkiranje pokrova ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2067
+#: ekos/scheduler/schedulerprocess.cpp:2070
 #, kde-format
 msgid "Cap already parked."
 msgstr "Pokrov je že parkiran."
 
-#: ekos/scheduler/schedulerprocess.cpp:2076
+#: ekos/scheduler/schedulerprocess.cpp:2079
 #, fuzzy, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
-#: ekos/scheduler/schedulerprocess.cpp:2098
+#: ekos/scheduler/schedulerprocess.cpp:2101
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Premikanje pokrova s parkirišča ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2104
+#: ekos/scheduler/schedulerprocess.cpp:2107
 #, kde-format
 msgid "Cap already unparked."
 msgstr "Pokrov ni parkiran."
 
-#: ekos/scheduler/schedulerprocess.cpp:2113
+#: ekos/scheduler/schedulerprocess.cpp:2116
 #, fuzzy, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
-#: ekos/scheduler/schedulerprocess.cpp:2171
+#: ekos/scheduler/schedulerprocess.cpp:2174
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Poteka parkiranje stojala ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2185
+#: ekos/scheduler/schedulerprocess.cpp:2188
 #, fuzzy, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
-#: ekos/scheduler/schedulerprocess.cpp:2211
+#: ekos/scheduler/schedulerprocess.cpp:2214
 #, kde-format
 msgid "Mount already unparked."
 msgstr "Stojalo ni parkirano."
 
-#: ekos/scheduler/schedulerprocess.cpp:2309
+#: ekos/scheduler/schedulerprocess.cpp:2312
 #, fuzzy, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
-#: ekos/scheduler/schedulerprocess.cpp:2332
+#: ekos/scheduler/schedulerprocess.cpp:2335
 #, kde-format
 msgid "Parking dome..."
 msgstr "Parkiranje kupole ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2338
+#: ekos/scheduler/schedulerprocess.cpp:2341
 #, kde-format
 msgid "Dome already parked."
 msgstr "Kupola je že parkirana."
 
-#: ekos/scheduler/schedulerprocess.cpp:2348
+#: ekos/scheduler/schedulerprocess.cpp:2351
 #, fuzzy, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
-#: ekos/scheduler/schedulerprocess.cpp:2368
+#: ekos/scheduler/schedulerprocess.cpp:2371
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Premikanje kupole s parkirišča ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2374
+#: ekos/scheduler/schedulerprocess.cpp:2377
 #, kde-format
 msgid "Dome already unparked."
 msgstr "Kupola ni parkirana."
 
-#: ekos/scheduler/schedulerprocess.cpp:2492
+#: ekos/scheduler/schedulerprocess.cpp:2495
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Zagonski skript je spodletel, prekinjanje ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2497
+#: ekos/scheduler/schedulerprocess.cpp:2500
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Skript za izklop je spodletel, prekinjanje ..."
@@ -37181,73 +37276,75 @@ msgstr ""
 #: kstars.kcfg:2216
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
-msgstr ""
+msgstr "Kateri nabor tlakovcev naj uporabi Inšpektor odklona."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2220
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
-msgstr ""
+msgstr "Pokaže oznake Najv in Najm na grafikonu Inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2224
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
-msgstr ""
+msgstr "Pokaže območje kritične ostrine na grafikonu Inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2228
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
+"Ali naj bodo središča tlakovcev, ki se uporabljajo v izračunih Inšpektorja "
+"odklona, optimizirana"
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2232
-#, kde-format
+#, fuzzy, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Položaj VdDelilnika v Inšpektorju odklona."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2235
-#, kde-format
+#, fuzzy, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Položaj NaDelilnika v Inšpektorju odklona."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2238
 #, kde-format
 msgid "Aberration Inspector 3D graphic selection mode."
-msgstr ""
+msgstr "Izbirni način 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: whatsthis, entry (abInsTheme), group (Focus)
 #: kstars.kcfg:2242
 #, kde-format
 msgid "Aberration Inspector 3D graphic theme."
-msgstr ""
+msgstr "Tema 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsLabels), group (Focus)
 #: kstars.kcfg:2246
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
-msgstr ""
+msgstr "Prikaz oznak 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2250
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr ""
+msgstr "Prikaz tipala 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2254
-#, kde-format
+#, fuzzy, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr ""
+msgstr "Prikaz žičnega modela Petzwal 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2258
-#, kde-format
+#, fuzzy, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
-msgstr ""
+msgstr "Prikaz žičnega površine Petzwal 3D-grafičnega inšpektorja odklona."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2264

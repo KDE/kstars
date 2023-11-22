@@ -26,24 +26,24 @@
             </mediaobject>
         </screenshot>
         <para
->The Ekos Alignment Module enables highly accurate GOTOs and can measure and correct polar alignment errors. This is possible thanks to third-party plate-solving technology. The main plate-solving software used is the StellarSolver package, which itself makes use of the offline (and online) astrometry.net, ASTAP and Watney solvers. Ekos begins by capturing an image of a star field, feeding that image to the chosen solver (e.g. see <ulink url="https://astrometry.net"
+>Le module d'alignement d'Ekos permet des GOTO hautement précis et peut mesurer et corriger les erreurs d'alignement polaire. Cela est possible grâce aux technologies tierce de résolution. L'application principale de résolution utilisée est StellarSolver qui utilise elle-même la version hors ligne (et en ligne) de astrometry.net, ASTAP et les résolveurs Watney. Ekos commence par acquérir une image d'un champ d'étoiles qui est ensuite transmise au résolveur choisi (voir p. ex. <ulink url="https://astrometry.net"
 >astrometry.net</ulink
 >, <ulink url="https://github.com/rlancaste/stellarsolver"
 >StellarSolver</ulink
-> or <ulink url="https://www.hnsky.org/astap"
+> ou <ulink url="https://www.hnsky.org/astap"
 >ASTAP</ulink
->), and gets in return the central coordinates (RA, DEC), scale, and orientation of the image. The solver essentially performs pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known. </para>
+>) et obtiendra les coordonnées centrales (AD et DEC), l'échelle et l'orientation de l'image. Le résolveur réalise essentiellement une reconnaissance de motifs à l'aide d'un catalogue de millions d'étoiles. Une fois que ces coordonnées sont déterminées, le vrai pointage du télescope est connu. </para>
         <para
->Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can correct the discrepancy by syncing to the new coordinates, and then slewing the mount to the desired target originally requested. </para>
+>Il y a souvent une différence entre l'endroit où le télescope croit pointer et où il pointe vraiment. L'importance de cette différence peut varier de quelques minutes d'arc à quelques degrés. Ekos peut corriger cette différence en synchronisant aux nouvelles coordonnées et ensuite en pivotant vers la cible demandée à l'origine. </para>
         <para
->Ekos also provides a Polar Alignment Assistant Tool to correct polar alignment errors. It takes three images, slewing between the images, and calculates the offset between the mount axis and polar axis. It feeds back to the user the altitude and azimuth adjustments needed to align these axes. These images are typically taken near the celestial pole (close to Polaris for Northern Hemisphere) but can work well taken from anywhere, usually starting near the meridian and slewing either East or West. </para>
+>De plus, Ekos fournit un outil d'assistant d'alignement polaire pour corriger les erreurs d'alignement polaire. Il prend trois images, se déplace entre elles et calcule le décalage entre l'axe de la monture et l'axe polaire. Il renvoie ensuite à l'opérateur les ajustements en altitude et en azimut nécessaires pour aligner ces axes. Ces images sont typiquement prises près du pôle céleste (près de l'étoile polaire dans l'hémisphère nord) mais elles peuvent être également prises ailleurs, généralement près du méridien et bougeant vers l'est ou l'ouest. </para>
         <para
 >Vous avez besoin au minimum d'une caméra CCD ou d'une webcam et d'un télescope qui gère les commandes de pointage et de synchronisation. La plupart de télescopes trouvés dans le commerce aujourd'hui gère ces commandes. </para>
     </sect3>
 
         <sect3 id="ekos-align-typical">
             <title
->Typical use</title>
+>Utilisation typique</title>
             <para
 >Avec le module d'alignement d'Ekos, l'alignement de la monture sur une, deux ou trois étoiles avec la commande de la monture n'est <emphasis
 >pas</emphasis
@@ -51,39 +51,39 @@
             <orderedlist>
                 <listitem>
                     <para
->Start KStars and Ekos and connect to INDI. </para>
+>Démarrez KStars et Ekos et établir la connexion avec INDI. </para>
                 </listitem>
                 <listitem>
                     <para
->Unpark your mount from its home position (usually the NCP for equatorial mounts). </para>
+>Déparquez votre monture de sa position initiale (généralement pointée vers le pôle céleste nord pour les montures équatoriales). </para>
                 </listitem>
                 <listitem>
                     <para
->Slew to a nearby bright star using the slew telescope command in the SkyMap using the <guilabel
->Slew the telescope to the mouse-pointer position</guilabel
-> command. </para>
+>Pivotez vers une étoile brillante en utilisant la commande de pivotage du télescope de la carte du ciel avec la commande <guilabel
+>Pivoter le télescope vers la position de la souris</guilabel
+>. </para>
                 </listitem>
                 <listitem>
                     <para
->Select <guilabel
->Slew to Target</guilabel
-> in the <guilabel
->Solver Action</guilabel
-> on the Align page. </para>
+>Sélectionnez <guilabel
+>Pivoter vers cible</guilabel
+> pour l'option <guilabel
+>Action du résolveur</guilabel
+> du module Alignement. </para>
                 </listitem>
                 <listitem>
                     <para
->After slew is complete, click <guibutton
->Capture &amp; Solve</guibutton
-> on the Align page. </para>
+>Après que le pivotage soit terminé, cliquez sur le bouton <guibutton
+>Acquisition &amp; Résolution</guibutton
+> du module Alignement. </para>
                 </listitem>
             </orderedlist>
             <para
->Align will capture an image and try to solve it. If the solver is successful, Ekos will send a sync command to the mount and then slew to the star. The results are displayed in the <guilabel
->Solution Results</guilabel
-> tab along with a bullseye diagram that shows the offset the reported telescope coordinates (&ie; where the telescope <emphasis
->thinks</emphasis
-> it is looking vs. its actual pointing position in the sky as determined by the solver). Align will stop if it is within the desired error tolerance, otherwise it will repeat the Slew/Capture/Solve/Sync process until it is within tolerance. </para>
+>Le module Alignement procédera à l'acquisition d'une image et essaiera de la résoudre. Si la résolution est un succès, Ekos va se synchroniser et ensuite pivoter vers l'étoile. Les résultats sont affichés dans l'onglet <guilabel
+>Résultats de la solution</guilabel
+> ainsi que dans un diagramme qui montre le décalage entre les coordonnées rapportées du télescope (c'est-à-dire où le télescope <emphasis
+>croit</emphasis
+> qu'il pointe) et la position actuelle dans le ciel déterminée par le résolveur. L'alignement s'arrêtera s'il se trouve dans la tolérance désirée, sinon la procédure répétera les opérations de pivotage/acquisition/résolution/synchronisation jusqu'à se trouver dans la tolérance désirée. </para>
             <para
 >Chaque fois que la résolution s'est terminée avec succès, Ekos peut exécuter les actions suivantes : </para>
             <itemizedlist>
@@ -110,217 +110,211 @@
     
     <sect3 id="ekos-solver-options">
       <title
->Configure StellarSolver Options </title>
+>Configuration des options du résolveur </title>
         <screenshot>
             <screeninfo
->StellarSolver Options </screeninfo>
+>Options du résolveur </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_options.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver Options</phrase>
+>Options du résolveur</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
       <para
->To use the solvers, you must first configure the StellarSolver options. The above page is displayed when clicking on the <guilabel
+>Pour utiliser les résolveurs, il faut d'abord configurer les options de StellarSolver. La page ci-dessus est affichée en cliquant sur le bouton <guilabel
 >Options</guilabel
-> button on the lower right of the Align page, then selecting the <guilabel
->StellarSolver Options</guilabel
-> tab. Start with the <guilabel
->Builtin method for solver</guilabel
-> <guilabel
->Source Extraction method</guilabel
-> so that each solver uses its preferred star-extraction code. For <guilabel
->Solving Method</guilabel
-> we recommend choosing <guilabel
->Internal Solver</guilabel
-> to use StellarSolver's copy of the Astrometry.net code, or choose <guilabel
->Local ASTAP</guilabel
-> if you prefer that. The online astrometry solver is accurate, but can take a long time to solve because of all the data transfer required. For <guilabel
->Options Profile</guilabel
->, start with the <guilabel
+> situé en bas à droite du module Alignement, puis en sélectionnant l'onglet <guilabel
+>Options de StellarSolver</guilabel
+>. Commencez avec la méthode interne du résolveur nommé <guilabel
+>Méthode d'extraction des sources</guilabel
+> afin que chaque résolveur puisse utiliser son code préféré d'extraction d'étoiles. Pour <guilabel
+>Méthode d'extraction</guilabel
+>, nous recommandons de choisir <guilabel
+>Résolveur internet</guilabel
+> pour utiliser le code de Astrometry.net dédié à StellarSolver ou choisissez <guilabel
+>ASTAP local</guilabel
+> si vous préférez utiliser cela. Le résolveur en ligne est précis mais prend du temps puisqu'il faut télécharger toutes les données. Pour <guilabel
+>Options du profil</guilabel
+>, démarrez avec le profil <guilabel
 >1-Default</guilabel
-> profile. </para>
+>. </para>
       <para
->There are two other minor options. <guilabel
+>Il existe deux autres options mineures. <guilabel
 >WCS</guilabel
-> or World-Coordinate-System is a system for embedding equatorial coordinate information within the image. When you view a solved image, you can hover it and view the coordinate for each pixel. You can also click anywhere in the image and command to the telescope to slew there. It is highly recommended to keep this option on. <guilabel
->Overlay</guilabel
-> overlays captured images unto the sky map of &kstars;. </para>
+> : le système de coordonnées mondiales (World-Coordinate-System) est un mécanisme permettant d'intégrer les coordonnées équatoriales à une image. Ainsi, lors de l'affichage d'une image, un survol affiche les coordonnées de chaque pixel. Vous pouvez également cliquer n'importe où dans l'image et ordonner au télescope de pivoter vers ce point. Il est hautement recommandé de conserver cette option activée. L'option <guilabel
+>Superposition</guilabel
+> permet de superposer les images acquises sur la carte du ciel de &kstars;. </para>
     </sect3>
     
     <sect3 id="ekos-solver-external">
       <title
->Configure StellarSolver External Programs </title>
+>Configuration des programmes externes de StellarSolver </title>
         <screenshot>
             <screeninfo
->StellarSolver External Programs </screeninfo>
+>Programmes externes de StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_external.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver External Programs</phrase>
+>Programmes externes de StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
       <para
->This is only required if you choose one of the external programs for your <guilabel
->Solving Method</guilabel
->. If you choose <guilabel
->Internal Solver</guilabel
->, then it is not necessary. </para>
+>Cela n'est obligatoire que si vous choisissez des programmes externes pour votre <guilabel
+>Méthode de résolution</guilabel
+>. Si vous choisissez <guilabel
+>Résolveur interne</guilabel
+>, cela n'est pas nécessaire. </para>
       <para
->You will need to make sure the paths are correct for the solver you choose. The top menu item <guilabel
->select to load one of the default sets</guilabel
-> usually configures the boxes correctly. </para>
+>Il faudra vous assurer que les chemins sont corrects pour le résolveur que vous avez choisi. L'option du menu du haut <guilabel
+>Sélectionner pour charger un des ensembles par défaut</guilabel
+> configure généralement les boîtes correctement. </para>
     </sect3>
 
     <sect3 id="ekos-solver-scale">
       <title
->Configure StellarSolver Scale and Position </title>
+>Configurer l'échelle et la position pour StellarSolver </title>
         <screenshot>
             <screeninfo
->StellarSolver Scale and Position </screeninfo>
+>Échelle et position pour StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_scale.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver Scale and Position</phrase>
+>Échelle et position pour StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
       <para
->This page tells Ekos whether you want to constrain your plate-solving search by scale or position. </para
+>Cette page indique à Ekos si vous souhaitez contraindre la résolution en tenant compte de l'échelle et de la position. </para
 ><para
->Scale can be the image width in degrees (<guilabel
+>L'échelle peut être la largeur de l'image en degrés (<guilabel
 >dw</guilabel
->), the image width in arc-minutes (<guilabel
+>), en minutes d'arc (<guilabel
 >aw</guilabel
->), or the pixel width in arc-seconds (<guilabel
+>) ou en pixels en secondes d'arc (<guilabel
 >app</guilabel
->). All should work, but arc-seconds per pixel is recommended. Typically you want to use this constraint for faster solving, so we recommend you check this box. The system doesn't require that the scale be exactly right--it allows deviations of 10-20%. However, frequently issues related to solving are due to an inaccurate scale being used. Therefore, if you have plate-solving problems, you may want to uncheck <guilabel
->Use Scale</guilabel
-> until those issues are resolved. This will likely result in longer solving times. <guilabel
->Auto-update</guilabel
-> will automatically fill the scale box with the scale found in the most-recent successful solve. </para
+>). Toutes devraient fonctionner mais secondes d'arc par pixel est recommandée. Vous souhaitez typiquement utiliser cette contrainte pour accélérer la résolution, ainsi nous vous recommandons de cocher cette case. Le système ne requiert pas l'échelle d'être parfaitement correcte, il permet une déviation de 10 à 20 %. Toutefois, les problèmes de résolution sont souvent liés à l'utilisation d'une échelle imprécise. Par conséquent, si vous rencontrez des problèmes de résolution, vous pouvez décocher cette case jusqu'à avoir résolu ces problèmes. Le résultat sera un allongement du temps de résolution. <guilabel
+>Mise à jour automatique</guilabel
+> mettra à jour l'échelle avec la valeur de la résolution réussie la plus récente. </para
 ><para
->The RA and DEC positions are usually filled in from the position the telescope thinks it is pointing. Naturally, the system doesn't require an exactly correct positional constraint--afterall the purpose of plate-solving is to find that position. The maximum distance in degrees from the specified position to the actual position is given by the <guilabel
->Radius</guilabel
-> field. Plate-solving will fail if the specified position is further away. Typically you want to enable <guilabel
->Use Position</guilabel
-> for faster solving, so we recommend you check this box. However, frequently issues related to solving are due to using a poor positional estimate (e.g. the telescope is significantly misaligned). Therefore, if you have plate-solving problems, you may want to uncheck <guilabel
->Use Position</guilabel
-> until those issues are resolved. As mentioned, this will result in longer solving times. <guilabel
->Auto-update</guilabel
-> will fill the position box with the position found in the most-recent successful solve. However, a slew will update the position to the position where the telescope thinks it is pointing after the slew. </para>
+>Les positions en AD et DEC sont généralement prises de la position vers laquelle le télescope croit qu'il pointe. Comme la raison première de la résolution est de trouver l'exacte position, le système n'a évidemment pas besoin d'une position exacte pour la résolution. La distance maximale en degrés de la position spécifiée et la position actuelle est indiqué dans le champ <guilabel
+>Rayon</guilabel
+>. La résolution échouera si la position spécifiée est plus loin. Vous souhaitez typiquement activer <guilabel
+>Utiliser position</guilabel
+> pour accélérer la résolution, et nous vous recommandons de le faire. Toutefois, de fréquents problèmes de résolution sont liés à une estimation très imprécise de la position (&ie; le télescope est très mal aligné). Ainsi, si vous rencontrez des problèmes de résolution, vous pouvez décocher cette case jusqu'à avoir résolu ces problèmes. Comme déjà mentionné, cela va allonger la durée de résolution. <guilabel
+>Mise à jour automatique</guilabel
+> mettra à jour la position avec la position de la résolution réussie la plus récente. Mais un pivotage déclenchera une mise à jour de la position où le télescope pense qu'il pointe. </para>
     </sect3>
 
     <sect3 id="ekos-align-profiles">
       <title
->Configure StellarSolver Profiles </title>
+>Configuration des profils pour StellarSolver </title>
         <screenshot>
             <screeninfo
->StellarSolver Profiles </screeninfo>
+>Profils pour StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_profiles.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->StellarSolver Profiles</phrase>
+>Profils pour StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
         <para
->This applies if you are using the (recommended) <guilabel
->Internal Solver</guilabel
-> <guilabel
->Solving Method</guilabel
+>Cela s'applique si vous utilisez la <guilabel
+>Méthode de résolution</guilabel
+> (recommandée) du <guilabel
+>Résolveur interne</guilabel
 >. </para
 ><para
->You can choose an <guilabel
->Options Profile</guilabel
-> on the <guilabel
->StellarSolver Options</guilabel
-> tab. Profiles are simply collections of parameters to configure the performance of the star-extraction and plate-solving system inside of StellarSolver. The <guilabel
+>Vous pouvez choisir les <guilabel
+>Options de profil</guilabel
+> dans l'onglet <guilabel
+>Options de StellarSolver</guilabel
+>. Les profils sont simplement une collection de paramètres pour la configuration de l'extraction d'étoiles et leur résolution du système StellarSolver. Le profil <guilabel
 >1-Default</guilabel
-> profile is the recommended one to start with. There are a few other possible profiles such as <guilabel
+> est celui recommandé pour démarrer. Il en existe d'autres comme <guilabel
 >Large Scale Solving</guilabel
 >, <guilabel
->Small Scall Solving</guilabel
->, and <guilabel
+>Small Scale Solving</guilabel
+> et <guilabel
 >Single Thread Solving</guilabel
 >. </para
 ><para
->In the <guilabel
->Align Options Profile Editor</guilabel
-> tab you can view and edit profiles. There are many parameters, most of which you need not change to solve issues. There are 3 types of parameters. </para>
+>Les <guilabel
+>Options d'alignement du modificateur de profils</guilabel
+> permettent de visualiser et modifier les profils. Il existe de nombreux paramètres dont la plupart n'ont pas besoin d'être modifié pour résoudre les problèmes. Il y a trois types de paramètres. </para>
         <itemizedlist>
          <listitem
 ><para
->The top section labelled <guilabel
->Sextractor Parameters</guilabel
-> (with column headings <guilabel
->Extraction Parameters</guilabel
+>La partie supérieure intitulée <guilabel
+>Paramètres Sextractor</guilabel
+> (avec les colonnes <guilabel
+>Paramètres d'extraction</guilabel
 >, <guilabel
->Deblending Params</guilabel
->, and <guilabel
->Photometry Params</guilabel
->) are star extraction parameters--that is those that help find stars in your image.</para
+>Paramètres de dissociation</guilabel
+> et <guilabel
+>Paramètres de photométrie</guilabel
+>) gère la phase d'extraction - celle qui permet de trouver les étoiles dans une image.</para
 ></listitem>
          <listitem
 ><para
->The second section labelled <guilabel
->Star Filtering Parameters</guilabel
-> filters/reduces the number of stars extracted before sending the list to either the plate-solver (when aligning or polar-aligning), or to autofocus or the internal guider (when just a list of stars is needed).</para
+>La deuxième partie intitulée <guilabel
+>Paramètres de filtrage d'étoiles</guilabel
+> gère le filtrage ou la réduction du nombre d'étoiles extraites avant d'envoyer cette liste soit au résolveur (lors d'un alignement ou d'un alignement sur la Polaire) soit à la mise au point automatique ou encore au guidage interne (quand seule une liste d'étoiles est nécessaire).</para
 ></listitem>
          <listitem
 ><para
->The third section labelled Astrometry Parameters adjusts the performance of plate solving.</para
+>La troisième et dernière partie intitulée <guilabel
+>Paramètres d'astrométrie</guilabel
+> permet d'ajuster la qualité de la résolution.</para
 ></listitem>
         </itemizedlist>
         <para
->All the input fields have tooltips that are displayed if you hover your mouse over the input box. </para
+>Tous les champs affichent des infobulles quand le curseur de la souris passe par-dessus. </para
 ><para
->You can make changes to the values and save the profile if you like, or restore the profile's original values. </para>
+>Vous pouvez modifier les valeurs et enregistrer le profil à votre convenance ou rétablir les valeurs par défaut du profil. </para>
         <sect4 id="profile-star-extraction">
           <title
->Star-Extraction Parameters</title>
+>Paramètres de l'extraction d'étoiles</title>
           <para
->The column headings are links to the Sextractor manual which is the main source for these parameters. View those links to find details on all the parameters. We will touch upon some of the parameters you might consider adjusting. However, it's probably best not to get into the weeds of modifying most of these values. </para>
+>Les intitulés des colonnes sont des liens vers le manuel de Sextractor qui est la source d'information principale pour ces paramètres. Visitez ces liens pour obtenir davantage de détails sur ces paramètres. Nous allons aborder quelqu'uns de ces paramètres qu'il pourrait être intéressant d'ajuster. Toutefois, il est probablement judicieux de garder les valeurs par défaut de la plupart de ces paramètres. </para>
         <itemizedlist>
          <listitem
 ><para
-><guilabel
->Thresh Multiple</guilabel
-> and <guilabel
->Thresh Offset</guilabel
-> relate to how sensitive the system will be to pixel values. The level of the background is multiplied by <guilabel
->Thresh Multiple</guilabel
-> and then <guilabel
->Thresh Offset</guilabel
-> is added to that. If a pixel's value exceeds the result, then it may be used to detect a star. Therefore, lower values (especially for multiple) may cause even dim pixels to be detected as stars. Higher values will reduce the number of stars detected.</para
+>Les paramètres <guilabel
+>Multiple du seuil</guilabel
+> et <guilabel
+>Décalage du seuil</guilabel
+> sont associés à la sensibilité du système liée à la valeur des pixels. Le niveau du fond du ciel est multiplié par <guilabel
+>Multiple du seuil</guilabel
+>, puis on ajoute <guilabel
+>Décalage du seuil</guilabel
+>. Si la valeur d'un pixel dépasse le résultat alors il peut être utilisé pour détecter une étoile. Ainsi, les valeurs faibles (en particulier du multiple) auront tendance à ce que les pixels très faibles seront interprétés comme faisant partie d'une étoile. Au contraire, de grandes valeurs réduiront le nombre d'étoiles détectées.</para
 ></listitem>
          <listitem
 ><para
-><guilabel
->Min Area</guilabel
-> is the minimum area for a star detection--area is in square pixels where all pixels have higher-than-threshold pixel values. If you are detecting small noise spikes as stars, you might want to increase this. If you are not detecting desired smaller real stars, perhaps your <guilabel
->Min Area</guilabel
-> is too high.</para
+>Le paramètre <guilabel
+>Aire minimale</guilabel
+> représente la surface minimale pour la détection d'étoiles, c'est un carré de pixels où tous les pixels ont une valeur supérieure à un seuil défini. Si de petites pointes de bruit sont détectées comme des étoiles, il faudra probablement augmenter la valeur de ce paramètres. À l'inverse, si vous ne détectez pas les petites étoiles souhaitées, il faudra réduire la valeur de ce paramètre.</para
 ></listitem>
          <listitem
 ><para
-><guilabel
->Conv FWHM</guilabel
-> should be adjusted to roughly the seeing in your area in pixels. The image is smoothed by this amount before star detection is initiated.</para
+>Le paramètre <guilabel
+>FWHM Convolution</guilabel
+> (en pixels) devrait être ajusté à peu près à la qualité de votre ciel (seeing). L'image est lissée de cette quantité avant que la détection d'étoiles soient exécutées.</para
 ></listitem>
         </itemizedlist>
         </sect4
@@ -328,70 +322,70 @@
 
         <sect4 id="profile-star-filtering">
         <title
->Star-Filtering Parameters</title>
+>Paramètres de filtrage d'étoiles</title>
           <para
->This filtering is done for the sake of speed mostly, as well as for removing clipped stars, or very elliptical objects which might be galaxies. We will touch upon some of the parameters you might consider adjusting. Zero values for these parameters disable the filter. However, once again it's probably best not to get into the weeds of modifying most of these values. </para>
+>Le filtrage d'étoile est principalement réalisé pour des questions de vitesse de traitement, mais également pour supprimer les étoiles sectionnées ou les objets très elliptiques qui peuvent être des galaxies. Une valeur de zéro désactive le filtrage. Toutefois et à nouveau, il est raisonnable de ne pas modifier les valeurs par défaut de ces paramètres. </para>
              <itemizedlist>
          <listitem
 ><para
-><guilabel
->Initial Keep</guilabel
-> and <guilabel
->Stars Keep #</guilabel
-> relates to the number of stars returned by the system. The system will initially run its detection algorithm and find some number of possible detections. It will filter that list, keeping only the <guilabel
->Initial Keep</guilabel
-> brightest stars. It will then run the rest of the filtering, including computing the HFR of all those stars and finally only return a list of <guilabel
->Stars Keep #</guilabel
-> stars. None of the uses (alignment, autofocus, guiding) of StellarSolver require thousands of stars to be able to do their job, and the more stars processed the slower the operation. An initial list of 1000 stars and a few hundred returned stars should be sufficient for most applications.</para
+>Les paramètres <guilabel
+>Conserver initial</guilabel
+> et <guilabel
+># d'étoiles à conserver</guilabel
+> gèrent le nombre d'étoiles conservées par le système. Il va d'abord exécuter son algorithme de détection et trouver un certain nombre d'étoiles. Il filtrera ensuite cette liste en ne gardant que le nombre <guilabel
+>Conserver initial</guilabel
+> d'étoiles brillantes. Il exécutera ensuite la suite du filtrage ce qui inclut le calcul du HFR de toutes les étoiles et renverra enfin une liste de <guilabel
+># d'étoiles à conserver</guilabel
+> d'étoiles. Aucune utilisation de StellarSolver (alignement, mise au point automatique, guidage) ne requiert des milliers d'étoiles pour fonctionner et plus le nombre d'étoiles à traiter est grand, plus grand sera le temps de traitement. Une liste initiale de mille étoiles pour quelques centaines utilisées devrait être suffisant pour la plupart des utilisations.</para
 ></listitem>
          <listitem
 ><para
-><guilabel
->Max Size</guilabel
-> and <guilabel
->Min Size</guilabel
-> filter stars by their sizes (pixel diameters), and are similar in usage to <guilabel
->Min Area</guilabel
-> above.</para
+>Les paramètres <guilabel
+>Taille maximale</guilabel
+> et <guilabel
+>Taille minimale</guilabel
+> filtrent les étoiles par rapport à leur taille (diamètre en pixels) et sont similaires dans leur utilisation au paramètre <guilabel
+>Aire minimale</guilabel
+> discutée ci-dessus.</para
 ></listitem>
          <listitem
 ><para
-><guilabel
->Max Ellipse</guilabel
-> specifies how elliptical a star can be before being removed. 2 would mean the larger axis could be twice as large as the smaller axis.</para
+>Le paramètre <guilabel
+>Ellipse maximale</guilabel
+> spécifie la forme elliptique maximale d'une étoile avant d'être retirée. Une valeur de 2 signifie que le grand axe est le double du petit axe.</para
 ></listitem>
          <listitem
 ><para
-><guilabel
->Cut Brightest</guilabel
-> and <guilabel
->Cut Dimmest</guilabel
-> remove the X% brightest or dimmest stars from consideration. <guilabel
->Sat Limit</guilabel
-> removes stars whose pixel values exceed that percentage of the maximum pixel value--to remove saturated stars.</para
+>Les paramètres <guilabel
+>Supprimer les plus brillantes</guilabel
+> et <guilabel
+>Supprimer les moins brillantes</guilabel
+> permettent de supprimer les X % d'étoiles les plus brillantes ou moins brillantes. Le paramètre <guilabel
+>Limite de saturation</guilabel
+> permet de supprimer les étoiles dont la valeur de pixel dépasse ce pourcentage de la valeur maximale de ce pixel, supprimant ainsi les étoiles saturées.</para
 ></listitem>
              </itemizedlist>
         </sect4>
 
         <sect4 id="profile-plate-solving">
           <title
->Plate-Solving Parameters</title>
+>Paramètres de résolution</title>
           <para
->These plate-solving parameters mostly relate to computation resources. </para>
+>Ces paramètres gèrent principalement les ressources de calcul. </para>
              <itemizedlist>
          <listitem
 ><para
-><guilabel
->Search Radius</guilabel
-> is the distance from the position estimate in degrees that may be searched if <guilabel
->Use Position</guilabel
-> is checked. </para
+>Le paramètre <guilabel
+>Rayon de recherche</guilabel
+> représente la distance de la position estimée en degrés de la zone de recherche si le paramètre <guilabel
+>Utiliser position</guilabel
+> est activé. </para
 ></listitem>
          <listitem
 ><para
-><guilabel
->Maximum Time</guilabel
-> is the maximum number of seconds that the plate-solving will run before it times out.</para
+>Le paramètre <guilabel
+>Durée maximale</guilabel
+> est le nombre maximal de secondes de résolution avant le délai d'expiration.</para
 ></listitem>
              </itemizedlist>
         </sect4
@@ -403,12 +397,10 @@
       <title
 >Téléchargement des fichiers index</title>
       <para
->Index files are required if you choose the <guilabel
->Internal Solver</guilabel
-> or <guilabel
->Local Astrometry</guilabel
-> <guilabel
->Solving Method</guilabel
+>Les fichiers index sont requis si vous choisissez les méthodes de résolution <guilabel
+>Résolveur interne</guilabel
+> ou <guilabel
+>Astrométrie locale</guilabel
 >. </para>
         <para
 >Pour les résolveurs hors-ligne (et à distance), les fichiers index sont nécessaires pour que la résolution fonctionne. La collection complète de ces fichiers index est énorme (plus de 30 Go), mais vous devez que ceux qui correspondent à votre matériel. Les fichiers index sont organisés par l'intervalle de champ de vision (FOV) qu'ils couvrent. Il existe deux manières d'obtenir les fichiers d'index nécessaires : la gestion nouvelle de téléchargement dans le module d'alignement et l'ancienne manière manuelle. </para>
@@ -691,14 +683,14 @@
 
     <sect3 id="ekos-align-get-astrometry">
         <title
->Optionally get astrometry.net</title>
+>Obtenir optionnellement astrometry.net</title>
 
         <para
->This is only required if you choose the <guilabel
->Local Astrometry</guilabel
-> option for <guilabel
->Source Extraction Method</guilabel
-> which is no longer recommended. </para>
+>Cela n'est requis que si vous choisissez <guilabel
+>Astrométrie locale</guilabel
+> comme <guilabel
+>Méthode d'extraction des sources</guilabel
+>, ce qui n'est plus recommandé. </para>
         <note>
             <para
 >Astrometry.net est déjà livré avec StellarMate, donc il n'est pas nécessaire de l'installer. Les fichiers d'index dès 16 minutes d'arc et au-dessus (4206 - 4019) sont inclus dans StellarMate. Tout fichier index additionnel nécessaire devra être installé séparément.  </para>
@@ -785,17 +777,19 @@
             <title
 >Comment les utiliser ?</title>
             <para
->Ekos Align Module offers multiple functions to aid you in achieving accurate GOTOs. For some mounts it is useful to start your session with your mount in home position with the telescope tube looking directly at the celestial pole. For users in Northern Hemisphere, point the telescope as close as possible to Polaris. It is not necessary to perform 2 or 3 star alignments, but it can be useful for some mount types. Make sure your camera is focused. </para>
+>Le module d'alignement d'Ekos propose de multiples fonctions pour vous aider à réaliser des pointages GOTO précis. Pour certaines montures, commencez avec votre monture en position parquée (home position), c'est-à-dire pointant directement vers le pôle céleste. Pour les utilisateurs de l'hémisphère Nord, pointez le télescope aussi près que possible vers l'étoile polaire Polaris. Il n'est pas nécessaire de faire un alignement sur deux ou trois étoiles bien que ça peut être utile pour certains types de montures. Assurez-vous que la mise au point de votre caméra soit réalisée et que les étoiles soient bien résolues. </para>
             <para
->At the top left of the Align page you can find two solver commands, and two actions to take given the solver solution. </para>
+>En haut à gauche de la page Alignement vous trouverez deux commandes de résolution ainsi que deux actions à entreprendre selon la solution de la résolution. </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->Capture &amp; Solve</guilabel
->: Capture an image and determine exactly where in the sky the telescope is pointing. The astrometry results include the equatorial coordinates (RA &amp; DEC) of the center of the captured image and the pixel scale and field rotation. Depending on the Solver Action settings, the results can be used to Sync the mount or Sync and then Slew to the target location. For example, suppose you slewed the mount to Vega then used <emphasis
->Capture &amp; Solve</emphasis
->. If the actual telescope location is different from Vega, it will be first synced to the solved coordinate and then Ekos shall command the mount to slew to Vega. After slew is complete, the Alignment module will repeat Capture &amp; Solve process again until the error between reported and actual position falls below the accuracy thresholds (30 arcseconds by default). </para>
+>Acquisition &amp; pointage</guilabel
+> : commencez par acquérir une image et déterminez la région du ciel où le télescope pointe. Les résultats de l'astrométrie incluent les coordonnées équatoriales (AD &amp; DEC) du centre de l'image, ainsi que l'échelle de pixel et la rotation du champ. Selon les réglages des actions du résolveur, les résultats peuvent être utilisés pour synchroniser la monture ou synchroniser et ensuite pointer vers l'endroit de la cible. Par exemple, supposons que vous avez pointé la monture vers Vega et qu'ensuite vous avez utilisé la fonction <emphasis
+>Acquisition &amp; Résoudre</emphasis
+>. Si la position actuelle du télescope est différente de Vega, alors il commencera par se synchroniser aux coordonnées résolues et ensuite Ekos donnera l'ordre à la monture de pointer vers Vega. Après que la rotation soit terminée, le module d'alignement relancera le processus d'<emphasis
+>Acquisition &amp; Résoudre</emphasis
+> jusqu'à ce que l'erreur entre la position rapportée et la position actuelle soit plus faible que le seuil de précision préalablement défini (par défaut 30 secondes d'arc).  </para>
                 </listitem>
                 <listitem>
                     <para
@@ -806,9 +800,9 @@
             </itemizedlist>
             <warning>
                 <para
-><emphasis role="bold"
->Never</emphasis
-> solve an image at or near the celestial pole (unless Ekos Polar Alignment Assistant Tool is used). Slew at least 20 degrees away from the celestial pole before solving the first image. Solving very close to the poles will make your mount pointing worse, so avoid it. </para>
+>Ne <emphasis role="bold"
+>Jamais</emphasis
+> résoudre une image proche du pôle céleste (sauf quand l'outil d'assistance à l'alignement polaire est utilisé). Pivoter à au moins 20 degrés du pôle céleste avant de commencer à résoudre la première image. Une résolution trop proche des pôles péjore le pointage de la monture, alors évitez-là. </para>
             </warning>
         </sect3>
         
@@ -816,19 +810,19 @@
             <title
 >Réglages de l'alignement</title>
             <para
->Before you begin the alignment process, select the desired optical train. You can explore astrometry.net options that are passed to the astrometry.net solver each time an image is captured: </para>
+>Avant de démarrer la procédure d'alignement polaire, il faut sélectionner le bon train optique. Vous pouvez explorer les options d'astrometry.net qui sont passées au résolveur à chaque acquisition d'image : </para>
             <itemizedlist>
                 <listitem>
                     <para
 ><guilabel
->Accuracy</guilabel
->: Acceptable difference between the desired target position and the solved coordinates from the captured image. If the difference exceeds this many arc-seconds, then the system will continue to capture, solve and slew until the solved position is close enough to the target position. </para>
+>Précision</guilabel
+> : différence acceptable entre la position souhaitée de la cible et les coordonnées obtenues de la résolution de l'image acquise. Si cette différence dépasse cette valeur en secondes d'arc, le système poursuivra les acquisitions, la résolution et le pivotement jusqu'à trouver une position assez proche de la position de la cible. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
 >Train</guilabel
->: Select the Optical Train which will be used to capture the image to be aligned. It is also used to compute the image scale. </para>
+> : sélectionnez le train optique qui sera utilisé pour l'acquisition de l'image pour l'alignement. Également utilisé pour calculer l'échelle de l'image. </para>
                 </listitem>
                 <listitem>
                     <para
@@ -840,27 +834,27 @@
                     <para
 ><guilabel
 >Bin</guilabel
->: The binning of the image before solving. </para>
+> : réglage du groupement de pixels vertical du CCD. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
 >Gain/ISO</guilabel
->: The camera gain or ISO. </para>
+> : le gain ou l'ISO de l'appareil </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
->Filter/Use Current</guilabel
->: The filter to use when capturing the image. <guilabel
->Use Current</guilabel
-> uses whatever filter is currently active. </para>
+>Filtre/Utiliser actuel</guilabel
+> : le filtre à utiliser pour l'acquisition de l'image. <guilabel
+>Utiliser actuel</guilabel
+> utilise le filtre actuellement activé. </para>
                 </listitem>
                 <listitem>
                     <para
 ><guilabel
 >Dark</guilabel
->: Whether to use the dark-image subtraction scheme before analyzing the captured image. </para>
+> : indique s'il faut soustraire l'image Dark avant l'analyse de l'image acquise. </para>
                 </listitem>
             </itemizedlist>
         </sect3>
@@ -908,7 +902,7 @@
                 <para
 >Avant le début de la procédure, pointez la monture aussi près que possible vers le pôle céleste avec le contre-poids vers le bas. Si vous habitez dans l'hémisphère nord, pointez vers l'étoile polaire Polaris. Si Polaris n'est pas visible (par exemple masquée par des arbres ou des bâtiments), vous pouvez pointer ailleurs mais de préférence vers le méridien. Assurez-vous qu'il y a au moins 30 à 60 degrés de ciel visible à l'est ou à l'ouest de la position choisie. Choisissez la direction du ciel libre, le nombre de degrés de déplacement pour chaque rotation, la vitesse de rotation et si la monture se déplace automatiquement (ce qui est recommandé) ou manuellement. </para>
                 <para
->The tool works by capturing and solving three images. After capturing each, the mount rotates by the fixed amount you entered and another image is captured and solved. If you choose manual, you will need to slew the mount by roughly the angle chosen. </para>
+>L'outil fonctionne en prenant et en résolvant trois images. Après chaque acquisition, la monture tourne d'une quantité fixe et une nouvelle image est prise et résolue. Si vous choisissez le mode manuel, vous devrez tourner la monture de l'angle choisi. </para>
                 <screenshot>
                     <screeninfo
 >Assistant d'alignement polaire </screeninfo>

@@ -272,7 +272,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
 #if defined(Q_OS_WIN)
     re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
 #else
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|bin|B|C|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
 #endif
 
     while ((i = tempFormat.indexOf(re, i, &match)) != -1)
@@ -335,7 +335,10 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         else if (((match.captured("name") == "temperature") || (match.captured("name") == "C"))
                  && pathPropertyMap[PP_TEMPERATURE].isValid())
         {
-            replacement = QString::number(pathPropertyMap[PP_TEMPERATURE].toDouble(), 'd', 0) + QString("C");
+            if (glob || gettingSignature)
+                replacement = "-?\\d+";
+            else
+                replacement = QString::number(pathPropertyMap[PP_TEMPERATURE].toDouble(), 'd', 0);
         }
         else if (((match.captured("name") == "bin") || (match.captured("name") == "B"))
                  && pathPropertyMap[PP_BIN].isValid())
@@ -346,12 +349,18 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         else if (((match.captured("name") == "gain") || (match.captured("name") == "G"))
                  && pathPropertyMap[PP_GAIN].isValid())
         {
-            replacement = QString::number(pathPropertyMap[PP_GAIN].toDouble(), 'd', 0);
+            if (glob || gettingSignature)
+                replacement = "-?\\d+";
+            else
+                replacement = QString::number(pathPropertyMap[PP_GAIN].toDouble(), 'd', 0);
         }
         else if (((match.captured("name") == "offset") || (match.captured("name") == "O"))
                  && pathPropertyMap[PP_OFFSET].isValid())
         {
-            replacement = QString::number(pathPropertyMap[PP_OFFSET].toDouble(), 'd', 0);
+            if (glob || gettingSignature)
+                replacement = "-?\\d+";
+            else
+                replacement = QString::number(pathPropertyMap[PP_OFFSET].toDouble(), 'd', 0);
         }
         else if (((match.captured("name") == "iso") || (match.captured("name") == "I"))
                  && pathPropertyMap[PP_ISO].isValid())
@@ -361,19 +370,23 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         else if (((match.captured("name") == "pierside") || (match.captured("name") == "P"))
                  && pathPropertyMap[PP_PIERSIDE].isValid())
         {
-            switch (static_cast<ISD::Mount::PierSide>(pathPropertyMap[PP_PIERSIDE].toInt()))
+            if (glob || gettingSignature)
+                replacement = "(East|West|Unknown)";
+            else
             {
-                case ISD::Mount::PIER_EAST:
-                    replacement =  "East";
-                    break;
-                case ISD::Mount::PIER_WEST:
-                    replacement =  "West";
-                    break;
-                case ISD::Mount::PIER_UNKNOWN:
-                    replacement =  "Unknown";
-                    break;
+                switch (static_cast<ISD::Mount::PierSide>(pathPropertyMap[PP_PIERSIDE].toInt()))
+                {
+                    case ISD::Mount::PIER_EAST:
+                        replacement =  "East";
+                        break;
+                    case ISD::Mount::PIER_WEST:
+                        replacement =  "West";
+                        break;
+                    case ISD::Mount::PIER_UNKNOWN:
+                        replacement =  "Unknown";
+                        break;
+                }
             }
-
         }
         // Disable for now %d & %p tags to simplfy
         //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||

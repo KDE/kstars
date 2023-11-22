@@ -33,10 +33,10 @@ void SequenceJobState::initPreparation(bool isPreview)
     wpScopeStatus = WP_NONE;
 }
 
-void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforceInitialGuidingDrift, bool isPreview)
+void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool isPreview)
 {
     // precondition: do not start while already being busy and conditions haven't changed
-    if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceInitialGuidingDrift == m_enforceInitialGuiding)
+    if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
 
     // initialize the states
@@ -53,11 +53,6 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
 
     // Check if we need to update rotator (only skip if the value is initialized and within the limits)
     prepareRotatorCheck();
-
-    // Check if we need to wait for guiding being initially below the target value
-    m_enforceInitialGuiding = enforceInitialGuidingDrift;
-    if (enforceInitialGuidingDrift && !isPreview)
-        prepareActions[CaptureModuleState::ACTION_GUIDER_DRIFT] = false;
 
     // Hint: Filter changes are actually done in SequenceJob::capture();
 
@@ -238,8 +233,7 @@ void SequenceJobState::setAllActionsReady()
     // reset the initialization state
     for (CaptureModuleState::PrepareActions action :
             {
-                CaptureModuleState::ACTION_FILTER, CaptureModuleState::ACTION_ROTATOR, CaptureModuleState::ACTION_TEMPERATURE,
-                CaptureModuleState::ACTION_GUIDER_DRIFT
+                CaptureModuleState::ACTION_FILTER, CaptureModuleState::ACTION_ROTATOR, CaptureModuleState::ACTION_TEMPERATURE
             })
         setInitialized(action, false);
 }
@@ -465,7 +459,8 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
                                              KStarsData::Instance()->geo()->lat());
             wpScopeStatus = WP_SLEWING;
             emit slewTelescope(wallCoord);
-            emit newLog(i18n("Mount slewing to wall position..."));
+            emit newLog(i18n("Mount slewing to wall position (az =%1 alt =%2)",
+                             wallCoord.alt().toDMSString(), wallCoord.az().toDMSString()));
             return IPS_BUSY;
         }
         // wait until actions completed
@@ -728,15 +723,6 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
     }
 }
 
-void SequenceJobState::setCurrentGuiderDrift(double value)
-{
-    setInitialized(CaptureModuleState::ACTION_GUIDER_DRIFT, true);
-    if (value <= targetStartGuiderDrift)
-        prepareActions[CaptureModuleState::ACTION_GUIDER_DRIFT] = true;
-
-    checkAllActionsReady();
-}
-
 void SequenceJobState::setFocusStatus(FocusState state)
 {
     switch (state)
@@ -870,15 +856,6 @@ void SequenceJobState::hasShutter(bool present)
     else
         m_CaptureModuleState->shutterStatus = CaptureModuleState::SHUTTER_NO;
 
-    // re-run checks
-    checkAllActionsReady();
-}
-
-void SequenceJobState::setEnforceInitialGuidingDrift(bool enforceInitialGuidingDrift)
-{
-    m_enforceInitialGuiding = enforceInitialGuidingDrift;
-    // update the preparation action
-    prepareActions[CaptureModuleState::ACTION_GUIDER_DRIFT] = !enforceInitialGuidingDrift || m_isPreview;
     // re-run checks
     checkAllActionsReady();
 }

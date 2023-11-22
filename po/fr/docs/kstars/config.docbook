@@ -173,12 +173,12 @@
 </para>
 
 <para
->The <guilabel
->Configure - &kstars;</guilabel
-> window is divided into fourteen pages: <guilabel
->Catalogs</guilabel
+>La fenêtre <guilabel
+>Configuration de &kstars;</guilabel
+> est divisée en quatorze pages : <guilabel
+>Catalogues</guilabel
 >, <guilabel
->Solar System</guilabel
+>Système solaire</guilabel
 >, <guilabel
 >Satellites</guilabel
 >, <guilabel
@@ -188,9 +188,9 @@
 >, <guilabel
 >Terrain</guilabel
 >, <guilabel
->Image Overlays</guilabel
+>Superposition d'image</guilabel
 >, <guilabel
->Colors</guilabel
+>Couleurs</guilabel
 >, <guilabel
 >FITS</guilabel
 >, <guilabel
@@ -200,9 +200,9 @@
 >, <guilabel
 >Xplanet</guilabel
 >, <guilabel
->Advanced</guilabel
-> and <guilabel
->Developer</guilabel
+>Avancé</guilabel
+> et <guilabel
+>Développeurs</guilabel
 >. </para>
 
 <!-- Catalogs page: -->
@@ -306,17 +306,17 @@
 ><primary
 >La fenêtre de configuration de &kstars;</primary>
 <secondary
->Image Overlays page</secondary
+>Page de superposition d'image</secondary
 ></indexterm>
 <indexterm
 ><primary
->Image Overlays</primary>
+>Superposition d'image</primary>
 <secondary
 >Personnalisation</secondary
 ></indexterm
->The <guilabel
->Image Overlays</guilabel
-> page allows you to add and manage your own images that will be displayed in the skymap. </para>
+>La page de <guilabel
+>Superposition d'image</guilabel
+> permet d'ajouter et de gérer vos propres images qui peuvent être affichées dans la carte du ciel. </para>
 
 <!-- Colors page: -->
 <para>
@@ -394,9 +394,9 @@
 <secondary
 >Page Avancé</secondary
 ></indexterm
->The <guilabel
->Developer</guilabel
-> page allows you to enable or disable a few options mostly useful for developers or for folks looking to help debug issues. Currently these are enabling the saving of images during Ekos's autofocus, guiding and alignment. </para>
+>La page des <guilabel
+>Développeurs</guilabel
+> permet d'activer ou de désactiver quelques options surtout utiles pour les développeurs ou pour les personnes qui souhaitent aider à déterrer les bogues. Actuellement elles activent la sauvegarde des images des processus de mise au point automatique, de guidage et d'alignement. </para>
 </sect1>
 
 <sect1 id="catalogs">
@@ -1532,17 +1532,17 @@
 
 <sect1 id="imageOverlays">
 <title
->Image Overlays</title>
+>Superposition d'images</title>
 <screenshot>
 <screeninfo
->Image Overlays on SkyMap</screeninfo>
+>Superposition d'image sur la carte du ciel</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="imageOverlays2.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Image Overlays on SkyMap</phrase>
+>Superposition d'image sur la carte du ciel</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1551,58 +1551,100 @@
 ><primary
 >La fenêtre de configuration de &kstars;</primary>
 <secondary
->Image Overlays page</secondary
+>Page de superposition d'image</secondary
 ></indexterm
->Image overlays are custom images (typically .jpg) that are rendered onto the skymap over stars and other skymap items, but below the terrain. These images are added by you, the user, a sort of personal sky catalog. If configured properly, these personal images can be displayed almost perfectly aligned with other objects in the sky. </para>
+>Les images de superposition sont des images personnalisées (typiquement <literal role="extension"
+>.jpg</literal
+>) placées sur la carte du ciel par-dessus les étoiles et les autres éléments de la carte du ciel, mais sous le terrain. Elles sont ajoutées par vous, l'utilisateur, comme une sorte de catalogue personnel. Elles peuvent être alignées presque parfaitement avec les autres objets du ciel si configurées correctement. </para>
 <screenshot>
 <screeninfo
->Image Overlays Window</screeninfo>
+>Fenêtre de superposition d'image</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="imageOverlays1.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Image Overlays Window</phrase>
+>Fenêtre de superposition d'image</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 <para
->The <guilabel
->Image Overlays</guilabel
-> page lets you configure whether image overlays will be shown on the skymap, and helps you add them to the system. The image at the start of this section shows the skymap with image overlays enabled and some image overlays loaded. </para>
+>La page de <guilabel
+>Superposition d'image</guilabel
+> vous permet de décider si cette image doit être affichée sur la carte du ciel et vous aide à les ajouter dans le système. L'image au début de cette section présente la carte du ciel avec la superposition d'image activée et désactivée. </para>
 <para
->Each time it starts up, KStars looks for new image overlay images in a special directory, parallel to the logs directory, named imageOverlays. On Linux this can be found in ~/.local/share/kstars/imageOverlays. The exact location for your system can be found by clicking the <guilabel
->Overlay Directory</guilabel
-> button near the top of the Image Overlays config page shown at the top of this section. To start, add your images to that directory. Ideally, for performance reasons these aren't massive files, but probably images with widths 1000 or 2000 should be fine. To add additional images in the future, add them to the same directory and restart KStars. </para>
+>À chaque démarrage, &kstars; recherche la présence de nouvelles images de superposition d'image dans un dossier spécial, en parallèle au dossier de fichiers journaux, nommé <literal
+>imageOverlays</literal
+>. Sur les systèmes Linux, les images se trouvent dans <filename class="directory"
+>~/.local/share/kstars/imageOverlays</filename
+>. L'emplacement exact pour votre système peut être trouvé en cliquant sur le bouton <guibutton
+>Dossier de superposition</guibutton
+> près du haut de la page de configuration <guilabel
+>Superposition d'image</guilabel
+> affiché au début de cette section. Pour commencer, ajoutez vos images à ce dossier. Pour des raisons de performance, elles ne devraient pas être trop lourdes mais des images de largeur de 1000 ou 2000 pixels devraient convenir. Pour ajouter d'autres images dans le futur, ajoutez-les dans ce même dossier et cliquez sur le bouton d'actualisation ou redémarrez &kstars;. Pour les supprimer, effacez-les de ce dossier et cliquez sur bouton d'actualisation ou redémarrez &kstars;. </para>
 <para
->Start KStars once you have images in the imageOverlays directory. If you then go to the Image Overlays config page, you should see the new files listed in the table. The new images will show their status as "Unprocessed". Only images whose status is "OK" are displayed on the SkyMap. That is because KStars needs to know the sky location, size, and orientation for these images before it can display them. To change the status to OK you need to plate-solve the images or add the required information manually--see below. </para>
+>Démarrez &kstars; une fois que vos images sont dans le dossier <literal
+>imagesOverlays</literal
+>. En vous rendant sur la page de configuration de la <guilabel
+>Superposition d'image</guilabel
+>, vous devriez voir les nouveaux fichiers dans la table. Leur statut sera <guilabel
+>Unprocessed</guilabel
+>. Seules les images de statut <guilabel
+>Ok</guilabel
+> sont affichées sur la carte du ciel. La raison en est que &kstars; a besoin de connaître la position du ciel, la taille et l'orientation de ces images pour pouvoir les afficher. Pour modifier le statut en <guilabel
+>Ok</guilabel
+>, il faut effectuer une résolution astrométrique ou ajouter manuellement l'information requise, voir ci-dessous. </para>
 <para
->To prepare your images for display, you need to plate-solve the images (one time only). To do this, find an image in the table, click on its filename, and then click <guilabel
->Solve</guilabel
-> below the table. The Solve button's label should switch to <guilabel
->Cancel</guilabel
-> during the solve, and then when completed successfully, the solved parameters are displayed in the table and the status is changed to "OK". A successful plate-solve's information is stored in the user database so that solving doesn't need to be repeated. The solved image should from then on appear in its proper position in the SkyMap. You can plate-solve multiple images in a single operation by clicking on the first image's filename, then shift clicking on another filename. All the image files between the filenames should be selected. Then clicking Solve will attempt to solve them all. However, KStars will not attempt to plate-solve images whose status is "OK", it will skip those images. (If you wish to re-plate-solve images with status "OK", then manually change their status to "Unprocessed" and click "Solve"). It is possible that if you select several images, a few of them will not be successfully solved. </para>
+>La préparation des images pour l'affichage implique de les résoudre (une seule fois). Pour cela, choisissez une image dans la table, cliquez sur nom et cliquez sur le bouton <guibutton
+>Résoudre</guibutton
+> sous la table. L'étiquette de ce bouton changera en <guibutton
+>Annuler</guibutton
+> durant la résolution, et en cas de succès, les paramètres de résolution seront affichées dans la table et le statut passe à <guilabel
+>Ok</guilabel
+>. Cette information est enregistrée dans la base de données de l'utilisateur afin de ne pas devoir répéter la résolution. Les images résolues apparaîtront dès lors à leur correcte position sur la carte du ciel. Vous pouvez résoudre plusieurs images en une seule opération en cliquant sur le nom de la première image puis en cliquant sur d'autres nom de fichier en maintenant la touche &Shift; enfoncée. Toutes les images entre ces deux devraient être sélectionnées. Puis en cliquant sur le bouton <guibutton
+>Résoudre</guibutton
+>, toutes les images tenteront d'être résolues. Toutefois &kstars; ignorera les images de statut <guilabel
+>Ok</guilabel
+>. (Si vous souhaitez les résoudre à nouveau, modifiez vous-même leur état en <guilabel
+>Unprocessed</guilabel
+>, puis cliquez sur <guibutton
+>Résoudre</guibutton
+>.) Il est possible qu'en sélectionnant plusieurs images, certaines échouent à être résolues. </para>
 <para
->Plate solving these images can sometimes be difficult. That is because at this point the system has no information as to the scale or position to look, and thus it is a blind solve. To improve your chance for success, you can enter an approxiate RA/DEC center sky position into the RA and DEC columns for the row you are trying to solve. You can also add an image scale, in arcseconds-per-pixel. You can add a default scale to the right of the Solve button in the box labelled <guilabel
->Default a-s/px</guilabel
-> so that all solving attempts use this scale by default. You can also add a scale directly into the table-row-column, which would override the default. You can choose which StellarSolver profile the solver uses (these profiles can be edited in Ekos' align tab). Finally, you can adjust the solver's <guilabel
->Timeout</guilabel
-> in seconds. </para>
+>La résolution de ces images peut se révéler difficile. En effet, le système n'a aucune information sur la position et l'échelle de l'image, il résout à l'aveugle. Pour améliorer les chances de succès, vous pouvez indiquer la position approximative du centre de l'image dans le ciel en AD/DEC dans les colonnes <guilabel
+>AD</guilabel
+> et <guilabel
+>DEC</guilabel
+> de la ligne à résoudre. Vous pouvez également ajouter l'échelle de l'image en secondes d'arc par pixel. Vous pouvez ajouter une échelle par défaut à utiliser dans le champ à droite du bouton <guibutton
+>Résoudre</guibutton
+> nommé <guilabel
+>a-s/px par défaut</guilabel
+>. Ou alors indiquer une échelle directement dans la table pour passer outre la valeur par défaut. Vous pouvez aussi choisir le profil StellarSolver à utiliser pour la résolution (qui peut être modifié dans le module <guilabel
+>Alignement</guilabel
+> d'Ekos). Enfin, vous pouvez le délai d'attente du résolveur en secondes. </para>
 <para
->If you have problematic images that won't solve, you can still display them by manually entering the values (that the solver didn't find) into the table. They are the RA, DEC, arcsecond-per-pixel, orientation angle, and east-to-the-right (or West-to-the-right) settings. Once you have done that, you can then change the status to "OK" and KStars will save these values to the user database as if they had been automatically solved. </para>
+>Si vous avez quelques images problématiques que vous n'arrivez pas à résoudre, vous pouvez quand même les afficher en saisissant vous-même les valeurs dans la table. Ces valeurs sont l'AD et la DEC en secondes d'arc par pixel, l'angle d'orientation et les réglages par rapport à l'est ou à l'ouest. Une fois fait, modifiez le statut à <guilabel
+>Ok</guilabel
+> et &kstars; enregistrera ces valeurs dans la base de données de l'utilisateur comme si elles avaient été résolues automatiquement. </para>
 <para
->There are a few more controls on the Image Overlays settings page. The <guilabel
->Show image overlays</guilabel
-> checkbox at the top of the page enables or disables this feature--that is, toggles whether any image overlays are display on the SkyMap or not. </para>
+>Il y a quelques autres contrôles sur la page de réglages de <guilabel
+>Superposition d'images</guilabel
+>. La case à cocher <guilabel
+>Afficher la superposition d'images</guilabel
+> en haut de page permet d'activer ou de désactiver cette fonctionnalité, c'est-à-dire qu'elle permet d'afficher ou non les images sur la carte du ciel. </para>
 <para
->The <guilabel
->Maximum image dimension</guilabel
-> box allows you to vary the maximum image dimension used for images. That is, if you place images that are, for example, 5000 pixels wide into the imageOverlays directory, but this input box's value is 1000, then the 5000-pixel-images will be read in, but then downsampled to 1000-pixels-wide before display. This is done to reduce the memory footprint and cpu usage of this feature. It would be more efficient to add image files with the desired image width. </para>
+>La boîte <guilabel
+>Dimension maximale de l'image</guilabel
+> permet de varier la dimension maximale des images utilisée pour les images. Ainsi, si vous mettez des images, par exemple, de 5000 pixels de large dans le dossier <literal
+>imageOverlays</literal
+> mais que la valeur d'entrée de la boîte est de 1000 pixels, ces images seront lues mais réduites à la taille de 1000 pixels avant d'être affichées. Cela est effectué afin de réduire l'empreinte mémoire et la charge du cpu de cette fonctionnalité. Mais il serait plus efficace d'ajouter des images de largeur souhaitée directement. </para>
 <para
->The <guilabel
->Center SkyMap on selection</guilabel
-> checkbox allows you to easily navigate to the overlay images without directly manipulating the SkyMap. With this enabled, you select a row in the overlay table (e.g. by clicking on the filename field) and the skymap is moved to that image if the image's status is OK. At that point you can move from one image to the next with up/down arrow keyboard commands. </para>
+>La boîte à cocher <guilabel
+>Center la carte du ciel à la sélection</guilabel
+> permet de naviguer facilement vers les images de superposition sans devoir manipuler la carte du ciel. Lorsque que cette option est activée, il suffit de sélectionner une ligne dans la table de superposition (&ie; en cliquant sur le champ de nom de fichier) et la carte du ciel est déplacée vers cette image si son statut est <guilabel
+>Ok</guilabel
+>. Vous pouvez ensuite passer d'une image à l'autre à l'aide des flèches &Up; et &Down; du clavier. </para>
 </sect1>
 
 <sect1 id="colors">
@@ -1873,6 +1915,56 @@
 >. Vous pouvez spécifier les objets que vous souhaitez cacher dans la section <guilabel
 >Configurer les objets cachés</guilabel
 >. </para>
+</sect1>
+
+<sect1 id="developer">
+<title
+>Développeurs</title>
+<screenshot>
+<screeninfo
+>Fenêtre pour développeurs</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="developer_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Fenêtre pour développeurs</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>La fenêtre de configuration de &kstars;</primary>
+<secondary
+>Pages développeurs</secondary
+></indexterm
+>La page <guilabel
+>Développeurs</guilabel
+> fournit quelques cases à cocher qui peuvent aider à déboguer les problèmes avec &kstars;. Il y a des cases à cocher pour enregistrer les images dans le dossier des fichiers journaux qui aideront à débusquer les problèmes. Bien sûr ces images prendront de la place et cette fonctionnalité devrait être utilisée judicieusement. </para
+><para
+>Les images qui peuvent être enregistrées sont</para>
+  <itemizedlist>
+<listitem
+><para
+>toutes les images de mise au point, </para
+></listitem>
+<listitem
+><para
+>toutes les images de guidage, </para
+></listitem>
+<listitem
+><para
+>toutes les images d'alignement, </para
+></listitem>
+<listitem
+><para
+>toutes les images qui ont échoué à la résolution. </para
+></listitem>
+  </itemizedlist
+><para
+>Ces images sont enregistrées dans des dossiers situés au même niveau que le dossier des fichiers journaux. Leurs noms sont guide, autofocus, align et align/failed. </para>
 </sect1>
 
 <sect1 id="customize">

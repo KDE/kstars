@@ -6,13 +6,18 @@
 
 #pragma once
 
+#ifndef FILEUTILITYCAMERADATADIALOG_H
+#define FILEUTILITYCAMERADATADIALOG_H
+
 #include "fileutilitycameradata.h"
 #include <QDialog>
 
+QT_BEGIN_NAMESPACE
 namespace Ui
 {
 class FileUtilityCameraDataDialog;
 }
+QT_END_NAMESPACE
 
 class FileUtilityCameraDataDialog : public QDialog
 {
@@ -58,3 +63,4 @@ class FileUtilityCameraDataDialog : public QDialog
         int downloadFileCounter;
 };
 
+#endif // FILEUTILITYCAMERADATADIALOG_H

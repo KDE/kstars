@@ -6,10 +6,14 @@
 
 #pragma once
 
+#ifndef CameraGainReadMode_H
+#define CameraGainReadMode_H
+
 #include <QAbstractItemModel>
 #include <QVector>
 #include "cameragainreadnoise.h"
 
+QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 class CameraGainReadMode
@@ -34,3 +38,5 @@ class CameraGainReadMode
         QVector<OptimalExposure::CameraGainReadNoise> CameraGainReadNoiseVector;
 };
 }
+QT_END_NAMESPACE
+#endif // CameraGainReadMode_H

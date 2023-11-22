@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-14 00:38+0000\n"
-"PO-Revision-Date: 2023-11-14 23:38+0100\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
+"PO-Revision-Date: 2023-11-21 18:40+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -438,7 +438,7 @@ msgstr "Confirmeu la supressió"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadB)
 #: auxiliary/imageviewer.cpp:195
-#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:86
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:59
 #, kde-format
 msgid "Download"
 msgstr "Baixa"
@@ -2655,6 +2655,7 @@ msgstr "L'URL que es visualitzarà per a este element."
 msgid "Open URL in a browser window"
 msgstr "Obri l'URL en una finestra del navegador."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:130
 #, kde-format
@@ -2663,7 +2664,7 @@ msgid ""
 "button"
 msgstr ""
 "Podeu verificar l'URL introduït obrint-lo en una finestra del navegador amb "
-"este botó"
+"este botó."
 
 #. i18n: ectx: property (text), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:133
@@ -3654,7 +3655,7 @@ msgstr "No s'ha trobat cap muntura connectada."
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr "La muntura %1 no està en línia. Connecteu-la i torneu-ho a intentar."
+msgstr "La muntura «%1» no està en línia. Connecteu-la i torneu-ho a intentar."
 
 #: dialogs/detaildialog.cpp:1131
 #, kde-format
@@ -3742,6 +3743,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, masterMean)
 #. i18n: ectx: property (text), widget (QLabel, masterMedian)
 #. i18n: ectx: property (text), widget (QLabel, masterDeviation)
+#. i18n: ectx: property (text), widget (QLabel, exposureCount)
 #. i18n: ectx: property (text), widget (QLabel, l_FOV)
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
@@ -3753,6 +3755,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:900 ekos/capture/capture.cpp:938
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:814
 #: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -4396,12 +4399,13 @@ msgstr "El valor de l'altitud ha d'estar entre -90,0 i 90,0."
 msgid "RA/Dec"
 msgstr "AR/Dec"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, decLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #: dialogs/focusdialog.ui:61 ekos/manager.ui:770 ekos/mount/mount.ui:158
 #, kde-format
 msgid "Declination"
-msgstr "Declinació"
+msgstr "Declinació."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, JNowB)
@@ -4410,11 +4414,12 @@ msgstr "Declinació"
 msgid "Set Epoch to now"
 msgstr "Establix l'època a ara."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, J2000B)
 #: dialogs/focusdialog.ui:81
 #, kde-format
 msgid "Set Epoch to J2000"
-msgstr "Establix l'època a J2000"
+msgstr "Establix l'època a J2000."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, raLabel)
@@ -5146,7 +5151,7 @@ msgstr "Calcula CDV"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:312
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
 #, kde-format
 msgid "Camera"
 msgstr "Càmera"
@@ -5497,11 +5502,12 @@ msgstr "La rotació es porta a terme respecte al pol celeste."
 msgid "Lock to Celestial Pole"
 msgstr "Bloqueja al pol celeste"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (KColorButton, ColorButton)
 #: dialogs/newfov.ui:1226
 #, kde-format
 msgid "Select color for the field-of-view symbol"
-msgstr "Permet escollir un color per al símbol del camp de visió"
+msgstr "Permet escollir un color per al símbol del camp de visió."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, ColorButton)
 #: dialogs/newfov.ui:1229
@@ -5509,11 +5515,12 @@ msgstr "Permet escollir un color per al símbol del camp de visió"
 msgid "Select a color for the field-of-view (FOV) symbol."
 msgstr "Seleccioneu un color per al símbol del camp de visió (CDV)."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1253
 #, kde-format
 msgid "Select a shape for the field-of-view symbol"
-msgstr "Permet escollir una forma per al símbol del camp de visió"
+msgstr "Permet escollir una forma per al símbol del camp de visió."
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1258
@@ -5872,7 +5879,7 @@ msgstr "Neteja els punts de la solució"
 #: ekos/align/align.cpp:537
 #, kde-format
 msgid "Solver timed out."
-msgstr "El solucionador ha excedit el temps límit."
+msgstr "El solucionador ha excedit el temps."
 
 #: ekos/align/align.cpp:829
 #, kde-format
@@ -6155,7 +6162,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1473
-#: ekos/focus/focus.cpp:4164 ekos/guide/guide.cpp:1121 ekos/manager.cpp:1902
+#: ekos/focus/focus.cpp:4164 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:748
 #, kde-format
@@ -6369,7 +6376,7 @@ msgstr "URL no vàlid: %1"
 
 #: ekos/align/align.cpp:3892 ekos/align/mountmodel.cpp:401
 #: ekos/capture/captureprocess.cpp:2392 ekos/guide/guidedriftgraph.cpp:485
-#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1570
+#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "No es pot escriure en el fitxer %1"
@@ -6378,7 +6385,7 @@ msgstr "No es pot escriure en el fitxer %1"
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1962
 #: ekos/capture/captureprocess.cpp:2276 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
-#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1571
+#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
 #: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -6410,7 +6417,7 @@ msgstr "Alineació polar"
 #: ekos/align/align.cpp:4466
 #, kde-format
 msgid "Capture timed out."
-msgstr "La captura ha excedit el temps límit."
+msgstr "La captura ha excedit el temps."
 
 #: ekos/align/align.cpp:4475
 #, kde-format
@@ -6489,11 +6496,12 @@ msgstr "Seleccioneu quina acció es prendrà una vegada es trobe la solució."
 msgid "Solver Action"
 msgstr "Acció del solucionador"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, syncR)
 #: ekos/align/align.ui:188
 #, kde-format
 msgid "Synchronize the telescope to the solution coordinates"
-msgstr "Sincronitza el telescopi amb les coordenades de la solució"
+msgstr "Sincronitza el telescopi amb les coordenades de la solució."
 
 #. i18n: ectx: property (text), widget (QRadioButton, syncR)
 #: ekos/align/align.ui:194
@@ -6537,6 +6545,7 @@ msgstr "&Res"
 msgid "Telescope Coordinates (JNow)"
 msgstr "Coordenades del telescopi (JNow)"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/align/align.ui:265 ekos/align/align.ui:335
@@ -6549,7 +6558,7 @@ msgstr ""
 "El llindar de la precisió en segons d'arc entre les coordenades de la "
 "resolució i l'objectiu. El solucionador de plaques s'ha d'executar "
 "repetidament fins que les coordenades de la resolució estiguen dins el "
-"llindar de la precisió"
+"llindar de la precisió."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignSettlingTime)
@@ -8472,7 +8481,7 @@ msgstr "Afig una carpeta a on s'emmagatzemen els fitxers d'índex."
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:531
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:511
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -9341,11 +9350,12 @@ msgstr "Binari «wcsinfo» d'Astrometry.net."
 msgid "wcsinfo:"
 msgstr "«wcsinfo»:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometrySolverBinary)
 #: ekos/align/opsprograms.ui:122
 #, kde-format
 msgid "Astrometry.net solve-field binary path"
-msgstr "Camí cap al binari del camp resolució d'«astrometry.net»"
+msgstr "Camí cap al binari del camp resolució d'«astrometry.net»."
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/align/opsprograms.ui:132
@@ -9521,12 +9531,12 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:177
 #, kde-format
 msgid "Refresh solver timed out: %1s"
-msgstr "Temps límit d'actualització del solucionador: %1s"
+msgstr "Temps límit d'actualització del solucionador: %1 s"
 
 #: ekos/align/polaralignmentassistant.cpp:182
 #, kde-format
 msgid "Refresh solver failed: %1s"
-msgstr "L'actualització del solucionador ha fallat: %1s"
+msgstr "L'actualització del solucionador ha fallat: %1 s"
 
 #: ekos/align/polaralignmentassistant.cpp:569
 #, kde-format
@@ -9887,11 +9897,12 @@ msgstr ""
 msgid "Refresh"
 msgstr "Actualitza"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pAHExposure)
 #: ekos/align/polaralignmentassistant.ui:347
 #, kde-format
 msgid "Exposure duration in seconds during refresh phase"
-msgstr "Duració de l'exposició, en segons, durant la fase d'actualització"
+msgstr "Duració de l'exposició, en segons, durant la fase d'actualització."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, PAHIteration)
@@ -12793,7 +12804,8 @@ msgstr ""
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
-"Seleccioneu una tapa mecanitzada per la pols, si n'hi ha (p. ex., FlipFlat)."
+"Se selecciona una tapa mecanitzada per la pols, si n'hi ha (p. ex., "
+"FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:211
@@ -12832,7 +12844,7 @@ msgstr "Reductor/Barlow:"
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
-"Seleccioneu una caixa de llum de camp pla, si n'hi ha (p. ex., FlipFlat)."
+"Se selecciona una caixa de llum de camp pla, si n'hi ha (p. ex., FlipFlat)."
 
 # skip-rule: kct-box
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
@@ -12882,7 +12894,7 @@ msgstr ""
 "un cable ST4 entre la càmera guia i la muntura, haureu de seleccionar la "
 "càmera guia com a Sistema de guiatge.</p><p><span style=\"font-weight:600;"
 "\">Sistema de guiatge dedicat</span>: Si utilitzeu un dispositiu en la "
-"interfície sistema de guiatge dedicat (com Shoestring GPUSB), llavors "
+"interfície del sistema de guiatge dedicat (com Shoestring GPUSB), llavors "
 "seleccioneu-lo com a Sistema de guiatge.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
@@ -12895,7 +12907,7 @@ msgstr "Sistema de guiatge mitjançant:"
 #: ekos/auxiliary/opticaltrains.ui:323
 #, kde-format
 msgid "Select a mechanized focuser if any."
-msgstr "Seleccioneu un enfocador mecanitzat, si n'hi ha."
+msgstr "Se selecciona un enfocador mecanitzat, si n'hi ha."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
@@ -12920,7 +12932,7 @@ msgstr "x"
 #: ekos/auxiliary/opticaltrains.ui:358
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr "Seleccioneu un rotor mecanitzat, si n'hi ha."
+msgstr "Se selecciona un rotor mecanitzat, si n'hi ha."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:361
@@ -13022,7 +13034,7 @@ msgid ""
 "Scan</b> to begin this procedure."
 msgstr ""
 "Per a assignar una designació permanent a este dispositiu, cal desendollar-"
-"lo del StellarMate i tornar-lo a endollar després d'1 segon. Feu clic en "
+"lo de StellarMate i tornar-lo a endollar després d'1 segon. Feu clic en "
 "<b>Inicia l'exploració</b> per a començar este procediment."
 
 #: ekos/auxiliary/serialportassistant.cpp:98
@@ -13144,7 +13156,7 @@ msgid ""
 "\">Serial Port Assistant</span> tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Us donem la benvinguda a l'eina <span style=\"font-"
-"weight:600;\">Assistent del port sèrie</span> del StellarMate.</p></body></"
+"weight:600;\">Assistent del port sèrie</span> de StellarMate.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -13616,7 +13628,7 @@ msgid ""
 "automatically choose.  NOTE: Circle is usually better at the moment"
 msgstr ""
 "Si utilitzar el mètode SEP_SUM_ELLIPSE, el mètode SEP_SUM_CIRCLE o que es "
-"trie automàticament. NOTA: En este moment cercle normalment és millor."
+"trie automàticament. NOTA: En este moment «Cercle» normalment és millor."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, apertureShape)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:509
@@ -13729,11 +13741,12 @@ msgstr ""
 msgid "Thresh Offset"
 msgstr "Desplaçament del llindar"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, threshOffset)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:638
 #, kde-format
 msgid "Add this offset to the detection threshold"
-msgstr " Afig este desplaçament al llindar de detecció"
+msgstr " Afig este desplaçament al llindar de detecció."
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:648
@@ -13809,13 +13822,14 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, saturationLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:733
 #, kde-format
 msgid "Remove all stars above a certain threshold percentage of saturation"
 msgstr ""
 "Elimina totes les estreles per damunt d'un percentatge del llindar concret "
-"de saturació"
+"de saturació."
 
 #. i18n: ectx: property (text), widget (QLabel, label_46)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:743
@@ -14143,7 +14157,7 @@ msgid ""
 "Flat frame is captured.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu quines accions es portaran a terme abans "
-"de capturar un fotograma polaritzat/fosc/pla.</p></body></html>"
+"de capturar un fotograma Biaix, Fosc o Pla.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
@@ -14159,8 +14173,8 @@ msgid ""
 "Slew mount to the specified Azimuth/Altitude coordinates before taking flat "
 "field images"
 msgstr ""
-"Orienta la muntura cap a les coordenades azimut i altitud abans de prendre "
-"les imatges de camp pla."
+"Orienta la muntura cap a les coordenades «Azimut» i «Altitud» abans de "
+"prendre les imatges de camp pla."
 
 #. i18n: ectx: property (text), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:66
@@ -14311,12 +14325,12 @@ msgstr "S'han aplicat els canvis de la tasca núm. %1."
 #: ekos/capture/capture.cpp:1810
 #, kde-format
 msgid "Setting temperature to %1 °C..."
-msgstr "Establix la temperatura a %1 °C..."
+msgstr "S'està establint la temperatura a %1 °C..."
 
 #: ekos/capture/capture.cpp:1811
 #, kde-format
 msgid "Set Temp to %1 °C..."
-msgstr "Establix la temperatura a %1 °C..."
+msgstr "Temperatura establida a %1 °C..."
 
 #: ekos/capture/capture.cpp:1815
 #, kde-format
@@ -14802,7 +14816,7 @@ msgstr "Guarda:"
 #, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Directori base per a les captures locals.</p></body></"
+"<html><head/><body><p>Directori base local per a les captures.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
@@ -14845,7 +14859,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>L'objectiu és el nom de l'objecte de destinació.</"
 "p><p>Està disponible per a utilitzar-lo en el format de nom de fitxer "
-"mitjançant la variable de substitució %t o %type.</p></body></html>"
+"mitjançant les variables de substitució %t o %type.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:1056
@@ -14970,21 +14984,21 @@ msgstr ""
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Variable de substitució <span style="
 "\"font-weight:704;\">%T</span> o <span style=\"font-weight:704;\">%Type</"
-"span>: El tipus de fotograma, p. ex: «Lluminós», «Polaritzat», «Fosc», "
-"«Pla»...</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"span>: El tipus de fotograma, p. ex: «Lluminós», «Biaix», «Fosc», «Pla»...</"
+"li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de substitució "
+"<span style=\"font-weight:704;\">%e</span> o <span style=\"font-weight:704;"
+"\">%exposure</span>: La duració de l'exposició en segons, amb «_secs» com a "
+"sufix.</li><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Variable de substitució <span style=\"font-weight:704;\">%E</"
+"span> o <span style=\" font-weight:704;\">%exp</span>: La duració de "
+"l'exposició en segons com a nombre normal, sense cap unitat com a sufix.</"
+"li></ul><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de "
-"substitució <span style=\"font-weight:704;\">%e</span> o <span style=\"font-"
-"weight:704;\">%exposure</span>: La duració de l'exposició en segons, amb "
-"«_secs» com a sufix.</li><ul style=\"margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Variable de substitució <span style=\"font-"
-"weight:704;\">%E</span> o <span style=\" font-weight:704;\">%exp</span>: La "
-"duració de l'exposició en segons com a nombre normal, sense cap unitat com a "
-"sufix.</li></ul><li style=\"margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Variable "
-"de substitució <span style=\"font-weight:704;\">%F</span> o <span style="
-"\"font-weight:704;\">%Filter</span>: El nom del filtre actiu.</li><li style="
+"substitució <span style=\"font-weight:704;\">%F</span> o <span style=\"font-"
+"weight:704;\">%Filter</span>: El nom del filtre actiu.</li><li style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Variable de substitució <span style="
 "\"font-weight:704;\">%t</span> o <span style=\"font-weight:704;\">%target</"
@@ -15078,7 +15092,7 @@ msgstr "Fotograma:"
 #: ekos/capture/limits.ui:201 ekos/focus/focus.ui:571
 #, kde-format
 msgid "Number of images to capture"
-msgstr "Nombre d'imatges que es capturaran."
+msgstr "El nombre d'imatges que es capturaran."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
@@ -15382,7 +15396,7 @@ msgstr "Baixada mitjana:"
 #: ekos/capture/capture.ui:2336
 #, kde-format
 msgid "sec"
-msgstr "seg."
+msgstr "s"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
 #: ekos/capture/capture.ui:2360
@@ -15540,7 +15554,7 @@ msgid "Does %1 have a shutter?"
 msgstr "%1 té un obturador?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:742
-#: ekos/capture/sequencejobstate.cpp:409
+#: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Exposició fosca"
@@ -15617,60 +15631,60 @@ msgstr ""
 "S'ha produït un error en el calibratge després de la inversió del meridià. "
 "S'interromp..."
 
-#: ekos/capture/capturemodulestate.cpp:590
+#: ekos/capture/capturemodulestate.cpp:592
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Ha finalitzat l'enfocament adaptatiu."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:616
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "No s'ha pogut fer l'enfocament automàtic. S'interromp l'exposició..."
 
-#: ekos/capture/capturemodulestate.cpp:761
+#: ekos/capture/capturemodulestate.cpp:763
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "S'està processant la realineació després de la inversió..."
 
-#: ekos/capture/capturemodulestate.cpp:779
+#: ekos/capture/capturemodulestate.cpp:781
 #, kde-format
 msgid "Guide module timed out."
-msgstr "El mòdul de guiatge ha excedit el temps límit."
+msgstr "El mòdul de guiatge ha excedit el temps."
 
-#: ekos/capture/capturemodulestate.cpp:811
+#: ekos/capture/capturemodulestate.cpp:813
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
-"La desviació inicial del guiatge %1 està per davall del valor límit de %2 "
-"segons d'arc"
+"La desviació inicial del guiatge %1 és inferior al valor límit de %2 segons "
+"d'arc"
 
-#: ekos/capture/capturemodulestate.cpp:820
+#: ekos/capture/capturemodulestate.cpp:822
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "La desviació inicial del guiatge %1 excedix el valor límit de %2 segons d'arc"
 
-#: ekos/capture/capturemodulestate.cpp:842
+#: ekos/capture/capturemodulestate.cpp:844
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 "El calibratge després de la inversió del meridià s'ha completat amb èxit."
 
-#: ekos/capture/capturemodulestate.cpp:856
+#: ekos/capture/capturemodulestate.cpp:858
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"La desviació inicial del guiatge %1 excedix el valor límit de %2 segons "
-"d'arc."
+"La desviació del guiatge quan s'inicia la captura %1 excedix el valor límit "
+"de %2 segons d'arc."
 
-#: ekos/capture/capturemodulestate.cpp:870
+#: ekos/capture/capturemodulestate.cpp:872
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "La desviació del guiatge quan s'inicia la captura %1 per davall del valor "
 "límit de %2 segons d'arc"
 
-#: ekos/capture/capturemodulestate.cpp:897
+#: ekos/capture/capturemodulestate.cpp:899
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -15680,7 +15694,7 @@ msgstr ""
 "mostres consecutives. Se suspén l'exposició i s'esperarà el sistema de "
 "guiatge fins a %3 segons."
 
-#: ekos/capture/capturemodulestate.cpp:944
+#: ekos/capture/capturemodulestate.cpp:946
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15689,7 +15703,7 @@ msgstr ""
 "La desviació del guiatge %1 ara és inferior al límit de %2 segons d'arc. Es "
 "reprén l'exposició."
 
-#: ekos/capture/capturemodulestate.cpp:948
+#: ekos/capture/capturemodulestate.cpp:950
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15698,24 +15712,24 @@ msgstr ""
 "La desviació del guiatge %1 encara és inferior al límit de %2 segons d'arc. "
 "Es reprendrà l'exposició en %3 segons."
 
-#: ekos/capture/capturemodulestate.cpp:963
+#: ekos/capture/capturemodulestate.cpp:965
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "La desviació del guiatge %1 encara és superior al límit de %2 segons d'arc."
 
-#: ekos/capture/capturemodulestate.cpp:1338
+#: ekos/capture/capturemodulestate.cpp:1340
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 "La realineació després de la inversió del meridià s'ha completat amb èxit."
 
-#: ekos/capture/capturemodulestate.cpp:1357
+#: ekos/capture/capturemodulestate.cpp:1359
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "No s'ha pogut fer l'alineació després de la inversió."
 
-#: ekos/capture/capturemodulestate.cpp:1362
+#: ekos/capture/capturemodulestate.cpp:1364
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr ""
@@ -15724,7 +15738,7 @@ msgstr ""
 #: ekos/capture/capturepreviewwidget.cpp:142
 #, kde-format
 msgid "Delete directly, do not move to trash."
-msgstr "Suprimix directament, no el mou cap a dins de la paperera."
+msgstr "Suprimix directament, no la mogues cap a dins de la paperera."
 
 #: ekos/capture/capturepreviewwidget.cpp:199
 #, kde-format
@@ -15900,7 +15914,7 @@ msgstr ""
 #: ekos/capture/captureprocess.cpp:1563
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
-msgstr "Temps de baixada: %1s, Estimació del temps de baixada: %2s."
+msgstr "Temps de baixada: %1 s, Estimació del temps de baixada: %2 s."
 
 #: ekos/capture/captureprocess.cpp:1611
 #, kde-format
@@ -15951,13 +15965,13 @@ msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 #: ekos/capture/captureprocess.cpp:1904 ekos/focus/focus.cpp:5074
 #, kde-format
 msgid "Exposure timeout. Aborting..."
-msgstr "S'ha excedit el temps límit d'exposició. S'interromp..."
+msgstr "S'ha excedit el temps d'exposició. S'interromp..."
 
 #: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5079
-#: ekos/guide/guide.cpp:895
+#: ekos/guide/guide.cpp:911
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
-msgstr "S'ha excedit el temps límit d'exposició. Es reinicia l'exposició..."
+msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició..."
 
 #: ekos/capture/captureprocess.cpp:2016
 #, kde-format
@@ -16244,176 +16258,267 @@ msgid "Invalid values. Please set all values."
 msgstr "Valors no vàlids. Establiu tots els valors."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:26
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
 #, kde-format
 msgid "Sub-Exposure Calculator"
 msgstr "Calculadora de la subexposició"
 
-# skip-rule:punctuation-period-no
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:56
-#, kde-format
-msgid "Adjust the balance of the two noise sources"
-msgstr "Ajusta el balanç entre dues fonts de soroll."
-
-#. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:69
-#, no-c-format, kde-format
-msgid "Noise Increase (%)"
-msgstr "Augment del soroll (%)"
-
-#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:85
-#, kde-format
-msgid "Potential exposure time graph"
-msgstr "Gràfic del temps potencial d'exposició"
-
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:108
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:62
 #, kde-format
 msgid "Sky Quality"
 msgstr "Qualitat del cel"
 
-# skip-rule:punctuation-period-no
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
-#, kde-format
-msgid "Adjust the quality of the sky"
-msgstr "Ajusta la qualitat del cel."
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:143
-#, kde-format
-msgid "Filter Bandwidth:"
-msgstr "Amplada de banda del filtre:"
-
-#. i18n: ectx: property (text), widget (QLabel, gainSliderLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:171
-#, kde-format
-msgid "Gain"
-msgstr "Guany"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:220
-#, kde-format
-msgid "ISO"
-msgstr "ISO"
-
-#. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:249
-#, kde-format
-msgid "Read noise constant"
-msgstr "Llig la constant de soroll"
-
-# skip-rule:punctuation-period-no
-#. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:266
-#, kde-format
-msgid "Bortle Zone Color"
-msgstr "Color de la zona de Bortle."
-
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:289
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:75
 #: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Relació focal"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
+#, kde-format
+msgid "Filter Bandwidth"
+msgstr "Amplada de banda del filtre"
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
+#, kde-format
+msgid "Alter the bias of the noise sources"
+msgstr "S'altera el biaix de les fonts de soroll."
+
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:325
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
 #, kde-format
-msgid "Bortle Class:"
-msgstr "Classe de Bortle:"
+msgid "Bortle Class"
+msgstr "Classe de Bortle"
+
+#. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
+#, kde-format
+msgid "Gain"
+msgstr "Guany"
 
 # skip-rule:punctuation-period-no
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:338
+#. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
 #, kde-format
-msgid "Apply a compensation for an optical filter"
-msgstr "Aplica una compensació per a un filtre òptic."
+msgid "Select Camera Sensor Gain"
+msgstr "Se selecciona el guany del sensor de la càmera."
 
 # skip-rule:punctuation-period-no
-#. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:354
+#. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
 #, kde-format
-msgid "Bortle class value"
-msgstr "Valor de la classe de Bortle."
+msgid "Select DSLR ISO Value"
+msgstr "Se selecciona el valor ISO de la DSLR."
 
-#. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:357
+#. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
 #, kde-format
-msgid "9"
-msgstr "9"
+msgid "ISO"
+msgstr "ISO"
 
-#. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:373
+#. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:267
 #, kde-format
-msgid "Select read mode on cameras with multiple read modes."
-msgstr ""
-"Selecciona el mode de lectura en les càmeres amb múltiples modes de lectura."
-
-#. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
-#, kde-format
-msgid "Read Mode"
-msgstr "Mode de lectura"
-
-#. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:426
-#, kde-format
-msgid "Exposure Time (sec)"
-msgstr "Temps d'exposició (s)"
-
-# Nota: https://ca.wikipedia.org/wiki/Soroll_de_granalla
-#. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:446
-#, kde-format
-msgid "Shot Noise"
-msgstr "Soroll de granalla"
+msgid "Read noise constant"
+msgstr "Llig la constant de soroll"
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:453
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:321
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
 msgstr "Soroll durant la subexposició a partir de la contaminació lumínica."
 
-#. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:469
-#, kde-format
-msgid "Pollution Electrons"
-msgstr "Electrons de contaminació"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:476
-#, kde-format
-msgid "Calculated count of light pollution electrons in the sub-exposure."
-msgstr ""
-"Nombre d'electrons de contaminació lumínica calculat durant la subexposició."
-
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:492
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:337
 #, kde-format
 msgid "Total Noise"
 msgstr "Soroll total"
 
+#. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:344
+#, kde-format
+msgid "Pollution Electrons"
+msgstr "Electrons de contaminació"
+
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:499
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr ""
 "Soroll total durant la subexposició (contaminació lumínica + soroll de "
 "lectura)."
 
+# Nota: https://ca.wikipedia.org/wiki/Soroll_de_granalla
+#. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:379
+#, kde-format
+msgid "Shot Noise"
+msgstr "Soroll de granalla"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
+#, kde-format
+msgid "Estimated light pollution electrons in the sub-exposure."
+msgstr ""
+"Nombre estimat d'electrons de contaminació lumínica durant la subexposició."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
+#, kde-format
+msgid "Duration of Sub-exposure"
+msgstr "Duració de la subexposició."
+
+#. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:468
+#, kde-format
+msgid "Exposure Time (sec)"
+msgstr "Temps d'exposició (s)"
+
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:528
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
 #, kde-format
-msgid "(Future Release) Download additional camera data files"
-msgstr "(Versió futura) Baixarà fitxers addicionals de dades de les càmeres."
+msgid "Download additional camera data files"
+msgstr "Baixada de fitxers addicionals de dades des de les càmeres."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
+#, kde-format
+msgid "Bortle Zone Color"
+msgstr "Color de la zona de Bortle."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:558
+#, kde-format
+msgid "Bortle class value"
+msgstr "Valor de la classe de Bortle."
+
+#. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:561
+#, kde-format
+msgid "9"
+msgstr "9"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
+#, fuzzy, kde-format
+#| msgid "Select read mode on cameras with multple read modes."
+msgid "Select read mode on cameras with multiple read modes."
+msgstr ""
+"Se selecciona el mode de lectura en les càmeres amb múltiples modes de "
+"lectura."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
+#, kde-format
+msgid "Adjust the quality of the sky"
+msgstr "Ajusta la qualitat del cel."
+
+#. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:613
+#, kde-format
+msgid "Read Mode"
+msgstr "Mode de lectura"
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
+#, kde-format
+msgid "Apply a compensation for an optical filter"
+msgstr "Aplica una compensació per a un filtre òptic."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
+#, kde-format
+msgid "Camera Data Selection"
+msgstr "Se seleccionen les dades de la càmera."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
+#, kde-format
+msgid "Potential exposure time graph"
+msgstr "Gràfic del temps potencial d'exposició."
+
+#. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
+#, no-c-format, kde-format
+msgid "Noise Increase %"
+msgstr "Augment del soroll %"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
+#, kde-format
+msgid "Table"
+msgstr "Taula"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
+#, kde-format
+msgid "Graph"
+msgstr "Gràfic"
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
+#, kde-format
+msgid "Slope of time to noise ratio curve at current exposure count"
+msgstr ""
+"Pendent de la corba de la relació temps a soroll al comptador de l'exposició "
+"actual."
+
+#. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
+#, kde-format
+msgid "Exposures"
+msgstr "Exposicions"
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
+#, kde-format
+msgid "Calculated exposure count for integration"
+msgstr "Comptador de l'exposició calculada per a la integració."
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
+#, kde-format
+msgid "Integration Time to Noise Ratio"
+msgstr "Integració de la relació del temps a soroll."
+
+#. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
+#, kde-format
+msgid "Time/Noise Ratio"
+msgstr "Relació del temps a soroll"
+
+#. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
+#, kde-format
+msgid "dy ="
+msgstr "dy ="
+
+# skip-rule:punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
+#, kde-format
+msgid "Integration time to noise ratio (potential quality)"
+msgstr "Integració de la relació del temps a soroll (qualitat potencial)."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -16422,7 +16527,7 @@ msgid "Camera Data Download"
 msgstr "Baixada de les dades de la càmera"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
-#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:73
+#: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
 #, kde-format
 msgid "Select all cameras you wish to use:"
 msgstr "Seleccioneu totes les càmeres que voleu utilitzar:"
@@ -16511,7 +16616,7 @@ msgid ""
 "last focus exceeded this limit</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Porta a terme un enfocament automàtic quan el canvi a "
-"la temperatura des de l'últim enfocament excedix este limit.</p></body></"
+"la temperatura des de l'últim enfocament excedix este límit.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitFocusDeltaTS)
@@ -16636,8 +16741,8 @@ msgstr ""
 "<html><head/><body><p>L'indicador del rotor mostra l'angle de posició real "
 "de la càmera (en groc) i l'angle sense processar del rotor (en gris). "
 "Assegureu-vos de calibrar el rotor (sincronitzant l'angle del rotor a zero "
-"al costat del moll -«PierSide»- OEST) després de muntar de nou el rotor per "
-"tal de tindre una visualització raonable.</p></body></html>"
+"al costat del moll OEST) després de muntar de nou el rotor per tal de tindre "
+"una visualització raonable.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
@@ -16659,9 +16764,9 @@ msgid ""
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El costat del moll («PierSide») de la muntura. Un marc "
-"roig indica un costat del moll («PierSide») desconegut. Açò és normal si la "
-"muntura està aparcada.</p></body></html>"
+"<html><head/><body><p>El costat del moll de la muntura. Un marc roig indica "
+"un costat del moll desconegut. Açò és normal si la muntura està aparcada.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:233
@@ -16674,8 +16779,7 @@ msgstr "Costat del moll «PierSide» actual"
 #, kde-format
 msgid "<html><head/><body><p>Current pierside of the mount</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Costat del moll («PierSide») actual de la muntura.</"
-"p></body></html>"
+"<html><head/><body><p>Costat del moll actual de la muntura.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
 #: ekos/capture/rotatorsettings.ui:289
@@ -16714,7 +16818,7 @@ msgstr "Política d'inversió"
 #, kde-format
 msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
 msgstr ""
-"<html><head/><body><p>L'angle del rotor sense processar.</p></body></html>"
+"<html><head/><body><p>L'angle sense processar del rotor.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:382
@@ -16725,10 +16829,10 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>L'angle del cercle complet del rotor sense processar "
+"<html><head/><body><p>L'angle sense processar del cercle complet del rotor "
 "del dispositiu de rotor, el qual es calcula com la diferència de l'origen "
-"del rotor (angle zero) respecte al nord en el costat del moll («PierSide») "
-"OEST o al sud al costat del moll («PierSide») EST.</p></body></html>"
+"del rotor (angle zero) respecte al nord en el costat del moll OEST o al sud "
+"en el costat del moll EST.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:385
@@ -16876,97 +16980,98 @@ msgstr "En curs"
 msgid "Complete"
 msgstr "Finalitzat"
 
-#: ekos/capture/sequencejobstate.cpp:396
+#: ekos/capture/sequencejobstate.cpp:390
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Cobrix el telescopi amb una font de llum il·luminada uniformement."
 
-#: ekos/capture/sequencejobstate.cpp:397
+#: ekos/capture/sequencejobstate.cpp:391
 #, kde-format
 msgid "Flat Frame"
 msgstr "Fotograma pla"
 
-#: ekos/capture/sequencejobstate.cpp:408
+#: ekos/capture/sequencejobstate.cpp:402
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Cobrix el telescopi per tal de prendre una exposició fosca."
 
-#: ekos/capture/sequencejobstate.cpp:438 ekos/capture/sequencejobstate.cpp:611
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "S'està desaparcant la tapa per la pols..."
 
-#: ekos/capture/sequencejobstate.cpp:438
+#: ekos/capture/sequencejobstate.cpp:432
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "S'està aparcant la tapa per la pols..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:496
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Encén el llum de la caixa de llum..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:450 ekos/capture/sequencejobstate.cpp:496
-#: ekos/capture/sequencejobstate.cpp:597
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Apaga el llum de la caixa de llum..."
 
-#: ekos/capture/sequencejobstate.cpp:468
-#, kde-format
-msgid "Mount slewing to wall position..."
+#: ekos/capture/sequencejobstate.cpp:462
+#, fuzzy, kde-format
+#| msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "S'està orientant la muntura cap a la posició de la paret..."
 
-#: ekos/capture/sequencejobstate.cpp:479
+#: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 "S'ha completat l'orientació cap a la posició de la paret, es para el "
 "seguiment."
 
-#: ekos/capture/sequencejobstate.cpp:483
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 "S'ha completat l'orientació cap a la posició de la paret, es para el "
 "seguiment."
 
-#: ekos/capture/sequencejobstate.cpp:511
+#: ekos/capture/sequencejobstate.cpp:506
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "No s'ha pogut fer l'aparcament de la muntura. S'interromp..."
 
-#: ekos/capture/sequencejobstate.cpp:521
+#: ekos/capture/sequencejobstate.cpp:516
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la muntura abans de capturar els fotogrames de calibratge..."
 
-#: ekos/capture/sequencejobstate.cpp:535
+#: ekos/capture/sequencejobstate.cpp:530
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "No s'ha pogut fer l'aparcament de la cúpula. S'interromp..."
 
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:540
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la cúpula abans de capturar els fotogrames de calibratge..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:776
 #, kde-format
 msgid "Light box on."
 msgstr "Caixa de llum encesa."
 
-#: ekos/capture/sequencejobstate.cpp:805
+#: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
 msgstr "La tapa per la pols està aparcada."
 
-#: ekos/capture/sequencejobstate.cpp:809
+#: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "La tapa per la pols està desaparcada."
@@ -17851,15 +17956,14 @@ msgstr "L'enfocador encara està vençut. S'interromp..."
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
-"El moviment de l'enfocament ha excedit el temps límit (%1). S'està "
-"reiniciant el controlador %2 de l'enfocador"
+"El moviment de l'enfocament ha excedit el temps (%1). S'està reiniciant el "
+"controlador %2 de l'enfocador"
 
 #: ekos/focus/focus.cpp:1929
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
-"El moviment de l'enfocament ha excedit el temps límit (%1). Enfocant a %2 "
-"passos..."
+"El moviment de l'enfocament ha excedit el temps (%1). Enfocant a %2 passos..."
 
 #: ekos/focus/focus.cpp:1986
 #, kde-format
@@ -17902,7 +18006,7 @@ msgstr[1] ""
 #: ekos/focus/focus.cpp:2482
 #, kde-format
 msgid "Settling for %1s..."
-msgstr "S'està fent el posicionament durant %1s..."
+msgstr "S'està fent el posicionament durant %1 s..."
 
 #: ekos/focus/focus.cpp:2489
 #, kde-format
@@ -17943,7 +18047,7 @@ msgstr ""
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
-"L'enfocament automàtic no ha aconseguit enfocar. Proveu-ho incrementant el "
+"L'enfocament automàtic no ha aconseguit enfocar. Proveu incrementant el "
 "valor de la tolerància."
 
 #: ekos/focus/focus.cpp:3059 ekos/focus/focus.cpp:3757
@@ -17955,8 +18059,7 @@ msgstr "No s'ha detectat cap estrela. S'està tornant a capturar..."
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
-"No s'ha pogut detectar qualsevol estrela en la posició %1. S'està "
-"continuant..."
+"No s'ha pogut detectar cap estrela a la posició %1. S'està continuant..."
 
 #: ekos/focus/focus.cpp:3070 ekos/focus/focus.cpp:3768
 #, kde-format
@@ -18012,7 +18115,7 @@ msgstr ""
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
-"No s'ha pogut detectar una estrela que s'haja d'enfocar en el fotograma. "
+"No s'ha pogut detectar en el fotograma una estrela que s'haja d'enfocar. "
 "Captureu i seleccioneu una estrela que s'haja d'enfocar."
 
 #: ekos/focus/focus.cpp:3558
@@ -18032,13 +18135,13 @@ msgstr ""
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
-"Fluctuacions inestables. Intenteu-ho incrementant la mida inicial del pas o "
-"el temps d'exposició."
+"Fluctuacions inestables. Proveu incrementant la mida inicial del pas o el "
+"temps d'exposició."
 
 #: ekos/focus/focus.cpp:3643
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
-msgstr "S'ha arribat a un punt mort. Proveu-ho amb una configuració diferent."
+msgstr "S'ha arribat a un punt mort. Proveu amb una configuració diferent."
 
 #: ekos/focus/focus.cpp:3672
 #, kde-format
@@ -18057,8 +18160,8 @@ msgstr "S'ha rebut FITS. HFR %1. Delta (%2%) HFR mínim (%3)"
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
-"L'enfocament automàtic no ha aconseguit enfocar. Proveu-ho ajustant el valor "
-"de la tolerància."
+"L'enfocament automàtic no ha aconseguit enfocar. Proveu ajustant el valor de "
+"la tolerància."
 
 #: ekos/focus/focus.cpp:3836 ekos/focus/focus.cpp:3849
 #: ekos/focus/focus.cpp:3979 ekos/focus/focus.cpp:4051
@@ -18182,8 +18285,8 @@ msgstr ""
 "Zona crítica d'enfocament (ZCE) per al vostre equip, de manera que "
 "configureu-ho ara a la pestanya ZCE.\n"
 "\n"
-"El tercer pas és establir el multiplicador del pas exterior. Comenceu amb el "
-"valor predeterminat suggerit."
+"El tercer pas és establir «Múltiples passos enfora». Comenceu amb el valor "
+"predeterminat suggerit."
 
 #: ekos/focus/focus.cpp:6631
 #, kde-format
@@ -18432,7 +18535,7 @@ msgstr "Restablix l'enfocament del submarc a captura completa."
 #: ekos/focus/focus.ui:894
 #, kde-format
 msgid "Select focuser temperature source"
-msgstr "Seleccioneu la font de temperatura de l'enfocador."
+msgstr "Se selecciona la font de temperatura de l'enfocador."
 
 #. i18n: ectx: attribute (title), widget (QWidget, settingsTab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -18450,7 +18553,7 @@ msgstr "Configuració"
 msgid ""
 "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Paràmetres de configuració general de l'enfocament</"
+"<html><head/><body><p>Paràmetres de configuració general de l'enfocament.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
@@ -18510,8 +18613,8 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Durant l'enfocament de «Camp complet», açò controla la "
-"mida d'un anell centrat al mig del sensor per a incloure'l per al seu "
+"<html><head/><body><p>Durant l'enfocament de «Camp complet», açò controlarà "
+"la mida d'un anell centrat al mig del sensor per a incloure'l per al seu "
 "processament. Establiu el % intern a zero per a incloure el centre del "
 "sensor i establiu el % extern a 100 per a incloure les vores exteriors del "
 "sensor.</p></body></html>"
@@ -18559,8 +18662,8 @@ msgstr ""
 "utilitze una sola estrela (nota: «Camp complet» utilitza múltiples "
 "estreles). En este mode, la casella de selecció «Selecció automàtica de "
 "l'estrela» s'activarà per a permetre que Ekos seleccione una estrela (quan "
-"està marcada) o per a permetre que l'usuari la seleccione manualment en el "
-"visor FITS (quan no està marcada).</p></body></html>"
+"està seleccionada) o per a permetre que l'usuari la seleccione manualment en "
+"el visor FITS (quan no està seleccionada).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1075
@@ -18580,8 +18683,8 @@ msgstr ""
 "<html><head/><body><p>Seleccioneu «Camp complet» per a permetre que "
 "l'enfocament utilitze múltiples estreles (nota: «Submarc» utilitza una sola "
 "estrela). En este mode, Ekos seleccionarà automàticament múltiples estreles "
-"durant l'enfocament automàtic i, per exemple, per a fer l'enfocament farà "
-"una mitjana de l'HFR de totes les estreles detectades.</p></body></html>"
+"durant l'enfocament automàtic i, per exemple, l'enfocament farà una mitjana "
+"de l'HFR de totes les estreles detectades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/focus.ui:1091
@@ -18597,7 +18700,7 @@ msgid ""
 "focusing. The diameter is given as percentage of the image diagonal. Set to "
 "100% to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Diàmetre del cercle exterior que s'exclourà de "
+"<html><head/><body><p>Diàmetre del cercle extern que s'exclourà de "
 "l'enfocament. El diàmetre es dona com a percentatge de la diagonal de la "
 "imatge. Establiu-lo al 100 % per a incloure les vores exteriors del sensor.</"
 "p></body></html>"
@@ -18651,7 +18754,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Esta opció només estarà activa quan seleccioneu "
 "«Submarc». Seleccioneu-la per a permetre que Ekos seleccione una sola "
-"estrela per a l'enfocament. Desmarqueu-la per a permetre que l'usuari "
+"estrela per a l'enfocament. Desseleccioneu-la per a permetre que l'usuari "
 "seleccione l'estrela que s'utilitzarà en el visor FITS.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
@@ -18669,7 +18772,7 @@ msgid ""
 "percentage of the image diagonal. Set to zero to include the centre of the "
 "sensor.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Diàmetre del cercle interior que s'exclourà de "
+"<html><head/><body><p>Diàmetre del cercle intern que s'exclourà de "
 "l'enfocament (p. ex., una galàxia o un cúmul estel·lar centrat). El diàmetre "
 "es dona com a percentatge de la diagonal de la imatge. Establiu-lo a zero "
 "per a incloure el centre del sensor.</p></body></html>"
@@ -18711,7 +18814,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Les tessel·les són quadrats amb una llargària de vora "
 "calculada pel percentatge donat de l'amplària de la imatge. El percentatge "
-"està limitat de manera que la mida de la tessel·la no supere un terç del "
+"està limitat de manera que la mida de la tessel·la no excedisca un terç del "
 "costat més curt de la imatge (en la majoria dels casos, la seua alçària).</"
 "p></body></html>"
 
@@ -19093,9 +19196,10 @@ msgstr ""
 "<html><head/><body><p>Seleccioneu-la per a utilitzar la desviació estàndard "
 "HFR o FWHM de l'estrela com a ponderació a l'algorisme d'ajust de la corba. "
 "Si no se selecciona, tots els punts de dades tindran la mateixa ponderació. "
-"Actualment, només estarà disponible quan s'utilitza tot elles estreles) i un "
-"«Ajust de la corba» d'«Hipèrbola» o de «Paràbola» davall l'algorisme lineal "
-"d'1 pas. Esta característica és experimental.</p></body></html>"
+"Actualment, només estarà disponible quan s'utilitza «Camp "
+"complet» (múltiples estreles) i un «Ajust de la corba» d'«Hipèrbola» o de "
+"«Paràbola» davall l'algorisme «Lineal d'1 pas». Esta característica és "
+"experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/focus.ui:1769
@@ -19366,6 +19470,7 @@ msgstr ""
 "a difuminar la imatge abans, per exemple, de la detecció de vores de "
 "Bahtinov.</p></body></html>"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
 #: ekos/focus/focus.ui:2103
 #, kde-format
@@ -19374,7 +19479,7 @@ msgid ""
 "expand solution radius"
 msgstr ""
 "Feu disminuir el valor per a acotar el radi de solució del punt d'enfocament "
-"òptim. Augmenteu per a ampliar el radi de solució"
+"òptim. Feu-lo augmentar per a ampliar el radi de la solució."
 
 #. i18n: ectx: attribute (title), widget (QWidget, mechanicsTab)
 #: ekos/focus/focus.ui:2147
@@ -19591,7 +19696,7 @@ msgid ""
 "declaring a timeout."
 msgstr ""
 "Temps màxim en segons per a esperar que es reba una imatge capturada abans "
-"de declarar que s'ha excedit."
+"de declarar que s'ha excedit el temps."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/focus.ui:2504
@@ -19620,8 +19725,8 @@ msgid ""
 "<html><head/><body><p>Maximum travel in steps before the autofocus process "
 "aborts</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre màxim de passos abans d'interrompre el procés "
-"d'enfocament automàtic.</p></body></html>"
+"<html><head/><body><p>Recorregut màxim en passos abans d'interrompre el "
+"procés d'enfocament automàtic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/focus.ui:2551
@@ -19638,7 +19743,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Temps màxim en segons per a esperar el moviment de "
 "l'enfocador fins a la posició desitjada capturada abans de declarar que s'ha "
-"excedit.</p></body></html>"
+"excedit el temps.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/focus.ui:2589
@@ -19655,8 +19760,8 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>El nombre total de passos que s'utilitzaran quan el "
-"camí s'establix a un del nombre fix de camins de passos i l'algorisme és "
-"lineal d'1 pas.</p></body></html>"
+"«Camí» s'establix a un del nombre fix de camins de passos i l'algorisme és "
+"«Lineal d'1 pas».</p></body></html>"
 
 #. i18n: ectx: attribute (toolTip), widget (QWidget, CFZTab)
 #: ekos/focus/focus.ui:2646
@@ -19928,7 +20033,7 @@ msgstr ""
 msgid "Wavefront"
 msgstr "Front d'ona"
 
-# # Es refereix a Gold Astro (https://www.goldastro.com/goldfocus/ncfz.php)
+# Nota: Es refereix a Gold Astro (https://www.goldastro.com/goldfocus/ncfz.php)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/focus.ui:3155
 #, kde-format
@@ -20054,9 +20159,9 @@ msgid ""
 "<html><head/><body><p>Update Focus Parameters to Focus Advisor suggestions "
 "where the associated Update box is checked.</p></body></html>"
 msgstr ""
-"<html><head/><body>Actualitza els paràmetres d'enfocament als suggeriments "
-"de l'Assessor d'enfocament on la casella «Actualitza» associada està marcada."
-"<p></p></body></html>"
+"<html><head/><body>Actualitza els paràmetres d'enfocament als suggerits per "
+"l'Assessor d'enfocament on la casella «Actualitza» associada estiga "
+"seleccionada.<p></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/focus.ui:3390
@@ -20254,8 +20359,8 @@ msgid ""
 "The host was not found. Please check the host name and port settings in "
 "Guide options."
 msgstr ""
-"No s'ha trobat l'amfitrió. Comproveu la configuració del nom de l'amfitrió i "
-"del port en les opcions del Guiatge."
+"No s'ha trobat l'amfitrió. Comproveu la configuració del nom i el port de "
+"l'amfitrió en les opcions del «Guiatge»."
 
 #: ekos/guide/externalguide/linguider.cpp:74
 #, kde-format
@@ -20264,7 +20369,7 @@ msgid ""
 "and check that the host name and port settings are correct."
 msgstr ""
 "El servidor ha rebutjat la connexió. Assegureu-vos que Lin-Guider s'està "
-"executant, i comproveu que la configuració del nom de l'amfitrió i del port "
+"executant, i comproveu que la configuració del nom i el port de l'amfitrió "
 "són correctes."
 
 #: ekos/guide/externalguide/linguider.cpp:79
@@ -20377,7 +20482,7 @@ msgid ""
 "check that the host name and port settings are correct."
 msgstr ""
 "El servidor ha rebutjat la connexió. Assegureu-vos que PHD2 s'està "
-"executant, i que la configuració del nom de l'amfitrió i del port són "
+"executant, i que la configuració del nom i el port de l'amfitrió són "
 "correctes."
 
 #: ekos/guide/externalguide/phd2.cpp:308
@@ -20488,7 +20593,7 @@ msgstr "PHD2: S'ha perdut la posició de bloqueig, continua el calibratge."
 #: ekos/guide/externalguide/phd2.cpp:678
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
-msgstr "PHD2: S'ha perdut l'estrela. S'intenta tornar a obtindre durant %1s."
+msgstr "PHD2: S'ha perdut l'estrela. S'intenta tornar a obtindre durant %1 s."
 
 #: ekos/guide/externalguide/phd2.cpp:684
 #, kde-format
@@ -20503,7 +20608,7 @@ msgstr "PHD2: S'ha posat en pausa el guiatge."
 #: ekos/guide/externalguide/phd2.cpp:695
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
-msgstr "PHD2: S'està calibrant, venç en %1s."
+msgstr "PHD2: S'està calibrant, venç en %1 s."
 
 #: ekos/guide/externalguide/phd2.cpp:704
 #, kde-format
@@ -20618,7 +20723,7 @@ msgid ""
 msgstr ""
 "Càmera actual de PHD2: %1, està connectada amb Ekos. Podeu seleccionar si "
 "utilitzar els fotogrames externs complets o només rebre la imatge de "
-"l'estrela guia de PHD2 utilitzant la casella de selecció Submarc."
+"l'estrela guia de PHD2 utilitzant la casella de selecció «Submarc»."
 
 #: ekos/guide/guide.cpp:574
 #, kde-format
@@ -20630,138 +20735,137 @@ msgstr "S'ha perdut la connexió amb el CCD guia."
 msgid "Error: lost connection to CCD."
 msgstr "S'ha produït un error: s'ha perdut la connexió amb el CCD."
 
-#: ekos/guide/guide.cpp:914
+#: ekos/guide/guide.cpp:930
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
-msgstr ""
-"S'ha excedit el temps límit d'exposició. S'interromp el guiatge automàtic."
+msgstr "S'ha excedit el temps d'exposició. S'interromp el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:916
+#: ekos/guide/guide.cpp:932
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
-msgstr "S'ha excedit el temps límit d'exposició. S'interromp el tramat."
+msgstr "S'ha excedit el temps d'exposició. S'interromp el tramat."
 
-#: ekos/guide/guide.cpp:918
+#: ekos/guide/guide.cpp:934
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
-msgstr "S'ha excedit el temps límit d'exposició. S'interromp el calibratge."
+msgstr "S'ha excedit el temps d'exposició. S'interromp el calibratge."
 
-#: ekos/guide/guide.cpp:1275
+#: ekos/guide/guide.cpp:1291
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#: ekos/guide/guide.cpp:1378
+#: ekos/guide/guide.cpp:1394
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
 "calibratge."
 
-#: ekos/guide/guide.cpp:1392
+#: ekos/guide/guide.cpp:1408
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La muntura s'està movent. S'està restablint el calibratge..."
 
-#: ekos/guide/guide.cpp:1408
+#: ekos/guide/guide.cpp:1424
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "S'està aparcant la muntura. S'interromp el guiatge..."
 
-#: ekos/guide/guide.cpp:1410
+#: ekos/guide/guide.cpp:1426
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "S'està orientant la muntura. S'interromp el guiatge..."
 
-#: ekos/guide/guide.cpp:1473
+#: ekos/guide/guide.cpp:1489
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "S'ha netejat el calibratge."
 
-#: ekos/guide/guide.cpp:1494
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "External guider connected."
 msgstr "S'ha connectat un sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1512
+#: ekos/guide/guide.cpp:1528
 #, kde-format
 msgid "External guider disconnected."
 msgstr "S'ha desconnectat el sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1529
+#: ekos/guide/guide.cpp:1545
 #, kde-format
 msgid "Calibration completed."
 msgstr "S'ha completat el calibratge."
 
-#: ekos/guide/guide.cpp:1547
+#: ekos/guide/guide.cpp:1563
 #, kde-format
 msgid "Calibration started."
 msgstr "S'ha iniciat el calibratge."
 
-#: ekos/guide/guide.cpp:1554
+#: ekos/guide/guide.cpp:1570
 #, kde-format
 msgid "Guiding resumed."
 msgstr "S'ha représ el guiatge."
 
-#: ekos/guide/guide.cpp:1557
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Autoguiding started."
 msgstr "S'ha iniciat el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1569
+#: ekos/guide/guide.cpp:1585
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "S'ha interromput el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1574
+#: ekos/guide/guide.cpp:1590
 #, kde-format
 msgid "Guiding suspended."
 msgstr "S'ha suspés el guiatge."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1599
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Tramat manual en curs."
 
-#: ekos/guide/guide.cpp:1587
+#: ekos/guide/guide.cpp:1603
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Tramat en curs."
 
-#: ekos/guide/guide.cpp:1591
+#: ekos/guide/guide.cpp:1607
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Posicionament del posttramat durant %1 segon..."
 msgstr[1] "Posicionament del posttramat durant %1 segons..."
 
-#: ekos/guide/guide.cpp:1596
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ha fallat el tramat."
 
-#: ekos/guide/guide.cpp:1607
+#: ekos/guide/guide.cpp:1623
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "El tramat s'ha completat amb èxit."
 
-#: ekos/guide/guide.cpp:1653
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "No s'admet l'agrupament %1x%1 del guiatge."
 
-#: ekos/guide/guide.cpp:1675
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "No s'ha pogut fer l'exposició. Es reinicia l'exposició..."
 
-#: ekos/guide/guide.cpp:1801
+#: ekos/guide/guide.cpp:1817
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "No es pot canviar el tipus del sistema de guiatge mentre està actiu."
 
-#: ekos/guide/guide.cpp:1892
+#: ekos/guide/guide.cpp:1908
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -20770,58 +20874,60 @@ msgstr ""
 "Avís: Està actiu el reinici del calibratge del guiatge. Es recomana "
 "desseleccionar esta opció per a PHD2."
 
-#: ekos/guide/guide.cpp:2275
+#: ekos/guide/guide.cpp:2292
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "No s'ha pogut iniciar el calibratge."
 
-#: ekos/guide/guide.cpp:2426
+#: ekos/guide/guide.cpp:2443
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrela seleccionada automàticament."
 
-#: ekos/guide/guide.cpp:2430
+#: ekos/guide/guide.cpp:2447
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "No s'ha pogut seleccionar una estrela automàtica."
 
-#: ekos/guide/guide.cpp:2439
+#: ekos/guide/guide.cpp:2456
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccioneu una estrela guia que s'haja de calibrar."
 
-#: ekos/guide/guide.cpp:2685
+#: ekos/guide/guide.cpp:2702
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (píxels)"
 
-#: ekos/guide/guide.cpp:2686
+#: ekos/guide/guide.cpp:2703
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (píxels)"
 
-#: ekos/guide/guide.cpp:2797 ekos/guide/guide.cpp:2923
+#: ekos/guide/guide.cpp:2814 ekos/guide/guide.cpp:2940
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 "La càmera de PHD2 no està disponible per a Ekos, per tant, no podreu veure "
-"les imatges capturades. Però encara podreu veure la Imatge de l'estrela guia "
+"les imatges capturades. Però encara podreu veure la imatge de l'estrela guia "
 "quan feu el guiatge."
 
-#: ekos/guide/guide.cpp:2801 ekos/guide/guide.cpp:2927
+# skip-rule:punctuation-period-no
+#: ekos/guide/guide.cpp:2818 ekos/guide/guide.cpp:2944
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
 "unchecked.  Unchecking it now to enable your image captures.  You can re-"
 "enable it before Guiding"
 msgstr ""
-"Per a rebre les imatges de PHD2 diferents de la Imatge de l'estrela guia, "
-"cal que el Submarc estiga desmarcat. Desseleccioneu-la ara per a activar les "
-"captures d'imatge. El podreu reactivar abans del guiatge"
+"Per a rebre les imatges de PHD2 diferents de la imatge de l'estrela guia, "
+"cal que «Submarc» estiga desseleccionada. Desseleccioneu-la ara per a "
+"activar les captures d'imatge. La podreu tornar a seleccionar abans del "
+"guiatge."
 
-#: ekos/guide/guide.cpp:3086
+#: ekos/guide/guide.cpp:3103
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No es pot canviar el tren òptic actual mentre PHD2 està connectat"
@@ -20895,7 +21001,7 @@ msgstr ""
 "per a PHD2, rebre la imatge de l'estrela guia en lloc del fotograma complet "
 "d'imatge. Per al sistema de guiatge intern, abans de seleccionar esta opció, "
 "<span style=\"font-weight:600;\">primer</span> cal capturar una imatge i "
-"seleccionar una estrela guia. Desmarqueu-la per a tornar a prendre un "
+"seleccionar una estrela guia. Desseleccioneu-la per a tornar a prendre un "
 "fotograma complet. <br/>Nota: «SEP MultiStar» <span style=\"font-weight:600;"
 "\">no pot</span> utilitzar un submarc.</p></body></html>"
 
@@ -21023,12 +21129,13 @@ msgstr "64"
 msgid "128"
 msgstr "128"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
 #: ekos/guide/guide.ui:504 ekos/guide/manualpulse.ui:14
 #, kde-format
 msgid "Manual Pulse"
-msgstr "Pols manual"
+msgstr "Pols manual."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:529
@@ -21080,7 +21187,7 @@ msgstr "Duració del pols (ms)"
 #: ekos/guide/guide.ui:755
 #, kde-format
 msgid "Guiding Delta \""
-msgstr "Desviació del guiatge \""
+msgstr "Delta \" del guiatge"
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
@@ -21115,7 +21222,7 @@ msgstr "Desviació Dec de guiatge immediat, en segons d'arc."
 #: ekos/guide/guide.ui:828
 #, kde-format
 msgid "Guiding RMS error"
-msgstr "Error RMS de guiatge."
+msgstr "Error RMS del guiatge."
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:831
@@ -21128,14 +21235,14 @@ msgstr "RMS\" (AR/Dec)"
 #: ekos/guide/guide.ui:843
 #, kde-format
 msgid "Guiding RA RMS error"
-msgstr "Error RMS de guiatge en l'AR."
+msgstr "Error RMS del guiatge en l'AR."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
 #: ekos/guide/guide.ui:856
 #, kde-format
 msgid "Guiding DEC RMS error"
-msgstr "Error RMS de guiatge en la Dec."
+msgstr "Error RMS del guiatge en la Dec."
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/guide/guide.ui:871
@@ -21516,12 +21623,12 @@ msgstr[0] ""
 "d'%1 iteració. Possible problema de la muntura o del rebot..."
 msgstr[1] ""
 "Guia AR: L'instrument de visió no ha pogut assolir el punt inicial després "
-"de %1 iteracions. Possible problema de la muntura o de rebot..."
+"de %1 iteracions. Possible problema de la muntura o del rebot..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:356
 #, kde-format
 msgid "DEC backlash..."
-msgstr "Rebot Dec..."
+msgstr "Rebot de la Dec..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:369
 #: ekos/guide/internalguide/calibrationprocess.cpp:422
@@ -21573,7 +21680,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Guia Dec: L'instrument de visió no ha pogut assolir el punt inicial després "
 "de %1 iteracions.\n"
-"Possible problema de la muntura o de rebot..."
+"Possible problema de la muntura o del rebot..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:513
 #, kde-format
@@ -21595,7 +21702,7 @@ msgstr "S'ha desactivat l'intercanvi de la Dec."
 msgid "Calibration Successful"
 msgstr "Calibratge correcte"
 
-#: ekos/guide/internalguide/internalguider.cpp:437
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -21604,28 +21711,28 @@ msgstr ""
 "Avís: Ha fallat el tramat. El guiatge automàtic continuarà tal com s'ha "
 "establit en les opcions en cas de fallar el tramat."
 
-#: ekos/guide/internalguide/internalguider.cpp:507
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Avís: Ha fallat el tramat manual."
 
-#: ekos/guide/internalguide/internalguider.cpp:557
+#: ekos/guide/internalguide/internalguider.cpp:657
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Falta la informació de %1. Establiu els valors al tauler de control d'INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:558
+#: ekos/guide/internalguide/internalguider.cpp:658
 #, kde-format
 msgid "Missing Information"
 msgstr "Falta informació"
 
-#: ekos/guide/internalguide/internalguider.cpp:583
+#: ekos/guide/internalguide/internalguider.cpp:683
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "S'ha restaurat el calibratge del guiatge"
 
-#: ekos/guide/internalguide/internalguider.cpp:635
+#: ekos/guide/internalguide/internalguider.cpp:735
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -21634,35 +21741,35 @@ msgstr ""
 "S'ha perdut la traça de l'estrela guia. Proveu d'augmentar la mida del "
 "quadrat o de reduir la duració del pols."
 
-#: ekos/guide/internalguide/internalguider.cpp:638
+#: ekos/guide/internalguide/internalguider.cpp:738
 #, kde-format
 msgid "Guide Star lost."
 msgstr "S'ha perdut l'estrela guia."
 
-#: ekos/guide/internalguide/internalguider.cpp:670
+#: ekos/guide/internalguide/internalguider.cpp:770
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Ha fallat el calibratge del guiatge"
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:777
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "El calibratge del guiatge s'ha completat amb èxit"
 
-#: ekos/guide/internalguide/internalguider.cpp:1001
+#: ekos/guide/internalguide/internalguider.cpp:1101
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 "S'ha perdut la traça de l'estrela guia. Es busquen les estreles guia..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1003
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "S'ha excedit el valor del llindar de la delta del RMS. Es busquen les "
 "estreles guia..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1187
+#: ekos/guide/internalguide/internalguider.cpp:1287
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "No s'ha pogut trobar qualsevol estrela guia adequada. S'interromp..."
@@ -21989,12 +22096,14 @@ msgstr ""
 msgid "PHD2 Dither Timeout"
 msgstr "Temps d'espera de tramat de PHD2"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherFrames)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:157 ekos/guide/opsdither.ui:177
 #, kde-format
 msgid "Dither after this many captured frames in the CCD module"
-msgstr "Tramat després d'este nombre de fotogrames capturats en el mòdul «CCD»"
+msgstr ""
+"Tramat després d'este nombre de fotogrames capturats en el mòdul «CCD»."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -22482,12 +22591,13 @@ msgstr ""
 msgid "Short-range Variance"
 msgstr "Variància d'abast proper"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas6a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGPointsForApproximation)
 #: ekos/guide/opsgpg.ui:583 ekos/guide/opsgpg.ui:593
 #, kde-format
 msgid "Number of points used in the Gaussian Process approximation"
-msgstr "Nombre de punts utilitzat a l'aproximació del procés gaussià"
+msgstr "Nombre de punts utilitzat en l'aproximació del procés gaussià."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas6a)
 #: ekos/guide/opsgpg.ui:586
@@ -23134,54 +23244,54 @@ msgstr ""
 #: ekos/manager.cpp:1480
 #, kde-format
 msgid "%1 is disconnected."
-msgstr "El %1 està desconnectat."
+msgstr "El «%1» està desconnectat."
 
 #: ekos/manager.cpp:1499 ekos/manager.cpp:1508 ekos/manager.cpp:1541
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
-msgstr "El %1 està en línia."
+msgstr "El «%1» està en línia."
 
 #: ekos/manager.cpp:1516
 #, kde-format
 msgid "%1 filter is online."
-msgstr "El filtre de %1 està en línia."
+msgstr "El filtre de «%1» està en línia."
 
 #: ekos/manager.cpp:1525
 #, kde-format
 msgid "%1 focuser is online."
-msgstr "L'enfocador de %1 està en línia."
+msgstr "L'enfocador de «%1» està en línia."
 
 #: ekos/manager.cpp:1532
 #, kde-format
 msgid "Rotator %1 is online."
-msgstr "El rotor %1 està en línia."
+msgstr "El rotor «%1» està en línia."
 
 #: ekos/manager.cpp:1548
 #, kde-format
 msgid "%1 Weather is online."
-msgstr "La meteorologia de %1 està en línia."
+msgstr "La meteorologia de «%1» està en línia."
 
 #: ekos/manager.cpp:1555
 #, kde-format
 msgid "%1 GPS is online."
-msgstr "El GPS %1 està en línia."
+msgstr "El GPS «%1» està en línia."
 
 #: ekos/manager.cpp:1564
 #, kde-format
 msgid "%1 Dust cap is online."
-msgstr "La funda de protecció de %1 està en línia."
+msgstr "La funda de protecció de «%1» està en línia."
 
 # skip-rule: kct-box
 #: ekos/manager.cpp:1571
 #, kde-format
 msgid "%1 Light box is online."
-msgstr "La caixa de llum de %1 està en línia."
+msgstr "La caixa de llum de «%1» està en línia."
 
 #: ekos/manager.cpp:1705
 #, kde-format
 msgid "%1 is offline."
-msgstr "%1 està fora de línia."
+msgstr "El «%1» està fora de línia."
 
 #: ekos/manager.cpp:1952
 #, kde-format
@@ -23192,7 +23302,7 @@ msgstr "CCD"
 #: ekos/manager.cpp:2232
 #, kde-format
 msgid "Guider port from %1 is ready."
-msgstr "El port del sistema de guiatge de %1 està a punt."
+msgstr "El port del sistema de guiatge de «%1» està a punt."
 
 #: ekos/manager.cpp:2421
 #, kde-format
@@ -23513,11 +23623,12 @@ msgstr "S'està executant la inversió del meridià..."
 msgid "Meridian flip completed."
 msgstr "S'ha completat la inversió del meridià."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, statusText)
 #: ekos/mount/meridianflipstatuswidget.ui:32
 #, kde-format
 msgid "Meridian Flip Status"
-msgstr "Estat de la inversió del meridià"
+msgstr "Estat de la inversió del meridià."
 
 #: ekos/mount/mount.cpp:96
 #, kde-format
@@ -23619,7 +23730,7 @@ msgstr "S'ha netejat el model d'alineació."
 msgid "Failed to clear Alignment Model."
 msgstr "No s'ha pogut netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2138
+#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2141
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
@@ -25042,13 +25153,14 @@ msgstr "Modificador del llindar HFR:"
 #, kde-format
 msgid "Run in-sequence HFR check after this many frames."
 msgstr ""
-"Executa la comprovació HFR en seqüència després d'este nombre de fotogrames."
+"Executa la comprovació en la seqüència HFR després d'este nombre de "
+"fotogrames."
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/opsekos.ui:907
 #, kde-format
 msgid "In-sequence HFR check:"
-msgstr "Comprova l'HFR en seqüència:"
+msgstr "Comprova en la seqüència HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_InSequenceCheckFrames)
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
@@ -25056,7 +25168,8 @@ msgstr "Comprova l'HFR en seqüència:"
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
 msgstr ""
-"Executa la comprovació HFR en seqüència després d'este nombre de fotogrames."
+"Executa la comprovació en la seqüència HFR després d'este nombre de "
+"fotogrames."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseMedianFocus)
 #: ekos/opsekos.ui:929
@@ -25094,7 +25207,7 @@ msgid ""
 "focus checks. If this option is enabled, the HFR threshold value is constant "
 "and gets saved to the sequence file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El valor del llindar HFR en seqüència controla quan "
+"<html><head/><body><p>El valor del llindar en la seqüència HFR controla quan "
 "s'iniciarà el procés d'enfocament automàtic. Si el valor HFR mesurat excedix "
 "el llindar HFR, s'iniciarà el procés d'enfocament automàtic. Si el valor del "
 "llindar HFR és inicialment zero (predeterminat), llavors s'utilitzarà el "
@@ -25437,11 +25550,12 @@ msgstr "Gestor web"
 msgid "Select Devices"
 msgstr "Selecciona els dispositius"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux3Label)
 #: ekos/profileeditor.ui:440
 #, kde-format
 msgid "Auxiliary #3"
-msgstr "Auxiliar núm. 3"
+msgstr "Auxiliar número 3."
 
 #. i18n: ectx: property (text), widget (QLabel, aux3Label)
 #: ekos/profileeditor.ui:443
@@ -25449,11 +25563,12 @@ msgstr "Auxiliar núm. 3"
 msgid "Aux 3:"
 msgstr "Aux. 3:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux4Label)
 #: ekos/profileeditor.ui:450
 #, kde-format
 msgid "Auxiliary #4"
-msgstr "Auxiliar núm. 4"
+msgstr "Auxiliar número 4."
 
 #. i18n: ectx: property (text), widget (QLabel, aux4Label)
 #: ekos/profileeditor.ui:453
@@ -25467,11 +25582,12 @@ msgstr "Aux. 4:"
 msgid "Camera 2:"
 msgstr "Càmera 2:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
 #, kde-format
 msgid "Auxiliary #1"
-msgstr "Auxiliar núm. 1"
+msgstr "Auxiliar número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:470
@@ -25533,11 +25649,12 @@ msgstr "Cúpula:"
 msgid "AO:"
 msgstr "OA:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux2Label)
 #: ekos/profileeditor.ui:572
 #, kde-format
 msgid "Auxiliary #2"
-msgstr "Auxiliar núm. 2"
+msgstr "Auxiliar número 2."
 
 #. i18n: ectx: property (text), widget (QLabel, aux2Label)
 #: ekos/profileeditor.ui:575
@@ -27161,7 +27278,7 @@ msgstr "L'observatori es troba en el procés de tancament"
 msgid "Starting job sequence iteration #%1"
 msgstr "S'està iniciant la iteració núm. %1 de la seqüència de tasques"
 
-#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1803
+#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1806
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -27175,14 +27292,14 @@ msgstr ""
 "Avís: el procediment de captura de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1926
+#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1929
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Avís: el procediment d'enfocament de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1874
+#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1877
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -27461,12 +27578,12 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:4820
 #, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "Temps límit del solucionador: %1s %2"
+msgstr "Temps límit del solucionador: %1 s %2"
 
 #: ekos/scheduler/scheduler.cpp:4822
 #, kde-format
 msgid "Solver failed: %1s %2"
-msgstr "El solucionador ha fallat: %1s %2"
+msgstr "El solucionador ha fallat: %1 s %2"
 
 #: ekos/scheduler/scheduler.cpp:4857
 #, kde-format
@@ -27565,11 +27682,12 @@ msgstr ""
 "o <i>Repetix fins que es finalitze</i>. En cas contrari, deixeu-ho en blanc. "
 "Només s'aplicarà a l'algorisme «voraç» del programador.</p></body></html>"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/scheduler.ui:290
 #, kde-format
 msgid "Target coordinates in J2000 Epoch"
-msgstr "Coordenades de l'objectiu en l'època J2000"
+msgstr "Coordenades de l'objectiu en l'època J2000."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduler.ui:293
@@ -27652,11 +27770,12 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Carrega la planificació des d'un "
 "fitxer i substituïx les tasques de la cua.</p></body></html>"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/scheduler/scheduler.ui:997
 #, kde-format
 msgid "Save schedule"
-msgstr "Guarda la programació"
+msgstr "Guarda la programació."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/scheduler/scheduler.ui:1031
@@ -27948,11 +28067,12 @@ msgstr "Apaga el refrigerador del CCD."
 msgid "Warm CCD"
 msgstr "CCD calent"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, capCheck)
 #: ekos/scheduler/scheduler.ui:1812
 #, kde-format
 msgid "Close dust cover"
-msgstr "Tanca la funda de protecció"
+msgstr "Tanca la funda de protecció."
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCheck)
 #: ekos/scheduler/scheduler.ui:1815
@@ -28129,11 +28249,12 @@ msgstr "Desaparca la cúpula"
 msgid "UnPark Mount"
 msgstr "Desaparca la muntura"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, uncapCheck)
 #: ekos/scheduler/scheduler.ui:2158
 #, kde-format
 msgid "Open dust cover"
-msgstr "Obri la funda de protecció"
+msgstr "Obri la funda de protecció."
 
 #. i18n: ectx: property (text), widget (QCheckBox, uncapCheck)
 #: ekos/scheduler/scheduler.ui:2161
@@ -28158,11 +28279,11 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 "Estat actual de la tasca «%1», gestionada pel programador.\n"
-"Si és no vàlida, el programador no podrà trobar cap hora adequada per a "
+"Si no és vàlida, el programador no podrà trobar cap hora adequada per a "
 "l'observació de l'objectiu.\n"
-"Si és interrompuda, el programador trobarà faltes en el temps programat o "
+"Si s'interromp, el programador trobarà faltes en el temps programat o "
 "problemes temporals i tornarà a planificar la tasca.\n"
-"Si és completa, el programador verificarà que totes les captures de "
+"Si es finalitza, el programador verificarà que totes les captures en "
 "seqüència sol·licitades s'han emmagatzemat, incloent-hi les repeticions."
 
 #: ekos/scheduler/schedulerjob.cpp:391
@@ -28483,7 +28604,7 @@ msgstr "La tapa està desaparcada."
 #: ekos/scheduler/schedulerprocess.cpp:1104
 #, kde-format
 msgid "Operation timeout. Restarting operation..."
-msgstr "S'ha excedit el temps límit de l'operació. S'està tornant a iniciar..."
+msgstr "S'ha excedit el temps de l'operació. S'està tornant a iniciar..."
 
 #: ekos/scheduler/schedulerprocess.cpp:888
 #, kde-format
@@ -28604,64 +28725,64 @@ msgstr "Ja s'ha iniciat Ekos, s'està ometent l'script d'inici..."
 msgid "Warming up CCD..."
 msgstr "S'està escalfant el CCD..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1300
+#: ekos/scheduler/schedulerprocess.cpp:1303
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr ""
 "Avís: passen per alt els procediments per a aparcar, sense connexió amb INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1424
+#: ekos/scheduler/schedulerprocess.cpp:1427
 #, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr ""
 "Ha fallat el procediment d'espera per a aparcar o desaparcar. S'interromp..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1443
+#: ekos/scheduler/schedulerprocess.cpp:1446
 #, kde-format
 msgid "Warning: executing startup procedure manually..."
 msgstr "Avís: s'està executant manualment el procediment d'inici..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1450
+#: ekos/scheduler/schedulerprocess.cpp:1453
 #, kde-format
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "Segur que voleu executar manualment el procediment d'inici?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1494
+#: ekos/scheduler/schedulerprocess.cpp:1497
 #, kde-format
 msgid "Startup procedure terminated."
 msgstr "El procediment d'inici ha finalitzat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1508
+#: ekos/scheduler/schedulerprocess.cpp:1511
 #, kde-format
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "Avís: s'està executant manualment el procediment de tancament..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1514
+#: ekos/scheduler/schedulerprocess.cpp:1517
 #, kde-format
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "Segur que voleu executar manualment el procediment de tancament?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1559
+#: ekos/scheduler/schedulerprocess.cpp:1562
 #, kde-format
 msgid "Shutdown procedure terminated."
 msgstr "El procediment de tancament ha finalitzat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1743
+#: ekos/scheduler/schedulerprocess.cpp:1746
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "La llista del programador s'ha guardat a %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1769
+#: ekos/scheduler/schedulerprocess.cpp:1772
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "L'alineació de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1788
+#: ekos/scheduler/schedulerprocess.cpp:1791
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Avís: ha fallat l'alineació de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1794
+#: ekos/scheduler/schedulerprocess.cpp:1797
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -28669,72 +28790,72 @@ msgstr ""
 "Avís: la tasca «%1» ha forçat un reinici del model de muntura després de "
 "fallar l'alineació núm. %2."
 
-#: ekos/scheduler/schedulerprocess.cpp:1798
-#: ekos/scheduler/schedulerprocess.cpp:1862
+#: ekos/scheduler/schedulerprocess.cpp:1801
+#: ekos/scheduler/schedulerprocess.cpp:1865
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "S'està reiniciant el procediment d'alineació de %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1834
+#: ekos/scheduler/schedulerprocess.cpp:1837
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "El guiatge de la tasca «%1» està en curs."
 
-#: ekos/scheduler/schedulerprocess.cpp:1846
+#: ekos/scheduler/schedulerprocess.cpp:1849
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Avís: ha fallat el guiatge de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1848
+#: ekos/scheduler/schedulerprocess.cpp:1851
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Avís: ha fallat el calibratge de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1867
+#: ekos/scheduler/schedulerprocess.cpp:1870
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "La tasca «%1» està fent el guiatge, el procediment de guiatge es reiniciarà "
 "en %2 segons."
 
-#: ekos/scheduler/schedulerprocess.cpp:1903
+#: ekos/scheduler/schedulerprocess.cpp:1906
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "L'enfocament de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1913
+#: ekos/scheduler/schedulerprocess.cpp:1916
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Avís: ha fallat l'enfocament de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1917
+#: ekos/scheduler/schedulerprocess.cpp:1920
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "S'està reiniciant el procediment d'enfocament de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1955
+#: ekos/scheduler/schedulerprocess.cpp:1958
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "L'orientació de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1961
+#: ekos/scheduler/schedulerprocess.cpp:1964
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Avís: la tasca «%1» d'orientació ha fallat, i es marca com a finalitzada a "
 "causa d'errors."
 
-#: ekos/scheduler/schedulerprocess.cpp:1967
+#: ekos/scheduler/schedulerprocess.cpp:1970
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Avís: la tasca «%1» no ha trobat cap orientació, es reinicia."
 
-#: ekos/scheduler/schedulerprocess.cpp:1980
+#: ekos/scheduler/schedulerprocess.cpp:1983
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "El reposicionament de la tasca «%1» s'ha completat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1986
+#: ekos/scheduler/schedulerprocess.cpp:1989
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -28742,114 +28863,114 @@ msgstr ""
 "Avís: la tasca «%1» de reposicionament ha fallat, i es marca com a "
 "finalitzada a causa d'errors."
 
-#: ekos/scheduler/schedulerprocess.cpp:1992
+#: ekos/scheduler/schedulerprocess.cpp:1995
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Avís: la tasca «%1» no ha trobat cap reposicionament, es reinicia."
 
-#: ekos/scheduler/schedulerprocess.cpp:2017
+#: ekos/scheduler/schedulerprocess.cpp:2020
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "El procediment de tancament manual s'ha completat amb èxit."
 
-#: ekos/scheduler/schedulerprocess.cpp:2023
+#: ekos/scheduler/schedulerprocess.cpp:2026
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "El procediment de tancament manual ha finalitzat a causa d'errors."
 
-#: ekos/scheduler/schedulerprocess.cpp:2038
+#: ekos/scheduler/schedulerprocess.cpp:2041
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 "S'ha requerit l'aparcament de la funda de protecció, però no se n'ha "
 "detectat cap."
 
-#: ekos/scheduler/schedulerprocess.cpp:2061
+#: ekos/scheduler/schedulerprocess.cpp:2064
 #, kde-format
 msgid "Parking Cap..."
 msgstr "S'està aparcant la tapa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2067
+#: ekos/scheduler/schedulerprocess.cpp:2070
 #, kde-format
 msgid "Cap already parked."
 msgstr "La tapa ja està aparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:2076
+#: ekos/scheduler/schedulerprocess.cpp:2079
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 "S'ha requerit el desaparcament de la funda de protecció, però no se n'ha "
 "detectat cap."
 
-#: ekos/scheduler/schedulerprocess.cpp:2098
+#: ekos/scheduler/schedulerprocess.cpp:2101
 #, kde-format
 msgid "Unparking cap..."
 msgstr "S'està desaparcant la tapa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2104
+#: ekos/scheduler/schedulerprocess.cpp:2107
 #, kde-format
 msgid "Cap already unparked."
 msgstr "La tapa ja està desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:2113
+#: ekos/scheduler/schedulerprocess.cpp:2116
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 "S'ha requerit l'aparcament de la muntura, però no se n'ha detectat cap."
 
-#: ekos/scheduler/schedulerprocess.cpp:2171
+#: ekos/scheduler/schedulerprocess.cpp:2174
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "L'aparcament de la muntura es troba en curs..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2185
+#: ekos/scheduler/schedulerprocess.cpp:2188
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 "S'ha requerit el desaparcament de la muntura, però no se n'ha detectat cap."
 
-#: ekos/scheduler/schedulerprocess.cpp:2211
+#: ekos/scheduler/schedulerprocess.cpp:2214
 #, kde-format
 msgid "Mount already unparked."
 msgstr "La muntura ja està desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:2309
+#: ekos/scheduler/schedulerprocess.cpp:2312
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "S'ha requerit l'aparcament de la cúpula, però no se n'ha detectat cap."
 
-#: ekos/scheduler/schedulerprocess.cpp:2332
+#: ekos/scheduler/schedulerprocess.cpp:2335
 #, kde-format
 msgid "Parking dome..."
 msgstr "S'està aparcant la cúpula..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2338
+#: ekos/scheduler/schedulerprocess.cpp:2341
 #, kde-format
 msgid "Dome already parked."
 msgstr "La cúpula ja està aparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:2348
+#: ekos/scheduler/schedulerprocess.cpp:2351
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 "S'ha requerit el desaparcament de la cúpula, però no se n'ha detectat cap."
 
-#: ekos/scheduler/schedulerprocess.cpp:2368
+#: ekos/scheduler/schedulerprocess.cpp:2371
 #, kde-format
 msgid "Unparking dome..."
 msgstr "S'està desaparcant la cúpula..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2374
+#: ekos/scheduler/schedulerprocess.cpp:2377
 #, kde-format
 msgid "Dome already unparked."
 msgstr "La cúpula ja està desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:2492
+#: ekos/scheduler/schedulerprocess.cpp:2495
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "L'script d'inici ha fallat. S'interromp..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2497
+#: ekos/scheduler/schedulerprocess.cpp:2500
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "L'script de tancament ha fallat. S'interromp..."
@@ -29380,12 +29501,12 @@ msgstr "S'està resolent..."
 #: fitsviewer/fitstab.cpp:663
 #, kde-format
 msgid "Extractor timed out: %1s"
-msgstr "L'extractor ha excedit els temps límit: %1s"
+msgstr "L'extractor ha excedit el temps: %1 s"
 
 #: fitsviewer/fitstab.cpp:672
 #, kde-format
 msgid "Extractor failed: %1s"
-msgstr "L'extractor ha fallat: %1s"
+msgstr "L'extractor ha fallat: %1 s"
 
 #: fitsviewer/fitstab.cpp:681
 #, kde-format
@@ -29395,12 +29516,12 @@ msgstr "S'han extret %1 estreles (%2 sense filtrar) en %3 s"
 #: fitsviewer/fitstab.cpp:728
 #, kde-format
 msgid "Solver timed out: %1s"
-msgstr "El solucionador ha excedit el temps límit: %1s"
+msgstr "El solucionador ha excedit el temps: %1 s"
 
 #: fitsviewer/fitstab.cpp:733
 #, kde-format
 msgid "Solver failed: %1s"
-msgstr "El solucionador ha fallat: %1s"
+msgstr "El solucionador ha fallat: %1 s"
 
 #: fitsviewer/fitstab.cpp:823
 #, kde-format
@@ -31234,11 +31355,12 @@ msgstr "Seleccioneu l'agent INDIHub"
 msgid "%1 is not a valid INDI server binary."
 msgstr "%1 no és cap executable vàlid del servidor INDI."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiServerIsInternal)
 #: indi/opsindi.ui:55
 #, kde-format
 msgid "INDI Server binary is internal to the application bundle"
-msgstr "El binari del servidor INDI és intern al paquet de l'aplicació"
+msgstr "El binari del servidor INDI és intern al paquet de l'aplicació."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_2)
@@ -31254,17 +31376,19 @@ msgstr "Port INDI predeterminat de vídeo."
 msgid "INDI server:"
 msgstr "Servidor INDI:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiServer)
 #: indi/opsindi.ui:75
 #, kde-format
 msgid "Path to the indiserver binary"
-msgstr "Camí cap al binari «indiserver»"
+msgstr "Camí cap al binari «indiserver»."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiDriversAreInternal)
 #: indi/opsindi.ui:92
 #, kde-format
 msgid "INDI Drivers are internal to the application bundle"
-msgstr "Els controladors INDI són interns al paquet de l'aplicació"
+msgstr "Els controladors INDI són interns al paquet de l'aplicació."
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:105
@@ -31684,11 +31808,12 @@ msgstr "Fallada del controlador"
 msgid "Video Stream"
 msgstr "Flux de vídeo"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:58 indi/streamwg.cpp:341 indi/streamwg.cpp:351
 #, kde-format
 msgid "Start recording"
-msgstr "Comença la gravació"
+msgstr "Comença la gravació."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
@@ -31711,11 +31836,12 @@ msgstr "Restablix el fotograma."
 msgid "Toggle debayer"
 msgstr "Alterna la reconstrucció des de Bayer."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:165
 #, kde-format
 msgid "Zoom level"
-msgstr "Nivell d'ampliació"
+msgstr "Nivell d'ampliació."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:174
@@ -34068,7 +34194,7 @@ msgstr ""
 msgid "InfoBoxes Background fill mode"
 msgstr "Mode d'emplenat del fons dels rètols informatius"
 
-# skip-rule: kct-box
+# skip-rule: kct-box,punctuation-period-no
 #. i18n: ectx: whatsthis, entry (BoxBGMode), group (View)
 #: kstars.kcfg:732
 #, kde-format
@@ -34077,7 +34203,7 @@ msgid ""
 "\"semi-transparent BG\"; 2=\"opaque BG\""
 msgstr ""
 "El mode d'emplenat per als rètols informatius que apareixen en pantalla: "
-"0=«sense fons»; 1=«fons semitransparent»; 2=«fons opac»"
+"0=«sense fons», 1=«fons semitransparent» i 2=«fons opac»."
 
 #. i18n: ectx: label, entry (Projection), group (View)
 #: kstars.kcfg:736
@@ -34435,11 +34561,12 @@ msgstr ""
 msgid "Density of stars in the field of view"
 msgstr "Densitat d'estreles en el camp de visió"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: whatsthis, entry (StarDensity), group (View)
 #: kstars.kcfg:858
 #, kde-format
 msgid "Sets the density of stars in the field of view"
-msgstr "Establix la densitat d'estreles en el camp de visió"
+msgstr "Establix la densitat d'estreles en el camp de visió."
 
 #. i18n: ectx: label, entry (MagLimitDrawStarZoomOut), group (View)
 #: kstars.kcfg:863
@@ -34718,6 +34845,7 @@ msgstr "El nom de l'esquema de color"
 msgid "Mode for rendering stars"
 msgstr "Mode de renderitzat de les estreles"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: whatsthis, entry (StarColorMode), group (Colors)
 #: kstars.kcfg:953
 #, kde-format
@@ -34725,8 +34853,8 @@ msgid ""
 "The method for rendering stars: 0=\"realistic colors\"; 1=\"solid red\"; 2="
 "\"solid black\"; 3=\"solid white\"; 4=\"solid real colors\""
 msgstr ""
-"El mètode per a renderitzar les estreles: 0=«colors realistes»; 1=«roig "
-"sòlid»; 2=«negre sòlid»; 3=«blanc sòlid»; 4=«colors reals sòlids»"
+"El mètode per a renderitzar les estreles: 0=«colors realistes», 1=«roig "
+"sòlid», 2=«negre sòlid», 3=«blanc sòlid» i 4=«colors reals sòlids»."
 
 #. i18n: ectx: label, entry (StarColorIntensity), group (Colors)
 #: kstars.kcfg:958
@@ -35631,13 +35759,13 @@ msgid ""
 "background stars."
 msgstr ""
 "Especifiqueu un fitxer que continga dades de marcadors definits per "
-"l'usuari, per tal de ser mostrades contra el fons estrelat."
+"l'usuari, per tal de ser mostrats contra el fons estrelat."
 
 #. i18n: ectx: label, entry (XplanetMarkerBounds), group (Xplanet)
 #: kstars.kcfg:1311
 #, kde-format
 msgid "Write marker bounds"
-msgstr "Escriu els límits dels marcadors"
+msgstr "Escriu els marcadors dels límits"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerBounds), group (Xplanet)
 #: kstars.kcfg:1312
@@ -35653,7 +35781,7 @@ msgstr ""
 #: kstars.kcfg:1316 xplanet/opsxplanet.ui:843
 #, kde-format
 msgid "Marker bounds file path"
-msgstr "Camí cap al fitxer de límits de marcadors"
+msgstr "Camí cap al fitxer de marcadors dels límits"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerBoundsPath), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetMarkerBoundsPath)
@@ -37264,8 +37392,8 @@ msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
 "before declaring a timeout."
 msgstr ""
-"Temps màxim en segons per a esperar el moviment d'un enfocador a la posició "
-"desitjada capturada abans de declarar que s'ha excedit."
+"Temps màxim en segons per a esperar el moviment d'un enfocador fins a la "
+"posició desitjada capturada abans de declarar que s'ha excedit el temps."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAlgorithm), group (Focus)
 #: kstars.kcfg:2135
@@ -69381,7 +69509,7 @@ msgstr ""
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:160
 #, kde-kuit-format
 msgid "Timeout occurred. Try again."
-msgstr "S'ha excedit el temps límit. Torneu-ho a intentar."
+msgstr "S'ha excedit el temps. Torneu-ho a intentar."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:175
 #, kde-kuit-format
@@ -70462,7 +70590,7 @@ msgstr "Velocitat en bauds"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Bias"
-msgstr "Polaritzat"
+msgstr "Biaix"
 
 #: libindi_strings.cpp:44
 #, kde-kuit-format
@@ -70498,7 +70626,7 @@ msgstr "Brillantor"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD Bias"
-msgstr "Polarització del CCD"
+msgstr "Biaix del CCD"
 
 #: libindi_strings.cpp:50
 #, kde-kuit-format
@@ -74627,11 +74755,12 @@ msgstr "Purga tota la configuració"
 msgid "Look and &Feel"
 msgstr "Aspecte i &comportament"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: options/opsadvanced.ui:431
 #, kde-format
 msgid "Adjust speed of zooming when scrolling in and out with the mouse wheel"
-msgstr "Ajusta la velocitat del zoom quan es moga la roda del ratolí"
+msgstr "Ajusta la velocitat del zoom quan es mou la roda del ratolí."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opsadvanced.ui:434
@@ -77604,17 +77733,17 @@ msgstr ""
 #: skycomponents/imageoverlaycomponent.cpp:793
 #, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Temps límit del solucionador en %1s"
+msgstr "Temps límit del solucionador en %1 s"
 
 #: skycomponents/imageoverlaycomponent.cpp:799
 #, kde-format
 msgid "Solver failed in %1s"
-msgstr "El solucionador ha fallat en %1s"
+msgstr "El solucionador ha fallat en %1 s"
 
 #: skycomponents/imageoverlaycomponent.cpp:812
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr "El solucionador ha finalitzat en %1s: AR %2 Dec %3 Escala %4 Angle %5"
+msgstr "El solucionador ha finalitzat en %1 s: AR %2 Dec %3 Escala %4 Angle %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:844
 #, kde-format
@@ -80671,7 +80800,8 @@ msgstr "Coordenades no vàlides."
 #: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
-msgstr "El telescopi %1 no està en línia. Connecteu-lo i torneu-ho a intentar."
+msgstr ""
+"El telescopi «%1» no està en línia. Connecteu-lo i torneu-ho a intentar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/flagmanager.ui:101
@@ -80755,17 +80885,19 @@ msgstr "El valor angular no és vàlid: %1"
 msgid "Regions"
 msgstr "Regions"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, addRegionB)
 #: tools/horizonmanager.ui:42
 #, kde-format
 msgid "Add Region"
-msgstr "Afig una regió"
+msgstr "Afig una regió."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeRegionB)
 #: tools/horizonmanager.ui:67
 #, kde-format
 msgid "Remove Region"
-msgstr "Elimina una regió"
+msgstr "Elimina una regió."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleCeilingB)
@@ -82258,11 +82390,12 @@ msgstr "Suprimix totes les imatges"
 msgid "Image Chooser"
 msgstr "Selector d'imatges"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:77
 #, kde-format
 msgid "Open an observation session list"
-msgstr "Obri una llista de la sessió d'observació"
+msgstr "Obri una llista de la sessió d'observació."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
@@ -82271,11 +82404,12 @@ msgstr "Obri una llista de la sessió d'observació"
 msgid "Load an observing list from disk"
 msgstr "Carrega una llista d'observació des del disc."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/observinglist.ui:108
 #, kde-format
 msgid "Save the observing session"
-msgstr "Guarda la sessió d'observació"
+msgstr "Guarda la sessió d'observació."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
@@ -83748,6 +83882,7 @@ msgstr ""
 msgid "Save Script"
 msgstr "Es guarda l'script."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:138
 #, kde-format
@@ -83756,7 +83891,7 @@ msgid ""
 "equivalent to \"Save As...\""
 msgstr ""
 "Guarda l'script actual. Si l'script no ha sigut guardat abans, açò és "
-"l'equivalent a «Anomena i guarda...»"
+"l'equivalent a «Anomena i guarda...»."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveAsButton)
 #: tools/scriptbuilder.ui:169
@@ -83812,11 +83947,12 @@ msgstr ""
 "especificar els arguments davall. Utilitzeu els botons d'accions per a "
 "copiar, eliminar o canviar la posició de l'ordre seleccionada. "
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
 #, kde-format
 msgid "Add Function"
-msgstr "Afig una funció"
+msgstr "Afig una funció."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:319
@@ -83830,11 +83966,12 @@ msgstr ""
 "botó l'afegirà a l'script actual. La funció nova s'inserirà directament "
 "després de la funció ressaltada en el quadro «Script actual».\n"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:338
 #, kde-format
 msgid "Remove Function"
-msgstr "Elimina la funció"
+msgstr "Elimina la funció."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:341
@@ -83846,11 +83983,12 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó "
 "l'eliminarà de l'script."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:360
 #, kde-format
 msgid "Copy Function"
-msgstr "Copia la funció"
+msgstr "Copia la funció."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:363
@@ -83908,11 +84046,12 @@ msgstr "Arguments de la funció"
 msgid "Function Browser"
 msgstr "Navegador de funcions"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTextEdit, FuncDoc)
 #: tools/scriptbuilder.ui:512
 #, kde-format
 msgid "Function Help"
-msgstr "Ajuda de la funció"
+msgstr "Ajuda de la funció."
 
 #. i18n: ectx: property (whatsThis), widget (QTextEdit, FuncDoc)
 #: tools/scriptbuilder.ui:515
@@ -84096,8 +84235,8 @@ msgid ""
 "smaller FOV or changing the source point"
 msgstr ""
 "L'algorisme del saltador entre estreles ha fallat. Si esteu intentant un "
-"salt gran entre estreles, proveu-ho utilitzant un CDV més xicotet o canvieu "
-"el punt d'origen"
+"salt gran entre estreles, proveu utilitzant un CDV més xicotet o canvieu el "
+"punt d'origen"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, StarHopperDialog)
 #: tools/starhopperdialog.ui:14
@@ -84669,11 +84808,12 @@ msgstr "Obri la finestra «Detalls de l'objecte» per a l'objecte ressaltat."
 msgid "Object Details..."
 msgstr "Detalls de l'objecte..."
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:487
 #, kde-format
 msgid "Adds the selected object to the Observing list"
-msgstr "Afig l'objecte seleccionat en la llista d'observació"
+msgstr "Afig l'objecte seleccionat en la llista d'observació."
 
 #. i18n: ectx: property (text), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:493
@@ -85089,11 +85229,12 @@ msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
 msgstr "Seleccioneu el fitxer ARC d'Xplanet"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_xplanetIsInternal)
 #: xplanet/opsxplanet.ui:45
 #, kde-format
 msgid "Xplanet binary is internal to the application bundle"
-msgstr "El binari d'Xplanet és intern al paquet de l'aplicació"
+msgstr "El binari d'Xplanet és intern al paquet de l'aplicació."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetPath)
 #: xplanet/opsxplanet.ui:55
@@ -85160,11 +85301,12 @@ msgstr "Temps d'espera d'Xplanet:"
 msgid "Animation delay:"
 msgstr "Retard de l'animació:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetAnimationDelay)
 #: xplanet/opsxplanet.ui:183
 #, kde-format
 msgid "The delay between frames for the animation"
-msgstr "El retard entre els fotogrames per a l'animació"
+msgstr "El retard entre els fotogrames per a l'animació."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:216
@@ -85221,12 +85363,13 @@ msgstr "Utilitza CDV de KStars"
 msgid "Base magnitude:"
 msgstr "Magnitud base:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetMagnitude)
 #: xplanet/opsxplanet.ui:262
 #, kde-format
 msgid "A star of the specified magnitude will have a pixel brightness of 1"
 msgstr ""
-"Una estrela de la magnitud especificada tindrà una brillantor de píxel d'1"
+"Una estrela de la magnitud especificada tindrà una brillantor de píxel d'1."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetConfigFile)
 #: xplanet/opsxplanet.ui:275
@@ -85433,7 +85576,7 @@ msgstr "Voleu utilitzar un fitxer de marcadors?"
 #: xplanet/opsxplanet.ui:813
 #, kde-format
 msgid "Use marker file:"
-msgstr "Utilitza un fitxer de marcadors:"
+msgstr "Utilitza el fitxer de marcadors:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetMarkerFilePath)
 #: xplanet/opsxplanet.ui:823
@@ -85443,14 +85586,14 @@ msgid ""
 "background stars."
 msgstr ""
 "Especifiqueu un fitxer que continga dades de marcadors definits per "
-"l'usuari, per tal de ser mostrades contra el fons estrelat."
+"l'usuari, per tal de ser mostrats contra el fons estrelat."
 
 # skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetMarkerBounds)
 #: xplanet/opsxplanet.ui:830
 #, kde-format
 msgid "Write marker bounds in a file"
-msgstr "Escriu els límits dels marcadors en un fitxer."
+msgstr "Escriu els marcadors dels límits en un fitxer."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetMarkerBounds)
 #: xplanet/opsxplanet.ui:833
@@ -85463,7 +85606,7 @@ msgstr ""
 #: xplanet/opsxplanet.ui:836
 #, kde-format
 msgid "Write marker bounds to:"
-msgstr "Escriu els límits dels marcadors a:"
+msgstr "Escriu els marcadors dels límits a:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetLatLong)
 #: xplanet/opsxplanet.ui:884
@@ -85512,11 +85655,12 @@ msgstr "en graus"
 msgid "Projection:"
 msgstr "Projecció:"
 
+# skip-rule:punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_XplanetProjection)
 #: xplanet/opsxplanet.ui:982
 #, kde-format
 msgid "The projection type"
-msgstr "El tipus de projecció"
+msgstr "El tipus de projecció."
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_XplanetProjection)
 #: xplanet/opsxplanet.ui:985

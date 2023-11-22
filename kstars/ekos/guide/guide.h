@@ -316,6 +316,9 @@ class Guide : public QWidget, public Ui::Guide
              */
         void processData(const QSharedPointer<FITSData> &data);
 
+        // Aborts the current exposure, if one is ongoing.
+        void abortExposure();
+
         // This Function will allow PHD2 to update the exposure values to the recommended ones.
         QString setRecommendedExposureValues(QList<double> values);
 

@@ -279,6 +279,9 @@ bool InternalGuider::ditherXY(double x, double y)
 
 bool InternalGuider::dither(double pixels)
 {
+    if (Options::ditherWithOnePulse() )
+        return onePulseDither(pixels);
+
     double ret_x, ret_y;
     pmath->getTargetPosition(&ret_x, &ret_y);
 
@@ -421,6 +424,103 @@ bool InternalGuider::dither(double pixels)
         processGuiding();
     }
 
+    return true;
+}
+bool InternalGuider::onePulseDither(double pixels)
+{
+    qCDebug(KSTARS_EKOS_GUIDE) << "OnePulseDither(" << "pixels" << ")";
+
+    // Cancel any current guide exposures.
+    emit abortExposure();
+
+    double ret_x, ret_y;
+    pmath->getTargetPosition(&ret_x, &ret_y);
+
+    auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator(seed);
+    std::uniform_real_distribution<double> angleMagnitude(0, 360);
+
+    double angle  = angleMagnitude(generator) * dms::DegToRad;
+    double diff_x = pixels * cos(angle);
+    double diff_y = pixels * sin(angle);
+
+    if (pmath->getCalibration().declinationSwapEnabled())
+        diff_y *= -1;
+
+    if (m_DitherOrigin.x() == 0 && m_DitherOrigin.y() == 0)
+    {
+        m_DitherOrigin = QVector3D(ret_x, ret_y, 0);
+    }
+    double totalXOffset = ret_x - m_DitherOrigin.x();
+    double totalYOffset = ret_y - m_DitherOrigin.y();
+
+    // If we've dithered too far, and diff_x or diff_y is pushing us even further away, then change its direction.
+    // Note: it is possible that we've dithered too far, but diff_x/y is pointing in the right direction.
+    // Don't change it in that 2nd case.
+    if (((diff_x + totalXOffset > MAX_DITHER_TRAVEL) && (diff_x > 0)) ||
+            ((diff_x + totalXOffset < -MAX_DITHER_TRAVEL) && (diff_x < 0)))
+    {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("OPD: Dithering target off by too much in X (abs(%1 + %2) > %3), adjust diff_x from %4 to %5")
+                .arg(diff_x).arg(totalXOffset).arg(MAX_DITHER_TRAVEL).arg(diff_x).arg(diff_x * -1.5);
+        diff_x *= -1.5;
+    }
+    if (((diff_y + totalYOffset > MAX_DITHER_TRAVEL) && (diff_y > 0)) ||
+            ((diff_y + totalYOffset < -MAX_DITHER_TRAVEL) && (diff_y < 0)))
+    {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("OPD: Dithering target off by too much in Y (abs(%1 + %2) > %3), adjust diff_y from %4 to %5")
+                .arg(diff_y).arg(totalYOffset).arg(MAX_DITHER_TRAVEL).arg(diff_y).arg(diff_y * -1.5);
+        diff_y *= -1.5;
+    }
+
+    m_DitherTargetPosition = GuiderUtils::Vector(ret_x, ret_y, 0) + GuiderUtils::Vector(diff_x, diff_y, 0);
+
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("OPD: Dithering by %1 pixels. Target:  %2,%3 Current: %4,%5 Move: %6,%7 Wander: %8,%9")
+            .arg(pixels, 3, 'f', 1)
+            .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
+            .arg(ret_x, 5, 'f', 1).arg(ret_y, 5, 'f', 1)
+            .arg(diff_x, 4, 'f', 1).arg(diff_y, 4, 'f', 1)
+            .arg(totalXOffset + diff_x, 5, 'f', 1).arg(totalYOffset + diff_y, 5, 'f', 1);
+    guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
+
+    pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
+
+    if (Options::gPGEnabled())
+        // This is the offset in image coordinates, but needs to be converted to RA.
+        pmath->getGPG().startDithering(diff_x, diff_y, pmath->getCalibration());
+
+    state = GUIDE_DITHERING;
+    emit newStatus(state);
+
+    const GuiderUtils::Vector xyMove(diff_x, diff_y, 0);
+    const GuiderUtils::Vector raDecMove = pmath->getCalibration().rotateToRaDec(xyMove);
+    double raPulse = fabs(raDecMove.x * pmath->getCalibration().raPulseMillisecondsPerArcsecond());
+    double decPulse = fabs(raDecMove.y * pmath->getCalibration().decPulseMillisecondsPerArcsecond());
+    auto raDir = raDecMove.x > 0 ? RA_DEC_DIR : RA_INC_DIR;
+    auto decDir = raDecMove.y > 0 ? DEC_INC_DIR : DEC_DEC_DIR;
+
+    m_isFirstFrame = true;
+
+    // Send pulse if we have one active direction at least.
+    QString raDirString = raDir == RA_DEC_DIR ? "RA_DEC" : "RA_INC";
+    QString decDirString = decDir == DEC_INC_DIR ? "DEC_INC" : "DEC_DEC";
+
+    qCDebug(KSTARS_EKOS_GUIDE) << "OnePulseDither RA: " << raPulse << "ms" << raDirString << " DEC: " << decPulse << "ms " <<
+                               decDirString;
+    emit newMultiPulse(raDir, raPulse, decDir, decPulse, StartCaptureAfterPulses);
+
+    double totalMSecs = 1000.0 * Options::ditherSettle() + std::max(raPulse, decPulse);
+
+    state = GUIDE_DITHERING_SETTLE;
+    guideLog.settleStartedInfo();
+    emit newStatus(state);
+
+    if (Options::gPGEnabled())
+        pmath->getGPG().ditheringSettled(true);
+
+    QTimer::singleShot(totalMSecs, this, SLOT(setDitherSettled()));
     return true;
 }
 
@@ -769,7 +869,7 @@ void InternalGuider::setSquareAlgorithm(int index)
     pmath->setAlgorithmIndex(index);
 }
 
-bool InternalGuider::getReticleParameters(double *x, double *y)
+bool InternalGuider::getReticleParameters(double * x, double * y)
 {
     return pmath->getTargetPosition(x, y);
 }
@@ -802,7 +902,7 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
     return true;
 }
 
-void InternalGuider::emitAxisPulse(const cproc_out_params *out)
+void InternalGuider::emitAxisPulse(const cproc_out_params * out)
 {
     double raPulse = out->pulse_length[GUIDE_RA];
     double dePulse = out->pulse_length[GUIDE_DEC];
@@ -979,7 +1079,7 @@ void InternalGuider::darkGuide()
     }
 }
 
-bool InternalGuider::isPoorGuiding(const cproc_out_params* out)
+bool InternalGuider::isPoorGuiding(const cproc_out_params * out)
 {
     double delta_rms = std::hypot(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
     if (delta_rms > Options::guideMaxDeltaRMS())
@@ -1193,7 +1293,7 @@ bool InternalGuider::reacquire()
     return rc;
 }
 
-void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
+void InternalGuider::fillGuideInfo(GuideLog::GuideInfo * info)
 {
     // NOTE: just using the X values, phd2logview assumes x & y the same.
     // pixel scale in arc-sec / pixel. The 2nd and 3rd values seem redundent, but are

@@ -43,10 +43,9 @@ void TestSequenceJobState::testPrepareLightFrames()
     connect(m_stateMachine, &Ekos::SequenceJobState::setCCDBatchMode, m_adapter, &TestAdapter::setCCDBatchMode);
     connect(m_adapter, &TestAdapter::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobState::setCurrentRotatorPositionAngle);
     connect(m_adapter, &TestAdapter::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
-    connect(m_adapter, &TestAdapter::newGuiderDrift, m_stateMachine, &Ekos::SequenceJobState::setCurrentGuiderDrift);
 
     // start the capture preparation
-    m_stateMachine->prepareLightFrameCapture(enforce_temperature, false, isPreview);
+    m_stateMachine->prepareLightFrameCapture(enforce_temperature, isPreview);
 
     // The test adapter is simulates the behavior of real devices
     QTRY_VERIFY_WITH_TIMEOUT(m_adapter->isCapturePreparationComplete, 5000);

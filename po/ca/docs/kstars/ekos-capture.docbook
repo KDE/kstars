@@ -110,7 +110,7 @@
 >, <guimenuitem
 >Fosc</guimenuitem
 >, <guimenuitem
->Polaritzat</guimenuitem
+>Biaix</guimenuitem
 > i <guimenuitem
 >Pla</guimenuitem
 >. </para>
@@ -262,7 +262,7 @@
 >%T</emphasis
 > o <emphasis role="bold"
 >%Type</emphasis
->: el tipus de fotograma, &pex; «Llum», «Polaritzat», «Fosc», «Pla»... </para>
+>: el tipus de fotograma, &pex; «Llum», «Biaix», «Fosc», «Pla»... </para>
                     </listitem>
                     <listitem>
                         <para
@@ -615,7 +615,7 @@
             </mediaobject>
         </screenshot>
         <para
->Per als fotogrames de camp pla, podeu establir les opcions del calibratge per a automatitzar el procés. Les opcions del calibratge estan dissenyades per a facilitar la captura automàtica d'un fotograma de camp pla. Si es vol, també es pot utilitzar per a fotogrames foscos i polaritzats. Si la vostra càmera està equipada amb un obturador mecànic, no cal que establiu la configuració del calibratge, tret que vulgueu tancar la funda de protecció per a garantir que cap llum no passi a través del tub òptic. Per als camps plans, haureu d'especificar la font de llum del camp pla i, a continuació, especificar la durada del fotograma de camp pla. La durada pot ser manual o basada en càlculs ADU (unitat d'analògic a digital). </para>
+>Per als fotogrames de camp pla, podeu establir les opcions del calibratge per a automatitzar el procés. Les opcions del calibratge estan dissenyades per a facilitar la captura automàtica d'un fotograma de camp pla. Si es vol, també es pot utilitzar per a fotogrames foscos i de biaix. Si la vostra càmera està equipada amb un obturador mecànic, no cal que establiu la configuració del calibratge, tret que vulgueu tancar la funda de protecció per a garantir que cap llum no passi a través del tub òptic. Per als camps plans, haureu d'especificar la font de llum del camp pla i, a continuació, especificar la durada del fotograma de camp pla. La durada pot ser manual o basada en càlculs ADU (unitat d'analògic a digital). </para>
         <orderedlist>
             <listitem>
                 <para
@@ -630,13 +630,13 @@
                             <para
 ><guilabel
 >Funda de protecció amb llum plana integrada</guilabel
->: Si s'utilitza una funda de protecció amb una font de llum integrada (&pex;, FlipFlat). Per als fotogrames foscos i polaritzats, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, tanqueu la funda de protecció i enceneu la font de llum.</para>
+>: Si s'utilitza una funda de protecció amb una font de llum integrada (&pex;, FlipFlat). Per als fotogrames foscos i de biaix, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, tanqueu la funda de protecció i enceneu la font de llum.</para>
                         </listitem>
                         <listitem>
                             <para
 ><guilabel
 >Funda de protecció amb llum plana externa</guilabel
->: Si s'utilitza una funda de protecció amb una font de llum plana externa. Per als fotogrames foscos i polaritzats, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, obriu la funda de protecció i enceneu la font de llum. Es considera que la ubicació de la font de llum plana externa es troba l'emplaçament de l'aparcament.</para>
+>: Si s'utilitza una funda de protecció amb una font de llum plana externa. Per als fotogrames foscos i de biaix, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, obriu la funda de protecció i enceneu la font de llum. Es considera que la ubicació de la font de llum plana externa es troba l'emplaçament de l'aparcament.</para>
                         </listitem>
                         <listitem>
                             <para

@@ -71,7 +71,6 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
     m_CoreProperties[SJ_Encoding] = "FITS";
 
     // signal forwarding between this and the state machine
-    connect(this, &SequenceJob::updateGuiderDrift, state.data(), &SequenceJobState::setCurrentGuiderDrift);
     connect(state.data(), &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
     connect(state.data(), &SequenceJobState::prepareComplete, this, &SequenceJob::processPrepareComplete);
     connect(state.data(), &SequenceJobState::abortCapture, this, &SequenceJob::processAbortCapture);
@@ -286,7 +285,7 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
                 if (typeEP)
                 {
                     setCalibrationPreAction(cLocale.toUInt(pcdataXMLEle(typeEP)));
-                    if (getCalibrationPreAction() == ACTION_WALL)
+                    if (getCalibrationPreAction() & ACTION_WALL)
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
                         XMLEle * altEP = findXMLEle(subEP, "Alt");
@@ -300,7 +299,10 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
                             setWallCoord(wallCoord);
                         }
                         else
+                        {
+                            qCWarning(KSTARS_EKOS_CAPTURE) << "Wall position coordinates missing, disabling slew to wall position action.";
                             setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_WALL) | ACTION_NONE);
+                        }
                     }
                 }
             }
@@ -810,7 +812,6 @@ void SequenceJob::prepareCapture()
     {
         case FRAME_LIGHT:
             state->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
-                                            getCoreProperty(SJ_EnforceStartGuiderDrift).toBool() && getCoreProperty(SJ_GuiderActive).toBool(),
                                             jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;
         case FRAME_FLAT:
@@ -865,17 +866,6 @@ void SequenceJob::setCoreProperty(PropertyID id, const QVariant &value)
         }
         break;
 
-        case SJ_GuiderActive:
-            // Inform the state machine if guiding is running. This is necessary during the preparation phase
-            // where the state machine might wait for guide deviations if enforcing initial guiding drift is selected.
-            // If guiding aborts after the preparation has started, the state machine might wait infinitely for an
-            // updated guide drift.
-            if (m_CoreProperties[SJ_GuiderActive] != value)
-            {
-                state->setEnforceInitialGuidingDrift(value.toBool() &&
-                                                     m_CoreProperties[SJ_EnforceStartGuiderDrift].toBool());
-            }
-            break;
         default:
             break;
     }

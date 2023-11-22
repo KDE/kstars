@@ -6,10 +6,15 @@
 
 #pragma once
 
+#ifndef IMAGINGCAMERADATA_H
+#define IMAGINGCAMERADATA_H
+
 #include <QAbstractItemModel>
 #include <QVector>
 #include "cameragainreadmode.h"
+#include "cameragainreadnoise.h"
 
+QT_BEGIN_NAMESPACE
 namespace OptimalExposure
 {
 
@@ -66,5 +71,5 @@ class ImagingCameraData
 
 };
 }
-
-
+QT_END_NAMESPACE
+#endif // IMAGINGCAMERADATA_H
