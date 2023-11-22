@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-21 00:39+0000\n"
-"PO-Revision-Date: 2023-11-14 09:37+0200\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
+"PO-Revision-Date: 2023-11-21 08:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -16025,24 +16025,21 @@ msgstr "Фокальне співвідношення"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgid "Filter Bandwidth:"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "Смуга частот фільтра:"
+msgstr "Смуга частот фільтра"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Adjust the balance of the two noise sources"
+#, kde-format
 msgid "Alter the bias of the noise sources"
-msgstr "Скоригувати баланс двох джерел шуму"
+msgstr "Змінити нахил джерел шуму"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
-#, fuzzy, kde-format
-#| msgid "Bortle Class:"
+#, kde-format
 msgid "Bortle Class"
-msgstr "Клас Бортля:"
+msgstr "Клас Бортля"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
@@ -16052,18 +16049,15 @@ msgstr "Підсилення"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "Підсилення камери"
+msgstr "Виберіть підсилення датчика камери"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS/XISF Image"
+#, kde-format
 msgid "Select DSLR ISO Value"
-msgstr "Виберіть зображення FITS/XISF"
+msgstr "Виберіть значення ISO для цифрової дзеркальної камери"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
@@ -16109,16 +16103,15 @@ msgstr "Шумність знімка"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
-#, fuzzy, kde-format
-#| msgid "Calculated count of light pollution electrons in the sub-exposure."
+#, kde-format
 msgid "Estimated light pollution electrons in the sub-exposure."
-msgstr "Обчислена кількість електронів забруднення світлом у підекспозиції."
+msgstr "Оцінка кількість електронів забруднення світлом у підекспозиції."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
 msgid "Duration of Sub-exposure"
-msgstr ""
+msgstr "Тривалість підекспозиції"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:468
@@ -16128,10 +16121,9 @@ msgstr "Час експонування (у секундах)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
-#, fuzzy, kde-format
-#| msgid "(Future Release) Download additional camera data files"
+#, kde-format
 msgid "Download additional camera data files"
-msgstr "(Майбутній випуск) Отримати додаткові файли даних камери"
+msgstr "Отримати додаткові файли даних камери"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
@@ -16154,8 +16146,8 @@ msgstr "9"
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
 #, fuzzy, kde-format
-#| msgid "Select read mode on cameras with multiple read modes."
-msgid "Select read mode on cameras with multple read modes."
+#| msgid "Select read mode on cameras with multple read modes."
+msgid "Select read mode on cameras with multiple read modes."
 msgstr "Виберіть режим читання для камер із декількома режимами читання."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
@@ -16178,10 +16170,9 @@ msgstr "Застосувати компенсацію до оптичного ф
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
-#, fuzzy, kde-format
-#| msgid "Camera Data Download"
+#, kde-format
 msgid "Camera Data Selection"
-msgstr "Отримання даних камери"
+msgstr "Вибір даних камери"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
@@ -16191,71 +16182,65 @@ msgstr "Графік потенційного часу експонування"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
-#, fuzzy, no-c-format, kde-format
-#| msgid "Noise Increase (%)"
+#, no-c-format, kde-format
 msgid "Noise Increase %"
 msgstr "Збільшення шумності (%)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Table"
-msgstr "Увімкнути"
+msgstr "Таблиця"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
-#, fuzzy, kde-format
-#| msgid "Geographic"
+#, kde-format
 msgid "Graph"
-msgstr "Географічні"
+msgstr "Графік"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
 msgstr ""
+"Нахил кривої співвідношення часу і коефіцієнта шумності при поточній "
+"кількості експонувань"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
-#, fuzzy, kde-format
-#| msgid "Exposure"
+#, kde-format
 msgid "Exposures"
-msgstr "Експонування"
+msgstr "Експозиції"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
 #, kde-format
 msgid "Calculated exposure count for integration"
-msgstr ""
+msgstr "Обчислена кількість експонувань для інтегрування"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "International Space Station"
+#, kde-format
 msgid "Integration Time to Noise Ratio"
-msgstr "Міжнародна космічна станція"
+msgstr "Коефіцієнт зв'язку час/шумність для інтегрування"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Noise Reduction"
+#, kde-format
 msgid "Time/Noise Ratio"
-msgstr "Вилучення шумів"
+msgstr "Співвідношення час/шумність"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
 #, kde-format
 msgid "dy ="
-msgstr ""
+msgstr "dy ="
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
 #, kde-format
 msgid "Integration time to noise ratio (potential quality)"
-msgstr ""
+msgstr "Коефіцієнт зв'язку час/шумність для інтегрування (потенційна якість)"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -16726,7 +16711,7 @@ msgstr "Кадр плоского поля"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Закрийте об'єктив телескопа, щоб отримати еталонне темне зображення."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:605
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Знімаємо пилозахисний ковпак з паркування…"
@@ -16736,67 +16721,68 @@ msgstr "Знімаємо пилозахисний ковпак з паркува
 msgid "Parking dust cap..."
 msgstr "Паркуємо пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Увімкнути світло у підсвічуванні…"
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
-#: ekos/capture/sequencejobstate.cpp:591
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Вимикаємо світло у підсвічуванні…"
 
 #: ekos/capture/sequencejobstate.cpp:462
-#, kde-format
-msgid "Mount slewing to wall position..."
+#, fuzzy, kde-format
+#| msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Лафет повертається до стіни…"
 
-#: ekos/capture/sequencejobstate.cpp:473
+#: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Наведення на стіну завершено, припиняємо стеження."
 
-#: ekos/capture/sequencejobstate.cpp:477
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Наведення на стіну завершено, стеження припинено."
 
-#: ekos/capture/sequencejobstate.cpp:505
+#: ekos/capture/sequencejobstate.cpp:506
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Не вдалося запаркувати лафет. Перериваємо обробку…"
 
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:516
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "Паркуємо лафет, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:529
+#: ekos/capture/sequencejobstate.cpp:530
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Не вдалося запаркувати купол. Перериваємо обробку…"
 
-#: ekos/capture/sequencejobstate.cpp:539
+#: ekos/capture/sequencejobstate.cpp:540
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "Паркуємо купол, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:775
+#: ekos/capture/sequencejobstate.cpp:776
 #, kde-format
 msgid "Light box on."
 msgstr "Підсвічування увімкнено."
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Пилозахисний ковпак запарковано."
 
-#: ekos/capture/sequencejobstate.cpp:794
+#: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Пилозахисний ковпак знято з паркування."

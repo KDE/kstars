@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-21 00:39+0000\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -16124,7 +16124,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
 #, kde-format
-msgid "Select read mode on cameras with multple read modes."
+msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
@@ -16679,7 +16679,7 @@ msgstr "অন্ধকার সমতল ফ্রেম"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:605
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dust cap..."
@@ -16691,71 +16691,71 @@ msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 msgid "Parking dust cap..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
-#: ekos/capture/sequencejobstate.cpp:591
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:462
 #, kde-format
-msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:473
+#: ekos/capture/sequencejobstate.cpp:474
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Slew to wall position complete, stop tracking."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/capture/sequencejobstate.cpp:477
+#: ekos/capture/sequencejobstate.cpp:478
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/capture/sequencejobstate.cpp:505
+#: ekos/capture/sequencejobstate.cpp:506
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount failed, aborting..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:516
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "ফার্মিংটন"
 
-#: ekos/capture/sequencejobstate.cpp:529
+#: ekos/capture/sequencejobstate.cpp:530
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome failed, aborting..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/capture/sequencejobstate.cpp:539
+#: ekos/capture/sequencejobstate.cpp:540
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "ফার্মিংটন"
 
-#: ekos/capture/sequencejobstate.cpp:775
+#: ekos/capture/sequencejobstate.cpp:776
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:791
 #, fuzzy, kde-format
 msgid "Dust cap parked."
 msgstr "গুজ ক্রিক"
 
-#: ekos/capture/sequencejobstate.cpp:794
+#: ekos/capture/sequencejobstate.cpp:795
 #, fuzzy, kde-format
 msgid "Dust cap unparked."
 msgstr "গুজ ক্রিক"

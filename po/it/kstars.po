@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-21 00:39+0000\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
 "PO-Revision-Date: 2023-11-17 19:12+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -16172,7 +16172,7 @@ msgstr "9"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
 #, fuzzy, kde-format
 #| msgid "Select read mode on cameras with multiple read modes."
-msgid "Select read mode on cameras with multple read modes."
+msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
 "Seleziona la modalità di lettura nelle fotocamere che ne hanno più di una."
 
@@ -16749,7 +16749,7 @@ msgstr "Flat frame"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Copri il telescopio per poter eseguire un'esposizione per dark frame."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:605
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Sparcheggio parapolvere..."
@@ -16759,66 +16759,67 @@ msgstr "Sparcheggio parapolvere..."
 msgid "Parking dust cap..."
 msgstr "Parcheggio para polvere..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Accendi la luce della scatola luminosa..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
-#: ekos/capture/sequencejobstate.cpp:591
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Spegni la luce della scatola luminosa..."
 
 #: ekos/capture/sequencejobstate.cpp:462
-#, kde-format
-msgid "Mount slewing to wall position..."
+#, fuzzy, kde-format
+#| msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Rotazione montatura alla posizione del muro..."
 
-#: ekos/capture/sequencejobstate.cpp:473
+#: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Rotazione alla posizione del muro completata, inseguimento fermato."
 
-#: ekos/capture/sequencejobstate.cpp:477
+#: ekos/capture/sequencejobstate.cpp:478
 #, fuzzy, kde-format
 #| msgid "Slew to wall position complete, stop tracking."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Rotazione alla posizione del muro completata, inseguimento fermato."
 
-#: ekos/capture/sequencejobstate.cpp:505
+#: ekos/capture/sequencejobstate.cpp:506
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Parcheggio della montatura non riuscito, interruzione..."
 
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:516
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "Parcheggio della montatura prima di calibrare la cattura dei fotogrammi..."
 
-#: ekos/capture/sequencejobstate.cpp:529
+#: ekos/capture/sequencejobstate.cpp:530
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Parcheggio della cupola non riuscito. Interruzione..."
 
-#: ekos/capture/sequencejobstate.cpp:539
+#: ekos/capture/sequencejobstate.cpp:540
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "Parcheggio della cupola prima di calibrare la cattura dei fotogrammi..."
 
-#: ekos/capture/sequencejobstate.cpp:775
+#: ekos/capture/sequencejobstate.cpp:776
 #, kde-format
 msgid "Light box on."
 msgstr "Scatola luminosa accesa."
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Parapolvere parcheggiato."
 
-#: ekos/capture/sequencejobstate.cpp:794
+#: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Parapolvere sparcheggiato."

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-21 00:39+0000\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
 "PO-Revision-Date: 2023-11-14 21:11+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -15961,7 +15961,7 @@ msgstr "9"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
 #, fuzzy, kde-format
 #| msgid "Select read mode on cameras with multiple read modes."
-msgid "Select read mode on cameras with multple read modes."
+msgid "Select read mode on cameras with multiple read modes."
 msgstr "Elekti legreĝimon en kameraoj kun pluraj legoreĝimoj."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
@@ -16527,7 +16527,7 @@ msgstr "Plata Kadro"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Kovri la teleskopon por preni malhelan malkovron."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:605
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Malparkante polvoĉapon..."
@@ -16537,63 +16537,64 @@ msgstr "Malparkante polvoĉapon..."
 msgid "Parking dust cap..."
 msgstr "Parkante polvoĉapon..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Ŝaltu lumkeston lumon..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
-#: ekos/capture/sequencejobstate.cpp:591
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Malŝalti lumon de lumkesto..."
 
 #: ekos/capture/sequencejobstate.cpp:462
-#, kde-format
-msgid "Mount slewing to wall position..."
+#, fuzzy, kde-format
+#| msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Muntaĵo turniĝanta al mura pozicio..."
 
-#: ekos/capture/sequencejobstate.cpp:473
+#: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Turno al murpozicio kompleta, ĉesas spuri."
 
-#: ekos/capture/sequencejobstate.cpp:477
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Turno al murpozicio kompleta, spurado ĉesis."
 
-#: ekos/capture/sequencejobstate.cpp:505
+#: ekos/capture/sequencejobstate.cpp:506
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Parkado de muntaĵo malsukcesis, ĉesigante..."
 
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:516
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Parkante muntaĵon antaŭ la kapto de kalibraj kadroj..."
 
-#: ekos/capture/sequencejobstate.cpp:529
+#: ekos/capture/sequencejobstate.cpp:530
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Parkado de kupolo malsukcesis, ĉesigante..."
 
-#: ekos/capture/sequencejobstate.cpp:539
+#: ekos/capture/sequencejobstate.cpp:540
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Parkante kupolon antaŭ kapto de kalibraj kadroj..."
 
-#: ekos/capture/sequencejobstate.cpp:775
+#: ekos/capture/sequencejobstate.cpp:776
 #, kde-format
 msgid "Light box on."
 msgstr "Lumkesto ŝaltita."
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
 msgstr "Polvĉapo parkita."
 
-#: ekos/capture/sequencejobstate.cpp:794
+#: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "Polvĉapo neparkita."

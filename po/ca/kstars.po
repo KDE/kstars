@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-21 00:39+0000\n"
-"PO-Revision-Date: 2023-11-14 20:28+0100\n"
+"POT-Creation-Date: 2023-11-22 00:39+0000\n"
+"PO-Revision-Date: 2023-11-21 15:24+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -14017,7 +14017,7 @@ msgid ""
 "Flat frame is captured.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu les accions que es portaran a terme abans "
-"capturar un fotograma Polaritzat/Fosc/Pla.</p></body></html>"
+"capturar un fotograma de Biaix/Fosc/Pla.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
@@ -14825,7 +14825,7 @@ msgstr ""
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Variable de substitució<span style=\" font-"
 "weight:704;\"> %T</span> o <span style=\" font-weight:704;\">%Type</span>: "
-"el tipus de fotograma, p. ex. «Llum», «Polaritzat», «Fosc», «Pla»...</li><li "
+"el tipus de fotograma, p. ex. «Llum», «Biaix», «Fosc», «Pla»...</li><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Variable de "
 "substitució<span style=\" font-weight:704;\"> %e</span> o <span style=\" "
@@ -16084,24 +16084,21 @@ msgstr "Relació focal"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgid "Filter Bandwidth:"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "Amplada de banda del filtre:"
+msgstr "Amplada de banda del filtre"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Adjust the balance of the two noise sources"
+#, kde-format
 msgid "Alter the bias of the noise sources"
-msgstr "Ajusta el balanç entre dues fonts de soroll"
+msgstr "Altera el biaix de les fonts de soroll"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
-#, fuzzy, kde-format
-#| msgid "Bortle Class:"
+#, kde-format
 msgid "Bortle Class"
-msgstr "Classe Bortle:"
+msgstr "Classe Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
@@ -16111,18 +16108,15 @@ msgstr "Guany"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "Guany de la càmera"
+msgstr "Selecció del Guany del sensor de la càmera"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS/XISF Image"
+#, kde-format
 msgid "Select DSLR ISO Value"
-msgstr "Selecció d'una imatge FITS/XISF"
+msgstr "Selecció del valor ISO de la DSLR"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
@@ -16170,17 +16164,16 @@ msgstr "Soroll de granalla"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
-#, fuzzy, kde-format
-#| msgid "Calculated count of light pollution electrons in the sub-exposure."
+#, kde-format
 msgid "Estimated light pollution electrons in the sub-exposure."
 msgstr ""
-"Nombre calculat d'electrons de contaminació lumínica en la subexposició."
+"Nombre estimat d'electrons de contaminació lumínica en la subexposició."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
 msgid "Duration of Sub-exposure"
-msgstr ""
+msgstr "Durada de la subexposició"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:468
@@ -16190,10 +16183,9 @@ msgstr "Total d'exposició (s)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
-#, fuzzy, kde-format
-#| msgid "(Future Release) Download additional camera data files"
+#, kde-format
 msgid "Download additional camera data files"
-msgstr "(Versió futura) Descarrega fitxers addicionals de dades de càmeres)"
+msgstr "Descarrega fitxers addicionals de dades de càmeres"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
@@ -16216,8 +16208,8 @@ msgstr "9"
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
 #, fuzzy, kde-format
-#| msgid "Select read mode on cameras with multiple read modes."
-msgid "Select read mode on cameras with multple read modes."
+#| msgid "Select read mode on cameras with multple read modes."
+msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
 "Selecciona el mode de lectura en les càmeres amb diversos modes de lectura."
 
@@ -16241,10 +16233,9 @@ msgstr "Aplica una compensació per a un filtre òptic"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
-#, fuzzy, kde-format
-#| msgid "Camera Data Download"
+#, kde-format
 msgid "Camera Data Selection"
-msgstr "Baixada de les dades de la càmera"
+msgstr "Selecció de les dades de la càmera"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
@@ -16254,71 +16245,65 @@ msgstr "Gràfic del temps potencial d'exposició"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
-#, fuzzy, no-c-format, kde-format
-#| msgid "Noise Increase (%)"
+#, no-c-format, kde-format
 msgid "Noise Increase %"
-msgstr "Augment del soroll (%)"
+msgstr "Augment del soroll %"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Table"
-msgstr "Activa"
+msgstr "Taula"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
-#, fuzzy, kde-format
-#| msgid "Geographic"
+#, kde-format
 msgid "Graph"
-msgstr "Geogràfic"
+msgstr "Gràfic"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
 msgstr ""
+"Pendent de la corba de la relació temps/soroll en el comptador actual "
+"d'exposició"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
-#, fuzzy, kde-format
-#| msgid "Exposure"
+#, kde-format
 msgid "Exposures"
-msgstr "Exposició"
+msgstr "Exposicions"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
 #, kde-format
 msgid "Calculated exposure count for integration"
-msgstr ""
+msgstr "Comptador d'exposició calculada per a la integració"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "International Space Station"
+#, kde-format
 msgid "Integration Time to Noise Ratio"
-msgstr "Estació Espacial Internacional"
+msgstr "Integració de la relació temps/soroll"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Noise Reduction"
+#, kde-format
 msgid "Time/Noise Ratio"
-msgstr "Reducció de soroll"
+msgstr "Relació temps/soroll"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
 #, kde-format
 msgid "dy ="
-msgstr ""
+msgstr "dy ="
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
 #, kde-format
 msgid "Integration time to noise ratio (potential quality)"
-msgstr ""
+msgstr "Integració de la relació temps/soroll (qualitat potencial)"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -16788,7 +16773,7 @@ msgstr "Fotograma pla"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Cobreix el telescopi per tal de prendre una exposició fosca."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:605
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "S'està desaparcant la tapa per la pols..."
@@ -16799,71 +16784,72 @@ msgid "Parking dust cap..."
 msgstr "S'està aparcant la tapa per la pols..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Encén el llum de la caixa de llum..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:490
-#: ekos/capture/sequencejobstate.cpp:591
+#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:592
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Apaga el llum de la caixa de llum..."
 
 #: ekos/capture/sequencejobstate.cpp:462
-#, kde-format
-msgid "Mount slewing to wall position..."
+#, fuzzy, kde-format
+#| msgid "Mount slewing to wall position..."
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "S'està orientant la muntura cap a la posició de la paret..."
 
-#: ekos/capture/sequencejobstate.cpp:473
+#: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 "S'ha completat l'orientació cap a la posició de la paret, s'atura el "
 "seguiment."
 
-#: ekos/capture/sequencejobstate.cpp:477
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 "S'ha completat l'orientació cap a la posició de la paret, s'ha aturat el "
 "seguiment."
 
-#: ekos/capture/sequencejobstate.cpp:505
+#: ekos/capture/sequencejobstate.cpp:506
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Ha fallat l'aparcament de la muntura. S'interromp..."
 
-#: ekos/capture/sequencejobstate.cpp:515
+#: ekos/capture/sequencejobstate.cpp:516
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la muntura abans de capturar els fotogrames de calibratge..."
 
-#: ekos/capture/sequencejobstate.cpp:529
+#: ekos/capture/sequencejobstate.cpp:530
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Ha fallat l'aparcament de la cúpula. S'interromp..."
 
-#: ekos/capture/sequencejobstate.cpp:539
+#: ekos/capture/sequencejobstate.cpp:540
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "S'està aparcant la cúpula abans de capturar els fotogrames de calibratge..."
 
 # skip-rule: kct-box
-#: ekos/capture/sequencejobstate.cpp:775
+#: ekos/capture/sequencejobstate.cpp:776
 #, kde-format
 msgid "Light box on."
 msgstr "Caixa de llum encesa."
 
-#: ekos/capture/sequencejobstate.cpp:790
+#: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
 msgstr "La tapa per la pols està aparcada."
 
-#: ekos/capture/sequencejobstate.cpp:794
+#: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
 msgstr "La tapa per la pols està desaparcada."
@@ -70170,7 +70156,7 @@ msgstr "Velocitat en bauds"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Bias"
-msgstr "Polaritzat"
+msgstr "Biaix"
 
 #: libindi_strings.cpp:44
 #, kde-kuit-format
@@ -70206,7 +70192,7 @@ msgstr "Lluminositat"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD Bias"
-msgstr "Polarització del CCD"
+msgstr "Biaix del CCD"
 
 #: libindi_strings.cpp:50
 #, kde-kuit-format
@@ -85158,7 +85144,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgctxt "Half Flux Radius"
-#~ msgid "HFR: %1"
-#~ msgstr "HFR: %1"
