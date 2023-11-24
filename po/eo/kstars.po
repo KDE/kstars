@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-23 00:38+0000\n"
-"PO-Revision-Date: 2023-11-22 21:35+0100\n"
+"PO-Revision-Date: 2023-11-23 20:18+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15831,24 +15831,21 @@ msgstr "Foka Proporcio"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgid "Filter Bandwidth:"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "Filtrila Kapacito:"
+msgstr "Filtrila Kapacito"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Adjust the balance of the two noise sources"
+#, kde-format
 msgid "Alter the bias of the noise sources"
-msgstr "Alĝustigi la balancon de la du bruofontoj"
+msgstr "Alĝustigi la ekarton de la du bruofontoj"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
-#, fuzzy, kde-format
-#| msgid "Bortle Class:"
+#, kde-format
 msgid "Bortle Class"
-msgstr "Bortle-klaso:"
+msgstr "Bortle-Klaso"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
@@ -15858,18 +15855,15 @@ msgstr "Gajno"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "Fotila Gajno"
+msgstr "Elekti Fotil-Sentilan Gajnon"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS/XISF Image"
+#, kde-format
 msgid "Select DSLR ISO Value"
-msgstr "Elekti FITS-bildon"
+msgstr "Elekti DSLR ISO-Valoron"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
