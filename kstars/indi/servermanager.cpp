@@ -287,8 +287,6 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
 {
     QTextStream out(&indiFIFO);
 
-    m_ManagedDrivers.removeOne(driver);
-
     qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << driver->getExecutable();
 
     if (driver->getUniqueLabel().isEmpty() == false)
@@ -299,6 +297,8 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
     out.flush();
     driver->setServerState(false);
     driver->setPort(driver->getUserPort());
+
+    m_ManagedDrivers.removeOne(driver);
 
     emit driverStopped(driver);
 }
