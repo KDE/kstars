@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-23 00:38+0000\n"
-"PO-Revision-Date: 2023-11-16 22:30+0300\n"
+"PO-Revision-Date: 2023-11-26 01:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -325,7 +325,7 @@ msgstr "Sunucudan yanıt bekleniyor..."
 #, kde-format
 msgctxt "use field-of-view for binoculars"
 msgid "7x35 Binoculars"
-msgstr "7 x 35 Dürbün"
+msgstr "7 × 35 Dürbün"
 
 #: auxiliary/fov.cpp:41 kstarslite/skyitems/fovitem.cpp:14
 #, kde-format
@@ -823,7 +823,7 @@ msgstr "Küçük Görseli Düzenle"
 #: auxiliary/thumbnaileditor.cpp:72
 #, kde-format
 msgid "Crop region: [%1,%2  %3x%4]"
-msgstr "Kırpma bölgesi: [%1,%2  %3 x %4]"
+msgstr "Kırpma bölgesi: [%1,%2  %3 × %4]"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ThumbnailEditor)
 #: auxiliary/thumbnaileditor.ui:13
@@ -835,13 +835,13 @@ msgstr "Küçük Görsel Düzenleyicisi"
 #: auxiliary/thumbnaileditor.ui:43
 #, kde-format
 msgid "Crop region: [0,0  200 x 200]"
-msgstr "Kırpma bölgesi: [0,0  200 x 200]"
+msgstr "Kırpma bölgesi: [0,0  200 × 200]"
 
 #. i18n: ectx: property (text), widget (QLabel, MessageLabel)
 #: auxiliary/thumbnaileditor.ui:59
 #, kde-format
 msgid "(crop region will be scaled to 200x200)"
-msgstr "(kırpma bölgesi 200 x 200 olarak ölçeklenecek)"
+msgstr "(kırpma bölgesi 200 × 200 olarak ölçeklenecek)"
 
 #: auxiliary/thumbnailpicker.cpp:135
 #, kde-format
@@ -3401,14 +3401,12 @@ msgid "Proper Motion:"
 msgstr "Projeksiyon:"
 
 #: dialogs/detaildialog.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "angular size in arcminutes"
-#| msgid "%1 x %2 arcmin"
+#, kde-format
 msgctxt ""
 "The first arg is proper motion in right ascension and the second in the "
 "declination. The unit stands for milliarcsecond per year"
 msgid "%1 %2 mas/yr"
-msgstr "%1 x %2 arcmin"
+msgstr ""
 
 #: dialogs/detaildialog.cpp:214 kstarslite/dialogs/detaildialoglite.cpp:129
 #: printing/detailstable.cpp:142 printing/pwizobjectselection.cpp:121
@@ -29340,7 +29338,7 @@ msgstr "Bit derinliği %1 desteklenmiyor."
 #: fitsviewer/fitsdata.cpp:381
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
-msgstr "Resim, geçersiz boyutlarda %1x%2"
+msgstr "Resim, geçersiz boyutlarda %1 × %2"
 
 #: fitsviewer/fitsdata.cpp:426
 #, kde-format
@@ -39320,10 +39318,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3222
-#, fuzzy, kde-format
-#| msgid "Image has invalid dimensions %1x%2"
+#, kde-format
 msgid "Image overlay max dimension"
-msgstr "Resim, geçersiz boyutlarda %1x%2"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3223
@@ -84857,7 +84854,7 @@ msgstr ""
 #, kde-format
 msgctxt "angular size in arcminutes"
 msgid "%1 x %2 arcmin"
-msgstr "%1 x %2 arcmin"
+msgstr "%1 × %2 arcmin"
 
 #. i18n: ectx: property (text), widget (QToolButton, previousYear)
 #. i18n: ectx: property (text), widget (QToolButton, previousMonth)

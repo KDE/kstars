@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-23 00:38+0000\n"
-"PO-Revision-Date: 2023-11-14 05:34+0100\n"
+"PO-Revision-Date: 2023-11-25 06:01+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -14870,10 +14870,9 @@ msgstr "ფოკუსური პროპორცია"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgid "Filter Bandwidth:"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "ფილტრის გამტარობა:"
+msgstr "ფილტრის გამტარობა"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
@@ -14883,10 +14882,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
-#, fuzzy, kde-format
-#| msgid "Bortle Class:"
+#, kde-format
 msgid "Bortle Class"
-msgstr "ბორტლის კლასი:"
+msgstr "ბორტლის კლასი"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
@@ -14896,10 +14894,9 @@ msgstr "გაძლიერება"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "ვერტიკალური ბინინგი"
+msgstr "აირჩიეთ კამერის სენსორის გაძლიერება"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
@@ -14969,10 +14966,9 @@ msgstr "ექსპოზიციის დრო (წამებში)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
-#, fuzzy, kde-format
-#| msgid "Download Extra Data Files"
+#, kde-format
 msgid "Download additional camera data files"
-msgstr "მონაცემების დამატებითი ფაილების გადმოწერა"
+msgstr "კამერის მონაცემების დამატებითი ფაილების გადმოწერა"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
@@ -15018,10 +15014,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
-#, fuzzy, kde-format
-#| msgid "Camera Data Download"
+#, kde-format
 msgid "Camera Data Selection"
-msgstr "კამერის მონაცემების გადმოწერა"
+msgstr "კამერის მონაცემების არჩევანი"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
@@ -15037,17 +15032,15 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Table"
-msgstr "ჩართვა"
+msgstr "ცხრილი"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
-#, fuzzy, kde-format
-#| msgid "Geographic"
+#, kde-format
 msgid "Graph"
-msgstr "გეოგრაფიული"
+msgstr "გრაფიკი"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
@@ -15057,8 +15050,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
-#, fuzzy, kde-format
-#| msgid "Exposure"
+#, kde-format
 msgid "Exposures"
 msgstr "ექსპოზიცია"
 
@@ -15070,19 +15062,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "International Space Station"
+#, kde-format
 msgid "Integration Time to Noise Ratio"
-msgstr "საერთაშორისო კოსმოსური სადგური"
+msgstr "ინტეგრაცია დროის ხმაურის ფარდობასთან"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Noise Reduction"
+#, kde-format
 msgid "Time/Noise Ratio"
-msgstr "ხმაურის შემცირება"
+msgstr "დრო/ხმაურის ფარდობა"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884

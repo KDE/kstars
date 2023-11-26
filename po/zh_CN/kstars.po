@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-23 00:38+0000\n"
-"PO-Revision-Date: 2023-11-19 03:40\n"
+"PO-Revision-Date: 2023-11-25 02:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -27,7 +27,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "kde-china@kde.org, i@guoyunhe.me, moyj@mail.sustech.edu.cn, siyu6974@kde."
-"org, tysontan@tysontan.com, bg7jaf@gmail.com, linkage@163.com"
+"org, tds00@qq.com, bg7jaf@gmail.com, linkage@163.com"
 
 #: auxiliary/colorscheme.cpp:29 kstars.cpp:58
 #, kde-format
@@ -2965,7 +2965,7 @@ msgstr "导入CSV..."
 #: dialogs/catalogdetails.ui:248
 #, kde-format
 msgid "Filter by Name"
-msgstr "按名称筛选"
+msgstr "按名称过滤"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogsUInewCatalog)
 #: dialogs/catalogeditform.ui:14
@@ -4656,19 +4656,19 @@ msgstr "选择城市"
 #: dialogs/locationdialog.ui:136
 #, kde-format
 msgid "Country filter:"
-msgstr "国家/地区筛选："
+msgstr "国家/地区过滤："
 
 #. i18n: ectx: property (text), widget (QLabel, CityFiltLabel)
 #: dialogs/locationdialog.ui:146
 #, kde-format
 msgid "City filter:"
-msgstr "城市筛选："
+msgstr "城市过滤："
 
 #. i18n: ectx: property (text), widget (QLabel, ProvinceFiltLabel)
 #: dialogs/locationdialog.ui:159
 #, kde-format
 msgid "Province filter:"
-msgstr "州/省筛选："
+msgstr "州/省过滤："
 
 #. i18n: ectx: property (text), widget (QLabel, CountLabel)
 #: dialogs/locationdialog.ui:168
@@ -5631,25 +5631,25 @@ msgid ""
 "selected a City, press <b>Next</b>.</p>"
 msgstr ""
 "<p>从列表中选择一个靠近您的地理位置的城市。您输入用城市名称、州/省名称、国家/"
-"地区名称来筛选列表内容。</p><p>选中一个城市之后，请点击 <b>下一步</b>。</p>"
+"地区名称来过滤列表内容。</p><p>选中一个城市之后，请点击 <b>下一步</b>。</p>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CityFilter)
 #: dialogs/wizlocation.ui:122
 #, kde-format
 msgid "Filter the list by city name"
-msgstr "按国家名称筛选列表"
+msgstr "按国家名称过滤列表"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CountryFilter)
 #: dialogs/wizlocation.ui:143
 #, kde-format
 msgid "Filter the list by country name"
-msgstr "按国家名称筛选列表"
+msgstr "按国家名称过滤列表"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ProvinceFilter)
 #: dialogs/wizlocation.ui:150
 #, kde-format
 msgid "Filter the list by province name"
-msgstr "按州/省名称筛选列表"
+msgstr "按州/省名称过滤列表"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, CityListBox)
 #: dialogs/wizlocation.ui:223
@@ -6562,8 +6562,8 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>如果选中，当前选择的筛选器将用于校准。</p><p>如果您想要"
-"使用特定 (固定的) 过滤器进行校准，请不选中当前复选框并手动选择筛选器。</p></"
+"<html><head/><body><p>如果选中，当前选择的过滤器将用于校准。</p><p>如果您想要"
+"使用特定 (固定的) 过滤器进行校准，请不选中当前复选框并手动选择过滤器。</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
@@ -11117,7 +11117,7 @@ msgstr "热像素"
 #: ekos/auxiliary/darklibrary.ui:834 ekos/auxiliary/darklibrary.ui:952
 #, kde-format
 msgid "Detected pixels after aggressiveness filter"
-msgstr "启用筛选后检测到的像素"
+msgstr "启用过滤后检测到的像素"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/auxiliary/darklibrary.ui:847
@@ -13151,7 +13151,7 @@ msgstr "15"
 msgid ""
 "Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be "
 "true for the filters above"
-msgstr "是否依据星等选用星点。注意：对于上面的筛选器，这是必要的。"
+msgstr "是否依据星等选用星点。注意：对于上面的过滤器，这是必要的。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:992
@@ -15136,11 +15136,9 @@ msgstr "焦比"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "滤镜计数"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
@@ -15150,10 +15148,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
-#, fuzzy, kde-format
-#| msgid "OrbitClass"
+#, kde-format
 msgid "Bortle Class"
-msgstr "轨道类别"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
@@ -15163,10 +15160,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "相机增益"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
@@ -15236,10 +15232,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
-#, fuzzy, kde-format
-#| msgid "Download Extra Data Files"
+#, kde-format
 msgid "Download additional camera data files"
-msgstr "下载附加数据"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
@@ -15285,10 +15280,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Camera Data Selection"
-msgstr "相机增益"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
@@ -15304,17 +15298,15 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Table"
-msgstr "启用"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
-#, fuzzy, kde-format
-#| msgid "Geographic"
+#, kde-format
 msgid "Graph"
-msgstr "地理"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
@@ -15324,10 +15316,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
-#, fuzzy, kde-format
-#| msgid "Exposure"
+#, kde-format
 msgid "Exposures"
-msgstr "曝光"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
@@ -15337,19 +15328,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "International Space Station"
+#, kde-format
 msgid "Integration Time to Noise Ratio"
-msgstr "国际空间站"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Noise Reduction"
+#, kde-format
 msgid "Time/Noise Ratio"
-msgstr "降噪"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
@@ -15800,10 +15787,9 @@ msgid "Turn light box light off..."
 msgstr "关闭 Light box 的灯光..."
 
 #: ekos/capture/sequencejobstate.cpp:462
-#, fuzzy, kde-format
-#| msgid "Mount slewing to wall position..."
+#, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
-msgstr "赤道仪旋转至墙的位置..."
+msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
@@ -31557,7 +31543,7 @@ msgstr "从喷气推进实验室下载的小行星的最大星等。"
 msgid ""
 "The maximum magnitude (visibility) to filter the asteroid data download from "
 "JPL."
-msgstr "最大的星等 （可见性） 来筛选从喷气推进实验室下载的小行星数据。"
+msgstr "最大的星等 (可见性) 来过滤从喷气推进实验室下载的小行星数据。"
 
 #. i18n: ectx: label, entry (AsteroidLabelDensity), group (View)
 #: kstars.kcfg:827
@@ -65825,7 +65811,7 @@ msgstr "按名称过滤: "
 #: kstarslite/qml/dialogs/FindDialog.qml:54
 #, kde-kuit-format
 msgid "Filter by type: "
-msgstr "按类型筛选："
+msgstr "按类型过滤："
 
 #: kstarslite/qml/dialogs/FindDialog.qml:100
 #, kde-kuit-format
@@ -66061,12 +66047,12 @@ msgstr "城市过滤器: "
 #: kstarslite/qml/dialogs/LocationDialog.qml:78
 #, kde-kuit-format
 msgid "Province filter: "
-msgstr "州/省筛选："
+msgstr "州/省过滤："
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:94
 #, kde-kuit-format
 msgid "Country filter: "
-msgstr "国家/地区筛选："
+msgstr "国家/地区过滤："
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:127
 #, kde-kuit-format
@@ -78457,10 +78443,10 @@ msgid ""
 "finished, press <span style=\" font-weight:600;\">Next</span> to continue.</"
 "p></body></html>"
 msgstr ""
-"<html><head></head><body><p>从一个或多个星座中筛选天体</p><p></p><p>在下面的"
-"列表中,选中您想要观测的星座. 只有在您选中的星座中的天体才会被保留下来.</"
-"p><p></p><p>当您选择完毕之后,请点击 <span style=\" font-weight:600;\">下一步"
-"</span>以继续操作.</p></body></html>"
+"<html><head></head><body><p>从一个或多个星座中过滤天体</p><p></p><p>在下面的"
+"列表中，选中您想要观测的星座。只有在您选中的星座中的天体才会被保留下来。</"
+"p><p></p><p>当您选择完毕之后,请点击<span style=\" font-weight:600;\">下一步</"
+"span>以继续操作。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RectangularRegionText)
 #: tools/obslistwizard.ui:428
@@ -78473,10 +78459,10 @@ msgid ""
 "that define the region.</p><p></p><p>When you are finished, press <span "
 "style=\" font-weight:600;\">Next</span> to continue.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>从矩形天区中筛选天体</p><p></p><p>在这个页面中,您"
-"可以通过指定一块矩形的天区来筛选列表中的天体. 请通过指定赤经和赤纬的坐标范围"
-"来制定这个矩形.</p><p></p><p>当您选择完毕后,请点击 <span style=\" font-"
-"weight:600;\">下一步</span> 以继续操作.</p></body></html>"
+"<html><head></head><body><p>从矩形天区中过滤天体</p><p></p><p>在这个页面中，"
+"您可以通过指定一块矩形的天区来过滤列表中的天体。请通过指定赤经和赤纬的坐标范"
+"围来制定这个矩形。</p><p></p><p>当您选择完毕后，请点击<span style=\" font-"
+"weight:600;\">下一步</span> 以继续操作。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -78509,10 +78495,10 @@ msgid ""
 "p><p></p><p>When you are finished, press <span style=\" font-weight:600;"
 "\">Next</span> to continue.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>从圆形天区中筛选天体</p><p></p><p>在这个页面中,您"
-"可以通过指定一块圆形天区的筛选列表中的天体.请指定圆心的赤经与赤纬坐标,并以度"
-"为单位指定这个圆的半径. </p><p></p><p>当您选择完毕后,请点击 <span style=\" "
-"font-weight:600;\">下一步</span> 来继续.</p></body></html>"
+"<html><head></head><body><p>从圆形天区中过滤天体</p><p></p><p>在这个页面中，"
+"您可以通过指定一块圆形天区的过滤列表中的天体。请指定圆心的赤经与赤纬坐标，并"
+"以度为单位指定这个圆的半径。</p><p></p><p>当您选择完毕后，请点击<span style="
+"\" font-weight:600;\">下一步</span>来继续。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
@@ -78547,13 +78533,13 @@ msgid ""
 "<span style=\" font-weight:600;\">Next</span> to continue.</p><p></p></"
 "body></html>"
 msgstr ""
-"<html><head></head><body><p>选择特定日期可见的天体</p><p></p><p>在这个页面中,"
-"您可以限制您的观测日期和地点来筛选列表中的天体.  要从这方面来过滤列表,请选中"
-"选框, 然后选择您希望的日期. 如果您没有选中选框, 那么您所得到的列表中将会包含"
-"各种天体而不管他们在什么时候是可见的(这是默认的做法). 您或许也需要设置确切的"
-"观测地点,来让软件确定这些天体到底是否可见.</p><p></p><p>当您选择完毕之后,请点"
-"击 <span style=\" font-weight:600;\">下一步</span> 来继续操作.</p><p></p></"
-"body></html>"
+"<html><head></head><body><p>选择特定日期可见的天体</p><p></p><p>在这个页面"
+"中，您可以限制您的观测日期和地点来过滤列表中的天体。要从这方面来过滤列表，请"
+"选中选框，然后选择您希望的日期。如果您没有选中选框，那么您所得到的列表中将会"
+"包含各种天体而不管他们在什么时候是可见的 (这是默认的做法)。您或许也需要设置确"
+"切的观测地点，来让软件确定这些天体到底是否可见。</p><p></p><p>当您选择完毕之"
+"后，请点击 <span style=\" font-weight:600;\">下一步</span> 来继续操作。</"
+"p><p></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/obslistwizard.ui:728
