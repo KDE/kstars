@@ -4154,6 +4154,26 @@ void Focus::updateProperty(INDI::Property prop)
                         << QString("Timer Focuser position moved %1 by %2 to %3")
                         .arg((m_LastFocusDirection == FOCUS_IN) ? "in" : "out").arg(pos->value).arg(currentPosition);
             }
+
+            if (inAdjustFocus && nvp->s == IPS_OK)
+            {
+                if (focuserAdditionalMovement == 0)
+                {
+                    inAdjustFocus = false;
+                    emit focusPositionAdjusted();
+                    return;
+                }
+            }
+
+            if (inAdaptiveFocus && nvp->s == IPS_OK)
+            {
+                if (focuserAdditionalMovement == 0)
+                {
+                    adaptiveFocusAdmin(true, true, true);
+                    return;
+                }
+            }
+
             autoFocusProcessPositionChange(nvp->s);
         }
         else if (nvp->s == IPS_ALERT)
@@ -4318,12 +4338,12 @@ void Focus::resetButtons()
 }
 
 // Return whether the Aberration Inspector Start button should be enabled. The pre-requisties are:
-// - Automatic focuser
+// - Absolute position focuser
 // - Mosaic Mask is on
 // - Algorithm is LINEAR 1 PASS
 bool Focus::canAbInsStart()
 {
-    return m_FocusType == FOCUS_AUTO && m_FocusAlgorithm == FOCUS_LINEAR1PASS && m_currentImageMask == FOCUS_MASK_MOSAIC;
+    return canAbsMove && m_FocusAlgorithm == FOCUS_LINEAR1PASS && m_currentImageMask == FOCUS_MASK_MOSAIC;
 }
 
 // Disable input widgets during an Autofocus run. Keep a record so after the AF run, widgets can be re-enabled
@@ -6113,8 +6133,8 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             startAbInsB->setEnabled(canAbInsStart());
 
             // Settings tab changes
-            // Enable adaptive focus
-            adaptiveFocusGroup->setEnabled(true);
+            // Enable adaptive focus for Absolute focusers
+            adaptiveFocusGroup->setEnabled(canAbsMove);
 
             // Mechanics tab changes
             // Firstly max Single Step is not used by Linear 1 Pass
