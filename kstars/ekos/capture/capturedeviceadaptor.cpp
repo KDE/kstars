@@ -479,6 +479,15 @@ double CaptureDeviceAdaptor::cameraGain(QMap<QString, QMap<QString, QVariant> > 
 
 }
 
+double CaptureDeviceAdaptor::cameraGain()
+{
+    double value = -1;
+    if (getActiveCamera() != nullptr)
+        getActiveCamera()->getGain(&value);
+
+    return value;
+}
+
 double CaptureDeviceAdaptor::cameraOffset(QMap<QString, QMap<QString, QVariant> > propertyMap)
 {
     if (getActiveCamera())
@@ -497,6 +506,24 @@ double CaptureDeviceAdaptor::cameraOffset(QMap<QString, QMap<QString, QVariant> 
             return propertyMap["CCD_CONTROLS"].value("Offset", -1).toDouble();
     }
     return -1;
+}
+
+double CaptureDeviceAdaptor::cameraOffset()
+{
+    double value = -1;
+    if (getActiveCamera() != nullptr)
+        getActiveCamera()->getOffset(&value);
+
+    return value;
+}
+
+double CaptureDeviceAdaptor::cameraTemperature()
+{
+    double value = -1;
+    if (getActiveCamera() != nullptr)
+        getActiveCamera()->getTemperature(&value);
+
+    return value;
 }
 
 void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy)

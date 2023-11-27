@@ -389,6 +389,11 @@ class SequenceJob : public QObject
          */
         IPState checkFlatFramePendingTasksCompleted();
 
+        // current values
+        double currentTemperature() const;
+        double currentGain() const;
+        double currentOffset() const;
+
     signals:
         // All preparations necessary for capturing are completed
         void prepareComplete(bool success = true);

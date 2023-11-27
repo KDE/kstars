@@ -180,11 +180,25 @@ public:
         double cameraGain(QMap<QString, QMap<QString, QVariant> > propertyMap);
 
         /**
+         * @brief cameraGain Retrieve the gain value from the active camera
+         */
+        double cameraGain();
+
+        /**
          * @brief getOffset Retrieve the offset value from the custom property value. Depending
          *        on the camera, it is either stored as OFFSET property value of CCD_OFFSET or as
          *        Offset property value from CCD_CONTROLS.
          */
         double cameraOffset(QMap<QString, QMap<QString, QVariant> > propertyMap);
+        /**
+         * @brief cameraOffset Retrieve the offset value from the active camera
+         */
+        double cameraOffset();
+
+        /**
+         * @brief cameraTemperature Retrieve the current chip temperature from the active camera
+         */
+        double cameraTemperature();
 
         //////////////////////////////////////////////////////////////////////
         // Filter wheel commands

@@ -40,6 +40,16 @@ class PlaceholderPath
             PP_TEMPERATURE // double
         } PathProperty;
 
+        typedef enum
+        {
+            PP_TYPE_NONE,
+            PP_TYPE_STRING,
+            PP_TYPE_BOOL,
+            PP_TYPE_UINT,
+            PP_TYPE_DOUBLE,
+            PP_TYPE_POINT
+        } PathPropertyType;
+
         PlaceholderPath(const QString &seqFilename);
         PlaceholderPath();
         ~PlaceholderPath();
@@ -137,6 +147,11 @@ class PlaceholderPath
         int checkSeqBoundary(const SequenceJob &job);
 
         /**
+         * @brief Property type definitions
+         */
+        static PathPropertyType propertyType(PathProperty property);
+
+        /**
          * @brief defaultFormat provides a default format string
          * @param useFilter whether to include the filter in the format string
          * @param useExposure whether to include the exposure in the format string
@@ -178,6 +193,12 @@ private:
          * @param local set true if local file directory should be used
          */
         void setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap, bool local);
+
+        /**
+         * @brief generateReplacement Generate the replacement for the given property. if usePattern
+         * is true, a pattern for the given type is used instead of a fixed value.
+         */
+        QString generateReplacement(const QMap<PathProperty, QVariant> &pathPropertyMap, PathProperty property, bool usePattern = false) const;
 
         QString getFrameType(CCDFrameType frameType) const
         {
