@@ -918,6 +918,8 @@ void Capture::syncCameraInfo()
         {
             if (captureGainN->value() != GainSpinSpecialValue)
                 setGain(captureGainN->value());
+            else
+                setGain(-1);
         });
     }
     else
@@ -956,6 +958,8 @@ void Capture::syncCameraInfo()
         {
             if (captureOffsetN->value() != OffsetSpinSpecialValue)
                 setOffset(captureOffsetN->value());
+            else
+                setOffset(-1);
         });
     }
     else
@@ -3256,11 +3260,8 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     if (captureISOS)
         job->setISO(captureISOS->currentIndex());
 
-    if (getGain() >= 0)
-        job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
-
-    if (getOffset() >= 0)
-        job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
+    job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
+    job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
     if (cameraTemperatureN->isEnabled())
     {
