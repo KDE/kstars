@@ -131,6 +131,10 @@ void CaptureDeviceAdaptor::setMount(ISD::Mount *device)
         connect(device, &ISD::Mount::pierSideChanged, this, &CaptureDeviceAdaptor::pierSideChanged);
         connect(device, &ISD::Mount::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
         connectMount(currentSequenceJobState.data());
+
+        // update mount states
+        emit pierSideChanged(device->pierSide());
+        emit scopeParkStatusChanged(device->parkStatus());
     }
 
     m_ActiveMount = device;
