@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-23 00:38+0000\n"
+"POT-Creation-Date: 2023-11-27 00:39+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5961,7 +5961,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "연결"
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:5040
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:5060
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6154,7 +6154,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "FITS 파일을 %1로 저장"
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1473
-#: ekos/focus/focus.cpp:4168 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
+#: ekos/focus/focus.cpp:4188 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:748
 #, fuzzy, kde-format
@@ -6336,7 +6336,7 @@ msgid "dDE (arcsec)"
 msgstr "초"
 
 #: ekos/align/align.cpp:3578 ekos/capture/capture.cpp:2650
-#: ekos/focus/focus.cpp:4932
+#: ekos/focus/focus.cpp:4952
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -15628,13 +15628,13 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1904 ekos/focus/focus.cpp:5082
+#: ekos/capture/captureprocess.cpp:1904 ekos/focus/focus.cpp:5102
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5087
+#: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5107
 #: ekos/guide/guide.cpp:911
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
@@ -17449,7 +17449,7 @@ msgstr ""
 msgid "No Focuser connected."
 msgstr "INDI 기기 연결 포트 설정."
 
-#: ekos/focus/focus.cpp:1156 ekos/focus/focus.cpp:4216
+#: ekos/focus/focus.cpp:1156 ekos/focus/focus.cpp:4236
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No CCD connected."
@@ -17818,7 +17818,7 @@ msgstr ""
 
 #: ekos/focus/focus.cpp:3840 ekos/focus/focus.cpp:3853
 #: ekos/focus/focus.cpp:3983 ekos/focus/focus.cpp:4055
-#: ekos/focus/focus.cpp:4116 ekos/focus/focus.cpp:4160
+#: ekos/focus/focus.cpp:4116 ekos/focus/focus.cpp:4180
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
@@ -17836,72 +17836,72 @@ msgstr "완료됨"
 msgid "Restarting autofocus process..."
 msgstr "시작:"
 
-#: ekos/focus/focus.cpp:4232
+#: ekos/focus/focus.cpp:4252
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting continuous exposure..."
 msgstr "시작:"
 
-#: ekos/focus/focus.cpp:4508
+#: ekos/focus/focus.cpp:4528
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4513
+#: ekos/focus/focus.cpp:4533
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Focus star is selected."
 msgstr "선택된 천체 없음."
 
-#: ekos/focus/focus.cpp:4641
+#: ekos/focus/focus.cpp:4661
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4647
+#: ekos/focus/focus.cpp:4667
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4758
+#: ekos/focus/focus.cpp:4778
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:5100
+#: ekos/focus/focus.cpp:5120
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image again..."
 msgstr "이미지 읽는 중..."
 
-#: ekos/focus/focus.cpp:5115
+#: ekos/focus/focus.cpp:5135
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/focus/focus.cpp:5125
+#: ekos/focus/focus.cpp:5145
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:5130
+#: ekos/focus/focus.cpp:5150
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:5418
+#: ekos/focus/focus.cpp:5438
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "궤적 삭제"
 
-#: ekos/focus/focus.cpp:6623
+#: ekos/focus/focus.cpp:6643
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17926,7 +17926,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6639
+#: ekos/focus/focus.cpp:6659
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17938,7 +17938,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6646
+#: ekos/focus/focus.cpp:6666
 #, kde-format
 msgid ""
 "\n"
@@ -17959,7 +17959,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6656
+#: ekos/focus/focus.cpp:6676
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus Advisor"
