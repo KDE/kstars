@@ -1315,7 +1315,7 @@ void CaptureProcess::captureImage()
         return;
 
     // Bail out if we have no CCD anymore
-    if (activeCamera()->isConnected() == false)
+    if (!activeCamera() || !activeCamera()->isConnected())
     {
         emit newLog(i18n("Error: Lost connection to CCD."));
         emit stopCapture(CAPTURE_ABORTED);

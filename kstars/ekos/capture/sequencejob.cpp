@@ -450,10 +450,13 @@ void SequenceJob::setStatus(JOBStatus const in_status)
 
 void SequenceJob::setISO(int index)
 {
-    setCoreProperty(SequenceJob::SJ_ISOIndex, index);
-    const auto isolist = devices->getActiveChip()->getISOList();
-    if (isolist.count() > index && index >= 0)
-        setCoreProperty(SequenceJob::SJ_ISO, isolist[index]);
+    if (devices->getActiveChip())
+    {
+        setCoreProperty(SequenceJob::SJ_ISOIndex, index);
+        const auto isolist = devices->getActiveChip()->getISOList();
+        if (isolist.count() > index && index >= 0)
+            setCoreProperty(SequenceJob::SJ_ISO, isolist[index]);
+    }
 }
 
 QStringList SequenceJob::frameTypes()

@@ -1,18 +1,18 @@
 # translation of kstars.po to galician
 #
+# SPDX-FileCopyrightText: 2023 Adrián Chaves (Gallaecio)
 # mvillarino <mvillarino@users.sourceforge.net>, 2006, 2008, 2009.
 # Xabi G. Feal <xabigf@gmx.net>, 2006, 2007.
 # Xosé <xosecalvo@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2013.
 # Marce Villarino <mvillarino@kde-espana.es>, 2008, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013, 2015, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-23 00:38+0000\n"
-"PO-Revision-Date: 2020-01-12 12:24+0100\n"
+"POT-Creation-Date: 2023-11-27 00:39+0000\n"
+"PO-Revision-Date: 2023-11-23 17:57+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -20,12 +20,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.08.3\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "mvillarino, Xabier G. Feal, Xosé Calvo, Adrián Chaves Fernández"
+msgstr "mvillarino, Xabier G. Feal, Xosé Calvo, Adrian Chaves (Gallaecio)"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -380,8 +380,7 @@ msgid "Could not export image: URL %1 invalid"
 msgstr "Non foi posíbel exportar a imaxe: O URL %1 é incorrecto"
 
 #: auxiliary/imageviewer.cpp:117
-#, fuzzy, kde-format
-#| msgid "KStars image viewer: %1"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars image viewer: %1"
 msgstr "Visor de imaxes de KStars: %1"
@@ -453,8 +452,7 @@ msgstr "Fallou a carga da imaxe %1."
 
 #: auxiliary/imageviewer.cpp:312 auxiliary/xplanetimageviewer.cpp:1217
 #: indi/clientmanagerlite.cpp:795 printing/foveditordialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Save Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Gardar a imaxe"
@@ -756,8 +754,7 @@ msgid "unnamed"
 msgstr "sen nome"
 
 #: auxiliary/kswizard.cpp:65
-#, fuzzy, kde-format
-#| msgid "Startup Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Startup Wizard"
 msgstr "Asistente de inicio"
@@ -819,8 +816,7 @@ msgid "Crop region will be scaled to [ %1 * %2 ]"
 msgstr "A rexión recortada cambiarase de dimensións a [ %1 * %2 ]"
 
 #: auxiliary/thumbnaileditor.cpp:39
-#, fuzzy, kde-format
-#| msgid "Edit Thumbnail Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit Thumbnail Image"
 msgstr "Editar a miniatura"
@@ -905,8 +901,7 @@ msgid "Unset Image"
 msgstr "A imaxe non está definida"
 
 #: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:890
-#, fuzzy, kde-format
-#| msgid "XPlanet Solar System Simulator: %1"
+#, kde-format
 msgctxt "@title:window"
 msgid "XPlanet Solar System Simulator: %1"
 msgstr "Simulador do Sistema Solar XPlanet: %1"
@@ -1362,16 +1357,12 @@ msgid "This sets the time step from the current XPlanet time"
 msgstr "Isto define o paso de tempo da hora actual de XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:442
-#, fuzzy, kde-format
-#| msgid "years"
-#| msgid_plural "yrs"
+#, kde-format
 msgid "years"
 msgstr "anos"
 
 #: auxiliary/xplanetimageviewer.cpp:443
-#, fuzzy, kde-format
-#| msgid "months"
-#| msgid_plural "mths"
+#, kde-format
 msgid "months"
 msgstr "meses"
 
@@ -1384,9 +1375,7 @@ msgid "days"
 msgstr "días"
 
 #: auxiliary/xplanetimageviewer.cpp:445
-#, fuzzy, kde-format
-#| msgid "hours"
-#| msgid_plural "hrs"
+#, kde-format
 msgid "hours"
 msgstr "horas"
 
@@ -1394,9 +1383,7 @@ msgstr "horas"
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:282
-#, fuzzy, kde-format
-#| msgid "minutes"
-#| msgid_plural "mins"
+#, kde-format
 msgid "minutes"
 msgstr "minutos"
 
@@ -1415,9 +1402,7 @@ msgstr "minutos"
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
 #: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:598 ekos/opsekos.ui:691
-#, fuzzy, kde-format
-#| msgid "seconds"
-#| msgid_plural "secs"
+#, kde-format
 msgid "seconds"
 msgstr "segundos"
 
@@ -1498,46 +1483,39 @@ msgid "Saving of the image to %1 failed."
 msgstr "Fallou a garda da imaxe en %1."
 
 #: catalogsdb/catalogsdb.cpp:322
-#, fuzzy, kde-format
-#| msgid "A file named \"%1\" already exists. Overwrite it?"
+#, kde-format
 msgid "Catalog with that ID already exists."
-msgstr "Xa existe un ficheiro chamado «%1». Quérelo substituír?"
+msgstr "Xa existe un catálogo con ese identificador."
 
 #: catalogsdb/catalogsdb.cpp:606 catalogsdb/catalogsdb.cpp:742
-#, fuzzy, kde-format
-#| msgid "Could not open fov.dat."
+#, kde-format
 msgid "Catalog could not be found."
-msgstr "Non foi posíbel abrir o ficheiro «fov.dat»."
+msgstr "Non foi posíbel atopar o catálogo."
 
 #: catalogsdb/catalogsdb.cpp:695 catalogsdb/catalogsdb.cpp:1048
-#, fuzzy, kde-format
-#| msgid "Star HD%1 not found."
+#, kde-format
 msgid "Catalog with id=%1 not found."
-msgstr "Non se atopou a estrela HD%1."
+msgstr "Non se atopou o catálogo co identificador %1."
 
 #: catalogsdb/catalogsdb.cpp:698 catalogsdb/catalogsdb.cpp:1051
-#, fuzzy, kde-format
-#| msgid "Catalog Star"
+#, kde-format
 msgid "Catalog is immutable!"
-msgstr "Estrela do catálogo"
+msgstr "O catálogo é inmutábel!"
 
 #: catalogsdb/catalogsdb.cpp:714 catalogsdb/catalogsdb.cpp:1067
-#, fuzzy, kde-format
-#| msgid "This city already exists in the database."
+#, kde-format
 msgid "The object is already in the catalog!"
-msgstr "Esta cidade xa existe na base de datos."
+msgstr "O obxecto xa está no catálogo!"
 
 #: catalogsdb/catalogsdb.cpp:716 catalogsdb/catalogsdb.cpp:1069
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not insert object! %1"
-msgstr "Non se puido abrir o ficheiro %1"
+msgstr "Non foi posíbel inserir o obxecto! %1"
 
 #: catalogsdb/catalogsdb.cpp:746
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "Output file is not writable."
-msgstr "Non se admite a densidade de bits %1."
+msgstr "O ficheiro de saída non permite escritura."
 
 #: catalogsdb/catalogsdb.cpp:754
 #, fuzzy, kde-format
@@ -6013,7 +5991,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Erro: perdeuse a conexión á roda de filtros."
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:5040
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:5060
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6227,7 +6205,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "O resolvedor interrompeuse despois de %1 segundo."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1473
-#: ekos/focus/focus.cpp:4168 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
+#: ekos/focus/focus.cpp:4188 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:748
 #, kde-format
@@ -6403,7 +6381,7 @@ msgid "dDE (arcsec)"
 msgstr "dδ (segundos de arco)"
 
 #: ekos/align/align.cpp:3578 ekos/capture/capture.cpp:2650
-#: ekos/focus/focus.cpp:4932
+#: ekos/focus/focus.cpp:4952
 #, kde-format
 msgid "Filter operation failed."
 msgstr "A operación de filtro fallou."
@@ -16074,12 +16052,12 @@ msgstr "O script post-captura rematou co código %1."
 msgid "Post job script finished with code %1."
 msgstr "O script post-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1904 ekos/focus/focus.cpp:5082
+#: ekos/capture/captureprocess.cpp:1904 ekos/focus/focus.cpp:5102
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tempo límite de exposición. Interrompendo…"
 
-#: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5087
+#: ekos/capture/captureprocess.cpp:1927 ekos/focus/focus.cpp:5107
 #: ekos/guide/guide.cpp:911
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -17981,7 +17959,7 @@ msgstr ""
 msgid "No Focuser connected."
 msgstr "Non hai ningún dispositivo de carga acoplada (CCD) conectado."
 
-#: ekos/focus/focus.cpp:1156 ekos/focus/focus.cpp:4216
+#: ekos/focus/focus.cpp:1156 ekos/focus/focus.cpp:4236
 #, kde-format
 msgid "No CCD connected."
 msgstr "Non hai ningún dispositivo de carga acoplada (CCD) conectado."
@@ -18367,7 +18345,7 @@ msgstr ""
 
 #: ekos/focus/focus.cpp:3840 ekos/focus/focus.cpp:3853
 #: ekos/focus/focus.cpp:3983 ekos/focus/focus.cpp:4055
-#: ekos/focus/focus.cpp:4116 ekos/focus/focus.cpp:4160
+#: ekos/focus/focus.cpp:4116 ekos/focus/focus.cpp:4180
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Erro do focalizador; comprobe o panel de INDI."
@@ -18384,71 +18362,71 @@ msgstr "Enfoque automático co cambio de filtro…"
 msgid "Restarting autofocus process..."
 msgstr "Reiniciando o proceso de enfoque automático…"
 
-#: ekos/focus/focus.cpp:4232
+#: ekos/focus/focus.cpp:4252
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Iniciando a exposición continua…"
 
-#: ekos/focus/focus.cpp:4508
+#: ekos/focus/focus.cpp:4528
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Desactivando a selección automática de estrela como caixa de selección de "
 "estrela moveuse manualmente."
 
-#: ekos/focus/focus.cpp:4513
+#: ekos/focus/focus.cpp:4533
 #, kde-format
 msgid "Focus star is selected."
 msgstr "A estrela de foco está seleccionada."
 
-#: ekos/focus/focus.cpp:4641
+#: ekos/focus/focus.cpp:4661
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "Non se seleccionou ningunha estrela. Usando a última posición coñecida…"
 
-#: ekos/focus/focus.cpp:4647
+#: ekos/focus/focus.cpp:4667
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Non seleccionou ningunha estrela. Interrompendo…"
 
-#: ekos/focus/focus.cpp:4758
+#: ekos/focus/focus.cpp:4778
 #, fuzzy, kde-format
 #| msgid "Focus Frame"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Enfocar o fotograma"
 
-#: ekos/focus/focus.cpp:5100
+#: ekos/focus/focus.cpp:5120
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing image again..."
 msgstr "Estase a capturar a imaxe…"
 
-#: ekos/focus/focus.cpp:5115
+#: ekos/focus/focus.cpp:5135
 #, fuzzy, kde-format
 #| msgid "Failed to find any suitable guide stars. Aborting..."
 msgid "Failed to save image. Aborting..."
 msgstr "Non se puideron atopar estrelas guía axeitadas. Interrompendo…"
 
-#: ekos/focus/focus.cpp:5125
+#: ekos/focus/focus.cpp:5145
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Fallo de exposición. Interrompendo…"
 
-#: ekos/focus/focus.cpp:5130
+#: ekos/focus/focus.cpp:5150
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Fallo de exposición. Reiniciándoa…"
 
-#: ekos/focus/focus.cpp:5418
+#: ekos/focus/focus.cpp:5438
 #, fuzzy, kde-format
 #| msgid "Relative Profile"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relativo"
 
-#: ekos/focus/focus.cpp:6623
+#: ekos/focus/focus.cpp:6643
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -18473,7 +18451,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6639
+#: ekos/focus/focus.cpp:6659
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -18485,7 +18463,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6646
+#: ekos/focus/focus.cpp:6666
 #, kde-format
 msgid ""
 "\n"
@@ -18506,7 +18484,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6656
+#: ekos/focus/focus.cpp:6676
 #, fuzzy, kde-format
 #| msgid "Focus Star"
 msgid "Focus Advisor"
