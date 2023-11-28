@@ -231,6 +231,73 @@ QString PlaceholderPath::generateOutputFilename(const bool local, const bool bat
                                     gettingSignature);
 }
 
+QString PlaceholderPath::generateReplacement(const QMap<PathProperty, QVariant> &pathPropertyMap, PathProperty property,
+        bool usePattern) const
+{
+    if (usePattern)
+    {
+        switch (propertyType(property))
+        {
+            case PP_TYPE_UINT:
+            case PP_TYPE_DOUBLE:
+                return "-?\\d+";
+            case PP_TYPE_BOOL:
+                return "(true|false)";
+            case PP_TYPE_POINT:
+                return "\\d+x\\d+";
+            default:
+                if (property == PP_PIERSIDE)
+                    return "(East|West|Unknown)";
+                else
+                    return "\\w+";
+        }
+    }
+    else if (pathPropertyMap[property].isValid())
+    {
+        switch (propertyType(property))
+        {
+            case PP_TYPE_DOUBLE:
+                return QString::number(pathPropertyMap[property].toDouble(), 'd', 0);
+            case PP_TYPE_UINT:
+            return QString::number(pathPropertyMap[property].toUInt());
+            case PP_TYPE_POINT:
+                return QString("%1x%2").arg(pathPropertyMap[PP_BIN].toPoint().x()).arg(pathPropertyMap[PP_BIN].toPoint().y());
+            case PP_TYPE_STRING:
+                if (property == PP_PIERSIDE)
+                {
+                    switch (static_cast<ISD::Mount::PierSide>(pathPropertyMap[property].toInt()))
+                    {
+                        case ISD::Mount::PIER_EAST:
+                            return "East";
+                        case ISD::Mount::PIER_WEST:
+                            return "West";
+                        default:
+                            return "Unknown";
+                    }
+                }
+                else
+                    return pathPropertyMap[property].toString();
+            default:
+                return pathPropertyMap[property].toString();
+        }
+    }
+    else
+    {
+        switch (propertyType(property))
+        {
+            case PP_TYPE_DOUBLE:
+            case PP_TYPE_UINT:
+                return "-1";
+            case PP_TYPE_POINT:
+                return "0x0";
+            case PP_TYPE_BOOL:
+                return "false";
+            default:
+                return "Unknown";
+        }
+    }
+}
+
 QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap,
         const bool local,
         const bool batch_mode,
@@ -332,61 +399,35 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         {
             replacement = targetNameSanitized;
         }
-        else if (((match.captured("name") == "temperature") || (match.captured("name") == "C"))
-                 && pathPropertyMap[PP_TEMPERATURE].isValid())
+        else if (((match.captured("name") == "temperature") || (match.captured("name") == "C")))
         {
-            if (glob || gettingSignature)
-                replacement = "-?\\d+";
-            else
-                replacement = QString::number(pathPropertyMap[PP_TEMPERATURE].toDouble(), 'd', 0);
+            replacement = generateReplacement(pathPropertyMap, PP_TEMPERATURE,
+                                              (glob || gettingSignature) && pathPropertyMap[PP_TEMPERATURE].isValid() == false);
         }
-        else if (((match.captured("name") == "bin") || (match.captured("name") == "B"))
-                 && pathPropertyMap[PP_BIN].isValid())
+        else if (((match.captured("name") == "bin") || (match.captured("name") == "B")))
         {
-            auto bin = pathPropertyMap[PP_BIN].toPoint();
-            replacement = QString("%1x%2").arg(bin.x()).arg(bin.y());
+            replacement = generateReplacement(pathPropertyMap, PP_BIN,
+                                              (glob || gettingSignature) && pathPropertyMap[PP_BIN].isValid() == false);
         }
-        else if (((match.captured("name") == "gain") || (match.captured("name") == "G"))
-                 && pathPropertyMap[PP_GAIN].isValid())
+        else if (((match.captured("name") == "gain") || (match.captured("name") == "G")))
         {
-            if (glob || gettingSignature)
-                replacement = "-?\\d+";
-            else
-                replacement = QString::number(pathPropertyMap[PP_GAIN].toDouble(), 'd', 0);
+            replacement = generateReplacement(pathPropertyMap, PP_GAIN,
+                                              (glob || gettingSignature) && pathPropertyMap[PP_GAIN].isValid() == false);
         }
-        else if (((match.captured("name") == "offset") || (match.captured("name") == "O"))
-                 && pathPropertyMap[PP_OFFSET].isValid())
+        else if (((match.captured("name") == "offset") || (match.captured("name") == "O")))
         {
-            if (glob || gettingSignature)
-                replacement = "-?\\d+";
-            else
-                replacement = QString::number(pathPropertyMap[PP_OFFSET].toDouble(), 'd', 0);
+            replacement = generateReplacement(pathPropertyMap, PP_OFFSET,
+                                              (glob || gettingSignature) && pathPropertyMap[PP_OFFSET].isValid() == false);
         }
         else if (((match.captured("name") == "iso") || (match.captured("name") == "I"))
                  && pathPropertyMap[PP_ISO].isValid())
         {
-            replacement = pathPropertyMap[PP_ISO].toString();
+            replacement = generateReplacement(pathPropertyMap, PP_ISO,
+                                              (glob || gettingSignature) && pathPropertyMap[PP_ISO].isValid() == false);
         }
-        else if (((match.captured("name") == "pierside") || (match.captured("name") == "P"))
-                 && pathPropertyMap[PP_PIERSIDE].isValid())
+        else if (((match.captured("name") == "pierside") || (match.captured("name") == "P")))
         {
-            if (glob || gettingSignature)
-                replacement = "(East|West|Unknown)";
-            else
-            {
-                switch (static_cast<ISD::Mount::PierSide>(pathPropertyMap[PP_PIERSIDE].toInt()))
-                {
-                    case ISD::Mount::PIER_EAST:
-                        replacement =  "East";
-                        break;
-                    case ISD::Mount::PIER_WEST:
-                        replacement =  "West";
-                        break;
-                    case ISD::Mount::PIER_UNKNOWN:
-                        replacement =  "Unknown";
-                        break;
-                }
-            }
+            replacement = generateReplacement(pathPropertyMap, PP_PIERSIDE, glob || gettingSignature);
         }
         // Disable for now %d & %p tags to simplfy
         //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||
@@ -445,12 +486,31 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<P
     setPathProperty(pathPropertyMap, PP_FORMAT, job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat));
     setPathProperty(pathPropertyMap, PP_SUFFIX, job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix));
     setPathProperty(pathPropertyMap, PP_DARKFLAT, job.jobType() == SequenceJob::JOBTYPE_DARKFLAT);
-    setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
     setPathProperty(pathPropertyMap, PP_BIN, job.getCoreProperty(SequenceJob::SJ_Binning));
-    setPathProperty(pathPropertyMap, PP_GAIN, job.getCoreProperty(SequenceJob::SJ_Gain));
-    setPathProperty(pathPropertyMap, PP_ISO, job.getCoreProperty(SequenceJob::SJ_ISO));
-    setPathProperty(pathPropertyMap, PP_OFFSET, job.getCoreProperty(SequenceJob::SJ_Offset));
     setPathProperty(pathPropertyMap, PP_PIERSIDE, QVariant(job.getPierSide()));
+    setPathProperty(pathPropertyMap, PP_ISO, job.getCoreProperty(SequenceJob::SJ_ISO));
+
+    // handle optional parameters
+    if (job.getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
+        setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
+    else if (job.currentTemperature() != Ekos::INVALID_VALUE)
+        setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.currentTemperature()));
+    else
+        pathPropertyMap.remove(PP_TEMPERATURE);
+
+    if (job.getCoreProperty(SequenceJob::SequenceJob::SJ_Gain).toInt() >= 0)
+        setPathProperty(pathPropertyMap, PP_GAIN, job.getCoreProperty(SequenceJob::SJ_Gain));
+    else if (job.currentGain() >= 0)
+        setPathProperty(pathPropertyMap, PP_GAIN, job.currentGain());
+    else
+        pathPropertyMap.remove(PP_GAIN);
+
+    if (job.getCoreProperty(SequenceJob::SequenceJob::SJ_Offset).toInt() >= 0)
+        setPathProperty(pathPropertyMap, PP_OFFSET, job.getCoreProperty(SequenceJob::SJ_Offset));
+    else if (job.currentOffset() >= 0)
+        setPathProperty(pathPropertyMap, PP_OFFSET, job.currentOffset());
+    else
+        pathPropertyMap.remove(PP_OFFSET);
 }
 
 QStringList PlaceholderPath::remainingPlaceholders(const QString &filename)
@@ -520,6 +580,39 @@ int PlaceholderPath::checkSeqBoundary(const SequenceJob &job)
         return *std::max_element(ids.begin(), ids.end()) + 1;
     else
         return 1;
+}
+
+PlaceholderPath::PathPropertyType PlaceholderPath::propertyType(PathProperty property)
+{
+    switch (property)
+    {
+        case PP_FORMAT:
+        case PP_DIRECTORY:
+        case PP_TARGETNAME:
+        case PP_FILTER:
+        case PP_PIERSIDE:
+            return PP_TYPE_STRING;
+
+        case PP_DARKFLAT:
+            return PP_TYPE_BOOL;
+
+        case PP_SUFFIX:
+        case PP_FRAMETYPE:
+        case PP_ISO:
+            return PP_TYPE_UINT;
+
+        case PP_EXPOSURE:
+        case PP_GAIN:
+        case PP_OFFSET:
+        case PP_TEMPERATURE:
+            return PP_TYPE_DOUBLE;
+
+        case PP_BIN:
+            return PP_TYPE_POINT;
+
+        default:
+            return PP_TYPE_NONE;
+    }
 }
 
 // An "emergency" method--the code should not be overwriting files,

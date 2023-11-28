@@ -808,6 +808,21 @@ void SequenceJob::setDome(ISD::Dome * dome)
     state->m_CaptureModuleState->hasDome = (dome != nullptr);
 }
 
+double SequenceJob::currentTemperature() const
+{
+    return devices->cameraTemperature();
+}
+
+double SequenceJob::currentGain() const
+{
+    return devices->cameraGain();
+}
+
+double SequenceJob::currentOffset() const
+{
+    return devices->cameraOffset();
+}
+
 void SequenceJob::prepareCapture()
 {
     // simply forward it to the state machine

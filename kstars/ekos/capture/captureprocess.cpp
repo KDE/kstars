@@ -2789,15 +2789,33 @@ void CaptureProcess::updateGain(double value, QMap<QString, QMap<QString, QVaria
 {
     if (devices()->getActiveCamera()->getProperty("CCD_GAIN"))
     {
-        QMap<QString, QVariant> ccdGain;
-        ccdGain["GAIN"] = value;
-        propertyMap["CCD_GAIN"] = ccdGain;
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdGain;
+            ccdGain["GAIN"] = value;
+            propertyMap["CCD_GAIN"] = ccdGain;
+        }
+        else
+        {
+            propertyMap["CCD_GAIN"].remove("GAIN");
+            if (propertyMap["CCD_GAIN"].size() == 0)
+                propertyMap.remove("CCD_GAIN");
+        }
     }
     else if (devices()->getActiveCamera()->getProperty("CCD_CONTROLS"))
     {
-        QMap<QString, QVariant> ccdGain = propertyMap["CCD_CONTROLS"];
-        ccdGain["Gain"] = value;
-        propertyMap["CCD_CONTROLS"] = ccdGain;
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdGain = propertyMap["CCD_CONTROLS"];
+            ccdGain["Gain"] = value;
+            propertyMap["CCD_CONTROLS"] = ccdGain;
+        }
+        else
+        {
+            propertyMap["CCD_CONTROLS"].remove("Gain");
+            if (propertyMap["CCD_CONTROLS"].size() == 0)
+                propertyMap.remove("CCD_CONTROLS");
+        }
     }
 }
 
@@ -2805,15 +2823,33 @@ void CaptureProcess::updateOffset(double value, QMap<QString, QMap<QString, QVar
 {
     if (devices()->getActiveCamera()->getProperty("CCD_OFFSET"))
     {
-        QMap<QString, QVariant> ccdOffset;
-        ccdOffset["OFFSET"] = value;
-        propertyMap["CCD_OFFSET"] = ccdOffset;
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdOffset;
+            ccdOffset["OFFSET"] = value;
+            propertyMap["CCD_OFFSET"] = ccdOffset;
+        }
+        else
+        {
+            propertyMap["CCD_OFFSET"].remove("OFFSET");
+            if (propertyMap["CCD_OFFSET"].size() == 0)
+                propertyMap.remove("CCD_OFFSET");
+        }
     }
     else if (devices()->getActiveCamera()->getProperty("CCD_CONTROLS"))
     {
-        QMap<QString, QVariant> ccdOffset = propertyMap["CCD_CONTROLS"];
-        ccdOffset["Offset"] = value;
-        propertyMap["CCD_CONTROLS"] = ccdOffset;
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdOffset = propertyMap["CCD_CONTROLS"];
+            ccdOffset["Offset"] = value;
+            propertyMap["CCD_CONTROLS"] = ccdOffset;
+        }
+        else
+        {
+            propertyMap["CCD_CONTROLS"].remove("Offset");
+            if (propertyMap["CCD_CONTROLS"].size() == 0)
+                propertyMap.remove("CCD_CONTROLS");
+        }
     }
 }
 

@@ -131,6 +131,10 @@ void CaptureDeviceAdaptor::setMount(ISD::Mount *device)
         connect(device, &ISD::Mount::pierSideChanged, this, &CaptureDeviceAdaptor::pierSideChanged);
         connect(device, &ISD::Mount::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
         connectMount(currentSequenceJobState.data());
+
+        // update mount states
+        emit pierSideChanged(device->pierSide());
+        emit scopeParkStatusChanged(device->parkStatus());
     }
 
     m_ActiveMount = device;
@@ -453,37 +457,73 @@ void CaptureDeviceAdaptor::abortFastExposure()
 
 double CaptureDeviceAdaptor::cameraGain(QMap<QString, QMap<QString, QVariant> > propertyMap)
 {
-    if (!getActiveCamera())
-        return -1;
-
-    if (getActiveCamera()->getProperty("CCD_GAIN"))
+    if (getActiveCamera())
     {
-        return propertyMap["CCD_GAIN"].value("GAIN", -1).toDouble();
+        // derive attributes from active camera
+        if (getActiveCamera()->getProperty("CCD_GAIN"))
+            return propertyMap["CCD_GAIN"].value("GAIN", -1).toDouble();
+        else if (getActiveCamera()->getProperty("CCD_CONTROLS"))
+            return propertyMap["CCD_CONTROLS"].value("Gain", -1).toDouble();
     }
-    else if (getActiveCamera()->getProperty("CCD_CONTROLS"))
+    else // no active camera set, e.g. whien used from the scheduler
     {
-        return propertyMap["CCD_CONTROLS"].value("Gain", -1).toDouble();
+        // if camera is unknown, use the custom property that is set
+        if (propertyMap.keys().contains("CCD_GAIN"))
+            return propertyMap["CCD_GAIN"].value("GAIN", -1).toDouble();
+        else if(propertyMap.keys().contains("CCD_CONTROLS"))
+            return propertyMap["CCD_CONTROLS"].value("Gain", -1).toDouble();
     }
 
+    // none found
     return -1;
 
 }
 
+double CaptureDeviceAdaptor::cameraGain()
+{
+    double value = -1;
+    if (getActiveCamera() != nullptr)
+        getActiveCamera()->getGain(&value);
+
+    return value;
+}
+
 double CaptureDeviceAdaptor::cameraOffset(QMap<QString, QMap<QString, QVariant> > propertyMap)
 {
-    if (!getActiveCamera())
-        return -1;
-
-    if (getActiveCamera()->getProperty("CCD_OFFSET"))
+    if (getActiveCamera())
     {
-        return propertyMap["CCD_OFFSET"].value("OFFSET", -1).toDouble();
+        if (getActiveCamera()->getProperty("CCD_OFFSET"))
+            return propertyMap["CCD_OFFSET"].value("OFFSET", -1).toDouble();
+        else if (getActiveCamera()->getProperty("CCD_CONTROLS"))
+            return propertyMap["CCD_CONTROLS"].value("Offset", -1).toDouble();
     }
-    else if (getActiveCamera()->getProperty("CCD_CONTROLS"))
+    else
     {
-        return propertyMap["CCD_CONTROLS"].value("Offset", -1).toDouble();
+        // if camera is unknown, use the custom property that is set
+        if (propertyMap.keys().contains("CCD_OFFSET"))
+            return propertyMap["CCD_OFFSET"].value("OFFSET", -1).toDouble();
+        else if(propertyMap.keys().contains("CCD_CONTROLS"))
+            return propertyMap["CCD_CONTROLS"].value("Offset", -1).toDouble();
     }
-
     return -1;
+}
+
+double CaptureDeviceAdaptor::cameraOffset()
+{
+    double value = -1;
+    if (getActiveCamera() != nullptr)
+        getActiveCamera()->getOffset(&value);
+
+    return value;
+}
+
+double CaptureDeviceAdaptor::cameraTemperature()
+{
+    double value = -1;
+    if (getActiveCamera() != nullptr)
+        getActiveCamera()->getTemperature(&value);
+
+    return value;
 }
 
 void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition, FilterManager::FilterPolicy policy)
