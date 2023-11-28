@@ -498,8 +498,8 @@ bool InternalGuider::onePulseDither(double pixels)
     const GuiderUtils::Vector raDecMove = pmath->getCalibration().rotateToRaDec(xyMove);
     double raPulse = fabs(raDecMove.x * pmath->getCalibration().raPulseMillisecondsPerArcsecond());
     double decPulse = fabs(raDecMove.y * pmath->getCalibration().decPulseMillisecondsPerArcsecond());
-    auto raDir = raDecMove.x > 0 ? RA_DEC_DIR : RA_INC_DIR;
-    auto decDir = raDecMove.y > 0 ? DEC_INC_DIR : DEC_DEC_DIR;
+    auto raDir = raDecMove.x > 0 ? RA_INC_DIR : RA_DEC_DIR;
+    auto decDir = raDecMove.y > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
 
     m_isFirstFrame = true;
 
