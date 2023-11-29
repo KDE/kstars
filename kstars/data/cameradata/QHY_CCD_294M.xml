@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExposureCalculatorCameraData>
+    <CameraDataClassVersion>1</CameraDataClassVersion>
+    <CameraId>QHY CCD 294M</CameraId>
+    <SensorType>MONOCHROME</SensorType>
+    <GainSelectionType>NORMAL</GainSelectionType>
+    <CameraGainSelections>
+        <GainSelection>0</GainSelection>
+        <GainSelection>3500</GainSelection>
+    </CameraGainSelections>
+    <CameraGainReadMode>
+        <GainReadModeNumber>0</GainReadModeNumber>
+        <GainReadModeName>11M</GainReadModeName>
+        <CameraGainReadNoise>
+			<GainReadNoiseValue><Gain>0</Gain><ReadNoise>6.34</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>200</Gain><ReadNoise>6.28</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>400</Gain><ReadNoise>6.11</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>600</Gain><ReadNoise>5.9</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>800</Gain><ReadNoise>5.89</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1000</Gain><ReadNoise>5.91</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1400</Gain><ReadNoise>5.19</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1600</Gain><ReadNoise>1.56</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1800</Gain><ReadNoise>1.59</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2000</Gain><ReadNoise>1.58</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2200</Gain><ReadNoise>1.49</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2400</Gain><ReadNoise>1.45</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2600</Gain><ReadNoise>1.44</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2800</Gain><ReadNoise>1.41</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3000</Gain><ReadNoise>1.37</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3200</Gain><ReadNoise>1.3</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3400</Gain><ReadNoise>1.24</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3600</Gain><ReadNoise>1.19</ReadNoise></GainReadNoiseValue>
+        </CameraGainReadNoise>
+        <GainReadModeNumber>1</GainReadModeNumber>
+        <GainReadModeName>47M</GainReadModeName>
+        <CameraGainReadNoise>
+			<GainReadNoiseValue><Gain>0</Gain><ReadNoise>5.34</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>200</Gain><ReadNoise>2.52</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>400</Gain><ReadNoise>2.46</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>600</Gain><ReadNoise>2.4</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>800</Gain><ReadNoise>2.34</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1000</Gain><ReadNoise>2.27</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1400</Gain><ReadNoise>2.17</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1600</Gain><ReadNoise>2.12</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>1800</Gain><ReadNoise>2.08</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2000</Gain><ReadNoise>2.04</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2200</Gain><ReadNoise>1.98</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2400</Gain><ReadNoise>1.94</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2600</Gain><ReadNoise>1.89</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>2800</Gain><ReadNoise>1.84</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3000</Gain><ReadNoise>1.78</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3200</Gain><ReadNoise>1.72</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3400</Gain><ReadNoise>1.64</ReadNoise></GainReadNoiseValue>
+			<GainReadNoiseValue><Gain>3600</Gain><ReadNoise>1.54</ReadNoise></GainReadNoiseValue>
+        </CameraGainReadNoise>
+    </CameraGainReadMode>
+</ExposureCalculatorCameraData>

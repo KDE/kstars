@@ -485,6 +485,220 @@
             Before the calibration capture process is started, you can request Ekos to park the mount and/or dome. Depending on your flat source selection above, Ekos will use the appropriate flat light source before starting flat frames capture. If ADU is specified, Ekos begins by capturing a couple of preview images to establish the curve required to achieve the desired ADU count. Once an appropriate value is calculated, another capture is taken and ADU is recounted until a satisfactory value is achieved.
         </para>
     </sect3>
+    <sect3 id="capture-exposure-calculator">
+        <title>Exposure Calculator</title>
+        <screenshot>
+            <screeninfo>
+                Exposure calculator
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposure-calculator.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Exposure calculator</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+            The exposure calculator is an implementation of a calculation process presented by Dr. Robin Glover in 2019. This calculation process seeks to establish a sub-exposure time which considers two sources of noise in an image: camera read noise, and noise from background sky brightness (light pollution). The effects of camera thermal noise on images is not considered in this calculation.  (Note: Since his presentation in 2019, Dr. Glover has enhanced his calculation process to incorporate the effects of sensor quantum efficiency, and sensor pixel size. At this time, the KStars implementation lacks those features.)
+        </para>
+        <para>
+			The concept in Dr. Glover's calculation is to provide a sufficiently long exposure so that the effects of camera read-noise are overwhelmed by the signal coming from the target, but not so long an exposure that the effects of light pollution rise to levels which would overwhelm the signal from the target.
+        </para>
+        <para>
+			The implementation of this process does not consider the strength (magnitude or flux) of the intended target, nor does it consider other factors which may cause an astrophotographer to choose a alternate sub-exposure time. These other factors may include: the storage requirements and extended post-processing time for a large number of short exposures, the impacts of external factors that might occur in very long exposures, such as tracking / guiding performance, changes in weather conditions which may disrupt seeing conditions, intrusions from air traffic or passing satellites.
+        </para>
+        <para>
+Approaches to imaging can vary greatly in the selection of exposure times, and number of sub-exposures used for integration. A well accepted approach for imaging deep-sky objects utilizes long exposures, requires good guiding, good to excellent seeing conditions, and would typically employ filtering to reduce the effects of light polution. At the other extreme are approaches such as speckle imaging techniques (commonly 'lucky imaging'), which utilize many hundreds to many thousands of extremely short exposures in an attempt to eliminate the effects of light pollution, poor seeing conditions, and poor guiding. Choices made for values of certain inputs to the exposure calculator will vary depending upon which imaging approach is being employed.</para>
+        <orderedlist>
+            <listitem>
+				<para>
+                    Exposure Calculator Inputs
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <guilabel>Sky Quality</guilabel>: The <guimenu>Sky Quality selector</guimenu> sets the measurement of the magnitude per square arc-second of the background sky.</para>
+                            <para>The range for Sky Quality is from 22 for the darkest skies, to 16 for the brightest (most light-polluted) skies. The magnitude scale is non-linear; it is a logarithmic scale based on the 5th root of 100. So 5 steps on the scale represent a change in brightness by a factor of 100. (A Sky Quality of 17 is 100 times as bright as a Sky Quality of 22. Each full integer step on the scale is a change by a factor of approximately 2.512.). <ulink url= "https://en.wikipedia.org/wiki/Light_pollution">Wikipedia Sky Brightness</ulink>  
+<ulink url= "https://en.wikipedia.org/wiki/Light_pollution">Wikipedia Light Pollution</ulink></para>
+                            <para>
+                               All light scattered in the backgound sky is considered to be light pollution regardless of its source, so the effects of moonlight should be considered as "natural" light pollution. But weather conditions can also impact Sky Quality, as humidity or cloud cover can reflect and scatter any source of light through the atmosphere</para>
+                            <para>
+                               A <ulink url= "https://en.wikipedia.org/wiki/Sky_quality_meter">Sky Quality Meter (SQM)</ulink>
+ can provide the most accurate reading of sky quality if used during an imaging session, but an estimated value from sky quality surveys may also be found on the web at sites such as <ulink url= "https://www.lightpollutionmap.info/">www.lightpollutionmap.info</ulink> or <ulink url= "https://clearoutside.com/">www.clearoutside.com</ulink>. But these on-line sources for estimated light pollution genearrly do not account for the effects of moonlight or local weather conditions.  So the values from light pollution web sites should only be considered as a “best case scenario” for a cloudless night during a new moon.</para> 
+                            <para>
+                               If a light pollution map value is used for the input value of SQM, but imaging will be performed with a partial moon, then a decrease in the input of the SQM value should be applied in the calculator.  Moonlight can be overwhelming; at a location where a light pollution map showed an SQM value of 19.63. An SQM reading was made on a night with a waxing crescent, shortly before half-moon, (moon age 5.4, and KStars moon magnitude = -10). The SQM reading at zenith showed the sky to be much brighter with measured value of 18.48. A reading taken on a night with a waxing gibbous, shortly before a full moon, (moon age 12.4, and KStars moon magnitude = -12). The SQM reading at zenith showed a measured SQM value of 15.95.</para>
+<para>The value of Sky Quality has a drastic impact on the calculated exposure because of the logarithmic scale involved.  An image taken from a location with heavy light pollution (a low sky quality value), especially when filtering is not applied, may result in a very short exposure time to prevent light pollution from overwhelming the target signal. An image taken from a location with very little light pollution (a high Sky Quality value) may result in an sub-exposure time of several hours.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Focal Ratio</guilabel>: The selector for <guimenu>Focal Ratio</guimenu> set the value from the optical train, which is needed for the evaluation of light gathering capability.</para>
+                            <para>
+                                The value of the focal ratio of the optic has a direct effect on the exposure calculation. A lower focal ratio is considered to be a "faster optic" as it has a greater light gathering capability than an optic with a longer focal ratio. So the exposure calculation will be reduced when a lower focal ratio is used, and increased when a higher focal ratio is used.</para>
+                            <para>
+                                The user might consider making a slight adjustment to the input value of the focal ratio to compensate for the efficiency or for obstructions in the optic.</para>
+                            <para>
+                                For example, two optics of the same focal ratio, a refractor (with no obstruction) and a reflector (with a secondary mirror obstruction) would be treated as equivalent optics in the computations. One way that a user might compensate for this would be to make an adjustment to the focal ratio input value to compensate for the efficiency of the optic. A refractor is generally considered to have an efficiency of about 94%, a reflector is generally considered to have an efficiency of about 78%.</para>
+<para>An effective / adjusted focal ratio value for a refractor = Optic Focal Ratio / 0.94</para>
+<para>An effective / adjusted focal ratio value for a reflector = Optic Focal Ratio / 0.78</para>
+<para>These adjustments slightly increase the focal ratio, and therefore slightly reduce the computed light gathering capability considered in the calculation.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Filter Bandwidth</guilabel>: The selector for <guimenu>Filter Bandwidth</guimenu> sets the value for the bandwidth (in nanometers), and should be reduced from the default value of 300 when a filter is included in the optical train. The inclusion of filters in the optic train will greatly effect the exposure calculation.  The value ranges from 300, for imaging without any filter, down to 2.8 for an extreme narrow-band filter.</para>
+                            <para>Filters fall generally into two categories: single band, or multi-band. The bandwidth for a single band filter should be relatively easy to determine or estimate. Generally a Red, Green or Blue filter is considered to have a bandwidth of 100 nanometers. Documentation of narrow-band filters will frequently state the bandwidth (usually in the range of 3 to 12 nm). But the bandwidth of multi-band astronomy filters, such as light-pollution filters, or filters specifically designed for use on nebulae may be more difficult to determine as their transmission profiles can be far more complex.</para>
+<para>
+Even within the bands that filters are intended to pass, filters are not 100% efficient. So a user of the calculator might wish to slightly reduce the value of the filter bandwidth to compensate for this. Example: if a filter is presumed to have a bandwidth of 100 nm but its transmission efficiency is only 92%, then a value of 92 might better represent this filter, and result in a slightly more accurate exposure calculation. 
+</para>
+                            <para>
+                                The value of the filter bandwidth has an inverse effect on the exposure calculation. An unfiltered exposure would use the max value of 300 for the filter bandwidth (representing visible spectrum of 300 nanometers), and will produce the shortest exposure time calculation. An extreme narrow-band filter, (for example a 3 nanometer bandwidth), will produce the longest exposure time.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Camera</guilabel>: The exposure calculation requires a value for the read noise of the camera. Camera read noise is an electronic noise that occurs at the completion of an exposure as the camera is measuring the analog voltage values of the pixels and converting these measurements into digital values. Read noise is not effected by the length of an exposure.</para>
+<para>Camera sensors are one of two types: "Charge Coupled Device" (CCD) or "Complementary Metal-Oxide Semiconductor" (CMOS).  For the exposure calculation the main difference between these sensor types is that CCD sensors do not have a variable gain setting that would impact the read noise; so a CCD sensor will have a single constant value for its read noise.  A CMOS sensor does have a variable gain (or ISO value), and changes to that setting usually result in a change to the read noise.</para>
+                            <para>The exposure calculator relies upon the selection of a camera data file so that it can access an appropriate read noise value for use in the calculation.  The camera selection drop down allows the user to select an appropriate camera data file. For a CCD camera the file will only hold a single read noise value, but for a CMOS camera the file includes a table (or a few tables) of values which relate the gain or ISO value to a read noise value. Do not be confused by "CCD" appearing in the names of many dedicated astrophotography cameras, most of these cameras are using CMOS sensors.
+</para>
+                            <para>The camera data files provided in KStars contain values which are transcribed from manufacturers technical documentation. But actual read noise values for a camera may vary from the published data; so a user may which to utilize a tool that can determine the read noise values for their specific camera.  Dr. Glover provides a sensor analysis tool in his MS-Windows based product SharpCap <ulink url= "https://www.sharpcap.co.uk/sharpcap/features/sensor-analysis">SharpCap Sensor Analysis</ulink>  The specific data from such a tool can be used to create a customized camera data file for use with the KStars exposure calculator.</para>
+                        </listitem>
+                        <listitem>
+<para><guilabel>Read Mode</guilabel>: Some cameras manufactured by QHY have the capability to function in multiple modes. These modes alter the read noise values, so the camera data files for these cameras include multiple read noise tables. When using one of these multi-mode cameras the Read Mode dropdown will become enabled, and allow the user to select the read mode table that would correspond to the mode in which the camera will be operated for imaging.</para>
+                        </listitem>
+                        <listitem>
+                          <para>
+                                <guimenuitem>Exposure Time Graph</guimenuitem>: The calculator will present a graph of the potential exposure times determined from the inputs. In the case of CMOS based cameras, this graph will resemble the underlying read noise data from the camera, but is transformed into an exposure time over the range of possible gain or ISO values. In the case of CCD based cameras, the graph will be a simple bar, because the read noise of a CCD sensor is invariable.
+</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Gain / ISO Selection</guilabel>: For cameras with CMOS sensors, a Gain or ISO value can be selected. A Gain control will appear for cameras that allow a gain selection, and an ISO selection drop down will appear for DSLR cameras. Adjusting the gain / ISO value will move a selection indicator laterally along the exposure time graph to show how the selected gain value will effect the calculated exposure time.</para>
+<para>CMOS based cameras tend to have high read noise at low gain / ISO values, and the read noise diminishes as the Gain / ISO value is increased. So a user might be tempted to select a higher gain value in an attempt to reduce the amount of read noise. But the camera full well capacity would typically be highest when gain / ISO values are lowest.  A greater full well capacity provides a greater dynamic range in the image.</para>
+<para>
+Selection of a gain / ISO value would be dependent upon the imaging technique being employed. When a long exposure is desired (as with 'typical' DSO imaging), then a low gain / ISO value would usually be preferred to achieve a greater dynamic range in the image. But if a speckle technique ('lucky imaging') is being used, the exposure times would be so low that reducing read noise becomes critical, in such a case the user would likely prioritize a low read noise in the sub-exposures, and will likely need to select a high gain/ISO value.</para>
+<para>
+Some cameras may show a smooth progressive curve in the read-noise over the range of gain values, other cameras may have very pronounced steps (and other anomalies) in their read-noise. These pronounced steps are usually the result of electronic mode switching within the camera. In cases where the graph shows a pronounced step, the user may wish to select a gain value which is at the bottom of that step. This may provide a reduced read noise, and result in a shorter exposure without a significant loss in dynamic range when compared to an image shot at a gain selection that is at the top of that step. But caution is needed when selecting a gain near a “step” on the graph. Some posts on forums indicate that the read-noise data provided by manufacturer documentation may not be exact. The actual “switch” in read-noise may be at a slightly higher or lower gain value, so it is recommended to avoid selecting a gain value that is at a step in read noise.
+</para>
+<para>When using data from camera manufacturer documentation, avoid selecting a gain near a step
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation_gain_at_step-avoid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Avoid selecting gain near a step</phrase>
+                </textobject>
+            </mediaobject>
+</para>
+<para>Instead, shift the gain selection away from the step
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation_gain_at_step-shift.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Shift gain away from such steps</phrase>
+                </textobject>
+            </mediaobject>
+</para>
+                   </listitem>
+                   <listitem>
+                            <para>
+                                <guilabel>Noise Increase %</guilabel>: The <guimenu>'Noise Increase %'</guimenu> selector controls a factor used in Dr Glover's equation. This value will alter the relative balance between the two sources of noise in the sub-exposure. As a general rule, Dr Glover had recommended using a value of 5%, but lowering it to 2% when the computed exposure time is considered to be too short.</para>
+<para>The perspective of the "increase" is a relative increase in read-noise compared to noise from light pollution.  It may seem counter-intuitive, but raising the value of 'Noise Increase %' will reduce the exposure time, reducing the noise from light pollution (and reducing the target signal), so the 'increase' means a relative increase in the effect of the read noise compared with the pollution noise. Lowering the value of 'Noise Increase %' will increase the exposure time, and will allow more noise from light pollution, (and more target signal), into the exposure. This effectively reduces the relative impact of read-noise.</para>
+                       <para>In this implementation of the calculator, the value for the 'Noise Increase %' can be set to in a very broad range to allow a user a greater range for experimentation. But a user should recognize that large changes to this value can have undesired consequences.  Forcing an exposure time down may cause the exposure to carry a relatively heavy burden from read noise, and would reduce the quality of the sub-exposure, (the ratio of exposure time to total noise will fall). As a result a significantly higher number of exposures for integration would be needed to achieve an acceptable level of quality.  Forcing an exposure time up to long exposure might cause the exposure to have excessive noise from light pollution.</para>
+<para>The value selected for the 'noise increase %' is also one which is dependent upon the imaging technique being employed. When a speckle technique ('lucky imaging') is being employed, the user will likely need to force the exposure time down to an extremely short duration (sub-second exposures are standard with this technique). So the user may need to drastically raise the value of 'noise increase %' to reduce the time of the sub-exposure down to the durations demanded by this technique.</para>
+                 </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Exposure Calculator Results
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <guilabel>Exposure Time (sec)</guilabel>: The calculated duration of an exposure.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Pollution Electrons</guilabel>: The calculated number of light pollution electrons per pixel impacting the exposure.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Shot Noise</guilabel>: The calculated noise from light pollution impacting the exposure.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guilabel>Total Noise</guilabel>: The calculated noise from both light pollution and image sensor read noise impacting the exposure.</para>
+<important><para><emphasis role="bold">Recognize the relationship of exposure time to total noise</emphasis>: The ratio of exposure time to exposure total noise can be thought of as a measurement of a potential quality for the exposure. Short exposures will contain a high amount of noise relative to their exposure time, so a shorter exposure would tend to be of relatively lower quality. Short exposures may still be viable, but a disproportionately higher number of short sub-exposures will be needed for integration to achieve an image of a desired quality.</para></important>
+
+
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+<para>Stacking / Image Integration Information</para>
+<para>
+The value of image stacking is that as images are stacked, the accumulation of exposure time and the data that represents the target signal is increased proportionally with the added number of images being integrated, but the increase in noise is disproportionally lower. As a result, the quality of integrated images can be seen as curve which starts with a good “yield” when the first few sub-exposures are integrated, but this curve has diminishing returns as the number of sub-exposures being integrated is increased. 
+</para>
+<para>Ideally a desired signal to noise ratio (SNR) would be used for the measure of the level of quality of an image, but the exposure calculator does not possess an ability to recognize the strength of the signal from an intended imaging target, so it cannot calculate an estimated signal to noise ratio.  So the level of quality to be specified in the stacking calculation is the integration time in seconds divided by the calculated noise in the integrated image, (a “Time/Noise Ratio”).   For the purposes of the calculation, the “Time/Noise Ratio” can be considered as a partial analog to a signal to noise ratio. But the user must recognize that a specified time to noise ratio is not an absolute measure of the quality of all integrated images from all targets because a signal strength (magnitude or flux) is not part of this calculation.
+</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <guimenuitem>Table</guimenuitem>: A table provides details for stacking based upon the number of hours planned for imaging.</para>
+<para>The table provides a quick reference for finding the appoximate number of sub-exposures that might be completed for a given number of hours in a imaging session. But some functions that consume time are not included in this time calculation. For example, USB based cameras typically take some time for data transmission, or if the user has selected automatic dithering, additional time will be consumed in the imaging process, which is not included in this time calculation.</para>
+<para>The far right column of the table shows the calculated time/noise ratio of the integrated (stacked) image that would be produced.</para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <guimenuitem>Graph</guimenuitem>: An interactive graph allows the user to visualize the relative change in potential quality for integrated images with various counts of sub-exposures applied in image stacking.  This graph can be navigated through the adjustment of the time/noise ratio value; adjusting this value will recompute the quantity of sub-exposures required for the integrated image to acheive that specified time/noise ratio.</para>
+
+<para>In the selection of a Time/Noise ratio for the calculation of the count of stacked exposures, the user might want consider the incremental change to the poterntial quailty of the image from an addtional sub-exposure. To help a user assess the value of increasing the number of sub-exposures for integration; the tool includes a calculaton of the slope for the selected point on the time/noise curve (the user interface uses a delta symbol to present this value).  This delta value represents the change in potential quality that will result from the addition or subtraction of a single sub-exposure.</para>
+
+<para>As one should expect, at the low-end of exposure counts (when a low value for the Time/Noise Ratio is input), the delta value will be relatively high, so the addition of one image will provide a relatively large improvement to the integrated image.  But as a user increases the value for the Time/Noise Ratio, more images will be included for integration, and the delta value will fall, indicating that there is less to be gained from adding more sub-exposures.
+</para>
+<para>The default value for the time / noise ratio is set to 80. This value should not be construed in any way as an optimal value; it was simply chosen as a somewhat average value.  A user should consider a few factors when adjusting the value of the time / noise ratio: 1) the strength of the target object, 2) the time / noise ratio of the calculated sub-exposure, 3) the limitations of time for imaging and processing, and limitations of storage capacity for the images. 
+</para>
+
+<para>
+For a strong target, (example, Orion Nebula with magnitude 4), would provide a relatively strong signal.  On such a target, the value for the Time/Noise Ratio might be reduced and the computation of sub-exposures, may still produce an image with a very good signal to noise ratio. A much weaker target (example, Thor’s Helmet, magnitude 11), might require a higher time/noise ratio to compensate for the relatively weak target signal.
+</para>
+
+<para>
+Depending on the various inputs and imaging conditions, the potential quality of a sub-exposure can vary greatly. In poor sky quality with little or no filtering, the computed sub-exposure time will naturally be short to avoid an overwhelming noise from light pollution, and the exposure time relative to the computed noise will be low (a low time/noise ratio). To achieve a high quality integrated image from low time/noise ratio sub-exposures may require thousands sub-exposures.  If the user is concerned about imaging and processing time or storage capacity; then a higher time/noise ratio would needed to reduce the quantity of sub-exposures. Conversely, when input conditions result in a sub-exposure with a long exposure time relative to the computed noise (as with narrow-band imaging), the result is a sub-exposure with a very high time/noise ratio.  In such cases the default value of 80, might result in very few sub-exposures for the integration.  But the delta value will be quite high, indicating that raising the time-noise ratio will greatly improve the potential quality of the integrated image.  
+</para>
+
+<para>
+Part of the value of using a Time/Noise ratio as the input for the calculation of the required number of sub-exposures is that it should tend to compensate for the differences in relative noise for sub-exposures of various lengths.  A shorter sub-exposure would have a lower time/noise ratio, so it has less capacity to improve a integrated image.  Therefore, a disproportionately higher number of short exposures are needed to achieve a given time/noise ratio in an integrated image.</para>
+
+<para>As an example, consider the calculation of the number of sub-exposures required when two sub-exposures times were compared: a 300 second sub-exposure vs a 30 second sub-exposure. The 300 second sub-exposure had a calculated noise of 22.1, resulting in a sub-exposure time/noise ratio of 13.6. When the 'noise increase %' is raised to force the exposure time down to 30 seconds, we see a calculated noise of 9.47, resulting in a much lower sub-exposure time/noise ratio of 3.2.  The 300 second exposure is of significantly higher potential quality than the 30 second exposure. We will demand the default time/noise ratio of 80 for integration in both of these cases.</para> 
+
+<para>For an integration using the 300 second sub-exposures we find that 34 sub-exposures are required to achieve a time/noise ratio of 80. So a total integration time of 2.83 hours is required.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation-example_subexp300.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>300 Second sub-exposure</phrase>
+                </textobject>
+            </mediaobject>
+<para>For an integration using the 30 second sub-exposures we find that 637 sub-exposures would be required to achieve a time/noise ratio of 80. So a total integration time of 5.31 hours is required with these shorter exposures to acheive the same time/noise ratio in the integrated image.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation-example_subexp30.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>30 Second sub-exposure</phrase>
+                </textobject>
+            </mediaobject>
+                        </listitem>
+                     </itemizedlist>
+
+           </listitem>
+        </orderedlist>
+
+        </sect3>
 
     <sect3 id="capture-video-tutorials">
         <title>Video Tutorials</title>
