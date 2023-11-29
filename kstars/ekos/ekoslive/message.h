@@ -65,6 +65,9 @@ class Message : public QObject
         // Ekos
         void setEkosStatingStatus(Ekos::CommunicationStatus status);
 
+        // INDI
+        void setINDIStatus(Ekos::CommunicationStatus status);
+
         // Alignment
         void setAlignStatus(Ekos::AlignState newState);
         void setAlignSolution(const QVariantMap &solution);
