@@ -167,6 +167,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     });
 
     connect(this, &Manager::ekosStatusChanged, ekosLiveClient.get()->message(), &EkosLive::Message::setEkosStatingStatus);
+    connect(this, &Manager::indiStatusChanged, ekosLiveClient.get()->message(), &EkosLive::Message::setINDIStatus);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::connected, this, [&]()
     {
         ekosLiveB->setIcon(QIcon(":/icons/cloud-online.svg"));
