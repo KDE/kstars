@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-28 00:38+0000\n"
-"PO-Revision-Date: 2023-11-27 10:50+0100\n"
+"POT-Creation-Date: 2023-11-30 00:38+0000\n"
+"PO-Revision-Date: 2023-11-29 20:30+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -561,8 +561,8 @@ msgstr "Cancel·la"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1071 ekos/manager.cpp:1086
-#: ekos/manager.cpp:1116 ekos/scheduler/schedulerjob.cpp:596
+#: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1072 ekos/manager.cpp:1087
+#: ekos/manager.cpp:1117 ekos/scheduler/schedulerjob.cpp:596
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
 #: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:519
@@ -1943,7 +1943,7 @@ msgstr "Estat:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:23
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:575 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:576 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1252
 #: ekos/scheduler/schedulerjob.cpp:589 ekos/scheduler/schedulerjob.cpp:613
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
@@ -2308,7 +2308,7 @@ msgstr "/"
 msgid "Apparent magnitude:"
 msgstr "Magnitud aparent:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:110
 #, kde-format
@@ -2422,7 +2422,7 @@ msgstr "Suposa a partir del &text"
 msgid "Import File"
 msgstr "Importa un fitxer"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, DataURL)
 #: dialogs/addcatdialog.ui:53
 #, kde-format
@@ -2442,7 +2442,7 @@ msgstr ""
 "nom del fitxer per a construir un fitxer de catàleg amb una capçalera "
 "vàlida, però buit."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QListWidget, DataFileBox)
 #: dialogs/addcatdialog.ui:76
 #, kde-format
@@ -2477,7 +2477,7 @@ msgstr "<b>Camps del catàleg:</b>"
 msgid "<b>Available fields:</b>"
 msgstr "<b>Camps disponibles:</b>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Epoch)
 #: dialogs/addcatdialog.ui:211
 #, kde-format
@@ -2520,7 +2520,7 @@ msgstr "Delimitat en l'espai"
 msgid "Preview &Output"
 msgstr "Previsualitza l'ei&xida"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, CatalogURL)
 #: dialogs/addcatdialog.ui:352
 #, kde-format
@@ -2539,7 +2539,7 @@ msgstr "Nom del catàleg:"
 msgid "Save catalog as:"
 msgstr "Anomena i guarda el catàleg:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CatalogName)
 #: dialogs/addcatdialog.ui:373
 #, kde-format
@@ -2617,7 +2617,7 @@ msgstr "Imatge"
 msgid "Information"
 msgstr "Information"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, DescBox)
 #: dialogs/addlinkdialog.ui:59
 #, kde-format
@@ -2641,21 +2641,21 @@ msgstr "Descripció:"
 msgid "URL:"
 msgstr "URL:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, URLBox)
 #: dialogs/addlinkdialog.ui:94
 #, kde-format
 msgid "The URL which will be displayed by this item"
 msgstr "L'URL que es visualitzarà per a este element."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:127
 #, kde-format
 msgid "Open URL in a browser window"
 msgstr "Obri l'URL en una finestra del navegador."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, URLButton)
 #: dialogs/addlinkdialog.ui:130
 #, kde-format
@@ -3064,7 +3064,7 @@ msgstr "Afig un objecte..."
 msgid "Import CSV..."
 msgstr "Importa CSV..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, name_filter)
 #: dialogs/catalogdetails.ui:248
 #, kde-format
@@ -4330,14 +4330,14 @@ msgstr "Nom incorrecte de l'objecte"
 msgid "Filter by name:"
 msgstr "Filtra per nom:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, showHistoryB)
 #: dialogs/finddialog.ui:75
 #, kde-format
 msgid "Find History"
 msgstr "Busca en l'historial."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearHistoryB)
 #: dialogs/finddialog.ui:109
 #, kde-format
@@ -4399,7 +4399,7 @@ msgstr "El valor de l'altitud ha d'estar entre -90,0 i 90,0."
 msgid "RA/Dec"
 msgstr "AR/Dec"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, decLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #: dialogs/focusdialog.ui:61 ekos/manager.ui:770 ekos/mount/mount.ui:158
@@ -4407,21 +4407,21 @@ msgstr "AR/Dec"
 msgid "Declination"
 msgstr "Declinació."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, JNowB)
 #: dialogs/focusdialog.ui:71
 #, kde-format
 msgid "Set Epoch to now"
 msgstr "Establix l'època a ara."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, J2000B)
 #: dialogs/focusdialog.ui:81
 #, kde-format
 msgid "Set Epoch to J2000"
 msgstr "Establix l'època a J2000."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, raLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
 #: dialogs/focusdialog.ui:104 ekos/manager.ui:786 ekos/mount/mount.ui:141
@@ -4443,7 +4443,7 @@ msgstr "2000.0"
 msgid "Az/Alt"
 msgstr "Az/Alt"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, azLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
@@ -4619,7 +4619,7 @@ msgstr "Nombre f: "
 msgid "Edit FOV Symbols"
 msgstr "Editeu els símbols de CDV"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:54
 #, kde-format
@@ -4642,7 +4642,7 @@ msgstr ""
 msgid "New..."
 msgstr "Nou..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/fovdialog.ui:83
 #, kde-format
@@ -4659,7 +4659,7 @@ msgstr ""
 "Premeu este botó per a modificar el símbol de CDV ressaltat. Podreu canviar-"
 "ne la mida, forma i color."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/fovdialog.ui:96
 #, kde-format
@@ -4915,21 +4915,21 @@ msgstr "Obtèn l'emplaçament"
 msgid "&Clear Fields"
 msgstr "&Neteja els camps"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddCityButton)
 #: dialogs/locationdialog.ui:545
 #, kde-format
 msgid "Add City"
 msgstr "Afig la ciutat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpdateButton)
 #: dialogs/locationdialog.ui:574
 #, kde-format
 msgid "Update City"
 msgstr "Actualitza la ciutat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/locationdialog.ui:606
 #, kde-format
@@ -4954,7 +4954,7 @@ msgstr ""
 "style=\"font-weight:600; color:#ff0000;\">*</span><span style=\"font-"
 "weight:600;\">:</span></p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVName)
 #: dialogs/newfov.ui:65
 #, kde-format
@@ -4984,7 +4984,7 @@ msgstr "Ocular"
 msgid "Telescope focal length:"
 msgstr "Distància focal del telescopi:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, TLength1)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, TLength2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LinearFOV)
@@ -5031,7 +5031,7 @@ msgstr "mm"
 msgid "Eyepiece focal length:"
 msgstr "Distància focal de l'ocular:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, EyeLength)
 #: dialogs/newfov.ui:171
 #, kde-format
@@ -5052,7 +5052,7 @@ msgstr ""
 "Este és un dels camps de dades requerit per a definir un símbol de camp "
 "visual (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel8_2)
 #: dialogs/newfov.ui:224
 #, kde-format
@@ -5065,7 +5065,7 @@ msgstr "Introduïu el camp de visió aparent de l'ocular."
 msgid "Eyepiece AFOV:"
 msgstr "CDVA de l'ocular:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, EyeFOV)
 #: dialogs/newfov.ui:272
 #, kde-format
@@ -5111,7 +5111,7 @@ msgstr ""
 "Nota: Panoptic, Nagler, Radian, Delos i Ethos són marques registrades de "
 "Tele Vue Optics, Inc."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ComputeEyeFOV)
 #. i18n: ectx: property (toolTip), widget (QPushButton, ComputeCameraFOV)
 #. i18n: ectx: property (toolTip), widget (QPushButton, ComputeBinocularFOV)
@@ -5215,7 +5215,7 @@ msgstr "píxels"
 msgid "Pixel W:"
 msgstr "Amp. del píxel:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraPixelSizeW)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraPixelSizeH)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WaveLength)
@@ -5336,7 +5336,7 @@ msgstr "Longitud d'ona:"
 msgid "cm"
 msgstr "cm"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ComputeHPBW)
 #: dialogs/newfov.ui:991
 #, kde-format
@@ -5429,7 +5429,7 @@ msgstr ""
 msgid "0"
 msgstr "0"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditOffsetY)
 #: dialogs/newfov.ui:1068
 #, kde-format
@@ -5449,7 +5449,7 @@ msgstr "Desplaçament Y:"
 msgid "Degrees E of N"
 msgstr "graus E del N"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditX)
 #: dialogs/newfov.ui:1102
 #, kde-format
@@ -5483,7 +5483,7 @@ msgstr "Desplaçament X:"
 msgid " x "
 msgstr " x "
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditOffsetX)
 #: dialogs/newfov.ui:1131
 #, kde-format
@@ -5502,7 +5502,7 @@ msgstr "La rotació es porta a terme respecte al pol celeste."
 msgid "Lock to Celestial Pole"
 msgstr "Bloqueja al pol celeste"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (KColorButton, ColorButton)
 #: dialogs/newfov.ui:1226
 #, kde-format
@@ -5515,7 +5515,7 @@ msgstr "Permet escollir un color per al símbol del camp de visió."
 msgid "Select a color for the field-of-view (FOV) symbol."
 msgstr "Seleccioneu un color per al símbol del camp de visió (CDV)."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1253
 #, kde-format
@@ -5811,21 +5811,21 @@ msgstr ""
 "filtrar la llista pel nom de la vostra ciutat, província o país.</p><p>Una "
 "vegada hàgeu escollit una ciutat, premeu <b>Següent</b>.</p>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CityFilter)
 #: dialogs/wizlocation.ui:122
 #, kde-format
 msgid "Filter the list by city name"
 msgstr "Filtra la llista per nom de ciutat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CountryFilter)
 #: dialogs/wizlocation.ui:143
 #, kde-format
 msgid "Filter the list by country name"
 msgstr "Filtra la llista per nom de país."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ProvinceFilter)
 #: dialogs/wizlocation.ui:150
 #, kde-format
@@ -6163,7 +6163,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
-#: ekos/focus/focus.cpp:4188 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1902
+#: ekos/focus/focus.cpp:4188 ekos/guide/guide.cpp:1137 ekos/manager.cpp:1903
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:748
 #, kde-format
@@ -6468,7 +6468,7 @@ msgstr "Carrega i orienta..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:149 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:373 ekos/guide/guide.ui:153 ekos/manager.cpp:225
+#: ekos/focus/focus.ui:373 ekos/guide/guide.ui:153 ekos/manager.cpp:226
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -6477,7 +6477,7 @@ msgstr "Carrega i orienta..."
 msgid "Stop"
 msgstr "Para"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QGroupBox, gotoBox)
 #: ekos/align/align.ui:161
 #, kde-format
@@ -6497,7 +6497,7 @@ msgstr "Seleccioneu quina acció es prendrà una vegada es trobe la solució."
 msgid "Solver Action"
 msgstr "Acció del solucionador"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, syncR)
 #: ekos/align/align.ui:188
 #, kde-format
@@ -6510,7 +6510,7 @@ msgstr "Sincronitza el telescopi amb les coordenades de la solució."
 msgid "S&ync"
 msgstr "S&incronitza"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, slewR)
 #: ekos/align/align.ui:207
 #, kde-format
@@ -6527,7 +6527,7 @@ msgstr ""
 msgid "S&lew to Target"
 msgstr "&Orienta cap a l'objectiu"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, nothingR)
 #: ekos/align/align.ui:223
 #, kde-format
@@ -6546,7 +6546,7 @@ msgstr "&Res"
 msgid "Telescope Coordinates (JNow)"
 msgstr "Coordenades del telescopi (JNow)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/align/align.ui:265 ekos/align/align.ui:335
@@ -6598,7 +6598,7 @@ msgstr "Coordenades de la solució (JNow)"
 msgid "Effective field of view size in arcminutes."
 msgstr "Mida del camp de visió efectiu, en minuts d'arc."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, err)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, errOut)
 #: ekos/align/align.ui:393 ekos/align/align.ui:403
@@ -6615,7 +6615,7 @@ msgstr ""
 msgid "Err:"
 msgstr "Err:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pixScaleOut)
 #: ekos/align/align.ui:423 ekos/align/align.ui:460
@@ -6629,7 +6629,7 @@ msgstr "Escala de la imatge, en segons d'arc per píxel."
 msgid "Pix:"
 msgstr "Píx:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
 #: ekos/align/align.ui:440
 #, kde-format
@@ -6645,7 +6645,7 @@ msgstr "Angle de rotació de la imatge, est del nord."
 msgid "PA:"
 msgstr "AP:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
 #: ekos/align/align.ui:450
 #, kde-format
@@ -6724,7 +6724,7 @@ msgstr "Guany:"
 msgid "Bin:"
 msgstr "Agrupament:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:739 ekos/guide/guide.ui:166
 #, kde-format
@@ -6749,28 +6749,28 @@ msgstr ""
 msgid "Dark"
 msgstr "Fosc"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignBinning)
 #: ekos/align/align.ui:610
 #, kde-format
 msgid "Camera binning"
 msgstr "Agrupament de càmera («binning»)."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
 #: ekos/align/align.ui:629
 #, kde-format
 msgid "Toggle full screen"
 msgstr "Canvia a pantalla completa."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignExposure)
 #: ekos/align/align.ui:645
 #, kde-format
 msgid "Exposure duration in seconds"
 msgstr "Duració de l'exposició, en segons."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignGain)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
@@ -6790,7 +6790,7 @@ msgstr "Guany de la càmera."
 msgid "Filter:"
 msgstr "Filtre:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignISO)
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureISOS)
 #: ekos/align/align.ui:693 ekos/auxiliary/darklibrary.ui:516
@@ -7676,7 +7676,7 @@ msgstr "Mètode de resolució"
 msgid "Options Profile:"
 msgstr "Perfil d'opcions:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveOptionsProfile)
 #: ekos/align/opsalign.ui:181
 #, kde-format
@@ -7685,7 +7685,7 @@ msgstr ""
 "Selecciona el perfil d'opcions que s'utilitzarà per a la resolució de "
 "plaques."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
 #: ekos/align/opsalign.ui:197
 #, kde-format
@@ -7718,7 +7718,7 @@ msgstr ""
 msgid "WCS"
 msgstr "WCS"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
 #: ekos/align/opsalign.ui:240
 #, kde-format
@@ -8179,7 +8179,7 @@ msgstr ""
 msgid "5"
 msgstr "5"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_47)
 #. i18n: ectx: property (toolTip), widget (dmsBox, estRA)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_14)
@@ -8201,7 +8201,7 @@ msgstr ""
 msgid "3"
 msgstr "3"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #. i18n: ectx: property (toolTip), widget (dmsBox, estDec)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_48)
@@ -8217,7 +8217,7 @@ msgstr ""
 "La Dec de la posició estimada del camp del telescopi o imatge en notació dd:"
 "mm:ss."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, updatePosition)
 #: ekos/align/opsastrometry.ui:428
 #, kde-format
@@ -8467,7 +8467,7 @@ msgstr ""
 msgid "Folder Details:"
 msgstr "Detalls de la carpeta:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, addIndexFileDirectory)
 #: ekos/align/opsastrometryindexfiles.ui:253
 #, kde-format
@@ -8489,7 +8489,7 @@ msgstr "Afig una carpeta a on s'emmagatzemen els fitxers d'índex."
 msgid "+"
 msgstr "+"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeIndexFileDirectory)
 #: ekos/align/opsastrometryindexfiles.ui:263
 #, kde-format
@@ -8536,7 +8536,7 @@ msgstr "Obri"
 msgid "Current CCD FOV: "
 msgstr "CDV del CCD actual: "
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:302
 #, kde-format
@@ -9259,7 +9259,7 @@ msgstr "22' - 30'"
 msgid "Load Typical Default Paths"
 msgstr "Carrega els camins predeterminats típics"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:23
 #, kde-format
@@ -9318,7 +9318,7 @@ msgstr "Programa Sextractor local"
 msgid "sextractor binary:"
 msgstr "Binari de Sextractor:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SextractorBinary)
 #: ekos/align/opsprograms.ui:76
 #, kde-format
@@ -9331,14 +9331,14 @@ msgstr "Camí cap al fitxer binari Sextractor."
 msgid "Local Astrometry.net or Local ANSVR"
 msgstr "Astrometry.net local o ANSVR local"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryConfFile)
 #: ekos/align/opsprograms.ui:95
 #, kde-format
 msgid "Astrometry.net configuration file"
 msgstr "Fitxer de configuració d'Astrometry.net."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryWCSInfo)
 #: ekos/align/opsprograms.ui:105
 #, kde-format
@@ -9351,7 +9351,7 @@ msgstr "Binari «wcsinfo» d'Astrometry.net."
 msgid "wcsinfo:"
 msgstr "«wcsinfo»:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometrySolverBinary)
 #: ekos/align/opsprograms.ui:122
 #, kde-format
@@ -9382,7 +9382,7 @@ msgstr "ASTAP"
 msgid "ASTAP binary:"
 msgstr "Binari d'ASTAP:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_ASTAPExecutable)
 #: ekos/align/opsprograms.ui:162
 #, kde-format
@@ -9401,7 +9401,7 @@ msgstr "Solucionador Watney"
 msgid "Watney binary:"
 msgstr "Binari de Watney:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_WatneyBinary)
 #: ekos/align/opsprograms.ui:188
 #, kde-format
@@ -9414,7 +9414,7 @@ msgstr "Camí cap al binari del programa Watney."
 msgid "Online Astrometry.net or Remote ANSVR"
 msgstr "Astrometry.net en línia o ANSVR remot"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
 #, kde-format
@@ -9433,14 +9433,14 @@ msgstr "URL de l'API:"
 msgid "Time out:"
 msgstr "Temps d'espera:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_AstrometryTimeout)
 #: ekos/align/opsprograms.ui:231
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete"
 msgstr "Temps d'espera en segons a què acabe el solucionador de l'astrometria."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIKey)
 #: ekos/align/opsprograms.ui:244
 #, kde-format
@@ -9823,7 +9823,7 @@ msgstr ""
 msgid "Direction:"
 msgstr "Direcció:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHDirection)
 #: ekos/align/polaralignmentassistant.ui:116
 #, kde-format
@@ -9846,7 +9846,7 @@ msgstr "Oest"
 msgid "East"
 msgstr "Est"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, pAHRotation)
 #: ekos/align/polaralignmentassistant.ui:136
 #, kde-format
@@ -9859,7 +9859,7 @@ msgstr "Magnitud de la rotació, en graus."
 msgid "Speed:"
 msgstr "Velocitat:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:168
 #, kde-format
@@ -9898,14 +9898,14 @@ msgstr ""
 msgid "Refresh"
 msgstr "Actualitza"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pAHExposure)
 #: ekos/align/polaralignmentassistant.ui:347
 #, kde-format
 msgid "Exposure duration in seconds during refresh phase"
 msgstr "Duració de l'exposició, en segons, durant la fase d'actualització."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, PAHIteration)
 #: ekos/align/polaralignmentassistant.ui:385
 #, kde-format
@@ -10074,7 +10074,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:143 ekos/manager.cpp:231 ekos/manager.cpp:583
+#: ekos/manager.cpp:143 ekos/manager.cpp:232 ekos/manager.cpp:584
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10124,7 +10124,7 @@ msgid "Slew"
 msgstr "Orientació"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:327
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:328
 #, kde-format
 msgid "Setup"
 msgstr "Configuració"
@@ -10245,7 +10245,7 @@ msgstr "No s'ha pogut trobar el fitxer d'imatge: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1875 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:2021 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:2022 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:445
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
@@ -10253,7 +10253,7 @@ msgid "Focus"
 msgstr "Enfocament"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:1995
+#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:1996
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:398
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
@@ -10266,7 +10266,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2175
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2176
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
@@ -10284,7 +10284,7 @@ msgstr "Invertix"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1879 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/manager.cpp:2104 ekos/manager.ui:665
+#: ekos/manager.cpp:2105 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Muntura"
@@ -11671,7 +11671,7 @@ msgstr "Comptador:"
 msgid "Algorithm:"
 msgstr "Algorisme:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, exposureStepSin)
 #: ekos/auxiliary/darklibrary.ui:366
 #, kde-format
@@ -11795,7 +11795,7 @@ msgstr "Píxels defectuosos"
 msgid "Hot Pixels"
 msgstr "Píxels cremats"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, coldPixelsCount)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hotPixelsCount)
 #: ekos/auxiliary/darklibrary.ui:834 ekos/auxiliary/darklibrary.ui:952
@@ -11884,7 +11884,7 @@ msgstr ""
 msgid "Masters"
 msgstr "Mestres"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearRowB)
 #: ekos/auxiliary/darklibrary.ui:1092
 #, kde-format
@@ -11920,7 +11920,7 @@ msgstr ""
 msgid "T. threshold:"
 msgstr "Llindar de temp.:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllB)
 #: ekos/auxiliary/darklibrary.ui:1112
 #, kde-format
@@ -11958,7 +11958,7 @@ msgstr ""
 msgid "Dark validity:"
 msgstr "Validesa dels fotogrames foscos:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, openDarksFolderB)
 #: ekos/auxiliary/darklibrary.ui:1168
 #, kde-format
@@ -11977,7 +11977,7 @@ msgstr "Carpeta de fotogrames foscos"
 msgid "Clear Expired"
 msgstr "Neteja els caducats"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTableView, darkTableView)
 #: ekos/auxiliary/darklibrary.ui:1211
 #, kde-format
@@ -12255,7 +12255,7 @@ msgstr "Neteja tots els registres (%1)"
 msgid "Are you sure you want to delete all logs?"
 msgstr "Segur que voleu suprimir tots els registres?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearLogsB)
 #: ekos/auxiliary/opslogs.cpp:160 ekos/auxiliary/opslogs.ui:548
 #, kde-format
@@ -12284,7 +12284,7 @@ msgstr ""
 msgid "Logs"
 msgstr "Registres"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:87
 #, kde-format
@@ -12293,7 +12293,7 @@ msgstr "Registre d'activitat del mòdul «Programador» d'Ekos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:332 ekos/opsekos.ui:184
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:333 ekos/opsekos.ui:184
 #: ekos/scheduler/framingassistantui.cpp:667
 #, kde-format
 msgid "Scheduler"
@@ -12309,7 +12309,7 @@ msgstr "Programador"
 msgid "Weather"
 msgstr "Meteorologia"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideLogging)
 #: ekos/auxiliary/opslogs.ui:117
 #, kde-format
@@ -12339,7 +12339,7 @@ msgstr ""
 msgid "Ekos"
 msgstr "Ekos"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_RegularLogging)
 #: ekos/auxiliary/opslogs.ui:140 options/opsadvanced.ui:238
 #, kde-format
@@ -12358,7 +12358,7 @@ msgstr "Norma&l"
 msgid "Output:"
 msgstr "Eixida:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_DisableLogging)
 #: ekos/auxiliary/opslogs.ui:170 options/opsadvanced.ui:267
 #, kde-format
@@ -12371,7 +12371,7 @@ msgstr "Desactiva el registre de l'eixida."
 msgid "&Disable"
 msgstr "&Desactiva"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_INDILogging)
 #: ekos/auxiliary/opslogs.ui:186
 #, kde-format
@@ -12384,7 +12384,7 @@ msgstr "Registre d'activitat dels dispositius INDI."
 msgid "INDI"
 msgstr "INDI"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FITSLogging)
 #: ekos/auxiliary/opslogs.ui:199
 #, kde-format
@@ -12399,7 +12399,7 @@ msgstr "Registre d'activitat de processament de FITS."
 msgid "FITS"
 msgstr "FITS"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_LogToFile)
 #: ekos/auxiliary/opslogs.ui:212 options/opsadvanced.ui:333
 #, kde-format
@@ -12412,7 +12412,7 @@ msgstr "Registra el resultat a un fitxer de registre."
 msgid "Auxiliary"
 msgstr "Auxiliar"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_LogToDefault)
 #: ekos/auxiliary/opslogs.ui:232 options/opsadvanced.ui:317
 #, kde-format
@@ -12453,7 +12453,7 @@ msgstr "CCD"
 msgid "Verbosity:"
 msgstr "Nivell:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CaptureLogging)
 #: ekos/auxiliary/opslogs.ui:282
 #, kde-format
@@ -12472,7 +12472,7 @@ msgstr "Astrometria"
 msgid "GPS"
 msgstr "GPS"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlignmentLogging)
 #: ekos/auxiliary/opslogs.ui:312
 #, kde-format
@@ -12497,13 +12497,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2215
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2216
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
 msgstr "Observatori"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:338 options/opsadvanced.ui:304
 #, kde-format
@@ -12522,7 +12522,7 @@ msgstr "&Detallada"
 msgid "Detector"
 msgstr "Detector"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_INDIAOLogging)
 #. i18n: ectx: property (toolTip), widget (QLabel, AOLabel)
 #: ekos/auxiliary/opslogs.ui:361 ekos/profileeditor.ui:536
@@ -12536,7 +12536,7 @@ msgstr "Òptica adaptativa."
 msgid "AO"
 msgstr "OA"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FocusLogging)
 #: ekos/auxiliary/opslogs.ui:374
 #, kde-format
@@ -12572,14 +12572,14 @@ msgstr ""
 msgid "Drivers"
 msgstr "Controladors"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_MountLogging)
 #: ekos/auxiliary/opslogs.ui:417
 #, kde-format
 msgid "Log Ekos Mount module activity"
 msgstr "Registre d'activitat del mòdul «Muntura» d'Ekos."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:430
 #, kde-format
@@ -12632,14 +12632,14 @@ msgstr ""
 msgid " Separate Log File:"
 msgstr " Fitxer de registre separat:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryLogFilepath)
 #: ekos/auxiliary/opslogs.ui:475
 #, kde-format
 msgid "The external Log File for astrometry logging"
 msgstr "Camí cap al fitxer extern per a la gravació de l'astrometria."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:494 indi/opsindi.ui:522
 #, kde-format
@@ -12724,7 +12724,7 @@ msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Suprimix el tren òptic seleccionat.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
 #, kde-format
@@ -13093,7 +13093,7 @@ msgstr "PID"
 msgid "Link"
 msgstr "Enllaç"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: ekos/auxiliary/serialportassistant.cpp:206
 #, kde-format
 msgid "Serial #"
@@ -13182,7 +13182,7 @@ msgstr ""
 msgid "Existing Mapping"
 msgstr "Mapatge existent"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearRuleB)
 #: ekos/auxiliary/serialportassistant.ui:136
 #, kde-format
@@ -13313,7 +13313,7 @@ msgstr "Establiu-ho per a l'estimació HFR a la majoria d'estreles."
 msgid "Options Profiles"
 msgstr "Perfils d'opcions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:64
 #, kde-format
@@ -13344,14 +13344,14 @@ msgstr "Perfils SEP de guiatge"
 msgid "HFR SEP Profiles"
 msgstr "Perfils SEP de l'HFR"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, reloadProfiles)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:106
 #, kde-format
 msgid "Reloads the options profiles from the saved file"
 msgstr "Torna a carregar els perfils d'opcions des del fitxer guardat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadBackups)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:128
 #, kde-format
@@ -13363,7 +13363,7 @@ msgstr ""
 "guardat en un altre lloc de l'ordinador i substituïx tots els perfils d'este "
 "grup."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveBackups)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:150
 #, kde-format
@@ -13391,14 +13391,14 @@ msgid "This lets you select which options profile you want to load and edit."
 msgstr ""
 "Permet seleccionar els perfils d'opcions que voldreu carregar i editar."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, addOptionProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:210
 #, kde-format
 msgid "This allows you to add a new Options Profile and give it a name"
 msgstr "Permet afegir un perfil d'opcions nou i donar-li un nom."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeOptionProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:232
 #, kde-format
@@ -13415,7 +13415,7 @@ msgstr ""
 "Guarda este perfil individual a un fitxer separat en l'ordinador, de manera "
 "que es pot fer una còpia de seguretat o enviar-lo a algú."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, openProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:282
 #, kde-format
@@ -13424,7 +13424,7 @@ msgid ""
 "group"
 msgstr "Obri un perfil de l'ordinador i el carrega en este grup de perfils."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:304
 #, kde-format
@@ -13435,7 +13435,7 @@ msgstr ""
 "Copia el perfil actual d'opcions de manera que es podrà fer un duplicat en "
 "este grup de perfils o copiar-lo en un altre grup."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTextEdit, description)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:322
 #, kde-format
@@ -13540,7 +13540,7 @@ msgstr "Conv FWHM"
 msgid "magzero"
 msgstr "magzero"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:434
 #, kde-format
@@ -13620,7 +13620,7 @@ msgstr ""
 msgid "r_min"
 msgstr "r_min"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, apertureShape)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:502
 #, kde-format
@@ -13670,7 +13670,7 @@ msgstr ""
 "<a href = \"https://sep.readthedocs.io/en/v1.0.x/api/sep.sum_ellipse.html"
 "\">Paràmetres de fotometria</a>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:560
 #, kde-format
@@ -13683,7 +13683,7 @@ msgstr "Filtre conv."
 msgid "Shape"
 msgstr "Forma"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cleanCheckBox)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:574
 #, kde-format
@@ -13699,7 +13699,7 @@ msgstr ""
 msgid "Clean?"
 msgstr "Voleu que es netege?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, clean_param)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:587
 #, kde-format
@@ -13712,14 +13712,14 @@ msgstr " El paràmetre de neteja."
 msgid "Sub Pix"
 msgstr "Sub Pix"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, subpix)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:604
 #, kde-format
 msgid "The subpixel sampling factor for star extraction"
 msgstr "El factor de mostreig de subpíxel per a l'extracció d'estreles."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:614
 #, kde-format
@@ -13742,7 +13742,7 @@ msgstr ""
 msgid "Thresh Offset"
 msgstr "Desplaçament del llindar"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, threshOffset)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:638
 #, kde-format
@@ -13790,7 +13790,7 @@ msgstr ""
 "de les estreles, permet excloure fonts el·líptiques com galàxies o estreles "
 "mal distorsionades."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, brightestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:699
 #, kde-format
@@ -13804,7 +13804,7 @@ msgstr ""
 msgid "Cut Dimmest"
 msgstr "Retalla les més febles que el"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, dimmestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:716
 #, kde-format
@@ -13823,7 +13823,7 @@ msgstr ""
 msgid "%"
 msgstr "%"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, saturationLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:733
 #, kde-format
@@ -13838,7 +13838,7 @@ msgstr ""
 msgid "Sat. Limit"
 msgstr "Saturació límit al"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:750
 #, kde-format
@@ -13849,28 +13849,28 @@ msgstr ""
 "La mida mínima de les estreles que s'inclouran en la llista final, en "
 "píxels, basada en l'eix semimajor i el semimenor."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:760
 #, kde-format
 msgid "Max Ellipse"
 msgstr "El·lipse màx."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
 #, kde-format
 msgid "Min Size"
 msgstr "Mida mín."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
 #, kde-format
 msgid "Max Size"
 msgstr "Mida màx."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, maxSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:781
 #, kde-format
@@ -13972,7 +13972,7 @@ msgstr ""
 msgid "DownSample"
 msgstr "Submostratge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:939
 #, kde-format
@@ -14030,7 +14030,7 @@ msgstr ""
 msgid "180"
 msgstr "180"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:979
 #, kde-format
@@ -14047,7 +14047,7 @@ msgstr ""
 msgid "15"
 msgstr "15"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:989
 #, kde-format
@@ -14098,7 +14098,7 @@ msgstr "Algorisme paral·lel"
 msgid "Max Degree Width"
 msgstr "Amplària màx. en graus"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1030
 #, kde-format
@@ -14113,7 +14113,7 @@ msgstr ""
 msgid "600"
 msgstr "600"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoDownsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1040
 #, kde-format
@@ -14167,7 +14167,7 @@ msgstr ""
 msgid "Calibration Pre-Actions"
 msgstr "Accions prèvies al calibratge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, gotoWallC)
 #: ekos/capture/calibrationoptions.ui:63
 #, kde-format
@@ -14207,7 +14207,7 @@ msgstr "Aparca la cúpula"
 msgid "Flat Duration"
 msgstr "Duració del pla"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, manualDurationC)
 #: ekos/capture/calibrationoptions.ui:156
 #, kde-format
@@ -14571,14 +14571,14 @@ msgstr "Càmera i roda de filtres"
 msgid "<b>File Settings</b>"
 msgstr "<b>Configureu el fitxer</b>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
 #: ekos/capture/capture.ui:183
 #, kde-format
 msgid "Image capture format"
 msgstr "Format de captura de les imatges."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureEncodingS)
 #: ekos/capture/capture.ui:190
 #, kde-format
@@ -14591,7 +14591,7 @@ msgstr "Format de transferència de les imatges."
 msgid "Native"
 msgstr "Natiu"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinHN)
 #: ekos/capture/capture.ui:233
 #, kde-format
@@ -14604,14 +14604,14 @@ msgstr "Agrupament horitzontal."
 msgid "V:"
 msgstr "V:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinVN)
 #: ekos/capture/capture.ui:268
 #, kde-format
 msgid "Vertical binning"
 msgstr "Agrupament vertical."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/capture.ui:299
 #, kde-format
@@ -14643,28 +14643,28 @@ msgstr "X:"
 msgid "Y:"
 msgstr "Y:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:376
 #, kde-format
 msgid "Current camera gain"
 msgstr "Guany actual de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:395
 #, kde-format
 msgid "Target camera gain"
 msgstr "Guany objectiu de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:478
 #, kde-format
 msgid "Edit filter names"
 msgstr "Edita els noms dels filtres."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureLabel_2)
 #: ekos/capture/capture.ui:523
 #, kde-format
@@ -14673,14 +14673,14 @@ msgstr ""
 "Establix el temps d'exposició en segons per a les imatges individuals, en "
 "cas que siga aplicable."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:547
 #, kde-format
 msgid "Current camera offset"
 msgstr "Desplaçament actual de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:566
 #, kde-format
@@ -14710,21 +14710,21 @@ msgstr "Desplaçament:"
 msgid "Format:"
 msgstr "Format:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, calibrationB)
 #: ekos/capture/capture.ui:637
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
 msgstr "Opcions de calibratge automàtic dels fotogrames foscos i plans."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/capture.ui:663
 #, kde-format
 msgid "Manage INDI sequence properties"
 msgstr "Gestiona les propietats de la seqüència d'INDI."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: ekos/capture/capture.ui:695
 #, kde-format
@@ -14843,7 +14843,7 @@ msgstr ""
 msgid "_%s"
 msgstr "_%s"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/capture.ui:991
 #, kde-format
@@ -15072,7 +15072,7 @@ msgstr "Remot:"
 msgid "<b>Capture Settings</b>"
 msgstr "<b>Configureu la captura</b>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/capture.ui:1159
 #, kde-format
@@ -15085,7 +15085,7 @@ msgstr "Agrupament horitzontal i vertical."
 msgid "Frame:"
 msgstr "Fotograma:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -15096,49 +15096,49 @@ msgstr "Fotograma:"
 msgid "Number of images to capture"
 msgstr "El nombre d'imatges que es capturaran."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/capture.ui:1234
 #, kde-format
 msgid "Restart camera driver"
 msgstr "Reinicia el controlador de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/capture.ui:1266
 #, kde-format
 msgid "Temperature regulation"
 msgstr "Regulació de la temperatura."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
 #: ekos/capture/capture.ui:1301
 #, kde-format
 msgid "Set CCD temperature"
 msgstr "Establix la temperatura del CCD."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
 #: ekos/capture/capture.ui:1336
 #, kde-format
 msgid "Desired CCD temperature"
 msgstr "Temperatura desitjada del CCD."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/capture.ui:1349
 #, kde-format
 msgid "Current CCD temperature"
 msgstr "Temperatura actual del CCD."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
 #: ekos/capture/capture.ui:1371
 #, kde-format
 msgid "Clear camera configuration"
 msgstr "Neteja la configuració de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
 #: ekos/capture/capture.ui:1405
 #, kde-format
@@ -15151,7 +15151,7 @@ msgstr "Inicia el refrigerador."
 msgid "On"
 msgstr "Encés"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
 #: ekos/capture/capture.ui:1435
 #, kde-format
@@ -15199,28 +15199,28 @@ msgstr "Càmera:"
 msgid "Sequence Queue"
 msgstr "Cua en seqüència"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/capture/capture.ui:1699
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr "Restablix l'estat de totes les tasques."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/capture.ui:1724
 #, kde-format
 msgid "Select Observer"
 msgstr "Seleccioneu l'observador."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/capture/capture.ui:1765
 #, kde-format
 msgid "Load capture sequence from file"
 msgstr "Carrega la seqüència de captura des d'un fitxer."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/capture/capture.ui:1799
 #, kde-format
@@ -15268,35 +15268,35 @@ msgstr "Agrupament"
 msgid "ISO/Gain"
 msgstr "ISO o Guany"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
 #: ekos/capture/capture.ui:1930
 #, kde-format
 msgid "Capture a preview"
 msgstr "Captura una vista prèvia."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
 #: ekos/capture/capture.ui:1971
 #, kde-format
 msgid "Start framing (looping)"
 msgstr "Inicia l'enquadrament (repetició)."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
 #: ekos/capture/capture.ui:2009 ekos/focus/focus.ui:764
 #, kde-format
 msgid "Live Video"
 msgstr "Vídeo en directe."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
 #: ekos/capture/capture.ui:2072
 #, kde-format
 msgid "Start Sequence"
 msgstr "Inicia la seqüència."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/capture/capture.ui:2106
 #, kde-format
@@ -15309,14 +15309,14 @@ msgstr "Fa pausa de la seqüència."
 msgid "Tools"
 msgstr "Eines"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
 #: ekos/capture/capture.ui:2155
 #, kde-format
 msgid "Create and manage Dark Library"
 msgstr "Crea i gestiona la biblioteca fosca."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/capture.ui:2165
 #, kde-format
@@ -15331,7 +15331,7 @@ msgstr "Configura els límits del guiatge i enfocament."
 msgid "Limits"
 msgstr "Límits"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
 #: ekos/capture/capture.ui:2181
 #, kde-format
@@ -15393,7 +15393,7 @@ msgstr "<b>Progrés</b>"
 msgid "Avg. Download:"
 msgstr "Baixada mitjana:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
 #: ekos/capture/capture.ui:2336
 #, kde-format
@@ -15492,7 +15492,7 @@ msgstr ""
 msgid "Switch to the text display of capture counts display."
 msgstr "Canvia a la pantalla de text de visualització del nombre de captures."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, gr_frameRemainingTime)
 #. i18n: ectx: property (toolTip), widget (QLabel, frameRemainingTime)
 #: ekos/capture/capturecountswidget.ui:301
@@ -15501,7 +15501,7 @@ msgstr "Canvia a la pantalla de text de visualització del nombre de captures."
 msgid "Remaining time for current capture"
 msgstr "Temps romanent de la captura actual."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, gr_overallRemainingTime)
 #. i18n: ectx: property (toolTip), widget (QLabel, overallRemainingTime)
 #: ekos/capture/capturecountswidget.ui:320
@@ -16286,7 +16286,7 @@ msgstr "Relació focal"
 msgid "Filter Bandwidth"
 msgstr "Amplada de banda del filtre"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
 #, kde-format
@@ -16305,14 +16305,14 @@ msgstr "Classe de Bortle"
 msgid "Gain"
 msgstr "Guany"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
 #, kde-format
 msgid "Select Camera Sensor Gain"
 msgstr "Se selecciona el guany del sensor de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
 #, kde-format
@@ -16331,7 +16331,7 @@ msgstr "ISO"
 msgid "Read noise constant"
 msgstr "Llig la constant de soroll"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:321
 #, kde-format
@@ -16350,7 +16350,7 @@ msgstr "Soroll total"
 msgid "Pollution Electrons"
 msgstr "Electrons de contaminació"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
 #, kde-format
@@ -16373,7 +16373,7 @@ msgid "Estimated light pollution electrons in the sub-exposure."
 msgstr ""
 "Nombre estimat d'electrons de contaminació lumínica durant la subexposició."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
@@ -16386,21 +16386,21 @@ msgstr "Duració de la subexposició."
 msgid "Exposure Time (sec)"
 msgstr "Temps d'exposició (s)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
 #, kde-format
 msgid "Download additional camera data files"
 msgstr "Baixada de fitxers addicionals de dades des de les càmeres."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
 #, kde-format
 msgid "Bortle Zone Color"
 msgstr "Color de la zona de Bortle."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:558
 #, kde-format
@@ -16421,7 +16421,7 @@ msgstr ""
 "Se selecciona el mode de lectura en les càmeres amb múltiples modes de "
 "lectura."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
 #, kde-format
@@ -16434,21 +16434,21 @@ msgstr "Ajusta la qualitat del cel."
 msgid "Read Mode"
 msgstr "Mode de lectura"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
 #, kde-format
 msgid "Apply a compensation for an optical filter"
 msgstr "Aplica una compensació per a un filtre òptic."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
 #, kde-format
 msgid "Camera Data Selection"
 msgstr "Se seleccionen les dades de la càmera."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
 #, kde-format
@@ -16473,7 +16473,7 @@ msgstr "Taula"
 msgid "Graph"
 msgstr "Gràfica"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
 #, kde-format
@@ -16488,14 +16488,14 @@ msgstr ""
 msgid "Exposures"
 msgstr "Exposicions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
 #, kde-format
 msgid "Calculated exposure count for integration"
 msgstr "Comptador de l'exposició calculada per a la integració."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
 #, kde-format
@@ -16514,7 +16514,7 @@ msgstr "Relació del temps a soroll"
 msgid "dy ="
 msgstr "dy ="
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
 #, kde-format
@@ -16545,7 +16545,7 @@ msgstr "Límits de guiatge i enfocament"
 msgid "Guide Limits"
 msgstr "Límits del guiatge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitGuideDeviationS)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, limitGuideDeviationRepsN)
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
@@ -16564,7 +16564,7 @@ msgstr ""
 msgid "Abort if Guide Deviation >"
 msgstr "Interromp si la desviació del guiatge >"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, startGuiderDriftS)
 #: ekos/capture/limits.ui:92
 #, kde-format
@@ -16593,7 +16593,7 @@ msgstr "vegades consecutives"
 msgid "Focus Limits"
 msgstr "Límits de l'enfocament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:169
 #, kde-format
@@ -17669,7 +17669,7 @@ msgstr ""
 msgid "Petzval Surface"
 msgstr "Superfície de Petzval"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
 #, kde-format
@@ -17686,7 +17686,7 @@ msgstr ""
 msgid "Sim Mode"
 msgstr "Mode simulació"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
 #, kde-format
@@ -17695,7 +17695,7 @@ msgstr ""
 "<html><head/><body><p>Control lliscant de l'enfocament al darrera.</p></"
 "body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
 #, kde-format
@@ -17704,7 +17704,7 @@ msgstr ""
 "<html><head/><body><p>Control lliscant per a la inclinació d'esquerra a "
 "dreta.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
 #, kde-format
@@ -18351,35 +18351,35 @@ msgstr ""
 msgid "Focus Advisor"
 msgstr "Assessor d'enfocament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:164
 #, kde-format
 msgid "Start framing"
 msgstr "Inicia l'enquadrament."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:193
 #, kde-format
 msgid "Focus Out"
 msgstr "Enfoca cap enfora."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
 #, kde-format
 msgid "Capture image"
 msgstr "Captura la imatge."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
 #: ekos/focus/focus.ui:254
 #, kde-format
 msgid "Stop focuser motion"
 msgstr "Para el moviment de l'enfocador."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
 #: ekos/focus/focus.ui:283
 #, kde-format
@@ -18395,7 +18395,7 @@ msgstr "Inicia el procés d'enfocament automàtic."
 msgid "Steps:"
 msgstr "Passos:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
 #: ekos/focus/focus.ui:318
 #, kde-format
@@ -18408,21 +18408,21 @@ msgstr "Ves fins a una posició absoluta de l'enfocament."
 msgid "Start:"
 msgstr "Inicia:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
 #: ekos/focus/focus.ui:370
 #, kde-format
 msgid "Stop Auto Focus process"
 msgstr "Para el procés d'enfocament automàtic."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
 #: ekos/focus/focus.ui:389
 #, kde-format
 msgid "Current absolute focuser position"
 msgstr "Posició absoluta actual de l'enfocador."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:411
 #, kde-format
@@ -18438,7 +18438,7 @@ msgid ""
 "p><p>This is an experimental feature.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Executa l'inspector de l'aberració (primer s'executarà "
-"l'enfocament automàtic per a arreplegar dades).</p><p>Nota: Cal configurar "
+"l'enfocament automàtic per a arreplegar dades).</p><p>Nota: Cal seleccionar "
 "la «Màscara de mosaic» per a activar este botó.</p><p>Esta és una "
 "característica experimental.</p></body></html>"
 
@@ -18448,14 +18448,14 @@ msgstr ""
 msgid "Inspector"
 msgstr "Inspector"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:475
 #, kde-format
 msgid "Desired absolute focus position"
 msgstr "Posició absoluta de l'enfocament desitjat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
@@ -18464,7 +18464,7 @@ msgstr "Posició absoluta de l'enfocament desitjat."
 msgid "Exposure time in seconds"
 msgstr "Temps d'exposició, en segons."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:555
 #, kde-format
@@ -18477,7 +18477,7 @@ msgstr "Font de temperatura de l'enfocador."
 msgid "TS."
 msgstr "TS."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
 #: ekos/focus/focus.ui:637 ekos/focus/focus.ui:653
@@ -18516,21 +18516,21 @@ msgstr ""
 msgid "ΔT ="
 msgstr "ΔT ="
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
 #: ekos/focus/focus.ui:717
 #, kde-format
 msgid "Toggle Full Screen"
 msgstr "Canvia a pantalla completa."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: ekos/focus/focus.ui:795
 #, kde-format
 msgid "Reset focus subframe to full capture"
 msgstr "Restablix l'enfocament del submarc a captura completa."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
 #: ekos/focus/focus.ui:894
 #, kde-format
@@ -18591,7 +18591,7 @@ msgstr ""
 msgid " px"
 msgstr " px"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/focus.ui:999
 #, kde-format
@@ -19470,7 +19470,7 @@ msgstr ""
 "a difuminar la imatge abans, per exemple, de la detecció de vores de "
 "Bahtinov.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
 #: ekos/focus/focus.ui:2103
 #, kde-format
@@ -20914,7 +20914,7 @@ msgstr ""
 "les imatges capturades. Però encara podreu veure la imatge de l'estrela guia "
 "quan feu el guiatge."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: ekos/guide/guide.cpp:2818 ekos/guide/guide.cpp:2944
 #, kde-format
 msgid ""
@@ -20962,7 +20962,7 @@ msgstr "Estrela automàtica"
 msgid "Clear calibration data."
 msgstr "Neteja les dades del calibratge."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
 #: ekos/guide/guide.ui:217
 #, kde-format
@@ -21011,14 +21011,14 @@ msgstr ""
 msgid "Subframe"
 msgstr "Submarc"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
 #: ekos/guide/guide.ui:301
 #, kde-format
 msgid "East Direction Guiding"
 msgstr "Guiatge en direcció est."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, westRAGuideEnabled)
 #: ekos/guide/guide.ui:311
 #, kde-format
@@ -21031,7 +21031,7 @@ msgstr "Guiatge en direcció oest."
 msgid "Connect to external guiding application."
 msgstr "Connecta a una aplicació de guiatge externa."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECGuideEnabled)
 #: ekos/guide/guide.ui:336
 #, kde-format
@@ -21054,7 +21054,7 @@ msgstr ""
 msgid "Disconnect from external guiding application."
 msgstr "Desconnecta de l'aplicació de guiatge externa."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/guide/guide.ui:398
 #, kde-format
@@ -21082,7 +21082,7 @@ msgstr "Eix d'ascensió recta del guiatge."
 msgid "Directions"
 msgstr "Direccions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
 #: ekos/guide/guide.ui:438
 #, kde-format
@@ -21091,14 +21091,14 @@ msgstr ""
 "Retarda l'exposició següent de la guia este nombre de segons després "
 "d'enviar un pols."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/guide/guide.ui:453
 #, kde-format
 msgid "North Direction Guiding"
 msgstr "Guiatge en direcció nord."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, southDECGuideEnabled)
 #: ekos/guide/guide.ui:463
 #, kde-format
@@ -21129,7 +21129,7 @@ msgstr "64"
 msgid "128"
 msgstr "128"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
 #: ekos/guide/guide.ui:504 ekos/guide/manualpulse.ui:14
@@ -21143,28 +21143,28 @@ msgstr "Pols manual."
 msgid "Scope / Lens Info"
 msgstr "Informació de l'instrument de visió/lent"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FOV)
 #: ekos/guide/guide.ui:550
 #, kde-format
 msgid "Field of View (arcmin)"
 msgstr "Camp de visió, en minuts d'arc."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
 #: ekos/guide/guide.ui:604
 #, kde-format
 msgid "Aperture (mm)"
 msgstr "Obertura, en mil·límetres."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Focal)
 #: ekos/guide/guide.ui:658
 #, kde-format
 msgid "Focal Length (mm)"
 msgstr "Distància focal, en mil·límetres."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
 #: ekos/guide/guide.ui:674
 #, kde-format
@@ -21189,35 +21189,35 @@ msgstr "Duració del pols (ms)"
 msgid "Guiding Delta \""
 msgstr "Delta \" del guiatge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
 #: ekos/guide/guide.ui:767
 #, kde-format
 msgid "Generated RA pulse"
 msgstr "Pols d'AR generat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseDEC)
 #: ekos/guide/guide.ui:780
 #, kde-format
 msgid "Generated DEC pulse"
 msgstr "Pols de Dec generat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaRA)
 #: ekos/guide/guide.ui:800
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
 msgstr "Desviació AR de guiatge immediat, en segons d'arc."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
 #: ekos/guide/guide.ui:813
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
 msgstr "Desviació Dec de guiatge immediat, en segons d'arc."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:828
 #, kde-format
@@ -21230,14 +21230,14 @@ msgstr "Error RMS del guiatge."
 msgid "RMS\" (RA/DEC)"
 msgstr "RMS\" (AR/Dec)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
 #: ekos/guide/guide.ui:843
 #, kde-format
 msgid "Guiding RA RMS error"
 msgstr "Error RMS del guiatge en l'AR."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
 #: ekos/guide/guide.ui:856
 #, kde-format
@@ -22074,7 +22074,7 @@ msgstr ""
 "<html><head/><body><p>Distància màxima permesa per considerar el tramat com "
 "a establit (només PHD2).</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
 #, kde-format
@@ -22097,7 +22097,7 @@ msgstr ""
 msgid "PHD2 Dither Timeout"
 msgstr "Temps d'espera de tramat de PHD2"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherFrames)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:157 ekos/guide/opsdither.ui:177
@@ -22121,7 +22121,7 @@ msgstr "fotogrames"
 msgid "Frequency"
 msgstr "Freqüència"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherMaxIterations)
 #: ekos/guide/opsdither.ui:187 ekos/guide/opsdither.ui:197
@@ -22194,7 +22194,7 @@ msgstr ""
 msgid "Non-Guide Dither Pulse"
 msgstr "Pols de tramat sense guiatge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherNoGuidingPulse)
 #: ekos/guide/opsdither.ui:244
 #, kde-format
@@ -22320,7 +22320,7 @@ msgstr ""
 msgid "Prediction Gain"
 msgstr "Guany de la predicció"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgsDarkGuiding)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGDarkGuiding)
 #: ekos/guide/opsgpg.ui:166 ekos/guide/opsgpg.ui:254
@@ -22592,7 +22592,7 @@ msgstr ""
 msgid "Short-range Variance"
 msgstr "Variància d'abast proper"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas6a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGPointsForApproximation)
 #: ekos/guide/opsgpg.ui:583 ekos/guide/opsgpg.ui:593
@@ -23007,39 +23007,39 @@ msgstr ""
 msgid "Robotic (Experimental)"
 msgstr "Robotitzat (experimental)"
 
-#: ekos/manager.cpp:226
+#: ekos/manager.cpp:227
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - Perfil %1"
 
-#: ekos/manager.cpp:236
+#: ekos/manager.cpp:237
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "La connexió està en progrés. Feu clic per a interrompre."
 
-#: ekos/manager.cpp:256
+#: ekos/manager.cpp:257
 #, kde-format
 msgid "Logging"
 msgstr "Registre"
 
-#: ekos/manager.cpp:343
+#: ekos/manager.cpp:344
 #, kde-format
 msgid "Analyze"
 msgstr "Anàlisi"
 
-#: ekos/manager.cpp:607
+#: ekos/manager.cpp:608
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:812 ekos/manager.cpp:838
+#: ekos/manager.cpp:813 ekos/manager.cpp:839
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr "Ekos necessita almenys un CCD o sistema de guiatge per a funcionar."
 
-#: ekos/manager.cpp:900
+#: ekos/manager.cpp:901
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -23048,17 +23048,17 @@ msgstr ""
 "Ekos ha detectat que la càmera PTP està executant-se i podria evitar que una "
 "càmera Canon o Nikon es connecte amb Ekos. Voleu eixir ara de la càmera PTP?"
 
-#: ekos/manager.cpp:901
+#: ekos/manager.cpp:902
 #, kde-format
 msgid "PTP Camera"
 msgstr "Càmera PTP"
 
-#: ekos/manager.cpp:916
+#: ekos/manager.cpp:917
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "S'han iniciat els serveis INDI..."
 
-#: ekos/manager.cpp:947
+#: ekos/manager.cpp:948
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23068,48 +23068,48 @@ msgstr ""
 "el tancament de la instància existent abans d'iniciar-ne una de nova?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:949 indi/opsindi.ui:375
+#: ekos/manager.cpp:950 indi/opsindi.ui:375
 #, kde-format
 msgid "INDI Server"
 msgstr "Servidor INDI"
 
-#: ekos/manager.cpp:964
+#: ekos/manager.cpp:965
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "S'està connectant amb el servidor INDI %1 al port %2..."
 
-#: ekos/manager.cpp:984
+#: ekos/manager.cpp:985
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "No s'ha pogut iniciar el perfil en el gestor web remot d'INDI."
 
-#: ekos/manager.cpp:988
+#: ekos/manager.cpp:989
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "S'està iniciant el perfil en el gestor web remot d'INDI..."
 
-#: ekos/manager.cpp:1001
+#: ekos/manager.cpp:1002
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "S'està establint la comunicació amb el gestor web remot d'INDI..."
 
-#: ekos/manager.cpp:1021
+#: ekos/manager.cpp:1022
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Avís: El gestor web remot d'INDI no està connectat."
 
-#: ekos/manager.cpp:1044
+#: ekos/manager.cpp:1045
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "S'han iniciat els serveis INDI al port %1."
 
-#: ekos/manager.cpp:1047
+#: ekos/manager.cpp:1048
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 "S'han iniciat els serveis INDI al port %1. Podeu connectar els dispositius."
 
-#: ekos/manager.cpp:1052
+#: ekos/manager.cpp:1053
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -23118,27 +23118,27 @@ msgstr ""
 "S'han iniciat els serveis INDI. La connexió amb el servidor INDI remot %1:%2 "
 "ha tingut èxit. En espera dels dispositius..."
 
-#: ekos/manager.cpp:1062
+#: ekos/manager.cpp:1063
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "No s'ha pogut connectar amb el servidor INDI local %1:%2"
 
-#: ekos/manager.cpp:1064
+#: ekos/manager.cpp:1065
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "No s'ha pogut connectar amb el servidor INDI remot %1:%2"
 
-#: ekos/manager.cpp:1077
+#: ekos/manager.cpp:1078
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "S'ha perdut la connexió amb el servidor INDI local %1:%2"
 
-#: ekos/manager.cpp:1079
+#: ekos/manager.cpp:1080
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "S'ha perdut la connexió amb el servidor INDI remot %1:%2"
 
-#: ekos/manager.cpp:1156
+#: ekos/manager.cpp:1157
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -23146,7 +23146,7 @@ msgstr ""
 "No s'ha pogut connectar amb %1. Assegureu-vos que el dispositiu està "
 "connectat i iniciat."
 
-#: ekos/manager.cpp:1158
+#: ekos/manager.cpp:1159
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23157,7 +23157,7 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1186
+#: ekos/manager.cpp:1187
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23168,13 +23168,13 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1190 ekos/manager.cpp:1198 ekos/manager.cpp:1228
-#: ekos/manager.cpp:1236
+#: ekos/manager.cpp:1191 ekos/manager.cpp:1199 ekos/manager.cpp:1229
+#: ekos/manager.cpp:1237
 #, kde-format
 msgid "Ekos startup error"
 msgstr "S'ha produït un error d'inici en Ekos"
 
-#: ekos/manager.cpp:1194
+#: ekos/manager.cpp:1195
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23185,7 +23185,7 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1224
+#: ekos/manager.cpp:1225
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23196,7 +23196,7 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1232
+#: ekos/manager.cpp:1233
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23207,33 +23207,33 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1287
+#: ekos/manager.cpp:1288
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Els dispositius INDI s'estan connectant..."
 
-#: ekos/manager.cpp:1298
+#: ekos/manager.cpp:1299
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "S'estan desconnectant els dispositius INDI..."
 
-#: ekos/manager.cpp:1336
+#: ekos/manager.cpp:1337
 #, kde-format
 msgid "INDI services stopped."
 msgstr "S'han parat els serveis INDI."
 
-#: ekos/manager.cpp:1410
+#: ekos/manager.cpp:1411
 #, kde-format
 msgid "Remote devices established."
 msgstr "S'han establit els dispositius remots."
 
-#: ekos/manager.cpp:1412
+#: ekos/manager.cpp:1413
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 "S'han establit els dispositius remots. Podeu connectar els dispositius."
 
-#: ekos/manager.cpp:1473
+#: ekos/manager.cpp:1474
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -23242,107 +23242,107 @@ msgstr ""
 "No s'ha pogut connectar amb %1.\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1480
+#: ekos/manager.cpp:1481
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "El «%1» està desconnectat."
 
-#: ekos/manager.cpp:1499 ekos/manager.cpp:1508 ekos/manager.cpp:1541
+#: ekos/manager.cpp:1500 ekos/manager.cpp:1509 ekos/manager.cpp:1542
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
 msgstr "El «%1» està en línia."
 
-#: ekos/manager.cpp:1516
+#: ekos/manager.cpp:1517
 #, kde-format
 msgid "%1 filter is online."
 msgstr "El filtre de «%1» està en línia."
 
-#: ekos/manager.cpp:1525
+#: ekos/manager.cpp:1526
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "L'enfocador de «%1» està en línia."
 
-#: ekos/manager.cpp:1532
+#: ekos/manager.cpp:1533
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "El rotor «%1» està en línia."
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1549
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "La meteorologia de «%1» està en línia."
 
-#: ekos/manager.cpp:1555
+#: ekos/manager.cpp:1556
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "El GPS «%1» està en línia."
 
-#: ekos/manager.cpp:1564
+#: ekos/manager.cpp:1565
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "La tapa per la pols «%1» està en línia."
 
 # skip-rule: kct-box
-#: ekos/manager.cpp:1571
+#: ekos/manager.cpp:1572
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "La caixa de llum de «%1» està en línia."
 
-#: ekos/manager.cpp:1705
+#: ekos/manager.cpp:1706
 #, kde-format
 msgid "%1 is offline."
 msgstr "El «%1» està fora de línia."
 
-#: ekos/manager.cpp:1952
+#: ekos/manager.cpp:1953
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2232
+#: ekos/manager.cpp:2233
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge de «%1» està a punt."
 
-#: ekos/manager.cpp:2421
+#: ekos/manager.cpp:2422
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2422
+#: ekos/manager.cpp:2423
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
 
-#: ekos/manager.cpp:2474
+#: ekos/manager.cpp:2475
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2476
+#: ekos/manager.cpp:2477
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "No s'ha pogut actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:2725
+#: ekos/manager.cpp:2726
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració de %1..."
 
-#: ekos/manager.cpp:2733
+#: ekos/manager.cpp:2734
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració de %1..."
 
-#: ekos/manager.cpp:2761
+#: ekos/manager.cpp:2762
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració de %1..."
 
-#: ekos/manager.cpp:2773
+#: ekos/manager.cpp:2774
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1..."
@@ -23368,14 +23368,14 @@ msgstr "Perfil:"
 msgid "Add profile"
 msgstr "Afig un perfil."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfileB)
 #: ekos/manager.ui:204
 #, kde-format
 msgid "Edit profile"
 msgstr "Edita el perfil."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, deleteProfileB)
 #: ekos/manager.ui:241
 #, kde-format
@@ -23389,7 +23389,7 @@ msgstr "Elimina el perfil."
 msgid "Custom Drivers"
 msgstr "Controladors personalitzats"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, wizardProfileB)
 #: ekos/manager.ui:300
 #, kde-format
@@ -23402,14 +23402,14 @@ msgstr "Inicia l'assistent del perfil d'Ekos."
 msgid "2. Start && Stop Ekos"
 msgstr "2. Inicia i para Ekos"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
 #: ekos/manager.ui:421 kstarslite/qml/indi/INDIControlPanel.qml:15
 #, kde-format, kde-kuit-format
 msgid "INDI Control Panel"
 msgstr "Quadro de control INDI."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, portSelectorB)
 #: ekos/manager.ui:450
 #, kde-format
@@ -23417,7 +23417,7 @@ msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Selector de ports de dispositius.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: ekos/manager.ui:479
 #, kde-format
@@ -23449,7 +23449,7 @@ msgstr "Altitud"
 msgid "  --"
 msgstr "  --"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:947
 #, kde-format
@@ -23471,7 +23471,7 @@ msgstr "Opcions..."
 msgid "<"
 msgstr "<"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (FocusProfilePlot, profilePlot)
 #: ekos/manager/focusmanager.ui:275
 #, kde-format
@@ -23518,7 +23518,7 @@ msgstr " σAR: "
 msgid "σDEC: "
 msgstr "σDec: "
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, guideStarView)
 #: ekos/manager/guidemanager.ui:457
 #, kde-format
@@ -23624,7 +23624,7 @@ msgstr "S'està executant la inversió del meridià..."
 msgid "Meridian flip completed."
 msgstr "S'ha completat la inversió del meridià."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, statusText)
 #: ekos/mount/meridianflipstatuswidget.ui:32
 #, kde-format
@@ -23780,7 +23780,7 @@ msgstr "AZ"
 msgid "ALT"
 msgstr "ALT"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/mount/mount.ui:212
 #, kde-format
@@ -23793,7 +23793,7 @@ msgstr "Angle horari."
 msgid "HA"
 msgstr "AH"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
 #: ekos/mount/mount.ui:229
 #, kde-format
@@ -23847,7 +23847,7 @@ msgstr "graus"
 msgid "Clear Parking"
 msgstr "Neteja l'aparcament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
 #: ekos/mount/mount.ui:384
 #, kde-format
@@ -23872,7 +23872,7 @@ msgstr "Purga tota la configuració"
 msgid "Park At:"
 msgstr "Aparca a:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
 #: ekos/mount/mount.ui:465
 #, kde-format
@@ -24226,7 +24226,7 @@ msgstr "Mou la cúpula en els graus i en la direcció indicada."
 msgid "Move (rel)"
 msgstr "Mou (rel)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionCWButton)
 #: ekos/observatory/observatory.ui:250
 #, kde-format
@@ -24239,7 +24239,7 @@ msgstr "Gira en sentit horari."
 msgid "&CW"
 msgstr "&Horari"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionCCWButton)
 #: ekos/observatory/observatory.ui:286
 #, kde-format
@@ -24299,7 +24299,7 @@ msgstr ""
 "<html><head/><body><p>Desaparca la cúpula. Per al control avançat de la "
 "cúpula utilitzeu la pestanya d'INDI.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:539
 #, kde-format
@@ -24636,7 +24636,7 @@ msgstr ""
 msgid "Top"
 msgstr "Dalt"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_EkosLeftIcons)
 #: ekos/opsekos.ui:132
 #, kde-format
@@ -24921,7 +24921,7 @@ msgid ""
 "abort capture and reschedule the pipeline."
 msgstr ""
 "Si la posició capturada excedix la posició de l'objectiu per esta quantitat "
-"de minuts d'arc, s'interromprà la captura i es tornarà a planificar la "
+"de minuts d'arc, s'interromprà la captura i es tornarà a programar la "
 "canonada."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -24964,7 +24964,7 @@ msgstr "Reinicia l'alineació en fallar el calibratge del guiatge"
 msgid "Miscellaneous"
 msgstr "Miscel·lània"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/opsekos.ui:625
 #, kde-format
@@ -25007,7 +25007,7 @@ msgstr ""
 msgid "Guiding settle:"
 msgstr "Posicionament del guiatge:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/opsekos.ui:668
 #, kde-format
@@ -25090,7 +25090,7 @@ msgstr ""
 msgid "Force DSLR presets"
 msgstr "Força les predefinicions de la DSLR"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/opsekos.ui:788
 #, kde-format
@@ -25103,7 +25103,7 @@ msgstr "Mostra les imatges DSLR rebudes en el visor d'imatges."
 msgid "DSLR image viewer"
 msgstr "Visor d'imatges de la DSLR"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
 #: ekos/opsekos.ui:798
 #, kde-format
@@ -25552,7 +25552,7 @@ msgstr "Gestor web"
 msgid "Select Devices"
 msgstr "Selecciona els dispositius"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux3Label)
 #: ekos/profileeditor.ui:440
 #, kde-format
@@ -25565,7 +25565,7 @@ msgstr "Auxiliar número 3."
 msgid "Aux 3:"
 msgstr "Aux. 3:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux4Label)
 #: ekos/profileeditor.ui:450
 #, kde-format
@@ -25584,7 +25584,7 @@ msgstr "Aux. 4:"
 msgid "Camera 2:"
 msgstr "Càmera 2:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
 #, kde-format
@@ -25632,7 +25632,7 @@ msgstr ""
 "controladors remots INDI cal que estiguen executant-se perquè la connexió "
 "siga correcta.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, domeLabel)
 #: ekos/profileeditor.ui:500
 #, kde-format
@@ -25651,7 +25651,7 @@ msgstr "Cúpula:"
 msgid "AO:"
 msgstr "OA:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, aux2Label)
 #: ekos/profileeditor.ui:572
 #, kde-format
@@ -25670,7 +25670,7 @@ msgstr "Aux. 2:"
 msgid "Camera 1:"
 msgstr "Càmera 1:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
 #: ekos/profileeditor.ui:691
 #, kde-format
@@ -26195,7 +26195,7 @@ msgstr "Planificador del mosaic"
 msgid "↓ Confirm Equipment"
 msgstr "↓ Confirma l'equip"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/scheduler/framingassistant.ui:74
 #, kde-format
@@ -26227,7 +26227,7 @@ msgstr ""
 msgid "Reducer:"
 msgstr "Reductor:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/scheduler/framingassistant.ui:136
 #, kde-format
@@ -26277,7 +26277,7 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Alçària del fotograma produït per la "
 "càmera, en píxels.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/scheduler/framingassistant.ui:224
 #, kde-format
@@ -26334,7 +26334,7 @@ msgstr ""
 msgid "Fetch"
 msgstr "Recupera"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToSelectGridB)
 #: ekos/scheduler/framingassistant.ui:350
 #, kde-format
@@ -26357,14 +26357,14 @@ msgstr "Selecciona la quadrícula"
 msgid "↓ Select Grid"
 msgstr "↓ Selecció de la quadrícula"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QSlider, transparencySlider)
 #: ekos/scheduler/framingassistant.ui:421
 #, kde-format
 msgid "Adjust tiles transparency"
 msgstr "Ajusta la transparència de les tessel·les."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/scheduler/framingassistant.ui:440
 #, kde-format
@@ -26492,7 +26492,7 @@ msgstr ""
 msgid " x"
 msgstr " x"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
 #: ekos/scheduler/framingassistant.ui:656
 #, kde-format
@@ -26511,7 +26511,7 @@ msgstr "Superposició:"
 msgid "Tile Transparency:"
 msgstr "Transparència de les tessel·les:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
 #: ekos/scheduler/framingassistant.ui:682
 #, kde-format
@@ -26538,7 +26538,7 @@ msgstr ""
 "mosaic.</p><p align=\"justify\">La modificació d'este valor canvia "
 "immediatament l'alçària del camp cobert pel mosaic.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/scheduler/framingassistant.ui:743
@@ -26617,7 +26617,7 @@ msgstr ""
 msgid " East of North"
 msgstr " est del nord"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToEquipmentB)
 #: ekos/scheduler/framingassistant.ui:934
 #, kde-format
@@ -26630,7 +26630,7 @@ msgstr "Va fins a la pàgina de selecció d'equip."
 msgid "Confirm Equipment"
 msgstr "Confirma l'equip"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, importB)
 #: ekos/scheduler/framingassistant.ui:961
 #, kde-format
@@ -26643,7 +26643,7 @@ msgstr "Importa un mosaic des de Telescopius."
 msgid "Import..."
 msgstr "Importa..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
 #: ekos/scheduler/framingassistant.ui:971
 #, kde-format
@@ -26656,7 +26656,7 @@ msgstr "Restablix el centre del mosaic al centre del mapa celeste."
 msgid "Recenter"
 msgstr "Torna a centrar"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToAdjustGrid)
 #: ekos/scheduler/framingassistant.ui:985
 #, kde-format
@@ -26691,7 +26691,7 @@ msgstr ""
 "Ajusta el centre de la quadrícula introduint manualment el centre J2000 o "
 "arrossegant el centre del mosaic en el mapa celeste."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToAdjustGridB)
 #: ekos/scheduler/framingassistant.ui:1126
@@ -26700,7 +26700,7 @@ msgstr ""
 msgid "Go to grid selection page"
 msgstr "Va fins a la pàgina de selecció de la quadrícula."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, goSolveB)
 #: ekos/scheduler/framingassistant.ui:1156
 #, kde-format
@@ -26713,7 +26713,7 @@ msgstr "Va i centra el mosaic de la placa resolta."
 msgid "Go && Solve"
 msgstr "Ves i resol"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToJobsB)
 #: ekos/scheduler/framingassistant.ui:1170
 #, kde-format
@@ -26754,7 +26754,7 @@ msgstr ""
 "es crearan les tasques del programador, requerides per a cobrir el mosaic.</"
 "p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceLabel)
 #: ekos/scheduler/framingassistant.ui:1243 ekos/scheduler/scheduler.ui:72
 #, kde-format
@@ -26838,7 +26838,7 @@ msgstr ""
 msgid "Focus Every"
 msgstr "Enfoca cada"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/scheduler/framingassistant.ui:1411
 #, kde-format
@@ -26947,7 +26947,7 @@ msgstr "Torna a iniciar la tasca en seqüència indefinidament."
 msgid "Repeat &until terminated"
 msgstr "Repetix fins que es &finalitze"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, createJobsB)
 #: ekos/scheduler/framingassistant.ui:1696
 #, kde-format
@@ -27183,7 +27183,7 @@ msgstr "S'ha interromput el programador."
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "El programador farà el tancament quan s'enllestisca la tasca següent"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
 #: ekos/scheduler/scheduler.cpp:1757 ekos/scheduler/scheduler.ui:1124
 #, kde-format
@@ -27616,7 +27616,7 @@ msgstr "Seleccioneu l'objecte i seqüència"
 msgid "Sequence:"
 msgstr "Seqüència:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: ekos/scheduler/scheduler.ui:82
 #, kde-format
@@ -27660,7 +27660,7 @@ msgstr ""
 msgid "FITS File:"
 msgstr "Fitxer FITS:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/scheduler.ui:211
 #, kde-format
@@ -27684,7 +27684,7 @@ msgstr ""
 "o <i>Repetix fins que es finalitze</i>. En cas contrari, deixeu-ho en blanc. "
 "Només s'aplicarà a l'algorisme «Voraç» del programador.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/scheduler.ui:290
 #, kde-format
@@ -27697,7 +27697,7 @@ msgstr "Coordenades de l'objectiu en l'època J2000."
 msgid "J2000:"
 msgstr "J2000:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:346
 #, kde-format
@@ -27738,14 +27738,14 @@ msgstr ""
 "Executa l'enfocament automàtic. Es fa al començament de cada tasca del "
 "programador."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, copySkyCenterB)
 #: ekos/scheduler/scheduler.ui:526
 #, kde-format
 msgid "Fill coordinates with Sky Map center"
 msgstr "Emplena les coordenades amb el centre del mapa celeste."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, mosaicB)
 #: ekos/scheduler/scheduler.ui:888
 #, kde-format
@@ -27772,7 +27772,7 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Carrega la planificació des d'un "
 "fitxer i substituïx les tasques de la cua.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/scheduler/scheduler.ui:997
 #, kde-format
@@ -27803,7 +27803,7 @@ msgstr "Hora d'inici"
 msgid "End Time"
 msgstr "Hora final"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/scheduler/scheduler.ui:1163
 #, kde-format
@@ -27884,7 +27884,7 @@ msgstr "Condicions d'inici de la tasca"
 msgid "dd/MM hh:mm"
 msgstr "dd/MM hh:mm"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, startupTimeConditionR)
 #: ekos/scheduler/scheduler.ui:1494
 #, kde-format
@@ -28069,7 +28069,7 @@ msgstr "Apaga el refrigerador del CCD."
 msgid "Warm CCD"
 msgstr "CCD calent"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, capCheck)
 #: ekos/scheduler/scheduler.ui:1812
 #, kde-format
@@ -28089,7 +28089,7 @@ msgstr "Tapa"
 msgid "Park telescope to home position."
 msgstr "Aparca el telescopi a la posició inicial."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkDomeCheck)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, unparkDomeCheck)
 #: ekos/scheduler/scheduler.ui:1856 ekos/scheduler/scheduler.ui:2117
@@ -28251,7 +28251,7 @@ msgstr "Desaparca la cúpula"
 msgid "UnPark Mount"
 msgstr "Desaparca la muntura"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, uncapCheck)
 #: ekos/scheduler/scheduler.ui:2158
 #, kde-format
@@ -28284,7 +28284,7 @@ msgstr ""
 "Si no és vàlida, el programador no podrà trobar cap hora adequada per a "
 "l'observació de l'objectiu.\n"
 "Si s'interromp, el programador trobarà faltes en el temps programat o "
-"problemes temporals i tornarà a planificar la tasca.\n"
+"problemes temporals i tornarà a programar la tasca.\n"
 "Si es finalitza, el programador verificarà que totes les captures en "
 "seqüència sol·licitades s'han emmagatzemat, incloent-hi les repeticions."
 
@@ -29877,7 +29877,7 @@ msgstr "Editor de perfils d'opcions de l'HFR"
 msgid "Look && Feel"
 msgstr "Aspecte i comportament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:51
 #, kde-format
@@ -29939,7 +29939,7 @@ msgstr ""
 msgid "Single window open"
 msgstr "Obri una finestra única"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:112
 #, kde-format
@@ -29954,7 +29954,7 @@ msgstr ""
 msgid "Focus on receiving an image"
 msgstr "Enfoca en rebre una imatge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_independentWindowFITS)
 #: fitsviewer/opsfits.ui:122
 #, kde-format
@@ -30063,7 +30063,7 @@ msgstr "Valor del retallat de bytes."
 msgid "Processing"
 msgstr "Processament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:354
 #, kde-format
@@ -30122,7 +30122,7 @@ msgstr ""
 msgid "Limited resources mode"
 msgstr "Mode de recursos limitats"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:374
 #, kde-format
@@ -30306,7 +30306,7 @@ msgstr ""
 msgid "The solved image position angle, East of North (degrees)."
 msgstr "L'angle de posició de la imatge resolta, est del nord (en graus)."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
@@ -30507,13 +30507,13 @@ msgstr "Frontal alt"
 msgid "Overhead"
 msgstr "Sobreelevat"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: fitsviewer/starprofileviewer.cpp:186
 #, kde-format
 msgid "Iso. L"
 msgstr "Iso. esq."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: fitsviewer/starprofileviewer.cpp:187
 #, kde-format
 msgid "Iso. R"
@@ -30624,7 +30624,7 @@ msgstr "Bitpix"
 msgid "Mean"
 msgstr "Mitjana"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:106
 #, kde-format
@@ -31358,14 +31358,14 @@ msgstr "Seleccioneu l'agent INDIHub"
 msgid "%1 is not a valid INDI server binary."
 msgstr "%1 no és cap executable vàlid del servidor INDI."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiServerIsInternal)
 #: indi/opsindi.ui:55
 #, kde-format
 msgid "INDI Server binary is internal to the application bundle"
 msgstr "El binari del servidor INDI és intern al paquet de l'aplicació."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_2)
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:65 indi/opsindi.ui:102
@@ -31379,14 +31379,14 @@ msgstr "Port INDI predeterminat de vídeo."
 msgid "INDI server:"
 msgstr "Servidor INDI:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiServer)
 #: indi/opsindi.ui:75
 #, kde-format
 msgid "Path to the indiserver binary"
 msgstr "Camí cap al binari «indiserver»."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiDriversAreInternal)
 #: indi/opsindi.ui:92
 #, kde-format
@@ -31399,7 +31399,7 @@ msgstr "Els controladors INDI són interns al paquet de l'aplicació."
 msgid "INDI drivers XML directory:"
 msgstr "Directori XML dels controladors INDI:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiDriversDir)
 #: indi/opsindi.ui:112
 #, kde-format
@@ -31412,7 +31412,7 @@ msgstr "Camí cap al directori XML dels controladors INDI."
 msgid "INDIHub agent:"
 msgstr "Agent d'INDIHub:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:193
 #, kde-format
@@ -31427,7 +31427,7 @@ msgstr ""
 msgid "Default FITS directory:"
 msgstr "Directori FITS predeterminat:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QGroupBox, autoGroup)
 #: indi/opsindi.ui:240
 #, kde-format
@@ -31462,7 +31462,7 @@ msgstr ""
 msgid "KStars updates all devices"
 msgstr "KStars actualitza tots els dispositius"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useTimeUpdate)
 #: indi/opsindi.ui:274
 #, kde-format
@@ -31496,7 +31496,7 @@ msgstr ""
 msgid "Mount updates KStars"
 msgstr "La muntura actualitza KStars"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useGeographicUpdate)
 #: indi/opsindi.ui:300
 #, kde-format
@@ -31551,7 +31551,7 @@ msgstr "Mapa celeste"
 msgid "external Sky Map (experimental)"
 msgstr "Mapa celeste extern (experimental)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:372
 #, kde-format
@@ -31580,7 +31580,7 @@ msgstr "Des del port:"
 msgid "Port to:"
 msgstr "Fins al port:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showTargetCrosshair)
 #: indi/opsindi.ui:503
 #, kde-format
@@ -31631,7 +31631,7 @@ msgstr "Mostra els registres d'INDI..."
 msgid "Recording Options"
 msgstr "Opcions de gravació"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
 #: indi/recordingoptions.ui:37 indi/recordingoptions.ui:47
@@ -31692,7 +31692,7 @@ msgstr ""
 msgid "Directory:"
 msgstr "Directori:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectDirB)
 #: indi/recordingoptions.ui:134
 #, kde-format
@@ -31726,7 +31726,7 @@ msgstr ""
 "</ul>\n"
 "</body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
 #: indi/recordingoptions.ui:163 indi/recordingoptions.ui:173
@@ -31740,7 +31740,7 @@ msgstr "Grava el flux fins que es capturen este nombre de fotogrames."
 msgid "Frames"
 msgstr "Fotogrames"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:191
 #, kde-format
@@ -31811,35 +31811,35 @@ msgstr "Fallada del controlador"
 msgid "Video Stream"
 msgstr "Flux de vídeo"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:58 indi/streamwg.cpp:341 indi/streamwg.cpp:351
 #, kde-format
 msgid "Start recording"
 msgstr "Comença la gravació."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: indi/streamform.ui:86
 #, kde-format
 msgid "Recording options"
 msgstr "Opcions per a la gravació."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
 #, kde-format
 msgid "Reset frame"
 msgstr "Restablix el fotograma."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
 #, kde-format
 msgid "Toggle debayer"
 msgstr "Alterna la reconstrucció des de Bayer."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:165
 #, kde-format
@@ -31858,21 +31858,21 @@ msgstr "5x"
 msgid "10x"
 msgstr "10x"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
 #: indi/streamform.ui:207
 #, kde-format
 msgid "Move zoomed view Up/Down"
 msgstr "Mou l'àrea ampliada cap amunt i avall."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
 #: indi/streamform.ui:232
 #, kde-format
 msgid "Move zoomed view Left/Right"
 msgstr "Mou l'àrea ampliada cap a l'esquerra i dreta."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
 #: indi/streamform.ui:276 indi/streamform.ui:292
@@ -31886,7 +31886,7 @@ msgstr "Duració del fotograma de vídeo, en segons."
 msgid "Frame (s)"
 msgstr "Fotograma (s)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:320
 #, kde-format
@@ -31899,7 +31899,7 @@ msgstr "Aplica els FPS i reinicia el flux."
 msgid "FPS:"
 msgstr "FPS:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
 #: indi/streamform.ui:356
 #, kde-format
@@ -31990,8 +31990,8 @@ msgid ""
 "Select <tt>LX200 Basic</tt> to control such devices."
 msgstr ""
 "<b>Consell</b>\n"
-"<br>Alguns telescopis que no són Meade reconeixen un subconjunt de les "
-"ordres LX200. Seleccioneu <tt>LX200 bàsic</tt> per a controlar estos "
+"<br>Alguns telescopis que no són Meade reconeixen un subconjunt del conjunt "
+"d'ordres LX200. Seleccioneu <tt>LX200 bàsic</tt> per a controlar estos "
 "dispositius."
 
 #. i18n: ectx: property (text), widget (QLabel, telescopePageInfo)
@@ -32904,7 +32904,7 @@ msgstr ""
 msgid "FITS Default directory"
 msgstr "Directori predeterminat de FITS"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (fitsDir), group (indi)
 #: kstars.kcfg:223
 #, kde-format
@@ -32917,7 +32917,7 @@ msgstr "La ubicació predeterminada dels fitxers FITS guardats."
 msgid "INDI Server Transfer Buffer"
 msgstr "Memòria intermèdia de transferència del servidor INDI"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:228
 #, kde-format
@@ -32932,7 +32932,7 @@ msgstr ""
 msgid "INDI Server Start Port"
 msgstr "Port inicial del servidor INDI"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (serverPortStart), group (indi)
 #: kstars.kcfg:233
 #, kde-format
@@ -32946,7 +32946,7 @@ msgstr ""
 msgid "INDI Server Final Port"
 msgstr "Port final del servidor INDI"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (serverPortEnd), group (indi)
 #: kstars.kcfg:238
 #, kde-format
@@ -33701,7 +33701,7 @@ msgstr ""
 "Establix si es dibuixen o no els límits de les constel·lacions en el mapa "
 "celeste."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: label, entry (ShowHighlightedCBound), group (View)
 #: kstars.kcfg:546
 #, kde-format
@@ -34377,7 +34377,7 @@ msgstr ""
 "Aplica les correccions relativistes causades per la curvatura de la llum en "
 "el camp gravitacional del sol"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (UseRelativistic), group (View)
 #: kstars.kcfg:782
 #, kde-format
@@ -34589,7 +34589,7 @@ msgstr ""
 msgid "Density of stars in the field of view"
 msgstr "Densitat d'estreles en el camp de visió"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (StarDensity), group (View)
 #: kstars.kcfg:858
 #, kde-format
@@ -34683,7 +34683,7 @@ msgstr ""
 msgid "Label font size"
 msgstr "Mida de la lletra de l'etiqueta"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (LabelFontScaling), group (View)
 #: kstars.kcfg:890
 #, kde-format
@@ -34722,7 +34722,7 @@ msgstr "Utilitza el dorsal OpenGL experimental (obsolet)."
 msgid "Run clock"
 msgstr "Inicia el rellotge"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (RunClock), group (View)
 #: kstars.kcfg:905
 #, kde-format
@@ -34873,7 +34873,7 @@ msgstr "El nom de l'esquema de color"
 msgid "Mode for rendering stars"
 msgstr "Mode de renderitzat de les estreles"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (StarColorMode), group (Colors)
 #: kstars.kcfg:953
 #, kde-format
@@ -35237,7 +35237,7 @@ msgstr "Color de les etiquetes dels satèl·lits."
 msgid "Color of supernovae"
 msgstr "Color de les supernoves"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (SupernovaColor), group (Colors)
 #: kstars.kcfg:1100
 #, kde-format
@@ -35250,7 +35250,7 @@ msgstr "Color de la supernova."
 msgid "Color of asteroids"
 msgstr "Color dels asteroides"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1105
 #, kde-format
@@ -35319,7 +35319,7 @@ msgstr "Xplanet és intern o extern?"
 msgid "Path to xplanet binary"
 msgstr "Camí cap al binari «xplanet»"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (XplanetPath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetPath)
 #: kstars.kcfg:1136 xplanet/opsxplanet.ui:70
@@ -35333,7 +35333,7 @@ msgstr "Camí cap a l'executable d'Xplanet."
 msgid "Use FIFO file"
 msgstr "Utilitza el fitxer FIFO"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (XplanetUseFIFO), group (Xplanet)
 #: kstars.kcfg:1141
 #, kde-format
@@ -35347,7 +35347,7 @@ msgstr ""
 msgid "XPlanet timeout"
 msgstr "Temps d'espera d'Xplanet"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1146
 #, kde-format
@@ -35361,7 +35361,7 @@ msgstr ""
 msgid "XPlanet animation delay"
 msgstr "Retard de l'animació d'Xplanet"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1151
 #, kde-format
@@ -35543,7 +35543,7 @@ msgstr "Situa l'observador a una latitud i longitud aleatòries"
 msgid "Latitude-Longitude"
 msgstr "Latitud i longitud"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (XplanetLatLong), group (Xplanet)
 #: kstars.kcfg:1227
 #, kde-format
@@ -36157,7 +36157,7 @@ msgstr "Voleu que es previsualitze FITS en una única pestanya?"
 msgid "Display all captured FITS in one window?"
 msgstr "Voleu que es mostren totes les captures FITS en una finestra?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1465
 #, kde-format
@@ -36317,7 +36317,7 @@ msgstr ""
 #: kstars.kcfg:1552
 #, kde-format
 msgid "Bortle dark-sky rating"
-msgstr "Avaluació de la foscor del cel de Bortle"
+msgstr "Valoració de la foscor del cel de Bortle"
 
 #. i18n: ectx: label, entry (TelescopeCheck), group (WISettings)
 #: kstars.kcfg:1556
@@ -37175,7 +37175,7 @@ msgstr "Suspén el guiatge mentre s'està enfocant automàticament."
 msgid "Wait for this many seconds after resuming guide."
 msgstr "Temps d'espera en segons després que es reprenga el guiatge."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (FocusUnits), group (Focus)
 #: kstars.kcfg:2006
 #, kde-format
@@ -37235,7 +37235,7 @@ msgstr "Perfil d'extracció de l'origen d'enfocament"
 msgid "Focus process algorithm"
 msgstr "Algorisme per al procés d'enfocament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (FocusCurveFit), group (Focus)
 #: kstars.kcfg:2038
 #, kde-format
@@ -37487,14 +37487,14 @@ msgstr ""
 msgid "The size of a focuser tick in micrometers."
 msgstr "La mida en micròmetres d'una marca de l'enfocador."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (focusAdvSteps), group (Focus)
 #: kstars.kcfg:2172
 #, kde-format
 msgid "Focus Advisor recommended step size"
 msgstr "Mida de pas recomanada per l'«Assessor d'enfocament»."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (focusAdvOutStepMult), group (Focus)
 #: kstars.kcfg:2176
 #, kde-format
@@ -38584,7 +38584,7 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
-"Quan se selecciona, el planificador intentarà executar les tasques de "
+"Quan se selecciona, el programador intentarà executar les tasques de "
 "prioritat més baixa quan no es puga executar cap tasca de prioritat més "
 "alta. Recomanat."
 
@@ -69946,7 +69946,7 @@ msgstr "12 h"
 msgid "0 days"
 msgstr "0 dies"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:186
 #, kde-format
 msgid "1 sid day"
@@ -69977,13 +69977,13 @@ msgstr "5 dies"
 msgid "1 week"
 msgstr "1 setmana"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:192
 #, kde-format
 msgid "2 wks"
 msgstr "2 setm."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:193
 #, kde-format
 msgid "3 wks"
@@ -71102,14 +71102,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Duty cycle"
 msgstr "Cicle de treball"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:126
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ Coord"
 msgstr "Coord. Eq."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:127
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -71176,7 +71176,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Encoder"
 msgstr "Codificador"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 # Nota: PE=Periodic Error
 #: libindi_strings.cpp:138
 #, kde-kuit-format
@@ -71184,7 +71184,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "EQ PE"
 msgstr "EP eq."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:139
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -71552,7 +71552,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Frames"
 msgstr "Fotogrames"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:201
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -72076,28 +72076,28 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "Max"
 msgstr "Màx"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:289
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Height"
 msgstr "Alçària màx."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:290
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Position"
 msgstr "Posició màx."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:291
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Width"
 msgstr "Amplària màx."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:292
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -73627,14 +73627,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "manual"
 msgstr "manual"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:546
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "max Alt"
 msgstr "Alt màx."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: libindi_strings.cpp:547
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
@@ -74195,7 +74195,7 @@ msgstr "Model:"
 msgid "Vendor:"
 msgstr "Proveïdor:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
 #: oal/equipmentwriter.ui:157
 #, kde-format
@@ -74213,21 +74213,21 @@ msgstr ""
 msgid "Aperture:"
 msgstr "Obertura:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddScope)
 #: oal/equipmentwriter.ui:288
 #, kde-format
 msgid "Save telescope information"
 msgstr "Guarda la informació del telescopi."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
 #: oal/equipmentwriter.ui:321
 #, kde-format
 msgid "Clear data and add a new telescope"
 msgstr "Neteja les dades i afig un telescopi nou."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
 #: oal/equipmentwriter.ui:341
 #, kde-format
@@ -74271,7 +74271,7 @@ msgstr "Lent DSLR"
 msgid "Focal Length"
 msgstr "Distància focal"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
 #: oal/equipmentwriter.ui:608
 #, kde-format
@@ -74279,7 +74279,7 @@ msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Relació focal o nombre f de la lent.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
 #: oal/equipmentwriter.ui:699
 #, kde-format
@@ -74287,7 +74287,7 @@ msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Guarda la informació de la lent DSLR.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
 #: oal/equipmentwriter.ui:732
 #, kde-format
@@ -74297,7 +74297,7 @@ msgstr ""
 "<html><head/><body><p>Neteja les dades i afig una lent DSLR nova.</p></"
 "body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
 #: oal/equipmentwriter.ui:752
 #, kde-format
@@ -74316,7 +74316,7 @@ msgstr "Lent Barlow"
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr "Introduïu els detalls de les lents de Barlow i Shapley"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
 #: oal/equipmentwriter.ui:848
 #, kde-format
@@ -74335,7 +74335,7 @@ msgstr "Factor:"
 msgid "Save Lens"
 msgstr "Guarda la lent"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
 #: oal/equipmentwriter.ui:1029
 #, kde-format
@@ -74676,7 +74676,7 @@ msgstr "&General"
 msgid "Backends"
 msgstr "Dorsals"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseRefraction)
 #: options/opsadvanced.ui:65
 #, kde-format
@@ -74786,7 +74786,7 @@ msgstr "Purga tota la configuració"
 msgid "Look and &Feel"
 msgstr "Aspecte i &comportament"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: options/opsadvanced.ui:431
 #, kde-format
@@ -74861,7 +74861,7 @@ msgstr "Fletxa"
 msgid "Cross"
 msgstr "Creu"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAntialias)
 #: options/opsadvanced.ui:566
 #, kde-format
@@ -74948,7 +74948,7 @@ msgstr ""
 msgid "Hide objects while moving"
 msgstr "Oculta els objectes mentre es mou el mapa"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:667
 #, kde-format
@@ -75388,7 +75388,7 @@ msgstr "No es troba l'esquema"
 msgid "Current Scheme Colors"
 msgstr "Colors de l'esquema actual"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QListWidget, ColorPalette)
 #: options/opscolors.ui:53
 #, kde-format
@@ -75438,7 +75438,7 @@ msgstr "Opac"
 msgid "Star color mode:"
 msgstr "Mode del color de les estreles:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_StarColorMode)
 #: options/opscolors.ui:135
 #, kde-format
@@ -75466,7 +75466,7 @@ msgstr ""
 msgid "Star color intensity:"
 msgstr "Intensitat de color de les estreles:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StarColorIntensity)
 #: options/opscolors.ui:171
 #, kde-format
@@ -75491,7 +75491,7 @@ msgstr ""
 msgid "Preset Color Schemes"
 msgstr "Esquemes de color predefinits"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QListWidget, PresetBox)
 #: options/opscolors.ui:192
 #, kde-format
@@ -75508,7 +75508,7 @@ msgstr ""
 "Llistat de tots els esquemes de color coneguts. De manera predeterminada "
 "se'n proporcionen diversos i també podeu definir-hi els vostres."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddPreset)
 #: options/opscolors.ui:211
 #, kde-format
@@ -75536,7 +75536,7 @@ msgstr ""
 msgid "Save As..."
 msgstr "Anomena i guarda..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemovePreset)
 #: options/opscolors.ui:224
 #, kde-format
@@ -75665,14 +75665,14 @@ msgstr "Línies de les &constel·lacions"
 msgid "Sky culture:"
 msgstr "Cultura del cel:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, SkyCultureComboBox)
 #: options/opsguides.ui:46
 #, kde-format
 msgid "Choose sky culture"
 msgstr "Escolliu la cultura del cel."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QComboBox, SkyCultureComboBox)
 #: options/opsguides.ui:49
 #, kde-format
@@ -75691,7 +75691,7 @@ msgstr "&Fronteres de les constel·lacions"
 msgid "Constellation art"
 msgstr "Art de les constel·lacions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHighlightedCBound)
 #: options/opsguides.ui:78
 #, kde-format
@@ -75724,14 +75724,14 @@ msgstr "&Noms de les constel·lacions"
 msgid "Constellation Name Options"
 msgstr "Opcions dels noms de les constel·lacions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:127
 #, kde-format
 msgid "Use Latin constellation names"
 msgstr "Utilitza els noms en llatí de les constel·lacions."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:130
 #, kde-format
@@ -75746,14 +75746,14 @@ msgstr ""
 msgid "L&atin"
 msgstr "&Llatí"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_UseLocalConstellNames)
 #: options/opsguides.ui:143
 #, kde-format
 msgid "Use Localized constellation names"
 msgstr "Utilitza els noms localitzats de les constel·lacions."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseLocalConstellNames)
 #: options/opsguides.ui:146
 #, kde-format
@@ -75769,14 +75769,14 @@ msgstr ""
 msgid "Localized"
 msgstr "Localitzat"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
 #: options/opsguides.ui:159
 #, kde-format
 msgid "Use IAU abbreviations"
 msgstr "Utilitza les abreviatures de la Unió astronòmica internacional (IAU)."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
 #: options/opsguides.ui:162
 #, kde-format
@@ -75861,7 +75861,7 @@ msgstr "&Horitzó (línia)"
 msgid "Draw the Milky Way contour?"
 msgstr "Voleu que es dibuixe el contorn de la Via Làctia?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMilkyWay)
 #: options/opsguides.ui:249
 #, kde-format
@@ -75899,7 +75899,7 @@ msgstr "Selecciona automàticament la quadrícula de coordenades"
 msgid "Draw flags?"
 msgstr "Voleu que es dibuixen els indicadors?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:281
 #, kde-format
@@ -76222,7 +76222,7 @@ msgstr "Si se selecciona, es dibuixarà a Saturn en el mapa."
 msgid "Draw major bodies as images?"
 msgstr "Voleu que es dibuixen els cossos principals com a imatges?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowPlanetImages)
 #: options/opssolarsystem.ui:69
 #, kde-format
@@ -76259,7 +76259,7 @@ msgstr ""
 "Voleu que s'adjunten les etiquetes de nom als cossos principals del sistema "
 "solar?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowPlanetNames)
 #: options/opssolarsystem.ui:98
 #, kde-format
@@ -76275,14 +76275,14 @@ msgstr ""
 msgid "Use name labels"
 msgstr "Utilitza etiquetes de nom"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAllPlanets)
 #: options/opssolarsystem.ui:108
 #, kde-format
 msgid "Select all major bodies"
 msgstr "Selecciona tots els cossos principals."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, showAllPlanets)
 #: options/opssolarsystem.ui:111
 #, kde-format
@@ -76298,14 +76298,14 @@ msgstr ""
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, showNonePlanets)
 #: options/opssolarsystem.ui:121
 #, kde-format
 msgid "Unselect all major bodies"
 msgstr "Desselecciona tots els cossos principals."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, showNonePlanets)
 #: options/opssolarsystem.ui:124
 #, kde-format
@@ -76436,7 +76436,7 @@ msgstr "Baixa els asteroides més brillants que:"
 msgid "Draw asteroids?"
 msgstr "Voleu que es dibuixen els asteroides?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAsteroids)
 #: options/opssolarsystem.ui:301
 #, kde-format
@@ -76449,7 +76449,7 @@ msgstr "Si se selecciona, es dibuixaran els asteroides en el mapa."
 msgid "Draw comets?"
 msgstr "Voleu que es dibuixen els cometes?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowComets)
 #: options/opssolarsystem.ui:317
 #, kde-format
@@ -76469,7 +76469,7 @@ msgstr ""
 msgid "Show asteroids brighter than:"
 msgstr "Mostra els asteroides més brillants que:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:366
 #, kde-format
@@ -76494,21 +76494,21 @@ msgstr ""
 msgid "Show names of comets within:"
 msgstr "Mostra el nom dels cometes amb:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (MagnitudeSpinBox, kcfg_MagLimitAsteroid)
 #: options/opssolarsystem.ui:390
 #, kde-format
 msgid "Set the faintest magnitude for drawing asteroids"
 msgstr "Establix la magnitud més feble per a dibuixar els asteroides."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MaxRadCometName)
 #: options/opssolarsystem.ui:428
 #, kde-format
 msgid "Maximum distance for comet names"
 msgstr "Distància màxima per als noms dels cometes."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, kcfg_MaxRadCometName)
 #: options/opssolarsystem.ui:431
 #, kde-format
@@ -76533,7 +76533,7 @@ msgstr "UA"
 msgid "Attach name labels to asteroids?"
 msgstr "Voleu que s'adjunten les etiquetes de nom als asteroides?"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:468
 #, kde-format
@@ -76570,7 +76570,7 @@ msgstr "Actualització automàtica en línia"
 msgid "Orbit Trails"
 msgstr "Traces orbitals"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAutoTrail)
 #: options/opssolarsystem.ui:547
 #, kde-format
@@ -76615,7 +76615,7 @@ msgstr ""
 msgid "Fade trails to background color"
 msgstr "Oculta les traces amb el color de fons"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ClearAllTrails)
 #: options/opssolarsystem.ui:597
 #, kde-format
@@ -76740,7 +76740,7 @@ msgstr "Especifica el fitxer de terreny que s'utilitzarà."
 msgid "Terrain file:"
 msgstr "Fitxer de terreny:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAzLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAz)
 #: options/opsterrain.ui:101 options/opsterrain.ui:117
@@ -76755,7 +76755,7 @@ msgstr ""
 msgid "Terrain image azimuth correction degrees:"
 msgstr "Graus de correcció de l'azimut de la imatge del terreny:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:159
 #, kde-format
@@ -76770,7 +76770,7 @@ msgstr ""
 msgid "Terrain image altitude correction degrees:"
 msgstr "Graus de correcció de l'altitud de la imatge del terreny:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAlt)
 #: options/opsterrain.ui:175
 #, kde-format
@@ -79875,7 +79875,7 @@ msgstr "Long.:"
 msgid "Lat.:"
 msgstr "Lat.:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, OptionName)
 #: tools/argchangeviewoption.ui:30
 #, kde-format
@@ -79899,7 +79899,7 @@ msgstr ""
 msgid "Value:"
 msgstr "Valor:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, TreeButton)
 #: tools/argchangeviewoption.ui:63
 #, kde-format
@@ -79925,7 +79925,7 @@ msgstr ""
 msgid "Browse Tree..."
 msgstr "Navega per l'arbre..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:76
 #, kde-format
@@ -79973,7 +79973,7 @@ msgstr "Amplària de la imatge:"
 msgid "Image height:"
 msgstr "Alçària de la imatge:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, FindButton)
 #: tools/argfindobject.ui:41 tools/arglooktoward.ui:110
 #, kde-format
@@ -80004,7 +80004,7 @@ msgstr "Objecte..."
 msgid "Dir:"
 msgstr "Dir:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, FocusEdit)
 #: tools/arglooktoward.ui:37
 #, kde-format
@@ -80051,7 +80051,7 @@ msgstr "Nom de color:"
 msgid "Color value:"
 msgstr "Valor de color:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CountryName)
 #: tools/argsetgeolocation.ui:53
 #, kde-format
@@ -80070,7 +80070,7 @@ msgstr ""
 "senzill utilitzar el botó «Busca una ciutat...» per a triar el vostre "
 "emplaçament entre un llistat predefinit de ciutats."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CityName)
 #: tools/argsetgeolocation.ui:77
 #, kde-format
@@ -80089,7 +80089,7 @@ msgstr ""
 "més senzill utilitzar el botó «Busca una ciutat...» per a triar el vostre "
 "emplaçament entre un llistat predefinit de ciutats."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ProvinceName)
 #: tools/argsetgeolocation.ui:87
 #, kde-format
@@ -80108,7 +80108,7 @@ msgstr ""
 "resulta més senzill utilitzar el botó «Busca una ciutat...» per a triar el "
 "vostre emplaçament entre un llistat predefinit de ciutats."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, FindCityButton)
 #: tools/argsetgeolocation.ui:123
 #, kde-format
@@ -80135,7 +80135,7 @@ msgstr ""
 msgid "Find City..."
 msgstr "Busca una ciutat..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CheckTrack)
 #: tools/argsettrack.ui:30
 #, kde-format
@@ -80172,7 +80172,7 @@ msgstr ""
 msgid "<font color=\"#00007f\">Sec:</font>"
 msgstr "<font color=\"#00007f\">Seg:</font>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, DelayBox)
 #: tools/argwaitfor.ui:37
 #, kde-format
@@ -80195,7 +80195,7 @@ msgstr ""
 msgid "Key:"
 msgstr "Tecla:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, WaitKeyEdit)
 #: tools/argwaitforkey.ui:37
 #, kde-format
@@ -80226,7 +80226,7 @@ msgstr ""
 msgid "Zoom level:"
 msgstr "Nivell d'ampliació:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ZoomBox)
 #: tools/argzoom.ui:37
 #, kde-format
@@ -80856,7 +80856,7 @@ msgstr "Icona:"
 msgid "Save Changes"
 msgstr "Guarda els canvis"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ScopeButton)
 #: tools/flagmanager.ui:213
 #, kde-format
@@ -80920,28 +80920,28 @@ msgstr "El valor angular no és vàlid: %1"
 msgid "Regions"
 msgstr "Regions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, addRegionB)
 #: tools/horizonmanager.ui:42
 #, kde-format
 msgid "Add Region"
 msgstr "Afig una regió."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeRegionB)
 #: tools/horizonmanager.ui:67
 #, kde-format
 msgid "Remove Region"
 msgstr "Elimina una regió."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleCeilingB)
 #: tools/horizonmanager.ui:92
 #, kde-format
 msgid "Toggle Ceiling"
 msgstr "Canvia el sostre."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:130
 #, kde-format
@@ -80954,28 +80954,28 @@ msgstr "Guarda les regions."
 msgid "Points"
 msgstr "Punts"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, addPointB)
 #: tools/horizonmanager.ui:177
 #, kde-format
 msgid "Add Point"
 msgstr "Afig un punt."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, removePointB)
 #: tools/horizonmanager.ui:202
 #, kde-format
 msgid "Remove Point"
 msgstr "Elimina el punt."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearPointsB)
 #: tools/horizonmanager.ui:227
 #, kde-format
 msgid "Clear all points"
 msgstr "Neteja tots els punts."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
 #: tools/horizonmanager.ui:284
 #, kde-format
@@ -81501,7 +81501,7 @@ msgstr "Coordenades galàctiques"
 msgid "Select Parameters in Input File"
 msgstr "Selecciona els paràmetres en el fitxer d'entrada"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, galLongCheckBatch)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, galLatCheckBatch)
@@ -82425,28 +82425,28 @@ msgstr "Suprimix totes les imatges"
 msgid "Image Chooser"
 msgstr "Selector d'imatges"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:77
 #, kde-format
 msgid "Open an observation session list"
 msgstr "Obri una llista de la sessió d'observació."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:80
 #, kde-format
 msgid "Load an observing list from disk"
 msgstr "Carrega una llista d'observació des del disc."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/observinglist.ui:108
 #, kde-format
 msgid "Save the observing session"
 msgstr "Guarda la sessió d'observació."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
 #: tools/observinglist.ui:111
 #, kde-format
@@ -82459,7 +82459,7 @@ msgstr "Guarda la llista d'observació actual al disc."
 msgid "Save observing session as..."
 msgstr "Es guarda la sessió d'observació com a."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)
 #: tools/observinglist.ui:142
 #, kde-format
@@ -82512,7 +82512,7 @@ msgstr ""
 msgid "Download all Images"
 msgstr "Descarrega totes les imatges"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, DeleteAllImages)
 #: tools/observinglist.ui:259
 #, kde-format
@@ -82554,28 +82554,28 @@ msgstr ""
 msgid "Wizard..."
 msgstr "Assistent..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, FindButton)
 #: tools/observinglist.ui:323
 #, kde-format
 msgid "Open Find Dialog"
 msgstr "Obri el diàleg «Busca»."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, FindButton)
 #: tools/observinglist.ui:326
 #, kde-format
 msgid "Open the Find Dialog for adding objects to the list"
 msgstr "Obri el diàleg «Busca» per a afegir objectes a la llista."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:342
 #, kde-format
 msgid "Open the WUT dialog"
 msgstr "Obri el diàleg «Què passa esta nit» (QPAN)."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:345
 #, kde-format
@@ -82820,21 +82820,21 @@ msgstr ""
 "seleccions habituals.</p><p></p><p>Quan hàgeu acabat, premeu el botó <span "
 "style=\"font-weight:600;\">Següent</span>.</p></body></html>"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AllButton)
 #: tools/obslistwizard.ui:170
 #, kde-format
 msgid "Select all items in the list"
 msgstr "Se seleccionen tots els elements que hi ha a la llista."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, NoneButton)
 #: tools/obslistwizard.ui:180
 #, kde-format
 msgid "Clear all selected items in the list"
 msgstr "S'esborren tots els elements seleccionats que hi ha a la llista."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, DeepSkyButton)
 #: tools/obslistwizard.ui:190
 #, kde-format
@@ -82849,7 +82849,7 @@ msgstr ""
 msgid "Deep sky"
 msgstr "Cel profund"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, SolarSystemButton)
 #: tools/obslistwizard.ui:200
 #, kde-format
@@ -83882,7 +83882,7 @@ msgstr ""
 "Falta de correspondència entre la funció i l'argument del giny (s'esperava "
 "%1)"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: tools/scriptbuilder.ui:67
 #, kde-format
@@ -83915,14 +83915,14 @@ msgstr ""
 "S'obrirà un script existent. Se us demanarà guardar qualsevol canvi sense "
 "guardar a l'script actual."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:135
 #, kde-format
 msgid "Save Script"
 msgstr "Es guardarà l'script."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:138
 #, kde-format
@@ -83949,7 +83949,7 @@ msgstr ""
 "Es guardarà l'script a un fitxer, permetent-vos primer especificar el nom "
 "del fitxer i un nom per al mateix."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:197
 #, kde-format
@@ -83987,7 +83987,7 @@ msgstr ""
 "especificar els arguments davall. Utilitzeu els botons d'accions per a "
 "copiar, eliminar o canviar la posició de l'ordre seleccionada. "
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
 #, kde-format
@@ -84006,7 +84006,7 @@ msgstr ""
 "botó l'afegirà a l'script actual. La funció nova s'inserirà directament "
 "després de la funció ressaltada en el quadro «Script actual».\n"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:338
 #, kde-format
@@ -84023,7 +84023,7 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó "
 "l'eliminarà de l'script."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:360
 #, kde-format
@@ -84040,7 +84040,7 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó "
 "afegirà un duplicat d'esta."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: tools/scriptbuilder.ui:382
 #, kde-format
@@ -84057,7 +84057,7 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó la "
 "pujarà una posició en l'script."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, DownButton)
 #: tools/scriptbuilder.ui:404
 #, kde-format
@@ -84086,7 +84086,7 @@ msgstr "Arguments de la funció"
 msgid "Function Browser"
 msgstr "Navegador de funcions"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QTextEdit, FuncDoc)
 #: tools/scriptbuilder.ui:512
 #, kde-format
@@ -84103,7 +84103,7 @@ msgstr ""
 "Si es ressalta una funció en el navegador de funcions, esta àrea mostrarà "
 "una breu nota informativa sobre la mateixa."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ScriptName)
 #: tools/scriptnamedialog.ui:29
 #, kde-format
@@ -84120,7 +84120,7 @@ msgstr ""
 "S'introduïx un nom per a l'script. Este no serà el nom del fitxer, tan sols "
 "una xicoteta línia de text descriptiva."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AuthorName)
 #: tools/scriptnamedialog.ui:39
 #, kde-format
@@ -84512,7 +84512,7 @@ msgstr "Posta a les: %1"
 msgid "The night of DATE"
 msgstr "La nit de la DATA"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:43
 #, kde-format
@@ -84542,7 +84542,7 @@ msgstr "Canvia la data..."
 msgid "at LOCATION"
 msgstr "a l'EMPLAÇAMENT"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:86
 #, kde-format
@@ -84572,14 +84572,14 @@ msgstr "Canvia l'emplaçament..."
 msgid "Show objects which are up:"
 msgstr "Mostra els objectes que estiguen amunt:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:121
 #, kde-format
 msgid "Choose time interval"
 msgstr "Es tria l'interval de temps."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:124
 #, kde-format
@@ -84622,7 +84622,7 @@ msgstr "Qualsevol moment de la nit"
 msgid "Show objects brighter than magnitude:"
 msgstr "Mostra els objectes més brillants que els de magnitud:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:202
 #, kde-format
@@ -84641,7 +84641,7 @@ msgstr "Es mostrarà l'hora a la qual eixirà la Lluna a la data seleccionada."
 msgid "Moon rise:  13:19"
 msgstr "Eixida de la Lluna: 13:19"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:227
 #, kde-format
@@ -84662,7 +84662,7 @@ msgstr ""
 msgid "Night duration: 11:00 hours"
 msgstr "Duració de la nit: 11:00 hores"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, SunSetLabel)
 #: tools/wutdialog.ui:252
 #, kde-format
@@ -84681,7 +84681,7 @@ msgstr "Es mostrarà l'hora a la qual es pondrà el Sol a la data seleccionada."
 msgid "Sunset:  19:15"
 msgstr "Posta del Sol: 19:15"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonSetLabel)
 #: tools/wutdialog.ui:277
 #, kde-format
@@ -84701,7 +84701,7 @@ msgstr ""
 msgid "Moon set: 04:27 "
 msgstr "Posta de la Lluna: 04:27 "
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, SunRiseLabel)
 #: tools/wutdialog.ui:302
 #, kde-format
@@ -84720,7 +84720,7 @@ msgstr "Es mostrarà l'hora a la qual eixirà el Sol a la data seleccionada."
 msgid "Sunrise:  07:15"
 msgstr "Albada: 07:15"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonIllumLabel)
 #: tools/wutdialog.ui:327
 #, kde-format
@@ -84806,7 +84806,7 @@ msgstr ""
 msgid "Sets at:  08:22"
 msgstr "Posta a les: 08:22"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, CenterButton)
 #: tools/wutdialog.ui:461
 #, kde-format
@@ -84829,7 +84829,7 @@ msgstr ""
 msgid "Center Object"
 msgstr "Centra l'objecte"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, DetailButton)
 #: tools/wutdialog.ui:474
 #, kde-format
@@ -84849,7 +84849,7 @@ msgstr "S'obrirà la finestra «Detalls de l'objecte» per a l'objecte ressaltat
 msgid "Object Details..."
 msgstr "Detalls de l'objecte..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:487
 #, kde-format
@@ -84951,7 +84951,7 @@ msgstr "%1 x %2 min. d'arc"
 msgid "..."
 msgstr "..."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QToolButton, nextYear)
 #: widgets/genericcalendarwidget.ui:174
 #, kde-format
@@ -85066,7 +85066,7 @@ msgstr "dia"
 msgid "week"
 msgstr "setmana"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #: widgets/timespinbox.cpp:148 widgets/timespinbox.cpp:149
 #, kde-format
 msgctxt "weeks"
@@ -85265,7 +85265,7 @@ msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
 msgstr "Seleccioneu el fitxer ARC d'Xplanet"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_xplanetIsInternal)
 #: xplanet/opsxplanet.ui:45
 #, kde-format
@@ -85290,28 +85290,28 @@ msgstr "Ací s'introduïx el camí cap a l'executable «xplanet»."
 msgid "Window size: "
 msgstr "Mida de la finestra: "
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetWidth)
 #: xplanet/opsxplanet.ui:104
 #, kde-format
 msgid "Set the width of window"
 msgstr "Establix l'amplària de la finestra."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetWidth)
 #: xplanet/opsxplanet.ui:107
 #, kde-format
 msgid "Set the width of the xplanet image"
 msgstr "S'establix l'amplària de la imatge d'Xplanet."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetHeight)
 #: xplanet/opsxplanet.ui:130
 #, kde-format
 msgid "Set the height of window"
 msgstr "Establix l'alçària de la finestra."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetHeight)
 #: xplanet/opsxplanet.ui:133
 #, kde-format
@@ -85337,7 +85337,7 @@ msgstr "Temps d'espera d'Xplanet:"
 msgid "Animation delay:"
 msgstr "Retard de l'animació:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetAnimationDelay)
 #: xplanet/opsxplanet.ui:183
 #, kde-format
@@ -85399,7 +85399,7 @@ msgstr "Utilitza CDV de KStars"
 msgid "Base magnitude:"
 msgstr "Magnitud base:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetMagnitude)
 #: xplanet/opsxplanet.ui:262
 #, kde-format
@@ -85413,14 +85413,14 @@ msgstr ""
 msgid "Config file:"
 msgstr "Fitxer de configuració:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetConfigFilePath)
 #: xplanet/opsxplanet.ui:299
 #, kde-format
 msgid "Config file path"
 msgstr "Camí cap al fitxer de configuració."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetConfigFilePath)
 #: xplanet/opsxplanet.ui:302
 #, kde-format
@@ -85445,7 +85445,7 @@ msgstr "Mapa estel·lar:"
 msgid "Arc file:"
 msgstr "Fitxer ARC:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetArcFilePath)
 #: xplanet/opsxplanet.ui:415
 #, kde-format
@@ -85480,7 +85480,7 @@ msgstr "Resplendor del Sol:"
 msgid "Output file quality:"
 msgstr "Qualitat del fitxer d'eixida:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetQuality)
 #: xplanet/opsxplanet.ui:502
 #, kde-format
@@ -85624,7 +85624,7 @@ msgstr ""
 "S'especifica un fitxer que contindrà les dades dels marcadors definits per "
 "l'usuari, per tal de mostrar-los contra el fons estrelat."
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetMarkerBounds)
 #: xplanet/opsxplanet.ui:830
 #, kde-format
@@ -85691,7 +85691,7 @@ msgstr "en graus"
 msgid "Projection:"
 msgstr "Projecció:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_XplanetProjection)
 #: xplanet/opsxplanet.ui:982
 #, kde-format
@@ -85733,7 +85733,7 @@ msgstr "Si se selecciona, s'utilitzarà un fitxer o color com a fons."
 msgid "Background image:"
 msgstr "Imatge de fons:"
 
-# skip-rule:punctuation-period-no
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetBackgroundImagePath)
 #: xplanet/opsxplanet.ui:1043
 #, kde-format
