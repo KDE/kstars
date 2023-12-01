@@ -4,6 +4,91 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.8 (Abberator):
+
+b92ee12e8 2023-12-01 Jasem Mutlaq         INDI drivers sync                                                                                                                                     
+e3e305a17 2023-12-01 John Evans           Aberration Inspector Handbook Update                                                                                                                  
+9aa0227e2 2023-12-01 John Evans           Focus Guide Settle Bug                                                                                                                                
+fd55f8939 2023-12-01 John Evans           Scheduler hangs when Focus does not signal Autofocus start failure                                                                                    
+a610e357c 2023-12-01 Joseph McGee         Fixed a problem that prevented the exposure calculator file download function from finding new camera data files in github.                           
+6bbb21618 2023-12-01 Toni Schriber        Revise differential slewing                                                                                                                           
+08c25289f 2023-11-30 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+323adaebb 2023-11-30 Yuri Chornoivan      Fix minor typos                                                                                                                                       
+9d32a738e 2023-11-29 Jasem Mutlaq         Send INDI status                                                                                                                                      
+9da16320f 2023-11-29 Joseph McGee         Update handbook Ekos Capture to include docs for Exposure Calculator. Add...                                                                          
+097cc6c70 2023-11-28 Hy Murveit           Bugfix in one-pulse dither. Dither pulses were going the wrong way.                                                                                   
+a444f38a8 2023-11-28 Jasem Mutlaq         Update dependencies and add contributor                                                                                                               
+ca9e3f73f 2023-11-27 Wolfgang Reissenberger Refactor placeholder matching                                                                                                                         
+a2ac5c25e 2023-11-27 Wolfgang Reissenberger Bug fix reading initial pier and park states                                                                                                          
+d5235682a 2023-11-27 Wolfgang Reissenberger Bugfix clear gain and offset                                                                                                                          
+482f86e07 2023-11-26 John Evans           Focus timer bug fix                                                                                                                                   
+04f68ddfe 2023-11-24 Hy Murveit           Bugfix: prevent possible ekos crash on indi camera driver crash                                                                                       
+98cbe4386 2023-11-22 Antonio Escriban     Protect from nullptr in SequenceJob::setISO()                                                                                                         
+e7a0564ed 2023-11-22 Wolfgang Reissenberger Protect against runtime exceptions when CCD driver crashes                                                                                            
+5effccf71 2023-11-21 Hy Murveit           Protect from nullptr in abortExposure                                                                                                                 
+309f78b2e 2023-11-21 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+259ecd612 2023-11-21 Wolfgang Reissenberger Wall source as option, not as single action                                                                                                           
+a1613642d 2023-11-20 Hy Murveit           Reduce latency between captures.                                                                                                                      
+ed71dd8b5 2023-11-20 Jasem Mutlaq         Remove problematic header                                                                                                                             
+2d3033641 2023-11-20 Jasem Mutlaq         Fix mode                                                                                                                                              
+452e5efc8 2023-11-20 Joseph McGee         Improvements to the exposure calculator                                                                                                               
+1a8b29227 2023-11-19 Wolfgang Reissenberger Bug fix for pier side expression                                                                                                                      
+ed6db110f 2023-11-19 Wolfgang Reissenberger Bug fix for creating signature expression                                                                                                             
+c6e538c7b 2023-11-17 Jasem Mutlaq         Add qt5 visualization dependency                                                                                                                      
+9d7eb02ea 2023-11-15 Hy Murveit           Bugfix: guide start deviation was not saved properly in esq file.                                                                                     
+b0d8db776 2023-11-13 John Evans           Aberration Inspector                                                                                                                                  
+646b11a19 2023-11-12 Eric Dejouhanet      CI: add DataViz lib, shift to builder image 0.12.                                                                                                     
+75d45b64e 2023-11-11 Hy Murveit           Add a new not-default scheduler option to disable greedy scheduling.                                                                                  
+0fe13494f 2023-11-11 Wolfgang Reissenberger Setting target name from mount slew                                                                                                                   
+a7b2303f3 2023-11-10 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 2                                                                                               
+70d63fb0b 2023-11-09 John Evans           DSLR Focus Movement Bug                                                                                                                               
+a5e14795f 2023-11-09 Hy Murveit           Add align logging for some solver failures and clean up error box.                                                                                    
+15c5d08df 2023-11-08 Hy Murveit           Fix bug in estimating job time, capture delays were misinterpreted.                                                                                   
+fa87b9417 2023-11-08 Hy Murveit           improve the hfr tooltip in fitsviewer                                                                                                                 
+86d006547 2023-11-02 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+427a641f2 2023-11-01 Wolfgang Reissenberger Bug fix setting the target when reading an .esq file                                                                                                  
+cdf527598 2023-11-01 Wolfgang Reissenberger New placeholders for ISO, binning and pure exposure time added.                                                                                       
+1732799f0 2023-10-30 Wolfgang Reissenberger Capture target job specific                                                                                                                           
+6765a5104 2023-10-30 Jasem Mutlaq         Add HFR to metadata                                                                                                                                   
+7301bedde 2023-10-29 Hy Murveit           Switch FITSViewer Solver from Angle to Position Angle (PA).                                                                                           
+68c8eb8b6 2023-10-28 Jasem Mutlaq         Send telescope information for FITS header                                                                                                            
+f3db4e49b 2023-10-25 Hy Murveit           Refactor header files to include only what is necessary-4                                                                                             
+7853caf45 2023-10-25 Brett Gottula        Make "Set Coordinates Manually" dialog more intuitive                                                                                                 
+8012f616a 2023-10-25 Hy Murveit           Refactor header files to include only what is necessary-3                                                                                             
+4df3da256 2023-10-24 Hy Murveit           Refactor header files to include only what is necessary-2                                                                                             
+2f7ec7c1a 2023-10-24 Hy Murveit           Refactor header files to include what is necessary-1                                                                                                  
+54d9f1f6f 2023-10-22 Hy Murveit           Add John as developer                                                                                                                                 
+430b4d6d4 2023-10-24 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 1                                                                                               
+28293212a 2023-10-24 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+bcf9478ef 2023-10-24 Jasem Mutlaq         Make camera and scope-lens fields as required                                                                                                         
+d07b126fe 2023-10-23 Hy Murveit           Update handbook align pages                                                                                                                           
+7baa2b4f5 2023-10-22 Yuri Chornoivan      Fix minor typo, enhance formatting for translations                                                                                                   
+1a7e12b9a 2023-10-21 Hy Murveit           fix typo in handbook                                                                                                                                  
+a56cdba51 2023-10-21 Yuri Chornoivan      Fix minor typos                                                                                                                                       
+4c56f06d8 2023-10-21 Yuri Chornoivan      Fix XML                                                                                                                                               
+e575f8f50 2023-10-20 Hy Murveit           Update handbook fitsviewer section and add new fitsviewer solver section.                                                                             
+7669ccff9 2023-10-17 John Evans           Focus Analyze Bug                                                                                                                                     
+20b2cfe2a 2023-10-15 Jasem Mutlaq         Prevent crash that might occur due to driver restart                                                                                                  
+87b19ad68 2023-10-14 Jasem Mutlaq         Double check that camera object exists                                                                                                                
+3112260b6 2023-10-13 Jasem Mutlaq         Only list data length not the whole buffer                                                                                                            
+2864f9bdb 2023-10-12 Jasem Mutlaq         Fix capture calibration error                                                                                                                         
+703825598 2023-10-12 Jasem Mutlaq         Add exclusive group since you cannot select mount GOTO and mount park at the same time                                                                
+4dae801b8 2023-10-11 Jasem Mutlaq         Remove flat field source since it does not fit within optical trains model. When a train is selected, we know if dust caps or light sources are avai..
+79c17a4d9 2023-10-10 Jasem Mutlaq         Initial work to use calibration pre actions instead of calibration source                                                                             
+966abde62 2023-10-12 Hy Murveit           Fitsviewer solver                                                                                                                                     
+d88d6a5a0 2023-10-09 Wolfgang Reissenberger Bug fix setting signature when loading capture sequence                                                                                               
+b36a78b02 2023-10-08 Jasem Mutlaq         Separate connectSettings from connectSyncSettings when there are different non-sync signals involved                                                  
+cfc274ad1 2023-10-08 Jasem Mutlaq         Add separate check for canBin and canSubframe                                                                                                         
+36f65073b 2023-10-08 Jasem Mutlaq         Fix issue where a race conditions on delayed properties might lead to undefined capture or transfer formats. Modify canBin and canSubframe to always..
+96559537e 2023-10-07 Jasem Mutlaq         Prevent endless capture retries                                                                                                                       
+4b7384e85 2023-10-07 Jasem Mutlaq         Do not use system-wide abort which would crash the whole program                                                                                      
+f2d8ea4f2 2023-10-07 Wolfgang Reissenberger Job sequence handling refactored                                                                                                                      
+1960671b3 2023-10-07 Jasem Mutlaq         Fix observatory icon as proposed by Steven Roger in #253                                                                                              
+aa59c63d1 2023-10-06 Eric Dejouhanet      Clarify temperature regulation and where settings are kept.                                                                                           
+42300ee5d 2023-10-05 Toni Schriber        Deactivate autodefault property of [Align Option] pushbutton                                                                                          
+a5c0639d2 2023-10-05 Toni Schriber        Take care of standard range for PA when creating a sequence job                                                                                       
+ea77383a0 2023-10-05 Jasem Mutlaq         3.6.8 development cycle
+
 3.6.7 (OVERLAY):
 
 723c4743f 2023-09-30 Jasem Mutlaq         INDI drivers sync
