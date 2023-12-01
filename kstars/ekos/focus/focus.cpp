@@ -2507,11 +2507,11 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
     if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && plot)
         emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
 
+    // Enforce settling duration. Note stop resets m_GuidingSuspended
+    int const settleTime = m_GuidingSuspended ? guideSettleTime->value() : 0;
+
     // Reset the autofocus flags
     stop(completionState);
-
-    // Enforce settling duration
-    int const settleTime = m_GuidingSuspended ? guideSettleTime->value() : 0;
 
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
