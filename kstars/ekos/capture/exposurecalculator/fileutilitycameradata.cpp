@@ -32,7 +32,7 @@
  * Direct access to files on KDE/kstars git repository:
  */
 QString const OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepositoryList
-    = "https://api.github.com/repos/KDE/kstars/git/trees/03717dc46dfa8f10a1ad79b2b5cc6c5482219169";
+    = "https://api.github.com/repos/KDE/kstars/git/trees/master:kstars%2Fdata%2Fcameradata";
 
 QString const OptimalExposure::FileUtilityCameraData::cameraDataRemoteRepository
     = "https://raw.githubusercontent.com/KDE/kstars/master/kstars/data/cameradata/";
