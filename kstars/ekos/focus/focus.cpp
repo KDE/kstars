@@ -1168,21 +1168,51 @@ void Focus::start()
 
     if (inAutoFocus)
     {
+        // If Autofocus is already running, just ignore this request. This condition should not happen
+        // There is no point signalling Autofocus failure as that will trigger actions based on the
+        // currently running Autofocus failing (whilst it is still running).
         appendLogText(i18n("Autofocus is already running, discarding start request."));
         return;
     }
     else if (inAdjustFocus)
     {
+        if (++AFStartRetries < MAXIMUM_RESET_ITERATIONS)
+        {
+            // Its possible that a start request can be triggered whilst an Adjust Focus is completing
+            // This was reported by a user. The conditions require align resetting a filter and an offset
+            // on the filter needing to be applied. So retry 3 times (10s interval) and fail if still a problem
+            appendLogText(i18n("Autofocus start request - Waiting 10sec for AdjustFocus to complete."));
+            QTimer::singleShot(10 * 1000, this, [this]()
+            {
+                start();
+            });
+            return;
+        }
+
         appendLogText(i18n("Discarding Autofocus start request - AdjustFocus in progress."));
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
     else if (inAdaptiveFocus)
     {
+        // Protective code added as per the above else if. This scenario is unlikely
+        if (++AFStartRetries < MAXIMUM_RESET_ITERATIONS)
+        {
+            appendLogText(i18n("Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."));
+            QTimer::singleShot(10 * 1000, this, [this]()
+            {
+                start();
+            });
+            return;
+        }
+
         appendLogText(i18n("Discarding Autofocus start request - AdaptiveFocus in progress."));
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
-    else inAutoFocus = true;
 
+    inAutoFocus = true;
+    AFStartRetries = 0;
     m_LastFocusDirection = FOCUS_NONE;
 
     waitStarSelectTimer.stop();
@@ -1597,6 +1627,7 @@ void Focus::stop(Ekos::FocusState completionState)
     noStarCount = 0;
     starMeasureFrames.clear();
     m_abInsOn = false;
+    AFStartRetries = 0;
 
     // Check if CCD was not removed due to crash or other reasons.
     if (m_Camera)
