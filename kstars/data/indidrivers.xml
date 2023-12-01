@@ -11,6 +11,10 @@
             <driver name="Shelyak Usis">shelyak_usis</driver>
             <version>1.2</version>
         </device>
+        <device label="LX200 10micron" manufacturer="10 Micron">
+            <driver name="LX200 10micron">indi_lx200_10micron</driver>
+            <version>1.2</version>
+        </device>
         <device label="LX200 Basic" manufacturer="Meade">
             <driver name="LX200 Basic">indi_lx200basic</driver>
             <version>2.1</version>
@@ -29,7 +33,7 @@
         </device>
         <device label="LX200 OnStep" manufacturer="OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.20</version>
+            <version>1.22</version>
         </device>
         <device label="LX200 OpenAstroTech" manufacturer="OpenAstroTech">
             <driver name="LX200 OpenAstroTech">indi_lx200_OpenAstroTech</driver>
@@ -263,10 +267,6 @@
             <driver name="SkyCommander">indi_skycommander_telescope</driver>
             <version>1.0</version>
         </device>
-        <device label="LX200 10micron" manufacturer="10 Micron">
-            <driver name="LX200 10micron">indi_lx200_10micron</driver>
-            <version>1.0</version>
-        </device>
         <device label="Telescope Simulator" manufacturer="Simulator">
             <driver name="Telescope Simulator">indi_simulator_telescope</driver>
             <version>1.0</version>
@@ -487,7 +487,7 @@
         </device>
         <device label="Starlight EFS" manufacturer="Starlight Instruments">
             <driver name="SI EFS">indi_siefs_focus</driver>
-            <version>0.1</version>
+            <version>0.2</version>
         </device>
         <device label="Lacerta MFOC" manufacturer="Lacerta Optics">
             <driver name="Lacerta MFOC">indi_lacerta_mfoc_focus</driver>
@@ -667,7 +667,7 @@
         </device>
         <device label="SnapCap" manufacturer="GTD">
             <driver name="SnapCap">indi_snapcap</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="RBF Excalibur" manufacturer="RB Focus">
             <driver name="RBF Excalibur">indi_Excalibur</driver>
@@ -869,14 +869,6 @@
             <driver name="ZWO CCD">indi_asi_ccd</driver>
             <version>2.3</version>
         </device>
-        <device label="ZWO Camera 1" manufacturer="ZWO">
-            <driver name="ZWO Camera">indi_asi_single_ccd</driver>
-            <version>2.3</version>
-        </device>
-        <device label="ZWO Camera 2" manufacturer="ZWO">
-            <driver name="ZWO Camera">indi_asi_single_ccd</driver>
-            <version>2.3</version>
-        </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true" manufacturer="ZWO">
@@ -913,7 +905,13 @@
     <devGroup group="Focusers">
         <device label="Oasis Focuser" manufacturer="Astroasis">
             <driver name="Oasis Focuser">indi_oasis_focuser</driver>
-            <version>1.0</version>
+            <version>1.1</version>
+        </device>
+    </devGroup>
+    <devGroup group="Filter Wheels">
+        <device label="Oasis Filter Wheel" manufacturer="Astroasis">
+            <driver name="Oasis Filter Wheel">indi_oasis_filter_wheel</driver>
+            <version>1.1</version>
         </device>
     </devGroup>
 </driversList>
@@ -949,7 +947,27 @@
 </driversList>
 <driversList>
     <devGroup group="Telescopes">
-        <device label="Avalon StarGo" manufacturer="Avalon">
+        <device label="AvalonUD Telescope" manufacturer="Avalon-Instruments">
+            <driver name="AvalonUD Telescope">indi_avalonud_telescope</driver>
+            <version>2.2</version>
+        </device>
+    </devGroup>
+    <devGroup group="Focusers">
+        <device label="AvalonUD Focuser" manufacturer="Avalon-Instruments">
+            <driver name="AvalonUD Focuser">indi_avalonud_focuser</driver>
+            <version>2.2</version>
+        </device>
+    </devGroup>
+    <devGroup group="Auxiliary">
+        <device label="AvalonUD Aux" manufacturer="Avalon-Instruments">
+            <driver name="AvalonUD Aux">indi_avalonud_aux</driver>
+            <version>2.2</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Telescopes">
+        <device label="Avalon StarGo" manufacturer="Avalon-Instruments">
             <driver name="LX200 StarGo">indi_lx200stargo</driver>
             <version>1.13</version>
         </device>
@@ -1376,14 +1394,6 @@
     </devGroup>
 </driversList>
 <driversList>
-  <devGroup group="CCDs">
-    <device label="LibCamera" manufacturer="Raspberry PI">
-      <driver name="LibCamera">indi_libcamera_ccd</driver>
-      <version>1.0</version>
-    </device>
-  </devGroup>
-</driversList>
-<driversList>
     <devGroup group="Auxiliary">
         <device label="RPi GPIO">
             <driver name="RPi GPIO">indi_rpi_gpio</driver>
@@ -1509,6 +1519,10 @@
             <driver name="MALLINCAM">indi_mallincam_ccd</driver>
             <version>2.1</version>
         </device>
+        <device label="Meadecam" mdpd="true" manufacturer="Meade">
+            <driver name="Meade">indi_meadecam_ccd</driver>
+            <version>2.1</version>
+        </device>
         <device label="Nncam" mdpd="true" manufacturer="Nn">
             <driver name="Nn">indi_nncam_ccd</driver>
             <version>2.1</version>
@@ -1592,4 +1606,12 @@
             <version>1.0</version>
         </device>
     </devGroup>
+</driversList>
+<driversList>
+  <devGroup group="CCDs">
+    <device label="LibCamera" manufacturer="Raspberry PI">
+      <driver name="LibCamera">indi_libcamera_ccd</driver>
+      <version>1.0</version>
+    </device>
+  </devGroup>
 </driversList>
