@@ -2396,13 +2396,13 @@
 
     <para>Repeat the above process until the limit of sensitivity of the equipment is reached.</para>
 
-    <para>Note the amount of adjustment, e.g. how far to turn bolts, and the sense, counterwise or counter-clockwise,
+    <para>Note the amount of adjustment, e.g. how far to turn bolts, and the sense, clockwise or counter-clockwise,
     will vary by equipment and must be discovered by the user by trial and error. Always follow the recommendations of
     the tilt / backfocus device manufacturer.</para>
 
     <para>Each time Aberration Inspector is run it lauches a new dialog with the run number appended to the title.
     This way several runs can be performed and the results compared. Note, however, that the dialog holds a lot of
-    data (roughtly 10x the amount of a standard Autofocus run). The system resources associated with this are released
+    data (roughly 10x the amount of a standard Autofocus run). The system resources associated with this are released
     when the dialog is closed. For this reason on lower powered machines, once the tool has been used, it is recommended
     to close all Aberration Inspector dialogs before imaging.</para>
 
@@ -2650,7 +2650,7 @@
           </listitem>
 
           <listitem>
-          <para>Slice: A 2D slice throught the 3D graphic is displayed.</para>
+          <para>Slice: A 2D slice through the 3D graphic is displayed.</para>
           </listitem>
         </itemizedlist>
 
@@ -2684,9 +2684,9 @@
       </listitem>
     </itemizedlist>
 
-    <para>The 3D graphic is not essential to using Aberration Inspector. All relevent information is displayed in the
+    <para>The 3D graphic is not essential to using Aberration Inspector. All relevant information is displayed in the
     <link linkend="aberration-inspector-table">Table</link> and <link linkend="aberration-inspector-results">Results</link>
-    sections of the dialog. Its purpose is to aid the user in undertanding Aberration Inspector and to orient themselves
+    sections of the dialog. Its purpose is to aid the user in understanding Aberration Inspector and to orient themselves
     with the information the tool provides.</para>
     </sect4>
   </sect3>
