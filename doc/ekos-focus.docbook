@@ -2400,7 +2400,7 @@
     will vary by equipment and must be discovered by the user by trial and error. Always follow the recommendations of
     the tilt / backfocus device manufacturer.</para>
 
-    <para>Each time Aberration Inspector is run it lauches a new dialog with the run number appended to the title.
+    <para>Each time Aberration Inspector is run it launches a new dialog with the run number appended to the title.
     This way several runs can be performed and the results compared. Note, however, that the dialog holds a lot of
     data (roughly 10x the amount of a standard Autofocus run). The system resources associated with this are released
     when the dialog is closed. For this reason on lower powered machines, once the tool has been used, it is recommended

@@ -646,7 +646,7 @@ The value of image stacking is that as images are stacked, the accumulation of e
                         <listitem>
                             <para>
                                 <guimenuitem>Table</guimenuitem>: A table provides details for stacking based upon the number of hours planned for imaging.</para>
-<para>The table provides a quick reference for finding the approximate number of sub-exposures that might be completed for a given number of hours in a imaging session. But some functions that consume time are not included in this time calculation. For example, USB based cameras typically take some time for data transmission, or if the user has selected automatic dithering, additional time will be consumed in the imaging process, which is not included in this time calculation.</para>
+<para>The table provides a quick reference for finding the approximate number of sub-exposures that might be completed for a given number of hours in an imaging session. But some functions that consume time are not included in this time calculation. For example, USB based cameras typically take some time for data transmission, or if the user has selected automatic dithering, additional time will be consumed in the imaging process, which is not included in this time calculation.</para>
 <para>The far right column of the table shows the calculated time/noise ratio of the integrated (stacked) image that would be produced.</para>
                         </listitem>
                         <listitem>
@@ -669,7 +669,7 @@ Depending on the various inputs and imaging conditions, the potential quality of
 </para>
 
 <para>
-Part of the value of using a Time/Noise ratio as the input for the calculation of the required number of sub-exposures is that it should tend to compensate for the differences in relative noise for sub-exposures of various lengths.  A shorter sub-exposure would have a lower time/noise ratio, so it has less capacity to improve a integrated image.  Therefore, a disproportionately higher number of short exposures are needed to achieve a given time/noise ratio in an integrated image.</para>
+Part of the value of using a Time/Noise ratio as the input for the calculation of the required number of sub-exposures is that it should tend to compensate for the differences in relative noise for sub-exposures of various lengths.  A shorter sub-exposure would have a lower time/noise ratio, so it has less capacity to improve an integrated image.  Therefore, a disproportionately higher number of short exposures are needed to achieve a given time/noise ratio in an integrated image.</para>
 
 <para>As an example, consider the calculation of the number of sub-exposures required when two sub-exposures times were compared: a 300 second sub-exposure vs a 30 second sub-exposure. The 300 second sub-exposure had a calculated noise of 22.1, resulting in a sub-exposure time/noise ratio of 13.6. When the 'noise increase %' is raised to force the exposure time down to 30 seconds, we see a calculated noise of 9.47, resulting in a much lower sub-exposure time/noise ratio of 3.2.  The 300 second exposure is of significantly higher potential quality than the 30 second exposure. We will demand the default time/noise ratio of 80 for integration in both of these cases.</para> 
 

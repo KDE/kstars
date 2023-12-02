@@ -17,7 +17,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>Open Image...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Open a image in the FITS Viewer tool.
+<listitem><para>Open an image in the FITS Viewer tool.
 </para></listitem>
 </varlistentry>
 
