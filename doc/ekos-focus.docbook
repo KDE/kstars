@@ -2162,7 +2162,7 @@
     autofocus-(datetime).txt files from a few nights of observing into a spreadsheet and graph focus position against temperature
     for each filter. Review the data and remove any outliers and plot a line of best fit. Use the line to get
     <guilabel>Ticks / °C</guilabel>. If you intend to adapt for altitude as well as temperature, then it would be better to use a
-    set of data at similar altitude when calibrating temperature. Then its possible to calculate the effect of Temperature and
+    set of data at similar altitude when calibrating temperature. Then it's possible to calculate the effect of Temperature and
     remove this from the data when calculating the effect of Altitude.</para>
 
     <para> You will need to ensure that your focus position is repeatable at the same temperature and altitude and that there
@@ -2532,7 +2532,7 @@
         some calculations may not be performed. If the Centre tile is excluded, no calculations can be
         performed.</para>
 
-        <para>Note that whilst its possible to exclude tiles and still get calculated values, if the data
+        <para>Note that whilst it's possible to exclude tiles and still get calculated values, if the data
         is poor quality then it is recommended to rerun Aberration Inspector rather than persist with poor
         quality data.</para>
       </listitem>
