@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-02 00:38+0000\n"
-"PO-Revision-Date: 2023-12-01 18:33+0100\n"
+"PO-Revision-Date: 2023-12-02 17:23+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -17793,34 +17793,32 @@ msgstr ""
 "d'inici."
 
 #: ekos/focus/focus.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: «AdjustFocus» en "
-"curs."
+"Sol·licitud d'inici d'enfocament automàtic: S'esperen 10 s per a completar "
+"l'ajustament de l'enfocament."
 
 #: ekos/focus/focus.cpp:1192
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: «AdjustFocus» en "
-"curs."
+"Es descarta la sol·licitud d'inici d'enfocament automàtic: l'ajustament de "
+"l'enfocament està en curs."
 
 #: ekos/focus/focus.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: «AdaptiveFocus» "
-"en curs."
+"Sol·licitud d'inici d'enfocament automàtic - S'esperen 10 s per a completar "
+"l'enfocament adaptatiu."
 
 #: ekos/focus/focus.cpp:1209
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: «AdaptiveFocus» "
-"en curs."
+"Es descarta la sol·licitud d'inici d'enfocament automàtic: L'enfocament "
+"adaptatiu està en curs."
 
 #: ekos/focus/focus.cpp:1352
 #, kde-format
@@ -85767,6 +85765,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Differential slewing complete."
-#~ msgstr "S'ha completat l'orientació diferencial."

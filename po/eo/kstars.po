@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-02 00:38+0000\n"
-"PO-Revision-Date: 2023-11-26 16:53+0100\n"
+"PO-Revision-Date: 2023-12-02 07:44+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -17273,10 +17273,10 @@ msgid "Autofocus is already running, discarding start request."
 msgstr "Aŭtomata fokuso jam funkcias, forĵetante startpeton."
 
 #: ekos/focus/focus.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
-msgstr "Forĵetante Aŭtofokusan ekigopeton - AdjustFocus en progreso."
+msgstr ""
+"Aŭtomat-fokusa ekigopeto - Atendante 10sek por ke AdjustFocus plenumiĝu."
 
 #: ekos/focus/focus.cpp:1192
 #, kde-format
@@ -17284,10 +17284,10 @@ msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr "Forĵetante Aŭtofokusan ekigopeton - AdjustFocus en progreso."
 
 #: ekos/focus/focus.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-msgstr "Forĵetante Aŭtofokusan ekigopeton - AdaptiveFocus en progreso."
+msgstr ""
+"Aŭtomat-fokusa ekigopeto - Atendante 10sek por ke AdaptiveFocus plenumiĝu."
 
 #: ekos/focus/focus.cpp:1209
 #, kde-format
@@ -83900,6 +83900,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Differential slewing complete."
-#~ msgstr "Diferenciala svingo kompleta."

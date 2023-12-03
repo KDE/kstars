@@ -20,11 +20,11 @@
 >alaca karanlık</emphasis
 > olarak görülür). Bu yüzden herhangi bir anda, Dünya'daki farklı konumlar, günün farklı anını yaşıyor. Bunun için Güneş saati yerel olarak tanımlanır ve böylece herhangi bir konumda günün anı sabit kalır. </para
 ><para
->Bu zamanın yerelleştirilmesi, dünyanın <firstterm
->Zaman Dilimleri</firstterm
-> adı verilen 24 bölüme ayrılmasıyla yapılır. Yerel Saat, aynı bölgedeki noktalarda aynı, ancak her bölgenin kendi doğusundaki komşu bölgesindeki saatten bir saat <emphasis
->öncedir</emphasis
->. Aslında, bu fikirselleştirilmiş bir basitleştirmedir ve gerçek Zaman Dilimi sınırları, düzgün dikey çizgiler değildir. Genellikle ulusların sınırlarını ve diğer politik konuları takip ederler. </para
+>This localization of time is accomplished by dividing the globe into 24 vertical slices called <firstterm
+>Time Zones</firstterm
+>. The Local Time is the same within any given zone, but the time in each zone is one Hour <emphasis
+>earlier</emphasis
+> than the time in the neighboring Zone to the East. Actually, this is an idealized simplification; real Time Zone boundaries are not straight vertical lines, because they often follow national boundaries and other political considerations. </para
 ><para
 >Yerel Saat her zaman doğudaki bölgelere gittikçe bir saat arttığından dolayı, 25 zaman dilimi ileri giderseniz başladığınız yerden bir gün önde olacağınızı unutmayın. Bu paradoksu önlemek için Asya ve Kuzey Amerika arasında yer alan Pasifik Okyanusundaki Zaman Dilimi sınırı olan <firstterm
 >Uluslararası Tarih Çizgisi</firstterm

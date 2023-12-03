@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-02 00:38+0000\n"
-"PO-Revision-Date: 2023-12-01 20:45+0200\n"
+"PO-Revision-Date: 2023-12-02 09:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -17490,12 +17490,11 @@ msgstr ""
 "фокусування."
 
 #: ekos/focus/focus.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
-"Відкидаємо початковий запит автофокусування — виконання коригування "
-"фокусування."
+"Запит на початок автоматичного фокусування — очікуємо 10 секунд на "
+"завершення коригувального фокусування."
 
 #: ekos/focus/focus.cpp:1192
 #, kde-format
@@ -17505,11 +17504,11 @@ msgstr ""
 "фокусування."
 
 #: ekos/focus/focus.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
-"Відкидаємо початковий запит автофокусування — виконання автофокусування."
+"Запит на початок автоматичного фокусування — очікуємо 10 секунд на "
+"завершення адаптивного фокусування."
 
 #: ekos/focus/focus.cpp:1209
 #, kde-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-02 00:38+0000\n"
-"PO-Revision-Date: 2023-11-30 20:18+0100\n"
+"PO-Revision-Date: 2023-12-02 17:28+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -17243,7 +17243,7 @@ msgid ""
 "between the sensor centre and the average of the centre corners.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>La delta del focus per darrera és la diferència en la "
+"<html><head/><body><p>La delta del focus per darrere és la diferència en la "
 "posició del focus entre el centre dels sensor i la mitjana dels centres de "
 "les cantonades.</p></body></html>"
 
@@ -17251,7 +17251,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:271
 #, kde-format
 msgid "Backfocus Δ:"
-msgstr "Δ del focus per darrera:"
+msgstr "Δ del focus per darrere:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
@@ -17458,7 +17458,7 @@ msgstr "Mode simulació"
 #, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Control lliscant del focus per darrera</p></body></"
+"<html><head/><body><p>Control lliscant del focus per darrere</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
@@ -17564,12 +17564,11 @@ msgstr ""
 "d'inici."
 
 #: ekos/focus/focus.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: «AdjustFocus» en "
-"curs."
+"Sol·licitud d'inici d'enfocament automàtic - S'esperen 10 s per a completar "
+"l'«AdjustFocus»."
 
 #: ekos/focus/focus.cpp:1192
 #, kde-format
@@ -17579,12 +17578,11 @@ msgstr ""
 "curs."
 
 #: ekos/focus/focus.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: «AdaptiveFocus» "
-"en curs."
+"Sol·licitud d'inici d'enfocament automàtic - S'esperen 10 s per a completar "
+"l'«AdaptativeFocus»."
 
 #: ekos/focus/focus.cpp:1209
 #, kde-format

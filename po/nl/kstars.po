@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-02 00:38+0000\n"
-"PO-Revision-Date: 2023-11-22 17:15+0100\n"
+"PO-Revision-Date: 2023-12-02 11:19+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17369,10 +17369,10 @@ msgid "Autofocus is already running, discarding start request."
 msgstr "Autofocus is al actief, startverzoek wordt verworpen."
 
 #: ekos/focus/focus.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
-msgstr "Startverzoek voor autofocus is verworpen - Focus instellen is bezig."
+msgstr ""
+"Startverzoek voor autofocus - wacht 10 sec voor voltooiing van autofocus."
 
 #: ekos/focus/focus.cpp:1192
 #, kde-format
@@ -17380,10 +17380,11 @@ msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr "Startverzoek voor autofocus is verworpen - Focus instellen is bezig."
 
 #: ekos/focus/focus.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-msgstr "Startverzoek voor autofocus is verworpen - Focus aanpassen is bezig."
+msgstr ""
+"Startverzoek voor autofocus - wacht 10 sec voor voltooiing van adaptieve "
+"focus."
 
 #: ekos/focus/focus.cpp:1209
 #, kde-format

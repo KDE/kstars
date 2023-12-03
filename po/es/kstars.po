@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-02 00:38+0000\n"
-"PO-Revision-Date: 2023-11-22 04:10+0100\n"
+"PO-Revision-Date: 2023-12-02 13:12+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -17538,12 +17538,11 @@ msgstr ""
 "Enfoque automático en funcionamiento, descartando la petición de inicio."
 
 #: ekos/focus/focus.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
-"Descartando la solicitud de inicio de enfoque automático: ajuste de enfoque "
-"en curso."
+"Solicitud de inicio de enfoque automático: esperando 10 segundos para que se "
+"complete el ajuste de enfoque."
 
 #: ekos/focus/focus.cpp:1192
 #, kde-format
@@ -17553,12 +17552,11 @@ msgstr ""
 "en curso."
 
 #: ekos/focus/focus.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
-"Descartando solicitud de inicio de enfoque automático: el enfoque adaptativo "
-"está en curso."
+"Solicitud de inicio de enfoque automático: esperando 10 segundos para que se "
+"complete el enfoque adaptativo."
 
 #: ekos/focus/focus.cpp:1209
 #, kde-format
