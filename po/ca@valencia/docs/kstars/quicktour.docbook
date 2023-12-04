@@ -22,7 +22,7 @@
 <para
 >La captura de pantalla de dalt mostra la vista típica del programa &kstars;. Podeu veure la vista del cel centrada sobre Betelgeuse, l'estrela brillant en la constel·lació d'Orió. Orió està a punt d'ocultar-se per davall de l'horitzó. Les estreles es mostren amb <link linkend="ai-colorandtemp"
 >colors realistes</link
-> i lluminositat relativa. En tres racons de la vista del cel, hi ha tres rètols informatius en pantalla mostrant la data sobre l'hora actual («TL: 18:10:30 dimecres, 6 de juliol de 2016»), l'actual emplaçament geogràfic («València, Espanya») i l'objecte al centre de la vista («Apuntat sobre: Betelgeuse (alpha Orionis)»). Sobre la vista del cel hi ha dues barres d'eines. La barra d'eines principal conté dreceres per a les <link linkend="kstars-menus"
+> i brillantor relativa. En tres racons de la vista del cel, hi ha tres rètols informatius en pantalla mostrant la data sobre l'hora actual («TL: 18:10:30 dimecres, 6 de juliol de 2016»), l'actual emplaçament geogràfic («València, Espanya») i l'objecte al centre de la vista («Apuntat sobre: Betelgeuse (alpha Orionis)»). Sobre la vista del cel hi ha dues barres d'eines. La barra d'eines principal conté dreceres per a les <link linkend="kstars-menus"
 >funcions del menú</link
 >, així com un giny regulador de passos temporals que controla la velocitat de simulació del rellotge. La barra d'eines de vista conté botons que vos permeten canviar la vista de diferents tipus d'objectes en el cel. En la part inferior de la finestra, hi ha una barra d'estat que mostra el nom de qualsevol objecte sobre el qual feu clic i les <link linkend="ai-skycoords"
 >coordenades celestes</link
@@ -324,9 +324,9 @@
 > <guimenuitem
 >Configura &kstars;...</guimenuitem
 ></menuchoice
->). Si es marca esta casella de selecció, quan s'introduïsca un nom d'objecte desconegut per &kstars; al diàleg <guilabel
+>). Si se selecciona esta casella de selecció, quan s'introduïsca un nom d'objecte desconegut per &kstars; al diàleg <guilabel
 >Busca</guilabel
->, &kstars; contactarà amb els serveis en línia per a aprendre sobre l'objecte desitjat i després l'afegirà directament a la base de dades de &kstars;. Els objectes adquirits d'esta manera, s'emmagatzemen en un catàleg fals, anomenat «_Internet_Resolved». Per tant, podreu activar o desactivar la visualització d'estos objectes marcant o desmarcant el catàleg «_Internet_Resolved» de la llista de catàlegs. Recordeu que no podreu eliminar este catàleg fals, com ho feu amb un catàleg personalitzat. Si no es marca esta casella de selecció, llavors el diàleg <guilabel
+>, &kstars; contactarà amb els serveis en línia per a aprendre sobre l'objecte desitjat i després l'afegirà directament a la base de dades de &kstars;. Els objectes adquirits d'esta manera, s'emmagatzemen en un catàleg fals, anomenat «_Internet_Resolved». Per tant, podreu activar o desactivar la visualització d'estos objectes marcant o desmarcant el catàleg «_Internet_Resolved» de la llista de catàlegs. Recordeu que no podreu eliminar este catàleg fals, com ho feu amb un catàleg personalitzat. Si no se selecciona esta casella de selecció, llavors el diàleg <guilabel
 >Busqueu un objecte</guilabel
 > serà exactament el mateix, a excepció d'un xicotet canvi: el botó de busca en línia ja no serà visible. </para>
 <screenshot>

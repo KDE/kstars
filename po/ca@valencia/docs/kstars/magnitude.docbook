@@ -18,7 +18,7 @@
 >Colors i temperatures de les estreles</seealso
 > </indexterm>
 <para
->Fa 2500 anys, l'antic astrònom grec Hipparchus va classificar la lluminositat de les estreles visibles en el cel en una escala de l'1 al 6. A les estreles més brillants les anomenà de <quote
+>Fa 2500 anys, l'antic astrònom grec Hipparchus va classificar la brillantor de les estreles visibles en el cel en una escala de l'1 al 6. A les estreles més brillants les anomenà de <quote
 >primera magnitud</quote
 > i a les més febles que va poder veure de <quote
 >sexta magnitud</quote
@@ -46,13 +46,13 @@
 ><para
 >S'utilitza una varietat d'escales de magnitud, cadascuna de les quals servix per a una finalitat diferent. La més comuna és l'escala de magnitud aparent; açò és, la mesura de la lluminositat de les estreles (i altres objectes) segons l'ull humà. L'escala de magnitud aparent definix que l'estrela Vega té una magnitud de 0,0 i assigna magnituds a tots els altres objectes utilitzant l'anterior equació i una mesura de la proporció de flux de cada objecte respecte a Vega. </para
 ><para
->Açò dificulta entendre a les estreles utilitzant únicament les magnituds aparents. Imagineu dues estreles en el cel amb una magnitud aparent similar, és a dir, que aparenten ser igual de brillants. És impossible saber, a simple vista, si tenen la mateixa lluminositat <emphasis
+>Açò dificulta entendre a les estreles utilitzant únicament les magnituds aparents. Imagineu dues estreles en el cel amb una magnitud aparent similar, és a dir, que aparenten ser igual de brillants. És impossible saber, a simple vista, si tenen la mateixa brillantor <emphasis
 >intrínseca</emphasis
->; és possible que una de les estreles siga intrínsecament més brillant, però que estiga més llunyana. Si es coneguera la distància a les estreles (vegeu l'article sobre la <link linkend="ai-parallax"
+>; és possible que una de les estreles siga intrínsecament més brillant, però que estiga més llunyana. Si es coneguera la distància fins a les estreles (vegeu l'article sobre la <link linkend="ai-parallax"
 >paral·laxi</link
 >), es podria tindre en compte i assignar <firstterm
 >magnituds absolutes</firstterm
-> que reflectirien la seua lluminositat intrínseca verdadera. La magnitud absoluta definix quina magnitud aparent tindria l'estrela si fora observada des d'una distància de 10 parsecs (1 parsec equival a 3,26 anys llum o 3,1 x 10<superscript
+> que reflectirien la seua brillantor intrínseca verdadera. La magnitud absoluta definix quina magnitud aparent tindria l'estrela si fora observada des d'una distància de 10 parsecs (1 parsec equival a 3,26 anys llum o 3,1 x 10<superscript
 >18</superscript
 > cm). La magnitud absoluta (M) es pot determinar a partir de la magnitud aparent (m) i la distància en parsecs (d), utilitzant la fórmula: </para
 ><para

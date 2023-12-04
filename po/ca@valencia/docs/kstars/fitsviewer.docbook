@@ -394,7 +394,7 @@
 >Llums intenses:</guilabel
 >. Ajustar-los canviarà els valors mostrats. </para>
             <para
->L'histograma, si està habilitat, es pot fer zoom utilitzant la roda de desplaçament del ratolí i desplaçar-se arrossegant amb el ratolí. A davall del ratolí, un cursor en l'histograma mostra la posició del píxel en la imatge. </para>
+>L'histograma, si està habilitada, es pot fer zoom utilitzant la roda de desplaçament del ratolí i desplaçar-se arrossegant amb el ratolí. A davall del ratolí, un cursor en l'histograma mostra la posició del píxel en la imatge. </para>
     </listitem>
     <listitem
 ><para
@@ -446,7 +446,7 @@
 ></listitem>
                 <listitem
 ><para
->Estreles retallades: si està activat el bote <guibutton
+>Estreles retallades: si se selecciona el bote <guibutton
 >Mostra el retallat</guibutton
 > en la barra d'eines principal, es mostrarà el nombre de píxels possiblement retallats. A dalt és de Retallats:403.</para
 ></listitem>
@@ -619,7 +619,7 @@
 ></listitem>
                 <listitem
 ><para
->Imatge: Per a qualsevol imatge on s'han detectat estreles, si està activat el botó <guibutton
+>Imatge: Per a qualsevol imatge on s'han detectat estreles, si se selecciona el botó <guibutton
 >Marca les estreles</guibutton
 > sobre la visualització de la imatge, les estreles detectades apareixeran en un cercle roig.</para>
     <screenshot>
@@ -776,7 +776,7 @@
         </mediaobject>
     </screenshot>
     <para
->L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Açò és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrela, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la lluminositat relativa dels diferents objectes de la imatge. A més, permet als usuaris que vullguen veure visualment què està passant en la seua recopilació de dades d'una altra manera. </para>
+>L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Açò és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrela, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la brillantor relativa dels diferents objectes a la imatge. A més, permet als usuaris que vullguen veure visualment què està passant en la seua recopilació de dades d'una altra manera. </para>
     <para
 >Per a utilitzar la nova característica, l'usuari haurà de seleccionar la icona <guiicon
 >Visualitza el perfil de l'estrela</guiicon

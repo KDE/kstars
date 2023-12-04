@@ -44,19 +44,19 @@
                         <para
 ><guilabel
 >Connecta automàticament</guilabel
->: Marqueu esta opció per a habilitar la connexió automàtica amb tots els vostres dispositius després d'iniciar el servidor INDI. Si no es marca, els dispositius INDI es crearan però no es connectaran automàticament. Açò és útil quan voleu fer canvis al controlador (&pex;, canviar la velocitat de transmissió, l'adreça IP o qualsevol altra opció de configuració) abans de connectar-hi. </para>
+>: Seleccioneu esta opció per a habilitar la connexió automàtica amb tots els vostres dispositius després d'iniciar el servidor INDI. Si no se selecciona, els dispositius INDI es crearan però no es connectaran automàticament. Açò és útil quan voleu fer canvis al controlador (&pex;, canviar la velocitat de transmissió, l'adreça IP o qualsevol altra opció de configuració) abans de connectar-hi. </para>
                     </listitem>
                     <listitem>
                         <para
 ><guilabel
 >Selector de ports</guilabel
->: Marqueu esta opció per a habilitar el selector de ports. En crear un perfil nou, estarà marcada de manera predeterminada. El selector de ports s'utilitza per a seleccionar els paràmetres d'inici del port sèrie i de comunicació de la xarxa dels dispositius en el perfil de l'equip. Després de connectar amb l'equip per primera vegada, es mostrarà la finestra emergent del selector de ports a on es podran definir els paràmetres de comunicació abans d'establir la connexió. Una vegada s'haja connectat, s'apagarà l'opció del selector de ports. Per a tornar-lo a activar es pot canviar com a activat en l'editor de perfils. </para>
+>: Seleccioneu esta opció per a habilitar el selector de ports. En crear un perfil nou, estarà marcada de manera predeterminada. El selector de ports s'utilitza per a seleccionar els paràmetres d'inici del port sèrie i de comunicació de la xarxa dels dispositius en el perfil de l'equip. Després de connectar amb l'equip per primera vegada, es mostrarà la finestra emergent del selector de ports a on es podran definir els paràmetres de comunicació abans d'establir la connexió. Una vegada s'haja connectat, s'apagarà l'opció del selector de ports. Per a tornar-lo a activar es pot canviar com a activat en l'editor de perfils. </para>
                     </listitem>
                     <listitem>
                         <para
 ><guilabel
 >Informació del lloc</guilabel
->: De manera opcional, podeu marcar esta casella de selecció i Ekos carregarà la ciutat i la zona horària <emphasis role="bold"
+>: De manera opcional, podeu seleccionar esta casella de selecció i Ekos carregarà la ciutat i la zona horària <emphasis role="bold"
 >actuals</emphasis
 > cada vegada que s'inicie amb este perfil. Açò pot ser útil quan es connecta amb el lloc geogràfic remot, de manera que Ekos estarà sincronitzat en l'emplaçament i el temps. </para>
                     </listitem>
@@ -70,7 +70,7 @@
                         <para
 ><guilabel
 >Gestor web d'INDI</guilabel
->: El gestor web StellarMate és una eina basada en web per a iniciar i parar els controladors d'INDI. Sempre haureu de marcar esta opció quan es connecte de manera remota amb una unitat de StellarMate. </para>
+>: El gestor web StellarMate és una eina basada en web per a iniciar i parar els controladors d'INDI. Sempre haureu de seleccionar esta opció quan es connecte de manera remota amb una unitat de StellarMate. </para>
                     </listitem>
                     <listitem>
                         <para

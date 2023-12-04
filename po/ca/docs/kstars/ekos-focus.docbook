@@ -2827,10 +2827,10 @@
 >Repetiu el procés anterior fins que s'assoleixi el límit de sensibilitat de l'equip.</para>
 
     <para
->Note the amount of adjustment, e.g. how far to turn bolts, and the sense, clockwise or counter-clockwise, will vary by equipment and must be discovered by the user by trial and error. Always follow the recommendations of the tilt / backfocus device manufacturer.</para>
+>Observeu la quantitat d'ajustos, per exemple, fins a on girar els cargols, i el sentit, en sentit horari o antihorari, variarà segons l'equip i l'usuari haurà de descobrir-lo per prova i error. Seguiu sempre les recomanacions del fabricant del dispositiu d'inclinació / focus per darrere.</para>
 
     <para
->Each time Aberration Inspector is run it lauches a new dialog with the run number appended to the title. This way several runs can be performed and the results compared. Note, however, that the dialog holds a lot of data (roughly 10x the amount of a standard Autofocus run). The system resources associated with this are released when the dialog is closed. For this reason on lower powered machines, once the tool has been used, it is recommended to close all Aberration Inspector dialogs before imaging.</para>
+>Cada vegada que s'executa l'Inspector d'aberracions obre un diàleg nou amb el número d'execució afegit al títol. D'aquesta manera es poden realitzar diverses execucions i comparar els resultats. Tingueu en compte, però, que el diàleg conté moltes dades (aproximadament 10x la quantitat d'una execució estàndard d'enfocament automàtic). Els recursos del sistema associats amb això es publiquen quan es tanca el diàleg. Per aquest motiu, en les màquines de menor potència, una vegada que s'ha utilitzat l'eina, es recomana tancar tots els diàlegs de l'Inspector d'aberracions abans del processament d'imatges.</para>
 
     <para
 >Les seccions següents descriuen les seccions del diàleg de l'Inspector d'aberracions.</para>
@@ -3131,7 +3131,7 @@
 
           <listitem>
           <para
->Slice: A 2D slice through the 3D graphic is displayed.</para>
+>Segment: Es mostra un segment 2D a través del gràfic 3D.</para>
           </listitem>
         </itemizedlist>
 
@@ -3180,11 +3180,11 @@
     </itemizedlist>
 
     <para
->The 3D graphic is not essential to using Aberration Inspector. All relevant information is displayed in the <link linkend="aberration-inspector-table"
->Table</link
-> and <link linkend="aberration-inspector-results"
->Results</link
-> sections of the dialog. Its purpose is to aid the user in understanding Aberration Inspector and to orient themselves with the information the tool provides.</para>
+>El gràfic 3D no és essencial per a utilitzar l'inspector d'aberracions. Tota la informació rellevant es mostra a la <link linkend="aberration-inspector-table"
+>Taula</link
+> i a la secció <link linkend="aberration-inspector-results"
+>Resultats</link
+> del diàleg. La seva finalitat és ajudar a l'usuari a entendre l'Inspector d'aberracions i orientar-se amb la informació que proporciona l'eina.</para>
     </sect4>
   </sect3>
 </sect2>

@@ -111,7 +111,7 @@
 >Mòdul de muntura</term>
             <listitem>
                 <para
->El control de la muntura es pot fer de forma interactiva mitjançant el mapa celeste emprant el quadro de control de la muntura al mòdul per a la muntura. Configureu les propietats del telescopi (distància focal i obertura), tant per al vostre telescopi primari per a l'obtenció de les imatges com per a la guia telescòpica. No obstant açò, es recomana seleccionar els telescopis en el perfil de l'equip i no canviar els valors directament al mòdul per a la muntura. </para>
+>El control de la muntura es pot fer de forma interactiva mitjançant el mapa celeste emprant el quadro de control de la muntura al mòdul per a la muntura. Configureu les propietats del telescopi (distància focal i obertura), tant per al vostre telescopi primari per a l'obtenció de les imatges com per a la guia telescòpica. No obstant açò, es recomana seleccionar els instruments de visió en el perfil de l'equip i no canviar els valors directament al mòdul per a la muntura. </para>
             </listitem>
         </varlistentry>
     </variablelist>

@@ -26,7 +26,7 @@
         <title
 >Introducció</title>
         <para
->El mòdul Analitza registra i mostra el que ha succeït en una sessió de presa d'imatges. És a dir, no controla cap de les imatges preses, sinó que revisa el que ha succeït. Les sessions s'emmagatzemen en una carpeta <filename class="directory"
+>El mòdul Analitza registra i mostra el que ha succeït en una sessió d'obtenció d'imatges. És a dir, no controla cap de les imatges preses, sinó que revisa el que ha succeït. Les sessions s'emmagatzemen en una carpeta <filename class="directory"
 >analyze</filename
 >, una carpeta germana de la carpeta de registre principal. Els fitxers <literal role="extension"
 >.analyze</literal
@@ -34,7 +34,7 @@
 >Analitza</guilabel
 > per a veure'ls. <guilabel
 >Analitza</guilabel
-> també pot mostrar dades de la sessió de pressa d'imatges actual. </para>
+> també pot mostrar dades de la sessió actual d'obtenció d'imatges. </para>
         <para
 >Hi ha dos gràfics principals, <guilabel
 >Línia de temps</guilabel
@@ -50,11 +50,11 @@
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
->) L'eix «x» també es pot moure amb la barra de desplaçament així com amb les tecles &Left; i &Right;. Podeu veure la sessió actual de prendre imatges o revisar les sessions antigues carregant els fitxers <literal role="extension"
+>) L'eix «x» també es pot moure amb la barra de desplaçament així com amb les tecles &Left; i &Right;. Podeu veure la sessió actual d'obtenció d'imatges o revisar les sessions antigues carregant els fitxers <literal role="extension"
 >.analyze</literal
 >, utilitzant la llista desplegable <guilabel
 >Entrada</guilabel
->. Si marqueu <guilabel
+>. Si seleccioneu <guilabel
 >Amplària total</guilabel
 >, es mostraran totes les dades i <guilabel
 >Últim</guilabel
@@ -68,7 +68,7 @@
         <para
 >La línia de temps mostra els principals processos d'Ekos i quan han sigut actius. Per exemple, la línia <guilabel
 >Captura</guilabel
-> mostra quan es van prendre les imatges (verd marcit per a RGB o codificat per color del filtre) i quan es va interrompre (es mostra com a seccions en roig). En fer clic damunt d'una secció de la captura es proporcionarà informació sobre esta imatge, i en fer-hi doble clic damunt d'una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
+> mostra quan es van prendre les imatges (verd marcit per a RGB o codificat per color del filtre) i quan es va interrompre l'obtenció de les imatges (es mostra com a seccions en roig). En fer clic damunt d'una secció de la captura es proporcionarà informació sobre esta imatge, i en fer-hi doble clic damunt d'una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
         <note>
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel

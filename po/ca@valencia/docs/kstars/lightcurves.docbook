@@ -89,9 +89,9 @@
 <para
 >Les <firstterm
 >estreles variables</firstterm
-> són aquelles que canvien en lluminositat. Una <firstterm
+> són aquelles que canvien en brillantor. Una <firstterm
 >corba de lluminositat</firstterm
-> és un diagrama sobre un cert temps de la lluminositat d'una estrela variable. Mirant una corba de lluminositat podreu veure com l'estrela s'ha comportat en el passat i intentar predir com es comportarà en el futur. Els astrònoms també utilitzen estes dades per a modelar processos astrofísics en l'estrela. Açò és important per a ajudar-nos a comprendre com funcionen. </para>
+> és un diagrama sobre un cert temps de la brillantor d'una estrela variable. Mirant una corba de lluminositat podreu veure com l'estrela s'ha comportat en el passat i intentar predir com es comportarà en el futur. Els astrònoms també utilitzen estes dades per a modelar processos astrofísics en l'estrela. Açò és important per a ajudar-nos a comprendre com funcionen. </para>
 </sect2>
 
 <sect2 id="aavso-data">
@@ -104,7 +104,7 @@
 ><para
 ><firstterm
 >Observació visual</firstterm
->: Esta és l'observació d'una estrela variable amb un telescopi regular. Principalment significa que l'observador distingix l'estrela a Y lluminositat sobre la data i hora X.</para
+>: Esta és l'observació d'una estrela variable amb un telescopi regular. Principalment significa que l'observador distingix l'estrela a brillantor Y sobre la data i hora X.</para
 ></listitem>
 
 <listitem
@@ -113,7 +113,7 @@
 >Més feble que</firstterm
 >: Algunes vegades l'estrela és massa feble per a ser vista per l'observador. Quan succeïx açò, l'observador informa de l'estrela més feble vista en el camp. Estes s'anomenen <quote
 >més febles que</quote
-> atés que l'estrela variable era més feble que la lluentor informada.</para
+> atés que l'estrela variable era més feble que la brillantor informada.</para
 ></listitem>
 
 <listitem

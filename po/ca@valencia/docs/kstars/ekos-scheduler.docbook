@@ -32,7 +32,7 @@
         <title
 >Taula del programador</title>
         <para
->El cor del programador és una taula que mostra la llista de tasques del programador que l'usuari vol executar. Associats amb cada tasca hi ha atributs (la majoria descrits a la secció de configuració de davall). Els atributs descriuen el nom de la tasca, on cal apuntar el telescopi quan crea imatges per a esta tasca, una descripció de quins tipus d'imatges s'han de capturar, restriccions sobre quan s'han d'executar les tasques (&pex;, altitud, crepuscle, lluna, bloquejos del paisatge, etc.), coses que cal fer abans i després de l'execució de la tasca, així com estratègies per a fer front als errors. </para>
+>El cor del programador és una taula que mostra la llista de tasques del programador que l'usuari vol executar. Associats amb cada tasca hi ha atributs (la majoria descrits a la secció de configuració de davall). Els atributs descriuen el nom de la tasca, on cal apuntar el telescopi quan s'obtenen imatges per a esta tasca, una descripció de quins tipus d'imatges s'han de capturar, restriccions sobre quan s'han d'executar les tasques (&pex;, altitud, crepuscle, lluna, bloquejos del paisatge, etc.), coses que cal fer abans i després de l'execució de la tasca, així com estratègies per a fer front als errors. </para>
         <para
 >Podeu afegir, suprimir, modificar o canviar l'ordre de les files a la taula del programador. </para>
         <itemizedlist>
@@ -75,11 +75,15 @@
         <para
 >El programador planifica regularment (i replanifica) quines tasques s'han d'executar, i quan. Pot començar a executar una tasca determinada, i després avançar-la per una de nova. Pot quedar-se inactiu si no es poden executar tasques (&pex;, a la llum del dia), i descansar fins que torne a estar actiu. El seu objectiu és mantindre l'equip el més ocupat possible, respectant les prioritats de la taula de programació. Així és com funciona. </para>
         <para
->Quan s'inicia el programador (o quan replanifica, que ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la tasca de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat totes les imatges desitjades... </para>
+>Quan s'inicia el programador (o quan replanifica, que ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la tasca de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat l'obtenció de totes les imatges desitjades... </para>
     <para
 >L'algoritme mostra les hores d'inici i les hores de parada previstes per a totes les tasques a la taula del programador. També mostra la seua estimació de les vegades que les tasques s'executaran durant les properes 48 hores en el quadro de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del planificador a la part superior d'esta secció. </para>
         <para
->L'algorisme de planificació descrit en el paràgraf anterior es coneix com l'algorisme de planificació voraç. És el que es recomana utilitzar. En versions anteriors d'Ekos, hi havia un altre «algorisme de planificació clàssica», el qual s'està eliminant gradualment. Este esquema no podia avançar-se a les tasques en execució, i per tant, no feia tant ús de l'equip com l'algorisme voraç. </para>
+>L'algorisme de planificació descrit en el paràgraf anterior es coneix com l'algorisme de planificació voraç. És el que es recomana utilitzar. En versions anteriors d'Ekos, hi havia un altre «algorisme de planificació clàssica», el qual ja no es troba en Ekos. Este esquema no podia avançar-se a les tasques en execució, i per tant, no feia tant ús de l'equip com l'algorisme voraç. </para>
+        <para
+>Hi ha una opció de casella de selecció en el menú d'opcions del programador anomenada <guilabel
+>Utilitza la planificació voraç</guilabel
+>, la qual està marcada de manera predeterminada. Quan se selecciona, el sistema funciona com es descriu més amunt. Quan es desselecciona, s'impedix que el programador planifique tasques de prioritat més baixa quan les de prioritat més alta no es poden executar sense completar. Açò resulta en un ús menys eficient del sistema, però pot donar-vos més control sobre la planificació. </para>
     </sect3>
     <sect3 id="scheduler-files">
         <title
@@ -205,7 +209,7 @@
 >Repetix fins que es finalitze</guilabel
 > de compleció de tasques. Si <guilabel
 >Recorda el progrés de la tasca</guilabel
-> no està marcada, les tasques es reiniciaran cada vegada des del començament de la seua especificació de seqüència, el qual probablement no siga el que voleu. Malauradament, si les imatges no s'emmagatzemen en el mateix ordinador on s'executa Ekos, llavors esta característica no funcionarà i les tasques es reiniciaran des del començament. </para>
+> no està marcada, les tasques es reiniciaran cada vegada des del començament de la seua especificació de seqüència, el qual probablement no siga el que voleu. Desgraciadament, si les imatges no s'emmagatzemen en el mateix ordinador on s'executa Ekos, llavors esta característica no funcionarà i les tasques es reiniciaran des del començament. </para>
         <para
 >Un efecte secundari possiblement confús de <guilabel
 >Recorda el progrés de la tasca</guilabel
@@ -219,7 +223,7 @@
         <title
 >Repeticions de grup</title>
         <para
->Esta característica permet executar dos o més tasques del programador amb aproximadament la mateixa prioritat, de manera que si totes dues foren executables, progressarien aproximadament al mateix ritme. Açò pot ser aplicable, &pex;, a tasques que creen imatges amb múltiples tessel·les en un mosaic, però generalment s'aplica a qualsevol conjunt de tasques. </para>
+>Esta característica permet executar dos o més tasques del programador amb aproximadament la mateixa prioritat, de manera que si totes dues foren executables, progressarien aproximadament al mateix ritme. Açò pot ser aplicable, &pex;, a tasques que processen imatges amb múltiples tessel·les en un mosaic, però generalment s'aplica a qualsevol conjunt de tasques. </para>
         <para
 >Normalment, la prioritat de les tasques del programador (voraç) s'establix segons la fila on apareix la tasca a la taula de tasques del programador. Les tasques en les files més properes a la part superior s'executaran amb més prioritat que les tasques més avall. Per tant, si una tasca a la fila 2 (Tasca_2) utilitza <guilabel
 >Repetix fins que es finalitze</guilabel
@@ -235,7 +239,7 @@
         <para
 >En termes pràctics, imagineu que teniu un mosaic de sis quadros que voleu alternar. Podeu donar a totes estes tasques el mateix nom de grup, &pex;, <guilabel
 >Repetix 5 vegades</guilabel
->. Després, s'executarien en un pas de bloqueig. La cadència d'el canvi de tasques estaria controlada per la llargària del fitxer de seqüència assignat a cadascuna d'estes tasques. No voldreu que la cadència siga massa curta (&pex;, capturar una imatge de 2 minuts), ja que canviar de tasca suposa una sobrecàrrega. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i, fins i tot enfocar. </para>
+>. Després, s'executarien en un pas de bloqueig. La cadència d'el canvi de tasques estaria controlada per la llargària del fitxer de seqüències assignat a cadascuna d'estes tasques. No voldreu que la cadència siga massa curta (&pex;, capturar una imatge de 2 minuts), ja que canviar de tasca suposa una sobrecàrrega. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i, fins i tot enfocar. </para>
        </sect4>
        <sect4 id="repeat-all-jobs">
         <title
@@ -243,7 +247,7 @@
         <para
 >Hi ha una casella de selecció i una entrada de número just davall de la taula de tasques del programador que permet repetir tota la planificació N vegades. Açò es pot utilitzar per a alternar entre les tasques. Podeu senzillament llistar les tasques en la planificació, establiu-la perquè es repetisca N vegades i les tasques es repetiran. Tot i açò, este canvi és incompatible amb <guilabel
 >Recorda el progrés de la tasca</guilabel
-> (a dalt) i no estarà disponible si està marcada. (Nota: recordeu que es recomana esta última opció). </para>
+> (a dalt) i no estarà disponible si se selecciona. (Nota: recordeu que es recomana esta última opció). </para>
        </sect4>
     </sect3>
     <sect3 id="workflow">
@@ -327,7 +331,7 @@
 >lliurament</emphasis
 > predeterminat és de 5 minuts abans del temps d'<emphasis
 >inici</emphasis
->). Una vegada finalitzat el procediment d'inici, el programador seleccionarà l'objectiu de la tasca del programador i iniciarà el procés de la seqüència. Si s'especifica un script d'inici, este s'executarà primer. </para>
+>). Una vegada finalitzat el procediment d'inici, el programador triarà l'objectiu de la tasca del programador i iniciarà el procés de la seqüència. Si s'especifica un script d'inici, este s'executarà primer. </para>
     </sect3>
 
     <sect3 id="ekos-scheduler-data-acquisition">
