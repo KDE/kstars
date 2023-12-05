@@ -1363,21 +1363,15 @@ void ObservingList::slotCustomDSS()
 void ObservingList::slotGetImage(bool _dss, const SkyObject *o)
 {
     dss = _dss;
-    Q_ASSERT(
-        !o ||
-        o == currentObject()); // FIXME: Meaningless to operate on m_currentImageFileName unless o == currentObject()!
     if (!o)
         o = currentObject();
     ui->SearchImage->setEnabled(false);
-    //ui->ImagePreview->clearPreview();
-    //ui->ImagePreview->setPixmap(QPixmap());
     setCurrentImage(o);
     QString currentImagePath = getCurrentImagePath();
     if (QFile::exists(currentImagePath))
         QFile::remove(currentImagePath);
     //QUrl url;
     dss = true;
-    qWarning() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
     std::function<void(bool)> slot = std::bind(&ObservingList::downloadReady, this, std::placeholders::_1);
     new KSDssDownloader(o, currentImagePath, slot, this);
 }
