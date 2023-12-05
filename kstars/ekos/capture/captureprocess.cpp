@@ -1678,6 +1678,7 @@ IPState CaptureProcess::runCaptureScript(ScriptTypes scriptType, bool precond)
         {
             state()->setCaptureScriptType(scriptType);
             m_CaptureScript.start(captureScript, generateScriptArguments());
+            //m_CaptureScript.start("/bin/bash", QStringList() << captureScript);
             emit newLog(i18n("Executing capture script %1", captureScript));
             return IPS_BUSY;
         }
@@ -2362,7 +2363,7 @@ bool CaptureProcess::loadSequenceQueue(const QString &fileURL, QString targetNam
                 }
                 else
                 {
-                    SequenceJob *job = new SequenceJob(devices(), state(), SequenceJob::JOBTYPE_BATCH, ep, targetName);
+                    auto job = new SequenceJob(devices(), state(), SequenceJob::JOBTYPE_BATCH, ep, targetName);
                     emit addJob(job);
                 }
             }
