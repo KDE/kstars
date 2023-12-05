@@ -1,8 +1,8 @@
 <chapter id="using-kstars">
-<title>A Quick Tour of &kstars;</title>
+<title>A Quick Tour of the &kstars; Skymap</title>
 
 <para>
-This chapter presents a guided tour of &kstars;, introducing
+This chapter presents a guided tour of the &kstars; skymap, introducing
 many of its important features.
 </para>
 
@@ -423,7 +423,7 @@ object.
 <sect1 id="endtour">
 <title>End of the Tour</title>
 <para>
-This concludes the tour of &kstars;, although we have only scratched
+This concludes the tour of the &kstars; skymap, although we have only scratched
 the surface of the available features.  &kstars; includes many useful
 <link linkend="tools">astronomy tools</link>, it can directly
 <link linkend="indi">control your telescope</link>, and it offers a

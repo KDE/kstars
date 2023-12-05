@@ -1,8 +1,6 @@
-<sect1 id="tool-fitsviewer">
-<title><acronym>FITS</acronym> Viewer Tool</title>
-<indexterm><primary>Tools</primary>
-<secondary>FITS Viewer</secondary>
-</indexterm>
+<chapter id="fitsviewer">
+<title><acronym>FITS</acronym> Viewer</title>
+<indexterm><primary>FITS Viewer</primary></indexterm>
 
 <para>FITS, or Flexible Image Transport System, is the standard format for representing images and data in Astronomy.  The &kstars; FITS Viewer is a tool to view those images. It is not designed for editing of FITS Images.</para>
 
@@ -12,13 +10,13 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
 <keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>.</para>
 
 <screenshot>
-  <screeninfo>The FITS Viewer Tool</screeninfo>
+  <screeninfo>The FITS Viewer</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
-      <phrase>FITS Viewer Tool</phrase>
+      <phrase>FITS Viewer</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -26,18 +24,18 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
 <para>The above diagram illustrates the FITS Viewer main work area and window. There is also a hidden area that can be exposed by moving the mouse over the 6 small dots on the left side (about center of the image vertically) and pressing and holding the mouse, sliding it over to the right a bit.</para>
 
 <screenshot>
-  <screeninfo>The FITS Viewer Tool with sliding panel open</screeninfo>
+  <screeninfo>The FITS Viewer with sliding panel open</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer2.png" format="PNG"/>
     </imageobject>
     <textobject>
-      <phrase>FITS Viewer Tool with sliding panel open</phrase>
+      <phrase>FITS Viewer with sliding panel open</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
 
-<sect2 id="fits-viewer-main-controls">
+<sect1 id="fits-viewer-main-controls">
     <title>Main Controls</title>
 
 <para>The various controls and displays for the FITS Viewer are shown below. The tool provides basic functions for image display.  While the tool adhere to the FITS standard, it does not support all possible FITS features:</para>
@@ -231,8 +229,8 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
 <para>
     Hovering over any option shall display a detailed tooltip that explains its function.
 </para>
-</sect2>
-<sect2 id="fits-viewer-features">
+</sect1>
+<sect1 id="fits-viewer-features">
     <title>Features</title>
     <variablelist>
         <varlistentry>
@@ -273,9 +271,9 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-solver">
+<sect1 id="fits-viewer-solver">
     <title>FITS Viewer Solver</title>
     <screenshot>
         <screeninfo>
@@ -332,9 +330,9 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
             <para>
               To inspect or modify the profile, the user would open the align tab in Ekos, go to the Options menu, select the StellarSolver Options tab, make sure the right Options profile is selected, and click the pencil to view or edit that profile.
               </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-embedded">
+<sect1 id="fits-viewer-embedded">
     <title>Embedded FITS Viewer</title>
     <screenshot>
         <screeninfo>
@@ -395,11 +393,11 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
         </listitem>
     </itemizedlist>
     <para>
-        The floating bar is automatically hidden once the mouse leaves the embedded viewer area. You can use the mouse to pan and zoom just like the standalone FITS Viewer tool. The green tracking box can be used to select a specific star or region within the image, for example, to select a guide star.
+        The floating bar is automatically hidden once the mouse leaves the embedded viewer area. You can use the mouse to pan and zoom just like the standalone FITS Viewer. The green tracking box can be used to select a specific star or region within the image, for example, to select a guide star.
     </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-3d-star-profile">
+<sect1 id="fits-viewer-3d-star-profile">
 <title>3D Star Profile &amp; Data Visualization Tool</title>
 <screenshot>
         <screeninfo>
@@ -494,5 +492,5 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
             </textobject>
         </mediaobject>
     </screenshot>
-</sect2>
 </sect1>
+</chapter>

@@ -1,4 +1,4 @@
-<sect2 id="ekos-capture">
+<sect1 id="ekos-capture">
     <title>Capture</title>
     <indexterm>
         <primary>Tools</primary>
@@ -21,7 +21,7 @@
     <para>
         The Capture Module is your primary image and video acquisition module in Ekos. It enables you to capture single (Preview), multiple images (Sequence Queue), or record <ulink url="https://sites.google.com/site/astropipp/ser-player">SER</ulink> videos along with a selection of filter wheel and rotator, if available.
     </para>
-    <sect3 id="capture-ccd-filter-wheel">
+    <sect2 id="capture-ccd-filter-wheel">
         <title>CCD &amp; Filter Wheel Group</title>
         <para>
             Select the desired CCD/DSLR and Filter Wheel (if available) for capture. Set CCD temperature and filter settings.
@@ -43,8 +43,8 @@
                 </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="capture-settings">
+    </sect2>
+    <sect2 id="capture-settings">
         <title>Capture Settings</title>
         <screenshot>
             <screeninfo>
@@ -119,7 +119,7 @@
                 </para>
             </listitem>
         </itemizedlist>
-        <sect4 id="capture-custom-properties">
+        <sect3 id="capture-custom-properties">
             <title>Custom Properties</title>
             <para>
                 Many cameras offer additional properties that cannot be directly set in the capture settings using the common control. The capture controls described above represent the most common settings shared among different cameras, but each camera is unique and may offer its own extended properties. While you can use INDI Control Panel to set any property in the driver; it is important to be able to set such property for each job in the sequence. When you click <guibutton>Custom Properties</guibutton>, a dialog is shown divided into <guilabel>Available Properties</guilabel> and <guilabel>Job Properties</guilabel>. When you move an <guilabel>Available Properties</guilabel> to the <guilabel>Job Property</guilabel> list, its current value can be recorded once you click <guibutton>Apply</guibutton>. When you add a job to the <guilabel>Sequence Queue</guilabel>, the properties values selected in the <guilabel>Job Properties</guilabel> list shall be recorded and saved.
@@ -137,10 +137,10 @@
                     </para>
                 </caption>
             </mediaobject>
-        </sect4>
-    </sect3>
+        </sect3>
+    </sect2>
 
-    <sect3 id="capture-file-settings">
+    <sect2 id="capture-file-settings">
         <title>File Settings</title>
 
         <screenshot>
@@ -271,9 +271,9 @@
                 </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-limit-settings">
+    <sect2 id="capture-limit-settings">
         <title>Limit Settings</title>
 
         <screenshot>
@@ -306,9 +306,9 @@
                     <guilabel>Meridian Flip</guilabel>: If supported by the mount, set the hour angle limit (in hours) before a <ulink url="https://astronomy.mdodd.com/gem_movement.html">meridian flip</ulink> is commanded. For example, if you set the meridian flip duration to 0.1 hours, Ekos shall wait until the mount passes the meridian by 0.1 hours (6 minutes), then it commands the mount to perform a meridian flip. After the meridian flip is complete, Ekos re-aligns using astrometry.net (if <link linkend="ekos-align">the alignment</link> was used) and resumes guiding (if it was started before) and then resumes the capture process automatically.</para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-sequence-queue">
+    <sect2 id="capture-sequence-queue">
         <title>Sequence Queue</title>
 
         <para>
@@ -356,13 +356,13 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-fits-viewer">
+    <sect2 id="capture-fits-viewer">
         <title>FITS Viewer</title>
 
         <para>
-            Captured images are displayed in &kstars; FITS Viewer tool, and also in the summary screen. Set options related to how the images are displayed in the viewer.
+            Captured images are displayed in &kstars; FITS Viewer, and also in the summary screen. Set options related to how the images are displayed in the viewer.
         </para>
         <itemizedlist>
             <listitem>
@@ -376,9 +376,9 @@
                 </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-rotation-settings">
+    <sect2 id="capture-rotation-settings">
         <title>Rotator Settings</title>
 
         <screenshot>
@@ -416,9 +416,9 @@
         <para>
             Each capture job may be assigned different rotator angles, but be aware that this would cause guiding to abort as it would lose track of the guide star when rotating. Therefore, for most sequences, the rotator angle is kept the same for all capture jobs.
         </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-calibration-frames">
+    <sect2 id="capture-calibration-frames">
         <title>Calibration Frames</title>
 
         <screenshot>
@@ -484,8 +484,8 @@
         <para>
             Before the calibration capture process is started, you can request Ekos to park the mount and/or dome. Depending on your flat source selection above, Ekos will use the appropriate flat light source before starting flat frames capture. If ADU is specified, Ekos begins by capturing a couple of preview images to establish the curve required to achieve the desired ADU count. Once an appropriate value is calculated, another capture is taken and ADU is recounted until a satisfactory value is achieved.
         </para>
-    </sect3>
-    <sect3 id="capture-exposure-calculator">
+    </sect2>
+    <sect2 id="capture-exposure-calculator">
         <title>Exposure Calculator</title>
         <screenshot>
             <screeninfo>
@@ -698,9 +698,9 @@ Part of the value of using a Time/Noise ratio as the input for the calculation o
            </listitem>
         </orderedlist>
 
-        </sect3>
+        </sect2>
 
-    <sect3 id="capture-video-tutorials">
+    <sect2 id="capture-video-tutorials">
         <title>Video Tutorials</title>
 
         <mediaobject>
@@ -724,5 +724,5 @@ Part of the value of using a Time/Noise ratio as the input for the calculation o
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

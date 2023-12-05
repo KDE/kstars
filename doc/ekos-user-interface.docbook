@@ -1,4 +1,4 @@
-<sect2>
+<sect1>
     <title>User Interface</title>
     <indexterm>
         <primary>Tools</primary>
@@ -116,4 +116,4 @@
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>

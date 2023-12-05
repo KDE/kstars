@@ -1,4 +1,4 @@
-<sect2 id="ekos-logs">
+<sect1 id="ekos-logs">
     <title>Logs</title>
     <indexterm>
         <primary>Tools</primary>
@@ -21,4 +21,4 @@
             </para>
         </caption>
     </mediaobject>
-</sect2>
+</sect1>
