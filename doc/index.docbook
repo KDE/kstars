@@ -234,6 +234,7 @@
 &kstars; is free, open source, cross-platform astronomy software. It provides the &kstars; skymap, a digital planetarium with overlays and simulation tools, the Ekos astrophotography suite which acts as a client for INDI device drivers, and the FITS Viewer which displays captured sky images.
 </para>
 
+<para>
 <itemizedlist>
  <listitem>
    <para>
@@ -257,6 +258,7 @@ For students and teachers, it supports adjustable simulation speeds in order to 
  </listitem>
 
 </itemizedlist>
+</para>
 </abstract>
    
 
