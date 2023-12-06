@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect2 id="ekos-focus">
+<sect1 id="ekos-focus">
   <title>Focus</title>
 
   <indexterm>
@@ -10,7 +10,7 @@
     <tertiary>Focus</tertiary>
   </indexterm>
 
-  <sect3 id="focus-theory">
+  <sect2 id="focus-theory">
     <title>Theory Of Operation</title>
 
     <screenshot>
@@ -194,9 +194,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="optical-train-group">
+  <sect2 id="optical-train-group">
     <title>Optical Train Group</title>
 
     <screenshot>
@@ -232,9 +232,9 @@
     </itemizedlist>
 
     <para> Focus parameters are saved per Optical Train automatically.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-focuser-group">
+  <sect2 id="focus-focuser-group">
     <title>Focuser Group</title>
 
     <screenshot>
@@ -321,6 +321,11 @@
     run. The <guibutton>Stop</guibutton> button is used to stop the run.
     </para>
 
+    <para> The <guibutton>Inspector</guibutton> button starts an
+    <link linkend="focus-aberration-inspector">Aberration Inspector</link> run.
+    The <guibutton>Stop</guibutton> button is used to stop the run.
+    </para>
+
     <para> The <guibutton>Capture Image</guibutton> button will take a frame
     based on the current settings in the <link linkend="focus-ccd-filter-wheel">
     Camera &amp; Filter Wheel Group</link>. The <guibutton>Start Framing</guibutton>
@@ -342,9 +347,9 @@
     get familiar with your equipment in daylight. This includes getting the
     approximate focus position on a distant object. This will provide a good
     starting position for focusing on stars when nighttime comes.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-ccd-filter-wheel">
+  <sect2 id="focus-ccd-filter-wheel">
     <title>Camera &amp; Filter Wheel Group</title>
 
     <screenshot>
@@ -449,9 +454,9 @@
         subframe to full frame.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-settings">
+  <sect2 id="focus-settings">
     <title>Focus Settings</title>
 
     <screenshot>
@@ -655,9 +660,9 @@
         </para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-process">
+  <sect2 id="focus-process">
     <title>Focus Process</title>
 
     <screenshot>
@@ -982,9 +987,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-mechanics">
+  <sect2 id="focus-mechanics">
     <title>Focus Mechanics</title>
 
     <screenshot>
@@ -1132,9 +1137,9 @@
     to a high enough value that it will not occur during normal operation.</para>
   </listitem>
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-cfz">
+  <sect2 id="focus-cfz">
     <title>Focus Critical Focus Zone (CFZ)</title>
 
     <screenshot>
@@ -1285,10 +1290,10 @@
   </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="focus-advisor">
+  <sect2 id="focus-advisor">
     <title>Focus Advisor</title>
 
     <screenshot>
@@ -1368,9 +1373,9 @@
     </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-filter-settings">
+  <sect2 id="focus-filter-settings">
       <title>Filter Settings</title>
 
       <screenshot>
@@ -1542,10 +1547,10 @@
               the focuser moves to the Lum Autofocus run solution then in by 100.</para>
           </listitem>
       </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="build-filter-offsets">
+  <sect2 id="build-filter-offsets">
       <title>Build Offsets</title>
 
       <screenshot>
@@ -1759,9 +1764,9 @@
             <listitem><para> When happy, press Save to save the filter offsets to Filter Settings for future use.</para></listitem>
             </itemizedlist>
       </para>
-</sect3>
+</sect2>
 
-  <sect3 id="focus-display">
+  <sect2 id="focus-display">
     <title>Focus Display</title>
 
     <screenshot>
@@ -1827,9 +1832,9 @@
         <para> <guibutton>View Star Profile</guibutton>: Launches the View Star Profile dialog.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-v-curve">
+  <sect2 id="focus-v-curve">
     <title>V-Curve</title>
 
     <screenshot>
@@ -1930,9 +1935,9 @@
         </textobject>
       </mediaobject>
     </screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-relative-profile">
+  <sect2 id="focus-relative-profile">
     <title>Relative Profile</title>
 
     <screenshot>
@@ -1957,9 +1962,9 @@
     Finally, the magenta curve denotes the first measured HFR. This enables
     you to judge how well the Autofocus process improved the relative focus
     quality. </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+  <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
     <title>How to Setup for an Autofocus Run</title>
 
     <para> The exact settings that work best for a given astronomical setup need to be worked out by the user using trial and error.
@@ -2000,9 +2005,9 @@
     <screenshot><screeninfo> Bad Focus Curve </screeninfo><mediaobject><imageobject>
     <imagedata fileref="focus_bad_focus.png" format="PNG" width="50%"/></imageobject>
     <textobject><phrase>Bad Focus Curve</phrase></textobject></mediaobject></screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-backlash">
+  <sect2 id="focus-backlash">
     <title>Focuser Backlash</title>
 
     <para>Backlash in the focuser setup is due to a combination of backlash in the electronic focuser itself (e.g. in the gearing
@@ -2062,9 +2067,9 @@
       </listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-adaptive">
+  <sect2 id="focus-adaptive">
     <title>Adaptive Focus</title>
 
     <screenshot>
@@ -2157,7 +2162,7 @@
     autofocus-(datetime).txt files from a few nights of observing into a spreadsheet and graph focus position against temperature
     for each filter. Review the data and remove any outliers and plot a line of best fit. Use the line to get
     <guilabel>Ticks / °C</guilabel>. If you intend to adapt for altitude as well as temperature, then it would be better to use a
-    set of data at similar altitude when calibrating temperature. Then its possible to calculate the effect of Temperature and
+    set of data at similar altitude when calibrating temperature. Then it's possible to calculate the effect of Temperature and
     remove this from the data when calculating the effect of Altitude.</para>
 
     <para> You will need to ensure that your focus position is repeatable at the same temperature and altitude and that there
@@ -2191,10 +2196,10 @@
     the message box.</para>
 
     <para> The Adaptive Focus concept has been built into the <link linkend="build-filter-offsets">Build Offsets</link> tool.</para>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="Coefficient_of_Determination">
+  <sect2 id="Coefficient_of_Determination">
     <title>Coefficient of Determination, R²</title>
 
     <para> The Coefficient of Determination, or R², is calculated in order to
@@ -2223,9 +2228,9 @@
     forever.</para>
 
     <para> This feature is turned off by setting the R² Limit to 0.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="Levenberg-Marquardt">
+  <sect2 id="Levenberg-Marquardt">
     <title>Levenberg–Marquardt Solver</title>
 
     <para> The Levenberg-Marquardt (LM) algorithm is used to solve non-linear
@@ -2284,5 +2289,405 @@
 
     <para> Currently the solver is used to fit either a parabolic or a
     hyperbolic curve.</para>
-  </sect3>
-</sect2>
+  </sect2>
+
+  <sect2 id="focus-aberration-inspector">
+    <title>Aberration Inspector</title>
+
+    <screenshot>
+      <screeninfo> Aberration Inspector </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="aberration_inspector.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase>Aberration Inspector</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para>The Aberration Inspector is a tool that makes use of Autofocus to analyze backfocus and sensor tilt in the
+    connected optical train.</para>
+    <para>To run Aberration Inspector press the Inspector button on the focus screen located next to the Autofocus button.
+    See <link linkend="focus-focuser-group">Focuser Group</link> for more details. The following criteria must be met in
+    order for the tool to work:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>The focuser must be an absolute focuser.</para>
+      </listitem>
+
+      <listitem>
+        <para>The focus algorithm must be Linear 1 Pass.</para>
+      </listitem>
+
+      <listitem>
+        <para>A mosaic mask must be applied.</para>
+      </listitem>
+
+      <listitem>
+        <para>Focuser step size needs to be setup. It is the number of microns the focal plane moves for 1 focuser tick.
+        This is setup in the CFZ parameters tab. See the
+        <link linkend="focus-cfz">CFZ section</link> for more details.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para>When the Inspector button is pressed, AutoFocus will run, but in addition, for each datapoint, extra information
+    is captured for later use by Aberration Inspector. Once Autofocus completes, the Aberration Inspector dialog is
+    displayed.</para>
+
+    <para>To initially setup to use the tool it is recommended to do the following:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Point to a part of the sky where Autofocus solves well. Typically this would be high in the sky away from
+        any obstacles. Choose somewhere with lots of stars such as the Milky Way. The reason this is more important
+        for Aberration Inspector than Autofocus is that focus analysis needs to be performed for each tile in the mosaic.
+        Therefore, it is important that each tile has enough stars to perform accurate Autofocus.</para>
+      </listitem>
+
+      <listitem>
+        <para>Run Autofocus a couple of times to ensure it is solving correctly and that you have a good set of
+        stars in each mosaic tile. Whilst most focus parameters can be used it is recommended to use the
+        parameters that work best for Autofocus with your equipment. The reason for this is that Aberration
+        Inspector needs be focus solve each mosaic tile and not just the sensor as a whole.</para>
+      </listitem>
+
+      <listitem>
+        <para>A mosaic mask must be applied. Some experimentation will be required to set this up optimally for
+        your equipment. The configuration parameter to adjust is the tile size which is the size of tile as a
+        percentage of sensor width. The higher the percentage, the bigger each tile, e.g. for a 4:3 sensor using a
+        tile size of 25% means each tile is 8% of the sensor's area. Using a tile size of 10% means each tile is
+        1% of the sensor's area. The bigger the area the more stars will be present and the better the focus
+        algorithm will solve. However, the purpose of the Aberration Inspector is to provide information
+        on aberrations (backfocus and tilt) across the sensor, so ideally the information for each tile would be
+        specific to as small an area as possible.</para>
+        <para>The sweet spot for tile size is as small a value as possible that still contains enough stars to
+        solve well in each tile.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The Aberration Inspector can be used in conjunction with a device to adjust tilt and / or backfocus. The
+    method to do this is an iterative approach, like for example, collimating a telescope. The steps are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Run the Aberration Inspector and obtain results.</para>
+      </listitem>
+
+      <listitem>
+        <para>Inspect the results and make sure they are good, e.g. number of stars in each tile is sufficient and
+        the R² is acceptable for all relevant tiles.</para>
+      </listitem>
+
+      <listitem>
+        <para>Adjust tilt and / or backfocus using your device, based on Aberration Inspector results.</para>
+      </listitem>
+
+      <listitem>
+        <para>Re-run Aberration Inspector. It will launch another dialog. Check results as before.
+        If the tilt and / or backfocus is getting better then the adjustment was made in the correct sense;
+        if not reverse the sense and retry. Use the feedback from the previous adjustment for the next adjustment.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Repeat the above process until the limit of sensitivity of the equipment is reached.</para>
+
+    <para>Note the amount of adjustment, e.g. how far to turn bolts, and the sense, clockwise or counter-clockwise,
+    will vary by equipment and must be discovered by the user by trial and error. Always follow the recommendations of
+    the tilt / backfocus device manufacturer.</para>
+
+    <para>Each time Aberration Inspector is run it launches a new dialog with the run number appended to the title.
+    This way several runs can be performed and the results compared. Note, however, that the dialog holds a lot of
+    data (roughly 10x the amount of a standard Autofocus run). The system resources associated with this are released
+    when the dialog is closed. For this reason on lower powered machines, once the tool has been used, it is recommended
+    to close all Aberration Inspector dialogs before imaging.</para>
+
+    <para>The following sections describe the sections of the Aberration Inspector dialog.</para>
+
+    <sect3 id="aberration-inspector-vcurve">
+      <title>Aberration Inspector V-Curve</title>
+
+      <screenshot>
+        <screeninfo> Aberration Inspector V-Curve </screeninfo>
+
+        <mediaobject>
+          <imageobject>
+          <imagedata fileref="aberration_inspector_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase>Aberration Inspector V-Curve</phrase>
+        </textobject>
+        </mediaobject>
+      </screenshot>
+
+    <para> At the top of the dialog are some controls, followed by the V-Curve. The controls are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para> <guilabel>Tiles</guilabel>: Three options are available:</para>
+        <itemizedlist>
+          <listitem>
+            <para>All: All 9 tiles are displayed.</para>
+          </listitem>
+          <listitem>
+            <para>Centre and outer corners: The centre and 4 corner tiles are displayed.</para>
+          </listitem>
+          <listitem>
+            <para>Centre and inner diamond: The centre and 4 inner diamond tiles are displayed.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Labels</guilabel>: Checkbox toggles focus point labels on the V-Curve.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>CFZ</guilabel>: Checkbox toggles whether the CFZ moustache is displayed on the V-Curve.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Optimise Tile Centres</guilabel>: If unchecked, the geometrical centre of the tile is used;
+        if checked, the centre of the tile is calculated as an average of the star positions within the tile.
+        Whilst theoretically more accurate to check this option, it is likely to have a significant impact only if the
+        number of stars is small.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Close</guilabel>: Close the Aberration Inspector dialog.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The V-Curve is similar to the V-Curve on the main Focus tab, except each tile is represented by its own curve.
+    The number of curves is determined by the setting of the <guilabel>Tiles</guilabel> combobox. The x-axis displays
+    the focuser position and the y-axis the measure (e.g. HFR) used by Autofocus. Each curve has its own colour
+    and 2 character identifier as displayed in the legend.</para>
+
+    <para>Hover the mouse over a curve minimum to see more information about that curve.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-table">
+    <title>Aberration Inspector Table</title>
+
+    <screenshot>
+      <screeninfo> Aberration Inspector Table </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_table.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase>Aberration Inspector Table</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para>The table displays information pertinent to each tile as selected by the
+    <guilabel>Tiles</guilabel> setting.</para>
+
+    <para>A tooltip like graphic is displayed when the mouse is hovered over either of the leftmost 2 columns.
+    The graphic displays a picture of the sensor scaled to the dimensions of the sensor. Overlayed on the
+    sensor are the tiles as selected by the <guilabel>Tiles</guilabel> setting. The tiles are scaled
+    appropriately for the tile settings. Each tile is labelled with the Tile Name and the tile corresponding
+    to the row that the mouse is hovering over, is highlighted in the colour of that tile.</para>
+
+    <para>The following columns are displayed:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para> <guilabel>Tile</guilabel>: The 1 or 2 character name of the tile, e.g. TL = Top Left,
+        C = Centre, etc.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Description</guilabel>: Tile Description, e.g. Top Left, Centre, etc.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Solution</guilabel>: The focus solution. This matches the solution on the V_Curve.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Delta (ticks)</guilabel>: This is the delta of the solution for the current table row
+        from the solution of the Centre tile. The Delta of the Centre row will, of course, be zero.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Delta (μm)</guilabel>: This is Delta (ticks) converted to microns using the step size
+        in microns as specified in the CFZ Focus tab.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Num Stars</guilabel>: This shows the min / max number of stars detected during the
+        Autofocus run. Usually, the minimum number would be a far out of focus datapoint and the max number
+        would be the in focus datapoint.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>R²</guilabel>: R-squared of the curve fit for this tile. See
+        <link linkend="Coefficient_of_Determination">Coefficient of Determination</link> for more details.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Exclude</guilabel>: Checkbox to include / exclude this tile in calculations. By
+        default, if a tile has been curve fitted it will be included; if a tile was not curve fitted then
+        it will be excluded. In addition, the user may decide that a particular tile may contain poor
+        quality data, for example the R² is low; or the number of stars is low. In this case the Exclude
+        can be checked and this row will be excluded from calculations. Note that by excluding some rows,
+        some calculations may not be performed. If the Centre tile is excluded, no calculations can be
+        performed.</para>
+
+        <para>Note that whilst it's possible to exclude tiles and still get calculated values, if the data
+        is poor quality then it is recommended to rerun Aberration Inspector rather than persist with poor
+        quality data.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The recommended approach is to check the table for quality data and once achieved, move onto
+    analysing the <link linkend="aberration-inspector-results">Aberration Inspector Results</link>.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-results">
+    <title>Aberration Inspector Results</title>
+
+    <screenshot>
+      <screeninfo> Aberration Inspector Results </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_results.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase>Aberration Inspector Results</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para>The calculation results are displayed in this section, based on the data displayed in the table:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para> <guilabel>Backfocus Δ</guilabel>: This is the value of the Backfocus delta. The nearer to
+        perfect backfocus, the lower the backfocus delta. Note that the Backfocus delta gives a clue as to
+        how far out the Backfocus is, in terms of scale and direction, but is not the amount by which the
+        sensor needs to be moved. The relationship between backfocus Delta and how far to move the sensor
+        will vary with the equipment used, and needs to be worked out by the user.</para>
+
+        <para>The field gives the sense of the backfocus movement required to improve backfocus: either move
+        the sensor nearer to the field flattener (telescope) or move it further away.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Left-Right Tilt</guilabel>: Gives the Left to Right tilt in microns and as a
+        percentage.</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Top-Bottom Tilt</guilabel>: Gives the Top to Bottom tilt in microns and as a
+        percentage</para>
+      </listitem>
+      <listitem>
+        <para> <guilabel>Total Tilt</guilabel>: The diagonal tilt in microns and as a percentage.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The smaller the backfocus delta the nearer the sensor is to perfect backfocus. If the field flattner
+    does not flatten the field all the way to the edges of the sensor then this will be visible by switching the
+    Tiles option between "Centre and outer corners" and "Centre and inner diamond". If the backfocus delta results
+    are consistent when the Tiles option is changed then this indicates that the field flattener is working to the
+    corners of the sensor.</para>
+
+    <para>There will always be some backfocus delta at least because of noise in the observation data. The important
+    thing is that when in focus, stars are circular in all parts of the sensor.</para>
+
+    <para>The smaller the tilt percentages, the nearer the sensor is to being flat to the plane of light from the
+    flattener / telescope. As with backfocus delta, there is always going to be some noise in the data, which will
+    present as tilt. The important thing is that when in focus the star sizes are consistent across all parts of the
+    sensor.</para>
+
+    <para>Because of the nature of the backfocus delta and tilt calculations, one will affect the other so it will
+    probably be better to try and adjust both together, in small increments, rather than trying to perfect one in
+    isolation, before adjusting the other.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-3dgraphic">
+    <title>Aberration Inspector 3D Graphic</title>
+
+    <screenshot>
+      <screeninfo> Aberration Inspector 3D Graphic </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_3dgraphic.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase>Aberration Inspector 3D Graphic</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para>The 3D graphic displays the sensor tilted as per the
+    <link linkend="aberration-inspector-results">Aberration Inspector Results</link>. To help
+    visualise the Petzval surface (see <ulink
+    url="https://en.wikipedia.org/wiki/Petzval_field_curvature">Petzval Field Curvature</ulink> for more details)
+    of light coming out of the telescope and incident on the sensor the surface is also modelled. The higher the
+    backfocus error, the more curved the Petzval surface.</para>
+
+    <para>The graphic can be zoomed and rotated using gestures. To zoom use pinch. To rotate use
+    touch-and-move.</para>
+
+    <para>The graphic has a Simulation Mode that allows backfocus and tilt to be adjusted by the
+    sliders. The effect on the sensor's tilt and Petzval surface is displayed in the graphic.</para>
+
+    <para>The following options are available for the graphic:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para> <guilabel>Selection</guilabel>: The following options are available:</para>
+
+        <itemizedlist>
+          <listitem>
+          <para>None: No selection is possible.</para>
+          </listitem>
+
+          <listitem>
+          <para>Item: A datapoint may be selected and data values are displayed.</para>
+          </listitem>
+
+          <listitem>
+          <para>Slice: A 2D slice through the 3D graphic is displayed.</para>
+          </listitem>
+        </itemizedlist>
+
+      </listitem>
+      <listitem>
+        <para> <guilabel>Theme</guilabel>: A number of colour themes are available.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>Labels</guilabel>: Checkbox to show / hide tile labels on the graphic.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>Sensor</guilabel>: Checkbox to show / hide the sensor.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>Petzval Wire</guilabel>: Checkbox to show / hide the Petzval surface as a graphic wire.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>Petzval Surface</guilabel>: Checkbox to show / hide the Petzval surface.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>Sim Mode</guilabel>: Checkbox to toggle Simulation Mode on / off. When off, the
+        graphic displays the sensor and Petzval surface based on the calculated results of the Aberration Inspector
+        run. When on, the sliders for Backfocus, Left-to-Right tilt and Top-to-Bottom tilt are activated, and these can be
+        dragged by the user to adjust the graphic. Hover the mouse over each slider to see the tooltips describing what
+        each slider does.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The 3D graphic is not essential to using Aberration Inspector. All relevant information is displayed in the
+    <link linkend="aberration-inspector-table">Table</link> and <link linkend="aberration-inspector-results">Results</link>
+    sections of the dialog. Its purpose is to aid the user in understanding Aberration Inspector and to orient themselves
+    with the information the tool provides.</para>
+    </sect3>
+  </sect2>
+</sect1>

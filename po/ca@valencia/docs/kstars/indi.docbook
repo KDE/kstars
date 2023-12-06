@@ -290,7 +290,7 @@
 >Control principal</guilabel
 > i <guilabel
 >Opcions</guilabel
->: Les característiques són l'element clau en l'arquitectura INDI. Cada dispositiu definix un joc de propietats per a comunicar-se amb el client. La posició actual del telescopi és un exemple d'una propietat. Semànticament, les propietats similars són usualment contingudes en blocs lògics o agrupacions. </para>
+>: Les característiques són l'element clau en l'arquitectura INDI. Cada dispositiu definix un conjunt de propietats per a comunicar-se amb el client. La posició actual del telescopi és un exemple d'una propietat. Semànticament, les propietats similars estan usualment contingudes en blocs lògics o agrupacions. </para>
 </listitem>
 
 <listitem>
@@ -548,7 +548,7 @@
 ><para
 ><guilabel
 >Punt de mira del telescopi:</guilabel
-> Quan està marcada, &kstars; mostrarà el punt de mira de l'objectiu del telescopi en el mapa celeste. El punt de mira es mostra després d'una connexió amb èxit amb el telescopi, i el seu emplaçament és actualitzat periòdicament. El nom del telescopi es mostra al costat del punt de mira. &kstars; mostrarà un punt de mira per a cada telescopi connectat. Per a canviar el color del punt de mira del telescopi, obriu la finestra <link linkend="viewops"
+> Quan se selecciona, &kstars; mostrarà el punt de mira de l'objectiu del telescopi en el mapa celeste. El punt de mira es mostra després d'una connexió amb èxit amb el telescopi, i el seu emplaçament és actualitzat periòdicament. El nom del telescopi es mostra al costat del punt de mira. &kstars; mostrarà un punt de mira per a cada telescopi connectat. Per a canviar el color del punt de mira del telescopi, obriu la finestra <link linkend="viewops"
 >Configuració de &kstars;</link
 >. Seleccioneu la pàgina <guilabel
 >Colors</guilabel
@@ -825,7 +825,7 @@
 >Mentre que &kstars; us permet desplegar amb facilitat un servidor INDI; podeu iniciar un servidor INDI des de la línia d'ordres. </para>
 
 <para
->Atés que INDI és un component de dorsal independent, podeu iniciar un servidor INDI en un client sense &kstars;. INDI es pot compilar per separat per a funcionar sobre les màquines remotes. A més, els controladors de dispositius registren missatges a <constant
+>Atés que INDI és un component de dorsal independent, podeu iniciar un servidor INDI en un amfitrió sense &kstars;. INDI es pot compilar per separat per a funcionar sobre els amfitrions remots. A més, els controladors de dispositius registren missatges a <constant
 >stderr</constant
 > (eixida d'error estàndard) i açò pot ser d'ajuda en una situació de depuració. La sintaxi per al servidor INDI és la següent: </para>
 

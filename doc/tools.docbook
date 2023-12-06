@@ -14,10 +14,8 @@ some more advanced aspects of astronomy and the night sky.
 <listitem><para><link linkend="tool-eyepieceview">Simulate Eyepiece View</link></para></listitem>
 <listitem><para><link linkend="tool-scriptbuilder">Script  Builder</link></para></listitem>
 <listitem><para><link linkend="tool-solarsys">Solar System Viewer</link></para></listitem>
-<listitem><para><link linkend="tool-ekos">Ekos</link></para></listitem>
 <listitem><para><link linkend="tool-jmoons">Jupiter Moons Tool</link></para></listitem>
 <listitem><para><link linkend="tool-obsplanner">Observation Planner</link></para></listitem>
-<listitem><para><link linkend="tool-fitsviewer">FITS Viewer</link></para></listitem>
 </itemizedlist>
 
 &tool-details;
@@ -27,9 +25,7 @@ some more advanced aspects of astronomy and the night sky.
 &tool-whatsup;
 &tool-scriptbuilder;
 &tool-solarsys;
-&tool-ekos;
 &tool-jmoons;
 &tool-obsplanner;
-&tool-fitsviewer;
 
 </chapter>

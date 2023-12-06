@@ -138,7 +138,7 @@ it could be a bit more detailed. Here you can see the same categories of objects
       </para>
     </caption>
   </mediaobject>
-  <para>You can choose the treshold of magnitude for the objects to be shown. In astronomy, absolute magnitude (also known as absolute visual magnitude when measured in the standard V photometric band) measures a celestial object&apos;s intrinsic brightness.</para>
+  <para>You can choose the threshold of magnitude for the objects to be shown. In astronomy, absolute magnitude (also known as absolute visual magnitude when measured in the standard V photometric band) measures a celestial object&apos;s intrinsic brightness.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way6.png" format="PNG"/>

@@ -1,4 +1,4 @@
-<sect2 id="ekos-scheduler">
+<sect1 id="ekos-scheduler">
     <title>Scheduler</title>
     <indexterm>
         <primary>Tools</primary>
@@ -18,13 +18,13 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="ekos-scheduler-introduction">
+    <sect2 id="ekos-scheduler-introduction">
       <title>Introduction</title>
         <para>
           The Ekos Scheduler is an important component of your imaging workflow. It connects to INDI, starts and stops all the other Ekos modules, schedules jobs according to their constraints and priorities, monitors those jobs as they execute, and then safely brings down the system when jobs are done, or before dawn. Whether you are running multi-day imaging sessions for multiple targets, or simply trying to image a single target for a few hours, it is advisable to have the Scheduler control your imaging sessions.
         </para>
-    </sect3>
-    <sect3 id="scheduler-table">
+    </sect2>
+    <sect2 id="scheduler-table">
         <title>Scheduler Table</title>
         <para>
           The heart of the Scheduler is a table displaying the list of Scheduler jobs the user wants to run. Associated with each jobs are attributes (mostly described in the settings section below). The attributes describe the name of the job, where the telescope should be pointed when imaging that job, a description of what types of images should be captured, constraints about when the jobs should run (&eg; altitude, twilight, moon, landscape blockages, &etc;), things that need to be done before and after the job is run, and strategies for dealing with errors.
@@ -57,8 +57,8 @@
             </listitem>
         </itemizedlist>
 
-    </sect3>
-    <sect3 id="scheduling-algorithm">
+    </sect2>
+    <sect2 id="scheduling-algorithm">
         <title>Scheduling Algorithm</title>
         <para>
           The Scheduler table (above) lists jobs in order of priority, with higher jobs (on lower-numbered rows) having higher priority than jobs further down the list (with higher-numbered rows). 
@@ -78,14 +78,14 @@
         <para>
           There is a checkbox option in the scheduler options menu called <guilabel>Use greedy scheduling</guilabel> which defaults to being checked.  The system works as described above when it is checked. When it is unchecked the scheduler is prevented from scheduling lower priority jobs when uncompleted higher priority jobs cannot run. This results in less efficient use of the system, but may give you more control over scheduling.
         </para>
-    </sect3>
-    <sect3 id="scheduler-files">
+    </sect2>
+    <sect2 id="scheduler-files">
         <title>Scheduler Files (.esq)</title>
         <para>
           The scheduler table with its list of jobs and attributes can be saved onto disk and read back in. It writes an .esq file. Controls for writing the current Scheduler table to disk, and reading back other .esq files are located above the table to the right.
         </para>
-    </sect3>
-    <sect3 id="ekos-scheduler-settings">
+    </sect2>
+    <sect2 id="ekos-scheduler-settings">
       <title>Settings</title>
         <para>
             Ekos Scheduler provides a simple interface to aid the user in setting the conditions and constraints required for an Scheduler job. You must select the <guilabel>Target</guilabel>, its coordinates, and the <guilabel>Sequence</guilabel> before you can add a job to the Scheduler.
@@ -140,8 +140,8 @@
                 </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="other-options">
+    </sect2>
+    <sect2 id="other-options">
         <title>Other options</title>
         <para>
           There are several other options to control how the Scheduler behaves. These are found in the general KStars Settings menu, shown below, in its Ekos tab and Scheduler sub-tab.
@@ -159,7 +159,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-       <sect4 id="remember-job-progress">
+       <sect3 id="remember-job-progress">
         <title>Remember job progress</title>
         <para>
           Among the settings shown above, one important one is known as <guilabel>Remember job progress</guilabel>.  When this box is checked and a job is running, the Scheduler looks at the job's images already captured on disk, and doesn't re-capture the ones that are already there.  The benefit is that if a job is restarted, or re-run another night, or if multiple jobs are being run together, stopping and starting when they are runnable, then jobs re-start right where they left off. This works well with the <guilabel>Repeat until terminated</guilabel> job-completion option. If <guilabel>Remember job progress</guilabel> is unchecked, jobs would restart from the start of their sequence specification each time, which probably isn't what you want.  Unfortunately, if the images are not stored on the same computer that Ekos is running on, then this feature doesn't work and the jobs restart from their beginning.
@@ -167,8 +167,8 @@
         <para>
 A possibly confusing side-effect of <guilabel>Remember job progress</guilabel> is that if you've run a job using the (default) Sequence Completion finish condition, and it has captured all its images, and now you want to run the job again, the Scheduler won't schedule the job because it believes that all the images have already been captured. You'd either need to move those images elsewhere on disk, or change the finish condition to Repeat for N Times, or Repeat Until Terminated.
         </para>
-       </sect4>
-       <sect4 id="group-repeats">
+       </sect3>
+       <sect3 id="group-repeats">
         <title>Group repeats</title>
         <para>
           This feature allows you to run two or more scheduler jobs at roughly the same priority, such that if they were both runnable, they would progress at roughly the same rate.  This may be applicable, for example, to jobs imaging the multiple tiles in a mosaic, but is generally applicable to any set of jobs.
@@ -181,15 +181,15 @@ A possibly confusing side-effect of <guilabel>Remember job progress</guilabel> i
         <para>
 Practically speaking, imagine you had a 6-panel mosaic you wanted to alternate.  You might give all of those jobs the same group name, make them all &eg; "Repeat for 5 times". Then, they would run in lock-step. The cadence of job switching would be controlled by the length of the sequence file assigned to each of those jobs. You wouldn't want to make the cadence too short (&eg; capturing one 2-minute image), as there is overhead in switching jobs. For instance, starting jobs may involved aligning, starting guiding, and even focusing.          
         </para>
-       </sect4>
-       <sect4 id="repeat-all-jobs">
+       </sect3>
+       <sect3 id="repeat-all-jobs">
         <title>Repeat all jobs</title>
         <para>
 There is a checkbox and number input right below the Scheduler jobs table that allows you to repeat the entire schedule N times.  This can be used to alternate a few jobs. You can just list the jobs on the scheduler, set it to repeat N times, and the jobs will repeat. However, this change is incompatible with 'Remember job progress (above) and unavailable if Remember Job Progress is checked. (Note: Remember Job Progress is recommended.)
         </para>
-       </sect4>
-    </sect3>
-    <sect3 id="workflow">
+       </sect3>
+    </sect2>
+    <sect2 id="workflow">
         <title>Workflow</title>
 
       <screenshot>
@@ -225,9 +225,9 @@ There is a checkbox and number input right below the Scheduler jobs table that a
                 </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-procedure">
+    <sect2 id="ekos-scheduler-startup-procedure">
         <title>Startup Procedure</title>
         <para>
             Startup procedure is unique to each observatory but may include:
@@ -277,9 +277,9 @@ There is a checkbox and number input right below the Scheduler jobs table that a
         <para>
             Ekos Scheduler only initiates the startup procedure once the startup time for the first Scheduler job is close (default <emphasis>lead</emphasis> time is 5 minutes before <emphasis>startup</emphasis> time). Once the startup procedure is completed successfully, the scheduler picks the Scheduler job target and starts the sequence process. If a startup script is specified, it shall be executed first.
         </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-data-acquisition">
+    <sect2 id="ekos-scheduler-data-acquisition">
         <title>Data Acquisition</title>
         <para>
             Depending the on the user selection, the typical workflow proceeds as follows:
@@ -326,9 +326,9 @@ There is a checkbox and number input right below the Scheduler jobs table that a
                 </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-shutdown">
+    <sect2 id="ekos-scheduler-shutdown">
         <title>Shutdown</title>
         <para>
             Once the Scheduler job is completed successfully, the scheduler selects the next Scheduler job. If no job can be scheduled at this time, the mount is parked until a next job can run. Furthermore, if the next job is not due for a user-configurable time limit, the scheduler performs a <emphasis>preemptive</emphasis> shutdown to preserve resources and performs the startup procedure again when the target is due.
@@ -349,9 +349,9 @@ There is a checkbox and number input right below the Scheduler jobs table that a
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-weather-monitoring">
+    <sect2 id="ekos-scheduler-weather-monitoring">
         <title>Weather Monitoring</title>
         <para>
             Another critical feature of any remotely operated robotic observatory is weather monitoring. For weather updates, Ekos relies on the selected INDI weather driver to continuously monitor the weather conditions. For simplicity sake, the weather conditions can be summed in three states:
@@ -373,9 +373,9 @@ There is a checkbox and number input right below the Scheduler jobs table that a
                 </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+    <sect2 id="ekos-scheduler-startup-and-shutdown-scripts">
         <title>Startup &amp; Shutdown Scripts</title>
         <para>
             Due to the uniqueness of each observatory, Ekos enables the user to select startup and shutdown scripts. The scripts take care of any necessary procedures that must take place on startup and shutdown stages. On startup, Ekos executes the startup scripts and only proceeds to the remainder of the startup procedure (unpark dome/unpark mount) if the script completes successfully. Conversely, the shutdown procedure begins with parking the mount &amp; dome before executing the shutdown script as the final procedure.
@@ -409,9 +409,9 @@ exit(0)
         <para>
             The startup and shutdown scripts must be <emphasis>executable</emphasis> in order for Ekos to invoke them (&eg; use <userinput>chmod +x startup_script.py</userinput> to mark the script as executable). Ekos Scheduler enables truly simple robotic operation without the need of any human intervention in any step of the process. Without human presence, it becomes increasingly critical to gracefully recover from failures in any stage of the observation run. Using &plasma; notifications, the user can configure audible alarms and email notifications for the various events in the Scheduler.
         </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-mosaic-Planner">
+    <sect2 id="ekos-scheduler-mosaic-Planner">
         <title>Mosaic Planner</title>
         <screenshot>
             <screeninfo>
@@ -549,5 +549,5 @@ exit(0)
         <para>
             Click <guibutton>Create Jobs</guibutton> to generate mosaic scheduler jobs and add them to the schedule queue. You can further edit the jobs individually, as you would normal Scheduler jobs.
         </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

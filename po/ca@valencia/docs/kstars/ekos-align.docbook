@@ -205,7 +205,7 @@
 >aw</guilabel
 >) o l'amplària del píxel en segons d'arc (<guilabel
 >app</guilabel
->). Totes haurien de funcionar, però es recomana utilitzar segons d'arc per píxel. Normalment voldreu utilitzar esta restricció per a una solució més ràpida, de manera que recomanem que marqueu esta casella. El sistema no requerix que l'escala siga exactament correcta -permet desviacions del 10 fins al 20%-. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a la utilització d'una escala inexacta. Per tant, si teniu problemes en la resolució de plaques, possiblement voldreu desmarcar <guilabel
+>). Totes haurien de funcionar, però es recomana utilitzar segons d'arc per píxel. Normalment voldreu utilitzar esta restricció per a una solució més ràpida, de manera que recomanem que seleccioneu esta casella. El sistema no requerix que l'escala siga exactament correcta -permet desviacions del 10 fins al 20%-. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a la utilització d'una escala inexacta. Per tant, si teniu problemes en la resolució de plaques, possiblement voldreu desmarcar <guilabel
 >Utilitza l'escala</guilabel
 > fins que es resolguen estos problemes. Açò probablement donarà lloc a temps de solució més llargs. L'<guilabel
 >Actualització automàtica</guilabel
@@ -215,7 +215,7 @@
 >Radi:</guilabel
 >. La resolució de plaques fracassarà si la posició especificada està més enllà. Normalment voldreu activar <guilabel
 >Utilitza la posició</guilabel
-> per a una resolució més ràpida, així que vos recomanem que marqueu esta casella. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a l'ús d'una estimació deficient de la posició (&pex;, el telescopi està significativament desalineat). Per tant, si teniu problemes en la resolució de plaques, és possible que vulgueu desmarcar <guilabel
+> per a una resolució més ràpida, així que vos recomanem que seleccioneu esta casella. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a l'ús d'una estimació deficient de la posició (&pex;, el telescopi està significativament desalineat). Per tant, si teniu problemes en la resolució de plaques, és possible que vulgueu desmarcar <guilabel
 >Utilitza la posició</guilabel
 > fins que es resolguen estos problemes. Com s'ha dit anteriorment, açò donarà lloc a temps de resolució més llargs. L'<guilabel
 >Actualització automàtica</guilabel
@@ -385,7 +385,7 @@
 ><para
 ><guilabel
 >Radi de la busca:</guilabel
-> és la distància des de la posició estimada en graus que es pot buscar si està marcada <guilabel
+> és la distància des de la posició estimada en graus que es pot buscar si se selecciona <guilabel
 >Utilitza la posició</guilabel
 >. </para
 ></listitem>
@@ -753,9 +753,9 @@
 >Connectat</guimenuitem
 > perquè utilitze el servidor ANSVR local per a totes les consultes d'astrometria. A continuació, podreu utilitzar el mòdul per a l'alineació com ho faríeu normalment. </para>
                     <para
->Recordeu que, tal com s'ha indicat anteriorment, el StellarMate <emphasis
+>Recordeu que, tal com s'ha indicat anteriorment, StellarMate <emphasis
 >ja</emphasis
-> inclou «astrometry.net». Per tant, si voleu utilitzar el StellarMate de forma remota per a resoldre les vostres imatges, senzillament canvieu el tipus de solucionador a <guimenuitem
+> inclou «astrometry.net». Per tant, si voleu utilitzar StellarMate de forma remota per a resoldre les vostres imatges, senzillament canvieu el tipus de solucionador a <guimenuitem
 >Remot</guimenuitem
 > i assegureu-vos que el vostre perfil de l'equip inclou el controlador <emphasis role="bold"
 >Astrometria</emphasis
@@ -912,7 +912,7 @@
                 <para
 >Atés que les muntures no són perfectes, no poden realitzar un seguiment perfecte de l'objecte a mesura que este transita pel cel. Açò pot deure's a molts factors, un dels quals és la desalineació de l'eix de l'ascensió recta de la muntura respecte a l'eix pol celeste. L'alineació polar elimina una de les principals fonts d'errors en el seguiment de la muntura, però altres fonts d'error encara reproduïxen un factor. Si estan alineades correctament, algunes muntures poden seguir un objecte durant alguns minuts amb una desviació única d'1 a 2 arcsec RMS. </para>
                 <para
->Tanmateix, tret que tingueu una muntura de gamma alta, probablement voldreu utilitzar un guiador automàtic per a mantindre bloquejada la mateixa estrela en la mateixa posició al llarg del temps. Malgrat tot açò, si l'eix de la muntura no està correctament alineat amb el pol celeste, fins i tot una muntura mecànicament perfecta perdrà el seguiment amb el temps. Els errors de seguiment són proporcionals a la magnitud de la desalineació. Per tant, és molt important per a les imatges obtingudes amb una exposició prolongada aconseguir que la muntura s'alinee en l'àmbit polar per a reduir els errors residuals a mesura que es desplaça a través del cel. </para>
+>Tanmateix, tret que tingueu una muntura de gamma alta, probablement voldreu utilitzar un guiador automàtic per a mantindre bloquejada la mateixa estrela en la mateixa posició al llarg del temps. Malgrat tot açò, si l'eix de la muntura no està correctament alineat amb el pol celeste, fins i tot una muntura mecànicament perfecta perdrà el seguiment amb el temps. Els errors de seguiment són proporcionals a la magnitud de la desalineació. Per tant, és molt important per a les imatges preses amb una exposició prolongada aconseguir que la muntura s'alinee en l'àmbit polar per a reduir els errors residuals a mesura que es desplaça a través del cel. </para>
                 <para
 >Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste amb els contrapesos cap avall. Si viviu a l'hemisferi nord, apunteu-lo el més a prop possible de Polaris. Si Polaris no està visible (&pex;, està bloquejada per arbres o edificis), podeu apuntar cap a un altre lloc, preferiblement a prop del meridià. Assegureu-vos que hi haja almenys de 30 a 60 graus de cel visible en un arc a l'est o l'oest del meridià des de la posició que trieu. Seleccioneu la direcció del cel lliure, el nombre de graus per a cadascun dels dos girs, la velocitat de gir de la muntura i si la muntura girarà automàticament (recomanat) o manualment. </para>
                 <para

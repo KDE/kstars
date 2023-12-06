@@ -99,11 +99,11 @@
     </listitem>
     <listitem>
         <para
->Potent cua de seqüències per a la captura per lots d'imatges amb prefixos opcionals, marques de temps, selecció de la roda de filtres i molt més. </para>
+>Potent cua en seqüència per a la captura per lots d'imatges amb prefixos opcionals, marques de temps, selecció de la roda de filtres i molt més. </para>
     </listitem>
     <listitem>
         <para
->Exporta i importa els conjunts de cua de seqüències com a fitxers de cua de seqüències d'Ekos (<literal role="extension"
+>Exporta i importa els conjunts de cua en seqüència com a fitxers de cua en seqüència d'Ekos (<literal role="extension"
 >.esq</literal
 >). </para>
     </listitem>

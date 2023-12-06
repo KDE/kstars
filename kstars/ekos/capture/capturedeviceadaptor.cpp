@@ -481,7 +481,7 @@ double CaptureDeviceAdaptor::cameraGain(QMap<QString, QMap<QString, QVariant> > 
 
 double CaptureDeviceAdaptor::cameraGain()
 {
-    double value = -1;
+    double value = INVALID_VALUE;
     if (getActiveCamera() != nullptr)
         getActiveCamera()->getGain(&value);
 
@@ -510,7 +510,7 @@ double CaptureDeviceAdaptor::cameraOffset(QMap<QString, QMap<QString, QVariant> 
 
 double CaptureDeviceAdaptor::cameraOffset()
 {
-    double value = -1;
+    double value = INVALID_VALUE;
     if (getActiveCamera() != nullptr)
         getActiveCamera()->getOffset(&value);
 
@@ -519,7 +519,7 @@ double CaptureDeviceAdaptor::cameraOffset()
 
 double CaptureDeviceAdaptor::cameraTemperature()
 {
-    double value = -1;
+    double value = INVALID_VALUE;
     if (getActiveCamera() != nullptr)
         getActiveCamera()->getTemperature(&value);
 

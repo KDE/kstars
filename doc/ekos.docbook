@@ -1,8 +1,6 @@
-<sect1 id="tool-ekos">
+<chapter id="ekos">
 <title>Ekos</title>
-<indexterm><primary>Tools</primary>
-<secondary>Ekos</secondary>
-</indexterm>
+<indexterm><primary>Ekos</primary></indexterm>
 
 <para>
     <emphasis role="bold">Ekos</emphasis> is an advanced cross-platform (&Windows;, &MacOS;, &Linux;) observatory control and automation tool with a particular focus on Astrophotography. It is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure <emphasis>and</emphasis> correct polar alignment errors, auto-focus &amp; auto-guide capabilities, and capture of single or stack of images with filter wheel support. Ekos is shipped with &kstars;.
@@ -37,7 +35,7 @@
     </listitem>
     <listitem>
         <para>
-            Measure &amp; Correct Polar Alignment errors using astromety.net solver.
+            Measure &amp; Correct Polar Alignment errors using astrometry.net solver.
         </para>
     </listitem>
     <listitem>
@@ -140,4 +138,4 @@
 &tool-ekos-analyze;
 &tool-ekos-tutorials;
 
-</sect1>
+</chapter>

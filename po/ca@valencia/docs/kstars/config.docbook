@@ -101,7 +101,7 @@
 ></menuchoice
 > o bé feu clic damunt de la icona <guiicon
 >Para el rellotge</guiicon
-> de la barra d'eines. Podeu fer que el rellotge funcione més lent o més ràpid del normal, o fins i tot que vaja arrere, utilitzant el botó de selecció de valors de passos de temps que hi ha en la barra d'eines. Este botó de selecció de valors posseïx dos jocs de botons amunt/avall. El primer estarà disponible per als primers 83 passos de temps, un a un. El segon saltarà fins a la següent unitat de temps més gran (o més xicoteta), el qual us permetrà realitzar canvis més grans de passos de temps d'una manera ràpida. </para>
+> de la barra d'eines. Podeu fer que el rellotge funcione més lent o més ràpid del normal, o fins i tot que vaja arrere, utilitzant el botó de selecció de valors de passos de temps que hi ha en la barra d'eines. Este botó de selecció de valors posseïx dos jocs de botons amunt i avall. El primer estarà disponible per als primers 83 passos de temps, un a un. El segon saltarà fins a la següent unitat de temps més gran (o més xicoteta), el qual us permetrà realitzar canvis més grans de passos de temps d'una manera ràpida. </para>
 <para>
 <indexterm
 ><primary
@@ -671,7 +671,7 @@
 ></indexterm
 >La secció <guilabel
 >Estreles</guilabel
-> permet gestionar com es mostraran les estreles a &kstars;. Podeu optar per veure-les o no, marcant la casella de selecció <guilabel
+> permet gestionar com es mostraran les estreles a &kstars;. Podeu optar per veure-les o no, seleccionant la casella de selecció <guilabel
 >Catàlegs d'estreles</guilabel
 >. Si la marqueu, s'habilitaran múltiples opcions. Per tant, podreu establir quantes estreles es dibuixaran en el mapa emprant el control lliscant <guilabel
 >Densitat d'estreles:</guilabel
@@ -706,7 +706,7 @@
 >Densitat d'etiquetes:</guilabel
 > controla la densitat percebuda d'etiquetes per als DSO. Si les etiquetes es comencen a superposar i el mapa celeste comença a veure's massa ple, proveu ajustant esta opció. El <guilabel
 >Límit mínim de brillantor amb el zoom al màxim/mínim:</guilabel
-> regula fins a quina magnitud es mostraran els objectes en el mapa celeste (una magnitud més alta és més feble). Si es marca <guilabel
+> regula fins a quina magnitud es mostraran els objectes en el mapa celeste (una magnitud més alta és més feble). Si se selecciona <guilabel
 >Mostra els objectes de magnitud desconeguda</guilabel
 >, sempre es mostraran els objectes de magnitud desconeguda. </para>
 <para
@@ -1369,7 +1369,7 @@
 >Colors</guilabel
 > des de la mateixa finestra <guilabel
 >Configuració - &kstars;</guilabel
->. A més, els satèl·lits es poden dibuixar de la mateixa manera que les estreles regulars, marcant la casella de selecció <guilabel
+>. A més, els satèl·lits es poden dibuixar de la mateixa manera que les estreles regulars, seleccionant la casella de selecció <guilabel
 >Mostra tant els satèl·lits com les estreles</guilabel
 >. Per a només visualitzar els satèl·lits visibles des del vostre emplaçament geogràfic i l'hora actuals, seleccioneu <guilabel
 >Mostra únicament els satèl·lits visibles</guilabel
@@ -1389,7 +1389,7 @@
 >Busca satèl·lits</guilabel
 > i la llista es reduirà a només les millors coincidències. </para>
 <para
->Podeu afegir satèl·lits nous als satèl·lits predeterminats de &kstars;, establint per a l'edició el fitxer <filename
+>Podeu afegir satèl·lits nous als satèl·lits predeterminats establits de &kstars; editant el fitxer <filename
 >kstars/data/satellites.dat</filename
 >. Cada línia en este fitxer és un grup de satèl·lits, cal que afegiu una entrada nova per al vostre grup de satèl·lits desitjat. Una entrada haurà de tindre el següent format: <userinput
 >Nom del grup;nom_fitxer_local;URL</userinput
@@ -1423,7 +1423,7 @@
 ></indexterm
 >La pàgina <guilabel
 >Supernoves</guilabel
-> permet decidir si es mostraran o no les supernoves, marcant la casella de selecció <guilabel
+> permet decidir si es mostraran o no les supernoves, seleccionant la casella de selecció <guilabel
 >Mostra les supernoves</guilabel
 >. De manera predeterminada, les supernoves es dibuixaran com una xicoteta marca <quote
 >+</quote
@@ -1578,7 +1578,7 @@
 >Superposicions d'imatges</guilabel
 > permet configurar si les superposicions d'imatges es mostraran en el mapa celeste i ajuda a afegir-les al sistema. La imatge al començament d'esta secció mostra el mapa celeste amb les superposicions d'imatges habilitades i algunes superposicions d'imatges carregades. </para>
 <para
->Cada vegada que s'inicia, &kstars; buscarà imatges superposades noves en un directori especial, paral·lel al directori de registres, anomenat <literal
+>Cada vegada que s'inicia, &kstars; buscarà imatges noves a la superposició d'imatges en un directori especial, paral·lel al directori de registres, anomenat <literal
 >imageOverlays</literal
 >. A Linux, açò es pot trobar a <filename class="directory"
 >~/.local/share/kstars/imageOverlays</filename
@@ -2165,7 +2165,7 @@
 ></menuchoice
 >). Seleccioneu «Nord cap avall» o «Zenit cap avall» segons s'aplique per a establir una orientació de 180 graus. </para>
   <para
->Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgeu de fer una mica més de correcció. Per al cas comú d'un telescopi gran de Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), ajudarà una correcció addicional sistemàtica. Esta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que tinga el tub del telescopi amb el terra. De manera que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per a fer que el mapa celeste coincidisca amb la vista a través de l'ocular. Esta correcció s'activa marcant la casella de selecció <guilabel
+>Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgeu de fer una mica més de correcció. Per al cas comú d'un telescopi gran de Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), ajudarà una correcció addicional sistemàtica. Esta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que tinga el tub del telescopi amb el terra. De manera que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per a fer que el mapa celeste coincidisca amb la vista a través de l'ocular. Esta correcció s'activa seleccionant la casella de selecció <guilabel
 >Correcció de l'observador estant dret</guilabel
 > des del submenú <menuchoice
 ><guimenu
@@ -2198,11 +2198,11 @@
 ></listitem>
       <listitem
 ><para
->Utilitzant un telescopi buscador RACI en un telescopi muntat en altazimut: la mateixa configuració que amb l'observació a simple vista, excepte que pot ser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
+>Utilitzant un instruments de visió buscador RACI en un telescopi muntat en altazimut: la mateixa configuració que amb l'observació a simple vista, excepte que potser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
 ></listitem>
       <listitem
 ><para
->Utilitzant un telescopi de busca directa (vista invertida) en un telescopi muntat en altazimut: trieu Coordenades horitzontals i una orientació del mapa celeste de <guilabel
+>Utilitzant un instrument de visió de busca directa (vista invertida) en un telescopi muntat en altazimut: trieu Coordenades horitzontals i una orientació del mapa celeste de <guilabel
 >Zenit cap avall</guilabel
 > en el submenú <menuchoice
 ><guimenu
@@ -2222,7 +2222,7 @@
 ></menuchoice
 >, seleccioneu <guilabel
 >Zenit cap avall</guilabel
-> i marqueu l'opció <guilabel
+> i seleccioneu l'opció <guilabel
 >Correcció de l'observador estant dret</guilabel
 >. Després ajusteu manualment una vegada l'orientació per a fer coincidir la vista de l'ocular del telescopi, i d'ara en avant el seguiment hauria de ser correcte.</para
 ></listitem>

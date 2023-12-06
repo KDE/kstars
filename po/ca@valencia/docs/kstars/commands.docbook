@@ -2905,7 +2905,7 @@
 > <guimenuitem
 >Barra d'estat</guimenuitem
 ></menuchoice
->. Ací podreu triar quins sistemes de coordenades mostrarà &kstars; en la barra d'estat. A més, pot amagar la barra d'estat desactivant la casella de selecció <guilabel
+>. Ací podreu triar quins sistemes de coordenades mostrarà &kstars; en la barra d'estat. A més, pot amagar la barra d'estat desseleccionant la casella de selecció <guilabel
 >Mostra la barra d'estat</guilabel
 >. </para
 ></listitem>

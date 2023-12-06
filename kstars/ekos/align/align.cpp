@@ -2630,8 +2630,8 @@ void Align::updateProperty(INDI::Property prop)
                         {
                             appendLogText(i18n("Mount is synced to solution coordinates."));
 
-                            if (checkIfRotationRequired())
-                                return;
+                            /* if (checkIfRotationRequired())
+                                return; */
 
                             KSNotification::event(QLatin1String("AlignSuccessful"),
                                                   i18n("Astrometry alignment completed successfully"), KSNotification::Align);
@@ -2666,19 +2666,6 @@ void Align::updateProperty(INDI::Property prop)
                                 appendLogText(i18n("Settling..."));
                             m_CaptureTimer.start(alignSettlingTime->value());
                             return;
-                        }
-                        else if (differentialSlewingActivated)
-                        {
-                            appendLogText(i18n("Differential slewing complete."));
-
-                            if (checkIfRotationRequired())
-                                return;
-
-                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
-                                                  KSNotification::Align);
-                            setState(ALIGN_COMPLETE);
-                            emit newStatus(state);
-                            solverIterations = 0;
                         }
                         else if (m_CurrentGotoMode == GOTO_SLEW || (m_MountModel && m_MountModel->isRunning()))
                         {
@@ -2932,12 +2919,8 @@ void Align::SlewToTarget()
         {
             dms m_TargetDiffRA = m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra());
             dms m_TargetDiffDE = m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec());
-
             m_TargetCoord.setRA(m_TargetCoord.ra() - m_TargetDiffRA);
             m_TargetCoord.setDec(m_TargetCoord.dec() - m_TargetDiffDE);
-
-            differentialSlewingActivated = true;
-
             qCDebug(KSTARS_EKOS_ALIGN) << "Using differential slewing. Setting Target Coordinates to RA:"
                                        << m_TargetCoord.ra().toHMSString()
                                        << "DE:" << m_TargetCoord.dec().toDMSString();
@@ -2945,10 +2928,8 @@ void Align::SlewToTarget()
         }
         else
             Sync();
-
         return;
     }
-
     Slew();
 }
 

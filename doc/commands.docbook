@@ -17,7 +17,7 @@
 <guimenu>File</guimenu>
 <guimenuitem>Open Image...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Open a image in the FITS Viewer tool.
+<listitem><para>Open an image in the FITS Viewer.
 </para></listitem>
 </varlistentry>
 
@@ -550,7 +550,7 @@ current simulation date.
 </menuchoice></term>
 <listitem>
 <para>
-Opens <link linkend="tool-ekos">Ekos</link>, a complete and powerful tool for astrophotography.
+Opens <link linkend="ekos">Ekos</link>, a complete and powerful tool for astrophotography.
 With Ekos, you can align and guide your telescope, focus your CCD, and capture
 images using an easy intuitive interface.
 </para>

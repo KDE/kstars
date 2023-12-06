@@ -330,6 +330,15 @@
 
     <para
 >El botó <guibutton
+>Inspector</guibutton
+> inicia una execució de l'<link linkend="focus-aberration-inspector"
+>Inspector d'aberracions</link
+>. El botó <guibutton
+>Atura</guibutton
+> s'utilitza per a aturar l'execució. </para>
+
+    <para
+>El botó <guibutton
 >Captura la imatge</guibutton
 > prendrà un fotograma basat en la configuració actual en el grup <link linkend="focus-ccd-filter-wheel"
 >Càmera i roda de filtres</link
@@ -998,7 +1007,7 @@
       <para
 ><guilabel
 >Refina l'ajust de la corba</guilabel
->: Aquesta és una opció experimental només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si aquesta opció està marcada, llavors al final de l'escombrat dels punts de dades, l'Ekos ajusta una corba i mesura l'R². Després aplica el criteri de Peirce basat en la metodologia de Gould per a la identificació d'atípics. Vegeu el Criteri de Peirce <ulink url="https://en.wikipedia.org/wiki/Peirce%27scriterion"
+>: Aquesta és una opció experimental només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si aquesta opció està marcada, llavors al final de l'escombrat dels punts de dades, l'Ekos ajusta una corba i mesura l'R². Després aplica el criteri de Peirce basat en la metodologia de Gould per a la identificació d'atípics. Vegeu el Criteri de Peirce <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 ></ulink
 > per a més detalls incloent el document original de Peirce i el document de Gould que són referenciats en les notes. Si el criteri de Peirce detecta 1 o més valors atípics, llavors s'intenta un altre ajust de la corba amb els valors atípics eliminats. De nou, es calcula l'R² i es compara amb la corba original ajustada a l'R². Si l'R² és millor, llavors s'utilitza l'última execució, si no, s'utilitza l'ajust de la corba original (amb els valors atípics inclosos).</para>
 
@@ -2710,5 +2719,472 @@
 
     <para
 >Actualment, el solucionador s'utilitza per ajustar una corba parabòlica o hiperbòlica.</para>
+  </sect3>
+
+  <sect3 id="focus-aberration-inspector">
+    <title
+>Inspector d'aberracions</title>
+
+    <screenshot>
+      <screeninfo
+>Inspector d'aberracions </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="aberration_inspector.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Inspector d'aberracions</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>L'Inspector d'aberracions és una eina que fa ús de l'enfocament automàtic per a analitzar el focus per darrere i la inclinació del sensor en el tren òptic connectat.</para>
+    <para
+>Per a executar l'Inspector d'aberracions, premeu el botó Inspector a la pantalla d'enfocament situada al costat del botó Autofocus. Per a més detalls, vegeu el <link linkend="focus-focuser-group"
+>Grup de l'enfocador</link
+>. Per tal que l'eina funcioni, s'han de complir els criteris següents:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>L'enfocador ha de ser un enfocador absolut.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>L'algorisme d'enfocament ha de ser Lineal d'1 pas.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>S'ha d'aplicar una màscara de mosaic.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Cal configurar la mida del pas de l'enfocador. És el nombre de micres que el pla focal es mou per a una marca de l'enfocador. Això es configura a la pestanya de paràmetres ZCE. Vegeu la secció <link linkend="focus-cfz"
+>ZCE</link
+> per a més detalls.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para
+>Quan es prem el botó de l'Inspector, s'executarà l'enfocament automàtic, però a més, per a cada punt de dades, es captura informació addicional per a un ús posterior per part de l'Inspector d'aberracions. Un cop s'hagi completat l'enfocament automàtic, es mostrarà el diàleg de l'Inspector d'aberracions.</para>
+
+    <para
+>Per configurar inicialment l'eina es recomana fer el següent:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Apunteu a una part del cel on l'enfocament automàtic resolgui bé. Normalment, això estaria lluny de qualsevol obstacle del cel. Trieu un lloc amb moltes estrelles com la Via Làctia. La raó per la qual això és més important per a l'Inspector d'aberracions que per a l'enfocament automàtic és que l'anàlisi de focus s'ha de realitzar per a cada tessel·la del mosaic. Per tant, és important que cada tessel·la tingui prou estrelles per realitzar un enfocament automàtic precís.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Executeu l'enfocament automàtic un parell de vegades per a assegurar que està resolent correctament i que teniu un bon conjunt d'estrelles a cada tessel·la. Encara que es poden utilitzar la majoria dels paràmetres d'enfocament, es recomana utilitzar els paràmetres que funcionen millor per a l'enfocament automàtic amb el vostre equip. La raó d'això és que l'inspector d'aberracions necessita centrar-se a resoldre cada tessel·la i no només el sensor en el seu conjunt.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>S'ha d'aplicar una màscara de mosaic. Serà necessari experimentar una mica per a configurar-ho de manera òptima per a l'equip. El paràmetre de configuració a ajustar és la mida del mosaic, que és la mida del mosaic com a percentatge de l'amplada del sensor. Com més alt sigui el percentatge, més gran serà cada tessel·la, per exemple, per a un sensor 4:3 utilitzant una mida de tessel·la del 25% significa que cada tessel·la és el 8% de l'àrea del sensor. L'ús d'una mida de tessel·la del 10% significa que cada tessel·la és l'1% de l'àrea del sensor. Com més gran sigui l'àrea, més estrelles estaran presents i millor resoldrà l'algorisme d'enfocament. No obstant això, el propòsit de l'Inspector d'aberracions és proporcionar informació sobre les aberracions (focus per darrere i inclinació) a través del sensor, de manera que l'ideal seria que la informació per a cada tessel·la fos específica per a una àrea tan petita com sigui possible.</para>
+        <para
+>El punt més satisfactori per a la mida de la tessel·la és el més petit possible, que encara conté prou estrelles per a resoldre bé en cada tessel·la.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>L'Inspector d'aberracions es pot utilitzar conjuntament amb un dispositiu per a ajustar la inclinació o el focus per darrer. El mètode per fer-ho és una aproximació iterativa, com per exemple, col·limar un telescopi. Els passos són:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Executeu l'Inspector d'aberracions i obteniu resultats.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Inspeccioneu els resultats i assegureu-vos que són bons, per exemple, el nombre d'estrelles en cada tessel·la és suficient i l'R² és acceptable per a totes les tessel·les rellevants.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Ajusteu la inclinació o el focus per darrere utilitzant el dispositiu, basat-se en els resultats de l'Inspector d'aberracions.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Torneu a executar l'Inspector d'aberracions. S'iniciarà un altre diàleg. Comproveu els resultats com abans. Si la inclinació o el focus per darrere estan millorant, llavors l'ajust es va fer en el sentit correcte; si no s'inverteix el sentit i es torna a intentar. Utilitzeu la retroalimentació de l'ajust anterior per a l'ajust següent.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Repetiu el procés anterior fins que s'assoleixi el límit de sensibilitat de l'equip.</para>
+
+    <para
+>Observeu la quantitat d'ajustos, per exemple, fins a on girar els cargols, i el sentit, en sentit horari o antihorari, variarà segons l'equip i l'usuari haurà de descobrir-lo per prova i error. Seguiu sempre les recomanacions del fabricant del dispositiu d'inclinació / focus per darrere.</para>
+
+    <para
+>Cada vegada que s'executa l'Inspector d'aberracions obre un diàleg nou amb el número d'execució afegit al títol. D'aquesta manera es poden realitzar diverses execucions i comparar els resultats. Tingueu en compte, però, que el diàleg conté moltes dades (aproximadament 10x la quantitat d'una execució estàndard d'enfocament automàtic). Els recursos del sistema associats amb això es publiquen quan es tanca el diàleg. Per aquest motiu, en les màquines de menor potència, una vegada que s'ha utilitzat l'eina, es recomana tancar tots els diàlegs de l'Inspector d'aberracions abans del processament d'imatges.</para>
+
+    <para
+>Les seccions següents descriuen les seccions del diàleg de l'Inspector d'aberracions.</para>
+
+    <sect4 id="aberration-inspector-vcurve">
+      <title
+>Corba V de l'inspector d'aberracions</title>
+
+      <screenshot>
+        <screeninfo
+>Corba V de l'inspector d'aberracions </screeninfo>
+
+        <mediaobject>
+          <imageobject>
+          <imagedata fileref="aberration_inspector_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Corba V de l'inspector d'aberracions</phrase>
+        </textobject>
+        </mediaobject>
+      </screenshot>
+
+    <para
+>A la part superior del diàleg hi ha alguns controls, seguits per la corba V. Els controls són:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Tessel·les</guilabel
+>: Hi ha disponibles tres opcions:</para>
+        <itemizedlist>
+          <listitem>
+            <para
+>Totes: es mostren les 9 tessel·les.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centre i cantonades exteriors: Es mostra la tessel·la central i les 4 cantonades.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centre i diamant interior: Es mostra la tessel·la central i les 4 del diamant interior.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Etiquetes</guilabel
+>: La casella de selecció commuta les etiquetes del punt d'enfocament a la corba V.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>ZCE</guilabel
+>: La casella de selecció commuta si el bigoti de la ZCE es mostra a la Corba V.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Optimitza els centres de les tessel·les</guilabel
+>: Si no està marcada, s'utilitza el centre geomètric de la tessel·la; si està marcada, el centre de la tessel·la es calcula com una mitjana de les posicions de l'estrella dins de la tessel·la. Encara que teòricament és més precís marcar aquesta opció, és probable que tingui un impacte significatiu només si el nombre d'estrelles és petit.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Tanca</guilabel
+>: Tanca el diàleg de l'Inspector d'aberracions.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>La corba V és similar a la corba V a la pestanya principal de l'enfocament, excepte que cada tessel·la es representa amb la seva pròpia corba. El nombre de corbes està determinat per la configuració del quadre combinat <guilabel
+>Tessel·les</guilabel
+>. L'eix X mostra la posició de l'enfocador i l'eix Y la mesura (p. ex. HFR) utilitzada per l'enfocament automàtic. Cada corba té el seu propi color i l'identificador de 2 caràcters tal com es mostra a la llegenda.</para>
+
+    <para
+>Passeu el ratolí per sobre d'un mínim de la corba per a veure més informació sobre aquesta corba.</para>
+    </sect4>
+
+    <sect4 id="aberration-inspector-table">
+    <title
+>Taula de l'inspector d'aberracions</title>
+
+    <screenshot>
+      <screeninfo
+>Taula de l'inspector d'aberracions </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_table.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Taula de l'inspector d'aberracions</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>La taula mostra informació pertinent per a cada tessel·la seleccionada per l'opció <guilabel
+>Tessel·les</guilabel
+>.</para>
+
+    <para
+>Es mostra un consell d'eina com a gràfic quan el ratolí passa per sobre de qualsevol de les dues columnes de més a l'esquerra. El gràfic mostra una imatge del sensor escalat a les dimensions del sensor. Superposat en el sensor són les tessel·les seleccionades per l'opció <guilabel
+>Tessel·les</guilabel
+>. Les tessel·les s'escalaran adequadament per a la configuració de les tessel·les. Cada tessel·la està etiquetada amb el nom de la tessel·la, i la tessel·la corresponent a la fila sobre la qual està passant el ratolí, es ressaltarà en el color d'aquesta tessel·la.</para>
+
+    <para
+>Es mostren les columnes següents:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Tessel·la</guilabel
+>: El nom de 1 o 2 caràcters de la tessel·la, p. ex. TL = A dalt a l'esquerra, C = Centre, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Descripció</guilabel
+>: Descripció de la tessel·la, p. ex. Superior esquerra, Centre, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Solució</guilabel
+>: La solució d'enfocament. Això coincideix amb la solució a la corba V.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (marques)</guilabel
+>: Aquesta és la delta de la solució per a la fila de la taula actual a partir de la solució de la tessel·la central. La delta de la fila del centre serà, per descomptat, zero.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (μm)</guilabel
+>: Aquesta és la delta (marques) convertida a micres utilitzant la mida de pas en micres com s'especifica a la pestanya del focus ZCE.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Nombre d'estrelles</guilabel
+>: Això mostra el nombre mínim / màxim d'estrelles detectades durant l'execució d'enfocament automàtic. Normalment, el nombre mínim seria un punt de dades lluny de l'enfocament i el nombre màxim seria el punt de dades de l'enfocament.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>R²</guilabel
+>: R al quadrat de l'ajust de la corba per a aquesta tessel·la. Vegeu <link linkend="Coefficient_of_Determination"
+>Coeficient de determinació</link
+> per a més detalls.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Exclou</guilabel
+>: Casella de selecció per a incloure / excloure aquesta tessel·la en els càlculs. De manera predeterminada, si s'ha ajustat una tessel·la amb una corba, s'inclourà; si una tessel·la no s'ha ajustat amb una corba, s'exclourà. A més, l'usuari pot decidir que una tessel·la en particular pot contenir dades de mala qualitat, per exemple l'R² és baix; o el nombre d'estrelles és baix. En aquest cas es pot marcar l'exclusió i aquesta fila quedarà exclosa dels càlculs. Tingueu en compte que excloent algunes files, alguns càlculs no es poden realitzar. Si s'exclou la tessel·la del centre, no es poden fer càlculs.</para>
+
+        <para
+>Tingueu en compte que, tot i que és possible excloure tessel·les i encara obtenir valors calculats, si les dades són de mala qualitat, es recomana tornar a executar l'Inspector d'aberracions en lloc de persistir amb dades de mala qualitat.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>L'aproximació recomanada és comprovar la taula per obtenir dades de qualitat i, una vegada aconseguit, passar a analitzar els <link linkend="aberration-inspector-results"
+>Resultats de l'Inspector d'aberracions</link
+>.</para>
+    </sect4>
+
+    <sect4 id="aberration-inspector-results">
+    <title
+>Resultat de l'Inspector d'aberracions</title>
+
+    <screenshot>
+      <screeninfo
+>Resultat de l'Inspector d'aberracions </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_results.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Resultat de l'Inspector d'aberracions</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Els resultats del càlcul es mostren en aquesta secció, a partir de les dades mostrades a la taula:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Δ del focus per darrere</guilabel
+>: Aquest és el valor de la delta del focus per darrere. Com més a prop del focus perfecte, més baixa és la delta del focus. Tingueu en compte que la delta del focus per darrere dona una pista de fins a on es troba el focus per darrere, en termes d'escala i direcció, però no és la quantitat per la qual es necessita moure el sensor. La relació entre la delta del focus per darrere i fins a on moure el sensor variarà amb l'equip utilitzat, i ha de ser elaborada per l'usuari.</para>
+
+        <para
+>El camp dona la sensació del moviment de focus per darrere necessari per a millorar el focus per darrere: o bé moveu el sensor més a prop de l'aplanador de camp (telescopi) o bé moveu-lo més lluny.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Inclinació esquerra-dreta</guilabel
+>: Dona la inclinació d'esquerra a dreta en micres i en percentatge.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Inclinació de dalt a baix</guilabel
+>: Dona la inclinació de dalt a baix en micres i com a percentatge</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Inclinació total</guilabel
+>: La inclinació de la diagonal en micres i com a percentatge.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Com més petita sigui la delta del focus per darrere, més proper serà el sensor per a un focus per darrere perfecte. Si l'aplanador de camp no aplana el camp fins a les vores del sensor, llavors això serà visible canviant l'opció de les tessel·les entre «Centre i cantonades exteriors» i «Centre i diamant interior». Si els resultats de la delta del focus per darrere són coherents quan es canvia l'opció tessel·les, això indica que l'aplanador de camp està funcionant a les cantonades del sensor.</para>
+
+    <para
+>Sempre hi haurà alguna delta de focus per darrere almenys a causa del soroll en les dades d'observació. L'important és que quan es troba en el focus, les estrelles són circulars en totes les parts del sensor.</para>
+
+    <para
+>Com més petits siguin els percentatges d'inclinació, més proper serà el sensor a ser pla al pla de la llum des de l'aplanador / telescopi. Igual que amb la delta del focus per darrere, sempre hi haurà algun soroll en les dades, que es presentarà com a inclinació. L'important és que quan es concentra, les mides de les estrelles són coherents en totes les parts del sensor.</para>
+
+    <para
+>A causa de la naturalesa de la delta del focus per darrere i els càlculs d'inclinació, un afectarà a l'altre, de manera que probablement serà millor intentar ajustar tots dos junts, en petits increments, en lloc d'intentar perfeccionar un de forma aïllada, abans d'ajustar l'altre.</para>
+    </sect4>
+
+    <sect4 id="aberration-inspector-3dgraphic">
+    <title
+>Gràfic 3D de l'inspector d'aberracions</title>
+
+    <screenshot>
+      <screeninfo
+>Gràfic 3D de l'inspector d'aberracions </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_3dgraphic.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Gràfic 3D de l'inspector d'aberracions</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>El gràfic 3D mostra el sensor inclinat segons els <link linkend="aberration-inspector-results"
+>Resultats de l'inspector d'aberracions</link
+>. Per a ajudar a visualitzar la superfície de Petzval (vegeu <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
+>Petzval Field Curvature</ulink
+> per a més detalls) de la llum provinent del telescopi i incidint en el sensor, la superfície també es modela. Com més alt sigui l'error de focus per darrere, més corbada serà la superfície de Petzval.</para>
+
+    <para
+>El gràfic es pot fer zoom i girar mitjançant gestos. Per a fer zoom, pessigueu. Per a girar, utilitzeu tocar i moure.</para>
+
+    <para
+>El gràfic disposa d'un mode de simulació que permet ajustar el focus per darrere i la inclinació amb els controls lliscants. L'efecte sobre la inclinació del sensor i la superfície de Petzval es mostra en el gràfic.</para>
+
+    <para
+>Hi ha disponibles les opcions següents per al gràfic:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Selecció</guilabel
+>: Hi ha disponibles les opcions següents:</para>
+
+        <itemizedlist>
+          <listitem>
+          <para
+>Cap: No es pot seleccionar.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Element: Es pot seleccionar un punt de dades i es mostren els valors de les dades.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Segment: Es mostra un segment 2D a través del gràfic 3D.</para>
+          </listitem>
+        </itemizedlist>
+
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Tema</guilabel
+>: Hi ha disponible diversos temes de color.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Etiquetes</guilabel
+>: Casella de selecció per a mostrar/ocultar les etiquetes en el gràfic.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sensor</guilabel
+>: Casella de selecció per a mostrar/ocultar el sensor.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Fil de Petzval</guilabel
+>: Casella de selecció per a mostrar / ocultar la superfície de Petzval com un fil gràfic.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Superfície de Petzval</guilabel
+>: Casella de selecció per a mostrar / ocultar la superfície de Petzval.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Mode simulació</guilabel
+>: Casella de selecció per a activar / desactivar el mode de simulació. Quan està desactivat, el gràfic mostra el sensor i la superfície de Petzval basant-se en els resultats calculats de l'Inspector d'aberracions. Quan està activat, s'activen els controls lliscants per al focus per darrere, la inclinació d'esquerra a dreta i la inclinació de dalt a baix, i l'usuari pot arrossegar-los per ajustar el gràfic. Passeu el ratolí per sobre de cada control lliscant per a veure els consells d'eina que descriuen el que fa cada control lliscant.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>El gràfic 3D no és essencial per a utilitzar l'inspector d'aberracions. Tota la informació rellevant es mostra a la <link linkend="aberration-inspector-table"
+>Taula</link
+> i a la secció <link linkend="aberration-inspector-results"
+>Resultats</link
+> del diàleg. La seva finalitat és ajudar a l'usuari a entendre l'Inspector d'aberracions i orientar-se amb la informació que proporciona l'eina.</para>
+    </sect4>
   </sect3>
 </sect2>

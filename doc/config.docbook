@@ -238,7 +238,7 @@ page see the <link linkend="indi-configure">Configure INDI</link> section.
 
 <!-- Ekos page: -->
 <para>For detailed explanation of <guilabel>Ekos</guilabel> astrophotography suite,
-see the <link linkend="tool-ekos">Ekos section of this manual</link>.
+see the <link linkend="ekos">Ekos section of this manual</link>.
 </para>
 
 <!-- Xplanet page: -->
@@ -1367,7 +1367,7 @@ page see the <link linkend="indi-configure">Configure INDI</link> section.
 </para>
 </sect1>
 
-<sect1 id="ekos">
+<sect1 id="ekos-window">
 <title>Ekos</title>
 <screenshot>
 <screeninfo>Ekos Window</screeninfo>
@@ -1386,7 +1386,7 @@ all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, 
 Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus
 and autoguiding capabilities, and capture of single or multiple images using the powerful
 built in sequence manager. For detailed explanation of <guilabel>Ekos</guilabel>,
-see the <link linkend="tool-ekos">Ekos section of this manual</link>.
+see the <link linkend="ekos">Ekos section of this manual</link>.
 </para>
 </sect1>
 

@@ -25,7 +25,7 @@ This localization of time is accomplished by dividing the globe into 24 vertical
 slices called <firstterm>Time Zones</firstterm>.  The Local Time is the same
 within any given zone, but the time in each zone is one Hour
 <emphasis>earlier</emphasis> than the time in the neighboring Zone to the East.
-Actually, this is a idealized simplification; real Time Zone boundaries are not
+Actually, this is an idealized simplification; real Time Zone boundaries are not
 straight vertical lines, because they often follow national boundaries and other
 political considerations.
 </para><para>

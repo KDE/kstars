@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-wizard">
+<sect1 id="ekos-profile-wizard">
     <title>Profile Wizard</title>
     <indexterm>
         <primary>Tools</primary>
@@ -120,4 +120,4 @@
 <para>
     In the example above, we select Remote Astrometry, WatchDog, and SkySafari drivers. The detailed explanations for each is provided in the tooltip when you over them. Once done, click <guibutton>Create Profile</guibutton> button. You should now be presented with the Profile Editor.
 </para>
-</sect2>
+</sect1>

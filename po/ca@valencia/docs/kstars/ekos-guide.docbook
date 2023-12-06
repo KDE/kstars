@@ -30,7 +30,7 @@
 >PHD2</ulink
 > o <ulink url="https://sourceforge.net/projects/linguider/"
 >lin_guider</ulink
->. Utilitzant el guiatge intern, els fotogrames de la càmera del sistema de guiatge seran capturats i enviats a Ekos per a l'anàlisi. Depenent de les desviacions de les estreles de les seues posicions de bloqueig, s'enviaran polsos de correcció als motors dels eixos AR i Dec de la muntura. La majoria de les opcions de la &IGU; en el mòdul per al guiatge estan ben documentades, de manera que senzillament passeu el ratolí per damunt d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
+>. Utilitzant el guiatge intern, els fotogrames de la càmera del sistema de guiatge seran capturats i enviats a Ekos per a l'anàlisi. Depenent de les desviacions de les estreles de les seues posicions de bloqueig, s'enviaran polsos de correcció del guiatge als motors dels eixos AR i Dec de la muntura. La majoria de les opcions de la &IGU; en el mòdul per al guiatge estan ben documentades, de manera que senzillament passeu el ratolí per damunt d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
     </sect3>
 
     <sect3 id="guide-Setup">
@@ -65,7 +65,7 @@
             </mediaobject>
         </screenshot>
         <para
->També haureu de configurar el tren òptic del sistema de guiatge. Este segon tren òptic quasi sempre és diferent del que esteu utilitzant amb captura/alineació/enfocament. Vegeu la imatge anterior per a veure un exemple de configuració. Cal tindre en compte que el telescopi triat és el de guiatge, el qual pot ser el mateix que el telescopi principal si utilitzeu un esquema OAG (fora de l'eix) o ONAG del sistema de guiatge. La càmera seleccionada serà, per descomptat, la càmera guia. El mitjà del sistema de guiatge  hauria de ser la muntura, assumint que esteu enviant polsos de guiatge directament a la muntura o el nom del dispositiu ST4 (&pex;, la vostra càmera) en el cas que utilitzeu polsos de guiatge ST4. </para>
+>També haureu de configurar el tren òptic del sistema de guiatge. Este segon tren òptic quasi sempre és diferent del que esteu utilitzant amb captura/alineació/enfocament. Vegeu la imatge anterior per a veure un exemple de configuració. Cal tindre en compte que el telescopi triat és l'instrument de visió de guiatge, el qual pot ser el mateix que el telescopi principal si utilitzeu un esquema OAG (fora de l'eix) o ONAG del sistema de guiatge. La càmera seleccionada serà, per descomptat, la càmera guia. El mitjà del sistema de guiatge  hauria de ser la muntura, assumint que esteu enviant polsos de guiatge directament a la muntura o el nom del dispositiu ST4 (&pex;, la vostra càmera) en el cas que utilitzeu polsos de guiatge ST4. </para>
         <para
 >Doneu una ullada a la pàgina <guilabel
 >Guia</guilabel
@@ -105,7 +105,7 @@
                 <para
 ><guilabel
 >Neteja el calibratge</guilabel
->: Marqueu-la per a suprimir les dades de calibratge. Vegeu la secció de calibratge a continuació. </para>
+>: Seleccioneu-la per a suprimir les dades de calibratge. Vegeu la secció de calibratge a continuació. </para>
             </listitem>
             <listitem>
                 <para
@@ -358,7 +358,7 @@
 >desviacions</emphasis
 > i <emphasis
 >correccions</emphasis
-> del guiatge. De manera predeterminada, només es mostraran les desviacions del guiatge a l'AR i la Dec. L'eix horitzontal és el temps en segons, ja que el procés de guiatge automàtic es va iniciar mentre l'eix vertical dibuixava la deriva/desviació del guiatge en segons d'arc per a cada eix. Les correccions del guiatge (polsos) també es poden tramar en el mateix gràfic i podreu habilitar-les marcant la casella de selecció <guilabel
+> del guiatge. De manera predeterminada, només es mostraran les desviacions del guiatge en l'AR i la Dec. L'eix horitzontal és el temps en segons, ja que el procés de guiatge automàtic es va iniciar mentre l'eix vertical dibuixava la deriva/desviació del guiatge en segons d'arc per a cada eix. Les correccions del guiatge (polsos) també es poden tramar en el mateix gràfic i podreu habilitar-les seleccionant la casella de selecció <guilabel
 >Corr</guilabel
 >. Les correccions es dibuixaran com a àrees ombrejades al fons amb el mateix color que l'eix. </para>
         <para
@@ -417,7 +417,7 @@
         <title
 >Fotogrames foscos</title>
         <para
->Els fotogrames foscos poden ser útils útils per a reduir el soroll en els fotogrames guia. Si trieu utilitzar esta opció, vos recomanem que preneu fotogrames foscos abans de començar amb el procediment de calibratge o guiatge. Per a prendre un fotograma fosc, marqueu la casella de selecció <guilabel
+>Els fotogrames foscos poden ser útils útils per a reduir el soroll en els fotogrames guia. Si trieu utilitzar esta opció, vos recomanem que preneu fotogrames foscos abans de començar amb el procediment de calibratge o guiatge. Per a prendre un fotograma fosc, seleccioneu la casella de selecció <guilabel
 >Fosc</guilabel
 > i feu clic en <guibutton
 >Captura</guibutton

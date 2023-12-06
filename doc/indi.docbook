@@ -313,7 +313,7 @@ The device can be controlled fully from the <guimenuitem>INDI Control Panel...</
 </para>
 
 <para>The standard format for image capture is FITS. Once an image is captured and downloaded,
-it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>.
+it will be automatically displayed in the &kstars; <link linkend="fitsviewer">FITS Viewer</link>.
 </para>
 </sect1>
 

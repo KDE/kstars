@@ -66,7 +66,7 @@
 > (sistema fotomètric UBV, de Johnson, o de Johnson-Morgan). Utilitza tres filtres de pas de banda: Les regions U («ultraviolat»), B («blau») i V («visible»); cadascuna ocupa regions diferents de l'espectre electromagnètic. </para>
 
 <para
->El procés de fotometria UBV involucra l'ús de dispositius fotosensibles (com la pel·lícula fotogràfica o càmeres equipades amb un CCD) i en orientar un telescopi cap a una estrela per a mesurar la intensitat de la llum que passa per cadascun dels filtres individualment. Este procediment produïx tres lluminositats aparents o <link linkend="ai-flux"
+>El procés de fotometria UBV involucra l'ús de dispositius fotosensibles (com la pel·lícula fotogràfica o càmeres equipades amb un CCD) i en orientar un telescopi cap a una estrela per a mesurar la intensitat de la llum que passa per cadascun dels filtres individualment. Este procediment produïx tres brillantors aparents o <link linkend="ai-flux"
 >fluxos</link
 > (quantitat d'energia per cm<superscript
 >2</superscript

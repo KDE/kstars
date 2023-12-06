@@ -1,4 +1,4 @@
-<sect2 id="ekos-analyze">
+<sect1 id="ekos-analyze">
     <title>Analyze</title>
     <indexterm>
         <primary>Tools</primary>
@@ -18,7 +18,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="analyze-Introduction">
+    <sect2 id="analyze-Introduction">
         <title>Introduction</title>
         <para>
             The Analyze Module records and displays what happened in an imaging session. That is, it does not control any if your imaging, but rather reviews what occurred. Sessions are stored in an <filename class="directory">analyze</filename> folder, a sister folder to the main logging folder. The <literal role="extension">.analyze</literal> files written there can be loaded into the <guilabel>Analyze</guilabel> tab to be viewed. <guilabel>Analyze</guilabel> also can display data from the current imaging session.
@@ -29,8 +29,8 @@
         <para>
             The three main displays can be hidden to make more room for the other displays. There are checkboxes to the left of the section titles (Timeline, Statistics, and Details) that enable and hide the displays.
         </para>
-    </sect3>
-    <sect3 id="analyze-timeline">
+    </sect2>
+    <sect2 id="analyze-timeline">
         <title>Timeline</title>
         <para>
         Timeline shows the major Ekos processes, and when they were active. For instance, the <guilabel>Capture</guilabel> line shows when images were taken (wither green for RGB or color-coded by the filter) and when imaging was aborted (shown as red sections). Clicking on a capture section gives information about that image, and double clicking on one brings up the image taken then in a fitsviewer, if it is available.
@@ -43,8 +43,8 @@
         <para>
             Clicking on a <guilabel>Focus</guilabel> segment shows focus session information and displays up the position vs HFR measurements from that session. Clicking on a <guilabel>Guider</guilabel> segment shows a drift plot from that session, (if it's guiding) and the session's RMS statistics. Other timelines show status information when clicked.
         </para>
-    </sect3>
-    <sect3 id="analyze-statistics">
+    </sect2>
+    <sect2 id="analyze-statistics">
         <title>Statistics</title>
         <para>
           A variety of statistics can be displayed on the <guilabel>Statistics</guilabel> graph. There are too many for all to be shown in a readable way, so select among them with the checkboxes. A reasonable way to start might be to use <guilabel>rms</guilabel>, <guilabel>snr</guilabel> (using the internal guider with SEP Multistar), and <guilabel>hfr</guilabel> (if you have auto-compute HFR in the FITS options). Experiment with others.
@@ -55,5 +55,5 @@
         <para>
           The statistic shown on the left axis can also be scaled (awkwardly) using the mouse <mousebutton>wheel</mousebutton>. It can be panned by dragging the mouse up or down over the left axis' numbers.  Clicking anywhere inside the Statistics graph fills in the values of the displayed statistics. Checking the latest box causes the most recent values (from a live session) to be the statistics displayed. This graph is zoomed and panned horizontally in coordination with the timeline.
         </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

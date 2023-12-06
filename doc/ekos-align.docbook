@@ -1,11 +1,11 @@
-<sect2 id="ekos-align">
+<sect1 id="ekos-align">
     <title>Align</title>
     <indexterm>
         <primary>Tools</primary>
         <secondary>Ekos</secondary>
         <tertiary>Align</tertiary>
     </indexterm>
-    <sect3 id="ekos-align-introduction">
+    <sect2 id="ekos-align-introduction">
         <title>Introduction</title>
         <screenshot>
             <screeninfo>
@@ -32,9 +32,9 @@
         <para>
             At a minimum, you need a CCD/Webcam and a telescope that supports Slew &amp; Sync commands. Most popular commercial telescope nowadays support such commands.
         </para>
-    </sect3>
+    </sect2>
 
-        <sect3 id="ekos-align-typical">
+        <sect2 id="ekos-align-typical">
             <title>Typical use</title>
             <para>
                 Using Ekos Alignment Module, aligning your mount using the controller's 1, 2, or 3 star alignment is <emphasis>not</emphasis> strictly necessary, though for some mounts it is recommended to perform a rough 1 or 2 star alignment before using Ekos alignment module. If you are using EQMod, you can start using Ekos alignment module right away. A typical workflow for GOTO alignment involves the following steps:
@@ -89,9 +89,9 @@
                     </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
     
-    <sect3 id="ekos-solver-options">
+    <sect2 id="ekos-solver-options">
       <title>Configure StellarSolver Options </title>
         <screenshot>
             <screeninfo>
@@ -112,9 +112,9 @@
       <para>
         There are two other minor options. <guilabel>WCS</guilabel> or  World-Coordinate-System is a system for embedding equatorial coordinate information within the image. When you view a solved image, you can hover it and view the coordinate for each pixel. You can also click anywhere in the image and command to the telescope to slew there. It is highly recommended to keep this option on. <guilabel>Overlay</guilabel> overlays captured images unto the sky map of &kstars;.
         </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="ekos-solver-external">
+    <sect2 id="ekos-solver-external">
       <title>Configure StellarSolver External Programs </title>
         <screenshot>
             <screeninfo>
@@ -135,9 +135,9 @@
       <para>
         You will need to make sure the paths are correct for the solver you choose. The top menu item <guilabel>select to load one of the default sets</guilabel> usually configures the boxes correctly.
         </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-solver-scale">
+    <sect2 id="ekos-solver-scale">
       <title>Configure StellarSolver Scale and Position </title>
         <screenshot>
             <screeninfo>
@@ -157,9 +157,9 @@
         </para><para>Scale can be the image width in degrees (<guilabel>dw</guilabel>), the image width in arc-minutes (<guilabel>aw</guilabel>), or the pixel width in arc-seconds (<guilabel>app</guilabel>). All should work, but arc-seconds per pixel is recommended. Typically you want to use this constraint for faster solving, so we recommend you check this box. The system doesn't require that the scale be exactly right--it allows deviations of 10-20%. However, frequently issues related to solving are due to an inaccurate scale being used. Therefore, if you have plate-solving problems, you may want to uncheck <guilabel>Use Scale</guilabel> until those issues are resolved. This will likely result in longer solving times. <guilabel>Auto-update</guilabel> will automatically fill the scale box with the scale found in the most-recent successful solve.
         </para><para>The RA and DEC positions are usually filled in from the position the telescope thinks it is pointing. Naturally, the system doesn't require an exactly correct positional constraint--afterall the purpose of plate-solving is to find that position. The maximum distance in degrees from the specified position to the actual position is given by the <guilabel>Radius</guilabel> field. Plate-solving will fail if the specified position is further away.  Typically you want to enable <guilabel>Use Position</guilabel> for faster solving, so we recommend you check this box. However, frequently issues related to solving are due to using a poor positional estimate (e.g. the telescope is significantly misaligned). Therefore, if you have plate-solving problems, you may want to uncheck <guilabel>Use Position</guilabel> until those issues are resolved. As mentioned, this will result in longer solving times. <guilabel>Auto-update</guilabel> will fill the position box with the position found in the most-recent successful solve. However, a slew will update the position to the position where the telescope thinks it is pointing after the slew.
         </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-align-profiles">
+    <sect2 id="ekos-align-profiles">
       <title>Configure StellarSolver Profiles </title>
         <screenshot>
             <screeninfo>
@@ -189,7 +189,7 @@
           All the input fields have tooltips that are displayed if you hover your mouse over the input box.
           </para><para>You can make changes to the values and save the profile if you like, or restore the profile's original values.
           </para>
-        <sect4 id="profile-star-extraction">
+        <sect3 id="profile-star-extraction">
           <title>Star-Extraction Parameters</title>
           <para>
             The column headings are links to the Sextractor manual which is the main source for these parameters. View those links to find details on all the parameters. We will touch upon some of the parameters you might consider adjusting. However, it's probably best not to get into the weeds of modifying most of these values.
@@ -199,9 +199,9 @@
          <listitem><para><guilabel>Min Area</guilabel> is the minimum area for a star detection--area is in square pixels where all pixels have higher-than-threshold pixel values. If you are detecting small noise spikes as stars, you might want to increase this. If you are not detecting desired smaller real stars, perhaps your <guilabel>Min Area</guilabel> is too high.</para></listitem>
          <listitem><para><guilabel>Conv FWHM</guilabel> should be adjusted to roughly the seeing in your area in pixels. The image is smoothed by this amount before star detection is initiated.</para></listitem>
         </itemizedlist>
-        </sect4>    
+        </sect3>    
 
-        <sect4 id="profile-star-filtering">
+        <sect3 id="profile-star-filtering">
         <title>Star-Filtering Parameters</title>
           <para>
             This filtering is done for the sake of speed mostly, as well as for removing clipped stars, or very elliptical objects which might be galaxies. We will touch upon some of the parameters you might consider adjusting. Zero values for these parameters disable the filter. However, once again it's probably best not to get into the weeds of modifying most of these values.
@@ -212,9 +212,9 @@
          <listitem><para><guilabel>Max Ellipse</guilabel> specifies how elliptical a star can be before being removed. 2 would mean the larger axis could be twice as large as the smaller axis.</para></listitem>
          <listitem><para><guilabel>Cut Brightest</guilabel> and <guilabel>Cut Dimmest</guilabel> remove the X% brightest or dimmest stars from consideration. <guilabel>Sat Limit</guilabel> removes stars whose pixel values exceed that percentage of the maximum pixel value--to remove saturated stars.</para></listitem>
              </itemizedlist>
-        </sect4>
+        </sect3>
 
-        <sect4 id="profile-plate-solving">
+        <sect3 id="profile-plate-solving">
           <title>Plate-Solving Parameters</title>
           <para>
             These plate-solving parameters mostly relate to computation resources.
@@ -223,10 +223,10 @@
          <listitem><para><guilabel>Search Radius</guilabel> is the distance from the position estimate in degrees that may be searched if <guilabel>Use Position</guilabel> is checked. </para></listitem>
          <listitem><para><guilabel>Maximum Time</guilabel> is the maximum number of seconds that the plate-solving will run before it times out.</para></listitem>
              </itemizedlist>
-        </sect4>    
-    </sect3>    
+        </sect3>    
+    </sect2>    
     
-    <sect3 id="ekos-align-download-index-files">
+    <sect2 id="ekos-align-download-index-files">
       <title>Download Index Files</title>
       <para>
         Index files are required if you choose the <guilabel>Internal Solver</guilabel> or <guilabel>Local Astrometry</guilabel> <guilabel>Solving Method</guilabel>.
@@ -234,7 +234,7 @@
         <para>
             For offline (and remote) solvers, index files are necessary for the solver to work. The complete collection of index files is huge (over 30 GB), but you only need to download what is necessary for your equipment setup. Index files are sorted by the Field-Of-View (FOV) range they cover. There are two methods to fetch the necessary index files: The new download support in Align module, and the old manual way.
         </para>
-        <sect4 id="ekos-align-automatic-download">
+        <sect3 id="ekos-align-automatic-download">
             <title>Automatic Download</title>
             <screenshot>
                 <screeninfo>
@@ -275,8 +275,8 @@
             <para>
                 You must download all the required files, and if you have plenty of hard drive space left, you can also download the recommended indexes. If an index file is installed, the checkmark shall be checked, otherwise check it to download the relevant index file. Please only download one file at a time, especially for larger files. You might be prompted to enter the administrator password (default in StellarMate is <userinput>smate</userinput>) to install the files. Once you installed all the required files, you can begin using the offline astrometry.net solver immediately.
             </para>
-        </sect4>
-        <sect4 id="ekos-align-manual-download">
+        </sect3>
+        <sect3 id="ekos-align-manual-download">
                 <title>Manual Download</title>
                 <para>
                     You need to <ulink url="http://data.astrometry.net">download</ulink> and install the necessary index files suitable for your telescope+CCD field of view (FOV). You need to install index files covering 100% to 10% of your FOV. For example, if your FOV is 60 arcminutes, you need to install index files covering skymarks from 6 arcminutes (10%) to 60 arcminutes (100%). There are many online tools to calculate FOVs, such as <ulink url="http://starizona.com/acb/ccd/calc_pixel.aspx">Starizona Field of View Calculator</ulink>.
@@ -398,10 +398,10 @@
                         It is recommended to use a download manager as such <ulink url="https://addons.mozilla.org/en-US/firefox/addon/downthemall/">DownThemAll!</ulink> for &firefox; to download the Debian packages as browsers' built-in download manager may have problems with download large packages.
                     </para>
                 </note>
-            </sect4>
-        </sect3>
+            </sect3>
+        </sect2>
 
-    <sect3 id="ekos-align-get-astrometry">
+    <sect2 id="ekos-align-get-astrometry">
         <title>Optionally get astrometry.net</title>
 
         <para>
@@ -476,9 +476,9 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </sect3>
+    </sect2>
     
-        <sect3 id="ekos-align-how-to-use">
+        <sect2 id="ekos-align-how-to-use">
             <title>How to Use?</title>
             <para>
                 Ekos Align Module offers multiple functions to aid you in achieving accurate GOTOs. For some mounts it is useful to start your session with your mount in home position with the telescope tube looking directly at the celestial pole. For users in Northern Hemisphere, point the telescope as close as possible to Polaris. It is not necessary to perform 2 or 3 star alignments, but it can be useful for some mount types. Make sure your camera is focused.
@@ -503,9 +503,9 @@
                     <emphasis role="bold">Never</emphasis> solve an image at or near the celestial pole (unless Ekos Polar Alignment Assistant Tool is used). Slew at least 20 degrees away from the celestial pole before solving the first image. Solving very close to the poles will make your mount pointing worse, so avoid it.
                 </para>
             </warning>
-        </sect3>
+        </sect2>
         
-        <sect3 id="ekos-align-alignment-settings">
+        <sect2 id="ekos-align-alignment-settings">
             <title>Alignment Settings</title>
             <para>
                 Before you begin the alignment process, select the desired optical train. You can explore astrometry.net options that are passed to the astrometry.net solver each time an image is captured:
@@ -547,9 +547,9 @@
                     </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
 
-        <sect3 id="ekos-align-polaralignment">
+        <sect2 id="ekos-align-polaralignment">
             <title>Polar Alignment</title>
                 <para>
                     When setting up a German Equatorial Mount (GEM) for imaging, a critical aspect of capturing long-exposure images is to ensure proper polar alignment. A GEM mount has two axis: Right Ascension (RA) axis and Declination (DE) axis. Ideally, the RA axis should be aligned with the celestial sphere polar axis. A mount's job is to track the star's motion around the sky, from the moment they rise at the eastern horizon, all the way up across the median, and westward until they set.
@@ -608,7 +608,7 @@
                     </mediaobject>
                 </screenshot>
 
-            <sect4 id="ekos-align-platesolvecorrection">
+            <sect3 id="ekos-align-platesolvecorrection">
                 <title>Plate Solve Correction Scheme</title>
                 
                 <para>
@@ -665,8 +665,8 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
-                </sect4>
-                <sect4 id="ekos-align-move-star-correction">
+                </sect3>
+                <sect3 id="ekos-align-move-star-correction">
                 <title>Move Star Correction Scheme</title>
 
                 <para>
@@ -676,6 +676,6 @@
                     The difference between <emphasis>Move Star &amp; Calc Error</emphasis> and  <emphasis>Move Star</emphasis> is that in the former, the system attempts to track the star the user has selected, and places a circle around that star. In that scheme it also attempts to update the <emphasis>Updated Err</emphasis> row. If the star tracking isn't reliable, simply ignore it or use the <emphasis> Move Star </emphasis>scheme and move the star by-eye until it's close to the final target. An example of using this technique is shown in this video: 
                     <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU">https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink>
                 </para>
-            </sect4>
-        </sect3>
-</sect2>
+            </sect3>
+        </sect2>
+</sect1>
