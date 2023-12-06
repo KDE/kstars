@@ -247,7 +247,7 @@ For students and teachers, it supports adjustable simulation speeds in order to 
 
  <listitem>
    <para>
-     Ekos is a complete astrophotography solution that provides everything needed for automated or manual deep-sky imaging.  It can control all INDI devices including numerous telescopes, CCD and CMOS astronomy cameras, DSLRs, focusers, filters, rotators, domes and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solvers, autofocus and autoguiding capabilities, and capture of single or multiple images using its powerful built in scheduler.  It integrates well with the skymap, and FITS Viewer. It also has tools for polar alignment and measuing optical aberrations.
+     Ekos is a complete astrophotography solution that provides everything needed for automated or manual deep-sky imaging.  It can control all INDI devices including numerous telescopes, CCD and CMOS astronomy cameras, DSLRs, focusers, filters, rotators, domes and a lot more. Ekos supports highly accurate tracking using online and offline astrometry solvers, autofocus and autoguiding capabilities, and capture of single or multiple images using its powerful built-in scheduler.  It integrates well with the skymap, and FITS Viewer. It also has tools for polar alignment and measuring optical aberrations.
   </para>
  </listitem>
 
