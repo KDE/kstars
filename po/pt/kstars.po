@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-02 00:38+0000\n"
+"POT-Creation-Date: 2023-12-06 00:39+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -4888,7 +4888,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:900 ekos/capture/capture.cpp:940
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:814
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:886
 #: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -5336,31 +5336,31 @@ msgid "Could not export image"
 msgstr "Não foi possível exportar a imagem"
 
 #. i18n: ectx: property (title), widget (QGroupBox, legendGroupBox)
-#: dialogs/exportimagedialog.ui:17
+#: dialogs/exportimagedialog.ui:32
 #, kde-format
 msgid "Legend Configuration"
 msgstr "Configuração da Legenda"
 
 #. i18n: ectx: property (text), widget (QCheckBox, addLegendCheckBox)
-#: dialogs/exportimagedialog.ui:23
+#: dialogs/exportimagedialog.ui:53
 #, kde-format
 msgid "Add legend to exported sky image"
 msgstr "Adicionar uma legenda ao mapa do céu exportado"
 
 #. i18n: ectx: property (text), widget (QLabel, legendOrientationLabel)
-#: dialogs/exportimagedialog.ui:35
+#: dialogs/exportimagedialog.ui:71
 #, kde-format
 msgid "Legend orientation:"
 msgstr "Orientação da legenda:"
 
 #. i18n: ectx: property (text), widget (QLabel, legendTypeLabel)
-#: dialogs/exportimagedialog.ui:45
+#: dialogs/exportimagedialog.ui:81
 #, kde-format
 msgid "Legend type:"
 msgstr "Tipo de legenda:"
 
 #. i18n: ectx: property (text), widget (QLabel, legendPositionLabel)
-#: dialogs/exportimagedialog.ui:55
+#: dialogs/exportimagedialog.ui:91
 #, kde-format
 msgid "Legend position:"
 msgstr "Posição da legenda:"
@@ -6267,7 +6267,7 @@ msgstr "Calcular o CDV"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:127
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:157
 #, kde-format
 msgid "Camera"
 msgstr "Câmara"
@@ -9582,7 +9582,7 @@ msgstr "Adicionar uma pasta onde estão guardados os ficheiros do índice"
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:511
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:553
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -17215,7 +17215,7 @@ msgid "Sub-Exposure Calculator"
 msgstr "Calculadora de Sub-Exposição"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:62
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:92
 #, kde-format
 msgid "Sky Quality"
 msgstr "Qualidade do Céu"
@@ -17223,48 +17223,48 @@ msgstr "Qualidade do Céu"
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:75
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:105
 #: ekos/guide/guide.ui:684 oal/equipmentwriter.ui:611
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Relação Focal"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:88
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:118
 #, fuzzy, kde-format
 #| msgid "Filter Bandwidth:"
 msgid "Filter Bandwidth"
 msgstr "Largura de Banda do Filtro:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:107
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:137
 #, fuzzy, kde-format
 #| msgid "Adjust the balance of the two noise sources"
 msgid "Alter the bias of the noise sources"
 msgstr "Ajusta o balanceamento das duas fontes de ruído"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:140
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:170
 #, fuzzy, kde-format
 #| msgid "Bortle Class:"
 msgid "Bortle Class"
 msgstr "Classe de Bortle:"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:185
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:215
 #, kde-format
 msgid "Gain"
 msgstr "Ganho"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:210
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:240
 #, fuzzy, kde-format
 #| msgid "Camera Gain"
 msgid "Select Camera Sensor Gain"
 msgstr "Ganho da Câmara"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:229
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:259
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Select FITS/XISF Image"
@@ -17272,171 +17272,171 @@ msgid "Select DSLR ISO Value"
 msgstr "Seleccionar a Imagem do FITS/XISF"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:248
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:278
 #, kde-format
 msgid "ISO"
 msgstr "ISO"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:267
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:297
 #, kde-format
 msgid "Read noise constant"
 msgstr "Constante de ruído na leitura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:321
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
 msgstr "Ruído na sub-exposição por poluição luminosa"
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:337
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:379
 #, kde-format
 msgid "Total Noise"
 msgstr "Ruído Total"
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:344
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
 #, kde-format
 msgid "Pollution Electrons"
 msgstr "Electrões de Poluição"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:405
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr "Ruído total na sub-exposição (poluição luminosa + ruído de leitura)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:379
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:421
 #, kde-format
 msgid "Shot Noise"
 msgstr "Ruído da Fotografia"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:440
 #, fuzzy, kde-format
 #| msgid "Calculated count of light pollution electrons in the sub-exposure."
 msgid "Estimated light pollution electrons in the sub-exposure."
 msgstr "Número de electrões de poluição luminosa calculado na sub-exposição."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:494
 #, kde-format
 msgid "Duration of Sub-exposure"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:468
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:510
 #, kde-format
 msgid "Exposure Time (sec)"
 msgstr "Tempo de Exposição (s)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:508
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:550
 #, fuzzy, kde-format
 #| msgid "(Future Release) Download additional camera data files"
 msgid "Download additional camera data files"
 msgstr "(Versão Futura) Obter ficheiros de dados adicionais de câmaras"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:539
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:581
 #, kde-format
 msgid "Bortle Zone Color"
 msgstr "Cor da Zona de Bortle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:558
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:600
 #, kde-format
 msgid "Bortle class value"
 msgstr "Valor da classe de Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:561
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
 #, kde-format
 msgid "9"
 msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:584
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:626
 #, fuzzy, kde-format
 #| msgid "Select read mode on cameras with multiple read modes."
 msgid "Select read mode on cameras with multiple read modes."
 msgstr "Seleccione o modo de leitura nas câmaras com vários modos de leitura."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:645
 #, kde-format
 msgid "Adjust the quality of the sky"
 msgstr "Ajustar a qualidade do céu"
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:613
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:655
 #, kde-format
 msgid "Read Mode"
 msgstr "Modo de Leitura"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:680
 #, kde-format
 msgid "Apply a compensation for an optical filter"
 msgstr "Aplica uma compensação para um filtro óptico"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:661
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:703
 #, fuzzy, kde-format
 #| msgid "Camera Data Download"
 msgid "Camera Data Selection"
 msgstr "Transferência de Dados das Câmaras"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:696
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:738
 #, kde-format
 msgid "Potential exposure time graph"
 msgstr "Gráfico do tempo de exposição potencial"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:757
 #, fuzzy, no-c-format, kde-format
 #| msgid "Noise Increase (%)"
 msgid "Noise Increase %"
 msgstr "Aumento do Ruído (%)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:735
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:777
 #, fuzzy, kde-format
 #| msgid "Enable"
 msgid "Table"
 msgstr "Activar"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:752
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:809
 #, fuzzy, kde-format
 #| msgid "Geographic"
 msgid "Graph"
 msgstr "Geográficas"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:770
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:842
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:792
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:864
 #, fuzzy, kde-format
 #| msgid "Exposure"
 msgid "Exposures"
 msgstr "Exposição"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:811
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:883
 #, kde-format
 msgid "Calculated exposure count for integration"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:833
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:905
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "International Space Station"
@@ -17444,7 +17444,7 @@ msgid "Integration Time to Noise Ratio"
 msgstr "Estação Espacial Internacional"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:865
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:937
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Noise Reduction"
@@ -17452,13 +17452,13 @@ msgid "Time/Noise Ratio"
 msgstr "Redução de Ruído"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:884
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:956
 #, kde-format
 msgid "dy ="
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:897
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:969
 #, kde-format
 msgid "Integration time to noise ratio (potential quality)"
 msgstr ""
