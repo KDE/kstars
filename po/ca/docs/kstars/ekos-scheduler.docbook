@@ -1,4 +1,4 @@
-<sect2 id="ekos-scheduler">
+<sect1 id="ekos-scheduler">
     <title
 >Programador</title>
     <indexterm>
@@ -22,13 +22,13 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="ekos-scheduler-introduction">
+    <sect2 id="ekos-scheduler-introduction">
       <title
 >Introducció</title>
         <para
 >El programador de l'Ekos és un component important del vostre flux de treball amb les imatges. Connecta amb INDI, inicia i atura tots els altres mòduls de l'Ekos, programa les tasques d'acord amb les seves restriccions i prioritats, controla aquestes tasques mentre s'executen i després atura el sistema amb seguretat quan s'han fet les tasques, o abans de l'alba. Ja sigui que esteu executant sessions d'imatge de diversos dies per a múltiples objectius, o simplement intentant fer imatges d'un únic objectiu durant poques hores, és aconsellable que el programador controli les vostres sessions d'imatge. </para>
-    </sect3>
-    <sect3 id="scheduler-table">
+    </sect2>
+    <sect2 id="scheduler-table">
         <title
 >Taula del programador</title>
         <para
@@ -68,8 +68,8 @@
             </listitem>
         </itemizedlist>
 
-    </sect3>
-    <sect3 id="scheduling-algorithm">
+    </sect2>
+    <sect2 id="scheduling-algorithm">
         <title
 >Algorisme de programació</title>
         <para
@@ -86,14 +86,14 @@
 >Hi ha una opció de casella de selecció al menú d'opcions del programador anomenada <guilabel
 >Usa la planificació voraç</guilabel
 > que està marcada de manera predeterminada. El sistema funciona com es descriu més amunt quan està marcada. Quan està desmarcada, s'impedeix que el programador planifiqui tasques de prioritat més baixa quan les tasques de prioritat més alta no es poden executar sense completar. Això resulta en un ús menys eficient del sistema, però pot donar-vos més control sobre la planificació. </para>
-    </sect3>
-    <sect3 id="scheduler-files">
+    </sect2>
+    <sect2 id="scheduler-files">
         <title
 >Fitxers del programador (.esq)</title>
         <para
 >La taula del programador amb la seva llista de tasques i atributs es pot desar al disc i tornar-la a llegir. S'escriu en un fitxer «.esq». Controla l'escriptura de la taula del programador actual al disc, i per a llegir altres fitxers «.esq» que es troben a sobre de la taula a la dreta. </para>
-    </sect3>
-    <sect3 id="ekos-scheduler-settings">
+    </sect2>
+    <sect2 id="ekos-scheduler-settings">
       <title
 >Configuració</title>
         <para
@@ -174,8 +174,8 @@
 >: Condicions que activen la compleció de la tasca del programador. La selecció predeterminada és simplement marcar la tasca del programador com a completada una vegada que s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència un nombre de vegades o indefinidament, o fins a una hora determinada. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="other-options">
+    </sect2>
+    <sect2 id="other-options">
         <title
 >Altres opcions</title>
         <para
@@ -193,7 +193,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-       <sect4 id="remember-job-progress">
+       <sect3 id="remember-job-progress">
         <title
 >Recordar el progrés de la tasca</title>
         <para
@@ -208,8 +208,8 @@
 >Un efecte secundari possiblement confús de <guilabel
 >Recorda el progrés de la tasca</guilabel
 > és que si heu executat una tasca utilitzant la condició de finalització de la compleció de la seqüència (predeterminat), i ha capturat totes les seves imatges, i ara voleu tornar a executar la tasca, el programador no planificarà la tasca perquè creu que totes les imatges ja s'han capturat. Necessitaríeu moure aquestes imatges en un altre lloc del disc, o canviar la condició de finalització a Repeteix N vegades, o Repeteix fins que finalitzi. </para>
-       </sect4>
-       <sect4 id="group-repeats">
+       </sect3>
+       <sect3 id="group-repeats">
         <title
 >Repeticions de grup</title>
         <para
@@ -224,15 +224,15 @@
 >, i donar a les tasques una de les condicions de finalització repetides (&pex;, Repeteix N vegades o Repeteix fins que finalitzi). Amb aquesta configuració, les tasques del mateix grup cediran entre elles si han completat més «Iteracions de repetició» que les altres tasques. Per tant, si el Job2 amb el grup «MyGroup» completa la seva segona iteració, i el Job3 amb el mateix nom de grup només ha completat 0 o 1 iteracions, quan arribi el moment de programar el Job2, el Job3 s'executarà. </para>
         <para
 >Pràcticament parlant, imagineu que tenia un mosaic de sis plafons que voleu alternar. Podríeu donar a tots aquestes tasques el mateix nom de grup, feu-los tots, &pex;, «Repeteix 5 vegades». Llavors s'executarien en un pas de bloqueig. La cadència de commutació de tasques es controlaria per la longitud del fitxer de seqüència assignat a cada un d'aquestes tasques. No voldreu fer la cadència massa curta (&pex;, capturar una imatge de 2 minuts), ja que hi ha sobrecàrrega en canviar de tasca. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i fins i tot centrar. </para>
-       </sect4>
-       <sect4 id="repeat-all-jobs">
+       </sect3>
+       <sect3 id="repeat-all-jobs">
         <title
 >Repeteix totes les tasques</title>
         <para
 >Hi ha una casella de selecció i una entrada de números just a sota de la taula de tasques del programador que permet repetir la planificació completa N vegades. Això es pot utilitzar per alternar entre tasques. Podeu llistar les tasques en el programador, establir-les per repetir N vegades, i les tasques es repetiran. No obstant això, aquest canvi és incompatible amb «Recorda el progrés de la tasca» (a dalt) i no està disponible si es marca «Recorda el progrés de la tasca». (Nota: Es recomana recordar el progrés de la tasca). </para>
-       </sect4>
-    </sect3>
-    <sect3 id="workflow">
+       </sect3>
+    </sect2>
+    <sect2 id="workflow">
         <title
 >Flux de treball</title>
 
@@ -267,9 +267,9 @@
 >Tancament </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-procedure">
+    <sect2 id="ekos-scheduler-startup-procedure">
         <title
 >Procediment d'inici</title>
         <para
@@ -314,9 +314,9 @@
 > predeterminat és de 5 minuts abans de l'hora d'<emphasis
 >inici</emphasis
 >). Un cop finalitzat el procediment d'inici, el programador seleccionarà l'objectiu de la tasca del programador i iniciarà el procés de la seqüència. Si s'especifica un script d'inici, aquest s'executarà primer. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-data-acquisition">
+    <sect2 id="ekos-scheduler-data-acquisition">
         <title
 >Adquisició de les dades</title>
         <para
@@ -357,9 +357,9 @@
 >Nota: algunes de les interaccions entre mòduls són iniciades pels mateixos mòduls, però són supervisades pel programador. Aquests inclouen inversions del meridià, enfocaments automàtics iniciats per canvi de temperatura o expiració del temporitzador, i requisits mínims de desviació de guiatge per a la captura. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-shutdown">
+    <sect2 id="ekos-scheduler-shutdown">
         <title
 >Tancament</title>
         <para
@@ -382,9 +382,9 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-weather-monitoring">
+    <sect2 id="ekos-scheduler-weather-monitoring">
         <title
 >Seguiment del clima</title>
         <para
@@ -409,9 +409,9 @@
 >: Les condicions meteorològiques són perjudicials per a la seguretat de l'observatori i s'hauria d'iniciar el tancament tan aviat com sigui possible. </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+    <sect2 id="ekos-scheduler-startup-and-shutdown-scripts">
         <title
 >Scripts durant l'inici i tancament</title>
         <para
@@ -447,9 +447,9 @@ exit(0)
 > per tal que l'Ekos els invoqui (&pex;, utilitzeu <userinput
 >chmod +x script_inici.py</userinput
 > per a marcar l'script com a executable). El programador de l'Ekos permet una operació robòtica veritablement senzilla sense la necessitat de cap intervenció humana en cap pas del procés. Sense presència humana, cada vegada és més crític recuperar amb facilitat els errors durant qualsevol etapa de l'observació. Emprant les notificacions del &plasma;, l'usuari podrà configurar alarmes audibles i notificacions per correu electrònic per als diferents esdeveniments del programador. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-mosaic-Planner">
+    <sect2 id="ekos-scheduler-mosaic-Planner">
         <title
 >Planificador de mosaics</title>
         <screenshot>
@@ -611,5 +611,5 @@ exit(0)
 >Feu clic a <guibutton
 >Crea tasques</guibutton
 > per a generar les tasques del programador de mosaic i afegir-les a la cua del programador. Podeu editar les tasques individualment, com a les tasques normals del programador. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

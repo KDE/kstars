@@ -9,7 +9,7 @@
 </indexterm>
 
 <para
->Les applications &kstars; peuvent être pilotées de l'extérieur par un autre programme, depuis une invite de console ou depuis un script shell en utilisant le protocole de communication interprocessus (&DBus;). &kstars; utilise cette fonction pour permettre à des comportements plutôt complexes d'être traités par scripts et rejoués à n'importe quel moment. Ceci peut être utilisé par exemple pour créer une démonstration en salle de classe pour illustrer un concept astronomique. </para>
+>Les applications &kstars; peuvent être pilotées de l'extérieur par un autre programme, depuis une invite de console ou depuis un script shell en utilisant le protocole de communication inter-processus (&DBus;). &kstars; utilise cette fonction pour permettre à des comportements plutôt complexes d'être traités par scripts et rejoués à n'importe quel moment. Ceci peut être utilisé par exemple pour créer une démonstration en salle de classe pour illustrer un concept astronomique. </para>
 <para
 >Le problème avec les scripts &DBus; est que leur écriture ressemble à de la programmation et peut sembler difficile à ceux qui n'ont pas l'expérience de la programmation. L'outil de génération de scripts fournit une interface graphique de type pointer-cliquer pour construire des scripts &DBus; pour &kstars;, rendant très facile l'écriture de scripts complexes. </para>
 
@@ -94,7 +94,7 @@
 >Objet…</guibutton
 > pour utiliser la fenêtre de <guilabel
 >recherche d'objet</guilabel
-> pour sélectionner la Lune dans la liste des objets nommés. Notez que, comme d'habitude, un centrage sur un objet engage automatiquement le mode de suivi, de telle manière qu'il n'y a pas besoin d'ajouter la fonction <firstterm
+> pour sélectionner la Lune dans la liste des objets nommés. Veuillez noter que, comme d'habitude, un centrage sur un objet engage automatiquement le mode de suivi, de telle manière qu'il n'y a pas besoin d'ajouter la fonction <firstterm
 >setTracking</firstterm
 > après lookToward. </para
 ><para
@@ -126,7 +126,7 @@
 >0</quote
 >. </para
 ><para
->Une dernière étape : le changement d'UseALtAz à la fin du script n'est pas bon ; nous avons besoin de le changer avant que quelque chose d'autre n'arrive. Ainsi, assurez-vous que cette fonction est surlignée dans la zone de script courant et actionnez le bouton <guibutton
+>Une dernière étape : le changement de « UseALtAz » à la fin du script n'est pas bon ; nous avons besoin de le changer avant que quelque chose d'autre n'arrive. Ainsi, assurez-vous que cette fonction est surlignée dans la zone de script courant et actionnez le bouton <guibutton
 >Monter</guibutton
 > jusqu'à ce que ce soit la première fonction. </para
 ><para

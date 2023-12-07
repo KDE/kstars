@@ -43,12 +43,12 @@
 >Les télescopes modernes permettent aux astronomes d'utiliser la parallaxe annuelle pour mesurer les distances des étoiles proches en utilisant la triangulation. L'astronome mesure avec soin la position de l'étoile à deux dates séparées de 6 mois. Plus l'étoile est proche du Soleil, plus la modification apparente de sa position sera importante. </para>
  <para
 >Pendant une période de 6 mois, la Terre a bougé de la moitié de son orbite autour du Soleil ; dans cette période, sa position a changé de 2 <firstterm
->Unités astronomiques</firstterm
+>Unités Astronomiques</firstterm
 > (abrégé UA ; 1 UA est la distance de la Terre au Soleil, soit environ 150 millions de kilomètres). Cela semble être une très grande distance, mais même l'étoile la plus proche est à environ 40 <emphasis
 >trillions</emphasis
 > de kilomètres. De ce fait, la parallaxe annuelle est très petite, typiquement plus petite qu'un <firstterm
 >parsec</firstterm
->, qui fait seulement 1/3600 degré. Une unité pratique de distance pour les étoiles proches est le <firstterm
+>, qui fait seulement 1 / 3600 degré. Une unité pratique de distance pour les étoiles proches est le <firstterm
 >parsec</firstterm
 >, qui est l'abréviation de <quote
 >parallax arcsecond</quote

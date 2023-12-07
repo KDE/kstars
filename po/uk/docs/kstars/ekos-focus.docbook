@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect2 id="ekos-focus">
+<sect1 id="ekos-focus">
   <title
 >Фокусування</title>
 
@@ -14,7 +14,7 @@
 >Фокусування</tertiary>
   </indexterm>
 
-  <sect3 id="focus-theory">
+  <sect2 id="focus-theory">
     <title
 >Теорія роботи</title>
 
@@ -172,9 +172,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="optical-train-group">
+  <sect2 id="optical-train-group">
     <title
 >Група оптичного тракту</title>
 
@@ -216,9 +216,9 @@
 
     <para
 >Параметри фокусування зберігаються для оптичного тракту автоматично.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-focuser-group">
+  <sect2 id="focus-focuser-group">
     <title
 >Група засобів фокусування</title>
 
@@ -369,9 +369,9 @@
 
     <para
 >Якщо ви є початківцем в астрономії, варто ознайомитися із вашим обладнанням при світлі дня. Зокрема, варто спробувати виконати приблизне фокусування на віддаленому об'єкті. Це надасть вам добру початкову позицію для фокусування на зірках уночі.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-ccd-filter-wheel">
+  <sect2 id="focus-ccd-filter-wheel">
     <title
 >Група «Камера і барабан з фільтрами»</title>
 
@@ -487,9 +487,9 @@
 > відновить для допоміжного кадру фокусування розміри повного кадру.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-settings">
+  <sect2 id="focus-settings">
     <title
 >Параметри фокусування</title>
 
@@ -722,9 +722,9 @@
         </para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-process">
+  <sect2 id="focus-process">
     <title
 >Процедура фокусування</title>
 
@@ -1096,9 +1096,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-mechanics">
+  <sect2 id="focus-mechanics">
     <title
 >Механіка фокусування</title>
 
@@ -1304,9 +1304,9 @@
 >: час очікування у секундах на рух засобу фокусування у потрібну позицію до оголошення перевищення часу очікування. Варто вмикати, лише якщо маєте проблеми із засобом фокусування під час процедури фокусування. У певних випадках встановлення досить високого значення надасть змогу запобігти перевищенню у звичайних умовах.</para>
   </listitem>
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-cfz">
+  <sect2 id="focus-cfz">
     <title
 >Критична зона фокусування (КЗФ)</title>
 
@@ -1523,10 +1523,10 @@
   </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="focus-advisor">
+  <sect2 id="focus-advisor">
     <title
 >Радник з фокусування</title>
 
@@ -1631,9 +1631,9 @@
     </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-filter-settings">
+  <sect2 id="focus-filter-settings">
       <title
 >Параметри фільтрів</title>
 
@@ -1857,10 +1857,10 @@
 >Oiii: фільтр Oiii налаштовано на автофокусування, зафіксовано на освітленості, вона має зсув -100. Отже, коли розпочнеться послідовність Oiii, відбудеться автоматичне фокусування для освітленості, а відносний зсув між освітленістю і Oiii дорівнює -100 - 0 = -100, тому засіб фокусування буде пересунуто у позицію розв'язку автоматичного фокусування для освітленості, а потім на 100 всередину.</para>
           </listitem>
       </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="build-filter-offsets">
+  <sect2 id="build-filter-offsets">
       <title
 >Побудувати зсуви</title>
 
@@ -2066,9 +2066,9 @@
 ></listitem>
             </itemizedlist>
       </para>
-</sect3>
+</sect2>
 
-  <sect3 id="focus-display">
+  <sect2 id="focus-display">
     <title
 >Показ фокусування</title>
 
@@ -2167,9 +2167,9 @@
 >: відкриває діалогове вікно перегляду профілю зірки.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-v-curve">
+  <sect2 id="focus-v-curve">
     <title
 >V-крива</title>
 
@@ -2340,9 +2340,9 @@
         </textobject>
       </mediaobject>
     </screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-relative-profile">
+  <sect2 id="focus-relative-profile">
     <title
 >Відносний профіль</title>
 
@@ -2365,9 +2365,9 @@
 
     <para
 >Відносний профіль — графік, на якому показано взаємозалежність відносних значень РПП. Менші значення РПП відповідають вужчим формам, і навпаки. Суцільна червона крива відповідає профілю поточного значення РПП, а точкова зелена крива — попередньому значенню РПП. Нарешті, малинова крива відповідає першому виміряному значенню РПП. Так ви зможете визначити, наскільки процедура автофокусування поліпшила якість відносного фокусування. </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+  <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
     <title
 >Як налаштувати програму для виконання автофокусування</title>
 
@@ -2433,9 +2433,9 @@
 ></textobject
 ></mediaobject
 ></screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-backlash">
+  <sect2 id="focus-backlash">
     <title
 >Люфт засобу фокусування</title>
 
@@ -2523,9 +2523,9 @@
       </listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-adaptive">
+  <sect2 id="focus-adaptive">
     <title
 >Адаптивне фокусування</title>
 
@@ -2654,10 +2654,10 @@
 >Адаптивне фокусування вбудовано до засобу <link linkend="build-filter-offsets"
 >Побудувати зсуви</link
 >.</para>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="Coefficient_of_Determination">
+  <sect2 id="Coefficient_of_Determination">
     <title
 >Коефіцієнт визначеності, R²</title>
 
@@ -2677,9 +2677,9 @@
 
     <para
 >Ця можливість вимикається встановленням нульового значення обмеження R².</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="Levenberg-Marquardt">
+  <sect2 id="Levenberg-Marquardt">
     <title
 >Розв'язувач Левенберга-Марквардта</title>
 
@@ -2727,9 +2727,9 @@
 
     <para
 >У поточній версії розв'язувач використовує апроксимацію параболічною або гіперболічною кривою.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-aberration-inspector">
+  <sect2 id="focus-aberration-inspector">
     <title
 >Інспектор аберації</title>
 
@@ -2843,7 +2843,7 @@
     <para
 >У наступних розділах описано розділи діалогового вікна інспектора аберації.</para>
 
-    <sect4 id="aberration-inspector-vcurve">
+    <sect3 id="aberration-inspector-vcurve">
       <title
 >V-крива інспектора аберації</title>
 
@@ -2920,9 +2920,9 @@
 
     <para
 >Наведіть вказівник миші на мінімум кривої, щоб переглянути більше відомостей щодо кривої.</para>
-    </sect4>
+    </sect3>
 
-    <sect4 id="aberration-inspector-table">
+    <sect3 id="aberration-inspector-table">
     <title
 >Таблиця інспектора аберації</title>
 
@@ -3015,9 +3015,9 @@
 >Рекомендованим підходом є перевірка таблиці на якість даних, аж до її досягнення, а потім перехід до аналізу <link linkend="aberration-inspector-results"
 >результатів інспектора аберації</link
 >.</para>
-    </sect4>
+    </sect3>
 
-    <sect4 id="aberration-inspector-results">
+    <sect3 id="aberration-inspector-results">
     <title
 >Результати інспектора аберації</title>
 
@@ -3081,9 +3081,9 @@
 
     <para
 >Через природу обчислень дельти зворотного фокусування та ухилу, одне впливає на інше, тому, ймовірно, варто намагатися скоригувати обидва параметри одночасно малими приростами,а не намагатися отримати ідеальне значення одного з них окремо, перш ніж виправляти інший.</para>
-    </sect4>
+    </sect3>
 
-    <sect4 id="aberration-inspector-3dgraphic">
+    <sect3 id="aberration-inspector-3dgraphic">
     <title
 >Просторовий графік інспектора аберації</title>
 
@@ -3193,6 +3193,6 @@
 > і <link linkend="aberration-inspector-results"
 >Результати</link
 > діалогового вікна. Призначенням графіка є полегшення розуміння користувачем роботи інспектора аберації та орієнтації у даних, які надає інструмент.</para>
-    </sect4>
-  </sect3>
-</sect2>
+    </sect3>
+  </sect2>
+</sect1>

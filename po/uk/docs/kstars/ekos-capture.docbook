@@ -1,4 +1,4 @@
-<sect2 id="ekos-capture">
+<sect1 id="ekos-capture">
     <title
 >Захоплення</title>
     <indexterm>
@@ -26,7 +26,7 @@
 >Модуль захоплення зображень є вашим основним модулем для отримання зображень і відео у Ekos. Він надає вам змогу створювати одинарні зображення (Попередній перегляд), послідовності зображень (Черга послідовності) або записувати відео у форматі <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 >, а також вибирати фільтри з барабана фільтрів та засіб обертання, якщо такі доступні на вашому обладнанні. </para>
-    <sect3 id="capture-ccd-filter-wheel">
+    <sect2 id="capture-ccd-filter-wheel">
         <title
 >Група «ПЗЗ і барабан з фільтрами»</title>
         <para
@@ -55,8 +55,8 @@
 > у налаштуваннях Ekos. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="capture-settings">
+    </sect2>
+    <sect2 id="capture-settings">
         <title
 >Параметри захоплення</title>
         <screenshot>
@@ -166,7 +166,7 @@
 >: вкажіть кроки за горизонталлю (X) та вертикаллю (Y). </para>
             </listitem>
         </itemizedlist>
-        <sect4 id="capture-custom-properties">
+        <sect3 id="capture-custom-properties">
             <title
 >Нетипові властивості</title>
             <para
@@ -201,10 +201,10 @@
                     </para>
                 </caption>
             </mediaobject>
-        </sect4>
-    </sect3>
+        </sect3>
+    </sect2>
 
-    <sect3 id="capture-file-settings">
+    <sect2 id="capture-file-settings">
         <title
 >Параметри файлів</title>
 
@@ -378,9 +378,9 @@
 >: показує попередній перегляд назви файла-результату, відповідно до наданих параметрів шляху завдання. Формат назви файлів для збереження віддалено попередньо визначено — там не можна використовувати теґи-замінники. Теґ номера у послідовності завжди буде показано у попередньому перегляді як 1. Його буде автоматично збільшено під час виконання завдання. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-limit-settings">
+    <sect2 id="capture-limit-settings">
         <title
 >Параметри обмеження</title>
 
@@ -423,9 +423,9 @@
 >) і відновить наведення (якщо його було раніше розпочато), а потім автоматично відновить процедуру створення зображень.</para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-sequence-queue">
+    <sect2 id="capture-sequence-queue">
         <title
 >Черга</title>
 
@@ -520,9 +520,9 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-fits-viewer">
+    <sect2 id="capture-fits-viewer">
         <title
 >Переглядач FITS</title>
 
@@ -544,9 +544,9 @@
 >: фільтр удосконалення зображення, який буде застосовано після створення знімка. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-rotation-settings">
+    <sect2 id="capture-rotation-settings">
         <title
 >Параметри засобу обертання</title>
 
@@ -602,9 +602,9 @@
 
         <para
 >Для кожного завдання із захоплення зображення можна призначити власний кут обертання, але слід враховувати, що це призведе до переривання наведення, оскільки під час обертання буде втрачено прив'язку до еталонної зірки. Тому, у більшості послідовностей завдань, слід зберігати кут обертання однаковим для усіх знімків. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-calibration-frames">
+    <sect2 id="capture-calibration-frames">
         <title
 >Кадри калібрування</title>
 
@@ -681,8 +681,8 @@
         </orderedlist>
         <para
 >Перш ніж буде розпочато процедуру калібрування, ви можете наказати Ekos виконати паркування лафета і/або купола. Залежно від зробленого раніше вибору джерела світла для кадру плоского поля, Ekos використає відповідні параметри світла, перш ніж розпочне створення кадрів плоского поля. Якщо вказано співвідношення між аналоговим і цифровим сигналами, Ekos розпочне із захоплення пари кадрів попереднього перегляду для встановлення кривої, яка надасть змогу витримати бажане значення співвідношення. Щойно відповідне значення буде обчислено, програма створить наступний знімок і переобчислить співвідношення. Ця процедура повторюватиметься, аж доки не буде досягнуто задовільного значення співвідношення. </para>
-    </sect3>
-    <sect3 id="capture-exposure-calculator">
+    </sect2>
+    <sect2 id="capture-exposure-calculator">
         <title
 >Калькулятор експозиції</title>
         <screenshot>
@@ -962,9 +962,9 @@
            </listitem>
         </orderedlist>
 
-        </sect3>
+        </sect2>
 
-    <sect3 id="capture-video-tutorials">
+    <sect2 id="capture-video-tutorials">
         <title
 >Відеопідручники</title>
 
@@ -993,5 +993,5 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>
