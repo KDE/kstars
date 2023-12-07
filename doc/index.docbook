@@ -89,14 +89,14 @@
 
 <authorgroup>
 
-<othercredit role="developer">
+<author>
 <firstname>Jasem</firstname>
 <surname>Mutlaq</surname>
 <affiliation>
 <address>&Jasem.Mutlaq.mail;</address>
 </affiliation>
 <contrib>Lead Developer &amp; Maintainer</contrib>
-</othercredit>
+</author>
 
 <othercredit role="developer">
 <firstname>Jason</firstname>
