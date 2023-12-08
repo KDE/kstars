@@ -1,4 +1,4 @@
-<sect2 id="ekos-capture">
+<sect1 id="ekos-capture">
     <title
 >Capturar</title>
     <indexterm>
@@ -26,7 +26,7 @@
 >El mòdul de captura és el mòdul principal per a l'adquisició d'imatges i vídeo a l'Ekos. Permet capturar imatges individuals (vista prèvia), múltiples (cua de seqüències) o gravar vídeos <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 > juntament amb una selecció de la roda de filtres i rotor, si està disponible. </para>
-    <sect3 id="capture-ccd-filter-wheel">
+    <sect2 id="capture-ccd-filter-wheel">
         <title
 >CCD i roda de filtres</title>
         <para
@@ -55,8 +55,8 @@
 > sota la configuració de l'Ekos. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="capture-settings">
+    </sect2>
+    <sect2 id="capture-settings">
         <title
 >Configuració de la captura</title>
         <screenshot>
@@ -158,7 +158,7 @@
 >: Especifiqueu l'agrupament horitzontal (X) i vertical (Y). </para>
             </listitem>
         </itemizedlist>
-        <sect4 id="capture-custom-properties">
+        <sect3 id="capture-custom-properties">
             <title
 >Propietats personalitzades</title>
             <para
@@ -193,10 +193,10 @@
                     </para>
                 </caption>
             </mediaobject>
-        </sect4>
-    </sect3>
+        </sect3>
+    </sect2>
 
-    <sect3 id="capture-file-settings">
+    <sect2 id="capture-file-settings">
         <title
 >Configuració del fitxer</title>
 
@@ -369,9 +369,9 @@
 >: Mostra una vista prèvia del nom del fitxer resultant d'acord amb la configuració del camí proporcionat de la tasca. El format del nom de fitxer per a desar remotament està predefinit, és possible que no s'utilitzin etiquetes de substitució. El número de seqüència de fitxer sempre es previsualitza com a imatge 1 en la seqüència i s'incrementarà automàticament quan la tasca estigui en curs. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-limit-settings">
+    <sect2 id="capture-limit-settings">
         <title
 >Configuració dels límits</title>
 
@@ -416,9 +416,9 @@
 >) i reprendrà el guiatge (si es va iniciar abans) i tornarà a iniciar automàticament el procés de captura.</para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-sequence-queue">
+    <sect2 id="capture-sequence-queue">
         <title
 >Cua de seqüències</title>
 
@@ -462,7 +462,7 @@
 ><imageobject
 ><imagedata fileref="view-refresh.png" format="PNG"/></imageobject
 ></inlinemediaobject
->. Assegureu-vos que tots els comptes de progrés de les imatges també es restableixen. Per a obtenir la vista prèvia d'una imatge en el visualitzador FITS del &kstars;, feu clic al botó <guibutton
+>. Assegureu-vos que tots els comptes de progrés de les imatges també es restableixen. Per a obtenir la vista prèvia d'una imatge en el visualitzador de FITS del &kstars;, feu clic al botó <guibutton
 >Vista prèvia</guibutton
 >. </para>
         <para
@@ -513,14 +513,14 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-fits-viewer">
+    <sect2 id="capture-fits-viewer">
         <title
->Visualitzador FITS</title>
+>Visualitzador de FITS</title>
 
         <para
->Les imatges capturades es mostren a l'eina de visualitzador FITS del &kstars;, i també a la pantalla de resum. Estableix les opcions relacionades amb com es mostraran les imatges a l'espectador. </para>
+>Les imatges capturades es mostren al visualitzador de FITS del &kstars;, i també a la pantalla de resum. Estableix les opcions relacionades amb com es mostraran les imatges al visualitzador. </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -537,9 +537,9 @@
 >: Filtre per a la millora de les imatges que s'aplicarà a la imatge després de la captura. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-rotation-settings">
+    <sect2 id="capture-rotation-settings">
         <title
 >Configuració del rotor</title>
 
@@ -595,9 +595,9 @@
 
         <para
 >Cada tasca de captura pot assignar-se a diferents angles del rotor, però cal tenir en compte que això provocaria que el guiatge s'interrompi, ja que estava perdent la traça de l'estrella guia en rotar. Per tant, per a la majoria de seqüències, l'angle del rotor es mantindrà igual per a totes les tasques de captura. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-calibration-frames">
+    <sect2 id="capture-calibration-frames">
         <title
 >Fotogrames de calibratge</title>
 
@@ -674,8 +674,8 @@
         </orderedlist>
         <para
 >Abans de començar el calibratge del procés de captura, podeu demanar que l'Ekos aparqui la muntura i/o la cúpula. Segons la vostra selecció anterior de la font plana, l'Ekos utilitzarà la font de llum plana adequada abans de començar a capturar fotogrames plans. Si s'especifica l'ADU, l'Ekos començarà capturant un parell d'imatges de vista prèvia per a establir la corba necessària per a aconseguir el compte d'ADU desitjat. Una vegada que es calculi un valor adequat, es prendrà una altra captura i recomptarà l'ADU fins que s'obtingui un valor satisfactori. </para>
-    </sect3>
-    <sect3 id="capture-exposure-calculator">
+    </sect2>
+    <sect2 id="capture-exposure-calculator">
         <title
 >Calculadora d'exposició</title>
         <screenshot>
@@ -721,7 +721,7 @@
                             <para
 >Un <ulink url="https://en.wikipedia.org/wiki/Sky_quality_meter"
 >Mesurador de qualitat del cel (SQM)</ulink
-> pot proporcionar la lectura més precisa de la qualitat del cel si s'utilitza durant una sessió de processament d'imatges, però també es pot trobar un valor estimat a partir de les enquestes de qualitat del cel a la web en llocs com <ulink url="https://www.lightpollutionmap.info/"
+> pot proporcionar la lectura més precisa de la qualitat del cel si s'utilitza durant una sessió de processament d'imatges, però també es pot trobar un valor estimat a partir dels rastreigs de qualitat del cel a la web en llocs com <ulink url="https://www.lightpollutionmap.info/"
 >www.lightpollutionmap.info</ulink
 > o <ulink url="https://clearoutside.com/"
 >www.clearoutside.com</ulink
@@ -955,9 +955,9 @@
            </listitem>
         </orderedlist>
 
-        </sect3>
+        </sect2>
 
-    <sect3 id="capture-video-tutorials">
+    <sect2 id="capture-video-tutorials">
         <title
 >Guies d'aprenentatge en vídeo</title>
 
@@ -986,5 +986,5 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

@@ -45,9 +45,9 @@
             <title
 >Utilisation typique</title>
             <para
->Avec le module d'alignement d'Ekos, l'alignement de la monture sur une, deux ou trois étoiles avec la commande de la monture n'est <emphasis
+>Avec le module d'alignement de Ekos, l'alignement de la monture sur une, deux ou trois étoiles avec la commande de la monture n'est <emphasis
 >pas</emphasis
-> strictement nécessaire, mais pour certaines montures, il peut être recommandé de réaliser un alignement sommaire sur une ou deux étoiles avant d'utiliser le module d'alignement d'Ekos. Mais si vous utiliser EQMod, vous pouvez commencer d'utiliser tout de suite le module d'alignement. Une marche à suivre typique pour les alignement GOTO implique les étapes suivantes : </para>
+> strictement nécessaire, mais pour certaines montures, il peut être recommandé de réaliser un alignement sommaire sur une ou deux étoiles avant d'utiliser le module d'alignement de Ekos. Mais si vous utiliser EQMod, vous pouvez commencer d'utiliser tout de suite le module d'alignement. Une marche à suivre typique pour les alignement GOTO implique les étapes suivantes : </para>
             <orderedlist>
                 <listitem>
                     <para
@@ -211,7 +211,7 @@
 >Rayon</guilabel
 >. La résolution échouera si la position spécifiée est plus loin. Vous souhaitez typiquement activer <guilabel
 >Utiliser position</guilabel
-> pour accélérer la résolution, et nous vous recommandons de le faire. Toutefois, de fréquents problèmes de résolution sont liés à une estimation très imprécise de la position (&ie; le télescope est très mal aligné). Ainsi, si vous rencontrez des problèmes de résolution, vous pouvez décocher cette case jusqu'à avoir résolu ces problèmes. Comme déjà mentionné, cela va allonger la durée de résolution. <guilabel
+> pour accélérer la résolution, et nous vous recommandons de le faire. Toutefois, de fréquents problèmes de résolution sont liés à une estimation très imprécise de la position (&cad; le télescope est très mal aligné). Ainsi, si vous rencontrez des problèmes de résolution, vous pouvez décocher cette case jusqu'à avoir résolu ces problèmes. Comme déjà mentionné, cela va allonger la durée de résolution. <guilabel
 >Mise à jour automatique</guilabel
 > mettra à jour la position avec la position de la résolution réussie la plus récente. Mais un pivotage déclenchera une mise à jour de la position où le télescope pense qu'il pointe. </para>
     </sect2>
@@ -255,7 +255,7 @@
 ><para
 >Les <guilabel
 >Options d'alignement du modificateur de profils</guilabel
-> permettent de visualiser et modifier les profils. Il existe de nombreux paramètres dont la plupart n'ont pas besoin d'être modifié pour résoudre les problèmes. Il y a trois types de paramètres. </para>
+> permettent d'afficher et de modifier les profils. Il existe de nombreux paramètres dont la plupart n'ont pas besoin d'être modifié pour résoudre les problèmes. Il y a trois types de paramètres. </para>
         <itemizedlist>
          <listitem
 ><para
@@ -290,7 +290,7 @@
           <title
 >Paramètres de l'extraction d'étoiles</title>
           <para
->Les intitulés des colonnes sont des liens vers le manuel de Sextractor qui est la source d'information principale pour ces paramètres. Visitez ces liens pour obtenir davantage de détails sur ces paramètres. Nous allons aborder quelqu'uns de ces paramètres qu'il pourrait être intéressant d'ajuster. Toutefois, il est probablement judicieux de garder les valeurs par défaut de la plupart de ces paramètres. </para>
+>Les intitulés des colonnes sont des liens vers le manuel de Sextractor qui est la source d'information principale pour ces paramètres. Visitez ces liens pour obtenir davantage de détails sur ces paramètres. Nous allons aborder quelques uns de ces paramètres qu'il pourrait être intéressant d'ajuster. Toutefois, il est probablement judicieux de conserver les valeurs par défaut de la plupart de ces paramètres. </para>
         <itemizedlist>
          <listitem
 ><para
@@ -939,7 +939,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->Si l'erreur est suffisamment petite (moins d'une minute d'arc), il est inutile de faire des ajustements. Cliquez sur stop et c'est terminé. </para>
+>Si l'erreur est suffisamment petite (moins d'une minute d'arc), il est inutile de faire des ajustements. Cliquez sur « Arrêt » et c'est terminé. </para>
                 <para
 >Si vous faites des corrections sur l'axe de votre monture, vous devriez choisir l'approche des ajustements (nous utilisons la résolution dans cet exemple) et précisez le rythme d'acquisition des images pour les mesures d'erreur de l'alignement polaire. L'intervalle de rafraîchissement devrait être fréquent mais il ne fait pas de sens de le rendre plus rapide que ce que le processeur est capable de faire pour les acquisitions et la résolution des images. Nous utilisons un intervalle de 2 secondes dans cet exemple. Ensuite cliquez sur le bouton <guibutton
 >Rafraîchissement</guibutton
@@ -964,7 +964,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->Ci-dessous, l'opérateur a aussi ajusté l'azimut afin de réduire encore plus l'erreur. Elle est maintenant très petite et la procédure est terminée. L'opérateur doit cliquer sur le bouton stop. </para>
+>Ci-dessous, l'opérateur a aussi ajusté l'azimut afin de réduire encore plus l'erreur. Elle est maintenant très petite et la procédure est terminée. L'opérateur doit cliquer sur le bouton « Arrêt ». </para>
                 <screenshot>
                     <screeninfo
 >Assistant d'alignement polaire </screeninfo>
@@ -989,7 +989,7 @@
 > et <emphasis
 >Déplacement d'étoile</emphasis
 >. En choisissant ce schéma, le système place un triangle jaune/vert/violet sur l'écran. Il peut être déplacé en cliquant près d'une étoile et le coin jaune/violet se déplace vers cette étoile. L'utilisateur corrige les erreurs d'alignement polaire en ajustant d'abord l'azimut de la monture afin que l'étoile sélectionnée se déplace le long du côté jaune du triangle. Une fois que l'étoile se trouve près du prochain sommet, l'azimut doit être ajusté pour l'étoile se déplace le long du côté vert du triangle. Une fois que l'étoile est sur le sommet vert/violet, la monture est alignée sur la polaire et l'opérateur peut cliquer sur le bouton <emphasis
->stop</emphasis
+>Arrêt</emphasis
 >. </para>
                   <para
 >La différence entre les deux méthodes réside dans le fait que dans la première le système tente de suivre l'étoile sélectionnée et place un cercle autour d'elle. Il tente également de mettre à jour la ligne <emphasis

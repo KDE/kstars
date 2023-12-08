@@ -1,4 +1,4 @@
-<sect2 id="ekos-tutorials">
+<sect1 id="ekos-tutorials">
     <title
 >Guies d'aprenentatge de l'Ekos</title>
 <indexterm>
@@ -9,7 +9,7 @@
     <tertiary
 >Guies d'aprenentatge</tertiary>
 </indexterm>
-<sect3 id="ekos-tutorials-viewer">
+<sect2 id="ekos-tutorials-viewer">
     <title
 >Visualitzador</title>
     <para
@@ -34,5 +34,5 @@
 > i la contrasenya predeterminada és <userinput
 >smate</userinput
 >. </para>
-</sect3>
 </sect2>
+</sect1>

@@ -1,4 +1,4 @@
-<sect2 id="ekos-align">
+<sect1 id="ekos-align">
     <title
 >Alinear</title>
     <indexterm>
@@ -9,7 +9,7 @@
         <tertiary
 >Alinea</tertiary>
     </indexterm>
-    <sect3 id="ekos-align-introduction">
+    <sect2 id="ekos-align-introduction">
         <title
 >Introducció</title>
         <screenshot>
@@ -39,9 +39,9 @@
 >L'Ekos també proporciona una eina d'assistent d'alineació polar per a corregir els errors d'alineació polar. Pren tres imatges, girant entre elles, i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Retorna a l'usuari els ajustos d'altitud i azimut necessaris per alinear aquests eixos. Aquestes imatges es prenen normalment a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant prop del meridià i girant cap a l'est o cap a l'oest. </para>
         <para
 >Com a mínim, necessitareu una CCD/càmera web i un telescopi que admeti les ordres orienta i sincronitza. El telescopi comercial més popular avui dia les admet sense problemes. </para>
-    </sect3>
+    </sect2>
 
-        <sect3 id="ekos-align-typical">
+        <sect2 id="ekos-align-typical">
             <title
 >Ús típic</title>
             <para
@@ -106,9 +106,9 @@
 >: Només resol la imatge i mostra les coordenades de la solució. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
     
-    <sect3 id="ekos-solver-options">
+    <sect2 id="ekos-solver-options">
       <title
 >Configuració de les opcions de l'StellarSolver </title>
         <screenshot>
@@ -150,9 +150,9 @@
 > o Sistema Mundial de Coordenades («World-Coordinate-System») és un sistema per a incrustar la informació de les coordenades equatorials dins de la imatge. Per tant, quan visualitzeu una imatge solucionada, podreu passar-hi per sobre i veure la coordenada de cada píxel. També podeu fer clic a qualsevol lloc de la imatge i orientar-hi el telescopi. Es recomana mantenir activada aquesta opció. <guilabel
 >Superposició</guilabel
 > superposiciona imatges capturades en el mapa celeste del &kstars;. </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="ekos-solver-external">
+    <sect2 id="ekos-solver-external">
       <title
 >Configuració dels programes externs de l'StellarSolver </title>
         <screenshot>
@@ -178,9 +178,9 @@
 >Haureu d'assegurar-vos que els camins són correctes per al solucionador que trieu. L'element de menú superior <guilabel
 >Seleccioneu per carregar un dels conjunts predeterminats</guilabel
 > normalment configura els quadres correctament. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-solver-scale">
+    <sect2 id="ekos-solver-scale">
       <title
 >Configuració de l'escala i posició de l'StellarSolver </title>
         <screenshot>
@@ -220,9 +220,9 @@
 > fins que es resolguin aquests problemes. Com s'ha dit, això donarà lloc a temps de resolució més llargs. L'<guilabel
 >Actualització automàtica</guilabel
 > omplirà el quadre de posició amb la posició trobada en la solució més recent amb èxit. No obstant això, una orientació actualitzarà la posició a la posició on el telescopi creu que està apuntant després de l'orientació. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-align-profiles">
+    <sect2 id="ekos-align-profiles">
       <title
 >Configuració dels perfils de l'StellarSolver </title>
         <screenshot>
@@ -290,7 +290,7 @@
 >Tots els camps d'entrada tenen consells que es mostren si passeu el ratolí per sobre del quadre d'entrada. </para
 ><para
 >Podeu fer canvis als valors i desar el perfil si ho desitgeu, o restaurar els valors originals del perfil. </para>
-        <sect4 id="profile-star-extraction">
+        <sect3 id="profile-star-extraction">
           <title
 >Paràmetres d'extracció d'estrelles</title>
           <para
@@ -323,10 +323,10 @@
 > s'ha d'ajustar aproximadament al «seeing» de la vostra àrea en píxels. La imatge se suavitza amb aquesta quantitat abans que s'iniciï la detecció d'estrelles.</para
 ></listitem>
         </itemizedlist>
-        </sect4
+        </sect3
 >    
 
-        <sect4 id="profile-star-filtering">
+        <sect3 id="profile-star-filtering">
         <title
 >Paràmetres de filtratge d'estrelles</title>
           <para
@@ -371,9 +371,9 @@
 > elimina les estrelles els valors de píxel de les quals superen el percentatge del valor màxim de píxel per a eliminar les estrelles saturades.</para
 ></listitem>
              </itemizedlist>
-        </sect4>
+        </sect3>
 
-        <sect4 id="profile-plate-solving">
+        <sect3 id="profile-plate-solving">
           <title
 >Paràmetres de solució de plaques</title>
           <para
@@ -394,12 +394,12 @@
 > és el nombre màxim de segons que la solució de la placa s'executarà abans que s'exhaureixi.</para
 ></listitem>
              </itemizedlist>
-        </sect4
+        </sect3
 >    
-    </sect3
+    </sect2
 >    
     
-    <sect3 id="ekos-align-download-index-files">
+    <sect2 id="ekos-align-download-index-files">
       <title
 >Baixar els fitxers d'índex</title>
       <para
@@ -412,7 +412,7 @@
 >. </para>
         <para
 >Per als solucionadors fora de línia (i els remots), els fitxers d'índex són necessaris perquè el solucionador funcioni. La col·lecció completa de fitxers d'índex és enorme (més de 30 GB), però només haureu de baixar el que calgui per a la configuració del vostre equip. Els fitxers d'índex s'ordenen segons l'interval camp de visió (CDV) (Field-of-View -FOV-) que cobreixen. Hi ha dos mètodes per a obtenir els fitxers d'índex necessaris: el suport nou de baixada al mòdul d'alineació i la forma manual anterior. </para>
-        <sect4 id="ekos-align-automatic-download">
+        <sect3 id="ekos-align-automatic-download">
             <title
 >Baixar automàticament</title>
             <screenshot>
@@ -474,8 +474,8 @@
 >Haureu de baixar tots els fitxers requerits i, si teniu prou espai al disc dur, també podreu baixar els índexs recomanats. Si s'instal·la un fitxer d'índex, s'haurà de marcar la marca de selecció, en cas contrari, marqueu-la per a baixar el fitxer d'índex corresponent. Si us plau, baixeu només un fitxer a la vegada, especialment per als fitxers més grans. Podria ser que se us demani que introduïu la contrasenya de l'administrador (la predeterminada a StellarMate és <userinput
 >smate</userinput
 >) per a instal·lar els fitxers. Un cop hàgiu instal·lat tots els fitxers necessaris, podreu començar a utilitzar immediatament el solucionador «astrometry.net» fora de línia. </para>
-        </sect4>
-        <sect4 id="ekos-align-manual-download">
+        </sect3>
+        <sect3 id="ekos-align-manual-download">
                 <title
 >Baixada manual</title>
                 <para
@@ -686,10 +686,10 @@
 >DownThemAll!</ulink
 > perquè el &firefox; baixi els paquets de Debian, ja que el gestor de baixades integrat dels navegadors pot tenir problemes en baixar paquets grans. </para>
                 </note>
-            </sect4>
-        </sect3>
+            </sect3>
+        </sect2>
 
-    <sect3 id="ekos-align-get-astrometry">
+    <sect2 id="ekos-align-get-astrometry">
         <title
 >Obtenir opcionalment l'«astrometry.net»</title>
 
@@ -783,9 +783,9 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </sect3>
+    </sect2>
     
-        <sect3 id="ekos-align-how-to-use">
+        <sect2 id="ekos-align-how-to-use">
             <title
 >Com emprar-lo?</title>
             <para
@@ -814,9 +814,9 @@
 >Mai</emphasis
 >, no resoldrà una imatge al o a prop del pol celeste (a menys que s'utilitzi l'eina assistent d'alineació polar de l'Ekos). Almenys s'orienta fins a 20 graus del pol celeste abans de resoldre la primera imatge. El fet de resoldre molt a prop dels pols empitjorarà l'apuntament de la muntura, de manera que cal evitar-ho. </para>
             </warning>
-        </sect3>
+        </sect2>
         
-        <sect3 id="ekos-align-alignment-settings">
+        <sect2 id="ekos-align-alignment-settings">
             <title
 >Configuració de l'alineació</title>
             <para
@@ -867,9 +867,9 @@
 >: Si s'ha d'utilitzar l'esquema de sostracció de la imatge fosca abans d'analitzar la imatge capturada. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
 
-        <sect3 id="ekos-align-polaralignment">
+        <sect2 id="ekos-align-polaralignment">
             <title
 >Alineació polar</title>
                 <para
@@ -925,7 +925,7 @@
                     </mediaobject>
                 </screenshot>
 
-            <sect4 id="ekos-align-platesolvecorrection">
+            <sect3 id="ekos-align-platesolvecorrection">
                 <title
 >Esquema de correcció de solució de plaques</title>
                 
@@ -986,8 +986,8 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
-                </sect4>
-                <sect4 id="ekos-align-move-star-correction">
+                </sect3>
+                <sect3 id="ekos-align-move-star-correction">
                 <title
 >Esquema de correcció d'estrella en moviment</title>
 
@@ -1011,6 +1011,6 @@
 > i moveu l'estrella a ull fins que estigui a prop de l'objectiu final. Un exemple d'utilitzar aquesta tècnica es mostra en aquest vídeo: <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
 >https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
 > </para>
-            </sect4>
-        </sect3>
-</sect2>
+            </sect3>
+        </sect2>
+</sect1>

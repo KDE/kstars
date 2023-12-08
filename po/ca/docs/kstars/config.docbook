@@ -356,7 +356,7 @@
 <para
 >Per a una explicació detallada de la suite d'astrofotografia <guilabel
 >Ekos</guilabel
->, vegeu la secció <link linkend="tool-ekos"
+>, vegeu la secció <link linkend="ekos"
 >Ekos</link
 > d'aquest manual. </para>
 
@@ -1740,25 +1740,25 @@
 >article corresponent de la Wikipedia</ulink
 >. Aquesta pàgina permet configurar la presentació i el processament de les dades FITS al &kstars;. </para>
 <para
->El plafó esquerre és per a configurar el visualitzador FITS. </para>
+>El plafó esquerre és per a configurar el visualitzador de FITS. </para>
 <para
 >Marqueu l'element <guilabel
->Usa el visualitzador FITS</guilabel
-> si voleu mostrar automàticament les imatges rebudes al visualitzador FITS. </para>
+>Usa el visualitzador de FITS</guilabel
+> si voleu mostrar automàticament les imatges rebudes al visualitzador de FITS. </para>
 <para
 >L'opció <guilabel
 >Pestanya de previsualització única</guilabel
 > és per a mostrar totes les imatges FITS capturades en una sola pestanya en lloc de múltiples pestanyes per imatge. L'opció <guilabel
 >Finestra única de captura</guilabel
-> és per a mostrar les imatges FITS capturades de totes les càmeres en una única finestra del visualitzador FITS, en lloc d'una finestra dedicada per a cada càmera. L'opció <guilabel
+> és per a mostrar les imatges FITS capturades de totes les càmeres en una única finestra del visualitzador de FITS, en lloc d'una finestra dedicada per a cada càmera. L'opció <guilabel
 >Obre una única finestra</guilabel
-> és per a mostrar les imatges FITS obertes en una única finestra del visualitzador FITS en lloc d'una finestra dedicada a cada fitxer i l'opció <guilabel
+> és per a mostrar les imatges FITS obertes en una única finestra del visualitzador de FITS en lloc d'una finestra dedicada a cada fitxer i l'opció <guilabel
 >Finestra independent</guilabel
-> és per a fer que la finestra del visualitzador FITS sigui independent del &kstars;. </para>
+> és per a fer que la finestra del visualitzador de FITS sigui independent del &kstars;. </para>
 <para
 >El plafó dret mostra les opcions del processament. L'opció <guilabel
 >Autoestirat</guilabel
-> permet aplicar sempre l'estirament automàtic a les imatges en el visualitzador FITS, l'opció <guilabel
+> permet aplicar sempre l'estirament automàtic a les imatges en el visualitzador de FITS, l'opció <guilabel
 >Mode de recursos limitats</guilabel
 > és per a habilitar el mode de recursos limitats per a desactivar qualsevol operació intensiva en recursos, és a dir: <guilabel
 >Reconstrucció automàtica des de Bayer</guilabel
@@ -1793,7 +1793,7 @@
 >. </para>
 </sect1>
 
-<sect1 id="ekos">
+<sect1 id="ekos-window">
 <title
 >Ekos</title>
 <screenshot>
@@ -1812,7 +1812,7 @@
 <para
 >L'Ekos és una suite d'astrofotografia, una solució completa que pot controlar tots els dispositius INDI incloent nombrosos telescopis, CCD, rèflex digitals, enfocadors, filtres i molt més. L'Ekos admet el seguiment d'alta precisió utilitzant un solucionador d'astrometria en línia i fora de línia, capacitats d'enfocament automàtic i guiatge automàtic, i la captura d'una o de múltiples imatges utilitzant la potent capacitat del gestor de seqüències integrat. Per a una explicació detallada sobre l'<guilabel
 >Ekos</guilabel
->, vegeu la <link linkend="tool-ekos"
+>, vegeu la <link linkend="ekos"
 >secció Ekos d'aquest manual</link
 >. </para>
 </sect1>

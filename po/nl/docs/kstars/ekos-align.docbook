@@ -1,4 +1,4 @@
-<sect2 id="ekos-align">
+<sect1 id="ekos-align">
     <title
 >Uitlijnen</title>
     <indexterm>
@@ -9,7 +9,7 @@
         <tertiary
 >Uitlijnen</tertiary>
     </indexterm>
-    <sect3 id="ekos-align-introduction">
+    <sect2 id="ekos-align-introduction">
         <title
 >Inleiding</title>
         <screenshot>
@@ -39,9 +39,9 @@
 >Ekos biedt ook een assisterend hulpmiddel voor polair uitlijnen om polaire uitlijnfouten te corrigeren. Het neemt drie afbeeldingen, met zwenken tussen de afbeeldingen en berekent de offset tussen de as van de opstelling en de polaire as. Het koppelt terug aan de gebruiker de aanpassingen in hoogte en azimuth nodig om deze assen uit te lijnen. Deze afbeeldingen worden typisch genomen dichtbij de hemelpool (dichtbij de Poolster voor het Noordelijk halfrond) maar kan goed werken van overal elders, gewoonlijk beginnend dichtbij de meridiaan en zwenkend Oost of West. </para>
         <para
 >U heeft minstens een CCD/Webcam nodig en een telescoop die luistert naar commando's voor draaien &amp; sync. De meeste commerciële telescopen voldoen hier tegenwoordig aan. </para>
-    </sect3>
+    </sect2>
 
-        <sect3 id="ekos-align-typical">
+        <sect2 id="ekos-align-typical">
             <title
 >Typisch gebruik</title>
             <para
@@ -106,9 +106,9 @@
 >: Alleen oplossen van afbeelding, en de oplossing tonen </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
     
-    <sect3 id="ekos-solver-options">
+    <sect2 id="ekos-solver-options">
       <title
 >Opties voor StellarSolver configureren </title>
         <screenshot>
@@ -150,9 +150,9 @@
 >: World-Coordinate-System is een systeem voor het inbedden van informatie over equatoriale coördinaten in de afbeelding. Wanneer bij het beschouwen van een opgeloste afbeelding, kunt u de muisaanwijzer er boven houden en de coördinaten bekijken van elke pixel afzonderlijk. U kunt ook ergens in de afbeelding klikken, en de telescoop opdracht geven daar naar toe te draaien. Het is zeer aan te raden deze optie in te schakelen. <guilabel
 >Overlay</guilabel
 > legt opgenomen afbeeldingen over de hemelkaart van &kstars;. </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="ekos-solver-external">
+    <sect2 id="ekos-solver-external">
       <title
 >Externe programma's van StellarSolver configureren </title>
         <screenshot>
@@ -178,9 +178,9 @@
 >U moet nagaan dat de paden juist zijn voor de door u gekozen oplosser. Het hoofdmenu-item <guilabel
 >selecteer een van de standaard sets</guilabel
 > configureert de vakken gewoonlijk juist. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-solver-scale">
+    <sect2 id="ekos-solver-scale">
       <title
 >Schaal en positie van StellarSolver configureren </title>
         <screenshot>
@@ -220,9 +220,9 @@
 > willen deactiveren totdat die problemen zijn opgelost. Zoals genoemd, dit zal resulteren in langere oplostijden. <guilabel
 >Automatisch bijwerken</guilabel
 > zal het vak positie met de positie gevonden in de meest recente succesvolle oplossing invullen. Echter, een draaiing zal de positie naar de positie waar de telescoop denkt naar te wijzen na de draaiing bijwerken. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-align-profiles">
+    <sect2 id="ekos-align-profiles">
       <title
 >Profielen van StellarSolver configureren </title>
         <screenshot>
@@ -290,7 +290,7 @@
 >Alle invoervelden hebben tekstballonnen die getoond worden als u uw muis boven het invoervak laat zweven. </para
 ><para
 >U kunt wijzigingen in de waarden aanbrengen en het profiel opslaan als u dat wil of de originele waarden van het profiel herstellen. </para>
-        <sect4 id="profile-star-extraction">
+        <sect3 id="profile-star-extraction">
           <title
 >Sterextractie parameters</title>
           <para
@@ -323,10 +323,10 @@
 > zou aangepast moeten worden tot ruwweg het geziene in uw gebied in pixels. De afbeelding wordt glad gestreken met deze hoeveelheid voordat detectie van sterren wordt geïnitieerd.</para
 ></listitem>
         </itemizedlist>
-        </sect4
+        </sect3
 >    
 
-        <sect4 id="profile-star-filtering">
+        <sect3 id="profile-star-filtering">
         <title
 >Filterparameters van ster</title>
           <para
@@ -371,9 +371,9 @@
 > verwijdert sterren waarvan de pixelwaarden dat percentage van de maximale pixelwaarde overschrijdt--om verzadigde sterren te verwijderen.</para
 ></listitem>
              </itemizedlist>
-        </sect4>
+        </sect3>
 
-        <sect4 id="profile-plate-solving">
+        <sect3 id="profile-plate-solving">
           <title
 >Parameters voor oplossen van platen</title>
           <para
@@ -394,12 +394,12 @@
 > is het maximale aantal seconden dat plaat-oplossen zal draaien voordat de tijd verloopt.</para
 ></listitem>
              </itemizedlist>
-        </sect4
+        </sect3
 >    
-    </sect3
+    </sect2
 >    
     
-    <sect3 id="ekos-align-download-index-files">
+    <sect2 id="ekos-align-download-index-files">
       <title
 >Downloaden Index-bestanden</title>
       <para
@@ -412,7 +412,7 @@
 >. </para>
         <para
 >Voor offline (en externe) oplossers, zijn indexbestanden nodig. De complete verzameling indexbestanden is enorm (meer dan 30 GB), maar u hoeft alleen de nodige bestanden te downloaden. Indexbestanden zijn gesorteerd op GV (gezichtsveld, FOV: field of view)-bereik. Er zijn twee manieren voor het ophalen van de nodige indexbestanden: de nieuwe downloadondersteuning in de uitlijnmodule, en de oude handmatige manier. </para>
-        <sect4 id="ekos-align-automatic-download">
+        <sect3 id="ekos-align-automatic-download">
             <title
 >Automatische download</title>
             <screenshot>
@@ -474,8 +474,8 @@
 >U moet alle vereiste bestanden downloaden, en als u ruim voldoende ruimte heeft op de harde schijf, kunt u ook de aanbevolen indexbestanden downloaden. Als een indexbestand is geïnstalleerd, wordt dit met een merkteken aangegeven, en anders selecteert u het voor het ophalen van het betreffende indexbestand. Download de bestanden een voor een, vooral de grotere bestanden. Het kan zijn dat u het wachtwoord moet invoeren van de beheerder (root, standaard is  dit <userinput
 >smate</userinput
 > in StellarMate), als u de bestanden installeert. Na het installeren van alle vereiste bestanden kunt de offline astrometry.net oplosser direct gebruiken. </para>
-        </sect4>
-        <sect4 id="ekos-align-manual-download">
+        </sect3>
+        <sect3 id="ekos-align-manual-download">
                 <title
 >Handmatig downloaden</title>
                 <para
@@ -686,10 +686,10 @@
 >DownThemAll!</ulink
 > voor &firefox;, voor het downloaden van Debian-pakketten, omdat de ingebouwde downloadmanager in browsers problemen kunnen hebben met het downloaden van grote pakketten. </para>
                 </note>
-            </sect4>
-        </sect3>
+            </sect3>
+        </sect2>
 
-    <sect3 id="ekos-align-get-astrometry">
+    <sect2 id="ekos-align-get-astrometry">
         <title
 >Verkrijg optioneel astrometry.net</title>
 
@@ -783,9 +783,9 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </sect3>
+    </sect2>
     
-        <sect3 id="ekos-align-how-to-use">
+        <sect2 id="ekos-align-how-to-use">
             <title
 >Hoe te gebruiken?</title>
             <para
@@ -814,9 +814,9 @@
 >Nooit</emphasis
 > een afbeelding oplossen van een afbeelding op of nabij de hemelpool (behalve bij gebruik van de assistent voor uitlijnen op de pool). Draai minstens 20  graden weg van de hemelpool, voordat de eerste opname wordt opgelost. Oplossen heel dicht bij de polen maakt de richtfout van uw opstelling slechter, dus dat moet worden voorkomen. </para>
             </warning>
-        </sect3>
+        </sect2>
         
-        <sect3 id="ekos-align-alignment-settings">
+        <sect2 id="ekos-align-alignment-settings">
             <title
 >Uitlijninstellingen</title>
             <para
@@ -867,9 +867,9 @@
 >: of het aftrekschema donkere-afbeelding gebruiken voor het analyseren van de opgenomen afbeelding. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
 
-        <sect3 id="ekos-align-polaralignment">
+        <sect2 id="ekos-align-polaralignment">
             <title
 >Op pool uitlijnen</title>
                 <para
@@ -927,7 +927,7 @@
                     </mediaobject>
                 </screenshot>
 
-            <sect4 id="ekos-align-platesolvecorrection">
+            <sect3 id="ekos-align-platesolvecorrection">
                 <title
 >Correctieschema van oplossen van platen</title>
                 
@@ -988,8 +988,8 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
-                </sect4>
-                <sect4 id="ekos-align-move-star-correction">
+                </sect3>
+                <sect3 id="ekos-align-move-star-correction">
                 <title
 >Correctieschema Ster verplaatsen</title>
 
@@ -1013,6 +1013,6 @@
 > en verplaats de ster met het oog totdat het dicht bij het uiteindelijke doel is. Een voorbeeld van het gebruik van deze techniek wordt getoond in deze video: <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
 >https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
 > </para>
-            </sect4>
-        </sect3>
-</sect2>
+            </sect3>
+        </sect2>
+</sect1>

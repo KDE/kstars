@@ -1,4 +1,4 @@
-<sect2 id="ekos-scheduler">
+<sect1 id="ekos-scheduler">
     <title
 >Programador</title>
     <indexterm>
@@ -22,13 +22,13 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="ekos-scheduler-introduction">
+    <sect2 id="ekos-scheduler-introduction">
       <title
 >Introducció</title>
         <para
 >El programador d'Ekos és un component important del vostre flux de treball amb les imatges. Connecta amb INDI, inicia i para tots els altres mòduls d'Ekos, programa les tasques d'acord amb les seues restriccions i prioritats, controla estes tasques mentre s'executen i després para el sistema amb seguretat quan s'han fet les tasques, o abans de l'alba. Ja siga que esteu executant sessions d'obtenció d'imatges en múltiples dies per a múltiples objectius, o senzillament intentant crear imatges d'un únic objectiu durant unes poques hores, és aconsellable que el programador controle les vostres sessions d'obtenció d'imatges. </para>
-    </sect3>
-    <sect3 id="scheduler-table">
+    </sect2>
+    <sect2 id="scheduler-table">
         <title
 >Taula del programador</title>
         <para
@@ -66,8 +66,8 @@
             </listitem>
         </itemizedlist>
 
-    </sect3>
-    <sect3 id="scheduling-algorithm">
+    </sect2>
+    <sect2 id="scheduling-algorithm">
         <title
 >Algorisme de programació</title>
         <para
@@ -84,14 +84,14 @@
 >Hi ha una opció de casella de selecció en el menú d'opcions del programador anomenada <guilabel
 >Utilitza la planificació voraç</guilabel
 >, la qual està marcada de manera predeterminada. Quan se selecciona, el sistema funciona com es descriu més amunt. Quan es desselecciona, s'impedix que el programador planifique tasques de prioritat més baixa quan les de prioritat més alta no es poden executar sense completar. Açò resulta en un ús menys eficient del sistema, però pot donar-vos més control sobre la planificació. </para>
-    </sect3>
-    <sect3 id="scheduler-files">
+    </sect2>
+    <sect2 id="scheduler-files">
         <title
 >Fitxers del programador (.esq)</title>
         <para
 >La taula del programador amb la seua llista de tasques i atributs es pot guardar en el disc i tornar-la a llegir. S'escriu en un fitxer «.esq». Controla l'escriptura actual de la taula del programador al disc, i per a llegir altres fitxers «.esq» que es troben damunt de la taula a la dreta. </para>
-    </sect3>
-    <sect3 id="ekos-scheduler-settings">
+    </sect2>
+    <sect2 id="ekos-scheduler-settings">
       <title
 >Configuració</title>
         <para
@@ -172,8 +172,8 @@
 >: Condicions que activen la compleció de la tasca del programador. La selecció predeterminada és senzillament marcar la tasca del programador com a completada una vegada s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència un nombre de vegades, indefinidament o fins a una hora determinada. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="other-options">
+    </sect2>
+    <sect2 id="other-options">
         <title
 >Altres opcions</title>
         <para
@@ -199,7 +199,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-       <sect4 id="remember-job-progress">
+       <sect3 id="remember-job-progress">
         <title
 >Recorda el progrés de la tasca</title>
         <para
@@ -218,8 +218,8 @@
 > o <guilabel
 >Repetix fins que es finalitze</guilabel
 >. </para>
-       </sect4>
-       <sect4 id="group-repeats">
+       </sect3>
+       <sect3 id="group-repeats">
         <title
 >Repeticions de grup</title>
         <para
@@ -240,17 +240,17 @@
 >En termes pràctics, imagineu que teniu un mosaic de sis quadros que voleu alternar. Podeu donar a totes estes tasques el mateix nom de grup, &pex;, <guilabel
 >Repetix 5 vegades</guilabel
 >. Després, s'executarien en un pas de bloqueig. La cadència d'el canvi de tasques estaria controlada per la llargària del fitxer de seqüències assignat a cadascuna d'estes tasques. No voldreu que la cadència siga massa curta (&pex;, capturar una imatge de 2 minuts), ja que canviar de tasca suposa una sobrecàrrega. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i, fins i tot enfocar. </para>
-       </sect4>
-       <sect4 id="repeat-all-jobs">
+       </sect3>
+       <sect3 id="repeat-all-jobs">
         <title
 >Repetix totes les tasques</title>
         <para
 >Hi ha una casella de selecció i una entrada de número just davall de la taula de tasques del programador que permet repetir tota la planificació N vegades. Açò es pot utilitzar per a alternar entre les tasques. Podeu senzillament llistar les tasques en la planificació, establiu-la perquè es repetisca N vegades i les tasques es repetiran. Tot i açò, este canvi és incompatible amb <guilabel
 >Recorda el progrés de la tasca</guilabel
 > (a dalt) i no estarà disponible si se selecciona. (Nota: recordeu que es recomana esta última opció). </para>
-       </sect4>
-    </sect3>
-    <sect3 id="workflow">
+       </sect3>
+    </sect2>
+    <sect2 id="workflow">
         <title
 >Flux de treball</title>
 
@@ -285,9 +285,9 @@
 >Tancament </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-procedure">
+    <sect2 id="ekos-scheduler-startup-procedure">
         <title
 >Procediment d'inici</title>
         <para
@@ -332,9 +332,9 @@
 > predeterminat és de 5 minuts abans del temps d'<emphasis
 >inici</emphasis
 >). Una vegada finalitzat el procediment d'inici, el programador triarà l'objectiu de la tasca del programador i iniciarà el procés de la seqüència. Si s'especifica un script d'inici, este s'executarà primer. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-data-acquisition">
+    <sect2 id="ekos-scheduler-data-acquisition">
         <title
 >Adquisició de les dades</title>
         <para
@@ -375,9 +375,9 @@
 >Nota: algunes de les interaccions entre els mòduls són iniciades pels mateixos mòduls, però són supervisades pel programador. Estes inclouen inversions del meridià, execucions d'enfocament automàtic iniciades per un canvi de temperatura o l'expiració del temporitzador, així com els requisits mínims de desviació del guiatge per a la captura. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-shutdown">
+    <sect2 id="ekos-scheduler-shutdown">
         <title
 >Tancament</title>
         <para
@@ -400,9 +400,9 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-weather-monitoring">
+    <sect2 id="ekos-scheduler-weather-monitoring">
         <title
 >Seguiment del clima</title>
         <para
@@ -427,9 +427,9 @@
 >: Les condicions meteorològiques són perjudicials per a la seguretat de l'observatori i s'hauria d'iniciar el tancament tan prompte com siga possible. </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+    <sect2 id="ekos-scheduler-startup-and-shutdown-scripts">
         <title
 >Scripts durant l'inici i tancament</title>
         <para
@@ -465,9 +465,9 @@ exit(0)
 > per tal que Ekos els invoqui (&pex;, utilitzeu <userinput
 >chmod +x script_inici.py</userinput
 > per a marcar l'script com a executable). El programador d'Ekos permet una operació robòtica veritablement senzilla sense la necessitat de cap intervenció humana en cap pas del procés. Sense presència humana, cada vegada és més crítica recuperar amb facilitat els errors durant qualsevol etapa de l'observació. Emprant les notificacions de &plasma;, l'usuari podrà configurar alarmes audibles i notificacions per correu electrònic per als diferents esdeveniments del programador. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-mosaic-Planner">
+    <sect2 id="ekos-scheduler-mosaic-Planner">
         <title
 >Planificador del mosaic</title>
         <screenshot>
@@ -629,5 +629,5 @@ exit(0)
 >Feu clic en <guibutton
 >Crea tasques</guibutton
 > per a generar les tasques del programador del mosaic i afegir-les a la cua del planificador. Podeu editar les tasques individualment, com a les tasques normals del programador. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

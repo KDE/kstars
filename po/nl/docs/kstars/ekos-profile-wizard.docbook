@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-wizard">
+<sect1 id="ekos-profile-wizard">
     <title
 >Profielassistent</title>
     <indexterm>
@@ -143,4 +143,4 @@
 >In het bovenstaande voorbeeld, kiezen we drivers voor Externe Astrometrie, Watchdog en SkySafari. De details voor elk hiervan ziet u in de tekstballonnen wanneer u de muisaanwijzer er boven houdt. Als u klaar bent, klikt u op de knop <guibutton
 >Profiel aanmaken</guibutton
 >. U zou nu de Profieleditor moeten zien. </para>
-</sect2>
+</sect1>

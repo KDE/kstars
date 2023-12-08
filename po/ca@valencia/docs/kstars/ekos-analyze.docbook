@@ -1,4 +1,4 @@
-<sect2 id="ekos-analyze">
+<sect1 id="ekos-analyze">
     <title
 >Analitzar</title>
     <indexterm>
@@ -22,7 +22,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="analyze-Introduction">
+    <sect2 id="analyze-Introduction">
         <title
 >Introducció</title>
         <para
@@ -61,14 +61,14 @@
 > mostrarà les dades més recents (podreu controlar l'amplària fent-hi zoom). </para>
         <para
 >Les tres pantalles principals es poden ocultar per a fer més espai per a les altres pantalles. Hi ha caselles de verificació a l’esquerra dels títols de la secció (Línia de temps, Estadístiques i Detalls) que permeten i tapen les pantalles. </para>
-    </sect3>
-    <sect3 id="analyze-timeline">
+    </sect2>
+    <sect2 id="analyze-timeline">
         <title
 >Línia de temps</title>
         <para
 >La línia de temps mostra els principals processos d'Ekos i quan han sigut actius. Per exemple, la línia <guilabel
 >Captura</guilabel
-> mostra quan es van prendre les imatges (verd marcit per a RGB o codificat per color del filtre) i quan es va interrompre l'obtenció de les imatges (es mostra com a seccions en roig). En fer clic damunt d'una secció de la captura es proporcionarà informació sobre esta imatge, i en fer-hi doble clic damunt d'una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
+> mostra quan es van prendre les imatges (verd marcit per a RGB o codificat per color del filtre) i quan es va interrompre l'obtenció de les imatges (es mostra com a seccions en roig). En fer clic damunt d'una secció de la captura es proporcionarà informació sobre esta imatge, i en fer-hi doble clic damunt d'una apareixerà la imatge presa en un visor de FITS, si està disponible. </para>
         <note>
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel
@@ -81,8 +81,8 @@
 >, es mostrarà la informació de la sessió d'enfocament i es mostrarà la posició al davant dels mesuraments HFR d'esta sessió. En fer clic damunt d'un segment al <guilabel
 >Sistema de guiatge</guilabel
 >, es mostrarà un gràfic de deriva des d'esta sessió (si s'està guiant) i les estadístiques RMS de la sessió. Les altres línies de temps mostraran informació d'estat quan es fa clic damunt seu. </para>
-    </sect3>
-    <sect3 id="analyze-statistics">
+    </sect2>
+    <sect2 id="analyze-statistics">
         <title
 >Estadístiques</title>
         <para
@@ -103,5 +103,5 @@
 >L'estadística que es mostra a l'eix esquerre també es pot escalar (incòmodament) utilitzant la <mousebutton
 >roda</mousebutton
 > del ratolí. Es pot desplaçar arrossegant el ratolí cap amunt o cap avall sobre els números de l'eix esquerre. Quan feu clic en qualsevol lloc dins del gràfic d'estadístiques, es completaran els valors de les estadístiques mostrades. Marcar l'última casella farà que els valors més recents (d'una sessió en viu) siguen les estadístiques que es mostren. Este gràfic s'ampliarà i es desplaçarà horitzontalment en coordinació amb la línia de temps. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

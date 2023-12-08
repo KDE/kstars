@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->Una volta ràpida pel &kstars;</title>
+>Una volta ràpida pel mapa celeste del &kstars;</title>
 
 <para
->Aquest capítol presenta una visita guiada pel &kstars;, introduint-vos a la majoria de característiques importants. </para>
+>Aquest capítol presenta una visita guiada pel mapa celeste del &kstars;, introduint-vos a la majoria de característiques importants. </para>
 
 <screenshot>
 <screeninfo
@@ -478,7 +478,7 @@
 <title
 >Final de la visita guiada</title>
 <para
->Aquí conclou la volta ràpida pel &kstars;, tot i que encara no hem esgarrapat la superfície de les característiques disponibles. El &kstars; inclou <link linkend="tools"
+>Aquí conclou la volta ràpida pel mapa celeste del &kstars;, tot i que encara no hem esgarrapat la superfície de les característiques disponibles. El &kstars; inclou <link linkend="tools"
 >eines astronòmiques</link
 > molt útils, podeu <link linkend="indi"
 >controlar el vostre telescopi</link

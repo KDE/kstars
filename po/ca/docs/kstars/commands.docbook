@@ -34,7 +34,7 @@
 ></term>
 <listitem
 ><para
->Obre una imatge a l'eina del visualitzador FITS. </para
+>Obre una imatge al visualitzador de FITS. </para
 ></listitem>
 </varlistentry>
 
@@ -709,7 +709,7 @@
 ></term>
 <listitem
 ><para
->Un submenú que llista les superposicions del cel que hi ha habilitades. Seleccioneu l'element de menú <guimenuitem
+>Un submenú que llista els rastreigs del cel que hi ha habilitats. Seleccioneu l'element de menú <guimenuitem
 >Configuració HiPS...</guimenuitem
 > per a configurar les superposicions del cel de <link linkend="hips"
 >HiPS</link
@@ -1025,9 +1025,9 @@
 ></term>
 <listitem>
 <para
->Obre <link linkend="tool-ekos"
+>Obre <link linkend="ekos"
 >Ekos</link
->, una completa i potent eina per a l'astrofotografia. Amb Ekos, podreu alinear i guiar el telescopi, enfocar la seva CCD i capturar imatges emprant una interfície intuïtiva i fàcil. </para>
+>, una completa i potent eina per a l'astrofotografia. Amb Ekos, podreu alinear i guiar el telescopi, enfocar la CCD i capturar imatges emprant una interfície intuïtiva i fàcil. </para>
 </listitem>
 </varlistentry>
 
@@ -1385,7 +1385,7 @@
 ><imagedata fileref="kstars_fitsviewer.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > <guiicon
->Commuta el visualitzador FITS</guiicon
+>Commuta el visualitzador de FITS</guiicon
 ></para
 ></listitem>
           <listitem
@@ -2085,7 +2085,7 @@
 ><para
 ><guimenuitem
 >Mostra la imatge SDSS</guimenuitem
->: baixa una imatge SDSS (Sloan Digital Sky Survey -Sloan, estudi digital del cel-) de l'objecte des d'Internet, i la mostra a l'eina del visualitzador d'imatges. </para
+>: baixa una imatge SDSS (Sloan Digital Sky Survey) de l'objecte des d'Internet, i la mostra a l'eina del visualitzador d'imatges. </para
 ></listitem>
 </varlistentry>
 
@@ -2096,7 +2096,7 @@
 ><para
 ><guimenuitem
 >Mostra la imatge DSS</guimenuitem
->: baixa una imatge DSS (Digitized Sky Survey -estudi digitalitzat del cel-) de l'objecte des d'Internet, i la mostra a l'eina del visualitzador d'imatges. </para
+>: baixa una imatge DSS (Digitized Sky Survey) de l'objecte des d'Internet, i la mostra a l'eina del visualitzador d'imatges. </para
 ></listitem>
 </varlistentry>
 

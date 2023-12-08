@@ -34,7 +34,7 @@
 ></term>
 <listitem
 ><para
->Een afbeelding in het hulpmiddel FITS-viewer openen. </para
+>Een afbeelding in de FITS-viewer openen. </para
 ></listitem>
 </varlistentry>
 
@@ -1025,8 +1025,9 @@
 ></term>
 <listitem>
 <para
->Opent <guilabel
->Ekos</guilabel
+>Opent <link
+> linkend="ekos"
+>Ekos</link
 >, een compleet en krachtig astrografisch hulpmiddel. Met behulp van Ekos kunt u uw telescoop uitlijnen en laten volgen, uw CCD focusseren, en opnames maken in een eenvoudig en intuïtief scherm. </para>
 </listitem>
 </varlistentry>

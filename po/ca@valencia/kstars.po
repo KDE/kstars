@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-06 00:39+0000\n"
-"PO-Revision-Date: 2023-12-05 20:48+0100\n"
+"PO-Revision-Date: 2023-12-06 17:39+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6723,7 +6723,7 @@ msgstr "Agrupament:"
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:739 ekos/guide/guide.ui:166
 #, kde-format
 msgid "Show in FITS Viewer"
-msgstr "Mostra en el visor FITS."
+msgstr "Mostra en el visor de FITS."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #: ekos/align/align.ui:600
@@ -7761,7 +7761,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Llindar de desviació del rotor en minuts d'arc quan "
 "s'utilitza «Carrega» i «Orienta». Si la diferència entre l'angle de posició "
-"mesurat i l'angle de posició FITS està per davall d'este valor, es "
+"mesurat i l'angle de posició de FITS està per davall d'este valor, es "
 "considerarà que l'operació ha finalitzat amb èxit.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -10553,8 +10553,8 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) drift error in arc-"
 "seconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de la deriva de l'ascensió recta (AR), "
-"en segons d'arc.</p></body></html>"
+"<html><head/><body><p>Traça l'error de deriva de l'ascensió recta (AR), en "
+"segons d'arc.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raCB)
 #. i18n: ectx: property (text), widget (QCheckBox, mountRaCB)
@@ -10571,7 +10571,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body>L'error de la deriva de l'ascensió recta (AR), en segons "
+"<html><head/><body>L'error de deriva de l'ascensió recta (AR), en segons "
 "d'arc. Feu clic ací per a veure este eix en els valors de l'eix esquerre. "
 "Compartix l'eix amb l'error de l'AR/Dec, la deriva i els valors de RMS. Feu "
 "doble clic per a actualitzar l'eix.<p></p></body></html>"
@@ -10583,7 +10583,7 @@ msgid ""
 "<html><head/><body><p>Plot the declination (DEC) drift error in arc-seconds."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de la deriva de la declinació (Dec), en "
+"<html><head/><body><p>Traça l'error de deriva de la declinació (Dec), en "
 "segons d'arc.</p></body></html>"
 
 # skip-rule: abbreviations-dec
@@ -10604,7 +10604,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça l'error de la deriva de la declinació (Dec), en "
+"<html><head/><body><p>Traça l'error de deriva de la declinació (Dec), en "
 "segons d'arc. Feu clic ací per a veure este eix en els valors de l'eix "
 "esquerre. Compartix l'eix amb l'error de l'AR/Dec, la deriva i els valors de "
 "RMS. Feu doble clic per a actualitzar l'eix.</p></body></html>"
@@ -12383,7 +12383,7 @@ msgstr "INDI"
 #: ekos/auxiliary/opslogs.ui:199
 #, kde-format
 msgid "Log FITS processing activity"
-msgstr "Registre d'activitat de processament de FITS."
+msgstr "Registre d'activitat del processament de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
@@ -15829,7 +15829,7 @@ msgstr "La seqüència es pararà després de completar l'exposició actual."
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "No hi ha cap vista disponible per a les vistes prèvies. Voleu que s'active "
-"el visor FITS?"
+"el visor de FITS?"
 
 #: ekos/capture/captureprocess.cpp:449
 #, kde-format
@@ -18671,7 +18671,7 @@ msgstr ""
 "estreles). En este mode, la casella de selecció «Selecció automàtica de "
 "l'estrela» s'activarà per a permetre que Ekos seleccione una estrela (quan "
 "està seleccionada) o per a permetre que l'usuari la seleccione manualment en "
-"el visor FITS (quan no està seleccionada).</p></body></html>"
+"el visor de FITS (quan no està seleccionada).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/focus.ui:1075
@@ -18763,7 +18763,7 @@ msgstr ""
 "<html><head/><body><p>Esta opció només estarà activa quan seleccioneu "
 "«Submarc». Seleccioneu-la per a permetre que Ekos seleccione una sola "
 "estrela per a l'enfocament. Desseleccioneu-la per a permetre que l'usuari "
-"seleccione l'estrela que s'utilitzarà en el visor FITS.</p></body></html>"
+"seleccione l'estrela que s'utilitzarà en el visor de FITS.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/focus.ui:1195
@@ -20145,8 +20145,8 @@ msgstr ""
 "evitar esta situació, reduïu la mida del pas o el nombre de passos.</"
 "p><p>Per a verificar-ho, comenceu amb l'enfocament i allunyeu-vos tants "
 "passos com la «Mida del pas» * «nombre de passos». Preneu un fotograma "
-"d'enfocament i acosteu el zoom en el visor FITS per a veure si les estreles "
-"apareixen com estreles o com dònuts.</p></body></html>"
+"d'enfocament i acosteu el zoom en el visor de FITS per a veure si les "
+"estreles apareixen com estreles o com dònuts.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/focus.ui:3351
@@ -23109,13 +23109,14 @@ msgstr "Avís: El gestor web remot d'INDI no està connectat."
 #: ekos/manager.cpp:1045
 #, kde-format
 msgid "INDI services started on port %1."
-msgstr "S'han iniciat els serveis INDI al port %1."
+msgstr "S'han iniciat els serveis INDI en el port %1."
 
 #: ekos/manager.cpp:1048
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
-"S'han iniciat els serveis INDI al port %1. Podeu connectar els dispositius."
+"S'han iniciat els serveis INDI en el port %1. Podeu connectar els "
+"dispositius."
 
 #: ekos/manager.cpp:1053
 #, kde-format
@@ -29028,7 +29029,7 @@ msgstr "S'ha produït un error en obrir el fitxer FITS (fits_get_img_param): %1"
 #: fitsviewer/fitsdata.cpp:325
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
-msgstr "KStars no admet les imatges FITS 1D."
+msgstr "KStars no admet les imatges FITS en 1D."
 
 #: fitsviewer/fitsdata.cpp:371 fitsviewer/fitsdata.cpp:590
 #, kde-format
@@ -29481,7 +29482,7 @@ msgstr "R"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
-msgstr "Guardeu FITS"
+msgstr "Guardada de FITS"
 
 #: fitsviewer/fitstab.cpp:493
 #, kde-format
@@ -29732,7 +29733,7 @@ msgstr "Visualitza el gràfic en 3D"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
-msgstr "Visor FITS de KStars"
+msgstr "Visor de FITS de KStars"
 
 #: fitsviewer/fitsviewer.cpp:371
 #, kde-format
@@ -29751,7 +29752,7 @@ msgstr[1] "HFR:%2, %1 estreles."
 #: fitsviewer/fitsviewer.cpp:572
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
-msgstr "No s'ha pogut trobar la pestanya amb l'UID %1 en el visor FITS"
+msgstr "No s'ha pogut trobar la pestanya amb l'UID %1 en el visor de FITS"
 
 #: fitsviewer/fitsviewer.cpp:691
 #, kde-format
@@ -29890,13 +29891,13 @@ msgstr "Aspecte i comportament"
 #: fitsviewer/opsfits.ui:51
 #, kde-format
 msgid "Automatically display received images in the FITS Viewer"
-msgstr "Mostra automàticament les imatges rebudes en el visor FITS."
+msgstr "Mostra automàticament les imatges rebudes en el visor de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:54
 #, kde-format
 msgid "Use FITS viewer"
-msgstr "Utilitza el visor FITS"
+msgstr "Utilitza el visor de FITS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singlePreviewFITS)
 #. i18n: ectx: whatsthis, entry (singlePreviewFITS), group (FITSViewer)
@@ -29954,7 +29955,8 @@ msgstr "Obri una finestra única"
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image"
 msgstr ""
-"Porta la finestra del visor FITS al primer pla quan es rep una imatge nova."
+"Porta la finestra del visor de FITS al primer pla quan es rep una imatge "
+"nova."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:115
@@ -29967,7 +29969,7 @@ msgstr "Enfoca en rebre una imatge"
 #: fitsviewer/opsfits.ui:122
 #, kde-format
 msgid "Make FITS Viewer window independent from KStars"
-msgstr "Fa que la finestra del visor FITS siga independent de KStars."
+msgstr "Fa que la finestra del visor de FITS siga independent de KStars."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
@@ -30014,7 +30016,7 @@ msgid ""
 "coarse resolution and fast."
 msgstr ""
 "Establix la tosquedat de la vista prèvia mostrada en moure els controls "
-"lliscants del paràmetre d'estirament en el visor FITS. 1 és resolució "
+"lliscants del paràmetre d'estirament en el visor de FITS. 1 és resolució "
 "completa, però pot ser lenta, 4 seria una resolució tosca i ràpida."
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
@@ -30076,7 +30078,8 @@ msgstr "Processament"
 #: fitsviewer/opsfits.ui:354
 #, kde-format
 msgid "Always apply auto stretch to images in FITS Viewer"
-msgstr "Aplica sempre l'estirament automàtic a les imatges en el visor FITS."
+msgstr ""
+"Aplica sempre l'estirament automàtic a les imatges en el visor de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:357
@@ -30202,7 +30205,7 @@ msgstr "Histograma no lineal"
 #: fitsviewer/opsfits.ui:420
 #, kde-format
 msgid "Compute the HFR of images loaded into fitsviewer."
-msgstr "Calcula l'HFR de les imatges carregades en el visor FITS."
+msgstr "Calcula l'HFR de les imatges carregades en el visor de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:423
@@ -36151,7 +36154,7 @@ msgstr "Registre d'activitat del mòdul «Observatori» d'Ekos."
 #: kstars.kcfg:1455
 #, kde-format
 msgid "Display every image captured in a FITS Viewer window."
-msgstr "Mostra cada imatge capturada en una finestra del visor FITS."
+msgstr "Mostra cada imatge capturada en una finestra del visor de FITS."
 
 #. i18n: ectx: label, entry (singlePreviewFITS), group (FITSViewer)
 #: kstars.kcfg:1459
@@ -36194,37 +36197,37 @@ msgstr "Mostra totes les imatges FITS obertes en una única finestra del visor."
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image."
 msgstr ""
-"Porta la finestra del visor FITS al primer pla en rebre una imatge nova."
+"Porta la finestra del visor de FITS al primer pla en rebre una imatge nova."
 
 #. i18n: ectx: label, entry (independentWindowFITS), group (FITSViewer)
 #: kstars.kcfg:1478
 #, kde-format
 msgid "Make FITS Viewer window independent of KStars main window"
 msgstr ""
-"Fes que la finestra del visor FITS siga independent de la finestra principal "
-"de KStars"
+"Fes que la finestra del visor de FITS siga independent de la finestra "
+"principal de KStars"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1482
 #, kde-format
 msgid "Automatically debayer a FITS image if it is contains a bayer pattern"
 msgstr ""
-"Fer automàticament la reconstrucció des de Bayer d'una imatge de FITS si "
-"conté un patró de Bayer"
+"Fer automàticament la reconstrucció des de Bayer d'una imatge FITS si conté "
+"un patró de Bayer"
 
 #. i18n: ectx: label, entry (Auto3DCube), group (FITSViewer)
 #: kstars.kcfg:1486
 #, kde-format
 msgid "Process 3D FITS Cube (RGB). If false, only first channel is processed."
 msgstr ""
-"Processa el Cub FITS en 3D (RGB). Si és fals, només es processa el primer "
+"Processa el Cub de FITS en 3D (RGB). Si és fals, només es processa el primer "
 "canal."
 
 #. i18n: ectx: label, entry (AutoHFR), group (FITSViewer)
 #: kstars.kcfg:1490
 #, kde-format
 msgid "Automatically compute HFRs of fits images"
-msgstr "Calcula automàticament l'HFR de les imatges de FITS"
+msgstr "Calcula automàticament l'HFR de les imatges FITS"
 
 #. i18n: ectx: label, entry (QuickHFR), group (FITSViewer)
 #: kstars.kcfg:1494
@@ -36253,7 +36256,7 @@ msgid ""
 "Viewer"
 msgstr ""
 "Conserva la CPU i la memòria desactivant totes les característiques "
-"intensives de recursos en el visor FITS"
+"intensives de recursos en el visor de FITS"
 
 #. i18n: ectx: label, entry (NonLinearHistogram), group (FITSViewer)
 #: kstars.kcfg:1510
@@ -36287,31 +36290,32 @@ msgstr "Desplaçament Y de la superposició de HiPS"
 #: kstars.kcfg:1526
 #, kde-format
 msgid "Options Profile for Fitsviewer Solving."
-msgstr "Perfil d'opcions per a la resolució del visor FITS."
+msgstr "Perfil d'opcions per a la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1530
 #, kde-format
 msgid "Use scale for Fitsviewer Solving."
-msgstr "Utilitza l'escala per a la resolució del visor FITS."
+msgstr "Utilitza l'escala per a la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUsePosition), group (FITSViewer)
 #: kstars.kcfg:1534
 #, kde-format
 msgid "Use position for Fitsviewer Solving."
-msgstr "Utilitza la posició per a la resolució del visor FITS."
+msgstr "Utilitza la posició per a la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverScale), group (FITSViewer)
 #: kstars.kcfg:1538
 #, kde-format
 msgid "Scale to use with Fitsviewer Solving."
-msgstr "L'escala que s'utilitzarà amb la resolució del visor FITS."
+msgstr "L'escala que s'utilitzarà amb la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverImageScaleUnits), group (FITSViewer)
 #: kstars.kcfg:1542
 #, kde-format
 msgid "Scale units to use with Fitsviewer Solving."
-msgstr "Unitats de l'escala que s'utilitzarà amb la resolució del visor FITS."
+msgstr ""
+"Unitats de l'escala que s'utilitzarà amb la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverRadius), group (FITSViewer)
 #: kstars.kcfg:1546
@@ -36319,7 +36323,7 @@ msgstr "Unitats de l'escala que s'utilitzarà amb la resolució del visor FITS."
 msgid "Radius in position (degrees) to use with Fitsviewer Solving."
 msgstr ""
 "El radi en la posició (en graus) que s'utilitzarà amb la resolució del visor "
-"FITS."
+"de FITS."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1552
@@ -36911,7 +36915,8 @@ msgstr ""
 #, kde-format
 msgid "Perform auto stretch on captured images in FITS Viewer."
 msgstr ""
-"Realitza l'estirament automàtic en les imatges capturades en el visor FITS."
+"Realitza l'estirament automàtic en les imatges capturades en el visor de "
+"FITS."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:1882
@@ -36919,8 +36924,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
-"Valor mínim dels píxels marcats com a retallats en el visor FITS per a les "
-"imatges de 16 bits."
+"Valor mínim dels píxels marcats com a retallats en el visor de FITS per a "
+"les imatges de 16 bits."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1886
@@ -36928,8 +36933,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
-"Valor mínim dels píxels marcats com a retallats en el visor FITS per a les "
-"imatges de 8 bits."
+"Valor mínim dels píxels marcats com a retallats en el visor de FITS per a "
+"les imatges de 8 bits."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1891
@@ -69019,12 +69024,12 @@ msgstr "Canvia el quadro de control INDI"
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
-msgstr "Visor FITS"
+msgstr "Visor de FITS"
 
 #: kstarsinit.cpp:627
 #, kde-format
 msgid "Toggle FITS Viewer"
-msgstr "Canvia el visor FITS"
+msgstr "Canvia el visor de FITS"
 
 #: kstarsinit.cpp:631
 #, kde-format
@@ -73775,7 +73780,7 @@ msgstr "Robert Lancaster"
 #: main.cpp:125
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
-msgstr "Millores en el visor FITS i Ekos. Adaptació de KStars a OSX"
+msgstr "Millores en el visor de FITS i Ekos. Adaptació de KStars a OSX"
 
 #: main.cpp:127
 #, kde-format
@@ -85108,10 +85113,11 @@ msgctxt "years"
 msgid "yrs"
 msgstr "anys"
 
+# skip-rule: punctuation-period-no
 #: widgets/timestepbox.cpp:22
 #, kde-format
 msgid "Adjust time step"
-msgstr "Ajusta el pas temporal"
+msgstr "Ajusta el pas temporal."
 
 #: widgets/timestepbox.cpp:23
 #, kde-format
