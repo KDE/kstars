@@ -717,13 +717,13 @@ void Capture::refreshCameraSettings()
     // Make sure we have a valid chip and valid base device.
     // Make sure we are not in capture process.
     auto camera = activeCamera();
-
-    if (!camera)
+    auto targetChip = devices()->getActiveChip();
+    // If camera is restarted, try again in one second
+    if (!camera || !targetChip || !targetChip->getCCD() || targetChip->isCapturing())
+    {
+        QTimer::singleShot(1000, this, &Capture::refreshCameraSettings);
         return;
-
-    ISD::CameraChip *targetChip = devices()->getActiveChip();
-    if (!targetChip || !targetChip->getCCD() || targetChip->isCapturing())
-        return;
+    }
 
     if (camera->hasCoolerControl())
     {

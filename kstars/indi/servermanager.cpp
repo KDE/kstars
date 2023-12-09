@@ -286,20 +286,23 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
 void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
 {
     QTextStream out(&indiFIFO);
+    const auto exec = driver->getExecutable();
 
-    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << driver->getExecutable();
+    qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << exec;
 
     if (driver->getUniqueLabel().isEmpty() == false)
-        out << "stop " << driver->getExecutable() << " -n \"" << driver->getUniqueLabel() << "\"";
+        out << "stop " << exec << " -n \"" << driver->getUniqueLabel() << "\"";
     else
-        out << "stop " << driver->getExecutable();
+        out << "stop " << exec;
     out << Qt::endl;
     out.flush();
     driver->setServerState(false);
     driver->setPort(driver->getUserPort());
 
-    m_ManagedDrivers.removeOne(driver);
-
+    m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
+    {
+        return driver->getExecutable() == exec;
+    }));
     emit driverStopped(driver);
 }
 
@@ -307,6 +310,7 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
 bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
 {
     auto cm = driver->getClientManager();
+    const auto label = driver->getLabel();
 
     if (cm)
     {
@@ -320,11 +324,19 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
     else
     {
         cm = DriverManager::Instance()->getClientManager(driver);
+        const auto exec = driver->getExecutable();
+        m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
+        {
+            return driver->getExecutable() == exec;
+        }));
     }
 
     // Wait 1 second before starting the driver again.
-    QTimer::singleShot(1000, this, [this, driver, cm]()
+    QTimer::singleShot(1000, this, [this, label, cm]()
     {
+        auto driver = DriverManager::Instance()->findDriverByLabel(label);
+        if (!driver)
+            return;
         cm->appendManagedDriver(driver);
         if (m_ManagedDrivers.contains(driver) == false)
             m_ManagedDrivers.append(driver);
