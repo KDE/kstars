@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-06 00:39+0000\n"
-"PO-Revision-Date: 2023-12-04 13:38+0100\n"
+"PO-Revision-Date: 2023-12-08 12:04+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -67429,7 +67429,7 @@ msgstr "&Lambert-projectie (Azimutaal oppervlaktegetrouw)"
 #: kstarsinit.cpp:281
 #, kde-format
 msgid "&Azimuthal Equidistant"
-msgstr "&Azimuthal Equidistant (Azimutaal afstandgetrouw)"
+msgstr "&Azimutaal afstandsgetrouw"
 
 #: kstarsinit.cpp:284
 #, kde-format
@@ -68987,7 +68987,7 @@ msgstr "Lambert (standaard)"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
 #, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr "Azimutaal afstandgetrouw"
+msgstr "Azimutaal afstandsgetrouw"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
