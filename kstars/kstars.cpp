@@ -598,9 +598,13 @@ const QSharedPointer<FITSViewer> &KStars::createFITSViewer()
     {
         QSharedPointer<FITSViewer> newFITSViewer(new FITSViewer(Options::independentWindowFITS() ? nullptr : KStars::Instance()));
         m_FITSViewers.append(newFITSViewer);
-        connect(newFITSViewer.get(), &FITSViewer::terminated, this, [ & ]()
+        connect(newFITSViewer.get(), &FITSViewer::terminated, this, [this]()
         {
-            m_FITSViewers.removeOne(newFITSViewer);
+            auto rawPointer = dynamic_cast<FITSViewer*>(sender());
+            m_FITSViewers.erase(std::remove_if(m_FITSViewers.begin(), m_FITSViewers.end(), [rawPointer](auto & viewer)
+            {
+                return viewer.get() == rawPointer;
+            }));
         });
         return m_FITSViewers.constLast();
     }
