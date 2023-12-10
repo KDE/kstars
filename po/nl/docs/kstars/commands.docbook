@@ -607,7 +607,7 @@
 >F6</keycap
 ></shortcut
 ><guimenuitem
->Azimuthal Equidistant</guimenuitem
+>Azimutaal afstandsgetrouw</guimenuitem
 ></menuchoice
 ></term>
   <listitem
@@ -2982,7 +2982,7 @@
 ></indexterm
 >Openen van het <link linkend="popup-menu"
 >contextmenu</link
-> voor de locatie of het object dat het dichtste bij de positie van de muisaanwijzer in de sterrenkaart is. </para
+> voor de locatie of het object dat het dichtste bij de positie van de muisaanwijzer is. </para
 ></listitem>
 </varlistentry>
 
