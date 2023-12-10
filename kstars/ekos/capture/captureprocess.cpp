@@ -2272,16 +2272,17 @@ void CaptureProcess::updateFilterInfo()
             auto activeFilter = activeDevices->findWidgetByName("ACTIVE_FILTER");
             if (activeFilter)
             {
+                QString activeFilterText = QString(activeFilter->getText());
                 if (devices()->filterWheel())
                 {
-                    if (activeFilter->getText() != devices()->filterWheel()->getDeviceName())
+                    if (activeFilterText != devices()->filterWheel()->getDeviceName())
                     {
                         activeFilter->setText(devices()->filterWheel()->getDeviceName().toLatin1().constData());
                         oneDevice->sendNewProperty(activeDevices);
                     }
                 }
                 // Reset filter name in CCD driver
-                else if (QString(activeFilter->getText()).isEmpty())
+                else if (activeFilterText.isEmpty())
                 {
                     // Add debug info since this issue is reported by users. Need to know when it happens.
                     qCDebug(KSTARS_EKOS_CAPTURE) << "No active filter wheel. " << oneDevice->getDeviceName() << " ACTIVE_FILTER is reset.";
