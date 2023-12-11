@@ -3319,6 +3319,10 @@ void Align::showFITSViewer()
         {
             fv = KStars::Instance()->createFITSViewer();
             fv->loadData(m_ImageData, url, &lastFVTabID);
+            connect(fv.get(), &FITSViewer::terminated, this, [this]()
+            {
+                fv.clear();
+            });
         }
         else if (fv->updateData(m_ImageData, url, lastFVTabID, &lastFVTabID) == false)
             fv->loadData(m_ImageData, url, &lastFVTabID);
