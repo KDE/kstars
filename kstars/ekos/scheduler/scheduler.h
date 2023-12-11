@@ -667,8 +667,6 @@ private:
                                               SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map,
                                               int &completedIterations);
 
-        int getCompletedFiles(const QString &path);
-
         // Returns true if the job is storing its captures on the same machine as the scheduler.
         bool canCountCaptures(const SchedulerJob &job);
 
