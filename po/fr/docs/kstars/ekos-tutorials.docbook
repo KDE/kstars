@@ -1,4 +1,4 @@
-<sect2 id="ekos-tutorials">
+<sect1 id="ekos-tutorials">
     <title
 >Tutoriel Ekos</title>
 <indexterm>
@@ -9,7 +9,7 @@
     <tertiary
 >Tutoriels</tertiary>
 </indexterm>
-<sect3 id="ekos-tutorials-viewer">
+<sect2 id="ekos-tutorials-viewer">
     <title
 >Afficheur</title>
     <para
@@ -34,5 +34,5 @@
 > et le mot de passe par défaut est <userinput
 >smate</userinput
 >. </para>
-</sect3>
 </sect2>
+</sect1>

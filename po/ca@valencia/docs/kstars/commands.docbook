@@ -34,7 +34,7 @@
 ></term>
 <listitem
 ><para
->Obri una imatge en l'eina del visor FITS. </para
+>Obri una imatge en el visor de FITS. </para
 ></listitem>
 </varlistentry>
 
@@ -1025,7 +1025,7 @@
 ></term>
 <listitem>
 <para
->Obri <link linkend="tool-ekos"
+>Obri <link linkend="ekos"
 >Ekos</link
 >, una completa i potent eina per a l'astrofotografia. Amb Ekos, podreu alinear i guiar el telescopi, enfocar la seua CCD i capturar imatges emprant una interfície intuïtiva i fàcil. </para>
 </listitem>
@@ -1385,7 +1385,7 @@
 ><imagedata fileref="kstars_fitsviewer.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > <guiicon
->Canvia el visor FITS</guiicon
+>Canvia el visor de FITS</guiicon
 ></para
 ></listitem>
           <listitem

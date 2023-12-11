@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-wizard">
+<sect1 id="ekos-profile-wizard">
     <title
 >Assistent del perfil</title>
     <indexterm>
@@ -145,4 +145,4 @@
 >En l'exemple anterior, seleccionem controladors d'astrometria remota, WatchDog i SkySafari. Les explicacions detallades per a cadascuna d'elles es proporcionen en el consell d'eina quan es passa per damunt amb el punter del ratolí. Una vegada fet, feu clic en el botó <guibutton
 >Crea un perfil</guibutton
 >. Ara hauríeu de veure l'editor de perfils. </para>
-</sect2>
+</sect1>

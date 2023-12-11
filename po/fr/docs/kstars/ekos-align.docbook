@@ -1,4 +1,4 @@
-<sect2 id="ekos-align">
+<sect1 id="ekos-align">
     <title
 >Alignement</title>
     <indexterm>
@@ -9,7 +9,7 @@
         <tertiary
 >Aligner</tertiary>
     </indexterm>
-    <sect3 id="ekos-align-introduction">
+    <sect2 id="ekos-align-introduction">
         <title
 >Introduction</title>
         <screenshot>
@@ -39,9 +39,9 @@
 >De plus, Ekos fournit un outil d'assistant d'alignement polaire pour corriger les erreurs d'alignement polaire. Il prend trois images, se déplace entre elles et calcule le décalage entre l'axe de la monture et l'axe polaire. Il renvoie ensuite à l'opérateur les ajustements en altitude et en azimut nécessaires pour aligner ces axes. Ces images sont typiquement prises près du pôle céleste (près de l'étoile polaire dans l'hémisphère nord) mais elles peuvent être également prises ailleurs, généralement près du méridien et bougeant vers l'est ou l'ouest. </para>
         <para
 >Vous avez besoin au minimum d'une caméra CCD ou d'une webcam et d'un télescope qui gère les commandes de pointage et de synchronisation. La plupart de télescopes trouvés dans le commerce aujourd'hui gère ces commandes. </para>
-    </sect3>
+    </sect2>
 
-        <sect3 id="ekos-align-typical">
+        <sect2 id="ekos-align-typical">
             <title
 >Utilisation typique</title>
             <para
@@ -106,9 +106,9 @@
 > : résolution de l'image et affichage des coordonnées de la solution. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
     
-    <sect3 id="ekos-solver-options">
+    <sect2 id="ekos-solver-options">
       <title
 >Configuration des options du résolveur </title>
         <screenshot>
@@ -148,9 +148,9 @@
 > : le système de coordonnées mondiales (World-Coordinate-System) est un mécanisme permettant d'intégrer les coordonnées équatoriales à une image. Ainsi, lors de l'affichage d'une image, un survol affiche les coordonnées de chaque pixel. Vous pouvez également cliquer n'importe où dans l'image et ordonner au télescope de pivoter vers ce point. Il est hautement recommandé de conserver cette option activée. L'option <guilabel
 >Superposition</guilabel
 > permet de superposer les images acquises sur la carte du ciel de &kstars;. </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="ekos-solver-external">
+    <sect2 id="ekos-solver-external">
       <title
 >Configuration des programmes externes de StellarSolver </title>
         <screenshot>
@@ -176,9 +176,9 @@
 >Il faudra vous assurer que les chemins sont corrects pour le résolveur que vous avez choisi. L'option du menu du haut <guilabel
 >Sélectionner pour charger un des ensembles par défaut</guilabel
 > configure généralement les boîtes correctement. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-solver-scale">
+    <sect2 id="ekos-solver-scale">
       <title
 >Configurer l'échelle et la position pour StellarSolver </title>
         <screenshot>
@@ -211,12 +211,12 @@
 >Rayon</guilabel
 >. La résolution échouera si la position spécifiée est plus loin. Vous souhaitez typiquement activer <guilabel
 >Utiliser position</guilabel
-> pour accélérer la résolution, et nous vous recommandons de le faire. Toutefois, de fréquents problèmes de résolution sont liés à une estimation très imprécise de la position (&ie; le télescope est très mal aligné). Ainsi, si vous rencontrez des problèmes de résolution, vous pouvez décocher cette case jusqu'à avoir résolu ces problèmes. Comme déjà mentionné, cela va allonger la durée de résolution. <guilabel
+> pour accélérer la résolution, et nous vous recommandons de le faire. Toutefois, de fréquents problèmes de résolution sont liés à une estimation très imprécise de la position (le télescope est très mal aligné). Ainsi, si vous rencontrez des problèmes de résolution, vous pouvez décocher cette case jusqu'à avoir résolu ces problèmes. Comme déjà mentionné, cela va allonger la durée de résolution. <guilabel
 >Mise à jour automatique</guilabel
 > mettra à jour la position avec la position de la résolution réussie la plus récente. Mais un pivotage déclenchera une mise à jour de la position où le télescope pense qu'il pointe. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-align-profiles">
+    <sect2 id="ekos-align-profiles">
       <title
 >Configuration des profils pour StellarSolver </title>
         <screenshot>
@@ -286,7 +286,7 @@
 >Tous les champs affichent des infobulles quand le curseur de la souris passe par-dessus. </para
 ><para
 >Vous pouvez modifier les valeurs et enregistrer le profil à votre convenance ou rétablir les valeurs par défaut du profil. </para>
-        <sect4 id="profile-star-extraction">
+        <sect3 id="profile-star-extraction">
           <title
 >Paramètres de l'extraction d'étoiles</title>
           <para
@@ -317,10 +317,10 @@
 > (en pixels) devrait être ajusté à peu près à la qualité de votre ciel (seeing). L'image est lissée de cette quantité avant que la détection d'étoiles soient exécutées.</para
 ></listitem>
         </itemizedlist>
-        </sect4
+        </sect3
 >    
 
-        <sect4 id="profile-star-filtering">
+        <sect3 id="profile-star-filtering">
         <title
 >Paramètres de filtrage d'étoiles</title>
           <para
@@ -365,9 +365,9 @@
 > permet de supprimer les étoiles dont la valeur de pixel dépasse ce pourcentage de la valeur maximale de ce pixel, supprimant ainsi les étoiles saturées.</para
 ></listitem>
              </itemizedlist>
-        </sect4>
+        </sect3>
 
-        <sect4 id="profile-plate-solving">
+        <sect3 id="profile-plate-solving">
           <title
 >Paramètres de résolution</title>
           <para
@@ -388,12 +388,12 @@
 > est le nombre maximal de secondes de résolution avant le délai d'expiration.</para
 ></listitem>
              </itemizedlist>
-        </sect4
+        </sect3
 >    
-    </sect3
+    </sect2
 >    
     
-    <sect3 id="ekos-align-download-index-files">
+    <sect2 id="ekos-align-download-index-files">
       <title
 >Téléchargement des fichiers index</title>
       <para
@@ -404,7 +404,7 @@
 >. </para>
         <para
 >Pour les résolveurs hors-ligne (et à distance), les fichiers index sont nécessaires pour que la résolution fonctionne. La collection complète de ces fichiers index est énorme (plus de 30 Go), mais vous devez que ceux qui correspondent à votre matériel. Les fichiers index sont organisés par l'intervalle de champ de vision (FOV) qu'ils couvrent. Il existe deux manières d'obtenir les fichiers d'index nécessaires : la gestion nouvelle de téléchargement dans le module d'alignement et l'ancienne manière manuelle. </para>
-        <sect4 id="ekos-align-automatic-download">
+        <sect3 id="ekos-align-automatic-download">
             <title
 >Téléchargement automatique</title>
             <screenshot>
@@ -466,8 +466,8 @@
 >Vous devez télécharger tous les fichiers requis et, s'il vous reste de l'espace disque, vous pouvez également installer les fichiers recommandés. Si un fichier index est installé, la case sera cochée, sinon cochez-là pour télécharger les fichiers index pertinents. Il est possible que le mot de passe de l'administrateur du système soit demandé (par défaut, il s'agit de <userinput
 >smate</userinput
 >) pour installer ces fichiers. Une fois que tous les fichiers sont téléchargés et installés, vous pourrez commencer d'utiliser le résolveur hors-ligne immédiatement. </para>
-        </sect4>
-        <sect4 id="ekos-align-manual-download">
+        </sect3>
+        <sect3 id="ekos-align-manual-download">
                 <title
 >Téléchargement manuel</title>
                 <para
@@ -678,10 +678,10 @@
 >DownThemAll!</ulink
 > pour &firefox; pour télécharger les paquets Debian puisqu'il arrive que certains gestionnaire de téléchargement de navigateurs rencontrent parfois des problèmes à télécharger de gros fichiers. </para>
                 </note>
-            </sect4>
-        </sect3>
+            </sect3>
+        </sect2>
 
-    <sect3 id="ekos-align-get-astrometry">
+    <sect2 id="ekos-align-get-astrometry">
         <title
 >Obtenir optionnellement astrometry.net</title>
 
@@ -771,9 +771,9 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </sect3>
+    </sect2>
     
-        <sect3 id="ekos-align-how-to-use">
+        <sect2 id="ekos-align-how-to-use">
             <title
 >Comment les utiliser ?</title>
             <para
@@ -804,9 +804,9 @@
 >Jamais</emphasis
 > résoudre une image proche du pôle céleste (sauf quand l'outil d'assistance à l'alignement polaire est utilisé). Pivoter à au moins 20 degrés du pôle céleste avant de commencer à résoudre la première image. Une résolution trop proche des pôles péjore le pointage de la monture, alors évitez-là. </para>
             </warning>
-        </sect3>
+        </sect2>
         
-        <sect3 id="ekos-align-alignment-settings">
+        <sect2 id="ekos-align-alignment-settings">
             <title
 >Réglages de l'alignement</title>
             <para
@@ -857,9 +857,9 @@
 > : indique s'il faut soustraire l'image Dark avant l'analyse de l'image acquise. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
 
-        <sect3 id="ekos-align-polaralignment">
+        <sect2 id="ekos-align-polaralignment">
             <title
 >Alignement polaire</title>
                 <para
@@ -917,7 +917,7 @@
                     </mediaobject>
                 </screenshot>
 
-            <sect4 id="ekos-align-platesolvecorrection">
+            <sect3 id="ekos-align-platesolvecorrection">
                 <title
 >Schéma de correction de la résolution</title>
                 
@@ -978,8 +978,8 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
-                </sect4>
-                <sect4 id="ekos-align-move-star-correction">
+                </sect3>
+                <sect3 id="ekos-align-move-star-correction">
                 <title
 >Schéma de correction de déplacement d'étoile</title>
 
@@ -999,6 +999,6 @@
 > et déplacez l'étoile visuellement jusqu'à ce qu'elle est près de la cible finale. Un exemple d'utilisation de cette technique est montré dans cette vidéo : <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
 >https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
 >. </para>
-            </sect4>
-        </sect3>
-</sect2>
+            </sect3>
+        </sect2>
+</sect1>

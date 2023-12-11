@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->Una volta ràpida per &kstars;</title>
+>Una volta ràpida pel mapa celeste de &kstars;</title>
 
 <para
->Este capítol presenta una visita guiada per &kstars;, introduint-vos a la majoria de característiques importants. </para>
+>Este capítol presenta una visita guiada pel mapa celeste de &kstars;, introduint-vos a la majoria de característiques importants. </para>
 
 <screenshot>
 <screeninfo
@@ -185,7 +185,7 @@
 ><primary
 >Objectes en el cel</primary>
 <secondary
->Descripció</secondary
+>Resum</secondary
 ></indexterm
 >&kstars; mostra milers d'objectes celestes: estreles, planetes, cometes, asteroides, cúmuls, nebuloses i galàxies. Podeu interactuar amb estos objectes per a realitzar accions sobre seu o obtindre més informació. Fent clic damunt d'un objecte, s'identificarà en la barra d'estat, i senzillament mantenint el cursor del ratolí sobre un objecte s'etiquetarà temporalment sobre el mapa. Fent doble clic, se centrarà la pantalla sobre l'objecte i es començarà a seguir (de manera que seguirà estant centrat a mesura que transcorre el temps). Fent clic amb el &BDR; sobre un objecte es desplegarà el seu menú emergent, el qual us permetrà més opcions. </para>
 
@@ -312,7 +312,7 @@
 >. Una vegada trobat el vostre objecte, el podreu utilitzar exactament com qualsevol objecte que ja estiga carregat en &kstars; (&ead;, afegir-lo a la llista de desitjos de l'observació). Si no s'ha trobat l'objecte en les bases de dades en línia, es mostrarà un diàleg d'avís. Una vegada resoleu un objecte utilitzant este mètode, s'emmagatzemarà en la base de dades de &kstars;, de manera que si tanqueu &kstars; i l'obriu de nou, l'objecte encara hi serà. </para>
 
 <para
->Podeu optar per habilitar o inhabilitar esta característica marcant o desmarcant la casella de selecció <guibutton
+>Podeu optar per habilitar o inhabilitar esta característica seleccionant o desseleccionant la casella de selecció <guibutton
 >Resoldre els noms desconeguts per &kstars; emprant els serveis en línia</guibutton
 > de la pàgina <guilabel
 >Catàlegs</guilabel
@@ -478,7 +478,7 @@
 <title
 >Final de la visita guiada</title>
 <para
->Ací conclou la volta ràpida per &kstars;, tot i que encara no hem arrapat la superfície de les característiques disponibles. &kstars; inclou <link linkend="tools"
+>Ací conclou la volta ràpida pel mapa celeste de &kstars;, tot i que encara no hem arrapat la superfície de les característiques disponibles. &kstars; inclou <link linkend="tools"
 >eines astronòmiques</link
 > molt útils, podeu <link linkend="indi"
 >controlar el vostre telescopi</link

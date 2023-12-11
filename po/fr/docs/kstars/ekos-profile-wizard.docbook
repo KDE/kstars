@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-wizard">
+<sect1 id="ekos-profile-wizard">
     <title
 >Assistant de profil</title>
     <indexterm>
@@ -145,4 +145,4 @@
 >Dans l'exemple ci-dessus, nous avons sélectionné les pilotes Astrométrie distante, WatchDog et SkySafari. Des explications détaillées pour chacun d'entre eux apparaissent dans une infobulle lors du survol avec la souris. Une fois fait, cliquez sur le bouton <guibutton
 >Créer un profil et Sélectionner des périphériques</guibutton
 > et l'éditeur de profil apparaît. </para>
-</sect2>
+</sect1>

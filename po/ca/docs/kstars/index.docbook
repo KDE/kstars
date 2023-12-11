@@ -56,10 +56,9 @@
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
-  <!ENTITY tool-ekos SYSTEM "ekos.docbook">
+  <!ENTITY ekos SYSTEM "ekos.docbook">
   <!ENTITY tool-ekos-align SYSTEM "ekos-align.docbook">
   <!ENTITY tool-ekos-capture SYSTEM "ekos-capture.docbook">
-  <!ENTITY tool-ekos-fits-viewer SYSTEM "ekos-fits-viewer.docbook">
   <!ENTITY tool-ekos-focus SYSTEM "ekos-focus.docbook">
   <!ENTITY tool-ekos-guide SYSTEM "ekos-guide.docbook">
   <!ENTITY tool-ekos-logs SYSTEM "ekos-logs.docbook">
@@ -71,7 +70,7 @@
   <!ENTITY tool-ekos-tutorials SYSTEM "ekos-tutorials.docbook">
   <!ENTITY tool-ekos-user-interface SYSTEM "ekos-user-interface.docbook">
   <!ENTITY tool-eyepieceview SYSTEM "eyepieceview.docbook">
-  <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
+  <!ENTITY fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
@@ -91,18 +90,8 @@
 <bookinfo>
 
 <authorgroup>
-<author
-><firstname
->Jason</firstname
-> <surname
->Harris</surname
-> <affiliation
-> <address
->&Jason.Harris.mail;</address>
-</affiliation>
-</author>
 
-<othercredit role="developer"
+<author
 ><firstname
 >Jasem</firstname
 > <surname
@@ -113,6 +102,19 @@
 </affiliation>
 <contrib
 >Desenvolupador i mantenidor principal</contrib>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> <affiliation
+> <address
+>&Jason.Harris.mail;</address>
+</affiliation>
+<contrib
+>Autor original</contrib>
 </othercredit>
 
 <othercredit role="developer"
@@ -314,10 +316,33 @@
 
 <abstract>
 <para
->El &kstars; és un programa d'Astronomia lliure, de codi obert i multiplataforma. Proporciona una simulació gràfica precisa del cel nocturn, a qualsevol emplaçament de la terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits. Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en llargues escales de temps, la calculadora astronòmica per a predir conjuncions i molts càlculs astronòmics habituals. Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel, i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-lo. Descobriu objectes interessants amb l'eina <quote
+>El &kstars; és un programa d'astronomia lliure, de codi obert i multiplataforma. Proporciona el mapa celestes del &kstars;, un planetari digital amb eines de superposició i simulació, el paquet d'astrofotografia Ekos que actua com un client per als controladors de dispositius INDI, i el visualitzador de FITS que mostra les imatges capturades del cel. </para>
+
+<para>
+<itemizedlist>
+ <listitem>
+   <para
+>El mapa celeste del &kstars; proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits. </para>
+   <para
+>Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales temporals llargues, la calculadora astronòmica del &kstars; per a predir conjuncions i molts càlculs astronòmics habituals. Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel, i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-lo. Descobriu objectes interessants amb l'eina <quote
 >Què passa aquesta nit</quote
->, representarà gràfics d'altitud en funció del temps per a qualsevol objecte, imprimireu diagrames del cel en alta qualitat, i tindreu accés a molta informació i recursos per a ajudar-vos a explorar l'univers! La superposició progressiva a tot el cel de HiPS proporciona visions espectaculars de nombroses enquestes que abasten tot l'espectre electromagnètic. Inclòs amb el &kstars; hi ha el paquet astrofotogràfic Ekos, una solució completa d'astrofotografia que pot controlar tots els dispositius INDI, inclou nombrosos telescopis, CCD, rèflex digitals, enfocadors, filtres i molt més. L'Ekos té capacitats de seguiment d'alta precisió emprant el solucionador d'astrometria en línia o fora de línia, enfocament automàtic i guiatge automàtic, i permet capturar una imatge o múltiples emprant el potent gestor de seqüències que hi ha integrat. </para>
+>, representeu gràfics d'altitud en funció del temps per a qualsevol objecte, imprimiu diagrames del cel en alta qualitat, i tindreu accés a molta informació i recursos per a ajudar-vos a explorar l'univers! La superposició progressiva a tot el cel de HiPS proporciona visions espectaculars de nombrosos rastreigs que abasten tot l'espectre electromagnètic. </para>
+ </listitem>
+
+ <listitem>
+   <para
+>L'Ekos és una solució completa d'astrofotografia que proporciona tot el necessari per a imatges automàtiques o manuals del cel profund. Pot controlar tots els dispositius INDI incloent nombrosos telescopis, càmeres d'astronomia CCD i CMOS, DSLR, enfocadors, filtres, rotors, cúpules i molt més. L'Ekos permet un seguiment d'alta precisió utilitzant solucionadors d'astrometria en línia i fora de línia, capacitats d'autofocus i autoguiatge i captura d'imatges individuals o múltiples utilitzant el potent planificador integrat. S'integra bé amb el mapa celeste i el visualitzador de FITS. També disposa d'eines per a l'alineació polar i la mesura de les aberracions òptiques. </para>
+ </listitem>
+
+ <listitem>
+   <para
+>El visualitzador de FITS pot mostrar imatges FITS i altres formats, incloses les capturades per l'Ekos. Es pot fer zoom i panoràmica, veure versions estirades de les imatges, veure histogrames d'imatges, resoldre plaques i trobar estrelles i coordenades a les imatges. </para>
+ </listitem>
+
+</itemizedlist>
+</para>
 </abstract>
+   
 
 <keywordset>
 <keyword
@@ -387,15 +412,17 @@
 >Totes les superposicions del cel de HiPS</link
 > per a obtenir imatges d'alta resolució i visualitzar-les directament al mapa celeste. Podeu seleccionar des de nombrosos catàlegs compilats a partir de diferents missions basades en la Terra i l'espai. Aquestes característiques requereixen una connexió ràpida a Internet per a baixar les imatges. Les imatges s'emmagatzemaran a la memòria cau local per a reduir l'amplada de banda. Podeu optimitzar les opcions de l'emmagatzematge a la memòria cau per a obtenir un millor equilibri entre l'espai del disc i l'amplada de banda. </para>
 <para
->No obstant això, el &kstars; no és només per a estudiants. Fins i tot podreu controlar telescopis amb el &kstars;, emprant l'elegant interfície i de gran abast del protocol <link linkend="indi"
+>El &kstars; també és per als astrofotògrafs. Podreu controlar telescopis i càmeres emprant l'elegant i potent protocol <link linkend="indi"
 >INDI</link
->. El &kstars; permet diversos dels telescopis més comuns incloent la família LX200 de Meade i els GPS de Celestron. També permet càmeres CCD populars, càmeres web i apuntadors automatitzats. Les ordres senzilles orienta/segueix, s'integren directament en el menú emergent de la finestra principal, i el plafó de control INDI proporciona un complet accés a totes les funcions del vostre telescopi. L'arquitectura client/servidor de l'INDI permet controlar qualsevol nombre de telescopis <link linkend="indi-kstars-setup"
+>. L'Ekos permet molts telescopis populars incloent la família LX200 de Meade i els GPS de Celestron. També permet càmeres CCD, CMOS i DSLR populars d'astrofotografia, càmeres web i enfocadors automatitzats. Les ordres senzilles d'orientació/seguiment s'integren directament en el menú emergent del mapa celeste, i el plafó de control INDI proporciona un accés complet a totes les funcions del vostre telescopi. L'arquitectura client/servidor de l'INDI permet controlar qualsevol nombre de telescopis <link linkend="indi-kstars-setup"
 >locals</link
 > o <link linkend="indi-remote-control"
 >remots</link
-> emprant una única sessió del &kstars;. Per a usuaris avançats, el &kstars; proporciona Ekos, una completa suite d'astrofotografia autònoma per a Linux. <ulink url="https://indilib.org/about/ekos.html"
+> emprant una única sessió del &kstars;. Per a usuaris avançats, el &kstars; proporciona l'Ekos, un paquet complet d'astrofotografia per al Linux, Mac i Windows. L'<ulink url="https://indilib.org/about/ekos.html"
 >Ekos</ulink
-> es basa en un entorn de treball modular extensible per a realitzar tasques comunes en l'astrofotografia. Això inclou GOTO altament precisos emprant un solucionador d'astrometria, amb capacitat per a mesurar i corregir els errors de l'alineació polar, capacitats d'enfocament automàtic i amb guiatge automàtic, i la captura d'una imatge individual o una pila d'imatges amb suport per a la roda de filtres. </para>
+> es basa en un entorn de treball modular extensible per a realitzar tasques comunes en astrofotografia. Això inclou GOTO altament precisos emprant un solucionador d'astrometria, amb capacitat per a mesurar i corregir els errors de l'alineació polar, capacitats d'enfocament automàtic i amb guiatge automàtic, i la captura d'una imatge individual o una pila d'imatges amb suport per a la roda de filtres, i suport per a rotors i cúpules. Les tasques complexes es poden programar i executar automàticament amb el programador de l'Ekos, tenint en compte les restriccions de prioritat, altitud, terreny, lluna i crepuscle. Podeu veure el progrés d'una sessió d'astrofotografia nocturna utilitzant el mòdul Analitza de l'Ekos i veure les imatges capturades utilitzant el visualitzador de FITS. L'Ekos es descriu al <link linkend="ekos"
+>Capítol 5.</link
+> </para>
 <para
 >Estem molt interessats a rebre els vostres comentaris; si us plau, informeu d'errades o sol·licituds de característiques a la llista de correu del desenvolupament del &kstars;: <email
 >kstars-devel AT kde.org</email
@@ -409,6 +436,8 @@
 &quicktour;   <!--A Quick Tour of &kstars;-->
 &config;      <!--Configuring &kstars;-->
 &commands;    <!--Command Reference-->
+&ekos;        <!--Ekos-->
+&fitsviewer;        <!--FITS Viewer-->
 &tools;       <!--&kstars; Tools-->
 &dumpmode;    <!--Command-line image-dump mode-->
 &indi;        <!-- INDI-->

@@ -424,8 +424,8 @@
 >. </para>
 
 <para
->FITS és el format estàndard de les captures d'imatge. Una vegada capturada i descarregada, aquesta serà mostrada automàticament pel <link linkend="tool-fitsviewer"
->Visualitzador FITS</link
+>FITS és el format estàndard de les captures d'imatge. Una vegada capturada i descarregada, aquesta serà mostrada automàticament pel <link linkend="fitsviewer"
+>Visualitzador de FITS</link
 > del &kstars;. </para>
 </sect1>
 
@@ -561,7 +561,7 @@
 ><guilabel
 >Finestra independent</guilabel
 >: Fa que la finestra del <guilabel
->Visualitzador FITS</guilabel
+>Visualitzador de FITS</guilabel
 > sigui independent.</para
 ></listitem>
       <listitem

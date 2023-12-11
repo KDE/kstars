@@ -1,4 +1,4 @@
-<sect2 id="ekos-tutorials">
+<sect1 id="ekos-tutorials">
     <title
 >Підручники з Ekos</title>
 <indexterm>
@@ -9,7 +9,7 @@
     <tertiary
 >Підручники</tertiary>
 </indexterm>
-<sect3 id="ekos-tutorials-viewer">
+<sect2 id="ekos-tutorials-viewer">
     <title
 >Переглядач</title>
     <para
@@ -34,5 +34,5 @@
 >, а типовим паролем — <userinput
 >smate</userinput
 >. </para>
-</sect3>
 </sect2>
+</sect1>

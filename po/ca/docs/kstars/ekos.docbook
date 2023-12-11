@@ -1,12 +1,10 @@
-<sect1 id="tool-ekos">
+<chapter id="ekos">
 <title
 >Ekos</title>
 <indexterm
 ><primary
->Eines</primary>
-<secondary
->Ekos</secondary>
-</indexterm>
+>Ekos</primary
+></indexterm>
 
 <para
 >L'<emphasis role="bold"
@@ -53,7 +51,7 @@
     </listitem>
     <listitem>
         <para
->Mesura i corregeix els errors de l'alineació polar emprant el solucionador «astromety.net». </para>
+>Mesura i corregeix els errors de l'alineació polar emprant el solucionador «astrometry.net». </para>
     </listitem>
     <listitem>
         <para
@@ -140,4 +138,4 @@
 >S'integra amb tots els dispositius natius de l'INDI. </para>
     </listitem>
 </itemizedlist
->&tool-ekos-setup; &tool-ekos-user-interface; &tool-ekos-profile-wizard; &tool-ekos-profile-editor; &tool-ekos-logs; &tool-ekos-capture; &tool-ekos-focus; &tool-ekos-guide; &tool-ekos-align; &tool-ekos-scheduler; &tool-ekos-analyze; &tool-ekos-tutorials; </sect1>
+>&tool-ekos-setup; &tool-ekos-user-interface; &tool-ekos-profile-wizard; &tool-ekos-profile-editor; &tool-ekos-logs; &tool-ekos-capture; &tool-ekos-focus; &tool-ekos-guide; &tool-ekos-align; &tool-ekos-scheduler; &tool-ekos-analyze; &tool-ekos-tutorials; </chapter>

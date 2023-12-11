@@ -356,8 +356,8 @@
 <para
 >Voor een uitvoerige toelichting op astrofotografie met behulp van <guilabel
 >Ekos</guilabel
->, zie de sectie over <ulink url="http://www.indilib.org/about/ekos.html"
->Ekos</ulink
+>, zie de sectie over <link linkend="ekos"
+>Ekos</link
 > in deze handleiding. </para>
 
 <!-- Xplanet page: -->
@@ -1793,7 +1793,7 @@
 >. </para>
 </sect1>
 
-<sect1 id="ekos">
+<sect1 id="ekos-window">
 <title
 >Ekos</title>
 <screenshot>
@@ -1812,7 +1812,7 @@
 <para
 >Ekos is een volledige suite voor astrofotografie, waarmee u alle INDI-apparaten kunt besturen, waaronder talrijke telescopen, CCD's, DSLR's, focusers, filters, en nog veel meer. Ekos ondersteunt zeer nauwkeurig volgen, met behulp van online en offline astrometrisch oplossen, autofocus, en autovolgen, het opnemen van enkele en meerdere afbeeldingen met gebruik van een krachtig beheer van series van opnamen. Voor een gedetailleerde uitleg van <guilabel
 >Ekos</guilabel
->, zie de <link linkend="tool-ekos"
+>, zie de <link linkend="ekos"
 >Ekos-sectie van deze handleiding</link
 >. </para>
 </sect1>

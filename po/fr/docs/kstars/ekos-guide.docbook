@@ -1,4 +1,4 @@
-<sect2 id="ekos-guide">
+<sect1 id="ekos-guide">
     <title
 >Guidage</title>
     <indexterm>
@@ -22,7 +22,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="guide-Introduction">
+    <sect2 id="guide-Introduction">
         <title
 >Introduction</title>
         <para
@@ -31,9 +31,9 @@
 > ou encore <ulink url="https://sourceforge.net/projects/linguider/"
 >lin_guider</ulink
 >. Lors de l'utilisation du guidage interne, des images de guidage sont prises et envoyées à Ekos pour analyse. Selon les déviations de l'étoile guide par rapport à sa position de verrouillage, des impulsions de correction sont envoyées aux axes d'ascension droite et de déclinaison de la monture. La plupart des options qui se trouve dans le module de guidage sont bien documentées, il vous suffit de survoler un élément et une infobulle apparaîtra contenant de l'information détaillée. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="guide-Setup">
+    <sect2 id="guide-Setup">
         <title
 >Réglage</title>
         <screenshot>
@@ -112,8 +112,8 @@
 > : ne s'applique qu'aux algorithmes différents de Étoiles Multiples, qui est celui recommandé. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="guide-calibration">
+    </sect2>
+    <sect2 id="guide-calibration">
         <title
 >Calibration</title>
 
@@ -170,7 +170,7 @@
 >. Veuillez noter que si une calibration réussie existe déjà, que vous n'avez pas effacé les données de calibration et que vous la réutiliser, alors le processus de guidage automatique démarrera immédiatement, sinon c'est le processus de calibration qui démarrera. </para>
         <para
 >Ekos débute la procédure de calibration en envoyant des impulsions à la monture pour la déplacer en AD et en DEC. D'abord à l'extérieur de l'axe AD, puis vers l'intérieur. Ensuite, il fait pareil en DEC pour compenser un éventuel jeu. Cela peut être visualisé graphiquement en cliquant sur « Afficher calibration » de la page principal de guidage. </para>
-        <sect4 id="guide-calibration-failures">
+        <sect3 id="guide-calibration-failures">
         <title
 >Échecs de la calibration</title>
             <para
@@ -215,9 +215,9 @@
 >Prenez des trames Dark pour réduire le bruit. </para>
             </listitem>
         </itemizedlist>
-    </sect4>
     </sect3>
-    <sect3 id="guide-guiding">
+    </sect2>
+    <sect2 id="guide-guiding">
         <title
 >Guidage</title>
 
@@ -264,8 +264,8 @@
 >Profil SEP. Commencez avec le profil de guidage par défaut, sauf si vous pointez un endroit du ciel avec des très grandes ou de très petites étoiles (en terme de nombre de pixel par diamètre). </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="guide-dithering">
+    </sect2>
+    <sect2 id="guide-dithering">
         <title
 >Déviations</title>
 
@@ -302,8 +302,8 @@
 >Les mini-déviations sans guide sont également possibles. Cela est utile si aucune caméra guide n'est disponible ou lors d'exposition très courte. Dans ce cas, la monture peut être commandée pour réaliser de mini-déviations dans une direction aléatoire pour une durée configuré avec l'option <guilabel
 >Impulsion déviation sans guide</guilabel
 >. </para>
-    </sect3>
-    <sect3 id="guide-drift-graphics">
+    </sect2>
+    <sect2 id="guide-drift-graphics">
         <title
 >Graphique de la dérive</title>
         <screenshot>
@@ -341,9 +341,9 @@
 >La couleur de chaque axe peut être modifiée dans la boîte de dialogue <link linkend="colors"
 >Réglages de schémas de couleurs de &kstars;</link
 >. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="guide-drift-plot">
+    <sect2 id="guide-drift-plot">
         <title
 >Graphique des dérives</title>
         <para
@@ -354,9 +354,9 @@
 ><imagedata fileref="add-circle.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > et dont la couleur reflète sa position. Vous pouvez modifier la couleur de l'anneau central en ajustant la précision du graphique de dérive. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="guide-gpg">
+    <sect2 id="guide-gpg">
         <title
 >Guidage avec GPG</title>
         <screenshot>
@@ -378,8 +378,8 @@
 >Les réglages principaux à considérer sont Période Principale et Période Estimée. Si vous connaissez la période hélicoïdale de votre monture, peut-être en analysant cette <ulink url="https://github.com/OpenPHDGuiding/phd2/wiki/Mount-Worm-Period-Info"
 >table</ulink
 >, décochez Période Estimée et saisissez la valeur de Période Principale. Dans le cas contraire, cochez Période Estimée. Le guidage avec les trames Dark peut être utilisé pour diffuser les prédictions GPG. Par exemple, si vous guider avec une durée de 5 secondes, vous pouvez régler l'intervalle de guidage de Dark à 1 seconde, ainsi les prédictions d'impulsions sont envoyées chaque seconde, tout en ayant des corrections de déviation de guidage envoyés chaque 5 secondes. Ainsi, les prédictions de corrections sont envoyées bien plus rapidement que le taux d'exposition de l'appareil, réalisant ainsi des corrections d'erreurs périodiques et permettant de plus longues poses de l'appareil guide. Tous les autres paramètres restent inchangés. </para>
-    </sect3>
-    <sect3 id="guide-dark-frames">
+    </sect2>
+    <sect2 id="guide-dark-frames">
         <title
 >Trames Dark</title>
         <para
@@ -405,9 +405,9 @@
         </screenshot>
         <para
 >Il est recommandé de prendre des trames Dark couvrant plusieurs groupements de pixels et différentes durées d'exposition afin qu'elles puissent être utilisées de manière transparente par Ekos lorsque c'est nécessaire. </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="guide-phd2-support">
+    <sect2 id="guide-phd2-support">
         <title
 >Gestion de PHD2</title>
         <para
@@ -444,8 +444,8 @@
 >. Au démarrage Ekos tentera de se connecter automatiquement à PHD2. Une fois que la connexion est établie, vous pouvez débuter le guidage immédiatement en cliquant sur le bouton <guibutton
 >Guidage</guibutton
 >. PHD2 procédera à la calibration si nécessaire. Si les mini-déviations (dithering) sont activées, PHD2 enverra les commandes de mini-déviations données par le décalage des pixels et dès que le guidage est stabilisé et stable, Ekos pourra reprendre la procédure d'acquisition. </para>
-    </sect3>
-    <sect3 id="guide-logs">
+    </sect2>
+    <sect2 id="guide-logs">
         <title
 >Journaux de guidage</title>
         <para
@@ -454,5 +454,5 @@
 >). Ce fichier journal n'est disponible que pour le guidage interne et devrait être compatible avec l'utilitaire de <ulink url="https://openphdguiding.org/phd2-log-viewer/"
 >visualisation des fichiers journaux de guidage de PHD2</ulink
 >. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

@@ -352,6 +352,11 @@ bool Guide::setCamera(ISD::Camera * device)
 
     checkCamera();
     configurePHD2Camera();
+
+    // In case we are recovering from a crash and capture is pending, process it immediately.
+    if (captureTimeout.isActive() && m_State >= Ekos::GUIDE_CAPTURE)
+        QTimer::singleShot(100, this, &Guide::processCaptureTimeout);
+
     return true;
 }
 
@@ -489,10 +494,9 @@ void Guide::checkCamera()
             return;
     }
 
-
     checkUseGuideHead();
 
-    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     if (!targetChip)
     {
         qCCritical(KSTARS_EKOS_GUIDE) << "Failed to retrieve active guide chip in camera";
@@ -913,6 +917,9 @@ void Guide::processCaptureTimeout()
         ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
         targetChip->abortExposure();
         prepareCapture(targetChip);
+        connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Guide::processData, Qt::UniqueConnection);
+        connect(m_Camera, &ISD::Camera::propertyUpdated, this, &Ekos::Guide::updateProperty, Qt::UniqueConnection);
+        connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
         targetChip->capture(guideExposure->value());
         captureTimeout.start(guideExposure->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
     };
@@ -952,7 +959,6 @@ void Guide::processCaptureTimeout()
         });
         return;
     }
-
     else
         restartExposure();
 }
@@ -2485,6 +2491,10 @@ void Guide::showFITSViewer()
         {
             fv = KStars::Instance()->createFITSViewer();
             fv->loadData(m_ImageData, url, &lastFVTabID);
+            connect(fv.get(), &FITSViewer::terminated, this, [this]()
+            {
+                fv.clear();
+            });
         }
         else if (fv->updateData(m_ImageData, url, lastFVTabID, &lastFVTabID) == false)
             fv->loadData(m_ImageData, url, &lastFVTabID);

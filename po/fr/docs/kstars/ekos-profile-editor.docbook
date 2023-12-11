@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-editor">
+<sect1 id="ekos-profile-editor">
     <title
 >Éditeur de profil</title>
     <indexterm>
@@ -141,4 +141,4 @@
         </varlistentry>
     </variablelist
 >    
-</sect2>
+</sect1>

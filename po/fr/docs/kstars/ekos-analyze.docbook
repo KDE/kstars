@@ -1,4 +1,4 @@
-<sect2 id="ekos-analyze">
+<sect1 id="ekos-analyze">
     <title
 >Analyser</title>
     <indexterm>
@@ -22,7 +22,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="analyze-Introduction">
+    <sect2 id="analyze-Introduction">
         <title
 >Introduction</title>
         <para
@@ -63,8 +63,8 @@
 > affichera les données les plus récentes (vous pouvez contrôler la largeur en zoomant). </para>
         <para
 >Les trois affichages principaux peuvent être cachés pour laisser de la place aux autres affichages. Ce sont les cases à cocher à gauche du titre de la section (Chronologie, statistiques et détails) qui permettent d'afficher ou de cacher ces affichages. </para>
-    </sect3>
-    <sect3 id="analyze-timeline">
+    </sect2>
+    <sect2 id="analyze-timeline">
         <title
 >Chronologie</title>
         <para
@@ -83,8 +83,8 @@
 >, vous ferez apparaître de l'information concernant la session et affiche les mesures de position selon le HFR de cette session. En cliquant sur un segment du <guilabel
 >guidage</guilabel
 >, c'est un graphique de la dérive de cette session qui sera affiché et, s'il le guidage est actif, ce sont les statistiques RMS qui seront affichées. </para>
-    </sect3>
-    <sect3 id="analyze-statistics">
+    </sect2>
+    <sect2 id="analyze-statistics">
         <title
 >Statistiques</title>
         <para
@@ -103,5 +103,5 @@
 >Les valeurs de la statistique peuvent aussi (bizarrement) être mis à l'échelle en utilisant la <mousebutton
 >molette</mousebutton
 > de la souris. Il peut aussi être déplacé en glissant la souris vers le haut ou vers le bas sur l'axe de gauche. Un clic n'importe où dans le graphique des statistiques affiche les valeurs des statistiques affichées. En cochant la dernière case, on affiche les valeurs les plus récentes (à partir d'une session en direct). Ce graphique est zoomé et déplacé horizontalement en synchronisation avec la ligne temporelle. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

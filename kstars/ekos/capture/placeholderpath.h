@@ -115,7 +115,7 @@ class PlaceholderPath
          */
         void setGenerateFilenameSettings(const SequenceJob &job)
         {
-            setGenerateFilenameSettings(job, m_PathPropertyMap, true);
+            setGenerateFilenameSettings(job, m_PathPropertyMap, true, false);
         }
 
         /**
@@ -138,6 +138,11 @@ class PlaceholderPath
          * @return number of existing fileIDs
          */
         int getCompletedFiles(const SequenceJob &job);
+
+        /**
+         * @brief getCompletedFiles determines the number of files matching the given path pattern
+         */
+        static int getCompletedFiles(const QString &path);
 
         /**
          * @brief checkSeqBoundary provides the ID to use for the next file
@@ -187,12 +192,16 @@ private:
                                  const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
 
         /**
-         * @brief setGenerateFilenameSettings Generate property map from job settings
+         * @brief setGenerateFilenameSettings Generate property map from job settings. In case that gettingSignature is set to true,
+         * only explicitly defined parameters from the job's core properties are filled. This is necessary for a proper cooperation with the
+         * scheduler, that generates signatures for captured files without proper knowledge of the involved camera and therefore has no ability
+         * to fill core properties from camera values. In all other cases, missing properties are filled from current camera values.
          * @param job sequence job holding the attributes
          * @param pathPropertyMap property map to be filled
          * @param local set true if local file directory should be used
+         * @param is this parameter setting for generating a signature?
          */
-        void setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap, bool local);
+        void setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool gettingSignature = false);
 
         /**
          * @brief generateReplacement Generate the replacement for the given property. if usePattern

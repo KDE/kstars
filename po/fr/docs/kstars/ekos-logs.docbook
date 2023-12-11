@@ -1,4 +1,4 @@
-<sect2 id="ekos-logs">
+<sect1 id="ekos-logs">
     <title
 >Fichiers journaux</title>
     <indexterm>
@@ -25,4 +25,4 @@
             </para>
         </caption>
     </mediaobject>
-</sect2>
+</sect1>

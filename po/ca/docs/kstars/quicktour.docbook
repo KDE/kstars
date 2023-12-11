@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->Una volta ràpida pel &kstars;</title>
+>Una volta ràpida pel mapa celeste del &kstars;</title>
 
 <para
->Aquest capítol presenta una visita guiada pel &kstars;, introduint-vos a la majoria de característiques importants. </para>
+>Aquest capítol presenta una visita guiada pel mapa celeste del &kstars;, introduint-vos a la majoria de característiques importants. </para>
 
 <screenshot>
 <screeninfo
@@ -185,7 +185,7 @@
 ><primary
 >Objectes en el cel</primary>
 <secondary
->Descripció</secondary
+>Vista general</secondary
 ></indexterm
 >El &kstars; mostra milers d'objectes celestes: estrelles, planetes, cometes, asteroides, cúmuls, nebuloses i galàxies. Podeu interactuar amb aquests objectes per a realitzar accions sobre seu o obtenir més informació. Fent clic sobre un objecte, s'identificarà en la barra d'estat, i simplement mantenint el cursor del ratolí sobre un objecte s'etiquetarà temporalment sobre el mapa. Fent doble clic, se centrarà la pantalla sobre l'objecte i es començarà a seguir (de manera que seguirà estant centrat a mesura que transcorre el temps). Fent clic amb el &BDR; sobre un objecte es desplegarà el seu menú emergent, el qual us permetrà més opcions. </para>
 
@@ -478,7 +478,7 @@
 <title
 >Final de la visita guiada</title>
 <para
->Aquí conclou la volta ràpida pel &kstars;, tot i que encara no hem esgarrapat la superfície de les característiques disponibles. El &kstars; inclou <link linkend="tools"
+>Aquí conclou la volta ràpida pel mapa celeste del &kstars;, tot i que encara no hem esgarrapat la superfície de les característiques disponibles. El &kstars; inclou <link linkend="tools"
 >eines astronòmiques</link
 > molt útils, podeu <link linkend="indi"
 >controlar el vostre telescopi</link

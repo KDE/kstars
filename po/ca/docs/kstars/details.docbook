@@ -86,7 +86,7 @@ for solar system objects -->
 ><para
 ><guimenuitem
 >SkyView</guimenuitem
->: Proveeix imatges dels reconeixements sobre tot el cel que es fan realitzant en dotzenes de parts diferents de l'espectre, des de raigs gamma fins a la ràdio. La interfície del &kstars; recuperarà una imatge des de qualsevol d'aquests reconeixements, centrat en l'objecte seleccionat. </para
+>: Proveeix imatges dels rastreigs sobre tot el cel que es fan realitzant en dotzenes de parts diferents de l'espectre, des de raigs gamma fins a la ràdio. La interfície del &kstars; recuperarà una imatge des de qualsevol d'aquests rastreig, centrat en l'objecte seleccionat. </para
 ></listitem>
 <listitem
 ><para

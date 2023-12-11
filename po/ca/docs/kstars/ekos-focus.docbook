@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect2 id="ekos-focus">
+<sect1 id="ekos-focus">
   <title
 >Enfocar</title>
 
@@ -14,7 +14,7 @@
 >Enfocament</tertiary>
   </indexterm>
 
-  <sect3 id="focus-theory">
+  <sect2 id="focus-theory">
     <title
 >Teoria de l'operació</title>
 
@@ -164,9 +164,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="optical-train-group">
+  <sect2 id="optical-train-group">
     <title
 >Grup del tren òptic</title>
 
@@ -208,9 +208,9 @@
 
     <para
 >Els paràmetres d'enfocament es desen automàticament per cada tren òptic.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-focuser-group">
+  <sect2 id="focus-focuser-group">
     <title
 >Grup de l'enfocador</title>
 
@@ -361,9 +361,9 @@
 
     <para
 >Si sou completament nou en l'astronomia, sempre és una bona idea familiaritzar-vos amb l'equip a plena llum del dia. Això inclou obtenir la posició aproximada d'enfocament en un objecte distant. Això proporcionarà una bona posició de partida per enfocar les estrelles quan arribi la nit.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-ccd-filter-wheel">
+  <sect2 id="focus-ccd-filter-wheel">
     <title
 >Grup de càmera i roda de filtres</title>
 
@@ -407,8 +407,8 @@
       <listitem>
         <para
 >El botó <guibutton
->Mostra en el visualitzador FITS</guibutton
-> obre una finestra separada del visualitzador FITS per a mostrar el marc d'enfocament, a més del marc d'enfocament que es mostra dins de la finestra d'enfocament.</para>
+>Mostra en el visualitzador de FITS</guibutton
+> obre una finestra separada del visualitzador de FITS per a mostrar el marc d'enfocament, a més del marc d'enfocament que es mostra dins de la finestra d'enfocament.</para>
       </listitem>
 
       <listitem>
@@ -479,9 +479,9 @@
 > restablirà el submarc d'enfocament al fotograma complet.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-settings">
+  <sect2 id="focus-settings">
     <title
 >Configuració de l'enfocament</title>
 
@@ -596,7 +596,7 @@
 >.</para>
         <para
 >L'efecte de les opcions d'emmascarament es pot veure al <link linkend="focus-display"
->Visualitzador FITS</link
+>Visualitzador de FITS</link
 >.</para>
 	  <itemizedlist>
 	    <listitem>
@@ -714,9 +714,9 @@
         </para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-process">
+  <sect2 id="focus-process">
     <title
 >Procés d'enfocament</title>
 
@@ -1088,9 +1088,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-mechanics">
+  <sect2 id="focus-mechanics">
     <title
 >Mecànica de l'enfocament</title>
 
@@ -1296,9 +1296,9 @@
 >: La quantitat de temps en segons a esperar que l'enfocador es mogui a la posició sol·licitada abans de declarar l'exhauriment. Això només s'hauria d'activar si hi ha problemes amb l'enfocador durant el procés d'enfocament, de manera que establiu un valor prou alt que no es produirà durant l'operativa normal.</para>
   </listitem>
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-cfz">
+  <sect2 id="focus-cfz">
     <title
 >Zona crítica d'enfocament del focus (ZCE)</title>
 
@@ -1515,10 +1515,10 @@
   </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="focus-advisor">
+  <sect2 id="focus-advisor">
     <title
 >Assessor d'enfocament</title>
 
@@ -1623,9 +1623,9 @@
     </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-filter-settings">
+  <sect2 id="focus-filter-settings">
       <title
 >Configuració del filtre</title>
 
@@ -1849,10 +1849,10 @@
 >Oiii: El filtre Oiii està configurat per a l'enfocament automàtic, està bloquejat a Lum i té un desplaçament de -100. Així que quan s'inicia la seqüència Oiii, hi ha una execució d'enfocament automàtic a Lum i el desplaçament relatiu entre Lum i Oiii és -100 - 0 = -100, de manera que l'enfocador es mou a la solució d'execució d'enfocament automàtic de Lum i 100 cap endins.</para>
           </listitem>
       </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="build-filter-offsets">
+  <sect2 id="build-filter-offsets">
       <title
 >Construcció de desplaçaments</title>
 
@@ -2058,9 +2058,9 @@
 ></listitem>
             </itemizedlist>
       </para>
-</sect3>
+</sect2>
 
-  <sect3 id="focus-display">
+  <sect2 id="focus-display">
     <title
 >Visualització de l'enfocament</title>
 
@@ -2081,14 +2081,14 @@
     </screenshot>
 
     <para
->La pantalla d'enfocament mostra una finestra del visualitzador FITS en el fotograma pres durant el procés d'enfocament. Si s'ha seleccionat <guilabel
+>La pantalla d'enfocament mostra una finestra del visualitzador de FITS en el fotograma pres durant el procés d'enfocament. Si s'ha seleccionat <guilabel
 >Màscara d'anell</guilabel
 >, es dibuixa la màscara sobre la imatge. Totes les estrelles detectades per l'Ekos en funció dels paràmetres seleccionats, tenen el seu valor HFR al costat de l'estrella associada (excepte que Mesura s'estableixi a FWHM). </para>
 
     <para
 >Si s'ha seleccionat <guilabel
 >Màscara de mosaic </guilabel
->, el visualitzador FITS mostra la quadrícula 3x3 del mosaic que mostra el centre, les vores i els costats tal com es configura a les opcions de la màscara de mosaic. <screenshot
+>, el visualitzador de FITS mostra la quadrícula 3x3 del mosaic que mostra el centre, les vores i els costats tal com es configura a les opcions de la màscara de mosaic. <screenshot
 ><screeninfo
 >Mosaic de visualització de l'enfocament</screeninfo
 ><mediaobject>
@@ -2103,7 +2103,7 @@
 ></para>
 
     <para
->La finestra admet les següents opcions del visualitzador FITS (a la part superior de la finestra):</para>
+>La finestra admet les següents opcions del visualitzador de FITS (a la part superior de la finestra):</para>
 
     <itemizedlist>
       <listitem>
@@ -2159,9 +2159,9 @@
 >: Llança el diàleg del Perfil de vista d'estrella.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-v-curve">
+  <sect2 id="focus-v-curve">
     <title
 >Corba V</title>
 
@@ -2332,9 +2332,9 @@
         </textobject>
       </mediaobject>
     </screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-relative-profile">
+  <sect2 id="focus-relative-profile">
     <title
 >Perfil relatiu</title>
 
@@ -2357,9 +2357,9 @@
 
     <para
 >El perfil relatiu és una gràfica que mostra els valors HFR relatius representats entre si. Els valors HFR inferiors corresponen a les formes més estretes i viceversa. La corba vermella sòlida és el perfil del valor HFR actual, mentre que la corba verda amb punts és per al valor HFR anterior. Finalment, la corba magenta indica el primer HFR mesurat. Això permet jutjar si el rendiment del procés d'enfocament automàtic ha millorat la qualitat de l'enfocament relatiu. </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+  <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
     <title
 >Com configurar per a executar un enfocament automàtic</title>
 
@@ -2425,9 +2425,9 @@
 ></textobject
 ></mediaobject
 ></screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-backlash">
+  <sect2 id="focus-backlash">
     <title
 >Rebot de l'enfocador</title>
 
@@ -2515,9 +2515,9 @@
       </listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-adaptive">
+  <sect2 id="focus-adaptive">
     <title
 >Enfocament adaptatiu</title>
 
@@ -2646,10 +2646,10 @@
 >El concepte d'enfocament adaptatiu s'ha incorporat a l'eina <link linkend="build-filter-offsets"
 >Construcció de desplaçaments</link
 >.</para>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="Coefficient_of_Determination">
+  <sect2 id="Coefficient_of_Determination">
     <title
 >Coeficient de determinació, R²</title>
 
@@ -2669,9 +2669,9 @@
 
     <para
 >Aquesta característica es desactiva establint el límit R² a 0.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="Levenberg-Marquardt">
+  <sect2 id="Levenberg-Marquardt">
     <title
 >Solucionador Levenberg-Marquardt</title>
 
@@ -2719,9 +2719,9 @@
 
     <para
 >Actualment, el solucionador s'utilitza per ajustar una corba parabòlica o hiperbòlica.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-aberration-inspector">
+  <sect2 id="focus-aberration-inspector">
     <title
 >Inspector d'aberracions</title>
 
@@ -2835,7 +2835,7 @@
     <para
 >Les seccions següents descriuen les seccions del diàleg de l'Inspector d'aberracions.</para>
 
-    <sect4 id="aberration-inspector-vcurve">
+    <sect3 id="aberration-inspector-vcurve">
       <title
 >Corba V de l'inspector d'aberracions</title>
 
@@ -2912,9 +2912,9 @@
 
     <para
 >Passeu el ratolí per sobre d'un mínim de la corba per a veure més informació sobre aquesta corba.</para>
-    </sect4>
+    </sect3>
 
-    <sect4 id="aberration-inspector-table">
+    <sect3 id="aberration-inspector-table">
     <title
 >Taula de l'inspector d'aberracions</title>
 
@@ -3007,9 +3007,9 @@
 >L'aproximació recomanada és comprovar la taula per obtenir dades de qualitat i, una vegada aconseguit, passar a analitzar els <link linkend="aberration-inspector-results"
 >Resultats de l'Inspector d'aberracions</link
 >.</para>
-    </sect4>
+    </sect3>
 
-    <sect4 id="aberration-inspector-results">
+    <sect3 id="aberration-inspector-results">
     <title
 >Resultat de l'Inspector d'aberracions</title>
 
@@ -3073,9 +3073,9 @@
 
     <para
 >A causa de la naturalesa de la delta del focus per darrere i els càlculs d'inclinació, un afectarà a l'altre, de manera que probablement serà millor intentar ajustar tots dos junts, en petits increments, en lloc d'intentar perfeccionar un de forma aïllada, abans d'ajustar l'altre.</para>
-    </sect4>
+    </sect3>
 
-    <sect4 id="aberration-inspector-3dgraphic">
+    <sect3 id="aberration-inspector-3dgraphic">
     <title
 >Gràfic 3D de l'inspector d'aberracions</title>
 
@@ -3185,6 +3185,6 @@
 > i a la secció <link linkend="aberration-inspector-results"
 >Resultats</link
 > del diàleg. La seva finalitat és ajudar a l'usuari a entendre l'Inspector d'aberracions i orientar-se amb la informació que proporciona l'eina.</para>
-    </sect4>
-  </sect3>
-</sect2>
+    </sect3>
+  </sect2>
+</sect1>

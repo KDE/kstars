@@ -34,7 +34,7 @@
 ></term>
 <listitem
 ><para
->Een afbeelding in het hulpmiddel FITS-viewer openen. </para
+>Een afbeelding in de FITS-viewer openen. </para
 ></listitem>
 </varlistentry>
 
@@ -607,7 +607,7 @@
 >F6</keycap
 ></shortcut
 ><guimenuitem
->Azimuthal Equidistant</guimenuitem
+>Azimutaal afstandsgetrouw</guimenuitem
 ></menuchoice
 ></term>
   <listitem
@@ -1025,8 +1025,9 @@
 ></term>
 <listitem>
 <para
->Opent <guilabel
->Ekos</guilabel
+>Opent <link
+> linkend="ekos"
+>Ekos</link
 >, een compleet en krachtig astrografisch hulpmiddel. Met behulp van Ekos kunt u uw telescoop uitlijnen en laten volgen, uw CCD focusseren, en opnames maken in een eenvoudig en intuïtief scherm. </para>
 </listitem>
 </varlistentry>
@@ -2981,7 +2982,7 @@
 ></indexterm
 >Openen van het <link linkend="popup-menu"
 >contextmenu</link
-> voor de locatie of het object dat het dichtste bij de positie van de muisaanwijzer in de sterrenkaart is. </para
+> voor de locatie of het object dat het dichtste bij de positie van de muisaanwijzer is. </para
 ></listitem>
 </varlistentry>
 

@@ -217,7 +217,7 @@ QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
         const bool gettingSignature)
 {
     QMap<PathProperty, QVariant> pathPropertyMap;
-    setGenerateFilenameSettings(job, pathPropertyMap, local);
+    setGenerateFilenameSettings(job, pathPropertyMap, local, gettingSignature);
 
     return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob,
                                     gettingSignature);
@@ -475,7 +475,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
 }
 
 void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap,
-        bool local)
+        const bool local, const bool gettingSignature)
 {
     setPathProperty(pathPropertyMap, PP_TARGETNAME, job.getCoreProperty(SequenceJob::SJ_TargetName));
     setPathProperty(pathPropertyMap, PP_FRAMETYPE, QVariant(job.getFrameType()));
@@ -493,21 +493,21 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<P
     // handle optional parameters
     if (job.getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
         setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.getTargetTemperature()));
-    else if (job.currentTemperature() != Ekos::INVALID_VALUE)
+    else if (job.currentTemperature() != Ekos::INVALID_VALUE && !gettingSignature)
         setPathProperty(pathPropertyMap, PP_TEMPERATURE, QVariant(job.currentTemperature()));
     else
         pathPropertyMap.remove(PP_TEMPERATURE);
 
     if (job.getCoreProperty(SequenceJob::SequenceJob::SJ_Gain).toInt() >= 0)
         setPathProperty(pathPropertyMap, PP_GAIN, job.getCoreProperty(SequenceJob::SJ_Gain));
-    else if (job.currentGain() >= 0)
+    else if (job.currentGain() >= 0 && !gettingSignature)
         setPathProperty(pathPropertyMap, PP_GAIN, job.currentGain());
     else
         pathPropertyMap.remove(PP_GAIN);
 
     if (job.getCoreProperty(SequenceJob::SequenceJob::SJ_Offset).toInt() >= 0)
         setPathProperty(pathPropertyMap, PP_OFFSET, job.getCoreProperty(SequenceJob::SJ_Offset));
-    else if (job.currentOffset() >= 0)
+    else if (job.currentOffset() >= 0 && !gettingSignature)
         setPathProperty(pathPropertyMap, PP_OFFSET, job.currentOffset());
     else
         pathPropertyMap.remove(PP_OFFSET);
@@ -571,6 +571,59 @@ QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job)
 int PlaceholderPath::getCompletedFiles(const SequenceJob &job)
 {
     return getCompletedFileIds(job).length();
+}
+
+int PlaceholderPath::getCompletedFiles(const QString &path)
+{
+    int seqFileCount = 0;
+#ifdef Q_OS_WIN
+    // Splitting directory and baseName in QFileInfo does not distinguish regular expression backslash from directory separator on Windows.
+    // So do not use QFileInfo for the code that separates directory and basename for Windows.
+    // Conditions for calling this function:
+    // - Directory separators must always be "/".
+    // - Directory separators must not contain backslash.
+    QString sig_dir;
+    QString sig_file;
+    int index = path.lastIndexOf('/');
+    if (0 <= index)
+    {
+        // found '/'. path has both dir and filename
+        sig_dir = path.left(index);
+        sig_file = path.mid(index + 1);
+    } // not found '/'. path has only filename
+    else
+    {
+        sig_file = path;
+    }
+    // remove extension
+    index = sig_file.lastIndexOf('.');
+    if (0 <= index)
+    {
+        // found '.', then remove extension
+        sig_file = sig_file.left(index);
+    }
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler::getCompletedFiles path:" << path << " sig_dir:" << sig_dir << " sig_file:" <<
+                                   sig_file;
+#else
+    QFileInfo const path_info(path);
+    QString const sig_dir(path_info.dir().path());
+    QString const sig_file(path_info.completeBaseName());
+#endif
+    QRegularExpression re(sig_file);
+
+    QDirIterator it(sig_dir, QDir::Files);
+
+    /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
+    while (it.hasNext())
+    {
+        QString const fileName = QFileInfo(it.next()).completeBaseName();
+
+        QRegularExpressionMatch match = re.match(fileName);
+        if (match.hasMatch())
+            seqFileCount++;
+    }
+
+    return seqFileCount;
 }
 
 int PlaceholderPath::checkSeqBoundary(const SequenceJob &job)

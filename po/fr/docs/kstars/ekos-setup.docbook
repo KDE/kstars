@@ -1,6 +1,6 @@
-<sect2 id="ekos-setup">
+<sect1 id="ekos-setup">
     <title
->Configuration de Ekos</title>
+>Configuration d'Ekos</title>
 <indexterm>
     <primary
 >Outils</primary>
@@ -57,4 +57,4 @@
         </textobject>
     </mediaobject>
 </screenshot>
-</sect2>
+</sect1>

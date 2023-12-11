@@ -1,14 +1,12 @@
-<sect1 id="tool-fitsviewer">
+<chapter id="fitsviewer">
 <title
 >Інструмент «Переглядач <acronym
 >FITS</acronym
 >»</title>
 <indexterm
 ><primary
->Інструменти</primary>
-<secondary
->Переглядач FITS</secondary>
-</indexterm>
+>Переглядач FITS</primary
+></indexterm>
 
 <para
 >Гнучка система передавання зображень (Flexible Image Transport System або FITS) є стандартним форматом представлення зображень і даних у астрономії. Засіб перегляду FITS &kstars; є інструментом для перегляду таких зображень. Його не призначено для редагування зображень FITS.</para>
@@ -26,14 +24,14 @@
 
 <screenshot>
   <screeninfo
->Інструмент «Переглядач FITS»</screeninfo>
+>Переглядач FITS</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->Інструмент «Переглядач FITS»</phrase>
+>Переглядач FITS</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -55,7 +53,7 @@
   </mediaobject>
 </screenshot>
 
-<sect2 id="fits-viewer-main-controls">
+<sect1 id="fits-viewer-main-controls">
     <title
 >Основні елементи керування</title>
 
@@ -467,8 +465,8 @@
 </screenshot>
 <para
 >За допомогою наведення вказівника миші на будь-який з пунктів можна відкрити контекстну підказку із даними щодо призначення елемента керування. </para>
-</sect2>
-<sect2 id="fits-viewer-features">
+</sect1>
+<sect1 id="fits-viewer-features">
     <title
 >Можливості</title>
     <variablelist>
@@ -510,9 +508,9 @@
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-solver">
+<sect1 id="fits-viewer-solver">
     <title
 >Розв'язувач у засобі перегляду FITS</title>
     <screenshot>
@@ -607,9 +605,9 @@
             </itemizedlist>
             <para
 >Щоб ознайомитися із профілем або внести зміни до нього, користувач може відкрити вкладку вирівнювання в Ekos, перейти до меню «Параметри», вибрати вкладку параметрів StellarSolver, переконатися, що вибрано належний профіль, і натиснути кнопку із олівцем для перегляду профілю або внесення до нього змін. </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-embedded">
+<sect1 id="fits-viewer-embedded">
     <title
 >Вбудований засіб перегляду FITS</title>
     <screenshot>
@@ -671,9 +669,9 @@
     </itemizedlist>
     <para
 >Рухома панель автоматично приховується, щойно вказівник миші полишає область вбудованого переглядача. Для панорамування та зміни масштабу зображення на панелі вбудованого перегляду можна скористатися мишею. Зеленою областю стеження можна скористатися для вибору певної зірки або області на зображенні, зокрема зірки для наведення телескопа. </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-3d-star-profile">
+<sect1 id="fits-viewer-3d-star-profile">
 <title
 >Засіб перегляду просторового профілю зірки та візуалізації даних</title>
 <screenshot>
@@ -786,5 +784,5 @@
             </textobject>
         </mediaobject>
     </screenshot>
-</sect2>
 </sect1>
+</chapter>
