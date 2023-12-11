@@ -211,7 +211,10 @@ void ClientManager::appendManagedDriver(const QSharedPointer<DriverInfo> &driver
 void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver)
 {
     if (m_ManagedDrivers.empty())
+    {
+        qCDebug(KSTARS_INDI) << "removeManagedDriver: no managed drivers!";
         return;
+    }
 
     qCDebug(KSTARS_INDI) << "Removing managed driver" << driver->getName();
 
