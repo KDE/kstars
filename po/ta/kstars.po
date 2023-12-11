@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-10 00:39+0000\n"
+"POT-Creation-Date: 2023-12-11 00:39+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -6520,7 +6520,7 @@ msgid "Invalid URL: %1"
 msgstr "முறையற்ற URL : %1"
 
 #: ekos/align/align.cpp:3873 ekos/align/mountmodel.cpp:401
-#: ekos/capture/captureprocess.cpp:2417 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/capture/captureprocess.cpp:2418 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, fuzzy, kde-format
 #| msgid "Unable to read FITS data from file. %1.\n"
@@ -6529,7 +6529,7 @@ msgstr "%1 கோப்பில் இருந்து FITS  தரவை ப
 
 #: ekos/align/align.cpp:3874 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
-#: ekos/capture/captureprocess.cpp:2301 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/capture/captureprocess.cpp:2302 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
 #: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
@@ -7184,14 +7184,14 @@ msgid "Open Ekos Alignment List"
 msgstr "பட்டியலை பார்க்கிறது...."
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1965
-#: ekos/capture/captureprocess.cpp:2300 ekos/scheduler/scheduler.cpp:2635
+#: ekos/capture/captureprocess.cpp:2301 ekos/scheduler/scheduler.cpp:2635
 #: ekos/scheduler/scheduler.cpp:3944
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2326
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2327
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -14100,7 +14100,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2661
+#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2662
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "&சுட்டுதல் "
@@ -15566,20 +15566,20 @@ msgstr ""
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2386
+#: ekos/capture/captureprocess.cpp:2387
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2418
+#: ekos/capture/captureprocess.cpp:2419
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை"
 
-#: ekos/capture/captureprocess.cpp:2438
+#: ekos/capture/captureprocess.cpp:2439
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15587,19 +15587,19 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2561
+#: ekos/capture/captureprocess.cpp:2562
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/captureprocess.cpp:2607
+#: ekos/capture/captureprocess.cpp:2608
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr " Frequency அதிர்வலை:"
 
-#: ekos/capture/captureprocess.cpp:2660
+#: ekos/capture/captureprocess.cpp:2661
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15607,20 +15607,20 @@ msgid ""
 "restart capturing?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/captureprocess.cpp:2674
+#: ekos/capture/captureprocess.cpp:2675
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2789
+#: ekos/capture/captureprocess.cpp:2790
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா ?"
 
-#: ekos/capture/captureprocess.cpp:2790
+#: ekos/capture/captureprocess.cpp:2791
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-10 00:39+0000\n"
+"POT-Creation-Date: 2023-12-11 00:39+0000\n"
 "PO-Revision-Date: 2023-12-09 09:27\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6143,7 +6143,7 @@ msgid "Invalid URL: %1"
 msgstr "无效的网址：%1"
 
 #: ekos/align/align.cpp:3873 ekos/align/mountmodel.cpp:401
-#: ekos/capture/captureprocess.cpp:2417 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/capture/captureprocess.cpp:2418 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, kde-format
 msgid "Unable to write to file %1"
@@ -6151,7 +6151,7 @@ msgstr "无法写入到文件 %1"
 
 #: ekos/align/align.cpp:3874 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
-#: ekos/capture/captureprocess.cpp:2301 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/capture/captureprocess.cpp:2302 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
 #: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
@@ -6768,13 +6768,13 @@ msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1965
-#: ekos/capture/captureprocess.cpp:2300 ekos/scheduler/scheduler.cpp:2635
+#: ekos/capture/captureprocess.cpp:2301 ekos/scheduler/scheduler.cpp:2635
 #: ekos/scheduler/scheduler.cpp:3944
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "无法打开文件 %1"
 
-#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2326
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2327
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -13480,7 +13480,7 @@ msgstr "保存序列队列失败"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2661
+#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2662
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
@@ -14873,19 +14873,19 @@ msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2386
+#: ekos/capture/captureprocess.cpp:2387
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr "中天翻转配置已移到赤道仪模块。请在那里配置中天翻转。"
 
-#: ekos/capture/captureprocess.cpp:2418
+#: ekos/capture/captureprocess.cpp:2419
 #, kde-format
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ekos/capture/captureprocess.cpp:2438
+#: ekos/capture/captureprocess.cpp:2439
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -14895,36 +14895,36 @@ msgstr ""
 "警告：基于 HFR 的自动焦点已设置，但未启用“保存序列 HFR 值至文件”选项。 当前 "
 "HFR 值将不会被写入序列文件。"
 
-#: ekos/capture/captureprocess.cpp:2561
+#: ekos/capture/captureprocess.cpp:2562
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "序列队列已保存到 %1"
 
-#: ekos/capture/captureprocess.cpp:2607
+#: ekos/capture/captureprocess.cpp:2608
 #, kde-format
 msgid "Sequence paused."
 msgstr "序列已暂停。"
 
-#: ekos/capture/captureprocess.cpp:2660
+#: ekos/capture/captureprocess.cpp:2661
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
 
-#: ekos/capture/captureprocess.cpp:2674
+#: ekos/capture/captureprocess.cpp:2675
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
 
-#: ekos/capture/captureprocess.cpp:2789
+#: ekos/capture/captureprocess.cpp:2790
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您确定要重新启动相机 %1 驱动吗？"
 
-#: ekos/capture/captureprocess.cpp:2790
+#: ekos/capture/captureprocess.cpp:2791
 #, kde-format
 msgid "Driver Restart"
 msgstr "重启设备"

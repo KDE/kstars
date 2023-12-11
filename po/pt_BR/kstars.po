@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-10 00:39+0000\n"
+"POT-Creation-Date: 2023-12-11 00:39+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -6484,7 +6484,7 @@ msgid "Invalid URL: %1"
 msgstr "URL inválida: %1"
 
 #: ekos/align/align.cpp:3873 ekos/align/mountmodel.cpp:401
-#: ekos/capture/captureprocess.cpp:2417 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/capture/captureprocess.cpp:2418 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, kde-format
 msgid "Unable to write to file %1"
@@ -6492,7 +6492,7 @@ msgstr "Não foi possível gravar no arquivo %1"
 
 #: ekos/align/align.cpp:3874 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
-#: ekos/capture/captureprocess.cpp:2301 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/capture/captureprocess.cpp:2302 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
 #: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
 #: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
@@ -7172,13 +7172,13 @@ msgid "Open Ekos Alignment List"
 msgstr "Abrir a lista de agendamentos do Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1965
-#: ekos/capture/captureprocess.cpp:2300 ekos/scheduler/scheduler.cpp:2635
+#: ekos/capture/captureprocess.cpp:2301 ekos/scheduler/scheduler.cpp:2635
 #: ekos/scheduler/scheduler.cpp:3944
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Não foi possível abrir o arquivo %1"
 
-#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2326
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2327
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -14494,7 +14494,7 @@ msgstr "Ocorreu um erro ao salvar a fila da sequência"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Deseja realmente reiniciar o status de todas as tarefas?"
 
-#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2661
+#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2662
 #, kde-format
 msgid "Reset job status"
 msgstr "Reiniciar o status da tarefa"
@@ -16049,20 +16049,20 @@ msgstr ""
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "A ADU atual é %1. A próxima exposição ocorrerá em %2 segundos."
 
-#: ekos/capture/captureprocess.cpp:2386
+#: ekos/capture/captureprocess.cpp:2387
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2418
+#: ekos/capture/captureprocess.cpp:2419
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Não foi possível abrir o arquivo %1"
 
-#: ekos/capture/captureprocess.cpp:2438
+#: ekos/capture/captureprocess.cpp:2439
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -16070,18 +16070,18 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2561
+#: ekos/capture/captureprocess.cpp:2562
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Fila de sequências salva em %1"
 
-#: ekos/capture/captureprocess.cpp:2607
+#: ekos/capture/captureprocess.cpp:2608
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence paused."
 msgstr "Fila de sequências"
 
-#: ekos/capture/captureprocess.cpp:2660
+#: ekos/capture/captureprocess.cpp:2661
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16090,20 +16090,20 @@ msgstr ""
 "Todas as tarefas estão concluídas. Deseja restaurar o status de todas as "
 "tarefas e reiniciar a captura?"
 
-#: ekos/capture/captureprocess.cpp:2674
+#: ekos/capture/captureprocess.cpp:2675
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2789
+#: ekos/capture/captureprocess.cpp:2790
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Tem certeza de que deseja remover o cliente %1?"
 
-#: ekos/capture/captureprocess.cpp:2790
+#: ekos/capture/captureprocess.cpp:2791
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"

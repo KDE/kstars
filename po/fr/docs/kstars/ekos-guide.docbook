@@ -169,7 +169,7 @@
 >Guider</guibutton
 >. Veuillez noter que si une calibration réussie existe déjà, que vous n'avez pas effacé les données de calibration et que vous la réutiliser, alors le processus de guidage automatique démarrera immédiatement, sinon c'est le processus de calibration qui démarrera. </para>
         <para
->Ekos débute la procédure de calibration en envoyant des impulsions à la monture pour la déplacer en « AD » et en « DEC ». D'abord à l'extérieur de l'axe « AD », puis vers l'intérieur. Ensuite, il fait pareil en « DEC » pour compenser un éventuel jeu. Cela peut être affiché graphiquement en cliquant sur « Afficher calibration » de la page principal de guidage. </para>
+>Ekos débute la procédure de calibration en envoyant des impulsions à la monture pour la déplacer en AD et en DEC. D'abord à l'extérieur de l'axe AD, puis vers l'intérieur. Ensuite, il fait pareil en DEC pour compenser un éventuel jeu. Cela peut être visualisé graphiquement en cliquant sur « Afficher calibration » de la page principal de guidage. </para>
         <sect3 id="guide-calibration-failures">
         <title
 >Échecs de la calibration</title>
@@ -377,7 +377,7 @@
         <para
 >Les réglages principaux à considérer sont Période Principale et Période Estimée. Si vous connaissez la période hélicoïdale de votre monture, peut-être en analysant cette <ulink url="https://github.com/OpenPHDGuiding/phd2/wiki/Mount-Worm-Period-Info"
 >table</ulink
->, décochez Période Estimée et saisissez la valeur de Période Principale. Dans le cas contraire, cochez Période Estimée. Le guidage avec les trames Dark peut être utilisé pour diffuser les prédictions GPG. Par exemple, si vous guider avec une durée de 5 secondes, vous pouvez régler l'intervalle de guidage de Dark à 1 seconde, ainsi les prédictions d'impulsions sont envoyées chaque seconde, tout en ayant des corrections de déviation de guidage envoyés toutes les 5 secondes. Ainsi, les prédictions de corrections sont envoyées bien plus rapidement que le taux d'exposition de l'appareil, réalisant ainsi des corrections d'erreurs périodiques et permettant de plus longues poses de l'appareil guide. Tous les autres paramètres restent inchangés. </para>
+>, décochez Période Estimée et saisissez la valeur de Période Principale. Dans le cas contraire, cochez Période Estimée. Le guidage avec les trames Dark peut être utilisé pour diffuser les prédictions GPG. Par exemple, si vous guider avec une durée de 5 secondes, vous pouvez régler l'intervalle de guidage de Dark à 1 seconde, ainsi les prédictions d'impulsions sont envoyées chaque seconde, tout en ayant des corrections de déviation de guidage envoyés chaque 5 secondes. Ainsi, les prédictions de corrections sont envoyées bien plus rapidement que le taux d'exposition de l'appareil, réalisant ainsi des corrections d'erreurs périodiques et permettant de plus longues poses de l'appareil guide. Tous les autres paramètres restent inchangés. </para>
     </sect2>
     <sect2 id="guide-dark-frames">
         <title
@@ -449,10 +449,10 @@
         <title
 >Journaux de guidage</title>
         <para
->Ekos enregistre les données de guidage dans un fichier CSV au format « PHD2 » qui peut être utile pour analyser les performances de la monture. Sous Linux, elles sont enregistrées sous (<filename
+>Ekos enregistre les données de guidage dans un fichier CSV au format PHD2 qui peut être utile pour analyser les performances de la monture. Sous Linux, elles sont enregistrées sous (<filename
 >~/.local/share/kstars/guide_log.txt</filename
->). Ce fichier journal n'est disponible que pour le guidage interne et devrait être compatible avec l'utilitaire <ulink url="https://openphdguiding.org/phd2-log-viewer/"
->d'affichage des fichiers journaux de guidage de « PHD2 »</ulink
+>). Ce fichier journal n'est disponible que pour le guidage interne et devrait être compatible avec l'utilitaire de <ulink url="https://openphdguiding.org/phd2-log-viewer/"
+>visualisation des fichiers journaux de guidage de PHD2</ulink
 >. </para>
     </sect2>
 </sect1>

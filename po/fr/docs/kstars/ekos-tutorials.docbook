@@ -1,6 +1,6 @@
 <sect1 id="ekos-tutorials">
     <title
->Tutoriel pour Ekos</title>
+>Tutoriel Ekos</title>
 <indexterm>
     <primary
 >Outils</primary>
@@ -13,7 +13,7 @@
     <title
 >Afficheur</title>
     <para
->StellarMate est distribué avec un serveur VNC. Cela vous permet d'accéder à distance au bureau StellarMate. La connexion à VNC se fait soit via un client VNC depuis votre bureau ou votre mobile soit simplement grâce à un navigateur. </para>
+>StellaMate est distribué avec un serveur VNC. Cela vous permet d'accéder à distance au bureau StellarMate. La connexion à VNC se fait soit via un client VNC depuis votre bureau ou votre mobile soit simplement via un navigateur. </para>
     <para
 >L'adresse VNC est : <userinput
 >https://<replaceable
@@ -22,7 +22,7 @@
 >. </para>
     <para
 >Où <replaceable
->stellarmate-hostname</replaceable
+>stellarmate_hostname</replaceable
 > est le nom d'hôte (ou l'adresse IP) de votre appareil et 6080 le numéro du port. Si vous ne connaissez pas le nom d'hôte de votre appareil, vous pouvez le trouver dans l'application StellarMate. </para>
     <para
 >Vous pouvez utiliser l'application <ulink url="https://www.realvnc.com/download/viewer/"

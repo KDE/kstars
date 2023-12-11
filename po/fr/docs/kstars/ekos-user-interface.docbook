@@ -71,7 +71,7 @@
 >Module Configuration et résumé</term>
             <listitem>
                 <para
->Ainsi que suggéré par son nom, c'est ici que vous allez créer et gérer le profil de votre matériel et vous connecter aux périphériques. Il fournit aussi une vue résumant la procédure d'acquisition, de mise au point et de guidage dans un format synthétique afin de transmettre les informations les plus importantes à l'utilisateur. </para>
+>Ainsi que suggéré par son nom, c'est ici que vous allez créer et gérer le profil de votre matériel et vous connecter aux périphériques. Il fournit aussi une vue résumant la procédure d'acquisition, de mise au point et de guidage dans un format compact afin de transmettre les informations les plus importantes à l'utilisateur. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -79,7 +79,7 @@
 >Module Ordonnanceur</term>
             <listitem>
                 <para
->Après la prise en main de Ekos, les utilisateurs sont encouragés à utiliser le module Ordonnanceur puisqu'il facilite grandement tout le processus d'observation. Il vous permet de choisir plusieurs cibles, de spécifier les conditions à respecter et les trames nécessaires à l'acquisition. Cela fait, l'ordonnanceur calcule le meilleur horaire d'observation pour chaque objet et ensuite prend le contrôle total de la session d'observation, du début jusqu'à la fin. </para>
+>Après la prise en main d'Ekos, les utilisateurs sont encouragés à utiliser le module Ordonnanceur puisqu'il facilite grandement tout le processus d'observation. Il vous permet de choisir plusieurs cibles, de spécifier les conditions à respecter et les trames nécessaires à l'acquisition. Cela fait, l'ordonnanceur calcule le meilleur horaire d'observation pour chaque objet et ensuite prend le contrôle total de la session d'observation, du début jusqu'à la fin. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
