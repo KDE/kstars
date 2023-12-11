@@ -603,7 +603,7 @@ const QSharedPointer<FITSViewer> &KStars::createFITSViewer()
             auto rawPointer = dynamic_cast<FITSViewer*>(sender());
             m_FITSViewers.erase(std::remove_if(m_FITSViewers.begin(), m_FITSViewers.end(), [rawPointer](auto & viewer)
             {
-                return viewer.get() != rawPointer;
+                return viewer.get() == rawPointer;
             }));
         });
         return m_FITSViewers.constLast();
