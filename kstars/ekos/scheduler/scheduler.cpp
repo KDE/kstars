@@ -3497,7 +3497,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             }
 
             /* Else recount captures already stored */
-            newFramesCount[signature] = getCompletedFiles(signature);
+            newFramesCount[signature] = PlaceholderPath::getCompletedFiles(signature);
         }
 
         // determine whether we need to continue capturing, depending on captured frames
@@ -4117,59 +4117,6 @@ SequenceJob * Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     placeholderPath.processJobInfo(job);
 
     return job;
-}
-
-int Scheduler::getCompletedFiles(const QString &path)
-{
-    int seqFileCount = 0;
-#ifdef Q_OS_WIN
-    // Splitting directory and baseName in QFileInfo does not distinguish regular expression backslash from directory separator on Windows.
-    // So do not use QFileInfo for the code that separates directory and basename for Windows.
-    // Conditions for calling this function:
-    // - Directory separators must always be "/".
-    // - Directory separators must not contain backslash.
-    QString sig_dir;
-    QString sig_file;
-    int index = path.lastIndexOf('/');
-    if (0 <= index)
-    {
-        // found '/'. path has both dir and filename
-        sig_dir = path.left(index);
-        sig_file = path.mid(index + 1);
-    } // not found '/'. path has only filename
-    else
-    {
-        sig_file = path;
-    }
-    // remove extension
-    index = sig_file.lastIndexOf('.');
-    if (0 <= index)
-    {
-        // found '.', then remove extension
-        sig_file = sig_file.left(index);
-    }
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler::getCompletedFiles path:" << path << " sig_dir:" << sig_dir << " sig_file:" <<
-                                   sig_file;
-#else
-    QFileInfo const path_info(path);
-    QString const sig_dir(path_info.dir().path());
-    QString const sig_file(path_info.completeBaseName());
-#endif
-    QRegularExpression re(sig_file);
-
-    QDirIterator it(sig_dir, QDir::Files);
-
-    /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
-    while (it.hasNext())
-    {
-        QString const fileName = QFileInfo(it.next()).completeBaseName();
-
-        QRegularExpressionMatch match = re.match(fileName);
-        if (match.hasMatch())
-            seqFileCount++;
-    }
-
-    return seqFileCount;
 }
 
 void Scheduler::setINDICommunicationStatus(Ekos::CommunicationStatus status)
