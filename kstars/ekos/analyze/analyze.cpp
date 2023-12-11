@@ -2433,9 +2433,10 @@ void Analyze::displayFITS(const QString &filename)
     {
         fitsViewer = KStars::Instance()->createFITSViewer();
         fitsViewer->loadFile(url);
-        //        FITSView *currentView = fitsViewer->getCurrentView();
-        //        if (currentView)
-        //            currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
+        connect(fitsViewer.get(), &FITSViewer::terminated, this, [this]()
+        {
+            fitsViewer.clear();
+        });
     }
     else
         fitsViewer->updateFile(url, 0);
