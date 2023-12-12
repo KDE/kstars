@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-11 00:39+0000\n"
+"POT-Creation-Date: 2023-12-12 00:39+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -455,14 +455,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "이미지 저장"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3854
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3858
 #: ekos/guide/guidedriftgraph.cpp:466 kstarsactions.cpp:1335
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "파일 \"%1\"이(가) 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3857
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3861
 #: ekos/guide/guidedriftgraph.cpp:469 kstarsactions.cpp:1336
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -1932,7 +1932,7 @@ msgstr "상태:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:2853 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2854 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:23
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -2547,7 +2547,7 @@ msgstr ""
 "이 URL이 잘못되었습니다. Google 검색 엔진\n"
 "브라우저 창을 여시겠습니까?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3865
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3869
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1951
 #: ekos/capture/capture.cpp:2037 ekos/guide/guidedriftgraph.cpp:477
@@ -5961,7 +5961,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "연결"
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:195
-#: ekos/capture/captureprocess.cpp:588 ekos/focus/focus.cpp:5091
+#: ekos/capture/captureprocess.cpp:588 ekos/focus/focus.cpp:5095
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6176,7 +6176,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "천구상 망원경 위치 보이기"
 
 #: ekos/align/align.cpp:2666 ekos/align/align.cpp:2683
-#: ekos/align/align.cpp:3990 ekos/align/polaralignmentassistant.cpp:639
+#: ekos/align/align.cpp:3994 ekos/align/polaralignmentassistant.cpp:639
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling..."
@@ -6279,94 +6279,94 @@ msgstr "이미지 캡처"
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3341
+#: ekos/align/align.cpp:3345
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "일괄작업 모드"
 
-#: ekos/align/align.cpp:3416
+#: ekos/align/align.cpp:3420
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "StellarSolver Options"
 msgstr "별자리명 설정"
 
-#: ekos/align/align.cpp:3421
+#: ekos/align/align.cpp:3425
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3425
+#: ekos/align/align.cpp:3429
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "위치 초기화"
 
-#: ekos/align/align.cpp:3429
+#: ekos/align/align.cpp:3433
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "썸네일 편집기"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3447 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3451 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Input File:"
 msgid "Index Files"
 msgstr "입력 파일:"
 
-#: ekos/align/align.cpp:3512 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3516 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcmin"
 msgid "dRA (arcsec)"
 msgstr "분"
 
-#: ekos/align/align.cpp:3513 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3517 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dDE (arcsec)"
 msgstr "초"
 
-#: ekos/align/align.cpp:3559 ekos/capture/capture.cpp:2654
-#: ekos/focus/focus.cpp:4983
+#: ekos/align/align.cpp:3563 ekos/capture/capture.cpp:2654
+#: ekos/focus/focus.cpp:4987
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Filter operation failed."
 msgstr "Caliente"
 
-#: ekos/align/align.cpp:3571 ekos/capture/capture.cpp:2590
+#: ekos/align/align.cpp:3575 ekos/capture/capture.cpp:2590
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3578 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3582 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/capture.cpp:2595
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3583 ekos/capture/capture.cpp:2600
+#: ekos/align/align.cpp:3587 ekos/capture/capture.cpp:2600
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
 msgstr "완료됨"
 
-#: ekos/align/align.cpp:3704
+#: ekos/align/align.cpp:3708
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "부적합한 URL"
 
-#: ekos/align/align.cpp:3841
+#: ekos/align/align.cpp:3845
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "전체 궤도 궤적 지우기"
 
-#: ekos/align/align.cpp:3864 ekos/align/mountmodel.cpp:264
+#: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1950
 #: ekos/capture/capture.cpp:2036 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:2592 ekos/scheduler/scheduler.cpp:2959
@@ -6376,7 +6376,7 @@ msgstr "전체 궤도 궤적 지우기"
 msgid "Invalid URL: %1"
 msgstr "잘못된 URL: %1"
 
-#: ekos/align/align.cpp:3873 ekos/align/mountmodel.cpp:401
+#: ekos/align/align.cpp:3877 ekos/align/mountmodel.cpp:401
 #: ekos/capture/captureprocess.cpp:2418 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
 #, fuzzy, kde-format
@@ -6384,7 +6384,7 @@ msgstr "잘못된 URL: %1"
 msgid "Unable to write to file %1"
 msgstr "이미지를 저장할 수 없음: %1 "
 
-#: ekos/align/align.cpp:3874 ekos/align/mountmodel.cpp:284
+#: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
 #: ekos/capture/captureprocess.cpp:2302 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
@@ -6402,31 +6402,31 @@ msgstr "이미지를 저장할 수 없음: %1 "
 msgid "Could Not Open File"
 msgstr "파일을 열 수 없음"
 
-#: ekos/align/align.cpp:3895
+#: ekos/align/align.cpp:3899
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "행에서 오류"
 
-#: ekos/align/align.cpp:3904
+#: ekos/align/align.cpp:3908
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "지평 좌표"
 
-#: ekos/align/align.cpp:3918
+#: ekos/align/align.cpp:3922
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Polar Alignment"
 msgstr "일괄작업 모드"
 
-#: ekos/align/align.cpp:4447
+#: ekos/align/align.cpp:4451
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "이미지 캡처"
 
-#: ekos/align/align.cpp:4456
+#: ekos/align/align.cpp:4460
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -10161,7 +10161,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2855 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:23 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:595
@@ -10171,64 +10171,64 @@ msgstr ""
 msgid "Aborted"
 msgstr "Arborg"
 
-#: ekos/analyze/analyze.cpp:2857 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "연결"
 
-#: ekos/analyze/analyze.cpp:2859 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "연결 끊기"
 
-#: ekos/analyze/analyze.cpp:2861 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:2862 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:627
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing"
 msgstr "이미지 캡처"
 
-#: ekos/analyze/analyze.cpp:2863 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2865 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Subtracting"
 msgstr "Caliente"
 
-#: ekos/analyze/analyze.cpp:2867 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "이름:"
 
-#: ekos/analyze/analyze.cpp:2869 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2870 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selecting star"
 msgstr "별 선택"
 
-#: ekos/analyze/analyze.cpp:2871 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibrating"
 msgstr "Caliente"
 
-#: ekos/analyze/analyze.cpp:2873 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration error"
 msgstr "Caliente"
 
-#: ekos/analyze/analyze.cpp:2875 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -10236,27 +10236,27 @@ msgid "Calibrated"
 msgstr "Caliente"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2877 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:32
 #: ekos/scheduler/schedulerjob.cpp:625
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "안내선"
 
-#: ekos/analyze/analyze.cpp:2879 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2880 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "안내선"
 
-#: ekos/analyze/analyze.cpp:2881 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Reacquiring"
 msgstr "이미지 캡처"
 
-#: ekos/analyze/analyze.cpp:2883 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2884 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10264,26 +10264,26 @@ msgid "Dithering"
 msgstr "기타"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2885 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2886 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "기타"
 
-#: ekos/analyze/analyze.cpp:2887 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2888 ekos/ekos.h:37
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering error"
 msgstr "Dome Creek"
 
-#: ekos/analyze/analyze.cpp:2889 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2890 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2891 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2892 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling"
@@ -15621,13 +15621,13 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1923 ekos/focus/focus.cpp:5133
+#: ekos/capture/captureprocess.cpp:1923 ekos/focus/focus.cpp:5137
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/capture/captureprocess.cpp:1947 ekos/focus/focus.cpp:5138
+#: ekos/capture/captureprocess.cpp:1947 ekos/focus/focus.cpp:5142
 #: ekos/guide/guide.cpp:915
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
@@ -17866,45 +17866,45 @@ msgstr ""
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4809
+#: ekos/focus/focus.cpp:4813
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:5151
+#: ekos/focus/focus.cpp:5155
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image again..."
 msgstr "이미지 읽는 중..."
 
-#: ekos/focus/focus.cpp:5166
+#: ekos/focus/focus.cpp:5170
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/focus/focus.cpp:5176
+#: ekos/focus/focus.cpp:5180
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:5181
+#: ekos/focus/focus.cpp:5185
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:5469
+#: ekos/focus/focus.cpp:5473
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "궤적 삭제"
 
-#: ekos/focus/focus.cpp:6674
+#: ekos/focus/focus.cpp:6678
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -17929,7 +17929,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6690
+#: ekos/focus/focus.cpp:6694
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -17941,7 +17941,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6697
+#: ekos/focus/focus.cpp:6701
 #, kde-format
 msgid ""
 "\n"
@@ -17962,7 +17962,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6707
+#: ekos/focus/focus.cpp:6711
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus Advisor"
@@ -20342,26 +20342,26 @@ msgstr "이미지 읽어오기 실패"
 msgid "Select a guide star to calibrate."
 msgstr "별 선택"
 
-#: ekos/guide/guide.cpp:2708
+#: ekos/guide/guide.cpp:2712
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "x (pixels)"
 msgstr "픽셀"
 
-#: ekos/guide/guide.cpp:2709
+#: ekos/guide/guide.cpp:2713
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "y (pixels)"
 msgstr "픽셀"
 
-#: ekos/guide/guide.cpp:2820 ekos/guide/guide.cpp:2946
+#: ekos/guide/guide.cpp:2824 ekos/guide/guide.cpp:2950
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2824 ekos/guide/guide.cpp:2950
+#: ekos/guide/guide.cpp:2828 ekos/guide/guide.cpp:2954
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -20369,7 +20369,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3109
+#: ekos/guide/guide.cpp:3113
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -26639,7 +26639,7 @@ msgstr ""
 msgid "Unable to open sequence queue file '%1'"
 msgstr "%1 파일을 열 수 없습니다."
 
-#: ekos/scheduler/scheduler.cpp:4199
+#: ekos/scheduler/scheduler.cpp:4146
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -26648,14 +26648,14 @@ msgid ""
 "ready..."
 msgstr "Caliente"
 
-#: ekos/scheduler/scheduler.cpp:4510
+#: ekos/scheduler/scheduler.cpp:4457
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Caliente"
 
-#: ekos/scheduler/scheduler.cpp:4523
+#: ekos/scheduler/scheduler.cpp:4470
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid ""
@@ -26663,113 +26663,113 @@ msgid ""
 "%3)."
 msgstr "시작:"
 
-#: ekos/scheduler/scheduler.cpp:4532
+#: ekos/scheduler/scheduler.cpp:4479
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "Caliente"
 
-#: ekos/scheduler/scheduler.cpp:4538
+#: ekos/scheduler/scheduler.cpp:4485
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "Caliente"
 
-#: ekos/scheduler/scheduler.cpp:4547
+#: ekos/scheduler/scheduler.cpp:4494
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4591
+#: ekos/scheduler/scheduler.cpp:4538
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4595
+#: ekos/scheduler/scheduler.cpp:4542
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4599
+#: ekos/scheduler/scheduler.cpp:4546
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4621
+#: ekos/scheduler/scheduler.cpp:4568
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4630
+#: ekos/scheduler/scheduler.cpp:4577
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4651
+#: ekos/scheduler/scheduler.cpp:4598
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4679
+#: ekos/scheduler/scheduler.cpp:4626
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4702
+#: ekos/scheduler/scheduler.cpp:4649
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4712
+#: ekos/scheduler/scheduler.cpp:4659
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "Caliente"
 
-#: ekos/scheduler/scheduler.cpp:4714
+#: ekos/scheduler/scheduler.cpp:4661
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/scheduler/scheduler.cpp:4722
+#: ekos/scheduler/scheduler.cpp:4669
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4820
+#: ekos/scheduler/scheduler.cpp:4767
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out: %1s %2"
 msgstr "별 읽어오는 중"
 
-#: ekos/scheduler/scheduler.cpp:4822
+#: ekos/scheduler/scheduler.cpp:4769
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed: %1s %2"
 msgstr "해결사 관측시야"
 
-#: ekos/scheduler/scheduler.cpp:4857
+#: ekos/scheduler/scheduler.cpp:4804
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:5151
+#: ekos/scheduler/scheduler.cpp:5098
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Manual startup procedure completed successfully."
 msgstr "입력 좌표 선택"
 
-#: ekos/scheduler/scheduler.cpp:5155
+#: ekos/scheduler/scheduler.cpp:5102
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""

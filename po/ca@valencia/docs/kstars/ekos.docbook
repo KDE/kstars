@@ -37,7 +37,7 @@
 >Guiatge automàtic</link
 > natiu <emphasis
 >incorporat</emphasis
-> amb implementació per al tramat automàtic entre exposicions i admet dispositius amb òptica adaptativa, a més de sistemes de guiatge tradicionals. </para>
+> amb implementació per al tramatge automàtic entre exposicions i admet dispositius amb òptica adaptativa, a més de sistemes de guiatge tradicionals. </para>
     </listitem>
     <listitem>
         <para
@@ -73,7 +73,7 @@
         <para
 >Biblioteca fosca <emphasis
 >intel·ligent</emphasis
->: Tots els fotogrames foscos amb opcions diferents d'agrupament/temperatura/fotograma es guardaran per a un ús futur. Ekos tornarà a utilitzar els fotogrames foscos de forma intel·ligent sense fer captures innecessàries. Podeu configurar quant de temps voleu tornar a utilitzar tots els fotogrames foscos. </para>
+>: Tots els fotogrames foscos amb opcions diferents d'agrupament, temperatura i marc es guardaran per a un ús futur. Ekos tornarà a utilitzar els fotogrames foscos de forma intel·ligent sense fer captures innecessàries. Podeu configurar quant de temps voleu tornar a utilitzar tots els fotogrames foscos. </para>
     </listitem>
     <listitem>
         <para
@@ -125,7 +125,7 @@
     </listitem>
     <listitem>
         <para
->Integració completa amb el planificador de l'observació i el mapa del cel de &kstars;. </para>
+>Integració completa amb el planificador de l'observació i el mapa celeste de &kstars;. </para>
     </listitem>
     <listitem>
         <para

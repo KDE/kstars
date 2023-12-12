@@ -23,8 +23,8 @@
 </screenshot>
 
 <para
->Esta eina representa gràficament l'altitud de qualsevol objecte en funció del temps, per a qualsevol data i emplaçament sobre la Terra. La secció superior és una representació gràfica de l'angle de l'altitud en l'eix vertical i l'hora en l'eix horitzontal. L'hora es mostra com a hora local estàndard al llarg de la part inferior i l'<link linkend="ai-sidereal"
->hora sidèria</link
+>Esta eina representa gràficament l'altitud de qualsevol objecte en funció del temps, per a qualsevol data i emplaçament sobre la Terra. La secció superior és una representació gràfica de l'angle de l'altitud en l'eix vertical i el temps a l'eix horitzontal. El temps es mostra com a temps local estàndard al llarg de la part inferior i el <link linkend="ai-sidereal"
+>temps sideral</link
 > al llarg de la part superior. La meitat inferior de la representació gràfica és verda amb ombres per a indicar que els punts en esta regió resten per davall de l'horitzó. </para>
 <para
 >Hi ha unes quantes maneres d'afegir corbes a la representació gràfica. La més simple és senzillament escrivint el seu <guilabel
@@ -34,7 +34,7 @@
 >. Si el text que introduïu es troba en la base de dades d'objectes, la corba de l'objecte serà afegida a la gràfica. També podeu prémer el botó <guibutton
 >Busca un objecte...</guibutton
 > per a obrir la <link linkend="findobjects"
->finestra «Busqueu un objecte»</link
+>finestra «Busca un objecte»</link
 > per a seleccionar-ne un de la llista d'objectes coneguts. Si voleu afegir un punt que no existia en la base de dades, senzillament introduïu un nom per al punt i després completeu les coordenades en els camps d'entrada <guilabel
 >AR:</guilabel
 > i <guilabel
@@ -49,7 +49,7 @@
 >horitzó</link
 >) en funció del temps. Quan una corba passa de la meitat inferior a la meitat superior, l'objecte haurà eixit, quan baixa altra vegada a la meitat inferior, este haurà arribat al seu ocàs. Per exemple, en la captura de pantalla, el planeta nan <firstterm
 >Quaoar</firstterm
-> està eixint aproximadament a les 15.00 hores en hora local i es pondrà al voltant de les 04.00 hores en hora local. </para>
+> està eixint aproximadament a les 15.00 hores en temps local i es pondrà al voltant de les 04.00 hores en temps local. </para>
 <para
 >Es pot ampliar i fer panoràmiques de la representació gràfica amb facilitat utilitzant el ratolí. El nivell de zoom es pot ajustar amb la <mousebutton
 >roda</mousebutton
@@ -67,7 +67,7 @@
 >Calcula</guibutton
 >. Després de seleccionar l'objecte de la llista d'objectes i establir el moment del temps, es pot calcular l'altitud prement el botó <guibutton
 >Calcula</guibutton
->. Però esta no és l'única forma en què pot esbrinar l'altitud. Un altre mètode consistix a desplaçar-se amb el ratolí per damunt d'una corba i per tant, apareixerà un consell d'eina que contindrà l'hora local, l'hora sidèria local i l'altitud. D'esta manera podreu llegir la informació en temps real. </para>
+>. Però esta no és l'única forma en què pot esbrinar l'altitud. Un altre mètode consistix a desplaçar-se amb el ratolí per damunt d'una corba i per tant, apareixerà un consell d'eina que contindrà el temps local, el temps sideral local i l'altitud. D'esta manera podreu llegir la informació en temps real. </para>
 <para
 >L'altitud d'un objecte dependrà d'on esteu sobre la Terra i de la data. De manera predeterminada, l'eina adopta l'emplaçament i la data de la configuració actual de &kstars;. Podeu canviar estos paràmetres a la pestanya <guilabel
 >Data i emplaçament</guilabel
@@ -85,7 +85,7 @@
 <para
 >Exercici:</para>
 <para
->Traceu la corba de l'altitud del Sol. Assegureu-vos que l'emplaçament geogràfic no reste a prop de l'equador. Canvieu la data a alguna hora en el mes de juny i aleshores una altra vega a una en el mes de gener. Podreu observar amb facilitat perquè tenim estacions; a l'hivern, el Sol està sobre l'horitzó durant menys temps (els dies són més curts) i la seua altitud mai és gaire alta. </para>
+>Traceu la corba de l'altitud del Sol. Assegureu-vos que l'emplaçament geogràfic no reste a prop de l'equador. Canvieu la data a algun temps en el mes de juny i aleshores una altra vega a una en el mes de gener. Podreu observar amb facilitat perquè tenim estacions; a l'hivern, el Sol està sobre l'horitzó durant menys temps (els dies són més curts) i la seua altitud mai és gaire alta. </para>
 </tip>
 
 

@@ -58,11 +58,11 @@
 >DJ</abbrev
 > 2440588, el qual es correspon a l'1 de gener de 1970. </para
 ><para
->Els dies julians també servixen per a indicar l'hora, expressant esta com a fracció d'un dia complet, amb les 12.00 del migdia (no mitjanit) com a punt zero. D'esta manera, les 3.00 pm de l'1 de gener de 1970 serà el <abbrev
+>Els dies julians també servixen per a indicar el temps, expressant l'hora del dia com a fracció d'un dia complet, amb les 12.00 del migdia (no mitjanit) com a punt zero. D'esta manera, les 3.00 pm de l'1 de gener de 1970 serà el <abbrev
 >DJ</abbrev
 > 2440588.125 (ja que les 3.00 pm són tres hores després del migdia, i 3/24 = 0,125 dies). Cal tindre present que el dia julià sempre ve determinat pel <link linkend="ai-utime"
 >temps universal</link
-> i no per l'hora local. </para
+> i no pel temps local. </para
 ><para
 >Els astrònoms utilitzen certs dies julians com a punts de referència importants, anomenats <link linkend="ai-epoch"
 >Èpoques</link

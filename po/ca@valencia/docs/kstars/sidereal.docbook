@@ -8,16 +8,16 @@
 > </author>
 </sect1info>
 <title
->Temps sideri</title>
+>Temps sideral</title>
 <indexterm
 ><primary
->Temps sideri</primary>
+>Temps sideral</primary>
 <seealso
 >Angle horari</seealso>
 </indexterm>
 <para
 >El <firstterm
->temps sideri</firstterm
+>temps sideral</firstterm
 > significa literalment <quote
 >temps de l'estrela</quote
 >. El temps que estem habituats a emprar en les nostres vides és el temps solar. La unitat fonamental del temps solar és el <firstterm
@@ -48,26 +48,26 @@
 >dia sideri</firstterm
 >. Com a terme mitjà, és 4 minuts més curt que un dia solar, a causa del grau extra que la Terra ha de girar en un dia solar. En comptes de definir un dia sideri a 23 hores i 56 minuts, s'establixen hores, minuts i segons sideris, que es corresponen a la mateixa fracció d'un dia com als seus homòlegs solars. Per tant, un segon solar = 1,00278 segons sideris. </para
 ><para
->El temps sideri és molt útil per a determinar a on estan les estreles en un moment concret. El temps sideri dividix una rotació completa de la Terra en 24 hores sidèries; de manera similar, el mapa del cel està dividit en 24 hores d'<firstterm
+>El temps sideral és molt útil per a determinar a on estan les estreles en un moment concret. El temps sideral dividix una rotació completa de la Terra en 24 hores sidèries; de manera similar, el mapa celeste està dividit en 24 hores d'<firstterm
 >ascensió recta</firstterm
->. Açò no és una coincidència, el temps sideri local (<acronym
+>. Açò no és una coincidència, el temps sideral local (<acronym
 >TSL</acronym
 >) indica l'ascensió recta del cel que està passant en este moment el <link linkend="ai-meridian"
 >meridià local</link
 >. Així que, si una estrela té una ascensió recta de 05 h 32 m 24 s, estarà en el meridià a la TSL=05:32:24. Més generalment, la diferència entre l'<acronym
 >AR</acronym
-> d'un objecte i el temps sideri local indica la distància que hi ha des de l'objecte fins al meridià. Per exemple, el mateix objecte a TSL=06:32:24 (una hora sidèria més tard), estarà a una hora d'ascensió recta a l'oest del meridià, el qual són 15 graus. Esta distància angular des del meridià és el que s'anomena l'<link linkend="ai-hourangle"
+> d'un objecte i el temps sideral local indica la distància que hi ha des de l'objecte fins al meridià. Per exemple, el mateix objecte a TSL=06:32:24 (una hora sidèria més tard), estarà a una hora d'ascensió recta a l'oest del meridià, el qual són 15 graus. Esta distància angular des del meridià és el que s'anomena l'<link linkend="ai-hourangle"
 >angle horari</link
 > de l'objecte. </para>
 <tip>
 <para
->El temps sideri local és mostrat per &kstars; en el <guilabel
+>El temps sideral local és mostrat per &kstars; en el <guilabel
 >Rètol informatiu del temps</guilabel
 >, amb l'etiqueta <quote
 >TS</quote
 > (haureu de <quote
 >ressaltar</quote
-> el rètol fent-hi doble clic per a veure l'hora sidèria). Cal tindre en compte que el canvi a segons sideris no està sincronitzat amb el canvi a segons de l'hora local i l'hora universal. De fet, si observeu els rellotges detingudament, notareu que efectivament els segons sideris són un xic més curts que els locals (TL) i els universals (TU). </para
+> el rètol fent-hi doble clic per a veure el temps sideral). Cal tindre en compte que el canvi a segons sideris no està sincronitzat amb el canvi a segons del temps local i l temps universal. De fet, si observeu els rellotges detingudament, notareu que efectivament els segons sideris són un xic més curts que els locals (TL) i els universals (TU). </para
 ><para
 >Apunteu cap al <link linkend="ai-zenith"
 >Zenit</link
@@ -83,7 +83,7 @@
 >cap amunt</quote
 > des de terra i és un punt del nostre <link linkend="ai-meridian"
 >meridià local</link
->. Cal tindre en compte que l'ascensió recta del zenit: És exactament la mateixa que el vostre temps sideri local. </para>
+>. Cal tindre en compte que l'ascensió recta del zenit: És exactament la mateixa que el vostre temps sideral local. </para>
 </tip>
 </sect1>
 

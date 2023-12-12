@@ -93,7 +93,7 @@
 <secondary
 >La simulació del rellotge</secondary
 ></indexterm
->Quan s'inicia &kstars;, la data i l'hora es prenen del rellotge del sistema de l'ordinador, i el rellotge de &kstars; comença a comptar en sincronització amb el temps real. Si voleu parar el rellotge, seleccioneu l'element de menú <menuchoice
+>Quan s'inicia &kstars;, el temps es pren del rellotge del sistema de l'ordinador, i el rellotge de &kstars; comença a comptar en sincronització amb el temps real. Si voleu parar el rellotge, seleccioneu l'element de menú <menuchoice
 ><guimenu
 >Temps</guimenu
 > <guimenuitem
@@ -113,17 +113,17 @@
 ><guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix la data i l'hora...</guimenuitem
+>Establix l temps...</guimenuitem
 ></menuchoice
 > o bé prement la icona <guiicon
->Establix la data i l'hora</guiicon
+>Establix el temps</guiicon
 > en la barra d'eines. La finestra <guilabel
->Establiu la data i l'hora</guilabel
+>Establiment del temps</guilabel
 > utilitza un giny estàndard de &kde; per a seleccionar la data, junt amb un botó de selecció de valors per a establir l'hora i els minuts. Si voleu tornar a sincronitzar el rellotge de la simulació amb el de la CPU, senzillament seleccioneu l'element de menú <menuchoice
 ><guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix l'hora a Ara</guimenuitem
+>Establix el temps a ara</guimenuitem
 ></menuchoice
 >.</para>
 
@@ -215,7 +215,7 @@
 ></indexterm
 >En la pàgina <guilabel
 >Catàlegs</guilabel
->, determinareu diverses propietats relatives a la visualització dels catàlegs d'objectes d'estreles i del cel profund. </para>
+>, determinareu diverses propietats relatives a la visualització dels catàlegs d'estreles i d'objectes del cel profund. </para>
 
 <!-- Solar System page: -->
 <para>
@@ -1371,7 +1371,7 @@
 >Configuració - &kstars;</guilabel
 >. A més, els satèl·lits es poden dibuixar de la mateixa manera que les estreles regulars, seleccionant la casella de selecció <guilabel
 >Mostra tant els satèl·lits com les estreles</guilabel
->. Per a només visualitzar els satèl·lits visibles des del vostre emplaçament geogràfic i l'hora actuals, seleccioneu <guilabel
+>. Per a només visualitzar els satèl·lits visibles des del vostre emplaçament geogràfic i el temps actuals, seleccioneu <guilabel
 >Mostra únicament els satèl·lits visibles</guilabel
 >. </para>
 <para
@@ -1431,7 +1431,7 @@
 >Colors</guilabel
 >. </para>
 <para
->Podeu establir el límit de magnitud per a mostrar una supernova, així com un límit de magnitud per a les alertes de supernova utilitzant els botons de selecció de valors. La magnitud limitant és la magnitud aparent més gran d'un objecte en el cel que és visible amb l'ull nu o un telescopi. </para>
+>Podeu establir el límit de magnitud per a mostrar una supernova, així com un límit de magnitud per a les alertes de supernova utilitzant els botons de selecció de valors. La magnitud limitant és la magnitud aparent més gran d'un objecte celeste que és visible amb l'ull nu o un telescopi. </para>
 <para
 >La llista de supernoves recents es pot actualitzar a través de l'element de menú <menuchoice
 ><guimenu
@@ -1505,19 +1505,19 @@
 ></indexterm
 >La pàgina <guilabel
 >Terreny</guilabel
-> permet configurar si la imatge del terreny (paisatge) es mostrarà en el mapa del cel. </para>
+> permet configurar si la imatge del terreny (paisatge) es mostrarà en el mapa celeste. </para>
 <para
->L'usuari és responsable de crear una imatge parcialment transparent, esta se superposarà en el mapa del cel. Esta imatge haurà de tindre regions transparents creades per l'usuari per a permetre que es mostre el mapa del cel, i regions opaques que representen els arbres, els edificis i el paisatge al voltant del telescopi. Es requerix un format particular, i este és un esforç significatiu. Hi ha molts recursos al web que expliquen com es fa açò per a <ulink url="https://stellarium.org/landscapes.html"
+>L'usuari és responsable de crear una imatge parcialment transparent, esta se superposarà en el mapa celeste. Esta imatge haurà de tindre regions transparents creades per l'usuari per a permetre que es mostre el mapa del cel, i regions opaques que representen els arbres, els edificis i el paisatge al voltant del telescopi. Es requerix un format particular, i este és un esforç significatiu. Hi ha molts recursos al web que expliquen com es fa açò per a <ulink url="https://stellarium.org/landscapes.html"
 >Stellarium</ulink
 >. Els detalls per a la creació d'imatges són els mateixos. </para>
 <para
->Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Este tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborre/siga transparent i guardar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè eventualment es puga alinear amb el mapa del cel. Una vegada fet tot açò, el mapa del cel podrà simular la vista al cel local, inclòs el terreny local. </para>
+>Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Este tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborre/siga transparent i guardar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè eventualment es puga alinear amb el mapa celeste. Una vegada fet tot açò, el mapa celeste podrà simular la vista al cel local, inclòs el terreny local. </para>
 <para
 >Una vegada es cree la imatge, serà possible carregar-la a través de la pàgina <guilabel
 >Terreny</guilabel
-> i configurar el valor de correcció per a l'azimut (en graus) que permetrà a l'usuari fer girar la vista de manera que el nord en el mapa del cel estiga alineat amb el nord en la imatge. </para>
+> i configurar el valor de correcció per a l'azimut (en graus) que permetrà a l'usuari fer girar la vista de manera que el nord en el mapa celeste estiga alineat amb el nord en la imatge. </para>
 <para
->A més, es poden configurar algunes opcions d'acceleració per a aconseguir la millor experiència d'usuari en representar el terreny en el mapa del cel. </para>
+>A més, es poden configurar algunes opcions d'acceleració per a aconseguir la millor experiència d'usuari en representar el terreny en el mapa celeste. </para>
 <tip>
     <para
 >Podeu canviar la superposició del terreny emprant una drecera de teclat <keycombo
@@ -1976,7 +1976,7 @@
 ></listitem>
   </itemizedlist
 ><para
->Totes les imatges es guarden en carpetes paral·leles al directori de registre principal. Estan en carpetes anomenades «guide» (guia), «autofocus» (enfocament automàtic), «align» (alineació) i «align/failed» (alineació/fallida). </para>
+>Totes les imatges es guarden en carpetes paral·leles al directori de registre principal. Estan en carpetes anomenades «guide» (guiatge), «autofocus» (enfocament automàtic), «align» (alineació) i «align/failed» (alineació/fallida). </para>
 </sect1>
 
 <sect1 id="customize">
@@ -2069,8 +2069,8 @@
 > és un acrònim per a <quote
 >camp de visió</quote
 >. Es dibuixarà un símbol de camp de visió al centre de la finestra per a indicar cap a on apunta la pantalla. Els distints símbols disposen de mides angulars diferents; en podeu utilitzar un per a mostrar com seria la vista a través d'un telescopi en concret. Per exemple, si escolliu el camp de visió <quote
->Prismàtics 7x35</quote
->, es dibuixarà un cercle a la pantalla amb un diàmetre de 9,2 graus; este és el camp de visió per a uns prismàtics 7x35. </para>
+>Prismàtic 7x35</quote
+>, es dibuixarà un cercle a la pantalla amb un diàmetre de 9,2 graus; este és el camp de visió per a un prismàtic 7x35. </para>
 <para>
 <indexterm
 ><primary
@@ -2194,11 +2194,11 @@
 ></listitem>
       <listitem
 ><para
->Ús de binoculars: la mateixa configuració que amb l'observació a simple vista.</para
+>Ús de prismàtic: la mateixa configuració que amb l'observació a simple vista.</para
 ></listitem>
       <listitem
 ><para
->Utilitzant un instruments de visió buscador RACI en un telescopi muntat en altazimut: la mateixa configuració que amb l'observació a simple vista, excepte que potser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
+>Utilitzant un instrument de visió buscador RACI en un telescopi muntat en altazimut: la mateixa configuració que amb l'observació a simple vista, excepte que potser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
 ></listitem>
       <listitem
 ><para

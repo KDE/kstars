@@ -16,37 +16,37 @@
     <itemizedlist>
         <listitem>
             <para
->Mòdul de Configuració i Resum </para>
+>El mòdul «Configuració» i resum </para>
         </listitem>
 
         <listitem>
             <para
->Mòdul del programador </para>
+>El mòdul «Programador» </para>
         </listitem>
 
         <listitem>
             <para
->Mòdul de captura </para>
+>El mòdul «Captura» </para>
         </listitem>
 
         <listitem>
             <para
->Mòdul d'enfocament </para>
+>El mòdul «Enfocament» </para>
         </listitem>
 
         <listitem>
             <para
->Mòdul d'alineació </para>
+>El mòdul «Alinea» </para>
         </listitem>
 
         <listitem>
             <para
->Mòdul de guiatge </para>
+>El mòdul «Guia» </para>
         </listitem>
 
         <listitem>
             <para
->Mòdul de muntura </para>
+>El mòdul «Muntura» </para>
         </listitem>
     </itemizedlist>
 
@@ -68,7 +68,7 @@
     <variablelist>
         <varlistentry>
             <term
->Mòdul de Configuració i Resum</term>
+>El mòdul «Configuració» i resum</term>
             <listitem>
                 <para
 >Com el seu nom indica, ací és on creareu i gestionareu el perfil del vostre equip i connectareu amb els vostres dispositius. També proporciona una vista de resum on el progrés de la captura juntament amb les operacions d'enfocament i guiatge es mostraran en un format compacte per a transmetre a l'usuari la informació més rellevant. </para>
@@ -76,15 +76,15 @@
         </varlistentry>
         <varlistentry>
             <term
->Mòdul del programador</term>
+>El mòdul «Programador»</term>
             <listitem>
                 <para
->Una vegada domineu Ekos, s'anima als usuaris a aprendre a utilitzar el mòdul per al programador, ja que facilita enormement tot el procés d'observació. Permet seleccionar múltiples objectius, especificar quines condicions i requisits s'han de complir i quins fotogrames cal capturar. Després, el programador calcularà de manera intel·ligent el millor temps de l'observació per a cada objecte i després controlarà l'observatori des de l'inici fins al tancament. </para>
+>Una vegada domineu Ekos, s'anima als usuaris a aprendre a utilitzar este mòdul, ja que facilita enormement tot el procés d'observació. Permet seleccionar múltiples objectius, especificar quines condicions i requisits s'han de complir i quins fotogrames cal capturar. Després, el programador calcularà de manera intel·ligent el millor temps de l'observació per a cada objecte i després controlarà l'observatori des de l'inici fins al tancament. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
             <term
->Mòdul de captura</term>
+>El mòdul «Captura»</term>
             <listitem>
                 <para
 >Este és el mòdul principal per al control de la roda de filtres i de la càmera. Creareu seqüències de les imatges obtingudes, vistes prèvies de la captura i veureu fluxos de vídeo. És compatible amb el control rotor i pot capturar automàticament fotogrames plans en una sèrie d'escenaris. </para>
@@ -92,26 +92,26 @@
         </varlistentry>
         <varlistentry>
             <term
->Mòdul d'enfocament</term>
+>El mòdul «Enfocament»</term>
             <listitem>
                 <para
->Mesura la nitidesa de les vostres imatges en el mòdul per a l'enfocament calculant el radi de mig flux (Half-Flux-Radius -HFR-). Com més baix siga l'HFR, la imatge esdevindrà més nítida. Podeu executar el mòdul d'enfocament amb enfocador o sense. Amb un enfocador electrònic, podreu executar una operació d'enfocament automàtic, a on Ekos farà una iteració i calcularà la posició de l'enfocament òptic. </para>
+>Mesureu la nitidesa de les vostres imatges en este mòdul, calculant el radi de mig flux (Half-Flux-Radius -HFR-). Com més baix siga l'HFR, la imatge esdevindrà més nítida. Podeu executar este mòdul amb enfocador o sense. Amb un enfocador electrònic, podreu executar una operació d'enfocament automàtic, a on Ekos farà una iteració i calcularà la posició de l'enfocament òptic. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
             <term
->Mòdul de guiatge</term>
+>El mòdul «Guia»</term>
             <listitem>
                 <para
->Per a aconseguir una astrofotografia d'exposició prolongada, cal fer el guiatge de manera que la imatge estiga bloquejada i estabilitzada per a tota la duració de l'exposició. Les desviacions del fotograma amb el temps poden generar imatges borroses i rastres de les estreles. Al mòdul per al guiatge, podreu seleccionar automàticament una estrela guia adequada i, a continuació, bloquejar la muntura per a mantindre's sempre en la posició d'esta estrela. Si el mòdul per al guiatge detecta qualsevol desviació d'esta posició bloquejada, enviarà polsos per a la correcció de la muntura per a tornar a la posició original. </para>
+>Per a aconseguir una astrofotografia d'exposició prolongada, cal fer el guiatge de manera que la imatge estiga bloquejada i estabilitzada per a tota la duració de l'exposició. Les desviacions del fotograma amb el temps poden generar imatges borroses i rastres de les estreles. En este mòdul podreu seleccionar automàticament una estrela guia adequada i, a continuació, bloquejar la muntura per a mantindre's sempre en la posició d'esta estrela. Si este mòdul detecta qualsevol desviació d'esta posició bloquejada, enviarà polsos per a la correcció de la muntura per a tornar a la posició original. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
             <term
->Mòdul de muntura</term>
+>El mòdul «Muntura»</term>
             <listitem>
                 <para
->El control de la muntura es pot fer de forma interactiva mitjançant el mapa celeste emprant el quadro de control de la muntura al mòdul per a la muntura. Configureu les propietats del telescopi (distància focal i obertura), tant per al vostre telescopi primari per a l'obtenció de les imatges com per a la guia telescòpica. No obstant açò, es recomana seleccionar els instruments de visió en el perfil de l'equip i no canviar els valors directament al mòdul per a la muntura. </para>
+>El control de la muntura es pot fer de forma interactiva mitjançant el mapa celeste emprant el quadro de control de la muntura en este mòdul. Configureu les propietats del telescopi (distància focal i obertura), tant per al vostre telescopi primari per a l'obtenció de les imatges com per a l'instrument de visió guia. No obstant açò, es recomana seleccionar els instruments de visió en el perfil de l'equip i no canviar els valors directament en este mòdul. </para>
             </listitem>
         </varlistentry>
     </variablelist>

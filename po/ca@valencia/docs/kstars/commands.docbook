@@ -381,7 +381,7 @@
 <listitem
 ><para
 >Localitza un objecte pel nom utilitzant la <link linkend="findobjects"
->finestra «Busqueu un objecte»</link
+>finestra «Busca un objecte»</link
 >.</para
 ></listitem>
 </varlistentry>
@@ -823,7 +823,7 @@
 ></term>
     <listitem
 ><para
->Obri el gestor de dispositius, el qual us permet posar/traure controladors de dispositiu i connectar-vos amb servidors INDI remots.</para
+>Obri el gestor de dispositius, el qual us permet posar i traure controladors de dispositiu i connectar-vos amb servidors INDI remots.</para
 ></listitem>
   </varlistentry>
 
@@ -1317,9 +1317,9 @@
       <listitem
 ><para
 >Mostra o oculta la barra d'eines principal. De manera predeterminada, la barra d'eines principal oferix dreceres útils per al control de la vista mapa celeste (&ead;, acosta i allunya) i també per al control del rellotge de &kstars;. Podeu iniciar/parar el rellotge, fer-lo avançar un pas cap arrere/avant en el temps i també podeu ajustar amb facilitat el pas temporal utilitzat pel rellotge de &kstars;. El pas temporal és la velocitat amb la qual fluïx el temps en la simulació. Per a ajustar el pas temporal, podeu utilitzar el botó de selecció de valors utilitzat per a establir les unitats de pas temporal i el botó de selecció de valors utilitzat per a fer augmentar/disminuir el valor del pas temporal. Utilitzant la barra d'eines principal podreu obrir ràpidament la finestra <guilabel
->Busqueu un objecte</guilabel
+>Busca un objecte</guilabel
 >, <guilabel
->Establiu la data i l'hora</guilabel
+>Establiment del temps</guilabel
 > o <guilabel
 >Establiu l'emplaçament geogràfic</guilabel
 >. La barra d'eines principal es pot configurar utilitzant l'element de menú <menuchoice
@@ -1658,7 +1658,7 @@
 ></term>
     <listitem
 ><para
->Este submenú llista els símbols de camp de visió (CDV) disponibles. El símbol CDV es dibuixa al centre de la vista. El podeu escollir des de la llista de símbols predefinits (Prismàtics 7x35, Visor del punt roig, Un grau, HST WFPC2 o 30 m a 1,3 cm) marcant la seua casella de selecció específica o no utilitzar cap símbol desmarcant tots els elements de la llista de símbols. També podeu definir-ne un de propi (o modificar els existents) emprant l'element de menú <guimenuitem
+>Este submenú llista els símbols de camp de visió (CDV) disponibles. El símbol CDV es dibuixa al centre de la vista. El podeu escollir des de la llista de símbols predefinits (Prismàtic 7x35, Visor del punt roig, Un grau, HST WFPC2 o 30 m a 1,3 cm) marcant la seua casella de selecció específica o no utilitzar cap símbol desmarcant tots els elements de la llista de símbols. També podeu definir-ne un de propi (o modificar els existents) emprant l'element de menú <guimenuitem
 >Edita els símbols de CDV...</guimenuitem
 >.</para
 ></listitem>
@@ -1975,13 +1975,13 @@
 >Encadena les estreles d'ací a</guimenuitem
 >: us permetrà trobar un camí entre dos punts en el cel. Els salts entre estreles és una tècnica que utilitza les estreles brillants com una guia per a la busca d'objectes més febles. Així que si teniu una estrela brillant, la podreu utilitzar com a referència per a trobar un objecte més feble. A partir de l'estrela de referència, &kstars; trobarà un camí cap a la destinació, travessant una seqüència d'estreles/patrons d'estreles. L'objecte per al qual heu cridat l'eina <guilabel
 >Encadena les estreles d'ací a</guilabel
-> serà el vostre punt de partida. Quan establiu el punt de partida, apareixerà una línia de punts, els quals vos permetran decidir quin serà el vostre punt final. Heu de moure el cursor del ratolí cap a la posició de l'objecte de destinació i fer clic dret damunt seu. A continuació, apareixerà un diàleg, el qual requerirà que establiu CDV utilitzat per als salts entre estreles. Per a la selecció d'un CDV, cal fer una elecció des de la llista de valors del quadro combinat FOV. Els valors que podeu triar inclouen els valors CDV predeterminats (Prismàtics 7x35, Visor del punt roig, Un grau, HST WFPC2 i 30 m a 1,3 cm), a més dels vostres CDV personalitzats. Una vegada seleccionat CDV, &kstars; trobarà un camí. Per tant, el diàleg contindrà una llista dels objectes utilitzats en el traçat que encadena les estreles. Si &kstars; no aconseguix trobar un camí, mostrarà un diàleg d'error, el que vos donarà una vegada de mà. Una vegada finalitze l'algorisme que encadena les estreles, el diàleg contindrà una llista dels objectes utilitzats en el traçat que encadena les estreles. Per a cada objecte de la llista, podreu realitzar un conjunt d'accions: podeu demanar detalls utilitzant el botó <guibutton
+> serà el vostre punt de partida. Quan establiu el punt de partida, apareixerà una línia de punts, els quals vos permetran decidir quin serà el vostre punt final. Heu de moure el cursor del ratolí cap a la posició de l'objecte de destinació i fer clic dret damunt seu. A continuació, apareixerà un diàleg, el qual requerirà que establiu CDV utilitzat per als salts entre estreles. Per a la selecció d'un CDV, cal fer una elecció des de la llista de valors del quadro combinat FOV. Els valors que podeu triar inclouen els valors CDV predeterminats (Prismàtic 7x35, Visor del punt roig, Un grau, HST WFPC2 i 30 m a 1,3 cm), a més dels vostres CDV personalitzats. Una vegada seleccionat CDV, &kstars; trobarà un camí. Per tant, el diàleg contindrà una llista dels objectes utilitzats en el traçat que encadena les estreles. Si &kstars; no aconseguix trobar un camí, mostrarà un diàleg d'error, el que vos donarà una vegada de mà. Una vegada finalitze l'algorisme del saltador entre estreles, el diàleg contindrà una llista dels objectes utilitzats en el traçat que encadena les estreles. Per a cada objecte de la llista, podreu realitzar un conjunt d'accions: podeu demanar detalls utilitzant el botó <guibutton
 >Detalls</guibutton
 >, centrar l'objecte seleccionat en el mapa utilitzant el botó <guibutton
 >Centra en el mapa</guibutton
 > o podeu anar fins a la següent estrela prement el botó <guibutton
 >Següent</guibutton
->. Recordeu que quan es passe a la següent estrela, se centrarà automàticament en el mapa. A més, l'eina Encadena les estreles oferix adreces a les estreles encadenades per a tots els objectes de la llista. </para
+>. Recordeu que quan es passe a la següent estrela, se centrarà automàticament en el mapa. A més, l'eina Saltador entre estreles oferix adreces a les estreles encadenades per a tots els objectes de la llista. </para
 ></listitem>
 </varlistentry>
 
@@ -2459,7 +2459,7 @@
 ></term>
 <listitem
 ><para
->Sincronitza el rellotge de simulació amb l'hora actual del sistema.</para
+>Sincronitza el rellotge de simulació amb el temps actual del sistema.</para
 ></listitem>
 </varlistentry>
 
@@ -2722,7 +2722,7 @@
 <listitem
 ><para
 >Obri la <link linkend="findobjects"
->finestra «Busqueu un objecte»</link
+>finestra «Busca un objecte»</link
 >, a on podreu especificar un objecte celeste que cal centrar.</para
 ></listitem>
 </varlistentry>

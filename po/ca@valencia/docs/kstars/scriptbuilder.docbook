@@ -95,7 +95,7 @@
 > en el quadro manualment o prement el botó <guibutton
 >Objecte...</guibutton
 > per a emprar la finestra <guilabel
->Busqueu un objecte</guilabel
+>Busca un objecte</guilabel
 > per a seleccionar la Lluna des de la llista d'objectes. Cal tindre present que, com és habitual, el fet de centrar en un objecte inicia automàticament el mode de seguiment d'este, i per açò no hi ha cap necessitat d'afegir la funció <firstterm
 >setTracking</firstterm
 > després de lookToward. </para
@@ -119,7 +119,7 @@
 >. Afegiu esta funció a l'script i examineu el quadro Arguments de la funció. Hi haurà una llista desplegable que conté el llistat de totes les Opcions de la vista que pot ajustar changeViewOption. Atés que sabem que volem l'opció UseAltAz, nosaltres podríem senzillament seleccionar-la des del quadro combinat. No obstant açò, resulta que la llista és inversemblantment llarga i no hi ha explicacions de per què servix cada element. Per tant, podria ser més fàcil prémer el botó <guibutton
 >Navega per l'arbre...</guibutton
 >, el qual obrirà una finestra que conté una vista en arbre de les opcions de la vista, organitzada per assumpte. A més, cada element disposa d'una curta explicació del que fa esta opció, i el tipus de dades del valor de l'opció. Trobarem UseAltAz davall la categoria <guilabel
->Opcions per al mapa del cel</guilabel
+>Opcions per al mapa celeste</guilabel
 >. Senzillament ressalteu este element, premeu <guibutton
 >D'acord</guibutton
 > i este serà seleccionat en el quadro combinat del quadro Arguments de la funció. Finalment, feu que el seu valor siga <quote
