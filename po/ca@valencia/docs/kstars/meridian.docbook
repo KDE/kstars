@@ -33,7 +33,7 @@
 >Com està fixat a l'horitzó local, les estreles aparenten travessar el meridià local amb la rotació de la Terra. Podeu utilitzar l'<link linkend="equatorial"
 >ascensió recta</link
 > i el <link linkend="ai-sidereal"
->temps sideri local</link
+>temps sideral local</link
 > d'un objecte per a determinar quan travessarà el nostre meridià local (vegeu <link linkend="ai-hourangle"
 >angle horari</link
 >). </para>

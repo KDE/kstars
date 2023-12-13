@@ -262,7 +262,7 @@
 >Trobar objectes</title>
 <indexterm
 ><primary
->Eina Busqueu un objecte</primary
+>Eina Busca un objecte</primary
 ></indexterm>
 <indexterm
 ><primary
@@ -272,7 +272,7 @@
 ></indexterm>
 <para
 >Podeu buscar els objectes per nom utilitzant l'eina <guilabel
->Busqueu un objecte</guilabel
+>Busca un objecte</guilabel
 >, la qual es pot obrir fent clic damunt de la icona <guiicon
 >Busca un objecte</guiicon
 > de la barra d'eines, seleccionant l'element de menú <menuchoice
@@ -286,17 +286,17 @@
 >F</keycap
 ></keycombo
 >. La finestra <guilabel
->Busqueu un objecte</guilabel
+>Busca un objecte</guilabel
 > es mostra davall: <screenshot>
 <screeninfo
->Finestra «Busqueu un objecte» amb la característica de busca en línia</screeninfo>
+>Finestra «Busca un objecte» amb la característica de busca en línia</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="find2.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra «Busqueu un objecte» amb la característica de busca en línia</phrase>
+>Finestra «Busca un objecte» amb la característica de busca en línia</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -327,18 +327,18 @@
 >). Si se selecciona esta casella de selecció, quan s'introduïsca un nom d'objecte desconegut per &kstars; al diàleg <guilabel
 >Busca</guilabel
 >, &kstars; contactarà amb els serveis en línia per a aprendre sobre l'objecte desitjat i després l'afegirà directament a la base de dades de &kstars;. Els objectes adquirits d'esta manera, s'emmagatzemen en un catàleg fals, anomenat «_Internet_Resolved». Per tant, podreu activar o desactivar la visualització d'estos objectes marcant o desmarcant el catàleg «_Internet_Resolved» de la llista de catàlegs. Recordeu que no podreu eliminar este catàleg fals, com ho feu amb un catàleg personalitzat. Si no se selecciona esta casella de selecció, llavors el diàleg <guilabel
->Busqueu un objecte</guilabel
+>Busca un objecte</guilabel
 > serà exactament el mateix, a excepció d'un xicotet canvi: el botó de busca en línia ja no serà visible. </para>
 <screenshot>
 <screeninfo
->Finestra «Busqueu un objecte»</screeninfo>
+>Finestra «Busca un objecte»</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="find.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra «Busqueu un objecte»</phrase>
+>Finestra «Busca un objecte»</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -363,7 +363,7 @@
 ></indexterm>
 <para
 >&kstars; seguix automàticament els objectes en el moment en el qual un és centrat a la pantalla, ja siga emprant la finestra <guilabel
->Busqueu un objecte</guilabel
+>Busca un objecte</guilabel
 >, fent doble clic damunt del mateix o seleccionant <guimenuitem
 >Centra i seguix</guimenuitem
 > des del menú emergent del clic <mousebutton

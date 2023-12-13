@@ -15,11 +15,11 @@
 ><seealso
 >Meridià local</seealso
 > <seealso
->Temps sideri</seealso
+>Temps sideral</seealso
 > </indexterm>
 <para
 >Com s'explica a l'article de <link linkend="ai-sidereal"
->temps sideri</link
+>temps sideral</link
 >, l'<firstterm
 >ascensió recta</firstterm
 > d'un objecte indica el temps sideri en el qual transitarà el vostre <link linkend="ai-meridian"
@@ -40,7 +40,7 @@
 >obj.</subscript
 > </para
 ><para
->Per tant, l'angle horari d'un objecte indica quant temps sideri ha transcorregut des que l'objecte estava en el meridià local. També és la distància angular entre l'objecte i el meridià, mesurat en hores (1 hora = 15 graus). Per exemple, si un objecte té un angle horari de 2,5 hores, ha transitat pel meridià local durant 2,5 hores, actualment estarà a 37,5 graus a l'oest del meridià. Els angles horaris negatius indiquen el temps fins que es produïsca el <emphasis
+>Per tant, l'angle horari d'un objecte indica quant temps sideral ha transcorregut des que l'objecte estava en el meridià local. També és la distància angular entre l'objecte i el meridià, mesurat en hores (1 hora = 15 graus). Per exemple, si un objecte té un angle horari de 2,5 hores, ha transitat pel meridià local durant 2,5 hores, actualment estarà a 37,5 graus a l'oest del meridià. Els angles horaris negatius indiquen el temps fins que es produïsca el <emphasis
 >següent</emphasis
 > trànsit pel meridià local. Per descomptat, un angle horari de zero significa que l'objecte està en este moment en el meridià local. </para>
 </sect1>

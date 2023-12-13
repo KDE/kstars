@@ -134,7 +134,7 @@
 >El telescopi necessita ser alineat abans de poder-lo utilitzar correctament. Alineeu-lo (alineació d'una o dues estreles) segons l'il·lustrat en el vostre manual del telescopi. </para>
 
 <para
->&kstars; necessita verificar la configuració de temps i emplaçament abans de connectar amb el telescopi. Açò assegura un seguiment i sincronització adequada entre el telescopi i &kstars;. Els passos següents vos permetran connectar amb un dispositiu que estiga connectat amb el vostre ordinador. Per a connectar i controlar els dispositius remots, per favor, consulteu la secció <link linkend="indi-remote-control"
+>&kstars; necessita verificar la configuració del temps i l'emplaçament abans de connectar amb el telescopi. Açò assegura un seguiment i sincronització adequada entre el telescopi i &kstars;. Els passos següents vos permetran connectar amb un dispositiu que estiga connectat amb el vostre ordinador. Per a connectar i controlar els dispositius remots, per favor, consulteu la secció <link linkend="indi-remote-control"
 >control remot del dispositiu</link
 >. </para>
 
@@ -181,7 +181,7 @@
 >, o prement la icona amb forma de <guiicon
 >rellotge</guiicon
 > que hi ha en la barra d'eines. La finestra <guilabel
->Establiu la data i l'hora</guilabel
+>Establiment del temps</guilabel
 > utilitza un giny selector de dates estàndard de &kde;. Si sempre necessiteu reajustar el rellotge al temps actual, senzillament seleccioneu <menuchoice
 ><guimenu
 >Temps</guimenu
@@ -230,7 +230,7 @@
 <title
 >Configuracions freqüents</title>
 <para
->No vos caldrà establir l'emplaçament geogràfic i l'hora cada vegada que connecteu a un telescopi. Ajusteu tan sols les preferències necessàries. </para
+>No vos caldrà establir l'emplaçament geogràfic i el temps cada vegada que connecteu amb un telescopi. Ajusteu tan sols les preferències necessàries. </para
 ></note>
 
 <para
@@ -510,19 +510,19 @@
 ><para
 ><guilabel
 >&kstars; actualitza tots els dispositius</guilabel
->: &kstars; és la font mestra de la configuració per al temps i l'emplaçament. Tots els dispositius INDI sincronitzaran esta configuració amb la de &kstars;.</para
+>: &kstars; és la font mestra de la configuració del temps i l'emplaçament. Tots els dispositius INDI sincronitzaran esta configuració amb la de &kstars;.</para
 ></listitem>
       <listitem
 ><para
 ><guilabel
 >La muntura actualitza &kstars;</guilabel
->: El comandament de la muntura és la font mestra de la configuració del temps i emplaçament. &kstars; sincronitzarà esta configuració amb la del controlador.</para
+>: El comandament de la muntura és la font mestra de la configuració del temps i l'emplaçament. &kstars; sincronitzarà esta configuració amb la del controlador.</para
 ></listitem>
       <listitem
 ><para
 ><guilabel
 >El GPS actualitza &kstars;</guilabel
->: El controlador del GPS és la font mestra de la configuració del temps i emplaçament. &kstars; sincronitzarà esta configuració amb la del GPS.</para
+>: El controlador del GPS és la font mestra de la configuració del temps i l'emplaçament. &kstars; sincronitzarà esta configuració amb la del GPS.</para
 ></listitem>
       <listitem
 ><para
@@ -732,7 +732,7 @@
 </listitem>
 <listitem>
 <para
->Hora: L'hora estàndard per a totes les comunicacions relacionades amb INDI és UTC (temps universal) especificada com a YYYY-MM-DDTHH:MM:SS d'acord amb l'ISO 8601. &kstars; comunica automàticament l'hora UTC correcta amb els controladors dels dispositius. Podeu in/habilitar dites actualitzacions automàtiques de l'hora des de la pàgina <guilabel
+>Temps: El temps estàndard per a totes les comunicacions relacionades amb INDI és UTC (temps universal) especificat com a YYYY-MM-DDTHH:MM:SS d'acord amb l'ISO 8601. &kstars; comunica automàticament el temps UTC correcte amb els controladors dels dispositius. Podeu in/habilitar dites actualitzacions automàtiques des de la pàgina <guilabel
 >INDI</guilabel
 > en el diàleg de configuració. </para>
 </listitem>

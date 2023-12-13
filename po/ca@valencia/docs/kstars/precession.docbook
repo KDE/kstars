@@ -44,7 +44,7 @@
 > haurà de ser de 90 graus, i l'estrela Polaris haurà d'estar a prop del centre de la pantalla. Proveu d'orientar-vos amb les fletxes dreta i esquerra. Notareu com el cel aparenta fer la rotació al voltant del pol. </para
 ><para
 >Ara demostrarem la precessió canviant la data a un any molt llunyà i observant que l'emplaçament del pol celeste ja no es troba a prop de l'estrela Polaris. Obrir la finestra <guilabel
->Establiu la data i l'hora</guilabel
+>Establiment del temps</guilabel
 > (<keycombo action="simul"
 >&Ctrl;<keycap
 >S</keycap

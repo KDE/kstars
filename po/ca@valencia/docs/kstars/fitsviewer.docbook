@@ -132,7 +132,7 @@
 ></listitem>
                 <listitem
 ><para
->Filtres: Estirat automàtic, Contrast, Passaalt, Gira, Invertix.</para
+>Filtres: Estirament automàtic, Contrast, Passaalt, Gira, Invertix.</para
 ></listitem>
                 <listitem
 ><para
@@ -188,11 +188,11 @@
 ></listitem>
                 <listitem
 ><para
->Gira a la dreta.</para
+>Gira cap a la dreta.</para
 ></listitem>
                 <listitem
 ><para
->Gira a l'esquerra.</para
+>Gira cap a l'esquerra.</para
 ></listitem>
                 <listitem
 ><para
@@ -240,7 +240,7 @@
 ></listitem>
                 <listitem
 ><para
->Estirat automàtic: aplica el filtre d'estirat automàtic a la imatge.</para
+>Estirament automàtic: aplica el filtre d'estirament automàtic a la imatge.</para
 ></listitem>
                 <listitem
 ><para
@@ -549,7 +549,7 @@
     <para
 >El solucionador del visor de FITS s'utilitza per a resoldre la placa de la imatge carregada en la pestanya <guilabel
 >Visor de FITS</guilabel
->. Només funciona amb StellarSolver intern. Obté les coordenades RA i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
+>. Només funciona amb StellarSolver intern. Obté les coordenades AR i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
             <itemizedlist>
                 <listitem
 ><para
@@ -672,7 +672,7 @@
 ></listitem>
               <listitem
 ><para
->L'usuari podrà carregar manualment la imatge a astrometry.net per a obtindre els valors d'escala i de posició (o senzillament veure si és una imatge problemàtica). </para
+>L'usuari podrà carregar manualment la imatge a «astrometry.net» per a obtindre els valors d'escala i de posició (o senzillament veure si és una imatge problemàtica). </para
 ></listitem>
               <listitem
 ><para
@@ -809,7 +809,7 @@
 >En l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible a la <guilabel
 >Pantalla de resum</guilabel
 >, al <link linkend="ekos-align"
->mòdul per a l'alineació</link
+>mòdul «Alinea»</link
 > i en el visor de FITS. El segon quadro combinat permet controlar a l'usuari si se selecciona un element individual, una fila o una columna de píxels. El botó dividix estarà habilitat si l'usuari selecciona <guimenuitem
 >Fila</guimenuitem
 > o <guimenuitem

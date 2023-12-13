@@ -14,29 +14,31 @@
 >Introducció</title>
         <screenshot>
             <screeninfo
->Mòdul d'alineació d'Ekos </screeninfo>
+>El mòdul «Alinea» d'Ekos </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_astrometry.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->Mòdul d'alineació d'Ekos</phrase>
+>El mòdul «Alinea» d'Ekos</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
         <para
->El mòdul per a l'alineació d'Ekos permet fer un GOTO molt exacte, podent mesurar i corregir els errors de l'alineació polar. Açò és possible gràcies a la tecnologia de resolució de plaques de tercers. El principal programari de resolució de plaques utilitzat és el paquet StellarSolver, el qual alhora utilitza solucionadors fora de línia (i en línia) «astrometry.net», ASTAP i Watney. Ekos començarà capturant una imatge d'un camp estel·lar, l'enviarà al solucionador triat (p. ex., vegeu «<ulink url="https://astrometry.net"
+>El mòdul <guilabel
+>Alinea</guilabel
+> d'Ekos permet fer un GOTO molt exacte, podent mesurar i corregir els errors de l'alineació polar. Açò és possible gràcies a la tecnologia de resolució de plaques de tercers. El principal programari de resolució de plaques utilitzat és el paquet StellarSolver, el qual alhora utilitza solucionadors fora de línia (i en línia) «astrometry.net», ASTAP i Watney. Ekos començarà capturant una imatge d'un camp estel·lar, l'enviarà al solucionador triat (p. ex., vegeu «<ulink url="https://astrometry.net"
 >astrometry.net</ulink
 >», <ulink url="https://github.com/rlancaste/stellarsolver"
 >StellarSolver</ulink
 > o <ulink url="https://www.hnsky.org/astap"
 >ASTAP</ulink
->) i obtindra a canvi les coordenades centrals (RA, Dec), escala i orientació de la imatge. El solucionador fonamentalment realitzarà un reconeixement de patrons contra un catàleg de milions d'estreles. Una vegada determinades les coordenades, apuntarà de veritat amb el telescopi. </para>
+>) i obtindrà a canvi les coordenades centrals (AR i Dec), escala i orientació de la imatge. El solucionador fonamentalment realitzarà un reconeixement de patrons contra un catàleg de milions d'estreles. Una vegada determinades les coordenades, apuntarà de veritat amb el telescopi. </para>
         <para
 >Sovint, hi ha una discrepància entre el lloc on el telescopi creu que està mirant i cap a on realment apunta. La magnitud d'esta discrepància pot variar des d'uns pocs minuts d'arc fins a un parell de graus. Ekos ho pot corregir sincronitzant-se amb les coordenades noves i, després, orientant la muntura cap a l'objectiu desitjat sol·licitat originalment. </para>
         <para
->Ekos també proporciona una eina d'assistent d'alineació polar per a corregir els errors de l'alineació polar. Pren tres imatges, alternant entre les imatges i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Realimenta a l'usuari amb els paràmetres d'altitud i azimut necessaris per a alinear estos eixos. Estes imatges generalment es prenen a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant a prop del meridià i girant cap a l'est o cap a l'oest. </para>
+>Ekos també proporciona una eina d'assistent d'alineació polar per a corregir els errors de l'alineació polar. Pren tres imatges, orienta entre les imatges i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Realimenta a l'usuari amb els paràmetres d'altitud i azimut necessaris per a alinear estos eixos. Estes imatges generalment es prenen a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant a prop del meridià i orienta cap a l'est o cap a l'oest. </para>
         <para
 >Com a mínim, necessitareu una CCD/càmera web i un telescopi que admeta les ordres orienta i sincronitza. El telescopi comercial més popular hui dia les admet sense problemes. </para>
     </sect2>
@@ -45,9 +47,11 @@
             <title
 >Ús típic</title>
             <para
->En utilitzar el mòdul per a l'alineació d'Ekos, l'alineació de la muntura emprant l'alineació d'1, 2 o 3 estreles del controlador <emphasis
+>En utilitzar el mòdul <guilabel
+>Alinea</guilabel
+> d'Ekos, l'alineació de la muntura emprant l'alineació d'1, 2 o 3 estreles del controlador <emphasis
 >no</emphasis
-> és estrictament necessari, encara que per a algunes muntures es recomana realitzar una alineació aproximada d'1 o 2 estreles abans d'utilitzar el mòdul per a l'alineació d'Ekos. Si esteu utilitzant EQMod, podeu començar a utilitzar immediatament el mòdul per a l'alineació d'Ekos. Un flux de treball típic per a l'alineació GOTO implica els passos següents: </para>
+> és estrictament necessari, encara que per a algunes muntures es recomana realitzar una alineació aproximada d'1 o 2 estreles abans d'utilitzar este mòdul. Si esteu utilitzant EQMod, podeu començar a utilitzar immediatament este mòdul. El flux de treball típic per a l'alineació GOTO implica els passos següents: </para>
             <orderedlist>
                 <listitem>
                     <para
@@ -79,11 +83,11 @@
                 </listitem>
             </orderedlist>
             <para
->L'alineació capturarà una imatge i intentarà resoldre-la. Si el solucionador té èxit, Ekos enviarà una ordre de sincronització i després orientarà cap a l'estrela. Els resultats es mostraran a la pestanya <guilabel
+>L'alineació capturarà una imatge i intentarà resoldre-la. Si el solucionador té èxit, Ekos enviarà una ordre de sincronització a la muntura i després orientarà cap a l'estrela. Els resultats es mostraran a la pestanya <guilabel
 >Resultats de la solució</guilabel
 > juntament amb un diagrama en ull de bou que ens mostrarà el desplaçament de les coordenades informades pel telescopi (&ead;, cap on <emphasis
 >creu</emphasis
-> el telescopi que està mirant en comparació amb la seua posició real en el cel tal com determina el solucionador). L'alineació es pararà si es troba dins de la tolerància d'error desitjada, en cas contrari repetirà el procés Orienta/Captura/Soluciona/Sincronitza fins que estiga dintre de la tolerància. </para>
+> el telescopi que està mirant en comparació amb la seua posició real en el cel tal com determina el solucionador). L'alineació es pararà si es troba dins de la tolerància d'error desitjada, en cas contrari repetirà el procés Orienta, Captura, Soluciona i Sincronitza fins que estiga dintre de la tolerància. </para>
             <para
 >Cada vegada que s'executa el solucionador i retorna resultats correctes, Ekos podrà executar-se en les accions següents: </para>
             <itemizedlist>
@@ -137,7 +141,7 @@
 >Mètode de resolució:</guilabel
 > es recomana triar <guilabel
 >Solucionador intern</guilabel
-> per a que s'utilitze la còpia del codi d'Astrometry.net de StellarSolver, o trieu <guilabel
+> per a que s'utilitze la còpia del codi d'«astrometry.net» de StellarSolver, o trieu <guilabel
 >ASTAP local</guilabel
 > si ho preferiu. El solucionador d'astrometria en línia és precís, però pot tardar molt temps a resoldre a causa de tota la transferència de dades requerida. Per a la llista desplegable <guilabel
 >Perfil d'opcions:</guilabel
@@ -413,7 +417,9 @@
 >Astrometria local</guilabel
 >. </para>
         <para
->Per als solucionadors fora de línia (i els remots), els fitxers d'índex són necessaris perquè el solucionador funcione. La col·lecció completa de fitxers d'índex és enorme (més de 30 GB), però només haureu de baixar el que calga per a la configuració del vostre equip. Els fitxers d'índex s'ordenen segons l'interval camp de visió (CDV) (Field-of-View -FOV-) que cobrixen. Hi ha dos mètodes per a obtindre els fitxers d'índex necessaris: el nou suport de baixada al mòdul per a l'alineació i la forma manual anterior. </para>
+>Per als solucionadors fora de línia (i els remots), els fitxers d'índex són necessaris perquè el solucionador funcione. La col·lecció completa de fitxers d'índex és enorme (més de 30 GB), però només haureu de baixar el que calga per a la configuració del vostre equip. Els fitxers d'índex s'ordenen segons l'interval camp de visió (CDV) (Field-of-View -FOV-) que cobrixen. Hi ha dos mètodes per a obtindre els fitxers d'índex necessaris: el nou suport de baixada al mòdul <guilabel
+>Alinea</guilabel
+> i la forma manual anterior. </para>
         <sect3 id="ekos-align-automatic-download">
             <title
 >Baixar automàticament</title>
@@ -436,7 +442,7 @@
 >Per a accedir a la pàgina de baixada, feu clic en el botó <guibutton
 >Opcions</guibutton
 > en el <link linkend="ekos-align"
->mòdul per a l'alineació</link
+>mòdul «Alinea»</link
 > i, a continuació, seleccioneu la pestanya <guilabel
 >Fitxers d'índex d'astrometria</guilabel
 >. La pàgina mostrarà CDV actual de la configuració actual i, a continuació, una llista dels fitxers d'índex disponibles i els instal·lats. S'utilitzen tres icones per a designar la importància dels fitxers d'índex indicats en la configuració actual de la següent manera: </para>
@@ -749,9 +755,11 @@
                         </mediaobject>
                     </screenshot>
                     <para
->Al mòdul per a l'alineació d'Ekos, haureu d'establir el tipus de solucionador a <guimenuitem
+>Al mòdul <guilabel
+>Alinea</guilabel
+> d'Ekos, haureu d'establir el tipus de solucionador a <guimenuitem
 >Connectat</guimenuitem
-> perquè utilitze el servidor ANSVR local per a totes les consultes d'astrometria. A continuació, podreu utilitzar el mòdul per a l'alineació com ho faríeu normalment. </para>
+> perquè utilitze el servidor ANSVR local per a totes les consultes d'astrometria. A continuació, podreu utilitzar este mòdul com ho faríeu normalment. </para>
                     <para
 >Recordeu que, tal com s'ha indicat anteriorment, StellarMate <emphasis
 >ja</emphasis
@@ -791,7 +799,9 @@
             <title
 >Com emprar-lo?</title>
             <para
->El mòdul per a l'alineació d'Ekos oferix múltiples funcions per a ajudar-vos a aconseguir GOTO precisos. Per a algunes muntures és útil iniciar la sessió amb la muntura en la posició inicial amb el tub del telescopi que mire directament cap al pol celeste. Per als usuaris de l'hemisferi nord, apunteu el telescopi el més a prop possible de Polaris. No és necessari realitzar alineacions de 2 o 3 estreles, però pot ser útil en alguns tipus de muntura. Assegureu-vos que la càmera estiga enfocada. </para>
+>El mòdul <guilabel
+>Alinea</guilabel
+> d'Ekos oferix múltiples funcions per a ajudar-vos a aconseguir GOTO precisos. Per a algunes muntures és útil iniciar la sessió amb la muntura en la posició inicial amb el tub del telescopi que mire directament cap al pol celeste. Per als usuaris de l'hemisferi nord, apunteu el telescopi el més a prop possible de Polaris. No és necessari realitzar alineacions de 2 o 3 estreles, però pot ser útil en alguns tipus de muntura. Assegureu-vos que la càmera estiga enfocada. </para>
             <para
 >En la part superior esquerra del mòdul «Alinea» d'Ekos, trobareu dues ordres del solucionador i dues accions que s'han de realitzar donada la solució del solucionador. </para>
             <itemizedlist>
@@ -895,7 +905,7 @@
                 </mediaobject>
 
                 <para
->En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera encastada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre al mateix lloc de la fotografia si volem obtindre una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'esta manera: l'òptica, l'atmosfera, veent la qualitat de tots els fotons dispersos i refractats d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que seguixen una distribució de Poisson. Per a fonts puntuals com les estreles, la funció de dispersió d'un punt descriu la manera com els fotons es distribuïxen espacialment a través dels píxels. No obstant açò, la idea general que volem és que els fotons d'origen colpegen en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastres. </para>
+>En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera encastada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre al mateix lloc de la fotografia si volem obtindre una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'esta manera: l'òptica, l'atmosfera, veent la qualitat de tots els fotons dispersos i refractats d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que seguixen una distribució de Poisson. Per a fonts puntuals com les estreles, la funció de dispersió d'un punt descriu la manera com els fotons es distribuïxen espacialment a través dels píxels. No obstant açò, la idea general que volem és que els fotons d'origen colpegen en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastre. </para>
                 <screenshot>
                     <screeninfo
 >Alineació polar </screeninfo>
@@ -914,9 +924,9 @@
                 <para
 >Tanmateix, tret que tingueu una muntura de gamma alta, probablement voldreu utilitzar un guiador automàtic per a mantindre bloquejada la mateixa estrela en la mateixa posició al llarg del temps. Malgrat tot açò, si l'eix de la muntura no està correctament alineat amb el pol celeste, fins i tot una muntura mecànicament perfecta perdrà el seguiment amb el temps. Els errors de seguiment són proporcionals a la magnitud de la desalineació. Per tant, és molt important per a les imatges preses amb una exposició prolongada aconseguir que la muntura s'alinee en l'àmbit polar per a reduir els errors residuals a mesura que es desplaça a través del cel. </para>
                 <para
->Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste amb els contrapesos cap avall. Si viviu a l'hemisferi nord, apunteu-lo el més a prop possible de Polaris. Si Polaris no està visible (&pex;, està bloquejada per arbres o edificis), podeu apuntar cap a un altre lloc, preferiblement a prop del meridià. Assegureu-vos que hi haja almenys de 30 a 60 graus de cel visible en un arc a l'est o l'oest del meridià des de la posició que trieu. Seleccioneu la direcció del cel lliure, el nombre de graus per a cadascun dels dos girs, la velocitat de gir de la muntura i si la muntura girarà automàticament (recomanat) o manualment. </para>
+>Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste amb els contrapesos cap avall. Si viviu a l'hemisferi nord, apunteu-lo el més a prop possible de Polaris. Si Polaris no està visible (&pex;, està bloquejada per arbres o edificis), podeu apuntar cap a un altre lloc, preferiblement a prop del meridià. Assegureu-vos que hi haja almenys de 30 a 60 graus de cel visible en un arc a l'est o l'oest del meridià des de la posició que trieu. Seleccioneu la direcció del cel lliure, el nombre de graus per a cadascuna de les dues orientacions, la velocitat d'orientació de la muntura i si la muntura s'orientarà automàticament (recomanat) o manualment. </para>
                 <para
->L'eina funciona capturant i resolent tres imatges. Després de capturar cadascuna, la muntura girarà per la quantitat fixa que heu introduït i es capturarà i resoldrà una altra imatge. Si trieu manualment, haureu de fer girar la muntura aproximadament per l'angle escollit. </para>
+>L'eina funciona capturant i resolent tres imatges. Després de capturar cadascuna, la muntura girarà per la quantitat fixa que heu introduït i es capturarà i resoldrà una altra imatge. Si trieu manualment, haureu d'orientar la muntura aproximadament per l'angle escollit. </para>
                 <screenshot>
                     <screeninfo
 >Assistent d'alineació polar </screeninfo>
@@ -938,7 +948,7 @@
                 <para
 >Les imatges següents mostren el flux de treball quan s'utilitza la tècnica de correcció <emphasis
 >resoldre les plaques</emphasis
->. La imatge següent mostra una pantalla després de capturar i resoldre les 3 imatges de mesura. Mostra un error de quasi 18º d'alçària i que l'eix de la muntura s'ha de moure cap amunt. De manera similar, mostra un error d'azimut de quasi 15º i que l'eix s'ha de moure cap a la dreta (vist des del darrere del telescopi). </para>
+>. La imatge següent mostra una pantalla després de capturar i resoldre les 3 imatges de mesura. Mostra un error de quasi 18º d'altitud i que l'eix de la muntura s'ha de moure cap amunt. De manera similar, mostra un error d'azimut de quasi 15º i que l'eix s'ha de moure cap a la dreta (vist des del darrere del telescopi). </para>
                 <screenshot>
                     <screeninfo
 >Assistent d'alineació polar </screeninfo>

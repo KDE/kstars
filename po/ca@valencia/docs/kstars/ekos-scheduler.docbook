@@ -11,14 +11,14 @@
     </indexterm>
     <screenshot>
         <screeninfo
->Mòdul del programador d'Ekos </screeninfo>
+>Mòdul «Programador» d'Ekos </screeninfo>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="ekos_scheduler.png" format="PNG"/>
             </imageobject>
             <textobject>
                 <phrase
->Mòdul del programador d'Ekos</phrase>
+>Mòdul «Programador» d'Ekos</phrase>
             </textobject>
         </mediaobject>
     </screenshot>
@@ -108,12 +108,12 @@
 ><guilabel
 >Nom i coordenades de l'objectiu</guilabel
 >: Seleccioneu l'objectiu des del <link linkend="findobjects"
->diàleg Busca</link
+>diàleg «Busca»</link
 > o del botó <guibutton
 >Afig</guibutton
 > des del <link linkend="tool-obsplanner"
 >Planificador de l'observació</link
->. També podeu introduir un nom personalitzat. Les coordenades també es poden copiar des del mapa del cel utilitzant el botó que hi ha just a la dreta de les coordenades. </para>
+>. També podeu introduir un nom personalitzat. Les coordenades també es poden copiar des del mapa celeste utilitzant el botó que hi ha just a la dreta de les coordenades. </para>
             </listitem>
             <listitem>
                 <para
@@ -132,7 +132,7 @@
 >Fitxer de <guilabel
 >Seqüència</guilabel
 >: El fitxer de seqüències es construïx en el <link linkend="ekos-capture"
->Mòdul de captura</link
+>El mòdul «Captura»</link
 > d'Ekos. Conté una llista d'especificacions de captura, on cada especificació detalla el nombre d'imatges que s'han de capturar, quin filtre utilitzar, la duració de l'exposició, el guany, els detalls de la nomenclatura dels fitxers, la configuració de la temperatura, els prefixos, el directori de baixada, &etc; </para>
             </listitem>
             <listitem>
@@ -145,7 +145,7 @@
                 <para
 ><guilabel
 >Passos</guilabel
->: L'usuari selecciona quins passos s'han de prendre a l'inici de la tasca. Les possibilitats són: (1) inicia el seguiment de la muntura, (2) enfocament automàtic, (3) executa una alineació amb resolució de la placa, (4) inicia el guiatge automàtic. Se'n poden escollir una o més. </para>
+>: L'usuari selecciona quins passos s'han de prendre a l'inici de la tasca. Les possibilitats són: (1) inicia el seguiment de la muntura, (2) enfocament automàtic, (3) executa una alineació amb resolució de la placa, (4) inicia el guiador automàtic. Se'n poden escollir una o més. </para>
             </listitem>
             <listitem>
                 <para
@@ -163,7 +163,7 @@
 >Restriccions</guilabel
 >: Estes són les condicions que s'hauran de complir <emphasis role="bold"
 >en tot moment</emphasis
-> durant el procés d'execució de la tasca del programador. S'inclouen l'altitud mínima de l'objectiu, la separació mínima de la Lluna, l'observació del crepuscle, restriccions d'altitud horitzontal artificial i el seguiment del clima. </para>
+> durant el procés d'execució de la tasca del programador. S'inclouen l'altitud mínima de l'objectiu, la separació mínima de la Lluna, l'observació del crepuscle, restriccions d'altitud de l'horitzó artificial i el seguiment del clima. </para>
             </listitem>
             <listitem>
                 <para
@@ -223,7 +223,7 @@
         <title
 >Repeticions de grup</title>
         <para
->Esta característica permet executar dos o més tasques del programador amb aproximadament la mateixa prioritat, de manera que si totes dues foren executables, progressarien aproximadament al mateix ritme. Açò pot ser aplicable, &pex;, a tasques que processen imatges amb múltiples tessel·les en un mosaic, però generalment s'aplica a qualsevol conjunt de tasques. </para>
+>Esta característica permet executar dos o més tasques del programador amb aproximadament la mateixa prioritat, de manera que si totes dues foren executables, progressarien aproximadament al mateix ritme. Açò pot ser aplicable, &pex;, a tasques que s'obtenen imatges amb múltiples tessel·les en un mosaic, però generalment s'aplica a qualsevol conjunt de tasques. </para>
         <para
 >Normalment, la prioritat de les tasques del programador (voraç) s'establix segons la fila on apareix la tasca a la taula de tasques del programador. Les tasques en les files més properes a la part superior s'executaran amb més prioritat que les tasques més avall. Per tant, si una tasca a la fila 2 (Tasca_2) utilitza <guilabel
 >Repetix fins que es finalitze</guilabel
@@ -239,7 +239,7 @@
         <para
 >En termes pràctics, imagineu que teniu un mosaic de sis quadros que voleu alternar. Podeu donar a totes estes tasques el mateix nom de grup, &pex;, <guilabel
 >Repetix 5 vegades</guilabel
->. Després, s'executarien en un pas de bloqueig. La cadència d'el canvi de tasques estaria controlada per la llargària del fitxer de seqüències assignat a cadascuna d'estes tasques. No voldreu que la cadència siga massa curta (&pex;, capturar una imatge de 2 minuts), ja que canviar de tasca suposa una sobrecàrrega. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i, fins i tot enfocar. </para>
+>. Després, s'executarien en un pas de bloqueig. La cadència d'el canvi de tasques estaria controlada per la llargària del fitxer de seqüències assignat a cadascuna d'estes tasques. No voldreu que la cadència siga massa curta (&pex;, capturar una imatge de 2 minuts), ja que canviar de tasca suposa una sobrecàrrega. Per exemple, iniciar tasques pot implicar alinear, començar el guiatge i, fins i tot enfocar. </para>
        </sect3>
        <sect3 id="repeat-all-jobs">
         <title
@@ -363,7 +363,7 @@
             <listitem>
                 <para
 >Carregarà el fitxer de seqüències al <link linkend="ekos-capture"
->mòdul de captura</link
+>mòdul «Captura»</link
 > i iniciarà el procés d'obtenció de les imatges. </para>
             </listitem>
             <listitem>
@@ -560,7 +560,7 @@ exit(0)
             </mediaobject>
         </screenshot>
         <para
->Una superposició gran farà més fàcil unir els fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de subfotogrames, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir esta quantitat en les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb un superposició del 75% tindrà 16 subfotogrames que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçària en totes les parts del fotograma final, este mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
+>Una superposició gran farà més fàcil unir els fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de submarcs, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir esta quantitat en les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb un superposició del 75% tindrà 16 submarcs que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçària en totes les parts del fotograma final, este mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
         <para
 >El nombre gran dibuixat en el cantó de cada subfinestra en la quadrícula representa l'ordre en què s'han capturat les subfinestres. L'elecció predeterminada en forma de S (oest-est i alternant moviments alts-baixos/baixos-alts), garantix un moviment mínim de la muntura durant l'observació. Desmarqueu <guilabel
 >Moviment mínim de la muntura</guilabel
@@ -628,6 +628,6 @@ exit(0)
         <para
 >Feu clic en <guibutton
 >Crea tasques</guibutton
-> per a generar les tasques del programador del mosaic i afegir-les a la cua del planificador. Podeu editar les tasques individualment, com a les tasques normals del programador. </para>
+> per a generar les tasques del programador del mosaic i afegir-les a la cua programada. Podeu editar les tasques individualment, com a les tasques normals del programador. </para>
     </sect2>
 </sect1>

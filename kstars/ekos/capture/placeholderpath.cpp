@@ -259,7 +259,7 @@ QString PlaceholderPath::generateReplacement(const QMap<PathProperty, QVariant> 
             case PP_TYPE_DOUBLE:
                 return QString::number(pathPropertyMap[property].toDouble(), 'd', 0);
             case PP_TYPE_UINT:
-            return QString::number(pathPropertyMap[property].toUInt());
+                return QString::number(pathPropertyMap[property].toUInt());
             case PP_TYPE_POINT:
                 return QString("%1x%2").arg(pathPropertyMap[PP_BIN].toPoint().x()).arg(pathPropertyMap[PP_BIN].toPoint().y());
             case PP_TYPE_STRING:
@@ -602,8 +602,8 @@ int PlaceholderPath::getCompletedFiles(const QString &path)
         // found '.', then remove extension
         sig_file = sig_file.left(index);
     }
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler::getCompletedFiles path:" << path << " sig_dir:" << sig_dir << " sig_file:" <<
-                                   sig_file;
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Scheduler::PlaceholderPath path:" << path << " sig_dir:" << sig_dir << " sig_file:" <<
+                                 sig_file;
 #else
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
