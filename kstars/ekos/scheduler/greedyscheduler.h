@@ -133,8 +133,7 @@ class GreedyScheduler : public QObject
 
         // Changes the states of the jons on the list, deciding which ones
         // can be scheduled by scheduleJobs().
-        QList<SchedulerJob *> prepareJobsForEvaluation(
-            const QList<SchedulerJob *> &jobs, const QDateTime &now,
+        QList<SchedulerJob *> prepareJobsForEvaluation(const QList<SchedulerJob *> &jobs, const QDateTime &now,
             const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true);
 
         // Removes the EVALUATION state, after eval is done.

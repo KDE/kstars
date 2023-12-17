@@ -159,13 +159,6 @@ KStarsDateTime SchedulerJob::getLocalTime()
     return Ekos::SchedulerModuleState::getLocalTime();
 }
 
-GeoLocation const *SchedulerJob::getGeo()
-{
-    if (hasGeo())
-        return storedGeo;
-    return KStarsData::Instance()->geo();
-}
-
 ArtificialHorizon const *SchedulerJob::getHorizon()
 {
     if (hasHorizon())
@@ -188,7 +181,7 @@ void SchedulerJob::setStartupCondition(const StartupCondition &value)
     setEstimatedTime(estimatedTime);
 
     /* Refresh dawn and dusk for startup date */
-    calculateDawnDusk(startupTime, nextDawn, nextDusk);
+    SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setStartupTime(const QDateTime &value)
@@ -208,7 +201,7 @@ void SchedulerJob::setStartupTime(const QDateTime &value)
     setEstimatedTime(estimatedTime);
 
     /* Refresh dawn and dusk for startup date */
-    calculateDawnDusk(startupTime, nextDawn, nextDusk);
+    SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setSequenceFile(const QUrl &value)
@@ -492,7 +485,7 @@ void SchedulerJob::setInSequenceFocus(bool value)
 void SchedulerJob::setEnforceTwilight(bool value)
 {
     enforceTwilight = value;
-    calculateDawnDusk(startupTime, nextDawn, nextDusk);
+    SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setEnforceArtificialHorizon(bool value)
@@ -771,7 +764,7 @@ void SchedulerJob::reset()
     startupTime = fileStartupCondition == START_AT ? fileStartupTime : QDateTime();
 
     /* Refresh dawn and dusk for startup date */
-    calculateDawnDusk(startupTime, nextDawn, nextDusk);
+    SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 
     greedyCompletionTime = QDateTime();
     stopReason.clear();
@@ -845,7 +838,7 @@ int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
                           getLocalTime());
 
     // Create a sky object with the target catalog coordinates
@@ -862,8 +855,8 @@ int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
     //ut = getGeo()->LTtoUT(ltWhen);
     //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
     //LST = getGeo()->GSTtoLST(ut.gst());
-    CachingDms LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
-    moon->updateCoords(&numbers, true, getGeo()->lat(), &LST, true);
+    CachingDms LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
+    moon->updateCoords(&numbers, true, SchedulerModuleState::getGeo()->lat(), &LST, true);
 
     double const moonAltitude = moon->alt().Degrees();
 
@@ -937,8 +930,8 @@ double SchedulerJob::getCurrentMoonSeparation() const
     //ut = getGeo()->LTtoUT(ltWhen);
     //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
     //LST = getGeo()->GSTtoLST(ut.gst());
-    CachingDms LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
-    moon->updateCoords(&numbers, true, getGeo()->lat(), &LST, true);
+    CachingDms LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
+    moon->updateCoords(&numbers, true, SchedulerModuleState::getGeo()->lat(), &LST, true);
 
     // Moon/Sky separation p
     return moon->angularDistanceTo(&o).Degrees();
@@ -951,7 +944,7 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
                           getLocalTime());
 
     // Create a sky object with the target catalog coordinates
@@ -961,7 +954,7 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
     o.setDec0(target.dec0());
 
     // Calculate the UT at the argument time
-    KStarsDateTime const ut = getGeo()->LTtoUT(ltWhen);
+    KStarsDateTime const ut = SchedulerModuleState::getGeo()->LTtoUT(ltWhen);
 
     double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
 
@@ -1004,8 +997,8 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
         o.updateCoordsNow(&numbers);
 
         // Compute local sidereal time for the current fraction of the day, calculate altitude
-        CachingDms const LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltOffset).gst());
-        o.EquatorialToHorizontal(&LST, getGeo()->lat());
+        CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltOffset).gst());
+        o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
         double const altitude = o.alt().Degrees();
         double const azimuth = o.az().Degrees();
 
@@ -1059,7 +1052,7 @@ double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when,
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
                           getLocalTime());
 
     // Create a sky object with the target catalog coordinates
@@ -1072,8 +1065,8 @@ double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when,
     o.updateCoordsNow(&numbers);
 
     // Calculate alt/az coordinates using KStars instance's geolocation
-    CachingDms const LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(ltWhen).gst());
-    o.EquatorialToHorizontal(&LST, getGeo()->lat());
+    CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
 
     // Hours are reduced to [0,24[, meridian being at 0
     double offset = LST.Hours() - o.ra().Hours();
@@ -1101,71 +1094,6 @@ double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when,
     return o.alt().Degrees();
 }
 
-void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nDawn, QDateTime &nDusk)
-{
-    QDateTime startup = when;
-
-    if (!startup.isValid())
-        startup = getLocalTime();
-
-    // Our local midnight - the KStarsDateTime date+time constructor is safe for local times
-    // Exact midnight seems unreliable--offset it by a minute.
-    KStarsDateTime midnight(startup.date(), QTime(0, 1), Qt::LocalTime);
-
-    QDateTime dawn = startup, dusk = startup;
-
-    // Loop dawn and dusk calculation until the events found are the next events
-    for ( ; dawn <= startup || dusk <= startup ; midnight = midnight.addDays(1))
-    {
-        // KSAlmanac computes the closest dawn and dusk events from the local sidereal time corresponding to the midnight argument
-
-#if 0
-        KSAlmanac const ksal(midnight, getGeo());
-        // If dawn is in the past compared to this observation, fetch the next dawn
-        if (dawn <= startup)
-            dawn = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) *
-                                    3600.0));
-        // If dusk is in the past compared to this observation, fetch the next dusk
-        if (dusk <= startup)
-            dusk = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) *
-                                    3600.0));
-#else
-        // Creating these almanac instances seems expensive.
-        static QMap<QString, KSAlmanac const * > almanacMap;
-        const QString key = QString("%1 %2 %3").arg(midnight.toString()).arg(getGeo()->lat()->Degrees()).arg(
-                                getGeo()->lng()->Degrees());
-        KSAlmanac const * ksal = almanacMap.value(key, nullptr);
-        if (ksal == nullptr)
-        {
-            if (almanacMap.size() > 5)
-            {
-                // don't allow this to grow too large.
-                qDeleteAll(almanacMap);
-                almanacMap.clear();
-            }
-            ksal = new KSAlmanac(midnight, getGeo());
-            almanacMap[key] = ksal;
-        }
-
-        // If dawn is in the past compared to this observation, fetch the next dawn
-        if (dawn <= startup)
-            dawn = getGeo()->UTtoLT(ksal->getDate().addSecs((ksal->getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) *
-                                    3600.0));
-
-        // If dusk is in the past compared to this observation, fetch the next dusk
-        if (dusk <= startup)
-            dusk = getGeo()->UTtoLT(ksal->getDate().addSecs((ksal->getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) *
-                                    3600.0));
-#endif
-    }
-
-    // Now we have the next events:
-    // - if dawn comes first, observation runs during the night
-    // - if dusk comes first, observation runs during the day
-    nDawn = dawn;
-    nDusk = dusk;
-}
-
 bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
         QDateTime *nextPossibleSuccess) const
 {
@@ -1187,7 +1115,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
     // We likely can rely on the previous calculations.
     if (previousTime.isValid() && previousMinDawnDusk.isValid() &&
             time >= previousTime && time < previousMinDawnDusk &&
-            getGeo() == previousGeo &&
+            SchedulerModuleState::getGeo() == previousGeo &&
             Options::preDawnTime() == previousPreDawnTime)
     {
         if (!previousAnswer && nextPossibleSuccess != nullptr)
@@ -1198,7 +1126,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
     {
         previousAnswer = runsDuringAstronomicalNightTimeInternal(time, &previousMinDawnDusk, &nextSuccess);
         previousTime = time;
-        previousGeo = getGeo();
+        previousGeo = SchedulerModuleState::getGeo();
         previousPreDawnTime = Options::preDawnTime();
         if (!previousAnswer && nextPossibleSuccess != nullptr)
             *nextPossibleSuccess = nextSuccess;
@@ -1215,7 +1143,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time
     if (time.isValid())
     {
         // Can't rely on the pre-computed dawn/dusk if we're giving it an arbitary time.
-        calculateDawnDusk(time, nDawn, nDusk);
+        SchedulerModuleState::calculateDawnDusk(time, nDawn, nDusk);
         t = time;
     }
     else
@@ -1319,7 +1247,7 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
         const QDateTime &until) const
 {
     QDateTime ltWhen(
-        when.isValid() ? (Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when)
+        when.isValid() ? (Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when)
         : getLocalTime());
 
     // We do not consider job state here. It is the responsibility of the caller
@@ -1364,7 +1292,7 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
 QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QString *reason, const QDateTime &until) const
 {
     QDateTime ltStart(
-        start.isValid() ? (Qt::UTC == start.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(start)) : start)
+        start.isValid() ? (Qt::UTC == start.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(start)) : start)
         : getLocalTime());
 
     // We do not consider job state here. It is the responsibility of the caller

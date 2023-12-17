@@ -1012,7 +1012,7 @@ private:
         // HFR value as loaded from the sequence file
         double m_fileHFR { 0 };
         // Captured Frames Map
-        SchedulerJob::CapturedFramesMap m_capturedFramesMap;
+        CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?
         bool m_StartingCapture { true };
         // Does the camera have a dedicated guiding chip?

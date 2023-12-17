@@ -1269,7 +1269,7 @@ void CaptureModuleState::changeSequenceValue(int index, QString key, QString val
 
 void CaptureModuleState::addCapturedFrame(const QString &signature)
 {
-    SchedulerJob::CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
+    CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
     if (m_capturedFramesMap.end() != frame_item)
         frame_item.value()++;
     else m_capturedFramesMap[signature] = 1;
@@ -1278,7 +1278,7 @@ void CaptureModuleState::addCapturedFrame(const QString &signature)
 
 void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint16_t count)
 {
-    SchedulerJob::CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
+    CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
     if (m_capturedFramesMap.end() != frame_item)
     {
         // remove the frame count

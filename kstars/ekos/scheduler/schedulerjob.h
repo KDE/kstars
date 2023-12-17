@@ -481,7 +481,6 @@ class SchedulerJob
 
         /** @brief The map of capture counts for this job, keyed by its capture storage signatures. */
         /** @{ */
-        typedef QMap<QString, uint16_t> CapturedFramesMap;
         const CapturedFramesMap &getCapturedFramesMap() const
         {
             return capturedFramesMap;
@@ -549,11 +548,6 @@ class SchedulerJob
                                            const QDateTime &until = QDateTime()) const;
         QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr,
                                  const QDateTime &until = QDateTime()) const;
-
-        /**
-             * @brief calculateDawnDusk find the next astronomical dawn and dusk after the current date and time of observation
-             */
-        static void calculateDawnDusk(QDateTime const &when, QDateTime &dawn, QDateTime &dusk);
 
         /**
              * @brief getNextAstronomicalTwilightDawn
@@ -642,19 +636,6 @@ class SchedulerJob
         /** @brief Setter used in the unit test to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
         static KStarsDateTime getLocalTime();
-        /** @} */
-
-        /** @brief Setter used in testing to fix the geo location. Otherwise getter gets from KStars instance. */
-        /** @{ */
-        static const GeoLocation *getGeo();
-        static void setGeo(GeoLocation *geo)
-        {
-            storedGeo = geo;
-        }
-        static bool hasGeo()
-        {
-            return storedGeo != nullptr;
-        }
         /** @} */
 
         /** @brief Setter used in testing to fix the artificial horizon. Otherwise getter gets from KStars instance. */
