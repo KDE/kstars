@@ -11,6 +11,7 @@
 #include "ekos/ekos.h"
 #include "indi/indiweather.h"
 #include "kstarsdatetime.h"
+#include "geolocation.h"
 #include "schedulertypes.h"
 #include <QDateTime>
 #include <QUrl>
@@ -402,7 +403,44 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     {
         return storedLocalTime != nullptr;
     }
+
     /** @} */
+
+
+    // ////////////////////////////////////////////////////////////////////
+    // Astronomical calculations
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * @brief calculateDawnDusk find the next astronomical dawn and dusk after the current date and time of observation
+     */
+    static void calculateDawnDusk(QDateTime const &when, QDateTime &nDawn, QDateTime &nDusk);
+
+    /**
+     * @brief calculateDawnDusk Get dawn and dusk times for today
+     */
+    static void calculateDawnDusk();
+
+    static QDateTime Dawn()
+    {
+        return m_Dawn;
+    }
+    static QDateTime Dusk()
+    {
+        return m_Dusk;
+    }
+    static QDateTime PreDawnDateTime()
+    {
+        return m_PreDawnDateTime;
+    }
+
+    /** @brief Setter used in testing to fix the geo location. Otherwise getter gets from KStars instance. */
+    /** @{ */
+    static const GeoLocation *getGeo();
+    static void setGeo(GeoLocation *geo)
+    {
+        storedGeo = geo;
+    }
+    static bool hasGeo();
 
     // ////////////////////////////////////////////////////////////////////
     // Scheduler iterations
@@ -601,8 +639,15 @@ private:
     int m_UpdatePeriodMs = 1000;
 
     // ////////////////////////////////////////////////////////////////////
-    // timers
+    // time and timers
     // ////////////////////////////////////////////////////////////////////
+    // constants for current dawn and dusk
+    /// Store next dawn to calculate dark skies range
+    static QDateTime m_Dawn;
+    /// Store next dusk to calculate dark skies range
+    static QDateTime m_Dusk;
+    /// Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
+    static QDateTime m_PreDawnDateTime;
     // Generic time to track timeout of current operation in progress.
     // Used by startCurrentOperationTimer() and getCurrentOperationMsec().
     KStarsDateTime currentOperationTime;
@@ -614,5 +659,9 @@ private:
     static KStarsDateTime *storedLocalTime;
     // The various preemptiveShutdown states are controlled by this one variable.
     QDateTime m_preemptiveShutdownWakeupTime;
+
+    // These are used in testing, instead of KStars::Instance() resources
+    static GeoLocation *storedGeo;
+
 };
 } // Ekos namespace

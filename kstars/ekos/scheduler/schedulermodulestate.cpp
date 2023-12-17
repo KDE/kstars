@@ -8,11 +8,17 @@
 #include "schedulerprocess.h"
 #include "schedulerjob.h"
 #include "kstarsdata.h"
+#include "ksalmanac.h"
+#include "Options.h"
 
 #define MAX_FAILURE_ATTEMPTS 5
 
 namespace Ekos
 {
+// constants definition
+QDateTime SchedulerModuleState::m_Dawn, SchedulerModuleState::m_Dusk, SchedulerModuleState::m_PreDawnDateTime;
+GeoLocation *SchedulerModuleState::storedGeo = nullptr;
+
 SchedulerModuleState::SchedulerModuleState() {}
 
 void SchedulerModuleState::setCurrentProfile(const QString &newName, bool signal)
@@ -204,6 +210,90 @@ KStarsDateTime SchedulerModuleState::getLocalTime()
     if (hasLocalTime())
         return *storedLocalTime;
     return KStarsData::Instance()->geo()->UTtoLT(KStarsData::Instance()->clock()->utc());
+}
+
+void SchedulerModuleState::calculateDawnDusk(const QDateTime &when, QDateTime &nDawn, QDateTime &nDusk)
+{
+    QDateTime startup = when;
+
+    if (!startup.isValid())
+        startup = getLocalTime();
+
+    // Our local midnight - the KStarsDateTime date+time constructor is safe for local times
+    // Exact midnight seems unreliable--offset it by a minute.
+    KStarsDateTime midnight(startup.date(), QTime(0, 1), Qt::LocalTime);
+
+    QDateTime dawn = startup, dusk = startup;
+
+    // Loop dawn and dusk calculation until the events found are the next events
+    for ( ; dawn <= startup || dusk <= startup ; midnight = midnight.addDays(1))
+    {
+        // KSAlmanac computes the closest dawn and dusk events from the local sidereal time corresponding to the midnight argument
+
+#if 0
+        KSAlmanac const ksal(midnight, getGeo());
+        // If dawn is in the past compared to this observation, fetch the next dawn
+        if (dawn <= startup)
+            dawn = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) *
+                                    3600.0));
+        // If dusk is in the past compared to this observation, fetch the next dusk
+        if (dusk <= startup)
+            dusk = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) *
+                                    3600.0));
+#else
+        // Creating these almanac instances seems expensive.
+        static QMap<QString, KSAlmanac const * > almanacMap;
+        const QString key = QString("%1 %2 %3").arg(midnight.toString()).arg(getGeo()->lat()->Degrees()).arg(
+                                getGeo()->lng()->Degrees());
+        KSAlmanac const * ksal = almanacMap.value(key, nullptr);
+        if (ksal == nullptr)
+        {
+            if (almanacMap.size() > 5)
+            {
+                // don't allow this to grow too large.
+                qDeleteAll(almanacMap);
+                almanacMap.clear();
+            }
+            ksal = new KSAlmanac(midnight, getGeo());
+            almanacMap[key] = ksal;
+        }
+
+        // If dawn is in the past compared to this observation, fetch the next dawn
+        if (dawn <= startup)
+            dawn = getGeo()->UTtoLT(ksal->getDate().addSecs((ksal->getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) *
+                                    3600.0));
+
+        // If dusk is in the past compared to this observation, fetch the next dusk
+        if (dusk <= startup)
+            dusk = getGeo()->UTtoLT(ksal->getDate().addSecs((ksal->getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) *
+                                    3600.0));
+#endif
+    }
+
+    // Now we have the next events:
+    // - if dawn comes first, observation runs during the night
+    // - if dusk comes first, observation runs during the day
+    nDawn = dawn;
+    nDusk = dusk;
+}
+
+void SchedulerModuleState::calculateDawnDusk()
+{
+    calculateDawnDusk(QDateTime(), m_Dawn, m_Dusk);
+
+    m_PreDawnDateTime = m_Dawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+}
+
+const GeoLocation *SchedulerModuleState::getGeo()
+{
+    if (hasGeo())
+        return storedGeo;
+    return KStarsData::Instance()->geo();
+}
+
+bool SchedulerModuleState::hasGeo()
+{
+    return storedGeo != nullptr;
 }
 
 void SchedulerModuleState::setupNextIteration(SchedulerTimerState nextState)

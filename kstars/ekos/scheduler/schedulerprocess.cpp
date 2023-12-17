@@ -6,6 +6,7 @@
 #include "schedulerprocess.h"
 #include "schedulermodulestate.h"
 #include "schedulerjob.h"
+#include "ekos/capture/sequencejob.h"
 #include "Options.h"
 #include "ksmessagebox.h"
 #include "ksnotification.h"
@@ -408,7 +409,7 @@ void SchedulerProcess::startCapture(bool restart)
     }
 
 
-    SchedulerJob::CapturedFramesMap fMap = activeJob()->getCapturedFramesMap();
+    CapturedFramesMap fMap = activeJob()->getCapturedFramesMap();
 
     for (auto &e : fMap.keys())
     {
@@ -2423,7 +2424,7 @@ void SchedulerProcess::setupJob(SchedulerJob &job, const QString &name, const QS
     job.setPositionAngle(rotation);
 
     /* Consider sequence file is new, and clear captured frames map */
-    job.setCapturedFramesMap(SchedulerJob::CapturedFramesMap());
+    job.setCapturedFramesMap(CapturedFramesMap());
     job.setSequenceFile(sequenceUrl);
     job.setFITSFile(fitsUrl);
     // #1 Startup conditions
@@ -2476,6 +2477,499 @@ void SchedulerProcess::setupJob(SchedulerJob &job, const QString &name, const QS
 
 }
 
+uint16_t SchedulerProcess::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const CapturedFramesMap &capturedFramesCount, SchedulerJob &schedJob,
+                                                 CapturedFramesMap &capture_map, int &completedIterations)
+{
+    uint16_t totalCompletedCount = 0;
+
+    // Figure out which repeat this is for the key with the least progress.
+    int minIterationsCompleted = -1, currentIteration = 0;
+    if (Options::rememberJobProgress())
+    {
+        completedIterations = 0;
+        for (const QString &key : expected.keys())
+        {
+            const int iterationsCompleted = capturedFramesCount[key] / expected[key];
+            if (minIterationsCompleted == -1 || iterationsCompleted < minIterationsCompleted)
+                minIterationsCompleted = iterationsCompleted;
+        }
+        // If this condition is FINISH_REPEAT, and we've already completed enough iterations
+        // Then set the currentIteratiion as 1 more than required. No need to go higher.
+        if (schedJob.getCompletionCondition() == FINISH_REPEAT
+                && minIterationsCompleted >= schedJob.getRepeatsRequired())
+            currentIteration  = schedJob.getRepeatsRequired() + 1;
+        else
+            // Otherwise set it to one more than the number completed (i.e. the one it'll be working on).
+            currentIteration = minIterationsCompleted + 1;
+        completedIterations = std::max(0, currentIteration - 1);
+    }
+    else
+        // If we are not remembering progress, we'll only know the iterations completed
+        // by the current job's run.
+        completedIterations = schedJob.getCompletedIterations();
+
+    for (const QString &key : expected.keys())
+    {
+        if (Options::rememberJobProgress())
+        {
+            // If we're remembering progress, then figure out how many captures have not yet been captured.
+            const int diff = expected[key] * currentIteration - capturedFramesCount[key];
+
+            // Already captured more than required? Then don't capture any this round.
+            if (diff <= 0)
+                capture_map[key] = expected[key];
+            // Need more captures than one cycle could capture? If so, capture the full amount.
+            else if (diff >= expected[key])
+                capture_map[key] = 0;
+            // Otherwise we know that 0 < diff < expected[key]. Capture just the number needed.
+            else
+                capture_map[key] = expected[key] - diff;
+        }
+        else
+            // If we are not remembering progress, then the capture module, which reads this
+            // Will capture all requirements in the .esq file.
+            capture_map[key] = 0;
+
+        // collect all captured frames counts
+        if (schedJob.getCompletionCondition() == FINISH_LOOP)
+            totalCompletedCount += capturedFramesCount[key];
+        else
+            totalCompletedCount += std::min(capturedFramesCount[key],
+                                            static_cast<uint16_t>(expected[key] * schedJob.getRepeatsRequired()));
+    }
+    return totalCompletedCount;
+}
+
+SequenceJob *SchedulerProcess::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
+{
+    SequenceJob *job = new SequenceJob(root, schedJob->getName());
+    if (FRAME_LIGHT == job->getFrameType() && nullptr != schedJob)
+        schedJob->setLightFramesRequired(true);
+
+    auto placeholderPath = Ekos::PlaceholderPath();
+    placeholderPath.processJobInfo(job);
+
+    return job;
+}
+
+bool SchedulerProcess::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs, bool &hasAutoFocus, ModuleLogger *logger)
+{
+    QFile sFile;
+    sFile.setFileName(fileURL);
+
+    if (!sFile.open(QIODevice::ReadOnly))
+    {
+        if (logger != nullptr) logger->appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
+                return false;
+    }
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = nullptr;
+    XMLEle *ep   = nullptr;
+    char c;
+
+    while (sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+        {
+            for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
+            {
+                if (!strcmp(tagXMLEle(ep), "Autofocus"))
+                    hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                else if (!strcmp(tagXMLEle(ep), "Job"))
+                {
+                    SequenceJob *thisJob = SchedulerProcess::processJobInfo(ep, schedJob);
+                    jobs.append(thisJob);
+                    if (jobs.count() == 1)
+                    {
+                        auto &firstJob = jobs.first();
+                        if (FRAME_LIGHT == firstJob->getFrameType() && nullptr != schedJob)
+                        {
+                            schedJob->setInitialFilter(firstJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
+                        }
+
+                    }
+                }
+            }
+            delXMLEle(root);
+        }
+        else if (errmsg[0])
+        {
+            if (logger != nullptr) logger->appendLogText(QString(errmsg));
+            delLilXML(xmlParser);
+            qDeleteAll(jobs);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool SchedulerProcess::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount, ModuleLogger *logger)
+{
+    static SchedulerJob *jobWarned = nullptr;
+
+    // Load the sequence job associated with the argument scheduler job.
+    QList<SequenceJob *> seqJobs;
+    bool hasAutoFocus = false;
+    bool result = loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(), schedJob, seqJobs, hasAutoFocus, logger);
+    if (result == false)
+    {
+        qCWarning(KSTARS_EKOS_SCHEDULER) <<
+                                         QString("Warning: Failed estimating the duration of job '%1', its sequence file is invalid.").arg(
+                                             schedJob->getSequenceFile().toLocalFile());
+        return result;
+    }
+
+    // FIXME: setting in-sequence focus should be done in XML processing.
+    schedJob->setInSequenceFocus(hasAutoFocus);
+
+    // Stop spam of log on re-evaluation. If we display the warning once, then that's it.
+    if (schedJob != jobWarned && hasAutoFocus && !(schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS))
+    {
+        logger->appendLogText(i18n("Warning: Job '%1' has its focus step disabled, periodic and/or HFR procedures currently set in its sequence will not occur.",
+                     schedJob->getName()));
+        jobWarned = schedJob;
+    }
+
+    /* This is the map of captured frames for this scheduler job, keyed per storage signature.
+     * It will be forwarded to the Capture module in order to capture only what frames are required.
+     * If option "Remember Job Progress" is disabled, this map will be empty, and the Capture module will process all requested captures unconditionally.
+     */
+    CapturedFramesMap capture_map;
+    bool const rememberJobProgress = Options::rememberJobProgress();
+
+    double totalImagingTime  = 0;
+    double imagingTimePerRepeat = 0, imagingTimeLeftThisRepeat = 0;
+
+    // Determine number of captures in the scheduler job
+    QMap<QString, uint16_t> expected;
+    uint16_t allCapturesPerRepeat = calculateExpectedCapturesMap(seqJobs, expected);
+
+    // fill the captured frames map
+    int completedIterations;
+    uint16_t totalCompletedCount = SchedulerProcess::fillCapturedFramesMap(expected, capturedFramesCount, *schedJob, capture_map, completedIterations);
+    schedJob->setCompletedIterations(completedIterations);
+    // Loop through sequence jobs to calculate the number of required frames and estimate duration.
+    foreach (SequenceJob *seqJob, seqJobs)
+    {
+        // FIXME: find a way to actually display the filter name.
+        QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt(),
+                               seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
+                               seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
+
+        if (seqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+        {
+            qCInfo(KSTARS_EKOS_SCHEDULER) <<
+                                          QString("%1 duration cannot be estimated time since the sequence saves the files remotely.").arg(seqName);
+            schedJob->setEstimatedTime(-2);
+            qDeleteAll(seqJobs);
+            return true;
+        }
+
+        // Note that looping jobs will have zero repeats required.
+        QString const signature      = seqJob->getSignature();
+        QString const signature_path = QFileInfo(signature).path();
+        int captures_required        = seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt() * schedJob->getRepeatsRequired();
+        int captures_completed       = capturedFramesCount[signature];
+        const int capturesRequiredPerRepeat = std::max(1, seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
+        int capturesLeftThisRepeat   = std::max(0, capturesRequiredPerRepeat - (captures_completed % capturesRequiredPerRepeat));
+        if (captures_completed >= (1 + completedIterations) * capturesRequiredPerRepeat)
+        {
+            // Something else is causing this iteration to be incomplete. Nothing left to do for this seqJob.
+            capturesLeftThisRepeat = 0;
+        }
+
+        if (rememberJobProgress && schedJob->getCompletionCondition() != FINISH_LOOP)
+        {
+            /* Enumerate sequence jobs associated to this scheduler job, and assign them a completed count.
+             *
+             * The objective of this block is to fill the storage map of the scheduler job with completed counts for each capture storage.
+             *
+             * Sequence jobs capture to a storage folder, and are given a count of captures to store at that location.
+             * The tricky part is to make sure the repeat count of the scheduler job is properly transferred to each sequence job.
+             *
+             * For instance, a scheduler job repeated three times must execute the full list of sequence jobs three times, thus
+             * has to tell each sequence job it misses all captures, three times. It cannot tell the sequence job three captures are
+             * missing, first because that's not how the sequence job is designed (completed count, not required count), and second
+             * because this would make the single sequence job repeat three times, instead of repeating the full list of sequence
+             * jobs three times.
+             *
+             * The consolidated storage map will be assigned to each sequence job based on their signature when the scheduler job executes them.
+             *
+             * For instance, consider a RGBL sequence of single captures. The map will store completed captures for R, G, B and L storages.
+             * If R and G have 1 file each, and B and L have no files, map[storage(R)] = map[storage(G)] = 1 and map[storage(B)] = map[storage(L)] = 0.
+             * When that scheduler job executes, only B and L captures will be processed.
+             *
+             * In the case of a RGBLRGB sequence of single captures, the second R, G and B map items will count one less capture than what is really in storage.
+             * If R and G have 1 file each, and B and L have no files, map[storage(R1)] = map[storage(B1)] = 1, and all others will be 0.
+             * When that scheduler job executes, B1, L, R2, G2 and B2 will be processed.
+             *
+             * This doesn't handle the case of duplicated scheduler jobs, that is, scheduler jobs with the same storage for capture sets.
+             * Those scheduler jobs will all change state to completion at the same moment as they all target the same storage.
+             * This is why it is important to manage the repeat count of the scheduler job, as stated earlier.
+             */
+
+            captures_required = expected[seqJob->getSignature()] * schedJob->getRepeatsRequired();
+
+            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 sees %2 captures in output folder '%3'.").arg(seqName).arg(
+                                              captures_completed).arg(QFileInfo(signature).path());
+
+            // Enumerate sequence jobs to check how many captures are completed overall in the same storage as the current one
+            foreach (SequenceJob *prevSeqJob, seqJobs)
+            {
+                // Enumerate seqJobs up to the current one
+                if (seqJob == prevSeqJob)
+                    break;
+
+                // If the previous sequence signature matches the current, skip counting to take duplicates into account
+                if (!signature.compare(prevSeqJob->getSignature()))
+                    captures_required = 0;
+
+                // And break if no captures remain, this job does not need to be executed
+                if (captures_required == 0)
+                    break;
+            }
+
+            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("%1 has completed %2/%3 of its required captures in output folder '%4'.").arg(
+                                               seqName).arg(captures_completed).arg(captures_required).arg(signature_path);
+
+        }
+        // Else rely on the captures done during this session
+        else if (0 < allCapturesPerRepeat)
+        {
+            captures_completed = schedJob->getCompletedCount() / allCapturesPerRepeat * seqJob->getCoreProperty(
+                                     SequenceJob::SJ_Count).toInt();
+        }
+        else
+        {
+            captures_completed = 0;
+        }
+
+        // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
+        // Without light frames, there is no need to do focusing, alignment, guiding...etc
+        // We check if the frame type is LIGHT and if either the number of captures_completed frames is less than required
+        // OR if the completion condition is set to LOOP so it is never complete due to looping.
+        // Note that looping jobs will have zero repeats required.
+        // FIXME: As it is implemented now, FINISH_LOOP may loop over a capture-complete, therefore inoperant, scheduler job.
+        bool const areJobCapturesComplete = (0 == captures_required || captures_completed >= captures_required);
+        if (seqJob->getFrameType() == FRAME_LIGHT)
+        {
+            if(areJobCapturesComplete)
+            {
+                qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 completed its sequence of %2 light frames.").arg(seqName).arg(
+                                                  captures_required);
+            }
+        }
+        else
+        {
+            qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 captures calibration frames.").arg(seqName);
+        }
+
+        /* If captures are not complete, we have imaging time left */
+        if (!areJobCapturesComplete || schedJob->getCompletionCondition() == FINISH_LOOP)
+        {
+            unsigned int const captures_to_go = captures_required - captures_completed;
+            const double secsPerCapture = (seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() +
+                                           (seqJob->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0));
+            totalImagingTime += fabs(secsPerCapture * captures_to_go);
+            imagingTimePerRepeat += fabs(secsPerCapture * seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
+            imagingTimeLeftThisRepeat += fabs(secsPerCapture * capturesLeftThisRepeat);
+            /* If we have light frames to process, add focus/dithering delay */
+            if (seqJob->getFrameType() == FRAME_LIGHT)
+            {
+                // If inSequenceFocus is true
+                if (hasAutoFocus)
+                {
+                    // Wild guess, 10s of autofocus for each capture required. Can vary a lot, but this is just a completion estimate.
+                    constexpr int afSecsPerCapture = 10;
+                    qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 requires a focus procedure.").arg(seqName);
+                    totalImagingTime += captures_to_go * afSecsPerCapture;
+                    imagingTimePerRepeat += capturesRequiredPerRepeat * afSecsPerCapture;
+                    imagingTimeLeftThisRepeat += capturesLeftThisRepeat * afSecsPerCapture;
+                }
+                // If we're dithering after each exposure, that's another 10-20 seconds
+                if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE && Options::ditherEnabled())
+                {
+                    constexpr int ditherSecs = 15;
+                    qCInfo(KSTARS_EKOS_SCHEDULER) << QString("%1 requires a dither procedure.").arg(seqName);
+                    totalImagingTime += (captures_to_go * ditherSecs) / Options::ditherFrames();
+                    imagingTimePerRepeat += (capturesRequiredPerRepeat * ditherSecs) / Options::ditherFrames();
+                    imagingTimeLeftThisRepeat += (capturesLeftThisRepeat * ditherSecs) / Options::ditherFrames();
+                }
+            }
+        }
+    }
+
+    schedJob->setCapturedFramesMap(capture_map);
+    schedJob->setSequenceCount(allCapturesPerRepeat * schedJob->getRepeatsRequired());
+
+    // only in case we remember the job progress, we change the completion count
+    if (rememberJobProgress)
+        schedJob->setCompletedCount(totalCompletedCount);
+
+    qDeleteAll(seqJobs);
+
+    schedJob->setEstimatedTimePerRepeat(imagingTimePerRepeat);
+    schedJob->setEstimatedTimeLeftThisRepeat(imagingTimeLeftThisRepeat);
+    if (schedJob->getLightFramesRequired())
+        schedJob->setEstimatedStartupTime(timeHeuristics(schedJob));
+
+    // FIXME: Move those ifs away to the caller in order to avoid estimating in those situations!
+
+    // We can't estimate times that do not finish when sequence is done
+    if (schedJob->getCompletionCondition() == FINISH_LOOP)
+    {
+        // We can't know estimated time if it is looping indefinitely
+        schedJob->setEstimatedTime(-2);
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+                                       QString("Job '%1' is configured to loop until Scheduler is stopped manually, has undefined imaging time.")
+                                       .arg(schedJob->getName());
+    }
+    // If we know startup and finish times, we can estimate time right away
+    else if (schedJob->getStartupCondition() == START_AT &&
+             schedJob->getCompletionCondition() == FINISH_AT)
+    {
+        // FIXME: SchedulerJob is probably doing this already
+        qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
+        schedJob->setEstimatedTime(diff);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has a startup time and fixed completion time, will run for %2.")
+                                       .arg(schedJob->getName())
+                                       .arg(dms(diff * 15.0 / 3600.0f).toHMSString());
+    }
+    // If we know finish time only, we can roughly estimate the time considering the job starts now
+    else if (schedJob->getStartupCondition() != START_AT &&
+             schedJob->getCompletionCondition() == FINISH_AT)
+    {
+        qint64 const diff = SchedulerModuleState::getLocalTime().secsTo(schedJob->getCompletionTime());
+        schedJob->setEstimatedTime(diff);
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+                                       QString("Job '%1' has no startup time but fixed completion time, will run for %2 if started now.")
+                                       .arg(schedJob->getName())
+                                       .arg(dms(diff * 15.0 / 3600.0f).toHMSString());
+    }
+    // Rely on the estimated imaging time to determine whether this job is complete or not - this makes the estimated time null
+    else if (totalImagingTime <= 0)
+    {
+        schedJob->setEstimatedTime(0);
+        schedJob->setEstimatedTimePerRepeat(1);
+        schedJob->setEstimatedTimeLeftThisRepeat(0);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' will not run, complete with %2/%3 captures.")
+                                       .arg(schedJob->getName()).arg(schedJob->getCompletedCount()).arg(schedJob->getSequenceCount());
+    }
+    // Else consolidate with step durations
+    else
+    {
+        if (schedJob->getLightFramesRequired())
+        {
+            totalImagingTime += timeHeuristics(schedJob);
+            schedJob->setEstimatedStartupTime(timeHeuristics(schedJob));
+        }
+        dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
+        schedJob->setEstimatedTime(std::ceil(totalImagingTime));
+
+        qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' estimated to take %2 to complete.").arg(schedJob->getName(),
+                                      estimatedTime.toHMSString());
+    }
+
+    return true;
+}
+
+uint16_t SchedulerProcess::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected)
+{
+    uint16_t capturesPerRepeat = 0;
+    for (auto &seqJob : seqJobs)
+    {
+        capturesPerRepeat += seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt();
+        QString signature = seqJob->getCoreProperty(SequenceJob::SJ_Signature).toString();
+        expected[signature] = static_cast<uint16_t>(seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt()) + (expected.contains(
+                                  signature) ? expected[signature] : 0);
+    }
+    return capturesPerRepeat;
+}
+
+bool SchedulerProcess::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
+{
+    XMLEle *ep    = nullptr;
+    XMLEle *subEP = nullptr;
+
+    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Job"))
+        {
+            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
+            {
+                if (!strcmp(tagXMLEle(subEP), "Prefix"))
+                {
+                    XMLEle *rawPrefix = findXMLEle(subEP, "RawPrefix");
+                    if (rawPrefix)
+                    {
+                        editXMLEle(rawPrefix, prefix.toLatin1().constData());
+                    }
+                }
+                else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
+                {
+                    editXMLEle(subEP, outputDir.toLatin1().constData());
+                }
+            }
+        }
+    }
+
+    QDir().mkpath(outputDir);
+
+    QString filename = QString("%1/%2.esq").arg(outputDir, prefix);
+    FILE *outputFile = fopen(filename.toLatin1().constData(), "w");
+
+    if (outputFile == nullptr)
+    {
+        QString message = i18n("Unable to write to file %1", filename);
+        KSNotification::sorry(message, i18n("Could Not Open File"));
+        return false;
+    }
+
+    fprintf(outputFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    prXMLEle(outputFile, root, 0);
+
+    fclose(outputFile);
+
+    return true;
+}
+
+XMLEle *SchedulerProcess::getSequenceJobRoot(const QString &filename) const
+{
+    QFile sFile;
+    sFile.setFileName(filename);
+
+    if (!sFile.open(QIODevice::ReadOnly))
+    {
+        KSNotification::sorry(i18n("Unable to open file %1", sFile.fileName()),
+                              i18n("Could Not Open File"));
+        return nullptr;
+    }
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = nullptr;
+    char c;
+
+    while (sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+            break;
+    }
+
+    delLilXML(xmlParser);
+    sFile.close();
+    return root;
+}
+
 void SchedulerProcess::checkProcessExit(int exitCode)
 {
     scriptProcess().disconnect();
@@ -2506,6 +3000,40 @@ void SchedulerProcess::checkProcessExit(int exitCode)
 void SchedulerProcess::readProcessOutput()
 {
     emit newLog(scriptProcess().readAllStandardOutput().simplified());
+}
+
+int SchedulerProcess::timeHeuristics(const SchedulerJob *schedJob)
+{
+    double imagingTime = 0;
+    /* FIXME: estimation should base on actual measure of each step, eventually with preliminary data as what it used now */
+    // Are we doing tracking? It takes about 30 seconds
+    if (schedJob->getStepPipeline() & SchedulerJob::USE_TRACK)
+        imagingTime += 30;
+    // Are we doing initial focusing? That can take about 2 minutes
+    if (schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS)
+        imagingTime += 120;
+    // Are we doing astrometry? That can take about 60 seconds
+    if (schedJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
+    {
+        imagingTime += 60;
+    }
+    // Are we doing guiding?
+    if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+    {
+        // Looping, finding guide star, settling takes 15 sec
+        imagingTime += 15;
+
+        // Add guiding settle time from dither setting (used by phd2::guide())
+        imagingTime += Options::ditherSettle();
+        // Add guiding settle time from ekos sccheduler setting
+        imagingTime += Options::guidingSettle();
+
+        // If calibration always cleared
+        // then calibration process can take about 2 mins
+        if(Options::resetGuideCalibration())
+            imagingTime += 120;
+    }
+    return imagingTime;
 }
 
 SchedulerJob *SchedulerProcess::activeJob()
