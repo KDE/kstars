@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-12 00:39+0000\n"
+"POT-Creation-Date: 2023-12-18 00:39+0000\n"
 "PO-Revision-Date: 2023-12-02 09:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -402,7 +402,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2028
-#: ekos/scheduler/scheduler.cpp:2950
+#: ekos/scheduler/scheduler.cpp:2941
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -552,7 +552,7 @@ msgstr "Скасувати"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1072 ekos/manager.cpp:1087
-#: ekos/manager.cpp:1117 ekos/scheduler/schedulerjob.cpp:596
+#: ekos/manager.cpp:1117 ekos/scheduler/schedulerjob.cpp:589
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
 #: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:519
@@ -1909,7 +1909,7 @@ msgstr "Стан:"
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:576 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1252
-#: ekos/scheduler/schedulerjob.cpp:589 ekos/scheduler/schedulerjob.cpp:613
+#: ekos/scheduler/schedulerjob.cpp:582 ekos/scheduler/schedulerjob.cpp:606
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2280,8 +2280,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Позначте, якщо величина є невідомою"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:597
-#: ekos/scheduler/schedulerjob.cpp:628 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:590
+#: ekos/scheduler/schedulerjob.cpp:621 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2526,7 +2526,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1951
 #: ekos/capture/capture.cpp:2037 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:2593 ekos/scheduler/scheduler.cpp:2960
+#: ekos/scheduler/scheduler.cpp:2584 ekos/scheduler/scheduler.cpp:2951
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -2639,8 +2639,8 @@ msgstr "Каталогу з ідентифікатором %1 не знайде�
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
-#: ekos/scheduler/scheduler.ui:250 ekos/scheduler/schedulermodulestate.cpp:38
-#: ekos/scheduler/schedulerprocess.cpp:1183 skycomponents/flagcomponent.cpp:33
+#: ekos/scheduler/scheduler.ui:250 ekos/scheduler/schedulermodulestate.cpp:44
+#: ekos/scheduler/schedulerprocess.cpp:1184 skycomponents/flagcomponent.cpp:33
 #, kde-format
 msgid "Default"
 msgstr "Типовий"
@@ -6070,7 +6070,7 @@ msgstr "Розв'язування перервано за %1 секунд."
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
 #: ekos/focus/focus.cpp:4219 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
 #: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:748
+#: ekos/scheduler/scheduler.cpp:746
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6264,7 +6264,7 @@ msgstr "Експорт точок розв'язку"
 #: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1950
 #: ekos/capture/capture.cpp:2036 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2592 ekos/scheduler/scheduler.cpp:2959
+#: ekos/scheduler/scheduler.cpp:2583 ekos/scheduler/scheduler.cpp:2950
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -6273,7 +6273,8 @@ msgstr "Некоректна адреса: %1"
 
 #: ekos/align/align.cpp:3877 ekos/align/mountmodel.cpp:401
 #: ekos/capture/captureprocess.cpp:2418 ekos/guide/guidedriftgraph.cpp:485
-#: ekos/scheduler/scheduler.cpp:4001 ekos/scheduler/schedulerprocess.cpp:1573
+#: ekos/scheduler/schedulerprocess.cpp:1574
+#: ekos/scheduler/schedulerprocess.cpp:2930
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
@@ -6281,10 +6282,11 @@ msgstr "Не вдалося виконати запис до файла %1"
 #: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
 #: ekos/capture/captureprocess.cpp:2302 ekos/guide/guidedriftgraph.cpp:486
-#: ekos/scheduler/scheduler.cpp:2636 ekos/scheduler/scheduler.cpp:3945
-#: ekos/scheduler/scheduler.cpp:4002 ekos/scheduler/schedulerprocess.cpp:1574
-#: indi/drivermanager.cpp:1537 indi/indidriver.cpp:921 kstarsactions.cpp:1384
-#: oal/execute.cpp:320 options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
+#: ekos/scheduler/scheduler.cpp:2627 ekos/scheduler/schedulerprocess.cpp:1575
+#: ekos/scheduler/schedulerprocess.cpp:2931
+#: ekos/scheduler/schedulerprocess.cpp:2951 indi/drivermanager.cpp:1537
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
+#: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
@@ -6934,8 +6936,8 @@ msgid "Open Ekos Alignment List"
 msgstr "Відкриття списку вирівнювання Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1965
-#: ekos/capture/captureprocess.cpp:2301 ekos/scheduler/scheduler.cpp:2635
-#: ekos/scheduler/scheduler.cpp:3944
+#: ekos/capture/captureprocess.cpp:2301 ekos/scheduler/scheduler.cpp:2626
+#: ekos/scheduler/schedulerprocess.cpp:2950
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Не вдалося відкрити файл %1"
@@ -10031,7 +10033,7 @@ msgid "Parking"
 msgstr "Паркування"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/schedulerjob.cpp:614 indi/indimount.cpp:31
+#: ekos/scheduler/schedulerjob.cpp:607 indi/indimount.cpp:31
 #, kde-format
 msgid "Slewing"
 msgstr "Обертання"
@@ -10169,7 +10171,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:23 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
-#: ekos/scheduler/schedulerjob.cpp:595
+#: ekos/scheduler/schedulerjob.cpp:588
 #, kde-format
 msgid "Aborted"
 msgstr "Перервано"
@@ -10185,7 +10187,7 @@ msgid "Disconnected"
 msgstr "Від'єднано"
 
 #: ekos/analyze/analyze.cpp:2862 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:627
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:620
 #, kde-format
 msgid "Capturing"
 msgstr "Захоплення"
@@ -10227,7 +10229,7 @@ msgstr "Калібровано"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:32
-#: ekos/scheduler/schedulerjob.cpp:625
+#: ekos/scheduler/schedulerjob.cpp:618
 #, kde-format
 msgid "Guiding"
 msgstr "Наведення"
@@ -14200,7 +14202,7 @@ msgstr "Скинути запис стану для завдання"
 msgid "Editing job #%1..."
 msgstr "Редагуємо завдання %1…"
 
-#: ekos/capture/capture.cpp:2293 ekos/scheduler/scheduler.cpp:1414
+#: ekos/capture/capture.cpp:2293 ekos/scheduler/scheduler.cpp:1412
 #, kde-format
 msgid "Apply job changes."
 msgstr "Застосувати зміни у завданні."
@@ -16684,7 +16686,7 @@ msgid "In Progress"
 msgstr "Виконується"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:594
+#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:587
 #, kde-format
 msgid "Complete"
 msgstr "Завершено"
@@ -16794,7 +16796,7 @@ msgstr "Очікуємо"
 msgid "Image Received"
 msgstr "Зображення отримано"
 
-#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:617
+#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:610
 #, kde-format
 msgid "Focusing"
 msgstr "Фокусування"
@@ -16824,7 +16826,7 @@ msgstr "Встановлюємо температуру"
 msgid "Setting Rotator"
 msgstr "Встановлюємо засіб обертання"
 
-#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:620
+#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:613
 #, kde-format
 msgid "Aligning"
 msgstr "Вирівнюємо"
@@ -16875,7 +16877,7 @@ msgstr "Зсув фокусування"
 msgid "Startup"
 msgstr "Запуск"
 
-#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:592
+#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:585
 #, kde-format
 msgid "Running"
 msgstr "Запускаємо"
@@ -23368,7 +23370,7 @@ msgstr "Дані моделі вирівнювання вилучено."
 msgid "Failed to clear Alignment Model."
 msgstr "Не вдалося вилучити дані моделі вирівнювання."
 
-#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2141
+#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2142
 #, kde-format
 msgid "Mount already parked."
 msgstr "Лафет уже запарковано."
@@ -24087,7 +24089,7 @@ msgstr "Закрити затвор"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1796 ekos/scheduler/scheduler.cpp:1822
+#: ekos/scheduler/scheduler.cpp:1794 ekos/scheduler/scheduler.cpp:1820
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Припинити виконання плану"
@@ -26550,13 +26552,13 @@ msgstr "Циклічне повторення до п&ереривання"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Створити заплановані завдання для виконання плану мозаїки"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:934
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:932
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Виберіть чергу послідовності"
 
-#: ekos/scheduler/framingassistantui.cpp:696 ekos/scheduler/scheduler.cpp:936
+#: ekos/scheduler/framingassistantui.cpp:696 ekos/scheduler/scheduler.cpp:934
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "черга послідовності Ekos (*.esq)"
@@ -26583,12 +26585,12 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Виберіть каталог завдань"
 
-#: ekos/scheduler/greedyscheduler.cpp:159
+#: ekos/scheduler/greedyscheduler.cpp:160
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "У завданні «%1» не залишилося більше пусків."
 
-#: ekos/scheduler/scheduler.cpp:309
+#: ekos/scheduler/scheduler.cpp:307
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -26599,7 +26601,7 @@ msgstr ""
 "Клацніть, щоб вибрати завдання у списку.\n"
 "Двічі клацніть, щоб змінити завдання за допомогою розташованих ліворуч полів."
 
-#: ekos/scheduler/scheduler.cpp:316
+#: ekos/scheduler/scheduler.cpp:314
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -26608,24 +26610,24 @@ msgstr ""
 "Вилучити позначене завдання зі списку спостереження.\n"
 "Властивості завдання буде скопійовано до полів редагування до вилучення."
 
-#: ekos/scheduler/scheduler.cpp:320
+#: ekos/scheduler/scheduler.cpp:318
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr "Пересунути позначене завдання на рядок вище у списку.\n"
 
-#: ekos/scheduler/scheduler.cpp:323
+#: ekos/scheduler/scheduler.cpp:321
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr "Пересунути позначене завдання на рядок нижче у списку.\n"
 
-#: ekos/scheduler/scheduler.cpp:327
+#: ekos/scheduler/scheduler.cpp:325
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 "Скинути стан і примусово переобчислити параметри усіх завдань зі "
 "спостереження."
 
-#: ekos/scheduler/scheduler.cpp:331
+#: ekos/scheduler/scheduler.cpp:329
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -26643,7 +26645,7 @@ msgstr ""
 "Зауважте, що алгоритм спочатку обчислює висоти у потрібний момент часу, а "
 "потім виконує оцінку пріоритетності завдань."
 
-#: ekos/scheduler/scheduler.cpp:570 ekos/scheduler/scheduler.cpp:3925
+#: ekos/scheduler/scheduler.cpp:568 ekos/scheduler/scheduler.cpp:3521
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -26652,71 +26654,71 @@ msgstr ""
 "Попередження: класичний алгоритм планування вважається застарілим. "
 "Перемикаємося на «жадібний» алгоритм."
 
-#: ekos/scheduler/scheduler.cpp:811
+#: ekos/scheduler/scheduler.cpp:809
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Виберіть зображення FITS/XISF"
 
-#: ekos/scheduler/scheduler.cpp:865
+#: ekos/scheduler/scheduler.cpp:863
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "Заголовок FITS: не знайдено OBJCTRA (%1)."
 
-#: ekos/scheduler/scheduler.cpp:884
+#: ekos/scheduler/scheduler.cpp:882
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "Заголовок FITS: не знайдено OBJCTDEC (%1)."
 
-#: ekos/scheduler/scheduler.cpp:944
+#: ekos/scheduler/scheduler.cpp:942
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Виберіть скрипт запуску"
 
-#: ekos/scheduler/scheduler.cpp:946 ekos/scheduler/scheduler.cpp:961
+#: ekos/scheduler/scheduler.cpp:944 ekos/scheduler/scheduler.cpp:959
 #, kde-format
 msgid "Script (*)"
 msgstr "скрипт (*)"
 
-#: ekos/scheduler/scheduler.cpp:959
+#: ekos/scheduler/scheduler.cpp:957
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Виберіть скрипт вимикання"
 
-#: ekos/scheduler/scheduler.cpp:993
+#: ekos/scheduler/scheduler.cpp:991
 #, kde-format
 msgid "Warning: You cannot add or modify a job while the scheduler is running."
 msgstr ""
 "Увага! Не можна додавати або змінювати завдання, доки працює планувальник."
 
-#: ekos/scheduler/scheduler.cpp:999
+#: ekos/scheduler/scheduler.cpp:997
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Попередження: потрібна назва цілі."
 
-#: ekos/scheduler/scheduler.cpp:1005
+#: ekos/scheduler/scheduler.cpp:1003
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Попередження: потрібен файл послідовності."
 
-#: ekos/scheduler/scheduler.cpp:1012
+#: ekos/scheduler/scheduler.cpp:1010
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Попередження: потрібні координати цілі."
 
-#: ekos/scheduler/scheduler.cpp:1022
+#: ekos/scheduler/scheduler.cpp:1020
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Увага! Значення прямого сходження %1 є некоректним."
 
-#: ekos/scheduler/scheduler.cpp:1028
+#: ekos/scheduler/scheduler.cpp:1026
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Увага! Значення схилення %1 є некоректним."
 
-#: ekos/scheduler/scheduler.cpp:1128
+#: ekos/scheduler/scheduler.cpp:1126
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -26726,7 +26728,7 @@ msgstr ""
 "планування може використовувати те саме сховище даних для захоплення "
 "зображень!"
 
-#: ekos/scheduler/scheduler.cpp:1136
+#: ekos/scheduler/scheduler.cpp:1134
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -26737,100 +26739,100 @@ msgstr ""
 "кількість повторів, оскільки зараз їх буде завершено одночасно за %4 пакетів "
 "(або зніміть позначку з пункту «Запам'ятовувати дані щодо поступу завдань»)"
 
-#: ekos/scheduler/scheduler.cpp:1144
+#: ekos/scheduler/scheduler.cpp:1142
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Пропущено пошук дублікатів."
 
-#: ekos/scheduler/scheduler.cpp:1334
+#: ekos/scheduler/scheduler.cpp:1332
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1344
+#: ekos/scheduler/scheduler.cpp:1342
 #, kde-format
 msgid "Warning: you cannot add or modify a job while the scheduler is running."
 msgstr ""
 "Увага! Не можна додавати або змінювати завдання, доки працює планувальник."
 
-#: ekos/scheduler/scheduler.cpp:1407
+#: ekos/scheduler/scheduler.cpp:1405
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Скористайтеся полями для редагування для створення запису завдання у списку "
 "спостереження."
 
-#: ekos/scheduler/scheduler.cpp:1672
+#: ekos/scheduler/scheduler.cpp:1670
 #, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr ""
 "Завдання «%1» не було оброблено до завершення роботи засобу планування. "
 "Позначаємо завдання як перерване."
 
-#: ekos/scheduler/scheduler.cpp:1679
+#: ekos/scheduler/scheduler.cpp:1677
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Виконання плану перервано."
 
-#: ekos/scheduler/scheduler.cpp:1731
+#: ekos/scheduler/scheduler.cpp:1729
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 "Планувальник у стані вимкнення до моменту приготування до наступного завдання"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1757 ekos/scheduler/scheduler.ui:1124
+#: ekos/scheduler/scheduler.cpp:1755 ekos/scheduler/scheduler.ui:1124
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Запустити планувальник"
 
-#: ekos/scheduler/scheduler.cpp:1777
+#: ekos/scheduler/scheduler.cpp:1775
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "Увага! Адреса скрипту запуску, %1, є некоректною."
 
-#: ekos/scheduler/scheduler.cpp:1785
+#: ekos/scheduler/scheduler.cpp:1783
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "Увага! Адреса скрипту вимикання, %1, є некоректною."
 
-#: ekos/scheduler/scheduler.cpp:1815
+#: ekos/scheduler/scheduler.cpp:1813
 #, kde-format
 msgid "Scheduler started."
 msgstr "Розпочато виконання плану."
 
-#: ekos/scheduler/scheduler.cpp:1835
+#: ekos/scheduler/scheduler.cpp:1833
 #, kde-format
 msgid "Scheduler resuming."
 msgstr "Відновлено виконання плану."
 
-#: ekos/scheduler/scheduler.cpp:1848
+#: ekos/scheduler/scheduler.cpp:1846
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Заплановано призупинення плану…"
 
-#: ekos/scheduler/scheduler.cpp:1852
+#: ekos/scheduler/scheduler.cpp:1850
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Відновити виконання плану"
 
-#: ekos/scheduler/scheduler.cpp:1861
+#: ekos/scheduler/scheduler.cpp:1859
 #, kde-format
 msgid "Scheduler paused."
 msgstr "Виконання плану призупинено."
 
-#: ekos/scheduler/scheduler.cpp:1883
+#: ekos/scheduler/scheduler.cpp:1881
 #, kde-format
 msgid "No job running"
 msgstr "Немає запущених завдань"
 
-#: ekos/scheduler/scheduler.cpp:1953
+#: ekos/scheduler/scheduler.cpp:1951
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr ""
 "Після оцінки можливості виконання у черзі планувальника не лишилося завдань."
 
-#: ekos/scheduler/scheduler.cpp:1961
+#: ekos/scheduler/scheduler.cpp:1959
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
@@ -26839,74 +26841,74 @@ msgstr ""
 "Після оцінки можливості виконання у черзі планувальника лишилися лише "
 "перервані завдання. Переплановуємо їх."
 
-#: ekos/scheduler/scheduler.cpp:1975
+#: ekos/scheduler/scheduler.cpp:1973
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "Завдань не заплановано."
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1987
 #, kde-format
 msgid "Scheduler is awake."
 msgstr "Пробудження планувальника."
 
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1993
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr ""
 "Пробудження планувальника. Завдання буде запущено, щойно буде завершено "
 "приготування…"
 
-#: ekos/scheduler/scheduler.cpp:1997
+#: ekos/scheduler/scheduler.cpp:1995
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 "Пробудження планувальника. Завдання буде запущено, щойно виконання плану "
 "буде поновлено."
 
-#: ekos/scheduler/scheduler.cpp:2061
+#: ekos/scheduler/scheduler.cpp:2052
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Розпочато виконання завдання Ekos (%1)"
 
-#: ekos/scheduler/scheduler.cpp:2076
+#: ekos/scheduler/scheduler.cpp:2067
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Обсерваторія виконує процедуру завершення роботи"
 
-#: ekos/scheduler/scheduler.cpp:2161
+#: ekos/scheduler/scheduler.cpp:2152
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr "Розпочинаємо ітерацію послідовності завдань %1"
 
-#: ekos/scheduler/scheduler.cpp:2291 ekos/scheduler/schedulerprocess.cpp:1806
+#: ekos/scheduler/scheduler.cpp:2282 ekos/scheduler/schedulerprocess.cpp:1807
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура вирівнювання у завданні «%1» зазнала невдачі. Позначаємо "
 "завдання перерваним."
 
-#: ekos/scheduler/scheduler.cpp:2319
+#: ekos/scheduler/scheduler.cpp:2310
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура захоплення зображення у завданні «%1» зазнала невдачі, "
 "позначаємо завдання як перерване."
 
-#: ekos/scheduler/scheduler.cpp:2346 ekos/scheduler/schedulerprocess.cpp:1929
+#: ekos/scheduler/scheduler.cpp:2337 ekos/scheduler/schedulerprocess.cpp:1930
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура фокусування у завданні «%1» зазнала невдачі. Позначаємо "
 "завдання перерваним."
 
-#: ekos/scheduler/scheduler.cpp:2370 ekos/scheduler/schedulerprocess.cpp:1877
+#: ekos/scheduler/scheduler.cpp:2361 ekos/scheduler/schedulerprocess.cpp:1878
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура наведення у завданні «%1» зазнала невдачі. Позначаємо "
 "завдання перерваним."
 
-#: ekos/scheduler/scheduler.cpp:2396
+#: ekos/scheduler/scheduler.cpp:2387
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
@@ -26914,20 +26916,20 @@ msgstr ""
 "Увага! У завданні «%1» втрачено з'єднання із лафетом. Намагаємося відновити "
 "з'єднання."
 
-#: ekos/scheduler/scheduler.cpp:2416
+#: ekos/scheduler/scheduler.cpp:2407
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Увага! У завданні «%1» втрачено з'єднання із куполом. Намагаємося відновити "
 "з'єднання."
 
-#: ekos/scheduler/scheduler.cpp:2454
+#: ekos/scheduler/scheduler.cpp:2445
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr ""
 "Вже виконуємо наведення. Далі, негайно розпочнемо захоплення зображень."
 
-#: ekos/scheduler/scheduler.cpp:2466
+#: ekos/scheduler/scheduler.cpp:2457
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
@@ -26936,49 +26938,49 @@ msgstr ""
 "Завдання «%1» полягає у переході безпосередньо до етапу створення знімків, "
 "оскільки у черзі лише кадри калібрування."
 
-#: ekos/scheduler/scheduler.cpp:2582
+#: ekos/scheduler/scheduler.cpp:2573
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Відкриття списку планування Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2931
+#: ekos/scheduler/scheduler.cpp:2922
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Збереження списку планування Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2950
+#: ekos/scheduler/scheduler.cpp:2941
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Не вдалося зберегти список планування"
 
-#: ekos/scheduler/scheduler.cpp:3013
+#: ekos/scheduler/scheduler.cpp:3004
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr "Завдання «%1» перервано через помилки."
 
-#: ekos/scheduler/scheduler.cpp:3015
+#: ekos/scheduler/scheduler.cpp:3006
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr "Завдання «%1» перервано."
 
-#: ekos/scheduler/scheduler.cpp:3028
+#: ekos/scheduler/scheduler.cpp:3019
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr "Очікуємо %1 секунд на перезапуск завдання «%2»."
 
-#: ekos/scheduler/scheduler.cpp:3034
+#: ekos/scheduler/scheduler.cpp:3025
 #, kde-format
 msgid "Scheduler waits for a retry."
 msgstr "Засіб планування очікує на повторну спробу."
 
-#: ekos/scheduler/scheduler.cpp:3071
+#: ekos/scheduler/scheduler.cpp:3062
 #, kde-format
 msgid "Job '%1' is complete."
 msgstr "Завдання «%1» виконано."
 
-#: ekos/scheduler/scheduler.cpp:3116
+#: ekos/scheduler/scheduler.cpp:3107
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
@@ -26987,7 +26989,7 @@ msgstr[1] "Завдання «%1» виконано після %2 пусків."
 msgstr[2] "Завдання «%1» виконано після %2 пусків."
 msgstr[3] "Завдання «%1» виконано після %2 пуску."
 
-#: ekos/scheduler/scheduler.cpp:3165 ekos/scheduler/scheduler.cpp:3208
+#: ekos/scheduler/scheduler.cpp:3156 ekos/scheduler/scheduler.cpp:3199
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
@@ -26996,12 +26998,12 @@ msgstr[1] "Завдання «%1» є повторюваним, лишилося
 msgstr[2] "Завдання «%1» є повторюваним, лишилося ще %2 пусків."
 msgstr[3] "Завдання «%1» є повторюваним, лишився ще %2 пуск."
 
-#: ekos/scheduler/scheduler.cpp:3212
+#: ekos/scheduler/scheduler.cpp:3203
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr "Завдання «%1» повторюється, циклічне виконання є нескінченним."
 
-#: ekos/scheduler/scheduler.cpp:3232
+#: ekos/scheduler/scheduler.cpp:3223
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
@@ -27015,7 +27017,7 @@ msgstr[2] ""
 msgstr[3] ""
 "Виконання завдання «%1» припинено. Досягнуто часу завершення за %2 пуск."
 
-#: ekos/scheduler/scheduler.cpp:3262
+#: ekos/scheduler/scheduler.cpp:3253
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
@@ -27029,29 +27031,14 @@ msgstr[2] ""
 msgstr[3] ""
 "У завданні «%1» виконано %2 пакет до часу завершення, перезапускаємо."
 
-#: ekos/scheduler/scheduler.cpp:3469
+#: ekos/scheduler/scheduler.cpp:3374
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Увага! У завданні «%1» є недоступна послідовність «%2», позначаємо завдання "
 "як некоректне."
 
-#: ekos/scheduler/scheduler.cpp:3541
-#, kde-format
-msgid ""
-"Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
-"procedures currently set in its sequence will not occur."
-msgstr ""
-"Попередження: у завданні «%1» вимкнено крок фокусування. Періодичні "
-"процедури і процедури з РПП, які встановлено у послідовності дій завдання, "
-"не виконуватимуться."
-
-#: ekos/scheduler/scheduler.cpp:3569
-#, kde-format
-msgid "Job '%1' %2x%3\" %4"
-msgstr "Завдання «%1» %2⨯%3\" %4"
-
-#: ekos/scheduler/scheduler.cpp:4034
+#: ekos/scheduler/scheduler.cpp:3553
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
@@ -27061,17 +27048,12 @@ msgstr ""
 "обсерваторії в умовах денного освітлення. Така робота може призвести до "
 "невиправного ушкодження вашого обладнання!"
 
-#: ekos/scheduler/scheduler.cpp:4036
+#: ekos/scheduler/scheduler.cpp:3555
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr "Попередження щодо астрономічних сутінок"
 
-#: ekos/scheduler/scheduler.cpp:4061
-#, kde-format
-msgid "Unable to open sequence queue file '%1'"
-msgstr "Не вдалося відкрити файл черги послідовності «%1»"
-
-#: ekos/scheduler/scheduler.cpp:4146
+#: ekos/scheduler/scheduler.cpp:3597
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -27080,12 +27062,12 @@ msgstr ""
 "Присипляємо на %1 за годинником оновлення імітації, до того, як буде готове "
 "наступне завдання зі спостереження…"
 
-#: ekos/scheduler/scheduler.cpp:4457
+#: ekos/scheduler/scheduler.cpp:3908
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Увага! У завданні «%1» не вдалося захопити ціль."
 
-#: ekos/scheduler/scheduler.cpp:4470
+#: ekos/scheduler/scheduler.cpp:3921
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
@@ -27094,56 +27076,56 @@ msgstr ""
 "Виконуємо захоплення за завданням «%1», перезапускаємо процедуру наведення "
 "(спроба %2 з %3)."
 
-#: ekos/scheduler/scheduler.cpp:4479
+#: ekos/scheduler/scheduler.cpp:3930
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Увага! Процедура захоплення зображення у завданні «%1» зазнала невдачі. "
 "Перезапускаємо процедуру захоплення зображення."
 
-#: ekos/scheduler/scheduler.cpp:4485
+#: ekos/scheduler/scheduler.cpp:3936
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "Увага! Процедура захоплення зображення у завданні «%1» зазнала невдачі, "
 "позначаємо завдання як перерване."
 
-#: ekos/scheduler/scheduler.cpp:4494
+#: ekos/scheduler/scheduler.cpp:3945
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Завдання Ekos (%1) — зйомку завершено"
 
-#: ekos/scheduler/scheduler.cpp:4538
+#: ekos/scheduler/scheduler.cpp:3989
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Погодні умови є СПРИЯТЛИВИМИ."
 
-#: ekos/scheduler/scheduler.cpp:4542
+#: ekos/scheduler/scheduler.cpp:3993
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Попередження! Погодні умови можуть змінитися на НЕСПРИЯТЛИВІ!"
 
-#: ekos/scheduler/scheduler.cpp:4546
+#: ekos/scheduler/scheduler.cpp:3997
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Увага! Погодні умови перебувають у зоні РИЗИКУ!"
 
-#: ekos/scheduler/scheduler.cpp:4568
+#: ekos/scheduler/scheduler.cpp:4019
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Погодні умови близькі до несприятливих"
 
-#: ekos/scheduler/scheduler.cpp:4577
+#: ekos/scheduler/scheduler.cpp:4028
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Погодні умови є критичними. Вимикання обсерваторії не уникнути."
 
-#: ekos/scheduler/scheduler.cpp:4598
+#: ekos/scheduler/scheduler.cpp:4049
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "Починаємо процедуру вимикання через несприятливі погодні умови."
 
-#: ekos/scheduler/scheduler.cpp:4626
+#: ekos/scheduler/scheduler.cpp:4077
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
@@ -27152,7 +27134,7 @@ msgstr ""
 "Завдання зі спостереження «%1» заплановано до виконання о %2. Плануємо "
 "вимикання обсерваторії до завершення приготувань до наступного завдання."
 
-#: ekos/scheduler/scheduler.cpp:4649
+#: ekos/scheduler/scheduler.cpp:4100
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
@@ -27161,17 +27143,17 @@ msgstr ""
 "Завдання зі спостереження «%1» заплановано до виконання о %2. Паркуємо лафет "
 "до готовності завдання до виконання."
 
-#: ekos/scheduler/scheduler.cpp:4659
+#: ekos/scheduler/scheduler.cpp:4110
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "Присипляємо до того, як буде готове завдання зі спостереження %1 о %2…"
 
-#: ekos/scheduler/scheduler.cpp:4661
+#: ekos/scheduler/scheduler.cpp:4112
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Планувальник перебуває у режимі сну"
 
-#: ekos/scheduler/scheduler.cpp:4669
+#: ekos/scheduler/scheduler.cpp:4120
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -27180,28 +27162,28 @@ msgstr ""
 "Попередження: завдання «%1» за %2 від поточного моменту. Можливо, вам слід "
 "увімкнути вимикання із попереднім спорожненням списку завдань."
 
-#: ekos/scheduler/scheduler.cpp:4767
+#: ekos/scheduler/scheduler.cpp:4218
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Час очікування на розв'язок вичерпано: %1 с %2"
 
-#: ekos/scheduler/scheduler.cpp:4769
+#: ekos/scheduler/scheduler.cpp:4220
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Помилка розв'язувача: %1 с %2"
 
-#: ekos/scheduler/scheduler.cpp:4804
+#: ekos/scheduler/scheduler.cpp:4255
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 "Захоплений кадр зсунуто на %1 кутових мінут від цілі, повторне вирівнювання…"
 
-#: ekos/scheduler/scheduler.cpp:5098
+#: ekos/scheduler/scheduler.cpp:4559
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Процедуру запуску вручну успішно завершено."
 
-#: ekos/scheduler/scheduler.cpp:5102
+#: ekos/scheduler/scheduler.cpp:4563
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Процедуру запуску вручну перервано через помилки."
@@ -27848,12 +27830,12 @@ msgstr "Відкрити протипилову кришку"
 msgid "UnCap"
 msgstr "Зняти кришку"
 
-#: ekos/scheduler/schedulerjob.cpp:336
+#: ekos/scheduler/schedulerjob.cpp:329
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr "Помилка у завданні Ekos (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:380
+#: ekos/scheduler/schedulerjob.cpp:373
 #, kde-format
 msgid ""
 "Current status of job '%1', managed by the Scheduler.\n"
@@ -27872,7 +27854,7 @@ msgstr ""
 "Якщо визначено завершений стан, засіб планування переконався, що усі "
 "послідовності знімків збережено, включено із повторами."
 
-#: ekos/scheduler/schedulerjob.cpp:391
+#: ekos/scheduler/schedulerjob.cpp:384
 #, kde-format
 msgid ""
 "Current altitude of the target of job '%1'.\n"
@@ -27883,7 +27865,7 @@ msgstr ""
 "Ціль, яка сходить, позначена стрілкою вгору.\n"
 "Ціль, яка заходить, позначена стрілкою вниз."
 
-#: ekos/scheduler/schedulerjob.cpp:401
+#: ekos/scheduler/schedulerjob.cpp:394
 #, kde-format
 msgid ""
 "Startup time for job '%1', as estimated by the Scheduler.\n"
@@ -27896,7 +27878,7 @@ msgstr ""
 "Фіксований час, вказаний користувачем, або час кульмінації буде позначено "
 "символом секундоміра. "
 
-#: ekos/scheduler/schedulerjob.cpp:411
+#: ekos/scheduler/schedulerjob.cpp:404
 #, kde-format
 msgid ""
 "Completion time for job '%1', as estimated by the Scheduler.\n"
@@ -27909,7 +27891,7 @@ msgstr ""
 "Позначка попередження означає, що висота об'єкта на момент завершення "
 "завдання може призвести до передчасного завершення виконання завдання.\n"
 
-#: ekos/scheduler/schedulerjob.cpp:421
+#: ekos/scheduler/schedulerjob.cpp:414
 #, kde-format
 msgid ""
 "Count of captures stored for job '%1', based on its sequence job.\n"
@@ -27921,97 +27903,97 @@ msgstr ""
 "Це резюме. Для завершення завдання можуть знадобитися кадри специфічних "
 "типів."
 
-#: ekos/scheduler/schedulerjob.cpp:590
+#: ekos/scheduler/schedulerjob.cpp:583
 #, kde-format
 msgid "Evaluating"
 msgstr "Оцінюємо"
 
-#: ekos/scheduler/schedulerjob.cpp:591
+#: ekos/scheduler/schedulerjob.cpp:584
 #, kde-format
 msgid "Scheduled"
 msgstr "Заплановано"
 
-#: ekos/scheduler/schedulerjob.cpp:593
+#: ekos/scheduler/schedulerjob.cpp:586
 #, kde-format
 msgid "Invalid"
 msgstr "Некоректно"
 
-#: ekos/scheduler/schedulerjob.cpp:615
+#: ekos/scheduler/schedulerjob.cpp:608
 #, kde-format
 msgid "Slew complete"
 msgstr "Обертання завершено"
 
-#: ekos/scheduler/schedulerjob.cpp:619
+#: ekos/scheduler/schedulerjob.cpp:612
 #, kde-format
 msgid "Focus complete"
 msgstr "Фокусування завершено"
 
-#: ekos/scheduler/schedulerjob.cpp:621
+#: ekos/scheduler/schedulerjob.cpp:614
 #, kde-format
 msgid "Align complete"
 msgstr "Вирівнювання завершено"
 
-#: ekos/scheduler/schedulerjob.cpp:622
+#: ekos/scheduler/schedulerjob.cpp:615
 #, kde-format
 msgid "Repositioning"
 msgstr "Зміна позиції"
 
-#: ekos/scheduler/schedulerjob.cpp:623
+#: ekos/scheduler/schedulerjob.cpp:616
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Зміну позиції завершено"
 
-#: ekos/scheduler/schedulerjob.cpp:626
+#: ekos/scheduler/schedulerjob.cpp:619
 #, kde-format
 msgid "Guiding complete"
 msgstr "Наведення завершено"
 
-#: ekos/scheduler/schedulerprocess.cpp:68
+#: ekos/scheduler/schedulerprocess.cpp:69
 #, kde-format
 msgid "Job '%1' is slewing to target."
 msgstr "Завдання «%1» полягає у наведенні на ціль."
 
-#: ekos/scheduler/schedulerprocess.cpp:108
+#: ekos/scheduler/schedulerprocess.cpp:109
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr ""
 "Увага! У завданні «%1» неможливо виконати автоматичне фокусування. Його "
 "підтримки не передбачено."
 
-#: ekos/scheduler/schedulerprocess.cpp:174
+#: ekos/scheduler/schedulerprocess.cpp:175
 #, kde-format
 msgid "Job '%1' is focusing."
 msgstr "Завдання «%1» полягає у фокусуванні."
 
-#: ekos/scheduler/schedulerprocess.cpp:201
+#: ekos/scheduler/schedulerprocess.cpp:202
 #, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
 msgstr "Увага! файла призначення FITS завдання «%1» не існує."
 
-#: ekos/scheduler/schedulerprocess.cpp:213
+#: ekos/scheduler/schedulerprocess.cpp:214
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
 "Увага! У відповідь на запит loadAndSlew завдання «%1» отримано помилку DBUS: "
 "%2"
 
-#: ekos/scheduler/schedulerprocess.cpp:224
+#: ekos/scheduler/schedulerprocess.cpp:225
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
 msgstr "Увага! Запит loadAndSlew завдання «%1» зазнав невдачі."
 
-#: ekos/scheduler/schedulerprocess.cpp:230
+#: ekos/scheduler/schedulerprocess.cpp:231
 #, kde-format
 msgid "Job '%1' is plate solving %2."
 msgstr "Завдання «%1» є завданням із прив'язки зображення %2."
 
-#: ekos/scheduler/schedulerprocess.cpp:244
+#: ekos/scheduler/schedulerprocess.cpp:245
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
 "Увага! У завданні «%1» на запит setTargetCoords отримано помилку D-Bus: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:260
+#: ekos/scheduler/schedulerprocess.cpp:261
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
@@ -28019,98 +28001,98 @@ msgstr ""
 "Увага! У завданні «%1» на запит setTargetPositionAngle отримано помилку D-"
 "Bus: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:273
+#: ekos/scheduler/schedulerprocess.cpp:274
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr ""
 "Увага! У завданні «%1» на запит captureAndSolve отримано помилку D-Bus: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:284
+#: ekos/scheduler/schedulerprocess.cpp:285
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
 msgstr "Увага! Не вдалося виконати запит щодо captureAndSolve у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:290
+#: ekos/scheduler/schedulerprocess.cpp:291
 #, kde-format
 msgid "Job '%1' is capturing and plate solving."
 msgstr ""
 "Завдання «%1» полягає у захопленні зображення і його прив'язці до координат."
 
-#: ekos/scheduler/schedulerprocess.cpp:306
+#: ekos/scheduler/schedulerprocess.cpp:307
 #, kde-format
 msgid "Guiding already running for %1, starting next scheduler action..."
 msgstr ""
 "Наведення на %1 вже виконується, починаємо виконувати наступну заплановану "
 "дію…"
 
-#: ekos/scheduler/schedulerprocess.cpp:330
+#: ekos/scheduler/schedulerprocess.cpp:331
 #, kde-format
 msgid "Starting guiding procedure for %1 ..."
 msgstr "Розпочинаємо процедуру наведення для %1…"
 
-#: ekos/scheduler/schedulerprocess.cpp:439
+#: ekos/scheduler/schedulerprocess.cpp:440
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr "Завдання Ekos (%1) — розпочато зйомку"
 
-#: ekos/scheduler/schedulerprocess.cpp:442
+#: ekos/scheduler/schedulerprocess.cpp:443
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr "Виконуємо захоплення зображення у %1 (пакет %2)…"
 
-#: ekos/scheduler/schedulerprocess.cpp:445
+#: ekos/scheduler/schedulerprocess.cpp:446
 #, kde-format
 msgid "Job '%1' capture is in progress..."
 msgstr "Виконуємо захоплення зображення у %1…"
 
-#: ekos/scheduler/schedulerprocess.cpp:467
+#: ekos/scheduler/schedulerprocess.cpp:468
 #, kde-format
 msgid "Executing script %1..."
 msgstr "Виконуємо скрипт %1…"
 
-#: ekos/scheduler/schedulerprocess.cpp:512
+#: ekos/scheduler/schedulerprocess.cpp:513
 #, kde-format
 msgid "Ekos started."
 msgstr "Ekos запущено."
 
-#: ekos/scheduler/schedulerprocess.cpp:521
+#: ekos/scheduler/schedulerprocess.cpp:522
 #, kde-format
 msgid "Starting Ekos failed. Retrying..."
 msgstr "Не вдалося запустити Ekos. Виконуємо повторну спробу…"
 
-#: ekos/scheduler/schedulerprocess.cpp:526
+#: ekos/scheduler/schedulerprocess.cpp:527
 #, kde-format
 msgid "Starting Ekos failed."
 msgstr "Не вдалося запустити Ekos."
 
-#: ekos/scheduler/schedulerprocess.cpp:537
+#: ekos/scheduler/schedulerprocess.cpp:538
 #, kde-format
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "Перевищено час очікування на запуск Ekos. Виконуємо повторну спробу…"
 
-#: ekos/scheduler/schedulerprocess.cpp:547
+#: ekos/scheduler/schedulerprocess.cpp:548
 #, kde-format
 msgid "Starting Ekos timed out."
 msgstr "Перевищення часу очікування на запуск Ekos."
 
-#: ekos/scheduler/schedulerprocess.cpp:558
+#: ekos/scheduler/schedulerprocess.cpp:559
 #, kde-format
 msgid "Ekos stopped."
 msgstr "Ekos зупинено."
 
-#: ekos/scheduler/schedulerprocess.cpp:601
+#: ekos/scheduler/schedulerprocess.cpp:602
 #, kde-format
 msgid "INDI devices connected."
 msgstr "З'єднано пристрої INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:608
+#: ekos/scheduler/schedulerprocess.cpp:609
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
 "Не вдалося встановити з'єднання із одним або декількома пристроями INDI. "
 "Повторюємо спробу…"
 
-#: ekos/scheduler/schedulerprocess.cpp:613
+#: ekos/scheduler/schedulerprocess.cpp:614
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
@@ -28119,14 +28101,14 @@ msgstr ""
 "Не вдалося встановити з'єднання із одним або декількома пристроями INDI. "
 "Подробиці можна знайти на панелі керування INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:622
+#: ekos/scheduler/schedulerprocess.cpp:623
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
 "Перевищено час очікування на дані від одного або декількох пристроїв INDI. "
 "Повторюємо спробу…"
 
-#: ekos/scheduler/schedulerprocess.cpp:628
+#: ekos/scheduler/schedulerprocess.cpp:629
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
@@ -28134,84 +28116,84 @@ msgstr ""
 "Перевищено час очікування на дані від одного або декількох пристроїв INDI. "
 "Подробиці можна знайти на панелі керування INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:639
+#: ekos/scheduler/schedulerprocess.cpp:640
 #, kde-format
 msgid "INDI devices disconnected."
 msgstr "Пристрої INDI від'єднано."
 
-#: ekos/scheduler/schedulerprocess.cpp:655
+#: ekos/scheduler/schedulerprocess.cpp:656
 #, kde-format
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 "Попередження: пристрій купола не готовий після завершення часу очікування — "
 "намагаємося відновити стан…"
 
-#: ekos/scheduler/schedulerprocess.cpp:660
+#: ekos/scheduler/schedulerprocess.cpp:661
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
 msgstr "Потрібне зняття купола з паркування, але купол ще не готовий."
 
-#: ekos/scheduler/schedulerprocess.cpp:670
+#: ekos/scheduler/schedulerprocess.cpp:671
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
 msgstr ""
 "Попередження: пристрій лафета не готовий після завершення часу очікування — "
 "намагаємося відновити стан…"
 
-#: ekos/scheduler/schedulerprocess.cpp:685
+#: ekos/scheduler/schedulerprocess.cpp:686
 #, kde-format
 msgid "Warning: cap device not ready after timeout, attempting to recover..."
 msgstr ""
 "Попередження: пристрій кришки не готовий після завершення часу очікування — "
 "намагаємося відновити стан…"
 
-#: ekos/scheduler/schedulerprocess.cpp:747
+#: ekos/scheduler/schedulerprocess.cpp:748
 #, kde-format
 msgid "Shutdown complete."
 msgstr "Вимикання завершено."
 
-#: ekos/scheduler/schedulerprocess.cpp:749
+#: ekos/scheduler/schedulerprocess.cpp:750
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr "Не вдалося виконати вимикання. Перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:853
+#: ekos/scheduler/schedulerprocess.cpp:854
 #, kde-format
 msgid "Cap parked."
 msgstr "Кришку запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:863
+#: ekos/scheduler/schedulerprocess.cpp:864
 #, kde-format
 msgid "Cap unparked."
 msgstr "Паркування кришки знято."
 
-#: ekos/scheduler/schedulerprocess.cpp:875
-#: ekos/scheduler/schedulerprocess.cpp:1104
+#: ekos/scheduler/schedulerprocess.cpp:876
+#: ekos/scheduler/schedulerprocess.cpp:1105
 #, kde-format
 msgid "Operation timeout. Restarting operation..."
 msgstr "Перевищення часу очікування на завершення дії. Перезапускаємо дію…"
 
-#: ekos/scheduler/schedulerprocess.cpp:888
+#: ekos/scheduler/schedulerprocess.cpp:889
 #, kde-format
 msgid "Cap parking error."
 msgstr "Помилка під час паркування кришки."
 
-#: ekos/scheduler/schedulerprocess.cpp:893
+#: ekos/scheduler/schedulerprocess.cpp:894
 #, kde-format
 msgid "Cap unparking error."
 msgstr "Помилка під час зняття кришки з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:935
+#: ekos/scheduler/schedulerprocess.cpp:936
 #, kde-format
 msgid "Mount parked."
 msgstr "Лафет запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:950
+#: ekos/scheduler/schedulerprocess.cpp:951
 #, kde-format
 msgid "Mount unparked."
 msgstr "Лафет знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:962
+#: ekos/scheduler/schedulerprocess.cpp:963
 #, kde-format
 msgid ""
 "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
@@ -28220,14 +28202,14 @@ msgstr ""
 "Попередження: перевищення часу очікування на завершення дії зі зняття лафета "
 "з паркування у спробі %1 з %2. Перезапускаємо виконання дії…"
 
-#: ekos/scheduler/schedulerprocess.cpp:968
+#: ekos/scheduler/schedulerprocess.cpp:969
 #, kde-format
 msgid "Warning: mount unpark operation timed out on last attempt."
 msgstr ""
 "Попередження: під час останньої спроби було перевищено час очікування на "
 "завершення дії зі зняття лафета з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:982
+#: ekos/scheduler/schedulerprocess.cpp:983
 #, kde-format
 msgid ""
 "Warning: mount park operation timed out on attempt %1/%2. Restarting "
@@ -28236,20 +28218,20 @@ msgstr ""
 "Попередження: перевищення часу очікування на завершення дії з паркування "
 "лафета у спробі %1 з %2. Перезапускаємо виконання дії…"
 
-#: ekos/scheduler/schedulerprocess.cpp:989
+#: ekos/scheduler/schedulerprocess.cpp:990
 #, kde-format
 msgid "Warning: mount park operation timed out on last attempt."
 msgstr ""
 "Попередження: під час останньої спроби було перевищено час очікування на "
 "завершення дії з паркування лафета."
 
-#: ekos/scheduler/schedulerprocess.cpp:1001
-#: ekos/scheduler/schedulerprocess.cpp:1030
+#: ekos/scheduler/schedulerprocess.cpp:1002
+#: ekos/scheduler/schedulerprocess.cpp:1031
 #, kde-format
 msgid "Mount unparking error."
 msgstr "Помилка під час зняття лафета з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:1009
+#: ekos/scheduler/schedulerprocess.cpp:1010
 #, kde-format
 msgid ""
 "Warning: mount park operation failed on attempt %1/%2. Restarting "
@@ -28258,116 +28240,116 @@ msgstr ""
 "Попередження: невдала дія з паркування лафета у спробі %1 з %2. "
 "Перезапускаємо виконання дії…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1016
-#: ekos/scheduler/schedulerprocess.cpp:1024
+#: ekos/scheduler/schedulerprocess.cpp:1017
+#: ekos/scheduler/schedulerprocess.cpp:1025
 #, kde-format
 msgid "Mount parking error."
 msgstr "Помилка під час паркування лафета."
 
-#: ekos/scheduler/schedulerprocess.cpp:1081
+#: ekos/scheduler/schedulerprocess.cpp:1082
 #, kde-format
 msgid "Dome parked."
 msgstr "Купол запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:1092
+#: ekos/scheduler/schedulerprocess.cpp:1093
 #, kde-format
 msgid "Dome unparked."
 msgstr "Паркування купола знято."
 
-#: ekos/scheduler/schedulerprocess.cpp:1119
+#: ekos/scheduler/schedulerprocess.cpp:1120
 #, kde-format
 msgid "Dome parking failed. Restarting operation..."
 msgstr "Невдале паркування купола. Перезапускаємо дію…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1124
+#: ekos/scheduler/schedulerprocess.cpp:1125
 #, kde-format
 msgid "Dome parking error."
 msgstr "Помилка під час паркування купола."
 
-#: ekos/scheduler/schedulerprocess.cpp:1133
+#: ekos/scheduler/schedulerprocess.cpp:1134
 #, kde-format
 msgid "Dome unparking failed. Restarting operation..."
 msgstr "Невдале зняття купола з паркування. Перезапускаємо дію…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1138
+#: ekos/scheduler/schedulerprocess.cpp:1139
 #, kde-format
 msgid "Dome unparking error."
 msgstr "Помилка під час зняття з паркування купола."
 
-#: ekos/scheduler/schedulerprocess.cpp:1161
+#: ekos/scheduler/schedulerprocess.cpp:1162
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr "Обсерваторія виконує процедуру започаткування роботи"
 
-#: ekos/scheduler/schedulerprocess.cpp:1174
+#: ekos/scheduler/schedulerprocess.cpp:1175
 #, kde-format
 msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos вже запущено, пропускаємо виконання початкового скрипту…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1270
+#: ekos/scheduler/schedulerprocess.cpp:1271
 #, kde-format
 msgid "Warming up CCD..."
 msgstr "Розігріваємо ПЗЗ…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1303
+#: ekos/scheduler/schedulerprocess.cpp:1304
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr ""
 "Попередження: пропускаємо процедури паркування — немає з'єднання з INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1427
+#: ekos/scheduler/schedulerprocess.cpp:1428
 #, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr ""
 "Процедура очікування на паркування або зняття з паркування завершилася з "
 "помилками, перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1446
+#: ekos/scheduler/schedulerprocess.cpp:1447
 #, kde-format
 msgid "Warning: executing startup procedure manually..."
 msgstr "Увага! Виконуємо процедуру запуску вручну…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1453
+#: ekos/scheduler/schedulerprocess.cpp:1454
 #, kde-format
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "Ви справді хочете виконати процедуру запуску вручну?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1497
+#: ekos/scheduler/schedulerprocess.cpp:1498
 #, kde-format
 msgid "Startup procedure terminated."
 msgstr "Процедуру запуску перервано."
 
-#: ekos/scheduler/schedulerprocess.cpp:1511
+#: ekos/scheduler/schedulerprocess.cpp:1512
 #, kde-format
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "Увага! Виконуємо процедуру вимикання вручну…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1517
+#: ekos/scheduler/schedulerprocess.cpp:1518
 #, kde-format
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "Ви справді хочете виконати процедуру вимикання вручну?"
 
-#: ekos/scheduler/schedulerprocess.cpp:1562
+#: ekos/scheduler/schedulerprocess.cpp:1563
 #, kde-format
 msgid "Shutdown procedure terminated."
 msgstr "Процедуру вимикання перервано."
 
-#: ekos/scheduler/schedulerprocess.cpp:1746
+#: ekos/scheduler/schedulerprocess.cpp:1747
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "Список планування збережено до %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1772
+#: ekos/scheduler/schedulerprocess.cpp:1773
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "Вирівнювання у завданні «%1» завершено."
 
-#: ekos/scheduler/schedulerprocess.cpp:1791
+#: ekos/scheduler/schedulerprocess.cpp:1792
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Увага! Спроба вирівнювання у завданні «%1» зазнала невдачі."
 
-#: ekos/scheduler/schedulerprocess.cpp:1797
+#: ekos/scheduler/schedulerprocess.cpp:1798
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -28375,71 +28357,71 @@ msgstr ""
 "Увага! У завданні «%1» примусово скинуто модель лафета після невдалої спроби "
 "вирівнювання №%2."
 
-#: ekos/scheduler/schedulerprocess.cpp:1801
-#: ekos/scheduler/schedulerprocess.cpp:1865
+#: ekos/scheduler/schedulerprocess.cpp:1802
+#: ekos/scheduler/schedulerprocess.cpp:1866
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Перезапускаємо процес вирівнювання %1…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1837
+#: ekos/scheduler/schedulerprocess.cpp:1838
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "Виконуємо наведення у «%1»…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1849
+#: ekos/scheduler/schedulerprocess.cpp:1850
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Увага! Спроба наведення у %1 зазнала невдачі."
 
-#: ekos/scheduler/schedulerprocess.cpp:1851
+#: ekos/scheduler/schedulerprocess.cpp:1852
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Увага! Не вдалося виконати калібрування у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1870
+#: ekos/scheduler/schedulerprocess.cpp:1871
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "Виконуємо завдання «%1», процедуру наведення буде перезапущено за %2 секунд."
 
-#: ekos/scheduler/schedulerprocess.cpp:1906
+#: ekos/scheduler/schedulerprocess.cpp:1907
 #, kde-format
 msgid "Job '%1' focusing is complete."
 msgstr "Завершено фокусування у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1916
+#: ekos/scheduler/schedulerprocess.cpp:1917
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Увага! Помилка фокусування у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1920
+#: ekos/scheduler/schedulerprocess.cpp:1921
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "Перезапускаємо процедуру фокусування у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1958
+#: ekos/scheduler/schedulerprocess.cpp:1959
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "Завершено обертання у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1964
+#: ekos/scheduler/schedulerprocess.cpp:1965
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Увага! Обертання у завданні «%1» зазнала невдачі, позначаємо завдання як "
 "перерване через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:1970
+#: ekos/scheduler/schedulerprocess.cpp:1971
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Увага! Не виявлено обертання для завдання «%1», перезапускаємо."
 
-#: ekos/scheduler/schedulerprocess.cpp:1983
+#: ekos/scheduler/schedulerprocess.cpp:1984
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "Завершено зміну позиції у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:1989
+#: ekos/scheduler/schedulerprocess.cpp:1990
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -28447,113 +28429,133 @@ msgstr ""
 "Увага! Зміна позиції у завданні «%1» зазнала невдачі, позначаємо завдання як "
 "перерване через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:1995
+#: ekos/scheduler/schedulerprocess.cpp:1996
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Увага! Не виявлено зміни позиції для завдання «%1», перезапускаємо."
 
-#: ekos/scheduler/schedulerprocess.cpp:2020
+#: ekos/scheduler/schedulerprocess.cpp:2021
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Процедуру вимикання вручну успішно завершено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2026
+#: ekos/scheduler/schedulerprocess.cpp:2027
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Процедуру вимикання вручну перервано через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:2041
+#: ekos/scheduler/schedulerprocess.cpp:2042
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 "Надіслано запит щодо паркування протипилової кришки, але протипилових кришок "
 "не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2064
+#: ekos/scheduler/schedulerprocess.cpp:2065
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Паркуємо кришку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:2070
+#: ekos/scheduler/schedulerprocess.cpp:2071
 #, kde-format
 msgid "Cap already parked."
 msgstr "Кришку уже запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:2079
+#: ekos/scheduler/schedulerprocess.cpp:2080
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 "Надіслано запит щодо зняття протипилової кришки з паркування, але "
 "протипилових кришок не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2101
+#: ekos/scheduler/schedulerprocess.cpp:2102
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Знімаємо з паркування кришку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:2107
+#: ekos/scheduler/schedulerprocess.cpp:2108
 #, kde-format
 msgid "Cap already unparked."
 msgstr "Кришку уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:2116
+#: ekos/scheduler/schedulerprocess.cpp:2117
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr "Надіслано запит щодо паркування лафета, але лафетів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2174
+#: ekos/scheduler/schedulerprocess.cpp:2175
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Паркуємо лафет…"
 
-#: ekos/scheduler/schedulerprocess.cpp:2188
+#: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 "Надіслано запит щодо зняття лафета з паркування, але лафетів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2214
+#: ekos/scheduler/schedulerprocess.cpp:2215
 #, kde-format
 msgid "Mount already unparked."
 msgstr "Лафет уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:2312
+#: ekos/scheduler/schedulerprocess.cpp:2313
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Надіслано запит щодо паркування купола, але куполів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2335
+#: ekos/scheduler/schedulerprocess.cpp:2336
 #, kde-format
 msgid "Parking dome..."
 msgstr "Паркуємо купол…"
 
-#: ekos/scheduler/schedulerprocess.cpp:2341
+#: ekos/scheduler/schedulerprocess.cpp:2342
 #, kde-format
 msgid "Dome already parked."
 msgstr "Купол уже запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:2351
+#: ekos/scheduler/schedulerprocess.cpp:2352
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 "Надіслано запит щодо зняття купола з паркування, але куполів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:2371
+#: ekos/scheduler/schedulerprocess.cpp:2372
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Знімаємо з паркування купол…"
 
-#: ekos/scheduler/schedulerprocess.cpp:2377
+#: ekos/scheduler/schedulerprocess.cpp:2378
 #, kde-format
 msgid "Dome already unparked."
 msgstr "Купол уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:2495
+#: ekos/scheduler/schedulerprocess.cpp:2562
+#, kde-format
+msgid "Unable to open sequence queue file '%1'"
+msgstr "Не вдалося відкрити файл черги послідовності «%1»"
+
+#: ekos/scheduler/schedulerprocess.cpp:2633
+#, kde-format
+msgid ""
+"Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
+"procedures currently set in its sequence will not occur."
+msgstr ""
+"Попередження: у завданні «%1» вимкнено крок фокусування. Періодичні "
+"процедури і процедури з РПП, які встановлено у послідовності дій завдання, "
+"не виконуватимуться."
+
+#: ekos/scheduler/schedulerprocess.cpp:2660
+#, kde-format
+msgid "Job '%1' %2x%3\" %4"
+msgstr "Завдання «%1» %2⨯%3\" %4"
+
+#: ekos/scheduler/schedulerprocess.cpp:2989
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Не вдалося виконати скрипт запуску. Перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:2500
+#: ekos/scheduler/schedulerprocess.cpp:2994
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Не вдалося виконати скрипт завершення роботи. Перериваємо обробку…"
