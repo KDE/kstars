@@ -1580,7 +1580,7 @@
 <para
 >Cada vegada que s'inicia, &kstars; buscarà imatges noves a la superposició d'imatges en un directori especial, paral·lel al directori de registres, anomenat <literal
 >imageOverlays</literal
->. A Linux, açò es pot trobar a <filename class="directory"
+>. En Linux, açò es pot trobar a <filename class="directory"
 >~/.local/share/kstars/imageOverlays</filename
 >. La ubicació exacta en el vostre sistema es pot trobar fent clic en el botó <guibutton
 >Directori de superposicions</guibutton
@@ -1764,9 +1764,9 @@
 >Reconstrucció automàtica des de Bayer</guilabel
 > (les imatges construïdes amb el filtre mosaic de Bayer on s'aplica el filtre de Bayer no seran reconstruïdes amb el filtre mosaic de Bayer, només es mostraran les imatges en l'escala de grisos), <guilabel
 >WCS automàtic</guilabel
-> (les dades del sistema de coordenades mundial -World Coordinate System- no seran processades; les coordenades celestes dels mapes WCS a les coordenades de la imatge; les línies de la quadrícula equatorial, la identificació dels objectes i l'orientació del telescopi dins d'una imatge estan inhabilitades) i <guilabel
+> (les dades del sistema de coordenades mundial -World Coordinate System- no seran processades. Les coordenades celestes dels mapes WCS a les coordenades de la imatge, les línies de la quadrícula equatorial, la identificació dels objectes i l'orientació del telescopi dins d'una imatge estan inhabilitades) i <guilabel
 >Cub en 3D</guilabel
-> (no es processaran les imatges RGB, només es mostraran les imatges en l'escala de grisos). També podeu desactivar algunes d'estes operacions voraces de recursos per separat. </para>
+> (no es processaran les imatges RGB, només es mostraran les imatges en l'escala de grisos). També podeu desactivar per separat algunes d'estes operacions voraces de recursos. </para>
 </sect1>
 
 <sect1 id="indi_page">

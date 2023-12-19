@@ -146,7 +146,7 @@
         <para
 ><emphasis role="bold"
 >Polinòmic</emphasis
->: A l'algorisme Polinòmic, el procés s'iniciarà en el mode Iteratiu, però una vegada que creuem a l'altre costat de la corba V (una vegada que els valors HFR comencen a augmentar de nou després de disminuir durant una estona), Ekos realitzarà un ajust de corba quadràtica per a trobar una solució que preveja la posició HFR mínima possible. Si es troba una solució vàlida, el procés d'enfocament automàtic es considerarà un èxit. Les característiques principals inclouen:</para>
+>: En l'algorisme Polinòmic, el procés s'iniciarà en el mode Iteratiu, però una vegada que creuem a l'altre costat de la corba V (una vegada que els valors HFR comencen a augmentar de nou després de disminuir durant una estona), Ekos realitzarà un ajust de corba quadràtica per a trobar una solució que preveja la posició HFR mínima possible. Si es troba una solució vàlida, el procés d'enfocament automàtic es considerarà un èxit. Les característiques principals inclouen:</para>
 
         <itemizedlist>
           <listitem>
@@ -235,7 +235,7 @@
     <para
 >S'admeten tots els enfocadors compatibles amb INDI. Es recomana utilitzar enfocadors <emphasis role="bold"
 >absoluts</emphasis
-> per als millors resultats, ja que es coneix la seua posició absoluta en encendre'ls. A INDI, la posició <emphasis
+> per als millors resultats, ja que es coneix la seua posició absoluta en encendre'ls. En INDI, la posició <emphasis
 >zero</emphasis
 > de l'enfocador es produïx quan el tub es <emphasis role="bold"
 >retira completament</emphasis
@@ -649,7 +649,7 @@
         <para
 >El conjunt de controls següent es relaciona amb l'<emphasis role="bold"
 >enfocament adaptatiu</emphasis
->. Esta és una característica experimental a Ekos. La idea és mantindre el telescopi enfocat adaptant la posició de l'enfocador en funció dels canvis en les condicions ambientals sense haver de realitzar una execució completa d'enfocament automàtic. Per a més detalls, vegeu la secció <link linkend="focus-adaptive"
+>. Esta és una característica experimental en Ekos. La idea és mantindre el telescopi enfocat adaptant la posició de l'enfocador en funció dels canvis en les condicions ambientals sense haver de realitzar una execució completa d'enfocament automàtic. Per a més detalls, vegeu la secció <link linkend="focus-adaptive"
 >Enfocament adaptatiu</link
 >.</para>
 
@@ -957,7 +957,7 @@
         <para
 ><emphasis role="bold"
 >Fourier</emphasis
->: Es pren una transformada de Fourier de la imatge i calcula la potència de la imatge en l'espai de freqüència. La hipòtesi és que per a una imatge astronòmica d'estreles i fons, les estreles seran gaussianes. Davall una transformada de Fourier, una gaussiana es transforma en una altra gaussiana; però les estreles més amples es transformaran en gaussianes més estretes en l'espai de freqüència, i viceversa. Per tant, a l'enfocament, el resum del contingut en l'espai de freqüència, que és en efecte una mesura de potència, serà un màxim.</para>
+>: Es pren una transformada de Fourier de la imatge i calcula la potència de la imatge en l'espai de freqüència. La hipòtesi és que per a una imatge astronòmica d'estreles i fons, les estreles seran gaussianes. Davall una transformada de Fourier, una gaussiana es transforma en una altra gaussiana; però les estreles més amples es transformaran en gaussianes més estretes en l'espai de freqüència, i viceversa. Per tant, a l'enfocament, el resum del contingut en l'espai de freqüència, el qual és en efecte una mesura de potència, serà un màxim.</para>
 
         <para
 >Açò seguix la idea principal suggerida per en Tan i en Schulz en el seu document: <ulink url="https://arxiv.org/pdf/2201.12466.pdf"
@@ -1362,7 +1362,7 @@
         <para
 ><emphasis role="bold"
 >Clàssic</emphasis
->: Esta és la configuració recomanada. L'equació utilitzada es mostra a la part superior dreta del quadro i és l'equació que es veu més habitualment a Internet. L'equació prové d'un tractament d'òptica lineal que utilitza el Disc Airy i se sap que té limitacions. Per esta raó inclou un factor de «tolerància» que l'usuari pot ajustar. Per exemple, a l'article «In Perfect Focus» de Don Goldman i Barry Megdal a «Sky &amp; Telescope 2010» suggerixen establir-lo a t=1/3.</para>
+>: Esta és la configuració recomanada. L'equació utilitzada es mostra a la part superior dreta del quadro i és l'equació que es veu més habitualment en Internet. L'equació prové d'un tractament d'òptica lineal que utilitza el Disc Airy i se sap que té limitacions. Per esta raó inclou un factor de «tolerància» que l'usuari pot ajustar. Per exemple, en l'article «In Perfect Focus» de Don Goldman i Barry Megdal a «Sky &amp; Telescope 2010» suggerixen establir-lo a t=1/3.</para>
       </listitem>
 
       <listitem>
@@ -1448,7 +1448,7 @@
     <para
 ><guilabel
 >Longitud d'ona (λ)</guilabel
->: Esta és la longitud d'ona de la llum que s'utilitzarà. El valor predeterminat prové del filtre utilitzat actualment. Recordeu configurar-lo a <link linkend="focus-filter-settings"
+>: Esta és la longitud d'ona de la llum que s'utilitzarà. El valor predeterminat prové del filtre utilitzat actualment. Recordeu configurar-lo en <link linkend="focus-filter-settings"
 >Configureu el filtre</link
 > per als vostres filtres.</para>
   </listitem>
@@ -1547,7 +1547,7 @@
     <para
 >Si l'«Assessor» de l'enfocament no pareix donar bons resultats en la vostra configuració, perquè no inicieu un debat al fòrum perquè es puga millorar i que done millors resultats en el futur. D'esta manera, amb el temps es farà que siga més útil.</para>
     <para
->Quan feu clic en la pestanya «Assessor» de l'enfocament, s'elaboraran una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant a l'enfocament.</para>
+>Quan feu clic en la pestanya «Assessor» de l'enfocament, s'elaboraran una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant en l'enfocament.</para>
     <para
 >En la part superior de la subfinestra es mostra informació sobre el tren òptic connectat. A continuació, es mostren 6 línies relacionades amb diversos conjunts de paràmetres utilitzats en l'enfocament. A cada línia hi ha una casella de selecció per a actualitzar els camps d'enfocament associats amb les recomanacions de l'assessor d'enfocament.</para>
     <para
@@ -1885,7 +1885,7 @@
               <para
 ><guilabel
 >Filtre</guilabel
->: El nom del filtre. El primer filtre té un «*» després del nom, «Lum *» a l'exemple anterior. Açò vol dir que Lum és el filtre de referència amb el qual es mesuraran els desplaçaments dels altres filtres. Feu doble clic en un altre nom de filtre per a fer que siga el de referència. </para>
+>: El nom del filtre. El primer filtre té un «*» després del nom, «Lum *» en l'exemple anterior. Açò vol dir que Lum és el filtre de referència amb el qual es mesuraran els desplaçaments dels altres filtres. Feu doble clic en un altre nom de filtre per a fer que siga el de referència. </para>
           </listitem>
           <listitem>
               <para
@@ -2017,7 +2017,7 @@
 >enfocament adaptatiu</link
 >. La primera execució de l'enfocament automàtic (en este exemple execució 1 sobre Lum) és la base per a les adaptacions. Per tant, la temperatura i l'altitud de l'execució 1 de l'enfocament automàtic sobre Lum s'utilitzaran com a base per a totes les altres execucions i les dades s'adaptaran al que hauria estat la solució de l'enfocament automàtic, si s'haguera executat a la temperatura i altitud de l'execució 1 de l'enfocament automàtic sobre Lum. </para>
       <para
->En este exemple, l'enfocament adaptatiu està configurat per als ajustaments de l'altitud en el filtre roig només a la configuració del filtre. Per tant, els valors adaptats er a l'execució de l'enfocament automàtic seran els mateixos que els valors sense adaptar per a tots els altres filtres. </para>
+>En este exemple, l'enfocament adaptatiu està configurat per als ajustaments de l'altitud en el filtre roig només a la configuració del filtre. Per tant, els valors adaptats a l'execució de l'enfocament automàtic seran els mateixos que els valors sense adaptar per a tots els altres filtres. </para>
 
       <screenshot>
         <screeninfo
@@ -2647,7 +2647,7 @@
     <para
 >Una vegada tingueu les dades, podreu configurar-la a la finestra emergent <link linkend="focus-filter-settings"
 >Configureu el filtre</link
->. Després, a <guilabel
+>. Després, en <guilabel
 >Enfocament</guilabel
 >, activeu l'enfocament adaptatiu a la pestanya <link linkend="focus-settings"
 >Configuració</link
@@ -2867,11 +2867,11 @@
 
     <sect3 id="aberration-inspector-vcurve">
       <title
->Corba V a l'Inspector de l'aberració</title>
+>Corba V en l'Inspector de l'aberració</title>
 
       <screenshot>
         <screeninfo
->Corba V a l'Inspector de l'aberració </screeninfo>
+>Corba V en l'Inspector de l'aberració </screeninfo>
 
         <mediaobject>
           <imageobject>
@@ -2880,7 +2880,7 @@
 
         <textobject>
           <phrase
->Corba V a l'Inspector de l'aberració</phrase>
+>Corba V en l'Inspector de l'aberració</phrase>
         </textobject>
         </mediaobject>
       </screenshot>
@@ -2948,11 +2948,11 @@
 
     <sect3 id="aberration-inspector-table">
     <title
->Taula a l'Inspector de l'aberració</title>
+>Taula en l'Inspector de l'aberració</title>
 
     <screenshot>
       <screeninfo
->Taula a l'Inspector de l'aberració </screeninfo>
+>Taula en l'Inspector de l'aberració </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -2961,7 +2961,7 @@
 
       <textobject>
         <phrase
->Taula a l'Inspector de l'aberració</phrase>
+>Taula en l'Inspector de l'aberració</phrase>
       </textobject>
       </mediaobject>
     </screenshot>

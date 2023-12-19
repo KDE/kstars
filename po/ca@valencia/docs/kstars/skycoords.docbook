@@ -173,7 +173,7 @@
 <para
 >El sistema de coordenades eclíptiques utilitza l'<link linkend="ai-ecliptic"
 >eclíptica</link
-> com a pla fonamental. L'eclíptica és el camí que aparenta seguir el Sol a través del cel durant el transcurs d'un any. També és la projecció del pla orbital de la Terra a l'esfera celeste. L'angle latitudinal s'anomena <firstterm
+> com a pla fonamental. L'eclíptica és el camí que aparenta seguir el Sol a través del cel durant el transcurs d'un any. També és la projecció del pla orbital de la Terra en l'esfera celeste. L'angle latitudinal s'anomena <firstterm
 >latitud eclíptica</firstterm
 > i l'angle longitudinal s'anomena <firstterm
 >longitud eclíptica</firstterm
