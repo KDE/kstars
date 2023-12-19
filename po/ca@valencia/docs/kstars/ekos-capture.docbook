@@ -25,7 +25,7 @@
     <para
 >El mòdul <guilabel
 >Captura</guilabel
-> és el mòdul principal per a l'adquisició d'imatges i vídeo a Ekos. Permet capturar imatges individuals (vista prèvia), múltiples (cua en seqüència) o gravar vídeos <ulink url="https://sites.google.com/site/astropipp/ser-player"
+> és el mòdul principal per a l'adquisició d'imatges i vídeo en Ekos. Permet capturar imatges individuals (vista prèvia), múltiples (cua en seqüència) o gravar vídeos <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 > juntament amb una selecció de la roda de filtres i rotor, si està disponible. </para>
     <sect2 id="capture-ccd-filter-wheel">
@@ -346,7 +346,7 @@
 >Ambdós</guilabel
 >: Les imatges capturades es guardaran al dispositiu remot <emphasis role="bold"
 >i</emphasis
-> es carregaran a Ekos.</para>
+> es pujaran a Ekos.</para>
                     </listitem>
                 </orderedlist>
                 <para
@@ -528,7 +528,7 @@
 >Visor de FITS</title>
 
         <para
->Les imatges capturades es mostren en el visor de FITS de &kstars;, i també a la pantalla de resum. Establix les opcions relacionades amb com es mostraran les imatges a l'espectador. </para>
+>Les imatges capturades es mostren en el visor de FITS de &kstars;, i també a la pantalla de resum. Establix les opcions relacionades amb com es mostraran les imatges en el visor. </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -717,7 +717,7 @@
 >Qualitat del cel</guilabel
 >: Este selector establix la mesura de la magnitud en segons d'arc al quadrat del cel de fons.</para>
                             <para
->L'interval de la qualitat del cel va des de 22 per als cels més foscos, fins a 16 per als cels més brillants (més contaminats per la llum). L'escala de magnituds no és lineal; és una escala logarítmica basada en la 5a arrel de 100. Per tant, 5 passos en l'escala representen un canvi en la brillantor per un factor de 100. (Una qualitat del cel de 17 és 100 vegades més brillant que una qualitat del cel de 22. Cada pas sencer a l'escala és un canvi per un factor d'aproximadament 2,512). <ulink url="https://ca.wikipedia.org/wiki/Contaminaci%C3%B3_lum%C3%ADnica"
+>L'interval de la qualitat del cel va des de 22 per als cels més foscos, fins a 16 per als cels més brillants (més contaminats per la llum). L'escala de magnituds no és lineal; és una escala logarítmica basada en la 5a arrel de 100. Per tant, 5 passos en l'escala representen un canvi en la brillantor per un factor de 100. (Una qualitat del cel de 17 és 100 vegades més brillant que una qualitat del cel de 22. Cada pas sencer en l'escala és un canvi per un factor d'aproximadament 2,512). <ulink url="https://ca.wikipedia.org/wiki/Contaminaci%C3%B3_lum%C3%ADnica"
 >Contaminació lumínica a la Viquipèdia</ulink
 ></para>
                             <para
@@ -734,7 +734,7 @@
                             <para
 >Si s'utilitza un valor del mapa de pol·lució lumínica per al valor d'entrada de la <guilabel
 >Mesura de la qualitat del cel</guilabel
->, però l'obtenció d'imatges es realitza amb una lluna parcial, llavors s'hauria d'aplicar una disminució de l'entrada d'este valor a la calculadora. La llum de la Lluna pot ser aclaparadora, en una ubicació on un mapa de pol·lució lumínica mostre un valor de 19,63. Es va fer una lectura d'este valor en una nit amb una lluna mitja creixent, poc abans de la mitja lluna (edat 5,4 de la Lluna i magnitud -10 a KStars). La lectura d'este valor al zenit va mostrar que el cel era molt més brillant amb un valor mesurat de 18,48. Una lectura feta en una nit amb una gibosa creixent, poc abans d'una lluna plena, (edat 12,4 de la Lluna i magnitud -12 a KStars). La lectura d'este valor al zenit va mostrar un valor mesurat de 15,95.</para>
+>, però l'obtenció d'imatges es realitza amb una lluna parcial, llavors s'hauria d'aplicar una disminució de l'entrada d'este valor a la calculadora. La llum de la Lluna pot ser aclaparadora, en una ubicació on un mapa de pol·lució lumínica mostre un valor de 19,63. Es va fer una lectura d'este valor en una nit amb una lluna mitja creixent, poc abans de la mitja lluna (edat 5,4 de la Lluna i magnitud -10 en KStars). La lectura d'este valor al zenit va mostrar que el cel era molt més brillant amb un valor mesurat de 18,48. Una lectura feta en una nit amb una gibosa creixent, poc abans d'una lluna plena, (edat 12,4 de la Lluna i magnitud -12 en KStars). La lectura d'este valor al zenit va mostrar un valor mesurat de 15,95.</para>
 <para
 >El valor de la qualitat del cel té un impacte dràstic en l'exposició calculada a causa de l'escala logarítmica implicada. Una imatge presa des d'una ubicació amb molta pol·lució lumínica (un valor baix de qualitat del cel), especialment quan no s'aplica el filtratge, pot resultar en un temps d'exposició molt curt per a evitar que la pol·lució lumínica aclapare el senyal de l'objectiu. Una imatge presa des d'una ubicació amb molt poca pol·lució lumínica (un valor alt de qualitat del cel) pot resultar en un temps de subexposició de diverses hores.</para>
                         </listitem>
@@ -746,7 +746,7 @@
                             <para
 >El valor de la relació focal de l'òptica té un efecte directe en el càlcul de l'exposició. Una relació focal inferior es considera que és una «òptica més ràpida», ja que té una capacitat de captació de llum més gran que una òptica amb una relació focal més llarga. Per tant, el càlcul de l'exposició es reduirà quan s'utilitze una relació focal més baixa, i s'incrementarà quan s'utilitze una relació focal més alta.</para>
                             <para
->L'usuari pot considerar fer un lleuger ajust al valor d'entrada de la relació focal per a compensar l'eficiència o les obstruccions a l'òptica.</para>
+>L'usuari pot considerar fer un lleuger ajust al valor d'entrada de la relació focal per a compensar l'eficiència o les obstruccions en l'òptica.</para>
                             <para
 >Per exemple, dues òptiques de la mateixa relació focal, un refractor (sense cap obstrucció) i un reflector (amb una obstrucció de l'espill secundari)  es tractaran com a òptiques equivalents en els càlculs. Una manera en què un usuari puga compensar-ho seria fent un ajust al valor d'entrada de la relació focal per a compensar l'eficiència de l'òptica. Generalment es considera que un refractor té una eficiència d'aproximadament un 94%, i un reflector que té una eficiència d'un 78%.</para>
 <para
@@ -802,9 +802,9 @@
 <para
 >Les càmeres basades en CMOS solen tindre un soroll alt de lectura amb valors baixos de guany o ISO, i el soroll de lectura disminuïx a mesura que augmenta el valor del guany o ISO. Per tant, un usuari podria tindre la temptació de seleccionar un valor de guany més alt en un intent de reduir la quantitat de soroll de lectura. Però la capacitat total de la càmera normalment seria més alta quan els valors de guany o ISO són més baixos. Una capacitat total major proporciona un interval dinàmic major a la imatge.</para>
 <para
->La selecció d'un valor del guany o ISO dependrà de la tècnica emprada a l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran a la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura a les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
+>La selecció d'un valor del guany o ISO dependrà de la tècnica emprada en l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran a la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura a les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
 <para
->Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa a l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» a la gràfica. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
+>Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa en l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» a la gràfica. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
 <para
 >Quan s'utilitzen les dades des de la documentació del fabricant de la càmera, eviteu seleccionar un guany a prop d'un pas <mediaobject>
                 <imageobject>
@@ -832,13 +832,13 @@
                             <para
 ><guilabel
 >% d'augment del soroll</guilabel
->: Este selector controla un factor utilitzat a l'equació del Dr. Glover. Este valor alterarà l'equilibri relatiu entre les dues fonts de soroll a la subexposició. Com a regla general, el Dr. Glover havia recomanat utilitzar un valor del 5%, però reduïu-lo fins al 2% quan el temps d'exposició calculat es considere massa curt.</para>
+>: Este selector controla un factor utilitzat en l'equació del Dr. Glover. Este valor alterarà l'equilibri relatiu entre les dues fonts de soroll a la subexposició. Com a regla general, el Dr. Glover havia recomanat utilitzar un valor del 5%, però reduïu-lo fins al 2% quan el temps d'exposició calculat es considere massa curt.</para>
 <para
 >La perspectiva de l'«augment» és un augment relatiu del soroll de lectura en comparació amb el soroll de la pol·lució lumínica. Pot paréixer contraintuïtiu, però augmentar este valor reduirà el temps d'exposició, reduint el soroll de la pol·lució lumínica (i reduint el senyal de l'objectiu), de manera que l'«augment» significarà un augment relatiu de l'efecte del soroll de lectura en comparació amb el soroll de la pol·lució. La reducció d'este valor augmentarà el temps d'exposició i permetrà que arribe més soroll de la pol·lució lumínica (i més senyal de l'objectiu) a l'exposició. Açò reduirà de manera efectiva l'impacte relatiu del soroll de lectura.</para>
                        <para
 >En esta implementació de la calculadora, el seu valor es pot establir en una gran varietat, el qual permetrà a l'usuari un interval més gran per a l'experimentació. Però un usuari hauria de reconéixer que canvis grans en este valor poden tindre conseqüències no desitjades. Forçar un temps d'exposició a la baixa pot provocar que l'exposició porte una càrrega relativament pesada del soroll de lectura, i reduiria la qualitat de la subexposició (la relació entre el temps d'exposició i el soroll total disminuirà). Com a resultat, seria necessari un nombre significativament més gran d'exposicions per a la integració per a aconseguir un nivell de qualitat acceptable. Forçar un temps d'exposició a una exposició llarga pot provocar que l'exposició tinga un soroll excessiu per pol·lució lumínica.</para>
 <para
->El valor seleccionat també dependrà de la tècnica emprada a l'obtenció d'imatges. Quan s'utilitza una tècnica de crear imatges a partir de punts, és probable que l'usuari haja de forçar el temps d'exposició a una duració extremadament curta (les exposicions inferiors al segon són un estàndard amb esta tècnica). Per tant, és possible que l'usuari haja d'augmentar dràsticament este valor per a reduir el temps de la subexposició fins a les durades exigides per esta tècnica.</para>
+>El valor seleccionat també dependrà de la tècnica emprada en l'obtenció d'imatges. Quan s'utilitza una tècnica de crear imatges a partir de punts, és probable que l'usuari haja de forçar el temps d'exposició a una duració extremadament curta (les exposicions inferiors al segon són un estàndard amb esta tècnica). Per tant, és possible que l'usuari haja d'augmentar dràsticament este valor per a reduir el temps de la subexposició fins a les durades exigides per esta tècnica.</para>
                  </listitem>
                     </itemizedlist>
                 </para>

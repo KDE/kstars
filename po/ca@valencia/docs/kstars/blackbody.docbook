@@ -116,7 +116,7 @@
 </para>
 
 <para
->a on R és el radi de l'estrela en cm, i alpha és la constant de Stefan-Boltzman, que té com a valor: <mediaobject
+>a on R és el radi de l'estrela en cm, i alpha és la constant de Stefan-Boltzman, el qual té com a valor: <mediaobject
 > <imageobject>
 <imagedata fileref="alpha.png" format="PNG"/>
 </imageobject>

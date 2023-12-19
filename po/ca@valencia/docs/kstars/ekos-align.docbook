@@ -186,17 +186,17 @@
 
     <sect2 id="ekos-solver-scale">
       <title
->Configurar l'escala i la posició a StellarSolver </title>
+>Configurar l'escala i la posició en StellarSolver </title>
         <screenshot>
             <screeninfo
->L'escala i la posició a StellarSolver </screeninfo>
+>L'escala i la posició en StellarSolver </screeninfo>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_stellarsolver_scale.png" format="PNG"/>
                 </imageobject>
                 <textobject>
                     <phrase
->L'escala i la posició a StellarSolver</phrase>
+>L'escala i la posició en StellarSolver</phrase>
                 </textobject>
             </mediaobject>
         </screenshot>
@@ -417,7 +417,7 @@
 >Astrometria local</guilabel
 >. </para>
         <para
->Per als solucionadors fora de línia (i els remots), els fitxers d'índex són necessaris perquè el solucionador funcione. La col·lecció completa de fitxers d'índex és enorme (més de 30 GB), però només haureu de baixar el que calga per a la configuració del vostre equip. Els fitxers d'índex s'ordenen segons l'interval camp de visió (CDV) (Field-of-View -FOV-) que cobrixen. Hi ha dos mètodes per a obtindre els fitxers d'índex necessaris: el nou suport de baixada al mòdul <guilabel
+>Per als solucionadors fora de línia (i els remots), els fitxers d'índex són necessaris perquè el solucionador funcione. La col·lecció completa de fitxers d'índex és enorme (més de 30 GB), però només haureu de baixar el que calga per a la configuració del vostre equip. Els fitxers d'índex s'ordenen segons l'interval camp de visió (CDV) (Field-of-View -FOV-) que cobrixen. Hi ha dos mètodes per a obtindre els fitxers d'índex necessaris: el nou suport de baixada en el mòdul <guilabel
 >Alinea</guilabel
 > i la forma manual anterior. </para>
         <sect3 id="ekos-align-automatic-download">
@@ -711,7 +711,7 @@
             <para
 >«astrometry.net» ja ve amb StellarMate, per tant, no cal instal·lar-lo. Els fitxers d'índex a partir dels 16 minuts d'arc i superiors (des de 4.206 fins a 4.019) s'inclouen amb StellarMate. Per a qualsevol fitxer d'índex addicional, si cal, l'haureu d'instal·lar. Per a utilitzar l'astrometria a StellarMate des d'un Ekos remot a &Linux;/&MacOS;/&Windows;, assegureu-vos de seleccionar l'opció <guimenuitem
 >Remot</guimenuitem
-> al mòdul «Alinea» d'Ekos. A més, assegureu-vos que el controlador <guimenuitem
+> en el mòdul «Alinea» d'Ekos. A més, assegureu-vos que el controlador <guimenuitem
 >Astrometria</guimenuitem
 > està seleccionat al perfil de l'equip. </para>
         </note>
@@ -755,7 +755,7 @@
                         </mediaobject>
                     </screenshot>
                     <para
->Al mòdul <guilabel
+>En el mòdul <guilabel
 >Alinea</guilabel
 > d'Ekos, haureu d'establir el tipus de solucionador a <guimenuitem
 >Connectat</guimenuitem

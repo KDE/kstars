@@ -54,7 +54,7 @@
             </mediaobject>
         </screenshot>
         <para
->Per a realitzar el guiatge, cal seleccionar (una vegada) un sistema de guiatge a l'editor de perfils per al perfil que utilitzareu. En l'editor de perfils, escolliu Intern o PHD2 per al sistema de guiatge intern d'Ekos. </para>
+>Per a realitzar el guiatge, cal seleccionar (una vegada) un sistema de guiatge en l'editor de perfils per al perfil que utilitzareu. En l'editor de perfils, escolliu Intern o PHD2 per al sistema de guiatge intern d'Ekos. </para>
         <screenshot>
             <screeninfo
 >Tren òptic del sistema de guiatge d'Ekos </screeninfo>
@@ -224,9 +224,9 @@
 >Millora l'alineació polar</guilabel
 >: Açò és fonamental per a l'èxit de qualsevol sessió d'astrofotografia. Utilitzeu el <link linkend="ekos-align-polaralignment"
 >procediment Alineació polar</link
-> d'Ekos en el mòdul per a l'<guilabel
->Alineació</guilabel
->. </para>
+> en el mòdul <guilabel
+>Alinea</guilabel
+> d'Ekos. </para>
             </listitem>
             <listitem>
                 <para
@@ -275,7 +275,7 @@
 >SEP</guilabel
 > del MultiStar (predeterminat). Utilitza la posició detectada de moltes estreles (en la configuració anterior, fins a 50) per a determinar la seua millor estimació de la deriva actual. Depén d'una detecció precisa de les estreles. Per tant, pot ser important ajustar els paràmetres de la detecció d'estreles. Comenceu amb el perfil SEP predeterminat per al guiatge i, de manera opcional, editeu els paràmetres si creieu que les estreles no es detecten amb prou precisió. </para>
         <para
->Estos són alguns dels paràmetres que potser voleu ajustar. De nou, hi ha un bon consell a l'hora de triar paràmetres a Internet, p. ex., des de <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
+>Estos són alguns dels paràmetres que potser voleu ajustar. De nou, hi ha un bon consell a l'hora de triar paràmetres en Internet, p. ex., des de <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
 >el passe de diapositives anterior</ulink
 >. </para>
         <itemizedlist>
@@ -479,15 +479,15 @@
         <para
 >Després d'iniciar PHD2, seleccioneu el vostre equip INDI i establiu-hi les opcions. Des d'Ekos, connecteu-vos amb PHD2 fent clic en el botó <guibutton
 >Connecta</guibutton
->. A l'inici, Ekos intentarà connectar-se automàticament amb PHD2. Una vegada establida la connexió, podreu iniciar immediatament el guiatge fent clic en el botó <guibutton
+>. En l'inici, Ekos intentarà connectar-se automàticament amb PHD2. Una vegada establida la connexió, podreu iniciar immediatament el guiatge fent clic en el botó <guibutton
 >Guiatge</guibutton
->. PHD2 realitzarà el calibratge si és necessari. Si se selecciona el tramat, s'ordenarà a PHD2 que trami els píxels de desplaçament indicats i, una vegada que el guiatge s'haja ubicat i siga estable, es reprendrà el procés de captura a Ekos. </para>
+>. PHD2 realitzarà el calibratge si és necessari. Si se selecciona el tramat, s'ordenarà a PHD2 que trami els píxels de desplaçament indicats i, una vegada que el guiatge s'haja ubicat i siga estable, es reprendrà el procés de captura en Ekos. </para>
     </sect2>
     <sect2 id="guide-logs">
         <title
 >Registre del sistema de guiatge</title>
         <para
->El sistema de guiatge intern d'Ekos guarda un registre de guiatge en CSV, el qual pot ser útil per a l'anàlisi del rendiment de la muntura. A Linux, este s'emmagatzema a <filename
+>El sistema de guiatge intern d'Ekos guarda un registre de guiatge en CSV, el qual pot ser útil per a l'anàlisi del rendiment de la muntura. En Linux, este s'emmagatzema a <filename
 >~/.local/share/kstars/guidelogs/</filename
 >. Este registre només estarà disponible quan s'utilitze el sistema de guiatge intern d'Ekos. Hauria de ser compatible amb el <ulink url="https://openphdguiding.org/phd2-log-viewer/"
 >Visor del registre de guiatge de PHD2</ulink

@@ -14,7 +14,7 @@
 >Telescopis</primary>
 </indexterm>
 <para
->Inventat a Holanda a principis del segle 17, els telescopis són les eines utilitzades pels astrònoms i astrofísics per a les seues observacions. Amb el desenvolupament de la ciència moderna, els telescopis s'utilitzen hui en dia per a l'observació en tot l'interval de l'espectre electromagnètic, dins i fora de l'atmosfera terrestre. Els telescopis treballen arreplegant la llum amb una àmplia superfície, anomenada objectiu, la qual fa que la llum que entra convergisca. La imatge final es veu utilitzant un ocular. </para>
+>Inventat en Holanda a principis del segle 17, els telescopis són les eines utilitzades pels astrònoms i astrofísics per a les seues observacions. Amb el desenvolupament de la ciència moderna, els telescopis s'utilitzen hui en dia per a l'observació en tot l'interval de l'espectre electromagnètic, dins i fora de l'atmosfera terrestre. Els telescopis treballen arreplegant la llum amb una àmplia superfície, anomenada objectiu, la qual fa que la llum que entra convergisca. La imatge final es veu utilitzant un ocular. </para>
 
 <sect2 id="aperture">
 <title
@@ -78,7 +78,7 @@
 >aberració cromàtica</firstterm
 > és una característica dels telescopis que utilitzen lents per a convergir la llum. Principalment, la distància focal d'una lent depén de la longitud d'ona, el qual significa que el punt focal de la llum blava diferix del de la llum roja. Açò resulta en una imatge borrosa. L'efecte de l'aberració cromàtica es pot disminuir afegint lents correctores en el sistema. L'aberració <firstterm
 >esfèrica</firstterm
-> també pot ser un problema per a les lents, com a resultat de la seua forma. Les superfícies esferoidals no faran que la llum entrant convergisca en un sol punt, el qual és la raó per a altres superfícies òptiques com paraboloides, que són les preferides. Fins i tot quan s'utilitzen no estan lluny de problemes, com l'aberració comatosa que apareixerà en este cas. Esta resulta de la dependència de la distància focal i l'angle entre la direcció del raig entrant i l'eix òptic del sistema. Per tant, les imatges dels punts que es troben fora de l'eix òptic són allargades, en lloc de ser simples punts, com seria normal. </para>
+> també pot ser un problema per a les lents, com a resultat de la seua forma. Les superfícies esferoidals no faran que la llum entrant convergisca en un sol punt, per açò es preferixen altres superfícies òptiques com les paraboloides. Fins i tot quan s'utilitzen no estan lluny de problemes, com l'aberració comatosa que apareixerà en este cas. Esta resulta de la dependència de la distància focal i l'angle entre la direcció del raig entrant i l'eix òptic del sistema. Per tant, les imatges dels punts que es troben fora de l'eix òptic són allargades, en lloc de ser simples punts, com seria normal. </para>
 </sect2>
 
 
@@ -195,14 +195,14 @@
 >telescopis de refracció</firstterm
 > utilitzen dues lents amb la finalitat de crear una imatge, una lent primària o un <firstterm
 >objectiu</firstterm
->, que arreplega la llum entrant, formant una imatge en el pla focal i l'<firstterm
+>, el qual arreplega la llum entrant, formant una imatge en el pla focal i l'<firstterm
 >ocular</firstterm
 >, el qual actua com una lupa d'ampliació utilitzada per a l'observació de la imatge final. Les dues lents estan situades en extrems oposats d'un tub en moviment i la distància entre les dues es pot ajustar per tal d'obtindre la imatge final. </para>
 
 <para
->El telescopi refractor més gros del món és a l'<firstterm
+>El telescopi refractor més gros del món es troba a l'<firstterm
 >Observatori Yerkes</firstterm
-> a Williams Bay, Wisconsin. Construït el 1897, compta amb un objectiu d'1,02 m (40 polzades) i una distància focal de 19,36 m. </para>
+> en Williams Bay, Wisconsin. Construït el 1897, compta amb un objectiu d'1,02 m (40 polzades) i una distància focal de 19,36 m. </para>
 
 <para
 >Els <firstterm
@@ -256,7 +256,7 @@
 <para
 >Per a una anàlisi detallada del cel, les observacions també es realitzen en altres regions de l'espectre electromagnètic. Molt popular i eficients són els <firstterm
 >radiotelescopis</firstterm
->, desenvolupats en la seua majoria al segle passat. Un problema comú per als radiotelescopis i telescopis òptics és la necessitat d'una millor resolució. Podem derivar la resolució d'un telescopi utilitzant el criteri de Rayleigh, el qual indica que el poder de resolució és igual que la relació entre la longitud d'ona d'entrada al diàmetre de l'obertura (1,22 vegades per a les obertures circulars). De manera que per a una bona resolució, necessitarem un diàmetre tan gran com siga possible. El telescopi de ràdio més gran al món és el telescopi d'Arecibo a Puerto Rico, que utilitza un plat enorme de 305 m de diàmetre. Per tal de resoldre el problema de les resolucions, els astrònoms han desenvolupat una nova tècnica anomenada interferometria. El principi bàsic de la interferometria és que en observar el mateix objecte amb dos telescopis diferents, podem obtindre una imatge final en «connectar» les dues imatges inicials. Hui dia, l'observatori més eficient que utilitza la interferometria és el Very Large Array situat a prop de Socórrec, Nou Mèxic. Utilitza 27 telescopis disposats en forma de «Y», amb 25 m d'obertura de cadascun. També hi ha una tècnica anomenada interferometria de base molt llarga (Very Long Baseline Interferometry -VLBI-) que permet als astrònoms resoldre les imatges sobre la mida dels continents. El projecte més important del segle en este àmbit és la construcció de l'Atacama Large Millimeter Array (ALMA), que utilitzarà 66 telescopis situats al desert d'Atacama al nord de Xile. </para>
+>, desenvolupats en la seua majoria al segle passat. Un problema comú per als radiotelescopis i telescopis òptics és la necessitat d'una millor resolució. Podem derivar la resolució d'un telescopi utilitzant el criteri de Rayleigh, el qual indica que el poder de resolució és igual que la relació entre la longitud d'ona d'entrada al diàmetre de l'obertura (1,22 vegades per a les obertures circulars). De manera que per a una bona resolució, necessitarem un diàmetre tan gran com siga possible. El telescopi de ràdio més gran al món és el telescopi d'Arecibo a Puerto Rico, el qual utilitza un plat enorme de 305 m de diàmetre. Per tal de resoldre el problema de les resolucions, els astrònoms han desenvolupat una nova tècnica anomenada interferometria. El principi bàsic de la interferometria és que en observar el mateix objecte amb dos telescopis diferents, podem obtindre una imatge final en «connectar» les dues imatges inicials. Hui dia, l'observatori més eficient que utilitza la interferometria és el Very Large Array situat a prop de Socórrec, Nou Mèxic. Utilitza 27 telescopis disposats en forma de «Y», amb 25 m d'obertura de cadascun. També hi ha una tècnica anomenada interferometria de base molt llarga (Very Long Baseline Interferometry -VLBI-) que permet als astrònoms resoldre les imatges sobre la mida dels continents. El projecte més important del segle en este àmbit és la construcció de l'Atacama Large Millimeter Array (ALMA), el qual utilitzarà 66 telescopis situats al desert d'Atacama al nord de Xile. </para>
 </sect2>
 
 <sect2 id="space">
@@ -272,6 +272,6 @@
 >telescopi espacial Hubble (Hubble Space Telescope -HST-)</firstterm
 > que té un espill primari de 2,4, F/24, l'espill més suau mai s'haja construït. Este telescopi espacial es troba en una òrbita baixa al voltant de la Terra i per la falta d'atmosfera es poden observar objectes molt dèbils. Un altre telescopi espacial és el <firstterm
 >telescopi espacial James Webb (James Webb Space Telescope -JWST-)</firstterm
->, que està previst per a ser llançat el 2018. Comptarà amb un espill primari de 6,5 metres i orbitarà al voltant d'un punt de gravitació estable en la línia Sol-Terra, conegut com el segon punt de Lagrange (L2). Ací les atraccions gravitacionals a causa tant del Sol com de la Terra equilibren la força centrífuga d'un objecte posat en moviment al voltant del sol. Este punt té la característica especial que si un objecte es col·loca ací, restarà en equilibri pel que fa al sistema Sol-Terra. El segon punt de Lagrange es troba en la línia que connecta Sol i Terra, en l'altre costat de la Terra. De manera que un telescopi disposat ací rebrà menys radiació tèrmica, el qual millorarà les observacions infraroges. </para>
+>, el qual està previst per a ser llançat el 2018. Comptarà amb un espill primari de 6,5 metres i orbitarà al voltant d'un punt de gravitació estable en la línia Sol-Terra, conegut com el segon punt de Lagrange (L2). Ací les atraccions gravitacionals a causa tant del Sol com de la Terra equilibren la força centrífuga d'un objecte posat en moviment al voltant del sol. Este punt té la característica especial que si un objecte es col·loca ací, restarà en equilibri pel que fa al sistema Sol-Terra. El segon punt de Lagrange es troba en la línia que connecta Sol i Terra, en l'altre costat de la Terra. De manera que un telescopi disposat ací rebrà menys radiació tèrmica, el qual millorarà les observacions infraroges. </para>
 </sect2>
 </sect1>
