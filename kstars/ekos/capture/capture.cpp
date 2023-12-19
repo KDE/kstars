@@ -1232,7 +1232,7 @@ void Capture::processCameraNumber(INDI::Property prop)
         updateFrameProperties();
     else if ((prop.isNameMatch("CCD_INFO") && state()->useGuideHead() == false) ||
              (prop.isNameMatch("GUIDER_INFO") && state()->useGuideHead()))
-        updateFrameProperties(2);
+        updateFrameProperties(1);
     else if (prop.isNameMatch("CCD_TRANSFER_FORMAT") || prop.isNameMatch("CCD_CAPTURE_FORMAT"))
         updateCaptureFormats();
     else if (prop.isNameMatch("CCD_CONTROLS"))
