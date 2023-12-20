@@ -2750,32 +2750,47 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     int bin = settings["bin"].toInt(1);
     setBinning(bin, bin);
 
-    double temperature = settings["temperature"].toDouble(INVALID_VALUE);
-    if (temperature > INVALID_VALUE && devices()->getActiveCamera()
-            && devices()->getActiveCamera()->hasCoolerControl())
-    {
-        setForceTemperature(true);
-        setTargetTemperature(temperature);
-    }
-    else
+    if (settings["temperature"].isString() && settings["temperature"].toString() == "--")
         setForceTemperature(false);
-
-    double gain = settings["gain"].toDouble(GainSpinSpecialValue);
-    if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasGain())
+    else
     {
-        if (gain == GainSpinSpecialValue)
-            captureGainN->setValue(GainSpinSpecialValue);
+        double temperature = settings["temperature"].toDouble(INVALID_VALUE);
+        if (temperature > INVALID_VALUE && devices()->getActiveCamera()
+                && devices()->getActiveCamera()->hasCoolerControl())
+        {
+            setForceTemperature(true);
+            setTargetTemperature(temperature);
+        }
         else
-            setGain(gain);
+            setForceTemperature(false);
     }
 
-    double offset = settings["offset"].toDouble(OffsetSpinSpecialValue);
-    if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasOffset())
+    if (settings["gain"].isString() && settings["gain"].toString() == "--")
+        captureGainN->setValue(GainSpinSpecialValue);
+    else
     {
-        if (offset == OffsetSpinSpecialValue)
-            captureOffsetN->setValue(OffsetSpinSpecialValue);
-        else
-            setOffset(offset);
+        double gain = settings["gain"].toDouble(GainSpinSpecialValue);
+        if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasGain())
+        {
+            if (gain == GainSpinSpecialValue)
+                captureGainN->setValue(GainSpinSpecialValue);
+            else
+                setGain(gain);
+        }
+    }
+
+    if (settings["offset"].isString() && settings["offset"].toString() == "--")
+        captureOffsetN->setValue(OffsetSpinSpecialValue);
+    else
+    {
+        double offset = settings["offset"].toDouble(OffsetSpinSpecialValue);
+        if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasOffset())
+        {
+            if (offset == OffsetSpinSpecialValue)
+                captureOffsetN->setValue(OffsetSpinSpecialValue);
+            else
+                setOffset(offset);
+        }
     }
 
     int transferFormat = settings["transferFormat"].toInt(-1);
