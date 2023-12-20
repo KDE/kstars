@@ -10,7 +10,9 @@
 #include "Options.h"
 #include "skypainter.h"
 #include "skymap.h"
+#ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsdata.h"
+#endif
 #include "auxiliary/kspaths.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
@@ -382,6 +384,7 @@ void ImageOverlayComponent::updateStatusDisplay(const QString &message)
 // If no, append to the end of m_Overlays, and set status as unprocessed.
 void ImageOverlayComponent::updateTable()
 {
+#ifdef HAVE_CFITSIO
     // Get the list of files from the image overlay directory.
     QDir directory(m_Directory);
     emit updateLog(i18n("Updating from directory: %1", m_Directory));
@@ -439,6 +442,7 @@ void ImageOverlayComponent::updateTable()
 
     initializeGui();
     saveToUserDB();
+#endif
 }
 
 void ImageOverlayComponent::loadAllImageFiles()

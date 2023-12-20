@@ -1,4 +1,4 @@
-<sect2 id="ekos-capture">
+<sect1 id="ekos-capture">
     <title
 >Opnames</title>
     <indexterm>
@@ -26,7 +26,7 @@
 >In Ekos is de vang-module de belangrijkste module voor het verkrijgen van afbeeldingen en video's. Hiermee kunt u enkele (preview) opnames maken, of meerdere afbeeldingen (Wachtrij), of <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 >-video's, samen met een filterwiel of rotator, indien aanwezig. </para>
-    <sect3 id="capture-ccd-filter-wheel">
+    <sect2 id="capture-ccd-filter-wheel">
         <title
 >CCD &amp; Filterwielgroep</title>
         <para
@@ -55,8 +55,8 @@
 >-opties bij het instellen van Ekos. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="capture-settings">
+    </sect2>
+    <sect2 id="capture-settings">
         <title
 >Opname-instellingen</title>
         <screenshot>
@@ -158,7 +158,7 @@
 >: Geef horizontaal (X) en verticaal (Y) binning op. </para>
             </listitem>
         </itemizedlist>
-        <sect4 id="capture-custom-properties">
+        <sect3 id="capture-custom-properties">
             <title
 >Aangepaste eigenschappen</title>
             <para
@@ -193,10 +193,10 @@
                     </para>
                 </caption>
             </mediaobject>
-        </sect4>
-    </sect3>
+        </sect3>
+    </sect2>
 
-    <sect3 id="capture-file-settings">
+    <sect2 id="capture-file-settings">
         <title
 >Bestandsinstellingen</title>
 
@@ -369,9 +369,9 @@
 >: toont een voorbeeld van de resulterende bestandsnaam volgens de gegeven pad-instellingen van de job. Het bestandsnaamformaat voor op afstand opslaan is voorgedefinieerd, plaatshoudertags zijn misschien niet gebruikt. Het volgordenummer van het bestand wordt altijd getoond als afbeelding 1 in de reeks en zal automatisch opgehoogd worden wanneer de job wordt uitgevoerd. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-limit-settings">
+    <sect2 id="capture-limit-settings">
         <title
 >Limiet-instellingen</title>
 
@@ -416,9 +416,9 @@
 >) en wordt volgen hervat (als dit eerder  was gestart) en worden de opnames automatisch hervat.</para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-sequence-queue">
+    <sect2 id="capture-sequence-queue">
         <title
 >Wachtrij</title>
 
@@ -513,14 +513,14 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-fits-viewer">
+    <sect2 id="capture-fits-viewer">
         <title
 >FITS-viewer</title>
 
         <para
->Opgenomen afbeeldingen worden getoond in de FITS-viewer van &kstars;, en ook in het samenvattingsscherm. Opties hoe de afbeeldingen worden getoond moeten in de viewer zelf worden ingesteld. </para>
+>Opgenomen afbeeldingen worden getoond in de FITS-viewer van &kstars; en ook in het samenvattingsscherm. Opties hoe de afbeeldingen worden getoond moeten in de viewer zelf worden ingesteld. </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -537,9 +537,9 @@
 >: Filter voor beeldverbetering, toe te passen op de opgenomen afbeelding. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-rotation-settings">
+    <sect2 id="capture-rotation-settings">
         <title
 >Rotator-instellingen</title>
 
@@ -595,9 +595,9 @@
 
         <para
 >Aan elke opnametaak kunnen andere rotatorhoeken worden toegekend, maar let er wel op, dat hierdoor volgen wordt afgebroken, omdat door roteren de volgster wordt kwijtgeraakt. Daarom moeten in de meeste rijen de rotatorhoek onveranderd worden gelaten voor alle opnametaken. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-calibration-frames">
+    <sect2 id="capture-calibration-frames">
         <title
 >Calibratieframes</title>
 
@@ -674,9 +674,290 @@
         </orderedlist>
         <para
 >Voordat de calibratie-opnamen worden gestart, kan men Ekos de opstelling en/of koepel laten parkeren. Afhankelijk van de hierboven geselecteerde flat lichtbron, gebruikt Ekos de juiste flat lichtbron voor de opnames van de flat frames. Indien ADU is opgegeven, start Ekos de opnames van een aantal preview-afbeeldingen om de kromme te verkrijgen voor het verkrijgen van de juiste ADU-waarde. Als eenmaal een goede waarde is gevonden, wordt er nog een opname gemaakt, de ADU opnieuw vastgesteld, totdat een goede waarde is verkregen. </para>
-    </sect3>
+    </sect2>
+    <sect2 id="capture-exposure-calculator">
+        <title
+>Rekenmachine voor belichting</title>
+        <screenshot>
+            <screeninfo
+>Rekenmachine voor belichting </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposure-calculator.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Rekenmachine voor belichting</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>De rekenmachine voor belichting is een implementatie van een rekenproces gepresenteerd door Dr. Robin Glover in 2019. Dit rekenproces probeert een sub-belichtingstijd te schatten die twee bronnen van ruis in een afbeelding te beschouwen: leesruis van de camera en ruis van hemelhelderheid van de achtergrond (lichtvervuiling). De effecten van thermische ruis van de camera op afbeeldingen wordt niet beschouwd in deze berekening. (Merk op: sinds zijn presentatie in 2019 heeft Dr. Glover zijn rekenproces verbeterd om de effecten van quantum-efficiëntie van de sensor mee te nemen en pixelgrootte van de sensor. Op dit moment ontbreken in de implementatie van KStars deze functies.) </para>
+        <para
+>Het concept in berekeningen van Dr. Glover is het leveren van een voldoend lange belichting zodat de effecten van leerruis van de camera overschaduwd worden door het signaal dat komt van het doel, maar niet zo'n lange belichting dat de effecten van lichtvervuiling niveaus bereiken die het signaal van het doel overstijgen. </para>
+        <para
+>De implementatie van dit proces beschouwt niet de sterkte (magnitude of flux) van het bedoelde doel, noch beschouwt het andere factoren die een astrofotograaf een alternatieve sub-belichtingstijd laat kiezen. Deze andere factoren kunnen omvatten: de opslagvereisten en uitgebreide nabewerkingstijd voor een groter aantal korte belichtingen, de invloed van externe factoren die op zouden kunnen treden in erg lange belichting, zoals prestaties van volgen / geleiding, wijzigingen in weercondities die zichtcondities kunnen verstoren, invloeden van luchtverkeer of passende satellieten. </para>
+        <para
+>Benaderingen tot afbeeldingen maken kan heel erg variëren in de selectie van belichtingstijden en het aantal sub-belichtingen gebruikt voor integratie. Een goed geaccepteerde benadering voor afbeelding maken van deep-sky objecten gebruikt lange belichtingen, vereist goed richting houden, goede tot uitstekende zichtcondities en zou typisch filtering toepassen om de effecten van lichtvervuiling gebruiken. Aan het andere uiterste zijn benaderingen zoals speckle afbeeldingstechnieken (algemeen 'lucky imaging'), die vele honderden tot vele duizenden extreem korte belichtingstijd gebruiken in een poging om het effect van lichtvervuiling, slechte zichtcondities en slecht richten te elimineren. Keuzes gemaakt voor waarden van bepaalde invoer in de belichtingsrekenmachine zal variëren afhankelijk van welke benadering voor het maken van een afbeelding wordt gebruikt.</para>
+        <orderedlist>
+            <listitem>
+				<para
+>Invoer voor rekenmachine voor belichting <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Hemelkwaliteit</guilabel
+>: De <guimenu
+>Selector voor hemelkwaliteit</guimenu
+> stelt de meting in van de magnitude per vierkante boogseconde van de achtergrondhemel.</para>
+                            <para
+>De reeks voor Hemelkwaliteit is van 22 voor de donkerste hemels, tot 16 voor de helderste (meest licht vervuilde) hemels. De magnitudeschaal is niet-lineair; deze is een logaritmische schaal gebaseerd op de 5de wortel van 100. Dus 5 stappen op de schaal representeert een wijziging in helderheid met een factor 100. (Een Hemelkwaliteit van 17 is 100 keer helderder dan een Hemelschaal van 22. Elke volledige gehele stap op de schaal is een wijziging met een factor van ongeveer 2.512.). <ulink url="https://en.wikipedia.org/wiki/Light_pollution"
+>Wikipedia Sky Brightness</ulink
+> <ulink url="https://en.wikipedia.org/wiki/Light_pollution"
+>Wikipedia Lichtvervuiling</ulink
+></para>
+                            <para
+>Al het verstrooide licht in de achtergrondhemel wordt beschouwd als lichtvervuiling ongeacht de bron, dus de effecten van maanlicht zou beschouwd kunnen worden als "natuurlijke" lichtvervuiling. Maar weercondities kunnen ook de Hemelkwaliteit beïnvloeden, zoals vochtigheid of wolkdekking kan elke bron van licht reflecteren en verstrooien via de atmosfeer</para>
+                            <para
+>Een <ulink url="https://en.wikipedia.org/wiki/Sky_quality_meter"
+> Hemelkwaliteitsmeter (SQM)</ulink
+> kan de meest accurate aflezing van hemelkwaliteit leveren indien gebruikt tijdens een opnamesessie, maar een geschatte waarde van hemelkwaliteitsurvey's kan ook zijn te vinden op het web op sites zoals <ulink url="https://www.lightpollutionmap.info/"
+>www.lightpollutionmap.info</ulink
+> of <ulink url="https://clearoutside.com/"
+>www.clearoutside.com</ulink
+>. Maar deze on-line bronnen voor geschatte lichtvervuiling houdt in het algemeen geen rekening de effecten van maanlicht of lokale weercondities. De waarden uit lichtvervuilingswebsites zou alleen beschouwd kunnen worden als een “het beste scenario” voor een wolkeloze nacht tijdens nieuwe maan.</para
+> 
+                            <para
+>Als een waarde uit een lichtvervuilingskaart wordt gebruikt voor de invoerwaarde van SQM, maar maken van ee afbeelding zal uitgevoerd worden met een gedeeltelijke maan, verminder dan de invoer van de SQM waarde bij toepassen in de rekenmachine. Maanlicht kan overweldigend zijn; op een locatie waar een lichtvervuilingskaart een SQM waarde toont van 19.63. Een SQM aflezing is gemaakt op een nacht met een wassende maan, kort voor halve maan, (maanleeftijd 5,4 en KStars maan-magnitude = -10). De SQM aflezing in het zenith toont de hemel veel helderder met gemeten waarde van 18.48. Een aflezing genomen in een nacht met wassende maan, kort voor een volle maan, (maanleeftijd 12,4 en KStars maanmagnitude = -12). De SQM aflezing in het zenith toont een gemeten SQM waarde van 15.95.</para>
+<para
+>De waarde van de Hemelkwaliteit heeft een drastische invloed op de berekende belichting omdat de logaritmische schaal wordt meedoet. Een afbeelding genomen vanaf een locatie met zware lichtvervuiling (een lage hemelkwaliteitswaarde), speciaal wanneer filteren niet wordt toegepast, kan resulteren in een erg korte belichtingstijd om lichtvervuiling te voorkomen dat het doelsignaal kan overweldigen. Een afbeelding genomen op een locatie met erg weinig lichtvervuiling (een hoge Hemelkwaliteitswaarde) kan resulteren in een sub-belichtingstijd van een aantal uren.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Brandpuntverhouding</guilabel
+>: de selector voor <guimenu
+>Brandpuntverhouding</guimenu
+> stelt de waarde in uit de optische trein, die nodig is voor de evaluatie van de mogelijkheid van licht vergaren.</para>
+                            <para
+>De waarde van de brandpuntverhouding van de optiek heeft een direct effect op de berekening van de belichting. Een lagere brandpuntverhouding wordt beschouwd een "snellere optiek" te zijn omdat het een grotere mogelijkheid heeft licht te verzamelen dan optiek met een langere brandpuntverhouding. De berekening van belichting zal gereduceerd worden wanneer een lagere brandpuntverhouding wordt gebruikt en verhoogd wanneer een hogere brandpuntverhouding wordt gebruikt.</para>
+                            <para
+>De gebruiker zou een kleine aanpassing in de invoerwaarde van de brandpuntverhouding kunnen overwegen om te compenseren voor de efficiëntie of voor belemmeringen in de optiek.</para>
+                            <para
+>Bijvoorbeeld, twee optieken met dezelfde brandpuntverhouding, een refractor (zonder belemmering) en een reflector (met een tweede spiegelbelemmering) zou behandeld kunnen worden als gelijke optieken in de berekeningen. Een manier die een gebruiker zou kunnen gebruiken om hiervoor te compenseren zou het maken van een aanpassing aan de invoerwaarde van de brandpuntverhouding om te compenseren voor de efficiëntie van het optiek. Een refractor wordt algemeen beschouwd als het hebben van een efficiëntie van ongeveer 94%, een reflector wordt algemeen beschouwd als het hebben van een efficiëntie van ongeveer 78%.</para>
+<para
+>Een effectieve / aangepaste waarde van de brandpuntverhouding voor een refractor = Optische brandpuntverhouding / 0.94</para>
+<para
+>Een effectieve / aangepaste waarde van de brandpuntverhouding voor een reflector = Optische brandpuntverhouding / 0.78</para>
+<para
+>Deze aanpassingen verhogen de brandpuntverhouding iets en daarom wordt de berekende mogelijkheid voor licht verzamelen iets gereduceerd.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Bandbreedte filteren</guilabel
+>: De selector voor <guimenu
+>Bandbreedte filteren</guimenu
+> stelt de waarde voor de bandbreedte (in nanometers) in en zou gereduceerd moeten worden van de standaard waarde van 300 wanneer een filter in de optische trein is gezet. Het inzetten van filters in de optische trein zal de berekening van de belichting belangrijk beïnvloeden. De waarde varieert van 300, voor afbeeldingen maken zonder een filter, tot 2,8 voor een filter met extreem smalle band.</para>
+                            <para
+>Filters vallen in het algemeen in twee categorieën: enkelband of multi-band. De bandbreedte voor een enkelbandfilter zou relatief gemakkelijk te bepalen of te schatten zijn. In het algemeen wordt een rood, groen of blauw filter beschouwd om een bandbreedte van 100 nanometer te hebben. Documentatie van smalle bandfilters zullen vaak de bandbreedte aangeven (gewoonlijk in het bereik van 3 tot 12 nm). Maar de bandbreedte van multi-band astronomie filters, zoals lichtvervuilingsfilters of filters specifiek ontworpen voor gebruik op nevels kunnen moeilijker zijn te bepalen omdat hun transmissieprofielen veel complexer kunnen zijn.</para>
+<para
+>Zelfs binnen de banden die filters zouden moeten doorlaten, zijn filters niet 100% efficiënt. Een gebruiker van de rekenmachine zou misschien de waarde van de filterbandbreedte licht willen reduceren om hiervoor te compenseren. Bijvoorbeeld: als van een filter aangenomen wordt een bandbreedte van 100 nm te hebben maar zijn transmissie-efficiëntie is slechts 92%, dan zou een waarde van 92 voor dit filter beter representeren en resulteren in een lichte meer accurate berekening van de belichting. </para>
+                            <para
+>De waarde van de filterbandbreedte heeft een omgekeerd effect op de berekening van de belichting. Een ongefilterde belichting zou de maximale waarde van 300 voor de filterbandbreedte gebruiken (die het visuele spectrum van 300 nanometer representeert) en zal de kortste berekening van de belichtingstijd produceren. Een extreem small-bandfilter, (bijvoorbeeld een 3 nanometer bandbreedte), zal de langste belichtingstijd produceren.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Camera</guilabel
+>: de berekening van de belichting vereist een waarde voor de leesruis van de camera. Leesruis van de camera is een elektronische ruis die optreedt bij het voltooien van een belichting omdat de camera de analoge waarde van de voltage van de pixels meet en deze metingen in digitale waarden converteert. Leesruis wordt niet beïnvloed door de lengte van een belichting.</para>
+<para
+>Camerasensors zijn er in twee typen: "Charge Coupled Device" (CCD) of "Complementary Metal-Oxide Semiconductor" (CMOS). Voor de berekening van de belichting is het hoofdverschil tussen deze sensortypen dat CCD-sensors geen variabele instelling hebben voor de versterking die invloed heeft op de leesruis; dus een CCD-sensor zal een enkele constante waarde voor zijn leesruis hebben. Een CMOS-sensor heeft een variabele versterking (of ISO waarde) en wijzigingen in die instelling resulteert gewoonlijk in een wijziging in de leesruis.</para>
+                            <para
+>De rekenmachine voor belichting hangt af van de selectie van een gegevensbestand van de camera zodat het toegang heeft tot een toepasselijke waarde van de leesruis om te gebruiken in de berekening. Het afrolmenu voor de cameraselectie biedt de gebruiker het selecteren van het toepasselijke gegevensbestand van de camera. Voor een CCD-camera zal het bestand alleen een enkele waarde voor de leesruis bevatten, maar voor een CMOS-camera bevat het bestand een tabel (of een paar tabellen) met waarden die gerelateerd zijn aan de versterking of ISO waarde voor een waarde van de leesruis. Laat u niet van de wijs brengen door het verschijnen van "CCD" in de namen van vele op astrofotografie gerichte camera's, de meeste hiervan gebruiken CMOS-sensors. </para>
+                            <para
+>De gegevensbestanden van de camera geleverd in KStars bevatten waarden die overgebracht uit de technische documentatie van fabrikanten. Maar actuele waarden voor leesruis voor een camera kunnen anders zijn dan de gepubliceerde gegevens; een gebruiker zou een hulpmiddel kunnen gebruiken die de waarde van de leesruis kan bepalen voor hun specifieke camera. Dr. Glover levert een analyse hulpmiddel voor sensors in zijn op MS-Windows gebaseerde product SharpCap <ulink url="https://www.sharpcap.co.uk/sharpcap/features/sensor-analysis"
+>SharpCap Sensor Analysis</ulink
+> De specifieke gegevens uit zo'n hulpmiddel kan gebruikt worden om een aangepast gegevensbestand voor de camera te maken om te gebruiken met de rekenmachine voor belichting van KStars.</para>
+                        </listitem>
+                        <listitem>
+<para
+><guilabel
+>Leesmodus</guilabel
+>: sommige camera's gemaakt door QHY hebben de mogelijkheid om in meerdere modi te functioneren. Deze modi veranderen de waarden van de leesruis, dus de gegevensbestanden van de camera voor deze cameras bevatten meerdere leesruistabellen. Bij gebruik van een van deze multi-mode camera's wordt het afrolmenu voor Leesmodus ingeschakeld en biedt de gebruiker het selecteren van de leesmodustabel die overeen zou komen met de modus waarin de camera zal gaan werken bij het maken van opnamen.</para>
+                        </listitem>
+                        <listitem>
+                          <para
+><guimenuitem
+>Tijdgrafiek van belichting</guimenuitem
+>: de rekenmachine zal een grafiek tonen van de potentiële belichtingstijden bepaalt uit de invoer. In de gevallen van op CMOS gebaseerde camera's, zal deze grafiek de onderliggende leesruisgegevens uit de camera weergeven, maar is deze getransformeerd in een belichtingstijd over de reeks van mogelijke versterkingen of ISO-waarden. In het geval van op CCD gebaseerde camera's, zal de grafiek een eenvoudige balk zijn, omdat de leesruis van een CCD-sensor niet variabel is. </para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Versterking / ISO-selectie</guilabel
+>: voor camera's met CMOS-sensors kan Versterking of ISO-waarde worden geselecteerd. Een vak voor Versterking zal verschijnen voor camera's die een selectie voor versterking bieden, en een afrolmenu voor selectie van ISO voor DSLR cameras. De Versterking / ISO-waarde aanpassen zal een selectie-indicator lateraal laten bewegen langs de tijdgrafiek van de belichting om te tonen hoe de geselecteerde versterkingswaarde de berekende belichtingstijd beïnvloedt.</para>
+<para
+>Op CMOS gebaseerde camera's tenderen naar hoge leerruis bij lage versterking / ISO-waarden en de leesruis vermindert als de Versterking / ISO-waarde toeneemt. Dus de gebruiker kan verleid worden om een hogere versterking te selecteren in een poging de hoeveelheid leesruis te verminderen. Maar de volledig goede capaciteit van de camera zou typisch het hoogst zijn bij versterking / ISO-waarden die het laagst zijn. Een grotere volledig goede capaciteit levert een grotere dynamische reeks in de afbeelding.</para>
+<para
+>Selectie van een versterking / ISO-waarde zou afhankelijk zijn van de gebruikte afbeeldingstechniek. Wanneer een lange belichting gewenst is (zoals met 'typische' DSO opnamen), dan zou een lage versterking / ISO-waarde gewoonlijk de voorkeur hebben om een grotere dynamische reeks in de afbeelding te bereiken. Maar als een spikkeltechniek ('lucky imaging') wordt gebruikt, zouden de belichtingstijden zo laag zijn dat verminderen van leesruis kritiek wordt, in zo'n geval zou de gebruiker waarschijnlijk prioriteit geven aan een lage leesruis in de sub-belichting en zal waarschijnlijk een hoge versterking/ISO-waarde nodig hebben.</para>
+<para
+>Sommige camera's kunnen een gladde progressieve kromme hebben in de leesruis over de reeks waarden voor versterking, andere camera's kunnen erg geprononceerde stappen hebben (en andere afwijkingen) in hun leesruis. Deze geprononceerde stappen zijn gewoonlijk het resultaat van elektronische omschakeling van modus in de camera. In gevallen waar de grafiek een geprononceerde stap toont, kan de gebruiker wensen een versterkingswaarde te selecteren die onderaan die stap zit. Dit kan een gereduceerde leesruis leveren en resulteren in een kortere belichting zonder een belangrijk verlies in dynamische reeks bij vergelijken met een opname bij een selectie van de versterking die bovenaan de stap zit. Maar voorzichtigheid is nodig bij selecteren van een versterking dichtbij een “stap” op de grafiek. Sommige berichten op forums geven aan dat de leesruisgegevens geleverd door documentatie van fabrikanten niet exact is. The actuele “omschakeling” in leesruis kan bij een iets hogere of lagere waarde van de versterking liggen, dus is het aanbevolen om een versterkingswaarde te selecteren die op een stap in de leesruis ligt. </para>
+<para
+>Bij gebruik van gegevens in de documentatie van de maker van de camera, vermijd het selecteren van een versterking dichtbij een stap <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation_gain_at_step-avoid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Versterking selecteren nabij een stap vermijden</phrase>
+                </textobject>
+            </mediaobject>
+</para>
+<para
+>De selectie van versterking wegschuiven van een stap <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation_gain_at_step-shift.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Versterking weg van zulke stappen schuiven</phrase>
+                </textobject>
+            </mediaobject>
+</para>
+                   </listitem>
+                   <listitem>
+                            <para
+><guilabel
+>Verhoging van ruis %</guilabel
+>: de selector <guimenu
+>Verhoging van ruis %'</guimenu
+> bestuurt een factor gebruikt in de vergelijking van Dr Glover. Deze waarde zal de relatieve balans tussen de twee bronnen van ruis veranderen in de onderbelichting. Als algemene regel heeft Dr Glover aanbevolen een waarde van 5% te gebruiken, maar het verlagen tot 2% wanneer de berekende belichtingstijd beschouwd wordt als te kort.</para>
+<para
+>Het perspectief van de "toename" is een relatieve toename in leerruis vergeleken met ruis uit lichtvervuiling. Het kan contra-intuïtief zijn, maar de waarde van 'Verhoging van ruis %' zal de belichtingstijd verminderen, waarmee de ruis van lichtvervuiling vermindert (en het doelsignaal), dus de 'toename' betekent een relatieve verhoging in het effect van de leesruis vergeleken met de ruis door vervuiling. Verlagen van de waarde van 'Verhogen van ruis %' zal de belichtingstijd verhogen en zal meer ruis uit lichtvervuiling toelaten, (en meer doelsignaal), in de belichting. Dit reduceert effectief de relatieve invloed van leesruis.</para>
+                       <para
+>In deze implementatie van de rekeningen, de waarde voor het 'Verhogen van ruis %' kan ingesteld worden in een erg brede reeks om aan een gebruiker een grotere reeks voor experimenteren te bieden. Maar een gebruiker zou moeten herkennen dat grote wijzigingen in deze waarde ongewenste consequenties kunnen hebben. Een belichtingstijd omlaag dwingen veroorzaakt dat de belichting om een relatief zware tol betaalt voor leesruis en de kwaliteit van de sub-belichting, (de verhouding van belichtingstijd tot de totale ruis omlaag zal gaan). Als resultaat zou een aanzienlijk hoger aantal belichtingen voor integratie nodig zijn om een acceptabel niveau van kwaliteit te bereiken. Een te lange belichtingstijd afdwingen kan veroorzaken dat de belichting excessieve ruis uit lichtvervuiling veroorzaakt.</para>
+<para
+>De geselecteerde waarde voor de 'Verhoging van ruis %' is er ook een die afhangt van de toegepaste afbeeldingstechniek. Wanneer een spikkeltechniek ('lucky imaging') wordt toegepast  zal de gebruiker waarschijnlijk het omlaag afdwingen van de belichtingstijd naar een extreem korte duur nodig hebben (sub-seconde belichtingen zijn standaard met deze techniek). De gebruiker kan het nodig hebben om drastisch de waarde van 'Verhoging van ruis %' om de tijd omlaag te reduceren van de sub-belichting naar de duur gevraagd door deze techniek.</para>
+                 </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para
+>Resultaat van rekenmachine voor belichting <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Belichtingtijd (sec)</guilabel
+>: De berekende duur van een belichting.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Vervuilingselectronen</guilabel
+>: het berekende aantal lichtvervuilingselectronen per pixel die invloed hebben op de belichting.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Schietruis</guilabel
+>: de berekende ruis uit lichtvervuiling die invloed heeft op de belichting.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Totale ruis</guilabel
+>: de berekende ruis uit zowel lichtvervuiling en leesruis uit de afbeeldingssensor die invloed heeft op de belichting.</para>
+<important
+><para
+><emphasis role="bold"
+>Herken de relatie van belichtingstijd tot de totale ruis</emphasis
+>: de verhouding van belichtingstijd tot totale ruis van de belichting kan gezien worden als een maat voor een potentiële kwaliteit voor de belichting. Korte belichtingen zullen een hoge hoeveelheid ruis bevatten relatief tot hun belichtingstijd, dus een kortere belichting tendeert naar een relatief lagere kwaliteit. Korte belichtingen kunnen nog steeds waardevol zijn, maar een disproportioneel hoger aantal korte sub-belichtingen zullen nodig zijn voor integratie om een afbeelding met een gewenste kwaliteit te behalen.</para
+></important>
 
-    <sect3 id="capture-video-tutorials">
+
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+<para
+>Informatie over stapeling / afbeeldingsintegratie</para>
+<para
+>De waarde van stapelen van afbeeldingen is dat als afbeeldingen gestapeld zijn, de accumulatie van belichtingstijd en de gegevens die het doelsignaal representeren proportioneel verhoogd is met het toegevoegde aantal afbeeldingen dat geïntegreerd wordt, maar de toename in ruis is disproportioneel lager. Als resultaat, de kwaliteit van geïntegreerde afbeeldingen kan gezien worden als een kromme de begint met een goede “opbrengst” wanneer de eerste paar sub-belichtingen geïntegreerd worden, maar deze kromme heeft verminderende opbrengsten wanneer het aantal sub-belichtingen dat geïntegreerd wordt toeneemt. </para>
+<para
+>Ideaal zou een gewenste signaal tot ruisverhouding (SNR) gebruikt worden voor een maat voor het kwaliteitsniveau van een afbeelding, maar de rekenmachine voor belichting bezit geen mogelijkheid om de sterkte van het signaal uit een bedoeld doel voor opname te herkennen, het kan dus niet een geschatte signaal tot ruisverhouding berekenen. Dus is het kwaliteitsniveau om te worden gespecificeerd in de stapelberekening de integratietijd in seconden gedeeld door de berekende ruis in de geïntegreerde afbeelding, (een “Tijd/ruisverhouding”). Voor het doel van de berekening kan de “Tijd/ruisverhouding” beschouwd worden als een gedeeltelijke analogie met een signaal tot ruisverhouding. Maar de gebruiker moet herkennen dat een gespecificeerde tijd tot ruisverhouding geen absolute maat van de kwaliteit van alle geïntegreerde afbeeldingen uit alle doelen is omdat een signaalsterkte (magnitude of flux) geen onderdeel is van deze berekening. </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para
+><guimenuitem
+>Tabel</guimenuitem
+>: een tabel die details levert voor stapeling gebaseerd op het aantal uren gepland voor maken van opnamen.</para>
+<para
+>De tabel levert een snelle referentie voor het vinden van het benaderde aantal sub-belichtingen is die voltooid zouden zijn bij een gegeven aantal uren in een opnamesessie. Maar sommige functies die tijd kosten zijn niet meegenomen in deze berekening van tijd. Bijvoorbeeld, op USB gebaseerde camera's nemen typisch enige tijd voor overdracht van gegevens of als de gebruiker automatische dithering heeft geselecteerd, wordt extra tijd geconsumeerd in het maken van afbeeldingen, die niet zijn meegenomen in deze berekening van tijd.</para>
+<para
+>De kolom, helemaal rechts, in de tabel toont de berekende tijd/ruisverhouding van de geïntegreerde (gestapelde) afbeelding die geproduceerd zou worden.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guimenuitem
+>Grafiek</guimenuitem
+>: een interactieve grafiek biedt de gebruiker het visualiseren van de relatieve wijziging in potentiële kwaliteit voor geïntegreerde afbeeldingen met verschillende aantallen van toegepaste sub-belichting in het stapelen van afbeeldingen. In deze grafiek kan genavigeerd worden via de aanpassing van de waarde van de tijd/ruisverhouding; deze waarde aanpassen zal de hoeveelheid vereiste sub-belichtingen voor de geïntegreerde afbeelding opnieuw berekenen om die gespecificeerde tijd/ruisverhouding te bereiken.</para>
+
+<para
+>In de selectie van een tijd/ruisverhouding voor de berekening van het aantal gestapelde belichtingen, zou de gebruiker de incrementele wijziging aan de potentiële kwaliteit van de afbeelding uit een extra sub-belichting willen overwegen. Om een gebruiker te helpen bij het bepalen van de waarde van verhogen van het aantal sub-belichtingen voor integratie; bevat het hulpmiddel een berekening van de helling voor het geselecteerde punt op de tijd/ruiskromme (het gebruikersinterface gebruikt een deltasymbool om deze waarde te presenteren). Deze deltawaarde representeert de wijziging in potentiële kwaliteit die zal resulteren uit de toevoeging of verwijdering van een enkele sub-belichting.</para>
+
+<para
+>Zoals men zou verwachten zal aan het lage einde van het aantal belichtingen (wanneer een lage waarde voor de tijd/ruisverhouding invoer is), de deltawaarde relatief hoog zijn, dus de toevoeging van één afbeelding zal een relatief grote verbetering geven aan de geïntegreerde afbeelding. Maar als een gebruiker de waarde voor de tijd/ruisverhouding vergroot, meer afbeeldingen zullen meegenomen worden voor integratie, en de deltawaarde zal verminderen, aangevend dat er weinig gewonnen zal worden bij toevoegen van meer sub-belichtingen. </para>
+<para
+>De standaard waarde voor de tijd / ruisverhouding is ingesteld op 80. Deze waarde zou niet geïnterpreteerd moeten worden op een manier dat dit een optimale waarde is; deze was eenvoudig gekozen als een ietwat gemiddelde waarde. Een gebruiker zou een paar factoren moeten overwegen bij aanpassen van de waarde van de tijd/ruisverhouding: 1) de sterkte van het doelobject, 2) de tijd/ruisverhouding van de berekende sub-belichting, 3) de beperkingen in de tijd voor het maken van afbeeldingen en verwerking en beperkingen in opslagcapaciteit voor de afbeeldingen. </para>
+
+<para
+>Een sterk doel, (bijvoorbeeld, Orion Nebula met magnitude 4), zou een relatief sterk signaal leveren. Op zo'n doel zou de waarde voor de tijd/ruisverhouding gereduceerd kunnen worden en de berekening van sub-belichtingen, kan nog steeds een afbeelding produceren met een erg goede signaal tot ruisverhouding. Een veel zwakker doel (bijvoorbeeld, Thor’s Helmet, magnitude 11), zou een hogere tijd/ruisverhouding vereisen om te compenseren voor het relatief zwakke doelsignaal. </para>
+
+<para
+>Afhankelijk van de verschillende invoeren en condities voor afbeeldingen maken, kan de potentiële kwaliteit van een sub-belichting heel erg variëren. In slechte kwaliteit van de hemel met weinig of geen filtering, zal de berekende sub-belichtingstijd natuurlijk kort zijn om een overweldigende ruis uit lichtvervuiling en de belichtingstijd relatief tot de berekende ruis laag zijn (een lage tijd/ruisverhouding). Om een hoge kwaliteit van de geïntegreerde afbeelding uit lage tijd/ruisverhouding kan sub-belichting duizenden sub-belichtingen vereisen. Als de gebruiker bezorgd is over afbeeldingen maken en verwerkingstijd of opslagcapaciteit; dan zou een hogere tijd/ruisverhouding nodig zijn om de hoeveelheid sub-belichtingen te reduceren. Omgekeerd, wanneer invoercondities resulteren in een sub-belichting met een lange belichtingstijd relatief tot de berekende ruis (zoals met smalle band afbeeldingen maken), is het resultaat een sub-belichting met een erg hoge tijd/ruisverhouding. In zulke gevallen kan de standaard waarde van 80 resulteren in erg weinig sub-belichtingen voor de integratie. Maar de deltawaarde zal tamelijk hoog zijn, wat aangeeft dat de tijd/ruisverhouding enorm de potentiële kwaliteit zal verbeteren van de geïntegreerde afbeelding. </para>
+
+<para
+>Onderdeel van de waarde van het gebruik van een tijd/ruisverhouding als de invoer voor de berekening van het vereiste aantal sub-belichtingen is dat het zou moeten tenderen naar compensatie voor de verschillen in relatieve ruis voor sub-belichtingen van verschillende lengten. Een kortere sub-belichting zou een lagere tijd/ruisverhouding hebben, dus heeft het minder capaciteit om een geïntegreerde afbeelding te verbeteren. Daarom zijn bij een hoger aantal korte belichtingen een disproportioneel aantal korte belichtingen nodig om een hoger aantal om een gegeven tijd/ruisverhouding in een geïntegreerde afbeelding te bereiken.</para>
+
+<para
+>Als een voorbeeld, beschouw de berekening van het aantal sub-belichtingen vereist wanneer twee sub-belichtingstijden worden vergeleken: een 300 seconden sub-belichting vs een 30 seconden sub-belichting. De 300 seconden sub-belichting had een berekende ruis van 22.1, wat resulteert in een tijd/ruisverhouding van de sub-belichting ven 13.6. Wanneer de 'Verhoging ruis %' wordt opgehoogd om de belichtingstijd omlaag naar 30 seconden te forceren, zien we een berekende ruis van 9.47, resulterend in een veel lagere tijd/ruisverhouding van 3.2. De 300 seconden belichting is van een aanzienlijk hogere potentiële kwaliteit dan de 30 seconden belichting. We zullen de standaard tijd/ruisverhouding van 80 voor integratie in beide van deze gevallen vragen.</para
+> 
+
+<para
+>Voor een integratie die de 300 seconden sub-belichting gebruikt vinden we dat 34 sub-belichtingen vereist zouden zijn om een tijd/ruisverhouding van 80 te bereiken. Dus een totale integratietijd van 2,83 uren is vereist.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation-example_subexp300.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>300 seconden sub-belichting</phrase>
+                </textobject>
+            </mediaobject>
+<para
+>Voor een integratie die de 30 seconden sub-belichting gebruikt vinden we dat 637 sub-belichtingen vereist zouden zijn om een tijd/ruisverhouding van 80 te bereiken. Dus een totale integratietijd van 5,31 uren is vereist met deze kortere belichtingen om dezelfde tijd/ruisverhouding in de geïntegreerde afbeelding te bereiken.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation-example_subexp30.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>30 seconden sub-belichting</phrase>
+                </textobject>
+            </mediaobject>
+                        </listitem>
+                     </itemizedlist>
+
+           </listitem>
+        </orderedlist>
+
+        </sect2>
+
+    <sect2 id="capture-video-tutorials">
         <title
 >Video Tutorials</title>
 
@@ -705,5 +986,5 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

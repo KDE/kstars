@@ -1,4 +1,4 @@
-<sect2 id="ekos-setup">
+<sect1 id="ekos-setup">
     <title
 >Ekos instellen</title>
 <indexterm>
@@ -57,4 +57,4 @@
         </textobject>
     </mediaobject>
 </screenshot>
-</sect2>
+</sect1>

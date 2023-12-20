@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->Een korte rondleiding door &kstars;</title>
+>Een korte rondleiding door de hemelkaart van &kstars;</title>
 
 <para
->Dit hoofdstuk loodst u door &kstars;, en maakt u bekend met vele van de belangrijkste eigenschappen. </para>
+>Dit hoofdstuk loodst u door de hemelkaart van &kstars;, en maakt u bekend met vele van de belangrijkste eigenschappen. </para>
 
 <screenshot>
 <screeninfo
@@ -494,7 +494,7 @@
 <title
 >Einde van de rondleiding</title>
 <para
->Dit is het einde van de rondleiding door &kstars;, hoewel we alleen maar hebben gesnuffeld aan de vele mogelijkheden. In &kstars; zijn vele nuttige <link linkend="tools"
+>Dit is het einde van de rondleiding door de hemelkaart van &kstars;, hoewel we alleen maar hebben gesnuffeld aan de vele mogelijkheden. In &kstars; zijn vele nuttige <link linkend="tools"
 >hulpmiddelen voor de astronomie</link
 >, u kunt er direct <link linkend="indi"
 >uw telescoop mee besturen</link

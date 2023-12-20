@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-18 00:39+0000\n"
+"POT-Creation-Date: 2023-12-20 00:38+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -555,7 +555,7 @@ msgstr "إلغاء"
 #: ekos/manager.cpp:1117 ekos/scheduler/schedulerjob.cpp:589
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
-#: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:519
+#: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:523
 #, kde-format
 msgid "Error"
 msgstr "خطأ"
@@ -3055,7 +3055,7 @@ msgstr "حرّر"
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
 #: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:468
 #: fitsviewer/platesolve.ui:177 fitsviewer/solveInfo.ui:66
-#: skycomponents/imageoverlaycomponent.cpp:62
+#: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "RA"
 msgstr ""
@@ -6701,7 +6701,7 @@ msgstr ""
 #: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1247
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
 #: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:488
-#: fitsviewer/platesolve.ui:222 skycomponents/imageoverlaycomponent.cpp:62
+#: fitsviewer/platesolve.ui:222 skycomponents/imageoverlaycomponent.cpp:64
 #, fuzzy, kde-format
 msgid "DEC"
 msgstr "الميل"
@@ -9712,9 +9712,9 @@ msgstr "الالتقاط"
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:676
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:242
-#: skycomponents/imageoverlaycomponent.cpp:343
-#: skycomponents/imageoverlaycomponent.cpp:703
-#: skycomponents/imageoverlaycomponent.cpp:783
+#: skycomponents/imageoverlaycomponent.cpp:345
+#: skycomponents/imageoverlaycomponent.cpp:707
+#: skycomponents/imageoverlaycomponent.cpp:787
 #, kde-format
 msgid "Solve"
 msgstr "حل"
@@ -14405,7 +14405,7 @@ msgstr "بقايا سوبر نوفا"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/capture.ui:1867 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1064 indi/drivermanager.ui:66
-#: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:62
+#: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "Status"
 msgstr "الحالة"
@@ -22890,8 +22890,8 @@ msgstr "التتويج"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
-#: skycomponents/imageoverlaycomponent.cpp:586
-#: skycomponents/imageoverlaycomponent.cpp:709
+#: skycomponents/imageoverlaycomponent.cpp:590
+#: skycomponents/imageoverlaycomponent.cpp:713
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, kde-format
 msgid "Abort"
@@ -28091,14 +28091,14 @@ msgstr "الحجم"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:1063 fitsviewer/statform.ui:66
-#: skycomponents/imageoverlaycomponent.cpp:63
+#: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "العرض"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:1064 fitsviewer/statform.ui:71
-#: skycomponents/imageoverlaycomponent.cpp:63
+#: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "الارتفاع"
@@ -74733,7 +74733,7 @@ msgstr "لايوجد أيقونات"
 msgid "Creating horizon"
 msgstr "رسم?"
 
-#: skycomponents/imageoverlaycomponent.cpp:60
+#: skycomponents/imageoverlaycomponent.cpp:62
 #, fuzzy, kde-format
 #| msgid "File name"
 msgid "Filename"
@@ -74741,191 +74741,191 @@ msgstr "اسم الملفّ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
-#: skycomponents/imageoverlaycomponent.cpp:62 tools/modcalcsimple.ui:93
+#: skycomponents/imageoverlaycomponent.cpp:64 tools/modcalcsimple.ui:93
 #: tools/modcalcsimple.ui:183
 #, fuzzy, kde-format
 #| msgid "Angle:"
 msgid "Angle"
 msgstr "الزّاوية:"
 
-#: skycomponents/imageoverlaycomponent.cpp:62
+#: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "A-S/px"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:63
+#: skycomponents/imageoverlaycomponent.cpp:65
 #, fuzzy, kde-format
 #| msgid "Rotate Right"
 msgid "EastRight"
 msgstr "أدر يميناً"
 
-#: skycomponents/imageoverlaycomponent.cpp:163
+#: skycomponents/imageoverlaycomponent.cpp:165
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:177
+#: skycomponents/imageoverlaycomponent.cpp:179
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:190
+#: skycomponents/imageoverlaycomponent.cpp:192
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:201
+#: skycomponents/imageoverlaycomponent.cpp:203
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:231
+#: skycomponents/imageoverlaycomponent.cpp:233
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:242
+#: skycomponents/imageoverlaycomponent.cpp:244
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:253
+#: skycomponents/imageoverlaycomponent.cpp:255
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:264
+#: skycomponents/imageoverlaycomponent.cpp:266
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:294
+#: skycomponents/imageoverlaycomponent.cpp:296
 #, kde-format
 msgid "Stored OK status for %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:387
+#: skycomponents/imageoverlaycomponent.cpp:390
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:436
+#: skycomponents/imageoverlaycomponent.cpp:439
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:438
-#: skycomponents/imageoverlaycomponent.cpp:556
-#: skycomponents/imageoverlaycomponent.cpp:845
+#: skycomponents/imageoverlaycomponent.cpp:441
+#: skycomponents/imageoverlaycomponent.cpp:560
+#: skycomponents/imageoverlaycomponent.cpp:849
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:451
+#: skycomponents/imageoverlaycomponent.cpp:455
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Loading image files..."
 msgstr "جاري تحميل الصور ..."
 
-#: skycomponents/imageoverlaycomponent.cpp:457
+#: skycomponents/imageoverlaycomponent.cpp:461
 #, kde-format
 msgid "%1 image files loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:519
+#: skycomponents/imageoverlaycomponent.cpp:523
 #, fuzzy, kde-format
 #| msgid "Process"
 msgid "Unprocessed"
 msgstr "العمليّة"
 
-#: skycomponents/imageoverlaycomponent.cpp:519
+#: skycomponents/imageoverlaycomponent.cpp:523
 #, fuzzy, kde-format
 #| msgid "File"
 msgid "Bad File"
 msgstr "ملف"
 
-#: skycomponents/imageoverlaycomponent.cpp:519
+#: skycomponents/imageoverlaycomponent.cpp:523
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solve Failed"
 msgstr "رمز رؤية المحلل"
 
-#: skycomponents/imageoverlaycomponent.cpp:519
+#: skycomponents/imageoverlaycomponent.cpp:523
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "HOOK"
 msgid "OK"
 msgstr "‎‎خطاف‎‎"
 
-#: skycomponents/imageoverlaycomponent.cpp:542
+#: skycomponents/imageoverlaycomponent.cpp:546
 #, fuzzy, kde-format
 #| msgid "Left/Right"
 msgid "West-Right"
 msgstr "يسار/يمين"
 
-#: skycomponents/imageoverlaycomponent.cpp:543
+#: skycomponents/imageoverlaycomponent.cpp:547
 #, fuzzy, kde-format
 #| msgid "Rotate Right"
 msgid "East-Right"
 msgstr "أدر يميناً"
 
-#: skycomponents/imageoverlaycomponent.cpp:597
+#: skycomponents/imageoverlaycomponent.cpp:601
 #, fuzzy, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "مركّز على:"
 
-#: skycomponents/imageoverlaycomponent.cpp:599
+#: skycomponents/imageoverlaycomponent.cpp:603
 #, fuzzy, kde-format
 msgid "Solving: %1."
 msgstr "مركّز على:"
 
-#: skycomponents/imageoverlaycomponent.cpp:664
+#: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:669
+#: skycomponents/imageoverlaycomponent.cpp:673
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:702
+#: skycomponents/imageoverlaycomponent.cpp:706
 #, fuzzy, kde-format
 msgid "Solving aborted."
 msgstr "جاري التّحميل"
 
-#: skycomponents/imageoverlaycomponent.cpp:737
+#: skycomponents/imageoverlaycomponent.cpp:741
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:756
+#: skycomponents/imageoverlaycomponent.cpp:760
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:774
+#: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:793
+#: skycomponents/imageoverlaycomponent.cpp:797
 #, fuzzy, kde-format
 msgid "Solver timed out in %1s"
 msgstr "جاري التّحميل"
 
-#: skycomponents/imageoverlaycomponent.cpp:799
+#: skycomponents/imageoverlaycomponent.cpp:803
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed in %1s"
 msgstr "رمز رؤية المحلل"
 
-#: skycomponents/imageoverlaycomponent.cpp:812
+#: skycomponents/imageoverlaycomponent.cpp:816
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:844
+#: skycomponents/imageoverlaycomponent.cpp:848
 #, fuzzy, kde-format
 #| msgid "No image info available."
 msgid "Done solving. %1 available."
