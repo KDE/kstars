@@ -1,4 +1,4 @@
-<sect2 id="ekos-scheduler">
+<sect1 id="ekos-scheduler">
     <title
 >Planner</title>
     <indexterm>
@@ -22,13 +22,13 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="ekos-scheduler-introduction">
+    <sect2 id="ekos-scheduler-introduction">
       <title
 >Inleiding</title>
         <para
 >De Ekos-planner is een belangrijke component van uw werkmethode voor afbeeldingen maken. Het verbindt met INDI, start en stopt alle andere Ekos-modulen, plant taken volgens hun voorwaarden en prioriteiten, monitort die taken terwijl ze worden uitgevoerd en brengt het systeem down wanneer taken gereed zijn of voor het ochtendgloren. Of u sessies voor afbeeldingen uitvoert over meerdere dagen voor meerdere doelen of eenvoudig een enkele doel probeert gedurende een paar uur, wordt het aanbevolen dat de planner uw sessies voor afbeeldingen bestuurt. </para>
-    </sect3>
-    <sect3 id="scheduler-table">
+    </sect2>
+    <sect2 id="scheduler-table">
         <title
 >Plannertabel</title>
         <para
@@ -68,8 +68,8 @@
             </listitem>
         </itemizedlist>
 
-    </sect3>
-    <sect3 id="scheduling-algorithm">
+    </sect2>
+    <sect2 id="scheduling-algorithm">
         <title
 >Planning-algoritme</title>
         <para
@@ -86,14 +86,14 @@
 >Er is een keuzevak in het optiesmenu van de planner genaamd <guilabel
 >Gretige planning gebruiken</guilabel
 > die standaard is geactiveerd. Het systeem werkt zoals bovenstaand beschreven wanneer het is geactiveerd. Wanneer het niet is geactiveerd zal de planner het plannen van lagere prioriteit jobs voorkomen wanneer niet voltooide hogere prioriteit jobs niet kunnen draaien. Dit resulteert in minder efficiënt gebruik van het systeem, maar kan u meer controle over de planning geven. </para>
-    </sect3>
-    <sect3 id="scheduler-files">
+    </sect2>
+    <sect2 id="scheduler-files">
         <title
 >Plannerbestanden (.esq)</title>
         <para
 >De plannertabel met zijn lijst met taken en attributen kan opgeslagen worden op schijf en terug ingelezen. Het schrijft een .esq bestand. Besturing voor het schrijven van de huidige plannertabel naar schijf en teruglezen van andere .esq bestanden staan boven de tabel rechts. </para>
-    </sect3>
-    <sect3 id="ekos-scheduler-settings">
+    </sect2>
+    <sect2 id="ekos-scheduler-settings">
       <title
 >Instellingen</title>
         <para
@@ -174,8 +174,8 @@
 >: Condities die het voltooien van de plannertaak inleiden. De standaard selectie is het eenvoudig aanmerken van de plannertaak als voltooid, als het hele proces klaar is. Extra condities maken het mogelijk de gehele sequentie een aantal keren of oneindig te herhalen, of tot een specifiek tijdstip. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="other-options">
+    </sect2>
+    <sect2 id="other-options">
         <title
 >Overige opties</title>
         <para
@@ -193,7 +193,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-       <sect4 id="remember-job-progress">
+       <sect3 id="remember-job-progress">
         <title
 >Taakvoortgang onthouden</title>
         <para
@@ -208,8 +208,8 @@
 >Een mogelijk verwarrend bijeffect van <guilabel
 >Taakvoortgang herinneren</guilabel
 > is dat als u een taak hebt uitgevoerd met de (standaard) eindvoorwaarde van de beëindiging van de sequentie, en alle zijn afbeeldingen zijn opgenomen en nu wilt u de taak opnieuw uitvoeren, dan zal de planner de taak niet uitvoeren omdat deze geloofd dat alle afbeeldingen al zijn opgenomen. U moet ofwel deze afbeeldingen verplaatsen naar elders op de schijf of de eindvoorwaarde  wijzigen naar N keer herhalen of Herhalen tot beëindiging. </para>
-       </sect4>
-       <sect4 id="group-repeats">
+       </sect3>
+       <sect3 id="group-repeats">
         <title
 >Herhalingen van groepen</title>
         <para
@@ -224,15 +224,15 @@
 > toekennen en aan de taken een van de beëindigingsvoorwaarden voor herhaling geven (&eg; N keer herhalen of Herhalen tot beëindiging). Met die opzet, zullen taken in dezelfde groep het uitvoer afstaan aan elkaar als ze meet 'Herhalingen' dan de andere taak hebben. Dus, als Taak2 met groep "MijnGroep" zijn tweede iteratie heeft voltooid en Taak3 met dezelfde groepsnaam heeft slechts 0 of 1 iteratie voltooid, dan wanneer de tijd komt om Taak2 uit te voeren, zal Taak3 in plaats daarvan worden uitgevoerd. </para>
         <para
 >Praktisch gesproken, stel u hebt een 6-paneel mozaïek dat u wilt afwisselen. U zou al die taken dezelfde groepsnaam geven, maak ze allen  &eg; "Herhaal 5 keer". Daarna zou u ze uitvoeren in vergrendelde stap. De cadens van het omschakelen van taken zou bestuurd worden door de lengte van het sequentiebestand toegekend aan elk van die taken. U wilt de cadans niet te kort maken (&eg; een 2-minuten afbeelding), omdat er overhead is in het omschakelen van taken. Bijvoorbeeld, starten van taken kan uitlijnen, volgen starten en zelfs focusseren betekenen. </para>
-       </sect4>
-       <sect4 id="repeat-all-jobs">
+       </sect3>
+       <sect3 id="repeat-all-jobs">
         <title
 >Alle jobs herhalen</title>
         <para
 >Er is een keuzevak en getalinvoer direct onder de takentabel van de planner die u het herhalen biedt van het gehele plan N keer. Dit kan gebruikt worden om een paar taken te alterneren. U kunt de taken in de planner bekijken, deze instellen op N keer herhalen en de taken zullen zich herhalen. Deze wijziging is niet compatibel met 'Taakvoortgang onthouden (hier boven) en niet beschikbaar als Taakvoortgang onthouden is geactiveerd. (Opmerking: taakvoortgang onthouden is aanbevolen). </para>
-       </sect4>
-    </sect3>
-    <sect3 id="workflow">
+       </sect3>
+    </sect2>
+    <sect2 id="workflow">
         <title
 >Werkmethode</title>
 
@@ -267,9 +267,9 @@
 >Afsluiten </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-procedure">
+    <sect2 id="ekos-scheduler-startup-procedure">
         <title
 >Opstartprocedure</title>
         <para
@@ -314,9 +314,9 @@
 >tijd 5 minuten voor de <emphasis
 >opstart</emphasis
 >tijd). Zodra het opstarten met succes is voltooid, kiest de planner de plannertaak en wordt de eerste waarneemsequentie gestart. Indien een opstartscript werd opgegeven, wordt die eerst uitgevoerd. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-data-acquisition">
+    <sect2 id="ekos-scheduler-data-acquisition">
         <title
 >Gegevens verzamelen</title>
         <para
@@ -357,9 +357,9 @@
 >Opmerking--sommige van de interacties tussen modulen worden geïnitieerd door de modulen zelf, maar worden gemonitord door de planner. Deze omvatten meridiaan omdraaiingen, uitvoeren van autofocus geïnitieerd door temperatuurwijzigingen of aflopen van timers en vereisten voor opnamen voor minimale afwijkingen in het volgen. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-shutdown">
+    <sect2 id="ekos-scheduler-shutdown">
         <title
 >Afsluiten</title>
         <para
@@ -382,9 +382,9 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-weather-monitoring">
+    <sect2 id="ekos-scheduler-weather-monitoring">
         <title
 >Weer monitoren</title>
         <para
@@ -409,9 +409,9 @@
 >: Weercondities zijn schadelijk voor de veiligheid van de waarneemstation, en die moet zo snel mogelijk worden afgesloten. </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+    <sect2 id="ekos-scheduler-startup-and-shutdown-scripts">
         <title
 >Scripts voor Opstarten &amp; en Afsluiten</title>
         <para
@@ -447,9 +447,9 @@ exit(0)
 > worden gemaakt, voordat die door Ekos kunnen worden gebruikt  (&eg; gebruik hiervoor <userinput
 >chmod +x script_naam.py</userinput
 >). De planner van Ekos maakt een werkelijk eenvoudige automatische werking mogelijk van elk stap in het proces. Zonder iemand in de buurt, wordt het steeds belangrijker dat als er iets misgaat in enige fase van de waarnemingen, dat de waarnemingen op een goede manier worden beëindigd. Met &plasma;-berichten kan de gebruiker hoorbare alarmen en e-mailberichten instellen voor de diverse gebeurtenissen in de planner. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-mosaic-Planner">
+    <sect2 id="ekos-scheduler-mosaic-Planner">
         <title
 >Mozaïekplanner</title>
         <screenshot>
@@ -611,5 +611,5 @@ exit(0)
 >Klik op <guibutton
 >Jobs aanmaken</guibutton
 > om mozaïek planjobs te genereren en ze toe te voegen aan de wachtrij. U kunt de taken verder individueel bewerken, zoals u met normale plantaken zou doen. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

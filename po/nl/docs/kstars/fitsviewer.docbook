@@ -1,14 +1,12 @@
-<sect1 id="tool-fitsviewer">
+<chapter id="fitsviewer">
 <title
 ><acronym
 >FITS</acronym
 >-viewer</title>
 <indexterm
 ><primary
->Hulpmiddelen</primary>
-<secondary
->FITS-viewer</secondary>
-</indexterm>
+>FITS-viewer</primary
+></indexterm>
 
 <para
 >FITS of Flexible Image Transport System is het standaard formaat voor het weergeven van afbeeldingen en gegevens in de Astronomie. De FITS-viewer van &kstars; is een hulpmiddel om die afbeeldingen te bekijken. Het is niet ontworpen voor bewerken van FITS-afbeeldingen.</para>
@@ -35,7 +33,7 @@
     </imageobject>
     <textobject>
       <phrase
->De FITS-viewer</phrase>
+>FITS-viewer</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -45,19 +43,19 @@
 
 <screenshot>
   <screeninfo
->Het hulpmiddel FITS-viewer met schuifpaneel open</screeninfo>
+>De FITS-viewer met schuifpaneel open</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer2.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->Hulpmiddel FITS-viewer met schuifpaneel open</phrase>
+>FITS-viewer met schuifpaneel open</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
 
-<sect2 id="fits-viewer-main-controls">
+<sect1 id="fits-viewer-main-controls">
     <title
 >Hoofdbesturing</title>
 
@@ -469,8 +467,8 @@
 </screenshot>
 <para
 >Door de muisaanwijzer boven een optie te houden, ziet u een tekstballon waarin de functie ervan wordt uitgelegd. </para>
-</sect2>
-<sect2 id="fits-viewer-features">
+</sect1>
+<sect1 id="fits-viewer-features">
     <title
 >Eigenschappen</title>
     <variablelist>
@@ -512,9 +510,9 @@
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-solver">
+<sect1 id="fits-viewer-solver">
     <title
 >Oplosser van FITS-viewer</title>
     <screenshot>
@@ -609,9 +607,9 @@
             </itemizedlist>
             <para
 >Om het profiel te inspecteren of wijzigen zou de gebruiker het tabblad uitlijnen in Ekos kunnen openen, naar het menu Opties gaan, het tabblad Opties voor StellarSolver selecteren, nagaan dat het juiste Optiesprofiel is geselecteerd en op het potlood klikken om dat profiel te bekijken of te bewerken. </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-embedded">
+<sect1 id="fits-viewer-embedded">
     <title
 >Ingebedde FITS-viewer</title>
     <screenshot>
@@ -673,9 +671,9 @@
     </itemizedlist>
     <para
 >De drijvende balk verdwijnt automatisch zodra de muisaanwijzer dit gebied verlaat. U kunt met de muis zwenken en zoomen als in de afzonderlijke FITS-viewer. Het groene volgvakje kan worden gebruikt voor het selecteren van een ster of gebied in de afbeelding, bijvoorbeeld voor het selecteren van een volgster. </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-3d-star-profile">
+<sect1 id="fits-viewer-3d-star-profile">
 <title
 >3D Sterprofiel &amp; Datavisualisatie</title>
 <screenshot>
@@ -788,5 +786,5 @@
             </textobject>
         </mediaobject>
     </screenshot>
-</sect2>
 </sect1>
+</chapter>

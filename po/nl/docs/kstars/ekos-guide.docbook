@@ -1,4 +1,4 @@
-<sect2 id="ekos-guide">
+<sect1 id="ekos-guide">
     <title
 >Volgen</title>
     <indexterm>
@@ -22,7 +22,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="guide-Introduction">
+    <sect2 id="guide-Introduction">
         <title
 >Inleiding</title>
         <para
@@ -31,9 +31,9 @@
 > of <ulink url="https://sourceforge.net/projects/linguider/"
 >lin_guider</ulink
 >. Bij intern volgen, worden camera frames voor volgen opgenomen, en naar Ekos gestuurd voor analyse. Afhankelijk van hoe ver de sterren verwijderd is van hun vastgezette posities, worden er correctiepulsen gestuurd naar uw de RA- en DEC-motoren van uw opstelling. De meeste van de &GUI;-opties in de volgmodule zijn goed gedocumenteerd, dus kunt u de muis ergens houden, waarna u een tekstballon ziet met nuttige informatie. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="guide-Setup">
+    <sect2 id="guide-Setup">
         <title
 >Opzet</title>
         <screenshot>
@@ -112,8 +112,8 @@
 >: deze zijn alleen van toepassing op volgalgoritmen anders dan MultiStar en MultiStar is het aanbevolen volgschema. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="guide-calibration">
+    </sect2>
+    <sect2 id="guide-calibration">
         <title
 >Calibratie</title>
 
@@ -170,7 +170,7 @@
 >. Merk op dat als kalibratie al eerder met succes is voltooid en u hebt de kalibratie niet gewist en u gebruikt de kalibraties opnieuw, dan zal het proces automatisch volgen onmiddellijk beginnen, anders zal het het kalibratieproces starten. </para>
         <para
 >Ekos begint de calibratie met het sturen van pulsen naar de opstelling om die te laten bewegen in RK en dec. Het stuurt pulsen uitwaarts van de RK-as, daarna pulsen terug inwaarts. Daarna verplaatst het een beetje in dec om speling die zou kunnen bestaan te wissen en daarna pulsen uitwaarts en terug in voor dec. Om dit grafisch te bekijken, klik op het sub-tabblad "Calibratieplot" op de hoofdpagina voor volgen. </para>
-        <sect4 id="guide-calibration-failures">
+        <sect3 id="guide-calibration-failures">
         <title
 >Mislukkingen van calibratie</title>
             <para
@@ -215,9 +215,9 @@
 >Maak dark frames om de ruis te verminderen. </para>
             </listitem>
         </itemizedlist>
-    </sect4>
     </sect3>
-    <sect3 id="guide-guiding">
+    </sect2>
+    <sect2 id="guide-guiding">
         <title
 >Volgen</title>
 
@@ -264,8 +264,8 @@
 >SEP-profiel. Begin met Guide-standaard, hoewel u anderen zou kunnen kiezen als u erg grote of kleine sterren hebt (in termen van aantal pixels in de diameter). </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="guide-dithering">
+    </sect2>
+    <sect2 id="guide-dithering">
         <title
 >Ditheren</title>
 
@@ -302,8 +302,8 @@
 >Opslaan zonder volgen kan ook. Dit is nuttig als er geen volgcamera is of bij het doen van korte belichtingen. In dit geval kan de opstelling opdracht krijgen in een willekeurige richting te ditheren gedurende een pulsduur die wordt opgegeven in de optie <guilabel
 >Non-volgen-ditherpuls</guilabel
 > </para>
-    </sect3>
-    <sect3 id="guide-drift-graphics">
+    </sect2>
+    <sect2 id="guide-drift-graphics">
         <title
 >Drift grafieken</title>
         <screenshot>
@@ -341,9 +341,9 @@
 >De kleuren van de assen kunnen worden gewijzigd in de <link linkend="colors"
 >instellingen voor het kleurschema in &kstars;</link
 >. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="guide-drift-plot">
+    <sect2 id="guide-drift-plot">
         <title
 >Driftplot</title>
         <para
@@ -354,9 +354,9 @@
 ><imagedata fileref="add-circle.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > met een kleur die hoort bij de bijbehorende concentrische cirkel. U kunt de straal van de binnenste groene cirkel wijzigen door de driftplotnauwkeurigheid aan te passen. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="guide-gpg">
+    <sect2 id="guide-gpg">
         <title
 >Volgen met GPG</title>
         <screenshot>
@@ -378,8 +378,8 @@
 >De te overwegen hoofdinstellingen zijn Majeure periode en Geschatte periode. Als u de wormperiode voor uw opstelling weet, misschien door <ulink url="https://github.com/OpenPHDGuiding/phd2/wiki/Mount-Worm-Period-Info"
 >deze tabel te bekijken</ulink
 >, maak de activering van Geschatte periode ongedaan en voer uw bekende Majeure periode in. Zo niet, activeer dan Geschatte periode. Intra-frame donker volgen kan gebruikt worden om "de GPG voorspelling uit te spreiden. Bijvoorbeeld, als u volgt op 5s, kunt u het donkere volginterval instellen op 1s en zijn voorspelling wordt elke seconde gepulst, maar de driftcorrectie van volgen zou elke 5s worden verzonden. Op deze manier worden de voorspelde correcties veel sneller uitgestuurd dan de belichtingssnelheid van de volgcamera, waarmee effectief periodieke foutcorrectie wordt uitgevoerd en langere belichting van volgcamera toegestaan. Alle andere parameters worden het beste op hun standaard gelaten. </para>
-    </sect3>
-    <sect3 id="guide-dark-frames">
+    </sect2>
+    <sect2 id="guide-dark-frames">
         <title
 >Dark Frames</title>
         <para
@@ -405,9 +405,9 @@
         </screenshot>
         <para
 >Het wordt aanbevolen dark frames op te nemen voor diverse binnings en belichtingstijden, zodat die door Ekos transparant kunnen worden gebruikt wanneer dat nodig is. </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="guide-phd2-support">
+    <sect2 id="guide-phd2-support">
         <title
 >PHD2 ondersteuning</title>
         <para
@@ -444,8 +444,8 @@
 >. Bij het opstarten probeert Ekos automatisch te verbinden met PHD2. Is die verbinding tot stand gebracht, dan kunt direct beginnen met volgen door te klikken op de knop <guibutton
 >Volgen</guibutton
 >. Indien nodig doet PHD2 de calibratie. Als ditheren geselecteerd is, krijgt PHD2 de opdracht te ditheren, met de opgegeven pixels, en zodra het volgen stabiel is en rustig, wordt in Ekos de opname weer hervat. </para>
-    </sect3>
-    <sect3 id="guide-logs">
+    </sect2>
+    <sect2 id="guide-logs">
         <title
 >Log van volgen</title>
         <para
@@ -454,5 +454,5 @@
 >.  Deze log is alleen beschikbaar als de ingebouwde volger van Ekos wordt gebruikt. Het zou compatibel moeten zijn met <ulink url="https://openphdguiding.org/phd2-log-viewer/"
 >volglogviewer van PHD2</ulink
 >. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

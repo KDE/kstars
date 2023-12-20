@@ -424,7 +424,7 @@
 >. </para>
 
 <para
->Het standaardformaat voor het opslaan van afbeeldingen is FITS. Als een afbeelding is opgeslagen en opgehaald, wordt die in het <link linkend="tool-fitsviewer"
+>Het standaardformaat voor het opslaan van afbeeldingen is FITS. Als een afbeelding is opgeslagen en opgehaald, wordt die in het <link linkend="fitsviewer"
 >Hulpmiddel voor FITS</link
 > van &kstars; getoond. </para>
 </sect1>

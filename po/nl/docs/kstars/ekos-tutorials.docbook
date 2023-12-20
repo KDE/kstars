@@ -1,4 +1,4 @@
-<sect2 id="ekos-tutorials">
+<sect1 id="ekos-tutorials">
     <title
 >Handleiding voor Ekos</title>
 <indexterm>
@@ -9,7 +9,7 @@
     <tertiary
 >Handleiding</tertiary>
 </indexterm>
-<sect3 id="ekos-tutorials-viewer">
+<sect2 id="ekos-tutorials-viewer">
     <title
 >Viewer</title>
     <para
@@ -34,5 +34,5 @@
 > en het standaard wachtwoord is<userinput
 >smate</userinput
 >. </para>
-</sect3>
 </sect2>
+</sect1>

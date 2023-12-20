@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect2 id="ekos-focus">
+<sect1 id="ekos-focus">
   <title
 >Focus</title>
 
@@ -14,7 +14,7 @@
 >Focus</tertiary>
   </indexterm>
 
-  <sect3 id="focus-theory">
+  <sect2 id="focus-theory">
     <title
 >Theorie hoe het werkt</title>
 
@@ -166,9 +166,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="optical-train-group">
+  <sect2 id="optical-train-group">
     <title
 >Optische treingroep</title>
 
@@ -210,11 +210,11 @@
 
     <para
 >Focusparameters worden automatisch opgeslagen per optische trein.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-focuser-group">
+  <sect2 id="focus-focuser-group">
     <title
->Focuser groep</title>
+>Focuser-groep</title>
 
     <screenshot>
       <screeninfo
@@ -330,6 +330,15 @@
 
     <para
 >De knop <guibutton
+>Inspecteur</guibutton
+> start een actie <link linkend="focus-aberration-inspector"
+>Aberratie-inspecteur</link
+>. De knop <guibutton
+>Stop</guibutton
+> wordt gebruikt om de actie te stoppen. </para>
+
+    <para
+>De knop <guibutton
 >Afbeelding vangen</guibutton
 > zal een frame gebaseerd op de huidige instellingen in de <link linkend="focus-ccd-filter-wheel"
 > Camera &amp; filterwielgroep</link
@@ -352,9 +361,9 @@
 
     <para
 >Als u volledig nieuw bent in astronomie, dan is het altijd een goed idee om vertrouwd te raken met uw apparatuur bij daglicht. Dit omvat het verkrijgen van de benaderde focuspositie op een ver object. Dit zal een goede startpositie leveren voor focusseren op sterren 's nachts.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-ccd-filter-wheel">
+  <sect2 id="focus-ccd-filter-wheel">
     <title
 >Camera &amp; filterwielgroep</title>
 
@@ -470,9 +479,9 @@
 > zal het focuseringssubframe resetten naar een volledig frame.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-settings">
+  <sect2 id="focus-settings">
     <title
 >Focusinstellingen</title>
 
@@ -705,9 +714,9 @@
         </para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-process">
+  <sect2 id="focus-process">
     <title
 >Focusproces</title>
 
@@ -1079,9 +1088,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-mechanics">
+  <sect2 id="focus-mechanics">
     <title
 >Focusmechanisme</title>
 
@@ -1287,9 +1296,9 @@
 >: de hoeveelheid tijd in seconden om te wachten op de focuser om te verplaatsen naar een gewenste positie alvorens een overschrijding van de tijd te verklaren. Dit zou alleen gestart moeten worden als er problemen zijn met de camera tijdens het focusproces, dus zet dit op een hoog genoeg waarde zodat het niet zal gebeuren tijdens normale werking.</para>
   </listitem>
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-cfz">
+  <sect2 id="focus-cfz">
     <title
 >Critical Focus Zone (CFZ) van focus</title>
 
@@ -1506,10 +1515,10 @@
   </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="focus-advisor">
+  <sect2 id="focus-advisor">
     <title
 >Focusadviseur</title>
 
@@ -1614,9 +1623,9 @@
     </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-filter-settings">
+  <sect2 id="focus-filter-settings">
       <title
 >Filterinstellingen</title>
 
@@ -1840,10 +1849,10 @@
 >Oiii: het Oiii-filter is geconfigureerd voor Autofocus, is vergrendeld met Lum en heeft een Offset van -100. Dus wanneer de Oiii-sequentie start, wordt er een Autofocus gedaan op Lum en de relatieve Offset tussen Lum en Oiii is -100 - 0 = -100, dus de focuser verplaats zich naar de Autofocus oplossing van Lum en daarna inwaarts met 100.</para>
           </listitem>
       </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="build-filter-offsets">
+  <sect2 id="build-filter-offsets">
       <title
 >Offsets bouwen</title>
 
@@ -2049,9 +2058,9 @@
 ></listitem>
             </itemizedlist>
       </para>
-</sect3>
+</sect2>
 
-  <sect3 id="focus-display">
+  <sect2 id="focus-display">
     <title
 >Focusweergave</title>
 
@@ -2150,9 +2159,9 @@
 >: start de dialoog Profiel van ster bekijken.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-v-curve">
+  <sect2 id="focus-v-curve">
     <title
 >V-kromme</title>
 
@@ -2323,9 +2332,9 @@
         </textobject>
       </mediaobject>
     </screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-relative-profile">
+  <sect2 id="focus-relative-profile">
     <title
 >Relatief profiel</title>
 
@@ -2348,9 +2357,9 @@
 
     <para
 >Het relatieve profiel is een grafiek van de  relatieve waarden van de HFR, ten opzichte van elkaar. Lagere HFR-waarden leiden tot smallere grafieken, en omgekeerd. De aaneengesloten rode kromme is het profiel van de huidige waarden van de HFR, de gestippelde groene kromme is die voor de vorige HFR-waarden. De magenta kromme is die van de eerst gemeten HFR. Hierdoor kunt u de kwaliteit beoordelen van het resultaat van het autofocusproces. </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+  <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
     <title
 >Hoe opzetten voor het doen van een autofocus</title>
 
@@ -2416,9 +2425,9 @@
 ></textobject
 ></mediaobject
 ></screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-backlash">
+  <sect2 id="focus-backlash">
     <title
 >Speling van focuser</title>
 
@@ -2506,9 +2515,9 @@
       </listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-adaptive">
+  <sect2 id="focus-adaptive">
     <title
 >Aanpassend focus</title>
 
@@ -2637,10 +2646,10 @@
 >Het concept Aanpasbare focus is ingebouwd in het hulpmiddel <link linkend="build-filter-offsets"
 >Offsets bouwen</link
 >.</para>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="Coefficient_of_Determination">
+  <sect2 id="Coefficient_of_Determination">
     <title
 >Determinatiecoëfficiënt, R²</title>
 
@@ -2660,9 +2669,9 @@
 
     <para
 >Deze functie wordt uitgezet door de limiet van R² op 0 te zetten.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="Levenberg-Marquardt">
+  <sect2 id="Levenberg-Marquardt">
     <title
 >Levenberg–Marquardt-oplosser</title>
 
@@ -2710,5 +2719,472 @@
 
     <para
 >Op dit moment wordt de oplosser gebruikt om te fitten op ofwel een parabolische of een hyperbolische kromme.</para>
-  </sect3>
-</sect2>
+  </sect2>
+
+  <sect2 id="focus-aberration-inspector">
+    <title
+>Aberratie-inspecteur</title>
+
+    <screenshot>
+      <screeninfo
+>Aberratie-inspecteur </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="aberration_inspector.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Aberratie-inspecteur</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De aberratie-inspecteur is een hulpmiddel die gebruik maakt van autofocus om backfocus en kanteling van sensor in de verbonden optische trein te analyseren.</para>
+    <para
+>Om de aberratie-inspecteur uit te voeren druk op de knop Inspecteur op het focusscherm gelokaliseerd naast de knop Autofocus. Zie <link linkend="focus-focuser-group"
+>Focuser-groep</link
+> for more details. The following criteria must be met in order for the tool to work:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>De focuser moet een absolute focuser zijn.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Het focusalgoritme moet Lineair 1 doorgang zijn.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Een mozaïekmasker moet toegepast worden.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Stapgrootte van focuser moet zijn ingesteld. Het is het aantal microns dat het focusvlak beweegt voor 1 streepje van de focuser. Dit is ingesteld in het tabblad CFZ parameters. Zie the <link linkend="focus-cfz"
+>CFZ section</link
+> voor meer details.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para
+>Wanneer de knop Inspecteur wordt ingedrukt zal AutoFocus worden uitgevoerd, maar daarnaast, voor elk gegevenspunt, wordt extra informatie voor later gebruik opgenomen door de Aberratie-inspecteur. Nadat Autofocus voltooid is, wordt de dialoog van Aberratie-inspecteur getoond.</para>
+
+    <para
+>Om initieel het hulpmiddel in te stellen voor gebruik is het aanbevolen het volgende te doen:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Wijs naar een deel van de hemel waar Autofocus goed wordt opgelost. Dit zou typisch hoog aan de hemel zijn weg van enig obstakel. Kies iets met veel sterren zoals de Melkweg. De reden waarom dit belangrijker is voor de Aberratie-inspecteur dan Autofocus is dat analyse van focus nodig is voor elke tegel in het mozaïek. Daarom is het belangrijk dat elke tegel genoeg sterren heeft om Autofocus accuraat uit te voeren.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Voer Autofocus een aantal keren uit om er zeker van te zijn dat juist wordt opgelost en dat u een goede set sterren in elke mozaïektegel hebt. Terwijl de meeste focusparameters gebruikt kunnen worden wordt aangeraden om de parameters te gebruiken die het best werken voor Autofocus met uw apparatuur. De reden hiervoor is dat de Aberratie-inspecteur oplossen van focus voor elke mozaïektegel en niet alleen de sensor als geheel.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Een mozaïekmasker moet toegepast worden. Enig experimenteren zal vereist zijn om dit optimaal voor uw apparatuur in te stellen. De aan te passen configuratieparameter is de tegelgrootte die de grootte van de tegel is als een percentage van de sensorbreedte. Hoe hoger het percentage, hoe groter elke tegel, bijv. voor een 4:3 sensor met gebruik van een tegelgrootte van 25% betekent dat elke tegel 8% van het gebied van de sensor is. Een tegelgrootte van 10% betekent dat elke tegel 1% van het sensorgebied is. Hoe groter het gebied hoe meer sterren aanwezig zullen zijn en hoe beter het focusalgoritme zal oplossen. Echter het doel van de Aberratie-inspecteur is het leveren van informatie over aberraties (backfocus en kanteling) over de sensor, dus ideaal zou de informatie voor elke tegel specifiek moeten zijn voor een zo klein mogelijk gebied.</para>
+        <para
+>Het juiste punt voor tegelgrootte is een waarde zo klein mogelijk die nog steeds genoeg sterren bevat om goed op te lossen in elke tegel.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De Aberratie-inspecteur kan gebruikt worden in samenhang met een apparaat om kanteling en / of backfocus aan te passen. De methode om dat te doen is een iteratieve benadering, zoals bijvoorbeeld, collimeren van een telescoop. De stappen zijn:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Voer de aberratie-inspecteur uit en verkrijg resultaten.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Inspecteer de resultaten en ga na dat ze goed zijn, bijv. aantal sterren in elke tegel is voldoende en de R² is acceptabel voor alle relevante tegels.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Pas kanteling en / of backfocus aan met uw apparaat, gebaseerd op resultaten van de aberratie-inspecteur.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>De Aberratie-inspecteur opnieuw uitvoeren. Deze zal een andere dialoog starten. Controleer de resultaten zoals eerder. Als de kanteling en / of backfocus beter wordt dan is de aanpassing op de juiste manier gedaan; zo niet draai de manier om en probeer opnieuw. Gebruik de terugkoppeling uit de vorige aanpassing voor de volgende aanpassing.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Herhaal het bovenstaande proces totdat de limiet van gevoeligheid van de apparatuur is bereikt.</para>
+
+    <para
+>Noteer de hoeveelheid aanpassing, bijv. hoe ver de bouten zijn verdraaid en de richting, rechtsom of linksom, zal variëren per apparatuur en moet ontdekt worden door de gebruiker door trial-en-error. Volg altijd de aanbevelingen van het apparaat voor kantelen / backfocus van de fabrikant op.</para>
+
+    <para
+>Elke keer dat Aberratie-inspecteur wordt uitgevoerd start het een nieuwe dialoog met het nummer van de uitvoering achtergevoegd aan de titel. Op deze manier kan het verschillende keren worden uitgevoerd en de resultaten vergeleken. Merk echter op dat de dialoog heel wat gegevens bevat (ruwweg 10x de hoeveelheid van een standaard uitvoering van Autofocus). De hiermee verbonden systeembronnen worden verwijderd wanneer de dialoog wordt gesloten. Om deze reden wordt, op weinig krachtige machines, nadat het hulpmiddel is gebruikt, aanbevolen om alle dialogen van de Aberratie-inspecteur te sluiten voor het maken van afbeeldingen.</para>
+
+    <para
+>De volgende secties beschrijven de secties van de dialoog van de aberratie-inspecteur.</para>
+
+    <sect3 id="aberration-inspector-vcurve">
+      <title
+>Aberratie-inspecteur V-kromme</title>
+
+      <screenshot>
+        <screeninfo
+>Aberratie-inspecteur V-kromme </screeninfo>
+
+        <mediaobject>
+          <imageobject>
+          <imagedata fileref="aberration_inspector_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Aberratie-inspecteur V-kromme</phrase>
+        </textobject>
+        </mediaobject>
+      </screenshot>
+
+    <para
+>Bovenaan de dialoog is enige besturing, gevolgd door de V-kromme. De besturingen zijn:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Tegels</guilabel
+>: er zijn drie opties beschikbaar:</para>
+        <itemizedlist>
+          <listitem>
+            <para
+>Alles: Alle 9 tegels worden getoond.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centrum en buitenste hoeken: de tegels in het centrum en de 4 hoeken worden getoond.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centrum en binnenste ruit: De tegels in het centrum en 4 binnenste in de ruit worden getoond.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Labels</guilabel
+>: keuzevakje schakelt focuspunt van labels op de V-kromme om.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>CFZ</guilabel
+>: keuzevakje schakelt het tonen van de CFZ-snor op de V-kromme aan of uit.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Tegelcentra optimaliseren</guilabel
+>: indien niet geactiveerd zal het geometrische centrum van de tegel worden gebruikt; indien geactiveerd zal het centrum van de tegel worden berekend als een gemiddelde van de sterposities binnen de tegel. Hoewel het theoretisch accurater is om deze optie te activeren is het waarschijnlijk dat het alleen een aanzienlijke invloed heeft als het aantal sterren klein is.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Sluiten</guilabel
+>: sluit de dialoog van de abberatie-inspecteur.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De V-kromme is gelijk aan de V-kromme in het hoofdtabblad Focus, behalve dat elke tegel wordt gerepresenteerd door zijn eigen kromme. Het aantal krommen wordt bepaald door de instelling van de keuzelijst <guilabel
+>Tegels</guilabel
+>. De x-as toont de positie van de focuser en de y-as de meting (bijv. HFR) gebruikt door Autofocus. Elke kromme heeft zijn eigen kleur en 2 tekens als identificatie getoond in de legenda.</para>
+
+    <para
+>Zweef met de muis boven een minimum van de kromme om te meer informatie te zien over die kromme.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-table">
+    <title
+>Tabel van de aberratie-inspecteur</title>
+
+    <screenshot>
+      <screeninfo
+>Tabel van de aberratie-inspecteur </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_table.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Tabel van de aberratie-inspecteur</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De tabel toont informatie behorend tot elke tegel zoals geselecteerd door de instelling van <guilabel
+>Tegels</guilabel
+>.</para>
+
+    <para
+>Een tekstballon als plaatje wordt getoond wanneer de muis zweeft boven elk van de 2 meest linkse kolommen. Het plaatje toont een afbeelding van de sensor geschaald tot de afmetingen van de sensor. Over de sensor gelegd zijn de tegels zoals geselecteerd door de instelling <guilabel
+>Tegels</guilabel
+>. De tegels zijn geschaald volgens de tegelinstellingen. Elke tegel heeft een label met de tegelnaam en de tegel overeenkomend met de rij waarboven de muis zweeft, is geaccentueerd in de kleur van die tegel.</para>
+
+    <para
+>De volgende kolommen worden getoond:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Tegel</guilabel
+>: de 1 of 2 tekens naam van de tegel, bijv. LB = Linksboven, C = Centrum, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Beschrijving</guilabel
+>: beschrijving van tegel, bijv. linksboven, centrum, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Oplossing</guilabel
+>: De oplossing van de focus. Deze komt overeen met de oplossing op de V-kromme.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (steepjes)</guilabel
+>: dit is de delta van de oplossing voor de huidige tabelrij uit de oplossing van de centrum tegel. De delta van de centrum rij zal, natuurlijk, nul zijn.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (μm)</guilabel
+>: dit is delta (streepjes) geconverteerd naar microns met gebruik van de stapgrootte in microns zoals gespecificeerd in het tabblad CFZ-focus.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Aantal sterren</guilabel
+>: dit toont het min / max aantal sterren gedetecteerd tijdens het doen van Autofocus. Gewoonlijk zou het minimum aantal een ver uit focus gegevenspunt zijn en het max aantal zou het in focus gegevenspunt zijn.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>R²</guilabel
+>: kwadraat van R van de kromme past voor deze tegel. Zie <link linkend="Coefficient_of_Determination"
+>Determinatiecoëfficiënt</link
+> voor meer details.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Uitsluiten</guilabel
+>: keuzevakje om deze tegel uit / in te sluiten in de berekeningen. Standaard, als een tegel een passende kromme heeft zal deze worden ingesloten; als een tegel geen passende kromme heeft dan zal deze worden uitgesloten. Daarnaast kan de gebruiker beslissen dat een specifieke tegel een slechte kwaliteit gegevens bevat, bijvoorbeeld dat e R² laag is; of het aantal sterren is laag. In dat geval kan Uitsluiten geactiveerd worden en zal deze rij uitgesloten worden van de berekeningen. Merk op dat door uitsluiten van sommige rijen, sommige berekeningen mogelijk niet uitgevoerd kunnen worden. Als de centrumtegel wordt uitgesloten, kunnen geen berekeningen worden uitgevoerd.</para>
+
+        <para
+>Merk op dat terwijl het mogelijk is tegels uit te sluiten en nog steeds berekende waarden te krijgen, als de gegevens een slechte kwaliteit hebben dan is het aan te bevelen de Aberratie-inspecteur opnieuw uit te voeren in plaats van doorgaan met een slechte kwaliteit gegevens.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De aanbevolen benadering is om de tabel op kwaliteitsgegevens te controleren en eenmaal bereikt, verder gaan met analyseren van de <link linkend="aberration-inspector-results"
+>Resultaten van de Aberratie-inspecteur</link
+>.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-results">
+    <title
+>Resultaten van aberratie-inspecteur</title>
+
+    <screenshot>
+      <screeninfo
+>Resultaten van aberratie-inspecteur </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_results.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Resultaten van aberratie-inspecteur</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De berekeningsresultaten worden in deze sectie getoond, gebaseerd op de gegevens getoond in de tabel:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Backfocus Δ</guilabel
+>: Dit is de waarde van de backfocus-delta. Hoe dichter bij perfecte backfocus, hoe lager de backfocus-delta. Merk op dat de backfocus-delta een aanwijzing geeft over hoever de backfocus verwijderd is, in termen van schaal en richting, maar niet de hoeveelheid waarmee de sensor verplaatst moet worden. De relatie tussen backfocus-delta en hoever de sensor te verplaatsen zal met de gebruikte apparatuur variëren en moet uitgewerkt worden door de gebruiker.</para>
+
+        <para
+>Het veld geeft de richting van de verplaatsing van backfocus aan vereist om backfocus te verbeteren: ofwel verplaats de sensor dochter naar de vlakmaker van het veld (telescoop) of verplaats deze verder weg.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Links-rechts helling</guilabel
+>: geeft de links naar rechts helling in microns en als een percentage.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Boven-onder helling</guilabel
+>: geeft de boven naar onder helling in microns en als een percentage</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Totale kanteling</guilabel
+>: de diagonale kanteling en als een percentage.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Hoe kleiner de backfocus-delta hoe dichter de sensor is bij perfecte backfocus. Als de vlakmaker van het veld het veld niet helemaal vlak maakt aan de randen van de sensor dan zal dit zichtbaar blijven door omschakelen van de tegeloptie tussen "Centrum en buitenste hoeken" en "Centrum en binnenste ruit". Als de backfocus-delta resultaten consistent zijn wanneer de tegeloptie wordt gewijzigd dan geeft dat aan dat de vlakmaker van het veld werkt aan de hoeken van de sensor.</para>
+
+    <para
+>Er zal altijd enige backfocus-delta zijn vanwege ruis in de observatiegegevens. Het belangrijkste is dat wanneer in focus, sterren circulair zijn in alle delen van de sensor.</para>
+
+    <para
+>Hoe kleiner de hellingpercentages, hoe dichter de sensor is vlak is ten opzichte van het vlak van licht uit de vlakmaker / telescoop. Net als met backfocus-delta, is er altijd enige ruis in de gegevens, die aanwezig zal zijn als helling. Het belangrijkste is dat wanneer in focus de stergrootten consistent zijn over alle delen van de sensor.</para>
+
+    <para
+>Vanwege de natuur van backfocus-delta en hellingberekeningen, zal het ene de ander beïnvloeden dus zal het waarschijnlijk beter zijn om beiden tegelijk aan te passen, in kleine stappen, in plaats van de ene los van de ander perfect te maken, alvorens de ander aan te passen.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-3dgraphic">
+    <title
+>Aberratie-inspecteur 3D grafiek</title>
+
+    <screenshot>
+      <screeninfo
+>Aberratie-inspecteur 3D grafiek </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_3dgraphic.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Aberratie-inspecteur 3D grafiek</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De 3D grafiek toont de sensor met helling zoals in de <link linkend="aberration-inspector-results"
+>Resultaten van de Aberratie-inspecteur</link
+>. Om het Petzval-oppervlak te helpen visualiseren (zie <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
+>Petzval veldkromming</ulink
+> voor meer details) van licht komend uit de telescope en invallend op de sensor is het oppervlak ook gemodelleerd. Hoe hoger de fout in backfocus, hoe meer gekromd het Petzval-oppervlak is.</para>
+
+    <para
+>De grafiek kan gezoomd en gedraaid worden met gebaren. Om te zoomen gebruik knijpen. Om te draaien gebruik aanraken-en-verplaatsen.</para>
+
+    <para
+>De grafiek heeft een modus simulatie die backfocus en kantelen biedt om aangepast te worden door de schuifregelaars. Het effect op de kanteling van de sensor en het Petzval-oppervlak wordt getoond in de grafiek.</para>
+
+    <para
+>De volgende opties zijn beschikbaar voor de grafiek:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Selectie</guilabel
+>: de volgende opties zijn beschikbaar:</para>
+
+        <itemizedlist>
+          <listitem>
+          <para
+>Geen: geen selectie is mogelijk.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Item: een gegevenspunt kan geselecteerd worden en gegevenswaarden worden getoond.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Doorsnee: een 2D doorsnee door de 3D-grafiek wordt getoond.</para>
+          </listitem>
+        </itemizedlist>
+
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Thema</guilabel
+>: een aantal kleurenthema's zijn beschikbaar.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Labels</guilabel
+>: keuzevakje voor het tonen /verbergen van tegellabels op de grafiek.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sensor</guilabel
+>: keuzevakje om de sensor te tonen / verbergen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Petzval-draad</guilabel
+>: keuzevakje om het Petzval-oppervlak te tonen als een grafische draad.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Petzval-oppervlak</guilabel
+>: keuzevakje om het Petzval-oppervlak te tonen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sim-modus</guilabel
+>: keuzevakje om simulatiemodus aan / uit te zetten. Bij uit toont de grafiek de sensor en het Petzval-oppervlak gebaseerd op de berekende resultaten van het uitvoeren van de Aberratie-inspecteur. Bi aan zijn de schuifregelaars voor backfocus, links-naar-rechts kantelen en boven-naar-onder kantelen geactiveerd en kunnen deze door de gebruiker versleept worden om de grafiek aan te passen. Laat de muis zweven boven elke schuifregelaar om de tekstballonnen te zien die beschrijven wat elke schuifregelaar doet.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De 3D-grafiek is niet essentieel om de aberratie-inspecteur te gebruiken. Alle relevante informatie wordt getoond in de secties <link linkend="aberration-inspector-table"
+>Tabel</link
+> en <link linkend="aberration-inspector-results"
+>Resultaten</link
+> van de dialoog. zijn doel is om de gebruiker te helpen in het begrijpen van de aberratie-inspecteur en om zich in te werken in de informatie die het hulpmiddel biedt.</para>
+    </sect3>
+  </sect2>
+</sect1>

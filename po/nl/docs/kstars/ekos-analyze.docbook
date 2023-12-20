@@ -1,4 +1,4 @@
-<sect2 id="ekos-analyze">
+<sect1 id="ekos-analyze">
     <title
 >Analyseren</title>
     <indexterm>
@@ -22,7 +22,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="analyze-Introduction">
+    <sect2 id="analyze-Introduction">
         <title
 >Inleiding</title>
         <para
@@ -61,8 +61,8 @@
 > ziet u de meest recente gegevens (u kunt de breedte met zoomen regelen). </para>
         <para
 >De drie hoofdschermen kunnen verborgen worden om meer ruimte te maken voor de andere schermen. Er zijn keuzevakken links van de sectietitels (Tijdlijn, Statistieken en Details) die de schermen inschakelen en verbergen. </para>
-    </sect3>
-    <sect3 id="analyze-timeline">
+    </sect2>
+    <sect2 id="analyze-timeline">
         <title
 >Tijdlijn</title>
         <para
@@ -81,8 +81,8 @@
 >-segment geeft focus-informatie en toont positie versus HFR -metingen voor die sessie. Klikken op een <guilabel
 >Volger</guilabel
 >-segment toont een driftplot voor die sessie (bij volgen) en de RMS-statistieken. Klikken op andere tijdlijnen geeft status-informatie. </para>
-    </sect3>
-    <sect3 id="analyze-statistics">
+    </sect2>
+    <sect2 id="analyze-statistics">
         <title
 >Statistiek</title>
         <para
@@ -101,5 +101,5 @@
 >De statistiek getoond op de linker as kan ook geschaald worden (lastig) met het muis<mousebutton
 >wiel</mousebutton
 >. Het kan in breedte wijzigen door de muis op of neer over de linker getallen op de as te slepen. Ergens klikken in de statistiekgrafiek vult in de waarden van de getoonde statistieken. Activeren van het laatste vak maakt dat de meest recente waarde (uit een live sessie) de getoonde statistieken worden. Deze grafiek wordt gezoomd en horizontaal verschoven in samen met de tijdlijn. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

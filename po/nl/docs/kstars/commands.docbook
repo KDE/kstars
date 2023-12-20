@@ -70,7 +70,7 @@
 ></term>
 <listitem
 ><para
->Het opgegeven &kstars;-script uitvoeren. </para
+>Het gespecificeerde &kstars;-script uitvoeren. </para
 ></listitem>
 </varlistentry>
 
@@ -78,7 +78,7 @@
 <term
 ><menuchoice
 ><guimenu
->Bestanden</guimenu
+>Bestand</guimenu
 > <guimenuitem
 >Afdrukassistent...</guimenuitem
 > </menuchoice
@@ -279,7 +279,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Noorden.</para
+>Kijkrichting naar het Noorden op de horizon.</para
 ></listitem>
 </varlistentry>
 
@@ -298,7 +298,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Oosten.</para
+>Kijkrichting naar het Oosten op de horizon.</para
 ></listitem>
 </varlistentry>
 
@@ -317,7 +317,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Zuiden.</para
+>Kijkrichting naar het Zuiden op de horizon.</para
 ></listitem>
 </varlistentry>
 
@@ -336,7 +336,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Westen.</para
+>Kijkrichting naar het Westen op de horizon.</para
 ></listitem>
 </varlistentry>
 
@@ -1025,8 +1025,7 @@
 ></term>
 <listitem>
 <para
->Opent <link
-> linkend="ekos"
+>Opent <link linkend="ekos"
 >Ekos</link
 >, een compleet en krachtig astrografisch hulpmiddel. Met behulp van Ekos kunt u uw telescoop uitlijnen en laten volgen, uw CCD focusseren, en opnames maken in een eenvoudig en intuïtief scherm. </para>
 </listitem>
@@ -2286,7 +2285,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Noorden.</para
+>Kijkrichting naar het Noorden op de horizon.</para
 ></listitem>
 </varlistentry>
 
@@ -2297,7 +2296,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Oosten.</para
+>Kijkrichting naar het Oosten op de horizon.</para
 ></listitem>
 </varlistentry>
 
@@ -2308,7 +2307,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Zuiden.</para>
+>Kijkrichting naar het Zuiden op de horizon.</para>
 </listitem>
 </varlistentry>
 
@@ -2319,7 +2318,7 @@
 ></term>
 <listitem
 ><para
->Kijkrichting naar het Westen.</para
+>Kijkrichting naar het Westen op de horizon.</para
 ></listitem>
 </varlistentry>
 
