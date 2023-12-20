@@ -775,7 +775,8 @@ IPState CaptureProcess::checkLightFramePendingTasks()
         return IPS_BUSY;
 
     // step 7: resume guiding if it was suspended
-    if (state()->getGuideState() == GUIDE_SUSPENDED)
+    // JM 2023.12.20: Must make to resume if we have a light frame.
+    if (state()->getGuideState() == GUIDE_SUSPENDED && activeJob()->getFrameType() == FRAME_LIGHT)
     {
         emit newLog(i18n("Autoguiding resumed."));
         emit resumeGuiding();
