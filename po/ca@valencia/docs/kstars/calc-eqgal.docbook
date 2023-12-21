@@ -29,13 +29,13 @@
 >coordenades equatorials</link
 > a <link linkend="galactic"
 >coordenades galàctiques</link
->, i viceversa. Empleneu els dades necessàries a la secció corresponent; <guilabel
+>, i viceversa. Empleneu les dades necessàries en la secció corresponent; <guilabel
 >Coordenades equatorials (J2000)</guilabel
 > o <guilabel
 >Coordenades galàctiques</guilabel
 >. De manera alternativa, establiu les coordenades equatorials seleccionant un objecte mitjançant el diàleg <guilabel
 >Busca un objecte</guilabel
->. D'esta manera s'ompliran les coordenades complementàries. </para>
+>. D'esta manera es completaran les coordenades complementàries. </para>
 
 <para
 >El mòdul conté un mode de treball per lots per a convertir diversos parells de coordenades alhora. Haureu de construir un arxiu d'entrada en què cada línia continga dos valors: els parells de coordenades d'entrada (equatorials o galàctiques). A continuació, especifiqueu quines coordenades s'estan utilitzant com a entrada, i identifiqueu els noms dels fitxers d'entrada i d'eixida. Finalment, premeu el botó <guibutton

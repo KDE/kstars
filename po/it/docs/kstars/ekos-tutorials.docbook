@@ -1,4 +1,4 @@
-<sect2 id="ekos-tutorials">
+<sect1 id="ekos-tutorials">
     <title
 >Esercitazioni su Ekos</title>
 <indexterm>
@@ -9,14 +9,14 @@
     <tertiary
 >Esercitazioni</tertiary>
 </indexterm>
-<sect3 id="ekos-tutorials-viewer">
+<sect2 id="ekos-tutorials-viewer">
     <title
 >Visualizzatore</title>
     <para
 >StellarMate viene fornito con un server VNC, che ti abilita l'accesso da remoto all'intero desktop StellarMate. Per connetterti a VNC puoi usare sia un client VNC per desktop o per mobile, oppure semplicemente un qualsiasi browser. </para>
     <para
 >L'indirizzo VNC è: <userinput
->http://<replaceable
+>https://<replaceable
 >stellarmate_hostname</replaceable
 >:6080/vnc.html</userinput
 > </para>
@@ -34,5 +34,5 @@
 >, mentre la password predefinita è <userinput
 >smate</userinput
 >. </para>
-</sect3>
 </sect2>
+</sect1>

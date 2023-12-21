@@ -36,17 +36,17 @@
 ></indexterm
 >No resulta pràctic desplaçar-se a través d'una llista amb més de 3.400 emplaçaments per a buscar una determinada ciutat. Per a facilitar les busques, podeu filtrar la llista introduint text en els quadros que hi ha davall del mapa. Per exemple, en la captura de pantalla, apareix el text <userinput
 >A</userinput
-> en el quadro <guilabel
->Filtre de ciutat:</guilabel
+> en el quadro de filtratge <guilabel
+>Ciutat:</guilabel
 >, i també s'ha introduït <userinput
 >Te</userinput
-> en el camp <guilabel
->Filtre de província:</guilabel
+> en el quadro <guilabel
+>Província:</guilabel
 > i <userinput
 >EUA</userinput
-> en el <guilabel
->Filtre de país:</guilabel
->. Observeu que totes les ciutats mostrades en la llista posseïxen noms de ciutat, província i país que comencen pel text introduït en estos camps, i que el missatge que hi ha davall dels quadros de filtre indica que s'han trobat sis ciutats coincidents. També podeu comprovar que els punts del mapa que representen a estes sis ciutats han sigut pintats en color blanc, mentre que la resta de ciutats romandrà en gris. </para
+> en el quadro <guilabel
+>País:</guilabel
+>. Observeu que totes les ciutats mostrades en la llista posseïxen noms de ciutat, província i país que comencen pel text introduït en estos camps, i que el missatge que hi ha davall dels quadros de filtratge indica que s'han trobat sis ciutats coincidents. També podeu comprovar que els punts del mapa que representen a estes sis ciutats han sigut pintats en color blanc, mentre que la resta de ciutats romandrà en gris. </para
 ><para
 >En la llista també es pot filtrar pel seu emplaçament en el mapa. Fent clic en algun lloc del mapa del món es mostraran les ciutats existents en dos graus al voltant de l'emplaçament desitjat. En esta ocasió, podreu buscar per nom o per posició, però no per ambdues opcions a la vegada. En altres paraules, quan feu clic damunt del mapa, els noms filtrats seran ignorats, i viceversa. </para
 ><para>
@@ -338,7 +338,7 @@
 
 <!-- FITS page: -->
 <para
->Per a una explicació detallada de les opcions a la pàgina <guilabel
+>Per a una explicació detallada de les opcions en la pàgina <guilabel
 >FITS</guilabel
 >, vegeu la secció <link linkend="fits-configure"
 >Configurar FITS</link
@@ -346,7 +346,7 @@
 
 <!-- INDI page: -->
 <para
->Per a una explicació detallada de les opcions a la pàgina <guilabel
+>Per a una explicació detallada de les opcions en la pàgina <guilabel
 >INDI</guilabel
 >, vegeu la secció <link linkend="indi-configure"
 >Configurar INDI</link
@@ -951,7 +951,7 @@
 <para
 >Fent clic en <guilabel
 >D'acord</guilabel
->, s'afegirà un catàleg buit a la base de dades amb les metadades introduïdes en el diàleg i que després es podrà omplir amb objectes. (Vegeu <xref linkend="catalog_details"/> i <xref linkend="csv_import"/>). </para>
+>, s'afegirà un catàleg buit a dins de la base de dades amb les metadades introduïdes a dins del diàleg i que després es podrà emplenar amb objectes. (Vegeu <xref linkend="catalog_details"/> i <xref linkend="csv_import"/>). </para>
 </sect2>
 
 <sect2 id="catalog_colors">
@@ -1102,7 +1102,7 @@
 <para
 >Este diàleg permet crear o editar un objecte del cel profund (DSO). La secció <guilabel
 >Bàsics</guilabel
-> conté els camps que s'han d'omplir. </para>
+> conté els camps que s'han d'emplenar. </para>
 
 <variablelist>
   <varlistentry>
@@ -1239,7 +1239,7 @@
 <para
 >La captura de pantalla anterior mostra el diàleg <guilabel
 >Importació de CSV</guilabel
-> en el seu estat predeterminat. A la secció <guilabel
+> en el seu estat predeterminat. En la secció <guilabel
 >Entrada</guilabel
 >, podreu configurar l'analitzador de CSV. El <guilabel
 >Prefix del comentari:</guilabel
@@ -1592,7 +1592,7 @@
 >imageOverlays</literal
 >. Si després aneu fins a la pàgina de configuració <guilabel
 >Superposicions d'imatges</guilabel
->, hauríeu de veure els fitxers nous enumerats a la taula. Les el seu estat com a <guilabel
+>, hauríeu de veure els fitxers nous llistats en la taula. Les el seu estat com a <guilabel
 >Sense processar</guilabel
 >. Només les imatges l'estat de les quals siga <guilabel
 >D'acord</guilabel
@@ -1600,13 +1600,13 @@
 >D'acord</guilabel
 >, s'han de resoldre les plaques de les imatges o afegir manualment la informació requerida, vegeu a continuació. </para>
 <para
->Per a preparar les imatges per a visualitzar-les, s'han de resoldre les plaques de les imatges (una sola vegada). Per a fer-ho, busqueu una imatge a la taula, feu clic en el seu nom de fitxer i feu clic en <guibutton
+>Per a preparar les imatges per a visualitzar-les, s'han de resoldre les plaques de les imatges (una sola vegada). Per a fer-ho, busqueu una imatge en la taula, feu clic en el seu nom de fitxer i feu clic en <guibutton
 >Soluciona</guibutton
 > davall la taula. L'etiqueta del botó hauria de canviar a <guibutton
 >Cancel·la</guibutton
-> durant la solució, i després, quan es completa amb èxit, els paràmetres resolts es mostraran a la taula i l'estat canvia a <guilabel
+> durant la solució, i després, quan es completa amb èxit, els paràmetres resolts es mostraran en la taula i l'estat canvia a <guilabel
 >D'acord</guilabel
->. La informació d'una solució de placa amb èxit s'emmagatzema a la base de dades de l'usuari de manera que no calga repetir la solució. La imatge resolta hauria d'aparéixer a partir d'aleshores en la seua posició adequada en el mapa celeste. Podeu solucionar plaques de múltiples imatges en una sola operació fent clic damunt del nom de fitxer de la primera imatge i després fent clic damunt d'un altre nom de fitxer. S'han de seleccionar tots els fitxers d'imatge entre els noms de fitxer. Després, fent clic en <guibutton
+>. La informació d'una solució de placa amb èxit s'emmagatzema en la base de dades de l'usuari de manera que no calga repetir la solució. La imatge resolta hauria d'aparéixer a partir d'aleshores en la seua posició adequada en el mapa celeste. Podeu solucionar plaques de múltiples imatges en una sola operació fent clic damunt del nom de fitxer de la primera imatge i després fent clic damunt d'un altre nom de fitxer. S'han de seleccionar tots els fitxers d'imatge entre els noms de fitxer. Després, fent clic en <guibutton
 >Soluciona</guibutton
 >, s'intentaran solucionar totes les imatges. No obstant açò, &kstars; no intentarà resoldre les imatges l'estat de les quals siga <guilabel
 >D'acord</guilabel
@@ -1626,17 +1626,17 @@
 >Soluciona</guibutton
 > en el quadro anomenat <guilabel
 >Seg. d'arc/px predeterminats</guilabel
-> de manera que tots els intents de solució utilitzen esta escala de manera predeterminada. També podeu afegir una escala directament a la taula, fila i columna, el qual anul·larà el valor predeterminat. Podeu triar quin perfil de StellarSolver utilitza el solucionador (estos perfils es poden editar a la pestanya <guilabel
+> de manera que tots els intents de solució utilitzen esta escala de manera predeterminada. També podeu afegir una escala directament a dins de la taula, fila i columna, el qual anul·larà el valor predeterminat. Podeu triar quin perfil de StellarSolver utilitza el solucionador (estos perfils es poden editar en la pestanya <guilabel
 >Alinea</guilabel
 > d'Ekos). Finalment, podeu ajustar el <guilabel
 >Temps d'espera</guilabel
 > del solucionador en segons. </para>
 <para
->Si teniu imatges problemàtiques que no es resolen, encara podreu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres AR, Dec, segon d'arc per píxel, angle d'orientació i est a la dreta (o oest a la dreta). Una vegada ho hàgeu fet, podreu canviar l'estat a <guilabel
+>Si teniu imatges problemàtiques que no es resolen, encara podreu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a dins de la taula. Són els paràmetres AR, Dec, segon d'arc per píxel, angle d'orientació i est a la dreta (o oest a la dreta). Una vegada ho hàgeu fet, podreu canviar l'estat a <guilabel
 >OK</guilabel
 > i &kstars; guardarà estos valors a la base de dades de l'usuari com si s'hagessin resolt automàticament. </para>
 <para
->Hi ha alguns controls més a la pàgina de configuració <guilabel
+>Hi ha alguns controls més en la pàgina de configuració <guilabel
 >Superposicions d'imatges</guilabel
 >. La casella de selecció <guilabel
 >Mostra les superposicions d'imatges</guilabel
@@ -1650,7 +1650,7 @@
 <para
 >La casella de selecció <guilabel
 >Centra el mapa celeste en la selecció</guilabel
-> permet navegar amb facilitat per les imatges superposades sense manipular directament el mapa celeste. Amb açò habilitat, seleccioneu una fila a la taula de superposició (&pex;, fent clic damunt del camp del nom de fitxer) i el mapa celeste es mourà fins a esta imatge si l'estat de la imatge és <guilabel
+> permet navegar amb facilitat per les imatges superposades sense manipular directament el mapa celeste. Amb açò habilitat, seleccioneu una fila en la taula de superposició (&pex;, fent clic damunt del camp del nom de fitxer) i el mapa celeste es mourà fins a esta imatge si l'estat de la imatge és <guilabel
 >D'acord</guilabel
 >. En este punt, podeu passar d'una imatge a la següent amb les ordres de teclat &Up; i &Down;. </para>
 </sect1>
@@ -1786,7 +1786,7 @@
 </mediaobject>
 </screenshot>
 <para
->Per a una explicació detallada de les opcions a la pàgina <guilabel
+>Per a una explicació detallada de les opcions en la pàgina <guilabel
 >INDI</guilabel
 >, vegeu la secció <link linkend="indi-configure"
 >Configurar INDI</link
@@ -1924,7 +1924,7 @@
 >Oculta els objectes en moure</guilabel
 > estiga seleccionada. El temps sobre el qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
 >Oculta també si el pas temporal és més gran que:</guilabel
->. Podreu especificar els objectes que s'hauran d'ocultar a la secció <guilabel
+>. Podreu especificar els objectes que s'hauran d'ocultar en la secció <guilabel
 >Configura els objectes que s'han d'ocultar</guilabel
 >. </para>
 </sect1>
@@ -2070,7 +2070,7 @@
 >camp de visió</quote
 >. Es dibuixarà un símbol de camp de visió al centre de la finestra per a indicar cap a on apunta la pantalla. Els distints símbols disposen de mides angulars diferents; en podeu utilitzar un per a mostrar com seria la vista a través d'un telescopi en concret. Per exemple, si escolliu el camp de visió <quote
 >Prismàtic 7x35</quote
->, es dibuixarà un cercle a la pantalla amb un diàmetre de 9,2 graus; este és el camp de visió per a un prismàtic 7x35. </para>
+>, es dibuixarà un cercle en la pantalla amb un diàmetre de 9,2 graus; este és el camp de visió per a un prismàtic 7x35. </para>
 <para>
 <indexterm
 ><primary
@@ -2147,11 +2147,11 @@
   <para
 >Podeu ajustar diverses opcions de configuració perquè l'orientació del mapa celeste coincidisca amb la vista a través de l'instrument òptic, sempre que (a partir d'esta versió) l'instrument no reflectisca el camp de visió (com es fa amb prismes utilitzats amb els SCT i els refractors). </para>
   <para
->Primer, trieu el sistema de coordenades que coincidisca amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de Coordenades equatorials en el menú <guimenu
+>Primer, trieu el sistema de coordenades que coincidisca amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de Coordenades equatorials al menú <guimenu
 >Visualitza</guimenu
 >. S'hauria de veure l'opció per a canviar el sistema de coordenades <guilabel
 >Canvia a la vista horitzontal (coordenades horitzontals)</guilabel
-> quan el mode actual siga coordenades equatorials. Per a un instrument muntat en altazimut o vista senzilla, canvieu a Coordenades horitzontals, de manera que l'opció en el menú <guimenu
+> quan el mode actual siga coordenades equatorials. Per a un instrument muntat en altazimut o vista senzilla, canvieu a Coordenades horitzontals, de manera que l'opció al menú <guimenu
 >Visualitza</guimenu
 > es veja <guilabel
 >Canvia a la vista de l'esfera celeste (coordenades equatorials)</guilabel

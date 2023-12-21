@@ -27,11 +27,11 @@
 >temps sideral</link
 > al llarg de la part superior. La meitat inferior de la representació gràfica és verda amb ombres per a indicar que els punts en esta regió resten per davall de l'horitzó. </para>
 <para
->Hi ha unes quantes maneres d'afegir corbes a la representació gràfica. La més simple és senzillament escrivint el seu <guilabel
+>Hi ha unes quantes maneres d'afegir corbes en la representació gràfica. La més simple és senzillament escrivint el seu <guilabel
 >Nom:</guilabel
 > en el camp d'entrada i prémer &Intro; o el botó <guibutton
 >Dibuixa</guibutton
->. Si el text que introduïu es troba en la base de dades d'objectes, la corba de l'objecte serà afegida a la gràfica. També podeu prémer el botó <guibutton
+>. Si el text que introduïu es troba en la base de dades d'objectes, la corba de l'objecte serà afegida al gràfic. També podeu prémer el botó <guibutton
 >Busca un objecte...</guibutton
 > per a obrir la <link linkend="findobjects"
 >finestra «Busca un objecte»</link
@@ -41,7 +41,7 @@
 >Dec:</guilabel
 >. Aleshores premeu el botó <guibutton
 >Dibuixa</guibutton
-> per a afegir la corba per al vostre objecte personalitzat a la representació gràfica (cal tindre en compte que perquè açò funcione, haureu d'escollir un nom que no existira anteriorment en la base de dades d'objectes). </para>
+> per a afegir la corba per al vostre objecte personalitzat en la representació gràfica (cal tindre en compte que perquè açò funcione, haureu d'escollir un nom que no existira anteriorment en la base de dades d'objectes). </para>
 <para
 >Quan afegiu un objecte a la representació gràfica, la seua altitud en funció del temps és representada gràficament amb una gruixuda línia blanca i el seu nom serà afegit al quadro de llista (a la dreta, davall). Qualsevol objecte que ja estiguera present es traça amb una corba roja més fina. Podeu triar quin objecte és traçat amb la corba gruixuda blanca ressaltant el seu nom al quadro de llista. </para>
 <para
@@ -69,7 +69,7 @@
 >Calcula</guibutton
 >. Però esta no és l'única forma en què pot esbrinar l'altitud. Un altre mètode consistix a desplaçar-se amb el ratolí per damunt d'una corba i per tant, apareixerà un consell d'eina que contindrà el temps local, el temps sideral local i l'altitud. D'esta manera podreu llegir la informació en temps real. </para>
 <para
->L'altitud d'un objecte dependrà d'on esteu sobre la Terra i de la data. De manera predeterminada, l'eina adopta l'emplaçament i la data de la configuració actual de &kstars;. Podeu canviar estos paràmetres a la pestanya <guilabel
+>L'altitud d'un objecte dependrà d'on esteu sobre la Terra i de la data. De manera predeterminada, l'eina adopta l'emplaçament i la data de la configuració actual de &kstars;. Podeu canviar estos paràmetres en la pestanya <guilabel
 >Data i emplaçament</guilabel
 >. Per a canviar l'emplaçament, podeu prémer el botó <guibutton
 >Tria la ciutat...</guibutton
@@ -85,7 +85,7 @@
 <para
 >Exercici:</para>
 <para
->Traceu la corba de l'altitud del Sol. Assegureu-vos que l'emplaçament geogràfic no reste a prop de l'equador. Canvieu la data a algun temps en el mes de juny i aleshores una altra vega a una en el mes de gener. Podreu observar amb facilitat perquè tenim estacions; a l'hivern, el Sol està sobre l'horitzó durant menys temps (els dies són més curts) i la seua altitud mai és gaire alta. </para>
+>Traceu la corba de l'altitud del Sol. Assegureu-vos que l'emplaçament geogràfic no reste a prop de l'equador. Canvieu la data a algun temps en el mes de juny i aleshores una altra vega a una en el mes de gener. Podreu observar amb facilitat perquè tenim estacions. En l'hivern, el Sol està sobre l'horitzó durant menys temps (els dies són més curts) i la seua altitud mai és gaire alta. </para>
 </tip>
 
 

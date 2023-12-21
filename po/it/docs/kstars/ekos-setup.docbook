@@ -1,4 +1,4 @@
-<sect2 id="ekos-setup">
+<sect1 id="ekos-setup">
     <title
 >Configurazione di Ekos</title>
 <indexterm>
@@ -25,7 +25,7 @@
 <para
 ><emphasis role="bold"
 >Ekos</emphasis
-> è parte di <ulink url="http://edu.kde.org/kstars"
+> è parte di <ulink url="https://edu.kde.org/kstars"
 >&kstars;</ulink
 >. &kstars;/Ekos è già incluso in StellarMate, ed è anche <ulink url="https://www.stellarmate.com/component/jdownloads/category/2-ekos.html?Itemid=507"
 >disponibile per &Linux;, per &MacOS; e per &Windows;</ulink
@@ -57,4 +57,4 @@
         </textobject>
     </mediaobject>
 </screenshot>
-</sect2>
+</sect1>

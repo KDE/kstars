@@ -33,13 +33,13 @@
 >precessió</link
 >, nutació i aberració. Este mòdul tindrà estos efectes en compte. </para>
 <para
->Per a utilitzar el mòdul, introduïu-hi primer la data i hora de l'objectiu desitjat a la secció <guilabel
+>Per a utilitzar el mòdul, introduïu-hi primer la data i hora de l'objectiu desitjat en la secció <guilabel
 >Hora i data de l'objectiu</guilabel
->. Aleshores, introduïu les coordenades del catàleg a la secció <guilabel
+>. Aleshores, introduïu les coordenades del catàleg en la secció <guilabel
 >Coordenades del catàleg</guilabel
 >. De manera alternativa, també podeu establir les coordenades del catàleg seleccionant un objecte utilitzant el diàleg <guilabel
 >Busca un objecte</guilabel
->. També podeu especificar ací l'època del catàleg (en general 2000.0 per a catàlegs amb objectes moderns). Llavors les coordenades de l'objecte per a la data objectiu seran mostrades a la secció <guilabel
+>. També podeu especificar ací l'època del catàleg (en general 2000.0 per a catàlegs amb objectes moderns). Llavors les coordenades de l'objecte per a la data objectiu seran mostrades en la secció <guilabel
 >Coordenades aparents</guilabel
 >. </para>
 </sect2>

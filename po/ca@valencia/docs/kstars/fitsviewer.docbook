@@ -180,7 +180,7 @@
 ></listitem>
                 <listitem
 ><para
->Visualitza a la mida real.</para
+>Visualitza en la mida real.</para
 ></listitem>
                 <listitem
 ><para
@@ -467,7 +467,7 @@
 ></keycombo
 >. </para>
 <para
->Atés que les operacions com ara la reconstrucció des de Bayer i el WCS automàtic són cares en recursos i posen èmfasi en el processador en dispositius incrustats amb poca potència, podeu canviar el seu comportament a la <link linkend="fits-configure"
+>Atés que les operacions com ara la reconstrucció des de Bayer i el WCS automàtic són cares en recursos i posen èmfasi en el processador en dispositius incrustats amb poca potència, podeu canviar el seu comportament en la <link linkend="fits-configure"
 >pàgina de configuració FITS de &kstars;</link
 >. </para>
 <screenshot>
@@ -549,7 +549,7 @@
     <para
 >El solucionador del visor de FITS s'utilitza per a resoldre la placa de la imatge carregada en la pestanya <guilabel
 >Visor de FITS</guilabel
->. Només funciona amb StellarSolver intern. Obté les coordenades AR i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
+>. Només funciona amb StellarSolver intern. Obté les coordenades AR i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades en la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
             <itemizedlist>
                 <listitem
 ><para
@@ -774,7 +774,7 @@
         </mediaobject>
     </screenshot>
     <para
->L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Açò és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrela, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la brillantor relativa dels diferents objectes a la imatge. A més, permet als usuaris que vullguen veure visualment què està passant en la seua recopilació de dades d'una altra manera. </para>
+>L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Açò és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrela, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la brillantor relativa dels diferents objectes en la imatge. A més, permet als usuaris que vullguen veure visualment què està passant en la seua recopilació de dades d'una altra manera. </para>
     <para
 >Per a utilitzar la nova característica, l'usuari haurà de seleccionar la icona <guiicon
 >Visualitza el perfil de l'estrela</guiicon
@@ -806,7 +806,7 @@
         </mediaobject>
     </screenshot>
     <para
->En l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible a la <guilabel
+>En l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible en la <guilabel
 >Pantalla de resum</guilabel
 >, al <link linkend="ekos-align"
 >mòdul «Alinea»</link

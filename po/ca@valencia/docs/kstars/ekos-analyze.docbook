@@ -30,7 +30,7 @@
 >analyze</filename
 >, una carpeta germana de la carpeta de registre principal. Els fitxers <literal role="extension"
 >.analyze</literal
-> escrits allà es poden carregar a la pestanya <guilabel
+> escrits allà es poden carregar a dins de la pestanya <guilabel
 >Analitza</guilabel
 > per a veure'ls. <guilabel
 >Analitza</guilabel
@@ -73,7 +73,7 @@
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel
 >Directori alternatiu</guilabel
-> al menú d'entrada a un directori que serà la base d'una part del camí del fitxer original. </para>
+> en el menú d'entrada a un directori que serà la base d'una part del camí del fitxer original. </para>
         </note>
         <para
 >En fer clic damunt d'un segment a <guilabel
@@ -98,9 +98,9 @@
 >Calcula automàticament l'HFR</guilabel
 > en les opcions de FITS). Experimenteu amb les altres. </para>
         <para
->L'eix de l'esquerra que es mostra inicialment només és apropiat per a un error AR/Dec, deriva, error RMS, polsos AR/Dec i HFR, representats en segons d'arc i amb un interval predeterminat de -2 fins a 5 segons d'arc. No obstant açò, quan feu clic damunt d'un dels quadros davall del gràfic d'estadístiques (que mostra el valor d'una estadística) s'establirà l'interval d'esta estadística com l'interval que es mostra a l'eix esquerre. En fer doble clic sobre este quadro, apareixerà un menú que us permetrà ajustar l'interval i el seguiment de l'estadística (&pex;, configurar-lo en automàtic, escriure explícitament l'interval, tornar a configurar-lo en el seu valor predeterminat i també canviar el color del gràfic d'esta estadística). </para>
+>L'eix de l'esquerra que es mostra inicialment només és apropiat per a un error AR/Dec, deriva, error RMS, polsos AR/Dec i HFR, representats en segons d'arc i amb un interval predeterminat de -2 fins a 5 segons d'arc. No obstant açò, quan feu clic damunt d'un dels quadros davall del gràfic d'estadístiques (que mostra el valor d'una estadística) s'establirà l'interval d'esta estadística com l'interval que es mostra en l'eix esquerre. En fer doble clic sobre este quadro, apareixerà un menú que us permetrà ajustar l'interval i el seguiment de l'estadística (&pex;, configurar-lo en automàtic, escriure explícitament l'interval, tornar a configurar-lo en el seu valor predeterminat i també canviar el color del gràfic d'esta estadística). </para>
         <para
->L'estadística que es mostra a l'eix esquerre també es pot escalar (incòmodament) utilitzant la <mousebutton
+>L'estadística que es mostra en l'eix esquerre també es pot escalar (incòmodament) utilitzant la <mousebutton
 >roda</mousebutton
 > del ratolí. Es pot desplaçar arrossegant el ratolí cap amunt o cap avall sobre els números de l'eix esquerre. Quan feu clic en qualsevol lloc dins del gràfic d'estadístiques, es completaran els valors de les estadístiques mostrades. Marcar l'última casella farà que els valors més recents (d'una sessió en viu) siguen les estadístiques que es mostren. Este gràfic s'ampliarà i es desplaçarà horitzontalment en coordinació amb la línia de temps. </para>
     </sect2>

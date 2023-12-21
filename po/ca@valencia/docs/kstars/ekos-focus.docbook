@@ -197,7 +197,7 @@
         <para
 ><guibutton
 >Tren</guibutton
->: El tren òptic en ús a la pestanya Enfocament. Passeu el ratolí per damunt d'este camp per a una descripció més detallada del tren seleccionat.</para>
+>: El tren òptic en ús en la pestanya Enfocament. Passeu el ratolí per damunt d'este camp per a una descripció més detallada del tren seleccionat.</para>
       </listitem>
 
       <listitem>
@@ -284,7 +284,7 @@
 >Allunya</guibutton
 > es poden utilitzar per a moure l'enfocador segons el nombre de marques definit en el camp <guibutton
 >Mida inicial del pas</guibutton
-> a la pestanya <link linkend="focus-mechanics"
+> en la pestanya <link linkend="focus-mechanics"
 >Mecànica</link
 >.</para>
 
@@ -357,7 +357,7 @@
 >Amplia</guibutton
 > i <guibutton
 >Allunya</guibutton
-> per a ajustar la posició d'enfocament per a minimitzar aproximadament l'HFR de les estreles en les imatges capturades. Quan la captura s'utilitza d'esta manera, la gràfica de la <link linkend="focus-v-curve"
+> per a ajustar la posició d'enfocament per a minimitzar aproximadament l'HFR de les estreles en les imatges capturades. Quan la captura s'utilitza d'esta manera, el gràfic de la <link linkend="focus-v-curve"
 >corba V</link
 > canviarà per a mostrar una sèrie de fotogrames temporals i els seus HFR associats. Açò farà que el procés d'elaboració siga molt més fàcil de realitzar.</para>
 
@@ -386,10 +386,10 @@
     </screenshot>
 
     <para
->Esta secció de paràmetres tracta la configuració de la càmera i el filtre que s'emprarà durant l'enfocament.</para>
+>Esta secció de paràmetres tracta la configuració de la càmera i del filtre que s'emprarà durant l'enfocament.</para>
 
     <para
->La fila superior de controls permet establir els paràmetres del CCD.</para>
+>La fila superior de controls permet establir els paràmetres de CCD.</para>
 
     <itemizedlist>
       <listitem>
@@ -575,7 +575,7 @@
         <para
 ><guilabel
 >Unitats de visualització</guilabel
->: Seleccioneu les unitats per a mostrar a la Corba V d'enfocament automàtic quan se seleccione HFR o FWHM. S'admeten <emphasis role="bold"
+>: Seleccioneu les unitats per a mostrar en la Corba V d'enfocament automàtic quan se seleccione HFR o FWHM. S'admeten <emphasis role="bold"
 >Pixels</emphasis
 > i <emphasis role="bold"
 >Segons d'arc</emphasis
@@ -957,7 +957,7 @@
         <para
 ><emphasis role="bold"
 >Fourier</emphasis
->: Es pren una transformada de Fourier de la imatge i calcula la potència de la imatge en l'espai de freqüència. La hipòtesi és que per a una imatge astronòmica d'estreles i fons, les estreles seran gaussianes. Davall una transformada de Fourier, una gaussiana es transforma en una altra gaussiana; però les estreles més amples es transformaran en gaussianes més estretes en l'espai de freqüència, i viceversa. Per tant, a l'enfocament, el resum del contingut en l'espai de freqüència, el qual és en efecte una mesura de potència, serà un màxim.</para>
+>: Es pren una transformada de Fourier de la imatge i calcula la potència de la imatge en l'espai de freqüència. La hipòtesi és que per a una imatge astronòmica d'estreles i fons, les estreles seran gaussianes. Davall una transformada de Fourier, una gaussiana es transforma en una altra gaussiana; però les estreles més amples es transformaran en gaussianes més estretes en l'espai de freqüència, i viceversa. Per tant, en l'enfocament, el resum del contingut en l'espai de freqüència, el qual és en efecte una mesura de potència, serà un màxim.</para>
 
         <para
 >Açò seguix la idea principal suggerida per en Tan i en Schulz en el seu document: <ulink url="https://arxiv.org/pdf/2201.12466.pdf"
@@ -984,7 +984,7 @@
 >: Esta és una opció experimental només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba Hipèrbola i Paràbola. Requerix que se seleccione el Camp complet. L'opció calcularà la desviació estàndard de la Mesura de les estreles i utilitza el quadrat d'esta (matemàticament la variància) com a ponderació en el procés d'ajust de la corba. L'avantatge d'açò és que els punts de dades amb dades menys fiables i, per tant, les desviacions estàndard HFR més grans tindran menys pes que els punts de dades més fiables. Si no se selecciona, i per a totes les altres coincidències de corba on no es permet l'opció, tots els punts de dades tindran el mateix pes en el procés d'ajust de la corba.</para>
 
       <para
->La desviació estàndard es dibuixa a la corba V per a cada punt de dades com una barra d'error.</para>
+>La desviació estàndard es dibuixa en la corba V per a cada punt de dades com una barra d'error.</para>
 
       <para
 >Es recomana seleccionar esta opció.</para>
@@ -1016,7 +1016,7 @@
 > per a més detalls incloent el document original de Peirce i el document de Gould als quals es fa referència a les notes. Si el criteri de Peirce detecta 1 o més valors atípics, llavors s'intentarà un altre ajust de la corba amb els valors atípics eliminats. De nou es calcularà la R² i es compararà amb l'ajust original de la corba R². Si la R² és millor, llavors s'utilitzarà l'última execució, si no, s'utilitzarà l'ajust de la corba original (amb els valors atípics inclosos).</para>
 
       <para
->Els valors atípics estan clarament marcats a la corba V amb una X a través del punt de dades.</para>
+>Els valors atípics estan clarament marcats en la corba V amb una X a través del punt de dades.</para>
       </listitem>
 
       <listitem>
@@ -1053,7 +1053,7 @@
             <para
 ><guilabel
 >Nombre de files</guilabel
->: El nombre de línies mostrades a la pantalla quan s'utilitza una màscara Bahtinov.</para>
+>: El nombre de línies mostrades en la pantalla quan s'utilitza una màscara Bahtinov.</para>
           </listitem>
 
           <listitem>
@@ -1082,7 +1082,7 @@
           <para
 ><guilabel
 >Tolerància</guilabel
->: El valor de percentatge de la tolerància s'utilitza per a ajudar a decidir quan es pararà el procés d'enfocament automàtic. Durant el procés d'enfocament automàtic, es registren els valors HFR i una vegada que l'enfocador es troba a prop d'una posició òptima, es començaran a mesurar HFR enfront de l'HFR mínim registrat a la sessió i es pararà quan un valor HFR mesurat es trobe dins del tant per cent de diferència de l'HFR mínim registrat. Feu-lo disminuir per a restringir el radi de la solució òptima del punt d'enfocament. Feu-lo augmentar per a expandir el radi de la solució. </para>
+>: El valor de percentatge de la tolerància s'utilitza per a ajudar a decidir quan es pararà el procés d'enfocament automàtic. Durant el procés d'enfocament automàtic, es registren els valors HFR i una vegada que l'enfocador es troba a prop d'una posició òptima, es començaran a mesurar HFR enfront de l'HFR mínim registrat en la sessió i es pararà quan un valor HFR mesurat es trobe dins del tant per cent de diferència de l'HFR mínim registrat. Feu-lo disminuir per a restringir el radi de la solució òptima del punt d'enfocament. Feu-lo augmentar per a expandir el radi de la solució. </para>
 
           <warning>
           <para
@@ -1330,14 +1330,16 @@
 >Requerix alguns coneixements per a configurar-la correctament. Hi ha molta informació disponible a Internet.</para>
 
     <para
->La idea de la pestanya ZCE és que comença amb les dades del tren òptic utilitzat a la pestanya Enfocament i les utilitza per a calcular la ZCE. L'usuari pot ajustar els paràmetres per a fer escenaris «què passa si» per a veure com afecta a la ZCE. Fent clic en el botó <guilabel
+>La idea de la pestanya ZCE és que comença amb les dades del tren òptic utilitzat en la pestanya <guilabel
+>Enfocament</guilabel
+> i les utilitza per a calcular la ZCE. L'usuari pot ajustar els paràmetres per a fer escenaris «què passa si» per a veure com afecta a la ZCE. Fent clic en el botó <guilabel
 >Restablix al TO</guilabel
 > es restabliran els paràmetres ajustats als valors del tren òptic.</para>
 
     <para
 >Si <guilabel
 >Visualització</guilabel
-> està marcada, llavors es dibuixarà la ZCE a la corba V després que l'enfocament automàtic es complete correctament. <screenshot>
+> està marcada, llavors es dibuixarà la ZCE en la corba V després que l'enfocament automàtic es complete correctament. <screenshot>
       <screeninfo
 >Mecànica de l'enfocament </screeninfo>
       <mediaobject
@@ -1434,7 +1436,7 @@
     <para
 ><guilabel
 >Pantalla</guilabel
->: Seleccioneu esta casella per a mostrar la ZCE calculada a la corba V després d'una execució d'enfocament automàtic correcta. Es mostrarà com un bigot groc.</para>
+>: Seleccioneu esta casella per a mostrar la ZCE calculada en la corba V després d'una execució d'enfocament automàtic correcta. Es mostrarà com un bigot groc.</para>
   </listitem>
 
   <listitem>
@@ -1493,7 +1495,7 @@
     <para
 >De manera alternativa, podeu mesurar fins a quin punt el tub es mou d'extrem a extrem (teniu cura de no forçar-lo) amb un joc de peus de rei o un regle. En restar la posició «interior» més llunyana (en marques) de la posició «exterior» més llunyana (en marques) tindreu quantes marques s'ha mogut la distància que heu mesurat. A partir d'ací podreu calcular la distància en micres que mou una sola marca el tub.</para>
     <para
->Altres tipus de telescopis tindran altres maneres d'ajustar el pla focal, per exemple, movent els espills primaris o secundaris. Haureu d'obtindre la mida del pas a la documentació del vostre equip o trobar com mesurar-la d'una manera coherent amb la descrita anteriorment.</para>
+>Altres tipus de telescopis tindran altres maneres d'ajustar el pla focal, per exemple, movent els espills primaris o secundaris. Haureu d'obtindre la mida del pas en la documentació del vostre equip o trobar com mesurar-la d'una manera coherent amb la descrita anteriorment.</para>
   </listitem>
 
   <listitem>
@@ -1572,7 +1574,7 @@
     <para
 ><guilabel
 >Paràmetres de la càmera i la roda de filtres</guilabel
->: Establix els paràmetres a la secció <link linkend="focus-ccd-filter-wheel"
+>: Establix els paràmetres en la secció <link linkend="focus-ccd-filter-wheel"
 >CCD i roda de filtres</link
 > de la pantalla d'enfocament. En passar el ratolí per damunt d'esta etiqueta, veureu en el consell d'eina quins valors recomana l'«Assessor» de l'enfocament.</para>
     </listitem>
@@ -1581,7 +1583,7 @@
     <para
 ><guilabel
 >Paràmetres de la pestanya Configuració</guilabel
->: Establix els paràmetres a la pestanya <link linkend="focus-settings"
+>: Establix els paràmetres en la pestanya <link linkend="focus-settings"
 >Configuració</link
 > de l'enfocament. En passar el ratolí per damunt d'esta etiqueta, veureu en el consell d'eina quins valors recomana l'«Assessor» de l'enfocament.</para>
     </listitem>
@@ -1590,7 +1592,7 @@
     <para
 ><guilabel
 >Paràmetres de la pestanya Processament</guilabel
->: Establix els paràmetres a la pestanya <link linkend="focus-process"
+>: Establix els paràmetres en la pestanya <link linkend="focus-process"
 >Procés</link
 > de l'enfocament. En passar el ratolí per damunt d'esta etiqueta, veureu en el consell d'eina quins valors recomana l'«Assessor» de l'enfocament.</para>
     </listitem>
@@ -1599,7 +1601,7 @@
     <para
 ><guilabel
 >Paràmetres de la pestanya Mecànica</guilabel
->: Establix els paràmetres a la pestanya <link linkend="focus-mechanics"
+>: Establix els paràmetres en la pestanya <link linkend="focus-mechanics"
 >Mecànica</link
 > de l'enfocament. En passar el ratolí per damunt d'esta etiqueta, veureu en el consell d'eina quins valors recomana l'«Assessor» de l'enfocament.</para>
     </listitem>
@@ -1646,7 +1648,13 @@
 ><imageobject
 ><imagedata fileref="view-filter.png" format="PNG"/></imageobject
 > </inlinemediaobject
-> de filtre des de Captura o Enfocament per a obrir el diàleg de configuració del filtre. Esta finestra emergent permet a l'usuari configurar les dades associades amb cada filtre, i s'utilitza per a diverses funcions dins del sistema.</para>
+> de filtre des de <guilabel
+>Captura</guilabel
+> o <guilabel
+>Enfocament</guilabel
+> per a obrir el diàleg <guilabel
+>Configureu el filtre</guilabel
+>. Esta finestra emergent permet a l'usuari configurar les dades associades amb cada filtre, i s'utilitza per a diverses funcions dins del sistema.</para>
 
       <para
 >L'enfocament amb filtres diferents es pot fer de tres maneres dins d'Ekos.</para>
@@ -1705,14 +1713,14 @@
 > i assegureu-vos que s'han establit els desplaçaments per a este filtre i tots els altres filtres que puguen precedir-lo en una seqüència.</para>
 
           <para
->Els desplaçaments es poden fer executant l'enfocament automàtic amb filtres diferents i calculant manualment els desplaçaments relatius i introduint-los a la taula o utilitzant l'eina <link linkend="build-filter-offsets"
+>Els desplaçaments es poden fer executant l'enfocament automàtic amb filtres diferents i calculant manualment els desplaçaments relatius i introduint-los a dins de la taula o utilitzant l'eina <link linkend="build-filter-offsets"
 >Construcció dels desplaçaments</link
 >.</para>
         </listitem>
       </itemizedlist>
 
       <para
->Configureu les opcions de cada filtre a la taula: </para>
+>Configureu les opcions de cada filtre en la taula: </para>
       <orderedlist>
           <listitem>
               <para
@@ -1805,14 +1813,14 @@
           <para
 ><guilabel
 >Captura fotogrames plans amb el mateix enfocament que els de llum</guilabel
->: Quan se selecciona, els fotogrames plans es prendran a la posició de l'enfocador <guilabel
+>: Quan se selecciona, els fotogrames plans es prendran en la posició de l'enfocador <guilabel
 >Última solució d'EA</guilabel
 >.</para>
           </listitem>
       </itemizedlist>
 
       <para
->Posem un exemple. Si tenim una seqüència de captura que comença amb Lum -> Roig -> Verd -> Blau -> Sii -> Ha -> Oiii utilitzant la configuració a la finestra emergent <guilabel
+>Posem un exemple. Si tenim una seqüència de captura que comença amb Lum -> Roig -> Verd -> Blau -> Sii -> Ha -> Oiii utilitzant la configuració en la finestra emergent <guilabel
 >Configureu el filtre</guilabel
 >:</para>
       <itemizedlist>
@@ -1871,13 +1879,13 @@
 >Construcció dels desplaçaments</guilabel
 > de la finestra emergent <link linkend="focus-filter-settings"
 >Configureu el filtre</link
-> per a iniciar l'eina Construcció dels desplaçaments. Els desplaçaments del filtre es poden introduir manualment a la taula en la finestra emergent Configureu el filtre o es pot utilitzar esta eina per a ajudar a crear-los. </para>
+> per a iniciar l'eina Construcció dels desplaçaments. Els desplaçaments del filtre es poden introduir manualment a dins de la taula en la finestra emergent Configureu el filtre o es pot utilitzar esta eina per a ajudar a crear-los. </para>
       <para>
           <emphasis
 >Nota: Esta utilitat no s'haurà d'executar durant una sessió d'obtenció d'imatges, ja que mentre s'està executant pren el control exclusiu del procés d'enfocament.</emphasis>
       </para>
       <para
->Per a començar, configureu els paràmetres de cada filtre a la taula de la finestra emergent <guilabel
+>Per a començar, configureu els paràmetres de cada filtre en la taula de la finestra emergent <guilabel
 >Configureu el filtre</guilabel
 > i després llanceu la Construcció de desplaçaments dels filtres. La finestra emergent s'obrirà amb una taula de dades amb les columnes següents: </para>
       <itemizedlist>
@@ -1923,7 +1931,7 @@
 >Enfocament adaptatiu</link
 >. </para>
       <para
->Posem un exemple on tenim 7 filtres: Lum, Roig, Verd, Blau, Sii, Ha i Oiii. El 8è sòcol a la roda de filtres està marcat com a Blanc. El procés ha completat 5 execucions per a tots els filtres, 0 pel blanc (excloent efectivament el blanc del procés). En este cas s'han creat a la taula 8 columnes addicionals. </para>
+>Posem un exemple on tenim 7 filtres: Lum, Roig, Verd, Blau, Sii, Ha i Oiii. El 8è sòcol en la roda de filtres està marcat com a Blanc. El procés ha completat 5 execucions per a tots els filtres, 0 pel blanc (excloent efectivament el blanc del procés). En este cas s'han creat 8 columnes addicionals en la taula. </para>
       <screenshot>
           <screeninfo
 >Construcció de desplaçaments dels filtres </screeninfo>
@@ -2017,7 +2025,9 @@
 >enfocament adaptatiu</link
 >. La primera execució de l'enfocament automàtic (en este exemple execució 1 sobre Lum) és la base per a les adaptacions. Per tant, la temperatura i l'altitud de l'execució 1 de l'enfocament automàtic sobre Lum s'utilitzaran com a base per a totes les altres execucions i les dades s'adaptaran al que hauria estat la solució de l'enfocament automàtic, si s'haguera executat a la temperatura i altitud de l'execució 1 de l'enfocament automàtic sobre Lum. </para>
       <para
->En este exemple, l'enfocament adaptatiu està configurat per als ajustaments de l'altitud en el filtre roig només a la configuració del filtre. Per tant, els valors adaptats a l'execució de l'enfocament automàtic seran els mateixos que els valors sense adaptar per a tots els altres filtres. </para>
+>En este exemple, l'enfocament adaptatiu està configurat per als ajustaments de l'altitud en el filtre roig només a <guilabel
+>Configureu el filtre</guilabel
+>. Per tant, els valors adaptats a l'execució de l'enfocament automàtic seran els mateixos que els valors sense adaptar per a tots els altres filtres. </para>
 
       <screenshot>
         <screeninfo
@@ -2035,7 +2045,7 @@
       <para
 >Si passeu el ratolí per damunt d'una execució d'enfocament automàtic, es mostrarà un consell d'eina d'explicació de l'enfocament adaptatiu. En l'exemple, es passa el ratolí per damunt de l'execució 1 de l'enfocament automàtic sobre Roig. La 1a fila de l'explicació mostra el resultat de l'enfocament automàtic mesurat d'esta execució (36683), les adaptacions per a la temperatura (0,0 C) i l'altitud (0,2 graus). La segona fila mostra les adaptacions: 206 en total, 0 temperatura, 205,9 altitud. La tercera fila mostra la posició adaptada de 36889. </para>
       <para
->L'usuari pot canviar entre enfocament adaptatiu o els valors en brut. Els valors que es mostren a la quadrícula seran els que es guardaran. </para>
+>L'usuari pot canviar entre enfocament adaptatiu o els valors en brut. Els valors que es mostren en la quadrícula seran els que es guardaran. </para>
       <para
 >Ací hi ha alguns consells per a utilitzar esta utilitat: <itemizedlist>
             <listitem
@@ -2196,7 +2206,7 @@
     </screenshot>
 
     <para
->La corba V mostra la posició de l'enfocador (eix X) contra la mesura de l'enfocament, p. ex., el radi del semiflux (HFR) (eix Y). Cada punt de dades es dibuixa a la gràfica i es representa per un cercle amb un nombre que representa el punt de dades. Quants punts de dades es prenen i com es mourà l'enfocador està determinat pels paràmetres escollits. </para>
+>La corba V mostra la posició de l'enfocador (eix X) contra la mesura de l'enfocament, p. ex., el radi del semiflux (HFR) (eix Y). Cada punt de dades es dibuixa en el gràfic i es representa per un cercle amb un nombre que representa el punt de dades. Quants punts de dades es prenen i com es mourà l'enfocador està determinat pels paràmetres escollits. </para>
 
     <para
 >Per a determinats algorismes, Ekos també dibuixarà una corba de millor ajust a través dels punts de dades. Si s'ha seleccionat <guilabel
@@ -2258,7 +2268,7 @@
         <para
 ><guibutton
 >Neteja les dades</guibutton
->: Reinicia la gràfica de la corba V netejant les dades mostrades.</para>
+>: Reinicia el gràfic de la Corba V netejant les dades mostrades.</para>
       </listitem>
     </itemizedlist>
 
@@ -2331,7 +2341,7 @@
 ></para>
 
     <para
->Quan es captura, el format de la gràfica canviarà a una «sèrie de temps», on l'eix horitzontal indicarà el número del fotograma. Açò vos ajudarà en el procés de captura, ja que podreu veure com canvia la mesura, en este cas l'HFR, entre els fotogrames. </para>
+>Quan es captura, el format del gràfic canviarà a una «sèrie de temps», on l'eix horitzontal indicarà el número del fotograma. Açò vos ajudarà en el procés de captura, ja que podreu veure com canvia la mesura, en este cas l'HFR, entre els fotogrames. </para>
 
     <para
 >Açò és molt útil, per exemple, quan s'intenta aconseguir un enfocament aproximat del sistema abans d'iniciar una execució d'enfocament automàtic. En este cas, s'iniciarà la captura i s'utilitzaran els botons d'entrada i d'eixida per a ajustar l'enfocament i l'efecte en la corba V observada.</para>
@@ -2376,7 +2386,7 @@
     </screenshot>
 
     <para
->El perfil relatiu és una gràfica que mostra els valors HFR relatius representats entre si. Els valors HFR inferiors corresponen a les formes més estretes i viceversa. La corba roja sòlida és el perfil del valor HFR actual, mentre que la corba verda amb punts és per al valor HFR anterior. Finalment, la corba magenta indica el primer HFR mesurat. Açò permet jutjar si el rendiment del procés d'enfocament automàtic ha millorat la qualitat de l'enfocament relatiu. </para>
+>El perfil relatiu és un gràfic que mostra els valors HFR relatius representats entre si. Els valors HFR inferiors corresponen a les formes més estretes i viceversa. La corba roja sòlida és el perfil del valor HFR actual, mentre que la corba verda amb punts és per al valor HFR anterior. Finalment, la corba magenta indica el primer HFR mesurat. Açò permet jutjar si el rendiment del procés d'enfocament automàtic ha millorat la qualitat de l'enfocament relatiu. </para>
   </sect2>
 
   <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
@@ -2645,18 +2655,18 @@
 ></para>
 
     <para
->Una vegada tingueu les dades, podreu configurar-la a la finestra emergent <link linkend="focus-filter-settings"
+>Una vegada tingueu les dades, podreu configurar-la en la finestra emergent <link linkend="focus-filter-settings"
 >Configureu el filtre</link
 >. Després, en <guilabel
 >Enfocament</guilabel
->, activeu l'enfocament adaptatiu a la pestanya <link linkend="focus-settings"
+>, activeu l'enfocament adaptatiu en la pestanya <link linkend="focus-settings"
 >Configuració</link
 >. En este punt, quan executeu una seqüència, Ekos comprovarà després de cada submarc si cal adaptar la posició de l'enfocador. Si és així, l'enfocament ho farà i després continuarà la captura amb el submarc següent.</para>
 
     <para
 >La captura de pantalla a la part superior d'esta secció mostra un exemple. <guilabel
 >Marques / °C</guilabel
-> s'establix a 9. S'ha executat l'enfocament automàtic i s'ha resolt a 36580 a 10 C. Després, s'ha executat una seqüència senzilla de 5 submarcs. La temperatura s'ha establit primer a 9 C i després a 8 C. Després de completar cada submarc, Ekos ha realitzat una execució d'enfocament adaptatiu i, quan s'ha produït un canvi de temperatura ha calculat el nombre de marques per a moure l'enfocador. En este exemple, l'enfocador s'ha mogut cap endins 9 marques en 2 ocasions diferents, començant per 36580, abans de passar a 36571 i després a 36562 tal com es mostra a la pestanya <guilabel
+> s'establix a 9. S'ha executat l'enfocament automàtic i s'ha resolt a 36580 a 10 C. Després, s'ha executat una seqüència senzilla de 5 submarcs. La temperatura s'ha establit primer a 9 C i després a 8 C. Després de completar cada submarc, Ekos ha realitzat una execució d'enfocament adaptatiu i, quan s'ha produït un canvi de temperatura ha calculat el nombre de marques per a moure l'enfocador. En este exemple, l'enfocador s'ha mogut cap endins 9 marques en 2 ocasions diferents, començant per 36580, abans de passar a 36571 i després a 36562 tal com es mostra en la pestanya <guilabel
 >Enfocament</guilabel
 > al giny Posició actual i al quadro de missatges.</para>
 
@@ -2677,7 +2687,7 @@
 >. Esta és una característica disponible per a l'algorisme d'enfocament lineal d'1 pas. En essència, R² dona un valor entre 0 i 1, amb 1 significa un ajust perfecte on tots els punts de dades es troben en la corba, i 0 significa que no hi ha correlació entre els punts de dades i la corba. L'usuari hauria d'experimentar amb el seu equip per a veure quins valors es poden obtindre, però com a guia, un valor per damunt de 0,9 serà un bon ajust.</para>
 
     <para
->Hi ha una opció per a establir un «Límit R²» a la pestanya Configureu la finestra Enfocament que es compara amb R² calculat una vegada s'ha completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>
+>Hi ha una opció per a establir un «Límit R²» en la pestanya Configureu la finestra Enfocament que es compara amb R² calculat una vegada s'ha completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>
 
     <para
 >Establir un límit R² podria ser útil per a l'observació desatesa si l'execució de l'enfocament produïx un resultat roín per un motiu puntual. És evident que si el motiu no és transitori, la reactivació no millorarà res.</para>
@@ -2764,7 +2774,7 @@
     <para
 >Per a executar l'Inspector de l'aberració, premeu el botó <guibutton
 >Inspector</guibutton
-> a la pantalla d'enfocament situada al costat del botó <guibutton
+> en la pantalla d'enfocament situada al costat del botó <guibutton
 >Enfoca automàticament</guibutton
 >. Per a més detalls, vegeu el <link linkend="focus-focuser-group"
 >Grup de l'enfocador</link
@@ -2790,7 +2800,7 @@
 
       <listitem>
         <para
->Caldrà configurar la mida del pas de l'enfocador. Esta serà el nombre de micres que el pla focal es mou per a 1 marca de l'enfocador. Açò es configura a la pestanya <guilabel
+>Caldrà configurar la mida del pas de l'enfocador. Esta serà el nombre de micres que el pla focal es mou per a 1 marca de l'enfocador. Açò es configura en la pestanya <guilabel
 >ZCE</guilabel
 > de paràmetres. Per a més detalls, vegeu la secció <link linkend="focus-cfz"
 >ZCE</link
@@ -2919,7 +2929,7 @@
         <para
 ><guilabel
 >ZCE</guilabel
->: La casella de selecció canvia si el bigot de la ZCE es mostrarà a la Corba V.</para>
+>: La casella de selecció canvia si el bigot de la ZCE es mostrarà en la Corba V.</para>
       </listitem>
       <listitem>
         <para
@@ -2936,7 +2946,7 @@
     </itemizedlist>
 
     <para
->La corba V és similar a la corba V a la pestanya <guilabel
+>La corba V és similar a la corba V en la pestanya <guilabel
 >Enfocament</guilabel
 > principal, excepte que cada tessel·la està representada per la seua pròpia corba. El nombre de corbes ve determinat per la configuració del quadro combinat <guilabel
 >Tessel·les</guilabel
@@ -2996,7 +3006,7 @@
         <para
 ><guilabel
 >Solució</guilabel
->: La solució de l'enfocament. Açò coincidirà amb la solució a la corba V.</para>
+>: La solució de l'enfocament. Açò coincidirà amb la solució en la corba V.</para>
       </listitem>
       <listitem>
         <para
@@ -3008,7 +3018,7 @@
         <para
 ><guilabel
 >Delta (μm)</guilabel
->: Esta és la delta (en marques) convertida a micres, utilitzant la mida del pas en micres com s'especifica a la pestanya <guilabel
+>: Esta és la delta (en marques) convertida a micres, utilitzant la mida del pas en micres com s'especifica en la pestanya <guilabel
 >ZCE</guilabel
 > de l'enfocament.</para>
       </listitem>
@@ -3064,7 +3074,7 @@
     </screenshot>
 
     <para
->Els resultats del càlcul es mostren en esta secció, a partir de les dades mostrades a la taula:</para>
+>Els resultats del càlcul es mostren en esta secció, a partir de les dades mostrades en la taula:</para>
 
     <itemizedlist>
       <listitem>
@@ -3220,9 +3230,9 @@
     </itemizedlist>
 
     <para
->El gràfic en 3D no és essencial per a utilitzar l'inspector de l'aberració. Tota la informació rellevant es mostra a la <link linkend="aberration-inspector-table"
+>El gràfic en 3D no és essencial per a utilitzar l'inspector de l'aberració. Tota la informació rellevant es mostra en la <link linkend="aberration-inspector-table"
 >Taula</link
-> i a la secció <link linkend="aberration-inspector-results"
+> i en la secció <link linkend="aberration-inspector-results"
 >Resultats</link
 > del diàleg. La seua finalitat és ajudar a l'usuari a entendre'l i a orientar-se amb la informació que proporciona l'eina.</para>
     </sect3>

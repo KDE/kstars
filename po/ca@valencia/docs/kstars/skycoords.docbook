@@ -22,7 +22,7 @@
 >esfera celeste</link
 >, anàleg al <link linkend="ai-geocoords"
 >sistema de coordenades geogràfic</link
-> emprat a la superfície terrestre. Els sistemes de coordenades tan sols es diferencien en l'elecció del <firstterm
+> emprat en la superfície terrestre. Els sistemes de coordenades tan sols es diferencien en l'elecció del <firstterm
 >pla fonamental</firstterm
 >, el qual dividix el cel en hemisferis iguals al llarg d'un <link linkend="ai-greatcircle"
 >cercle major</link
@@ -99,7 +99,7 @@
 >1 dia sideri</link
 >, enfront d'1 dia solar). Són les coordenades adequades per a fer catàlegs d'estreles i objectes del cel profund (cal tindre en compte que les <firstterm
 >Coordenades galàctiques</firstterm
-> també funcionen bé, però són difícils d'utilitzar des d'un punt de vista a la Terra). No obstant açò, hi ha efectes que causen l'AR i Dec d'objectes que varien en el temps, anomenats <link linkend="ai-precession"
+> també funcionen bé, però són difícils d'utilitzar des d'un punt de vista en la Terra). No obstant açò, hi ha efectes que causen l'AR i Dec d'objectes que varien en el temps, anomenats <link linkend="ai-precession"
 >precessió</link
 > i <firstterm
 >nutació</firstterm

@@ -99,7 +99,7 @@
   <para
 >A continuació del giny Altitud en funció del temps, hi ha un quadro de text en el qual podreu afegir les notes de l'observació per a l'objecte actual en el cel. </para>
   <para
->Cal tindre en compte que la llista de desitjos no és la planificació de la sessió. En la llista de desitjos podreu afegir objectes que voleu observar en algun moment. Des d'allà els podreu afegir a la planificació de la sessió. </para>
+>Cal tindre en compte que la llista de desitjos no és la «Planifiqueu la sessió». En la llista de desitjos podreu afegir objectes que voleu observar en algun moment. Des d'allà els podreu afegir a la «Planifiqueu la sessió». </para>
   <para
 >Podeu veure la finestra emergent que apareixerà després de fer clic dret damunt d'un objecte.</para>
   <mediaobject>
@@ -109,7 +109,7 @@
     <caption>
       <para>
         <phrase
->Afegint objectes a la finestra Planifiqueu la sessió</phrase>
+>Afegint objectes en la finestra «Planifiqueu la sessió»</phrase>
       </para>
     </caption>
   </mediaobject>
@@ -206,7 +206,7 @@
   <para
 >Una altra forma d'afegir objectes al vostre pla d'observació és emprar el botó <guibutton
 >Afig per lots</guibutton
-> recentment introduït, s'obrirà un quadro de text on podreu escriure molts objectes per a afegir-los al planificador de l'observació. Qualsevol objecte que no estiga a la base de dades de &kstars; es resoldrà utilitzant la base de dades astronòmica SIMBAD (sempre que s'haja habilitat en la configuració) i s'afegirà a la base de dades. Tot el procés d'afegir objectes és lent i pot tardar un temps, i es pot veure el progrés en la barra d'estat. Qualsevol objecte que no es puga trobar es llistarà en un missatge d'error, de manera que pugueu identificar-lo i solucionar els errors. En general, açò pot ser perquè SIMBAD espera una forma diferent d'especificar l'objecte (&pex;, Sim 147 en lloc de Simeis 147). Esta característica nova permet arreplegar amb facilitat les dades d'observació des de llistes al web, &etc; i afegir-les al vostre flux de treball en &kstars;. </para>
+> recentment introduït, s'obrirà un quadro de text on podreu escriure molts objectes per a afegir-los al planificador de l'observació. Qualsevol objecte que no estiga en la base de dades de &kstars; es resoldrà utilitzant la base de dades astronòmica SIMBAD (sempre que s'haja habilitat en la configuració) i s'afegirà a la base de dades. Tot el procés d'afegir objectes és lent i pot tardar un temps, i es pot veure el progrés en la barra d'estat. Qualsevol objecte que no es puga trobar es llistarà en un missatge d'error, de manera que pugueu identificar-lo i solucionar els errors. En general, açò pot ser perquè SIMBAD espera una forma diferent d'especificar l'objecte (&pex;, Sim 147 en lloc de Simeis 147). Esta característica nova permet arreplegar amb facilitat les dades d'observació des de llistes al web, &etc; i afegir-les al vostre flux de treball en &kstars;. </para>
   <para
 >Este és l'aspecte de la finestra <guilabel
 >Executa la sessió</guilabel
@@ -229,7 +229,7 @@
   <para
 >En prémer el botó <guibutton
 >Pàgina següent</guibutton
-> s'accedirà a la segona pàgina de la planificació de la sessió. Ací podreu veure la informació no sobre el vostre objecte, sinó sobre el vostre equip.</para>
+> s'accedirà a la segona pàgina de «Planifiqueu la sessió». Ací podreu veure la informació no sobre el vostre objecte, sinó sobre el vostre equip.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="execute_session_the_nt.png" format="PNG"/>
@@ -244,5 +244,5 @@
   <para
 >En prémer el botó <guibutton
 >Objectiu següent</guibutton
-> es causarà que s'òbriga «Executa la sessió» a la primera finestra sobre l'objecte següent.</para>
+> es causarà que s'òbriga «Executa la sessió» en la primera finestra sobre l'objecte següent.</para>
 </sect1>

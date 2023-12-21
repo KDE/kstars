@@ -814,7 +814,7 @@
 >mapa celeste</guilabel
 > o <guilabel
 >Quadro de control INDI</guilabel
-> exactament segons el descrit a la secció <link linkend="indi-kstars-setup"
+> exactament segons el descrit en la secció <link linkend="indi-kstars-setup"
 >local/servidor</link
 >. És tan fàcil com açò. </para>
 
@@ -1027,7 +1027,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 </question>
 <answer>
 <para
->Sí. Podeu iniciar un servidor INDI a la màquina connectada amb el vostre telescopi i el servidor escoltarà les peticions dels clients des de &kstars;. Una vegada connectat, el podreu controlar directament des del mapa celeste. Este procediment es descriu en detall en la secció <link linkend="indi-remote-control"
+>Sí. Podeu iniciar un servidor INDI en la màquina connectada amb el vostre telescopi i el servidor escoltarà les peticions dels clients des de &kstars;. Una vegada connectat, el podreu controlar directament des del mapa celeste. Este procediment es descriu en detall en la secció <link linkend="indi-remote-control"
 >Control de dispositius remots</link
 >. </para>
 </answer>

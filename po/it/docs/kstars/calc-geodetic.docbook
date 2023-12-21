@@ -36,15 +36,15 @@
 <para
 >Per utilizzare questo modulo, seleziona le coordinate da usare in ingresso nella sezione <guilabel
 >Seleziona le coordinate in ingresso</guilabel
-> <quote
+>: coi pulsante a scelta singola <quote
 >Cartesiane</quote
-> or <quote
+> oppure <quote
 >Geografiche</quote
->. Seleziona quindi un modello di ellissoide e inserisci le coordinate nella sezione <guilabel
+>. Seleziona quindi un modello di ellissoide e inserisci le coordinate in ingresso nella sezione <guilabel
 >Coordinate cartesiane</guilabel
 > oppure in <guilabel
 >Coordinate geografiche</guilabel
->. Il risultato apparirà premendo il pulsante <guibutton
+>: il risultato apparirà premendo il pulsante <guibutton
 >Converti</guibutton
 >. </para>
 

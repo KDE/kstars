@@ -24,7 +24,7 @@
 >early-type</quote
 >), perché pensava che si evolvessero fino a formare le galassie spirali (che chiamava galassie di tipo avanzato, o <quote
 >late-type</quote
->). Per la verità ora gli astronomi pensano che accada il contrario (e cioè che le galassie spirali possano trasformarsi in ellittiche), ma i nomi ideati da Hubble sono ancora usati. </para>
+>). Per la verità ora gli astronomi pensano che accada il contrario (e cioè che le galassie spirali possano trasformarsi in ellittiche), ma i nomi ideati da Hubble sono ancora usati.</para>
 
 <para
 >Inizialmente ritenute un tipo galattico semplice, le ellittiche sono ora note come oggetti abbastanza complessi. Parte di questa complessità è dovuta alla loro affascinante storia: si pensa che le ellittiche siano il risultato della fusione di due galassie spirali. Puoi vedere il filmato MPEG della simulazione al computer di una fusione simile presso <ulink url="http://oposite.stsci.edu/pubinfo/pr/2002/11/vid/v0211d3.mpg"
@@ -85,10 +85,10 @@
 
 <tip>
 <para
->Puoi vedere esempi di galassie ellittiche in &kstars; usando la finestra Trova oggetto (<keycombo
-><keycap
->Ctrl</keycap
-><keycap
+>Puoi vedere esempi di galassie ellittiche in &kstars; usando la finestra <guilabel
+>Trova oggetto</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
 >F</keycap
 ></keycombo
 >). Cerca NGC 4881, che è la galassia cD gigante nell'ammasso di galassie della Chioma. M 86 è una galassia ellittica normale nell'ammasso di galassie della Vergine. M 32 è un'ellittica nana satellite della nostra vicina, la galassia di Andromeda (M31). M 110 è un'altra satellite di M31, ed è un caso limite di galassia sferoidale nana (<quote

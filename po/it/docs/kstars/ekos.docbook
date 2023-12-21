@@ -1,12 +1,10 @@
-<sect1 id="tool-ekos">
+<chapter id="ekos">
 <title
 >Ekos</title>
 <indexterm
 ><primary
->Strumenti</primary>
-<secondary
->Ekos</secondary>
-</indexterm>
+>Ekos</primary
+></indexterm>
 
 <para
 ><emphasis role="bold"
@@ -51,7 +49,7 @@
     </listitem>
     <listitem>
         <para
->Misura e corregge gli errori di allineamento polare usando il risolutore astromety.net. </para>
+>Misura e corregge gli errori di allineamento polare usando il risolutore astrometry.net. </para>
     </listitem>
     <listitem>
         <para
@@ -138,4 +136,4 @@
 >Si integra con tutti i dispositivi nativi di INDI. </para>
     </listitem>
 </itemizedlist
->&tool-ekos-setup; &tool-ekos-user-interface; &tool-ekos-profile-wizard; &tool-ekos-profile-editor; &tool-ekos-logs; &tool-ekos-capture; &tool-ekos-focus; &tool-ekos-guide; &tool-ekos-align; &tool-ekos-scheduler; &tool-ekos-analyze; &tool-ekos-tutorials; </sect1>
+>&tool-ekos-setup; &tool-ekos-user-interface; &tool-ekos-profile-wizard; &tool-ekos-profile-editor; &tool-ekos-logs; &tool-ekos-capture; &tool-ekos-focus; &tool-ekos-guide; &tool-ekos-align; &tool-ekos-scheduler; &tool-ekos-analyze; &tool-ekos-tutorials; </chapter>

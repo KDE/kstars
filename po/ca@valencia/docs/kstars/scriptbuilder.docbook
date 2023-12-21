@@ -41,7 +41,7 @@
 </screenshot>
 
 <para
->El constructor de scripts és mostra't en la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
+>El constructor de scripts es mostra en la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
 >Script actual</firstterm
 >; mostra el llistat d'ordres que abasten l'escriptura de tasques a este script. El quadro a la dreta és el <firstterm
 >Navegador de funcions</firstterm
@@ -104,7 +104,7 @@
 >setClockScale</firstterm
 > per a açò. Afegiu-la a l'script fent doble clic damunt seu en el Navegador de funcions. El quadro Arguments de la funció contindrà un botó de selecció de valors de pas temporal per a establir-lo al temps desitjat per al rellotge de simulació. Canvieu el pas temporal a 3 hores. </para
 ><para
->BÉ, hem apuntat a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè espere uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
+>BÉ, hem apuntat cap a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè espere uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
 >waitFor</firstterm
 > a l'script i utilitzeu el quadro Arguments de la funció per a especificar que s'haurà d'esperar 20 segons abans de continuar. </para
 ><para

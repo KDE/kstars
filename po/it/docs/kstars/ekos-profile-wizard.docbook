@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-wizard">
+<sect1 id="ekos-profile-wizard">
     <title
 >Procedura guidata per il profilo</title>
     <indexterm>
@@ -145,4 +145,4 @@
 >Nell'esempio sopra abbiamo selezionato i driver Astrometry, WatchDog e SkySafari. La spiegazione dettagliata per ciascuno viene fornita nel suggerimento che appare quando ci passi sopra con il mouse. Una volta fatto, fai clic sul pulsante <guibutton
 >Crea profilo</guibutton
 >: ora dovresti essere stato presentato all'editor del profilo. </para>
-</sect2>
+</sect1>

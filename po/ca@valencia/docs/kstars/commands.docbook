@@ -1188,7 +1188,7 @@
     <listitem
 ><para
 >Obri <link linkend="tool-obsplanner"
->l'assistent de planificació de la sessió</link
+>l'assistent «Planifiqueu la sessió»</link
 > o executa la sessió planificada.</para
 ></listitem>
   </varlistentry>
@@ -1267,7 +1267,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu del temps. De manera predeterminada, el rètol informatiu del temps es troba en la part superior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu del temps. De manera predeterminada, el rètol informatiu del temps es troba en la part superior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo fins a la posició nova.</para
 ></listitem>
     </varlistentry>
 
@@ -1278,7 +1278,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu de l'enfocament. De manera predeterminada, el rètol informatiu de l'enfocament es troba en la part superior dreta de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu de l'enfocament. De manera predeterminada, el rètol informatiu de l'enfocament es troba en la part superior dreta de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo fins a la posició nova.</para
 ></listitem>
     </varlistentry>
 
@@ -1289,7 +1289,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta la informació del rètol de l'emplaçament. De manera predeterminada, el rètol informatiu de l'emplaçament es troba en la part inferior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta la informació del rètol de l'emplaçament. De manera predeterminada, el rètol informatiu de l'emplaçament es troba en la part inferior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo fins a la posició nova.</para
 ></listitem>
     </varlistentry>
   </variablelist
@@ -1683,7 +1683,7 @@
 >+</guibutton
 > (Afig un punt) des de la secció Punts correctes. També podeu eliminar un punt ressaltat de la llista de punts o els podeu netejar tots. Hi ha dues maneres d'afegir un punt nou a una regió seleccionada: manualment introduint les coordenades del punt o seleccionant-lo en el mapa celeste i després fent clic en el botó <guibutton
 >Punts seleccionats</guibutton
->. Recordeu que cada punt és descrit per un conjunt de coordenades horitzontals: Az (azimut) i Alt (altitud). Si voleu modificar les coordenades d'un punt, només cal fer doble clic damunt del seu valor al quadro de text Az/Alt i escriure el valor nou. Els punts primer i últim hauran d'estar a l'horitzó. Els polígons hauran d'estar tancats per a ser considerats regions vàlides. El Gestor de l'horitzó artificial proporciona una manera fàcil de canviar el nom de les vostres regions. De manera predeterminada, les regions s'anomenen com: «Regió» a més d'un índex (&ead;, «Regió 1» o «Regió 2»). Per a canviar el nom d'una regió, només cal fer doble clic damunt del seu nom i després se vos convidarà a completar un nom nou per a la regió. També podeu controlar quines regions estaran activades o desactivades marcant-les en el mapa amb un simple clic en la casella de selecció al davant de cada regió. Una vegada hàgeu definit les vostres regions desitjades, ho podreu aplicar prement el botó <guibutton
+>. Recordeu que cada punt és descrit per un conjunt de coordenades horitzontals: Az (azimut) i Alt (altitud). Si voleu modificar les coordenades d'un punt, només cal fer doble clic damunt del seu valor al quadro de text Az/Alt i escriure el valor nou. Els punts primer i últim hauran d'estar en l'horitzó. Els polígons hauran d'estar tancats per a ser considerats regions vàlides. El Gestor de l'horitzó artificial proporciona una manera fàcil de canviar el nom de les vostres regions. De manera predeterminada, les regions s'anomenen com: «Regió» a més d'un índex (&ead;, «Regió 1» o «Regió 2»). Per a canviar el nom d'una regió, només cal fer doble clic damunt del seu nom i després se vos convidarà a completar un nom nou per a la regió. També podeu controlar quines regions estaran activades o desactivades marcant-les en el mapa amb un simple clic en la casella de selecció al davant de cada regió. Una vegada hàgeu definit les vostres regions desitjades, ho podreu aplicar prement el botó <guibutton
 >Aplica</guibutton
 >. Si voleu utilitzar estes regions una altra vegada, en sessions d'astronomia posteriors, podeu guardar-los de manera que la pròxima vegada que obriu &kstars; estaran marcats automàticament en el mapa celeste.</para
 ></listitem>
@@ -1758,7 +1758,7 @@
 ><para
 >Obriu la finestra Configureu les dreceres, la qual permet modificar les dreceres de &kstars;. Podeu utilitzar l'esquema de dreceres predeterminat de &kstars; o definir el vostre propi esquema de dreceres. Per tal d'afegir una drecera personalitzada nova a una acció, cal fer clic en el nom de l'acció i després prémer la casella de selecció <guibutton
 >Personalitzada:</guibutton
->. Després, feu clic en el botó al costat de la casella de selecció i introduïu la drecera que voleu utilitzar a &kstars;. També podeu eliminar una drecera prement el botó <guibutton
+>. Després, feu clic en el botó al costat de la casella de selecció i introduïu la drecera que voleu utilitzar en &kstars;. També podeu eliminar una drecera prement el botó <guibutton
 >Elimina</guibutton
 > després de seleccionar una acció de la llista. &kstars; vos ajudarà a trobar una acció proporcionada per al seu mètode de busca. Senzillament escriviu el nom de l'acció i la llista es reduirà a les seues millors coincidències. Per exemple, vos done un breu exemple de com utilitzar la característica Configureu les dreceres en &kstars;: <itemizedlist>
         <listitem
@@ -1812,7 +1812,7 @@
 ><para
 >Mostra el diàleg <guilabel
 >Assistent d'inici</guilabel
->. És la mateixa finestra que vàreu veure quan vau executar &kstars; per primera vegada. L'assistent d'iniciada de &kstars; vos ajudarà a configurar algunes opcions bàsiques, com ara el vostre emplaçament a la Terra. La primera pàgina de l'assistent d'iniciada és una pàgina de benvinguda, i si premeu el botó <guibutton
+>. És la mateixa finestra que vàreu veure quan vau executar &kstars; per primera vegada. L'assistent d'iniciada de &kstars; vos ajudarà a configurar algunes opcions bàsiques, com ara el vostre emplaçament en la Terra. La primera pàgina de l'assistent d'iniciada és una pàgina de benvinguda, i si premeu el botó <guibutton
 >Següent</guibutton
 >, obtindreu la pàgina <guilabel
 >Escolliu l'emplaçament de casa vostra</guilabel
@@ -1930,7 +1930,7 @@
 >Ascensió recta</guilabel
 > i <guilabel
 >Declinació</guilabel
-> s'ompliran automàticament amb els valors de les coordenades de l'objecte seleccionat en el mapa celeste. A més d'estos dos quadros de text, podeu establir l'<guilabel
+> s'emplenaran automàticament amb els valors de les coordenades de l'objecte seleccionat en el mapa celeste. A més d'estos dos quadros de text, podeu establir l'<guilabel
 >Època</guilabel
 >, afegir un <guilabel
 >Indicador</guilabel

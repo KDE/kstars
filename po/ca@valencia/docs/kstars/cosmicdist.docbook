@@ -30,7 +30,7 @@
 <para
 >Per a les estreles properes, mesurar la <link linkend="ai-parallax"
 >paral·laxi</link
-> és possible i s'obté la distància a l'estrela. </para>
+> és possible i s'obté la distància fins a l'estrela. </para>
 </sect2>
 
 <sect2>
@@ -88,9 +88,9 @@
 >mètode de moviment del cúmul</firstterm
 > i el <firstterm
 >mètode d'ajust de la seqüència principal</firstterm
->. La <firstterm
+>. Es pot utilitzar la <firstterm
 >relació de Tully-Fisher</firstterm
-> que es referix a la brillantor d'una galàxia espiral a la seua rotació es pot utilitzar per a trobar el mòdul de la distància, ja que la rotació d'una galàxia és fàcil de mesurar utilitzant l'<firstterm
+> que relaciona la brillantor d'una galàxia espiral amb la seua rotació per a trobar el mòdul de la distància, ja que la rotació d'una galàxia és fàcil de mesurar utilitzant l'<firstterm
 >efecte Doppler</firstterm
 >. Les distàncies a les galàxies distants es troben mesurant el <firstterm
 >desplaçament cap al roig</firstterm

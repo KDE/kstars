@@ -41,14 +41,14 @@
 > en qualsevol moment per a eixir de l'assistent d'iniciada. </para>
 
 <para
->La segona pàgina de l'assistent d'iniciada permet escollir l'emplaçament geogràfic inicial seleccionant-lo des d'una llista a la part dreta de la finestra amb més de 3.400 emplaçaments coneguts. És possible filtrar la llista per a trobar el text a introduir en els quadros d'edició <guilabel
->Filtre de ciutat:</guilabel
+>La segona pàgina de l'assistent d'iniciada permet escollir l'emplaçament geogràfic inicial seleccionant-lo des d'una llista a la part dreta de la finestra amb més de 3.400 emplaçaments coneguts. És possible filtrar la llista per a trobar el text a introduir en els quadros de filtratge <guilabel
+>Ciutat:</guilabel
 >, <guilabel
->Filtre de província:</guilabel
+>Província:</guilabel
 > i <guilabel
->Filtre de país:</guilabel
+>País:</guilabel
 >. Si l'emplaçament que esteu buscant no apareix en la llista, per ara podeu seleccionar-ne un altra que siga proper. Més avant podreu afegir el vostre emplaçament de forma manual utilitzant l'<link linkend="setgeo"
->eina Establiu l'emplaçament geogràfic</link
+>eina «Establiu l'emplaçament geogràfic»</link
 >. Una vegada seleccionat un emplaçament inicial, premeu el botó <guilabel
 >Següent</guilabel
 >. </para>
@@ -246,7 +246,7 @@
 <seealso
 >Menú emergent</seealso
 ></indexterm
->La secció inferior conté enllaços cap a imatges i/o pàgines web informatives sobre l'objecte seleccionat. Si coneixeu algun &URL; addicional amb informació o una imatge d'algun objecte, podeu afegir un enllaç personalitzat al menú emergent de l'objecte. Utilitzeu l'element <guimenuitem
+>La secció inferior conté enllaços cap a imatges i/o pàgines web informatives sobre l'objecte seleccionat. Si coneixeu algun &URL; addicional amb informació o una imatge d'algun objecte, podeu afegir un enllaç personalitzat cap al menú emergent de l'objecte. Utilitzeu l'element <guimenuitem
 >Detalls</guimenuitem
 > en el menú emergent per a obrir el diàleg <guilabel
 >Detalls de l'objecte</guilabel
@@ -362,7 +362,7 @@
 >Seguiment</secondary
 ></indexterm>
 <para
->&kstars; seguix automàticament els objectes en el moment en el qual un és centrat a la pantalla, ja siga emprant la finestra <guilabel
+>&kstars; seguix automàticament els objectes en el moment en el qual un és centrat en la pantalla, ja siga emprant la finestra <guilabel
 >Busca un objecte</guilabel
 >, fent doble clic damunt del mateix o seleccionant <guimenuitem
 >Centra i seguix</guimenuitem
