@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -31622,12 +31622,12 @@ msgstr "Mostrar o HiPS Durante o Deslocamento"
 msgid "Linear interpolation"
 msgstr "Interpolação linear"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Não foi possível ligar ao servidor de INDI %1:%2"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -32655,17 +32655,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "O pós-programa de arranque do controlador terminou com o código: %1"
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "A ligação ao servidor de INDI em %1:%2 terminou: %3."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "O controlador de INDI <b>%1</b> estoirou. Deseja reiniciá-lo?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Estoiro do controlador"

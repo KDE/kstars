@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-11-23 17:57+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -31098,13 +31098,13 @@ msgstr "Amosar HiPS durante o desprazamento"
 msgid "Linear interpolation"
 msgstr "Interpolación lineal"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Non se puido conectar co servidor remoto de INDI."
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -32164,18 +32164,18 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "O script post-captura rematou co código %1."
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, fuzzy, kde-format
 #| msgid "Connection to INDI server at host %1 with port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Fallou a conexión ao servidor de INDI de %1 polo porto %2."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "O controlador de INDI <b>%1</b> quebrou. Quere reinicialo?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Quebra de controlador"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -28630,13 +28630,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr ""
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -29640,17 +29640,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr ""
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, fuzzy, kde-format
 #| msgctxt "use default color scheme"
 #| msgid "Default Colors"

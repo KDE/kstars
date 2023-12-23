@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-12-08 22:11+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -30217,12 +30217,12 @@ msgstr "Mostra HiPS durante il movimento"
 msgid "Linear interpolation"
 msgstr "Interpolazione lineare"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Impossibile connettersi al server INDI %1:%2"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -31227,17 +31227,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Connessione al server INDI %1:%2 terminata: %3."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "Il driver INDI <b>%1</b> è andato in crash. Lo riavvio?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Il driver è andato in crash"

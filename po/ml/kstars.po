@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -28588,13 +28588,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "നക്ഷത്രരാശിയുടെ പടം ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു: "
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "ബന്ധം"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, fuzzy, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "വെബ്കാം ഡിവൈസ് സ്ട്രിങ് സൂചകം"
@@ -29580,17 +29580,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, fuzzy, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "വെബ്കാം ഡിവൈസ് സ്ട്രിങ് സൂചകം"
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, fuzzy, kde-format
 msgid "Driver crash"
 msgstr "Dir:"

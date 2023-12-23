@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -28521,12 +28521,12 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Ilayisha umfanekiso URLs"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, fuzzy, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -29510,17 +29510,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, fuzzy, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Dibanisa"
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, fuzzy, kde-format
 msgid "Driver crash"
 msgstr "Nakanye"

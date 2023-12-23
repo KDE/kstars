@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-12-02 09:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -30310,12 +30310,12 @@ msgstr "Показувати HiPS під час панорамування"
 msgid "Linear interpolation"
 msgstr "Лінійна інтерполяція"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Не вдалося встановити з'єднання із сервером INDI %1:%2."
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -31339,19 +31339,19 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "Помилка скрипту обробки після запуску драйвера, коди виходу: %1"
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "З'єднання із сервером INDI %1:%2 перервано: %3."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 "Драйвер INDI <b>%1</b> завершив роботу у аварійному режимі. Перезапустити "
 "його?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Аварія драйвера"

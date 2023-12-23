@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -27676,13 +27676,13 @@ msgstr ""
 "Memuatkan maklumat pencetak.\n"
 "Sila tunggu..."
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Sambung"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, fuzzy, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "Sambung atau Nyahsambung."
@@ -28642,17 +28642,17 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, fuzzy, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Sambung atau Nyahsambung."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, fuzzy, kde-format
 msgid "Driver crash"
 msgstr "Jurupacu:"

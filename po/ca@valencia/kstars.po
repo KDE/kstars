@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
-"PO-Revision-Date: 2023-12-20 16:20+0100\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
+"PO-Revision-Date: 2023-12-22 19:16+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -30751,12 +30751,12 @@ msgstr "Mostra HiPS mentre es fa la panoràmica"
 msgid "Linear interpolation"
 msgstr "Interpolació lineal"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "No s'ha pogut connectar amb el servidor INDI %1:%2"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -31802,17 +31802,17 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 "L'script d'inici després del controlador ha fallat amb el codi d'eixida: %1"
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "La connexió amb el servidor INDI %1:%2 ha finalitzat: %3."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "El controlador INDI <b>%1</b> ha fallat. Voleu reiniciar-lo?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Fallada del controlador"
@@ -83247,28 +83247,28 @@ msgid ""
 "Point the display at the specified location. %1 can be the name of an "
 "object, a cardinal point on the compass, or 'zenith'."
 msgstr ""
-"Apunta la vista cap a la ubicació especificada. %1 pot ser el nom d'un "
+"Apunta la vista cap a la ubicació especificada. «%1» pot ser el nom d'un "
 "objecte, un punt cardinal a la brúixola o el «zenit»."
 
 #: tools/scriptbuilder.cpp:180
 #, kde-format
 msgid "Add a name label to the object named %1."
-msgstr "Afig una etiqueta de nom a l'objecte anomenat %1."
+msgstr "Afig una etiqueta de nom a l'objecte anomenat «%1»."
 
 #: tools/scriptbuilder.cpp:182
 #, kde-format
 msgid "Remove the name label from the object named %1."
-msgstr "Elimina l'etiqueta de nom de l'objecte anomenat %1."
+msgstr "Elimina l'etiqueta de nom de l'objecte anomenat «%1»."
 
 #: tools/scriptbuilder.cpp:185
 #, kde-format
 msgid "Add a trail to the solar system body named %1."
-msgstr "Afig una traça al cos del sistema solar anomenat %1."
+msgstr "Afig una traça al cos del sistema solar anomenat «%1»."
 
 #: tools/scriptbuilder.cpp:187
 #, kde-format
 msgid "Remove the trail from the solar system body named %1."
-msgstr "Elimina la traça del cos del sistema solar anomenat %1."
+msgstr "Elimina la traça del cos del sistema solar anomenat «%1»."
 
 #: tools/scriptbuilder.cpp:190
 #, kde-format
@@ -83336,7 +83336,7 @@ msgstr "Establix si es farà el seguiment des de l'emplaçament actual."
 #: tools/scriptbuilder.cpp:215
 #, kde-format
 msgid "Change view option named %1 to value %2."
-msgstr "Canvia l'opció de vista anomenada %1 al valor %2."
+msgstr "Canvia l'opció de vista anomenada «%1» al valor «%2»."
 
 #: tools/scriptbuilder.cpp:218
 #, kde-format
@@ -83350,7 +83350,7 @@ msgstr ""
 #: tools/scriptbuilder.cpp:221
 #, kde-format
 msgid "Set the color named %1 to the value %2."
-msgstr "Establix el color anomenat %1 al valor %2."
+msgstr "Establix el color anomenat «%1» al valor «%2»."
 
 #: tools/scriptbuilder.cpp:223
 #, kde-format
@@ -83371,8 +83371,8 @@ msgid ""
 "print dialog.  If %2 is true, it will use the Star Chart color scheme for "
 "printing."
 msgstr ""
-"Imprimix la imatge del cel a la impressora o a un fitxer. Si %1 és cert, es "
-"mostrarà el de diàleg d'impressió. Si %2 és cert, per a imprimir "
+"Imprimix la imatge del cel a la impressora o a un fitxer. Si «%1» és cert, "
+"es mostrarà el de diàleg d'impressió. Si «%2» és cert, per a imprimir "
 "s'utilitzarà l'esquema de color «Carta estel·lar»."
 
 #: tools/scriptbuilder.cpp:234
@@ -83908,7 +83908,7 @@ msgstr ""
 #: tools/scriptbuilder.ui:67
 #, kde-format
 msgid "New Script"
-msgstr "Es crea un script nou."
+msgstr "Script nou"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: tools/scriptbuilder.ui:70
@@ -83924,7 +83924,7 @@ msgstr ""
 #: tools/scriptbuilder.ui:101
 #, kde-format
 msgid "Open Script..."
-msgstr "S'obri un script."
+msgstr "Obri un script..."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:104
@@ -83936,12 +83936,11 @@ msgstr ""
 "S'obrirà un script existent. Se us demanarà guardar qualsevol canvi sense "
 "guardar en l'script actual."
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:135
 #, kde-format
 msgid "Save Script"
-msgstr "Es guardarà l'script."
+msgstr "Guarda l'script"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
@@ -83958,7 +83957,7 @@ msgstr ""
 #: tools/scriptbuilder.ui:169
 #, kde-format
 msgid "Save Script As..."
-msgstr "Es guardarà l'script com a."
+msgstr "Anomena i guarda l'script..."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)
 #: tools/scriptbuilder.ui:172
@@ -83970,12 +83969,11 @@ msgstr ""
 "Es guardarà l'script a un fitxer, permetent-vos primer especificar el nom "
 "del fitxer i un nom per al mateix."
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:197
 #, kde-format
 msgid "Test Script"
-msgstr "Es provarà l'script."
+msgstr "Prova l'script"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
@@ -84008,12 +84006,11 @@ msgstr ""
 "especificar els arguments davall. Utilitzeu els botons d'accions per a "
 "copiar, eliminar o canviar la posició de l'ordre seleccionada. "
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
 #, kde-format
 msgid "Add Function"
-msgstr "Afig una funció."
+msgstr "Afig una funció"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:319
@@ -84027,12 +84024,11 @@ msgstr ""
 "botó l'afegirà a l'script actual. La funció nova s'inserirà directament "
 "després de la funció ressaltada en el quadro «Script actual».\n"
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:338
 #, kde-format
 msgid "Remove Function"
-msgstr "Elimina la funció."
+msgstr "Elimina la funció"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:341
@@ -84044,12 +84040,11 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó "
 "l'eliminarà de l'script."
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:360
 #, kde-format
 msgid "Copy Function"
-msgstr "Copia la funció."
+msgstr "Copia la funció"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:363
@@ -84061,12 +84056,11 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó "
 "afegirà un duplicat d'esta."
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: tools/scriptbuilder.ui:382
 #, kde-format
 msgid "Move Up"
-msgstr "La mou cap amunt."
+msgstr "Mou-la cap amunt"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, UpButton)
 #: tools/scriptbuilder.ui:385
@@ -84078,12 +84072,11 @@ msgstr ""
 "Si una funció està ressaltada en el quadro «Script actual», este botó la "
 "pujarà una posició en l'script."
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, DownButton)
 #: tools/scriptbuilder.ui:404
 #, kde-format
 msgid "Move Down"
-msgstr "La mou cap avall."
+msgstr "Mou-la cap avall"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, DownButton)
 #: tools/scriptbuilder.ui:407

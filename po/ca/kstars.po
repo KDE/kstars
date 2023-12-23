@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-12-06 11:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -30410,12 +30410,12 @@ msgstr "Mostra el HiPS mentre es fa la panoràmica"
 msgid "Linear interpolation"
 msgstr "Interpolació lineal"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Ha fallat en connectar amb el servidor INDI %1:%2"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -31448,17 +31448,17 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 "L'script d'inici del postcontrolador ha fallat amb el codi de sortida: %1"
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "La connexió amb el servidor INDI %1:%2 ha finalitzat: %3."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "El controlador INDI <b>%1</b> ha fallat. El reinicio?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Fallada del controlador"

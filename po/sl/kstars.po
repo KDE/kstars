@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-11-22 12:41+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -30615,12 +30615,12 @@ msgstr "Pokaži hips med panningom"
 msgid "Linear interpolation"
 msgstr "Linearna interpolacija"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Neuspela povezava s strežnikom INDI %1:%2"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -31674,18 +31674,18 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "Skript po zajemanju se je končal s kodo %1."
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, fuzzy, kde-format
 #| msgid "Connection to INDI server at host %1 with port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Povezava s strežnikom INDI na gostitelju %1 na vratih %2 ni uspela."
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, fuzzy, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "Gonilnik INDI <b>%1 se</b> je zrušil. Ponovno zagnati?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Sesutje gonilnika"

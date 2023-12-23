@@ -1,6 +1,6 @@
 # Translation of kstars.po to French
 # Traduction de kstars.po en français
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@neuf.fr>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@kde.org>
 # Matthieu Robin <kde@macolu.org>, 2004, 2005, 2006, 2007.
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2004, 2005.
 # Delafond <gerard@delafond.org>, 2005.
@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.7\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-21 00:39+0000\n"
+"POT-Creation-Date: 2023-12-23 00:38+0000\n"
 "PO-Revision-Date: 2023-12-02 07:03+0100\n"
 "Last-Translator: stax <stax@ik.me>\n"
 "Language-Team: fr\n"
@@ -51,7 +51,7 @@ msgid "Your emails"
 msgstr ""
 "claude.xavier@gmail.com,jcorn@free.fr,gerard@delafond.org,grossard@kde.org,"
 "vincent.jagot@free.fr,annma@kde.org,ternisien@gmail.com,sdepiets@gmail.com, "
-"xavier.besnard@neuf.fr, robert.morelli@laposte.net, stax@ik.me"
+"xavier.besnard@kde.org, robert.morelli@laposte.net, stax@ik.me"
 
 #: auxiliary/colorscheme.cpp:29 kstars.cpp:58
 #, kde-format
@@ -30427,12 +30427,12 @@ msgstr "Afficher HiPS pendant le panorama"
 msgid "Linear interpolation"
 msgstr "Interpolation linéaire"
 
-#: indi/clientmanager.cpp:284
+#: indi/clientmanager.cpp:287
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Impossible de se connecter au serveur INDI %1:%2"
 
-#: indi/clientmanager.cpp:289
+#: indi/clientmanager.cpp:292
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -31473,17 +31473,17 @@ msgstr ""
 "Le script de démarrage après l'initialisation du pilote a échoué avec le "
 "code %1"
 
-#: indi/servermanager.cpp:427
+#: indi/servermanager.cpp:433
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "La connexion au serveur INDI %1:%2 s'est terminée : %3"
 
-#: indi/servermanager.cpp:473
+#: indi/servermanager.cpp:479
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "Le pilote INDI <b>%1</b> s'est planté. Faut-il le redémarrer ?"
 
-#: indi/servermanager.cpp:474
+#: indi/servermanager.cpp:480
 #, kde-format
 msgid "Driver crash"
 msgstr "Plantage du pilote"
