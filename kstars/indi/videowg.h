@@ -14,12 +14,16 @@
 #include <QVector>
 #include <QColor>
 #include <QLabel>
+#include <QSqlDatabase>
+#include <QPen>
+#include <QPainter>
 
 #include <memory>
 #include <mutex>
 
 class QImage;
 class QRubberBand;
+class QSqlTableModel;
 
 class VideoWG : public QLabel
 {
@@ -27,7 +31,7 @@ class VideoWG : public QLabel
 
     public:
         explicit VideoWG(QWidget *parent = nullptr);
-        virtual ~VideoWG() override = default;
+        virtual ~VideoWG() override;
 
         bool newFrame(IBLOB *bp);
         bool newBayerFrame(IBLOB *bp, const BayerParams &params);
@@ -41,6 +45,11 @@ class VideoWG : public QLabel
         void mousePressEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
+        void initOverlayModel();
+
+    public slots:
+        void modelChanged();
+        void toggleOverlay();
 
     signals:
         void newSelection(QRect);
@@ -59,4 +68,17 @@ class VideoWG : public QLabel
         QPoint origin;
         QString m_RawFormat;
         bool m_RawFormatSupported { false };
+
+        // Collimation Overlay
+        void setupOverlay();
+        void paintOverlay(QPixmap &imagePix);
+        bool overlayEnabled = false;
+        QSqlTableModel *m_CollimationOverlayElementsModel = { nullptr };
+        QList<QVariantMap> m_CollimationOverlayElements;
+        QList<QVariantMap> m_EnabledOverlayElements;
+        QVariantMap *m_CurrentElement = nullptr;
+        QStringList *typeValues = nullptr;
+        QPainter *painter = nullptr;
+        float scale;
+        void PaintOneItem (QString type, QPointF position, int sizeX, int sizeY, int thickness);
 };

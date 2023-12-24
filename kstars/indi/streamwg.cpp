@@ -8,12 +8,11 @@
 
 #include "streamwg.h"
 
-#include "indistd.h"
-#include "driverinfo.h"
-#include "clientmanager.h"
 #include "kstars.h"
 #include "Options.h"
 #include "kstars_debug.h"
+#include "collimationoverlayoptions.h"
+#include "qobjectdefs.h"
 
 #include <basedevice.h>
 
@@ -75,8 +74,17 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     processStream = colorFrame = isRecording = false;
 
     options = new RecordOptions(this);
-
     connect(optionsB, SIGNAL(clicked()), options, SLOT(show()));
+
+    collimationOptionsB->setIcon(QIcon::fromTheme("run-build-prune"));
+    connect(collimationOptionsB, &QPushButton::clicked, this, [this]()
+            {
+                CollimationOverlayOptions::Instance(this)->openEditor();
+            });
+
+    collimationB->setIcon(QIcon::fromTheme("crosshairs"));
+    connect(CollimationOverlayOptions::Instance(this), SIGNAL(updated()), videoFrame, SLOT(modelChanged()));
+    connect(collimationB, &QPushButton::clicked, videoFrame, &VideoWG::toggleOverlay);
 
     QString filename, directory;
     ccd->getSERNameDirectory(filename, directory);
@@ -427,4 +435,9 @@ void StreamWG::updateFPS(double instantFPS, double averageFPS)
     Q_UNUSED(instantFPS)
     //instFPS->setText(QString::number(instantFPS, 'f', 1));
     avgFPS->setText(QString::number(averageFPS, 'f', 1));
+}
+
+StreamWG::~StreamWG()
+{
+    CollimationOverlayOptions::Instance(this)->release();
 }
