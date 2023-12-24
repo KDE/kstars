@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 00:38+0000\n"
+"POT-Creation-Date: 2023-12-24 00:38+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -6288,7 +6288,7 @@ msgstr "एफ़आईटीएस फ़ाइल को %1 में सह�
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
 #: ekos/focus/focus.cpp:4219 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
-#: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:746
 #, fuzzy, kde-format
 #| msgid "%1 and %2"
@@ -6407,7 +6407,7 @@ msgid "Capture error. Aborting..."
 msgstr "छवि कैप्चर करें"
 
 #: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1482
-#: ekos/capture/captureprocess.cpp:1991
+#: ekos/capture/captureprocess.cpp:1992
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6509,7 +6509,7 @@ msgid "Invalid URL: %1"
 msgstr "अवैध यूआरएल: %1"
 
 #: ekos/align/align.cpp:3877 ekos/align/mountmodel.cpp:401
-#: ekos/capture/captureprocess.cpp:2419 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/capture/captureprocess.cpp:2420 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:1574
 #: ekos/scheduler/schedulerprocess.cpp:2930
 #, fuzzy, kde-format
@@ -6519,7 +6519,7 @@ msgstr "छवि : %1 सहेजेने में अक्षम"
 
 #: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
-#: ekos/capture/captureprocess.cpp:2303 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/capture/captureprocess.cpp:2304 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2627 ekos/scheduler/schedulerprocess.cpp:1575
 #: ekos/scheduler/schedulerprocess.cpp:2931
 #: ekos/scheduler/schedulerprocess.cpp:2951 indi/drivermanager.cpp:1537
@@ -7191,14 +7191,14 @@ msgid "Open Ekos Alignment List"
 msgstr "सूची को देखा जा रहा है"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1965
-#: ekos/capture/captureprocess.cpp:2302 ekos/scheduler/scheduler.cpp:2626
+#: ekos/capture/captureprocess.cpp:2303 ekos/scheduler/scheduler.cpp:2626
 #: ekos/scheduler/schedulerprocess.cpp:2950
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "फ़ाइल %1 खोल नहीं सका."
 
-#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2328
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2329
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -14295,7 +14295,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "क्या आप वाक़ई लिंक %1 को मिटाना चाहते हैं?"
 
-#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2663
+#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2664
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -15696,7 +15696,7 @@ msgstr "कनेक्शन"
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1474 ekos/capture/captureprocess.cpp:1983
+#: ekos/capture/captureprocess.cpp:1474 ekos/capture/captureprocess.cpp:1984
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
@@ -15722,94 +15722,94 @@ msgstr "छवि कैप्चर करें"
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1693
+#: ekos/capture/captureprocess.cpp:1694
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "स्क्रिप्ट: %1 चलाया जा रहा है"
 
-#: ekos/capture/captureprocess.cpp:1708
+#: ekos/capture/captureprocess.cpp:1709
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1716
+#: ekos/capture/captureprocess.cpp:1717
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1728
+#: ekos/capture/captureprocess.cpp:1729
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Processing meridian flip..."
 msgstr "कैप्चर के बाद एफआईटीएस का स्वचालित प्रदर्शन (&A)"
 
-#: ekos/capture/captureprocess.cpp:1738
+#: ekos/capture/captureprocess.cpp:1739
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1743
+#: ekos/capture/captureprocess.cpp:1744
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1924 ekos/focus/focus.cpp:5137
+#: ekos/capture/captureprocess.cpp:1925 ekos/focus/focus.cpp:5137
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर प्रारंभ करें. अवधि सेकंड में है."
 
-#: ekos/capture/captureprocess.cpp:1948 ekos/focus/focus.cpp:5142
+#: ekos/capture/captureprocess.cpp:1949 ekos/focus/focus.cpp:5142
 #: ekos/guide/guide.cpp:915
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "कैमरा सीसीडी एक्सपोजर प्रारंभ करें. अवधि सेकंड में है."
 
-#: ekos/capture/captureprocess.cpp:2042
+#: ekos/capture/captureprocess.cpp:2043
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2053
+#: ekos/capture/captureprocess.cpp:2054
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2075
+#: ekos/capture/captureprocess.cpp:2076
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2108
+#: ekos/capture/captureprocess.cpp:2109
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2116
+#: ekos/capture/captureprocess.cpp:2117
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2388
+#: ekos/capture/captureprocess.cpp:2389
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2420
+#: ekos/capture/captureprocess.cpp:2421
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "फ़ाइल %1 खोल नहीं सका"
 
-#: ekos/capture/captureprocess.cpp:2440
+#: ekos/capture/captureprocess.cpp:2441
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15817,19 +15817,19 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2563
+#: ekos/capture/captureprocess.cpp:2564
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/capture/captureprocess.cpp:2609
+#: ekos/capture/captureprocess.cpp:2610
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "आवृत्तिः"
 
-#: ekos/capture/captureprocess.cpp:2662
+#: ekos/capture/captureprocess.cpp:2663
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15837,20 +15837,20 @@ msgid ""
 "restart capturing?"
 msgstr "क्या आप वाक़ई लिंक %1 को मिटाना चाहते हैं?"
 
-#: ekos/capture/captureprocess.cpp:2676
+#: ekos/capture/captureprocess.cpp:2677
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2791
+#: ekos/capture/captureprocess.cpp:2792
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "क्या आप वाक़ई क्लाएंट %1 को मिटाना चाहते हैं?"
 
-#: ekos/capture/captureprocess.cpp:2792
+#: ekos/capture/captureprocess.cpp:2793
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
@@ -23078,138 +23078,138 @@ msgstr "कैप्चर के बाद एफआईटीएस का स�
 msgid "Meridian Flip Status"
 msgstr "कैप्चर के बाद एफआईटीएस का स्वचालित प्रदर्शन (&A)"
 
-#: ekos/mount/mount.cpp:96
+#: ekos/mount/mount.cpp:94
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to clear all mount configurations?"
 msgstr "क्या आप वाक़ई क्लाएंट %1 को मिटाना चाहते हैं?"
 
-#: ekos/mount/mount.cpp:97
+#: ekos/mount/mount.cpp:95
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Mount Configuration"
 msgstr "मिटाना पुष्टिकरण"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:148 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Mount Control"
 msgstr "मांट्रियल"
 
-#: ekos/mount/mount.cpp:373
+#: ekos/mount/mount.cpp:371
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:388
+#: ekos/mount/mount.cpp:386
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:389
+#: ekos/mount/mount.cpp:387
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "GPS Settings"
 msgstr "विन्यास (&S)"
 
-#: ekos/mount/mount.cpp:517
+#: ekos/mount/mount.cpp:515
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "क्या आप वाक़ई क्लाएंट %1 को मिटाना चाहते हैं?"
 
-#: ekos/mount/mount.cpp:518
+#: ekos/mount/mount.cpp:516
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "ट्रैक"
 
-#: ekos/mount/mount.cpp:605
+#: ekos/mount/mount.cpp:603
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:621
+#: ekos/mount/mount.cpp:619
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:673
+#: ekos/mount/mount.cpp:671
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:815
+#: ekos/mount/mount.cpp:813
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:829
+#: ekos/mount/mount.cpp:827
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:852
+#: ekos/mount/mount.cpp:850
 #, fuzzy, kde-format
 #| msgid "1"
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "1"
 
-#: ekos/mount/mount.cpp:1450
+#: ekos/mount/mount.cpp:1448
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Alignment Model cleared."
 msgstr "केलिएन्टे"
 
-#: ekos/mount/mount.cpp:1454
+#: ekos/mount/mount.cpp:1452
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Failed to clear Alignment Model."
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2142
+#: ekos/mount/mount.cpp:1562 ekos/scheduler/schedulerprocess.cpp:2142
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1589
+#: ekos/mount/mount.cpp:1587
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking time cannot be in the past."
 msgstr "रेडियोटेलिस्कोप"
 
-#: ekos/mount/mount.cpp:1598
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1603
+#: ekos/mount/mount.cpp:1601
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1605
+#: ekos/mount/mount.cpp:1603
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1624
+#: ekos/mount/mount.cpp:1622
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking timer is up."
 msgstr "रेडियोटेलिस्कोप"
 
-#: ekos/mount/mount.cpp:1633
+#: ekos/mount/mount.cpp:1631
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -87274,7 +87274,7 @@ msgstr "एस्तोनिया"
 msgid "Preset:"
 msgstr "एरीस"
 
-#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1395
+#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to download DSS/SDSS image."
@@ -88880,18 +88880,18 @@ msgstr "छवि स्थान निर्धारित करें:"
 msgid "Specify version: "
 msgstr "छवि स्थान निर्धारित करें:"
 
-#: tools/observinglist.cpp:1524
+#: tools/observinglist.cpp:1518
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1525
+#: tools/observinglist.cpp:1519
 #, fuzzy, kde-format
 #| msgid "Select all major bodies"
 msgid "Delete All Images"
 msgstr "सभी मुख्य वस्तु चुनें"
 
-#: tools/observinglist.cpp:1622
+#: tools/observinglist.cpp:1616
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Chooser"

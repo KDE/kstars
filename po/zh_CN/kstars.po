@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 00:38+0000\n"
-"PO-Revision-Date: 2023-12-20 11:25\n"
+"POT-Creation-Date: 2023-12-24 00:38+0000\n"
+"PO-Revision-Date: 2023-12-23 08:02\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5948,7 +5948,7 @@ msgstr "解析中止，用时 %1 秒。"
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
 #: ekos/focus/focus.cpp:4219 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
-#: ekos/mount/mount.cpp:838 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:746
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6052,7 +6052,7 @@ msgid "Capture error. Aborting..."
 msgstr "拍摄失败。中止..."
 
 #: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1482
-#: ekos/capture/captureprocess.cpp:1991
+#: ekos/capture/captureprocess.cpp:1992
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "尝试重新启动拍摄 #%1"
@@ -6143,7 +6143,7 @@ msgid "Invalid URL: %1"
 msgstr "无效的网址：%1"
 
 #: ekos/align/align.cpp:3877 ekos/align/mountmodel.cpp:401
-#: ekos/capture/captureprocess.cpp:2419 ekos/guide/guidedriftgraph.cpp:485
+#: ekos/capture/captureprocess.cpp:2420 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:1574
 #: ekos/scheduler/schedulerprocess.cpp:2930
 #, kde-format
@@ -6152,7 +6152,7 @@ msgstr "无法写入到文件 %1"
 
 #: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1966
-#: ekos/capture/captureprocess.cpp:2303 ekos/guide/guidedriftgraph.cpp:486
+#: ekos/capture/captureprocess.cpp:2304 ekos/guide/guidedriftgraph.cpp:486
 #: ekos/scheduler/scheduler.cpp:2627 ekos/scheduler/schedulerprocess.cpp:1575
 #: ekos/scheduler/schedulerprocess.cpp:2931
 #: ekos/scheduler/schedulerprocess.cpp:2951 indi/drivermanager.cpp:1537
@@ -6776,13 +6776,13 @@ msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1965
-#: ekos/capture/captureprocess.cpp:2302 ekos/scheduler/scheduler.cpp:2626
+#: ekos/capture/captureprocess.cpp:2303 ekos/scheduler/scheduler.cpp:2626
 #: ekos/scheduler/schedulerprocess.cpp:2950
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "无法打开文件 %1"
 
-#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2328
+#: ekos/align/mountmodel.cpp:305 ekos/capture/captureprocess.cpp:2329
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -13592,7 +13592,7 @@ msgstr "保存序列队列失败"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2663
+#: ekos/capture/capture.cpp:2071 ekos/capture/captureprocess.cpp:2664
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
@@ -14966,7 +14966,7 @@ msgstr "错误：与 CCD 的连接中断。"
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "非 FITS 图像无法计算 ADU 强度。"
 
-#: ekos/capture/captureprocess.cpp:1474 ekos/capture/captureprocess.cpp:1983
+#: ekos/capture/captureprocess.cpp:1474 ekos/capture/captureprocess.cpp:1984
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
@@ -14991,89 +14991,89 @@ msgstr "已拍摄 %1"
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "警告：遗留着可能在 %2 的未知占位符  %1 "
 
-#: ekos/capture/captureprocess.cpp:1693
+#: ekos/capture/captureprocess.cpp:1694
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "正在执行拍摄脚本 %1"
 
-#: ekos/capture/captureprocess.cpp:1708
+#: ekos/capture/captureprocess.cpp:1709
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "预拍摄脚本以代码 %1 完成"
 
-#: ekos/capture/captureprocess.cpp:1716
+#: ekos/capture/captureprocess.cpp:1717
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "后拍摄脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1728
+#: ekos/capture/captureprocess.cpp:1729
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "正在中天翻转..."
 
-#: ekos/capture/captureprocess.cpp:1738
+#: ekos/capture/captureprocess.cpp:1739
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "预作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1743
+#: ekos/capture/captureprocess.cpp:1744
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "后作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1924 ekos/focus/focus.cpp:5137
+#: ekos/capture/captureprocess.cpp:1925 ekos/focus/focus.cpp:5137
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
-#: ekos/capture/captureprocess.cpp:1948 ekos/focus/focus.cpp:5142
+#: ekos/capture/captureprocess.cpp:1949 ekos/focus/focus.cpp:5142
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
 
-#: ekos/capture/captureprocess.cpp:2042
+#: ekos/capture/captureprocess.cpp:2043
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
 
-#: ekos/capture/captureprocess.cpp:2053
+#: ekos/capture/captureprocess.cpp:2054
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2075
+#: ekos/capture/captureprocess.cpp:2076
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
 
-#: ekos/capture/captureprocess.cpp:2108
+#: ekos/capture/captureprocess.cpp:2109
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
 
-#: ekos/capture/captureprocess.cpp:2116
+#: ekos/capture/captureprocess.cpp:2117
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2388
+#: ekos/capture/captureprocess.cpp:2389
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr "中天翻转配置已移到赤道仪模块。请在那里配置中天翻转。"
 
-#: ekos/capture/captureprocess.cpp:2420
+#: ekos/capture/captureprocess.cpp:2421
 #, kde-format
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: ekos/capture/captureprocess.cpp:2440
+#: ekos/capture/captureprocess.cpp:2441
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -15083,36 +15083,36 @@ msgstr ""
 "警告：基于 HFR 的自动焦点已设置，但未启用“保存序列 HFR 值至文件”选项。 当前 "
 "HFR 值将不会被写入序列文件。"
 
-#: ekos/capture/captureprocess.cpp:2563
+#: ekos/capture/captureprocess.cpp:2564
 #, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "序列队列已保存到 %1"
 
-#: ekos/capture/captureprocess.cpp:2609
+#: ekos/capture/captureprocess.cpp:2610
 #, kde-format
 msgid "Sequence paused."
 msgstr "序列已暂停。"
 
-#: ekos/capture/captureprocess.cpp:2662
+#: ekos/capture/captureprocess.cpp:2663
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
 
-#: ekos/capture/captureprocess.cpp:2676
+#: ekos/capture/captureprocess.cpp:2677
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
 
-#: ekos/capture/captureprocess.cpp:2791
+#: ekos/capture/captureprocess.cpp:2792
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您确定要重新启动相机 %1 驱动吗？"
 
-#: ekos/capture/captureprocess.cpp:2792
+#: ekos/capture/captureprocess.cpp:2793
 #, kde-format
 msgid "Driver Restart"
 msgstr "重启设备"
@@ -21776,125 +21776,125 @@ msgstr "过中天翻转完毕."
 msgid "Meridian Flip Status"
 msgstr "中天翻转状态"
 
-#: ekos/mount/mount.cpp:96
+#: ekos/mount/mount.cpp:94
 #, kde-format
 msgid "Are you sure you want to clear all mount configurations?"
 msgstr "您确定要清除支架的所有配置吗？"
 
-#: ekos/mount/mount.cpp:97
+#: ekos/mount/mount.cpp:95
 #, kde-format
 msgid "Mount Configuration"
 msgstr "赤道仪配置"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:148 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "赤道仪控制"
 
-#: ekos/mount/mount.cpp:373
+#: ekos/mount/mount.cpp:371
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr "检测到 GPS 设备。KStars 和支架的时间和位置设置现在同步到 GPS 设备。"
 
-#: ekos/mount/mount.cpp:388
+#: ekos/mount/mount.cpp:386
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "检测到 GPS 。您想要切换到 GPS 的时间和位置吗？"
 
-#: ekos/mount/mount.cpp:389
+#: ekos/mount/mount.cpp:387
 #, kde-format
 msgid "GPS Settings"
 msgstr "GPS设置"
 
-#: ekos/mount/mount.cpp:517
+#: ekos/mount/mount.cpp:515
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "您确定要停止赤道仪跟踪吗？"
 
-#: ekos/mount/mount.cpp:518
+#: ekos/mount/mount.cpp:516
 #, kde-format
 msgid "Mount Tracking"
 msgstr "赤道仪跟踪"
 
-#: ekos/mount/mount.cpp:605
+#: ekos/mount/mount.cpp:603
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr "望远镜高度角小于 %1 的最小高度角限制。中止运动......"
 
-#: ekos/mount/mount.cpp:621
+#: ekos/mount/mount.cpp:619
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr "望远镜高度角大于 %1 的最大高度角限制。中止运动......"
 
-#: ekos/mount/mount.cpp:673
+#: ekos/mount/mount.cpp:671
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr "望远镜时角度超过 %1的最大时角。中止运动..."
 
-#: ekos/mount/mount.cpp:815
+#: ekos/mount/mount.cpp:813
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "中天翻转设置在极轴校准时处于非活动状态。"
 
-#: ekos/mount/mount.cpp:829
+#: ekos/mount/mount.cpp:827
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "已完成极轴对齐动作，已激活中天翻转。"
 
-#: ekos/mount/mount.cpp:852
+#: ekos/mount/mount.cpp:850
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1|/|$[~stripAccel %1]"
 
-#: ekos/mount/mount.cpp:1450
+#: ekos/mount/mount.cpp:1448
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "对准模块清除完毕。"
 
-#: ekos/mount/mount.cpp:1454
+#: ekos/mount/mount.cpp:1452
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "清除对准模块失败。"
 
-#: ekos/mount/mount.cpp:1564 ekos/scheduler/schedulerprocess.cpp:2142
+#: ekos/mount/mount.cpp:1562 ekos/scheduler/schedulerprocess.cpp:2142
 #, kde-format
 msgid "Mount already parked."
 msgstr "赤道仪已经归位完毕。"
 
-#: ekos/mount/mount.cpp:1589
+#: ekos/mount/mount.cpp:1587
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "归位时间不能是过去的。"
 
-#: ekos/mount/mount.cpp:1598
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "归位时间必须在当前时间的24小时内。"
 
-#: ekos/mount/mount.cpp:1603
+#: ekos/mount/mount.cpp:1601
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "警告！归位时间已经超过12小时。"
 
-#: ekos/mount/mount.cpp:1605
+#: ekos/mount/mount.cpp:1603
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "注意：调度器处于活动状态时请不要使用自动归位。"
 
-#: ekos/mount/mount.cpp:1624
+#: ekos/mount/mount.cpp:1622
 #, kde-format
 msgid "Parking timer is up."
 msgstr "归位计时器已开启。"
 
-#: ekos/mount/mount.cpp:1633
+#: ekos/mount/mount.cpp:1631
 #, kde-format
 msgid "Starting auto park..."
 msgstr "启动自动归位..."
@@ -76624,7 +76624,7 @@ msgstr "道布森"
 msgid "Preset:"
 msgstr "预置："
 
-#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1395
+#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1389
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "下载 DSS/SDSS 图像失败。"
@@ -78157,17 +78157,17 @@ msgstr "指定图像高度(角分): "
 msgid "Specify version: "
 msgstr "指定版本: "
 
-#: tools/observinglist.cpp:1524
+#: tools/observinglist.cpp:1518
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr "这将删除所有已保存图像。您确定要这样做吗？"
 
-#: tools/observinglist.cpp:1525
+#: tools/observinglist.cpp:1519
 #, kde-format
 msgid "Delete All Images"
 msgstr "删除所有图像"
 
-#: tools/observinglist.cpp:1622
+#: tools/observinglist.cpp:1616
 #, kde-format
 msgid "Image Chooser"
 msgstr "图像选择器"
