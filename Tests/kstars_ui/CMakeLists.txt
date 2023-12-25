@@ -101,7 +101,7 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_meridianflip_specials POST_BUILD
 ADD_EXECUTABLE( test_ekos_meridianflipstate ${KSTARS_UI_EKOS_SRC}  test_ekos_helper.cpp test_ekos_meridianflipstate.cpp)
 TARGET_LINK_LIBRARIES( test_ekos_meridianflipstate ${TEST_LIBRARIES})
 ADD_TEST( NAME TestEkosMeridianFlipState COMMAND test_ekos_meridianflipstate )
-SET_TESTS_PROPERTIES( TestEkosMeridianFlipState PROPERTIES LABELS "unstable;ui" TIMEOUT 120 )
+SET_TESTS_PROPERTIES( TestEkosMeridianFlipState PROPERTIES LABELS "stable;ui" TIMEOUT 120 )
 
 ADD_EXECUTABLE(test_ekos_scheduler ${KSTARS_UI_EKOS_SRC} test_ekos_scheduler.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_scheduler ${KSTARS_UI_EKOS_LIBS})

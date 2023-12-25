@@ -60,7 +60,7 @@ private:
 
     // current mount position
     Ekos::MeridianFlipState::MountPosition m_currentPosition;
-    // current mount status
+    // current and target mount status
     ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };
     // sequence of mount states that are expected
     QQueue<ISD::Mount::Status> expectedMountStates;
@@ -121,13 +121,22 @@ public:
     void Slew(const SkyPoint &position);
     void Sync(const SkyPoint &position);
 
+    void setStatus(ISD::Mount::Status newStatus);
+
 signals:
     void newCoords(const SkyPoint &position, const ISD::Mount::PierSide pierside, const dms &ha);
     void newStatus(ISD::Mount::Status status);
 
 private:
+    ISD::Mount::Status m_status {ISD::Mount::MOUNT_IDLE};
+    // current position
     SkyPoint m_position;
     ISD::Mount::PierSide m_pierside { ISD::Mount::PIER_UNKNOWN};
+    // target position
+    SkyPoint m_targetPosition;
+    ISD::Mount::PierSide m_targetPierside { ISD::Mount::PIER_UNKNOWN};
+    // time stamps for slewing finished and for flipping pier side
+    KStarsDateTime slewFinishedTime;
 
     void updatePosition();
     dms calcHA(const SkyPoint &pos);

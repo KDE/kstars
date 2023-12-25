@@ -12,6 +12,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos_debug.h"
 #include "kstarsdata.h"
+#include "Options.h"
 #include "skymapcomposite.h"
 #include "indicom.h"
 
@@ -33,9 +34,9 @@ void TestEkosMeridianFlipState::testMeridianFlip()
     // find a target 10 sec before meridian
     SkyPoint target = findMFTestTarget(base_offset, upper);
     m_Mount->Slew(target);
-    // expect finished slew
+    // expect finished slew to target close to the meridian
     QTRY_VERIFY_WITH_TIMEOUT(expectedMountStates.isEmpty(), 10000);
-    QVERIFY(m_currentPosition.position == target);
+    QVERIFY(m_currentPosition.valid && m_currentPosition.position == target);
     QVERIFY2(m_currentPosition.ha.HoursHa() - (upper ? 0 : 12) < 0, QString("Current HA=%1").arg(m_currentPosition.ha.HoursHa()).toLatin1());
     QVERIFY(std::abs(m_currentPosition.ha.HoursHa() - (upper ? 0 : 12) + base_offset/3600) * 3600 <= 20.0); // less than 20 arcsec error
     QVERIFY(m_currentPosition.pierSide == (upper ? ISD::Mount::PIER_WEST : ISD::Mount::PIER_EAST));
@@ -68,8 +69,8 @@ void TestEkosMeridianFlipState::testMeridianFlip()
         // wait until the slew completes
         QTRY_VERIFY_WITH_TIMEOUT(expectedMountStates.isEmpty(), 10000);
         // meridian flip should be completed
-        QVERIFY(expectedMeridianFlipMountStates.isEmpty());
-        // mount is pointing east for upper, west for lower culmination
+        QTRY_VERIFY_WITH_TIMEOUT(expectedMeridianFlipMountStates.isEmpty(), 3*Options::minFlipDuration());
+        // mount is on the east side for upper, west for lower culmination
         QVERIFY(m_currentPosition.pierSide == (upper ? ISD::Mount::PIER_EAST : ISD::Mount::PIER_WEST));
     }
     else
@@ -250,6 +251,8 @@ void TestEkosMeridianFlipState::init()
     m_stateMachine->setOffset(offset);
     // clear current position
     m_currentPosition.valid = false;
+    // set delay of 5s to ignore too early tracking
+    Options::setMinFlipDuration(10);
     // connect the test adaptor to the test case
     connectAdaptor();
 }
@@ -278,6 +281,17 @@ void TestEkosMeridianFlipState::cleanupTestCase()
 
 void MountSimulator::updatePosition()
 {
+    if (m_status == ISD::Mount::MOUNT_SLEWING && KStarsData::Instance()->clock()->utc() > slewFinishedTime)
+        {
+            // slew finished
+            m_position = m_targetPosition;
+            m_pierside = m_targetPierside;
+            emit newCoords(m_position, m_pierside, calcHA(m_position));
+            setStatus(ISD::Mount::MOUNT_TRACKING);
+            qCInfo(KSTARS_EKOS_TEST) << "Mount tracking.";
+        }
+
+    // in any case, report the current position
     emit newCoords(m_position, m_pierside, calcHA(m_position));
 }
 
@@ -287,7 +301,7 @@ void MountSimulator::init(const SkyPoint &position)
     // regularly report the position and recalculated HA
     connect(KStarsData::Instance()->clock(), &SimClock::timeAdvanced, this, &MountSimulator::updatePosition);
     // set state to tracking
-    emit newStatus(ISD::Mount::MOUNT_TRACKING);
+    setStatus(ISD::Mount::MOUNT_TRACKING);
 }
 
 void MountSimulator::shutdown()
@@ -298,17 +312,16 @@ void MountSimulator::shutdown()
 void MountSimulator::Slew(const SkyPoint &position)
 {
     // start slewing
-    emit newStatus(ISD::Mount::MOUNT_SLEWING);
+    setStatus(ISD::Mount::MOUNT_SLEWING);
     qCInfo(KSTARS_EKOS_TEST) << "Mount slewing...";
+    m_targetPosition = position;
+    m_targetPierside = calcPierSide(position);
+    // calculate an additional delay if pier side needs to be changed
+    double delay = (m_pierside == ISD::Mount::PIER_UNKNOWN || m_pierside == m_targetPierside) ? 0. : 2. * Options::minFlipDuration();
     QTest::qWait(100);
-    // slew finished, track
-    m_position = position;
-    m_pierside = calcPierSide(position);
-    dms ha = calcHA(position);
-    emit newCoords(m_position, m_pierside, ha);
-    emit newStatus(ISD::Mount::MOUNT_TRACKING);
-    emit newCoords(m_position, m_pierside, ha);
-    qCInfo(KSTARS_EKOS_TEST) << "Mount tracking.";
+    // set time when slew should be finished and tracking should start
+    slewFinishedTime = KStarsData::Instance()->clock()->utc().addSecs(delay);
+    // slewing, pier side change and changing back to tracking will be handled by #updatePosition()
 }
 
 void MountSimulator::Sync(const SkyPoint &position)
@@ -319,7 +332,15 @@ void MountSimulator::Sync(const SkyPoint &position)
         m_pierside = calcPierSide(position);
 
     emit newCoords(m_position, m_pierside, calcHA(position));
-    emit newStatus(ISD::Mount::MOUNT_TRACKING);
+    setStatus(ISD::Mount::MOUNT_TRACKING);
+}
+
+void MountSimulator::setStatus(ISD::Mount::Status value)
+{
+    if (m_status != value)
+        emit newStatus(value);
+
+    m_status = value;
 }
 
 dms MountSimulator::calcHA(const SkyPoint &pos)

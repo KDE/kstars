@@ -195,7 +195,7 @@ public slots:
     /**
      * @brief Slot for receiving an update to the mount park status
      */
-    void setMountParkStatus(ISD::ParkStatus status) { m_MountParkStatus = status; }
+    void setMountParkStatus(ISD::ParkStatus status);
     /**
      * @brief Slot for receiving a new telescope position
      * @param position new position
@@ -253,11 +253,9 @@ private:
 
     static void updatePosition(MountPosition &pos, const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha, const bool isValid);
 
-    // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take at least
-    // the time for that, currently set to 20 seconds
-    // not reliable for pointing state change detection but reported if the pier side is unknown
+    // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take a certain
+    // amount of time. Within this time, a slewing state change will be ignored for pier side change checks.
     QDateTime minMeridianFlipEndTime;
-    int minMeridianFlipDurationSecs = 20;
 
     double flipDelayHrs = 0.0;      // delays the next flip attempt if it fails
 
