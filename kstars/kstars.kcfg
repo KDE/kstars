@@ -1917,6 +1917,10 @@
          <label>Cover or uncover telescope dialog timeout in seconds.</label>
          <default>60</default>
       </entry>
+      <entry name="MinFlipDuration" type="UInt">
+         <label>Minimal duration of a meridian flip.</label>
+         <default>20</default>
+      </entry>
       <entry name="CapturePosition" type="Bool">
          <label>Calculate position after captures.</label>
          <default>false</default>

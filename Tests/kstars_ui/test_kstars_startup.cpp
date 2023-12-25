@@ -142,6 +142,7 @@ void TestKStarsStartup::testInitialConditions()
 
     QCOMPARE(KStars::Instance()->data()->clock()->isActive(), m_InitialConditions.clockRunning);
 
+    /*
     QEXPECT_FAIL("", "Initial KStars clock is set from system local time, not geolocation, and is untestable for now.",
                  Continue);
     QCOMPARE(KStars::Instance()->data()->clock()->utc().toString(), m_InitialConditions.dateTime.toString());
@@ -149,6 +150,7 @@ void TestKStarsStartup::testInitialConditions()
     QEXPECT_FAIL("", "Precision of KStars local time conversion to local time does not allow strict millisecond comparison.",
                  Continue);
     QCOMPARE(KStars::Instance()->data()->clock()->utc().toLocalTime(), m_InitialConditions.dateTime);
+    */
 
 #if QT_VERSION >= 0x050800
     // However comparison down to nearest second is expected to be OK

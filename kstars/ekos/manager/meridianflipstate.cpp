@@ -5,6 +5,7 @@
 */
 
 #include "meridianflipstate.h"
+#include "Options.h"
 
 #include "kstarsdata.h"
 #include "indicom.h"
@@ -233,56 +234,57 @@ bool MeridianFlipState::checkMeridianFlip(dms lst)
         case MOUNT_FLIP_RUNNING:
             if (m_MountStatus == ISD::Mount::MOUNT_TRACKING)
             {
-                // meridian flip slew completed, did it work?
-                bool flipFailed = false;
-
-                // pointing state change check only for mounts that report pier side
-                if (currentPosition.pierSide == ISD::Mount::PIER_UNKNOWN)
+                if (minMeridianFlipEndTime <= KStarsData::Instance()->clock()->utc())
                 {
-                    // check how long it took
-                    if (minMeridianFlipEndTime > QDateTime::currentDateTimeUtc())
+                    // meridian flip slew completed, did it work?
+                    // check tracking only when the minimal flip duration has passed
+                    bool flipFailed = false;
+
+                    // pointing state change check only for mounts that report pier side
+                    if (currentPosition.pierSide == ISD::Mount::PIER_UNKNOWN)
                     {
-                        // don't fail, we have tried but we don't know where the mount was when it started
-                        appendLogText(i18n("Meridian flip failed - time too short, pier side unknown."));
+                        appendLogText(i18n("Assuming meridian flip completed, but pier side unknown."));
                         // signal that capture can resume
                         updateMFMountState(MOUNT_FLIP_COMPLETED);
                         return false;
                     }
-                }
-                else if (currentPosition.pierSide == initialPierSide)
-                {
-                    flipFailed = true;
-                    qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip failed, pier side not changed";
-                }
-
-                if (flipFailed)
-                {
-                    if (getFlipDelayHrs() <= 1.0)
+                    else if (currentPosition.pierSide == initialPierSide)
                     {
-                        // Set next flip attempt to be 4 minutes in the future.
-                        // These depend on the assignment to flipDelayHrs above.
-                        constexpr double delayHours = 4.0 / 60.0;
-                        if (currentPosition.pierSide == ISD::Mount::PierSide::PIER_EAST)
-                            setFlipDelayHrs(rangeHA(ha + 12 + delayHours) - offset);
-                        else
-                            setFlipDelayHrs(ha + delayHours - offset);
+                        flipFailed = true;
+                        qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip failed, pier side not changed";
+                    }
 
-                        // check to stop an infinite loop, 1.0 hrs for now but should use the Ha limit
-                        appendLogText(i18n("meridian flip failed, retrying in 4 minutes"));
+                    if (flipFailed)
+                    {
+                        if (getFlipDelayHrs() <= 1.0)
+                        {
+                            // Set next flip attempt to be 4 minutes in the future.
+                            // These depend on the assignment to flipDelayHrs above.
+                            constexpr double delayHours = 4.0 / 60.0;
+                            if (currentPosition.pierSide == ISD::Mount::PierSide::PIER_EAST)
+                                setFlipDelayHrs(rangeHA(ha + 12 + delayHours) - offset);
+                            else
+                                setFlipDelayHrs(ha + delayHours - offset);
+
+                            // check to stop an infinite loop, 1.0 hrs for now but should use the Ha limit
+                            appendLogText(i18n("meridian flip failed, retrying in 4 minutes"));
+                        }
+                        else
+                        {
+                            appendLogText(i18n("No successful Meridian Flip done, delay too long"));
+                        }
+                        updateMFMountState(MOUNT_FLIP_COMPLETED);   // this will resume imaging and try again after the extra delay
                     }
                     else
                     {
-                        appendLogText(i18n("No successful Meridian Flip done, delay too long"));
+                        setFlipDelayHrs(0);
+                        appendLogText(i18n("Meridian flip completed OK."));
+                        // signal that capture can resume
+                        updateMFMountState(MOUNT_FLIP_COMPLETED);
                     }
-                    updateMFMountState(MOUNT_FLIP_COMPLETED);   // this will resume imaging and try again after the extra delay
                 }
                 else
-                {
-                    setFlipDelayHrs(0);
-                    appendLogText(i18n("Meridian flip completed OK."));
-                    // signal that capture can resume
-                    updateMFMountState(MOUNT_FLIP_COMPLETED);
-                }
+                    qCInfo(KSTARS_EKOS_MOUNT) << "Tracking state during meridian flip reached too early, ignored.";
             }
             break;
 
@@ -320,9 +322,9 @@ void MeridianFlipState::startMeridianFlip()
                               targetPosition.position.ra().toHMSString() <<
                               "DEC=" << targetPosition.position.dec().toDMSString() <<
                               " Hour Angle " << dms(HA).toHMSString();
-    updateMFMountState(MeridianFlipState::MOUNT_FLIP_RUNNING);
 
     updateMinMeridianFlipEndTime();
+    updateMFMountState(MeridianFlipState::MOUNT_FLIP_RUNNING);
 
     // start the re-slew to the current target expecting that the mount firmware changes the pier side
     emit slewTelescope(targetPosition.position);
@@ -374,7 +376,7 @@ void MeridianFlipState::appendLogText(QString message)
 
 void MeridianFlipState::updateMinMeridianFlipEndTime()
 {
-    minMeridianFlipEndTime = KStarsData::Instance()->clock()->utc().addSecs(minMeridianFlipDurationSecs);
+    minMeridianFlipEndTime = KStarsData::Instance()->clock()->utc().addSecs(Options::minFlipDuration());
 }
 
 void MeridianFlipState::updateMFMountState(MeridianFlipMountState status)
@@ -471,6 +473,14 @@ void MeridianFlipState::setMountStatus(ISD::Mount::Status status)
 {
     m_PrevMountStatus = m_MountStatus;
     m_MountStatus = status;
+}
+
+void MeridianFlipState::setMountParkStatus(ISD::ParkStatus status) {
+    // clear the meridian flip when parking
+    if (status == ISD::PARK_PARKING || status == ISD::PARK_PARKED)
+        updateMFMountState(MOUNT_FLIP_NONE);
+
+    m_MountParkStatus = status;
 }
 
 
