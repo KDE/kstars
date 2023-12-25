@@ -193,7 +193,7 @@ void VideoWG::paintOverlay(QPixmap &imagePix)
 {
     if (!overlayEnabled || m_EnabledOverlayElements.count() == 0) return;
 
-    // Anchor - default to centre of image
+    // Anchor - default to center of image
     QPointF m_anchor (static_cast<float>(kPix.width() / 2), static_cast<float>(kPix.height()/2));
     scale = (static_cast<float>(kPix.width()) / static_cast<float>(streamW));
 

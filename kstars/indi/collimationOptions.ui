@@ -228,10 +228,10 @@
        <item row="11" column="0">
         <widget class="QLabel" name="colourLabel">
          <property name="toolTip">
-          <string>Select colour for the Element</string>
+          <string>Select color for the Element</string>
          </property>
          <property name="text">
-          <string>Colour:</string>
+          <string>Color:</string>
          </property>
         </widget>
        </item>
@@ -326,7 +326,7 @@
        <item row="6" column="0">
         <widget class="QLabel" name="offsetLabel">
          <property name="toolTip">
-          <string>Set the Elements offset from it's Anchor. For an Anchor Element this is from the centre of the image.</string>
+          <string>Set the Elements offset from its Anchor. For an Anchor Element this is from the center of the image.</string>
          </property>
          <property name="text">
           <string>Offset:</string>
@@ -434,7 +434,7 @@
        <item row="7" column="0">
         <widget class="QLabel" name="countLabel">
          <property name="toolTip">
-          <string>Select number of occurences of the object type within this element</string>
+          <string>Select number of occurrences of the object type within this element</string>
          </property>
          <property name="text">
           <string>Count:</string>
@@ -456,7 +456,7 @@
          <item>
           <widget class="QLabel" name="rotationLabel">
            <property name="toolTip">
-            <string>If there is more than one occurence set the base rotation angle.</string>
+            <string>If there is more than one occurrence set the base rotation angle.</string>
            </property>
            <property name="text">
             <string>Rotation:</string>
@@ -484,7 +484,7 @@
        <item row="8" column="0">
         <widget class="QLabel" name="pcdLabel">
          <property name="toolTip">
-          <string>Set the Pitch Circle Diameter where there are multiple occurences (Count &gt;1)</string>
+          <string>Set the Pitch Circle Diameter where there are multiple occurrences (Count &gt;1)</string>
          </property>
          <property name="text">
           <string>PCD:</string>

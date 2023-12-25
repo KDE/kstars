@@ -172,7 +172,7 @@ CollimationOverlayOptions::CollimationOverlayOptions(QWidget *parent) : QDialog(
                 updateValue(value, "Rotation");
             });
 
-    // Colour KColorButton
+    // Color KColorButton
     colourButton->setAlphaChannelEnabled(true);
     connect(colourButton, static_cast<void (KColorButton::*)(const QColor&)>(&KColorButton::changed), this,
             [this](QColor value) {
