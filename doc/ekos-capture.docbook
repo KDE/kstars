@@ -370,7 +370,7 @@
                 </caption>
             </mediaobject>
         <para>
-            The overlay options button opens a dialog that allows arbitary and flexible creation of ellipses (including circles), rectangles and lines, as well as anchor points which act as global drawing offsets. Each defined element has it's own size, offset, repetition, thickness and color (including transparency).
+            The overlay options button opens a dialog that allows arbitrary and flexible creation of ellipses (including circles), rectangles and lines, as well as anchor points which act as global drawing offsets. Each defined element has its own size, offset, repetition, thickness and color (including transparency).
         </para>
         <mediaobject>
             <imageobject>
