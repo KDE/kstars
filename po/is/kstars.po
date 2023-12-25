@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-24 00:38+0000\n"
+"POT-Creation-Date: 2023-12-25 00:38+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -1350,8 +1350,9 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
+#. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:345 dialogs/newfov.ui:1095
-#: tools/eyepiecefield.cpp:99
+#: indi/collimationOptions.ui:462 tools/eyepiecefield.cpp:99
 #, fuzzy, kde-format
 msgid "Rotation:"
 msgstr "Valkostur:"
@@ -1821,7 +1822,7 @@ msgid "Left/Right"
 msgstr "Mynd Tenglar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: data/qml/mount/mountbox.qml:493 indi/streamform.ui:169
+#: data/qml/mount/mountbox.qml:493 indi/streamform.ui:219
 #, fuzzy, kde-format, kde-kuit-format
 msgid "1x"
 msgstr "x"
@@ -1894,12 +1895,13 @@ msgstr "Sargent"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_17)
+#. i18n: ectx: property (text), widget (QLabel, typeLabel)
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
-#: printing/detailstable.cpp:318
+#: indi/collimationOptions.ui:427 oal/equipmentwriter.ui:198
+#: oal/equipmentwriter.ui:983 oal/execute.ui:146 printing/detailstable.cpp:318
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Type:"
 msgstr "Tegund"
@@ -2283,12 +2285,14 @@ msgstr "Valkostur:"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, profileNameLabel)
+#. i18n: ectx: property (text), widget (QLabel, nameLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: dialogs/addcatalogobject.ui:26 dialogs/catalogeditform.ui:39
-#: ekos/profileeditor.ui:55 indi/customdrivers.ui:95 indi/indihostconf.ui:20
-#: oal/observeradd.ui:53 tools/altvstime.ui:54 tools/argfindobject.ui:21
+#: ekos/profileeditor.ui:55 indi/collimationOptions.ui:214
+#: indi/customdrivers.ui:95 indi/indihostconf.ui:20 oal/observeradd.ui:53
+#: tools/altvstime.ui:54 tools/argfindobject.ui:21
 #, kde-format
 msgid "Name:"
 msgstr "Nafn:"
@@ -3724,8 +3728,9 @@ msgstr "Mynd"
 
 #. i18n: ectx: property (text), widget (QLabel, AngSizeLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_19)
+#. i18n: ectx: property (text), widget (QLabel, sizeLabel)
 #: dialogs/details_data.ui:289 ekos/capture/capture.ui:292
-#: printing/detailstable.cpp:326
+#: indi/collimationOptions.ui:342 printing/detailstable.cpp:326
 #, fuzzy, kde-format
 msgid "Size:"
 msgstr "Sólarupprás:"
@@ -3793,7 +3798,7 @@ msgstr "0.0"
 #: ekos/capture/capture.cpp:900 ekos/capture/capture.cpp:940
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:886
 #: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
+#: indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
 msgstr ""
@@ -5680,6 +5685,8 @@ msgstr "Strax"
 #. i18n: ectx: property (text), widget (QPushButton, index_5202_cancel)
 #. i18n: ectx: property (text), widget (QPushButton, index_5201_cancel)
 #. i18n: ectx: property (text), widget (QPushButton, index_5200_cancel)
+#. i18n: ectx: property (text), widget (QLabel, offsetXLabel)
+#. i18n: ectx: property (text), widget (QLabel, sizeXLabel)
 #: dialogs/wizdata.ui:244 ekos/align/opsastrometryindexfiles.ui:419
 #: ekos/align/opsastrometryindexfiles.ui:606
 #: ekos/align/opsastrometryindexfiles.ui:678
@@ -5719,7 +5726,8 @@ msgstr "Strax"
 #: ekos/align/opsastrometryindexfiles.ui:4208
 #: ekos/align/opsastrometryindexfiles.ui:4270
 #: ekos/align/opsastrometryindexfiles.ui:4332
-#: ekos/align/opsastrometryindexfiles.ui:4394
+#: ekos/align/opsastrometryindexfiles.ui:4394 indi/collimationOptions.ui:243
+#: indi/collimationOptions.ui:354
 #, kde-format
 msgid "X"
 msgstr ""
@@ -11111,7 +11119,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
+#. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1191
+#: indi/collimationOptions.ui:440
 #, fuzzy, kde-format
 msgid "Count:"
 msgstr "Land:"
@@ -13950,7 +13960,7 @@ msgstr "á "
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1032
+#: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1032
 #, kde-format
 msgid "Offset:"
 msgstr ""
@@ -28649,6 +28659,151 @@ msgid ""
 "CR2 to JPEG."
 msgstr ""
 
+#. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
+#: indi/collimationOptions.ui:20
+#, fuzzy, kde-format
+msgid "Collimation Overlay Options"
+msgstr "Stjörnumerki"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, addB)
+#: indi/collimationOptions.ui:55
+#, kde-format
+msgid "Create a new Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
+#: indi/collimationOptions.ui:78
+#, kde-format
+msgid "Delete the selected Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QListWidget, elementNamesList)
+#: indi/collimationOptions.ui:123
+#, kde-format
+msgid "Collimation Overlay Element name (double click to edit)"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, elementConfigBox)
+#: indi/collimationOptions.ui:143
+#, kde-format
+msgid "Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, enableLabel)
+#: indi/collimationOptions.ui:164
+#, kde-format
+msgid "Select whether this Element is enabled or not"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, enableLabel)
+#: indi/collimationOptions.ui:167
+#, fuzzy, kde-format
+msgid "Enable:"
+msgstr "Sýna Upplýsingar Samtalsgluggi"
+
+#. i18n: ectx: property (text), widget (QPushButton, renameB)
+#: indi/collimationOptions.ui:192
+#, fuzzy, kde-format
+msgid "Rename"
+msgstr "Nafn borgar"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
+#: indi/collimationOptions.ui:211
+#, kde-format
+msgid ""
+"Enter a name for this Collimation Overlay Element. If left empty a name will "
+"be generated based on the Type selected."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
+#: indi/collimationOptions.ui:231
+#, fuzzy, kde-format
+msgid "Select colour for the Element"
+msgstr "Velja fyrir"
+
+#. i18n: ectx: property (text), widget (QLabel, colourLabel)
+#: indi/collimationOptions.ui:234
+#, fuzzy, kde-format
+#| msgid "Color:"
+msgid "Colour:"
+msgstr "Litur:"
+
+#. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
+#. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
+#: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
+#, kde-format
+msgid "Y"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
+#: indi/collimationOptions.ui:293
+#, fuzzy, kde-format
+msgid "Select a color for the Collimation Overlay Element."
+msgstr "Nota latnesk heiti stjörnumerkja"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
+#: indi/collimationOptions.ui:310
+#, kde-format
+msgid "Set the line thickness used to draw the element."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
+#: indi/collimationOptions.ui:313
+#, fuzzy, kde-format
+msgid "Thickness:"
+msgstr "Whittier"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
+#: indi/collimationOptions.ui:329
+#, kde-format
+msgid ""
+"Set the Elements offset from it's Anchor. For an Anchor Element this is from "
+"the centre of the image."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
+#: indi/collimationOptions.ui:339
+#, fuzzy, kde-format
+msgid "Set the size of the Element"
+msgstr "Dofna?"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
+#: indi/collimationOptions.ui:389
+#, kde-format
+msgid "Link X & Y sizes"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, typeLabel)
+#: indi/collimationOptions.ui:424
+#, kde-format
+msgid "Select the type of Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
+#: indi/collimationOptions.ui:437
+#, kde-format
+msgid "Select number of occurences of the object type within this element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
+#: indi/collimationOptions.ui:459
+#, kde-format
+msgid "If there is more than one occurence set the base rotation angle."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
+#: indi/collimationOptions.ui:487
+#, kde-format
+msgid ""
+"Set the Pitch Circle Diameter where there are multiple occurences (Count >1)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, pcdLabel)
+#: indi/collimationOptions.ui:490
+#, kde-format
+msgid "PCD:"
+msgstr ""
+
 #: indi/customdrivers.cpp:106
 #, kde-format
 msgid "Label already exists. Label must be unique."
@@ -29619,7 +29774,7 @@ msgid "Video Stream"
 msgstr "Fela Hlutir"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
-#: indi/streamform.ui:58 indi/streamwg.cpp:341 indi/streamwg.cpp:351
+#: indi/streamform.ui:58 indi/streamwg.cpp:349 indi/streamwg.cpp:359
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -29645,82 +29800,94 @@ msgstr "Barnesville"
 msgid "Toggle debayer"
 msgstr "Víxla störnum"
 
-#. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
+#. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
+#, fuzzy, kde-format
+msgid "Toggle collimation overlay"
+msgstr "Línur"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
+#: indi/streamform.ui:193
+#, fuzzy, kde-format
+msgid "Collimation overlay options"
+msgstr "Stjörnumerki"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
+#: indi/streamform.ui:215
 #, fuzzy, kde-format
 #| msgid "Zoom level:"
 msgid "Zoom level"
 msgstr "Stækkunarstig:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:174
+#: indi/streamform.ui:224
 #, fuzzy, kde-format
 msgid "5x"
 msgstr "5"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:179
+#: indi/streamform.ui:229
 #, kde-format
 msgid "10x"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
-#: indi/streamform.ui:207
+#: indi/streamform.ui:257
 #, kde-format
 msgid "Move zoomed view Up/Down"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
-#: indi/streamform.ui:232
+#: indi/streamform.ui:282
 #, kde-format
 msgid "Move zoomed view Left/Right"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
-#: indi/streamform.ui:276 indi/streamform.ui:292
+#: indi/streamform.ui:326 indi/streamform.ui:342
 #, fuzzy, kde-format
 msgid "Video frame duration in seconds"
 msgstr "Dagur Tímalengd"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: indi/streamform.ui:279
+#: indi/streamform.ui:329
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Frame (s)"
 msgstr "Nafn:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
-#: indi/streamform.ui:320
+#: indi/streamform.ui:370
 #, kde-format
 msgid "Apply FPS and restart stream"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: indi/streamform.ui:343
+#: indi/streamform.ui:393
 #, kde-format
 msgid "FPS:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
-#: indi/streamform.ui:356
+#: indi/streamform.ui:406
 #, kde-format
 msgid "Average FPS"
 msgstr ""
 
-#: indi/streamwg.cpp:61
+#: indi/streamwg.cpp:60
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "SER Record Directory"
 msgstr "Vista Mynd"
 
-#: indi/streamwg.cpp:97
+#: indi/streamwg.cpp:105
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "Gátt:"
 
-#: indi/streamwg.cpp:336 indi/streamwg.cpp:383
+#: indi/streamwg.cpp:344 indi/streamwg.cpp:391
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop recording"

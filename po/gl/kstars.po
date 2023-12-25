@@ -11,16 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-24 00:38+0000\n"
-"PO-Revision-Date: 2023-11-23 17:57+0100\n"
+"POT-Creation-Date: 2023-12-25 00:38+0000\n"
+"PO-Revision-Date: 2023-12-24 09:13+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
-"Language-Team: Galician <proxecto@trasno.gal>\n"
+"Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,7 +31,7 @@ msgstr "mvillarino, Xabier G. Feal, Xosé Calvo, Adrian Chaves (Gallaecio)"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"mvillarino@users.sourceforge.net, xosecalvo@gmail.com, proxecto@trasno.gal, "
+"mvillarino@users.sourceforge.net, proxecto@trasno.gal, xosecalvo@gmail.com, "
 "adrian@chaves.io"
 
 #: auxiliary/colorscheme.cpp:29 kstars.cpp:58
@@ -1295,8 +1295,9 @@ msgstr ""
 "de visión. Nota: non ten efecto se se cubre un obxecto."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
+#. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:345 dialogs/newfov.ui:1095
-#: tools/eyepiecefield.cpp:99
+#: indi/collimationOptions.ui:462 tools/eyepiecefield.cpp:99
 #, kde-format
 msgid "Rotation:"
 msgstr "Rotación:"
@@ -1518,106 +1519,103 @@ msgid "Output file is not writable."
 msgstr "O ficheiro de saída non permite escritura."
 
 #: catalogsdb/catalogsdb.cpp:754
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not attach output file.<br>%1"
-msgstr "Non se puido abrir o ficheiro %1"
+msgstr "Non foi posíbel anexar o ficheiro de saída.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:764
-#, fuzzy, kde-format
-#| msgid "Could not find custom catalog component named %1."
+#, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
-msgstr "Non se puido atopar o compoñente personalizado do catálogo chamado %1."
+msgstr "Non foi posíbel copiar o catálogo no ficheiro de saída.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:768
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
 msgstr ""
+"Non foi posíbel crear o rexistro do catálogo no ficheiro de saída.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:780
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
 msgstr ""
+"Non foi posíbel inserir o catálogo no rexistro do ficheiro de saída.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:786
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
-msgstr ""
+msgstr "Non foi posíbel inserir a versión de base de datos exportada.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:793
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr ""
+"Non foi posíbel inserir o identificador de aplicación de base de datos "
+"exportada.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:809
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "Catalog file is not readable."
-msgstr "Non se admite a densidade de bits %1."
+msgstr "O ficheiro de catálogo non é lexíbel."
 
 #: catalogsdb/catalogsdb.cpp:818
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not attach input file.<br>%1"
-msgstr "Non se puido abrir o ficheiro %1"
+msgstr "Non foi posíbel anexar o ficheiro de entrada.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:828
-#, fuzzy, kde-format
-#| msgid "Invalid file"
+#, kde-format
 msgid "Invalid catalog file."
-msgstr "O ficheiro é incorrecto"
+msgstr "O ficheiro non é válido."
 
 #: catalogsdb/catalogsdb.cpp:835
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not migrate old catalog format.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non é posíbel migrar o formato vello de catálogo.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:841
 #, kde-format
 msgid "Could read the catalog id.<br>%1"
-msgstr ""
+msgstr "Non foi posíbel ler o identificador do catálogo.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:851
-#, fuzzy, kde-format
-#| msgid "This city already exists in the database."
+#, kde-format
 msgid "Catalog already exists in the database!"
-msgstr "Esta cidade xa existe na base de datos."
+msgstr "O catálogo xa existe na base de datos!"
 
 #: catalogsdb/catalogsdb.cpp:868 dialogs/catalogsdbui.cpp:211
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
-msgstr ""
+msgstr "Non foi posíbel importar o catálogo.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:873
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
-msgstr ""
+msgstr "Non foi posíbel actualizar o catálogo mestre.<br>"
 
 #: catalogsdb/catalogsdb.cpp:882
 #, kde-format
 msgid "Removing the user catalog is not allowed."
-msgstr ""
+msgstr "Non se permite eliminar o catálogo da persoa usuaria."
 
 #: catalogsdb/catalogsdb.cpp:902
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
-msgstr ""
+msgstr "Non foi posíbel eliminar o catálogo do rexistro.<br> %1"
 
 #: catalogsdb/catalogsdb.cpp:916
 #, kde-format
 msgid "Both catalogs have to exist!"
-msgstr ""
+msgstr "Os dous catálogos deben existir!"
 
 #: catalogsdb/catalogsdb.cpp:919
 #, kde-format
 msgid "Destination catalog has to be mutable!"
-msgstr ""
+msgstr "O catálogo de destino debe permitir cambios!"
 
 #: catalogsdb/catalogsdb.cpp:935
 #, kde-format
 msgid "Cannot update nonexisting catalog."
-msgstr ""
+msgstr "Non é posíbel actualizar o catálogo porque non existe."
 
 #. i18n: ectx: Menu (file)
 #: data/fitsviewerui.rc:5 data/kstarsui.rc:5
@@ -1763,7 +1761,7 @@ msgid "Left/Right"
 msgstr "Esquerda ou dereita"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: data/qml/mount/mountbox.qml:493 indi/streamform.ui:169
+#: data/qml/mount/mountbox.qml:493 indi/streamform.ui:219
 #, kde-format, kde-kuit-format
 msgid "1x"
 msgstr "×1"
@@ -1833,12 +1831,13 @@ msgstr "Destino:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_17)
+#. i18n: ectx: property (text), widget (QLabel, typeLabel)
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/capture.ui:813
-#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
-#: printing/detailstable.cpp:318
+#: indi/collimationOptions.ui:427 oal/equipmentwriter.ui:198
+#: oal/equipmentwriter.ui:983 oal/execute.ui:146 printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
 msgstr "Tipo:"
@@ -1854,10 +1853,9 @@ msgid "AZ/AL"
 msgstr "Ac/Al"
 
 #: data/qml/mount/mountbox.qml:899
-#, fuzzy, kde-kuit-format
-#| msgid "RA/DE"
+#, kde-kuit-format
 msgid "HA/DE"
-msgstr "α/δ"
+msgstr "ω/δ"
 
 #. i18n: ectx: property (text), widget (QLabel, epochLabel)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel)
@@ -1967,7 +1965,7 @@ msgstr "Constelacións"
 #: data/qml/whatisinteresting/wiview.qml:338
 #, kde-kuit-format
 msgid "Deep-sky Objects"
-msgstr "Obxectos afastados"
+msgstr "Obxectos do espazo profundo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowComets)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
@@ -2217,10 +2215,9 @@ msgid "Back"
 msgstr "Atrás"
 
 #: dialogs/addcatalogobject.cpp:132
-#, fuzzy, kde-format
-#| msgid "Guess from &Text"
+#, kde-format
 msgid "Guess object data from text"
-msgstr "Adiviñar a partir de &texto"
+msgstr "Adiviñar os datos do obxecto a partir de texto"
 
 #: dialogs/addcatalogobject.cpp:133
 #, kde-format
@@ -2229,30 +2226,33 @@ msgid ""
 "guess the contents of the fields from the text. The result is just a guess, "
 "so please verify the coordinates and the other information."
 msgstr ""
+"Copie e peque un fragmento de texto con datos do obxecto, e KStars intentará "
+"adiviñar o contido dos campos a partir do texto. O resultado non é máis que "
+"unha suposición, verifique as coordinadas e o resto de información."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, AddCatalogObject)
 #: dialogs/addcatalogobject.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit Deep Sky Object"
+#, kde-format
 msgid "Add/Edit DSO"
-msgstr "Engadir ou editar un obxecto afastado"
+msgstr "Engadir ou editar obxectos do espazo profundo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/addcatalogobject.ui:20
-#, fuzzy, kde-format
-#| msgid "Basic Options"
+#, kde-format
 msgid "Basics"
-msgstr "Opcións básicas"
+msgstr "Fundamentos"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, profileNameLabel)
+#. i18n: ectx: property (text), widget (QLabel, nameLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: dialogs/addcatalogobject.ui:26 dialogs/catalogeditform.ui:39
-#: ekos/profileeditor.ui:55 indi/customdrivers.ui:95 indi/indihostconf.ui:20
-#: oal/observeradd.ui:53 tools/altvstime.ui:54 tools/argfindobject.ui:21
+#: ekos/profileeditor.ui:55 indi/collimationOptions.ui:214
+#: indi/customdrivers.ui:95 indi/indihostconf.ui:20 oal/observeradd.ui:53
+#: tools/altvstime.ui:54 tools/argfindobject.ui:21
 #, kde-format
 msgid "Name:"
 msgstr "Nome:"
@@ -2261,34 +2261,31 @@ msgstr "Nome:"
 #: dialogs/addcatalogobject.ui:33
 #, kde-format
 msgid "e.g. PGC 54559"
-msgstr ""
+msgstr "p. ex. PGC 54559"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/addcatalogobject.ui:50
-#, fuzzy, kde-format
-#| msgctxt "Declination"
-#| msgid "Dec (J2000)"
+#, kde-format
 msgid "RA / Dec (J2000):"
-msgstr "δ (J2000.0)"
+msgstr "α/δ (J2000):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/addcatalogobject.ui:72
 #, kde-format
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: dialogs/addcatalogobject.ui:91
-#, fuzzy, kde-format
-#| msgid "Star Magnitudes:"
+#, kde-format
 msgid "Apparent magnitude:"
-msgstr "Magnitude estelares:"
+msgstr "Magnitude aparente:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:110
 #, kde-format
 msgid "Check if magnitude is unknown"
-msgstr ""
+msgstr "Comprobar se se descoñece a magnitude."
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:590
@@ -2309,69 +2306,62 @@ msgstr "Opcional"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: dialogs/addcatalogobject.ui:131
-#, fuzzy, kde-format
-#| msgid "Desired field-of-view size, in arcminutes"
+#, kde-format
 msgid "Size Info in Arcminutes"
-msgstr "Campo de visión desexado, en minutos de arco"
+msgstr "Información de tamaño en minutos de arco"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/addcatalogobject.ui:146
-#, fuzzy, kde-format
-#| msgid "Major Axis:"
+#, kde-format
 msgid "Major axis:"
-msgstr "Eixe maior:"
+msgstr "Eixo maior:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/addcatalogobject.ui:157
-#, fuzzy, kde-format
-#| msgid "Minor Axis:"
+#, kde-format
 msgid "Minor axis:"
-msgstr "Eixe menor:"
+msgstr "Eixo menor:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: dialogs/addcatalogobject.ui:176
 #, kde-format
 msgid "Misc"
-msgstr ""
+msgstr "Outras"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_3)
 #: dialogs/addcatalogobject.ui:182 dialogs/addcatalogobject.ui:185
 #, kde-format
 msgid "Some catalog specific identifier, like the NGC number."
-msgstr ""
+msgstr "Un identificador específico do catálogo, como o número NGC."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/addcatalogobject.ui:188
-#, fuzzy, kde-format
-#| msgid "Catalog Preview"
+#, kde-format
 msgid "Catalog identifier:"
-msgstr "Vista previa do catálogo"
+msgstr "Identificador do catálogo:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, catalog_identifier)
 #: dialogs/addcatalogobject.ui:195
 #, kde-format
 msgid "e.g. 54559"
-msgstr ""
+msgstr "p. ex. 54559"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/addcatalogobject.ui:202
-#, fuzzy, kde-format
-#| msgid "Flux"
+#, kde-format
 msgid "Flux:"
-msgstr "Fluxo"
+msgstr "Fluxo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/addcatalogobject.ui:212
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle (°):"
-msgstr "Ángulo da posición"
+msgstr "Ángulo da posición (°):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/addcatalogobject.ui:229
-#, fuzzy, kde-format
-#| msgid "Long Name:"
+#, kde-format
 msgid "Long name:"
 msgstr "Nome completo:"
 
@@ -2379,7 +2369,7 @@ msgstr "Nome completo:"
 #: dialogs/addcatalogobject.ui:236
 #, kde-format
 msgid "e.g. Hoag's Object"
-msgstr ""
+msgstr "p. ex. Obxecto de Hoag"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guessFromTextButton)
 #: dialogs/addcatalogobject.ui:251
@@ -2388,6 +2378,9 @@ msgid ""
 "This feature allows you to copy-paste a piece of text from e.g. a website or "
 "another app and magically try to infer the contents of this form from it."
 msgstr ""
+"Esta funcionalidade permite copiar e pegar un fragmento de texto, p. ex. dun "
+"sitio web ou doutra aplicación, e intentar inferir o contido deste "
+"formulario a partir dese texto."
 
 #. i18n: ectx: property (text), widget (QPushButton, guessFromTextButton)
 #: dialogs/addcatalogobject.ui:254
@@ -2521,8 +2514,7 @@ msgid "Enter a name for the catalog"
 msgstr "Insire un nome para o catálogo"
 
 #: dialogs/addlinkdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Add Custom URL to %1"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Custom URL to %1"
 msgstr "Engadir un URL personalizado a %1"
@@ -2645,16 +2637,14 @@ msgstr "Comprobar o URL"
 
 #: dialogs/catalogcoloreditor.cpp:21 dialogs/catalogcoloreditor.cpp:137
 #: dialogs/catalogsdbui.cpp:290
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Critical error"
-msgstr "Vertical"
+msgstr "Erro crítico"
 
 #: dialogs/catalogcoloreditor.cpp:22
-#, fuzzy, kde-format
-#| msgid "Star HD%1 not found."
+#, kde-format
 msgid "Catalog with id %1 not found."
-msgstr "Non se atopou a estrela HD%1."
+msgstr "Non se atopou o catálogo co identificador %1."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
@@ -2667,29 +2657,27 @@ msgid "Default"
 msgstr "Predeterminado"
 
 #: dialogs/catalogcoloreditor.cpp:138
-#, fuzzy, kde-format
-#| msgid "Could not export image"
+#, kde-format
 msgid "Could not insert new colors.<br>"
-msgstr "Non se puido exportar a imaxe"
+msgstr "Non foi posíbel inserir novas cores.<br>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogColorEditor)
 #: dialogs/catalogcoloreditor.ui:14
-#, fuzzy, kde-format
-#| msgid "Catalog Coordinates"
+#, kde-format
 msgid "Catalog Colors"
-msgstr "Coordenadas de catálogo"
+msgstr "Cores do catálogo"
 
 #. i18n: ectx: property (text), widget (QLabel, catalogName)
 #: dialogs/catalogcoloreditor.ui:23
 #, kde-format
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/catalogcoloreditor.ui:36
 #, kde-format
 msgid "Click on a color to change it..."
-msgstr ""
+msgstr "Prema unha cor para cambiala…"
 
 #: dialogs/catalogcsvimport.cpp:89
 #, kde-format
@@ -2702,8 +2690,7 @@ msgid "Hours"
 msgstr "Horas"
 
 #: dialogs/catalogcsvimport.cpp:101 dialogs/catalogsdbui.cpp:195
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgctxt "@title:window"
 msgid "Import Catalog"
 msgstr "Importar o catálogo"
@@ -2716,16 +2703,14 @@ msgid "File"
 msgstr "Ficheiro"
 
 #: dialogs/catalogcsvimport.cpp:103
-#, fuzzy, kde-format
-#| msgid "Conf. File"
+#, kde-format
 msgid "Any File"
-msgstr "Ficheiro de configuración"
+msgstr "Calquera ficheiro"
 
 #: dialogs/catalogcsvimport.cpp:116
-#, fuzzy, kde-format
-#| msgid "Could not open the file %1 for writing."
+#, kde-format
 msgid "Could not open the csv file.<br>It does not exist."
-msgstr "Non se puido abrir o ficheiro %1 para escribir."
+msgstr "Non foi posíbel abrir o ficheiro CSV.<br> Non existe."
 
 #: dialogs/catalogcsvimport.cpp:167 widgets/draglistbox.cpp:70
 #: widgets/draglistbox.cpp:87
@@ -2734,16 +2719,14 @@ msgid "Ignore"
 msgstr "Ignorar"
 
 #: dialogs/catalogcsvimport.cpp:178
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "%1 Object"
 msgid_plural "%1 Objects"
-msgstr[0] "Obxecto"
-msgstr[1] "Obxecto"
+msgstr[0] "%1 obxecto"
+msgstr[1] "%1 obxectos"
 
 #: dialogs/catalogcsvimport.cpp:184
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "Text"
 msgstr "Texto"
 
@@ -2757,76 +2740,69 @@ msgid "Type"
 msgstr "Tipo"
 
 #: dialogs/catalogcsvimport.cpp:188
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "default"
-msgstr "Predeterminado"
+msgstr "predeterminado"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogCSVImport)
 #: dialogs/catalogcsvimport.ui:14
 #, kde-format
 msgid "CSV Import"
-msgstr ""
+msgstr "Importación de CSV"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/catalogcsvimport.ui:37
-#, fuzzy, kde-format
-#| msgid "Input File:"
+#, kde-format
 msgid "Input"
-msgstr "Ficheiro de entrada:"
+msgstr "Entrada"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/catalogcsvimport.ui:50
-#, fuzzy, kde-format
-#| msgid "L&inear"
+#, kde-format
 msgid "lines"
-msgstr "L&ineal"
+msgstr "liñas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/catalogcsvimport.ui:77
 #, kde-format
 msgid "Skip first:"
-msgstr ""
+msgstr "Saltar a primeira:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/catalogcsvimport.ui:84
-#, fuzzy, kde-format
-#| msgid "Separation"
+#, kde-format
 msgid "Separator:"
-msgstr "Separación"
+msgstr "Separador:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, comment_prefix)
 #: dialogs/catalogcsvimport.ui:109
 #, kde-format
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. i18n: ectx: property (text), widget (QLineEdit, separator)
 #: dialogs/catalogcsvimport.ui:138
 #, kde-format
 msgid ","
-msgstr ""
+msgstr ","
 
 #. i18n: ectx: property (text), widget (QPushButton, file_select_button)
 #: dialogs/catalogcsvimport.ui:151
-#, fuzzy, kde-format
-#| msgid "Selected"
+#, kde-format
 msgid "Select/Read..."
-msgstr "Seleccionado"
+msgstr "Seleccionar ou ler…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/catalogcsvimport.ui:158
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Comment prefix:"
-msgstr "Comentario"
+msgstr "Prefixo de comentario:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/catalogcsvimport.ui:168
-#, fuzzy, kde-format
-#| msgid "Coordinates"
+#, kde-format
 msgid "Coordinate Units"
-msgstr "Coordenadas"
+msgstr "Unidades das coordenadas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
@@ -2843,17 +2819,15 @@ msgstr "δ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, column_mapping)
 #: dialogs/catalogcsvimport.ui:222
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Philippines"
+#, kde-format
 msgid "Mapping"
-msgstr "Filipinas"
+msgstr "Asociación"
 
 #. i18n: ectx: property (title), widget (QGroupBox, type_mapping)
 #: dialogs/catalogcsvimport.ui:235
 #, kde-format
 msgid "Type Mapping"
-msgstr ""
+msgstr "Asociación de tipos"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:260
@@ -2868,69 +2842,63 @@ msgid ""
 "Showing <= %1 entries. Enter a name (case sensitive) to narrow down the "
 "search."
 msgstr ""
+"Amósanse como moito %1 entradas. Escriba un nome (distínguense as "
+"maiúsculas) para limitar a busca."
 
 #: dialogs/catalogdetails.cpp:80
-#, fuzzy, kde-format
-#| msgid "Could not download the file."
+#, kde-format
 msgid "Could not load the catalog with id=%1"
-msgstr "Non foi posíbel obter o ficheiro."
+msgstr "Non foi posíbel cargar o catálogo con identificador=%1."
 
 #: dialogs/catalogdetails.cpp:133
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not update the catalog.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel actualizar o catálogo.<br> %1"
 
 #: dialogs/catalogdetails.cpp:148 dialogs/catalogdetails.cpp:197
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not add the object.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel engadir o obxecto.<br>%1"
 
 #: dialogs/catalogdetails.cpp:167 dialogs/catalogdetails.cpp:191
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not remove the object.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel retirar o obxecto.<br>%1"
 
 #: dialogs/catalogdetails.cpp:214
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not add the objects.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel engadir os obxectos.<br>%1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogDetails)
 #: dialogs/catalogdetails.ui:14
-#, fuzzy, kde-format
-#| msgid "Catalog Star"
+#, kde-format
 msgid "Catalog Details"
-msgstr "Estrela do catálogo"
+msgstr "Detalles do catálogo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/catalogdetails.ui:39 dialogs/catalogeditform.ui:22
-#, fuzzy, kde-format
-#| msgctxt "Vendor ID"
-#| msgid "VID"
+#, kde-format
 msgid "ID:"
-msgstr "VID"
+msgstr "Identificador:"
 
 #. i18n: ectx: property (text), widget (QLabel, id)
 #: dialogs/catalogdetails.ui:46
 #, kde-format
 msgid "_id"
-msgstr ""
+msgstr "_id"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/catalogdetails.ui:53
 #, kde-format
 msgid "Prec:"
-msgstr ""
+msgstr "Prec:"
 
 #. i18n: ectx: property (text), widget (QLabel, precedence)
 #: dialogs/catalogdetails.ui:60
 #, kde-format
 msgid "_prec"
-msgstr ""
+msgstr "_prec"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -2939,83 +2907,76 @@ msgstr ""
 #: tools/scriptnamedialog.ui:22
 #, kde-format
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Autoría:"
 
 #. i18n: ectx: property (text), widget (QLabel, author)
 #: dialogs/catalogdetails.ui:74
 #, kde-format
 msgid "_auth"
-msgstr ""
+msgstr "_auth"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/catalogdetails.ui:81 dialogs/catalogeditform.ui:53
-#, fuzzy, kde-format
-#| msgid "Source: "
+#, kde-format
 msgid "Source:"
-msgstr "Fonte: "
+msgstr "Orixe:"
 
 #. i18n: ectx: property (text), widget (QLabel, source)
 #: dialogs/catalogdetails.ui:88
 #, kde-format
 msgid "_src"
-msgstr ""
+msgstr "_src"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/catalogdetails.ui:95
 #, kde-format
 msgid "Desc:"
-msgstr ""
+msgstr "Desc:"
 
 #. i18n: ectx: property (text), widget (QLabel, description)
 #: dialogs/catalogdetails.ui:108
 #, kde-format
 msgid "_desc"
-msgstr ""
+msgstr "_desc"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: dialogs/catalogdetails.ui:121
-#, fuzzy, kde-format
-#| msgid "Version"
+#, kde-format
 msgid "Version:"
-msgstr "Versión"
+msgstr "Versión:"
 
 #. i18n: ectx: property (text), widget (QLabel, version)
 #: dialogs/catalogdetails.ui:128
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "_vers"
-msgstr "Inverter "
+msgstr "_vers"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/catalogdetails.ui:135 dialogs/catalogeditform.ui:93
-#, fuzzy, kde-format
-#| msgid "Current Maintainer"
+#, kde-format
 msgid "Maintainer:"
-msgstr "Mantedor actual."
+msgstr "Mantemento:"
 
 #. i18n: ectx: property (text), widget (QLabel, maintainer)
 #: dialogs/catalogdetails.ui:142
-#, fuzzy, kde-format
-#| msgctxt "City in Belgium"
-#| msgid "Humain"
+#, kde-format
 msgid "_maint"
-msgstr "Humain"
+msgstr "_maint"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/catalogdetails.ui:149 dialogs/catalogeditform.ui:103
-#, fuzzy, kde-format
-#| msgid "License: GPLv2"
+#, kde-format
 msgid "License:"
-msgstr "Licenza: GPLv2"
+msgstr "Licenza:"
 
 #. i18n: ectx: property (text), widget (QLabel, license)
 #: dialogs/catalogdetails.ui:156
 #, kde-format
 msgid "_lic"
-msgstr ""
+msgstr "_lic"
 
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
@@ -3050,38 +3011,33 @@ msgstr "Retirar"
 
 #. i18n: ectx: property (text), widget (QPushButton, edit)
 #: dialogs/catalogdetails.ui:214
-#, fuzzy, kde-format
-#| msgid "Catalog Star"
+#, kde-format
 msgid "Edit Catalog Meta..."
-msgstr "Estrela do catálogo"
+msgstr "Editar os metadatos do catálogo…"
 
 #. i18n: ectx: property (text), widget (QPushButton, add_object)
 #: dialogs/catalogdetails.ui:224
-#, fuzzy, kde-format
-#| msgid "Any Object"
+#, kde-format
 msgid "Add Object..."
-msgstr "Calquera obxecto"
+msgstr "Engadir un obxecto…"
 
 #. i18n: ectx: property (text), widget (QPushButton, import_csv)
 #: dialogs/catalogdetails.ui:234
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgid "Import CSV..."
-msgstr "Importar o catálogo"
+msgstr "Importar un CSV…"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, name_filter)
 #: dialogs/catalogdetails.ui:248
-#, fuzzy, kde-format
-#| msgid "Filter by name:"
+#, kde-format
 msgid "Filter by Name"
-msgstr "Filtrar polo nome:"
+msgstr "Filtrar polo nome"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogsUInewCatalog)
 #: dialogs/catalogeditform.ui:14
-#, fuzzy, kde-format
-#| msgid "Delete Catalog?"
+#, kde-format
 msgid "Create/Edit Catalog"
-msgstr "Eliminar o catálogo?"
+msgstr "Crear ou editar un catálogo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
@@ -3120,16 +3076,12 @@ msgid "RA"
 msgstr "α"
 
 #: dialogs/catalogobjectlistmodel.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "Declination"
-#| msgid "Dec"
+#, kde-format
 msgid "Dec"
 msgstr "δ"
 
 #: dialogs/catalogobjectlistmodel.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "Magnitude"
-#| msgid "Mag"
+#, kde-format
 msgid "Mag"
 msgstr "Mag"
 
@@ -3143,15 +3095,14 @@ msgid "Name"
 msgstr "Nome"
 
 #: dialogs/catalogobjectlistmodel.cpp:75
-#, fuzzy, kde-format
-#| msgid "Long Name:"
+#, kde-format
 msgid "Long Name"
-msgstr "Nome completo:"
+msgstr "Nome completo"
 
 #: dialogs/catalogobjectlistmodel.cpp:77
 #, kde-format
 msgid "Identifier"
-msgstr ""
+msgstr "Identificador"
 
 #: dialogs/catalogobjectlistmodel.cpp:79
 #, kde-format
@@ -3177,38 +3128,29 @@ msgstr "Fluxo"
 #. i18n: ectx: property (text), widget (QCheckBox, hotPixelsEnabled)
 #: dialogs/catalogsdbui.cpp:25 ekos/auxiliary/darklibrary.ui:857
 #: ekos/auxiliary/darklibrary.ui:906
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Enabled"
+#, kde-format
 msgid "Enabled"
 msgstr "Activado"
 
 #: dialogs/catalogsdbui.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "Vendor ID"
-#| msgid "VID"
+#, kde-format
 msgid "ID"
-msgstr "VID"
+msgstr "Identificador"
 
 #: dialogs/catalogsdbui.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "City in Rhode Island USA"
-#| msgid "Providence"
+#, kde-format
 msgid "Precedence"
-msgstr "Providence"
+msgstr "Precedencia"
 
 #: dialogs/catalogsdbui.cpp:26
-#, fuzzy, kde-format
-#| msgid "Author:"
+#, kde-format
 msgid "Author"
-msgstr "Autor:"
+msgstr "Autoría"
 
 #: dialogs/catalogsdbui.cpp:26
-#, fuzzy, kde-format
-#| msgctxt "City in Zimbabwe"
-#| msgid "Mutare"
+#, kde-format
 msgid "Mutable"
-msgstr "Mutare"
+msgstr "Cambiábel"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: dialogs/catalogsdbui.cpp:27 indi/drivermanager.ui:76
@@ -3217,16 +3159,14 @@ msgid "Version"
 msgstr "Versión"
 
 #: dialogs/catalogsdbui.cpp:27
-#, fuzzy, kde-format
-#| msgid "License: GPLv2"
+#, kde-format
 msgid "License"
-msgstr "Licenza: GPLv2"
+msgstr "Licenza"
 
 #: dialogs/catalogsdbui.cpp:27
-#, fuzzy, kde-format
-#| msgid "Current Maintainer"
+#, kde-format
 msgid "Maintainer"
-msgstr "Mantedor actual."
+msgstr "Mantemento"
 
 #. i18n: ectx: property (text), widget (QPushButton, activateButton)
 #. i18n: ectx: property (text), widget (QPushButton, slavingEnableButton)
@@ -3245,59 +3185,51 @@ msgid "Disable"
 msgstr "Desactivar"
 
 #: dialogs/catalogsdbui.cpp:154
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not enable/disable the catalog.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel activar ou desactivar o catálogo.<br> %1"
 
 #: dialogs/catalogsdbui.cpp:175
-#, fuzzy, kde-format
-#| msgid "Explore Catalogs"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Catalog"
-msgstr "Explorar os catálogos"
+msgstr "Exportar o catálogo"
 
 #: dialogs/catalogsdbui.cpp:176 dialogs/catalogsdbui.cpp:196
-#, fuzzy, kde-format
-#| msgid "Catalogs"
+#, kde-format
 msgid "Catalog"
-msgstr "Catálogos"
+msgstr "Catálogo"
 
 #: dialogs/catalogsdbui.cpp:190
-#, fuzzy, kde-format
-#| msgid "Could not export image"
+#, kde-format
 msgid "Could not export the catalog.<br>%1"
-msgstr "Non se puido exportar a imaxe"
+msgstr "Non foi posíbel exportar o catálogo.<br> %1"
 
 #: dialogs/catalogsdbui.cpp:231
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not remove the catalog.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel retirar o catálogo.<br> %1"
 
 #: dialogs/catalogsdbui.cpp:249
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not create the catalog.<br>%1"
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel crear o catálogo.<br> %1"
 
 #: dialogs/catalogsdbui.cpp:284
-#, fuzzy, kde-format
-#| msgid "Could not connect to the Web Manager"
+#, kde-format
 msgid "Could not copy the objects to the new catalog.<br>%1"
-msgstr "Non se puido conectar co xestor web"
+msgstr "Non foi posíbel copiar os obxectos no novo catálogo.<br>%1"
 
 #: dialogs/catalogsdbui.cpp:291
 #, kde-format
 msgid "Could not clean up and remove the new catalog.<br>%1"
-msgstr ""
+msgstr "Non foi posíbel limpar e retirar o novo catálogo.<br> %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogsDBUI)
 #: dialogs/catalogsdbui.ui:14
-#, fuzzy, kde-format
-#| msgid "Catalogs"
+#, kde-format
 msgid "DSO Catalogs"
-msgstr "Catálogos"
+msgstr "Catálogos de obxectos do espazo profundo"
 
 #. i18n: ectx: property (text), widget (QPushButton, importButton)
 #: dialogs/catalogsdbui.ui:43
@@ -3307,27 +3239,23 @@ msgstr "Importar un catálogo…"
 
 #. i18n: ectx: property (text), widget (QPushButton, createButton)
 #: dialogs/catalogsdbui.ui:50
-#, fuzzy, kde-format
-#| msgid "Delete Catalog?"
+#, kde-format
 msgid "Create Catalog..."
-msgstr "Eliminar o catálogo?"
+msgstr "Crear un catálogo…"
 
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
 #. i18n: ectx: property (text), widget (QPushButton, ExportButton)
 #: dialogs/catalogsdbui.ui:93 tools/conjunctions.ui:198
 #: tools/eclipsetool.ui:160
-#, fuzzy, kde-format
-#| msgid "Export"
+#, kde-format
 msgid "Export..."
-msgstr "Exportar"
+msgstr "Exportar…"
 
 #. i18n: ectx: property (text), widget (QPushButton, dublicateButton)
 #: dialogs/catalogsdbui.ui:103
-#, fuzzy, kde-format
-#| msgctxt "City in New York USA"
-#| msgid "Malone"
+#, kde-format
 msgid "Clone..."
-msgstr "Malone"
+msgstr "Clonar…"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
 #: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1135
@@ -3337,15 +3265,12 @@ msgstr "Cores"
 
 #. i18n: ectx: property (text), widget (QPushButton, moreButton)
 #: dialogs/catalogsdbui.ui:123
-#, fuzzy, kde-format
-#| msgctxt "City in Kentucky USA"
-#| msgid "Morehead"
+#, kde-format
 msgid "More..."
-msgstr "Morehead"
+msgstr "Máis…"
 
 #: dialogs/detaildialog.cpp:58
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgctxt "@title:window"
 msgid "Object Details"
 msgstr "Detalles do obxecto"
@@ -3419,21 +3344,18 @@ msgid "variable"
 msgstr "variábel"
 
 #: dialogs/detaildialog.cpp:185
-#, fuzzy, kde-format
-#| msgid "Projection:"
+#, kde-format
 msgctxt "Proper motion of a star"
 msgid "Proper Motion:"
-msgstr "Proxección:"
+msgstr "Movemento propio:"
 
 #: dialogs/detaildialog.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "angular size in arcminutes"
-#| msgid "%1 x %2 arcmin"
+#, kde-format
 msgctxt ""
 "The first arg is proper motion in right ascension and the second in the "
 "declination. The unit stands for milliarcsecond per year"
 msgid "%1 %2 mas/yr"
-msgstr "%1 x %2 arcmin"
+msgstr "%1 %2 mas/ano"
 
 #: dialogs/detaildialog.cpp:214 kstarslite/dialogs/detaildialoglite.cpp:129
 #: printing/detailstable.cpp:142 printing/pwizobjectselection.cpp:121
@@ -3625,10 +3547,9 @@ msgid "Links"
 msgstr "Ligazóns"
 
 #: dialogs/detaildialog.cpp:748
-#, fuzzy, kde-format
-#| msgid "Could not download the file."
+#, kde-format
 msgid "Could not add the link."
-msgstr "Non foi posíbel obter o ficheiro."
+msgstr "Non foi posíbel engadir a ligazón."
 
 #: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1162
 #, kde-format
@@ -3651,17 +3572,15 @@ msgid "Record here observation logs and/or data on %1."
 msgstr "Rexistre aquí as observacións e datos sobre %1."
 
 #: dialogs/detaildialog.cpp:862
-#, fuzzy, kde-format
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit Link"
 msgstr "Editar a ligazón"
 
 #: dialogs/detaildialog.cpp:927
-#, fuzzy, kde-format
-#| msgid "Could not download the file."
+#, kde-format
 msgid "Could not edit the entry."
-msgstr "Non foi posíbel obter o ficheiro."
+msgstr "Non foi posíbel editar a entrada."
 
 #: dialogs/detaildialog.cpp:962
 #, kde-format
@@ -3675,34 +3594,29 @@ msgid "Delete Confirmation"
 msgstr "Confirmación de eliminado"
 
 #: dialogs/detaildialog.cpp:971
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not delete the entry."
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel eliminar a entrada."
 
 #: dialogs/detaildialog.cpp:1088 tools/observinglist.cpp:874
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not update the user log."
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel actualizar o rexistro da persoa usuaria."
 
 #: dialogs/detaildialog.cpp:1108 dialogs/detaildialog.cpp:1140
 #: kstarsactions.cpp:306 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
-#, fuzzy, kde-format
-#| msgid "No object named %1 found."
+#, kde-format
 msgid "No connected mounts found."
-msgstr "Non se atopou ningún obxecto chamado %1."
+msgstr "Non se atoparon monturas conectadas."
 
 #: dialogs/detaildialog.cpp:1119 fitsviewer/fitslabel.cpp:447
 #: kstarsactions.cpp:291 tools/observinglist.cpp:698
 #: tools/whatsinteresting/wiview.cpp:350
-#, fuzzy, kde-format
-#| msgid "Telescope %1 is offline. Please connect and retry again."
+#, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr ""
-"O telescopio %1 está desconectado. Por favor conécteo e inténteo de novo."
+msgstr "A montura %1 está desconectada. Conéctea e inténteo de novo."
 
 #: dialogs/detaildialog.cpp:1131
 #, kde-format
@@ -3737,8 +3651,9 @@ msgstr "0,0 mag"
 
 #. i18n: ectx: property (text), widget (QLabel, AngSizeLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_19)
+#. i18n: ectx: property (text), widget (QLabel, sizeLabel)
 #: dialogs/details_data.ui:289 ekos/capture/capture.ui:292
-#: printing/detailstable.cpp:326
+#: indi/collimationOptions.ui:342 printing/detailstable.cpp:326
 #, kde-format
 msgid "Size:"
 msgstr "Dimensións:"
@@ -3804,7 +3719,7 @@ msgstr "0,0 pc"
 #: ekos/capture/capture.cpp:900 ekos/capture/capture.cpp:940
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:886
 #: ekos/focus/focus.cpp:373 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
-#: indi/streamform.ui:368 oal/equipmentwriter.ui:1163
+#: indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
 msgstr "--"
@@ -4182,11 +4097,10 @@ msgid "Preview image"
 msgstr "Vista previa da imaxe"
 
 #: dialogs/exportimagedialog.cpp:57
-#, fuzzy, kde-format
-#| msgid "Export sky image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export sky image"
-msgstr "Exportar a imaxe do ceo…"
+msgstr "Exportar a imaxe do ceo"
 
 #: dialogs/exportimagedialog.cpp:92 fitsviewer/starprofileviewer.cpp:31
 #: fitsviewer/starprofileviewer.cpp:128 printing/pwizfovconfig.cpp:58
@@ -4319,8 +4233,7 @@ msgid "Planetary Nebulae"
 msgstr "Nebulosa planetaria"
 
 #: dialogs/finddialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "Find Object"
+#, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Atopar un obxecto"
@@ -4351,17 +4264,15 @@ msgid "Aarseth-Brewington (1989 W1)"
 msgstr "Aarseth-Brewington (1989 W1)"
 
 #: dialogs/finddialog.cpp:325
-#, fuzzy, kde-format
-#| msgid "or search the Internet for %1"
+#, kde-format
 msgid "Search the Internet for %1"
-msgstr "ou buscar %1 en Internet"
+msgstr "Buscar %1 en Internet"
 
 #: dialogs/finddialog.cpp:326
-#, fuzzy, kde-format
-#| msgid "nothing"
+#, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
-msgstr "nada"
+msgstr "(nada)"
 
 #: dialogs/finddialog.cpp:495
 #, kde-format
@@ -4399,17 +4310,15 @@ msgstr "Filtrar polo tipo:"
 
 #. i18n: ectx: property (text), widget (QPushButton, InternetSearchButton)
 #: dialogs/finddialog.ui:170
-#, fuzzy, kde-format
-#| msgid "or search Internet for (nothing)"
+#, kde-format
 msgid "Search the Internet for (nothing)"
-msgstr "ou buscar (nada) en Internet"
+msgstr "Buscar (nada) en Internet"
 
 #: dialogs/focusdialog.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set Coordinates Manually"
+#, kde-format
 msgctxt "@title:window"
 msgid "Set Coordinates Manually"
-msgstr "Indicar as coordenadas manualmente"
+msgstr "Definir as coordenadas manualmente"
 
 #: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
 #, kde-format
@@ -4428,10 +4337,9 @@ msgid "Invalid Coordinate Data"
 msgstr "Os datos das coordenadas son incorrectos"
 
 #: dialogs/focusdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Invalid port."
+#, kde-format
 msgid "Invalid Epoch format"
-msgstr "O porto é incorrecto."
+msgstr "O formato de época non é válido"
 
 #: dialogs/focusdialog.cpp:186
 #, kde-format
@@ -4516,24 +4424,23 @@ msgid ""
 "Altitude. Interpreted as the apparent altitude when refraction corrections "
 "are enabled."
 msgstr ""
+"Altitude. Interpretada como a altitude aparente cando as correccións de "
+"refracción están activadas."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/focusdialog.ui:167
-#, fuzzy, kde-format
-#| msgid "Apparent FOV:"
+#, kde-format
 msgid "Alt (apparent):"
-msgstr "FOV aparente:"
+msgstr "Alt (aparente):"
 
 #: dialogs/fovdialog.cpp:80
-#, fuzzy, kde-format
-#| msgid "Set FOV Indicator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
-msgstr "Axustar o indicador de campo de visión (FOV)"
+msgstr "Definir o indicador de campo de visión (FOV)"
 
 #: dialogs/fovdialog.cpp:180
-#, fuzzy, kde-format
-#| msgid "New FOV Indicator"
+#, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
 msgstr "Novo indicador de campo de visión (FOV)"
@@ -4632,8 +4539,7 @@ msgid "meters"
 msgstr "metros"
 
 #: dialogs/fovdialog.cpp:397
-#, fuzzy, kde-format
-#| msgid "Telescope Focal Length Calculator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
 msgstr "Calculadora da distancia focal do telescopio"
@@ -4717,11 +4623,10 @@ msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr "Preme este botón para retirar da lista o símbolo FOV realzado."
 
 #: dialogs/locationdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Set Geographic Location"
+#, kde-format
 msgctxt "@title:window"
 msgid "Set Geographic Location"
-msgstr "Escoller a posición xeográfica"
+msgstr "Definir a posición xeográfica"
 
 #. i18n: ectx: property (text), widget (QLabel, DSTLabel)
 #: dialogs/locationdialog.cpp:103 dialogs/locationdialog.ui:461
@@ -5604,19 +5509,16 @@ msgid "Shape:"
 msgstr "Forma:"
 
 #: dialogs/timedialog.cpp:39
-#, fuzzy, kde-format
-#| msgctxt "set clock to a new time"
-#| msgid "Set UTC Time"
+#, kde-format
 msgctxt "@title:window set clock to a new time"
 msgid "Set UTC Time"
-msgstr "Axustar a hora UTC"
+msgstr "Definir a hora UTC"
 
 #: dialogs/timedialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "Set Time"
+#, kde-format
 msgctxt "@title:window set clock to a new time"
 msgid "Set Time"
-msgstr "Axustar a hora"
+msgstr "Definir a hora"
 
 #: dialogs/timedialog.cpp:58
 #, kde-format
@@ -5738,6 +5640,8 @@ msgstr "GSC"
 #. i18n: ectx: property (text), widget (QPushButton, index_5202_cancel)
 #. i18n: ectx: property (text), widget (QPushButton, index_5201_cancel)
 #. i18n: ectx: property (text), widget (QPushButton, index_5200_cancel)
+#. i18n: ectx: property (text), widget (QLabel, offsetXLabel)
+#. i18n: ectx: property (text), widget (QLabel, sizeXLabel)
 #: dialogs/wizdata.ui:244 ekos/align/opsastrometryindexfiles.ui:419
 #: ekos/align/opsastrometryindexfiles.ui:606
 #: ekos/align/opsastrometryindexfiles.ui:678
@@ -5777,7 +5681,8 @@ msgstr "GSC"
 #: ekos/align/opsastrometryindexfiles.ui:4208
 #: ekos/align/opsastrometryindexfiles.ui:4270
 #: ekos/align/opsastrometryindexfiles.ui:4332
-#: ekos/align/opsastrometryindexfiles.ui:4394
+#: ekos/align/opsastrometryindexfiles.ui:4394 indi/collimationOptions.ui:243
+#: indi/collimationOptions.ui:354
 #, kde-format
 msgid "X"
 msgstr "X"
@@ -11825,7 +11730,9 @@ msgstr "64x"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
+#. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1191
+#: indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "Cantidade:"
@@ -14830,7 +14737,7 @@ msgstr "Desprazamento de UTC"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/capture.ui:590 ekos/capture/captureprocessoverlay.ui:154
-#: oal/equipmentwriter.ui:1032
+#: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1032
 #, kde-format
 msgid "Offset:"
 msgstr "Desprazamento:"
@@ -31158,6 +31065,161 @@ msgstr ""
 "Non é posíbel atopar os executábeis «dcraw» e «cjpeg». Instáleos para "
 "converter ficheiros do formato CR2 ao formato JPEG."
 
+#. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
+#: indi/collimationOptions.ui:20
+#, fuzzy, kde-format
+#| msgid "Constellation Name Options"
+msgid "Collimation Overlay Options"
+msgstr "Opcións do nome das constelacións"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, addB)
+#: indi/collimationOptions.ui:55
+#, kde-format
+msgid "Create a new Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
+#: indi/collimationOptions.ui:78
+#, kde-format
+msgid "Delete the selected Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QListWidget, elementNamesList)
+#: indi/collimationOptions.ui:123
+#, kde-format
+msgid "Collimation Overlay Element name (double click to edit)"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, elementConfigBox)
+#: indi/collimationOptions.ui:143
+#, kde-format
+msgid "Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, enableLabel)
+#: indi/collimationOptions.ui:164
+#, kde-format
+msgid "Select whether this Element is enabled or not"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, enableLabel)
+#: indi/collimationOptions.ui:167
+#, fuzzy, kde-format
+#| msgid "Enable"
+msgid "Enable:"
+msgstr "Activar"
+
+#. i18n: ectx: property (text), widget (QPushButton, renameB)
+#: indi/collimationOptions.ui:192
+#, fuzzy, kde-format
+#| msgid "File name"
+msgid "Rename"
+msgstr "Nome de ficheiro"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
+#: indi/collimationOptions.ui:211
+#, kde-format
+msgid ""
+"Enter a name for this Collimation Overlay Element. If left empty a name will "
+"be generated based on the Type selected."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
+#: indi/collimationOptions.ui:231
+#, fuzzy, kde-format
+#| msgid "Select color for the FOV symbol"
+msgid "Select colour for the Element"
+msgstr "Escolle a cor do símbolo FOV"
+
+#. i18n: ectx: property (text), widget (QLabel, colourLabel)
+#: indi/collimationOptions.ui:234
+#, fuzzy, kde-format
+#| msgid "Color:"
+msgid "Colour:"
+msgstr "Cor:"
+
+#. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
+#. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
+#: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Y"
+msgid "Y"
+msgstr "Y"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
+#: indi/collimationOptions.ui:293
+#, fuzzy, kde-format
+#| msgid "The color for the constellation names."
+msgid "Select a color for the Collimation Overlay Element."
+msgstr "A cor dos nomes das constelacións."
+
+#. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
+#: indi/collimationOptions.ui:310
+#, kde-format
+msgid "Set the line thickness used to draw the element."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
+#: indi/collimationOptions.ui:313
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Whiteness"
+msgid "Thickness:"
+msgstr "Brancura"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
+#: indi/collimationOptions.ui:329
+#, kde-format
+msgid ""
+"Set the Elements offset from it's Anchor. For an Anchor Element this is from "
+"the centre of the image."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
+#: indi/collimationOptions.ui:339
+#, fuzzy, kde-format
+#| msgid "Set the width of the xplanet image"
+msgid "Set the size of the Element"
+msgstr "Definir a anchura da imaxe de XPlanet"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
+#: indi/collimationOptions.ui:389
+#, kde-format
+msgid "Link X & Y sizes"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, typeLabel)
+#: indi/collimationOptions.ui:424
+#, kde-format
+msgid "Select the type of Collimation Overlay Element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
+#: indi/collimationOptions.ui:437
+#, kde-format
+msgid "Select number of occurences of the object type within this element"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
+#: indi/collimationOptions.ui:459
+#, kde-format
+msgid "If there is more than one occurence set the base rotation angle."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
+#: indi/collimationOptions.ui:487
+#, kde-format
+msgid ""
+"Set the Pitch Circle Diameter where there are multiple occurences (Count >1)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, pcdLabel)
+#: indi/collimationOptions.ui:490
+#, kde-format
+msgid "PCD:"
+msgstr ""
+
 #: indi/customdrivers.cpp:106
 #, kde-format
 msgid "Label already exists. Label must be unique."
@@ -32187,7 +32249,7 @@ msgid "Video Stream"
 msgstr "Transmisión de vídeo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
-#: indi/streamform.ui:58 indi/streamwg.cpp:341 indi/streamwg.cpp:351
+#: indi/streamform.ui:58 indi/streamwg.cpp:349 indi/streamwg.cpp:359
 #, kde-format
 msgid "Start recording"
 msgstr "Iniciar a gravación"
@@ -32210,82 +32272,96 @@ msgstr "Restabelecer o fotograma"
 msgid "Toggle debayer"
 msgstr "Conmutar o debayer"
 
-#. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
+#. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
+#, fuzzy, kde-format
+#| msgid "Toggle constellation lines"
+msgid "Toggle collimation overlay"
+msgstr "Conmutar as liñas das constelacións"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
+#: indi/streamform.ui:193
+#, fuzzy, kde-format
+#| msgid "Constellation Name Options"
+msgid "Collimation overlay options"
+msgstr "Opcións do nome das constelacións"
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
+#: indi/streamform.ui:215
 #, kde-format
 msgid "Zoom level"
 msgstr "Nivel de ampliación"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:174
+#: indi/streamform.ui:224
 #, kde-format
 msgid "5x"
 msgstr "×5"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
-#: indi/streamform.ui:179
+#: indi/streamform.ui:229
 #, kde-format
 msgid "10x"
 msgstr "×10"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
-#: indi/streamform.ui:207
+#: indi/streamform.ui:257
 #, kde-format
 msgid "Move zoomed view Up/Down"
 msgstr "Mover a vista ampliada arriba ou abaixo"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
-#: indi/streamform.ui:232
+#: indi/streamform.ui:282
 #, kde-format
 msgid "Move zoomed view Left/Right"
 msgstr "Mover a vista ampliada á esquerda ou á dereita"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
-#: indi/streamform.ui:276 indi/streamform.ui:292
+#: indi/streamform.ui:326 indi/streamform.ui:342
 #, kde-format
 msgid "Video frame duration in seconds"
 msgstr "Duración do fotograma de vídeo en segundos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: indi/streamform.ui:279
+#: indi/streamform.ui:329
 #, kde-format
 msgid "Frame (s)"
 msgstr "Fotograma (s)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
-#: indi/streamform.ui:320
+#: indi/streamform.ui:370
 #, kde-format
 msgid "Apply FPS and restart stream"
 msgstr "Aplicar os FPS e reiniciar a emisión"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: indi/streamform.ui:343
+#: indi/streamform.ui:393
 #, kde-format
 msgid "FPS:"
 msgstr "FPS:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
-#: indi/streamform.ui:356
+#: indi/streamform.ui:406
 #, kde-format
 msgid "Average FPS"
 msgstr "FPS medios"
 
-#: indi/streamwg.cpp:61
+#: indi/streamwg.cpp:60
 #, fuzzy, kde-format
 #| msgid "SER Record Directory"
 msgctxt "@title:window"
 msgid "SER Record Directory"
 msgstr "Directorio de rexistros SER"
 
-#: indi/streamwg.cpp:97
+#: indi/streamwg.cpp:105
 #, fuzzy, kde-format
 #| msgid "%1 Live Video"
 msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "Vídeo en directo de %1"
 
-#: indi/streamwg.cpp:336 indi/streamwg.cpp:383
+#: indi/streamwg.cpp:344 indi/streamwg.cpp:391
 #, kde-format
 msgid "Stop recording"
 msgstr "Deter a gravación"
@@ -33096,6 +33172,7 @@ msgstr ""
 #, kde-format
 msgid "Percentage of the sky to cache DSOs for."
 msgstr ""
+"Porcentaxe do espazo para o que gardar obxectos do espazo profundo na caché."
 
 #. i18n: ectx: whatsthis, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:145
@@ -33106,6 +33183,10 @@ msgid ""
 "         will be cached. Turning this value up yields better\n"
 "         performance at the cost of memory."
 msgstr ""
+"Os obxectos do espazo profundo cárganse dunha base de datos de SQLite con "
+"caché na memoria. Esta opción determina cantos obxectos do espazo profundo "
+"se gardan na caché. Aumentar o valor mellora o rendemento pero aumenta o "
+"consumo de memoria."
 
 #. i18n: ectx: label, entry (DSOMinZoomFactor), group (Catalogs)
 #: kstars.kcfg:151
@@ -33115,17 +33196,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (DSOCatalogFilename), group (Catalogs)
 #: kstars.kcfg:157
-#, fuzzy, kde-format
-#| msgid "Enter the filename for the output catalog file"
+#, kde-format
 msgid "The filename of the DSO catalog."
-msgstr "Insire o nome do ficheiro de catálogo resultante"
+msgstr "O nome de ficheiro do catálogo de obxectos do espazo profundo."
 
 #. i18n: ectx: label, entry (DSODefaultCatalogFilename), group (Catalogs)
 #: kstars.kcfg:161
-#, fuzzy, kde-format
-#| msgid "Enter the filename for the output catalog file"
+#, kde-format
 msgid "The filename of the default DSO catalog (OpenNGC)."
-msgstr "Insire o nome do ficheiro de catálogo resultante"
+msgstr ""
+"O nome de ficheiro do catálogo predeterminado de obxectos do espazo profundo "
+"(OpenNGC)."
 
 #. i18n: ectx: label, entry (INDIWindowWidth), group (indi)
 #: kstars.kcfg:167
@@ -34057,7 +34138,8 @@ msgstr "Amosar os obxectos do «espazo profundo» no mapa celeste?"
 #: kstars.kcfg:567
 #, kde-format
 msgid "Toggle whether deep-sky objects are drawn in the sky map."
-msgstr "Indica se deben amosarse os obxectos afastados no mapa celeste."
+msgstr ""
+"Indica se deben amosarse os obxectos do espazo profundo no mapa celeste."
 
 #. i18n: ectx: label, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:571
@@ -34178,7 +34260,7 @@ msgstr "Indica se se deben amosar as bandeiras no mapa celeste."
 #: kstars.kcfg:616
 #, kde-format
 msgid "Draw extra deep-sky objects in the sky map?"
-msgstr "Amosar obxectos afastados adicionais no mapa celeste?"
+msgstr "Amosar obxectos do espazo profundo adicionais no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowOther), group (View)
 #: kstars.kcfg:617
@@ -34441,15 +34523,15 @@ msgstr ""
 #: kstars.kcfg:716
 #, kde-format
 msgid "Label deep-sky objects in the sky map?"
-msgstr "Amosar os nomes dos obxectos afastados no mapa celeste?"
+msgstr "Amosar os nomes dos obxectos do espazo profundo no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:717
 #, kde-format
 msgid "Toggle whether deep-sky object name labels are shown in the sky map."
 msgstr ""
-"Indica se debe amosar lendas cos nomes dos obxectos afastados no mapa "
-"celeste."
+"Indica se debe amosar lendas cos nomes dos obxectos do espazo profundo no "
+"mapa celeste."
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:721
@@ -34766,7 +34848,7 @@ msgstr ""
 #: kstars.kcfg:832
 #, kde-format
 msgid "Faint limit for deep-sky objects"
-msgstr "Límite de visibilidade para os obxectos afastados"
+msgstr "Límite de visibilidade para os obxectos do espazo profundo"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawDeepSky), group (View)
 #: kstars.kcfg:833
@@ -34774,14 +34856,15 @@ msgstr "Límite de visibilidade para os obxectos afastados"
 msgid ""
 "The faint magnitude limit for drawing deep-sky objects, when fully zoomed in."
 msgstr ""
-"O límite de magnitude mínima para debuxar os obxectos afastados cando a "
-"ampliación é completa."
+"O límite de magnitude mínima para debuxar os obxectos do espazo profundo "
+"cando a ampliación é completa."
 
 #. i18n: ectx: label, entry (MagLimitDrawDeepSkyZoomOut), group (View)
 #: kstars.kcfg:837
 #, kde-format
 msgid "Faint limit for deep-sky objects when zoomed out"
-msgstr "Límite de visibilidade dos obxectos afastados coa ampliación mínima"
+msgstr ""
+"Límite de visibilidade dos obxectos do espazo profundo coa ampliación mínima"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawDeepSkyZoomOut), group (View)
 #: kstars.kcfg:838
@@ -34790,14 +34873,14 @@ msgid ""
 "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
 "out."
 msgstr ""
-"O límite de magnitude mínima para debuxar os obxectos afastados cando a "
-"redución é completa."
+"O límite de magnitude mínima para debuxar os obxectos do espazo profundo "
+"cando a redución é completa."
 
 #. i18n: ectx: label, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:842
 #, kde-format
 msgid "Show deep-sky objects of unknown magnitude"
-msgstr "Amosar os obxectos afastados de magnitude descoñecida."
+msgstr "Amosar os obxectos do espazo profundo de magnitude descoñecida."
 
 #. i18n: ectx: whatsthis, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:843
@@ -34891,7 +34974,8 @@ msgstr ""
 #, kde-format
 msgid "Relative density for deep-sky object name labels and/or magnitudes"
 msgstr ""
-"A densidade relativa das lendas dos obxectos afastados e/ou as magnitudes"
+"A densidade relativa das lendas dos obxectos do espazo profundo e/ou as "
+"magnitudes"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLabelDensity), group (View)
 #: kstars.kcfg:880
@@ -34900,13 +34984,15 @@ msgid ""
 "The relative density for drawing deep-sky object name and magnitude labels."
 msgstr ""
 "A densidade relativa para amosar lendas cos nomes e magnitudes dos obxectos "
-"afastados."
+"do espazo profundo."
 
 #. i18n: ectx: label, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:884
 #, kde-format
 msgid "Show long names in deep-sky object name labels?"
-msgstr "Amosar os nomes longos nas etiquetas dos nomes dos obxectos afastados?"
+msgstr ""
+"Amosar os nomes longos nas etiquetas dos nomes dos obxectos do espazo "
+"profundo?"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:885
@@ -34915,8 +35001,8 @@ msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
 msgstr ""
-"Se é verdadeiro, amosar os nomes longos (nomes comúns) dos obxectos "
-"afastados nas súas etiquetas."
+"Se é verdadeiro, amosar os nomes longos (nomes comúns) dos obxectos do "
+"espazo profundo nas súas etiquetas."
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -35349,13 +35435,13 @@ msgstr "A cor das lendas cos nomes das estrelas."
 #: kstars.kcfg:1054
 #, kde-format
 msgid "Color of deep-sky object name labels"
-msgstr "Cor das lendas dos obxectos afastados"
+msgstr "Cor das lendas dos obxectos do espazo profundo"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyNameColor), group (Colors)
 #: kstars.kcfg:1055
 #, kde-format
 msgid "The color for deep-sky object name labels."
-msgstr "A cor das lendas cos nomes dos obxectos afastados."
+msgstr "A cor das lendas cos nomes dos obxectos do espazo profundo."
 
 #. i18n: ectx: label, entry (PlanetNameColor), group (Colors)
 #: kstars.kcfg:1059
@@ -36183,7 +36269,8 @@ msgstr "O tamaño predeterminado das imaxes de DSS descargadas de Internet."
 #: kstars.kcfg:1379
 #, kde-format
 msgid "Additional padding around DSS Images of deep-sky objects"
-msgstr "Enchedura adicional arredor das imaxes de DSS dos obxectos afastados"
+msgstr ""
+"Enchedura adicional arredor das imaxes de DSS dos obxectos do espazo profundo"
 
 #. i18n: ectx: whatsthis, entry (DSSPadding), group (General)
 #: kstars.kcfg:1380
@@ -36194,8 +36281,9 @@ msgid ""
 "padding added to either dimension of the field."
 msgstr ""
 "Para incluír partes do campo estelar, engadimos algo de enchedura arredor "
-"das imaxes de DSS dos obxectos afastados. Esta opción configura a enchedura "
-"total (ambos os dous lados) que se engade a cada dimensión do campo."
+"das imaxes de DSS dos obxectos do espazo profundo. Esta opción configura a "
+"enchedura total (ambos os dous lados) que se engade a cada dimensión do "
+"campo."
 
 #. i18n: ectx: label, entry (VerboseLogging), group (General)
 #: kstars.kcfg:1384
@@ -68986,11 +69074,9 @@ msgid "Startup Wizard..."
 msgstr "Asistente de arranque…"
 
 #: kstarsinit.cpp:409
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Deep Sky Catalogs"
+#, kde-format
 msgid "Manage DSO Catalogs"
-msgstr "Catálogos de obxectos afastados"
+msgstr "Xestionar os catálogos de obxectos do espazo profundo"
 
 #: kstarsinit.cpp:413
 #, fuzzy, kde-format
@@ -69156,7 +69242,7 @@ msgstr "Espazo profundo"
 #: kstarsinit.cpp:559
 #, kde-format
 msgid "Toggle deep sky objects"
-msgstr "Conmutar os obxectos afastados"
+msgstr "Conmutar os obxectos do espazo profundo"
 
 #: kstarsinit.cpp:561
 #, kde-format
@@ -74141,6 +74227,8 @@ msgstr "Csaba Kertesz"
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
+"Lista binaria de asteroides e base de datos e catálogos de obxectos do "
+"espazo profundo"
 
 #: main.cpp:141
 #, kde-format
@@ -74322,10 +74410,9 @@ msgid "KStars OSX Port."
 msgstr "Adaptación de KStars a OSX."
 
 #: main.cpp:183
-#, fuzzy, kde-format
-#| msgid "Park Mount"
+#, kde-format
 msgid "Patrick Molenaar"
-msgstr "Estacionar a montaxe"
+msgstr "Patrick Molenaar"
 
 #: main.cpp:183
 #, kde-format
@@ -75087,10 +75174,9 @@ msgstr "Tamaño predeterminado das imaxes da DSS: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opsadvanced.ui:170
-#, fuzzy, kde-format
-#| msgid "Padding around Deep Sky Objects:"
+#, kde-format
 msgid "Padding around deep sky objects:"
-msgstr "Enchedura arredor dos obxectos afastados:"
+msgstr "Enchedura arredor dos obxectos do espazo profundo:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: options/opsadvanced.ui:217
@@ -75522,13 +75608,13 @@ msgstr "Catálogos de obxectos afastados"
 #: options/opscatalog.ui:301
 #, kde-format
 msgid "DSO minimal zoom:"
-msgstr ""
+msgstr "Ampliación mínima dos obxectos do espazo profundo:"
 
 #. i18n: ectx: property (text), widget (QLabel, DSOCacheLabel)
 #: options/opscatalog.ui:366
 #, kde-format
 msgid "DSO cache percentage:"
-msgstr ""
+msgstr "Porcentaxe na caché de obxectos do espazo profundo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyNames)
 #: options/opscatalog.ui:428
@@ -75558,13 +75644,7 @@ msgstr "Catálogos de obxectos afastados"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:607
-#, fuzzy, kde-format
-#| msgid ""
-#| "If this checkbox is checked, when an object name unknown to KStars is "
-#| "entered in the Find Dialog, KStars will contact online services (such as "
-#| "CDS Sesame) to learn about the object and then add it to the database.\n"
-#| "                The objects acquired in this manner are stored under a "
-#| "catalog that is called _Internet_Resolved as of this writing."
+#, kde-format
 msgid ""
 "If this checkbox is checked, when an object name unknown to KStars is "
 "entered in the Find Dialog, KStars will contact online services (such as CDS "
@@ -75577,7 +75657,8 @@ msgstr ""
 "(como CDS Sesame) para obter información do obxecto e engadilo á base de "
 "datos.\n"
 "Os obxectos adquiridos deste xeito almacénanse nun catálogo chamado "
-"_Internet_Resolved."
+"«user» (persoa usuaria), e pode usarse mediante a funcionalidade de "
+"«xestionar os catálogos de obxectos do espazo profundo»."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:610
@@ -75588,14 +75669,11 @@ msgstr "Resolver os nomes que KStars non coñece usando servizos de Internet"
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:653 options/opscatalog.ui:663
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limit for deep-sky objects when zoomed out."
 msgstr ""
-"O límite de magnitude mínima para debuxar os obxectos afastados cando a "
-"redución é completa."
+"Definir o límite de magnitude mínima para os obxectos do espazo profundo "
+"cando se afastan."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:666
@@ -75605,14 +75683,11 @@ msgstr "Visibilidade mínima cando está reducido:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag4)
 #: options/opscatalog.ui:673
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed out."
 msgstr ""
-"O límite de magnitude mínima para debuxar os obxectos afastados cando a "
-"redución é completa."
+"Definir os límites de magnitude mínima para os obxectos do espazo profundo "
+"cando se afastan."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMag4)
 #. i18n: ectx: property (text), widget (QLabel, LabelMag3)
@@ -75631,14 +75706,11 @@ msgstr "mag"
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag3)
 #: options/opscatalog.ui:683 options/opscatalog.ui:693
 #: options/opscatalog.ui:703
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "in."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed in."
 msgstr ""
-"O límite de magnitude mínima para debuxar os obxectos afastados cando a "
-"ampliación é completa."
+"Definir os límites de magnitude mínima para os obxectos do espazo profundo "
+"cando se achegan."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSky)
 #: options/opscatalog.ui:686
@@ -77865,21 +77937,21 @@ msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
+"Importar obxectos personalizados e resoltos mediante Internet da base de "
+"datos vella de obxectos do espazo profundo na nova?"
 
 #: skycomponents/catalogscomponent.cpp:447
 #: skycomponents/catalogscomponent.cpp:454
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not import the objects."
-msgstr "Non se puido eliminar o ficheiro: %1"
+msgstr "Non foi posíbel importar os obxectos."
 
 #: skycomponents/catalogscomponent.cpp:459
-#, fuzzy, kde-format
-#| msgid "Successfully connected to the server"
+#, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
-msgstr[0] "Conectouse co servidor"
-msgstr[1] "Conectouse co servidor"
+msgstr[0] "Engadiuse %1 obxecto ao catálogo de persoa usuaria."
+msgstr[1] "Engadíronse %1 obxectos ao catálogo de persoa usuaria."
 
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
@@ -78226,10 +78298,9 @@ msgid "Satellite Orbital Elements Update"
 msgstr "Actualización dos elementos orbitais dos satélites"
 
 #: skycomponents/skymapcomposite.cpp:127
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load the DSO database."
-msgstr "Non se puido cargar a imaxe en %1"
+msgstr "Non foi posíbel cargar a base de datos de obxectos do espazo profundo."
 
 #: skycomponents/skymapcomposite.cpp:135
 #, kde-format
@@ -78238,6 +78309,9 @@ msgid ""
 "This will move the current DSO database \"%1\"\n"
 "to \"%2\""
 msgstr ""
+"Quere partir de cero cunha base de datos baleira?\n"
+"Isto moverá a base de datos actual de obxectos do espazo profundo, «%1»,\n"
+"a «%2»."
 
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
@@ -79211,7 +79285,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Os obxectos afastados aparecen cunha cor especial\n"
+"\t\t<p>Os obxectos do espazo profundo aparecen cunha cor especial\n"
 "\t\t\t(vermello de maneira predeterminada) e teñen ligazóns extra no menú.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -79517,10 +79591,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>De maneira predeterminada, KStars inclúe os catálogos de obxectos "
-"afastados NGC e IC. Pode descargar moitos máis catálogos desde «Ficheiro → "
-"Descargar datos novos». Tamén pode realizar os seus propios catálogos e "
-"engadilos.\n"
+"\t\t<p>De maneira predeterminada, KStars inclúe os catálogos de obxectos do "
+"espazo profundo NGC e IC. Pode descargar moitos máis catálogos desde "
+"«Ficheiro → Descargar datos novos». Tamén pode realizar os seus propios "
+"catálogos e engadilos.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79746,8 +79820,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars mostra ata 100 millóns de estreas, máis de 13.000 obxectos "
-"afastados,\n"
+"\t\t<p>KStars mostra ata 100 millóns de estreas, máis de 13.000 obxectos do "
+"espazo profundo,\n"
 "\t\t\tas 88 constelacións, todos os planetas, o Sol, a Lúa, millares de "
 "cometas\n"
 "\t\t\te asteroides e a Vía Láctea.\n"
@@ -79918,10 +79992,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Os tamaños aparentes de obxectos e planetas afastados mídense en "
-"minutos de arco. Un minuto de arco é igual a 1/60 graos. As estrelas teñen "
-"tamaños aparentes aínda menores, que se miden en milisegundos de arco "
-"((1/3600000 graos)!\n"
+"\t\t<p>Os tamaños aparentes de obxectos do espazo profundo e planetas "
+"mídense en minutos de arco. Un minuto de arco é igual a 1/60 graos. As "
+"estrelas teñen tamaños aparentes aínda menores, que se miden en milisegundos "
+"de arco ((1/3600000 graos)!\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83760,7 +83834,7 @@ msgstr "Conmutar a visibilidade das estrelas"
 #: tools/scriptbuilder.cpp:454
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
-msgstr "Conmutar a visibilidade dos obxectos afastados"
+msgstr "Conmutar a visibilidade dos obxectos do espazo profundo"
 
 #: tools/scriptbuilder.cpp:461
 #, kde-format
