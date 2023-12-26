@@ -520,6 +520,32 @@
                 </para>
             </caption>
         </mediaobject>
+        <para
+>На панелі інтерактивного перегляду передбачено графічну інструмент-накладку, яка допомагає колімації. Цей інструмент вмикається і вимикається кнопкою з перехрестям. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Накладка колімації</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>Кнопка параметрів накладки відкриває вікно, за допомогою якого можна у довільний і гнучкий спосіб створювати еліпси (зокрема кола), прямокутники і прямі, а також точки прив'язки, які працюють як загальні компенсації малювання. Кожен визначений елемент має власний розмір, зсув, повторюваність, товщину та колі (зокрема прозорий). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Параметри накладки колімації</phrase>
+                </para>
+            </caption>
+        </mediaobject>
     </sect2>
 
     <sect2 id="capture-fits-viewer">

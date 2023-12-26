@@ -513,6 +513,32 @@
                 </para>
             </caption>
         </mediaobject>
+        <para
+>De weergave van de actualiteit levert ook een grafisch hulpmiddel voor een overlay tool om te helpen bij uitlijnen. Deze wordt aan/uit geschakeld door de kruisdraadknop. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Collimatie-overlay (uitlijnen)</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>The overlay options button opens a dialog that allows arbitrary and flexible creation of ellipses (including circles), rectangles and lines, as well as anchor points which act as global drawing offsets. Each defined element has its own size, offset, repetition, thickness and color (including transparency). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Opties voor collimatie-overlay</phrase>
+                </para>
+            </caption>
+        </mediaobject>
     </sect2>
 
     <sect2 id="capture-fits-viewer">

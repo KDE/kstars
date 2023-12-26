@@ -513,6 +513,32 @@
                 </para>
             </caption>
         </mediaobject>
+        <para
+>La visualització en directe també proporciona una eina de superposició gràfica per a ajudar en la col·limació. Això s'activa/desactiva amb el botó de punt de mira. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Superposició de col·limació</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>The overlay options button opens a dialog that allows arbitrary and flexible creation of ellipses (including circles), rectangles and lines, as well as anchor points which act as global drawing offsets. Each defined element has its own size, offset, repetition, thickness and color (including transparency). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Opcions de la superposició de col·limació</phrase>
+                </para>
+            </caption>
+        </mediaobject>
     </sect2>
 
     <sect2 id="capture-fits-viewer">
