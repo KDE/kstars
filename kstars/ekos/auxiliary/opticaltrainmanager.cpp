@@ -152,6 +152,8 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
         }
     });
 
+    connect(resetB, &QPushButton::clicked, this, &OpticalTrainManager::reset);
+
     connect(opticalElementsB, &QPushButton::clicked, this, [this]()
     {
         QScopedPointer<EquipmentWriter> writer(new EquipmentWriter());
@@ -1243,6 +1245,38 @@ void OpticalTrainManager::updateOpticalTrainValue(double value, const QString &e
     if (trainNamesList->currentItem() != nullptr && m_Persistent == true)
         setOpticalTrainValue(trainNamesList->currentItem()->text(), element, value);
 
+}
+
+////////////////////////////////////////////////////////////////////////////
+/// Reset optical train to default values.
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::reset()
+{
+    if (m_CurrentOpticalTrain != nullptr)
+    {
+        auto id = m_CurrentOpticalTrain->value("id");
+        auto name = m_CurrentOpticalTrain->value("name");
+        int row = trainNamesList->currentRow();
+        m_CurrentOpticalTrain->clear();
+
+        m_CurrentOpticalTrain->insert("id", id);
+        m_CurrentOpticalTrain->insert("name", name);
+        m_CurrentOpticalTrain->insert("mount", "--");
+        m_CurrentOpticalTrain->insert("camera", "--");
+        m_CurrentOpticalTrain->insert("rotator", "--");
+        m_CurrentOpticalTrain->insert("guider", "--");
+        m_CurrentOpticalTrain->insert("dustcap", "--");
+        m_CurrentOpticalTrain->insert("scope", "--");
+        m_CurrentOpticalTrain->insert("filterwheel", "--");
+        m_CurrentOpticalTrain->insert("focuser", "--");
+        m_CurrentOpticalTrain->insert("reducer", 1);
+        m_CurrentOpticalTrain->insert("lightbox", "--");
+
+        KStarsData::Instance()->userdb()->UpdateOpticalTrain(*m_CurrentOpticalTrain, id.toInt());
+        refreshTrains();
+        selectOpticalTrain(name.toString());
+        trainNamesList->setCurrentRow(row);
+    }
 }
 
 }
