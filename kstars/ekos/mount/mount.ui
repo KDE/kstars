@@ -449,7 +449,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QTimeEdit" name="ParkTime">
+           <widget class="QTimeEdit" name="autoParkTime">
             <property name="time">
              <time>
               <hour>3</hour>

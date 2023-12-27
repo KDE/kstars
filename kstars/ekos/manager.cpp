@@ -2132,6 +2132,10 @@ void Manager::initMount()
         }), mountModule()->getMeridianFlipState()->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE);
         meridianFlipStatusWidget->setStatus(text);
     });
+    connect(mountModule(), &Ekos::Mount::autoParkCountdownUpdated, this, [&](const QString & text)
+    {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"autoParkCountdown", text}}), true);
+    });
 
     connect(mountModule(), &Ekos::Mount::trainChanged, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);

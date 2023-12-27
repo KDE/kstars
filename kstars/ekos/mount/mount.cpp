@@ -115,12 +115,6 @@ Mount::Mount()
     connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget,
             &MeridianFlipStatusWidget::setStatus);
 
-    //    ParkTime->setTime(QTime::fromString(Options::parkTime()));
-    //    connect(ParkTime, &QTimeEdit::editingFinished, this, [this]()
-    //    {
-    //        Options::setParkTime(ParkTime->time().toString());
-    //    });
-
     connect(&autoParkTimer, &QTimer::timeout, this, &Mount::startAutoPark);
     connect(startTimerB, &QPushButton::clicked, this, &Mount::startParkTimer);
     connect(stopTimerB, &QPushButton::clicked, this, &Mount::stopParkTimer);
@@ -724,6 +718,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         QTime remainingTime(0, 0, 0);
         remainingTime = remainingTime.addMSecs(autoParkTimer.remainingTime());
         countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
+        emit autoParkCountdownUpdated(countdownLabel->text());
     }
 }
 
@@ -1532,7 +1527,7 @@ void Mount::setAutoParkDailyEnabled(bool enabled)
 
 void Mount::setAutoParkStartup(QTime startup)
 {
-    ParkTime->setTime(startup);
+    autoParkTime->setTime(startup);
 }
 
 bool Mount::meridianFlipEnabled()
@@ -1563,7 +1558,7 @@ void Mount::startParkTimer()
         return;
     }
 
-    QTime parkTime = ParkTime->time();
+    auto parkTime = autoParkTime->time();
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << parkTime.toString();
     QDateTime currentDateTime = KStarsData::Instance()->lt();
@@ -1613,6 +1608,7 @@ void Mount::stopParkTimer()
 {
     autoParkTimer.stop();
     countdownLabel->setText("00:00:00");
+    emit autoParkCountdownUpdated("00:00:00");
     stopTimerB->setEnabled(false);
     startTimerB->setEnabled(true);
 }
@@ -1624,6 +1620,7 @@ void Mount::startAutoPark()
     startTimerB->setEnabled(true);
     stopTimerB->setEnabled(false);
     countdownLabel->setText("00:00:00");
+    emit autoParkCountdownUpdated("00:00:00");
     if (m_Mount)
     {
         if (m_Mount->isParked() == false)
