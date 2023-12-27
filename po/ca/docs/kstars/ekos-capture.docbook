@@ -527,7 +527,7 @@
                 </caption>
             </mediaobject>
         <para
->The overlay options button opens a dialog that allows arbitrary and flexible creation of ellipses (including circles), rectangles and lines, as well as anchor points which act as global drawing offsets. Each defined element has its own size, offset, repetition, thickness and color (including transparency). </para>
+>El botó opcions de superposició obre un diàleg que permet la creació arbitrària i flexible d'el·lipses (inclosos cercles), rectangles i línies, així com punts d'ancoratge que actuen com a decalatges globals de dibuix. Cada element definit té la seva pròpia mida, decalatges, repetició, gruix i color (incloent-hi transparència). </para>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-26 00:38+0000\n"
-"PO-Revision-Date: 2023-11-22 12:41+0100\n"
+"POT-Creation-Date: 2023-12-27 00:38+0000\n"
+"PO-Revision-Date: 2023-12-26 11:38+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -24789,12 +24789,20 @@ msgstr "Hitrost premikanja"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:698
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
+#| "meridian fip has been completed will be postponed until the configured "
+#| "duration has past since the meridian flip has been started.</p></body></"
+#| "html>"
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-"meridian fip has been completed will be postponed until the configured "
+"meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Minimalno trajanje obrata čez poldnevnik. Preverjanja, "
+"ali je bil obrat čez poldnevnik dokončan, bodo preložena, dokler prilagojeno "
+"trajanje ne mine od začetka obrata čez poldnevnik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
@@ -29237,10 +29245,9 @@ msgstr "Nastavite vrednost senc za raztezanje slike."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
-#, fuzzy, kde-format
-#| msgid "Earth Shadow"
+#, kde-format
 msgid "Shadows"
-msgstr "Senca Zemlje"
+msgstr "Sence"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
@@ -29251,11 +29258,9 @@ msgstr "Nastavite vrednost srednjih tonov za raztezanje slike."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Mikronezija"
+msgstr "Srednji toni"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
@@ -29266,22 +29271,21 @@ msgstr "Nastavite vrednost poudarkov za raztezanje slike."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Highlights"
-msgstr "Somrak"
+msgstr "Svetli toni"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "Omogočite ali onemogočite odklop največje vrednosti"
+msgstr "Omogočite ali onemogočite prikaz histograma."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Samodejno zaženi časovnik parkiranja ob zagonu"
+msgstr "Samodejno poiščite parameter raztezanja."
 
 #: fitsviewer/fitstab.cpp:56
 #, kde-format
@@ -29328,11 +29332,9 @@ msgid "Image save error: %1"
 msgstr "Napaka med shranjevanjem datoteke: %1"
 
 #: fitsviewer/fitstab.cpp:493
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Data"
+#, kde-format
 msgid "Image Save"
-msgstr "Nekonsistenten medpomnilnik slik. točk pri shranjevanju slike."
+msgstr "Shranjevanje slike"
 
 #: fitsviewer/fitstab.cpp:497
 #, kde-format
@@ -29340,16 +29342,14 @@ msgid "File saved to %1"
 msgstr "Datoteka shranjena v %1"
 
 #: fitsviewer/fitstab.cpp:632
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Extracting..."
-msgstr "Čakanje ..."
+msgstr "Razširjanje …"
 
 #: fitsviewer/fitstab.cpp:650
-#, fuzzy, kde-format
-#| msgid "Settling..."
+#, kde-format
 msgid "Solving..."
-msgstr "Nastavitve..."
+msgstr "Reševanje ..."
 
 #: fitsviewer/fitstab.cpp:663
 #, fuzzy, kde-format
@@ -29636,14 +29636,13 @@ msgstr "Predmeti na sliki"
 
 #: fitsviewer/fitsviewer.cpp:696 fitsviewer/fitsviewer.cpp:1207
 #, fuzzy, kde-format
-#| msgid "Show Pixel Gridlines"
 msgid "Pixel Gridlines"
-msgstr "Pokaži mrežo slikovnih točk"
+msgstr "Mreža slikovnih točk"
 
 #: fitsviewer/fitsviewer.cpp:697 fitsviewer/fitsviewer.cpp:1168
-#, fuzzy, kde-format
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "HiPS Vse Nebo Overlay"
+msgstr "Prekrivanje HiPS"
 
 #: fitsviewer/fitsviewer.cpp:711 kstarsactions.cpp:1293
 #, kde-format
@@ -29767,10 +29766,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singlePreviewFITS)
 #: fitsviewer/opsfits.ui:70
-#, fuzzy, kde-format
-#| msgid "Single Preview FITS"
+#, kde-format
 msgid "Single preview tab"
-msgstr "Enojen predogled FITS"
+msgstr "Zavihek enojnega predogleda"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
 #: fitsviewer/opsfits.ui:80
@@ -29784,10 +29782,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
 #: fitsviewer/opsfits.ui:86
-#, fuzzy, kde-format
-#| msgid "Single Window Capture"
+#, kde-format
 msgid "Single window capture"
-msgstr "Enookenski zajem FITS"
+msgstr "Enookenski zajem"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
 #: fitsviewer/opsfits.ui:96
@@ -29827,17 +29824,15 @@ msgstr "Naj bo okno pregledovalnika FITS neodvisno od KStars"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "HiPS Opacity:"
-msgstr "Posodobitev HiPS"
+msgstr "Prekrivnost HiPS:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS Offset:"
-msgstr "Odmik X:"
+msgstr "Odmik HiPS:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
@@ -30240,16 +30235,15 @@ msgstr "Reši sliko"
 
 #. i18n: ectx: property (text), widget (QPushButton, optionsB)
 #: fitsviewer/solveInfo.ui:106
-#, fuzzy, kde-format
+#, kde-format
 msgid "Solve Options"
 msgstr "Možnosti reševanja"
 
 #. i18n: ectx: property (text), widget (QPushButton, logB)
 #: fitsviewer/solveInfo.ui:113
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Log"
-msgstr "Prikaz"
+msgstr "Prikaži zapisnik"
 
 #: fitsviewer/starprofileviewer.cpp:27
 #, kde-format
@@ -30715,31 +30709,31 @@ msgstr "Možnosti za imena ozvezdij"
 #: indi/collimationOptions.ui:55
 #, kde-format
 msgid "Create a new Collimation Overlay Element"
-msgstr ""
+msgstr "Ustvari nov element prekrivanja za kolimacijo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: indi/collimationOptions.ui:78
 #, kde-format
 msgid "Delete the selected Collimation Overlay Element"
-msgstr ""
+msgstr "Izbrišite izbrani element prekrivanja za kolimacijo"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, elementNamesList)
 #: indi/collimationOptions.ui:123
 #, kde-format
 msgid "Collimation Overlay Element name (double click to edit)"
-msgstr ""
+msgstr "Ime elementa prekrivanja za kolimacijo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, elementConfigBox)
 #: indi/collimationOptions.ui:143
 #, kde-format
 msgid "Collimation Overlay Element"
-msgstr ""
+msgstr "Element prekrivanja za kolimacijo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:164
 #, kde-format
 msgid "Select whether this Element is enabled or not"
-msgstr ""
+msgstr "Izberite, ali je ta element omogočen ali ne."
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
@@ -30762,6 +30756,8 @@ msgid ""
 "Enter a name for this Collimation Overlay Element. If left empty a name will "
 "be generated based on the Type selected."
 msgstr ""
+"Vnesite ime za ta element prekrivanja za kolimacijo. Če pustite prazno, bo "
+"ime ustvarjeno na podlagi izbrane vrste."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
@@ -30790,7 +30786,7 @@ msgstr "Barva imen za ozvezdja."
 #: indi/collimationOptions.ui:310
 #, kde-format
 msgid "Set the line thickness used to draw the element."
-msgstr ""
+msgstr "Nastavite debelino črte, ki se uporablja za risanje elementa."
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
@@ -30807,6 +30803,8 @@ msgid ""
 "Set the Elements offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
 msgstr ""
+"Nastavite odmik elementov od njegovega sidra. Za sidrni element to pomeni iz "
+"središča slike."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
@@ -30819,38 +30817,39 @@ msgstr "Nastavi širino slike xplanet"
 #: indi/collimationOptions.ui:389
 #, kde-format
 msgid "Link X & Y sizes"
-msgstr ""
+msgstr "Poveži velikosti X in Y"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, typeLabel)
 #: indi/collimationOptions.ui:424
 #, kde-format
 msgid "Select the type of Collimation Overlay Element"
-msgstr ""
+msgstr "Izberite vrsto prekrivnega elementa za kolimacijo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
 #: indi/collimationOptions.ui:437
 #, kde-format
 msgid "Select number of occurrences of the object type within this element"
-msgstr ""
+msgstr "Izberite število pojavitev vrste predmeta v tem elementu."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
 #, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr ""
+msgstr "Če je več pojavitev, nastavite kot vrtenja osnove."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
+"Nastavite premer točnega kroga, kjer se nahaja več pojavitev (števec >1)."
 
 #. i18n: ectx: property (text), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:490
-#, kde-format
+#, fuzzy, kde-format
 msgid "PCD:"
-msgstr ""
+msgstr "PCD (PK):"
 
 #: indi/customdrivers.cpp:106
 #, fuzzy, kde-format
@@ -31902,9 +31901,8 @@ msgstr "Preklopi prikaz zvezd"
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
 #, fuzzy, kde-format
-#| msgid "Toggle constellation lines"
 msgid "Toggle collimation overlay"
-msgstr "Preklopi prikaz črt ozvezdij"
+msgstr "Preklopi prikaz črt za kolimacijo/poravnavo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
@@ -36888,7 +36886,7 @@ msgstr ""
 #: kstars.kcfg:1921
 #, kde-format
 msgid "Minimal duration of a meridian flip."
-msgstr ""
+msgstr "Najkrajše trajanje obrata čez poldnevnik."
 
 #. i18n: ectx: label, entry (CapturePosition), group (Capture)
 #: kstars.kcfg:1925
@@ -85624,13 +85622,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#, fuzzy
-#~| msgid "Color:"
-#~ msgid "Colour:"
-#~ msgstr "Barva:"
-
-#, fuzzy
-#~| msgid "Settling complete."
-#~ msgid "Differential slewing complete."
-#~ msgstr "Poravnava zaključena."

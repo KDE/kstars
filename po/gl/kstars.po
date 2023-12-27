@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-26 00:38+0000\n"
-"PO-Revision-Date: 2023-12-24 09:13+0100\n"
+"POT-Creation-Date: 2023-12-27 00:38+0000\n"
+"PO-Revision-Date: 2023-12-26 09:25+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -5793,22 +5793,15 @@ msgstr ""
 "b>.</p>"
 
 #: ekos/align/align.cpp:333
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
-#| "deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms"
-#| msgid ""
-#| "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</"
-#| "td></tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RA Pulse:   </"
-#| "td><td>%4 ms</td></tr><tr><td>DE Pulse:   </td><td>%5 ms</td></tr></table>"
+#, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">Object %1: %2</th></tr><tr><td>RA:</td><td>%3</"
 "td></tr><tr><td>DE:</td><td>%4</td></tr><tr><td>dRA:</td><td>%5</td></"
 "tr><tr><td>dDE:</td><td>%6</td></tr></table>"
 msgstr ""
-"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>α:   </td><td>%2 \"</td></"
-"tr><tr><td>δ:   </td><td>%3 \"</td></tr><tr><td>Pulso de α:   </td><td>%4 "
-"ms</td></tr><tr><td>Pulso de δ:   </td><td>%5 ms</td></tr></table>"
+"<table><tr><th colspan=\"2\">Obxecto %1: %2</th></tr><tr><td>α:</td><td>%3</"
+"td></tr><tr><td>δ</td><td>%4</td></tr><tr><td>dα:</td><td>%5</td></"
+"tr><tr><td>dδ:</td><td>%6</td></tr></table>"
 
 #: ekos/align/align.cpp:463
 #, kde-format
@@ -5833,7 +5826,7 @@ msgstr "A montaxe non permite facer sincronizacións."
 #: ekos/align/align.cpp:1034
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
-msgstr ""
+msgstr "A distancia focal efectiva do telescopio actualizouse a %1 mm."
 
 #: ekos/align/align.cpp:1076
 #, kde-format
@@ -5841,6 +5834,9 @@ msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
+"Advertencia! O campo visual calculado (%1) está fóra dos límites. Asegúrese "
+"de que a distancia focal do telescopio e o tamaño do píxel da cámara son "
+"correctos."
 
 #: ekos/align/align.cpp:1115
 #, kde-format
@@ -5861,13 +5857,12 @@ msgstr "<p>Campo de visión efectivo, en minutos de arco.</p>"
 #: ekos/align/align.cpp:1405
 #, kde-format
 msgid "Error: No camera detected."
-msgstr ""
+msgstr "Erro: non se detectou ningunha cámara."
 
 #: ekos/align/align.cpp:1411
-#, fuzzy, kde-format
-#| msgid "Error: Lost connection to Focuser."
+#, kde-format
 msgid "Error: lost connection to camera."
-msgstr "Erro: Perdeuse a conexión ao focalizador."
+msgstr "Erro: perdeuse a conexión á cámara."
 
 #: ekos/align/align.cpp:1412 ekos/align/align.cpp:2344
 #, kde-format
@@ -5875,16 +5870,13 @@ msgid "Astrometry alignment failed"
 msgstr "O aliñamento de astrometría fallou."
 
 #: ekos/align/align.cpp:1428
-#, fuzzy, kde-format
-#| msgid ""
-#| "Telescope aperture and focal length are missing. Please check your driver "
-#| "settings and try again."
+#, kde-format
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
 "train settings and try again."
 msgstr ""
-"Faltan a apertura e a distancia focal do telescopio; comproba a "
-"configuración do controlador e inténtao de novo."
+"Faltan a abertura e a distancia focal do telescopio; comproba a "
+"configuración do tren óptico e inténtao de novo."
 
 #: ekos/align/align.cpp:1434
 #, kde-format
@@ -5908,31 +5900,26 @@ msgstr ""
 "A transferencia de imaxes está desactivada para esta cámara. Quere activala?"
 
 #: ekos/align/align.cpp:1482
-#, fuzzy, kde-format
-#| msgid "Cannot capture while focus module is busy. Retrying in 10 seconds..."
+#, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "Non se pode capturar mentres o módulo de enfoque está ocupado. Intentarase "
-"de novo en 10 segundos…"
+"de novo en %1 segundos…"
 
 #: ekos/align/align.cpp:1490
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in 10 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
 "Non se pode capturar mentres a exposición do CCD está en marcha. Intentarase "
-"de novo en 10 segundos…"
+"de novo en %1 segundos…"
 
 #: ekos/align/align.cpp:1499
-#, fuzzy, kde-format
-#| msgid "Cannot capture while focus module is busy. Retrying in 10 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
 msgstr ""
-"Non se pode capturar mentres o módulo de enfoque está ocupado. Intentarase "
-"de novo en 10 segundos…"
+"Non se pode capturar mentres o rotor está ocupado. Intentarase de novo en %1 "
+"segundos…"
 
 #: ekos/align/align.cpp:1517 ekos/align/align.cpp:2993
 #, kde-format
@@ -6166,10 +6153,9 @@ msgid "Slewing failed."
 msgstr "O movemento fallou."
 
 #: ekos/align/align.cpp:2763
-#, fuzzy, kde-format
-#| msgid "Rotator reached target position angle."
+#, kde-format
 msgid "Rotator reached camera position angle."
-msgstr "O rotador acadou o ángulo de posición de destino."
+msgstr "O rotor acadou o ángulo de posición da cámara."
 
 #: ekos/align/align.cpp:2775
 #, kde-format
@@ -6177,6 +6163,8 @@ msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
+"O rotor non conseguiu chegar ao ángulo de posición solicitado (desviación de "
+"%1 minutos de arco)."
 
 #: ekos/align/align.cpp:2820
 #, fuzzy, kde-format
@@ -6764,7 +6752,7 @@ msgstr "Exp:"
 #: ekos/align/align.ui:716 ekos/align/opsalign.ui:263
 #, kde-format
 msgid "Rotator Settings"
-msgstr "Configuración do rotador"
+msgstr "Configuración do rotor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
@@ -6967,10 +6955,9 @@ msgstr "%1° %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualRotator)
 #: ekos/align/manualrotator.ui:14
-#, fuzzy, kde-format
-#| msgid "Rotator"
+#, kde-format
 msgid "Manual Rotator"
-msgstr "Rotador"
+msgstr "Rotor manual"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/align/manualrotator.ui:35
@@ -6980,6 +6967,9 @@ msgid ""
 "Automatic and Manual Rotator Control&quot; in &quot;StellarSolver "
 "Options&quot;.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Para desactivar a validación da rotación, desmarque "
+"«Control automático e manual do rotor» en «Opcións de StellarSolver».</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -7731,10 +7721,9 @@ msgstr "Estacionar automaticamente"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
-msgstr "Control do rotador"
+msgstr "Control automático e manual do rotor"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
@@ -7772,20 +7761,17 @@ msgstr "<html><head/><body><p>Só avaliar as tarefas.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
-"O tamaño do paso <b>inicial</b> en marcas para causar un cambio notábel no "
-"valor de HFR. Para un enfocador baseado en temporizador, é o tempo inicial "
-"en milisegundos para mover o enfocador cada dentro ou cara fóra"
+"<html><head/><body><p><span style=\" font-weight:600;\">Política de volta</"
+"span> determina como reacciona o rotor tras unha volta ou se o resultado "
+"dunha imaxe de referencia resolta ten un estado de apuntamento distinto do "
+"real da montura.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
@@ -7803,30 +7789,31 @@ msgid ""
 "astronomic image processing applications can handle &quot;flipped&quot; "
 "images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Manter o ángulo do "
+"rotor</span> manterá a posición do rotor. O rotor continúa inactivo e polo "
+"tanto a cámara rótase virtualmente 180°.</p><p>A maioría das aplicacións "
+"modernas de procesamento de imaxes astronómicas pode traballar con imaxes "
+"«volteadas».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve rotator angle"
-msgstr "Ángulo do rotador"
+msgstr "Manter o ángulo do rotor"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Preserve position "
 "angle</span> will keep the camera position angle. The rotator always turns "
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
-"O tamaño do paso <b>inicial</b> en marcas para causar un cambio notábel no "
-"valor de HFR. Para un enfocador baseado en temporizador, é o tempo inicial "
-"en milisegundos para mover o enfocador cada dentro ou cara fóra"
+"<html><head/><body><p><span style=\" font-weight:600;\">Manter o ángulo de "
+"posición</span> manterá o ángulo de posición da cámara. O rotor sempre xira "
+"a cámara ao ángulo de posición orixinal e polo tanto a imaxe amosará a "
+"configuración exacta orixinal de estrelas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
@@ -11629,7 +11616,7 @@ msgstr "Non se puido gardar o ficheiro en %1."
 #: ekos/auxiliary/darklibrary.cpp:1637
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
-msgstr ""
+msgstr "Non existe un tren óptico con identificador %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14
@@ -12642,7 +12629,7 @@ msgstr "Focalizador"
 #: ekos/auxiliary/opslogs.ui:397
 #, kde-format
 msgid "Rotator"
-msgstr "Rotador"
+msgstr "Rotor"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:407
@@ -12782,6 +12769,8 @@ msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Detectouse a falta dun dispositivo (%1). Configure de novo os trens ópticos "
+"antes de continuar."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1178
 #, kde-format
@@ -12789,63 +12778,54 @@ msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Detectouse a falta de varios dispositivos (%1). Configure de novo os trens "
+"ópticos antes de continuar."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Optical"
+#, kde-format
 msgid "Optical Trains"
-msgstr "Óptico"
+msgstr "Trens ópticos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: ekos/auxiliary/opticaltrains.ui:46
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+msgstr "<html><head/><body><p>Crear un novo tren óptico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: ekos/auxiliary/opticaltrains.ui:69
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>Eliminar o tren óptico seleccionado.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
 #: ekos/auxiliary/opticaltrains.ui:114
 #, kde-format
 msgid "Optical train name (double click to change the name)"
-msgstr ""
+msgstr "Nome do tren óptico (faga clic duplo para cambiar o nome)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
 #: ekos/auxiliary/opticaltrains.ui:128 ekos/mount/mount.ui:66
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Optical"
+#, kde-format
 msgid "Optical Train"
-msgstr "Óptico"
+msgstr "Tren óptico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Optionally</span> "
-#| "set remote device names if they do not exist in Ekos.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
 "This is a required selection in all trains.</p><p>To add, edit, or delete "
 "optical elements, tap the <span style=\" font-weight:600;\">Telescope &amp; "
 "Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Definir nomes de dispositivos remotos se non existen "
-"en Ekos (<span style=\" font-weight:600;\">opcional</span> ).</p></body></"
-"html>"
+"<html><head/><body><p>Seleccione o alcance ou lentes que se usan no tren "
+"óptico. Seleccionar isto é obrigatorio e todos os trens.</p><p>Para engadir, "
+"editar ou eliminar elementos ópticos, toque o botón de <span style=\" font-"
+"weight:600;\">Telescopio e lentes</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:152
@@ -12867,6 +12847,8 @@ msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
+"Seleccione a montura para usar. Normalmente todos os trens ópticos dun mesmo "
+"perfil usan unha mesma montura."
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -12877,14 +12859,13 @@ msgstr "Montaxe:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:185
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>Seleccione a cámara de imaxe para este tren óptico. "
+"Seleccionar isto é obrigatorio para todos os trens.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:188
@@ -13017,13 +12998,13 @@ msgstr "x"
 #: ekos/auxiliary/opticaltrains.ui:358
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr ""
+msgstr "Seleccione un rotor mecanizado se o hai."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:361
 #, kde-format
 msgid "Rotator:"
-msgstr "Rotador:"
+msgstr "Rotor:"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
 #: ekos/auxiliary/opticaltrains.ui:413
@@ -14789,7 +14770,7 @@ msgstr ""
 #: ekos/capture/capture.ui:753 ekos/capture/rotatorsettings.ui:20
 #, kde-format
 msgid "Rotator Control"
-msgstr "Control do rotador"
+msgstr "Control do rotor"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/capture.ui:785
@@ -16718,10 +16699,9 @@ msgstr ""
 "Ekos enfocará de novo canto antes, o último procedemento foi hai %1 segundos."
 
 #: ekos/capture/rotatorsettings.cpp:123
-#, fuzzy, kde-format
-#| msgid "Mosaic file %1 saved successfully."
+#, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr "O ficheiro de mosaico %1 gardouse correctamente."
+msgstr "O ángulo de rotor inicial, %1°, leuse correctamente."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -16732,35 +16712,29 @@ msgstr "N"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, paGauge)
 #: ekos/capture/rotatorsettings.ui:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). Calibrate the rotator by "
 "plate solving in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se o computador remoto ten astrometry.net instalado "
-"pode executar o controlador remoto de astrometría e usalo para resolver as "
-"imaxes no módulo de aliñamento de Ekos.</p></body></html>"
+"<html><head/><body><p>O calibrador do rotor amosa o ángulo de posición real "
+"da cámara (en amarelo) e o ángulo en bruto do rotor (en gris). Usa a "
+"resolución de placas no módulo de aliñamento para calibrar o rotor.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, rotatorGauge)
 #: ekos/capture/rotatorsettings.ui:131
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, "
 "capture and solve an image in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Se o computador remoto ten astrometry.net instalado "
-"pode executar o controlador remoto de astrometría e usalo para resolver as "
-"imaxes no módulo de aliñamento de Ekos.</p></body></html>"
+"<html><head/><body><p>O calibrador do rotor amosa o ángulo de posición real "
+"da cámara (en amarelo) e o ángulo en bruto do rotor (en gris). Para calibrar "
+"o rotor, captura e resolve unha imaxe no módulo de aliñamento.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
 #: ekos/capture/rotatorsettings.ui:157
@@ -16771,13 +16745,17 @@ msgid ""
 "rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
 "of the rotator in order to have a reasonable display.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>O calibrador do rotor amosa o ángulo de posición real "
+"da cámara (en amarelo) e o ángulo en bruto do rotor (en gris). Asegúrese de "
+"calibrar o rotor (sincronizar o ángulo do rotor co cero do estado de "
+"apuntamento oeste) tras unha nova montura do rotor para ter unha "
+"visualización razoábel.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgid "Rotator Angle"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "Ángulo do rotador"
+msgstr "Manter o ángulo do rotor"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
@@ -16824,12 +16802,7 @@ msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>To create an <span style=\" font-weight:600;"
-#| "\">Alias</span> from an existing driver, select an existing driver and "
-#| "then only change the <span style=\" font-weight:600;\">Label </span>then "
-#| "press<span style=\" font-weight:600;\"> Add.</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -16838,11 +16811,12 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Para crear un <span style=\" font-weight:600;"
-"\">alcume</span> para un controlador existente, seleccione un controlador "
-"existente, cambie a súa <span style=\" font-weight:600;\">Etiqueta</span> e "
-"seleccione <span style=\" font-weight:600;\"> Engadir</span>.</p></body></"
-"html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Política de volta</"
+"span> determina como reacciona o rotor tras unha volta ou se o resultado "
+"dunha imaxe de referencia resolta ten un estado de apuntamento distinto do "
+"real da montura.</p><p>A política de volta pode modificarse nas <span style="
+"\" font-weight:600;\">Opcións de aliñamento</span><span style=\" font-"
+"size:12pt;\"> en «Configuración do rotor».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
@@ -16853,10 +16827,9 @@ msgstr "Voltear a vista"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
-msgstr "<html><head/><body><p>Só avaliar as tarefas.</p></body></html>"
+msgstr "<html><head/><body><p>Ángulo en bruto do rotor</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:382
@@ -16867,12 +16840,16 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>O ángulo de círculo completo en bruto do rotor, que se "
+"calcula como a diferenza entre a orixe do rotor (ángulo cero) e o norte na "
+"posición de apuntamento oeste ou o sur na posición de apuntamento leste.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:385
 #, kde-format
 msgid "Rotator Angle"
-msgstr "Ángulo do rotador"
+msgstr "Ángulo do rotor"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/capture/rotatorsettings.ui:397
@@ -16885,6 +16862,13 @@ msgid ""
 "Align module. </p><p>The camera offset is measured in position angle scope "
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>O ángulo da dirección cara arriba da cámara (consulte "
+"o campo de visión) con respecto á dirección de orixe do rotor. O "
+"desprazamento da cámara determínase automaticamente con <span style=\" font-"
+"weight:700;\">Capturar e resolver</span> ou <span style=\" font-weight:700;"
+"\">Cargar e mover</span> no módulo de aliñamento. </p><p>O desprazamento da "
+"cámara mídese no alcance do ángulo de posición (de -179,99° a 180,00°).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
@@ -16899,6 +16883,14 @@ msgid ""
 "p><p>The position angle is measured East of North in degrees.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Definir o ángulo de posición da cámara move o rotor. O "
+"calibrador amosa o estado do rotor. Segundo a precisión do rotor, pode que "
+"exista algo de desviación no ángulo de posición final.</p><p>Se <span style="
+"\" font-weight:700;\">Gardar o ángulo de posición da cámara no traballo de "
+"secuencia</span> está cativado, os seguintes traballos que se engadan á cola "
+"da secuencia rotarán sempre a este ángulo de posición antes de iniciar a "
+"captura.</p><p>O ángulo de posición mídese en graos nordeste.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -19876,14 +19868,13 @@ msgstr "Vista"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/focus.ui:2791
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>Defina a abertura do telescopio en mm. O valor "
+"predeterminado obtense do tren óptico seleccionado.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
@@ -19895,14 +19886,13 @@ msgstr "mm"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocusCFZCameraSteps)
 #: ekos/focus/focus.ui:2819
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>A zona crítica de foco (CFZ) da cámara (o límite de "
+"resolución) do tren óptico activo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/focus.ui:2835
@@ -20022,16 +20012,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3084
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Axustar a escala do eixo de valores ao intervalo de "
-"valores actual.</p></body></html>"
+"<html><head/><body><p>Restabelecer a lonxitude de onda, a abertura e a taxa "
+"focal a valores do filtro e do tren óptico seleccionados.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/focus.ui:3087
@@ -20124,14 +20111,13 @@ msgstr "Golden"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/focus.ui:3169
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>Definir a relación focal para usar. Úsase como valor "
+"predeterminado o do tren óptico seleccionado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/focus.ui:3197
@@ -21061,6 +21047,7 @@ msgstr ""
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
+"Non é posíbel cambiar o tren óptico activo mentres PHD2 está conectado."
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:95
@@ -25210,7 +25197,7 @@ msgstr "Asentamento de guía:"
 #| "after the flip is complete.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-"meridian fip has been completed will be postponed until the configured "
+"meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ordenar unha volta do meridiano se as horas do ángulo "
@@ -31613,7 +31600,7 @@ msgstr "O peche da persiana está en progreso"
 #: indi/indidome.cpp:245
 #, kde-format
 msgid "Shutter opening is in progress"
-msgstr "A apertura da persiana está en progreso"
+msgstr "A abertura da persiana está en progreso"
 
 #: indi/indidome.cpp:253
 #, kde-format
@@ -36647,7 +36634,7 @@ msgstr "Dispoñibilidade de binóculos"
 #: kstars.kcfg:1564
 #, kde-format
 msgid "Aperture of available binocular"
-msgstr "Apertura do binóculo dispoñíbel"
+msgstr "Abertura do binóculo dispoñíbel"
 
 #. i18n: ectx: label, entry (ScopeListIndex), group (WISettings)
 #: kstars.kcfg:1568
@@ -37773,7 +37760,7 @@ msgstr ""
 #: kstars.kcfg:2163
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "A relación focal para usar no algoritmo de zona crítica do foco (CFZ)."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2167

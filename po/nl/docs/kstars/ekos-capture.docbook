@@ -527,7 +527,7 @@
                 </caption>
             </mediaobject>
         <para
->The overlay options button opens a dialog that allows arbitrary and flexible creation of ellipses (including circles), rectangles and lines, as well as anchor points which act as global drawing offsets. Each defined element has its own size, offset, repetition, thickness and color (including transparency). </para>
+>De knop optie voor overlay opent een dialoog die willekeurige en flexibele aanmaak van ellipsen (inclusief cirkels), rechthoeken en lijnen biedt, evenals ankerpunten die acteren als globale offsets voor tekenen. Elk gedefinieerd element heeft zijn eigen grootte, offset, herhaling, dikte en kleur (inclusief transparantie). </para>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>

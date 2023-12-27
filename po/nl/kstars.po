@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-26 00:38+0000\n"
-"PO-Revision-Date: 2023-12-25 22:52+0100\n"
+"POT-Creation-Date: 2023-12-27 00:38+0000\n"
+"PO-Revision-Date: 2023-12-26 10:59+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -20309,8 +20309,7 @@ msgstr ""
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
-"Pier side change detected (vert.: geen idee wat hier wordt bedoeld). "
-"Calibratie wordt gewist."
+"Pier-kant (kijkrichting) wijziging gedetecteerd. Calibratie wordt gewist."
 
 #: ekos/guide/guide.cpp:1414
 #, kde-format
@@ -21534,7 +21533,7 @@ msgid ""
 "that should be researched. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Wanneer een kalibratie wordt hergebruikt, de DEC-hoek "
-"omkeren als de huidige zijde verschilt van die die bij de berekening is "
+"omkeren als de huidige pier-kant verschilt van die die bij de berekening is "
 "gebruikt. De waarde die u nodig hebt is een eigenschap van uw opstelling die "
 "bestudeert zou moeten worden.</p></body></html>"
 
@@ -23045,10 +23044,10 @@ msgid "Meridian flip in %1"
 msgstr "Meridiaanflip in %1"
 
 #: ekos/manager/meridianflipstate.cpp:246
-#, fuzzy, kde-format
-#| msgid "Meridian flip failed - time too short, pier side unknown."
+#, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
-msgstr "Meridiaanflip is mislukt - tijd tekort, pier side onbekend."
+msgstr ""
+"Meridiaanflip is voltooid wordt aangenomen, maar pier-kant is onbekend."
 
 #: ekos/manager/meridianflipstate.cpp:270
 #, kde-format
@@ -23490,10 +23489,10 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Uurhoekbereik van de telescoop aan/uit zetten. Indien "
 "aangezet monitort Ekos voortdurend de hoogte van de telescoop wanneer die "
-"beweegt. Indien bij volgen of draaien de door de Pier Side toegestane "
-"grenzen worden bereikt,krijgt de telescoop de opdracht te stoppen, en wordt "
-"het volgen beëindigd. Hiervoor moet de telescoop de staat goed melden van de "
-"Pier Side.</p></body></html>"
+"beweegt. Indien bij volgen of draaien de door de Pier-kant toegestane "
+"grenzen worden bereikt, krijgt de telescoop de opdracht te stoppen, en wordt "
+"het volgen beëindigd. Hiervoor moet de telescoop de staat van de Pier-kant "
+"goed melden.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:929
@@ -24476,24 +24475,24 @@ msgstr "Gereed maken voor volgen:"
 #: ekos/opsekos.ui:698
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Command a meridian flip if the hour angle exceeds "
-#| "the specified value. Capture and Guiding will be suspended and resumed "
-#| "after the flip is complete.</p></body></html>"
+#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
+#| "meridian fip has been completed will be postponed until the configured "
+#| "duration has past since the meridian flip has been started.</p></body></"
+#| "html>"
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-"meridian fip has been completed will be postponed until the configured "
+"meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Doe meridiaanflip indien de uurhoek de opgegeven "
-"waarde overschrijdt.  Opnames maken en het volgen wordt tijdelijk gestopt "
-"totdat de flip is voltooid.</p></body></html>"
+"<html><head/><body><p>Minimale duur van een meridiaanflip. Controleren of de "
+"meridiaanflip is voltooid zal uitgesteld worden tot de geconfigureerde duur "
+"voorbij is sinds de meridiaanflip is gestart.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
-#, fuzzy, kde-format
-#| msgid "Meridian flip in %1"
+#, kde-format
 msgid "Minimal meridian flip duration: "
-msgstr "Meridiaanflip in %1"
+msgstr "Minimale duur van de meridiaanflip:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:730
@@ -30171,8 +30170,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Select colour for the Element"
+#, kde-format
 msgid "Select color for the Element"
 msgstr "Kleur selecteren voor het element"
 
@@ -30203,10 +30201,7 @@ msgstr "Dikte:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the Elements offset from it's Anchor. For an Anchor Element this is "
-#| "from the centre of the image."
+#, kde-format
 msgid ""
 "Set the Elements offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
@@ -30234,24 +30229,20 @@ msgstr "Het type van het element voor collimatie-overlay selecteren"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
 #: indi/collimationOptions.ui:437
-#, fuzzy, kde-format
-#| msgid "Select number of occurences of the object type within this element"
+#, kde-format
 msgid "Select number of occurrences of the object type within this element"
-msgstr "Het aantal keren voorkomen van het objecttype binnen dit element"
+msgstr ""
+"Het aantal keren voorkomen van het objecttype binnen dit element selecteren"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
-#, fuzzy, kde-format
-#| msgid "If there is more than one occurence set the base rotation angle."
+#, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr "Als er meer dan een keer voorkomen is stel de basis rotatiehoek in."
+msgstr "Als er meer dan één keer voorkomen is stel de basis rotatiehoek in."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the Pitch Circle Diameter where there are multiple occurences (Count "
-#| ">1)"
+#, kde-format
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
@@ -36264,7 +36255,7 @@ msgstr "Timeout voor telescoopdialoog instellen in seconden."
 #: kstars.kcfg:1921
 #, kde-format
 msgid "Minimal duration of a meridian flip."
-msgstr ""
+msgstr "Minimale duur van een meridiaanflip."
 
 #. i18n: ectx: label, entry (CapturePosition), group (Capture)
 #: kstars.kcfg:1925

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-26 00:38+0000\n"
-"PO-Revision-Date: 2023-12-25 19:17+0100\n"
+"POT-Creation-Date: 2023-12-27 00:38+0000\n"
+"PO-Revision-Date: 2023-12-26 11:29+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -23305,12 +23305,11 @@ msgid "Meridian flip in %1"
 msgstr "Inversió del meridià en %1"
 
 #: ekos/manager/meridianflipstate.cpp:246
-#, fuzzy, kde-format
-#| msgid "Meridian flip failed - time too short, pier side unknown."
+#, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
-"La inversió del meridià ha fallat - temps massa curt, costat del moll "
-"desconegut."
+"S'assumeix que s'ha completat la inversió del meridià, però es desconeix el "
+"costat del moll."
 
 #: ekos/manager/meridianflipstate.cpp:270
 #, kde-format
@@ -24752,19 +24751,27 @@ msgstr "Posicionament del guiatge:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:698
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
+#| "meridian fip has been completed will be postponed until the configured "
+#| "duration has past since the meridian flip has been started.</p></body></"
+#| "html>"
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-"meridian fip has been completed will be postponed until the configured "
+"meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durada mínima d'una inversió del meridià. Comprova si "
+"s'ha completat la inversió del meridià i es posposarà fins que la durada "
+"configurada hagi passat des que s'ha iniciat la inversió del meridià.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
-#, fuzzy, kde-format
-#| msgid "Meridian flip in %1"
+#, kde-format
 msgid "Minimal meridian flip duration: "
-msgstr "Inversió del meridià en %1"
+msgstr "Durada mínima d'una inversió del meridià: "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:730
@@ -30559,8 +30566,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Select colour for the Element"
+#, kde-format
 msgid "Select color for the Element"
 msgstr "Selecciona el color per a l'element"
 
@@ -30591,16 +30597,13 @@ msgstr "Gruix:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the Elements offset from it's Anchor. For an Anchor Element this is "
-#| "from the centre of the image."
+#, kde-format
 msgid ""
 "Set the Elements offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
 msgstr ""
-"Estableix el decalatge dels elements a partir de l'àncora. Per a un element "
-"d'àncora això és des del centre de la imatge."
+"Estableix el decalatge dels elements a partir de la seva àncora. Per a un "
+"element d'àncora això és des del centre de la imatge."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
@@ -30622,25 +30625,20 @@ msgstr "Selecciona el tipus d'element de superposició de col·limació"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
 #: indi/collimationOptions.ui:437
-#, fuzzy, kde-format
-#| msgid "Select number of occurences of the object type within this element"
+#, kde-format
 msgid "Select number of occurrences of the object type within this element"
 msgstr ""
 "Selecciona el nombre d'ocurrències del tipus d'objecte dins d'aquest element"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
-#, fuzzy, kde-format
-#| msgid "If there is more than one occurence set the base rotation angle."
+#, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr "Si hi ha més d'una ocurrència, establiu l'angle base de gir."
+msgstr "Si hi ha més d'una ocurrència, estableix l'angle base de gir."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the Pitch Circle Diameter where there are multiple occurences (Count "
-#| ">1)"
+#, kde-format
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
@@ -36787,7 +36785,7 @@ msgstr "Temps d'espera en segons del diàleg de tapar o destapar el telescopi."
 #: kstars.kcfg:1921
 #, kde-format
 msgid "Minimal duration of a meridian flip."
-msgstr ""
+msgstr "Durada mínima d'una inversió del meridià."
 
 #. i18n: ectx: label, entry (CapturePosition), group (Capture)
 #: kstars.kcfg:1925
