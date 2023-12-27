@@ -515,9 +515,9 @@ class Mount : public QWidget, public Ui::Mount
         void slewRateChanged(int index);
         void ready();
         void newMeridianFlipText(const QString &text);
+        void autoParkCountdownUpdated(const QString &text);
 
         void settingsUpdated(const QVariantMap &settings);
-
         void trainChanged();
 
     private:
