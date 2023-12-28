@@ -1038,7 +1038,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 <para
 >Quan intente <guibutton
 >Connecta</guibutton
->, &kstars; informa que el telescopi no està connectat al port sèrie/USB. Què puc fer? </para>
+>, &kstars; informa que el telescopi no està connectat amb el port sèrie o USB. Què puc fer? </para>
 </question>
 <answer>
 <para

@@ -204,7 +204,7 @@
 ></listitem>
                 <listitem
 ><para
->Mostra els punts de mira: alterna els punts de mira al centre de la imatge.</para
+>Mostra els punts de mira: alterna els punts de mira en el centre de la imatge.</para
 ></listitem>
                 <listitem
 ><para
@@ -833,7 +833,7 @@
     <para
 >A continuació, l'usuari té el quadro combinat <guilabel
 >Zoom a</guilabel
->, que l'usuari pot utilitzar per a ampliar el gràfic a diferents ubicacions predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada en la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
+>, el qual pot utilitzar l'usuari per a ampliar el gràfic a ubicacions diferents predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada en la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
 >Escalat</guilabel
 >. Hi ha tres controls lliscants en este quadro, un per a controlar el valor mínim que es mostra al gràfic o <quote
 >punt negre</quote

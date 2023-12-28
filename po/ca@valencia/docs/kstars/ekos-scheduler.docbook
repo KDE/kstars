@@ -205,7 +205,7 @@
         <para
 >Entre les configuracions que es mostren a dalt, una important es coneix com a <guilabel
 >Recorda el progrés de la tasca</guilabel
->. Quan esta casella està marcada i s'està executant una tasca, el programador mirarà les imatges del treball que ja estan capturades al disc i no tornarà a capturar les que ja hi són. L'avantatge és que si es reinicia una tasca, es tornarà a executar una altra nit, o si s'executen múltiples tasques juntes, s'paren i s'iniciaran quan es puguen executar, les tasques es reiniciaran just on es van quedar. Açò treballa bé amb l'opció <guilabel
+>. Quan esta casella està marcada i s'està executant una tasca, el programador mirarà les imatges del treball que ja estan capturades en el disc i no tornarà a capturar les que ja hi són. L'avantatge és que si es reinicia una tasca, es tornarà a executar una altra nit, o si s'executen múltiples tasques juntes, s'paren i s'iniciaran quan es puguen executar, les tasques es reiniciaran just on es van quedar. Açò treballa bé amb l'opció <guilabel
 >Repetix fins que es finalitze</guilabel
 > de compleció de tasques. Si <guilabel
 >Recorda el progrés de la tasca</guilabel

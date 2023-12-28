@@ -22,7 +22,7 @@
 <para
 >La captura de pantalla de dalt mostra la vista típica del programa &kstars;. Podeu veure la vista del cel centrada sobre Betelgeuse, l'estrela brillant en la constel·lació d'Orió. Orió està a punt d'ocultar-se per davall de l'horitzó. Les estreles es mostren amb <link linkend="ai-colorandtemp"
 >colors realistes</link
-> i brillantor relativa. En tres racons de la vista del cel, hi ha tres rètols informatius en pantalla mostrant la data sobre l'hora actual («TL: 18:10:30 dimecres, 6 de juliol de 2016»), l'actual emplaçament geogràfic («València, Espanya») i l'objecte al centre de la vista («Apuntat sobre: Betelgeuse (alpha Orionis)»). Sobre la vista del cel hi ha dues barres d'eines. La barra d'eines principal conté dreceres per a les <link linkend="kstars-menus"
+> i brillantor relativa. En tres racons de la vista del cel, hi ha tres rètols informatius en pantalla mostrant la data sobre l'hora actual («TL: 18:10:30 dimecres, 6 de juliol de 2016»), l'actual emplaçament geogràfic («València, Espanya») i l'objecte en el centre de la vista («Apuntat sobre: Betelgeuse (alpha Orionis)»). Sobre la vista del cel hi ha dues barres d'eines. La barra d'eines principal conté dreceres per a les <link linkend="kstars-menus"
 >funcions del menú</link
 >, així com un giny regulador de passos temporals que controla la velocitat de simulació del rellotge. La barra d'eines de vista conté botons que vos permeten canviar la vista de diferents tipus d'objectes en el cel. En la part inferior de la finestra, hi ha una barra d'estat que mostra el nom de qualsevol objecte sobre el qual feu clic i les <link linkend="ai-skycoords"
 >coordenades celestes</link

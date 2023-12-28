@@ -521,6 +521,34 @@
                 </para>
             </caption>
         </mediaobject>
+        <para
+>La vista en directe també proporciona una eina de superposició gràfica per a ajudar a la col·limació. S'alterna mitjançant el botó en forma de creu. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Superposició de col·limació</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>El botó d'opcions <guilabel
+>Superposició</guilabel
+> obri un diàleg que permet la creació arbitrària i flexible d'el·lipses (inclosos cercles), rectangles i línies, així com punts d'ancoratge que actuen com a desplaçaments globals del dibuix. Cada element definit té la seua mida, desplaçament, repetició, gruix i color (inclosa la transparència). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Opcions per a la superposició de col·limació</phrase>
+                </para>
+            </caption>
+        </mediaobject>
     </sect2>
 
     <sect2 id="capture-fits-viewer">
@@ -802,7 +830,7 @@
 <para
 >Les càmeres basades en CMOS solen tindre un soroll alt de lectura amb valors baixos de guany o ISO, i el soroll de lectura disminuïx a mesura que augmenta el valor del guany o ISO. Per tant, un usuari podria tindre la temptació de seleccionar un valor de guany més alt en un intent de reduir la quantitat de soroll de lectura. Però la capacitat total de la càmera normalment seria més alta quan els valors de guany o ISO són més baixos. Una capacitat total major proporciona un interval dinàmic major en la imatge.</para>
 <para
->La selecció d'un valor del guany o ISO dependrà de la tècnica emprada en l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran en la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura a les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
+>La selecció d'un valor del guany o ISO dependrà de la tècnica emprada en l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran en la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura en les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
 <para
 >Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa en l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» al gràfic. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
 <para

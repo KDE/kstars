@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-27 00:38+0000\n"
-"PO-Revision-Date: 2023-12-22 19:16+0100\n"
+"POT-Creation-Date: 2023-12-28 00:38+0000\n"
+"PO-Revision-Date: 2023-12-27 12:05+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6175,7 +6175,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
 #: ekos/focus/focus.cpp:4219 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
-#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:746
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -10272,7 +10272,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2176
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2180
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
@@ -12505,7 +12505,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2216
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2220
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12680,22 +12680,22 @@ msgstr "Obri el directori del registre"
 msgid "New Train"
 msgstr "Tren nou"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:437
+#: ekos/auxiliary/opticaltrainmanager.cpp:439
 #, kde-format
 msgid "Primary"
 msgstr "Primari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:440
+#: ekos/auxiliary/opticaltrainmanager.cpp:442
 #, kde-format
 msgid "Secondary"
 msgstr "Secundari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:443
+#: ekos/auxiliary/opticaltrainmanager.cpp:445
 #, kde-format
 msgid "Tertiary"
 msgstr "Terciari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1171
+#: ekos/auxiliary/opticaltrainmanager.cpp:1173
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12704,7 +12704,7 @@ msgstr ""
 "S'ha detectat un dispositiu (%1) que falta. Torneu a configurar els trens "
 "òptics abans de continuar."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1178
+#: ekos/auxiliary/opticaltrainmanager.cpp:1180
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -12954,6 +12954,14 @@ msgstr "Rotor:"
 #, kde-format
 msgid "Telescopes && Lenses"
 msgstr "Telescopis i lents"
+
+# skip-rule: punctuation-period-no
+#. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
+#: ekos/auxiliary/opticaltrains.ui:432
+#, fuzzy, kde-format
+#| msgid "Reset frame"
+msgid "Reset train"
+msgstr "Restablix el fotograma."
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -23323,49 +23331,49 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2233
+#: ekos/manager.cpp:2237
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge de «%1» està a punt."
 
-#: ekos/manager.cpp:2422
+#: ekos/manager.cpp:2426
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2423
+#: ekos/manager.cpp:2427
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
 
-#: ekos/manager.cpp:2475
+#: ekos/manager.cpp:2479
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2477
+#: ekos/manager.cpp:2481
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "No s'ha pogut actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:2726
+#: ekos/manager.cpp:2730
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració de %1..."
 
-#: ekos/manager.cpp:2734
+#: ekos/manager.cpp:2738
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració de %1..."
 
-#: ekos/manager.cpp:2762
+#: ekos/manager.cpp:2766
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració de %1..."
 
-#: ekos/manager.cpp:2774
+#: ekos/manager.cpp:2778
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1..."
@@ -23586,12 +23594,11 @@ msgid "Meridian flip in %1"
 msgstr "Inversió del meridià en %1"
 
 #: ekos/manager/meridianflipstate.cpp:246
-#, fuzzy, kde-format
-#| msgid "Meridian flip failed - time too short, pier side unknown."
+#, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
-"La inversió del meridià ha fallat - temps massa curt, costat del moll "
-"desconegut."
+"S'assumix que s'ha completat la inversió del meridià, però es desconeix el "
+"costat del moll."
 
 #: ekos/manager/meridianflipstate.cpp:270
 #, kde-format
@@ -23666,12 +23673,12 @@ msgid "Mount Configuration"
 msgstr "Configureu la muntura"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:140 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "Control de la muntura"
 
-#: ekos/mount/mount.cpp:371
+#: ekos/mount/mount.cpp:365
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -23680,29 +23687,29 @@ msgstr ""
 "S'ha detectat un controlador del GPS. KStars i la configuració del temps i "
 "l'emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
 
-#: ekos/mount/mount.cpp:386
+#: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament al "
 "del GPS?"
 
-#: ekos/mount/mount.cpp:387
+#: ekos/mount/mount.cpp:381
 #, kde-format
 msgid "GPS Settings"
 msgstr "Configureu el GPS"
 
-#: ekos/mount/mount.cpp:515
+#: ekos/mount/mount.cpp:509
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Segur que voleu desactivar el seguiment de la muntura?"
 
-#: ekos/mount/mount.cpp:516
+#: ekos/mount/mount.cpp:510
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
-#: ekos/mount/mount.cpp:603
+#: ekos/mount/mount.cpp:597
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -23710,7 +23717,7 @@ msgstr ""
 "L'altitud del telescopi està per davall del límit d'altitud mínima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:619
+#: ekos/mount/mount.cpp:613
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -23718,7 +23725,7 @@ msgstr ""
 "L'altitud del telescopi està per damunt del límit d'altitud màxima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:671
+#: ekos/mount/mount.cpp:665
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -23727,67 +23734,67 @@ msgstr ""
 "L'angle horari del telescopi està per damunt de l'angle horari màxim de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:813
+#: ekos/mount/mount.cpp:808
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "La inversió del meridià restarà inactiva durant l'alineació polar."
 
-#: ekos/mount/mount.cpp:827
+#: ekos/mount/mount.cpp:822
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Han finalitzat els moviments d'alineació polar, s'ha activat la inversió del "
 "meridià."
 
-#: ekos/mount/mount.cpp:850
+#: ekos/mount/mount.cpp:845
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1443
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "S'ha netejat el model d'alineació."
 
-#: ekos/mount/mount.cpp:1452
+#: ekos/mount/mount.cpp:1447
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "No s'ha pogut netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1562 ekos/scheduler/schedulerprocess.cpp:2142
+#: ekos/mount/mount.cpp:1557 ekos/scheduler/schedulerprocess.cpp:2142
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
 
-#: ekos/mount/mount.cpp:1587
+#: ekos/mount/mount.cpp:1582
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "L'hora d'aparcament no pot estar en el passat."
 
-#: ekos/mount/mount.cpp:1596
+#: ekos/mount/mount.cpp:1591
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "L'hora d'aparcament cal que estiga en les pròximes 24 hores."
 
-#: ekos/mount/mount.cpp:1601
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Avís! L'hora d'aparcament supera les 12 hores."
 
-#: ekos/mount/mount.cpp:1603
+#: ekos/mount/mount.cpp:1598
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Precaució: no podeu utilitzar l'aparcament automàtic mentre el programador "
 "està actiu."
 
-#: ekos/mount/mount.cpp:1622
+#: ekos/mount/mount.cpp:1618
 #, kde-format
 msgid "Parking timer is up."
 msgstr "El temporitzador d'aparcament està actiu."
 
-#: ekos/mount/mount.cpp:1631
+#: ekos/mount/mount.cpp:1628
 #, kde-format
 msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic..."
@@ -25054,13 +25061,16 @@ msgid ""
 "meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Duració mínima d'una inversió del meridià. Es comprova "
+"si s'ha completat la inversió del meridià i la posposarà fins que haja "
+"passat la duració configurada des que s'ha iniciat la inversió del meridià.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
-#, fuzzy, kde-format
-#| msgid "Meridian flip in %1"
+#, kde-format
 msgid "Minimal meridian flip duration: "
-msgstr "Inversió del meridià en %1"
+msgstr "Duració mínima d'una inversió del meridià: "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:730
@@ -30842,54 +30852,56 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
 #: indi/collimationOptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options"
-msgstr "Opcions dels noms de les constel·lacions"
+msgstr "Opcions de la superposició de col·limació"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: indi/collimationOptions.ui:55
 #, kde-format
 msgid "Create a new Collimation Overlay Element"
-msgstr ""
+msgstr "Crea un element nou de superposició de col·limació."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: indi/collimationOptions.ui:78
 #, kde-format
 msgid "Delete the selected Collimation Overlay Element"
-msgstr ""
+msgstr "Suprimix l'element seleccionat de superposició de col·limació."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QListWidget, elementNamesList)
 #: indi/collimationOptions.ui:123
 #, kde-format
 msgid "Collimation Overlay Element name (double click to edit)"
 msgstr ""
+"Nom de l'element de superposició de col·limació (doble clic per a editar)."
 
 #. i18n: ectx: property (title), widget (QGroupBox, elementConfigBox)
 #: indi/collimationOptions.ui:143
 #, kde-format
 msgid "Collimation Overlay Element"
-msgstr ""
+msgstr "Element de superposició de col·limació"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:164
 #, kde-format
 msgid "Select whether this Element is enabled or not"
-msgstr ""
+msgstr "Se selecciona si este element està actiu o no."
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable:"
-msgstr "Activa"
+msgstr "Actiu:"
 
 #. i18n: ectx: property (text), widget (QPushButton, renameB)
 #: indi/collimationOptions.ui:192
-#, fuzzy, kde-format
-#| msgid "Filename"
+#, kde-format
 msgid "Rename"
-msgstr "Nom del fitxer"
+msgstr "Canvia el nom"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
 #: indi/collimationOptions.ui:211
@@ -30898,43 +30910,40 @@ msgid ""
 "Enter a name for this Collimation Overlay Element. If left empty a name will "
 "be generated based on the Type selected."
 msgstr ""
+"Introduïu un nom per a este element de superposició de col·limació. Si es "
+"deixa en blanc, es generarà un nom en funció del tipus seleccionat."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Select color for the FOV symbol"
+#, kde-format
 msgid "Select color for the Element"
-msgstr "Selecciona un color per al símbol de CDV"
+msgstr "Selecciona el color per a l'element."
 
 #. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
 #. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
 #: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Y"
+#, kde-format
 msgid "Y"
 msgstr "Y"
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
 #: indi/collimationOptions.ui:293
-#, fuzzy, kde-format
-#| msgid "The color for the constellation names."
+#, kde-format
 msgid "Select a color for the Collimation Overlay Element."
-msgstr "El color dels noms de les constel·lacions."
+msgstr "Selecciona un color per a l'element de superposició de col·limació."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:310
 #, kde-format
 msgid "Set the line thickness used to draw the element."
-msgstr ""
+msgstr "Establix el gruix de la línia emprada per a dibuixar l'element."
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Whiteness"
+#, kde-format
 msgid "Thickness:"
-msgstr "Blancor"
+msgstr "Gruix:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
@@ -30943,51 +30952,58 @@ msgid ""
 "Set the Elements offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
 msgstr ""
+"Establix el decalatge dels elements a partir de la seua àncora. Per a un "
+"element d'àncora, açò és des del centre de la imatge."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
-#, fuzzy, kde-format
-#| msgid "Set the width of the xplanet image"
+#, kde-format
 msgid "Set the size of the Element"
-msgstr "S'establix l'amplària de la imatge d'Xplanet."
+msgstr "Establix la mida de l'element."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
 #: indi/collimationOptions.ui:389
 #, kde-format
 msgid "Link X & Y sizes"
-msgstr ""
+msgstr "Vincula les mides de X i Y"
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, typeLabel)
 #: indi/collimationOptions.ui:424
 #, kde-format
 msgid "Select the type of Collimation Overlay Element"
-msgstr ""
+msgstr "Selecciona el tipus d'element de superposició de col·limació."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
 #: indi/collimationOptions.ui:437
 #, kde-format
 msgid "Select number of occurrences of the object type within this element"
 msgstr ""
+"Selecciona el nombre d'ocurrències del tipus d'objecte dins d'este element."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
 #, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr ""
+msgstr "Si hi ha més d'una ocurrència, establix l'angle base de gir."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
 #, kde-format
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
+"Establix el diàmetre del cercle de punt (PCD) quan hi ha múltiples "
+"ocurrències (comptador >1)."
 
 #. i18n: ectx: property (text), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:490
 #, kde-format
 msgid "PCD:"
-msgstr ""
+msgstr "PCD:"
 
 #: indi/customdrivers.cpp:106
 #, kde-format
@@ -32031,19 +32047,18 @@ msgstr "Restablix el fotograma."
 msgid "Toggle debayer"
 msgstr "Alterna la reconstrucció des de Bayer."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
-#| msgid "Toggle constellation lines"
+#, kde-format
 msgid "Toggle collimation overlay"
-msgstr "Mostra o oculta les línies de les constel·lacions"
+msgstr "Mostra o oculta la superposició de la col·limació."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation overlay options"
-msgstr "Opcions dels noms de les constel·lacions"
+msgstr "Opcions per a la superposició de col·limació."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
@@ -37200,7 +37215,7 @@ msgstr "Temps d'espera en segons del diàleg de tapar o destapar el telescopi."
 #: kstars.kcfg:1921
 #, kde-format
 msgid "Minimal duration of a meridian flip."
-msgstr ""
+msgstr "Duració mínima d'una inversió del meridià."
 
 #. i18n: ectx: label, entry (CapturePosition), group (Capture)
 #: kstars.kcfg:1925
@@ -85972,8 +85987,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#, fuzzy
-#~| msgid "Color:"
-#~ msgid "Colour:"
-#~ msgstr "Color:"

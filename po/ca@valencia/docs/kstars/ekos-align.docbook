@@ -283,7 +283,7 @@
 ><para
 >La segona secció anomenada <guilabel
 >Paràmetres de filtratge d'estreles</guilabel
-> filtra i reduïx el nombre d'estreles extretes abans d'enviar la llista al solucionador de plaques (quan s'alinea o s'alinea amb la Polar), en l'enfocament automàtic o al sistema de guiatge intern (quan només es necessita una llista d'estreles).</para
+> filtra i reduïx el nombre d'estreles extretes abans d'enviar la llista al solucionador de plaques (quan s'alinea o s'alinea amb la Polar), en l'enfocament automàtic o en el sistema de guiatge intern (quan només es necessita una llista d'estreles).</para
 ></listitem>
          <listitem
 ><para

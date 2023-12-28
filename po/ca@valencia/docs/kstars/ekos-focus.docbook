@@ -614,7 +614,7 @@
               <para
 ><guilabel
 >Màscara d'anell</guilabel
->: Esta opció proporciona dos camps d'entrada que junts definixen un dònut sobre CDV de la càmera. Les estreles que queden fora del dònut es descomptaran del processament. Establir un valor interior per damunt del 0% farà que es descarten les estreles en el centre de CDV. Açò podria ser útil per a evitar l'ús d'estreles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per davall del 100% farà que durant l'enfocament es descarten les estreles en les vores de CDV. Açò podria ser útil si no teniu cap camp pla a les vores de CDV.</para>
+>: Esta opció proporciona dos camps d'entrada que junts definixen un dònut sobre CDV de la càmera. Les estreles que queden fora del dònut es descomptaran del processament. Establir un valor interior per damunt del 0% farà que es descarten les estreles al centre de CDV. Açò podria ser útil per a evitar l'ús d'estreles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per davall del 100% farà que durant l'enfocament es descarten les estreles en les vores de CDV. Açò podria ser útil si no teniu cap camp pla en la vores de CDV.</para>
 	    </listitem>
 
 	    <listitem>
@@ -903,7 +903,7 @@
         <para
 ><emphasis role="bold"
 >HFR</emphasis
->: «Half Flux Radius» o radi de semiflux és la mesura recomanada. Quan es detecta una estrela, Ekos calcularà l'HFR de l'estrela. Este és el radi d'un cercle imaginari, centrat en el centre de l'estrela, que engloba la meitat del flux total de l'estrela.</para>
+>: «Half Flux Radius» o radi de semiflux és la mesura recomanada. Quan es detecta una estrela, Ekos calcularà l'HFR de l'estrela. Este és el radi d'un cercle imaginari, centrat al centre de l'estrela, que engloba la meitat del flux total de l'estrela.</para>
 
         <para
 >El punt de millor enfocament correspon a l'HFR mínim.</para>
@@ -1013,7 +1013,7 @@
 >Refina l'ajust de la corba</guilabel
 >: Esta és una opció experimental, només estarà disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si se selecciona, llavors al final de l'agranat dels punts de dades, Ekos ajustarà una corba i mesurarà la R². A continuació, aplicarà el criteri de Peirce basat en la metodologia de Gould per a la identificació de valors atípics. Vegeu el <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 >Criteri de Peirce</ulink
-> per a més detalls incloent el document original de Peirce i el document de Gould als quals es fa referència a les notes. Si el criteri de Peirce detecta 1 o més valors atípics, llavors s'intentarà un altre ajust de la corba amb els valors atípics eliminats. De nou es calcularà la R² i es compararà amb l'ajust original de la corba R². Si la R² és millor, llavors s'utilitzarà l'última execució, si no, s'utilitzarà l'ajust de la corba original (amb els valors atípics inclosos).</para>
+> per a més detalls incloent el document original de Peirce i el document de Gould als quals es fa referència en les notes. Si el criteri de Peirce detecta 1 o més valors atípics, llavors s'intentarà un altre ajust de la corba amb els valors atípics eliminats. De nou es calcularà la R² i es compararà amb l'ajust original de la corba R². Si la R² és millor, llavors s'utilitzarà l'última execució, si no, s'utilitzarà l'ajust de la corba original (amb els valors atípics inclosos).</para>
 
       <para
 >Els valors atípics estan clarament marcats en la corba V amb una X a través del punt de dades.</para>
@@ -2112,7 +2112,7 @@
     <para
 >Si s'ha seleccionat <guilabel
 >Màscara de mosaic</guilabel
->, el visor de FITS mostrarà la quadrícula 3x3 de mosaic al centre, les vores i els costats tal com es configura a les seues opcions. <screenshot
+>, el visor de FITS mostrarà la quadrícula 3x3 de mosaic en el centre, les vores i els costats tal com es configura en les seues opcions. <screenshot
 ><screeninfo
 >Mosaic de visualització de l'enfocament</screeninfo
 ><mediaobject>
@@ -3116,10 +3116,10 @@
 >, açò indicarà que l'aplanador de camp està funcionant als cantons del sensor.</para>
 
     <para
->Sempre hi haurà alguna delta de l'enfocament al darrera, almenys a causa del soroll a les dades d'observació. L'important és que quan es troba a l'enfocament, les estreles seran circulars a totes les parts del sensor.</para>
+>Sempre hi haurà alguna delta de l'enfocament al darrera, almenys a causa del soroll en les dades d'observació. L'important és que quan es troba a l'enfocament, les estreles seran circulars a totes les parts del sensor.</para>
 
     <para
->Com més petits siguen els percentatges de la inclinació, més a prop estarà el sensor d'estar pla al pla de la llum des de l'aplanador o telescopi. Igual que amb la delta de l'enfocament al darrera, sempre hi haurà algun soroll a les dades, el qual es presentarà com a inclinació. L'important és que quan estiguen enfocades, la mida de les estreles seran coherents en totes les parts del sensor.</para>
+>Com més petits siguen els percentatges de la inclinació, més a prop estarà el sensor d'estar pla al pla de la llum des de l'aplanador o telescopi. Igual que amb la delta de l'enfocament al darrera, sempre hi haurà algun soroll en les dades, el qual es presentarà com a inclinació. L'important és que quan estiguen enfocades, la mida de les estreles seran coherents en totes les parts del sensor.</para>
 
     <para
 >A causa de la naturalea dels càlculs de la delta de l'enfocament al darrera i de la inclinació, l'un afectarà a l'altre, de manera que probablement serà millor intentar ajustar tots dos junts, en increments petits, en lloc d'intentar perfeccionar un de forma aïllada, abans d'ajustar l'altre.</para>

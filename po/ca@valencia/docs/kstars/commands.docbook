@@ -1658,7 +1658,7 @@
 ></term>
     <listitem
 ><para
->Este submenú llista els símbols de camp de visió (CDV) disponibles. El símbol CDV es dibuixa al centre de la vista. El podeu escollir des de la llista de símbols predefinits (Prismàtic 7x35, Visor del punt roig, Un grau, HST WFPC2 o 30 m a 1,3 cm) marcant la seua casella de selecció específica o no utilitzar cap símbol desmarcant tots els elements de la llista de símbols. També podeu definir-ne un de propi (o modificar els existents) emprant l'element de menú <guimenuitem
+>Este submenú llista els símbols de camp de visió (CDV) disponibles. El símbol CDV es dibuixa en el centre de la vista. El podeu escollir des de la llista de símbols predefinits (Prismàtic 7x35, Visor del punt roig, Un grau, HST WFPC2 o 30 m a 1,3 cm) marcant la seua casella de selecció específica o no utilitzar cap símbol desmarcant tots els elements de la llista de símbols. També podeu definir-ne un de propi (o modificar els existents) emprant l'element de menú <guimenuitem
 >Edita els símbols de CDV...</guimenuitem
 >.</para
 ></listitem>
@@ -1904,7 +1904,7 @@
 >[Tots]</term>
 <listitem
 ><para
->A les següents tres línies es mostren les hores de l'eixida, posta i trànsit per a l'objecte sobre la data de simulació actual. </para
+>En les tres línies següents es mostren les hores de l'eixida, posta i trànsit per a l'objecte sobre la data de simulació actual. </para
 ></listitem>
 </varlistentry>
 
@@ -1981,7 +1981,9 @@
 >Centra en el mapa</guibutton
 > o podeu anar fins a la següent estrela prement el botó <guibutton
 >Següent</guibutton
->. Recordeu que quan es passe a la següent estrela, se centrarà automàticament en el mapa. A més, l'eina Saltador entre estreles oferix adreces a les estreles encadenades per a tots els objectes de la llista. </para
+>. Recordeu que quan es passe a la següent estrela, se centrarà automàticament en el mapa. A més, l'eina <guilabel
+>Saltador entre estreles</guilabel
+> oferix adreces a les estreles encadenades per a tots els objectes de la llista. </para
 ></listitem>
 </varlistentry>
 
@@ -3005,7 +3007,7 @@
 >Arrossega un rètol informatiu</term>
 	<listitem
 ><para
->Es torna a ubicar de nou en el mapa al rètol informatiu. Els rètols informatius s'«apegaran» a les vores de la finestra, de manera que romanguen sobre la vora quan la finestra siga amidada. </para
+>Es torna a ubicar de nou el rètol informatiu en el mapa. Els rètols informatius s'«apegaran» a les vores de la finestra, de manera que romanguen sobre la vora quan la finestra siga amidada. </para
 ></listitem
 ></varlistentry>
 	</variablelist>

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-27 00:38+0000\n"
-"PO-Revision-Date: 2023-12-26 11:29+0100\n"
+"POT-Creation-Date: 2023-12-28 00:38+0000\n"
+"PO-Revision-Date: 2023-12-27 10:54+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6123,7 +6123,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
 #: ekos/focus/focus.cpp:4219 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
-#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:746
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -10181,7 +10181,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2176
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2180
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
@@ -12400,7 +12400,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2216
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2220
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12569,22 +12569,22 @@ msgstr "Obre el directori del registre"
 msgid "New Train"
 msgstr "Tren nou"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:437
+#: ekos/auxiliary/opticaltrainmanager.cpp:439
 #, kde-format
 msgid "Primary"
 msgstr "Primari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:440
+#: ekos/auxiliary/opticaltrainmanager.cpp:442
 #, kde-format
 msgid "Secondary"
 msgstr "Secundari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:443
+#: ekos/auxiliary/opticaltrainmanager.cpp:445
 #, kde-format
 msgid "Tertiary"
 msgstr "Terciari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1171
+#: ekos/auxiliary/opticaltrainmanager.cpp:1173
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12593,7 +12593,7 @@ msgstr ""
 "S'ha detectat un dispositiu (%1) que manca. Torneu a configurar els trens "
 "òptics abans de continuar."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1178
+#: ekos/auxiliary/opticaltrainmanager.cpp:1180
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -12841,6 +12841,13 @@ msgstr "Rotor:"
 #, kde-format
 msgid "Telescopes && Lenses"
 msgstr "Telescopis i lents"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
+#: ekos/auxiliary/opticaltrains.ui:432
+#, fuzzy, kde-format
+#| msgid "Reset frame"
+msgid "Reset train"
+msgstr "Restableix el fotograma"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -23051,49 +23058,49 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2233
+#: ekos/manager.cpp:2237
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge del %1 està a punt."
 
-#: ekos/manager.cpp:2422
+#: ekos/manager.cpp:2426
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2423
+#: ekos/manager.cpp:2427
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmació de la supressió"
 
-#: ekos/manager.cpp:2475
+#: ekos/manager.cpp:2479
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2477
+#: ekos/manager.cpp:2481
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Ha fallat en actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:2726
+#: ekos/manager.cpp:2730
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2734
+#: ekos/manager.cpp:2738
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2762
+#: ekos/manager.cpp:2766
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2774
+#: ekos/manager.cpp:2778
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració del %1..."
@@ -23383,12 +23390,12 @@ msgid "Mount Configuration"
 msgstr "Configuració de la muntura"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:140 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "Control de la muntura"
 
-#: ekos/mount/mount.cpp:371
+#: ekos/mount/mount.cpp:365
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -23397,29 +23404,29 @@ msgstr ""
 "S'ha detectat un controlador del GPS. El KStars i la configuració de l'hora "
 "i emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
 
-#: ekos/mount/mount.cpp:386
+#: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament al "
 "del GPS?"
 
-#: ekos/mount/mount.cpp:387
+#: ekos/mount/mount.cpp:381
 #, kde-format
 msgid "GPS Settings"
 msgstr "Configuració del GPS"
 
-#: ekos/mount/mount.cpp:515
+#: ekos/mount/mount.cpp:509
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Segur que voleu desactivar el seguiment de la muntura?"
 
-#: ekos/mount/mount.cpp:516
+#: ekos/mount/mount.cpp:510
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
-#: ekos/mount/mount.cpp:603
+#: ekos/mount/mount.cpp:597
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -23427,7 +23434,7 @@ msgstr ""
 "L'altitud del telescopi està per sota del límit d'altitud mínima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:619
+#: ekos/mount/mount.cpp:613
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -23435,7 +23442,7 @@ msgstr ""
 "L'altitud del telescopi està per sobre del límit d'altitud màxima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:671
+#: ekos/mount/mount.cpp:665
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -23444,67 +23451,67 @@ msgstr ""
 "L'angle horari del telescopi està per sobre de l'angle horari màxim de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:813
+#: ekos/mount/mount.cpp:808
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "La inversió del meridià restarà inactiva durant l'alineació polar."
 
-#: ekos/mount/mount.cpp:827
+#: ekos/mount/mount.cpp:822
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Han finalitzat els moviments d'alineació polar, s'ha activat la inversió del "
 "meridià."
 
-#: ekos/mount/mount.cpp:850
+#: ekos/mount/mount.cpp:845
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1443
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "S'ha netejat el model d'alineació."
 
-#: ekos/mount/mount.cpp:1452
+#: ekos/mount/mount.cpp:1447
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Ha fallat en netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1562 ekos/scheduler/schedulerprocess.cpp:2142
+#: ekos/mount/mount.cpp:1557 ekos/scheduler/schedulerprocess.cpp:2142
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
 
-#: ekos/mount/mount.cpp:1587
+#: ekos/mount/mount.cpp:1582
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "L'hora d'aparcament no pot estar en el passat."
 
-#: ekos/mount/mount.cpp:1596
+#: ekos/mount/mount.cpp:1591
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "L'hora d'aparcament cal que estigui en les pròximes 24 hores."
 
-#: ekos/mount/mount.cpp:1601
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Avís! L'hora d'aparcament supera les 12 hores."
 
-#: ekos/mount/mount.cpp:1603
+#: ekos/mount/mount.cpp:1598
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Precaució: no podeu usar l'aparcament automàtic quan el programador està "
 "actiu."
 
-#: ekos/mount/mount.cpp:1622
+#: ekos/mount/mount.cpp:1618
 #, kde-format
 msgid "Parking timer is up."
 msgstr "El temporitzador d'aparcament està actiu."
 
-#: ekos/mount/mount.cpp:1631
+#: ekos/mount/mount.cpp:1628
 #, kde-format
 msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic..."
@@ -24751,19 +24758,14 @@ msgstr "Posicionament del guiatge:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:698
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-#| "meridian fip has been completed will be postponed until the configured "
-#| "duration has past since the meridian flip has been started.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
 "meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Durada mínima d'una inversió del meridià. Comprova si "
-"s'ha completat la inversió del meridià i es posposarà fins que la durada "
+"<html><head/><body><p>Durada mínima d'una inversió del meridià. Es comprova "
+"si s'ha completat la inversió del meridià, i es posposarà fins que la durada "
 "configurada hagi passat des que s'ha iniciat la inversió del meridià.</p></"
 "body></html>"
 

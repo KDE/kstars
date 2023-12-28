@@ -1618,7 +1618,7 @@
 >Soluciona</guibutton
 >). És possible que si seleccioneu diverses imatges, algunes no es resolguen amb èxit. </para>
 <para
->La resolució de plaques d'estes imatges de vegades pot ser difícil. Açò és perquè, en este punt, el sistema no té informació sobre l'escala o la posició per on mirar i, per tant, és una solució cega. Per a millorar les vostres possibilitats d'èxit, podeu introduir una posició aproximada AR/Dec del centre del cel a les columnes <guilabel
+>La resolució de plaques d'estes imatges de vegades pot ser difícil. Açò és perquè, en este punt, el sistema no té informació sobre l'escala o la posició per on mirar i, per tant, és una solució cega. Per a millorar les vostres possibilitats d'èxit, podeu introduir una posició aproximada AR/Dec del centre del cel a dins de les columnes <guilabel
 >AR</guilabel
 > i <guilabel
 >Dec</guilabel
@@ -1764,7 +1764,7 @@
 >Reconstrucció automàtica des de Bayer</guilabel
 > (les imatges construïdes amb el filtre mosaic de Bayer on s'aplica el filtre de Bayer no seran reconstruïdes amb el filtre mosaic de Bayer, només es mostraran les imatges en l'escala de grisos), <guilabel
 >WCS automàtic</guilabel
-> (les dades del sistema de coordenades mundial -World Coordinate System- no seran processades. Les coordenades celestes dels mapes WCS a les coordenades de la imatge, les línies de la quadrícula equatorial, la identificació dels objectes i l'orientació del telescopi dins d'una imatge estan inhabilitades) i <guilabel
+> (les dades del sistema de coordenades mundial -World Coordinate System- no seran processades. Les coordenades celestes dels mapes WCS en les coordenades de la imatge, les línies de la quadrícula equatorial, la identificació dels objectes i l'orientació del telescopi dins d'una imatge estan inhabilitades) i <guilabel
 >Cub en 3D</guilabel
 > (no es processaran les imatges RGB, només es mostraran les imatges en l'escala de grisos). També podeu desactivar per separat algunes d'estes operacions voraces de recursos. </para>
 </sect1>
@@ -2068,7 +2068,7 @@
 >CDV</firstterm
 > és un acrònim per a <quote
 >camp de visió</quote
->. Es dibuixarà un símbol de camp de visió al centre de la finestra per a indicar cap a on apunta la pantalla. Els distints símbols disposen de mides angulars diferents; en podeu utilitzar un per a mostrar com seria la vista a través d'un telescopi en concret. Per exemple, si escolliu el camp de visió <quote
+>. Es dibuixarà un símbol de camp de visió en el centre de la finestra per a indicar cap a on apunta la pantalla. Els distints símbols disposen de mides angulars diferents; en podeu utilitzar un per a mostrar com seria la vista a través d'un telescopi en concret. Per exemple, si escolliu el camp de visió <quote
 >Prismàtic 7x35</quote
 >, es dibuixarà un cercle en la pantalla amb un diàmetre de 9,2 graus; este és el camp de visió per a un prismàtic 7x35. </para>
 <para>

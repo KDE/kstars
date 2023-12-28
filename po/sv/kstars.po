@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-27 00:38+0000\n"
+"POT-Creation-Date: 2023-12-28 00:38+0000\n"
 "PO-Revision-Date: 2023-11-12 10:46+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -6060,7 +6060,7 @@ msgstr "Lösningsverktyget avbröts efter %1 sekunder."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
 #: ekos/focus/focus.cpp:4219 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
-#: ekos/mount/mount.cpp:836 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:746
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -10051,7 +10051,7 @@ msgstr "Inrikta"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2176
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2180
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
@@ -12241,7 +12241,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2216
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2220
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12408,22 +12408,22 @@ msgstr "Öppna loggkatalog"
 msgid "New Train"
 msgstr "Ny optik"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:437
+#: ekos/auxiliary/opticaltrainmanager.cpp:439
 #, kde-format
 msgid "Primary"
 msgstr "Primär"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:440
+#: ekos/auxiliary/opticaltrainmanager.cpp:442
 #, kde-format
 msgid "Secondary"
 msgstr "Sekundär"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:443
+#: ekos/auxiliary/opticaltrainmanager.cpp:445
 #, kde-format
 msgid "Tertiary"
 msgstr "Tertiär"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1171
+#: ekos/auxiliary/opticaltrainmanager.cpp:1173
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12431,7 +12431,7 @@ msgid ""
 msgstr ""
 "Saknad enhet detekterad (%1). Konfigurera om optiken innan du går vidare."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1178
+#: ekos/auxiliary/opticaltrainmanager.cpp:1180
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -12669,6 +12669,13 @@ msgstr "Rotatör:"
 #, kde-format
 msgid "Telescopes && Lenses"
 msgstr "Teleskop och linser"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
+#: ekos/auxiliary/opticaltrains.ui:432
+#, fuzzy, kde-format
+#| msgid "Reset frame"
+msgid "Reset train"
+msgstr "Återställ ruta"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -22774,47 +22781,47 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2233
+#: ekos/manager.cpp:2237
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Guidningsport från %1 är redo."
 
-#: ekos/manager.cpp:2422
+#: ekos/manager.cpp:2426
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Är du säker på att du vill ta bort profilen?"
 
-#: ekos/manager.cpp:2423
+#: ekos/manager.cpp:2427
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Bekräfta borttagning"
 
-#: ekos/manager.cpp:2475
+#: ekos/manager.cpp:2479
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Platsinformation uppdaterad till %1."
 
-#: ekos/manager.cpp:2477
+#: ekos/manager.cpp:2481
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Misslyckades uppdatera platsinformation till %1. Staden hittades inte."
 
-#: ekos/manager.cpp:2726
+#: ekos/manager.cpp:2730
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2734
+#: ekos/manager.cpp:2738
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2762
+#: ekos/manager.cpp:2766
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 igen ..."
 
-#: ekos/manager.cpp:2774
+#: ekos/manager.cpp:2778
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 igen ..."
@@ -23100,12 +23107,12 @@ msgid "Mount Configuration"
 msgstr "Stativinställning"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:140 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "Stativkontroll"
 
-#: ekos/mount/mount.cpp:371
+#: ekos/mount/mount.cpp:365
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -23114,41 +23121,41 @@ msgstr ""
 "GPS-drivrutin detekterad. Kstars och stativets tid- och platsinställningar "
 "är nu synkroniserade med GPS-drivrutinen."
 
-#: ekos/mount/mount.cpp:386
+#: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "GPS detekterad. Vill du byta tid- och platskälla till GPS?"
 
-#: ekos/mount/mount.cpp:387
+#: ekos/mount/mount.cpp:381
 #, kde-format
 msgid "GPS Settings"
 msgstr "Inställningar av GPS"
 
-#: ekos/mount/mount.cpp:515
+#: ekos/mount/mount.cpp:509
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Är du säker på att du vill stänga av stativföljning?"
 
-#: ekos/mount/mount.cpp:516
+#: ekos/mount/mount.cpp:510
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Stativföljning"
 
-#: ekos/mount/mount.cpp:603
+#: ekos/mount/mount.cpp:597
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 "Teleskopets elevation är under minimal elevationsgräns %1. Avbryter rörelsen."
 
-#: ekos/mount/mount.cpp:619
+#: ekos/mount/mount.cpp:613
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 "Teleskopets elevation är över maximal elevationsgräns %1. Avbryter rörelsen."
 
-#: ekos/mount/mount.cpp:671
+#: ekos/mount/mount.cpp:665
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -23157,65 +23164,65 @@ msgstr ""
 "Teleskopets timvinkel är större än den maximala timvinkeln %1. Avbryter "
 "rörelsen..."
 
-#: ekos/mount/mount.cpp:813
+#: ekos/mount/mount.cpp:808
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "Meridianvändning inaktiv under polärinriktning."
 
-#: ekos/mount/mount.cpp:827
+#: ekos/mount/mount.cpp:822
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "Polärinriktningsrörelse klar, meridianvändning aktiverad."
 
-#: ekos/mount/mount.cpp:850
+#: ekos/mount/mount.cpp:845
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1448
+#: ekos/mount/mount.cpp:1443
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "Inriktningsmodell rensad."
 
-#: ekos/mount/mount.cpp:1452
+#: ekos/mount/mount.cpp:1447
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Misslyckades rensa inriktningsmodell."
 
-#: ekos/mount/mount.cpp:1562 ekos/scheduler/schedulerprocess.cpp:2142
+#: ekos/mount/mount.cpp:1557 ekos/scheduler/schedulerprocess.cpp:2142
 #, kde-format
 msgid "Mount already parked."
 msgstr "Stativ redan parkerat."
 
-#: ekos/mount/mount.cpp:1587
+#: ekos/mount/mount.cpp:1582
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Parkeringstid kan inte vara i det förflutna."
 
-#: ekos/mount/mount.cpp:1596
+#: ekos/mount/mount.cpp:1591
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "Parkeringstid måste vara inom 24 timmar från aktuell tid."
 
-#: ekos/mount/mount.cpp:1601
+#: ekos/mount/mount.cpp:1596
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Varning: Parkeringstiden är mer än 12 timmar i framtiden."
 
-#: ekos/mount/mount.cpp:1603
+#: ekos/mount/mount.cpp:1598
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Iakttag försiktighet: Använd inte automatisk parkering medan schemaläggning "
 "pågår."
 
-#: ekos/mount/mount.cpp:1622
+#: ekos/mount/mount.cpp:1618
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Parkeringstiden har gått ut."
 
-#: ekos/mount/mount.cpp:1631
+#: ekos/mount/mount.cpp:1628
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Startar automatisk parkering..."
