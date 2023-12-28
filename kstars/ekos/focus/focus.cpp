@@ -722,11 +722,6 @@ void Focus::checkFocuser()
         absMotionMin    = 0;
     }
 
-    qCDebug(KSTARS_EKOS_FOCUS)  << "Focuser properties:"
-                                << " CanAbsMove = " << (canAbsMove ? "yes" : "no" )
-                                << " CanRelMove = " << (canRelMove ? "yes" : "no" )
-                                << " CanTimerMove = " << (canTimerMove ? "yes" : "no" );
-
     m_FocusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
     profilePlot->setFocusAuto(m_FocusType == FOCUS_AUTO);
 
@@ -1279,6 +1274,9 @@ void Focus::start()
     FWHMOut->setText("");
 
     qCInfo(KSTARS_EKOS_FOCUS)  << "Starting Autofocus on" << focuserLabel->text()
+                               << " CanAbsMove: " << (canAbsMove ? "yes" : "no" )
+                               << " CanRelMove: " << (canRelMove ? "yes" : "no" )
+                               << " CanTimerMove: " << (canTimerMove ? "yes" : "no" )
                                << " Position:" << currentPosition
                                << " Filter:" << filter()
                                << " Exp:" << focusExposure->value()
