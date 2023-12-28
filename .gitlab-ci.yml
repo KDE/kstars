@@ -3,9 +3,16 @@
 # As of 202009, two-stage pipeline fails on propagation of artifact from stage build to stage test
 # Probably because the upload uses a webdav REST API, and there are many large files in the list
 
+include:
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/craft-windows-x86-64.yml
+      - /gitlab-templates/craft-windows-appx-qt5.yml
+
 stages:
   - build
   - test
+  - deploy
   #- test-unstable
 
 image: tallfurryman/kstars-ci:0.12
