@@ -13,7 +13,7 @@
 #include "ekos/ekos.h"
 #include "ui_scheduler.h"
 #include "schedulerjob.h"
-#include "schedulerprocess.h"
+#include "schedulerutils.h"
 
 #define TEST_PRINT if (false) fprintf
 
@@ -205,7 +205,7 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
         if (reestimateJobTimes)
         {
             job->setEstimatedTime(-1);
-            if (SchedulerProcess::estimateJobTime(job, capturedFramesCount, scheduler) == false)
+            if (SchedulerUtils::estimateJobTime(job, capturedFramesCount, scheduler) == false)
             {
                 job->setState(SchedulerJob::JOB_INVALID);
                 continue;

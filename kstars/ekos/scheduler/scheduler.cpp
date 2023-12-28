@@ -20,6 +20,7 @@
 #include "schedulerjob.h"
 #include "schedulerprocess.h"
 #include "schedulermodulestate.h"
+#include "schedulerutils.h"
 #include "skymapcomposite.h"
 #include "skycomponents/mosaiccomponent.h"
 #include "skyobjects/mosaictiles.h"
@@ -385,7 +386,10 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     {
         KStars::Instance()->actionCollection()->action("show_mosaic_panel")->trigger();
     });
-    connect(addToQueueB, &QPushButton::clicked, this, &Scheduler::addJob);
+    connect(addToQueueB, &QPushButton::clicked, [this]()
+    {
+        addJob();
+    });
     connect(removeFromQueueB, &QPushButton::clicked, this, &Scheduler::removeJob);
     connect(queueUpB, &QPushButton::clicked, this, &Scheduler::moveJobUp);
     connect(queueDownB, &QPushButton::clicked, this, &Scheduler::moveJobDown);
@@ -444,6 +448,9 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::stopCurrentJobAction, this, &Scheduler::stopCurrentJobAction);
     connect(process().data(), &SchedulerProcess::findNextJob, this, &Scheduler::findNextJob);
     connect(process().data(), &SchedulerProcess::getNextAction, this, &Scheduler::getNextAction);
+    connect(process().data(), &SchedulerProcess::addJob, this, &Scheduler::addJob);
+    connect(process().data(), &SchedulerProcess::syncGUIToGeneralSettings, this, &Scheduler::syncGUIToGeneralSettings);
+    connect(process().data(), &SchedulerProcess::updateSchedulerURL, this, &Scheduler::updateSchedulerURL);
     // Connect geographical location - when it is available
     //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
@@ -966,7 +973,7 @@ void Scheduler::selectShutdownScript()
     shutdownScript->setText(moduleState()->shutdownScriptURL().toLocalFile());
 }
 
-void Scheduler::addJob()
+void Scheduler::addJob(SchedulerJob *job)
 {
     if (0 <= jobUnderEdit)
     {
@@ -976,7 +983,8 @@ void Scheduler::addJob()
     else
     {
         /* If a job is being added, save fields into a new job */
-        saveJob();
+        saveJob(job);
+        addToQueueB->setEnabled(true);
         /* There is now an evaluation for each change, so don't duplicate the evaluation now */
         // jobEvaluationOnly = true;
         // evaluateJobs();
@@ -984,31 +992,31 @@ void Scheduler::addJob()
     emit jobsUpdated(getJSONJobs());
 }
 
-void Scheduler::saveJob()
+bool Scheduler::fillJobFromUI(SchedulerJob *job)
 {
     if (moduleState()->schedulerState() == SCHEDULER_RUNNING)
     {
         appendLogText(i18n("Warning: You cannot add or modify a job while the scheduler is running."));
-        return;
+        return false;
     }
 
     if (nameEdit->text().isEmpty())
     {
         appendLogText(i18n("Warning: Target name is required."));
-        return;
+        return false;
     }
 
     if (sequenceEdit->text().isEmpty())
     {
         appendLogText(i18n("Warning: Sequence file is required."));
-        return;
+        return false;
     }
 
     // Coordinates are required unless it is a FITS file
     if ((raBox->isEmpty() || decBox->isEmpty()) && fitsURL.isEmpty())
     {
         appendLogText(i18n("Warning: Target coordinates are required."));
-        return;
+        return false;
     }
 
     bool raOk = false, decOk = false;
@@ -1018,43 +1026,13 @@ void Scheduler::saveJob()
     if (raOk == false)
     {
         appendLogText(i18n("Warning: RA value %1 is invalid.", raBox->text()));
-        return;
+        return false;
     }
 
     if (decOk == false)
     {
         appendLogText(i18n("Warning: DEC value %1 is invalid.", decBox->text()));
-        return;
-    }
-
-    watchJobChanges(false);
-
-    /* Create or Update a scheduler job */
-    int currentRow = queueTable->currentRow();
-    SchedulerJob * job = nullptr;
-
-    /* If no row is selected for insertion, append at end of list. */
-    if (currentRow < 0)
-        currentRow = queueTable->rowCount();
-
-    /* Add job to queue only if it is new, else reuse current row.
-     * Make sure job is added at the right index, now that queueTable may have a line selected without being edited.
-     */
-    if (0 <= jobUnderEdit)
-    {
-        /* FIXME: jobUnderEdit is a parallel variable that may cause issues if it desyncs from queueTable->currentRow(). */
-        if (jobUnderEdit != currentRow)
-            qCWarning(KSTARS_EKOS_SCHEDULER) << "BUG: the observation job under edit does not match the selected row in the job table.";
-
-        /* Use the job in the row currently edited */
-        job = moduleState()->jobs().at(currentRow);
-    }
-    else
-    {
-        /* Instantiate a new job, insert it in the job list and add a row in the table for it just after the row currently selected. */
-        job = new SchedulerJob();
-        moduleState()->mutlableJobs().insert(currentRow, job);
-        queueTable->insertRow(currentRow);
+        return false;
     }
 
     const bool savedUpdate = job->graphicsUpdatesEnabled();
@@ -1089,24 +1067,73 @@ void Scheduler::saveJob()
 
     // The reason for this kitchen-sink function is to separate the UI from the
     // job setup, to allow for testing.
-    process()->setupJob(*job, nameEdit->text(), groupEdit->text(), ra, dec,
-                        KStarsData::Instance()->ut().djd(),
-                        positionAngleSpin->value(), sequenceURL, fitsURL,
+    SchedulerUtils::setupJob(*job, nameEdit->text(), groupEdit->text(), ra, dec,
+                             KStarsData::Instance()->ut().djd(),
+                             positionAngleSpin->value(), sequenceURL, fitsURL,
 
-                        startCondition, startupTimeEdit->dateTime(),
-                        stopCondition, completionTimeEdit->dateTime(), repeatsSpin->value(),
+                             startCondition, startupTimeEdit->dateTime(),
+                             stopCondition, completionTimeEdit->dateTime(), repeatsSpin->value(),
 
-                        altConstraint,
-                        moonConstraint,
-                        weatherCheck->isChecked(),
-                        twilightCheck->isChecked(),
-                        artificialHorizonCheck->isChecked(),
+                             altConstraint,
+                             moonConstraint,
+                             weatherCheck->isChecked(),
+                             twilightCheck->isChecked(),
+                             artificialHorizonCheck->isChecked(),
 
-                        trackStepCheck->isChecked(),
-                        focusStepCheck->isChecked(),
-                        alignStepCheck->isChecked(),
-                        guideStepCheck->isChecked());
+                             trackStepCheck->isChecked(),
+                             focusStepCheck->isChecked(),
+                             alignStepCheck->isChecked(),
+                             guideStepCheck->isChecked());
 
+    // success
+    job->enableGraphicsUpdates(savedUpdate);
+    return true;
+}
+
+void Scheduler::saveJob(SchedulerJob *job)
+{
+
+    watchJobChanges(false);
+
+    /* Create or Update a scheduler job */
+    int currentRow = queueTable->currentRow();
+
+    /* If no row is selected for insertion, append at end of list. */
+    if (currentRow < 0)
+        currentRow = queueTable->rowCount();
+
+    /* Add job to queue only if it is new, else reuse current row.
+     * Make sure job is added at the right index, now that queueTable may have a line selected without being edited.
+     */
+    if (0 <= jobUnderEdit)
+    {
+        /* FIXME: jobUnderEdit is a parallel variable that may cause issues if it desyncs from queueTable->currentRow(). */
+        if (jobUnderEdit != currentRow)
+            qCWarning(KSTARS_EKOS_SCHEDULER) << "BUG: the observation job under edit does not match the selected row in the job table.";
+
+        /* Use the job in the row currently edited */
+        job = moduleState()->jobs().at(currentRow);
+        // try to fill the job from the UI and exit if it fails
+        if (fillJobFromUI(job) == false)
+            return;
+    }
+    else
+    {
+        if (job == nullptr)
+        {
+            /* Instantiate a new job, insert it in the job list and add a row in the table for it just after the row currently selected. */
+            job = new SchedulerJob();
+            // try to fill the job from the UI and exit if it fails
+            if (fillJobFromUI(job) == false)
+            {
+                delete(job);
+                return;
+            }
+        }
+        /* Innsert the job in the job list and add a row in the table for it just after the row currently selected. */
+        moduleState()->mutlableJobs().insert(currentRow, job);
+        queueTable->insertRow(currentRow);
+    }
 
     /* Verifications */
     // Warn user if a duplicated job is in the list - same target, same sequence
@@ -1188,7 +1215,6 @@ void Scheduler::saveJob()
     setJobManipulation(true, true);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow + 1);
-    job->enableGraphicsUpdates(savedUpdate);
     job->updateJobCells();
 
     watchJobChanges(true);
@@ -1369,6 +1395,13 @@ void Scheduler::loadJob(QModelIndex i)
                                        jobUnderEdit + 1);
 
     watchJobChanges(true);
+}
+
+void Scheduler::updateSchedulerURL(const QString &fileURL)
+{
+    schedulerURL = QUrl::fromLocalFile(fileURL);
+    // update save button tool tip
+    queueSaveB->setToolTip("Save schedule to " + schedulerURL.fileName());
 }
 
 void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex previous)
@@ -2012,7 +2045,10 @@ bool Scheduler::executeJob(SchedulerJob *job)
     setCurrentJob(job);
     int index = moduleState()->jobs().indexOf(job);
     if (index >= 0)
+    {
         queueTable->selectRow(index);
+        syncGUIToJob(job);
+    }
 
     // If we already started, we check when the next object is scheduled at.
     // If it is more than 30 minutes in the future, we park the mount if that is supported
@@ -2591,7 +2627,7 @@ void Scheduler::load(bool clearQueue, const QString &filename)
         removeAllJobs();
 
     /* Run a job idle evaluation after a successful load */
-    if (appendEkosScheduleList(fileURL.toLocalFile()))
+    if (process()->appendEkosScheduleList(fileURL.toLocalFile()))
         startJobEvaluation();
 }
 
@@ -2610,293 +2646,7 @@ void Scheduler::removeAllJobs()
 bool Scheduler::loadScheduler(const QString &fileURL)
 {
     removeAllJobs();
-    return appendEkosScheduleList(fileURL);
-}
-
-bool Scheduler::appendEkosScheduleList(const QString &fileURL)
-{
-    SchedulerState const old_state = moduleState()->schedulerState();
-    moduleState()->setSchedulerState(SCHEDULER_LOADING);
-
-    QFile sFile;
-    sFile.setFileName(fileURL);
-
-    if (!sFile.open(QIODevice::ReadOnly))
-    {
-        QString message = i18n("Unable to open file %1", fileURL);
-        KSNotification::sorry(message, i18n("Could Not Open File"));
-        moduleState()->setSchedulerState(old_state);
-        return false;
-    }
-
-    LilXML *xmlParser = newLilXML();
-    char errmsg[MAXRBUF];
-    XMLEle *root = nullptr;
-    XMLEle *ep   = nullptr;
-    XMLEle *subEP = nullptr;
-    char c;
-
-    // We expect all data read from the XML to be in the C locale - QLocale::c()
-    QLocale cLocale = QLocale::c();
-
-    while (sFile.getChar(&c))
-    {
-        root = readXMLEle(xmlParser, c, errmsg);
-
-        if (root)
-        {
-            for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
-            {
-                const char *tag = tagXMLEle(ep);
-                if (!strcmp(tag, "Job"))
-                    processJobInfo(ep);
-                else if (!strcmp(tag, "Mosaic"))
-                {
-                    // If we have mosaic info, load it up.
-                    auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
-                    tiles->fromXML(fileURL);
-                }
-                else if (!strcmp(tag, "Profile"))
-                {
-                    moduleState()->setCurrentProfile(pcdataXMLEle(ep));
-                }
-                else if (!strcmp(tag, "SchedulerAlgorithm"))
-                {
-                    setAlgorithm(static_cast<SchedulerAlgorithm>(cLocale.toInt(findXMLAttValu(ep, "value"))));
-                }
-                else if (!strcmp(tag, "ErrorHandlingStrategy"))
-                {
-                    Options::setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(cLocale.toInt(findXMLAttValu(ep,
-                                                      "value"))));
-
-                    subEP = findXMLEle(ep, "delay");
-                    if (subEP)
-                    {
-                        Options::setErrorHandlingStrategyDelay(cLocale.toInt(pcdataXMLEle(subEP)));
-                    }
-                    subEP = findXMLEle(ep, "RescheduleErrors");
-                    Options::setRescheduleErrors(subEP != nullptr);
-                }
-                else if (!strcmp(tag, "StartupProcedure"))
-                {
-                    XMLEle *procedure;
-                    Options::setSchedulerUnparkDome(false);
-                    Options::setSchedulerUnparkMount(false);
-                    Options::setSchedulerOpenDustCover(false);
-
-                    for (procedure = nextXMLEle(ep, 1); procedure != nullptr; procedure = nextXMLEle(ep, 0))
-                    {
-                        const char *proc = pcdataXMLEle(procedure);
-
-                        if (!strcmp(proc, "StartupScript"))
-                        {
-                            moduleState()->setStartupScriptURL(QUrl::fromUserInput(findXMLAttValu(procedure, "value")));
-                        }
-                        else if (!strcmp(proc, "UnparkDome"))
-                            Options::setSchedulerUnparkDome(true);
-                        else if (!strcmp(proc, "UnparkMount"))
-                            Options::setSchedulerUnparkMount(true);
-                        else if (!strcmp(proc, "UnparkCap"))
-                            Options::setSchedulerOpenDustCover(true);
-                    }
-                }
-                else if (!strcmp(tag, "ShutdownProcedure"))
-                {
-                    XMLEle *procedure;
-                    Options::setSchedulerWarmCCD(false);
-                    Options::setSchedulerParkDome(false);
-                    Options::setSchedulerParkMount(false);
-                    Options::setSchedulerCloseDustCover(false);
-
-                    for (procedure = nextXMLEle(ep, 1); procedure != nullptr; procedure = nextXMLEle(ep, 0))
-                    {
-                        const char *proc = pcdataXMLEle(procedure);
-
-                        if (!strcmp(proc, "ShutdownScript"))
-                        {
-                            moduleState()->setShutdownScriptURL(QUrl::fromUserInput(findXMLAttValu(procedure, "value")));
-                        }
-                        else if (!strcmp(proc, "WarmCCD"))
-                            Options::setSchedulerWarmCCD(true);
-                        else if (!strcmp(proc, "ParkDome"))
-                            Options::setSchedulerParkDome(true);
-                        else if (!strcmp(proc, "ParkMount"))
-                            Options::setSchedulerParkMount(true);
-                        else if (!strcmp(proc, "ParkCap"))
-                            Options::setSchedulerCloseDustCover(true);
-                    }
-                }
-            }
-            delXMLEle(root);
-            syncGUIToGeneralSettings();
-        }
-        else if (errmsg[0])
-        {
-            appendLogText(QString(errmsg));
-            delLilXML(xmlParser);
-            moduleState()->setSchedulerState(old_state);
-            return false;
-        }
-    }
-
-    schedulerURL = QUrl::fromLocalFile(fileURL);
-    //mosaicB->setEnabled(true);
-    moduleState()->setDirty(false);
-    delLilXML(xmlParser);
-    // update save button tool tip
-    queueSaveB->setToolTip("Save schedule to " + schedulerURL.fileName());
-
-
-    moduleState()->setSchedulerState(old_state);
-    return true;
-}
-
-bool Scheduler::processJobInfo(XMLEle *root)
-{
-    XMLEle *ep;
-    XMLEle *subEP;
-
-    altConstraintCheck->setChecked(false);
-    moonSeparationCheck->setChecked(false);
-    weatherCheck->setChecked(false);
-
-    twilightCheck->blockSignals(true);
-    twilightCheck->setChecked(false);
-    twilightCheck->blockSignals(false);
-
-    artificialHorizonCheck->blockSignals(true);
-    artificialHorizonCheck->setChecked(false);
-    artificialHorizonCheck->blockSignals(false);
-
-    minAltitude->setValue(minAltitude->minimum());
-    minMoonSeparation->setValue(minMoonSeparation->minimum());
-    positionAngleSpin->setValue(0);
-
-    // We expect all data read from the XML to be in the C locale - QLocale::c()
-    QLocale cLocale = QLocale::c();
-    fitsURL = QUrl();
-    fitsEdit->clear();
-
-    for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
-    {
-        if (!strcmp(tagXMLEle(ep), "Name"))
-            nameEdit->setText(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "Group"))
-            groupEdit->setText(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "Coordinates"))
-        {
-            subEP = findXMLEle(ep, "J2000RA");
-            if (subEP)
-            {
-                dms ra;
-                ra.setH(cLocale.toDouble(pcdataXMLEle(subEP)));
-                raBox->show(ra);
-            }
-            subEP = findXMLEle(ep, "J2000DE");
-            if (subEP)
-            {
-                dms de;
-                de.setD(cLocale.toDouble(pcdataXMLEle(subEP)));
-                decBox->show(de);
-            }
-        }
-        else if (!strcmp(tagXMLEle(ep), "Sequence"))
-        {
-            sequenceEdit->setText(pcdataXMLEle(ep));
-            sequenceURL = QUrl::fromUserInput(sequenceEdit->text());
-        }
-        else if (!strcmp(tagXMLEle(ep), "FITS"))
-        {
-            fitsEdit->setText(pcdataXMLEle(ep));
-            fitsURL.setPath(fitsEdit->text());
-        }
-        else if (!strcmp(tagXMLEle(ep), "PositionAngle"))
-        {
-            positionAngleSpin->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
-        }
-        else if (!strcmp(tagXMLEle(ep), "StartupCondition"))
-        {
-            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
-            {
-                if (!strcmp("ASAP", pcdataXMLEle(subEP)))
-                    asapConditionR->setChecked(true);
-                else if (!strcmp("At", pcdataXMLEle(subEP)))
-                {
-                    startupTimeConditionR->setChecked(true);
-                    startupTimeEdit->setDateTime(QDateTime::fromString(findXMLAttValu(subEP, "value"), Qt::ISODate));
-                }
-            }
-        }
-        else if (!strcmp(tagXMLEle(ep), "Constraints"))
-        {
-            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
-            {
-                if (!strcmp("MinimumAltitude", pcdataXMLEle(subEP)))
-                {
-                    altConstraintCheck->setChecked(true);
-                    minAltitude->setValue(cLocale.toDouble(findXMLAttValu(subEP, "value")));
-                }
-                else if (!strcmp("MoonSeparation", pcdataXMLEle(subEP)))
-                {
-                    moonSeparationCheck->setChecked(true);
-                    minMoonSeparation->setValue(cLocale.toDouble(findXMLAttValu(subEP, "value")));
-                }
-                else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
-                    weatherCheck->setChecked(true);
-                else if (!strcmp("EnforceTwilight", pcdataXMLEle(subEP)))
-                    twilightCheck->setChecked(true);
-                else if (!strcmp("EnforceArtificialHorizon", pcdataXMLEle(subEP)))
-                    artificialHorizonCheck->setChecked(true);
-            }
-        }
-        else if (!strcmp(tagXMLEle(ep), "CompletionCondition"))
-        {
-            for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
-            {
-                if (!strcmp("Sequence", pcdataXMLEle(subEP)))
-                    sequenceCompletionR->setChecked(true);
-                else if (!strcmp("Repeat", pcdataXMLEle(subEP)))
-                {
-                    repeatCompletionR->setChecked(true);
-                    repeatsSpin->setValue(cLocale.toInt(findXMLAttValu(subEP, "value")));
-                }
-                else if (!strcmp("Loop", pcdataXMLEle(subEP)))
-                    loopCompletionR->setChecked(true);
-                else if (!strcmp("At", pcdataXMLEle(subEP)))
-                {
-                    timeCompletionR->setChecked(true);
-                    completionTimeEdit->setDateTime(QDateTime::fromString(findXMLAttValu(subEP, "value"), Qt::ISODate));
-                }
-            }
-        }
-        else if (!strcmp(tagXMLEle(ep), "Steps"))
-        {
-            XMLEle *module;
-            trackStepCheck->setChecked(false);
-            focusStepCheck->setChecked(false);
-            alignStepCheck->setChecked(false);
-            guideStepCheck->setChecked(false);
-
-            for (module = nextXMLEle(ep, 1); module != nullptr; module = nextXMLEle(ep, 0))
-            {
-                const char *proc = pcdataXMLEle(module);
-
-                if (!strcmp(proc, "Track"))
-                    trackStepCheck->setChecked(true);
-                else if (!strcmp(proc, "Focus"))
-                    focusStepCheck->setChecked(true);
-                else if (!strcmp(proc, "Align"))
-                    alignStepCheck->setChecked(true);
-                else if (!strcmp(proc, "Guide"))
-                    guideStepCheck->setChecked(true);
-            }
-        }
-    }
-
-    addToQueueB->setEnabled(true);
-    saveJob();
-
-    return true;
+    return process()->appendEkosScheduleList(fileURL);
 }
 
 void Scheduler::saveAs()
@@ -2957,7 +2707,7 @@ bool Scheduler::canCountCaptures(const SchedulerJob &job)
     QList<SequenceJob*> seqjobs;
     bool hasAutoFocus = false;
     SchedulerJob tempJob = job;
-    if (process()->loadSequenceQueue(tempJob.getSequenceFile().toLocalFile(), &tempJob, seqjobs, hasAutoFocus, nullptr) == false)
+    if (SchedulerUtils::loadSequenceQueue(tempJob.getSequenceFile().toLocalFile(), &tempJob, seqjobs, hasAutoFocus, nullptr) == false)
          return false;
 
     for (const SequenceJob *oneSeqJob : seqjobs)
@@ -3311,38 +3061,6 @@ void Scheduler::setDirty()
     //mosaicB->setEnabled(addingOK);
 }
 
-void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob*> &seqjobs,
-        const CapturedFramesMap &framesCount)
-{
-
-    bool lightFramesRequired = false;
-    QMap<QString, uint16_t> expected;
-    switch (oneJob->getCompletionCondition())
-    {
-        case FINISH_SEQUENCE:
-        case FINISH_REPEAT:
-            // Step 1: determine expected frames
-            process()->calculateExpectedCapturesMap(seqjobs, expected);
-            // Step 2: compare with already captured frames
-            for (SequenceJob *oneSeqJob : seqjobs)
-            {
-                QString const signature = oneSeqJob->getSignature();
-                /* If frame is LIGHT, how many do we have left? */
-                if (oneSeqJob->getFrameType() == FRAME_LIGHT && expected[signature] * oneJob->getRepeatsRequired() > framesCount[signature])
-                {
-                    lightFramesRequired = true;
-                    // exit the loop, one found is sufficient
-                    break;
-                }
-            }
-            break;
-        default:
-            // in all other cases it does not depend on the number of captured frames
-            lightFramesRequired = true;
-    }
-    oneJob->setLightFramesRequired(lightFramesRequired);
-}
-
 void Scheduler::updateCompletedJobsCount(bool forced)
 {
     /* Use a temporary map in order to limit the number of file searches */
@@ -3369,7 +3087,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
         //oneJob->setLightFramesRequired(false);
         /* Look into the sequence requirements, bypass if invalid */
-        if (process()->loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus, this) == false)
+        if (SchedulerUtils::loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus, this) == false)
         {
             appendLogText(i18n("Warning: job '%1' has inaccessible sequence '%2', marking invalid.", oneJob->getName(),
                                oneJob->getSequenceFile().toLocalFile()));
@@ -3406,7 +3124,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         }
 
         // determine whether we need to continue capturing, depending on captured frames
-        updateLightFramesRequired(oneJob, seqjobs, newFramesCount);
+        SchedulerUtils::updateLightFramesRequired(oneJob, seqjobs, newFramesCount);
     }
 
     moduleState()->setCapturedFramesCount(newFramesCount);
@@ -3707,8 +3425,7 @@ void Scheduler::registerNewModule(const QString &name)
                                      QDBusConnection::sessionBus(), this));
 
         connect(process()->mountInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(process()->mountInterface(), SIGNAL(newStatus(ISD::Mount::Status)), process().data(),
-                SLOT(process()->setMountStatus(ISD::Mount::Status)),
+        connect(process()->mountInterface(), SIGNAL(newStatus(ISD::Mount::Status)), this, SLOT(setMountStatus(ISD::Mount::Status)),
                 Qt::UniqueConnection);
 
         checkInterfaceReady(process()->mountInterface());
@@ -3956,7 +3673,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
                 updateCompletedJobsCount(true);
 
                 for (const auto &job : moduleState()->jobs())
-                    process()->estimateJobTime(job, moduleState()->capturedFramesCount(), this);
+                    SchedulerUtils::estimateJobTime(job, moduleState()->capturedFramesCount(), this);
             }
             // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
             else

@@ -223,13 +223,20 @@ public:
         /**
          * @brief addJob Add a new job from form values
          */
-        void addJob();
+        void addJob(SchedulerJob *job = nullptr);
+
+        /**
+         * @brief createJob Create a new job from form values.
+         * @param job job to be filled from UI values
+         * @return true iff update was successful
+         */
+        bool fillJobFromUI(SchedulerJob *job);
 
         /**
          * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
          * jobUnderEdit determines whether to add or edit
          */
-        void saveJob();
+        void saveJob(SchedulerJob *job = nullptr);
 
         QJsonArray getJSONJobs();
 
@@ -368,6 +375,11 @@ protected slots:
         void loadJob(QModelIndex i);
 
         /**
+         * @brief updateSchedulerURL Update scheduler URL after succesful loading a new file.
+         */
+        void updateSchedulerURL(const QString &fileURL);
+
+        /**
              * @brief setJobAddApply Set first button state to add new job or apply changes.
              */
         void setJobAddApply(bool add_mode);
@@ -432,13 +444,6 @@ protected slots:
          * @param filename If not empty, this file will be used instead of poping up a dialog.
          */
         void load(bool clearQueue, const QString &filename = "");
-
-        /**
-         * @brief appendEkosScheduleList Append the contents of an ESL file to the queue.
-         * @param fileURL File URL to load contents from.
-         * @return True if contents were loaded successfully, else false.
-         */
-        bool appendEkosScheduleList(const QString &fileURL);
 
         void resetJobEdit();
 
@@ -559,13 +564,6 @@ private:
              */
         bool checkShutdownState();
 
-        /**
-             * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
-             * @param root XML root element of JOB
-             * @return true on success, false on failure.
-             */
-        bool processJobInfo(XMLEle *root);
-
         /** @internal Change the current job, updating associated widgets.
          * @param job is an existing SchedulerJob to set as current, or nullptr.
          */
@@ -588,16 +586,6 @@ private:
             * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
             */
         void updateCompletedJobsCount(bool forced = false);
-
-        /**
-         * @brief Update the flag for the given job whether light frames are required
-         * @param oneJob scheduler job where the flag should be updated
-         * @param seqjobs list of capture sequences of the job
-         * @param framesCount map capture signature -> frame count
-         * @return true iff the job need to capture light frames
-         */
-        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs,
-                                       const CapturedFramesMap &framesCount);
 
         // Returns true if the job is storing its captures on the same machine as the scheduler.
         bool canCountCaptures(const SchedulerJob &job);
