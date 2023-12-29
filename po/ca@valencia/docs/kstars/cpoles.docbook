@@ -32,7 +32,7 @@
 >Polaris</firstterm
 > (el qual és un nom llatí i significa <quote
 >estrela polar</quote
->). Açò torna a Polaris de molta utilitat per a la navegació: No tan sols està situada sempre al nord de l'horitzó, sinó que el seu angle d'<link linkend="horizontal"
+>). Açò torna a Polaris de molta utilitat per a la navegació: no tan sols està sempre per damunt del punt nord de l'horitzó, sinó que el seu angle d'<link linkend="horizontal"
 >altitud</link
 > sempre és aproximadament igual que la <link linkend="ai-geocoords"
 >latitud geogràfica</link
@@ -51,7 +51,7 @@
 >&Ctrl;<keycap
 >F</keycap
 ></keycombo
->) per a localitzar a Polaris. Cal tindre en compte que la seua declinació és quasi (tot i que no exactament) de +90 graus. Compareu la lectura de l'altitud quan es focalitzi sobre Polaris amb la latitud geogràfica del vostre emplaçament. Sempre estan a un grau l'una de l'altra. No estan exactament en el mateix lloc perquè Polaris no està exactament en el pol. (Podeu apuntar exactament al pol canviant a coordenades equatorials i prement la tecla del cursor amunt fins que el cel deixe de desplaçar-se). </para
+>) per a localitzar a Polaris. Cal tindre en compte que la seua declinació és quasi (tot i que no exactament) de +90 graus. Compareu la lectura de l'altitud quan es focalitzi sobre Polaris amb la latitud geogràfica del vostre emplaçament. Sempre estan a un grau l'una de l'altra. No estan exactament en el mateix lloc perquè Polaris no està exactament en el pol. (Podeu apuntar exactament cap al pol canviant a coordenades equatorials i prement la tecla del cursor amunt fins que el cel deixe de desplaçar-se). </para
 ><para
 >Utilitzeu el botó de selecció de valors <guilabel
 >Pas temporal</guilabel

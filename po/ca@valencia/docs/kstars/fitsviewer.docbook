@@ -118,7 +118,7 @@
 ></listitem>
                 <listitem
 ><para
->Copia: copia la imatge al porta-retalls.</para
+>Copia: copia la imatge en el porta-retalls.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -232,11 +232,11 @@
 ></listitem>
                 <listitem
 ><para
->Histograma: alterna la vista de l'histograma al quadro lateral.</para
+>Histograma: alterna la vista de l'histograma en el quadro lateral.</para
 ></listitem>
                 <listitem
 ><para
->Estadístiques: alterna la visualització de les estadístiques FITS al quadro lateral.</para
+>Estadístiques: alterna la visualització de les estadístiques FITS en el quadro lateral.</para
 ></listitem>
                 <listitem
 ><para
@@ -453,7 +453,7 @@
     </listitem>
 </orderedlist>
 <para
->A més de mostrar la imatge, el visor pot processar la capçalera del sistema mundial de coordenades (WCS) si està present al fitxer FITS i proporciona informació útil sobre els objectes que es troben dins de la imatge, la superposició de la quadrícula equatorial, el menú emergent i la capacitat d'orientar la muntura (si està connectada) fins a qualsevol punt de la imatge. </para>
+>A més de mostrar la imatge, el visor pot processar la capçalera del sistema mundial de coordenades (WCS) si està present en el fitxer FITS i proporciona informació útil sobre els objectes que es troben dins de la imatge, la superposició de la quadrícula equatorial, el menú emergent i la capacitat d'orientar la muntura (si està connectada) fins a qualsevol punt de la imatge. </para>
 <para
 >Es poden aplicar diversos filtres per a millorar la imatge, incloent-hi l'estirament automàtic i l'alt contrast. Depenent de la mida de la imatge, estes operacions podrien tardar alguns segons a completar-se. La barra d'estat inferior mostra el valor del píxel i les coordenades X i Y del punter del ratolí damunt de la imatge. A més, inclou el nivell d'ampliació i la resolució de la imatge. </para>
 <para
@@ -579,7 +579,7 @@
 >AR:</guilabel
 > s'introduïx en hores, minuts i segons, p. ex., 13h, i la <guilabel
 >Dec:</guilabel
-> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una resolució, se substituiran els valors als quadros <guilabel
+> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una resolució, se substituiran els valors en els quadros <guilabel
 >AR:</guilabel
 > i <guilabel
 >Dec:</guilabel
@@ -613,7 +613,7 @@
 >Escala:</guilabel
 > i <guilabel
 >Angle:</guilabel
-> es mostren als quadros de dalt.</para
+> es mostren en els quadros de dalt.</para
 ></listitem>
                 <listitem
 ><para
@@ -778,7 +778,7 @@
     <para
 >Per a utilitzar la nova característica, l'usuari haurà de seleccionar la icona <guiicon
 >Visualitza el perfil de l'estrela</guiicon
-> en una de les vistes del mòdul Ekos o en el visor de FITS. A continuació, la regió seleccionada en el quadro de seguiment verd apareixerà al gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
+> en una de les vistes del mòdul Ekos o en el visor de FITS. A continuació, la regió seleccionada en el quadro de seguiment verd apareixerà en el gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
     <screenshot>
         <screeninfo
 >Barra d'eines 1 del perfil de l'estrela </screeninfo>
@@ -835,11 +835,11 @@
 >Zoom a</guilabel
 >, el qual pot utilitzar l'usuari per a ampliar el gràfic a ubicacions diferents predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada en la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
 >Escalat</guilabel
->. Hi ha tres controls lliscants en este quadro, un per a controlar el valor mínim que es mostra al gràfic o <quote
+>. Hi ha tres controls lliscants en este quadro, un per a controlar el valor mínim que es mostra en el gràfic o <quote
 >punt negre</quote
->, un altre per a controlar el valor màxim que es mostra al gràfic o el <quote
+>, un altre per a controlar el valor màxim que es mostra en el gràfic o el <quote
 >punt blanc</quote
-> i un tercer que està desactivat de manera predeterminada permet que l'usuari controle el valor del límit de les dades que es mostren al gràfic. </para>
+> i un tercer que està desactivat de manera predeterminada permet que l'usuari controle el valor del límit de les dades que es mostren en el gràfic. </para>
     <screenshot>
         <screeninfo
 >Pàgina vertical del perfil de l'estrela </screeninfo>

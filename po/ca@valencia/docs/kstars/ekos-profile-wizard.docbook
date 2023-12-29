@@ -46,19 +46,19 @@
                         <para
 ><guilabel
 >L'equip està connectat amb este dispositiu</guilabel
->: Seleccioneu esta opció si Ekos s'està executant al vostre StellarMate (a través de HDMI o VNC), ordinador amb &Windows;, &Linux; o &MacOS;. </para>
+>: Seleccioneu esta opció si Ekos s'està executant en el vostre StellarMate (a través de HDMI o VNC), ordinador amb &Windows;, &Linux; o &MacOS;. </para>
                     </listitem>
                     <listitem>
                         <para
 ><guilabel
 >L'equip està connectat a un dispositiu remot</guilabel
->: Seleccioneu esta opció si Ekos s'està executant al vostre ordinador amb &Windows;, &Linux; o &MacOS;, i este està connectat a un ordinador remot. </para>
+>: Seleccioneu esta opció si Ekos s'està executant en el vostre ordinador amb &Windows;, &Linux; o &MacOS;, i este està connectat a un ordinador remot. </para>
                     </listitem>
                     <listitem>
                         <para
 ><guilabel
 >L'equip està connectat amb StellarMate</guilabel
->: Seleccioneu esta opció si Ekos s'està executant al vostre ordinador amb &Windows;, &Linux; o &MacOS;, i este està connectat amb StellarMate. </para>
+>: Seleccioneu esta opció si Ekos s'està executant en el vostre ordinador amb &Windows;, &Linux; o &MacOS;, i este està connectat amb StellarMate. </para>
                     </listitem>
                 </itemizedlist>
                 <screenshot>

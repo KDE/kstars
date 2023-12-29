@@ -366,7 +366,7 @@
 >correccions</emphasis
 > del guiatge. De manera predeterminada, només es mostraran les desviacions del guiatge en l'AR i la Dec. L'eix horitzontal és el temps en segons, ja que el procés de guiatge automàtic es va iniciar mentre l'eix vertical dibuixava la deriva/desviació del guiatge en segons d'arc per a cada eix. Les correccions del guiatge (polsos) també es poden tramar en el mateix gràfic i podreu habilitar-les seleccionant la casella de selecció <guilabel
 >Corr</guilabel
->. Les correccions es dibuixaran com a àrees ombrejades al fons amb el mateix color que l'eix. </para>
+>. Les correccions es dibuixaran com a àrees ombrejades en el fons amb el mateix color que l'eix. </para>
         <para
 >Podeu fer una panoràmica i ampliar el dibuix, i en passar el ratolí sobre el gràfic, es mostrarà un consell d'eina que contindrà informació sobre este punt específic en el temps. Contindrà la deriva del guiatge i qualsevol correcció feta, a més del temps local, este esdeveniment es va registrar. Es pot utilitzar un control lliscant vertical a la dreta de la imatge per a ajustar l'alçària de l'eix Y secundari per a les correccions dels polsos.</para>
         <para

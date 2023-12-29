@@ -738,7 +738,7 @@
 >Cada objecte té les propietats habituals com el nom i les coordenades, però a més compta amb dos ID. El primer és l'identificador únic específic per a l'objecte i es calcula aplicant el resum «hash» a tots els camps de l'objecte juntament amb l'identificador del catàleg. A causa que els objectes poden estar continguts en diversos catàlegs, cada objecte té un ID d'objecte addicional (OID) que identifica l'objecte físic i pot ser compartit per diversos objectes de catàlegs diferents. </para>
 
 <para
->Per a accelerar la busca dels objectes, tots els catàlegs habilitats es fusionen en una taula mestra. Cada catàleg té un nombre de prioritat i si ocorren diversos objectes amb el mateix OID, es carrega el del catàleg amb una prioritat major. Després, els objectes del catàleg mestre es dibuixen al cel i generalment estan disponibles en &kstars;. </para>
+>Per a accelerar la busca dels objectes, tots els catàlegs habilitats es fusionen en una taula mestra. Cada catàleg té un nombre de prioritat i si ocorren diversos objectes amb el mateix OID, es carrega el del catàleg amb una prioritat major. Després, els objectes del catàleg mestre es dibuixen en el cel i generalment estan disponibles en &kstars;. </para>
 
 <para
 >Actualment, la desduplicació (l'assignació dels OID) només és admesa per les eines del <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
@@ -796,7 +796,7 @@
 ></menuchoice
 > generalment són immutables, mentre que els catàlegs creats per l'usuari no ho són. Sempre podreu clonar un catàleg perquè siga mutable. </para>
 <para
->Els botons al cantó superior dret permeten afegir catàlegs a la base de dades. </para>
+>Els botons en el cantó superior dret permeten afegir catàlegs a la base de dades. </para>
 <variablelist>
 <varlistentry id="import">
 <term
@@ -1071,7 +1071,7 @@
 ></term>
     <listitem>
       <para
->Importa els objectes des d'un format de text tabular (csv, tsv, &etc;) al catàleg. (Vegeu <xref linkend="csv_import"/>). </para>
+>Importa els objectes des d'un format de text tabular (csv, tsv, &etc;) cap a dins del catàleg. (Vegeu <xref linkend="csv_import"/>). </para>
     </listitem>
   </varlistentry>
 </variablelist>
@@ -1511,7 +1511,7 @@
 >Stellarium</ulink
 >. Els detalls per a la creació d'imatges són els mateixos. </para>
 <para
->Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Este tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborre/siga transparent i guardar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè eventualment es puga alinear amb el mapa celeste. Una vegada fet tot açò, el mapa celeste podrà simular la vista al cel local, inclòs el terreny local. </para>
+>Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Este tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborre/siga transparent i guardar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè eventualment es puga alinear amb el mapa celeste. Una vegada fet tot açò, el mapa celeste podrà simular la vista en el cel local, inclòs el terreny local. </para>
 <para
 >Una vegada es cree la imatge, serà possible carregar-la a través de la pàgina <guilabel
 >Terreny</guilabel
@@ -1888,9 +1888,9 @@
 ></indexterm
 > La casella de selecció <guilabel
 >Utilitza la transició animada</guilabel
-> controla com mostrar els canvis quan se selecciona una nova posició d'enfocament en el mapa. De manera predeterminada, veureu al cel moure's o anar <quote
+> controla com mostrar els canvis quan se selecciona una nova posició d'enfocament en el mapa. De manera predeterminada, veureu el cel moure's o anar <quote
 >transitivament</quote
-> cap a la nova posició. Si heu desseleccionat esta opció, la vista <quote
+> cap a la posició nova. Si heu desseleccionat esta opció, la vista <quote
 >saltarà</quote
 > immediatament cap a la nova posició d'enfocament. </para
 ><para>

@@ -151,7 +151,7 @@
                 <para
 ><guilabel
 >Fotograma</guilabel
->: Especifiqueu l'esquerra (X), la part superior (Y), l'amplària (W) i l'alçària (H) del fotograma de CCD desitjat. Si heu canviat les dimensions del fotograma, podreu restablir-lo als valors predeterminats fent clic en el botó Restablix. </para>
+>: Especifiqueu l'esquerra (X), la part superior (Y), l'amplària (W) i l'alçària (H) del fotograma de CCD desitjat. Si heu canviat les dimensions del fotograma, podreu restablir-les als valors predeterminats fent clic en el botó Restablix. </para>
             </listitem>
             <listitem>
                 <para
@@ -332,7 +332,7 @@
                         <para
 ><guilabel
 >Client</guilabel
->: Les imatges capturades només es pujaran a Ekos i es guardaran al directori local especificat anteriorment.</para>
+>: Les imatges capturades només es pujaran a Ekos i es guardaran en el directori local especificat anteriorment.</para>
                     </listitem>
                     <listitem>
                         <para
@@ -344,7 +344,7 @@
                         <para
 ><guilabel
 >Ambdós</guilabel
->: Les imatges capturades es guardaran al dispositiu remot <emphasis role="bold"
+>: Les imatges capturades es guardaran en el dispositiu remot <emphasis role="bold"
 >i</emphasis
 > es pujaran a Ekos.</para>
                     </listitem>
@@ -405,7 +405,7 @@
                 <para
 ><guilabel
 >Enfocament automàtic si HFR &gt;</guilabel
->: Si l'enfocament automàtic està habilitat al <link linkend="ekos-focus"
+>: Si l'enfocament automàtic està habilitat en el <link linkend="ekos-focus"
 >mòdul «Enfocament»</link
 > i almenys una operació d'enfocament automàtic s'ha completat correctament, podreu establir el valor HFR màxim acceptable. Si esta opció està habilitada, entre les exposicions consecutives, el valor HFR es tornarà a calcular, i si es troba que excedix el valor màxim HFR acceptable, es desencadenarà automàticament una operació d'enfocament automàtic. Si l'operació d'enfocament automàtic s'ha completat correctament, la cua en seqüència es reprendrà, en cas contrari, la tasca s'interromprà.</para>
             </listitem>
@@ -600,13 +600,13 @@
 >zero</emphasis
 > indica que la part superior del fotograma (indicada per una xicoteta fletxa) apunta <emphasis
 >directament</emphasis
-> al pol. L'angle de posició s'expressa com E de N (Est del Nord), de manera que l'AP de 90 graus indica que la <emphasis
+> cap al pol. L'angle de posició s'expressa com E de N (Est del Nord), de manera que l'AP de 90 graus indica que la <emphasis
 >part superior</emphasis
 > del fotograma supera els 90 graus (en sentit contrari a les agulles del rellotge) del pol. Consulteu alguns <ulink url="https://nustarsoc.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf"
 >exemples</ulink
 > per als AP diferents. </para>
         <para
->Per a calibrar l'angle de posició (AP), captureu i resoleu una imatge al <link linkend="ekos-align"
+>Per a calibrar l'angle de posició (AP), captureu i resoleu una imatge en el <link linkend="ekos-align"
 >mòdul «Alinea» d'Ekos</link
 >. S'aplicaran un <emphasis
 >desplaçament</emphasis
@@ -749,7 +749,7 @@
 >Contaminació lumínica en la Viquipèdia</ulink
 ></para>
                             <para
->Tota la llum dispersa al fons del cel es considera pol·lució lumínica, independentment de la seua font, per la qual cosa els efectes de la llum de la Lluna s'han de considerar com a pol·lució lumínica «natural». Però les condicions meteorològiques també poden afectar la qualitat del cel, ja que la humitat o la coberta de núvols poden reflectir i dispersar qualsevol font de llum a través de l'atmosfera.</para>
+>Tota la llum dispersa en el fons del cel es considera pol·lució lumínica, independentment de la seua font, per la qual cosa els efectes de la llum de la Lluna s'han de considerar com a pol·lució lumínica «natural». Però les condicions meteorològiques també poden afectar la qualitat del cel, ja que la humitat o la coberta de núvols poden reflectir i dispersar qualsevol font de llum a través de l'atmosfera.</para>
                             <para
 >Un <ulink url="https://en.wikipedia.org/wiki/Sky_quality_meter"
 >Mesurador de qualitat del cel (SQM)</ulink
@@ -788,7 +788,7 @@
                             <para
 ><guilabel
 >Amplada de banda del filtre</guilabel
->: Este selector establix el valor per a l'amplada de banda (en nanòmetres), i s'hauria de reduir del valor predeterminat de 300 quan s'inclou un filtre al tren òptic. La inclusió de filtres en el tren òptic afectarà enormement el càlcul de l'exposició. El valor oscil·la entre 300, per a l'obtenció d'imatges sense cap filtre, fins a 2,8 per a un filtre de banda estreta extrema.</para>
+>: Este selector establix el valor per a l'amplada de banda (en nanòmetres), i s'hauria de reduir del valor predeterminat de 300 quan s'inclou un filtre en el tren òptic. La inclusió de filtres en el tren òptic afectarà enormement el càlcul de l'exposició. El valor oscil·la entre 300, per a l'obtenció d'imatges sense cap filtre, fins a 2,8 per a un filtre de banda estreta extrema.</para>
                             <para
 >Els filtres generalment es dividixen en dues categories: banda única o multibanda. L'amplada de banda d'un filtre de banda única hauria de ser relativament fàcil de determinar o estimar. En general, es considera que un filtre roig, verd o blau té una amplada de banda de 100 nanòmetres. La documentació dels filtres de banda estreta sovint indicarà que l'amplada de banda (normalment en l'interval de 3 fins a 12 nm). Però l'amplada de banda dels filtres multibanda d'astronomia, com els filtres de pol·lució lumínica, o els filtres dissenyats específicament per al seu ús en nebuloses poden ser més difícils de determinar, ja que els seus perfils de transmissió poden ser molt més complexos.</para>
 <para
@@ -832,7 +832,7 @@
 <para
 >La selecció d'un valor del guany o ISO dependrà de la tècnica emprada en l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran en la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura en les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
 <para
->Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa en l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» al gràfic. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
+>Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa en l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» en el gràfic. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
 <para
 >Quan s'utilitzen les dades des de la documentació del fabricant de la càmera, eviteu seleccionar un guany a prop d'un pas <mediaobject>
                 <imageobject>

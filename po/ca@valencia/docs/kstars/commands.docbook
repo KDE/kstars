@@ -1944,10 +1944,10 @@
 >Afig</guibutton
 >. També podeu canviar els detalls dels indicadors (&ead;, AR/Dec, etiqueta o icona) i després guardar-ho prement el botó <guibutton
 >Guarda els canvis</guibutton
->. Utilitzant el gestor dels indicadors, podreu centrar amb facilitat un objecte al mapa o al telescopi, prement el botó <guibutton
->Centra al mapa</guibutton
+>. Utilitzant el gestor dels indicadors, podreu centrar amb facilitat un objecte en el mapa o en el telescopi, prement el botó <guibutton
+>Centra en el mapa</guibutton
 > o <guibutton
->Centra al telescopi</guibutton
+>Centra en el telescopi</guibutton
 >. Per tal d'eliminar un valor de la llista, només haureu de seleccionar-lo i després prémer el botó <guibutton
 >Elimina</guibutton
 >. Els vostres indicadors es guardaran després de tancar la sessió actual i per tant els podreu veure cada vegada que utilitzeu &kstars;. </para
@@ -2258,7 +2258,7 @@
 ></term>
 <listitem
 ><para
->Centra la vista al punt de <link linkend="ai-zenith"
+>Centra la vista en el punt de <link linkend="ai-zenith"
 >Zenit</link
 > (just damunt).</para
 ></listitem>
@@ -2753,7 +2753,7 @@
 ></term>
 <listitem
 ><para
->Comença la mesura d'una distància angular a la posició actual del cursor del ratolí. La distància angular entre els punts inicial i final es mostrarà al punt final.</para
+>Comença la mesura d'una distància angular a la posició actual del cursor del ratolí. La distància angular entre els punts inicial i final es mostrarà en el punt final.</para
 ></listitem>
 </varlistentry>
 
@@ -2974,7 +2974,7 @@
 >Moure la roda del ratolí</term>
 <listitem
 ><para
->Acosta o allunya la vista. Si no disposeu de roda al ratolí, podreu recrear esta característica mantenint premut el &BMR; i arrossegant verticalment. </para
+>Acosta o allunya la vista. Si el ratolí no disposa de roda, podreu recrear esta característica mantenint premut el &BMR; i arrossegant verticalment. </para
 ></listitem>
 </varlistentry>
 
@@ -2998,7 +2998,7 @@
 >&Ctrl;+arrossega el mapa celeste</term>
 	<listitem
 ><para
->Definix un rectangle en el mapa. Quan es deixa anar el botó del ratolí, la vista és ampliada dintre del camp seleccionat per a emparellar el camp de visió als límits del rectangle. </para
+>Definix un rectangle en el mapa. Quan es deixa anar el botó del ratolí, la vista és ampliada dintre del camp seleccionat per a emparellar el camp de visió amb els límits del rectangle. </para
 ></listitem
 ></varlistentry>
 

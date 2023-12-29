@@ -362,7 +362,7 @@
             </listitem>
             <listitem>
                 <para
->Carregarà el fitxer de seqüències al <link linkend="ekos-capture"
+>Carregarà el fitxer de seqüències en el <link linkend="ekos-capture"
 >mòdul «Captura»</link
 > i iniciarà el procés d'obtenció de les imatges. </para>
             </listitem>
@@ -514,7 +514,7 @@ exit(0)
         <para
 >El <guilabel
 >Planificador de mosaic</guilabel
-> en el Programador d'Ekos crearà múltiples tasques del programador basant-se en un objectiu central. Per a canviar al planificador, feu clic en el botó <guibutton
+> en el Programador d'Ekos crearà múltiples tasques del programador basant-se en un objectiu central. Per a fer canvis en el planificador, feu clic en el botó <guibutton
 >Planificador de mosaic</guibutton
 > en el Programador d'Ekos o en la barra d'eines INDI de KStars, tal com s'il·lustra en la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
         <orderedlist>
@@ -541,7 +541,7 @@ exit(0)
                 <para
 ><emphasis role="bold"
 >Ajusta la quadrícula</emphasis
->: Seleccioneu la dimensió del quadro del mosaic i el percentatge de superposició. El quadro del mosaic s'actualitzarà en conseqüència sobre el mapa celeste. Ajusteu l'angle de posició perquè coincidisca amb l'orientació desitjada al mosaic en el cel. Si l'angle de posició és diferent de l'orientació habitual de la càmera, és possible que hàgeu de girar la càmera manualment o mitjançant un rotor mecanitzat quan s'executen les tasques del programador. La transparència del mosaic de manera predeterminada es calcula automàticament, però es pot desactivar i ajustar manualment. Per a calcular el camp del mosaic a partir del nombre de tessel·les, feu clic en el botó <guibutton
+>: Seleccioneu la dimensió del quadro del mosaic i el percentatge de superposició. El quadro del mosaic s'actualitzarà en conseqüència sobre el mapa celeste. Ajusteu l'angle de posició perquè coincidisca amb l'orientació desitjada en el mosaic en el cel. Si l'angle de posició és diferent de l'orientació habitual de la càmera, és possible que hàgeu de girar la càmera manualment o mitjançant un rotor mecanitzat quan s'executen les tasques del programador. La transparència del mosaic de manera predeterminada es calcula automàticament, però es pot desactivar i ajustar manualment. Per a calcular el camp del mosaic a partir del nombre de tessel·les, feu clic en el botó <guibutton
 >Cobertura de CDV</guibutton
 >. El quadro del mosaic es pot centrar en el mapa celeste fent clic en el botó <guibutton
 >Torna a centrar</guibutton

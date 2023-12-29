@@ -43,7 +43,7 @@
 >Dibuixa</guibutton
 > per a afegir la corba per al vostre objecte personalitzat en la representació gràfica (cal tindre en compte que perquè açò funcione, haureu d'escollir un nom que no existira anteriorment en la base de dades d'objectes). </para>
 <para
->Quan afegiu un objecte a la representació gràfica, la seua altitud en funció del temps és representada gràficament amb una gruixuda línia blanca i el seu nom serà afegit al quadro de llista (a la dreta, davall). Qualsevol objecte que ja estiguera present es traça amb una corba roja més fina. Podeu triar quin objecte és traçat amb la corba gruixuda blanca ressaltant el seu nom al quadro de llista. </para>
+>Quan afegiu un objecte a la representació gràfica, la seua altitud en funció del temps és representada gràficament amb una gruixuda línia blanca i el seu nom serà afegit al quadro de llista (a la dreta, davall). Qualsevol objecte que ja estiguera present es traça amb una corba roja més fina. Podeu triar quin objecte és traçat amb la corba gruixuda blanca ressaltant el seu nom en el quadro de llista. </para>
 <para
 >Estes corbes mostren l'altitud dels objectes (angle sobre l'<link linkend="ai-horizon"
 >horitzó</link

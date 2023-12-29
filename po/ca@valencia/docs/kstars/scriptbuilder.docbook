@@ -73,7 +73,7 @@
 >Prova l'script</guibutton
 > resultarà en l'intent d'executar l'script actual en la finestra principal de &kstars;. Abans de prémer haureu d'apartar la finestra del constructor de scripts per a poder veure els resultats. </para
 ><para
->Al centre de la finestra (entre les dues caixes superiors), hi ha una columna de botons que operen sobre les funcions individuals de l'script. De dalt a baix, són: <guibutton
+>En el centre de la finestra (entre les dues caixes de dalt), hi ha una columna de botons que operen sobre les funcions individuals de l'script. De dalt a baix, són: <guibutton
 >Afig una funció</guibutton
 >, <guibutton
 >Elimina la funció</guibutton

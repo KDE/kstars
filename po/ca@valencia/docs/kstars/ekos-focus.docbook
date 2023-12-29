@@ -522,7 +522,7 @@
         <para
 ><guilabel
 >Suspén el guiatge</guilabel
->: Establiu esta opció per a suspendre el guiatge durant una execució d'enfocament automàtic. El propòsit d'açò és evitar que el guiatge tinga problemes amb les estreles desenfocades durant el procés d'enfocament quan, per exemple, l'instrument de visió guia s'ha unit al telescopi principal utilitzant un guiatge fora de l'eix (OAG).</para>
+>: Establiu esta opció per a suspendre el guiatge durant una execució d'enfocament automàtic. El propòsit d'açò és evitar que el guiatge tinga problemes amb les estreles desenfocades durant el procés d'enfocament quan, per exemple, l'instrument de visió guia s'ha adjuntat al telescopi principal utilitzant un guiatge fora de l'eix (OAG).</para>
       </listitem>
 
       <listitem>
@@ -614,7 +614,7 @@
               <para
 ><guilabel
 >Màscara d'anell</guilabel
->: Esta opció proporciona dos camps d'entrada que junts definixen un dònut sobre CDV de la càmera. Les estreles que queden fora del dònut es descomptaran del processament. Establir un valor interior per damunt del 0% farà que es descarten les estreles al centre de CDV. Açò podria ser útil per a evitar l'ús d'estreles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per davall del 100% farà que durant l'enfocament es descarten les estreles en les vores de CDV. Açò podria ser útil si no teniu cap camp pla en la vores de CDV.</para>
+>: Esta opció proporciona dos camps d'entrada que junts definixen un dònut sobre CDV de la càmera. Les estreles que queden fora del dònut es descomptaran del processament. Establir un valor interior per damunt del 0% farà que es descarten les estreles en el centre de CDV. Açò podria ser útil per a evitar l'ús d'estreles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per davall del 100% farà que durant l'enfocament es descarten les estreles en les vores de CDV. Açò podria ser útil si no teniu cap camp pla en la vores de CDV.</para>
 	    </listitem>
 
 	    <listitem>
@@ -626,11 +626,11 @@
 >Hi ha tres casos d'ús per a la Màscara de mosaic: <itemizedlist>
                   <listitem>
                     <para
->Comprovació de l'enfocament a totes les parts del sensor: La màscara permet una inspecció visual fàcil i la comparació d'estreles al centre, cantons i vores del sensor. Açò és especialment útil per a òptiques que presenten una aberració si l'enfocament no es complix al 100%.</para>
+>Comprovació de l'enfocament a totes les parts del sensor: La màscara permet una inspecció visual fàcil i la comparació d'estreles en el centre, cantons i vores del sensor. Açò és especialment útil per a òptiques que presenten una aberració si l'enfocament no es complix al 100%.</para>
                   </listitem>
                   <listitem>
 		    <para
->Correcció de la inclinació de la imatge: Els sensors especialment grans són molt sensibles a una distància i inclinació incorrectes del sensor. En estos casos, la imatge presenta aberració, especialment en els cantons de la imatge. Si tots els cantons presenten el mateix efecte, caldrà corregir la distància. Si les aberracions als cantons diferixen, normalment serà el resultat d'un sensor inclinat.</para>
+>Correcció de la inclinació de la imatge: Els sensors especialment grans són molt sensibles a una distància i inclinació incorrectes del sensor. En estos casos, la imatge presenta aberració, especialment en els cantons de la imatge. Si tots els cantons presenten el mateix efecte, caldrà corregir la distància. Si les aberracions en els cantons diferixen, normalment serà el resultat d'un sensor inclinat.</para>
                   </listitem>
                   <listitem>
                     <para
@@ -903,7 +903,7 @@
         <para
 ><emphasis role="bold"
 >HFR</emphasis
->: «Half Flux Radius» o radi de semiflux és la mesura recomanada. Quan es detecta una estrela, Ekos calcularà l'HFR de l'estrela. Este és el radi d'un cercle imaginari, centrat al centre de l'estrela, que engloba la meitat del flux total de l'estrela.</para>
+>: «Half Flux Radius» o radi de semiflux és la mesura recomanada. Quan es detecta una estrela, Ekos calcularà l'HFR de l'estrela. Este és el radi d'un cercle imaginari, centrat en el centre de l'estrela, que engloba la meitat del flux total de l'estrela.</para>
 
         <para
 >El punt de millor enfocament correspon a l'HFR mínim.</para>
@@ -1213,7 +1213,7 @@
     <para
 ><guilabel
 >Recorregut màx.</guilabel
->: Posa límits al nombre de viatges des de la posició actual de l'enfocador que permeten els algorismes d'enfocament automàtic. El propòsit és protegir l'enfocador de viatjar massa lluny i danyar-se potencialment a si mateix. D'altra banda, el valor haurà de ser prou gran per a facilitar un moviment suficient de l'enfocador permetent que l'enfocament automàtic s'execute per complet.</para>
+>: Posa límits en el nombre de viatges des de la posició actual de l'enfocador que permeten els algorismes d'enfocament automàtic. El propòsit és protegir l'enfocador de viatjar massa lluny i danyar-se potencialment a si mateix. D'altra banda, el valor haurà de ser prou gran per a facilitar un moviment suficient de l'enfocador permetent que l'enfocament automàtic s'execute per complet.</para>
   </listitem>
 
   <listitem>
@@ -1248,7 +1248,7 @@
 >Compensació de rebot del controlador:</guilabel
 > més gran que 0 per a utilitzar-la en el controlador del dispositiu. Cal tindre en compte que este camp només es podrà editar si el controlador del dispositiu admet el rebot.</para>
         <para
->Este és el mateix camp de dades que es mostra al quadro de control d'INDI per al dispositiu enfocador. Es pot establir en qualsevol lloc.</para>
+>Este és el mateix camp de dades que es mostra en el quadro de control d'INDI per al dispositiu enfocador. Es pot establir en qualsevol lloc.</para>
       </listitem>
     </itemizedlist>
   </listitem>
@@ -1547,7 +1547,7 @@
     <para
 >Per tant, l'«Assessor» de l'enfocament està dirigit als usuaris amb menys experiència.</para>
     <para
->Si l'«Assessor» de l'enfocament no pareix donar bons resultats en la vostra configuració, perquè no inicieu un debat al fòrum perquè es puga millorar i que done millors resultats en el futur. D'esta manera, amb el temps es farà que siga més útil.</para>
+>Si l'«Assessor» de l'enfocament no pareix donar bons resultats en la vostra configuració, perquè no inicieu un debat en el fòrum perquè es puga millorar i que done millors resultats en el futur. D'esta manera, amb el temps es farà que siga més útil.</para>
     <para
 >Quan feu clic en la pestanya «Assessor» de l'enfocament, s'elaboraran una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant en l'enfocament.</para>
     <para
@@ -2067,7 +2067,7 @@
 
             <listitem
 ><para
->Reviseu els resultats. Per a cada filtre, reviseu cada execució de l'enfocament automàtic buscant valors atípics. Per a cada valor atípic, decidiu què fer, &pex;, eliminar el processament establint-lo a 0. Si hi ha filtres pe als quals no vos satisfan els resultats, desseleccioneu la casella de selecció <guilabel
+>Reviseu els resultats. Per a cada filtre, reviseu cada execució de l'enfocament automàtic buscant valors atípics. Per a cada valor atípic, decidiu què fer, &pex;, eliminar el processament establint-lo a 0. Si hi ha filtres per als quals no vos satisfan els resultats, desseleccioneu la casella de selecció <guilabel
 >Guarda</guilabel
 > per a estos filtres.</para
 ></listitem>
@@ -2668,7 +2668,7 @@
 >Marques / °C</guilabel
 > s'establix a 9. S'ha executat l'enfocament automàtic i s'ha resolt a 36580 a 10 C. Després, s'ha executat una seqüència senzilla de 5 submarcs. La temperatura s'ha establit primer a 9 C i després a 8 C. Després de completar cada submarc, Ekos ha realitzat una execució d'enfocament adaptatiu i, quan s'ha produït un canvi de temperatura ha calculat el nombre de marques per a moure l'enfocador. En este exemple, l'enfocador s'ha mogut cap endins 9 marques en 2 ocasions diferents, començant per 36580, abans de passar a 36571 i després a 36562 tal com es mostra en la pestanya <guilabel
 >Enfocament</guilabel
-> al giny Posició actual i al quadro de missatges.</para>
+> en el giny Posició actual i en el quadro de missatges.</para>
 
     <para
 >El concepte de l'enfocament adaptatiu s'ha incorporat a l'eina <link linkend="build-filter-offsets"
@@ -2822,7 +2822,7 @@
     <itemizedlist>
       <listitem>
         <para
->Assenyaleu a una part del cel on l'enfocament automàtic resolga bé. Normalment, açò estaria alt al cel, lluny de qualsevol obstacle. Seleccioneu un lloc amb moltes estreles com la Via Làctia. La raó per la qual açò és més important per a l'Inspector de l'aberració que per a l'enfocament automàtic, és que l'anàlisi de l'enfocament s'ha de realitzar per a cada tessel·la del mosaic. Per tant, és important que cada tessel·la tinga prou estreles per a realitzar un enfocament automàtic precís.</para>
+>Assenyaleu a una part del cel on l'enfocament automàtic resolga bé. Normalment, açò estaria alt en el cel, lluny de qualsevol obstacle. Seleccioneu un lloc amb moltes estreles com la Via Làctia. La raó per la qual açò és més important per a l'Inspector de l'aberració que per a l'enfocament automàtic, és que l'anàlisi de l'enfocament s'ha de realitzar per a cada tessel·la del mosaic. Per tant, és important que cada tessel·la tinga prou estreles per a realitzar un enfocament automàtic precís.</para>
       </listitem>
 
       <listitem>
@@ -3156,7 +3156,7 @@
 >El gràfic es pot ampliar i girar mitjançant gestos. Per a fer zoom, pessigueu. Per a girar, utilitzeu tocar i moure.</para>
 
     <para
->El gràfic disposa d'un mode de simulació que permet ajustar l'enfocament al darrera i la inclinació amb els controls lliscants. L'efecte sobre la inclinació del sensor i la superfície de Petzval es mostra al gràfic.</para>
+>El gràfic disposa d'un mode de simulació que permet ajustar l'enfocament al darrera i la inclinació amb els controls lliscants. L'efecte sobre la inclinació del sensor i la superfície de Petzval es mostra en el gràfic.</para>
 
     <para
 >Hi ha disponibles les opcions següents per al gràfic:</para>
@@ -3197,7 +3197,7 @@
         <para
 ><guilabel
 >Etiquetes</guilabel
->: Casella de selecció per a mostrar o ocultar les etiquetes al gràfic.</para>
+>: Casella de selecció per a mostrar o ocultar les etiquetes en el gràfic.</para>
       </listitem>
 
       <listitem>

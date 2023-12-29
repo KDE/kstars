@@ -29,7 +29,7 @@
 >coordenades equatorials</link
 > dels dos punts desitjats i després obteniu l'angle entre estos dos punts. </para>
 <para
->Este mòdul també disposa d'un mode de treball per lots. Hi podeu especificar un nom de fitxer d'entrada que continga un nombre de paràmetres (fins a quatre) en cada línia: l'ascensió recta inicial (AR), la declinació inicial (Dec), l'ascensió recta final i la declinació final. De manera predeterminada, cada línia haurà de contindre quatre números que signifiquen els valors de l'AR i la Dec per als parells de punts. De manera alternativa, podeu especificar un valor simple per a qualsevol d'estes quatre coordenades al quadro de càlcul (els valors corresponents en el fitxer d'entrada seran omesos si s'han especificat prèviament en la calculadora). </para>
+>Este mòdul també disposa d'un mode de treball per lots. Hi podeu especificar un nom de fitxer d'entrada que continga un nombre de paràmetres (fins a quatre) en cada línia: l'ascensió recta inicial (AR), la declinació inicial (Dec), l'ascensió recta final i la declinació final. De manera predeterminada, cada línia haurà de contindre quatre números que signifiquen els valors de l'AR i la Dec per als parells de punts. De manera alternativa, podeu especificar un valor simple per a qualsevol d'estes quatre coordenades en el quadro de càlcul (els valors corresponents en el fitxer d'entrada seran omesos si s'han especificat prèviament en la calculadora). </para>
 <para
 >Una vegada especificat el nom per al fitxer d'entrada i un per al d'eixida, senzillament premeu el botó <guibutton
 >Executa</guibutton

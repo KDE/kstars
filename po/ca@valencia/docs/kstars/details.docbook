@@ -116,14 +116,14 @@ for solar system objects -->
 >Keyword search</quote
 > (paraula clau de busca) retornarà els articles que han llistat el nom de l'objecte com a paraula clau. La <quote
 >Title word search</quote
-> (busca de la paraula al títol) retornarà els articles que incloguen el nom de l'objecte al seu títol i la <quote
+> (busca de la paraula en el títol) retornarà els articles que incloguen el nom de l'objecte en el seu títol i la <quote
 >Title &amp; Keyword search</quote
-> (busca paraula clau i al títol) utilitzarà ambdues opcions alhora. </para
+> (busca la paraula clau i el títol) utilitzarà ambdues opcions alhora. </para
 ></listitem>
 <listitem
 ><para
 ><guimenuitem
->Arxiu de les múltiples missions al telescopi espacial</guimenuitem
+>Arxiu de les múltiples missions en el telescopi espacial</guimenuitem
 > (<guimenuitem
 >Multimission Archive at Space Telescope</guimenuitem
 > -MAST-). El <ulink url="https://www.stsci.edu/"

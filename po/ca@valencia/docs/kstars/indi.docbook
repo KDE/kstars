@@ -463,7 +463,7 @@
 ><para
 ><guilabel
 >Servidor INDI:</guilabel
-> Especifica el binari del servidor INDI instal·lat al vostre sistema. De manera predeterminada, &kstars; utilitza el binari <quote
+> Especifica el binari del servidor INDI instal·lat en el vostre sistema. De manera predeterminada, &kstars; utilitza el binari <quote
 >/usr/bin/indiserver</quote
 >.</para
 ></listitem>
@@ -471,7 +471,7 @@
 ><para
 ><guilabel
 >Directori XML dels controladors INDI:</guilabel
-> Especifica la carpeta on es troben els controladors INDI al vostre sistema. De manera predeterminada, &kstars; utilitza la carpeta <quote
+> Especifica la carpeta on es troben els controladors INDI en el vostre sistema. De manera predeterminada, &kstars; utilitza la carpeta <quote
 >/usr/share/indi</quote
 >.</para
 ></listitem>
@@ -951,7 +951,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 ></author
 > de l'<ulink url="https://www.clearskyinstitute.com/"
 >Institut ClearSky</ulink
->. &kstars; utilitza als controladors de dispositiu que són compatibles amb el protocol INDI. INDI té molts avantatges incloent l'acoblat fluix entre els dispositius de maquinari i els controladors de programari. Els clients que empren els controladors de dispositiu (com &kstars;) són totalment inconscients de les capacitats del dispositiu. En temps d'execució, &kstars; es comunica amb els controladors de dispositiu i construïx una &IGU; totalment dinàmica basada en els serveis proporcionats pel dispositiu. Per tant, els controladors de dispositiu nous es poden escriure o actualitzar i &kstars; podrà prendre els avantatges complets d'ells sense cap canvi en el costat del client. </para>
+>. &kstars; utilitza els controladors de dispositiu que són compatibles amb el protocol INDI. INDI té molts avantatges incloent l'acoblat fluix entre els dispositius de maquinari i els controladors de programari. Els clients que empren els controladors de dispositiu (com &kstars;) són totalment inconscients de les capacitats del dispositiu. En temps d'execució, &kstars; es comunica amb els controladors de dispositiu i construïx una &IGU; totalment dinàmica basada en els serveis proporcionats pel dispositiu. Per tant, els controladors de dispositiu nous es poden escriure o actualitzar i &kstars; podrà prendre els avantatges complets d'ells sense cap canvi en el costat del client. </para>
 </answer>
 </qandaentry>
 
@@ -1133,7 +1133,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 </listitem>
 <listitem>
 <para
->El valor N/S del telescopi (quan siga aplicable) està establit correctament al vostre hemisferi?</para>
+>El valor N/S del telescopi (quan siga aplicable) està establit correctament per al vostre hemisferi?</para>
 </listitem>
 <listitem>
 <para

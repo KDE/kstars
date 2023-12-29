@@ -713,7 +713,7 @@
 >Remot</guimenuitem
 > en el mòdul «Alinea» d'Ekos. A més, assegureu-vos que el controlador <guimenuitem
 >Astrometria</guimenuitem
-> està seleccionat al perfil de l'equip. </para>
+> està seleccionat en el perfil de l'equip. </para>
         </note>
         <screenshot>
             <screeninfo
@@ -905,7 +905,7 @@
                 </mediaobject>
 
                 <para
->En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera encastada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre al mateix lloc de la fotografia si volem obtindre una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'esta manera: l'òptica, l'atmosfera, veent la qualitat de tots els fotons dispersos i refractats d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que seguixen una distribució de Poisson. Per a fonts puntuals com les estreles, la funció de dispersió d'un punt descriu la manera com els fotons es distribuïxen espacialment a través dels píxels. No obstant açò, la idea general que volem és que els fotons d'origen colpegen en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastre. </para>
+>En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera adjuntada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre en el mateix lloc de la fotografia si volem obtindre una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'esta manera: l'òptica, l'atmosfera, veent la qualitat de tots els fotons dispersos i refractats d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que seguixen una distribució de Poisson. Per a fonts puntuals com les estreles, la funció de dispersió d'un punt descriu la manera com els fotons es distribuïxen espacialment a través dels píxels. No obstant açò, la idea general que volem és que els fotons d'origen colpegen en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastre. </para>
                 <screenshot>
                     <screeninfo
 >Alineació polar </screeninfo>
@@ -1024,7 +1024,7 @@
 >Mou l'estrela i Calcula l'error</emphasis
 > i <emphasis
 >Mou l'estrela</emphasis
-> és que al primer, el sistema intenta seguir l'estrela que l'usuari ha seleccionat i col·loca un cercle al seu voltant. En este esquema, també intentareu actualitzar la fila <guilabel
+> és que en el primer, el sistema intenta seguir l'estrela que l'usuari ha seleccionat i col·loca un cercle al seu voltant. En este esquema, també intentareu actualitzar la fila <guilabel
 >Error actualitzat:</guilabel
 >. Si el seguiment d'estreles no és fiable, senzillament ignoreu-lo o utilitzeu l'esquema <emphasis
 >Mou l'estrela</emphasis
