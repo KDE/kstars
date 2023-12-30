@@ -640,24 +640,22 @@ void FramingAssistantUI::createJobs()
         // First job should Always focus if possible
         bool shouldFocus = ui->focusStepCheck->isChecked() && (batchCount == 1 || (batchCount % ui->focusEvery->value()) == 0);
         bool shouldAlign = ui->alignStepCheck->isChecked() && (batchCount == 1 || (batchCount % ui->alignEvery->value()) == 0);
-        QJsonObject settings =
+        QVariantMap settings =
         {
-            {"target", oneTarget},
-            {"group", tiles->group()},
-            {"ra", oneTile->skyCenter.ra0().toHMSString()},
-            {"dec", oneTile->skyCenter.dec0().toDMSString()},
+            {"nameEdit", oneTarget},
+            {"groupEdit", tiles->group()},
+            {"raBox", oneTile->skyCenter.ra0().toHMSString()},
+            {"decBox", oneTile->skyCenter.dec0().toDMSString()},
             // Take care of standard range for position angle
-            {"pa", KSUtils::rangePA(tiles->positionAngle())},
-            {"sequence", oneSequence},
-            {"track", ui->trackStepCheck->isChecked()},
-            {"focus", shouldFocus},
-            {"align", shouldAlign},
-            {"guide", ui->guideStepCheck->isChecked()}
+            {"positionAngleSpin", KSUtils::rangePA(tiles->positionAngle())},
+            {"sequenceEdit", oneSequence},
+            {"schedulerTrackStep", ui->trackStepCheck->isChecked()},
+            {"schedulerFocusStep", shouldFocus},
+            {"schedulerFocusStep", shouldAlign},
+            {"schedulerGuideStep", ui->guideStepCheck->isChecked()}
         };
 
-        scheduler->setPrimarySettings(settings);
-        scheduler->setJobCompletionConditions(completionSettings);
-
+        scheduler->setAllSettings(settings);
         scheduler->saveJob();
     }
 

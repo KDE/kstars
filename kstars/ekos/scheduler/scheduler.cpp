@@ -262,7 +262,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     // Set initial time for startup and completion times
     startupTimeEdit->setDateTime(currentDateTime);
-    completionTimeEdit->setDateTime(currentDateTime);
+    schedulerUntilValue->setDateTime(currentDateTime);
 
     m_GreedyScheduler = new GreedyScheduler();
 
@@ -425,7 +425,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         load(false);
     });
 
-    connect(twilightCheck, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
+    connect(schedulerTwilight, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
     // Connect simulation clock scale
     connect(KStarsData::Instance()->clock(), &SimClock::scaleChanged, this, &Scheduler::simClockScaleChanged);
@@ -456,115 +456,17 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     // Restore values for general settings.
     syncGUIToGeneralSettings();
-    trackStepCheck->setChecked(Options::schedulerTrackStep());
-    focusStepCheck->setChecked(Options::schedulerFocusStep());
-    guideStepCheck->setChecked(Options::schedulerGuideStep());
-    alignStepCheck->setChecked(Options::schedulerAlignStep());
-    altConstraintCheck->setChecked(Options::schedulerAltitude());
-    artificialHorizonCheck->setChecked(Options::schedulerHorizon());
-    moonSeparationCheck->setChecked(Options::schedulerMoonSeparation());
-    weatherCheck->setChecked(Options::schedulerWeather());
-    twilightCheck->setChecked(Options::schedulerTwilight());
-    minMoonSeparation->setValue(Options::schedulerMoonSeparationValue());
-    minAltitude->setValue(Options::schedulerAltitudeValue());
 
-    // Save new default values for scheduler checkboxes.
-    connect(parkDomeCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerParkDome(checked);
-    });
-    connect(parkMountCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerParkMount(checked);
-    });
-    connect(capCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerCloseDustCover(checked);
-    });
-    connect(warmCCDCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerWarmCCD(checked);
-    });
-    connect(unparkDomeCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerUnparkDome(checked);
-    });
-    connect(unparkMountCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerUnparkMount(checked);
-    });
-    connect(uncapCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerOpenDustCover(checked);
-    });
-    connect(trackStepCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerTrackStep(checked);
-    });
-    connect(focusStepCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerFocusStep(checked);
-    });
-    connect(guideStepCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerGuideStep(checked);
-    });
-    connect(alignStepCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerAlignStep(checked);
-    });
-    connect(altConstraintCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerAltitude(checked);
-    });
-    connect(artificialHorizonCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerHorizon(checked);
-    });
-    connect(moonSeparationCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerMoonSeparation(checked);
-    });
-    connect(weatherCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerWeather(checked);
-    });
-    connect(twilightCheck, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerTwilight(checked);
-    });
-    connect(minMoonSeparation, &QDoubleSpinBox::editingFinished, this, [this]()
-    {
-        Options::setSchedulerMoonSeparationValue(minMoonSeparation->value());
-    });
-    connect(minAltitude, &QDoubleSpinBox::editingFinished, this, [this]()
-    {
-        Options::setSchedulerAltitudeValue(minAltitude->value());
-    });
-    connect(repeatSequenceCB, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setSchedulerRepeatSequences(checked);
-    });
-    connect(executionSequenceLimit, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]()
-    {
-        Options::setSchedulerExecutionSequencesLimit(executionSequenceLimit->value());
-    });
 
-    // save new default values for error handling strategy
-
-    connect(errorHandlingRescheduleErrorsCB, &QPushButton::clicked, [](bool checked)
-    {
-        Options::setRescheduleErrors(checked);
-    });
     connect(errorHandlingButtonGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>
             (&QButtonGroup::buttonClicked), [this](QAbstractButton * button)
     {
         Q_UNUSED(button)
         ErrorHandlingStrategy strategy = getErrorHandlingStrategy();
         Options::setErrorHandlingStrategy(strategy);
-        errorHandlingDelaySB->setEnabled(strategy != ERROR_DONT_RESTART);
+        errorHandlingStrategyDelay->setEnabled(strategy != ERROR_DONT_RESTART);
     });
-    connect(errorHandlingDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [](int value)
+    connect(errorHandlingStrategyDelay, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [](int value)
     {
         Options::setErrorHandlingStrategyDelay(value);
     });
@@ -596,6 +498,9 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     process()->loadProfiles();
 
     watchJobChanges(true);
+
+    loadGlobalSettings();
+    connectSettings();
 }
 
 QString Scheduler::getCurrentJobName()
@@ -618,14 +523,14 @@ void Scheduler::watchJobChanges(bool enable)
         decBox,
         fitsEdit,
         sequenceEdit,
-        startupScript,
-        shutdownScript
+        schedulerStartupScript,
+        schedulerShutdownScript
     };
 
     QDateTimeEdit * const dateEdits[] =
     {
         startupTimeEdit,
-        completionTimeEdit
+        schedulerUntilValue
     };
 
     QComboBox * const comboBoxes[] =
@@ -651,14 +556,14 @@ void Scheduler::watchJobChanges(bool enable)
 
     QSpinBox * const spinBoxes[] =
     {
-        repeatsSpin,
-        errorHandlingDelaySB
+        schedulerExecutionSequencesLimit,
+        errorHandlingStrategyDelay
     };
 
     QDoubleSpinBox * const dspinBoxes[] =
     {
-        minMoonSeparation,
-        minAltitude,
+        schedulerMoonSeparationValue,
+        schedulerAltitudeValue,
         positionAngleSpin,
     };
 
@@ -955,7 +860,7 @@ void Scheduler::selectStartupScript()
     dirPath = QUrl(moduleState()->startupScriptURL().url(QUrl::RemoveFilename));
 
     moduleState()->setDirty(true);
-    startupScript->setText(moduleState()->startupScriptURL().toLocalFile());
+    schedulerStartupScript->setText(moduleState()->startupScriptURL().toLocalFile());
 }
 
 void Scheduler::selectShutdownScript()
@@ -970,7 +875,7 @@ void Scheduler::selectShutdownScript()
     dirPath = QUrl(moduleState()->shutdownScriptURL().url(QUrl::RemoveFilename));
 
     moduleState()->setDirty(true);
-    shutdownScript->setText(moduleState()->shutdownScriptURL().toLocalFile());
+    schedulerShutdownScript->setText(moduleState()->shutdownScriptURL().toLocalFile());
 }
 
 void Scheduler::addJob(SchedulerJob *job)
@@ -1050,20 +955,20 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
         startCondition = START_ASAP;
 
     CompletionCondition stopCondition = FINISH_AT;
-    if (sequenceCompletionR->isChecked())
+    if (schedulerCompleteSequences->isChecked())
         stopCondition = FINISH_SEQUENCE;
-    else if (repeatCompletionR->isChecked())
+    else if (schedulerRepeatSequences->isChecked())
         stopCondition = FINISH_REPEAT;
-    else if (loopCompletionR->isChecked())
+    else if (schedulerUntilTerminated->isChecked())
         stopCondition = FINISH_LOOP;
 
     double altConstraint = SchedulerJob::UNDEFINED_ALTITUDE;
-    if (altConstraintCheck->isChecked())
-        altConstraint = minAltitude->value();
+    if (schedulerAltitude->isChecked())
+        altConstraint = schedulerAltitudeValue->value();
 
     double moonConstraint = -1;
-    if (moonSeparationCheck->isChecked())
-        moonConstraint = minMoonSeparation->value();
+    if (schedulerMoonSeparation->isChecked())
+        moonConstraint = schedulerMoonSeparationValue->value();
 
     // The reason for this kitchen-sink function is to separate the UI from the
     // job setup, to allow for testing.
@@ -1072,18 +977,18 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
                              positionAngleSpin->value(), sequenceURL, fitsURL,
 
                              startCondition, startupTimeEdit->dateTime(),
-                             stopCondition, completionTimeEdit->dateTime(), repeatsSpin->value(),
+                             stopCondition, schedulerUntilValue->dateTime(), schedulerExecutionSequencesLimit->value(),
 
                              altConstraint,
                              moonConstraint,
-                             weatherCheck->isChecked(),
-                             twilightCheck->isChecked(),
-                             artificialHorizonCheck->isChecked(),
+                             schedulerWeather->isChecked(),
+                             schedulerTwilight->isChecked(),
+                             schedulerHorizon->isChecked(),
 
-                             trackStepCheck->isChecked(),
-                             focusStepCheck->isChecked(),
-                             alignStepCheck->isChecked(),
-                             guideStepCheck->isChecked());
+                             schedulerTrackStep->isChecked(),
+                             schedulerFocusStep->isChecked(),
+                             schedulerAlignStep->isChecked(),
+                             schedulerGuideStep->isChecked());
 
     // success
     job->enableGraphicsUpdates(savedUpdate);
@@ -1241,10 +1146,10 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
     positionAngleSpin->setValue(job->getPositionAngle());
 
-    trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
-    focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
-    alignStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_ALIGN);
-    guideStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_GUIDE);
+    schedulerTrackStep->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
+    schedulerFocusStep->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
+    schedulerAlignStep->setChecked(job->getStepPipeline() & SchedulerJob::USE_ALIGN);
+    schedulerGuideStep->setChecked(job->getStepPipeline() & SchedulerJob::USE_GUIDE);
 
     switch (job->getFileStartupCondition())
     {
@@ -1258,56 +1163,56 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
             break;
     }
 
-    if (job->hasMinAltitude())
+    if (job->getMinAltitude())
     {
-        altConstraintCheck->setChecked(true);
-        minAltitude->setValue(job->getMinAltitude());
+        schedulerAltitude->setChecked(true);
+        schedulerAltitudeValue->setValue(job->getMinAltitude());
     }
     else
     {
-        altConstraintCheck->setChecked(false);
-        minAltitude->setValue(DEFAULT_MIN_ALTITUDE);
+        schedulerAltitude->setChecked(false);
+        schedulerAltitudeValue->setValue(DEFAULT_MIN_ALTITUDE);
     }
 
     if (job->getMinMoonSeparation() >= 0)
     {
-        moonSeparationCheck->setChecked(true);
-        minMoonSeparation->setValue(job->getMinMoonSeparation());
+        schedulerMoonSeparation->setChecked(true);
+        schedulerMoonSeparationValue->setValue(job->getMinMoonSeparation());
     }
     else
     {
-        moonSeparationCheck->setChecked(false);
-        minMoonSeparation->setValue(DEFAULT_MIN_MOON_SEPARATION);
+        schedulerMoonSeparation->setChecked(false);
+        schedulerMoonSeparationValue->setValue(DEFAULT_MIN_MOON_SEPARATION);
     }
 
-    weatherCheck->setChecked(job->getEnforceWeather());
+    schedulerWeather->setChecked(job->getEnforceWeather());
 
-    twilightCheck->blockSignals(true);
-    twilightCheck->setChecked(job->getEnforceTwilight());
-    twilightCheck->blockSignals(false);
+    schedulerTwilight->blockSignals(true);
+    schedulerTwilight->setChecked(job->getEnforceTwilight());
+    schedulerTwilight->blockSignals(false);
 
-    artificialHorizonCheck->blockSignals(true);
-    artificialHorizonCheck->setChecked(job->getEnforceArtificialHorizon());
-    artificialHorizonCheck->blockSignals(false);
+    schedulerHorizon->blockSignals(true);
+    schedulerHorizon->setChecked(job->getEnforceArtificialHorizon());
+    schedulerHorizon->blockSignals(false);
 
     switch (job->getCompletionCondition())
     {
         case FINISH_SEQUENCE:
-            sequenceCompletionR->setChecked(true);
+            schedulerCompleteSequences->setChecked(true);
             break;
 
         case FINISH_REPEAT:
-            repeatCompletionR->setChecked(true);
-            repeatsSpin->setValue(job->getRepeatsRequired());
+            schedulerRepeatSequences->setChecked(true);
+            schedulerExecutionSequencesLimit->setValue(job->getRepeatsRequired());
             break;
 
         case FINISH_LOOP:
-            loopCompletionR->setChecked(true);
+            schedulerUntilTerminated->setChecked(true);
             break;
 
         case FINISH_AT:
-            timeCompletionR->setChecked(true);
-            completionTimeEdit->setDateTime(job->getCompletionTime());
+            schedulerUntil->setChecked(true);
+            schedulerUntilValue->setDateTime(job->getCompletionTime());
             break;
     }
 
@@ -1318,25 +1223,25 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
 void Scheduler::syncGUIToGeneralSettings()
 {
-    parkDomeCheck->setChecked(Options::schedulerParkDome());
-    parkMountCheck->setChecked(Options::schedulerParkMount());
-    capCheck->setChecked(Options::schedulerCloseDustCover());
-    warmCCDCheck->setChecked(Options::schedulerWarmCCD());
-    unparkDomeCheck->setChecked(Options::schedulerUnparkDome());
-    unparkMountCheck->setChecked(Options::schedulerUnparkMount());
-    uncapCheck->setChecked(Options::schedulerOpenDustCover());
+    schedulerParkDome->setChecked(Options::schedulerParkDome());
+    schedulerParkMount->setChecked(Options::schedulerParkMount());
+    schedulerCloseDustCover->setChecked(Options::schedulerCloseDustCover());
+    schedulerWarmCCD->setChecked(Options::schedulerWarmCCD());
+    schedulerUnparkDome->setChecked(Options::schedulerUnparkDome());
+    schedulerUnparkMount->setChecked(Options::schedulerUnparkMount());
+    schedulerOpenDustCover->setChecked(Options::schedulerOpenDustCover());
     setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
-    errorHandlingDelaySB->setValue(Options::errorHandlingStrategyDelay());
+    errorHandlingStrategyDelay->setValue(Options::errorHandlingStrategyDelay());
     errorHandlingRescheduleErrorsCB->setChecked(Options::rescheduleErrors());
-    startupScript->setText(moduleState()->startupScriptURL().toString(QUrl::PreferLocalFile));
-    shutdownScript->setText(moduleState()->shutdownScriptURL().toString(QUrl::PreferLocalFile));
+    schedulerStartupScript->setText(moduleState()->startupScriptURL().toString(QUrl::PreferLocalFile));
+    schedulerShutdownScript->setText(moduleState()->shutdownScriptURL().toString(QUrl::PreferLocalFile));
 
     if (process()->captureInterface() != nullptr)
     {
         QVariant hasCoolerControl = process()->captureInterface()->property("coolerControl");
         if (hasCoolerControl.isValid())
         {
-            warmCCDCheck->setEnabled(hasCoolerControl.toBool());
+            schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
             moduleState()->setCaptureReady(true);
         }
     }
@@ -1739,11 +1644,11 @@ void Scheduler::stop()
     // whenever the scheduler is running again.
     else if (moduleState()->startupState() == STARTUP_COMPLETE)
     {
-        if (unparkDomeCheck->isChecked())
+        if (schedulerUnparkDome->isChecked())
             moduleState()->setStartupState(STARTUP_UNPARK_DOME);
-        else if (unparkMountCheck->isChecked())
+        else if (schedulerUnparkMount->isChecked())
             moduleState()->setStartupState(STARTUP_UNPARK_MOUNT);
-        else if (uncapCheck->isChecked())
+        else if (schedulerOpenDustCover->isChecked())
             moduleState()->setStartupState(STARTUP_UNPARK_CAP);
     }
 
@@ -1922,8 +1827,8 @@ void Scheduler::syncGreedyParams()
         errorHandlingRestartImmediatelyButton->isChecked(),
         errorHandlingRestartQueueButton->isChecked(),
         errorHandlingRescheduleErrorsCB->isChecked(),
-        errorHandlingDelaySB->value(),
-        errorHandlingDelaySB->value());
+        errorHandlingStrategyDelay->value(),
+        errorHandlingStrategyDelay->value());
 }
 
 void Scheduler::evaluateJobs(bool evaluateOnly)
@@ -2707,8 +2612,9 @@ bool Scheduler::canCountCaptures(const SchedulerJob &job)
     QList<SequenceJob*> seqjobs;
     bool hasAutoFocus = false;
     SchedulerJob tempJob = job;
-    if (SchedulerUtils::loadSequenceQueue(tempJob.getSequenceFile().toLocalFile(), &tempJob, seqjobs, hasAutoFocus, nullptr) == false)
-         return false;
+    if (SchedulerUtils::loadSequenceQueue(tempJob.getSequenceFile().toLocalFile(), &tempJob, seqjobs, hasAutoFocus,
+                                          nullptr) == false)
+        return false;
 
     for (const SequenceJob *oneSeqJob : seqjobs)
     {
@@ -2766,11 +2672,11 @@ void Scheduler::findNextJob()
             // reset the state so that it will be restarted
             activeJob()->setState(SchedulerJob::JOB_SCHEDULED);
 
-            appendLogText(i18n("Waiting %1 seconds to restart job '%2'.", errorHandlingDelaySB->value(), activeJob()->getName()));
+            appendLogText(i18n("Waiting %1 seconds to restart job '%2'.", errorHandlingStrategyDelay->value(), activeJob()->getName()));
 
             // wait the given delay until the jobs will be evaluated again
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_WAKEUP).toLatin1().data());
-            moduleState()->setupNextIteration(RUN_WAKEUP, std::lround((errorHandlingDelaySB->value() * 1000) /
+            moduleState()->setupNextIteration(RUN_WAKEUP, std::lround((errorHandlingStrategyDelay->value() * 1000) /
                                               KStarsData::Instance()->clock()->scale()));
             sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
             sleepLabel->show();
@@ -3031,10 +2937,10 @@ void Scheduler::setDirty()
         return;
 
     // update state
-    if (sender() == startupScript)
-        moduleState()->setStartupScriptURL(QUrl::fromUserInput(startupScript->text()));
-    else if (sender() == shutdownScript)
-        moduleState()->setShutdownScriptURL(QUrl::fromUserInput(shutdownScript->text()));
+    if (sender() == schedulerStartupScript)
+        moduleState()->setStartupScriptURL(QUrl::fromUserInput(schedulerStartupScript->text()));
+    else if (sender() == schedulerShutdownScript)
+        moduleState()->setShutdownScriptURL(QUrl::fromUserInput(schedulerShutdownScript->text()));
 
     if (0 <= jobUnderEdit && moduleState()->schedulerState() != SCHEDULER_RUNNING && 0 <= queueTable->currentRow())
     {
@@ -3087,7 +2993,8 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 
         //oneJob->setLightFramesRequired(false);
         /* Look into the sequence requirements, bypass if invalid */
-        if (SchedulerUtils::loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus, this) == false)
+        if (SchedulerUtils::loadSequenceQueue(oneJob->getSequenceFile().toLocalFile(), oneJob, seqjobs, hasAutoFocus,
+                                              this) == false)
         {
             appendLogText(i18n("Warning: job '%1' has inaccessible sequence '%2', marking invalid.", oneJob->getName(),
                                oneJob->getSequenceFile().toLocalFile()));
@@ -3213,7 +3120,7 @@ ErrorHandlingStrategy Scheduler::getErrorHandlingStrategy()
 
 void Scheduler::setErrorHandlingStrategy(ErrorHandlingStrategy strategy)
 {
-    errorHandlingDelaySB->setEnabled(strategy != ERROR_DONT_RESTART);
+    errorHandlingStrategyDelay->setEnabled(strategy != ERROR_DONT_RESTART);
 
     switch (strategy)
     {
@@ -3273,7 +3180,7 @@ void Scheduler::checkTwilightWarning(bool enabled)
                 i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                 "astronomical_twilight_warning") == KMessageBox::Cancel)
     {
-        twilightCheck->setChecked(true);
+        schedulerTwilight->setChecked(true);
     }
 }
 
@@ -3401,8 +3308,8 @@ void Scheduler::registerNewModule(const QString &name)
         delete process()->focusInterface();
         process()->setFocusInterface(new QDBusInterface(kstarsInterfaceString, focusPathString, focusInterfaceString,
                                      QDBusConnection::sessionBus(), this));
-        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::FocusState)), this,
-                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
+        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::SchedulerState)), this,
+                SLOT(setFocusStatus(Ekos::SchedulerState)), Qt::UniqueConnection);
     }
     else if (name == "Capture")
     {
@@ -3458,8 +3365,8 @@ void Scheduler::syncProperties()
         QVariant canMountPark = process()->mountInterface()->property("canPark");
         TEST_PRINT(stderr, "  @@@dbus received %s\n", !canMountPark.isValid() ? "invalid" : (canMountPark.toBool() ? "T" : "F"));
 
-        unparkMountCheck->setEnabled(canMountPark.toBool());
-        parkMountCheck->setEnabled(canMountPark.toBool());
+        schedulerUnparkMount->setEnabled(canMountPark.toBool());
+        schedulerParkMount->setEnabled(canMountPark.toBool());
         moduleState()->setMountReady(true);
     }
     else if (iface == process()->capInterface())
@@ -3470,14 +3377,14 @@ void Scheduler::syncProperties()
 
         if (canCapPark.isValid())
         {
-            capCheck->setEnabled(canCapPark.toBool());
-            uncapCheck->setEnabled(canCapPark.toBool());
+            schedulerCloseDustCover->setEnabled(canCapPark.toBool());
+            schedulerOpenDustCover->setEnabled(canCapPark.toBool());
             moduleState()->setCapReady(true);
         }
         else
         {
-            capCheck->setEnabled(false);
-            uncapCheck->setEnabled(false);
+            schedulerCloseDustCover->setEnabled(false);
+            schedulerOpenDustCover->setEnabled(false);
         }
     }
     else if (iface == process()->domeInterface())
@@ -3488,14 +3395,14 @@ void Scheduler::syncProperties()
 
         if (canDomePark.isValid())
         {
-            parkDomeCheck->setEnabled(canDomePark.toBool());
-            unparkDomeCheck->setEnabled(canDomePark.toBool());
+            schedulerParkDome->setEnabled(canDomePark.toBool());
+            schedulerUnparkDome->setEnabled(canDomePark.toBool());
             moduleState()->setDomeReady(true);
         }
         else
         {
-            parkDomeCheck->setEnabled(false);
-            unparkDomeCheck->setEnabled(false);
+            schedulerParkDome->setEnabled(false);
+            schedulerUnparkDome->setEnabled(false);
         }
     }
     else if (iface == process()->weatherInterface())
@@ -3503,11 +3410,11 @@ void Scheduler::syncProperties()
         QVariant status = process()->weatherInterface()->property("status");
         if (status.isValid())
         {
-            weatherCheck->setEnabled(true);
+            schedulerWeather->setEnabled(true);
             setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
         }
         else
-            weatherCheck->setEnabled(false);
+            schedulerWeather->setEnabled(false);
     }
     else if (iface == process()->captureInterface())
     {
@@ -3515,7 +3422,7 @@ void Scheduler::syncProperties()
         QVariant hasCoolerControl = process()->captureInterface()->property("coolerControl");
         TEST_PRINT(stderr, "  @@@dbus received %s\n",
                    !hasCoolerControl.isValid() ? "invalid" : (hasCoolerControl.toBool() ? "T" : "F"));
-        warmCCDCheck->setEnabled(hasCoolerControl.toBool());
+        schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
         moduleState()->setCaptureReady(true);
     }
 }
@@ -3527,8 +3434,8 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         QVariant canMountPark = process()->mountInterface()->property("canPark");
         if (canMountPark.isValid())
         {
-            unparkMountCheck->setEnabled(canMountPark.toBool());
-            parkMountCheck->setEnabled(canMountPark.toBool());
+            schedulerUnparkMount->setEnabled(canMountPark.toBool());
+            schedulerParkMount->setEnabled(canMountPark.toBool());
             moduleState()->setMountReady(true);
         }
     }
@@ -3537,14 +3444,14 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         QVariant canCapPark = process()->capInterface()->property("canPark");
         if (canCapPark.isValid())
         {
-            capCheck->setEnabled(canCapPark.toBool());
-            uncapCheck->setEnabled(canCapPark.toBool());
+            schedulerCloseDustCover->setEnabled(canCapPark.toBool());
+            schedulerOpenDustCover->setEnabled(canCapPark.toBool());
             moduleState()->setCapReady(true);
         }
         else
         {
-            capCheck->setEnabled(false);
-            uncapCheck->setEnabled(false);
+            schedulerCloseDustCover->setEnabled(false);
+            schedulerOpenDustCover->setEnabled(false);
         }
     }
     else if (iface == process()->weatherInterface())
@@ -3552,19 +3459,19 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         QVariant status = process()->weatherInterface()->property("status");
         if (status.isValid())
         {
-            weatherCheck->setEnabled(true);
+            schedulerWeather->setEnabled(true);
             setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
         }
         else
-            weatherCheck->setEnabled(false);
+            schedulerWeather->setEnabled(false);
     }
     else if (iface == process()->domeInterface())
     {
         QVariant canDomePark = process()->domeInterface()->property("canPark");
         if (canDomePark.isValid())
         {
-            unparkDomeCheck->setEnabled(canDomePark.toBool());
-            parkDomeCheck->setEnabled(canDomePark.toBool());
+            schedulerUnparkDome->setEnabled(canDomePark.toBool());
+            schedulerParkDome->setEnabled(canDomePark.toBool());
             moduleState()->setDomeReady(true);
         }
     }
@@ -3573,7 +3480,7 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         QVariant hasCoolerControl = process()->captureInterface()->property("coolerControl");
         if (hasCoolerControl.isValid())
         {
-            warmCCDCheck->setEnabled(hasCoolerControl.toBool());
+            schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
             moduleState()->setCaptureReady(true);
         }
     }
@@ -3759,7 +3666,7 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 
     // Shutdown scheduler if it was started and not already in shutdown
     // and if weather checkbox is checked.
-    if (weatherCheck->isChecked() && moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT
+    if (schedulerWeather->isChecked() && moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT
             && moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE
             && moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN)
     {
@@ -3795,7 +3702,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
                           "Observatory scheduled for shutdown until next job is ready.",
                           job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
         moduleState()->enablePreemptiveShutdown(job->getStartupTime());
-        weatherCheck->setEnabled(false);
+        schedulerWeather->setEnabled(false);
         weatherLabel->hide();
         checkShutdownState();
         return true;
@@ -3810,8 +3717,8 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
              moduleState()->startupState() == STARTUP_COMPLETE &&
              moduleState()->parkWaitState() == PARKWAIT_IDLE &&
              (job->getStepPipeline() & SchedulerJob::USE_TRACK) &&
-             parkMountCheck->isEnabled() &&
-             parkMountCheck->isChecked())
+             schedulerParkMount->isEnabled() &&
+             schedulerParkMount->isChecked())
     {
         appendLogText(i18n(
                           "Job '%1' scheduled for execution at %2. "
@@ -3987,265 +3894,6 @@ QJsonArray Scheduler::getJSONJobs()
     return jobArray;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setPrimarySettings(const QJsonObject &settings)
-{
-    syncControl(settings, "target", nameEdit);
-    syncControl(settings, "group", groupEdit);
-    syncControl(settings, "ra", raBox);
-    syncControl(settings, "dec", decBox);
-    syncControl(settings, "pa", positionAngleSpin);
-    if (settings.contains("sequence"))
-    {
-        syncControl(settings, "sequence", sequenceEdit);
-        setSequence(settings["sequence"].toString());
-    }
-    syncControl(settings, "fits", fitsEdit);
-    syncControl(settings, "profile", schedulerProfileCombo);
-    syncControl(settings, "track", trackStepCheck);
-    syncControl(settings, "focus", focusStepCheck);
-    syncControl(settings, "align", alignStepCheck);
-    syncControl(settings, "guide", guideStepCheck);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setJobStartupConditions(const QJsonObject &settings)
-{
-    syncControl(settings, "asapCheck", asapConditionR);
-    syncControl(settings, "startupTimeCheck", startupTimeConditionR);
-    syncControl(settings, "scheduledStartTime", startupTimeEdit);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setJobConstraints(const QJsonObject &settings)
-{
-    syncControl(settings, "alt", altConstraintCheck);
-    syncControl(settings, "moon", moonSeparationCheck);
-    syncControl(settings, "weather", weatherCheck);
-    syncControl(settings, "scheduledStartTime", startupTimeEdit);
-    syncControl(settings, "twilight", twilightCheck);
-    syncControl(settings, "artifHorizon", artificialHorizonCheck);
-    syncControl(settings, "altValue", minAltitude);
-    syncControl(settings, "moonValue", minMoonSeparation);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setJobCompletionConditions(const QJsonObject &settings)
-{
-    syncControl(settings, "sequenceCheck", sequenceCompletionR);
-    syncControl(settings, "repeatCheck", repeatCompletionR);
-    syncControl(settings, "loopCheck", loopCompletionR);
-    syncControl(settings, "timeCheck", timeCompletionR);
-    syncControl(settings, "repeatRuns", repeatsSpin);
-    syncControl(settings, "scheduledStartTime", completionTimeEdit);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setObservatoryStartupProcedure(const QJsonObject &settings)
-{
-    syncControl(settings, "unparkDome", unparkDomeCheck);
-    syncControl(settings, "unparkMount", unparkMountCheck);
-    syncControl(settings, "uncap", uncapCheck);
-    syncControl(settings, "script", startupScript);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setAbortedJobManagementSettings(const QJsonObject &settings)
-{
-    syncControl(settings, "rescheduleError", errorHandlingRescheduleErrorsCB);
-    syncControl(settings, "rescheduleErrorTime", errorHandlingDelaySB);
-    syncControl(settings, "noneCheck", errorHandlingDontRestartButton);
-    syncControl(settings, "queueCheck", errorHandlingRestartQueueButton);
-    syncControl(settings, "immediateCheck", errorHandlingRestartImmediatelyButton);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Scheduler::setObservatoryShutdownProcedure(const QJsonObject &settings)
-{
-    syncControl(settings, "warmCCD", warmCCDCheck);
-    syncControl(settings, "cap", capCheck);
-    syncControl(settings, "parkMount", parkMountCheck);
-    syncControl(settings, "parkDome", parkDomeCheck);
-    syncControl(settings, "script", shutdownScript);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
-{
-    if (settings.contains(key) == false)
-        return false;
-
-    QSpinBox *pSB = nullptr;
-    QDoubleSpinBox *pDSB = nullptr;
-    QCheckBox *pCB = nullptr;
-    QComboBox *pComboBox = nullptr;
-    QLineEdit *pLE = nullptr;
-    QRadioButton *pRB = nullptr;
-    QDateTimeEdit *pDT = nullptr;
-
-    if ((pSB = qobject_cast<QSpinBox *>(widget)))
-    {
-        const int value = settings[key].toInt(pSB->value());
-        if (value != pSB->value())
-        {
-            pSB->setValue(value);
-            return true;
-        }
-    }
-    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
-    {
-        const double value = settings[key].toDouble(pDSB->value());
-        if (value != pDSB->value())
-        {
-            pDSB->setValue(value);
-            return true;
-        }
-    }
-    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
-    {
-        const bool value = settings[key].toBool(pCB->isChecked());
-        if (value != pCB->isChecked())
-        {
-            pCB->setChecked(value);
-            return true;
-        }
-    }
-    // ONLY FOR STRINGS, not INDEX
-    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
-    {
-        const QString value = settings[key].toString(pComboBox->currentText());
-        if (value != pComboBox->currentText())
-        {
-            pComboBox->setCurrentText(value);
-            return true;
-        }
-    }
-    else if ((pLE = qobject_cast<QLineEdit *>(widget)))
-    {
-        const QString value = settings[key].toString(pLE->text());
-        if (value != pLE->text())
-        {
-            pLE->setText(value);
-            return true;
-        }
-    }
-    else if ((pRB = qobject_cast<QRadioButton *>(widget)))
-    {
-        const bool value = settings[key].toBool(pRB->isChecked());
-        if (value != pRB->isChecked())
-        {
-            pRB->setChecked(value);
-            return true;
-        }
-    }
-    else if ((pDT = qobject_cast<QDateTimeEdit *>(widget)))
-    {
-        // TODO Need 64bit integer.
-        const auto value = settings[key].toDouble();
-        if (std::abs(value - pDT->dateTime().currentSecsSinceEpoch()) > 0)
-        {
-            pDT->setDateTime(QDateTime::fromSecsSinceEpoch(value));
-            return true;
-        }
-    }
-
-    return false;
-};
-
-QJsonObject Scheduler::getSchedulerSettings()
-{
-    QJsonObject jobStartupSettings =
-    {
-        {"asap", asapConditionR->isChecked()},
-        {"startupTimeConditionR", startupTimeConditionR->isChecked()},
-        {"startupTimeEdit", startupTimeEdit->text()},
-    };
-
-    QJsonObject jobConstraintSettings =
-    {
-        {"altConstraintCheck", altConstraintCheck->isChecked()},
-        {"minAltitude", minAltitude->value()},
-        {"moonSeparationCheck", moonSeparationCheck->isChecked()},
-        {"minMoonSeparation", minMoonSeparation->value()},
-        {"weatherCheck", weatherCheck->isChecked()},
-        {"twilightCheck", twilightCheck->isChecked()},
-        {"nightTime", nightTime->text()},
-        {"artificialHorizonCheck", artificialHorizonCheck->isChecked()}
-    };
-
-    QJsonObject jobCompletionSettings =
-    {
-        {"sequenceCompletionR", sequenceCompletionR->isChecked()},
-        {"repeatCompletionR", repeatCompletionR->isChecked()},
-        {"repeatsSpin", repeatsSpin->value()},
-        {"loopCompletionR", loopCompletionR->isChecked()},
-        {"timeCompletionR", timeCompletionR->isChecked()}
-    };
-
-    QJsonObject observatoryStartupSettings =
-    {
-        {"unparkDomeCheck", unparkDomeCheck->isChecked()},
-        {"unparkMountCheck", unparkMountCheck->isChecked()},
-        {"uncapCheck", uncapCheck->isChecked()},
-        {"startupScript", startupScript->text()}
-    };
-    QJsonObject abortJobSettings =
-    {
-        {"none", errorHandlingDontRestartButton->isChecked() },
-        {"queue", errorHandlingRestartQueueButton->isChecked()},
-        {"immediate", errorHandlingRestartImmediatelyButton->isChecked()},
-        {"rescheduleCheck", errorHandlingRescheduleErrorsCB->isChecked()},
-        {"errorHandlingDelaySB", errorHandlingDelaySB->value()}
-
-    };
-    QJsonObject shutdownSettings =
-    {
-        {"warmCCDCheck", warmCCDCheck->isChecked()},
-        {"capCheck", capCheck->isChecked()},
-        {"parkMountCheck", parkMountCheck->isChecked()},
-        {"parkDomeCheck", parkDomeCheck->isChecked()},
-        {"shutdownScript", shutdownScript->text()}
-    };
-
-    QJsonObject schedulerSettings =
-    {
-        {"algorithm", ALGORITHM_GREEDY},
-        {"state", moduleState()->schedulerState()},
-        {"trackStepCheck", trackStepCheck->isChecked()},
-        {"focusStepCheck", focusStepCheck->isChecked()},
-        {"alignStepCheck", alignStepCheck->isChecked()},
-        {"guideStepCheck", guideStepCheck->isChecked()},
-        {"pa", positionAngleSpin->value()},
-        {"sequence", sequenceEdit->text()},
-        {"fits", fitsEdit->text()},
-        {"profile", profile()},
-        {"jobStartup", jobStartupSettings},
-        {"jobConstraint", jobConstraintSettings},
-        {"jobCompletion", jobCompletionSettings},
-        {"observatoryStartup", observatoryStartupSettings},
-        {"abortJob", abortJobSettings},
-        {"shutdownProcedure", shutdownSettings}
-    };
-    return schedulerSettings;
-
-}
-
 bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
 {
     return process()->createJobSequence(root, prefix, outputDir);
@@ -4321,4 +3969,434 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 {
     return process()->saveScheduler(fileURL);
 }
+
+void Scheduler::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Line Edits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setText(value.toString());
+            settings[key] = value;
+
+            if (key == "sequenceEdit")
+                setSequence(value.toString());
+            else if (key == "schedulerStartupScript")
+                moduleState()->setStartupScriptURL(QUrl::fromUserInput(value.toString()));
+            else if (key == "schedulerShutdownScript")
+                moduleState()->setShutdownScriptURL(QUrl::fromUserInput(value.toString()));
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    // All QDateTime edits
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setDateTime(QDateTime::fromString(value.toString(), Qt::ISODate));
+            settings[key] = value;
+        }
+    }
+
+    setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
+
+    m_GlobalSettings = m_Settings = settings;
+}
+
+void Scheduler::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QRadioButton *rb = nullptr;
+    QComboBox *cbox = nullptr;
+    QLineEdit *lineedit = nullptr;
+    QDateTimeEdit *datetimeedit = nullptr;
+
+    QString key;
+    QVariant value;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        key = dsb->objectName();
+        value = dsb->value();
+
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        key = sb->objectName();
+        value = sb->value();
+    }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        key = cb->objectName();
+        value = cb->isChecked();
+    }
+    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = rb->objectName();
+        value = rb->isChecked();
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        key = cbox->objectName();
+        value = cbox->currentText();
+    }
+    else if ( (lineedit = qobject_cast<QLineEdit*>(sender())))
+    {
+        key = lineedit->objectName();
+        value = lineedit->text();
+    }
+    else if ( (datetimeedit = qobject_cast<QDateTimeEdit*>(sender())))
+    {
+        key = datetimeedit->objectName();
+        value = datetimeedit->dateTime().toString(Qt::ISODate);
+    }
+
+    // Save immediately
+    Options::self()->setProperty(key.toLatin1(), value);
+
+    m_Settings[key] = value;
+    m_GlobalSettings[key] = value;
+
+    emit settingsUpdated(getAllSettings());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QVariantMap Scheduler::getAllSettings() const
+{
+    QVariantMap settings;
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All Line Edits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        // Many other widget types (e.g. spinboxes) apparently have QLineEdit inside them so we want to skip those
+        if (!oneWidget->objectName().startsWith("qt_"))
+            settings.insert(oneWidget->objectName(), oneWidget->text());
+    }
+
+    // All Radio Buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All QDateTime
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    {
+        settings.insert(oneWidget->objectName(), oneWidget->dateTime().toString(Qt::ISODate));
+    }
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setAllSettings(const QVariantMap &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSettings();
+
+    for (auto &name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+
+        // Line Edits
+        auto lineedit = findChild<QLineEdit*>(name);
+        if (lineedit)
+        {
+            syncControl(settings, name, lineedit);
+
+            if (name == "sequenceEdit")
+                setSequence(lineedit->text());
+            else if (name == "schedulerStartupScript")
+                moduleState()->setStartupScriptURL(QUrl::fromUserInput(lineedit->text()));
+            else if (name == "schedulerShutdownScript")
+                moduleState()->setShutdownScriptURL(QUrl::fromUserInput(lineedit->text()));
+
+            continue;
+        }
+
+        // Radio button
+        auto radioButton = findChild<QRadioButton*>(name);
+        if (radioButton)
+        {
+            syncControl(settings, name, radioButton);
+            continue;
+        }
+
+        auto datetimeedit = findChild<QDateTimeEdit*>(name);
+        if (datetimeedit)
+        {
+            syncControl(settings, name, datetimeedit);
+            continue;
+        }
+    }
+
+    m_Settings = settings;
+
+    // Restablish connections
+    connectSettings();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Scheduler::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    QLineEdit *pLineEdit = nullptr;
+    QRadioButton *pRadioButton = nullptr;
+    QDateTimeEdit *pDateTimeEdit = nullptr;
+    bool ok = true;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(&ok);
+        if (ok)
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(&ok);
+        if (ok)
+        {
+            pDSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pCB->setChecked(value);
+        return true;
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pLineEdit = qobject_cast<QLineEdit *>(widget)))
+    {
+        const auto value = settings[key].toString();
+        pLineEdit->setText(value);
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pRadioButton->setChecked(value);
+        return true;
+    }
+    else if ((pDateTimeEdit = qobject_cast<QDateTimeEdit *>(widget)))
+    {
+        const auto value = QDateTime::fromString(settings[key].toString(), Qt::ISODate);
+        pDateTimeEdit->setDateTime(value);
+        return true;
+    }
+
+    return false;
+};
+
+void Scheduler::connectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Scheduler::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Scheduler::syncSettings);
+
+    // All Radio Butgtons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Scheduler::syncSettings);
+
+    // All QLineEdits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        // Many other widget types (e.g. spinboxes) apparently have QLineEdit inside them so we want to skip those
+        if (!oneWidget->objectName().startsWith("qt_"))
+            connect(oneWidget, &QLineEdit::textChanged, this, &Ekos::Scheduler::syncSettings);
+    }
+
+    // All QDateTimeEdit
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+        connect(oneWidget, &QDateTimeEdit::dateTimeChanged, this, &Ekos::Scheduler::syncSettings);
+}
+
+void Scheduler::disconnectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Scheduler::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Scheduler::syncSettings);
+
+    // All Radio Butgtons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Scheduler::syncSettings);
+
+    // All QLineEdits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+        disconnect(oneWidget, &QLineEdit::editingFinished, this, &Ekos::Scheduler::syncSettings);
+
+    // All QDateTimeEdit
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+        disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Scheduler::syncSettings);
+}
+
 }

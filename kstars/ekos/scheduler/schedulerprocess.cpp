@@ -1739,7 +1739,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
         outstream << "<Procedure>ParkDome</Procedure>" << Qt::endl;
     if (moduleState()->shutdownScriptURL().isEmpty() == false)
         outstream << "<Procedure value='" << moduleState()->shutdownScriptURL().toString(QUrl::PreferLocalFile) <<
-                  "'>ShutdownScript</Procedure>" <<
+                  "'>schedulerStartupScript</Procedure>" <<
                   Qt::endl;
     outstream << "</ShutdownProcedure>" << Qt::endl;
 

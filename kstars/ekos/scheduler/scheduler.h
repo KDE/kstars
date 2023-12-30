@@ -182,32 +182,7 @@ public:
 
         // TODO: This section of static public and private methods should someday
         // be moved from Scheduler and placed in a separate class,
-        // e.g. SchedulerPlanner or SchedulerJobEval
-
-        // Scheduler Settings
-        void setSettings(const QJsonObject &settings);
-
-        // Primary Settings
-        void setPrimarySettings(const QJsonObject &settings);
-
-        // Job Startup Conditions
-        void setJobStartupConditions(const QJsonObject &settings);
-
-        // Job Constraints
-        void setJobConstraints(const QJsonObject &settings);
-
-        // Job Completion Conditions
-        void setJobCompletionConditions(const QJsonObject &settings);
-
-        // Observatory Startup Procedure
-        void setObservatoryStartupProcedure(const QJsonObject &settings);
-
-        // Aborted Job Managemgent Settings
-        void setAbortedJobManagementSettings(const QJsonObject &settings);
-
-        // Observatory Shutdown Procedure
-        void setObservatoryShutdownProcedure(const QJsonObject &settings);
-
+        // e.g. SchedulerPlanner or SchedulerJobEval        
         /**
          * @brief Remove a job from current table row.
          * @param index
@@ -271,6 +246,10 @@ public:
         {
             return m_moduleState;
         }
+
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
         
 private:
 
@@ -515,8 +494,6 @@ protected slots:
          */
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
-        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
-
         /**
          * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check
          * to ensure it does not deviation from current scheduler job target.
@@ -536,6 +513,7 @@ signals:
         void jobStarted(const QString &jobName);
         void jobEnded(const QString &jobName, const QString &endReason);
         void jobsUpdated(QJsonArray jobsList);
+        void settingsUpdated(const QVariantMap &settings);
 
 private:
         /**
@@ -600,6 +578,38 @@ private:
             return repeatSequenceCB->isEnabled() && repeatSequenceCB->isChecked() &&
                     (executionSequenceLimit->value() == 0 || sequenceExecutionCounter < executionSequenceLimit->value());
         }
+
+        ////////////////////////////////////////////////////////////////////
+        /// Settings
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
         int sequenceExecutionCounter = 1;
 
@@ -795,5 +805,8 @@ private:
         {
             return m_GreedyScheduler;
         }
+
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
 };
 }

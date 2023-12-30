@@ -127,8 +127,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -174,8 +173,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -306,8 +304,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="search">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="search"/>
             </property>
            </widget>
           </item>
@@ -359,7 +356,7 @@
              <number>6</number>
             </property>
             <item row="0" column="0">
-             <widget class="QCheckBox" name="trackStepCheck">
+             <widget class="QCheckBox" name="schedulerTrackStep">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -384,7 +381,7 @@
              </widget>
             </item>
             <item row="0" column="2">
-             <widget class="QCheckBox" name="alignStepCheck">
+             <widget class="QCheckBox" name="schedulerAlignStep">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -406,7 +403,7 @@
              </widget>
             </item>
             <item row="0" column="3">
-             <widget class="QCheckBox" name="guideStepCheck">
+             <widget class="QCheckBox" name="schedulerGuideStep">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -428,7 +425,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QCheckBox" name="focusStepCheck">
+             <widget class="QCheckBox" name="schedulerFocusStep">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -529,8 +526,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="snap-orthogonal">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="snap-orthogonal"/>
             </property>
            </widget>
           </item>
@@ -1065,7 +1061,6 @@
            </property>
            <property name="font">
             <font>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1210,7 +1205,7 @@ font-weight:bold;
           <item>
            <widget class="QCheckBox" name="repeatSequenceCB">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat all scheduled jobs as soon as all jobs have been completed. This option is only available if the &amp;quot;Remember job progress&amp;quot; option in Ekos &amp;gt; Scheduler is not selected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat all scheduled jobs as soon as all jobs have been completed. This option is only available if the &lt;span style=&quot; font-weight:700;&quot;&gt;Remember Job Progress&lt;/span&gt; option in Ekos  Scheduler settings is &lt;span style=&quot; font-weight:700;&quot;&gt;not&lt;/span&gt; selected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Repeat all jobs</string>
@@ -1310,7 +1305,7 @@ font-weight:bold;
            <number>3</number>
           </property>
           <item row="1" column="0">
-           <widget class="QRadioButton" name="repeatCompletionR">
+           <widget class="QRadioButton" name="schedulerRepeatSequences">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1326,7 +1321,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QDateTimeEdit" name="completionTimeEdit">
+           <widget class="QDateTimeEdit" name="schedulerUntilValue">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1345,7 +1340,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="0" colspan="2">
-           <widget class="QRadioButton" name="sequenceCompletionR">
+           <widget class="QRadioButton" name="schedulerCompleteSequences">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1367,7 +1362,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="3" column="0">
-           <widget class="QRadioButton" name="timeCompletionR">
+           <widget class="QRadioButton" name="schedulerUntil">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1386,7 +1381,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="repeatsSpin">
+           <widget class="QSpinBox" name="schedulerExecutionSequencesLimit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1411,7 +1406,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="2" column="0" colspan="2">
-           <widget class="QRadioButton" name="loopCompletionR">
+           <widget class="QRadioButton" name="schedulerUntilTerminated">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1574,7 +1569,7 @@ font-weight:bold;
            <number>3</number>
           </property>
           <item row="1" column="0">
-           <widget class="QCheckBox" name="moonSeparationCheck">
+           <widget class="QCheckBox" name="schedulerMoonSeparation">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1593,7 +1588,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QCheckBox" name="altConstraintCheck">
+           <widget class="QCheckBox" name="schedulerAltitude">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1615,7 +1610,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QDoubleSpinBox" name="minAltitude">
+           <widget class="QDoubleSpinBox" name="schedulerAltitudeValue">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1634,7 +1629,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QCheckBox" name="weatherCheck">
+           <widget class="QCheckBox" name="schedulerWeather">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1653,7 +1648,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="minMoonSeparation">
+           <widget class="QDoubleSpinBox" name="schedulerMoonSeparationValue">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1672,7 +1667,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="3" column="0">
-           <widget class="QCheckBox" name="twilightCheck">
+           <widget class="QCheckBox" name="schedulerTwilight">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1694,7 +1689,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="4" column="0">
-           <widget class="QCheckBox" name="artificialHorizonCheck">
+           <widget class="QCheckBox" name="schedulerHorizon">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1779,7 +1774,7 @@ font-weight:bold;
            <number>1</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="warmCCDCheck">
+           <widget class="QCheckBox" name="schedulerWarmCCD">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -1801,7 +1796,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="capCheck">
+           <widget class="QCheckBox" name="schedulerCloseDustCover">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1820,7 +1815,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="parkMountCheck">
+           <widget class="QCheckBox" name="schedulerParkMount">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -1842,7 +1837,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="parkDomeCheck">
+           <widget class="QCheckBox" name="schedulerParkDome">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -1904,7 +1899,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="shutdownScript">
+           <widget class="QLineEdit" name="schedulerShutdownScript">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -2047,7 +2042,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="errorHandlingDelaySB">
+           <widget class="QSpinBox" name="errorHandlingStrategyDelay">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -2103,7 +2098,7 @@ font-weight:bold;
            <number>1</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="unparkDomeCheck">
+           <widget class="QCheckBox" name="schedulerUnparkDome">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -2125,7 +2120,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="unparkMountCheck">
+           <widget class="QCheckBox" name="schedulerUnparkMount">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -2147,7 +2142,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="uncapCheck">
+           <widget class="QCheckBox" name="schedulerOpenDustCover">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -2206,7 +2201,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="startupScript">
+           <widget class="QLineEdit" name="schedulerStartupScript">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -2255,18 +2250,18 @@ font-weight:bold;
   <tabstop>nameEdit</tabstop>
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
-  <tabstop>trackStepCheck</tabstop>
-  <tabstop>unparkDomeCheck</tabstop>
-  <tabstop>unparkMountCheck</tabstop>
-  <tabstop>uncapCheck</tabstop>
+  <tabstop>schedulerTrackStep</tabstop>
+  <tabstop>schedulerUnparkDome</tabstop>
+  <tabstop>schedulerUnparkMount</tabstop>
+  <tabstop>schedulerOpenDustCover</tabstop>
   <tabstop>startupB</tabstop>
   <tabstop>selectStartupScriptB</tabstop>
-  <tabstop>warmCCDCheck</tabstop>
-  <tabstop>capCheck</tabstop>
-  <tabstop>parkMountCheck</tabstop>
-  <tabstop>parkDomeCheck</tabstop>
+  <tabstop>schedulerWarmCCD</tabstop>
+  <tabstop>schedulerCloseDustCover</tabstop>
+  <tabstop>schedulerParkMount</tabstop>
+  <tabstop>schedulerParkDome</tabstop>
   <tabstop>shutdownB</tabstop>
-  <tabstop>shutdownScript</tabstop>
+  <tabstop>schedulerShutdownScript</tabstop>
   <tabstop>selectShutdownScriptB</tabstop>
   <tabstop>addToQueueB</tabstop>
   <tabstop>removeFromQueueB</tabstop>
@@ -2288,19 +2283,19 @@ font-weight:bold;
    </property>
   </buttongroup>
   <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

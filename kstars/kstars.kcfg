@@ -2967,6 +2967,12 @@
          <label>Default scheduler checkbox for starting mount tracking on job startup.</label>
          <default>true</default>
       </entry>
+      <entry name="SchedulerStartupScript" type="String">
+         <label>Execute this script when starting the scheduler.</label>
+      </entry>
+      <entry name="SchedulerShutdownScript" type="String">
+         <label>Execute this script when shutting down the scheduler.</label>
+      </entry>
       <entry name="SchedulerFocusStep" type="Bool">
          <label>Default scheduler checkbox for running autofocus on job startup.</label>
          <default>true</default>
@@ -3007,9 +3013,24 @@
          <label>Default scheduler checkbox for job twilight constraints.</label>
          <default>true</default>
       </entry>
+      <entry name="SchedulerCompleteSequences" type="Bool">
+         <label>Scheduler is complete once all sequences are complete.</label>
+         <default>true</default>
+      </entry>
       <entry name="SchedulerRepeatSequences" type="Bool">
          <label>Restart sequences as soon as all sequences have been completed.</label>
          <default>false</default>
+      </entry>
+      <entry name="SchedulerUntilTerminated" type="Bool">
+         <label>Restart sequences until manually terminated.</label>
+         <default>false</default>
+      </entry>
+      <entry name="SchedulerUntil" type="Bool">
+         <label>Loop sequences until specific time is up.</label>
+         <default>false</default>
+      </entry>
+      <entry name="SchedulerUntilValue" type="String">
+         <label>Time when scheduler should stop repeating sequences.</label>
       </entry>
       <entry name="SchedulerExecutionSequencesLimit" type="UInt">
          <label>Limit how many times the scheduler should execute all sequences.</label>
