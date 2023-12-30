@@ -110,7 +110,7 @@ void TestEkosSchedulerOps::init()
     scheduler->setGuidePathString(Ekos::MockGuide::mockPath);
 
     // Let's not deal with the dome for now.
-    scheduler->unparkDomeCheck->setChecked(false);
+    scheduler->schedulerUnparkDome->setChecked(false);
 
     // For now don't deal with files that were left around from previous testing.
     // Should put these is a temporary directory that will be removed, if we generate
