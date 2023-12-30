@@ -337,6 +337,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // Scheduler <---> EkosLive connections
     connect(schedulerModule(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
+    connect(schedulerModule(), &Ekos::Scheduler::settingsUpdated, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendSchedulerSettings, Qt::UniqueConnection);
 
     // Initialize Ekos Analyze Module
     analyzeProcess.reset(new Ekos::Analyze());

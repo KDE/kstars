@@ -5233,7 +5233,6 @@ void Focus::syncSettings()
 
     // Save immediately
     Options::self()->setProperty(key.toLatin1(), value);
-    Options::self()->save();
 
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
