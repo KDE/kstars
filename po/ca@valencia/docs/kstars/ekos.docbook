@@ -47,7 +47,7 @@
     </listitem>
     <listitem>
         <para
->Carrega i orienta: carrega una imatge FITS, fa coincidir les coordenades resoltes i centra la muntura a les coordenades exactes de la imatge per a obtindre el mateix fotograma desitjat. </para>
+>Carrega i orienta: carrega una imatge FITS, fa coincidir les coordenades resoltes i centra la muntura en les coordenades exactes de la imatge per a obtindre el mateix fotograma desitjat. </para>
     </listitem>
     <listitem>
         <para

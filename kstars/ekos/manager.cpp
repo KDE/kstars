@@ -337,6 +337,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // Scheduler <---> EkosLive connections
     connect(schedulerModule(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
+    connect(schedulerModule(), &Ekos::Scheduler::settingsUpdated, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendSchedulerSettings, Qt::UniqueConnection);
 
     // Initialize Ekos Analyze Module
     analyzeProcess.reset(new Ekos::Analyze());
@@ -2131,6 +2133,10 @@ void Manager::initMount()
             {"meridianFlipText", text},
         }), mountModule()->getMeridianFlipState()->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE);
         meridianFlipStatusWidget->setStatus(text);
+    });
+    connect(mountModule(), &Ekos::Mount::autoParkCountdownUpdated, this, [&](const QString & text)
+    {
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"autoParkCountdown", text}}), true);
     });
 
     connect(mountModule(), &Ekos::Mount::trainChanged, ekosLiveClient.get()->message(),

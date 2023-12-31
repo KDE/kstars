@@ -32,7 +32,7 @@
         <title
 >CCD i roda de filtres</title>
         <para
->Seleccioneu el CCD/rèflex digital i la roda de filtres (si està disponible) per a la captura. Establiu les opcions de temperatura i filtre del CCD. </para>
+>Seleccioneu CCD/rèflex digital i la roda de filtres (si està disponible) per a la captura. Establiu la configuració de temperatura CCD i del filtre. </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -107,7 +107,7 @@
                 <para
 ><guilabel
 >Tipus</guilabel
->: Especifiqueu el tipus de fotograma del CCD desitjat. Les opcions són fotograma <guimenuitem
+>: Especifiqueu el tipus de fotograma de CCD desitjat. Les opcions són fotograma <guimenuitem
 >Lluminós</guimenuitem
 >, <guimenuitem
 >Fosc</guimenuitem
@@ -127,7 +127,7 @@
                 <para
 ><guilabel
 >Format</guilabel
->: Especifiqueu el format per a guardar la captura. Per a tots els CCD, només estarà disponible l'opció <guimenuitem
+>: Especifiqueu el format per a guardar la captura. Per a tots CCD, només estarà disponible l'opció <guimenuitem
 >FITS</guimenuitem
 >. Per a les càmeres rèflex digitals, disposareu d'una opció addicional per a guardar en format <guimenuitem
 >Natiu</guimenuitem
@@ -137,13 +137,13 @@
                 <para
 ><guilabel
 >Propietats personalitzades</guilabel
->: Establiu les propietats esteses disponibles en la càmera a la configuració de la tasca. </para>
+>: Establiu les propietats esteses disponibles en la càmera en la configuració de la tasca. </para>
             </listitem>
             <listitem>
                 <para
 ><guilabel
 >Calibratge</guilabel
->: Per als fotogrames foscos i plans, podreu establir opcions addicionals explicades a la <link linkend="capture-calibration-frames"
+>: Per als fotogrames foscos i plans, podreu establir opcions addicionals explicades en la <link linkend="capture-calibration-frames"
 >secció Fotogrames de calibratge a continuació</link
 >. </para>
             </listitem>
@@ -151,7 +151,7 @@
                 <para
 ><guilabel
 >Fotograma</guilabel
->: Especifiqueu l'esquerra (X), la part superior (Y), l'amplària (W) i l'alçària (H) del fotograma del CCD desitjat. Si heu canviat les dimensions del fotograma, podreu restablir-lo als valors predeterminats fent clic en el botó Restablix. </para>
+>: Especifiqueu l'esquerra (X), la part superior (Y), l'amplària (W) i l'alçària (H) del fotograma de CCD desitjat. Si heu canviat les dimensions del fotograma, podreu restablir-les als valors predeterminats fent clic en el botó Restablix. </para>
             </listitem>
             <listitem>
                 <para
@@ -332,7 +332,7 @@
                         <para
 ><guilabel
 >Client</guilabel
->: Les imatges capturades només es pujaran a Ekos i es guardaran al directori local especificat anteriorment.</para>
+>: Les imatges capturades només es pujaran a Ekos i es guardaran en el directori local especificat anteriorment.</para>
                     </listitem>
                     <listitem>
                         <para
@@ -344,7 +344,7 @@
                         <para
 ><guilabel
 >Ambdós</guilabel
->: Les imatges capturades es guardaran al dispositiu remot <emphasis role="bold"
+>: Les imatges capturades es guardaran en el dispositiu remot <emphasis role="bold"
 >i</emphasis
 > es pujaran a Ekos.</para>
                     </listitem>
@@ -405,7 +405,7 @@
                 <para
 ><guilabel
 >Enfocament automàtic si HFR &gt;</guilabel
->: Si l'enfocament automàtic està habilitat al <link linkend="ekos-focus"
+>: Si l'enfocament automàtic està habilitat en el <link linkend="ekos-focus"
 >mòdul «Enfocament»</link
 > i almenys una operació d'enfocament automàtic s'ha completat correctament, podreu establir el valor HFR màxim acceptable. Si esta opció està habilitada, entre les exposicions consecutives, el valor HFR es tornarà a calcular, i si es troba que excedix el valor màxim HFR acceptable, es desencadenarà automàticament una operació d'enfocament automàtic. Si l'operació d'enfocament automàtic s'ha completat correctament, la cua en seqüència es reprendrà, en cas contrari, la tasca s'interromprà.</para>
             </listitem>
@@ -521,6 +521,34 @@
                 </para>
             </caption>
         </mediaobject>
+        <para
+>La vista en directe també proporciona una eina de superposició gràfica per a ajudar a la col·limació. S'alterna mitjançant el botó en forma de creu. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Superposició de col·limació</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>El botó d'opcions <guilabel
+>Superposició</guilabel
+> obri un diàleg que permet la creació arbitrària i flexible d'el·lipses (inclosos cercles), rectangles i línies, així com punts d'ancoratge que actuen com a desplaçaments globals del dibuix. Cada element definit té la seua mida, desplaçament, repetició, gruix i color (inclosa la transparència). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Opcions per a la superposició de col·limació</phrase>
+                </para>
+            </caption>
+        </mediaobject>
     </sect2>
 
     <sect2 id="capture-fits-viewer">
@@ -528,7 +556,7 @@
 >Visor de FITS</title>
 
         <para
->Les imatges capturades es mostren en el visor de FITS de &kstars;, i també a la pantalla de resum. Establix les opcions relacionades amb com es mostraran les imatges en el visor. </para>
+>Les imatges capturades es mostren en el visor de FITS de &kstars;, i també en la pantalla de resum. Establix les opcions relacionades amb com es mostraran les imatges en el visor. </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -572,13 +600,13 @@
 >zero</emphasis
 > indica que la part superior del fotograma (indicada per una xicoteta fletxa) apunta <emphasis
 >directament</emphasis
-> al pol. L'angle de posició s'expressa com E de N (Est del Nord), de manera que l'AP de 90 graus indica que la <emphasis
+> cap al pol. L'angle de posició s'expressa com E de N (Est del Nord), de manera que l'AP de 90 graus indica que la <emphasis
 >part superior</emphasis
 > del fotograma supera els 90 graus (en sentit contrari a les agulles del rellotge) del pol. Consulteu alguns <ulink url="https://nustarsoc.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf"
 >exemples</ulink
 > per als AP diferents. </para>
         <para
->Per a calibrar l'angle de posició (AP), captureu i resoleu una imatge al <link linkend="ekos-align"
+>Per a calibrar l'angle de posició (AP), captureu i resoleu una imatge en el <link linkend="ekos-align"
 >mòdul «Alinea» d'Ekos</link
 >. S'aplicaran un <emphasis
 >desplaçament</emphasis
@@ -650,7 +678,7 @@
                             <para
 ><guilabel
 >Paret</guilabel
->: La font de llum és un panell a la paret de l'observatori. Especifiqueu les coordenades de l'azimut i l'altitud del panell i la muntura s'orientarà abans de capturar els fotogrames de camp pla. Si el panell de llum és controlable des d'INDI, Ekos l'encendrà o apagarà segons siga necessari.</para>
+>: La font de llum és un panell en la paret de l'observatori. Especifiqueu les coordenades de l'azimut i l'altitud del panell i la muntura s'orientarà abans de capturar els fotogrames de camp pla. Si el panell de llum és controlable des d'INDI, Ekos l'encendrà o apagarà segons siga necessari.</para>
                         </listitem>
                         <listitem>
                             <para
@@ -706,7 +734,7 @@
         <para
 >La implementació d'este procés no té en compte la força (magnitud o flux) de l'objectiu desitjat, ni té en compte altres factors que poden causar que un astrofotògraf trie un temps de subexposició alternatiu. Estos altres factors poden incloure: els requisits d'emmagatzematge i el temps de postprocessament ampliat per a un gran nombre d'exposicions curtes, els impactes de factors externs que poden ocórrer en exposicions molt llargues, com ara el rendiment del seguiment o guiatge, canvis en les condicions meteorològiques que poden pertorbar les condicions de visió, intrusions del trànsit aeri o el pas de satèl·lits. </para>
         <para
->Les aproximacions a l'obtenció de les imatges poden variar molt en la selecció dels temps d'exposició i el nombre de subexposicions utilitzades per a la integració. Un enfocament ben acceptat per a l'obtenció de les imatges d'objectes del cel profund utilitza exposicions llargues, requerix un bon guiatge, unes condicions de visió bones a excel·lents, i normalment s'empraria filtratge per a reduir els efectes de la pol·lució lumínica. En l'altre extrem hi ha aproximacions com les tècniques de crear imatges a partir de punts (generalment, «imatge de la sort»), les quals utilitzen entre centenars a milers d'exposicions extremadament curtes en un intent d'eliminar els efectes de la pol·lució lumínica, les males condicions de visió i d'un guiatge roín. Les opcions fetes per als valors de determinades entrades a la calculadora d'exposició variaran en funció de l'aproximació per a l'obtenció d'imatges que s'utilitze.</para>
+>Les aproximacions a l'obtenció de les imatges poden variar molt en la selecció dels temps d'exposició i el nombre de subexposicions utilitzades per a la integració. Un enfocament ben acceptat per a l'obtenció de les imatges d'objectes del cel profund utilitza exposicions llargues, requerix un bon guiatge, unes condicions de visió bones a excel·lents, i normalment s'empraria filtratge per a reduir els efectes de la pol·lució lumínica. En l'altre extrem hi ha aproximacions com les tècniques de crear imatges a partir de punts (generalment, «imatge de la sort»), les quals utilitzen entre centenars a milers d'exposicions extremadament curtes en un intent d'eliminar els efectes de la pol·lució lumínica, les males condicions de visió i d'un guiatge roín. Les opcions fetes per als valors de determinades entrades en la calculadora d'exposició variaran en funció de l'aproximació per a l'obtenció d'imatges que s'utilitze.</para>
         <orderedlist>
             <listitem>
 				<para
@@ -718,10 +746,10 @@
 >: Este selector establix la mesura de la magnitud en segons d'arc al quadrat del cel de fons.</para>
                             <para
 >L'interval de la qualitat del cel va des de 22 per als cels més foscos, fins a 16 per als cels més brillants (més contaminats per la llum). L'escala de magnituds no és lineal; és una escala logarítmica basada en la 5a arrel de 100. Per tant, 5 passos en l'escala representen un canvi en la brillantor per un factor de 100. (Una qualitat del cel de 17 és 100 vegades més brillant que una qualitat del cel de 22. Cada pas sencer en l'escala és un canvi per un factor d'aproximadament 2,512). <ulink url="https://ca.wikipedia.org/wiki/Contaminaci%C3%B3_lum%C3%ADnica"
->Contaminació lumínica a la Viquipèdia</ulink
+>Contaminació lumínica en la Viquipèdia</ulink
 ></para>
                             <para
->Tota la llum dispersa al fons del cel es considera pol·lució lumínica, independentment de la seua font, per la qual cosa els efectes de la llum de la Lluna s'han de considerar com a pol·lució lumínica «natural». Però les condicions meteorològiques també poden afectar la qualitat del cel, ja que la humitat o la coberta de núvols poden reflectir i dispersar qualsevol font de llum a través de l'atmosfera.</para>
+>Tota la llum dispersa en el fons del cel es considera pol·lució lumínica, independentment de la seua font, per la qual cosa els efectes de la llum de la Lluna s'han de considerar com a pol·lució lumínica «natural». Però les condicions meteorològiques també poden afectar la qualitat del cel, ja que la humitat o la coberta de núvols poden reflectir i dispersar qualsevol font de llum a través de l'atmosfera.</para>
                             <para
 >Un <ulink url="https://en.wikipedia.org/wiki/Sky_quality_meter"
 >Mesurador de qualitat del cel (SQM)</ulink
@@ -760,7 +788,7 @@
                             <para
 ><guilabel
 >Amplada de banda del filtre</guilabel
->: Este selector establix el valor per a l'amplada de banda (en nanòmetres), i s'hauria de reduir del valor predeterminat de 300 quan s'inclou un filtre al tren òptic. La inclusió de filtres en el tren òptic afectarà enormement el càlcul de l'exposició. El valor oscil·la entre 300, per a l'obtenció d'imatges sense cap filtre, fins a 2,8 per a un filtre de banda estreta extrema.</para>
+>: Este selector establix el valor per a l'amplada de banda (en nanòmetres), i s'hauria de reduir del valor predeterminat de 300 quan s'inclou un filtre en el tren òptic. La inclusió de filtres en el tren òptic afectarà enormement el càlcul de l'exposició. El valor oscil·la entre 300, per a l'obtenció d'imatges sense cap filtre, fins a 2,8 per a un filtre de banda estreta extrema.</para>
                             <para
 >Els filtres generalment es dividixen en dues categories: banda única o multibanda. L'amplada de banda d'un filtre de banda única hauria de ser relativament fàcil de determinar o estimar. En general, es considera que un filtre roig, verd o blau té una amplada de banda de 100 nanòmetres. La documentació dels filtres de banda estreta sovint indicarà que l'amplada de banda (normalment en l'interval de 3 fins a 12 nm). Però l'amplada de banda dels filtres multibanda d'astronomia, com els filtres de pol·lució lumínica, o els filtres dissenyats específicament per al seu ús en nebuloses poden ser més difícils de determinar, ja que els seus perfils de transmissió poden ser molt més complexos.</para>
 <para
@@ -800,11 +828,11 @@
 >Guany / ISO</guilabel
 >: Per a càmeres amb sensors CMOS, es pot seleccionar un valor de guany o ISO. Apareixerà un control del guany per a les càmeres que permeten la seua selecció, i apareixerà una llista desplegable de selecció ISO per a les càmeres DSLR. Ajustant el valor de guany o ISO es mourà lateralment un indicador de selecció al llarg del gràfic del temps d'exposició per a mostrar com el valor de guany seleccionat afectarà el temps d'exposició calculat.</para>
 <para
->Les càmeres basades en CMOS solen tindre un soroll alt de lectura amb valors baixos de guany o ISO, i el soroll de lectura disminuïx a mesura que augmenta el valor del guany o ISO. Per tant, un usuari podria tindre la temptació de seleccionar un valor de guany més alt en un intent de reduir la quantitat de soroll de lectura. Però la capacitat total de la càmera normalment seria més alta quan els valors de guany o ISO són més baixos. Una capacitat total major proporciona un interval dinàmic major a la imatge.</para>
+>Les càmeres basades en CMOS solen tindre un soroll alt de lectura amb valors baixos de guany o ISO, i el soroll de lectura disminuïx a mesura que augmenta el valor del guany o ISO. Per tant, un usuari podria tindre la temptació de seleccionar un valor de guany més alt en un intent de reduir la quantitat de soroll de lectura. Però la capacitat total de la càmera normalment seria més alta quan els valors de guany o ISO són més baixos. Una capacitat total major proporciona un interval dinàmic major en la imatge.</para>
 <para
->La selecció d'un valor del guany o ISO dependrà de la tècnica emprada en l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran a la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura a les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
+>La selecció d'un valor del guany o ISO dependrà de la tècnica emprada en l'obtenció d'imatges. Quan es desitja una exposició llarga (com passa amb l'obtenció de les imatges DSO «típiques»), normalment es preferix un valor baix de guany o ISO per a aconseguir un interval dinàmic més gran en la imatge. Però si s'està utilitzant una tècnica per a crear imatges a partir de punts, els temps d'exposició seran tan baixos que la reducció del soroll de lectura esdevé fonamental, en este cas l'usuari probablement prioritzarà un soroll baix de lectura en les subexposicions, i probablement necessitarà seleccionar un valor alt del guany o ISO.</para>
 <para
->Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa en l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» a la gràfica. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
+>Algunes càmeres poden mostrar una corba progressiva suau en el soroll de lectura sobre l'interval dels valors del guany, altres càmeres poden tindre passos molt pronunciats (i altres anomalies) en el seu soroll de lectura. Estos passos pronunciats solen ser el resultat del canvi de mode electrònic dins de la càmera. En els casos en què el gràfic mostra un pas pronunciat, l'usuari pot voler seleccionar un valor de guany que es trobe a la part inferior d'este pas. Açò pot proporcionar un soroll de lectura reduït i donar lloc a una exposició més curta sense una pèrdua significativa en l'interval dinàmic en comparació amb una imatge capturada en una selecció de guany que es trobe a la part superior d'este pas. Però cal ser prudents quan se selecciona un guany a prop d'un «pas» en el gràfic. Algunes publicacions a fòrums indiquen que les dades de soroll de lectura proporcionades per la documentació del fabricant poden no ser exactes. El «commutador» real del soroll de lectura pot tindre un valor de guany una mica més alt o més baix, per la qual cosa es recomana evitar seleccionar un valor de guany que estiga en un pas del soroll de lectura. </para>
 <para
 >Quan s'utilitzen les dades des de la documentació del fabricant de la càmera, eviteu seleccionar un guany a prop d'un pas <mediaobject>
                 <imageobject>
@@ -832,7 +860,7 @@
                             <para
 ><guilabel
 >% d'augment del soroll</guilabel
->: Este selector controla un factor utilitzat en l'equació del Dr. Glover. Este valor alterarà l'equilibri relatiu entre les dues fonts de soroll a la subexposició. Com a regla general, el Dr. Glover havia recomanat utilitzar un valor del 5%, però reduïu-lo fins al 2% quan el temps d'exposició calculat es considere massa curt.</para>
+>: Este selector controla un factor utilitzat en l'equació del Dr. Glover. Este valor alterarà l'equilibri relatiu entre les dues fonts de soroll en la subexposició. Com a regla general, el Dr. Glover havia recomanat utilitzar un valor del 5%, però reduïu-lo fins al 2% quan el temps d'exposició calculat es considere massa curt.</para>
 <para
 >La perspectiva de l'«augment» és un augment relatiu del soroll de lectura en comparació amb el soroll de la pol·lució lumínica. Pot paréixer contraintuïtiu, però augmentar este valor reduirà el temps d'exposició, reduint el soroll de la pol·lució lumínica (i reduint el senyal de l'objectiu), de manera que l'«augment» significarà un augment relatiu de l'efecte del soroll de lectura en comparació amb el soroll de la pol·lució. La reducció d'este valor augmentarà el temps d'exposició i permetrà que arribe més soroll de la pol·lució lumínica (i més senyal de l'objectiu) a l'exposició. Açò reduirà de manera efectiva l'impacte relatiu del soroll de lectura.</para>
                        <para
@@ -887,7 +915,7 @@
 <para
 >El valor de l'apilament d'imatges és quan les imatges estan apilades, l'acumulació de temps d'exposició i les dades que representen el senyal de l'objectiu s'incrementen proporcionalment amb el nombre afegit d'imatges integrades, però l'augment del soroll és desproporcionadament menor. Com a resultat, la qualitat de les imatges integrades es pot veure com una corba que comença amb un bon «rendiment» quan s'integren les primeres subexposicions, però esta corba té un retorn decreixent a mesura que augmenta el nombre de subexposicions que s'integren. </para>
 <para
->Idealment, s'utilitzaria una relació senyal a soroll (SNR) desitjada per a mesurar el nivell de qualitat d'una imatge, però la calculadora de l'exposició no té la capacitat de reconéixer la força del senyal a partir de l'obtenció d'imatges previstes d'un objectiu, de manera que no pot calcular una relació estimada de senyal a soroll. Per tant, el nivell de qualitat que s'ha d'especificar en el càlcul de l'apilament és el temps d'integració en segons dividit pel soroll calculat a la imatge integrada, (una «Relació de temps/soroll»). Als efectes del càlcul, la <guilabel
+>Idealment, s'utilitzaria una relació senyal a soroll (SNR) desitjada per a mesurar el nivell de qualitat d'una imatge, però la calculadora de l'exposició no té la capacitat de reconéixer la força del senyal a partir de l'obtenció d'imatges previstes d'un objectiu, de manera que no pot calcular una relació estimada de senyal a soroll. Per tant, el nivell de qualitat que s'ha d'especificar en el càlcul de l'apilament és el temps d'integració en segons dividit pel soroll calculat en la imatge integrada, (una «Relació de temps/soroll»). Als efectes del càlcul, la <guilabel
 >Relació del temps a soroll</guilabel
 > es pot considerar com una relació analògica parcial a una relació senyal a soroll. Però l'usuari ha de reconéixer que una relació de temps a soroll especificada no és una mesura absoluta de la qualitat de totes les imatges integrades des de tots els objectius perquè una força del senyal (magnitud o flux) no forma part d'este càlcul. </para>
                     <itemizedlist>
@@ -908,7 +936,7 @@
 >: Un gràfic interactiu permet a l'usuari visualitzar el canvi relatiu en la qualitat potencial per a les imatges integrades amb diversos comptadors de subexposicions aplicats a l'apilament d'imatges. Es pot navegar per este gràfic a través de l'ajust del valor de la relació temps a soroll. Ajustant este valor es tornarà a calcular la quantitat de subexposicions necessàries perquè la imatge integrada assolisca la relació temps a soroll especificada.</para>
 
 <para
->A la selecció d'una relació temps a soroll per al càlcul del comptador d'exposicions apilades, l'usuari pot tindre en compte el canvi incremental a la qualitat potencial de la imatge a partir d'una subexposició addicional. Per a ajudar a un usuari a avaluar el valor d'augmentar el nombre de subexposicions per a la integració, l'eina inclou un càlcul del pendent del punt seleccionat a la corba de temps a soroll (la interfície d'usuari utilitza un símbol delta per a presentar este valor). Este valor delta representa el canvi en la qualitat potencial que resultarà de la suma o la resta d'una única subexposició.</para>
+>A la selecció d'una relació temps a soroll per al càlcul del comptador d'exposicions apilades, l'usuari pot tindre en compte el canvi incremental a la qualitat potencial de la imatge a partir d'una subexposició addicional. Per a ajudar a un usuari a avaluar el valor d'augmentar el nombre de subexposicions per a la integració, l'eina inclou un càlcul del pendent del punt seleccionat en la corba de temps a soroll (la interfície d'usuari utilitza un símbol delta per a presentar este valor). Este valor delta representa el canvi en la qualitat potencial que resultarà de la suma o la resta d'una única subexposició.</para>
 
 <para
 >Com cal esperar, a l'extrem baix  del comptador de l'exposició (quan s'introduïx un valor baix per a la relació temps a soroll), el valor delta serà relativament alt, de manera que l'addició d'una imatge proporcionarà una millora relativament gran a la imatge integrada. Però a mesura que un usuari augmente el valor de la relació temps a soroll, s'inclouran més imatges per a la integració i el valor delta baixarà, indicant que hi ha menys a guanyar afegint més subexposicions. </para>
@@ -941,7 +969,7 @@
                 </textobject>
             </mediaobject>
 <para
->Per a una integració utilitzant subexposicions de 30 segons, trobem que caldrien 637 subexposicions per a aconseguir una relació temps a soroll de 80. Per tant, es requerix un temps d'integració total de 5,31 hores amb estes exposicions més curtes per a aconseguir la mateixa relació temps a soroll a la imatge integrada.</para>
+>Per a una integració utilitzant subexposicions de 30 segons, trobem que caldrien 637 subexposicions per a aconseguir una relació temps a soroll de 80. Per tant, es requerix un temps d'integració total de 5,31 hores amb estes exposicions més curtes per a aconseguir la mateixa relació temps a soroll en la imatge integrada.</para>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="exposurecalculation-example_subexp30.png" format="PNG"/>

@@ -357,6 +357,8 @@ void Media::upload(const QSharedPointer<FITSView> &view)
         {"mean", imageData->getAverageMean()},
         {"median", imageData->getAverageMedian()},
         {"stddev", imageData->getAverageStdDev()},
+        {"min", imageData->getMin()},
+        {"max", imageData->getMax()},
         {"bin", QString("%1x%2").arg(xbin.toString(), ybin.toString())},
         {"bpp", QString::number(imageData->bpp())},
         {"uuid", m_UUID},

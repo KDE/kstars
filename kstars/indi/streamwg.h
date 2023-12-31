@@ -44,7 +44,7 @@ class StreamWG : public QDialog, public Ui::streamForm
 
     public:
         explicit StreamWG(ISD::Camera *ccd);
-        virtual ~StreamWG() override = default;
+        virtual ~StreamWG() override;
 
         void setColorFrame(bool color);
         void setSize(int wd, int ht);
@@ -91,6 +91,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         bool processStream;
         int streamWidth, streamHeight;
         bool colorFrame, isRecording;
+        bool showOverlay = false;
         QIcon recordIcon, stopIcon;
         ISD::Camera *m_Camera {nullptr};
 
@@ -103,5 +104,7 @@ class StreamWG : public QDialog, public Ui::streamForm
 
         // For Canon DSLRs
         INDI::Property *eoszoom {nullptr}, *eoszoomposition {nullptr};
+
+        // Options panels
         RecordOptions *options;
 };

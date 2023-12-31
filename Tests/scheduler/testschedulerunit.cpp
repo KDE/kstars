@@ -10,7 +10,7 @@
  */
 
 #include "ekos/scheduler/scheduler.h"
-#include "ekos/scheduler/schedulerprocess.h"
+#include "ekos/scheduler/schedulerutils.h"
 #include "ekos/scheduler/greedyscheduler.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/scheduler/schedulermodulestate.h"
@@ -158,7 +158,7 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
     QVERIFY(Ekos::SchedulerModuleState::hasLocalTime() && Ekos::SchedulerModuleState::hasGeo());
 
     QString group = "";
-    Ekos::SchedulerProcess::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
+    Ekos::SchedulerUtils::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
                                      sequenceUrl, fitsUrl,
                                      sCond, sTime,
                                      eCond, eTime, eReps,
@@ -345,7 +345,7 @@ void TestSchedulerUnit::loadSequenceQueueTest()
     bool hasAutoFocus = false;
     // Read in the 9 filters file.
     // The last arg is for logging. Use nullptr for testing.
-    QVERIFY(Ekos::SchedulerProcess::loadSequenceQueue(seqFile9Filters, &schedJob, jobs, hasAutoFocus, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::loadSequenceQueue(seqFile9Filters, &schedJob, jobs, hasAutoFocus, nullptr));
     // Makes sure we have the basic details of the capture sequence were read properly.
     compareCaptureSequence(details9Filters, jobs);
 }
@@ -382,13 +382,13 @@ void TestSchedulerUnit::estimateJobTimeTest()
 
     // Initial map has no previous captures.
     QMap<QString, uint16_t> capturedFramesCount;
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
 
     // The time estimate is essentially the sum of (exposure times * the number of exposures) for each filter.
     // There are other heuristics added to take initial track, focus, align & guide into account.
     // We're not testing these heuristics here, so they are set to false in the job setup above (last 4 bools).
     const double exposureDuration = computeExposureDurations(details9Filters);
-    const int overhead = Ekos::SchedulerProcess::timeHeuristics(&job);
+    const int overhead = Ekos::SchedulerUtils::timeHeuristics(&job);
     QVERIFY(compareFloat(exposureDuration + overhead, job.getEstimatedTime()));
 
     // Repeat the above test, but repeat the sequence 1,2,3,4,...,10 times.
@@ -396,7 +396,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     {
         job.setCompletionCondition(Ekos::FINISH_REPEAT);
         job.setRepeatsRequired(i);
-        QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+        QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
         QVERIFY(compareFloat(overhead + i * exposureDuration, job.getEstimatedTime()));
     }
 
@@ -409,7 +409,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // end until the user stops it (or it is interrupted by altitude or daylight). The scheduler
     // doesn't estimate those stopping conditions at this point.
     job.setCompletionCondition(Ekos::FINISH_LOOP);
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(job.getEstimatedTime() < 0);
 
     // Test again with a fixed end time. The scheduler estimates the time from "now" until the end time.
@@ -417,7 +417,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     job.setCompletionCondition(Ekos::FINISH_AT);
     KStarsDateTime stopTime(QDateTime(QDate(2021, 4, 17), QTime(1, 0, 0), QTimeZone(-7 * 3600)));
     job.setCompletionTime(stopTime);
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(midNight.secsTo(stopTime) == job.getEstimatedTime());
 
     // Test again, similar to above but given a START_AT time as well.
@@ -425,7 +425,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // Again, perhaps that should be max'd with the FINISH_SEQUENCE time?
     job.setStartupCondition(Ekos::START_AT);
     job.setStartupTime(midNight.addSecs(1800));
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(midNight.secsTo(stopTime) - 1800 == job.getEstimatedTime());
 
     // Small test of accounting for already completed captures.
@@ -435,7 +435,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     QList<Ekos::SequenceJob *> jobs;
     bool hasAutoFocus = false;
     // The last arg is for logging. Use nullptr for testing.
-    QVERIFY(Ekos::SchedulerProcess::loadSequenceQueue(seqFile9Filters, &job, jobs, hasAutoFocus, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::loadSequenceQueue(seqFile9Filters, &job, jobs, hasAutoFocus, nullptr));
     // 2. Get the signiture of the first job
     SequenceJob *seqJob = jobs[0];
     seqJob->setCoreProperty(Ekos::SequenceJob::SJ_TargetName, job.getName());
@@ -445,15 +445,15 @@ void TestSchedulerUnit::estimateJobTimeTest()
     QString sig0 = jobs[0]->getSignature();
     // 3. The first job has 6 exposures, each of 20s duration. Set it up that 2 are already done.
     capturedFramesCount[sig0] = 2;
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     // 4. Now expect that we have 2*60s=120s less job time, but only if we're remembering job progress.
     // First don't remember job progress, and the scheduler should provide the standard estimate.
     Options::setRememberJobProgress(false);
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(compareFloat(overhead + exposureDuration, job.getEstimatedTime()));
     // Next remember the progress, the job should reduce the estimate by 120s (the 2 completed exposures).
     Options::setRememberJobProgress(true);
-    QVERIFY(Ekos::SchedulerProcess::estimateJobTime(&job, capturedFramesCount, nullptr));
+    QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(compareFloat(overhead + exposureDuration - 120, job.getEstimatedTime()));
 }
 
@@ -501,7 +501,7 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(job.getStartupTime().secsTo(now) == 0);
     // It should finish when its exposures are done.
     QVERIFY(compareTimes(job.getCompletionTime(),
-                         now.addSecs(Ekos::SchedulerProcess::timeHeuristics(&job) +
+                         now.addSecs(Ekos::SchedulerUtils::timeHeuristics(&job) +
                                      computeExposureDurations(details9Filters))));
 
     Ekos::SchedulerModuleState::calculateDawnDusk();

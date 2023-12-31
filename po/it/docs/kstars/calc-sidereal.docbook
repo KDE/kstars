@@ -32,26 +32,24 @@
 > locale e viceversa. Seleziona prima una località geografica e una data da calcolare: ti sarà quindi mostrato il valore corrispondente nell'altro tempo. </para>
 
 <para
->Questo modulo ha una modalità in serie: per usarla è sufficiente generare un file in ingresso le cui righe contengano ciascuna dei valori per il parametro in ingresso: il <quote
->tempo siderale</quote
-> o il <quote
->tempo standard</quote
->. Puoi scegliere di impostare la <guilabel
+>Questo modulo ha una modalità in serie: per usarla è sufficiente generare un file in ingresso le cui righe contengano ciascuna dei valori per il parametro in ingresso: <guimenuitem
+>Calcola il tempo siderale</guimenuitem
+> o <guimenuitem
+>Calcola il  tempo standard</guimenuitem
+> dalla casella a tendina a sinistra. Puoi scegliere di impostare la <guilabel
 >Data</guilabel
 > e la <guilabel
 >Posizione</guilabel
-> nella finestra corrente, oppure puoi chiedere a &kstars; di leggere i valori di <guilabel
->Data</guilabel
-> e di <guilabel
->Posizione</guilabel
-> dal file in ingresso. Specifica quindi i nomi dei file d'ingresso e di uscita, quindi premi il pulsante <guibutton
+> nella finestra corrente, oppure puoi chiedere a &kstars; di leggere i valori dal <guilabel
+>File in ingresso:</guilabel
+>. Specifica quindi i nomi dei file d'ingresso e di uscita, quindi premi il pulsante <guibutton
 >Calcola</guibutton
->, che genera il file di uscita: esso conterrà i valori dei parametri complementari. Per esempio, se il file in ingresso contiene un insieme di valori di <quote
->ora standard</quote
+>, che genera il file di uscita. Esso conterrà i valori dei parametri complementari. Per esempio, se il file in ingresso contiene un insieme di valori di <quote
+>tempo standard</quote
 >, ogni riga del file in uscita conterrà i valori corrispondenti di <quote
 >tempo siderale</quote
 >. Premendo il pulsante <guibutton
->Mostra risultato</guibutton
+>Mostra risultato...</guibutton
 > puoi leggere questo file direttamente da &kstars;. </para>
 
 </sect2>

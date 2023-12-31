@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->Panoramica di &kstars;</title>
+>Una panoramica della mappa celeste di &kstars;</title>
 
 <para
->Questo capitolo introduce molte delle caratteristiche di &kstars; sotto forma di percorso guidato. </para>
+>Questo capitolo presenta una panoramica della mappa celeste di &kstars; descrivendo molte delle sue importanti funzionalità. </para>
 
 <screenshot>
 <screeninfo
@@ -492,7 +492,7 @@
 <title
 >Fine della visita</title>
 <para
->Con questo si conclude il tour di &kstars;, sebbene solo una piccola parte delle funzioni disponibili siano state descritte. &kstars; include parecchi <link linkend="tools"
+>Con questo si conclude la panoramica della mappa celeste di &kstars;, sebbene solo una piccola parte delle funzioni disponibili siano state descritte. &kstars; include diversi <link linkend="tools"
 >strumenti astronomici</link
 > assai utili, può <link linkend="indi"
 >controllare il tuo telescopio</link

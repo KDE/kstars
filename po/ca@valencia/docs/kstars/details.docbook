@@ -57,7 +57,7 @@
 >dret</mousebutton
 > sobre l'objecte. Podeu afegir enllaços personalitzats a l'objecte amb el botó <guibutton
 >Afig un enllaç...</guibutton
->. Este vos obrirà una finestra en la qual podreu omplir l'&URL; i el text per al nou enllaç (també podreu provar l'&URL; en el navegador des d'esta finestra). Cada vegada que afegiu un &URL; personalitzat a un objecte determinat, sereu capaç de triar el tipus de recurs utilitzant el botó <guibutton
+>. Este vos obrirà una finestra en la qual podreu emplenar l'&URL; i el text per al nou enllaç (també podreu provar l'&URL; en el navegador des d'esta finestra). Cada vegada que afegiu un &URL; personalitzat a un objecte determinat, sereu capaç de triar el tipus de recurs utilitzant el botó <guibutton
 >Tipus de recurs</guibutton
 >. Cal tindre present que la personalització de l'enllaç pot facilitar que este apunte cap a un fitxer en el vostre disc local, de manera que podreu emprar esta característica per a indexar les vostres imatges astronòmiques personals o observar els registres d'observació. </para>
 <para
@@ -116,14 +116,14 @@ for solar system objects -->
 >Keyword search</quote
 > (paraula clau de busca) retornarà els articles que han llistat el nom de l'objecte com a paraula clau. La <quote
 >Title word search</quote
-> (busca de la paraula al títol) retornarà els articles que incloguen el nom de l'objecte al seu títol i la <quote
+> (busca de la paraula en el títol) retornarà els articles que incloguen el nom de l'objecte en el seu títol i la <quote
 >Title &amp; Keyword search</quote
-> (busca paraula clau i al títol) utilitzarà ambdues opcions alhora. </para
+> (busca la paraula clau i el títol) utilitzarà ambdues opcions alhora. </para
 ></listitem>
 <listitem
 ><para
 ><guimenuitem
->Arxiu de les múltiples missions al telescopi espacial</guimenuitem
+>Arxiu de les múltiples missions en el telescopi espacial</guimenuitem
 > (<guimenuitem
 >Multimission Archive at Space Telescope</guimenuitem
 > -MAST-). El <ulink url="https://www.stsci.edu/"
@@ -134,7 +134,7 @@ for solar system objects -->
 </para>
 
 <para
->Finalment, a la pestanya <guilabel
+>Finalment, en la pestanya <guilabel
 >Registre</guilabel
 > podreu escriure algun text que romanga associat amb esta finestra de <guilabel
 >Detalls</guilabel

@@ -515,9 +515,9 @@ class Mount : public QWidget, public Ui::Mount
         void slewRateChanged(int index);
         void ready();
         void newMeridianFlipText(const QString &text);
+        void autoParkCountdownUpdated(const QString &text);
 
         void settingsUpdated(const QVariantMap &settings);
-
         void trainChanged();
 
     private:
@@ -577,7 +577,7 @@ class Mount : public QWidget, public Ui::Mount
         QTimer autoParkTimer;
 
         // Limits
-        int m_AbortDispatch {-1};
+        int m_AbortAltDispatch {-1}, m_AbortHADispatch {-1};
         bool m_AltitudeLimitEnabled {false};
         double m_LastAltitude {0};
         bool m_HourAngleLimitEnabled {false};

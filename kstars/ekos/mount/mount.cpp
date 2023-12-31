@@ -65,8 +65,6 @@ Mount::Mount()
 
     m_Mount = nullptr;
 
-    m_AbortDispatch = -1;
-
     // initialize the state machine
     mf_state.reset(new MeridianFlipState());
     // set the status message in the mount tab and write it to the log
@@ -116,12 +114,6 @@ Mount::Mount()
     // meridian flip
     connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget,
             &MeridianFlipStatusWidget::setStatus);
-
-    //    ParkTime->setTime(QTime::fromString(Options::parkTime()));
-    //    connect(ParkTime, &QTimeEdit::editingFinished, this, [this]()
-    //    {
-    //        Options::setParkTime(ParkTime->time().toString());
-    //    });
 
     connect(&autoParkTimer, &QTimer::timeout, this, &Mount::startAutoPark);
     connect(startTimerB, &QPushButton::clicked, this, &Mount::startParkTimer);
@@ -599,7 +591,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         {
             // Only stop if current altitude is less than last altitude indicate worse situation
             if (currentAlt < m_LastAltitude &&
-                    (m_AbortDispatch == -1 ||
+                    (m_AbortAltDispatch == -1 ||
                      (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
             {
                 appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
@@ -608,14 +600,14 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
                 KNotification::beep();
-                m_AbortDispatch++;
+                m_AbortAltDispatch++;
             }
         }
         else
         {
             // Only stop if current altitude is higher than last altitude indicate worse situation
             if (currentAlt > m_LastAltitude &&
-                    (m_AbortDispatch == -1 ||
+                    (m_AbortAltDispatch == -1 ||
                      (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
             {
                 appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
@@ -624,12 +616,12 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
                 KNotification::beep();
-                m_AbortDispatch++;
+                m_AbortAltDispatch++;
             }
         }
     }
     else
-        m_AbortDispatch = -1;
+        m_AbortAltDispatch = -1;
 
     //qCDebug(KSTARS_EKOS_MOUNT) << "MaximumHaLimit " << MaximumHaLimit->isEnabled() << " value " << MaximumHaLimit->value();
 
@@ -666,7 +658,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
         // compare with last ha to avoid multiple calls
         if (haLimitReached && (rangeHA(haHours - m_LastHourAngle) >= 0 ) &&
-                (m_AbortDispatch == -1 ||
+                (m_AbortHADispatch == -1 ||
                  m_Mount->isInMotion()))
         {
             // moved past the limit, so stop
@@ -676,14 +668,14 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
             m_Mount->setTrackEnabled(false);
             //KNotification::event( QLatin1String( "OperationFailed" ));
             KNotification::beep();
-            m_AbortDispatch++;
+            m_AbortHADispatch++;
             // ideally we pause and wait until we have passed the pier flip limit,
             // then do a pier flip and try to resume
             // this will need changing to use a target position because the current HA has stopped.
         }
     }
     else
-        m_AbortDispatch = -1;
+        m_AbortHADispatch = -1;
 
     m_LastAltitude = currentAlt;
     m_LastHourAngle = haHours;
@@ -726,6 +718,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         QTime remainingTime(0, 0, 0);
         remainingTime = remainingTime.addMSecs(autoParkTimer.remainingTime());
         countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
+        emit autoParkCountdownUpdated(countdownLabel->text());
     }
 }
 
@@ -1534,7 +1527,7 @@ void Mount::setAutoParkDailyEnabled(bool enabled)
 
 void Mount::setAutoParkStartup(QTime startup)
 {
-    ParkTime->setTime(startup);
+    autoParkTime->setTime(startup);
 }
 
 bool Mount::meridianFlipEnabled()
@@ -1565,7 +1558,7 @@ void Mount::startParkTimer()
         return;
     }
 
-    QTime parkTime = ParkTime->time();
+    auto parkTime = autoParkTime->time();
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << parkTime.toString();
     QDateTime currentDateTime = KStarsData::Instance()->lt();
@@ -1615,6 +1608,7 @@ void Mount::stopParkTimer()
 {
     autoParkTimer.stop();
     countdownLabel->setText("00:00:00");
+    emit autoParkCountdownUpdated("00:00:00");
     stopTimerB->setEnabled(false);
     startTimerB->setEnabled(true);
 }
@@ -1626,6 +1620,7 @@ void Mount::startAutoPark()
     startTimerB->setEnabled(true);
     stopTimerB->setEnabled(false);
     countdownLabel->setText("00:00:00");
+    emit autoParkCountdownUpdated("00:00:00");
     if (m_Mount)
     {
         if (m_Mount->isParked() == false)

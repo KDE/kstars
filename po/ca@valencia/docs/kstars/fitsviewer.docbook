@@ -118,7 +118,7 @@
 ></listitem>
                 <listitem
 ><para
->Copia: copia la imatge al porta-retalls.</para
+>Copia: copia la imatge a dins del porta-retalls.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -180,7 +180,7 @@
 ></listitem>
                 <listitem
 ><para
->Visualitza a la mida real.</para
+>Visualitza en la mida real.</para
 ></listitem>
                 <listitem
 ><para
@@ -204,7 +204,7 @@
 ></listitem>
                 <listitem
 ><para
->Mostra els punts de mira: alterna els punts de mira al centre de la imatge.</para
+>Mostra els punts de mira: alterna els punts de mira en el centre de la imatge.</para
 ></listitem>
                 <listitem
 ><para
@@ -232,11 +232,11 @@
 ></listitem>
                 <listitem
 ><para
->Histograma: alterna la vista de l'histograma al quadro lateral.</para
+>Histograma: alterna la vista de l'histograma en el quadro lateral.</para
 ></listitem>
                 <listitem
 ><para
->Estadístiques: alterna la visualització de les estadístiques FITS al quadro lateral.</para
+>Estadístiques: alterna la visualització de les estadístiques FITS en el quadro lateral.</para
 ></listitem>
                 <listitem
 ><para
@@ -453,7 +453,7 @@
     </listitem>
 </orderedlist>
 <para
->A més de mostrar la imatge, el visor pot processar la capçalera del sistema mundial de coordenades (WCS) si està present al fitxer FITS i proporciona informació útil sobre els objectes que es troben dins de la imatge, la superposició de la quadrícula equatorial, el menú emergent i la capacitat d'orientar la muntura (si està connectada) fins a qualsevol punt de la imatge. </para>
+>A més de mostrar la imatge, el visor pot processar la capçalera del sistema mundial de coordenades (WCS) si està present en el fitxer FITS i proporciona informació útil sobre els objectes que es troben dins de la imatge, la superposició de la quadrícula equatorial, el menú emergent i la capacitat d'orientar la muntura (si està connectada) fins a qualsevol punt de la imatge. </para>
 <para
 >Es poden aplicar diversos filtres per a millorar la imatge, incloent-hi l'estirament automàtic i l'alt contrast. Depenent de la mida de la imatge, estes operacions podrien tardar alguns segons a completar-se. La barra d'estat inferior mostra el valor del píxel i les coordenades X i Y del punter del ratolí damunt de la imatge. A més, inclou el nivell d'ampliació i la resolució de la imatge. </para>
 <para
@@ -467,7 +467,7 @@
 ></keycombo
 >. </para>
 <para
->Atés que les operacions com ara la reconstrucció des de Bayer i el WCS automàtic són cares en recursos i posen èmfasi en el processador en dispositius incrustats amb poca potència, podeu canviar el seu comportament a la <link linkend="fits-configure"
+>Atés que les operacions com ara la reconstrucció des de Bayer i el WCS automàtic són cares en recursos i posen èmfasi en el processador en dispositius incrustats amb poca potència, podeu canviar el seu comportament en la <link linkend="fits-configure"
 >pàgina de configuració FITS de &kstars;</link
 >. </para>
 <screenshot>
@@ -549,7 +549,7 @@
     <para
 >El solucionador del visor de FITS s'utilitza per a resoldre la placa de la imatge carregada en la pestanya <guilabel
 >Visor de FITS</guilabel
->. Només funciona amb StellarSolver intern. Obté les coordenades AR i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades a la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
+>. Només funciona amb StellarSolver intern. Obté les coordenades AR i Dec per al centre de la imatge, l'escala de la imatge, l'angle de rotació i la quantitat d'estreles detectades en la imatge. El seu principal cas d'ús és la depuració de problemes en la resolució de plaques a Ekos, encara que la informació mostrada pot ser útil en general. Els controls i pantalles es descriuen a continuació. </para>
             <itemizedlist>
                 <listitem
 ><para
@@ -579,7 +579,7 @@
 >AR:</guilabel
 > s'introduïx en hores, minuts i segons, p. ex., 13h, i la <guilabel
 >Dec:</guilabel
-> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una resolució, se substituiran els valors als quadros <guilabel
+> s'introduïx en graus, minuts i segons, p. ex., 85. Quan es completa amb èxit una resolució, se substituiran els valors en els quadros <guilabel
 >AR:</guilabel
 > i <guilabel
 >Dec:</guilabel
@@ -613,7 +613,7 @@
 >Escala:</guilabel
 > i <guilabel
 >Angle:</guilabel
-> es mostren als quadros de dalt.</para
+> es mostren en els quadros de dalt.</para
 ></listitem>
                 <listitem
 ><para
@@ -774,11 +774,11 @@
         </mediaobject>
     </screenshot>
     <para
->L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Açò és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrela, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la brillantor relativa dels diferents objectes a la imatge. A més, permet als usuaris que vullguen veure visualment què està passant en la seua recopilació de dades d'una altra manera. </para>
+>L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Açò és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrela, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la brillantor relativa dels diferents objectes en la imatge. A més, permet als usuaris que vullguen veure visualment què està passant en la seua recopilació de dades d'una altra manera. </para>
     <para
 >Per a utilitzar la nova característica, l'usuari haurà de seleccionar la icona <guiicon
 >Visualitza el perfil de l'estrela</guiicon
-> en una de les vistes del mòdul Ekos o en el visor de FITS. A continuació, la regió seleccionada en el quadro de seguiment verd apareixerà al gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
+> en una de les vistes del mòdul Ekos o en el visor de FITS. A continuació, la regió seleccionada en el quadro de seguiment verd apareixerà en el gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
     <screenshot>
         <screeninfo
 >Barra d'eines 1 del perfil de l'estrela </screeninfo>
@@ -806,7 +806,7 @@
         </mediaobject>
     </screenshot>
     <para
->En l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible a la <guilabel
+>En l'extrem esquerre, el quadro combinat de mida de la mostra permetrà a l'usuari seleccionar la mida del retall de la imatge que es mostrarà en el gràfic. Esta opció només estarà disponible en la <guilabel
 >Pantalla de resum</guilabel
 >, al <link linkend="ekos-align"
 >mòdul «Alinea»</link
@@ -833,13 +833,13 @@
     <para
 >A continuació, l'usuari té el quadro combinat <guilabel
 >Zoom a</guilabel
->, que l'usuari pot utilitzar per a ampliar el gràfic a diferents ubicacions predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada en la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
+>, el qual pot utilitzar l'usuari per a ampliar el gràfic a ubicacions diferents predefinides. A continuació es mostra el quadro combinat que permet a l'usuari seleccionar l'esquema de color del gràfic. A continuació, es mostren les caselles de selecció HFR i Pic, les quals activaran les etiquetes HFR i Pic de cada estrela trobada en la imatge, però també mostraran una d'elles a la part inferior de la pantalla. Finalment, apareix la casella de selecció d'escalat, la qual habilita el quadro lateral <guilabel
 >Escalat</guilabel
->. Hi ha tres controls lliscants en este quadro, un per a controlar el valor mínim que es mostra al gràfic o <quote
+>. Hi ha tres controls lliscants en este quadro, un per a controlar el valor mínim que es mostra en el gràfic o <quote
 >punt negre</quote
->, un altre per a controlar el valor màxim que es mostra al gràfic o el <quote
+>, un altre per a controlar el valor màxim que es mostra en el gràfic o el <quote
 >punt blanc</quote
-> i un tercer que està desactivat de manera predeterminada permet que l'usuari controle el valor del límit de les dades que es mostren al gràfic. </para>
+> i un tercer que està desactivat de manera predeterminada permet que l'usuari controle el valor del límit de les dades que es mostren en el gràfic. </para>
     <screenshot>
         <screeninfo
 >Pàgina vertical del perfil de l'estrela </screeninfo>

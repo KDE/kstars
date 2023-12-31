@@ -314,6 +314,7 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
 
     if (cm)
     {
+        qCDebug(KSTARS_INDI) << "Restarting INDI Driver: " << label;
         // N.B. This MUST be called BEFORE stopping driver below
         // Since it requires the driver device pointer.
         cm->removeManagedDriver(driver);
@@ -323,6 +324,8 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
     }
     else
     {
+        qCDebug(KSTARS_INDI) << "restartDriver with no cm, and " << m_ManagedDrivers.size() << " drivers. Trying to remove: " <<
+                             label;
         cm = DriverManager::Instance()->getClientManager(driver);
         const auto exec = driver->getExecutable();
         m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
@@ -336,7 +339,10 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
     {
         auto driver = DriverManager::Instance()->findDriverByLabel(label);
         if (!driver)
+        {
+            qCDebug(KSTARS_INDI) << "restartDriver timer, did not find driver with label: " << label;
             return;
+        }
         cm->appendManagedDriver(driver);
         if (m_ManagedDrivers.contains(driver) == false)
             m_ManagedDrivers.append(driver);

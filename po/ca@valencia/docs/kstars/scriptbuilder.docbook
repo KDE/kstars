@@ -11,16 +11,20 @@
 <para
 >Les aplicacions &kde; es poden controlar externament des d'un altre programa, des d'un indicatiu de la consola o des d'un script de l'intèrpret d'ordres emprant el protocol de comunicació inter-processos (&DBus;). &kstars; s'aprofita d'esta característica per a permetre que els comportaments complexos siguen escrits a scripts i executats en segon pla en qualsevol moment. Açò es pot utilitzar, per exemple, per a crear una presentació educativa per a il·lustrar un concepte astronòmic. </para>
 <para
->El problema amb els scripts de &DBus; és que escriure'ls és quasi com programar, i poden aparentar una tasca descoratjadora per als que no tenen experiència programant. L'eina Constructor de scripts, proporciona una <abbrev
+>El problema amb els scripts de &DBus; és que escriure'ls és quasi com programar, i poden aparentar una tasca descoratjadora per als que no tenen experiència programant. L'eina <guilabel
+>Constructor de scripts</guilabel
+>, proporciona una <abbrev
 >IGU</abbrev
 > amb una interfície d'apuntar i fer clic per a construir scripts de &DBus; per a &kstars;, tornant realment fàcil el fet de crear-ne de complexos. </para>
 
 <sect2 id="sb-intro">
 <title
->Introducció al constructor de scripts</title>
+>Introducció al «Constructor de scripts»</title>
 
 <para
->Abans d'explicar com emprar el constructor de scripts, vos proporcionen una molt breu introducció a tots els components de la <abbrev
+>Abans d'explicar com emprar el <guilabel
+>Constructor de scripts</guilabel
+>, vos proporcionarem una molt breu introducció a tots els components de la <abbrev
 >IGU</abbrev
 >; per a més informació, utilitzeu la funció <quote
 >Què és açò?</quote
@@ -28,33 +32,39 @@
 
 <screenshot>
 <screeninfo
->L'eina Constructor de scripts </screeninfo>
+>L'eina «Constructor de scripts» </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="scriptbuilder.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Eina Constructor de scripts</phrase>
+>L'eina «Constructor de scripts»</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 
 <para
->El constructor de scripts és mostra't en la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
+>El <guilabel
+>Constructor de scripts</guilabel
+> es mostra en la captura de pantalla de davall. El quadro a l'esquerra és el quadro <firstterm
 >Script actual</firstterm
 >; mostra el llistat d'ordres que abasten l'escriptura de tasques a este script. El quadro a la dreta és el <firstterm
 >Navegador de funcions</firstterm
->. Este mostra un llistat de totes les funcions disponibles per a l'script. A davall del navegador de funcions, hi ha un xicotet quadro que anirà mostrant la documentació curta sobre cada funció ressaltada en el navegador de funcions. En el quadro davall de Script actual és el d'<firstterm
+>. Este mostra un llistat de totes les funcions disponibles per a l'script. A davall del navegador de funcions, hi ha un xicotet quadro que anirà mostrant la documentació curta sobre cada funció ressaltada en el navegador de funcions. En el quadro davall de <guilabel
+>Script actual</guilabel
+> és el d'<firstterm
 >Arguments de la funció</firstterm
->; quan es ressalta a una funció en el quadro Script actual, este quadro contindrà els elements per a especificar els valors per a qualsevol argument que requerisca esta funció. </para
+>; quan es ressalta a una funció en el quadro <guilabel
+>Script actual</guilabel
+>, este quadro contindrà els elements per a especificar els valors per a qualsevol argument que requerisca esta funció. </para
 ><para
 >Al llarg de la part superior de la finestra, hi ha una fila de botons que operen sobre tot l'script. D'esquerra a dreta, són: <guibutton
 >Script nou</guibutton
 >, <guibutton
 >Obri un script...</guibutton
 >, <guibutton
->Guarda script</guibutton
+>Guarda l'script</guibutton
 >, <guibutton
 >Anomena i guarda l'script...</guibutton
 > i <guibutton
@@ -63,19 +73,21 @@
 >Prova l'script</guibutton
 > resultarà en l'intent d'executar l'script actual en la finestra principal de &kstars;. Abans de prémer haureu d'apartar la finestra del constructor de scripts per a poder veure els resultats. </para
 ><para
->En el centre de la finestra (entre les dues caixes superiors), hi ha una columna de botons que operen sobre les funcions individuals de l'script. De dalt a baix, són: <guibutton
+>En el centre de la finestra (entre les dues caixes de dalt), hi ha una columna de botons que operen sobre les funcions individuals de l'script. De dalt a baix, són: <guibutton
 >Afig una funció</guibutton
 >, <guibutton
 >Elimina la funció</guibutton
 >, <guibutton
 >Copia la funció</guibutton
 >, <guibutton
->Mou cap amunt</guibutton
+>Mou-la cap amunt</guibutton
 > i <guibutton
->Mou cap avall</guibutton
+>Mou-la cap avall</guibutton
 >. <guibutton
 >Afig una funció</guibutton
->, afegirà la funció ressaltada en el navegador de funcions al quadro Script actual (també podeu afegir una funció fent doble clic damunt seu). La resta de botons opera sobre la funció ressaltada al quadro Script actual, eliminant-la, duplicant-la, o canviant la seua posició en l'script actual. </para>
+>, afegirà la funció ressaltada en el navegador de funcions al quadro <guilabel
+>Script actual</guilabel
+> (també podreu afegir una funció fent doble clic damunt seu). La resta de botons opera sobre la funció ressaltada en el quadro Script actual, eliminant-la, duplicant-la o canviant la seua posició en l'script. </para>
 </sect2>
 
 <sect2 id="sb-using">
@@ -104,7 +116,7 @@
 >setClockScale</firstterm
 > per a açò. Afegiu-la a l'script fent doble clic damunt seu en el Navegador de funcions. El quadro Arguments de la funció contindrà un botó de selecció de valors de pas temporal per a establir-lo al temps desitjat per al rellotge de simulació. Canvieu el pas temporal a 3 hores. </para
 ><para
->BÉ, hem apuntat a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè espere uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
+>BÉ, hem apuntat cap a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè espere uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
 >waitFor</firstterm
 > a l'script i utilitzeu el quadro Arguments de la funció per a especificar que s'haurà d'esperar 20 segons abans de continuar. </para
 ><para
@@ -128,7 +140,9 @@
 >0</quote
 >. </para
 ><para
->Un pas més: El fet de tindre a «UseAltAz» al final de l'script no ens farà cap servei, necessitarem canviar açò abans que succeïsca res. Així doncs, assegureu-vos que esta funció estiga ressaltada al quadro Script actual i premeu el botó <guibutton
+>Un pas més: El fet de tindre «UseAltAz» al final de l'script no ens farà cap servei, necessitarem canviar açò abans que succeïsca res. Així doncs, assegureu-vos que esta funció estiga ressaltada en el quadro <guilabel
+>Script actual</guilabel
+> i premeu el botó <guibutton
 >Mou cap amunt</guibutton
 > fins que esta siga la primera funció. </para
 ><para
@@ -138,7 +152,7 @@
 >Seguiment de la Lluna</quote
 > com a nom, i el vostre nom en el de l'autor, tot seguit premeu <guibutton
 >D'acord</guibutton
->. Després, veureu al diàleg per a guardar fitxers estàndard de &kde;. Especifiqueu un nom de fitxer per a l'script i premeu <guibutton
+>. Després, veureu el diàleg per a guardar fitxers estàndard de &kde;. Especifiqueu un nom de fitxer per a l'script i premeu <guibutton
 >D'acord</guibutton
 > per a guardar-lo. Cal tindre en compte que el vostre nom de fitxer no acabe amb <quote
 >.kstars</quote

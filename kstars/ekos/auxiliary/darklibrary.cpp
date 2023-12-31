@@ -1866,7 +1866,6 @@ void DarkLibrary::setAllSettings(const QVariantMap &settings)
         auto value = settings[key];
         // Save immediately
         Options::self()->setProperty(key.toLatin1(), value);
-        Options::self()->save();
 
         m_Settings[key] = value;
         m_GlobalSettings[key] = value;

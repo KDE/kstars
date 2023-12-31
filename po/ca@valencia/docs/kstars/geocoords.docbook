@@ -34,11 +34,11 @@
 >longitud</firstterm
 >, mesura l'angle <emphasis
 >al llarg</emphasis
-> de l'equador des d'un punt arbitrari a la Terra (Greenwich, en Anglaterra està acceptat com el punt de longitud zero en la majoria de <quote
+> de l'equador des d'un punt arbitrari en la Terra (Greenwich, en Anglaterra està acceptat com el punt de longitud zero en la majoria de <quote
 >societats</quote
 > modernes). </para
 ><para
->Per a combinar estos dos angles, es pot especificar qualsevol emplaçament a la Terra. Per exemple, Baltimore, a Maryland (EUA) que té una latitud de 39,3 graus Nord i una longitud de 76,6 graus Oest. De manera que, un vector dibuixat des del centre de la Terra fins a un punt a 39,3 graus per damunt de l'equador i 76,6 graus a l'oest de Greenwich (Anglaterra) passarà per Baltimore. </para
+>Per a combinar estos dos angles, es pot especificar qualsevol emplaçament en la Terra. Per exemple, Baltimore, a Maryland (EUA) que té una latitud de 39,3 graus Nord i una longitud de 76,6 graus Oest. De manera que, un vector dibuixat des del centre de la Terra fins a un punt a 39,3 graus per damunt de l'equador i 76,6 graus a l'oest de Greenwich (Anglaterra) passarà per Baltimore. </para
 ><para
 >L'equador és òbviament una part important d'este sistema de coordenades, atés que representa el <emphasis
 >punt zero</emphasis
@@ -63,6 +63,6 @@
 <para
 >Quina és la longitud del pol nord? La seua latitud és de 90 graus nord. </para>
 <para
->Esta és una pregunta amb trampa. La longitud no té sentit al pol nord (i tampoc al pol sud). Té totes les longituds alhora. </para>
+>Esta és una pregunta amb trampa. La longitud no té sentit en el pol nord (i tampoc en el pol sud). Té totes les longituds alhora. </para>
 </tip>
 </sect1>

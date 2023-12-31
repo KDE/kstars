@@ -53,12 +53,6 @@
 ></listitem>
 <listitem
 ><para
-><link linkend="tool-ekos"
->Ekos</link
-></para
-></listitem>
-<listitem
-><para
 ><link linkend="tool-jmoons"
 >Strumento satelliti di Giove</link
 ></para
@@ -69,11 +63,5 @@
 >Pianificatore di osservazioni</link
 ></para
 ></listitem>
-<listitem
-><para
-><link linkend="tool-fitsviewer"
->Visualizzatore FITS</link
-></para
-></listitem>
 </itemizedlist
->&tool-details; &tool-calculator; &tool-altvstime; &tool-eyepieceview; &tool-whatsup; &tool-scriptbuilder; &tool-solarsys; &tool-ekos; &tool-jmoons; &tool-obsplanner; &tool-fitsviewer; </chapter>
+>&tool-details; &tool-calculator; &tool-altvstime; &tool-eyepieceview; &tool-whatsup; &tool-scriptbuilder; &tool-solarsys; &tool-jmoons; &tool-obsplanner; </chapter>

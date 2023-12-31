@@ -130,6 +130,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         void refreshModel();
         void refreshTrains();
         void refreshOpticalElements();
+        void reset();
         /**
          * @brief syncDevices Sync delegates and then update model accordingly.
          */

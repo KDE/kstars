@@ -326,7 +326,27 @@ bool KSUserDB::Initialize()
             qCWarning(KSTARS) << query.lastError();
     }
 
+    // Add collimationoverlayelements table
+    if (currentDBVersion < 314)
+    {
+        QSqlQuery query(db);
 
+        if (!query.exec("CREATE TABLE collimationoverlayelements ( "
+                        "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                        "Name TEXT DEFAULT NULL, "
+                        "Enabled INTEGER DEFAULT 0, "
+                        "Type INTEGER DEFAULT NULL, "
+                        "SizeX INTEGER DEFAULT NULL, "
+                        "SizeY INTEGER DEFAULT NULL, "
+                        "OffsetX INTEGER DEFAULT NULL, "
+                        "OffsetY INTEGER DEFAULT NULL, "
+                        "Count INTEGER DEFAULT 1, "
+                        "PCD INTEGER DEFAULT 100, "
+                        "Rotation REAL DEFAULT 0.0, "
+                        "Colour TEXT DEFAULT NULL, "
+                        "Thickness INTEGER DEFAULT 1)"))
+            qCWarning(KSTARS) << query.lastError();
+    }
     return true;
 }
 
@@ -562,6 +582,21 @@ bool KSUserDB::RebuildDB()
                   "Family TEXT DEFAULT NULL, "
                   "Exec TEXT DEFAULT NULL, "
                   "Version TEXT DEFAULT 1.0)");
+
+    tables.append("CREATE TABLE IF NOT EXISTS collimationoverlayelements ( "
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "Name TEXT DEFAULT NULL, "
+                  "Enabled INTEGER DEFAULT 0, "
+                  "Type INTEGER DEFAULT NULL, "
+                  "SizeX INTEGER DEFAULT NULL, "
+                  "SizeY INTEGER DEFAULT NULL, "
+                  "OffsetX INTEGER DEFAULT NULL, "
+                  "OffsetY INTEGER DEFAULT NULL, "
+                  "Count INTEGER DEFAULT 1, "
+                  "PCD INTEGER DEFAULT 100, "
+                  "Rotation REAL DEFAULT 0.0, "
+                  "Colour TEXT DEFAULT NULL, "
+                  "Thickness INTEGER DEFAULT 1)");
 
     // Need to offset primary key by 100,000 to differential it from scopes and keep it backward compatible.
     tables.append("UPDATE SQLITE_SEQUENCE SET seq = 100000 WHERE name ='dslrlens'");
@@ -3145,4 +3180,128 @@ bool KSUserDB::GetOpticalTrainSettings(uint32_t train, QVariantMap &settings)
     }
 
     return false;
+}
+
+/* Collimation Overlay Elements Section */
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::AddCollimationOverlayElement(const QVariantMap &oneElement)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel collimationOverlayElement(nullptr, db);
+    collimationOverlayElement.setTable("collimationoverlayelements");
+    collimationOverlayElement.select();
+
+    QSqlRecord record = collimationOverlayElement.record();
+
+    // Remove PK so that it gets auto-incremented later
+    record.remove(0);
+
+    for (QVariantMap::const_iterator iter = oneElement.begin(); iter != oneElement.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    collimationOverlayElement.insertRecord(-1, record);
+
+    if (!collimationOverlayElement.submitAll())
+    {
+        qCWarning(KSTARS) << collimationOverlayElement.lastError();
+        return false;
+    }
+
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::UpdateCollimationOverlayElement(const QVariantMap &oneElement, int id)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel collimationOverlayElement(nullptr, db);
+    collimationOverlayElement.setTable("collimationoverlayelements");
+    collimationOverlayElement.setFilter(QString("id=%1").arg(id));
+    collimationOverlayElement.select();
+
+    QSqlRecord record = collimationOverlayElement.record(0);
+
+    for (QVariantMap::const_iterator iter = oneElement.begin(); iter != oneElement.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    collimationOverlayElement.setRecord(0, record);
+
+    if (!collimationOverlayElement.submitAll())
+    {
+        qCWarning(KSTARS) << collimationOverlayElement.lastError();
+        return false;
+    }
+
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::DeleteCollimationOverlayElement(int id)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel collimationOverlayElement(nullptr, db);
+    collimationOverlayElement.setTable("collimationoverlayelements");
+    collimationOverlayElement.setFilter(QString("id=%1").arg(id));
+
+    collimationOverlayElement.select();
+
+    collimationOverlayElement.removeRows(0, 1);
+    collimationOverlayElement.submitAll();
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool KSUserDB::GetCollimationOverlayElements(QList<QVariantMap> &collimationOverlayElements)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    collimationOverlayElements.clear();
+
+    QSqlTableModel collimationOverlayElement(nullptr, db);
+    collimationOverlayElement.setTable("collimationoverlayelements");
+    collimationOverlayElement.select();
+
+    for (int i = 0; i < collimationOverlayElement.rowCount(); ++i)
+    {
+        QVariantMap recordMap;
+        QSqlRecord record = collimationOverlayElement.record(i);
+        for (int j = 0; j < record.count(); j++)
+            recordMap[record.fieldName(j)] = record.value(j);
+
+        collimationOverlayElements.append(recordMap);
+    }
+
+    return true;
 }

@@ -659,21 +659,29 @@ void TestEkosHelper::prepareMountModule(ScopeType primary, ScopeType guiding)
     otm->refreshTrains();
 
     // Set the scope parameters also in the telescope simulator to ensure that the CCD simulator creates the right FOW
-    KTRY_INDI_PROPERTY(m_MountDevice, "Options", "TELESCOPE_INFO", scope_info);
-    INDI_E *primary_aperture = scope_info->getElement("TELESCOPE_APERTURE");
-    INDI_E *primary_focallength = scope_info->getElement("TELESCOPE_FOCAL_LENGTH");
-    INDI_E *guider_aperture = scope_info->getElement("GUIDER_APERTURE");
-    INDI_E *guider_focallength = scope_info->getElement("GUIDER_FOCAL_LENGTH");
-    QVERIFY(primary_aperture != nullptr);
-    QVERIFY(primary_focallength != nullptr);
-    QVERIFY(guider_aperture != nullptr);
-    QVERIFY(guider_focallength != nullptr);
-    primary_aperture->setValue(primaryTrain["aperture"].toDouble());
-    primary_focallength->setValue(primaryTrain["focal_length"].toDouble() * primaryTrain["reducer"].toDouble());
-    guider_aperture->setValue(guidingTrain["aperture"].toDouble());
-    guider_focallength->setValue(guidingTrain["focal_length"].toDouble() * guidingTrain["reducer"].toDouble());
-    scope_info->processSetButton();
-
+    if (m_CCDDevice != nullptr)
+    {
+        KTRY_INDI_PROPERTY(m_CCDDevice, "Options", "SCOPE_INFO", ccd_scope_info);
+        INDI_E *primary_aperture = ccd_scope_info->getElement("APERTURE");
+        INDI_E *primary_focallength = ccd_scope_info->getElement("FOCAL_LENGTH");
+        QVERIFY(primary_aperture != nullptr);
+        QVERIFY(primary_focallength != nullptr);
+        primary_aperture->setValue(primaryTrain["aperture"].toDouble());
+        primary_focallength->setValue(primaryTrain["focal_length"].toDouble() * primaryTrain["reducer"].toDouble());
+        ccd_scope_info->processSetButton();
+    }
+    if (m_GuiderDevice != nullptr)
+    {
+        KTRY_INDI_PROPERTY(m_GuiderDevice, "Options", "SCOPE_INFO", guider_scope_info);
+        INDI_E *guider_aperture = guider_scope_info->getElement("APERTURE");
+        INDI_E *guider_focallength = guider_scope_info->getElement("FOCAL_LENGTH");
+        QVERIFY(guider_aperture != nullptr);
+        QVERIFY(guider_focallength != nullptr);
+        guider_aperture->setValue(guidingTrain["aperture"].toDouble());
+        guider_focallength->setValue(guidingTrain["focal_length"].toDouble() * guidingTrain["reducer"].toDouble());
+        guider_scope_info
+                ->processSetButton();
+    }
 
     // select the primary train for the mount
     KTRY_SET_COMBO(Ekos::Manager::Instance()->mountModule(), opticalTrainCombo, m_primaryTrain);

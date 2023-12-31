@@ -155,7 +155,7 @@
 >Quadrat</guilabel
 > (el qual en realitat és un rectangle), suposant que el sensor o la pel·lícula és rectangular o quadrat. Quan s'utilitzen múltiples oculars i/o telescopis, és bo per a distingir entre colors diferents. Premeu <guilabel
 >D'acord</guilabel
-> per a tancar el diàleg. Per a mostrar la forma a la pantalla, torneu als menús <menuchoice
+> per a tancar el diàleg. Per a mostrar la forma en la pantalla, torneu als menús <menuchoice
 ><guimenu
 >Configuració</guimenu
 > <guisubmenu
@@ -239,7 +239,7 @@
 >telescopis catadiòptrics</firstterm
 > són del tipus que utilitzen sistemes de lents i espills per a fer que la llum convergisca. El catadiòptric més popular és el telescopi <firstterm
 >Schmidt-Cassegrain</firstterm
->. Té l'avantatge de proporcionar un ampli angle de camp de visió. Per tal de minimitzar la coma, s'utilitza un espill primari esfèric amb una lent de correcció que elimina les aberracions esfèriques. L'espill secundari es col·loca al centre de la lent correctora, reflectint la llum a través d'un orifici en l'espill primari. No és tan famós com el telescopi Schmidt-Cassegrain, però fins i tot és més comú que el telescopi <firstterm
+>. Té l'avantatge de proporcionar un ampli angle de camp de visió. Per tal de minimitzar la coma, s'utilitza un espill primari esfèric amb una lent de correcció que elimina les aberracions esfèriques. L'espill secundari es col·loca en el centre de la lent correctora, reflectint la llum a través d'un orifici en l'espill primari. No és tan famós com el telescopi Schmidt-Cassegrain, però fins i tot és més comú que el telescopi <firstterm
 >Maksutov</firstterm
 > que també utilitza una lent correctora amb l'espill primari, en esta ocasió la seua superfície és concèntrica. </para>
 

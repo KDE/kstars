@@ -5,13 +5,19 @@
 */
 
 #include "videowg.h"
+#include "collimationoverlaytypes.h"
 
 #include "kstars_debug.h"
+#include "kstarsdata.h"
+#include "kstars.h"
 
 #include <QImageReader>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QRubberBand>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+#include <QtMath>
 
 VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
 {
@@ -60,6 +66,9 @@ bool VideoWG::newFrame(IBLOB *bp)
     if (rc)
     {
         kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+
+        paintOverlay(kPix);
+
         setPixmap(kPix);
     }
 
@@ -168,6 +177,9 @@ bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
     if (rc)
     {
         kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+
+        paintOverlay(kPix);
+
         setPixmap(kPix);
     }
 
@@ -177,3 +189,138 @@ bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
     return rc;
 }
 
+void VideoWG::paintOverlay(QPixmap &imagePix)
+{
+    if (!overlayEnabled || m_EnabledOverlayElements.count() == 0) return;
+
+    // Anchor - default to center of image
+    QPointF m_anchor (static_cast<float>(kPix.width() / 2), static_cast<float>(kPix.height()/2));
+    scale = (static_cast<float>(kPix.width()) / static_cast<float>(streamW));
+
+    // Apply any offset from (only) the first enabled anchor element
+    bool foundAnchor = false;
+    for (auto &oneElement : m_EnabledOverlayElements) {
+        if (oneElement["Type"] == "Anchor" && !foundAnchor) {
+            m_anchor.setX(m_anchor.x() + oneElement["OffsetX"].toInt());
+            m_anchor.setY(m_anchor.y() + oneElement["OffsetY"].toInt());
+            foundAnchor = true;
+        }
+    }
+
+    painter->begin(&imagePix);
+    painter->translate(m_anchor);
+    painter->scale(scale, scale);
+
+    for (auto &currentElement : m_EnabledOverlayElements) {
+
+        painter->save();
+        QPen m_pen = QPen(QColor(currentElement["Colour"].toString()));
+        m_pen.setWidth(currentElement["Thickness"].toUInt());
+        m_pen.setCapStyle(Qt::FlatCap);
+        m_pen.setJoinStyle(Qt::MiterJoin);
+        painter->setPen(m_pen);
+        painter->translate(currentElement["OffsetX"].toFloat(), currentElement["OffsetY"].toFloat());
+
+        int m_count = currentElement["Count"].toUInt();
+        float m_pcd = currentElement["PCD"].toFloat();
+
+        if (m_count == 1) {
+            PaintOneItem(currentElement["Type"].toString(), QPointF(0.0, 0.0), currentElement["SizeX"].toUInt(), currentElement["SizeY"].toUInt(), currentElement["Thickness"].toUInt());
+        } else if (m_count > 1) {
+            float slice = 360 / m_count;
+            for (int i = 0; i < m_count; i++) {
+                painter->save();
+                painter->rotate((slice * i) + currentElement["Rotation"].toFloat());
+                PaintOneItem(currentElement["Type"].toString(), QPointF((m_pcd / 2), 0.0), currentElement["SizeX"].toUInt(), currentElement["SizeY"].toUInt(), currentElement["Thickness"].toUInt());
+                painter->restore();
+            }
+        }
+
+        painter->restore();
+     }
+    painter->end();
+}
+
+void VideoWG::setupOverlay ()
+{
+    if (overlayEnabled) {
+        initOverlayModel();
+
+        typeValues = new QStringList;
+        collimationoverlaytype m_types;
+        const QMetaObject *m_metaobject = m_types.metaObject();
+        QMetaEnum m_metaEnum = m_metaobject->enumerator(m_metaobject->indexOfEnumerator("Types"));
+        for (int i = 0; i < m_metaEnum.keyCount(); i++) {
+            *typeValues << tr(m_metaEnum.key(i));
+        }
+
+        painter = new QPainter;
+    }
+}
+
+void VideoWG::initOverlayModel()
+{
+    m_CollimationOverlayElements.clear();
+    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
+    m_CollimationOverlayElementsModel = new QSqlTableModel(this, userdb);
+    modelChanged();
+}
+
+void VideoWG::modelChanged()
+{
+    m_CollimationOverlayElements.clear();
+    m_EnabledOverlayElements.clear();
+    KStars::Instance()->data()->userdb()->GetCollimationOverlayElements(m_CollimationOverlayElements);
+    for (auto &oneElement : m_CollimationOverlayElements)
+        if (oneElement["Enabled"] == Qt::Checked)
+            m_EnabledOverlayElements.append(oneElement);
+}
+
+void VideoWG::PaintOneItem (QString type, QPointF position, int sizeX, int sizeY, int thickness)
+{
+    float m_sizeX = sizeX - (thickness / 2);
+    float m_sizeY = sizeY - (thickness / 2);
+
+    switch (typeValues->indexOf(type)) {
+case 0: // Anchor - ignore as we're not drawing it
+    break;
+
+case 1: // Ellipse
+    painter->drawEllipse(position, m_sizeX, m_sizeY);
+    break;
+
+case 2: // Rectangle
+{
+    QRect m_rect((position.x() - (m_sizeX / 2)), (position.y() - (m_sizeY / 2)), (m_sizeX - (thickness / 2)), (m_sizeY - (thickness / 2)));
+    painter->drawRect(m_rect);
+    break;
+}
+
+case 3: // Line
+    painter->drawLine(position.x(), position.y(), sizeX, sizeY);
+    break;
+
+default:
+    break;
+    };
+}
+
+void VideoWG::toggleOverlay()
+{
+    if (overlayEnabled == false) {
+        overlayEnabled = true;
+        if (m_CollimationOverlayElementsModel == nullptr) {
+            setupOverlay();
+        }
+    } else if (overlayEnabled == true) {
+        overlayEnabled = false;
+    }
+}
+
+VideoWG::~VideoWG()
+{
+    delete m_CollimationOverlayElementsModel;
+    delete m_CurrentElement;
+    delete typeValues;
+    delete painter;
+}

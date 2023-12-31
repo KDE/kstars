@@ -91,7 +91,7 @@
 
 <authorgroup>
 
-<othercredit role="developer"
+<author
 ><firstname
 >Jasem</firstname
 > <surname
@@ -102,7 +102,7 @@
 </affiliation>
 <contrib
 >Провідний розробник і супроводжувач</contrib>
-</othercredit>
+</author>
 
 <othercredit role="developer"
 ><firstname

@@ -29,11 +29,11 @@
 >coordenades equatorials</link
 > a <link linkend="horizontal"
 >coordenades horitzontals</link
->. Primer, seleccioneu la data, l'hora i les coordenades geogràfiques que es calcularan. Aleshores, ompliu les coordenades equatorials que es convertiran o utilitzeu el diàleg <guilabel
+>. Primer, seleccioneu la data, l'hora i les coordenades geogràfiques que es calcularan. Aleshores, empleneu les coordenades equatorials que es convertiran o utilitzeu el diàleg <guilabel
 >Busca un objecte</guilabel
 > en la secció <guilabel
 >Coordenades equatorials (J2000)</guilabel
->. Les coordenades horitzontals corresponents seran presentades a la secció <guilabel
+>. Les coordenades horitzontals corresponents seran presentades en la secció <guilabel
 >Coordenades horitzontals</guilabel
 >. </para>
 </sect2>

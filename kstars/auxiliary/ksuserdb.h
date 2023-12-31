@@ -435,6 +435,31 @@ class KSUserDB
          **/
         bool GetOpticalTrainSettings(uint32_t train, QVariantMap &settings);
 
+        /************************************************************************
+         *********************** Collimation Overlay Elements *******************
+         ************************************************************************/
+
+        /**
+         * @brief Add a new collimation overlay element to the database
+         * @param oneElement collimation overlay element data
+         **/
+        bool AddCollimationOverlayElement(const QVariantMap &oneElement);
+
+        /**
+         * @brief Update an existing collimation overlay element
+         * @param oneElement collimation overlay element data
+         * @param id ID of element to replace in database
+         **/
+        bool UpdateCollimationOverlayElement(const QVariantMap &oneElement, int id);
+
+        bool DeleteCollimationOverlayElement(int id);
+
+        /**
+         * @brief Populate the reference passed with all collimation overlay elements
+         * @param collimationOverlayElements Reference to all elements list
+         **/
+        bool GetCollimationOverlayElements(QList<QVariantMap> &collimationOverlayElements);
+
     private:
         /**
          * @brief This function initializes a new database in the user's directory.
@@ -494,5 +519,5 @@ class KSUserDB
 
         QString m_ConnectionName;
 
-        static const uint16_t SCHEMA_VERSION = 313;
+        static const uint16_t SCHEMA_VERSION = 314;
 };

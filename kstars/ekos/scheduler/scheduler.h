@@ -182,32 +182,7 @@ public:
 
         // TODO: This section of static public and private methods should someday
         // be moved from Scheduler and placed in a separate class,
-        // e.g. SchedulerPlanner or SchedulerJobEval
-
-        // Scheduler Settings
-        void setSettings(const QJsonObject &settings);
-
-        // Primary Settings
-        void setPrimarySettings(const QJsonObject &settings);
-
-        // Job Startup Conditions
-        void setJobStartupConditions(const QJsonObject &settings);
-
-        // Job Constraints
-        void setJobConstraints(const QJsonObject &settings);
-
-        // Job Completion Conditions
-        void setJobCompletionConditions(const QJsonObject &settings);
-
-        // Observatory Startup Procedure
-        void setObservatoryStartupProcedure(const QJsonObject &settings);
-
-        // Aborted Job Managemgent Settings
-        void setAbortedJobManagementSettings(const QJsonObject &settings);
-
-        // Observatory Shutdown Procedure
-        void setObservatoryShutdownProcedure(const QJsonObject &settings);
-
+        // e.g. SchedulerPlanner or SchedulerJobEval        
         /**
          * @brief Remove a job from current table row.
          * @param index
@@ -223,13 +198,20 @@ public:
         /**
          * @brief addJob Add a new job from form values
          */
-        void addJob();
+        void addJob(SchedulerJob *job = nullptr);
+
+        /**
+         * @brief createJob Create a new job from form values.
+         * @param job job to be filled from UI values
+         * @return true iff update was successful
+         */
+        bool fillJobFromUI(SchedulerJob *job);
 
         /**
          * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
          * jobUnderEdit determines whether to add or edit
          */
-        void saveJob();
+        void saveJob(SchedulerJob *job = nullptr);
 
         QJsonArray getJSONJobs();
 
@@ -264,6 +246,10 @@ public:
         {
             return m_moduleState;
         }
+
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
         
 private:
 
@@ -368,6 +354,11 @@ protected slots:
         void loadJob(QModelIndex i);
 
         /**
+         * @brief updateSchedulerURL Update scheduler URL after succesful loading a new file.
+         */
+        void updateSchedulerURL(const QString &fileURL);
+
+        /**
              * @brief setJobAddApply Set first button state to add new job or apply changes.
              */
         void setJobAddApply(bool add_mode);
@@ -432,13 +423,6 @@ protected slots:
          * @param filename If not empty, this file will be used instead of poping up a dialog.
          */
         void load(bool clearQueue, const QString &filename = "");
-
-        /**
-         * @brief appendEkosScheduleList Append the contents of an ESL file to the queue.
-         * @param fileURL File URL to load contents from.
-         * @return True if contents were loaded successfully, else false.
-         */
-        bool appendEkosScheduleList(const QString &fileURL);
 
         void resetJobEdit();
 
@@ -510,8 +494,6 @@ protected slots:
          */
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
-        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
-
         /**
          * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check
          * to ensure it does not deviation from current scheduler job target.
@@ -531,6 +513,7 @@ signals:
         void jobStarted(const QString &jobName);
         void jobEnded(const QString &jobName, const QString &endReason);
         void jobsUpdated(QJsonArray jobsList);
+        void settingsUpdated(const QVariantMap &settings);
 
 private:
         /**
@@ -559,13 +542,6 @@ private:
              */
         bool checkShutdownState();
 
-        /**
-             * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
-             * @param root XML root element of JOB
-             * @return true on success, false on failure.
-             */
-        bool processJobInfo(XMLEle *root);
-
         /** @internal Change the current job, updating associated widgets.
          * @param job is an existing SchedulerJob to set as current, or nullptr.
          */
@@ -589,16 +565,6 @@ private:
             */
         void updateCompletedJobsCount(bool forced = false);
 
-        /**
-         * @brief Update the flag for the given job whether light frames are required
-         * @param oneJob scheduler job where the flag should be updated
-         * @param seqjobs list of capture sequences of the job
-         * @param framesCount map capture signature -> frame count
-         * @return true iff the job need to capture light frames
-         */
-        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs,
-                                       const CapturedFramesMap &framesCount);
-
         // Returns true if the job is storing its captures on the same machine as the scheduler.
         bool canCountCaptures(const SchedulerJob &job);
 
@@ -612,6 +578,38 @@ private:
             return repeatSequenceCB->isEnabled() && repeatSequenceCB->isChecked() &&
                     (executionSequenceLimit->value() == 0 || sequenceExecutionCounter < executionSequenceLimit->value());
         }
+
+        ////////////////////////////////////////////////////////////////////
+        /// Settings
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
         int sequenceExecutionCounter = 1;
 
@@ -807,5 +805,8 @@ private:
         {
             return m_GreedyScheduler;
         }
+
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
 };
 }

@@ -55,7 +55,7 @@
 <para
 >Tanmateix, si no s'especifiquen l'amplària i alçària de la imatge, es deixarà 640 i 480, respectivament. </para>
 <para
->De manera predeterminada, &kstars; llegirà en els valors d'opcions guardats al vostre fitxer <filename
+>De manera predeterminada, &kstars; llegirà en els valors d'opcions guardats en el vostre fitxer <filename
 >$KDEHOME/share/config/kstarsrc</filename
 > per a determinar a on centrar la imatge i com renderitzar-la. Açò significa que necessitareu iniciar &kstars; en mode &IGU; normal i eixir del programa quan es configuren les opcions desitjades per a prendre les imatges. Açò no és molt flexible, així que també proporcionem la capacitat d'executar un script de &DBus; de &kstars; per a establir l'escena abans de generar la imatge. El nom de fitxer que especifiqueu haurà de ser un script de &DBus; de &kstars; vàlid, tal com un de creat amb l'<link linkend="tool-scriptbuilder"
 >eina de constructor de scripts</link

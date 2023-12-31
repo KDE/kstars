@@ -374,6 +374,9 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
     if(isDarkFlat)
         setJobType(SequenceJob::JOBTYPE_DARKFLAT);
 
+    // Sync scripts
+    setScripts(sharedState->scripts());
+
     // copy general state attributes
     // TODO: does this really make sense? This is a general setting - sterne-jaeger@openfuture.de, 2023-09-21
     setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, Options::enforceStartGuiderDrift());

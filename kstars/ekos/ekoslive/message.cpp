@@ -53,6 +53,9 @@ Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &n
 
     m_PendingPropertiesTimer.setInterval(500);
     connect(&m_PendingPropertiesTimer, &QTimer::timeout, this, &Message::sendPendingProperties);
+
+    m_DebouncedSend.setInterval(500);
+    connect(&m_DebouncedSend, &QTimer::timeout, this, &Message::dispatchDebounceQueue);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -524,7 +527,8 @@ void Message::sendCaptureSettings(const QJsonObject &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendAlignSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[ALIGN_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[ALIGN_GET_ALL_SETTINGS]] = settings;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -532,7 +536,8 @@ void Message::sendAlignSettings(const QVariantMap &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendGuideSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[GUIDE_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[GUIDE_GET_ALL_SETTINGS]] = settings;
 
 }
 
@@ -541,7 +546,8 @@ void Message::sendGuideSettings(const QVariantMap &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendFocusSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[FOCUS_GET_ALL_SETTINGS]] = settings;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -549,7 +555,8 @@ void Message::sendFocusSettings(const QVariantMap &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendMountSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[MOUNT_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[MOUNT_GET_ALL_SETTINGS]] = settings;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -557,16 +564,35 @@ void Message::sendMountSettings(const QVariantMap &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDarkLibrarySettings(const QVariantMap &settings)
 {
-    sendResponse(commands[DARK_LIBRARY_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[DARK_LIBRARY_GET_ALL_SETTINGS]] = settings;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Message::sendSchedulerSettings(const QJsonObject &settings)
+void Message::sendSchedulerSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[SCHEDULER_GET_SETTINGS], settings);
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[SCHEDULER_GET_ALL_SETTINGS]] = settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::dispatchDebounceQueue()
+{
+    QMapIterator<QString, QVariantMap> i(m_DebouncedMap);
+    while (i.hasNext())
+    {
+        i.next();
+        sendResponse(i.key(), QJsonObject::fromVariantMap(i.value()));
+    }
+    m_DebouncedMap.clear();
+
+    // Save to disk
+    Options::self()->save();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -869,41 +895,7 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
 {
     Ekos::Scheduler *scheduler = m_Manager->schedulerModule();
 
-    if (command == commands[SCHEDULER_SET_PRIMARY_SETTINGS])
-    {
-        scheduler->setPrimarySettings(payload);
-    }
-    else if (command == commands[SCHEDULER_SET_JOB_STARTUP_CONDITIONS])
-    {
-        scheduler->setJobStartupConditions(payload);
-        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
-    }
-    else if (command == commands[SCHEDULER_SET_JOB_CONSTRAINTS])
-    {
-        scheduler->setJobConstraints(payload);
-        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
-    }
-    else if (command == commands[SCHEDULER_SET_JOB_COMPLETION_SETTINGS])
-    {
-        scheduler->setJobCompletionConditions(payload);
-        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
-    }
-    else if (command == commands[SCHEDULER_SET_OBSERVATORY_STARTUP_PROCEDURE])
-    {
-        scheduler->setObservatoryStartupProcedure(payload);
-        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
-    }
-    else if (command == commands[SCHEDULER_SET_ABORTED_JOB_MANAGEMENT])
-    {
-        scheduler->setAbortedJobManagementSettings(payload);
-        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
-    }
-    else if (command == commands[SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE])
-    {
-        scheduler->setObservatoryShutdownProcedure(payload);
-        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
-    }
-    else if (command == commands[SCHEDULER_GET_JOBS])
+    if (command == commands[SCHEDULER_GET_JOBS])
     {
         sendSchedulerJobs();
     }
@@ -916,9 +908,14 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
         int index = payload["index"].toInt();
         scheduler->removeOneJob(index);
     }
-    else if(command == commands[SCHEDULER_GET_SETTINGS])
+    else if(command == commands[SCHEDULER_GET_ALL_SETTINGS])
     {
-        sendResponse(commands[SCHEDULER_GET_SETTINGS], scheduler->getSchedulerSettings());
+        sendSchedulerSettings(scheduler->getAllSettings());
+    }
+    else if(command == commands[SCHEDULER_SET_ALL_SETTINGS])
+    {
+        auto settings = payload.toVariantMap();
+        scheduler->setAllSettings(settings);
     }
     else if(command == commands[SCHEDULER_START_JOB])
     {

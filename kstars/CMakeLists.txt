@@ -106,6 +106,8 @@ if (INDI_FOUND)
         indi/videowg.cpp
         indi/indiwebmanager.cpp
         indi/customdrivers.cpp
+        indi/collimationoverlayoptions.cpp
+        indi/collimationoverlaytypes.h
     )
 
     if (CFITSIO_FOUND)
@@ -259,6 +261,7 @@ if (INDI_FOUND)
             ekos/scheduler/scheduler.cpp
             ekos/scheduler/schedulermodulestate.cpp
             ekos/scheduler/schedulerprocess.cpp
+            ekos/scheduler/schedulerutils.cpp
             ekos/scheduler/schedulertypes.cpp
             ekos/scheduler/framingassistantui.cpp
             ekos/scheduler/mosaictilesmanager.cpp
@@ -418,6 +421,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsdebayer.ui
         indi/streamform.ui
         indi/recordingoptions.ui
+        indi/collimationOptions.ui
         fitsviewer/fitshistogramui.ui
         fitsviewer/fitsstretchui.ui
         fitsviewer/opsfits.ui
@@ -1237,7 +1241,8 @@ IF (NOT ANDROID)
         #skycomponents/notifyupdatesui.ui
     )
 
-    add_library(KStarsLib STATIC ${kstars_SRCS})
+    add_library(KStarsLib STATIC ${kstars_SRCS}
+        indi/collimationOptions.ui)
 
     if (BUILD_PYKSTARS)
       set_target_properties(KStarsLib PROPERTIES POSITION_INDEPENDENT_CODE ON)

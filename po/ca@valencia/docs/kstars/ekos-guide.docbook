@@ -103,7 +103,7 @@
                 <para
 ><guilabel
 >Fosc</guilabel
->: Marqueu-la opció per a habilitar les correccions de fotograma fosc a la vostra imatge guia. Vegeu més avall. </para>
+>: Seleccioneu-la per a habilitar les correccions de fotograma fosc a la vostra imatge guia. Vegeu més avall. </para>
             </listitem>
             <listitem>
                 <para
@@ -139,13 +139,13 @@
             </mediaobject>
         </screenshot>
         <para
->El guiatge automàtic és un procés de dos passos: calibratge i guiatge. El calibratge és necessari perquè l'esquema comprenga l'orientació de la càmera en relació amb els eixos AR i Dec, així com també els efectes dels polsos de guiatge (&pex;, quant mourà normalment l'eix AR un pols de guiatge de 100 ms). Una vegada estimats estos valors, el sistema de guiatge podrà corregir la posició de la muntura de manera efectiva. Podeu veure els valors calibrats per a estos paràmetres a la imatge de dalt a la secció «Valors calibrats». </para>
+>El guiatge automàtic és un procés de dos passos: calibratge i guiatge. El calibratge és necessari perquè l'esquema comprenga l'orientació de la càmera en relació amb els eixos AR i Dec, així com també els efectes dels polsos de guiatge (&pex;, quant mourà normalment l'eix AR un pols de guiatge de 100 ms). Una vegada estimats estos valors, el sistema de guiatge podrà corregir la posició de la muntura de manera efectiva. Podeu veure els valors calibrats per a estos paràmetres en la imatge de dalt en la secció «Valors calibrats». </para>
         <para
 >Igual que amb altres sistemes de guiatge, vos recomanem calibrar acuradament una vegada i després tornar a calibrar només quan siga necessari. Caldrà tornar a calibrar quan la càmera es moga (&pex;, es gire) en relació amb la muntura. No cal calibrar cada vegada que s'orienta la muntura. Haureu de calibrar quan apunteu a prop del meridià i al llarg de l'equador celeste (probablement just a l'oest seu). El sistema de guiatge (i el calibratge de la guia) és problemàtic prop del pol -probablement no funcionarà-. Esta <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
 >presentació de diapositives</ulink
 > conté bons consells sobre com calibrar el sistema de guiatge intern i/o PHD2. </para>
         <para
->Les opcions importants a la pàgina <guilabel
+>Les opcions importants en la pàgina <guilabel
 >Calibratge</guilabel
 > (a dalt) són: </para>
         <itemizedlist>
@@ -179,13 +179,15 @@
             </listitem>
         </itemizedlist>
         <para
->Per a (re)calibrar, netegeu el calibratge a la pàgina <guilabel
+>Per a (re)calibrar, netegeu el calibratge en la pàgina <guilabel
 >Guia</guilabel
 > principal i després senzillament feu clic en el botó <guibutton
 >Guia</guibutton
 >. Cal tindre en compte que si el calibratge ja s'ha completat amb èxit abans i no l'heu netejat, llavors estareu reutilitzant-lo i el procés de guiatge automàtic començarà immediatament; altrament, s'iniciarà el procés de calibratge. </para>
         <para
->Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura en l'AR i Dec. Impulsa l'eix de l'AR cap a fora i després l'impulsa cap a dins. Després d'açò es mou una mica en la Dec per a netejar i compensar el rebot que poguera existir, i llavors impulsa cap enfora i torna cap a dins la Dec. Per a veure-ho gràficament, feu clic en la subpestanya «Traçat del calibratge» en la pàgina principal del guiatge. </para>
+>Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura en l'AR i Dec. Impulsa l'eix de l'AR cap a fora i després l'impulsa cap a dins. Després d'açò es mou una mica en la Dec per a netejar i compensar el rebot que poguera existir, i llavors impulsa cap enfora i torna cap a dins la Dec. Per a veure-ho gràficament, feu clic en la subpestanya <guilabel
+>Traçat del calibratge</guilabel
+> en la pàgina principal del guiatge. </para>
         <sect3 id="guide-calibration-failures">
         <title
 >Fallades del calibratge</title>
@@ -204,7 +206,7 @@
                 <para
 >Deixeu l'algorisme al valor predeterminat (<guimenuitem
 >SEP</guimenuitem
-> del MultiStar) a la pestanya <guilabel
+> del MultiStar) en la pestanya <guilabel
 >Processament</guilabel
 > de la pàgina <guilabel
 >Enfocament</guilabel
@@ -212,7 +214,7 @@
             </listitem>
             <listitem>
                 <para
->Proveu els paràmetres de detecció d'estreles SEP «Sistema de guiatge predeterminat» (a la pestanya  <guilabel
+>Proveu els paràmetres de detecció d'estreles SEP «Sistema de guiatge predeterminat» (en la pestanya  <guilabel
 >Processament</guilabel
 > de la pàgina <guilabel
 >Enfocament</guilabel
@@ -259,7 +261,7 @@
             </mediaobject>
         </screenshot>
         <para
->Una vegada finalitzat el procés de calibratge, el guiatge començarà de manera automàtica. El rendiment del guiatge es mostra a la regió <guilabel
+>Una vegada finalitzat el procés de calibratge, el guiatge començarà de manera automàtica. El rendiment del guiatge es mostra en la regió <guilabel
 >Gràfics de la deriva</guilabel
 >, on el <guilabel
 >Verd</guilabel
@@ -364,7 +366,7 @@
 >correccions</emphasis
 > del guiatge. De manera predeterminada, només es mostraran les desviacions del guiatge en l'AR i la Dec. L'eix horitzontal és el temps en segons, ja que el procés de guiatge automàtic es va iniciar mentre l'eix vertical dibuixava la deriva/desviació del guiatge en segons d'arc per a cada eix. Les correccions del guiatge (polsos) també es poden tramar en el mateix gràfic i podreu habilitar-les seleccionant la casella de selecció <guilabel
 >Corr</guilabel
->. Les correccions es dibuixaran com a àrees ombrejades al fons amb el mateix color que l'eix. </para>
+>. Les correccions es dibuixaran com a àrees ombrejades en el fons amb el mateix color que l'eix. </para>
         <para
 >Podeu fer una panoràmica i ampliar el dibuix, i en passar el ratolí sobre el gràfic, es mostrarà un consell d'eina que contindrà informació sobre este punt específic en el temps. Contindrà la deriva del guiatge i qualsevol correcció feta, a més del temps local, este esdeveniment es va registrar. Es pot utilitzar un control lliscant vertical a la dreta de la imatge per a ajustar l'alçària de l'eix Y secundari per a les correccions dels polsos.</para>
         <para
@@ -427,7 +429,7 @@
 >Captura</guibutton
 >. Es realitzarà per primera vegada, Ekos vos demanarà sobre l'obturador de la càmera. Si la vostra càmera no té obturador, Ekos vos avisarà en qualsevol moment mentre preneu el fotograma fosc perquè cobriu la càmera/telescopi abans de continuar amb la captura. D'altra banda, si la càmera ja inclou un obturador, Ekos procedirà directament amb el fotograma fosc. Tots els fotogrames foscos es guardaran automàticament en la biblioteca de fotogrames foscos d'Ekos. De manera predeterminada, la biblioteca fosca mantindrà els fotogrames foscos per a la seua reutilització durant 30 dies després del qual capturarà fotogrames foscos nous. Este valor és configurable i es pot ajustar en la <link linkend="ekos"
 >configuració d'Ekos</link
->, al diàleg de configuració de &kstars;. </para>
+>, en el diàleg de configuració de &kstars;. </para>
         <screenshot>
             <screeninfo
 >Biblioteca de fotogrames foscos d'Ekos </screeninfo>

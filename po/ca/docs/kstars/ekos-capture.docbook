@@ -513,6 +513,32 @@
                 </para>
             </caption>
         </mediaobject>
+        <para
+>La visualització en directe també proporciona una eina de superposició gràfica per a ajudar en la col·limació. Això s'activa/desactiva amb el botó de punt de mira. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Superposició de col·limació</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>El botó opcions de superposició obre un diàleg que permet la creació arbitrària i flexible d'el·lipses (inclosos cercles), rectangles i línies, així com punts d'ancoratge que actuen com a decalatges globals de dibuix. Cada element definit té la seva pròpia mida, decalatges, repetició, gruix i color (incloent-hi transparència). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Opcions de la superposició de col·limació</phrase>
+                </para>
+            </caption>
+        </mediaobject>
     </sect2>
 
     <sect2 id="capture-fits-viewer">

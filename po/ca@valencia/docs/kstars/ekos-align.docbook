@@ -71,7 +71,7 @@
                     <para
 >Seleccioneu <guilabel
 >Orienta cap a l'objectiu</guilabel
-> a la secció <guilabel
+> en la secció <guilabel
 >Acció del solucionador</guilabel
 > en el mòdul «Alinea» d'Ekos. </para>
                 </listitem>
@@ -83,7 +83,7 @@
                 </listitem>
             </orderedlist>
             <para
->L'alineació capturarà una imatge i intentarà resoldre-la. Si el solucionador té èxit, Ekos enviarà una ordre de sincronització a la muntura i després orientarà cap a l'estrela. Els resultats es mostraran a la pestanya <guilabel
+>L'alineació capturarà una imatge i intentarà resoldre-la. Si el solucionador té èxit, Ekos enviarà una ordre de sincronització a la muntura i després orientarà cap a l'estrela. Els resultats es mostraran en la pestanya <guilabel
 >Resultats de la solució</guilabel
 > juntament amb un diagrama en ull de bou que ens mostrarà el desplaçament de les coordenades informades pel telescopi (&ead;, cap on <emphasis
 >creu</emphasis
@@ -251,7 +251,7 @@
 ><para
 >Podeu triar un <guilabel
 >Perfil d'opcions</guilabel
-> a la pestanya <guilabel
+> en la pestanya <guilabel
 >Opcions de l'StelarSolver</guilabel
 >. Els perfils són senzillament col·leccions de paràmetres per a configurar el rendiment del sistema d'extracció d'estreles i resolució de plaques dins de StellarSolver. El perfil <guilabel
 >1-Default</guilabel
@@ -277,13 +277,13 @@
 >Paràmetres per a traure el barreig</guilabel
 >, i <guilabel
 >Paràmetres de fotometria</guilabel
->) són paràmetres per a l'extracció d'estreles -&ead;, que ajuden a trobar estreles a la imatge-.</para
+>) són paràmetres per a l'extracció d'estreles -&ead;, que ajuden a trobar estreles en la imatge-.</para
 ></listitem>
          <listitem
 ><para
 >La segona secció anomenada <guilabel
 >Paràmetres de filtratge d'estreles</guilabel
-> filtra i reduïx el nombre d'estreles extretes abans d'enviar la llista al solucionador de plaques (quan s'alinea o s'alinea amb la Polar), a l'enfocament automàtic o al sistema de guiatge intern (quan només es necessita una llista d'estreles).</para
+> filtra i reduïx el nombre d'estreles extretes abans d'enviar la llista al solucionador de plaques (quan s'alinea o s'alinea amb la Polar), en l'enfocament automàtic o en el sistema de guiatge intern (quan només es necessita una llista d'estreles).</para
 ></listitem>
          <listitem
 ><para
@@ -341,11 +341,11 @@
          <listitem
 ><para
 ><guilabel
->Mantín a l'inici:</guilabel
+>Mantín en l'inici:</guilabel
 > i <guilabel
 >Mantín el nombre:</guilabel
 > es relacionen amb el nombre d'estreles que retorna el sistema. El sistema executarà inicialment el seu algorisme de detecció i trobarà un nombre concret de deteccions possibles. Filtrarà esta llista, mantenint només <guilabel
->Mantín a l'inici:</guilabel
+>Mantín en l'inici:</guilabel
 > les estreles més brillants. Aleshores executarà la resta del filtratge, incloent calcular l'HFR de totes estes estreles i, finalment, només retornarà una llista de <guilabel
 >Mantín el nombre:</guilabel
 > d'estreles. Cap dels usos (alineació, enfocament automàtic i guiatge) de StellarSolver requerix milers d'estreles per a poder fer la seua faena, i com més estreles es processen, més lenta serà l'operació. Una llista inicial de 1.000 estreles i uns quants centenars d'estreles retornades haurien de ser suficients per a la majoria de les aplicacions.</para
@@ -437,7 +437,7 @@
                 </mediaobject>
             </screenshot>
             <para
->La baixada automàtica només estarà disponible per als usuaris d'Ekos a &Linux; i &MacOS;. Per als usuaris de &Windows;, baixeu el solucionador ANSVR. </para>
+>La baixada automàtica només estarà disponible per als usuaris d'Ekos en &Linux; i &MacOS;. Per als usuaris de &Windows;, baixeu el solucionador ANSVR. </para>
             <para
 >Per a accedir a la pàgina de baixada, feu clic en el botó <guibutton
 >Opcions</guibutton
@@ -713,7 +713,7 @@
 >Remot</guimenuitem
 > en el mòdul «Alinea» d'Ekos. A més, assegureu-vos que el controlador <guimenuitem
 >Astrometria</guimenuitem
-> està seleccionat al perfil de l'equip. </para>
+> està seleccionat en el perfil de l'equip. </para>
         </note>
         <screenshot>
             <screeninfo
@@ -785,7 +785,7 @@
 >&Linux;</term>
                 <listitem>
                     <para
->«astrometry.net» ja està inclòs amb &kstars; en la versió «bleeding». Però si l'astrometria no està instal·lada, podeu instal·lar-la executant l'ordre següent a la &ubuntu;: </para>
+>«astrometry.net» ja està inclòs amb &kstars; en la versió «bleeding». Però si l'astrometria no està instal·lada, podeu instal·lar-la executant l'ordre següent en la &ubuntu;: </para>
                     <para>
                         <command
 >sudo apt-get install astrometry.net</command>
@@ -905,7 +905,7 @@
                 </mediaobject>
 
                 <para
->En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera encastada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre al mateix lloc de la fotografia si volem obtindre una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'esta manera: l'òptica, l'atmosfera, veent la qualitat de tots els fotons dispersos i refractats d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que seguixen una distribució de Poisson. Per a fonts puntuals com les estreles, la funció de dispersió d'un punt descriu la manera com els fotons es distribuïxen espacialment a través dels píxels. No obstant açò, la idea general que volem és que els fotons d'origen colpegen en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastre. </para>
+>En l'obtenció d'imatges amb una exposició prolongada, hi ha una càmera adjuntada al telescopi, on el sensor de la imatge capturarà els fotons entrants d'una àrea particular del cel. Els fotons hauran d'incidir sempre en el mateix lloc de la fotografia si volem obtindre una imatge clara i nítida. Per descomptat, els fotons en la realitat no es comporten d'esta manera: l'òptica, l'atmosfera, veent la qualitat de tots els fotons dispersos i refractats d'una manera o altra. A més, els fotons no arriben de manera uniforme, sinó que seguixen una distribució de Poisson. Per a fonts puntuals com les estreles, la funció de dispersió d'un punt descriu la manera com els fotons es distribuïxen espacialment a través dels píxels. No obstant açò, la idea general que volem és que els fotons d'origen colpegen en els mateixos píxels. En cas contrari, podríem acabar amb una imatge plagada de diversos defectes de rastre. </para>
                 <screenshot>
                     <screeninfo
 >Alineació polar </screeninfo>
@@ -924,7 +924,7 @@
                 <para
 >Tanmateix, tret que tingueu una muntura de gamma alta, probablement voldreu utilitzar un guiador automàtic per a mantindre bloquejada la mateixa estrela en la mateixa posició al llarg del temps. Malgrat tot açò, si l'eix de la muntura no està correctament alineat amb el pol celeste, fins i tot una muntura mecànicament perfecta perdrà el seguiment amb el temps. Els errors de seguiment són proporcionals a la magnitud de la desalineació. Per tant, és molt important per a les imatges preses amb una exposició prolongada aconseguir que la muntura s'alinee en l'àmbit polar per a reduir els errors residuals a mesura que es desplaça a través del cel. </para>
                 <para
->Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste amb els contrapesos cap avall. Si viviu a l'hemisferi nord, apunteu-lo el més a prop possible de Polaris. Si Polaris no està visible (&pex;, està bloquejada per arbres o edificis), podeu apuntar cap a un altre lloc, preferiblement a prop del meridià. Assegureu-vos que hi haja almenys de 30 a 60 graus de cel visible en un arc a l'est o l'oest del meridià des de la posició que trieu. Seleccioneu la direcció del cel lliure, el nombre de graus per a cadascuna de les dues orientacions, la velocitat d'orientació de la muntura i si la muntura s'orientarà automàticament (recomanat) o manualment. </para>
+>Abans d'iniciar el procés, apunteu la muntura el més a prop possible del pol celeste amb els contrapesos cap avall. Si viviu en l'hemisferi nord, apunteu-lo el més a prop possible de Polaris. Si Polaris no està visible (&pex;, està bloquejada per arbres o edificis), podeu apuntar cap a un altre lloc, preferiblement a prop del meridià. Assegureu-vos que hi haja almenys de 30 a 60 graus de cel visible en un arc a l'est o l'oest del meridià des de la posició que trieu. Seleccioneu la direcció del cel lliure, el nombre de graus per a cadascuna de les dues orientacions, la velocitat d'orientació de la muntura i si la muntura s'orientarà automàticament (recomanat) o manualment. </para>
                 <para
 >L'eina funciona capturant i resolent tres imatges. Després de capturar cadascuna, la muntura girarà per la quantitat fixa que heu introduït i es capturarà i resoldrà una altra imatge. Si trieu manualment, haureu d'orientar la muntura aproximadament per l'angle escollit. </para>
                 <screenshot>
@@ -1016,7 +1016,7 @@
 >Mou l'estrela i Calcula l'error</emphasis
 > i <emphasis
 >Mou l'estrela</emphasis
->. Quan seleccioneu este esquema, el sistema col·loca un triangle groc/verd/violeta a la pantalla. El triangle es pot moure fent clic a prop d'una estrela, i el cantó groga/violeta es mou cap a esta estrela. En este esquema, l'usuari corregix l'alineació polar ajustant primer el pom d'azimut de la muntura perquè l'estrela seleccionada es moga al llarg del costat groc del triangle. Quan l'estrela estiga a prop del vèrtex següent, s'haurà d'ajustar el pom d'azimut perquè l'estrela es moga al llarg del costat verd del triangle. Quan l'estrela es moga fins al vèrtex verd/violeta, la muntura s'alinearà polarment i l'usuari podrà fer clic en <guibutton
+>. Quan seleccioneu este esquema, el sistema col·loca un triangle groc, verd i violeta en la pantalla. El triangle es pot moure fent clic a prop d'una estrela, i el cantó groga/violeta es mou cap a esta estrela. En este esquema, l'usuari corregix l'alineació polar ajustant primer el pom d'azimut de la muntura perquè l'estrela seleccionada es moga al llarg del costat groc del triangle. Quan l'estrela estiga a prop del vèrtex següent, s'haurà d'ajustar el pom d'azimut perquè l'estrela es moga al llarg del costat verd del triangle. Quan l'estrela es moga fins al vèrtex verd/violeta, la muntura s'alinearà polarment i l'usuari podrà fer clic en <guibutton
 >Para</guibutton
 >. </para>
                   <para
@@ -1024,7 +1024,7 @@
 >Mou l'estrela i Calcula l'error</emphasis
 > i <emphasis
 >Mou l'estrela</emphasis
-> és que al primer, el sistema intenta seguir l'estrela que l'usuari ha seleccionat i col·loca un cercle al seu voltant. En este esquema, també intentareu actualitzar la fila <guilabel
+> és que en el primer, el sistema intenta seguir l'estrela que l'usuari ha seleccionat i col·loca un cercle al seu voltant. En este esquema, també intentareu actualitzar la fila <guilabel
 >Error actualitzat:</guilabel
 >. Si el seguiment d'estreles no és fiable, senzillament ignoreu-lo o utilitzeu l'esquema <emphasis
 >Mou l'estrela</emphasis
