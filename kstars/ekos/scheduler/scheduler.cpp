@@ -718,28 +718,27 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS/XISF Image"), dirPath,
-                                          "FITS (*.fits *.fit);;XISF (*.xisf)");
-    if (fitsURL.isEmpty())
+    auto url = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS/XISF Image"), dirPath,
+                                           "FITS (*.fits *.fit);;XISF (*.xisf)");
+    if (url.isEmpty())
         return;
 
-    dirPath = QUrl(fitsURL.url(QUrl::RemoveFilename));
-
-    fitsEdit->setText(fitsURL.toLocalFile());
-
-    if (nameEdit->text().isEmpty())
-        nameEdit->setText(fitsURL.fileName());
-
-    addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
-    //mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
-
-    processFITSSelection();
-
-    setDirty();
+    processFITSSelection(url);
 }
 
-void Scheduler::processFITSSelection()
+void Scheduler::processFITSSelection(const QUrl &url)
 {
+    if (url.isEmpty())
+        return;
+
+    fitsURL = url;
+    dirPath = QUrl(fitsURL.url(QUrl::RemoveFilename));
+    fitsEdit->setText(fitsURL.toLocalFile());
+    if (nameEdit->text().isEmpty())
+        nameEdit->setText(fitsURL.fileName());
+    addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
+    setDirty();
+
     const QString filename = fitsEdit->text();
     int status = 0;
     double ra = 0, dec = 0;
@@ -4236,6 +4235,8 @@ void Scheduler::setAllSettings(const QVariantMap &settings)
 
             if (name == "sequenceEdit")
                 setSequence(lineedit->text());
+            else if (name == "fitsEdit")
+                processFITSSelection(QUrl::fromLocalFile(lineedit->text()));
             else if (name == "schedulerStartupScript")
                 moduleState()->setStartupScriptURL(QUrl::fromUserInput(lineedit->text()));
             else if (name == "schedulerShutdownScript")

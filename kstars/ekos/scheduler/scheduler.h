@@ -551,7 +551,7 @@ private:
          * @brief processFITSSelection When a FITS file is selected, open it and try to guess
          * the object name, and its J2000 RA/DE to fill the UI with such info automatically.
          */
-        void processFITSSelection();
+        void processFITSSelection(const QUrl &url);
 
         /**
          * @brief updateProfiles React upon changed profiles and update the UI
