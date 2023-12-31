@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:38+0000\n"
-"PO-Revision-Date: 2023-12-27 22:06+0100\n"
+"PO-Revision-Date: 2023-12-30 07:05+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -12659,10 +12659,9 @@ msgstr "Teleskopoj && Lensoj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/auxiliary/opticaltrains.ui:432
-#, fuzzy, kde-format
-#| msgid "Reset frame"
+#, kde-format
 msgid "Reset train"
-msgstr "Restarigi kadron"
+msgstr "Restarigi ĉenon"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -29975,7 +29974,7 @@ msgstr "Elektu koloron por la Kolimata Superkovrero."
 #: indi/collimationOptions.ui:310
 #, kde-format
 msgid "Set the line thickness used to draw the element."
-msgstr ""
+msgstr "Meti la liniodikecon uzatan por desegni la elementon."
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313

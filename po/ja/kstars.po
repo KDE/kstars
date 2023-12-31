@@ -85901,13 +85901,3 @@ msgstr "背景色:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "背景の色を設定します。"
-
-#, fuzzy
-#~| msgid "Color:"
-#~ msgid "Colour:"
-#~ msgstr "色:"
-
-#, fuzzy
-#~| msgid "completed"
-#~ msgid "Differential slewing complete."
-#~ msgstr "完了"

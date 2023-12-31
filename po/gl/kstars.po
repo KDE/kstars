@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:38+0000\n"
-"PO-Revision-Date: 2023-12-28 18:00+0100\n"
+"PO-Revision-Date: 2023-12-30 06:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -5951,16 +5951,14 @@ msgstr ""
 "correcto á lista."
 
 #: ekos/align/align.cpp:1850
-#, fuzzy, kde-format
-#| msgid "<p>Capturing the second image...</p>"
+#, kde-format
 msgid "Solving with blind image scale..."
-msgstr "<p>Capturando a segunda imaxe…</p>"
+msgstr "Resolvendo coa escala da imaxe ás cegas…"
 
 #: ekos/align/align.cpp:1858
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
+#, kde-format
 msgid "Solving with blind image position..."
-msgstr "Estase a desprazar á posición orixinal…"
+msgstr "Resolvendo coa posición da imaxe ás cegas…"
 
 #: ekos/align/align.cpp:1890
 #, fuzzy, kde-format

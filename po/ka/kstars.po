@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:38+0000\n"
-"PO-Revision-Date: 2023-11-25 06:01+0100\n"
+"PO-Revision-Date: 2023-12-30 06:10+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -11958,10 +11958,9 @@ msgstr "ტელესკოპები და ლინზები"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/auxiliary/opticaltrains.ui:432
-#, fuzzy, kde-format
-#| msgid "Reset Position"
+#, kde-format
 msgid "Reset train"
-msgstr "მდებარეობის საწყის მნიშვნელობაზე დაბრუნება"
+msgstr "მატარებლის ჩამოყრა"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -22575,10 +22574,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
-#, fuzzy, kde-format
-#| msgid "Meridian flip ready to start..."
+#, kde-format
 msgid "Minimal meridian flip duration: "
-msgstr "მერიდიანის გადაბრუნება მზადაა დასაწყებად..."
+msgstr "მინიმალური მერიდიანის გადაბრუნების ხანგრძლივობა: "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:730
@@ -27729,10 +27727,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
 #: indi/collimationOptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options"
-msgstr "თანავარსკვლავედების სახელების ვარანტები"
+msgstr "თანავარსკვლავედების განლაგების ვარიანტები"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: indi/collimationOptions.ui:55
@@ -27766,17 +27763,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable:"
-msgstr "ჩართვა"
+msgstr "ჩართვა:"
 
 #. i18n: ectx: property (text), widget (QPushButton, renameB)
 #: indi/collimationOptions.ui:192
-#, fuzzy, kde-format
-#| msgid "Filename"
+#, kde-format
 msgid "Rename"
-msgstr "ფაილის სახელი"
+msgstr "გადარქმევა"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
 #: indi/collimationOptions.ui:211
@@ -27788,26 +27783,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Set the color for the label."
+#, kde-format
 msgid "Select color for the Element"
-msgstr "ჭდის ფერის დაყენება."
+msgstr "აირჩიეთ ელემენტის ფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
 #. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
 #: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Y"
+#, kde-format
 msgid "Y"
 msgstr "იოქტა"
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
 #: indi/collimationOptions.ui:293
-#, fuzzy, kde-format
-#| msgid "The color for the constellation names."
+#, kde-format
 msgid "Select a color for the Collimation Overlay Element."
-msgstr "თანავარსკვლავედების სახელების ფერი."
+msgstr "აირჩიეთ თანავარსკვლავედების განლაგების ელემენტის ფერი."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:310
@@ -27817,11 +27808,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Whiteness"
+#, kde-format
 msgid "Thickness:"
-msgstr "სითეთრე"
+msgstr "სისქე:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
@@ -27833,10 +27822,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
-#, fuzzy, kde-format
-#| msgid "Set the width of the xplanet image"
+#, kde-format
 msgid "Set the size of the Element"
-msgstr "XPlanet-ის გამოსახულების სიგანის დაყენება"
+msgstr "ელემენტის ზომის დაყენება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
 #: indi/collimationOptions.ui:389
@@ -28824,17 +28812,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
-#| msgid "Toggle constellation lines"
+#, kde-format
 msgid "Toggle collimation overlay"
-msgstr "თანავარსკვლავედების ხაზების ჩვენების გადართვა"
+msgstr "თანავარსკვლავედების განლაგების გადართვა"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation overlay options"
-msgstr "თანავარსკვლავედების სახელების ვარანტები"
+msgstr "თანავარსკვლავედების განლაგების ვარიანტები"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:215

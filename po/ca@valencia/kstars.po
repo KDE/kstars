@@ -8449,8 +8449,8 @@ msgid ""
 "<html><head/><body><p>This displays the path to the folder for the "
 "Astrometry Index Files on your computer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostra el camí a la carpeta per als fitxers d'índex de "
-"l'astrometria que hi ha en l'ordinador.</p></body></html>"
+"<html><head/><body><p>Mostra el camí cap a la carpeta per als fitxers "
+"d'índex de l'astrometria que hi ha en l'ordinador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/align/opsastrometryindexfiles.ui:231

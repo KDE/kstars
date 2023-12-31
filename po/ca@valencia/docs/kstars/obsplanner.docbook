@@ -17,7 +17,7 @@
   <para
 >Des de &kde; SC 4.4, el treball GSoC d'en Prakash Mohan&apos;s ha sigut alliberat amb &kstars;. &kstars; ara disposa d'un impressionant planificador de l'observació per a planificar les vostres sessions d'observació. L'opció «Executa la sessió», us permetrà registrar informació sobre els objectes a mesura que els observeu. De manera alternativa, també podreu escriure un curt registre en el planificador de la sessió mateix. Vos desitgem molta diversió planificant les vostres observacions amb &kstars;! </para>
   <para
->Fins i tot podreu afegir algunes fotografies als objectes. La llista d'imatges és una llista de busca a Google. Per a afegir la imatge a un objecte tot el que heu de fer és prémer el botó <guibutton
+>Fins i tot podreu afegir algunes fotografies als objectes. La llista d'imatges és una llista de busca en Google. Per a afegir la imatge a un objecte tot el que heu de fer és prémer el botó <guibutton
 >Busca una imatge</guibutton
 > a la dreta i després trobar una imatge que vos agrade. Si no teniu una connexió amb Internet, podeu obrir una imatge des del disc dur. Recordeu que les imatges que s'utilitzaran es retallaran a 600x600 píxels. </para>
   <para
