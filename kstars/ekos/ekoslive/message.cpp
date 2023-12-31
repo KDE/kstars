@@ -916,6 +916,7 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     {
         auto settings = payload.toVariantMap();
         scheduler->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
     }
     else if(command == commands[SCHEDULER_START_JOB])
     {
