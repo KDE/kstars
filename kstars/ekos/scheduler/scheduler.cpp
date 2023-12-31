@@ -3308,8 +3308,8 @@ void Scheduler::registerNewModule(const QString &name)
         delete process()->focusInterface();
         process()->setFocusInterface(new QDBusInterface(kstarsInterfaceString, focusPathString, focusInterfaceString,
                                      QDBusConnection::sessionBus(), this));
-        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::SchedulerState)), this,
-                SLOT(setFocusStatus(Ekos::SchedulerState)), Qt::UniqueConnection);
+        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::FocusState)), this,
+                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
     else if (name == "Capture")
     {
