@@ -469,9 +469,12 @@ class CaptureModuleState: public QObject
             return m_ditherCounter;
         }
         void decreaseDitherCounter();
-        void resetDitherCounter()
+        void resetDitherCounter(uint value = 0)
         {
-            m_ditherCounter = Options::ditherFrames();
+            if (value > 0)
+                m_ditherCounter = value;
+            else
+                m_ditherCounter = Options::ditherFrames();
         }
 
         /**

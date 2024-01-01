@@ -431,6 +431,10 @@ void CaptureProcess::prepareJob(SequenceJob * job)
 {
     state()->setActiveJob(job);
 
+    // Reset Dither Per Job Counter based on job property
+    if ( Options::ditherEnabled() || Options::ditherNoGuiding())
+        state()->resetDitherCounter(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt(0));
+
     // If job is Preview and NO view is available, ask to enable it.
     // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
     if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW && Options::useFITSViewer() == false
@@ -2490,6 +2494,9 @@ bool CaptureProcess::saveSequenceQueue(const QString &path)
             outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << Qt::endl;
         if (job->getScript(SCRIPT_POST_JOB).isEmpty() == false)
             outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << Qt::endl;
+        outstream << "<GuideDitherPerJob>"
+                  << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt()) << "</GuideDitherPerJob>" <<
+                  Qt::endl;
         outstream << "<FITSDirectory>" << job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
                   Qt::endl;
         outstream << "<PlaceholderFormat>" << job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString() <<

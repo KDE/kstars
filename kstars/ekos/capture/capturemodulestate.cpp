@@ -413,7 +413,12 @@ void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStag
 
             // after a meridian flip we do not need to dither
             if ( Options::ditherEnabled() || Options::ditherNoGuiding())
-                resetDitherCounter();
+            {
+                uint value = 0;
+                if (m_activeJob)
+                    value = m_activeJob->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt(0);
+                resetDitherCounter(value);
+            }
 
             // if requested set flag so it perform refocus before next frame
             if (Options::refocusAfterMeridianFlip() == true)

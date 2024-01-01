@@ -292,6 +292,12 @@ Capture::Capture()
         Options::setEnforceGuideDeviation(checked);
     });
 
+    // Per job dither frequency count
+    connect(m_LimitsUI->limitDitherFrequencyN, QOverload<int>::of(&QSpinBox::valueChanged), [this]()
+    {
+        Options::setGuideDitherPerJobFrequency(m_LimitsUI->limitDitherFrequencyN->value());
+    });
+
     // Guide Deviation Value
     connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
@@ -2128,6 +2134,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
     placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
     formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
+    m_LimitsUI->limitDitherFrequencyN->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
 
     // Temperature Options
     cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
@@ -2247,6 +2254,7 @@ QJsonObject Capture::getPresetSettings()
     settings.insert("gain", gain);
     settings.insert("offset", offset);
     settings.insert("temperature", cameraTemperatureN->value());
+    settings.insert("ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value());
 
     return settings;
 }
@@ -2813,6 +2821,9 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     bool dark = settings["dark"].toBool(darkB->isChecked());
     if (dark != darkB->isChecked())
         darkB->setChecked(dark);
+
+    int ditherPerJobFrequency = settings["ditherPerJobFrequency"].toInt(0);
+    m_LimitsUI->limitDitherFrequencyN->setValue(ditherPerJobFrequency);
 }
 
 void Capture::setFileSettings(const QJsonObject &settings)
@@ -2857,6 +2868,7 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(m_LimitsUI->limitFocusDeltaTN->value());
     const bool refocusNCheck = settings["refocusNCheck"].toBool(m_LimitsUI->limitRefocusS->isChecked());
     const int refocusNValue = settings["refocusNValue"].toInt(m_LimitsUI->limitRefocusN->value());
+    const int ditherPerJobFrequency = settings["ditherPerJobFrequency"].toInt(m_LimitsUI->limitDitherFrequencyN->value());
 
     if (deviationCheck)
     {
@@ -2890,6 +2902,8 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     else
         m_LimitsUI->limitRefocusS->setChecked(false);
 
+    m_LimitsUI->limitDitherFrequencyN->setValue(ditherPerJobFrequency);
+
     syncRefocusOptionsFromGUI();
 }
 
@@ -2899,6 +2913,7 @@ QJsonObject Capture::getLimitSettings()
     {
         {"deviationCheck", Options::enforceGuideDeviation()},
         {"deviationValue", Options::guideDeviation()},
+        {"ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value()},
         {"focusHFRCheck", m_LimitsUI->limitFocusHFRS->isChecked()},
         {"focusHFRValue", m_LimitsUI->limitFocusHFRN->value()},
         {"focusDeltaTCheck", m_LimitsUI->limitFocusDeltaTS->isChecked()},
@@ -3319,6 +3334,8 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_TargetName, targetNameT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
+
+    job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->limitDitherFrequencyN->value());
 
     auto placeholderPath = PlaceholderPath();
     placeholderPath.addJob(job, placeholderFormatT->text());
