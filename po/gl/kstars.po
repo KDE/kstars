@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-29 00:38+0000\n"
+"POT-Creation-Date: 2024-01-01 00:38+0000\n"
 "PO-Revision-Date: 2023-12-30 06:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -216,8 +216,8 @@ msgstr "Supernovas"
 msgid "Asteroids"
 msgstr "Asteroides"
 
-#. i18n: ectx: property (text), widget (QCheckBox, artificialHorizonCheck)
-#: auxiliary/colorscheme.cpp:63 ekos/scheduler/scheduler.ui:1708
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerHorizon)
+#: auxiliary/colorscheme.cpp:63 ekos/scheduler/scheduler.ui:1703
 #: skycomponents/artificialhorizoncomponent.cpp:140
 #, kde-format
 msgid "Artificial Horizon"
@@ -404,7 +404,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2028
-#: ekos/scheduler/scheduler.cpp:2691
+#: ekos/scheduler/scheduler.cpp:2595
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -553,8 +553,8 @@ msgstr "Cancelar"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1072 ekos/manager.cpp:1087
-#: ekos/manager.cpp:1117 ekos/scheduler/schedulerjob.cpp:589
+#: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1074 ekos/manager.cpp:1089
+#: ekos/manager.cpp:1119 ekos/scheduler/schedulerjob.cpp:589
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
 #: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:523
@@ -563,7 +563,7 @@ msgid "Error"
 msgstr "Erro"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:769
+#: ekos/scheduler/framingassistantui.cpp:767
 #, kde-format
 msgid "Sorry"
 msgstr "Desculpe"
@@ -746,8 +746,8 @@ msgstr "Non é posíbel escribir %s %1: %2"
 
 #: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:180
 #: ekos/scheduler/framingassistantui.cpp:195
-#: ekos/scheduler/framingassistantui.cpp:855
-#: ekos/scheduler/framingassistantui.cpp:874 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:853
+#: ekos/scheduler/framingassistantui.cpp:872 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -1826,7 +1826,7 @@ msgstr "AC:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: data/qml/mount/mountbox.qml:668 ekos/capture/capture.ui:1017
-#: ekos/scheduler/scheduler.ui:161
+#: ekos/scheduler/scheduler.ui:160
 #, kde-format, kde-kuit-format
 msgid "Target:"
 msgstr "Destino:"
@@ -1920,8 +1920,8 @@ msgstr "Estado:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:23
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:576 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1252
+#: ekos/manager.cpp:578 ekos/manager/guidemanager.cpp:135
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1247
 #: ekos/scheduler/schedulerjob.cpp:582 ekos/scheduler/schedulerjob.cpp:606
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
@@ -2539,7 +2539,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1951
 #: ekos/capture/capture.cpp:2037 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:2620 ekos/scheduler/scheduler.cpp:2701
+#: ekos/scheduler/scheduler.cpp:2524 ekos/scheduler/scheduler.cpp:2605
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -2652,7 +2652,7 @@ msgstr "Non se atopou o catálogo co identificador %1."
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
-#: ekos/scheduler/scheduler.ui:250 ekos/scheduler/schedulermodulestate.cpp:44
+#: ekos/scheduler/scheduler.ui:248 ekos/scheduler/schedulermodulestate.cpp:44
 #: ekos/scheduler/schedulerprocess.cpp:1185 skycomponents/flagcomponent.cpp:33
 #, kde-format
 msgid "Default"
@@ -3072,7 +3072,7 @@ msgstr "Editar"
 #: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:911
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:424
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
-#: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:468
+#: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:465
 #: fitsviewer/platesolve.ui:177 fitsviewer/solveInfo.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
@@ -3092,7 +3092,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/scheduler/scheduler.ui:1059 indi/drivermanager.ui:327
+#: ekos/scheduler/scheduler.ui:1055 indi/drivermanager.ui:327
 #: tools/observinglist.cpp:92 tools/observinglist.cpp:96
 #, kde-format
 msgid "Name"
@@ -6103,9 +6103,9 @@ msgid "Solver aborted after %1 seconds."
 msgstr "O resolvedor interrompeuse despois de %1 segundo."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1477
-#: ekos/focus/focus.cpp:4217 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1903
+#: ekos/focus/focus.cpp:4217 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1905
 #: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:753
+#: ekos/scheduler/scheduler.cpp:658
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6310,7 +6310,7 @@ msgstr "Exportar os puntos de solución"
 #: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1950
 #: ekos/capture/capture.cpp:2036 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2619 ekos/scheduler/scheduler.cpp:2700
+#: ekos/scheduler/scheduler.cpp:2523 ekos/scheduler/scheduler.cpp:2604
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -6360,12 +6360,12 @@ msgstr "Os puntos de solución gardáronse como: %1"
 msgid "Polar Alignment"
 msgstr "Aliñamento polar"
 
-#: ekos/align/align.cpp:4451
+#: ekos/align/align.cpp:4450
 #, kde-format
 msgid "Capture timed out."
 msgstr "Esgotouse o tempo límite da captura."
 
-#: ekos/align/align.cpp:4460
+#: ekos/align/align.cpp:4459
 #, fuzzy, kde-format
 #| msgid "Cannot capture while focus module is busy. Retrying in 10 seconds..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -6830,7 +6830,7 @@ msgstr ""
 #: ekos/align/align.ui:916 ekos/align/opsastrometry.ui:389
 #: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1247
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
-#: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:488
+#: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:485
 #: fitsviewer/platesolve.ui:222 skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "DEC"
@@ -10045,7 +10045,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:143 ekos/manager.cpp:232 ekos/manager.cpp:584
+#: ekos/manager.cpp:143 ekos/manager.cpp:232 ekos/manager.cpp:586
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10221,17 +10221,19 @@ msgstr "Non se puido eliminar o ficheiro: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:1875 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:2022 ekos/manager/focusmanager.ui:101
-#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:445
+#: ekos/manager.cpp:2024 ekos/manager/focusmanager.ui:101
+#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:442
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
 msgid "Focus"
 msgstr "Foco"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:1996
-#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:398
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
+#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:1998
+#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:395
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
 msgid "Align"
@@ -10241,10 +10243,11 @@ msgstr "Aliñar"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideLogging)
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2180
-#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:420
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2182
+#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
 msgid "Guide"
@@ -10262,7 +10265,7 @@ msgstr "Invertida"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1879 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/manager.cpp:2105 ekos/manager.ui:665
+#: ekos/manager.cpp:2107 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Montaxe"
@@ -12385,7 +12388,7 @@ msgstr "Rexistrar a actividade do módulo de planificación de Ekos"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:333 ekos/opsekos.ui:184
-#: ekos/scheduler/framingassistantui.cpp:667
+#: ekos/scheduler/framingassistantui.cpp:665
 #, kde-format
 msgid "Scheduler"
 msgstr "Planificador"
@@ -12393,9 +12396,9 @@ msgstr "Planificador"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIWeatherLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, useWeatherCB)
 #. i18n: ectx: property (title), widget (QGroupBox, weatherBox)
-#. i18n: ectx: property (text), widget (QCheckBox, weatherCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerWeather)
 #: ekos/auxiliary/opslogs.ui:100 ekos/observatory/observatory.ui:742
-#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1648
+#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1643
 #, kde-format
 msgid "Weather"
 msgstr "O tempo"
@@ -12580,7 +12583,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2220
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2222
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12799,27 +12802,27 @@ msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
 msgstr "<html><head/><body><p>Crear un novo tren óptico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
-#: ekos/auxiliary/opticaltrains.ui:69
+#: ekos/auxiliary/opticaltrains.ui:68
 #, kde-format
 msgid "<html><head/><body><p>Delete selected optical train.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Eliminar o tren óptico seleccionado.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, trainNamesList)
-#: ekos/auxiliary/opticaltrains.ui:114
+#: ekos/auxiliary/opticaltrains.ui:112
 #, kde-format
 msgid "Optical train name (double click to change the name)"
 msgstr "Nome do tren óptico (faga clic duplo para cambiar o nome)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
-#: ekos/auxiliary/opticaltrains.ui:128 ekos/mount/mount.ui:66
+#: ekos/auxiliary/opticaltrains.ui:126 ekos/mount/mount.ui:66
 #, kde-format
 msgid "Optical Train"
 msgstr "Tren óptico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
-#: ekos/auxiliary/opticaltrains.ui:149
+#: ekos/auxiliary/opticaltrains.ui:147
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
@@ -12833,7 +12836,7 @@ msgstr ""
 "weight:600;\">Telescopio e lentes</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
-#: ekos/auxiliary/opticaltrains.ui:152
+#: ekos/auxiliary/opticaltrains.ui:150
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
@@ -12846,7 +12849,7 @@ msgstr ""
 "</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
-#: ekos/auxiliary/opticaltrains.ui:162
+#: ekos/auxiliary/opticaltrains.ui:160
 #, kde-format
 msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
@@ -12857,13 +12860,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/auxiliary/opticaltrains.ui:165 ekos/profileeditor.ui:658
+#: ekos/auxiliary/opticaltrains.ui:163 ekos/profileeditor.ui:658
 #, kde-format
 msgid "Mount:"
 msgstr "Montaxe:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
-#: ekos/auxiliary/opticaltrains.ui:185
+#: ekos/auxiliary/opticaltrains.ui:183
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
@@ -12873,7 +12876,7 @@ msgstr ""
 "Seleccionar isto é obrigatorio para todos os trens.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
-#: ekos/auxiliary/opticaltrains.ui:188
+#: ekos/auxiliary/opticaltrains.ui:186
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
@@ -12886,20 +12889,20 @@ msgstr ""
 "</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
-#: ekos/auxiliary/opticaltrains.ui:208
+#: ekos/auxiliary/opticaltrains.ui:206
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
-#: ekos/auxiliary/opticaltrains.ui:211
+#: ekos/auxiliary/opticaltrains.ui:209
 #, fuzzy, kde-format
 #| msgid "Dust Cap"
 msgid "Dust Cap:"
 msgstr "Cuberta anti po"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
-#: ekos/auxiliary/opticaltrains.ui:231
+#: ekos/auxiliary/opticaltrains.ui:229
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select if any reducer or barlow is used in the train.</"
@@ -12911,19 +12914,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
-#: ekos/auxiliary/opticaltrains.ui:234
+#: ekos/auxiliary/opticaltrains.ui:232
 #, kde-format
 msgid "Reducer/Barlow:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, lightBoxLabel)
-#: ekos/auxiliary/opticaltrains.ui:264
+#: ekos/auxiliary/opticaltrains.ui:262
 #, kde-format
 msgid "Select a flat field lightbox if any (e.g. FlipFlat)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
-#: ekos/auxiliary/opticaltrains.ui:267
+#: ekos/auxiliary/opticaltrains.ui:265
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
@@ -12931,7 +12934,7 @@ msgid "Light Box:"
 msgstr "Lixeira"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
-#: ekos/auxiliary/opticaltrains.ui:277
+#: ekos/auxiliary/opticaltrains.ui:275
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Export the guide data from the current session to a "
@@ -12945,14 +12948,14 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
-#: ekos/auxiliary/opticaltrains.ui:280
+#: ekos/auxiliary/opticaltrains.ui:278
 #, fuzzy, kde-format
 #| msgid "Filter Wheel:"
 msgid "Filter Wheel:"
 msgstr "Roda de filtros:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
-#: ekos/auxiliary/opticaltrains.ui:300
+#: ekos/auxiliary/opticaltrains.ui:298
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the device that receives the guiding correction "
@@ -12968,14 +12971,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
-#: ekos/auxiliary/opticaltrains.ui:303
+#: ekos/auxiliary/opticaltrains.ui:301
 #, fuzzy, kde-format
 #| msgid "Guide:"
 msgid "Guide Via:"
 msgstr "Guía:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
-#: ekos/auxiliary/opticaltrains.ui:323
+#: ekos/auxiliary/opticaltrains.ui:321
 #, kde-format
 msgid "Select a mechanized focuser if any."
 msgstr ""
@@ -12983,7 +12986,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:326 ekos/focus/focus.ui:434
+#: ekos/auxiliary/opticaltrains.ui:324 ekos/focus/focus.ui:434
 #: ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
@@ -12993,26 +12996,26 @@ msgstr "Focalizador:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetGeometryY)
-#: ekos/auxiliary/opticaltrains.ui:339 ekos/capture/dslrinfo.ui:80
+#: ekos/auxiliary/opticaltrains.ui:337 ekos/capture/dslrinfo.ui:80
 #: ekos/capture/dslrinfo.ui:137 xplanet/opsxplanet.ui:114
 #, kde-format
 msgid "x"
 msgstr "x"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:358
+#: ekos/auxiliary/opticaltrains.ui:356
 #, kde-format
 msgid "Select a mechanized rotator if any."
 msgstr "Seleccione un rotor mecanizado se o hai."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opticaltrains.ui:361
+#: ekos/auxiliary/opticaltrains.ui:359
 #, kde-format
 msgid "Rotator:"
 msgstr "Rotor:"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
-#: ekos/auxiliary/opticaltrains.ui:413
+#: ekos/auxiliary/opticaltrains.ui:411
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Telescopes"
@@ -13020,7 +13023,7 @@ msgid "Telescopes && Lenses"
 msgstr "Telescopios"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/auxiliary/opticaltrains.ui:432
+#: ekos/auxiliary/opticaltrains.ui:430
 #, fuzzy, kde-format
 #| msgid "Reset frame"
 msgid "Reset train"
@@ -14216,8 +14219,8 @@ msgid "Goto Wall"
 msgstr "Parede"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkMountC)
-#. i18n: ectx: property (text), widget (QCheckBox, parkMountCheck)
-#: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:1837
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerParkMount)
+#: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:1832
 #, kde-format
 msgid "Park Mount"
 msgstr "Estacionar a montaxe"
@@ -14225,9 +14228,9 @@ msgstr "Estacionar a montaxe"
 #. i18n: ectx: property (text), widget (QCheckBox, parkDomeC)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertDomeCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningDomeCB)
-#. i18n: ectx: property (text), widget (QCheckBox, parkDomeCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerParkDome)
 #: ekos/capture/calibrationoptions.ui:110 ekos/observatory/observatory.ui:944
-#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:1859
+#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:1854
 #, kde-format
 msgid "Park Dome"
 msgstr "Estacionar a bóveda"
@@ -14463,7 +14466,7 @@ msgstr "Reiniciar o estado das tarefas"
 msgid "Editing job #%1..."
 msgstr "Editando a tarefa %1…"
 
-#: ekos/capture/capture.cpp:2293 ekos/scheduler/scheduler.cpp:1445
+#: ekos/capture/capture.cpp:2293 ekos/scheduler/scheduler.cpp:1349
 #, kde-format
 msgid "Apply job changes."
 msgstr "Aplicar os cambios da tarefa."
@@ -15212,7 +15215,7 @@ msgstr "Completouse a secuencia de captura do CCD."
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/capture.ui:1867 ekos/ekoslive/ekoslivedialog.ui:119
-#: ekos/scheduler/scheduler.ui:1064 indi/drivermanager.ui:66
+#: ekos/scheduler/scheduler.ui:1060 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "Status"
@@ -17299,7 +17302,7 @@ msgstr "En liña"
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ekos/ekoslive/message.cpp:932
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."
@@ -18339,14 +18342,14 @@ msgstr "Fallo de exposición. Interrompendo…"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Fallo de exposición. Reiniciándoa…"
 
-#: ekos/focus/focus.cpp:5471
+#: ekos/focus/focus.cpp:5470
 #, fuzzy, kde-format
 #| msgid "Relative Profile"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relativo"
 
-#: ekos/focus/focus.cpp:6676
+#: ekos/focus/focus.cpp:6675
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -18371,7 +18374,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6692
+#: ekos/focus/focus.cpp:6691
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -18383,7 +18386,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6699
+#: ekos/focus/focus.cpp:6698
 #, kde-format
 msgid ""
 "\n"
@@ -18404,7 +18407,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6709
+#: ekos/focus/focus.cpp:6708
 #, fuzzy, kde-format
 #| msgid "Focus Star"
 msgid "Focus Advisor"
@@ -21055,7 +21058,7 @@ msgstr ""
 "desmarcar «Subfotograma». Desmarcarase agora para activar as súas capturas "
 "de imaxe. Pode activar a opción de novo antes da guía"
 
-#: ekos/guide/guide.cpp:3113
+#: ekos/guide/guide.cpp:3112
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -23154,26 +23157,26 @@ msgstr ""
 msgid "Logging"
 msgstr "Rexistro"
 
-#: ekos/manager.cpp:344
+#: ekos/manager.cpp:346
 #, kde-format
 msgid "Analyze"
 msgstr ""
 
-#: ekos/manager.cpp:608
+#: ekos/manager.cpp:610
 #, fuzzy, kde-format
 #| msgid "Ekos"
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:813 ekos/manager.cpp:839
+#: ekos/manager.cpp:815 ekos/manager.cpp:841
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 "Ekos require cando menos un dispositivo de carga acoplada (CCD) ou Guieiro "
 "para funcionar."
 
-#: ekos/manager.cpp:901
+#: ekos/manager.cpp:903
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -23182,17 +23185,17 @@ msgstr ""
 "Ekos detectou unha cámara PTP que podería impedir a unha Canon ou unha Nikon "
 "conectarse a Ekos. Quere saír da cámara PTP agora?"
 
-#: ekos/manager.cpp:902
+#: ekos/manager.cpp:904
 #, kde-format
 msgid "PTP Camera"
 msgstr "Cámara de PTP"
 
-#: ekos/manager.cpp:917
+#: ekos/manager.cpp:919
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Iniciando os servizos de INDI…"
 
-#: ekos/manager.cpp:948
+#: ekos/manager.cpp:950
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23202,47 +23205,47 @@ msgstr ""
 "antes de iniciar a nova?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:950 indi/opsindi.ui:375
+#: ekos/manager.cpp:952 indi/opsindi.ui:375
 #, kde-format
 msgid "INDI Server"
 msgstr "Servidor de INDI"
 
-#: ekos/manager.cpp:965
+#: ekos/manager.cpp:967
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Conectando ao servidor remoto de INDI en %1 no porto %2…"
 
-#: ekos/manager.cpp:985
+#: ekos/manager.cpp:987
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Non foi posíbel iniciar o perfil no xestor web remoto de INDI."
 
-#: ekos/manager.cpp:989
+#: ekos/manager.cpp:991
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Iniciando o perfil no xestor web remoto de INDI…"
 
-#: ekos/manager.cpp:1002
+#: ekos/manager.cpp:1004
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Estabelecendo unha comunicación co xestor web remoto de INDI…"
 
-#: ekos/manager.cpp:1022
+#: ekos/manager.cpp:1024
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Aviso: o xestor web de INDI non está en liña."
 
-#: ekos/manager.cpp:1045
+#: ekos/manager.cpp:1047
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Os servizos de INDI iniciáronse no porto %1."
 
-#: ekos/manager.cpp:1048
+#: ekos/manager.cpp:1050
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Os servizos de INDI iniciáronse no porto %1. Conecte os dispositivos."
 
-#: ekos/manager.cpp:1053
+#: ekos/manager.cpp:1055
 #, fuzzy, kde-format
 #| msgid ""
 #| "INDI services started. Connection to remote INDI server is successful. "
@@ -23254,31 +23257,31 @@ msgstr ""
 "Iniciáronse os servizos de INDI. Conectouse co servidor demoto de INDI. "
 "Agardando polos dispositivos…"
 
-#: ekos/manager.cpp:1063
+#: ekos/manager.cpp:1065
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Non se puido conectar co servidor remoto de INDI."
 
-#: ekos/manager.cpp:1065
+#: ekos/manager.cpp:1067
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Non se puido conectar co servidor remoto de INDI."
 
-#: ekos/manager.cpp:1078
+#: ekos/manager.cpp:1080
 #, fuzzy, kde-format
 #| msgid "Connected to INDI server"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Conectado a un servidor de INDI"
 
-#: ekos/manager.cpp:1080
+#: ekos/manager.cpp:1082
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Non se puido conectar co servidor remoto de INDI."
 
-#: ekos/manager.cpp:1157
+#: ekos/manager.cpp:1159
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -23291,7 +23294,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1159
+#: ekos/manager.cpp:1161
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -23306,7 +23309,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1187
+#: ekos/manager.cpp:1189
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23317,13 +23320,13 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1191 ekos/manager.cpp:1199 ekos/manager.cpp:1229
-#: ekos/manager.cpp:1237
+#: ekos/manager.cpp:1193 ekos/manager.cpp:1201 ekos/manager.cpp:1231
+#: ekos/manager.cpp:1239
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Erro de inicio de Ekos"
 
-#: ekos/manager.cpp:1195
+#: ekos/manager.cpp:1197
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23334,7 +23337,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que os dispositivos están conectados e acendidos."
 
-#: ekos/manager.cpp:1225
+#: ekos/manager.cpp:1227
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -23349,7 +23352,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1233
+#: ekos/manager.cpp:1235
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish the following devices:\n"
@@ -23364,32 +23367,32 @@ msgstr ""
 "%1\n"
 "Asegúrese de que os dispositivos están conectados e acendidos."
 
-#: ekos/manager.cpp:1288
+#: ekos/manager.cpp:1290
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Estanse a conectar os dispositivos INDI…"
 
-#: ekos/manager.cpp:1299
+#: ekos/manager.cpp:1301
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Estanse a desconectar os dispositivos INDI…"
 
-#: ekos/manager.cpp:1337
+#: ekos/manager.cpp:1339
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Detivéronse os servizos de INDI."
 
-#: ekos/manager.cpp:1411
+#: ekos/manager.cpp:1413
 #, kde-format
 msgid "Remote devices established."
 msgstr "Estabelecéronse os servizos remotos."
 
-#: ekos/manager.cpp:1413
+#: ekos/manager.cpp:1415
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Estabelecéronse os servizos remotos. Conecte os dispositivos."
 
-#: ekos/manager.cpp:1474
+#: ekos/manager.cpp:1476
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to establish:\n"
@@ -23403,111 +23406,111 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1481
+#: ekos/manager.cpp:1483
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 está desconectado."
 
-#: ekos/manager.cpp:1500 ekos/manager.cpp:1509 ekos/manager.cpp:1542
+#: ekos/manager.cpp:1502 ekos/manager.cpp:1511 ekos/manager.cpp:1544
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 está en liña."
 
-#: ekos/manager.cpp:1517
+#: ekos/manager.cpp:1519
 #, kde-format
 msgid "%1 filter is online."
 msgstr "O filtro %1 está en liña."
 
-#: ekos/manager.cpp:1526
+#: ekos/manager.cpp:1528
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "O focalizador %1 está en liña."
 
-#: ekos/manager.cpp:1533
+#: ekos/manager.cpp:1535
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "%1 está en liña."
 
-#: ekos/manager.cpp:1549
+#: ekos/manager.cpp:1551
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "%1 Weather is online."
 msgstr "O filtro %1 está en liña."
 
-#: ekos/manager.cpp:1556
+#: ekos/manager.cpp:1558
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "%1 está en liña."
 
-#: ekos/manager.cpp:1565
+#: ekos/manager.cpp:1567
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "%1 Dust cap is online."
 msgstr "O focalizador %1 está en liña."
 
-#: ekos/manager.cpp:1572
+#: ekos/manager.cpp:1574
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "%1 Light box is online."
 msgstr "O filtro %1 está en liña."
 
-#: ekos/manager.cpp:1706
+#: ekos/manager.cpp:1708
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 está desconectado."
 
-#: ekos/manager.cpp:1953
+#: ekos/manager.cpp:1955
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2237
+#: ekos/manager.cpp:2239
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "O porto guieiro de %1 está preparado."
 
-#: ekos/manager.cpp:2426
+#: ekos/manager.cpp:2428
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Seguro que quere eliminar o perfil?"
 
-#: ekos/manager.cpp:2427
+#: ekos/manager.cpp:2429
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirme a eliminación"
 
-#: ekos/manager.cpp:2479
+#: ekos/manager.cpp:2481
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Actualizouse a localización do sitio a %1."
 
-#: ekos/manager.cpp:2481
+#: ekos/manager.cpp:2483
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Non foi posíbel actualizar a localización do sitio a %1. Non se atopou a "
 "cidade."
 
-#: ekos/manager.cpp:2730
+#: ekos/manager.cpp:2732
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Activando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2738
+#: ekos/manager.cpp:2740
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Desactivando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2766
+#: ekos/manager.cpp:2768
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Activando de novo o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2778
+#: ekos/manager.cpp:2780
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Desactivando de novo o sistema de rexistro de depuración para %1…"
@@ -23522,7 +23525,7 @@ msgstr "1. Selección de perfil"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/manager.ui:129 ekos/profilewizard.ui:937
-#: ekos/scheduler/scheduler.ui:349
+#: ekos/scheduler/scheduler.ui:346
 #, kde-format
 msgid "Profile:"
 msgstr "Perfil:"
@@ -23594,7 +23597,7 @@ msgstr "4. Conexión e desconexión dos dispositivos"
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:738 ekos/mount/mount.ui:195 ekos/scheduler/scheduler.ui:1080
+#: ekos/manager.ui:738 ekos/mount/mount.ui:195 ekos/scheduler/scheduler.ui:1075
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:97
 #, kde-format, kde-kuit-format
 msgid "Altitude"
@@ -24626,7 +24629,7 @@ msgstr "Pechar a persiana"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1827 ekos/scheduler/scheduler.cpp:1853
+#: ekos/scheduler/scheduler.cpp:1731 ekos/scheduler/scheduler.cpp:1757
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Deter o planificador"
@@ -27040,8 +27043,9 @@ msgid "Slew to the target and track it before proceeding to the next step."
 msgstr "Mover ao obxectivo e seguilo antes de pasar ao seguinte paso."
 
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerTrackStep)
 #. i18n: ectx: property (text), widget (QCheckBox, CheckTrack)
-#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:376
+#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:373
 #: tools/argsettrack.ui:38
 #, kde-format
 msgid "Track"
@@ -27108,7 +27112,7 @@ msgstr "Enfocar automaticamente antes de pasar ao seguinte paso."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
-#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:236
+#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:234
 #, fuzzy, kde-format
 #| msgctxt "Toggle the opaque fill of the ground polygon in the display"
 #| msgid "Ground"
@@ -27135,44 +27139,51 @@ msgstr "Condicións de finalización de traballo"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
+#. i18n: ectx: property (toolTip), widget (QSpinBox, schedulerExecutionSequencesLimit)
 #: ekos/scheduler/framingassistant.ui:1575
-#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1397
+#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1392
 #, kde-format
 msgid "Restart job until it is executed this many times."
 msgstr "Reiniciar o traballo ata que se execute este número de veces."
 
 #. i18n: ectx: property (text), widget (QRadioButton, repeatCompletionR)
-#: ekos/scheduler/framingassistant.ui:1578 ekos/scheduler/scheduler.ui:1321
+#. i18n: ectx: property (text), widget (QRadioButton, schedulerRepeatSequences)
+#: ekos/scheduler/framingassistant.ui:1578 ekos/scheduler/scheduler.ui:1316
 #, kde-format
 msgid "&Repeat for"
 msgstr "&Repetir durante"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
-#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1356
+#. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerCompleteSequences)
+#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1351
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr "A tarefa de observación complétase ao completarse a secuencia."
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
-#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1359
+#. i18n: ectx: property (text), widget (QRadioButton, schedulerCompleteSequences)
+#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1354
 #, kde-format
 msgid "Se&quence completion"
 msgstr "&Finalización da secuencia"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
-#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1400
+#. i18n: ectx: property (suffix), widget (QSpinBox, schedulerExecutionSequencesLimit)
+#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1395
 #, kde-format
 msgid " runs"
 msgstr " execucións"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
-#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1422
+#. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntilTerminated)
+#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1417
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr "Reiniciar a tarefa da secuencia continuamente."
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
-#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1425
+#. i18n: ectx: property (text), widget (QRadioButton, schedulerUntilTerminated)
+#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1420
 #, kde-format
 msgid "Repeat &until terminated"
 msgstr "Repetir ata ter&minar"
@@ -27184,36 +27195,36 @@ msgstr "Repetir ata ter&minar"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Crear traballos do planificador para capturar a imaxe de mosaico"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:939
+#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:843
 #, fuzzy, kde-format
 #| msgid "Select Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Seleccionar unha fila de secuencia"
 
-#: ekos/scheduler/framingassistantui.cpp:696 ekos/scheduler/scheduler.cpp:941
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:845
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Fila de secuencia de Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:708
+#: ekos/scheduler/framingassistantui.cpp:706
 #, fuzzy, kde-format
 #| msgid "Select Star"
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Seleccionar unha estrela"
 
-#: ekos/scheduler/framingassistantui.cpp:710
+#: ekos/scheduler/framingassistantui.cpp:708
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:769
+#: ekos/scheduler/framingassistantui.cpp:767
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:848
+#: ekos/scheduler/framingassistantui.cpp:846
 #, fuzzy, kde-format
 #| msgid "Open Logs Directory"
 msgctxt "@title:window"
@@ -27293,7 +27304,7 @@ msgstr ""
 "Teña en conta que o algoritmo primeiro calcula todas as latitudes usando a "
 "mesma hora, e a continuación avalía os traballos."
 
-#: ekos/scheduler/scheduler.cpp:575 ekos/scheduler/scheduler.cpp:3239
+#: ekos/scheduler/scheduler.cpp:477 ekos/scheduler/scheduler.cpp:3145
 #: ekos/scheduler/schedulerprocess.cpp:1808
 #, kde-format
 msgid ""
@@ -27301,75 +27312,75 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:816
+#: ekos/scheduler/scheduler.cpp:721
 #, fuzzy, kde-format
 #| msgid "Select FITS Image"
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Seleccionar unha imaxe FITS"
 
-#: ekos/scheduler/scheduler.cpp:870
+#: ekos/scheduler/scheduler.cpp:774
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "Cabeceira de FITS: non se pode atopar OBJCTRA (%1)."
 
-#: ekos/scheduler/scheduler.cpp:889
+#: ekos/scheduler/scheduler.cpp:793
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "Cabeceira de FITS: non se pode atopar OBJCTDEC (%1)."
 
-#: ekos/scheduler/scheduler.cpp:949
+#: ekos/scheduler/scheduler.cpp:853
 #, fuzzy, kde-format
 #| msgid "Select Startup Script"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Seleccionar un script de inicio"
 
-#: ekos/scheduler/scheduler.cpp:951 ekos/scheduler/scheduler.cpp:966
+#: ekos/scheduler/scheduler.cpp:855 ekos/scheduler/scheduler.cpp:870
 #, kde-format
 msgid "Script (*)"
 msgstr "Script (*)"
 
-#: ekos/scheduler/scheduler.cpp:964
+#: ekos/scheduler/scheduler.cpp:868
 #, fuzzy, kde-format
 #| msgid "Select Shutdown Script"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Seleccionar un script de apagamento"
 
-#: ekos/scheduler/scheduler.cpp:999
+#: ekos/scheduler/scheduler.cpp:903
 #, kde-format
 msgid "Warning: You cannot add or modify a job while the scheduler is running."
 msgstr ""
 "Aviso: Non pode engadir ou modificar unha tarefa durante a execución do "
 "planificador."
 
-#: ekos/scheduler/scheduler.cpp:1005
+#: ekos/scheduler/scheduler.cpp:909
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Aviso: Necesítase o nome do destino."
 
-#: ekos/scheduler/scheduler.cpp:1011
+#: ekos/scheduler/scheduler.cpp:915
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Aviso: Necesítase o ficheiro de secuencia."
 
-#: ekos/scheduler/scheduler.cpp:1018
+#: ekos/scheduler/scheduler.cpp:922
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Aviso: Necesítanse as coordenadas de destino."
 
-#: ekos/scheduler/scheduler.cpp:1028
+#: ekos/scheduler/scheduler.cpp:932
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Aviso: O valor de ascensión recta (α) %1 é incorrecto."
 
-#: ekos/scheduler/scheduler.cpp:1034
+#: ekos/scheduler/scheduler.cpp:938
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Aviso: o valor de δ %1 é incorrecto."
 
-#: ekos/scheduler/scheduler.cpp:1153
+#: ekos/scheduler/scheduler.cpp:1057
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -27378,7 +27389,7 @@ msgstr ""
 "Aviso: o traballo «%1» na fila %2 ten un destino duplicado na fila %3, o "
 "planificador podería considerar o mesmo almacenamento para capturas."
 
-#: ekos/scheduler/scheduler.cpp:1161
+#: ekos/scheduler/scheduler.cpp:1065
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27389,99 +27400,99 @@ msgstr ""
 "distinto de repeticións, xa que co actual completaranse simultaneamente tras "
 "%4 lotes (ou desactive a opción «Lembrar o progreso dos traballos»)"
 
-#: ekos/scheduler/scheduler.cpp:1169
+#: ekos/scheduler/scheduler.cpp:1073
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1358
+#: ekos/scheduler/scheduler.cpp:1262
 #, fuzzy, kde-format
 #| msgid "%1 = %2 @ %3"
 msgid "%1 %2 %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/scheduler/scheduler.cpp:1368
+#: ekos/scheduler/scheduler.cpp:1272
 #, kde-format
 msgid "Warning: you cannot add or modify a job while the scheduler is running."
 msgstr ""
 "Aviso: Non pode engadir ou modificar unha tarefa durante a execución do "
 "planificador."
 
-#: ekos/scheduler/scheduler.cpp:1438
+#: ekos/scheduler/scheduler.cpp:1342
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Use os campos de edición para crear un novo traballo na lista de observación."
 
-#: ekos/scheduler/scheduler.cpp:1703
+#: ekos/scheduler/scheduler.cpp:1607
 #, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr ""
 "O traballo «%1» segue sen procesarse tras deterse o planificador, marcouse "
 "como interrompido."
 
-#: ekos/scheduler/scheduler.cpp:1710
+#: ekos/scheduler/scheduler.cpp:1614
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Interrompeuse o planificador."
 
-#: ekos/scheduler/scheduler.cpp:1762
+#: ekos/scheduler/scheduler.cpp:1666
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "O planificador está apagado ata que a seguinte tarefa estea lista."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1788 ekos/scheduler/scheduler.ui:1124
+#: ekos/scheduler/scheduler.cpp:1692 ekos/scheduler/scheduler.ui:1119
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Iniciar o planificador"
 
-#: ekos/scheduler/scheduler.cpp:1808
+#: ekos/scheduler/scheduler.cpp:1712
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "Aviso: o URL de guión de inicio %1 non é válido."
 
-#: ekos/scheduler/scheduler.cpp:1816
+#: ekos/scheduler/scheduler.cpp:1720
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "Aviso: o URL de guión de apagamento %1 non é válido."
 
-#: ekos/scheduler/scheduler.cpp:1846
+#: ekos/scheduler/scheduler.cpp:1750
 #, kde-format
 msgid "Scheduler started."
 msgstr "Iniciouse o planificador."
 
-#: ekos/scheduler/scheduler.cpp:1866
+#: ekos/scheduler/scheduler.cpp:1770
 #, kde-format
 msgid "Scheduler resuming."
 msgstr "O planificador está continuando."
 
-#: ekos/scheduler/scheduler.cpp:1879
+#: ekos/scheduler/scheduler.cpp:1783
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Planificouse unha pausa do planificador…"
 
-#: ekos/scheduler/scheduler.cpp:1883
+#: ekos/scheduler/scheduler.cpp:1787
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Continuar o planificador"
 
-#: ekos/scheduler/scheduler.cpp:1892
+#: ekos/scheduler/scheduler.cpp:1796
 #, kde-format
 msgid "Scheduler paused."
 msgstr "O planificador púxose en pausa."
 
-#: ekos/scheduler/scheduler.cpp:1914
+#: ekos/scheduler/scheduler.cpp:1818
 #, kde-format
 msgid "No job running"
 msgstr "Non hai ningún traballo en execución"
 
-#: ekos/scheduler/scheduler.cpp:1984
+#: ekos/scheduler/scheduler.cpp:1888
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "Non quedan traballos na cola do planificador tras avaliar."
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1896
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
@@ -27490,76 +27501,76 @@ msgstr ""
 "Na cola do planificador só quedan traballos interrompidos tras avaliar, "
 "planificaranse de novo."
 
-#: ekos/scheduler/scheduler.cpp:2006
+#: ekos/scheduler/scheduler.cpp:1910
 #, fuzzy, kde-format
 #| msgid "No jobs left in the scheduler queue."
 msgid "No jobs scheduled."
 msgstr "Non quedan traballos na cola do planificador."
 
-#: ekos/scheduler/scheduler.cpp:2020
+#: ekos/scheduler/scheduler.cpp:1924
 #, kde-format
 msgid "Scheduler is awake."
 msgstr "O planificador saíu do modo de espera."
 
-#: ekos/scheduler/scheduler.cpp:2026
+#: ekos/scheduler/scheduler.cpp:1930
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr ""
 "O planificador saíu do modo de espera. As tarefas iniciaranse en canto estea "
 "preparado…"
 
-#: ekos/scheduler/scheduler.cpp:2028
+#: ekos/scheduler/scheduler.cpp:1932
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 "O planificador saíu do modo de espera. As tarefas iniciaranse en canto se "
 "continúe o planificador…"
 
-#: ekos/scheduler/scheduler.cpp:2088
+#: ekos/scheduler/scheduler.cpp:1992
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Iniciouse o traballo de Ekos (%1)"
 
-#: ekos/scheduler/scheduler.cpp:2103
+#: ekos/scheduler/scheduler.cpp:2007
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "O observatorio está en proceso de apagamento."
 
-#: ekos/scheduler/scheduler.cpp:2188
+#: ekos/scheduler/scheduler.cpp:2092
 #, fuzzy, kde-format
 #| msgid "Solver iteration #%1"
 msgid "Starting job sequence iteration #%1"
 msgstr "Iteración %1 do resolvedor"
 
-#: ekos/scheduler/scheduler.cpp:2318 ekos/scheduler/schedulerprocess.cpp:1948
+#: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/schedulerprocess.cpp:1948
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Aviso: o procedemento de aliñamento do traballo «%1» fallou, marcando como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:2346
+#: ekos/scheduler/scheduler.cpp:2250
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Aviso: o procedemento de captura do traballo «%1» fallou, marcando como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:2373 ekos/scheduler/schedulerprocess.cpp:2071
+#: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/schedulerprocess.cpp:2071
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Aviso: o procedemento de enfoque do traballo «%1» fallou, marcando como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:2397 ekos/scheduler/schedulerprocess.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2301 ekos/scheduler/schedulerprocess.cpp:2019
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
 "Aviso: o procedemento de guía do traballo «%1» fallou, marcando como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:2423
+#: ekos/scheduler/scheduler.cpp:2327
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
@@ -27567,19 +27578,19 @@ msgstr ""
 "Aviso: o traballo «%1» perdeu a conexión coa montura, intentando conectar de "
 "novo."
 
-#: ekos/scheduler/scheduler.cpp:2443
+#: ekos/scheduler/scheduler.cpp:2347
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Aviso: o traballo «%1» perdeu a conexión coa bóveda, intentando conectar de "
 "novo."
 
-#: ekos/scheduler/scheduler.cpp:2481
+#: ekos/scheduler/scheduler.cpp:2385
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "A guía xa está en proceso, inicie directamente a captura."
 
-#: ekos/scheduler/scheduler.cpp:2493
+#: ekos/scheduler/scheduler.cpp:2397
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
@@ -27588,70 +27599,70 @@ msgstr ""
 "O traballo «%1» está procedendo directamente á fase de captura porque só hai "
 "fotogramas de calibración pendentes."
 
-#: ekos/scheduler/scheduler.cpp:2609
+#: ekos/scheduler/scheduler.cpp:2513
 #, fuzzy, kde-format
 #| msgid "Open Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Abrir a lista do planificador de Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2672
+#: ekos/scheduler/scheduler.cpp:2576
 #, fuzzy, kde-format
 #| msgid "Save Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Gardar a lista do planificador de Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2691
+#: ekos/scheduler/scheduler.cpp:2595
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Non foi posíbel gardar a lista do planificador."
 
-#: ekos/scheduler/scheduler.cpp:2754
+#: ekos/scheduler/scheduler.cpp:2659
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr "O traballo «%1» terminou por mor de erros."
 
-#: ekos/scheduler/scheduler.cpp:2756
+#: ekos/scheduler/scheduler.cpp:2661
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr "Interrompeuse o traballo «%1»."
 
-#: ekos/scheduler/scheduler.cpp:2769
+#: ekos/scheduler/scheduler.cpp:2674
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr "Agardando %1 segundos para reiniciar o traballlo «%2»."
 
-#: ekos/scheduler/scheduler.cpp:2775
+#: ekos/scheduler/scheduler.cpp:2680
 #, kde-format
 msgid "Scheduler waits for a retry."
 msgstr "O planificador agarda por un reintento."
 
-#: ekos/scheduler/scheduler.cpp:2812
+#: ekos/scheduler/scheduler.cpp:2717
 #, kde-format
 msgid "Job '%1' is complete."
 msgstr "Completouse o traballo «%1»."
 
-#: ekos/scheduler/scheduler.cpp:2857
+#: ekos/scheduler/scheduler.cpp:2762
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] "O traballo «%1» completouse tras %2 lote."
 msgstr[1] "O traballo «%1» completouse tras %2 lotes."
 
-#: ekos/scheduler/scheduler.cpp:2906 ekos/scheduler/scheduler.cpp:2949
+#: ekos/scheduler/scheduler.cpp:2811 ekos/scheduler/scheduler.cpp:2854
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] "O traballo «%1» estase repetindo, queda %2 lote."
 msgstr[1] "O traballo «%1» estase repetindo, quedan %2 lotes."
 
-#: ekos/scheduler/scheduler.cpp:2953
+#: ekos/scheduler/scheduler.cpp:2858
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr "O traballo «%1» estase repetindo, repetirase indefinitivamente."
 
-#: ekos/scheduler/scheduler.cpp:2973
+#: ekos/scheduler/scheduler.cpp:2878
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
@@ -27663,7 +27674,7 @@ msgstr[1] ""
 "O traballo «%1» está deténdose, acadou a hora de finalización con %2 lotes "
 "listos."
 
-#: ekos/scheduler/scheduler.cpp:3003
+#: ekos/scheduler/scheduler.cpp:2908
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
@@ -27675,14 +27686,14 @@ msgstr[1] ""
 "O traballo «%1» completouse %2 lotes antes da hora de finalización, "
 "reiniciouse."
 
-#: ekos/scheduler/scheduler.cpp:3092
+#: ekos/scheduler/scheduler.cpp:2998
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Aviso: o traballo «%1» ten a secuencia inaccesíbel «%2», marcándoo como "
 "incorrecto."
 
-#: ekos/scheduler/scheduler.cpp:3271
+#: ekos/scheduler/scheduler.cpp:3177
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
@@ -27692,12 +27703,12 @@ msgstr ""
 "comprobación do crepúsculo astronómico. Isto pode causar un dano "
 "irreversíbel ao seu equipo!"
 
-#: ekos/scheduler/scheduler.cpp:3273
+#: ekos/scheduler/scheduler.cpp:3179
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr "Aviso sobre o crepúsculo astronómico"
 
-#: ekos/scheduler/scheduler.cpp:3315
+#: ekos/scheduler/scheduler.cpp:3221
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -27706,12 +27717,12 @@ msgstr ""
 "Agardando a %1 na actualización do reloxo da simulación ata que o seguinte "
 "traballo de observación estea listo…"
 
-#: ekos/scheduler/scheduler.cpp:3625
+#: ekos/scheduler/scheduler.cpp:3531
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Aviso: o traballo «%1» non puido capturar o destino."
 
-#: ekos/scheduler/scheduler.cpp:3638
+#: ekos/scheduler/scheduler.cpp:3544
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
@@ -27720,60 +27731,60 @@ msgstr ""
 "O traballo «%1» está capturando, está reiniciando o procedemento de guía "
 "(intento %2 de %3)."
 
-#: ekos/scheduler/scheduler.cpp:3647
+#: ekos/scheduler/scheduler.cpp:3553
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Aviso: o procedemento de captura do traballo «%1» fallou, reiniciando a "
 "captura."
 
-#: ekos/scheduler/scheduler.cpp:3653
+#: ekos/scheduler/scheduler.cpp:3559
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "Aviso: o procedemento de captura do traballo «%1» fallou, marcando como "
 "interrompido."
 
-#: ekos/scheduler/scheduler.cpp:3662
+#: ekos/scheduler/scheduler.cpp:3568
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Traballo de Ekos (%1) - A captura rematou"
 
-#: ekos/scheduler/scheduler.cpp:3706
+#: ekos/scheduler/scheduler.cpp:3612
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "As condicións meteorolóxicas son axeitadas."
 
-#: ekos/scheduler/scheduler.cpp:3710
+#: ekos/scheduler/scheduler.cpp:3616
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Aviso: as condicións meteorolóxicas están na zona de aviso."
 
-#: ekos/scheduler/scheduler.cpp:3714
+#: ekos/scheduler/scheduler.cpp:3620
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Coidado: as condicións meteorolóxicas están na zona de perigo!"
 
-#: ekos/scheduler/scheduler.cpp:3736
+#: ekos/scheduler/scheduler.cpp:3642
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "As condicións meteorolóxicas están na zona de aviso."
 
-#: ekos/scheduler/scheduler.cpp:3745
+#: ekos/scheduler/scheduler.cpp:3651
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "As condicións meteorolóxicas son críticas. O observatorio apagarase en "
 "calquera momento."
 
-#: ekos/scheduler/scheduler.cpp:3766
+#: ekos/scheduler/scheduler.cpp:3672
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 "Comezando o procedemento de apagamento por mor das severas condicións "
 "meteorolóxicas."
 
-#: ekos/scheduler/scheduler.cpp:3794
+#: ekos/scheduler/scheduler.cpp:3700
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
@@ -27782,7 +27793,7 @@ msgstr ""
 "O traballo «%1» está programado para executarse ás %2. O observatorio está "
 "programado para apagarse ata que a seguinte tarefa estea lista."
 
-#: ekos/scheduler/scheduler.cpp:3817
+#: ekos/scheduler/scheduler.cpp:3723
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
@@ -27791,17 +27802,17 @@ msgstr ""
 "O traballo «%1» está programado para executarse ás %2. Estacionando a "
 "montaxe ata que a tarefa estea lista."
 
-#: ekos/scheduler/scheduler.cpp:3827
+#: ekos/scheduler/scheduler.cpp:3733
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "Agardando a que o traballo de observación %1 estea listo ás %2…"
 
-#: ekos/scheduler/scheduler.cpp:3829
+#: ekos/scheduler/scheduler.cpp:3735
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "O planificador está en modo de espera."
 
-#: ekos/scheduler/scheduler.cpp:3837
+#: ekos/scheduler/scheduler.cpp:3743
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -27810,29 +27821,29 @@ msgstr ""
 "Aviso: o traballo «%1» está a %2, quizais lle interese activar o «Apagado "
 "preventivo»."
 
-#: ekos/scheduler/scheduler.cpp:3935
+#: ekos/scheduler/scheduler.cpp:3841
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out: %1s %2"
 msgstr "Esgotouse o tempo límite do resolvedor."
 
-#: ekos/scheduler/scheduler.cpp:3937
+#: ekos/scheduler/scheduler.cpp:3843
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed: %1s %2"
 msgstr "Campo de visión do resolvedor"
 
-#: ekos/scheduler/scheduler.cpp:3972
+#: ekos/scheduler/scheduler.cpp:3878
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:4276
+#: ekos/scheduler/scheduler.cpp:3923
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "O procedemento de inicio manual completouse correctamente."
 
-#: ekos/scheduler/scheduler.cpp:4280
+#: ekos/scheduler/scheduler.cpp:3927
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "O procedemento de inicio manual terminou por mor de erros."
@@ -27871,7 +27882,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FITSLabel)
-#: ekos/scheduler/scheduler.ui:195
+#: ekos/scheduler/scheduler.ui:193
 #, kde-format
 msgid ""
 "Select optional FITS file to be used for alignment. When using FITS, specify "
@@ -27882,13 +27893,13 @@ msgstr ""
 "montaxe."
 
 #. i18n: ectx: property (text), widget (QLabel, FITSLabel)
-#: ekos/scheduler/scheduler.ui:198
+#: ekos/scheduler/scheduler.ui:196
 #, kde-format
 msgid "FITS File:"
 msgstr "Ficheiro FITS:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/scheduler.ui:211
+#: ekos/scheduler/scheduler.ui:209
 #, fuzzy, kde-format
 #| msgid "Position Angle Control"
 msgid "Position Angle in Degrees"
@@ -27896,7 +27907,7 @@ msgstr "Control do ángulo de posición"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, groupLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
-#: ekos/scheduler/scheduler.ui:233 ekos/scheduler/scheduler.ui:519
+#: ekos/scheduler/scheduler.ui:231 ekos/scheduler/scheduler.ui:516
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
@@ -27907,32 +27918,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/scheduler/scheduler.ui:290
+#: ekos/scheduler/scheduler.ui:288
 #, kde-format
 msgid "Target coordinates in J2000 Epoch"
 msgstr "Coordenadas de destino en J2000 Epoch."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/scheduler.ui:293
+#: ekos/scheduler/scheduler.ui:291
 #, kde-format
 msgid "J2000:"
 msgstr "J2000:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/scheduler/scheduler.ui:346
+#: ekos/scheduler/scheduler.ui:343
 #, kde-format
 msgid "Ekos Device Profile"
 msgstr "Perfil de dispositivo de Ekos"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/scheduler.ui:370
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTrackStep)
+#: ekos/scheduler/scheduler.ui:367
 #, fuzzy, kde-format
 #| msgid "Slew to the target and track it before proceeding to the next step."
 msgid "Slew to the target and track. Done at the start of each scheduler job."
 msgstr "Mover ao obxectivo e seguilo antes de pasar ao seguinte paso."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/scheduler.ui:395
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAlignStep)
+#: ekos/scheduler/scheduler.ui:392
 #, fuzzy, kde-format
 #| msgid ""
 #| "Perform alignment using astrometry solver before proceeding to the next "
@@ -27944,33 +27955,33 @@ msgstr ""
 "Realizar o aliñamento mediante o resolvedor de astrometría antes de pasar ao "
 "seguinte paso."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/scheduler.ui:417
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerGuideStep)
+#: ekos/scheduler/scheduler.ui:414
 #, kde-format
 msgid "Start autoguiding. Done at the start of each scheduler job."
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/scheduler.ui:439
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerFocusStep)
+#: ekos/scheduler/scheduler.ui:436
 #, kde-format
 msgid "Run autofocus. Done at the start of each scheduler job."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copySkyCenterB)
-#: ekos/scheduler/scheduler.ui:526
+#: ekos/scheduler/scheduler.ui:523
 #, kde-format
 msgid "Fill coordinates with Sky Map center"
 msgstr "Encher as coordenadas co centro do mapa celeste"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mosaicB)
-#: ekos/scheduler/scheduler.ui:888
+#: ekos/scheduler/scheduler.ui:884
 #, fuzzy, kde-format
 #| msgid "Observation Planner"
 msgid "Open the Mosaic Planner"
 msgstr "Planificador de observacións"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueAppendB)
-#: ekos/scheduler/scheduler.ui:935
+#: ekos/scheduler/scheduler.ui:931
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This index file is not required.</p></body></html>"
@@ -27982,7 +27993,7 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/scheduler/scheduler.ui:969
+#: ekos/scheduler/scheduler.ui:965
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>This index file is not required.</p></body></html>"
@@ -27994,62 +28005,75 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/scheduler/scheduler.ui:997
+#: ekos/scheduler/scheduler.ui:993
 #, fuzzy, kde-format
 #| msgid "Scheduler"
 msgid "Save schedule"
 msgstr "Planificador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/scheduler/scheduler.ui:1031
+#: ekos/scheduler/scheduler.ui:1027
 #, fuzzy, kde-format
 #| msgid "Save Ekos Scheduler List"
 msgid "Save schedule as..."
 msgstr "Gardar a lista do planificador de Ekos"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1075
+#: ekos/scheduler/scheduler.ui:1070
 #, kde-format
 msgid "Captures"
 msgstr "Capturas"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1085
+#: ekos/scheduler/scheduler.ui:1080
 #, kde-format
 msgid "Start Time"
 msgstr "Data de comezo"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1090
+#: ekos/scheduler/scheduler.ui:1085
 #, kde-format
 msgid "End Time"
 msgstr "Data de remate"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/scheduler/scheduler.ui:1163
+#: ekos/scheduler/scheduler.ui:1158
 #, kde-format
 msgid "Pause Scheduler"
 msgstr "Poñer en pausa o planificador"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, repeatSequenceCB)
-#: ekos/scheduler/scheduler.ui:1213
-#, kde-format
+#: ekos/scheduler/scheduler.ui:1208
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Select custom properties to be set when the "
+#| "sequence job is executed in batch mode. After the desired property value "
+#| "is set in INDI Control Panel, add it to the<span style=\" font-weight:600;"
+#| "\"> Job Properties</span> section. Click <span style=\" font-weight:600;"
+#| "\">Apply</span> to record the property values.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Repeat all scheduled jobs as soon as all jobs have "
-"been completed. This option is only available if the &quot;Remember job "
-"progress&quot; option in Ekos &gt; Scheduler is not selected.</p></body></"
-"html>"
+"been completed. This option is only available if the <span style=\" font-"
+"weight:700;\">Remember Job Progress</span> option in Ekos  Scheduler "
+"settings is <span style=\" font-weight:700;\">not</span> selected.</p></"
+"body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccionar propiedades personalizadas para definir "
+"cando o traballo da secuencia se execute en modo por lotes. Tras definir o "
+"valor de propiedade desexado no panel de control de INDI, engádao á sección "
+"das <span style=\" font-weight:600;\">propiedades do traballo</span>. Prema "
+"<span style=\" font-weight:600;\">Aplicar</span> para gravar os valores das "
+"propiedades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
-#: ekos/scheduler/scheduler.ui:1216
+#: ekos/scheduler/scheduler.ui:1211
 #, fuzzy, kde-format
 #| msgid "Reset status of all jobs"
 msgid "Repeat all jobs"
 msgstr "Restabelecer o estado de todas as tarefas."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1223
+#: ekos/scheduler/scheduler.ui:1218
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Set target position angle before capture is started."
@@ -28063,62 +28087,62 @@ msgstr ""
 "iniciar a captura.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1226
+#: ekos/scheduler/scheduler.ui:1221
 #, fuzzy, kde-format
 #| msgid "Set time"
 msgid " times"
 msgstr "Axustar a hora"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/scheduler.ui:1286
+#: ekos/scheduler/scheduler.ui:1281
 #, kde-format
 msgid "Job Completion Conditions"
 msgstr "Condicións de finalización de traballo"
 
-#. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, completionTimeEdit)
-#: ekos/scheduler/scheduler.ui:1337
+#. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, schedulerUntilValue)
+#: ekos/scheduler/scheduler.ui:1332
 #, kde-format
 msgid "dd/MM/yy hh:mm"
 msgstr "dd/MM/yy hh:mm"
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, timeCompletionR)
-#: ekos/scheduler/scheduler.ui:1378
+#. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntil)
+#: ekos/scheduler/scheduler.ui:1373
 #, kde-format
 msgid "Terminate the job on the given date and time."
 msgstr "Terminar a tarefa na data e hora indicadas."
 
-#. i18n: ectx: property (text), widget (QRadioButton, timeCompletionR)
-#: ekos/scheduler/scheduler.ui:1381
+#. i18n: ectx: property (text), widget (QRadioButton, schedulerUntil)
+#: ekos/scheduler/scheduler.ui:1376
 #, kde-format
 msgid "Repeat &until"
 msgstr "Repetir &ata"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroup)
-#: ekos/scheduler/scheduler.ui:1446
+#: ekos/scheduler/scheduler.ui:1441
 #, kde-format
 msgid "Job Startup Conditions"
 msgstr "Condicións de inicio de traballo"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, startupTimeEdit)
-#: ekos/scheduler/scheduler.ui:1478
+#: ekos/scheduler/scheduler.ui:1473
 #, kde-format
 msgid "dd/MM hh:mm"
 msgstr "dd/MM hh:mm"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1494
+#: ekos/scheduler/scheduler.ui:1489
 #, kde-format
 msgid "start the job on the specified date and time"
 msgstr "Iniciar a tarefa na data e hora indicadas."
 
 #. i18n: ectx: property (text), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1497
+#: ekos/scheduler/scheduler.ui:1492
 #, kde-format
 msgid "O&n"
 msgstr "&Activado"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1513
+#: ekos/scheduler/scheduler.ui:1508
 #, kde-format
 msgid ""
 "Start the observation job as soon as all the constraints, if any, are met. "
@@ -28128,51 +28152,51 @@ msgstr ""
 "Comezarase tomando imaxes do obxectivo que constitúa un mellor candidato."
 
 #. i18n: ectx: property (text), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1516
+#: ekos/scheduler/scheduler.ui:1511
 #, kde-format
 msgid "ASAP"
 msgstr "Canto antes"
 
 #. i18n: ectx: property (title), widget (QGroupBox, contraintsGroup)
-#: ekos/scheduler/scheduler.ui:1553
+#: ekos/scheduler/scheduler.ui:1548
 #, kde-format
 msgid "Job Constraints"
 msgstr "Restricións de traballo"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, moonSeparationCheck)
-#: ekos/scheduler/scheduler.ui:1585
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
+#: ekos/scheduler/scheduler.ui:1580
 #, kde-format
 msgid ""
 "The moon separation must remain equal to or higher than the given value."
 msgstr "A separación da Lúa debe ser igual ou maior que o valor indicado."
 
-#. i18n: ectx: property (text), widget (QCheckBox, moonSeparationCheck)
-#: ekos/scheduler/scheduler.ui:1588
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
+#: ekos/scheduler/scheduler.ui:1583
 #, kde-format
 msgid "Moon  > "
 msgstr "Lúa > "
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, altConstraintCheck)
-#: ekos/scheduler/scheduler.ui:1604
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAltitude)
+#: ekos/scheduler/scheduler.ui:1599
 #, kde-format
 msgid "The object's altitude must remain equal or higher than the given value."
 msgstr "A altitude do obxecto debe ser igual ou maior que o valor indicado."
 
-#. i18n: ectx: property (text), widget (QCheckBox, altConstraintCheck)
-#: ekos/scheduler/scheduler.ui:1607
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
+#: ekos/scheduler/scheduler.ui:1602
 #, kde-format
 msgid "Alt > "
 msgstr "a > "
 
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minAltitude)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoonSeparation)
-#: ekos/scheduler/scheduler.ui:1626 ekos/scheduler/scheduler.ui:1664
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
+#: ekos/scheduler/scheduler.ui:1621 ekos/scheduler/scheduler.ui:1659
 #, kde-format
 msgid " °"
 msgstr " °"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, weatherCheck)
-#: ekos/scheduler/scheduler.ui:1645
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWeather)
+#: ekos/scheduler/scheduler.ui:1640
 #, kde-format
 msgid ""
 "<html><head/><body><p>Weather conditions must remain safe. When weather "
@@ -28182,8 +28206,8 @@ msgstr ""
 "<html><head/><body><p>As condicións meteorolóxicas deben ser seguras. Cando "
 "se volvan perigosas, iníciase o proceso de apagamento.</p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, twilightCheck)
-#: ekos/scheduler/scheduler.ui:1683
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
+#: ekos/scheduler/scheduler.ui:1678
 #, kde-format
 msgid ""
 "<html><body><p>The twilight restriction constrains jobs to execute in "
@@ -28194,14 +28218,14 @@ msgstr ""
 "escuridade astronómica. Use os desprazamentos de amencer e anoitecer nas "
 "opcións do planificador de Ekos para axustar o intervalo.</p></body></html>"
 
-#. i18n: ectx: property (text), widget (QCheckBox, twilightCheck)
-#: ekos/scheduler/scheduler.ui:1686
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
+#: ekos/scheduler/scheduler.ui:1681
 #, kde-format
 msgid "Twilight"
 msgstr "Crepúsculo"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
-#: ekos/scheduler/scheduler.ui:1705
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerHorizon)
+#: ekos/scheduler/scheduler.ui:1700
 #, kde-format
 msgid ""
 "<html><body><p>The artificial horizon restriction constrains the altitude of "
@@ -28211,7 +28235,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
-#: ekos/scheduler/scheduler.ui:1731
+#: ekos/scheduler/scheduler.ui:1726
 #, kde-format
 msgid ""
 "<html><head/><body><p>Astronomical dawn and dusk for the Scheduler job "
@@ -28231,7 +28255,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:1755
+#: ekos/scheduler/scheduler.ui:1750
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time shutdown procedure to be executed after all "
@@ -28246,58 +28270,58 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:1758
+#: ekos/scheduler/scheduler.ui:1753
 #, kde-format
 msgid "Observatory Shutdown Procedure"
 msgstr "Procedemento de apagamento do observatorio"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, warmCCDCheck)
-#: ekos/scheduler/scheduler.ui:1793
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWarmCCD)
+#: ekos/scheduler/scheduler.ui:1788
 #, kde-format
 msgid "Turn off CCD cooler."
 msgstr "Apagar a refrixeración do CCD."
 
-#. i18n: ectx: property (text), widget (QCheckBox, warmCCDCheck)
-#: ekos/scheduler/scheduler.ui:1796
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerWarmCCD)
+#: ekos/scheduler/scheduler.ui:1791
 #, kde-format
 msgid "Warm CCD"
 msgstr "Quentar o CCD."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, capCheck)
-#: ekos/scheduler/scheduler.ui:1812
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerCloseDustCover)
+#: ekos/scheduler/scheduler.ui:1807
 #, kde-format
 msgid "Close dust cover"
 msgstr "Pechar a cuberta anti po."
 
-#. i18n: ectx: property (text), widget (QCheckBox, capCheck)
-#: ekos/scheduler/scheduler.ui:1815
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerCloseDustCover)
+#: ekos/scheduler/scheduler.ui:1810
 #, kde-format
 msgid "Cap"
 msgstr "Cuberta"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, parkMountCheck)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, unparkMountCheck)
-#: ekos/scheduler/scheduler.ui:1834 ekos/scheduler/scheduler.ui:2139
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerParkMount)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerUnparkMount)
+#: ekos/scheduler/scheduler.ui:1829 ekos/scheduler/scheduler.ui:2134
 #, kde-format
 msgid "Park telescope to home position."
 msgstr "Estacionar o telescopio na posición inicial."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, parkDomeCheck)
-#. i18n: ectx: property (toolTip), widget (QCheckBox, unparkDomeCheck)
-#: ekos/scheduler/scheduler.ui:1856 ekos/scheduler/scheduler.ui:2117
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerParkDome)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerUnparkDome)
+#: ekos/scheduler/scheduler.ui:1851 ekos/scheduler/scheduler.ui:2112
 #, kde-format
 msgid "Park dome to home position"
 msgstr "Estacionar a bóveda na posición inicial."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/scheduler/scheduler.ui:1902 ekos/scheduler/scheduler.ui:2204
+#: ekos/scheduler/scheduler.ui:1897 ekos/scheduler/scheduler.ui:2199
 #, kde-format
 msgid "Script:"
 msgstr "Script:"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:1943
+#: ekos/scheduler/scheduler.ui:1938
 #, kde-format
 msgid ""
 "<html><head/><body><p>Define what should happen when a job steps into an "
@@ -28341,25 +28365,25 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:1946
+#: ekos/scheduler/scheduler.ui:1941
 #, kde-format
 msgid "Aborted Job Management"
 msgstr "Xestión de traballos interrompidos"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:1978
+#: ekos/scheduler/scheduler.ui:1973
 #, kde-format
 msgid "Do not re-schedule aborted jobs."
 msgstr "Non planificar de novo os traballos interrompidos."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:1981
+#: ekos/scheduler/scheduler.ui:1976
 #, kde-format
 msgid "&None"
 msgstr "&Ningunha"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:1997
+#: ekos/scheduler/scheduler.ui:1992
 #, kde-format
 msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
@@ -28369,49 +28393,49 @@ msgstr ""
 "executábeis se completen ou interrompan."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:2000
+#: ekos/scheduler/scheduler.ui:1995
 #, kde-format
 msgid "&Queue"
 msgstr "&Pór na cola"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:2016
+#: ekos/scheduler/scheduler.ui:2011
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
 msgstr "Planificar de novo inmediatamente os traballos interrompidos."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:2019
+#: ekos/scheduler/scheduler.ui:2014
 #, kde-format
 msgid "I&mmediate"
 msgstr "I&nmediata"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:2042
+#: ekos/scheduler/scheduler.ui:2037
 #, kde-format
 msgid "Treat errors like aborts."
 msgstr "Tratar os erros como interrupcións."
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:2045
+#: ekos/scheduler/scheduler.ui:2040
 #, kde-format
 msgid "Re-schedule errors"
 msgstr "Planificar de novo os erros"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingDelaySB)
-#: ekos/scheduler/scheduler.ui:2058
+#. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingStrategyDelay)
+#: ekos/scheduler/scheduler.ui:2053
 #, kde-format
 msgid "Delay in seconds."
 msgstr "Demora en segundos."
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, errorHandlingDelaySB)
-#: ekos/scheduler/scheduler.ui:2061
+#. i18n: ectx: property (suffix), widget (QSpinBox, errorHandlingStrategyDelay)
+#: ekos/scheduler/scheduler.ui:2056
 #, kde-format
 msgid " s wait"
 msgstr " s de espera"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:2079
+#: ekos/scheduler/scheduler.ui:2074
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time startup procedure to be executed before "
@@ -28425,31 +28449,31 @@ msgstr ""
 "por exemplo desestacionar o telescopio.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:2082
+#: ekos/scheduler/scheduler.ui:2077
 #, kde-format
 msgid "Observatory Startup Procedure"
 msgstr "Procedemento de acendemento do observatorio"
 
-#. i18n: ectx: property (text), widget (QCheckBox, unparkDomeCheck)
-#: ekos/scheduler/scheduler.ui:2120
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkDome)
+#: ekos/scheduler/scheduler.ui:2115
 #, kde-format
 msgid "UnPark Dome"
 msgstr "Desestacionar a bóveda"
 
-#. i18n: ectx: property (text), widget (QCheckBox, unparkMountCheck)
-#: ekos/scheduler/scheduler.ui:2142
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkMount)
+#: ekos/scheduler/scheduler.ui:2137
 #, kde-format
 msgid "UnPark Mount"
 msgstr "Desestacionar a montaxe"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, uncapCheck)
-#: ekos/scheduler/scheduler.ui:2158
+#. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerOpenDustCover)
+#: ekos/scheduler/scheduler.ui:2153
 #, kde-format
 msgid "Open dust cover"
 msgstr "Abrir a cuberta anti po."
 
-#. i18n: ectx: property (text), widget (QCheckBox, uncapCheck)
-#: ekos/scheduler/scheduler.ui:2161
+#. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
+#: ekos/scheduler/scheduler.ui:2156
 #, kde-format
 msgid "UnCap"
 msgstr "Descubrir."
@@ -39032,70 +39056,91 @@ msgstr ""
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
 
-#. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
+#. i18n: ectx: label, entry (SchedulerStartupScript), group (Scheduler)
 #: kstars.kcfg:2971
+#, kde-format
+msgid "Execute this script when starting the scheduler."
+msgstr ""
+
+#. i18n: ectx: label, entry (SchedulerShutdownScript), group (Scheduler)
+#: kstars.kcfg:2974
+#, kde-format
+msgid "Execute this script when shutting down the scheduler."
+msgstr ""
+
+#. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
+#: kstars.kcfg:2977
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
-#: kstars.kcfg:2975
+#: kstars.kcfg:2981
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
-#: kstars.kcfg:2979
+#: kstars.kcfg:2985
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
-#: kstars.kcfg:2983
+#: kstars.kcfg:2989
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
-#: kstars.kcfg:2987
+#: kstars.kcfg:2993
 #, fuzzy, kde-format
 #| msgid "Default maximum mount altitude limit."
 msgid "Default scheduler job altitude constraint."
 msgstr "Altura máxima predeterminada da montura."
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
-#: kstars.kcfg:2991
+#: kstars.kcfg:2997
 #, fuzzy, kde-format
 #| msgid "The color for the artificial horizon region."
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr "A cor da rexión do horizonte artificial."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
-#: kstars.kcfg:2995
+#: kstars.kcfg:3001
 #, kde-format
 msgid "Default scheduler checkbox for job moon separation constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
-#: kstars.kcfg:2999
+#: kstars.kcfg:3005
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
-#: kstars.kcfg:3003
+#: kstars.kcfg:3009
 #, kde-format
 msgid "Default scheduler checkbox for job weather constraints."
 msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
-#: kstars.kcfg:3007
+#: kstars.kcfg:3013
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
 
+#. i18n: ectx: label, entry (SchedulerCompleteSequences), group (Scheduler)
+#: kstars.kcfg:3017
+#, fuzzy, kde-format
+#| msgid "Automatically park telescope once all sequence jobs are completed"
+msgid "Scheduler is complete once all sequences are complete."
+msgstr ""
+"Estacionar automaticamente o telescopio tras completar todas as tarefas da "
+"secuencia."
+
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
-#: kstars.kcfg:3011
+#: kstars.kcfg:3021
 #, fuzzy, kde-format
 #| msgid ""
 #| "Re-schedule aborted jobs as soon as all executable jobs are either "
@@ -39105,20 +39150,39 @@ msgstr ""
 "Planificar de novo os traballos interrompidos en canto todos os traballos "
 "executábeis se completen ou interrompan."
 
+#. i18n: ectx: label, entry (SchedulerUntilTerminated), group (Scheduler)
+#: kstars.kcfg:3025
+#, fuzzy, kde-format
+#| msgid "Record stream until manually stopped"
+msgid "Restart sequences until manually terminated."
+msgstr "Gravar a emisión ata que se deteña manualmente"
+
+#. i18n: ectx: label, entry (SchedulerUntil), group (Scheduler)
+#: kstars.kcfg:3029
+#, kde-format
+msgid "Loop sequences until specific time is up."
+msgstr ""
+
+#. i18n: ectx: label, entry (SchedulerUntilValue), group (Scheduler)
+#: kstars.kcfg:3033
+#, kde-format
+msgid "Time when scheduler should stop repeating sequences."
+msgstr ""
+
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
-#: kstars.kcfg:3015
+#: kstars.kcfg:3036
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
-#: kstars.kcfg:3021
+#: kstars.kcfg:3042
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
-#: kstars.kcfg:3025
+#: kstars.kcfg:3046
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid ""
@@ -39127,7 +39191,7 @@ msgid ""
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
-#: kstars.kcfg:3029
+#: kstars.kcfg:3050
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid ""
@@ -39135,7 +39199,7 @@ msgid ""
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
-#: kstars.kcfg:3033
+#: kstars.kcfg:3054
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid ""
@@ -39144,77 +39208,77 @@ msgid ""
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
-#: kstars.kcfg:3037
+#: kstars.kcfg:3058
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
-#: kstars.kcfg:3041
+#: kstars.kcfg:3062
 #, fuzzy, kde-format
 #| msgid "Display the focus InfoBox?"
 msgid "Display the autofocus solution position."
 msgstr "Quere mostrar o panel de foco?"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
-#: kstars.kcfg:3045
+#: kstars.kcfg:3066
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
-#: kstars.kcfg:3049
+#: kstars.kcfg:3070
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
-#: kstars.kcfg:3053
+#: kstars.kcfg:3074
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
-#: kstars.kcfg:3057
+#: kstars.kcfg:3078
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
-#: kstars.kcfg:3061
+#: kstars.kcfg:3082
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
-#: kstars.kcfg:3065
+#: kstars.kcfg:3086
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
-#: kstars.kcfg:3069
+#: kstars.kcfg:3090
 #, fuzzy, kde-format
 #| msgid "Display the DEC Plot on the Guide Drift Graphics."
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
 msgstr "Mostrar o gráfico de δ nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
-#: kstars.kcfg:3073
+#: kstars.kcfg:3094
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
-#: kstars.kcfg:3077
+#: kstars.kcfg:3098
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid "Display RMS Error on the Analyze Statistics Plot."
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
-#: kstars.kcfg:3081
+#: kstars.kcfg:3102
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid ""
@@ -39223,74 +39287,74 @@ msgid ""
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
-#: kstars.kcfg:3085
+#: kstars.kcfg:3106
 #, fuzzy, kde-format
 #| msgid "Display the RA Plot on the Guide Drift Graphics."
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr "Mostrar o gráfico de α nos gráficos de deriva de guía."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
-#: kstars.kcfg:3089
+#: kstars.kcfg:3110
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
-#: kstars.kcfg:3093
+#: kstars.kcfg:3114
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
-#: kstars.kcfg:3097
+#: kstars.kcfg:3118
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
-#: kstars.kcfg:3101
+#: kstars.kcfg:3122
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
-#: kstars.kcfg:3105
+#: kstars.kcfg:3126
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
-#: kstars.kcfg:3109
+#: kstars.kcfg:3130
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
 msgstr ""
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
-#: kstars.kcfg:3113
+#: kstars.kcfg:3134
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
-#: kstars.kcfg:3118
+#: kstars.kcfg:3139
 #, kde-format
 msgid "The address of last used server"
 msgstr "O enderezo do último servidor usado"
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
-#: kstars.kcfg:3121
+#: kstars.kcfg:3142
 #, kde-format
 msgid "The port of last used server"
 msgstr "O porto do último servidor usado"
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
-#: kstars.kcfg:3125
+#: kstars.kcfg:3146
 #, kde-format
 msgid "The port of last used Web Manager"
 msgstr "O porto do último xestor web usado"
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
-#: kstars.kcfg:3131
+#: kstars.kcfg:3152
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
@@ -39298,7 +39362,7 @@ msgstr ""
 "caché."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
-#: kstars.kcfg:3135
+#: kstars.kcfg:3156
 #, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
@@ -39306,184 +39370,184 @@ msgstr ""
 "en caché."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
-#: kstars.kcfg:3139
+#: kstars.kcfg:3160
 #, kde-format
 msgid "HIPS source catalog title."
 msgstr "Título do catálogo de fonte de HIPS."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
-#: kstars.kcfg:3143
+#: kstars.kcfg:3164
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr "Usar interpolación bilinear ao renderizar imaxes HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
-#: kstars.kcfg:3147
+#: kstars.kcfg:3168
 #, kde-format
 msgid "Show HiPS grid on the sky map."
 msgstr "Amosar a grade de HiPS no mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
-#: kstars.kcfg:3151
+#: kstars.kcfg:3172
 #, kde-format
 msgid "Redraw HiPS while panning."
 msgstr "Debuxar de novo HiPS durante o desprazamento."
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3155
+#: kstars.kcfg:3176
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
 msgstr "Debuxar as fontes de HiPS no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3156
+#: kstars.kcfg:3177
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
 msgstr "Conmuta se as fontes de HIPS se debuxan no mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
-#: kstars.kcfg:3160
+#: kstars.kcfg:3181
 #, kde-format
 msgid "Use offline storage to load HiPS?"
 msgstr ""
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
-#: kstars.kcfg:3164
+#: kstars.kcfg:3185
 #, kde-format
 msgid "HIPS offline full path."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3169
+#: kstars.kcfg:3190
 #, fuzzy, kde-format
 #| msgid "Invalid Filename"
 msgid "Terrain Filename."
 msgstr "O nome de ficheiro non é válido"
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3170
+#: kstars.kcfg:3191
 #, kde-format
 msgid "Terrain source filename."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3174
+#: kstars.kcfg:3195
 #, kde-format
 msgid "Terrain Azimuth Correction."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3175
+#: kstars.kcfg:3196
 #, kde-format
 msgid "Terrain source azimuth correction."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3179
+#: kstars.kcfg:3200
 #, fuzzy, kde-format
 #| msgid "Altitude Direction:"
 msgid "Terrain Altitude Correction."
 msgstr "Dirección da altitude:"
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3180
+#: kstars.kcfg:3201
 #, kde-format
 msgid "Terrain source altitude correction."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3184
+#: kstars.kcfg:3205
 #, fuzzy, kde-format
 #| msgid "Down Sample"
 msgid "Terrain Downsampling"
 msgstr "Reducir a taxa de mostras"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3185
+#: kstars.kcfg:3206
 #, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3189
+#: kstars.kcfg:3210
 #, fuzzy, kde-format
 #| msgid "Redraw HiPS while panning."
 msgid "Terrain While panning."
 msgstr "Debuxar de novo HiPS durante o desprazamento."
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3190
+#: kstars.kcfg:3211
 #, fuzzy, kde-format
 #| msgid "Redraw HiPS while panning."
 msgid "Redraw terrain while panning."
 msgstr "Debuxar de novo HiPS durante o desprazamento."
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3194
+#: kstars.kcfg:3215
 #, fuzzy, kde-format
 #| msgid "Draw Saturn?"
 msgid "Draw terrain"
 msgstr "Quere que se mostre Saturno?"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3195
+#: kstars.kcfg:3216
 #, fuzzy, kde-format
 #| msgid "Toggle whether the Sun is drawn in the sky map."
 msgid "Toggle whether the terrain is drawn in the sky map."
 msgstr "Indica se debe mostrarse o Sol no mapa."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
-#: kstars.kcfg:3199
+#: kstars.kcfg:3220
 #, kde-format
 msgid "Terrain Skip Speedup"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3200 kstars.kcfg:3205
+#: kstars.kcfg:3221 kstars.kcfg:3226
 #, kde-format
 msgid "Enable a one of the terrain drawing speedups."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3204
+#: kstars.kcfg:3225
 #, kde-format
 msgid "Terrain Transparency Speedup."
 msgstr ""
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3209
+#: kstars.kcfg:3230
 #, kde-format
 msgid "Terrain Smooth Pixels."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3210
+#: kstars.kcfg:3231
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr ""
 
 #. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3216
+#: kstars.kcfg:3237
 #, kde-format
 msgid "Display Image Overlays."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3217
+#: kstars.kcfg:3238
 #, fuzzy, kde-format
 #| msgid "Toggle whether Pluto is drawn in the sky map."
 msgid "Toggle whether to display image overlays."
 msgstr "Indica se debe amosarse o planeta anano Plutón no mapa."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3221
+#: kstars.kcfg:3242
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3222
+#: kstars.kcfg:3243
 #, kde-format
 msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
@@ -39491,70 +39555,70 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3226
+#: kstars.kcfg:3247
 #, fuzzy, kde-format
 #| msgid "Image has invalid dimensions %1x%2"
 msgid "Image overlay max dimension"
 msgstr "As dimensións da imaxe (%1×%2) son incorrectas."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3227
+#: kstars.kcfg:3248
 #, fuzzy, kde-format
 #| msgid "Maximum distance for comet names"
 msgid "Maximum dimension for image overlay images."
 msgstr "Distancia máxima para amosar os nomes dos cometa"
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3231
+#: kstars.kcfg:3252
 #, kde-format
 msgid "Image overlay plate-solving timeout."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3232
+#: kstars.kcfg:3253
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
 msgstr ""
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3236
+#: kstars.kcfg:3257
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3237
+#: kstars.kcfg:3258
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
-#: kstars.kcfg:3243
+#: kstars.kcfg:3264
 #, fuzzy, kde-format
 #| msgid "Default focus module filter wheel."
 msgid "Default observatory module weather source."
 msgstr "Roda de filtro predeterminada do módulo de foco."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3246
+#: kstars.kcfg:3267
 #, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr "Reaccionarase ante avisos?"
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3250
+#: kstars.kcfg:3271
 #, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr "Reaccionarase ante alertas?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3254
+#: kstars.kcfg:3275
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr "Debe pecharse a bóveda ao producirse un aviso meteorolóxico?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3258
+#: kstars.kcfg:3279
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr "Debe pecharse a persiana ao producirse un aviso meteorolóxico?"
@@ -39562,49 +39626,49 @@ msgstr "Debe pecharse a persiana ao producirse un aviso meteorolóxico?"
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3262 kstars.kcfg:3274 kstars.kcfg:3278
+#: kstars.kcfg:3283 kstars.kcfg:3295 kstars.kcfg:3299
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr "Debe pecharse a persiana ao producirse unha alerta meteorolóxica?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3266
+#: kstars.kcfg:3287
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr "Demora de reacción ante un aviso meteorolóxico."
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3270
+#: kstars.kcfg:3291
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr "Debe pecharse a bóveda ao producirse unha alerta meteorolóxica?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3282
+#: kstars.kcfg:3303
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr "Demora de reacción ante unha alerta meteorolóxica."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3286
+#: kstars.kcfg:3307
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr "Estado de bóveda relevante para o estado do observatorio."
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3290
+#: kstars.kcfg:3311
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr "Estado de persiana relevante para o estado do observatorio."
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3294
+#: kstars.kcfg:3315
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr "Estado meteorolóxico relevante para o estado do observatorio."
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3298
+#: kstars.kcfg:3319
 #, kde-format
 msgid "Scale the sensor graph value axis to the values range."
 msgstr ""
@@ -39612,14 +39676,14 @@ msgstr ""
 "valores."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3304
+#: kstars.kcfg:3325
 #, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr "Ruta completa do executábel de ASTAP."
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3308 kstars.kcfg:3312
+#: kstars.kcfg:3329 kstars.kcfg:3333
 #, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -39630,7 +39694,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3316 kstars.kcfg:3320
+#: kstars.kcfg:3337 kstars.kcfg:3341
 #, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -39640,25 +39704,25 @@ msgstr ""
 "ata o seu raio."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3324
+#: kstars.kcfg:3345
 #, kde-format
 msgid "Update the fits header with the found solution."
 msgstr "Actualizar a cabeceira de FITS coa solución atopada."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3328
+#: kstars.kcfg:3349
 #, kde-format
 msgid "Increase search window size."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3334
+#: kstars.kcfg:3355
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3338
+#: kstars.kcfg:3359
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr ""
@@ -113237,11 +113301,6 @@ msgstr "Indicar a cor do fondo."
 
 #~ msgid "Prefix to append to the beginning of file names"
 #~ msgstr "Prefixo para engadir ao inicio dos nomes dos ficheiros"
-
-#~ msgid "Automatically park telescope once all sequence jobs are completed"
-#~ msgstr ""
-#~ "Estacionar automaticamente o telescopio tras completar todas as tarefas "
-#~ "da secuencia."
 
 #~ msgid "Park When Complete"
 #~ msgstr "Estacionar ao completar"
