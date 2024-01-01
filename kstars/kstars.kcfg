@@ -1972,9 +1972,17 @@
          <label>Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.</label>
          <default>false</default>
       </entry>
-      <entry name="FocusMaskType" type="Int">
-         <label>Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 mosaic style mask</label>
-         <default>0</default>
+      <entry name="FocusNoMaskRB" type="Bool">
+         <label>No mask is applied.</label>
+         <default>true</default>
+      </entry>
+      <entry name="focusRingMaskRB" type="Bool">
+         <label>A ring mask is applied.</label>
+         <default>false</default>
+      </entry>
+      <entry name="focusMosaicMaskRB" type="Bool">
+         <label>A mosaic mask is applied.</label>
+         <default>false</default>
       </entry>
       <entry name="FocusFullFieldInnerRadius" type="Double">
          <label>Full field inner radius.</label>
@@ -2002,7 +2010,7 @@
          <label>Suspend guiding while autofocus in progress.</label>
          <default>true</default>
       </entry>
-      <entry name="GuideSettleTime" type="Double">
+      <entry name="FocusGuideSettleTime" type="Double">
          <whatsthis>Wait for this many seconds after resuming guide.</whatsthis>
          <default>0</default>
       </entry>

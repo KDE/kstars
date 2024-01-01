@@ -152,6 +152,11 @@ if (INDI_FOUND)
             #ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
+            ekos/focus/opsfocussettings.ui
+            ekos/focus/opsfocusprocess.ui
+            ekos/focus/opsfocusmechanics.ui
+            ekos/focus/cfz.ui
+            ekos/focus/advisor.ui
             # Mount
             ekos/mount/mount.ui
             ekos/mount/meridianflipstatuswidget.ui
@@ -279,6 +284,9 @@ if (INDI_FOUND)
             ekos/focus/curvefit.cpp
             ekos/focus/focusfwhm.cpp
             ekos/focus/focusfourierpower.cpp
+            ekos/focus/opsfocussettings.cpp
+            ekos/focus/opsfocusprocess.cpp
+            ekos/focus/opsfocusmechanics.cpp
 
             # Mount
             ekos/mount/mount.cpp

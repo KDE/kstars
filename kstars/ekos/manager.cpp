@@ -2693,6 +2693,17 @@ void Manager::showEkosOptions()
         return;
     }
 
+    if (focusModule() && focusModule() == currentWidget)
+    {
+        KConfigDialog * focusSettings = KConfigDialog::exists("focussettings");
+        if (focusSettings)
+        {
+            focusSettings->show();
+            focusSettings->raise();
+        }
+        return;
+    }
+
     if ((captureModule() && captureModule() == currentWidget) ||
             (schedulerModule() && schedulerModule() == currentWidget))
     {
