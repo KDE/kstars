@@ -89,7 +89,7 @@ public:
         {
             return m_LogText.join("\n");
         }
-        void clearLog();
+        Q_SCRIPTABLE void clearLog();
         void applyConfig();
 
         void addObject(SkyObject *object);
