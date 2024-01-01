@@ -183,7 +183,7 @@ class SchedulerJob
         {
             return dateTimeDisplayFormat;
         }
-        void setDateTimeDisplayFormat(const QString &value);
+        void setDateTimeDisplayFormat(const QString &value, bool update = true);
         /** @} */
 
         /** @brief Original startup condition, as entered by the user. */
@@ -649,6 +649,11 @@ class SchedulerJob
         {
             return storedHorizon != nullptr;
         }
+
+        /**
+         * @brief Update the style of a cell, depending on the job's state
+         */
+        void updateCellStyle(QTableWidgetItem *cell);
 
         /** @} */
 

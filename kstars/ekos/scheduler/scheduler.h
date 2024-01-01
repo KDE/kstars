@@ -545,7 +545,7 @@ private:
         /** @internal Change the current job, updating associated widgets.
          * @param job is an existing SchedulerJob to set as current, or nullptr.
          */
-        void setCurrentJob(SchedulerJob *job);
+        void setActiveJob(SchedulerJob *job);
 
         /**
          * @brief processFITSSelection When a FITS file is selected, open it and try to guess

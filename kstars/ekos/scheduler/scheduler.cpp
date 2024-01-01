@@ -388,6 +388,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     });
     connect(addToQueueB, &QPushButton::clicked, [this]()
     {
+        // add job from UI
         addJob();
     });
     connect(removeFromQueueB, &QPushButton::clicked, this, &Scheduler::removeJob);
@@ -881,14 +882,33 @@ void Scheduler::addJob(SchedulerJob *job)
 {
     if (0 <= jobUnderEdit)
     {
-        /* If a job is being edited, reset edition mode as all fields are already transferred to the job */
+        // select the job currently being edited
+        job = moduleState()->jobs().at(jobUnderEdit);
+        // if existing, save it
+        if (job != nullptr)
+            saveJob(job);
+        // in any case, reset editing
         resetJobEdit();
     }
     else
     {
+        // remember the number of rows to select the first one appended
+        int currentRow = queueTable->currentRow();
+
+        //If no row is selected, the job will be appended at the end of the list, otherwise below the current selection
+        if (currentRow < 0)
+            currentRow = queueTable->rowCount();
+        else
+            currentRow++;
+
         /* If a job is being added, save fields into a new job */
         saveJob(job);
         addToQueueB->setEnabled(true);
+
+        // select the first appended row (if any was added)
+        if (moduleState()->jobs().count() > currentRow)
+            queueTable->selectRow(currentRow);
+
         /* There is now an evaluation for each change, so don't duplicate the evaluation now */
         // jobEvaluationOnly = true;
         // evaluateJobs();
@@ -898,12 +918,6 @@ void Scheduler::addJob(SchedulerJob *job)
 
 bool Scheduler::fillJobFromUI(SchedulerJob *job)
 {
-    if (moduleState()->schedulerState() == SCHEDULER_RUNNING)
-    {
-        appendLogText(i18n("Warning: You cannot add or modify a job while the scheduler is running."));
-        return false;
-    }
-
     if (nameEdit->text().isEmpty())
     {
         appendLogText(i18n("Warning: Target name is required."));
@@ -1002,9 +1016,11 @@ void Scheduler::saveJob(SchedulerJob *job)
     /* Create or Update a scheduler job */
     int currentRow = queueTable->currentRow();
 
-    /* If no row is selected for insertion, append at end of list. */
+    /* If no row is selected for insertion, append at end of list. Otherwise append below current selection */
     if (currentRow < 0)
         currentRow = queueTable->rowCount();
+    else
+        currentRow++;
 
     /* Add job to queue only if it is new, else reuse current row.
      * Make sure job is added at the right index, now that queueTable may have a line selected without being edited.
@@ -1012,11 +1028,11 @@ void Scheduler::saveJob(SchedulerJob *job)
     if (0 <= jobUnderEdit)
     {
         /* FIXME: jobUnderEdit is a parallel variable that may cause issues if it desyncs from queueTable->currentRow(). */
-        if (jobUnderEdit != currentRow)
+        if (jobUnderEdit != currentRow-1)
             qCWarning(KSTARS_EKOS_SCHEDULER) << "BUG: the observation job under edit does not match the selected row in the job table.";
 
         /* Use the job in the row currently edited */
-        job = moduleState()->jobs().at(currentRow);
+        job = moduleState()->jobs().at(jobUnderEdit);
         // try to fill the job from the UI and exit if it fails
         if (fillJobFromUI(job) == false)
             return;
@@ -1107,6 +1123,9 @@ void Scheduler::saveJob(SchedulerJob *job)
         queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ENDTIME), completionCell);
         completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+        // set the display format of the startup, but postpone the update
+        job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat(), false);
     }
 
     setJobStatusCells(currentRow);
@@ -1267,12 +1286,6 @@ void Scheduler::loadJob(QModelIndex i)
     if (jobUnderEdit == i.row())
         return;
 
-    if (moduleState()->schedulerState() == SCHEDULER_RUNNING)
-    {
-        appendLogText(i18n("Warning: you cannot add or modify a job while the scheduler is running."));
-        return;
-    }
-
     SchedulerJob * const job = moduleState()->jobs().at(i.row());
 
     if (job == nullptr)
@@ -1312,10 +1325,6 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
 {
     Q_UNUSED(previous)
 
-    // prevent selection when not idle
-    if (moduleState()->schedulerState() != SCHEDULER_IDLE)
-        return;
-
     if (current.row() < 0 || (current.row() + 1) > moduleState()->jobs().size())
         return;
 
@@ -1323,8 +1332,9 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
 
     if (job != nullptr)
     {
-        resetJobEdit();
-        syncGUIToJob(job);
+        // avoid changing the UI values for the currently edited job
+        if (jobUnderEdit != current.row())
+            syncGUIToJob(job);
     }
     else nightTime->setText("-");
 }
@@ -1425,10 +1435,6 @@ void Scheduler::moveJobUp()
     queueTable->selectRow(destinationRow);
     setJobManipulation(true, true);
 
-    /* Jobs are now sorted, so reset all later jobs */
-    for (int row = destinationRow; row < moduleState()->jobs().size(); row++)
-        moduleState()->jobs().at(row)->reset();
-
     /* Make list modified and evaluate jobs */
     moduleState()->setDirty(true);
     evaluateJobs(true);
@@ -1458,10 +1464,6 @@ void Scheduler::moveJobDown()
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
     setJobManipulation(true, true);
-
-    /* Jobs are now sorted, so reset all later jobs */
-    for (int row = currentRow; row < moduleState()->jobs().size(); row++)
-        moduleState()->jobs().at(row)->reset();
 
     /* Make list modified and evaluate jobs */
     moduleState()->setDirty(true);
@@ -1653,7 +1655,7 @@ void Scheduler::stop()
 
     moduleState()->setShutdownState(SHUTDOWN_IDLE);
 
-    setCurrentJob(nullptr);
+    setActiveJob(nullptr);
     moduleState()->resetFailureCounters();
     moduleState()->setAutofocusCompleted(false);
 
@@ -1796,8 +1798,12 @@ void Scheduler::setPaused()
     appendLogText(i18n("Scheduler paused."));
 }
 
-void Scheduler::setCurrentJob(SchedulerJob *job)
+void Scheduler::setActiveJob(SchedulerJob *job)
 {
+    // ignore setting the same active job twice
+    if (activeJob() == job)
+        return;
+
     /* Reset job widgets */
     if (activeJob())
     {
@@ -1811,7 +1817,14 @@ void Scheduler::setCurrentJob(SchedulerJob *job)
     if (activeJob())
     {
         activeJob()->setStageLabel(jobStatus);
-        queueTable->selectRow(moduleState()->jobs().indexOf(activeJob()));
+        int index = moduleState()->jobs().indexOf(job);
+
+        // select the row only if editing is not ongoing
+        if (index >= 0 && jobUnderEdit < 0)
+        {
+            queueTable->selectRow(index);
+            syncGUIToJob(job);
+        }
     }
     else
     {
@@ -1886,7 +1899,7 @@ void Scheduler::processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluation
     if (sortedJobs.isEmpty() || std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_scheduled_nor_aborted))
     {
         appendLogText(i18n("No jobs left in the scheduler queue after evaluating."));
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
         return;
     }
     /* If there are only aborted jobs that can run, reschedule those and let Scheduler restart one loop */
@@ -1908,10 +1921,10 @@ void Scheduler::processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluation
     if (!scheduledJob)
     {
         appendLogText(i18n("No jobs scheduled."));
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
         return;
     }
-    setCurrentJob(scheduledJob);
+    setActiveJob(scheduledJob);
 }
 
 void Scheduler::wakeUpScheduler()
@@ -1946,13 +1959,7 @@ bool Scheduler::executeJob(SchedulerJob *job)
     if (activeJob() == job && SchedulerJob::JOB_BUSY == activeJob()->getState())
         return false;
 
-    setCurrentJob(job);
-    int index = moduleState()->jobs().indexOf(job);
-    if (index >= 0)
-    {
-        queueTable->selectRow(index);
-        syncGUIToJob(job);
-    }
+    setActiveJob(job);
 
     // If we already started, we check when the next object is scheduled at.
     // If it is more than 30 minutes in the future, we park the mount if that is supported
@@ -2013,7 +2020,7 @@ bool Scheduler::checkShutdownState()
         //            weatherTimer.disconnect();
         weatherLabel->hide();
 
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
 
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SHUTDOWN).toLatin1().data());
         moduleState()->setupNextIteration(RUN_SHUTDOWN);
@@ -2529,10 +2536,19 @@ void Scheduler::load(bool clearQueue, const QString &filename)
 
     if (clearQueue)
         removeAllJobs();
+    // remember toe number of rows to select the first one appended
+    const int row = moduleState()->jobs().count();
 
-    /* Run a job idle evaluation after a successful load */
+    // try appending the jobs from the file to the job list
     if (process()->appendEkosScheduleList(fileURL.toLocalFile()))
+    {
+        // select the first appended row (if any was added)
+        if (moduleState()->jobs().count() > row)
+            queueTable->selectRow(row);
+
+        /* Run a job idle evaluation after a successful load */
         startJobEvaluation();
+    }
 }
 
 void Scheduler::removeAllJobs()
@@ -2683,7 +2699,7 @@ void Scheduler::findNextJob()
         }
 
         // otherwise start re-evaluation
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
         moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
@@ -2692,7 +2708,7 @@ void Scheduler::findNextJob()
         emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
 
         // job constraints no longer valid, start re-evaluation
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
         moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
@@ -2724,7 +2740,7 @@ void Scheduler::findNextJob()
         if (!canCountCaptures(*activeJob()))
             activeJob()->setState(SchedulerJob::JOB_COMPLETE);
 
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
         moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
@@ -2764,7 +2780,7 @@ void Scheduler::findNextJob()
                                     activeJob()->getName(), activeJob()->getRepeatsRequired()));
                 if (!canCountCaptures(*activeJob()))
                     activeJob()->setState(SchedulerJob::JOB_COMPLETE);
-                setCurrentJob(nullptr);
+                setActiveJob(nullptr);
             }
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
             moduleState()->setupNextIteration(RUN_SCHEDULER);
@@ -2882,7 +2898,7 @@ void Scheduler::findNextJob()
             // Always reset job stage
             activeJob()->setStage(SchedulerJob::STAGE_IDLE);
 
-            setCurrentJob(nullptr);
+            setActiveJob(nullptr);
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
             moduleState()->setupNextIteration(RUN_SCHEDULER);
         }
@@ -2922,7 +2938,7 @@ void Scheduler::findNextJob()
         // Always reset job stage
         activeJob()->setStage(SchedulerJob::STAGE_IDLE);
 
-        setCurrentJob(nullptr);
+        setActiveJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
         moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
@@ -2930,6 +2946,10 @@ void Scheduler::findNextJob()
 
 void Scheduler::setDirty()
 {
+    // ignore changes that are a result of syncGUIToJob() or syncGUIToGeneralSettings()
+    if (jobUnderEdit < 0)
+        return;
+
     moduleState()->setDirty(true);
 
     if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
@@ -2941,14 +2961,8 @@ void Scheduler::setDirty()
     else if (sender() == schedulerShutdownScript)
         moduleState()->setShutdownScriptURL(QUrl::fromUserInput(schedulerShutdownScript->text()));
 
-    if (0 <= jobUnderEdit && moduleState()->schedulerState() != SCHEDULER_RUNNING && 0 <= queueTable->currentRow())
-    {
-        // Now that jobs are sorted, reset jobs that are later than the edited one for re-evaluation
-        for (int row = jobUnderEdit; row < moduleState()->jobs().size(); row++)
-            moduleState()->jobs().at(row)->reset();
-
+    if (0 <= jobUnderEdit && 0 <= queueTable->currentRow())
         saveJob();
-    }
 
     // For object selection, all fields must be filled
     bool const nameSelectionOK = !raBox->isEmpty()  && !decBox->isEmpty() && !nameEdit->text().isEmpty();
@@ -3059,7 +3073,7 @@ void Scheduler::startJobEvaluation()
 
 void Ekos::Scheduler::resetJobs()
 {
-    setCurrentJob(nullptr);
+    setActiveJob(nullptr);
 
     // Reset ALL scheduler jobs to IDLE and force-reset their completed count - no effect when progress is kept
     for (SchedulerJob * job : moduleState()->jobs())

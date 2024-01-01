@@ -2975,6 +2975,7 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
         int row = state()->allJobs().indexOf(job);
         if (row >= 0 && row < queueTable->rowCount())
         {
+            updateRowStyle(job);
             QTableWidgetItem *status = queueTable->item(row, JOBTABLE_COL_STATUS);
             QTableWidgetItem *count  = queueTable->item(row, JOBTABLE_COL_COUNTS);
             status->setText(job->getStatusString());
@@ -3033,6 +3034,37 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
             }
         }
     }
+}
+
+void Capture::updateRowStyle(SequenceJob *job)
+{
+    if (job == nullptr)
+        return;
+
+    // find the job's row
+    int row = state()->allJobs().indexOf(job);
+    if (row >= 0 && row < queueTable->rowCount())
+    {
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_STATUS), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_FILTER), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_COUNTS), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_EXP), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_TYPE), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_BINNING), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_ISO), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_OFFSET), job->getStatus() == JOB_BUSY);
+    }
+}
+
+void Capture::updateCellStyle(QTableWidgetItem *cell, bool active)
+{
+    if (cell == nullptr)
+        return;
+
+    QFont font(cell->font());
+    font.setBold(active);
+    font.setItalic(active);
+    cell->setFont(font);
 }
 
 void Capture::updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell)
