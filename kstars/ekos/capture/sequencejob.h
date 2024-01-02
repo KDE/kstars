@@ -92,6 +92,8 @@ class SequenceJob : public QObject
             SJ_TargetADUTolerance,
             // QString
             SJ_Signature,
+            // Int
+            SJ_DitherPerJobFrequency
         } PropertyID;
 
         typedef enum

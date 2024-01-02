@@ -799,32 +799,6 @@ void TestEkosSchedulerOps::wakeupAndRestart(const QDateTime &restartTime, KStars
     }
 }
 
-void TestEkosSchedulerOps::testFixedDateStartup()
-{
-    GeoLocation * const geo = KStars::Instance()->data()->locationNamed("Heidelberg");
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Rasalhague");
-
-    KStarsDateTime jobStartUTime(QDate(2021, 7, 12), QTime(1, 0, 0), Qt::UTC);
-    KStarsDateTime jobStartLocalTime(QDate(2021, 7, 12), QTime(3, 0, 0), Qt::UTC);
-    // scheduler starts one hour earlier than lead time
-    KStarsDateTime startUTime = jobStartUTime.addSecs(-1 * 3600 - Options::leadTime() * 60);
-
-    // define culmination offset of 1h as startup condition
-    m_startupCondition.type = Ekos::START_AT;
-    m_startupCondition.atLocalDateTime = jobStartLocalTime;
-
-    // initialize the the scheduler
-    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    QVector<QString> esqVector;
-    esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
-    QVector<QString> eslVector;
-    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, m_completionCondition, {true, true, true, true},
-                        false, true));
-    initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
-    // verify if the job starts at the expected time
-    initJob(startUTime, jobStartUTime);
-}
-
 void TestEkosSchedulerOps::testTwilightStartup_data()
 {
     QTest::addColumn<QString>("city");

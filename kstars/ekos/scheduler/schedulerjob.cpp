@@ -169,6 +169,14 @@ ArtificialHorizon const *SchedulerJob::getHorizon()
     return &KStarsData::Instance()->skyComposite()->artificialHorizon()->getHorizon();
 }
 
+void SchedulerJob::updateCellStyle(QTableWidgetItem *cell)
+{
+    QFont font(cell->font());
+    font.setBold(state == JOB_BUSY);
+    font.setItalic(state == JOB_BUSY);
+    cell->setFont(font);
+}
+
 void SchedulerJob::setStartupCondition(const StartupCondition &value)
 {
     startupCondition = value;
@@ -416,10 +424,11 @@ void SchedulerJob::setCaptureCountCell(QTableWidgetItem *value)
                                           name));
 }
 
-void SchedulerJob::setDateTimeDisplayFormat(const QString &value)
+void SchedulerJob::setDateTimeDisplayFormat(const QString &value, bool update)
 {
     dateTimeDisplayFormat = value;
-    updateJobCells();
+    if (update)
+        updateJobCells();
 }
 
 void SchedulerJob::setStage(const JOBStage &value)
@@ -564,7 +573,8 @@ void SchedulerJob::updateJobCells()
     if (nullptr != nameCell)
     {
         nameCell->setText(name);
-        if (nullptr != nameCell)
+        updateCellStyle(nameCell);
+        if (nullptr != nameCell->tableWidget())
             nameCell->tableWidget()->resizeColumnToContents(nameCell->column());
     }
 
@@ -590,6 +600,7 @@ void SchedulerJob::updateJobCells()
             stateStringUnknown = i18n("Unknown");
         }
         statusCell->setText(stateStrings.value(state, stateStringUnknown));
+        updateCellStyle(statusCell);
 
         if (nullptr != statusCell->tableWidget())
             statusCell->tableWidget()->resizeColumnToContents(statusCell->column());
@@ -623,6 +634,7 @@ void SchedulerJob::updateJobCells()
         if (nullptr != stageCell)
         {
             stageCell->setText(stageStrings.value(stage, stageStringUnknown));
+            updateCellStyle(stageCell);
             if (nullptr != stageCell->tableWidget())
                 stageCell->tableWidget()->resizeColumnToContents(stageCell->column());
         }
@@ -667,6 +679,8 @@ void SchedulerJob::updateJobCells()
             startupCell->setIcon(QIcon());
         }
 
+        updateCellStyle(startupCell);
+
         if (nullptr != startupCell->tableWidget())
             startupCell->tableWidget()->resizeColumnToContents(startupCell->column());
     }
@@ -680,6 +694,7 @@ void SchedulerJob::updateJobCells()
         altitudeCell->setText(QString("%1%L2°")
                               .arg(QChar(is_setting ? 0x2193 : 0x2191))
                               .arg(alt, 0, 'f', 1));
+        updateCellStyle(altitudeCell);
 
         if (nullptr != altitudeCell->tableWidget())
             altitudeCell->tableWidget()->resizeColumnToContents(altitudeCell->column());
@@ -722,6 +737,7 @@ void SchedulerJob::updateJobCells()
                 completionCell->setIcon(QIcon());
             }
 
+        updateCellStyle(completionCell);
         if (nullptr != completionCell->tableWidget())
             completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
     }
@@ -746,6 +762,7 @@ void SchedulerJob::updateJobCells()
                 break;
         }
 
+        updateCellStyle(captureCountCell);
         if (nullptr != captureCountCell->tableWidget())
             captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
     }

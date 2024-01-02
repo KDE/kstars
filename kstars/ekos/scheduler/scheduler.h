@@ -89,7 +89,7 @@ public:
         {
             return m_LogText.join("\n");
         }
-        void clearLog();
+        Q_SCRIPTABLE void clearLog();
         void applyConfig();
 
         void addObject(SkyObject *object);
@@ -545,7 +545,7 @@ private:
         /** @internal Change the current job, updating associated widgets.
          * @param job is an existing SchedulerJob to set as current, or nullptr.
          */
-        void setCurrentJob(SchedulerJob *job);
+        void setActiveJob(SchedulerJob *job);
 
         /**
          * @brief processFITSSelection When a FITS file is selected, open it and try to guess

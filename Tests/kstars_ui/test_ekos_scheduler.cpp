@@ -165,16 +165,15 @@ void TestEkosScheduler::testScheduleManipulation()
         QCOMPARE(qPrintable(dms::fromString(decBox->text(), true).toDMSString()), qPrintable(o.dec().toDMSString()));
     }
 
-    // Select a job, add a new one, remove the old one, no change expected
+    // Select a job, remove it and press the add button. the old one should be added below
     // This verifies the fix to the issue causing sequence files to be messed up when pasting jobs
-    for (int i = 1; i < count - 1; i++)
+    for (int i = count - 2; i > 0; i--)
     {
-        queueTable->selectRow(i % queueTable->rowCount());
+        queueTable->selectRow(std::min(i, queueTable->rowCount()-1));
 
         KTRY_SCHEDULER_CLICK(removeFromQueueB);
         KTRY_SCHEDULER_CLICK(addToQueueB);
-        queueTable->selectRow(0);
-        queueTable->selectRow(i % queueTable->rowCount());
+        queueTable->selectRow(std::min(i+1, queueTable->rowCount()-1));
 
         QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(i)));
         QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[i % seqs.count()]));

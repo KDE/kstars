@@ -46,10 +46,11 @@ class Message : public QObject
         void sendDevices();
         void sendTrains();
         void sendTrainProfiles();
-        void sendSchedulerJobList(QJsonArray jobsList);
 
         // Scheduler
         void sendSchedulerJobs();
+        void sendSchedulerJobList(QJsonArray jobsList);
+        void sendSchedulerStatus(const QJsonObject &status);
 
     signals:
         void connected();

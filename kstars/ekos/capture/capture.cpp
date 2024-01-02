@@ -292,6 +292,12 @@ Capture::Capture()
         Options::setEnforceGuideDeviation(checked);
     });
 
+    // Per job dither frequency count
+    connect(m_LimitsUI->limitDitherFrequencyN, QOverload<int>::of(&QSpinBox::valueChanged), [this]()
+    {
+        Options::setGuideDitherPerJobFrequency(m_LimitsUI->limitDitherFrequencyN->value());
+    });
+
     // Guide Deviation Value
     connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
@@ -2128,6 +2134,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
     placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
     formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
+    m_LimitsUI->limitDitherFrequencyN->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
 
     // Temperature Options
     cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
@@ -2247,6 +2254,7 @@ QJsonObject Capture::getPresetSettings()
     settings.insert("gain", gain);
     settings.insert("offset", offset);
     settings.insert("temperature", cameraTemperatureN->value());
+    settings.insert("ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value());
 
     return settings;
 }
@@ -2813,6 +2821,9 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     bool dark = settings["dark"].toBool(darkB->isChecked());
     if (dark != darkB->isChecked())
         darkB->setChecked(dark);
+
+    int ditherPerJobFrequency = settings["ditherPerJobFrequency"].toInt(0);
+    m_LimitsUI->limitDitherFrequencyN->setValue(ditherPerJobFrequency);
 }
 
 void Capture::setFileSettings(const QJsonObject &settings)
@@ -2857,6 +2868,7 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(m_LimitsUI->limitFocusDeltaTN->value());
     const bool refocusNCheck = settings["refocusNCheck"].toBool(m_LimitsUI->limitRefocusS->isChecked());
     const int refocusNValue = settings["refocusNValue"].toInt(m_LimitsUI->limitRefocusN->value());
+    const int ditherPerJobFrequency = settings["ditherPerJobFrequency"].toInt(m_LimitsUI->limitDitherFrequencyN->value());
 
     if (deviationCheck)
     {
@@ -2890,6 +2902,8 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     else
         m_LimitsUI->limitRefocusS->setChecked(false);
 
+    m_LimitsUI->limitDitherFrequencyN->setValue(ditherPerJobFrequency);
+
     syncRefocusOptionsFromGUI();
 }
 
@@ -2899,6 +2913,7 @@ QJsonObject Capture::getLimitSettings()
     {
         {"deviationCheck", Options::enforceGuideDeviation()},
         {"deviationValue", Options::guideDeviation()},
+        {"ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value()},
         {"focusHFRCheck", m_LimitsUI->limitFocusHFRS->isChecked()},
         {"focusHFRValue", m_LimitsUI->limitFocusHFRN->value()},
         {"focusDeltaTCheck", m_LimitsUI->limitFocusDeltaTS->isChecked()},
@@ -2960,6 +2975,7 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
         int row = state()->allJobs().indexOf(job);
         if (row >= 0 && row < queueTable->rowCount())
         {
+            updateRowStyle(job);
             QTableWidgetItem *status = queueTable->item(row, JOBTABLE_COL_STATUS);
             QTableWidgetItem *count  = queueTable->item(row, JOBTABLE_COL_COUNTS);
             status->setText(job->getStatusString());
@@ -3018,6 +3034,37 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
             }
         }
     }
+}
+
+void Capture::updateRowStyle(SequenceJob *job)
+{
+    if (job == nullptr)
+        return;
+
+    // find the job's row
+    int row = state()->allJobs().indexOf(job);
+    if (row >= 0 && row < queueTable->rowCount())
+    {
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_STATUS), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_FILTER), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_COUNTS), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_EXP), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_TYPE), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_BINNING), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_ISO), job->getStatus() == JOB_BUSY);
+        updateCellStyle(queueTable->item(row, JOBTABLE_COL_OFFSET), job->getStatus() == JOB_BUSY);
+    }
+}
+
+void Capture::updateCellStyle(QTableWidgetItem *cell, bool active)
+{
+    if (cell == nullptr)
+        return;
+
+    QFont font(cell->font());
+    font.setBold(active);
+    font.setItalic(active);
+    cell->setFont(font);
 }
 
 void Capture::updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell)
@@ -3319,6 +3366,8 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_TargetName, targetNameT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
+
+    job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->limitDitherFrequencyN->value());
 
     auto placeholderPath = PlaceholderPath();
     placeholderPath.addJob(job, placeholderFormatT->text());

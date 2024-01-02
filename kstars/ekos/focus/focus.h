@@ -17,6 +17,12 @@
 #include "indi/indiweather.h"
 #include "indi/indimount.h"
 
+#include "opsfocussettings.h"
+#include "opsfocusprocess.h"
+#include "opsfocusmechanics.h"
+#include "ui_cfz.h"
+#include "ui_advisor.h"
+
 #include <parameters.h>
 
 class FocusProfilePlot;
@@ -207,9 +213,8 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief setImageMask Select the currently active image mask filtering
          *        the stars relevant for focusing
-         * @param newImageMask ring mask or aberration inspector style mosaic
          */
-        void selectImageMask(const ImageMaskType newMaskType);
+        void selectImageMask();
 
         /**
              * @brief addTemperatureSource Add temperature source to the list of available sources.
@@ -602,18 +607,15 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief Connect GUI elements to sync settings once updated.
          */
-        void connectSettings();
+        void connectSyncSettings();
         /**
          * @brief Stop updating settings when GUI elements are updated.
          */
-        void disconnectSettings();
+        void disconnectSyncSettings();
         /**
          * @brief loadSettings Load setting from Options and set them accordingly.
          */
         void loadGlobalSettings();
-
-        void disconnectSyncSettings();
-        void connectSyncSettings();
 
         /**
          * @brief checkMosaicMaskLimits Check if the maximum values configured
@@ -626,11 +628,6 @@ class Focus : public QWidget, public Ui::Focus
          * global and per-train settings.
          */
         void syncSettings();
-
-        /**
-         * @brief syncImageMaskSelection Store the current mask selection to the settings
-         */
-        void syncImageMaskSelection();
 
         /**
          * @brief syncControl Sync setting to widget. The value depends on the widget type.
@@ -1167,6 +1164,29 @@ class Focus : public QWidget, public Ui::Focus
         int m_CcdWidth = 0;
         int m_CcdHeight = 0;
         QString m_ScopeType;
+
+        // Settings popup
+        //std::unique_ptr<Ui::Settings> m_SettingsUI;
+        //QPointer<QDialog> m_SettingsDialog;
+        OpsFocusSettings *m_OpsFocusSettings { nullptr };
+
+        // Process popup
+        //std::unique_ptr<Ui::Process> m_ProcessUI;
+        //QPointer<QDialog> m_ProcessDialog;
+        OpsFocusProcess *m_OpsFocusProcess { nullptr };
+
+        // Mechanics popup
+        //std::unique_ptr<Ui::Mechanics> m_MechanicsUI;
+        //QPointer<QDialog> m_MechanicsDialog;
+        OpsFocusMechanics *m_OpsFocusMechanics { nullptr };
+
+        // CFZ popup
+        std::unique_ptr<Ui::focusCFZDialog> m_CFZUI;
+        QPointer<QDialog> m_CFZDialog;
+
+        // Focus Advisor popup
+        std::unique_ptr<Ui::focusAdvisorDialog> m_AdvisorUI;
+        QPointer<QDialog> m_AdvisorDialog;
 
         // CFZ
         double m_cfzSteps = 0.0f;

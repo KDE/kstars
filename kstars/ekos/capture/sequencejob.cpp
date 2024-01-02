@@ -68,6 +68,7 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
     m_CoreProperties[SJ_ROI] = QRect(0, 0, 0, 0);
     m_CoreProperties[SJ_EnforceTemperature] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
+    m_CoreProperties[SJ_DitherPerJobFrequency] = 0;
     m_CoreProperties[SJ_Encoding] = "FITS";
 
     // signal forwarding between this and the state machine
@@ -215,6 +216,10 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root, QSharedPoint
         else if (!strcmp(tagXMLEle(ep), "PreJobScript"))
         {
             sharedState->scripts()[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
+        }
+        else if (!strcmp(tagXMLEle(ep), "GuideDitherPerJob"))
+        {
+            setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {

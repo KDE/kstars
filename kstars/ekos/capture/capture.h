@@ -1021,6 +1021,18 @@ class Capture : public QWidget, public Ui::Capture
          */
         void updateJobTable(SequenceJob *job, bool full = false);
 
+
+        /**
+         * @brief Update the style of the job's row, depending on the job's state
+         */
+        void updateRowStyle(SequenceJob *job);
+
+        /**
+         * @brief updateCellStyle Update the cell's style. If active is true, set a bold and italic font and
+         * a regular font otherwise.
+         */
+        void updateCellStyle(QTableWidgetItem *cell, bool active);
+
         /**
          * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job
          */

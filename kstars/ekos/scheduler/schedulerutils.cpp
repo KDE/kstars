@@ -76,7 +76,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
                 {
                     startup = START_AT;
                     startupTime = QDateTime::fromString(findXMLAttValu(subEP, "value"), Qt::ISODate);
-                    startupTime.setTimeZone(QTimeZone::utc());
+                    // Todo sterne-jaeger 2024-01-01: setting time spec from KStars necessary?
                 }
             }
         }
