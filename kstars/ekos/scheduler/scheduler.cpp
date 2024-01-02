@@ -908,11 +908,8 @@ void Scheduler::addJob(SchedulerJob *job)
         // select the first appended row (if any was added)
         if (moduleState()->jobs().count() > currentRow)
             queueTable->selectRow(currentRow);
-
-        /* There is now an evaluation for each change, so don't duplicate the evaluation now */
-        // jobEvaluationOnly = true;
-        // evaluateJobs();
     }
+
     emit jobsUpdated(getJSONJobs());
 }
 
@@ -1028,7 +1025,7 @@ void Scheduler::saveJob(SchedulerJob *job)
     if (0 <= jobUnderEdit)
     {
         /* FIXME: jobUnderEdit is a parallel variable that may cause issues if it desyncs from queueTable->currentRow(). */
-        if (jobUnderEdit != currentRow-1)
+        if (jobUnderEdit != currentRow - 1)
             qCWarning(KSTARS_EKOS_SCHEDULER) << "BUG: the observation job under edit does not match the selected row in the job table.";
 
         /* Use the job in the row currently edited */
@@ -1857,31 +1854,22 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
 
     moduleState()->calculateDawnDusk();
 
-    QList<SchedulerJob *> jobsToProcess;
-
     syncGreedyParams();
-    jobsToProcess = m_GreedyScheduler->scheduleJobs(moduleState()->jobs(), SchedulerModuleState::getLocalTime(),
-                    moduleState()->capturedFramesCount(),
-                    this);
-    processJobs(jobsToProcess, evaluateOnly);
+    m_GreedyScheduler->scheduleJobs(moduleState()->jobs(), SchedulerModuleState::getLocalTime(),
+                                    moduleState()->capturedFramesCount(), this);
+
+    if (!evaluateOnly && moduleState()->schedulerState() == SCHEDULER_RUNNING)
+        // At this step, we finished evaluating jobs.
+        // We select the first job that has to be run, per schedule.
+        selectActiveJob(moduleState()->jobs());
+    else
+        qCInfo(KSTARS_EKOS_SCHEDULER) << "Ekos finished evaluating jobs, no job selection required.";
+
     emit jobsUpdated(getJSONJobs());
 }
 
-void Scheduler::processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluationOnly)
+void Scheduler::selectActiveJob(const QList<SchedulerJob *> &jobs)
 {
-    /* Apply sorting to queue table, and mark it for saving if it changes */
-    moduleState()->setDirty(reorderJobs(sortedJobs) || moduleState()->dirty());
-
-    if (jobEvaluationOnly || moduleState()->schedulerState() != SCHEDULER_RUNNING)
-    {
-        qCInfo(KSTARS_EKOS_SCHEDULER) << "Ekos finished evaluating jobs, no job selection required.";
-        return;
-    }
-
-    /*
-     * At this step, we finished evaluating jobs.
-     * We select the first job that has to be run, per schedule.
-     */
     auto finished_or_aborted = [](SchedulerJob const * const job)
     {
         SchedulerJob::JOBStatus const s = job->getState();
@@ -1896,18 +1884,18 @@ void Scheduler::processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluation
     };
 
     /* If there are no jobs left to run in the filtered list, stop evaluation */
-    if (sortedJobs.isEmpty() || std::all_of(sortedJobs.begin(), sortedJobs.end(), neither_scheduled_nor_aborted))
+    if (jobs.isEmpty() || std::all_of(jobs.begin(), jobs.end(), neither_scheduled_nor_aborted))
     {
         appendLogText(i18n("No jobs left in the scheduler queue after evaluating."));
         setActiveJob(nullptr);
         return;
     }
     /* If there are only aborted jobs that can run, reschedule those and let Scheduler restart one loop */
-    else if (std::all_of(sortedJobs.begin(), sortedJobs.end(), finished_or_aborted) &&
+    else if (std::all_of(jobs.begin(), jobs.end(), finished_or_aborted) &&
              errorHandlingDontRestartButton->isChecked() == false)
     {
         appendLogText(i18n("Only aborted jobs left in the scheduler queue after evaluating, rescheduling those."));
-        std::for_each(sortedJobs.begin(), sortedJobs.end(), [](SchedulerJob * job)
+        std::for_each(jobs.begin(), jobs.end(), [](SchedulerJob * job)
         {
             if (SchedulerJob::JOB_ABORTED == job->getState())
                 job->setState(SchedulerJob::JOB_EVALUATION);
@@ -3744,6 +3732,15 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
     }
     else if (nextObservationTime > Options::leadTime() * 60)
     {
+        // It is possible that the reason that next observation time is so far away is that
+        // the user has edited the jobs, and now the active job is not the next thing scheduled.
+        syncGreedyParams();
+        if (m_GreedyScheduler->getScheduledJob() != job)
+        {
+            appendLogText(i18n("Not sleeping as current job no longer scheduled"));
+            return false;
+        }
+
         appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", job->getName(),
                            now.addSecs(nextObservationTime + 1).toString()));
         sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
@@ -3907,7 +3904,7 @@ QJsonArray Scheduler::getJSONJobs()
     return jobArray;
 }
 
-bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
+bool Scheduler::createJobSequence(XMLEle * root, const QString &prefix, const QString &outputDir)
 {
     return process()->createJobSequence(root, prefix, outputDir);
 }

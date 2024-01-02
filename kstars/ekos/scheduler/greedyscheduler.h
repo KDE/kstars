@@ -56,9 +56,8 @@ class GreedyScheduler : public QObject
           * @param now The time at which the scheduling should start.
           * @param capturedFramesCount A structure, computed by the scheduler, which keeps track of previous job progress.
           * @param scheduler A pointer to the scheduler object, useful for notifying the user. Can be nullptr.
-          * @return returns a possibly sorted list of the same jobs input, but with state and start/end time changes.
           */
-        QList<SchedulerJob *> scheduleJobs(const QList<SchedulerJob *> &jobs,
+        void scheduleJobs(const QList<SchedulerJob *> &jobs,
                                            const QDateTime &now,
                                            const QMap<QString, uint16_t> &capturedFramesCount,
                                            Scheduler *scheduler);
@@ -71,12 +70,12 @@ class GreedyScheduler : public QObject
           */
         bool checkJob(const QList<SchedulerJob *> &jobs,
                       const QDateTime &now,
-                      SchedulerJob *currentJob);
+                      const SchedulerJob * const currentJob);
         /**
           * @brief getScheduledJob Returns the first job scheduled. Must be called after scheduleJobs().
           * @return returns the first job scheduled by scheduleJobs(), or nullptr.
           */
-        SchedulerJob *getScheduledJob()
+        SchedulerJob *getScheduledJob() const
         {
             return scheduledJob;
         }
@@ -84,7 +83,7 @@ class GreedyScheduler : public QObject
           * @brief getSchedule Returns the QList<JobSchedule> computed by scheduleJobs().
           * @return returns the previously computed schedule.
           */
-        const QList<JobSchedule> &getSchedule()
+        const QList<JobSchedule> &getSchedule() const
         {
             return schedule;
         }
@@ -133,11 +132,11 @@ class GreedyScheduler : public QObject
 
         // Changes the states of the jons on the list, deciding which ones
         // can be scheduled by scheduleJobs().
-        QList<SchedulerJob *> prepareJobsForEvaluation(const QList<SchedulerJob *> &jobs, const QDateTime &now,
-            const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true);
+        void prepareJobsForEvaluation(const QList<SchedulerJob *> &jobs, const QDateTime &now,
+            const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true) const;
 
         // Removes the EVALUATION state, after eval is done.
-        void unsetEvaluation(const QList<SchedulerJob *> &jobs);
+        void unsetEvaluation(const QList<SchedulerJob *> &jobs) const;
 
         typedef enum {
             DONT_SIMULATE = 0,
@@ -152,7 +151,7 @@ class GreedyScheduler : public QObject
         // to a job that should interrupt it.
         SchedulerJob *selectNextJob(const QList<SchedulerJob *> &jobs,
                                     const QDateTime &now,
-                                    SchedulerJob *currentJob,
+                                    const SchedulerJob * const currentJob,
                                     SimulationType simType,
                                     QDateTime *when = nullptr,
                                     QDateTime *nextInterruption = nullptr,

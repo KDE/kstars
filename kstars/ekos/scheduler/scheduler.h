@@ -521,7 +521,7 @@ private:
              * Given that score, the scheduler will decide which is the best job that needs to be executed.
              */
         void evaluateJobs(bool evaluateOnly);
-        void processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluationOnly);
+        void selectActiveJob(const QList<SchedulerJob *> &jobs);
 
         /**
          * @brief resetJobs Reset all jobs counters
