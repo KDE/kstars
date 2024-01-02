@@ -130,8 +130,11 @@ class GreedyScheduler : public QObject
 
     private:
 
-        // Changes the states of the jons on the list, deciding which ones
-        // can be scheduled by scheduleJobs().
+        // Changes the states of the jobs on the list, deciding which ones
+        // can be scheduled by scheduleJobs(). This includes setting runnable
+        // jobs to the JOB_EVALUATION state and updating their estimated time.
+        // In addition, jobs with no remaining time are marked JOB_COMPLETED,
+        // jobs with invalid sequence file as JOB_INVALID.
         void prepareJobsForEvaluation(const QList<SchedulerJob *> &jobs, const QDateTime &now,
             const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true) const;
 
@@ -148,7 +151,8 @@ class GreedyScheduler : public QObject
         // to schedule. It returns a pointer to a job in jobs, or nullptr.
         // If currentJob is a pointer to a job in jobs, then it will return
         // either currentJob if it shouldn't be interrupted, or a pointer
-        // to a job that should interrupt it.
+        // to a job that should interrupt it. If simType is not DONT_SIMULATE,
+        // {@see #simulate()} is invoked to update the schedule.
         SchedulerJob *selectNextJob(const QList<SchedulerJob *> &jobs,
                                     const QDateTime &now,
                                     const SchedulerJob * const currentJob,
@@ -158,7 +162,8 @@ class GreedyScheduler : public QObject
                                     QString *interruptReason = nullptr,
                                     const QMap<QString, uint16_t> *capturedFramesCount = nullptr);
 
-        // Simulate the running of the scheduler from time to endTime.
+        // Simulate the running of the scheduler from time to endTime by appending
+        // JobSchedule entries to the schedule.
         // Used to find which jobs will be run in the future.
         // Returns the end time of the simulation.
         QDateTime simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time,

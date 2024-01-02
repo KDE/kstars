@@ -89,6 +89,7 @@ public:
          * @param job target job
          * @param capturedFramesCount a map of what's been captured already
          * @param logger module logging utility
+         * @return true if the time could be estimated, false if the corresponding sequence file is invalid
          */
     static bool estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount, ModuleLogger *logger);
 

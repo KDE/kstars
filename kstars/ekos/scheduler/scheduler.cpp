@@ -1361,21 +1361,20 @@ void Scheduler::setJobAddApply(bool add_mode)
 
 void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
 {
-    bool can_edit = (moduleState()->schedulerState() == SCHEDULER_IDLE);
-
     if (can_reorder)
     {
         int const currentRow = queueTable->currentRow();
-        queueUpB->setEnabled(can_edit && 0 < currentRow);
-        queueDownB->setEnabled(can_edit && currentRow < queueTable->rowCount() - 1);
+        queueUpB->setEnabled(0 < currentRow);
+        queueDownB->setEnabled(currentRow < queueTable->rowCount() - 1);
     }
     else
     {
         queueUpB->setEnabled(false);
         queueDownB->setEnabled(false);
     }
-    sortJobsB->setEnabled(can_edit && can_reorder);
-    removeFromQueueB->setEnabled(can_edit && can_delete);
+    sortJobsB->setEnabled(can_reorder);
+    // deleting a job possible only in the idle state
+    removeFromQueueB->setEnabled(can_delete && (moduleState()->schedulerState() == SCHEDULER_IDLE));
 }
 
 bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
@@ -1735,7 +1734,7 @@ void Scheduler::execute()
             queueLoadB->setEnabled(false);
             queueAppendB->setEnabled(false);
             addToQueueB->setEnabled(false);
-            setJobManipulation(false, false);
+            setJobManipulation(true, false);
             //mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
             startupB->setEnabled(false);
@@ -2948,9 +2947,6 @@ void Scheduler::setDirty()
         moduleState()->setStartupScriptURL(QUrl::fromUserInput(schedulerStartupScript->text()));
     else if (sender() == schedulerShutdownScript)
         moduleState()->setShutdownScriptURL(QUrl::fromUserInput(schedulerShutdownScript->text()));
-
-    if (0 <= jobUnderEdit && 0 <= queueTable->currentRow())
-        saveJob();
 
     // For object selection, all fields must be filled
     bool const nameSelectionOK = !raBox->isEmpty()  && !decBox->isEmpty() && !nameEdit->text().isEmpty();
