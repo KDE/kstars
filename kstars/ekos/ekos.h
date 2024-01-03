@@ -182,13 +182,6 @@ const QString getFilterStatusString(FilterState state, bool translated = true);
 
 // Scheduler states
 
-const QString getSchedulerStatusString(AlignState state, bool translated = true);
-
-static const QList<const char *> schedulerStates = { I18N_NOOP("Idle"), I18N_NOOP("Startup"), I18N_NOOP("Running"),
-                                                     I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted"),
-                                                     I18N_NOOP("Loading")
-                                                   };
-
 typedef enum
 {
     SCHEDULER_IDLE,     /*< Scheduler is stopped. */
@@ -200,6 +193,12 @@ typedef enum
     SCHEDULER_LOADING   /*< Scheduler is loading a schedule. */
 } SchedulerState;
 
+const QString getSchedulerStatusString(SchedulerState state, bool translated = true);
+
+static const QList<const char *> schedulerStates = { I18N_NOOP("Idle"), I18N_NOOP("Startup"), I18N_NOOP("Running"),
+                                                     I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted"),
+                                                     I18N_NOOP("Loading")
+                                                   };
 typedef enum
 {
     Idle,

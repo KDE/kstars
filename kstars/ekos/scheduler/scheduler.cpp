@@ -74,7 +74,8 @@ namespace Ekos
 {
 
 // Functions to make human-readable debug messages for the various enums.
-
+namespace
+{
 QString commStatusString(Ekos::CommunicationStatus state)
 {
     switch(state)
@@ -113,6 +114,15 @@ QString schedulerStateString(Ekos::SchedulerState state)
     return QString("????");
 }
 
+void printJobsStatus(const QList<SchedulerJob *> &jobs)
+{
+    foreach (auto j, jobs)
+        TEST_PRINT(stderr, "job %s", QString("%1 %2\n").arg(j->getName())
+                   .arg(SchedulerJob::jobStatusString(j->getState())).toLatin1().data());
+}
+
+}  // namespace
+
 void Scheduler::printStates(const QString &label)
 {
     TEST_PRINT(stderr, "%s",
@@ -128,7 +138,9 @@ void Scheduler::printStates(const QString &label)
                .arg(startupStateString(moduleState()->startupState()))
                .arg(shutdownStateString(moduleState()->shutdownState()))
                .arg(parkWaitStateString(moduleState()->parkWaitState())).toLatin1().data());
+    printJobsStatus(moduleState()->jobs());
 }
+
 
 // This is the initial conditions that need to be set before starting.
 void Scheduler::init()
@@ -1373,8 +1385,7 @@ void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
         queueDownB->setEnabled(false);
     }
     sortJobsB->setEnabled(can_reorder);
-    // deleting a job possible only in the idle state
-    removeFromQueueB->setEnabled(can_delete && (moduleState()->schedulerState() == SCHEDULER_IDLE));
+    removeFromQueueB->setEnabled(can_delete);
 }
 
 bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
@@ -1527,6 +1538,22 @@ void Scheduler::removeJob()
 
     /* Grab the job currently selected */
     SchedulerJob * const job = moduleState()->jobs().at(currentRow);
+
+    // Can't delete the currently running job
+    if (job == activeJob())
+    {
+        appendLogText(i18n("Cannot delete currently running job '%1'.", job->getName()));
+        return;
+    }
+    else if (job == nullptr || (activeJob() == nullptr && moduleState()->schedulerState() != SCHEDULER_IDLE))
+    {
+        // Don't allow delete--worried that we're about to schedule job that's being deleted.
+        appendLogText(i18n("Cannot delete job. Scheduler state: %1",
+                           getSchedulerStatusString(moduleState()->schedulerState(), true)));
+        return;
+
+    }
+
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is being deleted.").arg(job->getName()).arg(currentRow + 1);
 
     /* Remove the job from the table */
@@ -1732,8 +1759,6 @@ void Scheduler::execute()
 
             /* Disable edit-related buttons */
             queueLoadB->setEnabled(false);
-            queueAppendB->setEnabled(false);
-            addToQueueB->setEnabled(false);
             setJobManipulation(true, false);
             //mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
@@ -3044,7 +3069,9 @@ void Scheduler::updateCompletedJobsCount(bool forced)
 void Scheduler::startJobEvaluation()
 {
     // Reset all jobs
-    resetJobs();
+    // other states too?
+    if (SCHEDULER_RUNNING != moduleState()->schedulerState())
+        resetJobs();
 
     // reset the iterations counter
     sequenceExecutionCounter = 1;
@@ -3688,6 +3715,12 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
     QDateTime const now = SchedulerModuleState::getLocalTime();
     int const nextObservationTime = now.secsTo(job->getStartupTime());
 
+    // It is possible that the nextObservationTime is far away, but the reason is that
+    // the user has edited the jobs, and now the active job is not the next thing scheduled.
+    syncGreedyParams();
+    if (m_GreedyScheduler->getScheduledJob() != job)
+        return false;
+
     // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
     // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
     if (moduleState()->startupState() == STARTUP_COMPLETE &&
@@ -3728,15 +3761,6 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
     }
     else if (nextObservationTime > Options::leadTime() * 60)
     {
-        // It is possible that the reason that next observation time is so far away is that
-        // the user has edited the jobs, and now the active job is not the next thing scheduled.
-        syncGreedyParams();
-        if (m_GreedyScheduler->getScheduledJob() != job)
-        {
-            appendLogText(i18n("Not sleeping as current job no longer scheduled"));
-            return false;
-        }
-
         appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", job->getName(),
                            now.addSecs(nextObservationTime + 1).toString()));
         sleepLabel->setToolTip(i18n("Scheduler is in sleep mode"));
