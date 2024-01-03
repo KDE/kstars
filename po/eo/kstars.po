@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-02 00:38+0000\n"
-"PO-Revision-Date: 2024-01-01 13:39+0100\n"
+"POT-Creation-Date: 2024-01-03 00:38+0000\n"
+"PO-Revision-Date: 2024-01-02 19:50+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -402,7 +402,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2034
-#: ekos/scheduler/scheduler.cpp:2611
+#: ekos/scheduler/scheduler.cpp:2598
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -2525,7 +2525,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1957
 #: ekos/capture/capture.cpp:2043 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:2531 ekos/scheduler/scheduler.cpp:2621
+#: ekos/scheduler/scheduler.cpp:2518 ekos/scheduler/scheduler.cpp:2608
 #: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -6255,7 +6255,7 @@ msgstr "Eksporti Solvo-Poentojn"
 #: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1956
 #: ekos/capture/capture.cpp:2042 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2530 ekos/scheduler/scheduler.cpp:2620
+#: ekos/scheduler/scheduler.cpp:2517 ekos/scheduler/scheduler.cpp:2607
 #: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -14083,7 +14083,7 @@ msgstr "Restarigi taskstatuson"
 msgid "Editing job #%1..."
 msgstr "Redaktante taskon #%1..."
 
-#: ekos/capture/capture.cpp:2301 ekos/scheduler/scheduler.cpp:1359
+#: ekos/capture/capture.cpp:2301 ekos/scheduler/scheduler.cpp:1356
 #, kde-format
 msgid "Apply job changes."
 msgstr "Apliki taskŝanĝojn."
@@ -16115,17 +16115,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, limitDitherFrequencyN)
 #: ekos/capture/limits.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If selected, the shutter needs to be open for the "
-#| "observatory status being &quot;READY&quot;.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If global dither is enabled, then dither every N "
 "number of frames for this job. Set to 0 to use global dither frequency.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Se elektata, la obturatoro devas esti malfermita por "
-"ke la observatoriostato estu \"PRETA\".</p></body></html>"
+"<html><head/><body><p>Se ĉiea punktismo estas ebligita tiam apliki punktojn "
+"ĉiujn N kadrojn por ĉi labortasko. Metu al 0 por uzi ĉiean punktisman "
+"frekvencon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitGuideDeviationS)
 #: ekos/capture/limits.ui:134
@@ -16157,10 +16155,9 @@ msgstr "sinsekvaj fojoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/limits.ui:177
-#, fuzzy, kde-format
-#| msgid "Dithering error"
+#, kde-format
 msgid "Dither Per Job Every"
-msgstr "Dithering eraro"
+msgstr "Apliki Punktojn Po Labortasko Ĉiujn"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:187
@@ -17329,17 +17326,15 @@ msgstr "Eksterpaŝa Multoblaj:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:105
-#, fuzzy, kde-format
-#| msgid "Settings Tab Parameters"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Parametroj de Agordo-langeto"
+msgstr "Agordaj Parametroj"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:128
-#, fuzzy, kde-format
-#| msgid "Process Tab Parameters"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Parametroj de Procez-langeto"
+msgstr "Procezaj Parametroj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:141
@@ -17378,10 +17373,9 @@ msgstr "Fokus-konsilisto:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:180
-#, fuzzy, kde-format
-#| msgid "Mechanics Tab Parameters"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Parametroj de Mekanik-langeto:"
+msgstr "Mekanikaj Parametroj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/advisor.ui:222
@@ -17406,10 +17400,9 @@ msgstr "Helpo..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "Focus CFZ"
-msgstr "Fokuso"
+msgstr "Fokus-CFZ"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/cfz.ui:87
@@ -17756,10 +17749,9 @@ msgstr "Agordoj"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
 #: ekos/focus/focus.cpp:184 ekos/focus/opsfocussettings.ui:14
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Focus Settings"
-msgstr "Agordoj"
+msgstr "Fokusaj Agordoj"
 
 #: ekos/focus/focus.cpp:188
 #, kde-format
@@ -17768,10 +17760,9 @@ msgstr "Procezo"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
 #: ekos/focus/focus.cpp:188 ekos/focus/opsfocusprocess.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus SEP Profiles"
+#, kde-format
 msgid "Focus Process"
-msgstr "Fokuso SEP Profiloj"
+msgstr "Fokusa Procezo"
 
 #: ekos/focus/focus.cpp:192
 #, kde-format
@@ -17780,10 +17771,9 @@ msgstr "Mekaniko"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
 #: ekos/focus/focus.cpp:192 ekos/focus/opsfocusmechanics.ui:14
-#, fuzzy, kde-format
-#| msgid "Mechanics"
+#, kde-format
 msgid "Focus Mechanics"
-msgstr "Mekaniko"
+msgstr "Fokusa Mekaniko"
 
 #: ekos/focus/focus.cpp:888
 #, kde-format
@@ -18327,24 +18317,7 @@ msgstr ""
 "tiu gamo de fokusilmovo."
 
 #: ekos/focus/focus.cpp:6741
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "The fourth step is to set the remaining focus parameters to sensible "
-#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
-#| "Check the associated Update box to accept these recommendations and press "
-#| "Update Params.\n"
-#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#| "e.g. unity gain.\n"
-#| "2. Settings Tab: These all have recommendations.\n"
-#| "3. Process Tab: These all have recommendations.\n"
-#| "4. Mechanics Tab: Note Step Size and Out Step Multiple are dealt with "
-#| "above.\n"
-#| "\n"
-#| "Now move the focuser to approximate focus and select a broadband filter, "
-#| "e.g. Luminance\n"
-#| "You are now ready to start an Autofocus run."
+#, kde-format
 msgid ""
 "\n"
 "\n"
@@ -18369,12 +18342,12 @@ msgstr ""
 "valoroj. Focus Advisor sugestos valorojn por 4 kategorioj da parametroj. "
 "Marku la rilatan Ĝisdatigu skatolon por akcepti ĉi tiujn rekomendojn kaj "
 "premu Ĝisdatigi Params.\n"
-"1. Fotilaj Propraĵoj - Notu, ke vi devas certigi, ke Gajno estas agordita "
-"taŭge, ekz. unueco gajno.\n"
-"2. Langeto Agordoj: Ĉi tiuj ĉiuj havas rekomendojn.\n"
-"3. Proceza langeto: Ĉi tiuj ĉiuj havas rekomendojn.\n"
-"4. Mekanika langeto: Notu Paŝa Grandeco kaj Eksterpaŝa Multoblaj estas "
-"traktataj supre.\n"
+"1. Fotilaj Propraĵoj - Rimarku, ke vi devas certigi, ke Gajno estas agordita "
+"taŭge, ekz. unueca gajno.\n"
+"2. Fokus-Agordoj (Ŝprucfenestro Opcioj): Ĉi tiuj ĉiuj havas rekomendojn.\n"
+"3. Fokusa Procezo (Ŝprucfenestro Opcioj): Ĉi tiuj ĉiuj havas rekomendojn.\n"
+"4. Fokusa Mekaniko (Ŝprucfenestro Opcioj): Rimarku ke Paŝa Grandeco kaj "
+"Eksterpaŝa Multoblo estas traktataj supre.\n"
 "\n"
 "Nun movu la fokusilon al proksimuma fokuso kaj elektu larĝbendan filtrilon, "
 "ekz. Lumineco\n"
@@ -19159,14 +19132,7 @@ msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/opsfocusprocess.ui:259
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to run an outlier pass when all datapoints "
-#| "have been taken. The pass uses Peirce's Criteria for outlier threshold "
-#| "detection. If there are outliers, these are removed and curve fitting "
-#| "rerun. If the R² is improved by the process then this new dataset is used "
-#| "and outliers highlighted on the v-curve. This is an experimental feature."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to run an outlier pass when all datapoints have "
 "been taken. The pass uses Peirce's Criteria for outlier threshold detection. "
@@ -19179,8 +19145,7 @@ msgstr ""
 "por eksterordinara sojla detekto. Se ekzistas eksteruloj, tiuj estas "
 "forigitaj kaj kurba konvena ripetiĝo. Se la R² estas plibonigita per la "
 "procezo tiam ĉi tiu nova datumaro estas uzata kaj eksterordinaraĵoj "
-"elstarigitaj sur la v-kurbo. Ĉi tio estas eksperimenta kapablo.</p></body></"
-"html>"
+"elstarigitaj sur la v-kurbo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/opsfocusprocess.ui:262
@@ -19626,7 +19591,7 @@ msgstr "Arkosekundoj"
 #: ekos/focus/opsfocussettings.ui:242
 #, kde-format
 msgid "Mask"
-msgstr ""
+msgstr "Masko"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:257
@@ -23795,7 +23760,7 @@ msgstr "Fermi Obturatoron"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1733 ekos/scheduler/scheduler.cpp:1759
+#: ekos/scheduler/scheduler.cpp:1729 ekos/scheduler/scheduler.cpp:1755
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Haltigi Planilon"
@@ -24357,6 +24322,10 @@ msgid ""
 "meridian flip has been completed will be postponed until the configured "
 "duration has past since the meridian flip has been started.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Minimuma daŭro de meridiana renverso. Kontrolas ĉu la "
+"meridiana renverso estis kompletigita aŭ ĉu estos prokrastita ĝis kiam la "
+"agordita daŭro pasis ekde la komenco de la meridiana renverso.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
@@ -26274,7 +26243,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Elekti Dosierujon de Taskoj"
 
-#: ekos/scheduler/greedyscheduler.cpp:160
+#: ekos/scheduler/greedyscheduler.cpp:180
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Tasko '%1' ne havas pliajn staplojn."
@@ -26331,7 +26300,7 @@ msgstr ""
 "Rimarku, ke la algoritmo unue kalkulas ĉiujn altecojn uzante la saman "
 "tempon, tiam taksas taskojn."
 
-#: ekos/scheduler/scheduler.cpp:478 ekos/scheduler/scheduler.cpp:3159
+#: ekos/scheduler/scheduler.cpp:478 ekos/scheduler/scheduler.cpp:3143
 #: ekos/scheduler/schedulerprocess.cpp:1808
 #, kde-format
 msgid ""
@@ -26374,32 +26343,32 @@ msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Elekti Malŝaltan Skripton"
 
-#: ekos/scheduler/scheduler.cpp:923
+#: ekos/scheduler/scheduler.cpp:920
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Averto: Celnomo estas postulata."
 
-#: ekos/scheduler/scheduler.cpp:929
+#: ekos/scheduler/scheduler.cpp:926
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Averto: Sekvencdosiero estas postulata."
 
-#: ekos/scheduler/scheduler.cpp:936
+#: ekos/scheduler/scheduler.cpp:933
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Averto: Celaj koordinatoj estas bezonataj."
 
-#: ekos/scheduler/scheduler.cpp:946
+#: ekos/scheduler/scheduler.cpp:943
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Averto: RA-valoro %1 nevalidas."
 
-#: ekos/scheduler/scheduler.cpp:952
+#: ekos/scheduler/scheduler.cpp:949
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Averto: DEC-valoro %1 estas nevalida."
 
-#: ekos/scheduler/scheduler.cpp:1073
+#: ekos/scheduler/scheduler.cpp:1070
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -26408,7 +26377,7 @@ msgstr ""
 "Averto: tasko '%1' ĉe vico %2 havas duplikatan celon ĉe vico %3, la planisto "
 "povas konsideri la saman konservejon por kaptoj."
 
-#: ekos/scheduler/scheduler.cpp:1081
+#: ekos/scheduler/scheduler.cpp:1078
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -26419,90 +26388,90 @@ msgstr ""
 "nombradon ĉar nuntempe ili finiĝos samtempe post %4 aroj (aŭ malŝalti opcion "
 "'Memori taskoprogreson')"
 
-#: ekos/scheduler/scheduler.cpp:1089
+#: ekos/scheduler/scheduler.cpp:1086
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Preterlasis kontrolon por duoblaĵoj."
 
-#: ekos/scheduler/scheduler.cpp:1281
+#: ekos/scheduler/scheduler.cpp:1278
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1352
+#: ekos/scheduler/scheduler.cpp:1349
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr "Uzi eldonajn kampojn por krei novan taskon en la observlisto."
 
-#: ekos/scheduler/scheduler.cpp:1609
+#: ekos/scheduler/scheduler.cpp:1605
 #, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr ""
 "Tasko '%1' ne estis prilaborita post haltigo de la planilo, markante "
 "ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:1616
+#: ekos/scheduler/scheduler.cpp:1612
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Programilo ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:1668
+#: ekos/scheduler/scheduler.cpp:1664
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "Planilo estas ĉesigita ĝis la sekva tasko estas preta"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1694 ekos/scheduler/scheduler.ui:1119
+#: ekos/scheduler/scheduler.cpp:1690 ekos/scheduler/scheduler.ui:1119
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Komenci Planilon"
 
-#: ekos/scheduler/scheduler.cpp:1714
+#: ekos/scheduler/scheduler.cpp:1710
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "Averto: la URL de la starta skripto %1 ne validas."
 
-#: ekos/scheduler/scheduler.cpp:1722
+#: ekos/scheduler/scheduler.cpp:1718
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "Averto: la URL %1 de la skripto de halto ne validas."
 
-#: ekos/scheduler/scheduler.cpp:1752
+#: ekos/scheduler/scheduler.cpp:1748
 #, kde-format
 msgid "Scheduler started."
 msgstr "Programilo komenciĝis."
 
-#: ekos/scheduler/scheduler.cpp:1772
+#: ekos/scheduler/scheduler.cpp:1768
 #, kde-format
 msgid "Scheduler resuming."
 msgstr "Programisto rekomenciĝas."
 
-#: ekos/scheduler/scheduler.cpp:1785
+#: ekos/scheduler/scheduler.cpp:1781
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Planita paŭzo planita..."
 
-#: ekos/scheduler/scheduler.cpp:1789
+#: ekos/scheduler/scheduler.cpp:1785
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Rekomenci Planilon"
 
-#: ekos/scheduler/scheduler.cpp:1798
+#: ekos/scheduler/scheduler.cpp:1794
 #, kde-format
 msgid "Scheduler paused."
 msgstr "Planilo paŭzis."
 
-#: ekos/scheduler/scheduler.cpp:1831
+#: ekos/scheduler/scheduler.cpp:1827
 #, kde-format
 msgid "No job running"
 msgstr "Neniu tasko rulanta"
 
-#: ekos/scheduler/scheduler.cpp:1901
+#: ekos/scheduler/scheduler.cpp:1888
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "Neniuj taskoj restas en la vostovico post taksado."
 
-#: ekos/scheduler/scheduler.cpp:1909
+#: ekos/scheduler/scheduler.cpp:1896
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
@@ -26511,81 +26480,81 @@ msgstr ""
 "Nur ĉesigitaj taskoj restis en la vostovico post taksado, reprogramado de "
 "tiuj."
 
-#: ekos/scheduler/scheduler.cpp:1923
+#: ekos/scheduler/scheduler.cpp:1910
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "Neniuj taskoj planitaj."
 
-#: ekos/scheduler/scheduler.cpp:1937
+#: ekos/scheduler/scheduler.cpp:1924
 #, kde-format
 msgid "Scheduler is awake."
 msgstr "Scheduler estas veka."
 
-#: ekos/scheduler/scheduler.cpp:1943
+#: ekos/scheduler/scheduler.cpp:1930
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr "Scheduler estas veka. Taskoj estos komencitaj kiam prete..."
 
-#: ekos/scheduler/scheduler.cpp:1945
+#: ekos/scheduler/scheduler.cpp:1932
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 "Scheduler estas veka. Taskoj estos komencitaj kiam planilo estas rekomencita."
 
-#: ekos/scheduler/scheduler.cpp:1999
+#: ekos/scheduler/scheduler.cpp:1986
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Ekos-tasko komenciĝis (%1)"
 
-#: ekos/scheduler/scheduler.cpp:2014
+#: ekos/scheduler/scheduler.cpp:2001
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Observatorio estas en la malŝalta procezo"
 
-#: ekos/scheduler/scheduler.cpp:2099
+#: ekos/scheduler/scheduler.cpp:2086
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr "Komencante tasksekvencan iteracion #%1"
 
-#: ekos/scheduler/scheduler.cpp:2229 ekos/scheduler/schedulerprocess.cpp:1948
+#: ekos/scheduler/scheduler.cpp:2216 ekos/scheduler/schedulerprocess.cpp:1948
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Averto: proceduro de vicigo de tasko '%1' malsukcesis, markado ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:2257
+#: ekos/scheduler/scheduler.cpp:2244
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "Averto: tasko '%1' kapta procedo malsukcesis, markado ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:2284 ekos/scheduler/schedulerprocess.cpp:2071
+#: ekos/scheduler/scheduler.cpp:2271 ekos/scheduler/schedulerprocess.cpp:2071
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Averto: proceduro de fokuso de tasko '%1' malsukcesis, markado ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:2308 ekos/scheduler/schedulerprocess.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2295 ekos/scheduler/schedulerprocess.cpp:2019
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "Averto: tasko '%1' gvida proceduro malsukcesis, markado ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:2334
+#: ekos/scheduler/scheduler.cpp:2321
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "Averto: tasko '%1' perdis konekton al la muntaĵo, provante rekonekti."
 
-#: ekos/scheduler/scheduler.cpp:2354
+#: ekos/scheduler/scheduler.cpp:2341
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "Averto: tasko '%1' perdis konekton al la kupolo, provante rekonekti."
 
-#: ekos/scheduler/scheduler.cpp:2392
+#: ekos/scheduler/scheduler.cpp:2379
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "Gvidado jam kuranta, rekte komenci kapti."
 
-#: ekos/scheduler/scheduler.cpp:2404
+#: ekos/scheduler/scheduler.cpp:2391
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
@@ -26594,68 +26563,68 @@ msgstr ""
 "Tasko '%1' iras rekte por kapti etapon ĉar nur kalibraj kadroj estas "
 "pritraktataj."
 
-#: ekos/scheduler/scheduler.cpp:2520
+#: ekos/scheduler/scheduler.cpp:2507
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Malfermi Ekos-Planilan Liston"
 
-#: ekos/scheduler/scheduler.cpp:2592
+#: ekos/scheduler/scheduler.cpp:2579
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Konservi Ekos-Planilan Liston"
 
-#: ekos/scheduler/scheduler.cpp:2611
+#: ekos/scheduler/scheduler.cpp:2598
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Malsukcesis konservi planliston"
 
-#: ekos/scheduler/scheduler.cpp:2675
+#: ekos/scheduler/scheduler.cpp:2662
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr "Tasko '%1' estas ĉesigita pro eraroj."
 
-#: ekos/scheduler/scheduler.cpp:2677
+#: ekos/scheduler/scheduler.cpp:2664
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr "Tasko '%1' estas ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:2690
+#: ekos/scheduler/scheduler.cpp:2677
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr "Atendante %1 sekundojn por rekomenci taskon '%2'."
 
-#: ekos/scheduler/scheduler.cpp:2696
+#: ekos/scheduler/scheduler.cpp:2683
 #, kde-format
 msgid "Scheduler waits for a retry."
 msgstr "Planilo atendas reprovon."
 
-#: ekos/scheduler/scheduler.cpp:2733
+#: ekos/scheduler/scheduler.cpp:2720
 #, kde-format
 msgid "Job '%1' is complete."
 msgstr "Tasko '%1' estas finita."
 
-#: ekos/scheduler/scheduler.cpp:2778
+#: ekos/scheduler/scheduler.cpp:2765
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] "Tasko '%1' estas kompleta post #%2 staplo."
 msgstr[1] "Tasko '%1' estas kompleta post #%2 staploj."
 
-#: ekos/scheduler/scheduler.cpp:2827 ekos/scheduler/scheduler.cpp:2870
+#: ekos/scheduler/scheduler.cpp:2814 ekos/scheduler/scheduler.cpp:2857
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] "Tasko '%1' estas ripetanta, #%2 staplo restanta."
 msgstr[1] "Tasko '%1' estas ripetanta, #%2 staploj restantaj."
 
-#: ekos/scheduler/scheduler.cpp:2874
+#: ekos/scheduler/scheduler.cpp:2861
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr "Tasko '%1' ripetas, cirkulas senfine."
 
-#: ekos/scheduler/scheduler.cpp:2894
+#: ekos/scheduler/scheduler.cpp:2881
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
@@ -26664,7 +26633,7 @@ msgstr[0] "Tasko '%1' ĉesanta, atingis kompletigotempon kun #%2 staplo finita."
 msgstr[1] ""
 "Tasko '%1' ĉesanta, atingis kompletigotempon kun #%2 staploj finitaj."
 
-#: ekos/scheduler/scheduler.cpp:2924
+#: ekos/scheduler/scheduler.cpp:2911
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
@@ -26672,13 +26641,13 @@ msgid_plural ""
 msgstr[0] "Tasko '%1' finis #%2 staplon antaŭ kompletigotempo, restartigita."
 msgstr[1] "Tasko '%1' finis #%2 staplojn antaŭ kompletigotempo, restartigita."
 
-#: ekos/scheduler/scheduler.cpp:3012
+#: ekos/scheduler/scheduler.cpp:2996
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Averto: tasko '%1' havas nealireblan sekvencon '%2', markante nevalida."
 
-#: ekos/scheduler/scheduler.cpp:3191
+#: ekos/scheduler/scheduler.cpp:3175
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
@@ -26687,12 +26656,12 @@ msgstr ""
 "Malŝalti astronomian krepuskan kontrolon povas igi la observatorion funkcii "
 "dum taglumo. Ĉi tio povas kaŭzi nemaligeblan damaĝon al via ekipaĵo!"
 
-#: ekos/scheduler/scheduler.cpp:3193
+#: ekos/scheduler/scheduler.cpp:3177
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr "Astronomia Krepuska Averto"
 
-#: ekos/scheduler/scheduler.cpp:3235
+#: ekos/scheduler/scheduler.cpp:3219
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -26701,12 +26670,12 @@ msgstr ""
 "Dormante por %1 dum ĝisdatigo de simula horloĝo ĝis la sekva observlaboro "
 "estas preta..."
 
-#: ekos/scheduler/scheduler.cpp:3545
+#: ekos/scheduler/scheduler.cpp:3529
 #, kde-format
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Averto: tasko '%1' malsukcesis kapti celon."
 
-#: ekos/scheduler/scheduler.cpp:3558
+#: ekos/scheduler/scheduler.cpp:3542
 #, kde-format
 msgid ""
 "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of "
@@ -26714,55 +26683,55 @@ msgid ""
 msgstr ""
 "Tasko '%1' kaptas, rekomencas sian gvidan proceduron (provo #%2 el %3)."
 
-#: ekos/scheduler/scheduler.cpp:3567
+#: ekos/scheduler/scheduler.cpp:3551
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Averto: tasko '%1' malsukcesis sian kaptan proceduron, rekomencante kapton."
 
-#: ekos/scheduler/scheduler.cpp:3573
+#: ekos/scheduler/scheduler.cpp:3557
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "Averto: tasko '%1' malsukcesis sian kaptan proceduron, markante ĉesigita."
 
-#: ekos/scheduler/scheduler.cpp:3582
+#: ekos/scheduler/scheduler.cpp:3566
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Ekos-tasko (%1) - Kaptado finiĝis"
 
-#: ekos/scheduler/scheduler.cpp:3626
+#: ekos/scheduler/scheduler.cpp:3610
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Veterkondiĉoj estas en ordo."
 
-#: ekos/scheduler/scheduler.cpp:3630
+#: ekos/scheduler/scheduler.cpp:3614
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Averto: veterkondiĉoj estas en la AVERTA zono."
 
-#: ekos/scheduler/scheduler.cpp:3634
+#: ekos/scheduler/scheduler.cpp:3618
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Atentu: veterkondiĉoj estas en la DANGERA zono!"
 
-#: ekos/scheduler/scheduler.cpp:3656
+#: ekos/scheduler/scheduler.cpp:3640
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Veterkondiĉoj en averta zono"
 
-#: ekos/scheduler/scheduler.cpp:3665
+#: ekos/scheduler/scheduler.cpp:3649
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Veterkondiĉoj estas kritikaj. La ĉesigo de la observatorio estas baldaŭa"
 
-#: ekos/scheduler/scheduler.cpp:3686
+#: ekos/scheduler/scheduler.cpp:3670
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "Komencante malŝaltan proceduron pro severa vetero."
 
-#: ekos/scheduler/scheduler.cpp:3714
+#: ekos/scheduler/scheduler.cpp:3698
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
@@ -26771,7 +26740,7 @@ msgstr ""
 "Tasko '%1' planita por plenumo ĉe %2. Observatorio planita por ĉesigo ĝis la "
 "venonta tasko estas preta."
 
-#: ekos/scheduler/scheduler.cpp:3737
+#: ekos/scheduler/scheduler.cpp:3721
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
@@ -26780,17 +26749,22 @@ msgstr ""
 "Tasko '%1' planita por plenumo ĉe %2. Parku la muntaĵon ĝis la tasko estas "
 "preta."
 
-#: ekos/scheduler/scheduler.cpp:3747
+#: ekos/scheduler/scheduler.cpp:3736
+#, kde-format
+msgid "Not sleeping as current job no longer scheduled"
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:3740
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "Dormante ĝis la observa tasko %1 estas preta ĉe %2..."
 
-#: ekos/scheduler/scheduler.cpp:3749
+#: ekos/scheduler/scheduler.cpp:3742
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Planilo estas en dormreĝimo"
 
-#: ekos/scheduler/scheduler.cpp:3757
+#: ekos/scheduler/scheduler.cpp:3750
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -26799,27 +26773,27 @@ msgstr ""
 "Averto: Tasko '%1' estas %2 for de nun, vi eble volas ebligi Antaŭtempan "
 "Malŝalton."
 
-#: ekos/scheduler/scheduler.cpp:3855
+#: ekos/scheduler/scheduler.cpp:3848
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Solvanto elĉerpita: %1s %2"
 
-#: ekos/scheduler/scheduler.cpp:3857
+#: ekos/scheduler/scheduler.cpp:3850
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Solvanto malsukcesis: %1s %2"
 
-#: ekos/scheduler/scheduler.cpp:3892
+#: ekos/scheduler/scheduler.cpp:3885
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "Kaptita kadro estas %1 arkminutoj for de celo, realigante..."
 
-#: ekos/scheduler/scheduler.cpp:3937
+#: ekos/scheduler/scheduler.cpp:3930
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Mana lanĉa proceduro sukcese kompletigita."
 
-#: ekos/scheduler/scheduler.cpp:3941
+#: ekos/scheduler/scheduler.cpp:3934
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Mana lanĉa proceduro finiĝis pro eraroj."
@@ -36078,22 +36052,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FocusNoMaskRB), group (Focus)
 #: kstars.kcfg:1980
-#, fuzzy, kde-format
-#| msgid "Job #%1 changes applied."
+#, kde-format
 msgid "No mask is applied."
-msgstr "Ŝanĝoj de la tasko #%1 aplikitaj."
+msgstr "Neniu masko estas aplikita."
 
 #. i18n: ectx: label, entry (focusRingMaskRB), group (Focus)
 #: kstars.kcfg:1984
 #, kde-format
 msgid "A ring mask is applied."
-msgstr ""
+msgstr "Ringa masko estas aplikita."
 
 #. i18n: ectx: label, entry (focusMosaicMaskRB), group (Focus)
 #: kstars.kcfg:1988
 #, kde-format
 msgid "A mosaic mask is applied."
-msgstr ""
+msgstr "Mozaika masko estas aplikita."
 
 #. i18n: ectx: label, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:1992
@@ -84179,59 +84152,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Inspector"
-#~ msgstr "Inspektisto"
-
-#~ msgid ""
-#~ "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Ĝeneralaj parametroj de fokus-agordo.</p></body></"
-#~ "html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Fokusparametroj rilatataj al Aŭtofokusa procezo.</"
-#~ "p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
-#~ "the focuser.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Fokusparametroj rilatataj al la mekaniko pri movo "
-#~ "de la fokusilo.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Parameters to do with configuring the Critical "
-#~ "Focus Zone (CFZ). This is not necessary for Autofocus, but provides "
-#~ "useful information.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Parametroj rilataj al agordo de la Kritika Fokuso-"
-#~ "Zono (CFZ). Ĉi tio ne estas necesa por Aŭtomata fokuso, sed provizas "
-#~ "utilajn informojn.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus Advisor help utility to assist with setting "
-#~ "up Focus parameters.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Fokuskonsilanta help-utilaĵo por helpi pri meto de "
-#~ "fokusparametroj.</p></body></html>"
-
-#~ msgid ""
-#~ "Warning: You cannot add or modify a job while the scheduler is running."
-#~ msgstr ""
-#~ "Averto: Vi ne povas aldoni aŭ modifi taskon dum la planilo funkcias."
-
-#~ msgid ""
-#~ "Warning: you cannot add or modify a job while the scheduler is running."
-#~ msgstr ""
-#~ "Averto: vi ne povas aldoni aŭ modifi taskon dum la planilo funkcias."
-
-#~ msgid ""
-#~ "Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
-#~ "mosaic style mask"
-#~ msgstr ""
-#~ "Fokusa masko-tipo: 0 = Ĉiuj steloj uzataj dum fokusado, 1 = ringa masko, "
-#~ "2 = 3x3 mozaiko-stila masko"
