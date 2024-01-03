@@ -116,7 +116,7 @@ class FITSTab : public QWidget
         void ZoomIn();
         void ZoomOut();
         void ZoomDefault();
-        void evaluateStats();
+        void displayStats(bool roi = false);
         void extractImage();
         void solveImage();
     protected:

@@ -105,6 +105,10 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         m_View->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 
+        connect(m_View.get(), &FITSView::rectangleUpdated, this, [this](QRect roi)
+        {
+            displayStats(roi.isValid());
+        });
         fitsSplitter = new QSplitter(Qt::Horizontal, this);
         fitsTools = new QToolBox();
 
@@ -238,7 +242,7 @@ void FITSTab::processData()
         qCDebug(KSTARS_FITS) << "FITS HFR:" << imageData->getHFR();
     }
 
-    evaluateStats();
+    displayStats();
 
     loadFITSHeader();
 
@@ -326,17 +330,6 @@ void FITSTab::copyFITS()
 
 void FITSTab::histoFITS()
 {
-    //    if (Options::nonLinearHistogram())
-    //    {
-    //        m_HistogramEditor->createNonLinearHistogram();
-    //        evaluateStats();
-    //    }
-    //    if (!m_View->imageData()->isHistogramConstructed())
-    //    {
-    //        m_View->imageData()->constructHistogram();
-    //        evaluateStats();
-    //    }
-
     fitsTools->setCurrentIndex(1);
     if(m_View->width() > 200)
         fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
@@ -344,14 +337,18 @@ void FITSTab::histoFITS()
         fitsSplitter->setSizes(QList<int>() << 50 << 50);
 }
 
-void FITSTab::evaluateStats()
+void FITSTab::displayStats(bool roi)
 {
     const QSharedPointer<FITSData> &imageData = m_View->imageData();
 
-    stat.statsTable->item(STAT_WIDTH, 0)->setText(QString::number(imageData->width()));
-    stat.statsTable->item(STAT_HEIGHT, 0)->setText(QString::number(imageData->height()));
+    stat.statsTable->item(STAT_WIDTH, 0)->setText(QString::number(imageData->width(roi)));
+    stat.statsTable->item(STAT_HEIGHT, 0)->setText(QString::number(imageData->height(roi)));
     stat.statsTable->item(STAT_BITPIX, 0)->setText(QString::number(imageData->bpp()));
-    stat.statsTable->item(STAT_HFR, 0)->setText(QString::number(imageData->getHFR(), 'f', 3));
+
+    if (!roi)
+        stat.statsTable->item(STAT_HFR, 0)->setText(QString::number(imageData->getHFR(), 'f', 3));
+    else
+        stat.statsTable->item(STAT_HFR, 0)->setText("---");
 
     if (imageData->channels() == 1)
     {
@@ -383,11 +380,11 @@ void FITSTab::evaluateStats()
 
     for (int i = 0; i < imageData->channels(); i++)
     {
-        stat.statsTable->item(STAT_MIN, i)->setText(QString::number(imageData->getMin(i), 'f', 3));
-        stat.statsTable->item(STAT_MAX, i)->setText(QString::number(imageData->getMax(i), 'f', 3));
-        stat.statsTable->item(STAT_MEAN, i)->setText(QString::number(imageData->getMean(i), 'f', 3));
-        stat.statsTable->item(STAT_MEDIAN, i)->setText(QString::number(imageData->getMedian(i), 'f', 3));
-        stat.statsTable->item(STAT_STDDEV, i)->setText(QString::number(imageData->getStdDev(i), 'f', 3));
+        stat.statsTable->item(STAT_MIN, i)->setText(QString::number(imageData->getMin(i, roi), 'f', 3));
+        stat.statsTable->item(STAT_MAX, i)->setText(QString::number(imageData->getMax(i, roi), 'f', 3));
+        stat.statsTable->item(STAT_MEAN, i)->setText(QString::number(imageData->getMean(i, roi), 'f', 3));
+        stat.statsTable->item(STAT_MEDIAN, i)->setText(QString::number(imageData->getMedian(i, roi), 'f', 3));
+        stat.statsTable->item(STAT_STDDEV, i)->setText(QString::number(imageData->getStdDev(i, roi), 'f', 3));
     }
 }
 
@@ -398,7 +395,7 @@ void FITSTab::statFITS()
         fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
     else
         fitsSplitter->setSizes(QList<int>() << 50 << 50);
-    evaluateStats();
+    displayStats();
 }
 
 void FITSTab::loadFITSHeader()
