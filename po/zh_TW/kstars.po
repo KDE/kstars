@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-03 00:38+0000\n"
+"POT-Creation-Date: 2024-01-04 00:38+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -410,7 +410,7 @@ msgstr "反轉影像顏色。需要加強對比時有用。只會影響顯示，
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2034
-#: ekos/scheduler/scheduler.cpp:2598
+#: ekos/scheduler/scheduler.cpp:2623
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -552,7 +552,7 @@ msgstr "中止扭轉"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:627 fitsviewer/fitstab.cpp:646
+#: fitsviewer/fitstab.cpp:624 fitsviewer/fitstab.cpp:643
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -1992,7 +1992,7 @@ msgstr "狀態："
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:23
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
-#: ekos/ekos.h:161 ekos/ekos.h:187 ekos/guide/guidestatewidget.ui:38
+#: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:598 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1247
 #: ekos/scheduler/schedulerjob.cpp:592 ekos/scheduler/schedulerjob.cpp:617
@@ -2596,8 +2596,8 @@ msgstr "此網址不合法。您要開啟瀏覽器視窗並進入 Google 搜尋�
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1957
 #: ekos/capture/capture.cpp:2043 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:2518 ekos/scheduler/scheduler.cpp:2608
-#: fitsviewer/fitstab.cpp:504 tools/scriptbuilder.cpp:832
+#: ekos/scheduler/scheduler.cpp:2543 ekos/scheduler/scheduler.cpp:2633
+#: fitsviewer/fitstab.cpp:501 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6215,7 +6215,7 @@ msgstr "識別器在 %1 秒後中止"
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1483
 #: ekos/focus/focus.cpp:4261 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1925
 #: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:659
+#: ekos/scheduler/scheduler.cpp:671
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6422,8 +6422,8 @@ msgstr "清除所有的軌跡"
 #: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1956
 #: ekos/capture/capture.cpp:2042 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2517 ekos/scheduler/scheduler.cpp:2607
-#: fitsviewer/fitstab.cpp:503 tools/scriptbuilder.cpp:832
+#: ekos/scheduler/scheduler.cpp:2542 ekos/scheduler/scheduler.cpp:2632
+#: fitsviewer/fitstab.cpp:500 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10183,7 +10183,7 @@ msgstr "抓取"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:676
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:673
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:242
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -10412,7 +10412,7 @@ msgstr ""
 
 #: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:23 ekos/ekos.h:21 ekos/ekos.h:72
-#: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
+#: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/schedulerjob.cpp:598
 #, kde-format
 msgid "Aborted"
@@ -10598,7 +10598,7 @@ msgstr "說明(&H)"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:129
+#: ekos/analyze/analyze.ui:176 fitsviewer/fitstab.cpp:133
 #: fitsviewer/fitsviewer.cpp:173 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -12331,7 +12331,7 @@ msgstr ""
 msgid "Capture flats at the same focus as lights"
 msgstr ""
 
-#: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:188
+#: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:199
 #, fuzzy, kde-format
 #| msgid "Play/Pause"
 msgid "Paused"
@@ -14562,7 +14562,7 @@ msgstr "重置工作狀態"
 msgid "Editing job #%1..."
 msgstr "編輯工作 #%1..."
 
-#: ekos/capture/capture.cpp:2301 ekos/scheduler/scheduler.cpp:1356
+#: ekos/capture/capture.cpp:2301 ekos/scheduler/scheduler.cpp:1368
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
@@ -17364,25 +17364,25 @@ msgstr "旋轉："
 msgid "Focus Offset"
 msgstr "對外聚焦"
 
-#: ekos/ekos.h:187
+#: ekos/ekos.h:198
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "Startup"
 msgstr "開始"
 
-#: ekos/ekos.h:187 ekos/scheduler/schedulerjob.cpp:595
+#: ekos/ekos.h:198 ekos/scheduler/schedulerjob.cpp:595
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Running"
 msgstr "執行中..."
 
-#: ekos/ekos.h:188
+#: ekos/ekos.h:199
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Shutdown"
 msgstr "自動對焦已完成。"
 
-#: ekos/ekos.h:189
+#: ekos/ekos.h:200
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Loading"
@@ -19406,7 +19406,7 @@ msgstr "Arc 檔"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1214 ekos/manager.ui:957 fitsviewer/fitstab.cpp:145
+#: ekos/focus/focus.ui:1214 ekos/manager.ui:957 fitsviewer/fitstab.cpp:149
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19442,7 +19442,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:364
+#: fitsviewer/fitstab.cpp:361
 #, kde-format
 msgid "Value"
 msgstr "數值"
@@ -24910,7 +24910,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1729 ekos/scheduler/scheduler.cpp:1755
+#: ekos/scheduler/scheduler.cpp:1756 ekos/scheduler/scheduler.cpp:1780
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Scheduler"
@@ -24992,8 +24992,8 @@ msgstr "移動中..."
 msgid "Slaving deactivated."
 msgstr "移動中..."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:623
-#: fitsviewer/fitstab.cpp:642
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:620
+#: fitsviewer/fitstab.cpp:639
 #, fuzzy, kde-format
 #| msgid "Calibrating..."
 msgid "Aborting..."
@@ -27416,14 +27416,14 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:844
+#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:856
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "序列佇列"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:846
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:858
 #, fuzzy, kde-format
 #| msgid "Open Ekos Sequence Queue"
 msgid "Ekos Sequence Queue (*.esq)"
@@ -27459,7 +27459,7 @@ msgstr "目錄："
 msgid "Job '%1' has no more batches remaining."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:308
+#: ekos/scheduler/scheduler.cpp:320
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -27467,31 +27467,31 @@ msgid ""
 "Double click to edit a job with the left-hand fields."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:315
+#: ekos/scheduler/scheduler.cpp:327
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
 "Job properties are copied in the edition fields before removal."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:319
+#: ekos/scheduler/scheduler.cpp:331
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line up in the list.\n"
 msgstr "清除清單中所有選取的項目"
 
-#: ekos/scheduler/scheduler.cpp:322
+#: ekos/scheduler/scheduler.cpp:334
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line down in the list.\n"
 msgstr "清除清單中所有選取的項目"
 
-#: ekos/scheduler/scheduler.cpp:326
+#: ekos/scheduler/scheduler.cpp:338
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:330
+#: ekos/scheduler/scheduler.cpp:342
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -27502,7 +27502,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:478 ekos/scheduler/scheduler.cpp:3143
+#: ekos/scheduler/scheduler.cpp:490 ekos/scheduler/scheduler.cpp:3170
 #: ekos/scheduler/schedulerprocess.cpp:1808
 #, kde-format
 msgid ""
@@ -27510,81 +27510,81 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:722
+#: ekos/scheduler/scheduler.cpp:734
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "開啟 FITS 影像"
 
-#: ekos/scheduler/scheduler.cpp:775
+#: ekos/scheduler/scheduler.cpp:787
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:794
+#: ekos/scheduler/scheduler.cpp:806
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:854
+#: ekos/scheduler/scheduler.cpp:866
 #, fuzzy, kde-format
 #| msgid "Auto Select Star"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "自動選擇星體"
 
-#: ekos/scheduler/scheduler.cpp:856 ekos/scheduler/scheduler.cpp:871
+#: ekos/scheduler/scheduler.cpp:868 ekos/scheduler/scheduler.cpp:883
 #, fuzzy, kde-format
 #| msgid "Script Data"
 msgid "Script (*)"
 msgstr "文稿資料"
 
-#: ekos/scheduler/scheduler.cpp:869
+#: ekos/scheduler/scheduler.cpp:881
 #, fuzzy, kde-format
 #| msgid "Select a category:"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "選擇星表："
 
-#: ekos/scheduler/scheduler.cpp:920
+#: ekos/scheduler/scheduler.cpp:932
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target name is required."
 msgstr "外顯座標："
 
-#: ekos/scheduler/scheduler.cpp:926
+#: ekos/scheduler/scheduler.cpp:938
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Warning: Sequence file is required."
 msgstr "序列佇列"
 
-#: ekos/scheduler/scheduler.cpp:933
+#: ekos/scheduler/scheduler.cpp:945
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target coordinates are required."
 msgstr "外顯座標："
 
-#: ekos/scheduler/scheduler.cpp:943
+#: ekos/scheduler/scheduler.cpp:955
 #, fuzzy, kde-format
 #| msgid "End date invalid."
 msgid "Warning: RA value %1 is invalid."
 msgstr "結束日期不合法。"
 
-#: ekos/scheduler/scheduler.cpp:949
+#: ekos/scheduler/scheduler.cpp:961
 #, fuzzy, kde-format
 #| msgid "End date invalid."
 msgid "Warning: DEC value %1 is invalid."
 msgstr "結束日期不合法。"
 
-#: ekos/scheduler/scheduler.cpp:1070
+#: ekos/scheduler/scheduler.cpp:1082
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1078
+#: ekos/scheduler/scheduler.cpp:1090
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27592,291 +27592,301 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1086
+#: ekos/scheduler/scheduler.cpp:1098
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1278
+#: ekos/scheduler/scheduler.cpp:1290
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 %2 %3"
 msgstr "%1，%2 與 %3"
 
-#: ekos/scheduler/scheduler.cpp:1349
+#: ekos/scheduler/scheduler.cpp:1361
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1605
+#: ekos/scheduler/scheduler.cpp:1545
+#, kde-format
+msgid "Cannot delete currently running job '%1'."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:1551
+#, kde-format
+msgid "Cannot delete job. Scheduler state: %1"
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:1632
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:1612
+#: ekos/scheduler/scheduler.cpp:1639
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler aborted."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:1664
+#: ekos/scheduler/scheduler.cpp:1691
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1690 ekos/scheduler/scheduler.ui:1119
+#: ekos/scheduler/scheduler.cpp:1717 ekos/scheduler/scheduler.ui:1119
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Start Scheduler"
 msgstr "開始序列(&S)"
 
-#: ekos/scheduler/scheduler.cpp:1710
+#: ekos/scheduler/scheduler.cpp:1737
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "FITS 影像載入失敗，正在中止..."
 
-#: ekos/scheduler/scheduler.cpp:1718
+#: ekos/scheduler/scheduler.cpp:1745
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "FITS 影像載入失敗，正在中止..."
 
-#: ekos/scheduler/scheduler.cpp:1748
+#: ekos/scheduler/scheduler.cpp:1773
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler started."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:1768
+#: ekos/scheduler/scheduler.cpp:1793
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler resuming."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:1781
+#: ekos/scheduler/scheduler.cpp:1806
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler pause planned..."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:1785
+#: ekos/scheduler/scheduler.cpp:1810
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
 msgid "Resume Scheduler"
 msgstr "王良四（Schedar）"
 
-#: ekos/scheduler/scheduler.cpp:1794
+#: ekos/scheduler/scheduler.cpp:1819
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler paused."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:1827
+#: ekos/scheduler/scheduler.cpp:1852
 #, kde-format
 msgid "No job running"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1888
+#: ekos/scheduler/scheduler.cpp:1913
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1896
+#: ekos/scheduler/scheduler.cpp:1921
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1910
+#: ekos/scheduler/scheduler.cpp:1935
 #, kde-format
 msgid "No jobs scheduled."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1924
+#: ekos/scheduler/scheduler.cpp:1949
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler is awake."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:1930
+#: ekos/scheduler/scheduler.cpp:1955
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1932
+#: ekos/scheduler/scheduler.cpp:1957
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1986
+#: ekos/scheduler/scheduler.cpp:2011
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Ekos job started (%1)"
 msgstr "偵測到 %1 個星體。"
 
-#: ekos/scheduler/scheduler.cpp:2001
+#: ekos/scheduler/scheduler.cpp:2026
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2086
+#: ekos/scheduler/scheduler.cpp:2111
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2216 ekos/scheduler/schedulerprocess.cpp:1948
+#: ekos/scheduler/scheduler.cpp:2241 ekos/scheduler/schedulerprocess.cpp:1948
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "校準逾時。"
 
-#: ekos/scheduler/scheduler.cpp:2244
+#: ekos/scheduler/scheduler.cpp:2269
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "校準逾時。"
 
-#: ekos/scheduler/scheduler.cpp:2271 ekos/scheduler/schedulerprocess.cpp:2071
+#: ekos/scheduler/scheduler.cpp:2296 ekos/scheduler/schedulerprocess.cpp:2071
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "校準逾時。"
 
-#: ekos/scheduler/scheduler.cpp:2295 ekos/scheduler/schedulerprocess.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2320 ekos/scheduler/schedulerprocess.cpp:2019
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "校準逾時。"
 
-#: ekos/scheduler/scheduler.cpp:2321
+#: ekos/scheduler/scheduler.cpp:2346
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:2341
+#: ekos/scheduler/scheduler.cpp:2366
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:2379
+#: ekos/scheduler/scheduler.cpp:2404
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2391
+#: ekos/scheduler/scheduler.cpp:2416
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2507
+#: ekos/scheduler/scheduler.cpp:2532
 #, fuzzy, kde-format
 #| msgid "Open Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "開啟 Ekos 序列佇列"
 
-#: ekos/scheduler/scheduler.cpp:2579
+#: ekos/scheduler/scheduler.cpp:2604
 #, fuzzy, kde-format
 #| msgid "Save Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "儲存 Ekos 序列佇列"
 
-#: ekos/scheduler/scheduler.cpp:2598
+#: ekos/scheduler/scheduler.cpp:2623
 #, fuzzy, kde-format
 #| msgid "Failed to save sequence queue"
 msgid "Failed to save scheduler list"
 msgstr "儲存序列佇列失敗。"
 
-#: ekos/scheduler/scheduler.cpp:2662
+#: ekos/scheduler/scheduler.cpp:2687
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2664
+#: ekos/scheduler/scheduler.cpp:2689
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2677
+#: ekos/scheduler/scheduler.cpp:2702
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2683
+#: ekos/scheduler/scheduler.cpp:2708
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler waits for a retry."
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:2720
+#: ekos/scheduler/scheduler.cpp:2745
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Job '%1' is complete."
 msgstr "%1  過濾器已上線。"
 
-#: ekos/scheduler/scheduler.cpp:2765
+#: ekos/scheduler/scheduler.cpp:2790
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] "自動對焦已完成。"
 
-#: ekos/scheduler/scheduler.cpp:2814 ekos/scheduler/scheduler.cpp:2857
+#: ekos/scheduler/scheduler.cpp:2839 ekos/scheduler/scheduler.cpp:2882
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:2861
+#: ekos/scheduler/scheduler.cpp:2886
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2881
+#: ekos/scheduler/scheduler.cpp:2906
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
 "Job '%1' stopping, reached completion time with #%2 batches done."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:2911
+#: ekos/scheduler/scheduler.cpp:2936
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
 "Job '%1' completed #%2 batches before completion time, restarted."
 msgstr[0] ""
 
-#: ekos/scheduler/scheduler.cpp:2996
+#: ekos/scheduler/scheduler.cpp:3021
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:3175
+#: ekos/scheduler/scheduler.cpp:3202
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3177
+#: ekos/scheduler/scheduler.cpp:3204
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3219
+#: ekos/scheduler/scheduler.cpp:3246
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid ""
@@ -27884,13 +27894,13 @@ msgid ""
 "ready..."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:3529
+#: ekos/scheduler/scheduler.cpp:3556
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' failed to capture target."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:3542
+#: ekos/scheduler/scheduler.cpp:3569
 #, fuzzy, kde-format
 #| msgid "Restarting autofocus process..."
 msgid ""
@@ -27898,115 +27908,110 @@ msgid ""
 "%3)."
 msgstr "重新啟動自動對焦程序..."
 
-#: ekos/scheduler/scheduler.cpp:3551
+#: ekos/scheduler/scheduler.cpp:3578
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:3557
+#: ekos/scheduler/scheduler.cpp:3584
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:3566
+#: ekos/scheduler/scheduler.cpp:3593
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3610
+#: ekos/scheduler/scheduler.cpp:3637
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3614
+#: ekos/scheduler/scheduler.cpp:3641
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3618
+#: ekos/scheduler/scheduler.cpp:3645
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3640
+#: ekos/scheduler/scheduler.cpp:3667
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3649
+#: ekos/scheduler/scheduler.cpp:3676
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3670
+#: ekos/scheduler/scheduler.cpp:3697
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3698
+#: ekos/scheduler/scheduler.cpp:3731
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3721
+#: ekos/scheduler/scheduler.cpp:3754
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3736
-#, kde-format
-msgid "Not sleeping as current job no longer scheduled"
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:3740
+#: ekos/scheduler/scheduler.cpp:3764
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "靈敏度校正完成。"
 
-#: ekos/scheduler/scheduler.cpp:3742
+#: ekos/scheduler/scheduler.cpp:3766
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "檔案已儲存到 %1"
 
-#: ekos/scheduler/scheduler.cpp:3750
+#: ekos/scheduler/scheduler.cpp:3774
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3848
+#: ekos/scheduler/scheduler.cpp:3872
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out: %1s %2"
 msgstr "識別器逾時。"
 
-#: ekos/scheduler/scheduler.cpp:3850
+#: ekos/scheduler/scheduler.cpp:3874
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed: %1s %2"
 msgstr "識別器視場"
 
-#: ekos/scheduler/scheduler.cpp:3885
+#: ekos/scheduler/scheduler.cpp:3909
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3930
+#: ekos/scheduler/scheduler.cpp:3954
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual startup procedure completed successfully."
 msgstr "望遠鏡精靈已成功完成。"
 
-#: ekos/scheduler/scheduler.cpp:3934
+#: ekos/scheduler/scheduler.cpp:3958
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -29590,42 +29595,42 @@ msgstr "設定 binning 失敗"
 msgid "Failed to write image: %1"
 msgstr "載入於 %1 的影像失敗"
 
-#: fitsviewer/fitsdata.cpp:2780 fitsviewer/fitsdata.cpp:2791
-#: fitsviewer/fitsdata.cpp:2827 fitsviewer/fitsdata.cpp:2863
-#: fitsviewer/fitsdata.cpp:2910
+#: fitsviewer/fitsdata.cpp:2783 fitsviewer/fitsdata.cpp:2794
+#: fitsviewer/fitsdata.cpp:2830 fitsviewer/fitsdata.cpp:2866
+#: fitsviewer/fitsdata.cpp:2913
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "要使用水平座標系統嗎？"
 
-#: fitsviewer/fitsdata.cpp:3632
+#: fitsviewer/fitsdata.cpp:3635
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "只支援 8 或 16 位元的 debayered 影像。"
 
-#: fitsviewer/fitsdata.cpp:3665
+#: fitsviewer/fitsdata.cpp:3668
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3696
+#: fitsviewer/fitsdata.cpp:3699
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3764 fitsviewer/fitsdata.cpp:3811
-#: fitsviewer/fitsdata.cpp:3856 fitsviewer/fitsdata.cpp:3903
+#: fitsviewer/fitsdata.cpp:3767 fitsviewer/fitsdata.cpp:3814
+#: fitsviewer/fitsdata.cpp:3859 fitsviewer/fitsdata.cpp:3906
 #, fuzzy, kde-format
 #| msgid "Unable to allocate memory for temporary bayer buffer."
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "無法為 bayer 暫存緩衝區配置記憶體。"
 
-#: fitsviewer/fitsdata.cpp:3774 fitsviewer/fitsdata.cpp:3866
+#: fitsviewer/fitsdata.cpp:3777 fitsviewer/fitsdata.cpp:3869
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "無法為 bayer 暫存緩衝區配置記憶體。"
 
-#: fitsviewer/fitsdata.cpp:3794 fitsviewer/fitsdata.cpp:3886
+#: fitsviewer/fitsdata.cpp:3797 fitsviewer/fitsdata.cpp:3889
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer 錯誤(%1)"
@@ -29731,7 +29736,7 @@ msgid "Ready."
 msgstr "就緒。"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
-#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:137
+#: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:141
 #: fitsviewer/fitsviewer.cpp:138
 #, kde-format
 msgid "FITS Header"
@@ -29788,7 +29793,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:134
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:138
 #: fitsviewer/fitsviewer.cpp:119
 #, kde-format
 msgid "Histogram"
@@ -29914,114 +29919,114 @@ msgid ""
 msgstr "目前的 FITS 檔中有未儲存的變更。您要在關閉前先儲存嗎？"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
-#: fitsviewer/fitstab.cpp:131 fitsviewer/platesolve.ui:14
+#: fitsviewer/fitstab.cpp:135 fitsviewer/platesolve.ui:14
 #, fuzzy, kde-format
 #| msgid "INDI Server"
 msgid "Plate Solving"
 msgstr "INDI 伺服器"
 
-#: fitsviewer/fitstab.cpp:142
+#: fitsviewer/fitstab.cpp:146
 #, fuzzy, kde-format
 #| msgid "Reference Images:"
 msgid "Recent Images"
 msgstr "參考影像："
 
-#: fitsviewer/fitstab.cpp:376
+#: fitsviewer/fitstab.cpp:373
 #, fuzzy, kde-format
 #| msgid "RA"
 msgctxt "Red"
 msgid "R"
 msgstr "赤經"
 
-#: fitsviewer/fitstab.cpp:457 fitsviewer/fitstab.cpp:461
+#: fitsviewer/fitstab.cpp:454 fitsviewer/fitstab.cpp:458
 #, fuzzy, kde-format
 #| msgid "Save FITS"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "儲存 FITS"
 
-#: fitsviewer/fitstab.cpp:493
+#: fitsviewer/fitstab.cpp:490
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "FITS 檔案儲存錯誤：%1"
 
-#: fitsviewer/fitstab.cpp:493
+#: fitsviewer/fitstab.cpp:490
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "影像資料"
 
-#: fitsviewer/fitstab.cpp:497
+#: fitsviewer/fitstab.cpp:494
 #, kde-format
 msgid "File saved to %1"
 msgstr "檔案已儲存到 %1"
 
-#: fitsviewer/fitstab.cpp:632
+#: fitsviewer/fitstab.cpp:629
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Extracting..."
 msgstr "等待中..."
 
-#: fitsviewer/fitstab.cpp:650
+#: fitsviewer/fitstab.cpp:647
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Solving..."
 msgstr "設定"
 
-#: fitsviewer/fitstab.cpp:663
+#: fitsviewer/fitstab.cpp:660
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Extractor timed out: %1s"
 msgstr "識別器逾時。"
 
-#: fitsviewer/fitstab.cpp:672
+#: fitsviewer/fitstab.cpp:669
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Extractor failed: %1s"
 msgstr "識別器視場"
 
-#: fitsviewer/fitstab.cpp:681
+#: fitsviewer/fitstab.cpp:678
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:728
+#: fitsviewer/fitstab.cpp:725
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out: %1s"
 msgstr "識別器逾時。"
 
-#: fitsviewer/fitstab.cpp:733
+#: fitsviewer/fitstab.cpp:730
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed: %1s"
 msgstr "識別器視場"
 
-#: fitsviewer/fitstab.cpp:823
+#: fitsviewer/fitstab.cpp:820
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:824
+#: fitsviewer/fitstab.cpp:821
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:506 fitsviewer/fitsview.cpp:516
+#: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Rescaling image failed."
 msgstr "儲存影像 %1 失敗。"
 
-#: fitsviewer/fitsview.cpp:699
+#: fitsviewer/fitsview.cpp:696
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1735
+#: fitsviewer/fitsview.cpp:1732
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "NGC"
@@ -30029,7 +30034,7 @@ msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NGC"
 
-#: fitsviewer/fitsview.cpp:1752
+#: fitsviewer/fitsview.cpp:1749
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "NGC"
@@ -30037,83 +30042,83 @@ msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "NGC"
 
-#: fitsviewer/fitsview.cpp:2195
+#: fitsviewer/fitsview.cpp:2204
 #, kde-format
 msgid "Finding stars..."
 msgstr "搜尋星體中..."
 
-#: fitsviewer/fitsview.cpp:2436
+#: fitsviewer/fitsview.cpp:2445
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2439
+#: fitsviewer/fitsview.cpp:2448
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2442
+#: fitsviewer/fitsview.cpp:2451
 #, fuzzy, kde-format
 #| msgid "&Default Zoom"
 msgid "Default Zoom"
 msgstr "預設縮放(&D)"
 
-#: fitsviewer/fitsview.cpp:2445
+#: fitsviewer/fitsview.cpp:2454
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2448
+#: fitsviewer/fitsview.cpp:2457
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Toggle Stretch"
 msgstr "自動延伸"
 
-#: fitsviewer/fitsview.cpp:2456 fitsviewer/fitsviewer.cpp:213
+#: fitsviewer/fitsview.cpp:2465 fitsviewer/fitsviewer.cpp:213
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "十字型"
 
-#: fitsviewer/fitsview.cpp:2460 fitsviewer/fitsviewer.cpp:226
+#: fitsviewer/fitsview.cpp:2469 fitsviewer/fitsviewer.cpp:226
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Pixel Gridlines"
 msgstr "顯示衛星"
 
-#: fitsviewer/fitsview.cpp:2465 fitsviewer/fitsview.cpp:2574
+#: fitsviewer/fitsview.cpp:2474 fitsviewer/fitsview.cpp:2583
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgid "Detect Stars in Image"
 msgstr "開啟 FITS 影像"
 
-#: fitsviewer/fitsview.cpp:2471
+#: fitsviewer/fitsview.cpp:2480
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "View Star Profile"
 msgstr "Arc 檔"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsviewer.cpp:232
 #: fitsviewer/fitsviewer.cpp:972
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "赤道座標"
 
-#: fitsviewer/fitsview.cpp:2487 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsview.cpp:2496 fitsviewer/fitsviewer.cpp:239
 #: fitsviewer/fitsviewer.cpp:974
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "顯示物件"
 
-#: fitsviewer/fitsview.cpp:2493
+#: fitsviewer/fitsview.cpp:2502
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid "Center Telescope"
 msgstr "置於望遠鏡中央"
 
-#: fitsviewer/fitsview.cpp:2499 fitsviewer/fitsviewer.cpp:246
+#: fitsviewer/fitsview.cpp:2508 fitsviewer/fitsviewer.cpp:246
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show HiPS Overlay"
