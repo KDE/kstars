@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "focus.h"
-
+#include "adaptivefocus.h"
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
 #include "focusfwhm.h"
@@ -93,6 +92,9 @@ Focus::Focus() : QWidget()
 
     // #8 Init Setting Connection now
     connectSyncSettings();
+
+    // #9 Init Adaptive Focus
+    adaptFocus.reset(new AdaptiveFocus(this));
 
     connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::starDetectionFinished);
 
@@ -933,246 +935,23 @@ void Focus::setLastFocusAlt()
         m_LastSourceAutofocusAlt = mountAlt;
 }
 
-void Focus::setAdaptiveFocusCounters()
+// Reset Adaptive Focus parameters.
+void Focus::resetAdaptiveFocus(bool enabled)
 {
-    m_LastAdaptiveFocusTemperature = m_LastSourceAutofocusTemperature;
-    m_LastAdaptiveFocusAlt = m_LastSourceAutofocusAlt;
-    m_LastAdaptiveFocusTempError = 0.0;
-    m_LastAdaptiveFocusAltError = 0.0;
+    // Set the focusAdaptive switch so other modules such as Capture can access it
+    Options::setFocusAdaptive(enabled);
+
+    if (enabled)
+        adaptFocus.reset(new AdaptiveFocus(this));
+    adaptFocus->resetAdaptiveFocusCounters();
 }
 
-// adaptiveFocus has been signalled. Check each adaptive dimension to determine whether a focus move is required.
-// Total the movements from each dimension and, if required, adjust focus
+// Capture has signalled an Adaptive Focus run
 void Focus::adaptiveFocus()
 {
-    double tempTicksDelta = 0.0;
-    double altTicksDelta = 0.0;
-    double currentTemp = INVALID_VALUE;
-    double currentAlt = INVALID_VALUE;
-
-    if (inAutoFocus || inFocusLoop || inAdjustFocus)
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst other focus activity in progress. Ignoring.";
-        adaptiveFocusAdmin(false, false, false);
-        return;
-    }
-
-    if (inAdaptiveFocus)
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst already inAdaptiveFocus. Ignoring.";
-        adaptiveFocusAdmin(false, false, false);
-        return;
-    }
-
-    if (!m_OpsFocusSettings->focusAdaptive->isChecked())
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called but focusAdaptive->isChecked is false. Ignoring.";
-        adaptiveFocusAdmin(false, false, false);
-        return;
-    }
-
-    inAdaptiveFocus = true;
-
-    // Find out if there is anything to do for temperature
-    if (currentTemperatureSourceElement && m_LastSourceAutofocusTemperature != INVALID_VALUE &&
-            m_LastAdaptiveFocusTemperature != INVALID_VALUE)
-    {
-        currentTemp = currentTemperatureSourceElement->value;
-
-        // Get the change in temperature since the last focus adjustment
-        double tempDelta = currentTemp - m_LastAdaptiveFocusTemperature;
-
-        // Scale the temperature delta to number of ticks
-        tempTicksDelta = getAdaptiveTempTicks() * tempDelta;
-    }
-
-    // Now check for altitude
-    if (m_LastSourceAutofocusAlt != INVALID_VALUE && m_LastAdaptiveFocusAlt != INVALID_VALUE)
-    {
-        currentAlt = mountAlt;
-        // Get the change in altitude since the last focus adjustment
-        double altDelta = currentAlt - m_LastAdaptiveFocusAlt;
-
-        // Scale the altitude delta to number of ticks
-        altTicksDelta = getAdaptiveAltTicks() * altDelta;
-    }
-
-    // We calculate the delta ticks as a double but move the focuser in integer ticks so there will be
-    // a decimal under or over movement, dependent on rounding. A single invocation of adaptive focus will
-    // have an error of < 1 tick but we need to keep track of these as adaptive focus will be called many
-    // times between autofocus runs and we don't want these errors to add up to something significant.
-    const double tempTicksPlusLastError = tempTicksDelta + m_LastAdaptiveFocusTempError;
-    m_LastAdaptiveFocusTempTicks = static_cast<int> (round(tempTicksPlusLastError));
-
-    const double altTicksPlusLastError = altTicksDelta + m_LastAdaptiveFocusAltError;
-    m_LastAdaptiveFocusAltTicks = static_cast<int> (round(altTicksPlusLastError));
-
-    m_LastAdaptiveFocusTotalTicks = m_LastAdaptiveFocusTempTicks + m_LastAdaptiveFocusAltTicks;
-    m_LastAdaptiveFocusPosition = currentPosition + m_LastAdaptiveFocusTotalTicks;
-
-    appendLogText(i18n("Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks", m_LastAdaptiveFocusTempTicks,
-                       m_LastAdaptiveFocusAltTicks));
-
-    // Check movement is above user defined minimum
-    if (abs(m_LastAdaptiveFocusTotalTicks) < m_OpsFocusSettings->focusAdaptiveMinMove->value())
-        adaptiveFocusAdmin(true, true, false);
-    else
-    {
-        // Now do some checks that the movement is permitted
-        if (abs(initialFocuserAbsPosition - currentPosition + m_LastAdaptiveFocusTotalTicks) >
-                m_OpsFocusMechanics->focusMaxTravel->value())
-        {
-            // We are about to move the focuser beyond adaptive focus max move so don't
-            // Suspend adaptive focusing can always re-enable, if required
-            m_OpsFocusSettings->focusAdaptive->setChecked(false);
-            appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed Max Travel limit"));
-            adaptiveFocusAdmin(true, false, false);
-        }
-        else if (abs(m_AdaptiveTotalMove + m_LastAdaptiveFocusTotalTicks) > m_OpsFocusSettings->focusAdaptiveMaxMove->value())
-        {
-            // We are about to move the focuser beyond adaptive focus max move so don't
-            // Suspend adaptive focusing. User can always re-enable, if required
-            m_OpsFocusSettings->focusAdaptive->setChecked(false);
-            appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed adaptive limit"));
-            adaptiveFocusAdmin(true, false, false);
-        }
-        else
-        {
-            // Go ahead and try to move the focuser. Admin tasks will be completed when the focuser move completes
-            appendLogText(i18n("Adaptive Focus moving from %1 to %2", currentPosition,
-                               currentPosition + m_LastAdaptiveFocusTotalTicks));
-            if (changeFocus(m_LastAdaptiveFocusTotalTicks))
-            {
-                // All good so update variables for next time
-                m_LastAdaptiveFocusTemperature = currentTemp;
-                m_LastAdaptiveFocusTempError = tempTicksPlusLastError - static_cast<double> (m_LastAdaptiveFocusTempTicks);
-                m_LastAdaptiveFocusAlt = currentAlt;
-                m_LastAdaptiveFocusAltError = altTicksPlusLastError - static_cast<double> (m_LastAdaptiveFocusAltTicks);
-                m_AdaptiveTotalMove += m_LastAdaptiveFocusTotalTicks;
-            }
-            else
-            {
-                // Problem moving the focuser
-                appendLogText(i18n("Adaptive Focus unable to move focuser"));
-                adaptiveFocusAdmin(true, false, false);
-            }
-        }
-    }
+    // Invoke runAdaptiveFocus
+    adaptFocus->runAdaptiveFocus(currentPosition, filter());
 }
-
-// When adaptiveFocus succeeds the focuser is moved and admin tasks are performed to inform other modules that adaptiveFocus is complete
-void Focus::adaptiveFocusAdmin(const bool resetFlag, const bool success, const bool focuserMoved)
-{
-    // Reset member variable inAdaptiveFocus
-    if (resetFlag)
-        inAdaptiveFocus = false;
-
-    // Signal Capture
-    if (focuserMoved)
-    {
-        // Focuser was moved so honour the focuser settle time after movement.
-        QTimer::singleShot(m_OpsFocusMechanics->focusSettleTime->value() * 1000, this, [this]()
-        {
-            emit focusAdaptiveComplete(true);
-        });
-    }
-    else
-        emit focusAdaptiveComplete(success);
-
-    // Signal Analyze if success (both for focuser moves and zero moves)
-    if (success)
-        emit adaptiveFocusComplete(filter(), m_LastAdaptiveFocusTemperature, m_LastAdaptiveFocusTempTicks, m_LastAdaptiveFocusAlt,
-                                   m_LastAdaptiveFocusAltTicks, m_LastAdaptiveFocusTotalTicks, currentPosition, focuserMoved);
-}
-
-double Focus::getAdaptiveTempTicks()
-{
-    if (m_FilterManager)
-        return m_FilterManager->getFilterTicksPerTemp(filter());
-    else
-        return 0.0;
-}
-
-double Focus::getAdaptiveAltTicks()
-{
-    if (m_FilterManager)
-        return m_FilterManager->getFilterTicksPerAlt(filter());
-    else
-        return 0.0;
-}
-
-#if 0
-void Focus::initializeFocuserTemperature()
-{
-    auto temperatureProperty = currentFocuser->getBaseDevice()->getNumber("FOCUS_TEMPERATURE");
-
-    if (temperatureProperty && temperatureProperty->getState() != IPS_ALERT)
-    {
-        focuserTemperature = temperatureProperty->at(0)->getValue();
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Setting current focuser temperature: %1").arg(focuserTemperature, 0, 'f', 2);
-    }
-    else
-    {
-        focuserTemperature = INVALID_VALUE;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Focuser temperature is not available");
-    }
-}
-
-void Focus::setLastFocusTemperature()
-{
-    // The focus temperature is taken by default from the focuser.
-    // If unavailable, fallback to the observatory temperature.
-    if (focuserTemperature != INVALID_VALUE)
-    {
-        lastFocusTemperature = focuserTemperature;
-        lastFocusTemperatureSource = FOCUSER_TEMPERATURE;
-    }
-    else if (observatoryTemperature != INVALID_VALUE)
-    {
-        lastFocusTemperature = observatoryTemperature;
-        lastFocusTemperatureSource = OBSERVATORY_TEMPERATURE;
-    }
-    else
-    {
-        lastFocusTemperature = INVALID_VALUE;
-        lastFocusTemperatureSource = NO_TEMPERATURE;
-    }
-
-    emit newFocusTemperatureDelta(0, -1e6);
-}
-
-
-void Focus::updateTemperature(TemperatureSource source, double newTemperature)
-{
-    if (source == FOCUSER_TEMPERATURE && focuserTemperature != newTemperature)
-    {
-        focuserTemperature = newTemperature;
-        emitTemperatureEvents(source, newTemperature);
-    }
-    else if (source == OBSERVATORY_TEMPERATURE && observatoryTemperature != newTemperature)
-    {
-        observatoryTemperature = newTemperature;
-        emitTemperatureEvents(source, newTemperature);
-    }
-}
-
-void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperature)
-{
-    if (source != lastFocusTemperatureSource)
-    {
-        return;
-    }
-
-    if (lastFocusTemperature != INVALID_VALUE && newTemperature != INVALID_VALUE)
-    {
-        emit newFocusTemperatureDelta(abs(newTemperature - lastFocusTemperature), newTemperature);
-    }
-    else
-    {
-        emit newFocusTemperatureDelta(0, newTemperature);
-    }
-}
-#endif
 
 // Run Aberration Inspector
 void Focus::startAbIns()
@@ -1232,7 +1011,7 @@ void Focus::start()
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
-    else if (inAdaptiveFocus)
+    else if (adaptFocus->inAdaptiveFocus())
     {
         // Protective code added as per the above else if. This scenario is unlikely
         if (++AFStartRetries < MAXIMUM_RESET_ITERATIONS)
@@ -1412,8 +1191,8 @@ void Focus::start()
     // Used for all the focuser types.
     if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
     {
-        QString AFfilter;
-        const int position = adaptStartPosition(currentPosition, &AFfilter);
+        QString AFfilter = filter();
+        const int position = adaptFocus->adaptStartPosition(currentPosition, AFfilter);
 
         curveFitting.reset(new CurveFitting());
 
@@ -1445,128 +1224,6 @@ void Focus::start()
         return;
     }
     capture();
-}
-
-// Change the start position of an autofocus run based Adaptive Focus settings
-// The start position uses the last successful AF run for the active filter and adapts that position
-// based on the temperature and altitude delta between now and when the last successful AF run happened
-// Only enabled for LINEAR 1 PASS
-int Focus::adaptStartPosition(int position, QString *AFfilter)
-{
-    // If the active filter has no lock then the AF run will happen on this filter so get the start point
-    // Otherwise get the lock filter on which the AF run will happen and get the start point of this filter
-    // An exception is when the BuildOffsets utility is being used as this ignores the lock filter
-    QString filterText;
-    *AFfilter = filter();
-
-    if (!m_FilterManager)
-        return position;
-
-    QString lockFilter = m_FilterManager->getFilterLock(*AFfilter);
-    if (inBuildOffsets || lockFilter == "--" || lockFilter == *AFfilter)
-        filterText = *AFfilter;
-    else
-    {
-        filterText = *AFfilter + " locked to " + lockFilter;
-        *AFfilter = lockFilter;
-    }
-
-    if (m_FocusAlgorithm != FOCUS_LINEAR1PASS)
-        return position;
-
-    if (!m_OpsFocusSettings->focusAdaptStart->isChecked())
-        // Adapt start option disabled
-        return position;
-
-    // Start with the last AF run result for the active filter
-    int lastPos;
-    double lastTemp, lastAlt;
-    if(!m_FilterManager->getFilterAbsoluteFocusDetails(*AFfilter, lastPos, lastTemp, lastAlt))
-        // Unable to get the last AF run information for the filter so just use the currentPosition
-        return position;
-
-    // Only proceed if we have a sensible lastPos
-    if (lastPos <= 0)
-        return position;
-
-    // Do some checks on the lastPos
-    int minTravelLimit = qMax(0.0, currentPosition - m_OpsFocusMechanics->focusMaxTravel->value());
-    int maxTravelLimit = qMin(absMotionMax, currentPosition + m_OpsFocusMechanics->focusMaxTravel->value());
-    if (lastPos < minTravelLimit || lastPos > maxTravelLimit)
-    {
-        // Looks like there is a potentially dodgy lastPos so just use currentPosition
-        appendLogText(i18n("Adaptive start point, last AF solution outside Max Travel, ignoring"));
-        return position;
-    }
-
-    // Adjust temperature
-    double ticksTemp = 0.0;
-    double tempDelta = 0.0;
-    if (!currentTemperatureSourceElement)
-        appendLogText(i18n("Adaptive start point, no temperature source available"));
-    else if (lastTemp == INVALID_VALUE)
-        appendLogText(i18n("Adaptive start point, no temperature for last AF solution"));
-    else
-    {
-        double currentTemp = currentTemperatureSourceElement->value;
-        tempDelta = currentTemp - lastTemp;
-        if (abs(tempDelta) > 30)
-            // Sanity check on the temperature delta
-            appendLogText(i18n("Adaptive start point, very large temperature delta, ignoring"));
-        else
-            ticksTemp = tempDelta * m_FilterManager->getFilterTicksPerTemp(*AFfilter);
-    }
-
-    // Adjust altitude
-    double ticksAlt = 0.0;
-    double currentAlt = mountAlt;
-    double altDelta = currentAlt - lastAlt;
-
-    // Sanity check on the altitude delta
-    if (lastAlt == INVALID_VALUE)
-        appendLogText(i18n("Adaptive start point, no alt recorded for last AF solution"));
-    else if (abs(altDelta) > 90.0)
-        appendLogText(i18n("Adaptive start point, very large altitude delta, ignoring"));
-    else
-        ticksAlt = altDelta * m_FilterManager->getFilterTicksPerAlt(*AFfilter);
-
-    // We have all the elements to adjust the AF start position so final checks before the move
-    const int ticksTotal = static_cast<int> (round(ticksTemp + ticksAlt));
-    int targetPos = lastPos + ticksTotal;
-    if (targetPos < minTravelLimit || targetPos > maxTravelLimit)
-    {
-        // targetPos is outside Max Travel
-        appendLogText(i18n("Adaptive start point, target position is outside Max Travel, ignoring"));
-        return position;
-    }
-
-    if (abs(targetPos - position) > m_OpsFocusSettings->focusAdaptiveMaxMove->value())
-    {
-        // Disallow excessive movement.
-        // No need to check minimum movement
-        appendLogText(i18n("Adaptive start point [%1] excessive move disallowed", filterText));
-        qCDebug(KSTARS_EKOS_FOCUS) << "Adaptive start point: " << filterText
-                                   << " startPosition: " << position
-                                   << " Last filter position: " << lastPos
-                                   << " Temp delta: " << tempDelta << " Temp ticks: " << ticksTemp
-                                   << " Alt delta: " << altDelta << " Alt ticks: " << ticksAlt
-                                   << " Target position: " << targetPos
-                                   << " Exceeds max allowed move: " << m_OpsFocusSettings->focusAdaptiveMaxMove->value()
-                                   << " Using startPosition.";
-        return position;
-    }
-    else
-    {
-        // All good so report the move
-        appendLogText(i18n("Adapting start point [%1] from %2 to %3", filterText, currentPosition, targetPos));
-        qCDebug(KSTARS_EKOS_FOCUS) << "Adaptive start point: " << filterText
-                                   << " startPosition: " << position
-                                   << " Last filter position: " << lastPos
-                                   << " Temp delta: " << tempDelta << " Temp ticks: " << ticksTemp
-                                   << " Alt delta: " << altDelta << " Alt ticks: " << ticksAlt
-                                   << " Target position: " << targetPos;
-        return targetPos;
-    }
 }
 
 int Focus::adjustLinearPosition(int position, int newPosition, int overscan, bool updateDir)
@@ -1658,7 +1315,7 @@ void Focus::stop(Ekos::FocusState completionState)
     opticalTrainCombo->setEnabled(true);
     inAutoFocus = false;
     inAdjustFocus = false;
-    inAdaptiveFocus = false;
+    adaptFocus->setInAdaptiveFocus(false);
     inBuildOffsets = false;
     focuserAdditionalMovement = 0;
     focuserAdditionalMovementUpdateDir = true;
@@ -1955,9 +1612,6 @@ bool Focus::changeFocus(int amount, bool updateDir)
     return true;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////////////
 void Focus::handleFocusMotionTimeout()
 {
     // handleFocusMotionTimeout is called when the focus motion timer times out. This is only
@@ -2468,7 +2122,7 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
 
             setLastFocusTemperature();
             setLastFocusAlt();
-            setAdaptiveFocusCounters();
+            resetAdaptiveFocus(m_OpsFocusSettings->focusAdaptive->isChecked());
 
             // CR add auto focus position, temperature and filter to log in CSV format
             // this will help with setting up focus offsets and temperature compensation
@@ -3448,7 +3102,7 @@ void Focus::autoFocusAbs()
     QString deltaTxt = QString("%1").arg(fabs(currentHFR - minHFR) * 100.0, 0, 'g', 3);
     QString HFRText  = QString("%1").arg(currentHFR, 0, 'g', 3);
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "========================================";
+    qCDebug(KSTARS_EKOS_FOCUS) << "===============================";
     qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR: " << currentHFR << " Current Position: " << currentPosition;
     qCDebug(KSTARS_EKOS_FOCUS) << "Last minHFR: " << minHFR << " Last MinHFR Pos: " << minHFRPos;
     qCDebug(KSTARS_EKOS_FOCUS) << "Delta: " << deltaTxt << "%";
@@ -3996,7 +3650,7 @@ void Focus::updateProperty(INDI::Property prop)
 
         if (nvp->s != IPS_OK)
         {
-            if (inAutoFocus || inAdjustFocus || inAdaptiveFocus)
+            if (inAutoFocus || inAdjustFocus || adaptFocus->inAdaptiveFocus())
             {
                 // We had something back from the focuser but we're not done yet, so
                 // restart motion timer in case focuser gets stuck.
@@ -4019,11 +3673,11 @@ void Focus::updateProperty(INDI::Property prop)
                 }
             }
 
-            if (inAdaptiveFocus)
+            if (adaptFocus->inAdaptiveFocus())
             {
                 if (focuserAdditionalMovement == 0)
                 {
-                    adaptiveFocusAdmin(true, true, true);
+                    adaptFocus->adaptiveFocusAdmin(currentPosition, true, true);
                     return;
                 }
             }
@@ -4033,7 +3687,8 @@ void Focus::updateProperty(INDI::Property prop)
                 if (focuserAdditionalMovement == 0)
                 {
                     m_RestartState = RESTART_NONE;
-                    inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                    inAutoFocus = inAdjustFocus = false;
+                    adaptFocus->setInAdaptiveFocus(false);
                     appendLogText(i18n("Restarting autofocus process..."));
                     start();
                 }
@@ -4046,7 +3701,8 @@ void Focus::updateProperty(INDI::Property prop)
                 // processing already done in completeFocusProcedure
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                inAutoFocus = inAdjustFocus = false;
+                adaptFocus->setInAdaptiveFocus(false);
             }
         }
 
@@ -4094,11 +3750,11 @@ void Focus::updateProperty(INDI::Property prop)
             }
         }
 
-        if (inAdaptiveFocus && nvp->s == IPS_OK)
+        if (adaptFocus->inAdaptiveFocus() && nvp->s == IPS_OK)
         {
             if (focuserAdditionalMovement == 0)
             {
-                adaptiveFocusAdmin(true, true, true);
+                adaptFocus->adaptiveFocusAdmin(currentPosition, true, true);
                 return;
             }
         }
@@ -4109,7 +3765,8 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                inAutoFocus = inAdjustFocus = false;
+                adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
             }
@@ -4119,7 +3776,8 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+            inAutoFocus = inAdjustFocus = false;
+            adaptFocus->setInAdaptiveFocus(false);
         }
 
         if (canRelMove)
@@ -4155,11 +3813,11 @@ void Focus::updateProperty(INDI::Property prop)
             }
         }
 
-        if (inAdaptiveFocus && nvp->s == IPS_OK)
+        if (adaptFocus->inAdaptiveFocus() && nvp->s == IPS_OK)
         {
             if (focuserAdditionalMovement == 0)
             {
-                adaptiveFocusAdmin(true, true, true);
+                adaptFocus->adaptiveFocusAdmin(currentPosition, true, true);
                 return;
             }
         }
@@ -4170,7 +3828,8 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                inAutoFocus = inAdjustFocus = false;
+                adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
             }
@@ -4180,7 +3839,8 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+            inAutoFocus = inAdjustFocus = false;
+            adaptFocus->setInAdaptiveFocus(false);
         }
 
         if (canRelMove)
@@ -4203,7 +3863,8 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+                inAutoFocus = inAdjustFocus = false;
+                adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
             }
@@ -4213,7 +3874,8 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inAdaptiveFocus = false;
+            inAutoFocus = inAdjustFocus = false;
+            adaptFocus->setInAdaptiveFocus(false);
         }
 
         if (canAbsMove == false && canRelMove == false)
@@ -4238,11 +3900,11 @@ void Focus::updateProperty(INDI::Property prop)
                 }
             }
 
-            if (inAdaptiveFocus && nvp->s == IPS_OK)
+            if (adaptFocus->inAdaptiveFocus() && nvp->s == IPS_OK)
             {
                 if (focuserAdditionalMovement == 0)
                 {
-                    adaptiveFocusAdmin(true, true, true);
+                    adaptFocus->adaptiveFocusAdmin(true, true, true);
                     return;
                 }
             }
@@ -4628,7 +4290,7 @@ void Focus::focusStarSelected(int x, int y)
 
 void Focus::checkFocus(double requiredHFR)
 {
-    if (inAutoFocus || inFocusLoop || inAdjustFocus || inAdaptiveFocus || inBuildOffsets)
+    if (inAutoFocus || inFocusLoop || inAdjustFocus || adaptFocus->inAdaptiveFocus() || inBuildOffsets)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus rejected, focus procedure is already running.";
     }
@@ -4645,7 +4307,7 @@ void Focus::checkFocus(double requiredHFR)
 // Start an AF run. This is called from Build Offsets but could be extended in the future
 void Focus::runAutoFocus(bool buildOffsets)
 {
-    if (inAutoFocus || inFocusLoop || inAdjustFocus || inAdaptiveFocus || inBuildOffsets)
+    if (inAutoFocus || inFocusLoop || inAdjustFocus || adaptFocus->inAdaptiveFocus() || inBuildOffsets)
         qCDebug(KSTARS_EKOS_FOCUS) << "runAutoFocus rejected, focus procedure is already running.";
     else
     {
@@ -4837,7 +4499,7 @@ void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
 
     }
 
-    if (inAdaptiveFocus)
+    if (adaptFocus->inAdaptiveFocus())
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inAdaptiveFocus. Ignoring...";
         return;
@@ -4976,9 +4638,7 @@ void Focus::setupFilterManager()
     // Return global filter manager for this filter wheel.
     Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
-    ////////////////////////////////////////////////////////////////////////////////////////
-    /// Focus Module ----> Filter Manager connections
-    ////////////////////////////////////////////////////////////////////////////////////////
+    // Focus Module ----> Filter Manager connections
 
     // Update focuser absolute position.
     connect(this, &Focus::absolutePositionChanged, m_FilterManager.get(), &FilterManager::setFocusAbsolutePosition);
@@ -4997,9 +4657,7 @@ void Focus::setupFilterManager()
         }
     });
 
-    ////////////////////////////////////////////////////////////////////////////////////////
-    /// Filter Manager ----> Focus Module connections
-    ////////////////////////////////////////////////////////////////////////////////////////
+    // Filter Manager ----> Focus Module connections
 
     // Suspend guiding if filter offset is change with OAG
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
@@ -5621,11 +5279,8 @@ void Focus::initConnections()
         setWalk(static_cast<FocusWalk>(index));
     });
 
-    // Set the focusAdaptive switch so other modules such as Capture can access it
-    connect(m_OpsFocusSettings->focusAdaptive, &QCheckBox::toggled, this, [&](bool enabled)
-    {
-        Options::setFocusAdaptive(enabled);
-    });
+    // Adaptive Focus on/off switch toggled
+    connect(m_OpsFocusSettings->focusAdaptive, &QCheckBox::toggled, this, &Ekos::Focus::resetAdaptiveFocus);
 
     // Reset star center on auto star check toggle
     connect(m_OpsFocusSettings->focusAutoStarEnabled, &QCheckBox::toggled, this, [&](bool enabled)
@@ -6840,9 +6495,6 @@ void Focus::initView()
     m_FocusView->setStarsHFREnabled(true);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 QVariantMap Focus::getAllSettings() const
 {
     QVariantMap settings;
@@ -6874,9 +6526,6 @@ QVariantMap Focus::getAllSettings() const
     return settings;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 void Focus::setAllSettings(const QVariantMap &settings)
 {
     // Disconnect settings that we don't end up calling syncSettings while
@@ -6947,9 +6596,6 @@ void Focus::setAllSettings(const QVariantMap &settings)
     setWalk(static_cast<FocusWalk>(m_OpsFocusMechanics->focusWalk->currentIndex()));
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
 {
     QSpinBox *pSB = nullptr;

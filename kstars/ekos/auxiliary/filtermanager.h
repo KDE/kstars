@@ -122,6 +122,13 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         bool setFilterExposure(int index, double exposure);
 
         /**
+         * @brief getFilterOffset returns the offset for the specified filter
+         * @param name of the filter
+         * @return filter offset (INVALID_VALUE in the case of a problem)
+         */
+        int getFilterOffset(const QString &name) const;
+
+        /**
          * @brief setFilterOffset set the offset for the specified filter
          * @param color of the filter
          * @param the new filter offset

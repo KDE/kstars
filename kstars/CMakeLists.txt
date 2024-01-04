@@ -284,6 +284,7 @@ if (INDI_FOUND)
             ekos/focus/curvefit.cpp
             ekos/focus/focusfwhm.cpp
             ekos/focus/focusfourierpower.cpp
+            ekos/focus/adaptivefocus.cpp
             ekos/focus/opsfocussettings.cpp
             ekos/focus/opsfocusprocess.cpp
             ekos/focus/opsfocusmechanics.cpp

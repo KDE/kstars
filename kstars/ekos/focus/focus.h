@@ -10,6 +10,7 @@
 #include "focusfourierpower.h"
 #include "ekos/ekos.h"
 #include "parameters.h"
+#include "ekos/auxiliary/filtermanager.h"
 
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"
@@ -34,10 +35,10 @@ namespace Ekos
 {
 
 class DarkProcessor;
-class FilterManager;
 class FocusAlgorithmInterface;
 class FocusFWHM;
 class PolynomialFit;
+class AdaptiveFocus;
 class StellarSolverProfileEditor;
 
 /**
@@ -60,6 +61,9 @@ class Focus : public QWidget, public Ui::Focus
         Q_PROPERTY(QString filter READ filter WRITE setFilter)
         Q_PROPERTY(double HFR READ getHFR NOTIFY newHFR)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
+
+        // AdaptiveFocus is a friend class so it can access methods in Focus
+        friend class AdaptiveFocus;
 
     public:
         Focus();
@@ -505,8 +509,22 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points);
-        void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks, double altitude, int altTicks,
-                                   int totalTicks, int position, bool focuserMoved);
+
+        /**
+         * @brief Signal Analyze that an Adaptive Focus iteration is complete
+         * @param Active filter
+         * @param temperature
+         * @param tempTicks is the number of ticks movement due to temperature change
+         * @param altitude
+         * @param altTicks is the number of ticks movement due to altitude change
+         * @param prevPosError is the position error at the previous adaptive focus iteration
+         * @param thisPosError is the position error for the current adaptive focus iteration
+         * @param totalTicks is the total tick movement for this adaptive focus iteration
+         * @param position is the current focuser position
+         * @param focuserMoved indicates whether totalTicks > minimum focuser movement
+         */
+        void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks, double altitude, double altTicks,
+                                   int prevPosError, int thisPosError, int totalTicks, int position, bool focuserMoved);
 
         // HFR V curve plot events
         /**
@@ -595,14 +613,10 @@ class Focus : public QWidget, public Ui::Focus
         QString savedOptionsProfiles;
         StellarSolverProfileEditor *optionsProfileEditor { nullptr };
 
-        ////////////////////////////////////////////////////////////////////
-        /// Connections
-        ////////////////////////////////////////////////////////////////////
+        // Connections
         void initConnections();
 
-        ////////////////////////////////////////////////////////////////////
-        /// Settings
-        ////////////////////////////////////////////////////////////////////
+        // Settings
 
         /**
          * @brief Connect GUI elements to sync settings once updated.
@@ -648,14 +662,10 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setUseWeights();
 
-        ////////////////////////////////////////////////////////////////////
-        /// HFR Plot
-        ////////////////////////////////////////////////////////////////////
+        // HFR Plot
         void initPlots();
 
-        ////////////////////////////////////////////////////////////////////
-        /// Positions
-        ////////////////////////////////////////////////////////////////////
+        // Positions
         void getAbsFocusPosition();
         bool autoFocusChecks();
         void autoFocusAbs();
@@ -701,9 +711,8 @@ class Focus : public QWidget, public Ui::Focus
          * @param targetChip target Chip
          */
         void prepareCapture(ISD::CameraChip *targetChip);
-        ////////////////////////////////////////////////////////////////////
-        /// HFR / FWHM
-        ////////////////////////////////////////////////////////////////////
+
+        // HFR / FWHM
         void setHFRComplete();
 
         // Sets the star algorithm and enables/disables various UI inputs.
@@ -781,7 +790,6 @@ class Focus : public QWidget, public Ui::Focus
          */
         bool appendMeasure(double newMeasure);
 
-
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
@@ -799,10 +807,11 @@ class Focus : public QWidget, public Ui::Focus
         void setLastFocusAlt();
         bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);
 
-        void setAdaptiveFocusCounters();
-        double getAdaptiveTempTicks();
-        double getAdaptiveAltTicks();
-        void adaptiveFocusAdmin(const bool resetFlag, const bool success, const bool focuserMoved);
+        /**
+         * @brief reset Adaptive Focus parameters
+         * @param Adaptive Focus enabled
+         */
+        void resetAdaptiveFocus(bool enabled);
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
@@ -843,14 +852,6 @@ class Focus : public QWidget, public Ui::Focus
          * whether logically is should be enabled during AF even though all input widgets are disabled
          */
         bool isFocusSubFrameEnabled();
-
-        /**
-         * @brief adapt the start position based on temperature and altitude
-         * @param position is the unadapted focuser position
-         * @param AFfilter is the filter to run autofocus on
-         * @return start position
-         */
-        int adaptStartPosition(int position, QString * AFfilter);
 
         /**
          * @brief returns whether the optical train telescope has a central obstruction
@@ -985,8 +986,6 @@ class Focus : public QWidget, public Ui::Focus
         bool starSelected { false };
         /// Adjust the focus position to a target value
         bool inAdjustFocus { false };
-        /// Focuser is processing an adaptive focus request
-        bool inAdaptiveFocus { false };
         /// Build offsets is a special case of the Autofocus run
         bool inBuildOffsets { false };
         // Target frame dimensions
@@ -1088,6 +1087,9 @@ class Focus : public QWidget, public Ui::Focus
         // Fourier Transform power processing.
         std::unique_ptr<FocusFourierPower> focusFourierPower;
 
+        // Adaptive Focus processing.
+        std::unique_ptr<AdaptiveFocus> adaptFocus;
+
         // Capture timers
         QTimer captureTimer;
         QTimer captureTimeout;
@@ -1130,17 +1132,6 @@ class Focus : public QWidget, public Ui::Focus
 
         // Mount altitude value for logging
         double mountAlt { INVALID_VALUE };
-
-        // Adaptive focusing
-        double m_LastAdaptiveFocusTemperature { INVALID_VALUE };
-        double m_LastAdaptiveFocusAlt { INVALID_VALUE };
-        int m_LastAdaptiveFocusAltTicks { INVALID_VALUE };
-        double m_LastAdaptiveFocusTempError { 0.0 };
-        int m_LastAdaptiveFocusTempTicks { INVALID_VALUE };
-        double m_LastAdaptiveFocusAltError { 0.0 };
-        int m_LastAdaptiveFocusTotalTicks { INVALID_VALUE };
-        int m_LastAdaptiveFocusPosition { INVALID_VALUE };
-        int m_AdaptiveTotalMove { 0 };
 
         static constexpr uint8_t MAXIMUM_FLUCTUATIONS {10};
 
