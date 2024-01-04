@@ -55,6 +55,8 @@ class Scheduler : public QWidget, public Ui::Scheduler, public ModuleLogger
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
         Q_PROPERTY(QString profile READ profile WRITE setProfile)
 
+        friend class FramingAssistantUI;
+
 public:
 
         /** @brief Columns, in the same order as UI. */
@@ -236,11 +238,6 @@ public:
              */
         Q_SCRIPTABLE bool saveScheduler(const QUrl &fileURL);
 
-        /** Update table cells for all jobs.
-         *  For framing assistant
-         */
-        void updateTable();
-
         // the state machine
         QSharedPointer<SchedulerModuleState> moduleState() const
         {
@@ -280,10 +277,24 @@ protected:
         void setDirty();
         /** @} */
 
-        /** @internal Associate job table cells on a row to the corresponding SchedulerJob.
-         * @param row is an integer indexing the row to associate cells from, and also the index of the job in the job list..
+        /**
+         * @brief updateJobTable Update the job's row in the job table. If the row does not exist, it will
+         * be created on the fly. If job is null, update the entire table
+         * @param job
          */
-        void setJobStatusCells(int row);
+        void updateJobTable(SchedulerJob *job = nullptr);
+
+        /**
+         * @brief insertJobTableRow Insert a new row (empty) into the job table
+         * @param row row number (starting with 0)
+         * @param above insert above the given row (=true) or below (=false)
+         */
+        void insertJobTableRow(int row, bool above = true);
+
+        /**
+         * @brief Update the style of a cell, depending on the job's state
+         */
+        void updateCellStyle(SchedulerJob *job, QTableWidgetItem *cell);
 
 protected slots:
 
@@ -558,6 +569,16 @@ private:
          */
         void updateProfiles();
 
+        /**
+         * @brief updateStageLabel Helper function that updates the stage label and has to be placed
+         * after all commands that have altered the stage of activeJob(). Hint: Uses updateJobStageUI().
+         */
+        void updateJobStage(SchedulerJobStage stage);
+
+        /**
+         * @brief updateStageLabel Helper function that updates the stage label.
+         */
+        void updateJobStageUI(SchedulerJobStage stage);
 
         /**
             * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.

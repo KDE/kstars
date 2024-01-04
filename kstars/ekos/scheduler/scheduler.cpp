@@ -158,16 +158,13 @@ void Scheduler::init()
 void Scheduler::start()
 {
 
-    foreach (auto j, moduleState()->jobs())
-        j->enableGraphicsUpdates(false);
-
     // New scheduler session shouldn't inherit ABORT or ERROR states from the last one.
     foreach (auto j, moduleState()->jobs())
-        j->setState(SchedulerJob::JOB_IDLE);
+    {
+        j->setState(SCHEDJOB_IDLE);
+        updateJobTable(j);
+    }
     init();
-    foreach (auto j, moduleState()->jobs())
-        j->enableGraphicsUpdates(true);
-
     iterate();
 }
 
@@ -318,6 +315,32 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     queueTable->setToolTip(
         i18n("Job scheduler list.\nClick to select a job in the list.\nDouble click to edit a job with the left-hand fields."));
+    QTableWidgetItem *statusHeader       = queueTable->horizontalHeaderItem(SCHEDCOL_STATUS);
+    QTableWidgetItem *altitudeHeader     = queueTable->horizontalHeaderItem(SCHEDCOL_ALTITUDE);
+    QTableWidgetItem *startupHeader      = queueTable->horizontalHeaderItem(SCHEDCOL_STARTTIME);
+    QTableWidgetItem *completionHeader   = queueTable->horizontalHeaderItem(SCHEDCOL_ENDTIME);
+    QTableWidgetItem *captureCountHeader = queueTable->horizontalHeaderItem(SCHEDCOL_CAPTURES);
+
+    if (statusHeader != nullptr)
+        statusHeader->setToolTip(i18n("Current status of the job, managed by the Scheduler.\n"
+                                      "If invalid, the Scheduler was not able to find a proper observation time for the target.\n"
+                                      "If aborted, the Scheduler missed the scheduled time or encountered transitory issues and will reschedule the job.\n"
+                                      "If complete, the Scheduler verified that all sequence captures requested were stored, including repeats."));
+    if (altitudeHeader != nullptr)
+        altitudeHeader->setToolTip(i18n("Current altitude of the target of the job.\n"
+                                        "A rising target is indicated with an arrow going up.\n"
+                                        "A setting target is indicated with an arrow going down."));
+    if (startupHeader != nullptr)
+        startupHeader->setToolTip(i18n("Startup time of the job, as estimated by the Scheduler.\n"
+                                       "The altitude at startup, if available, is displayed too.\n"
+                                       "Fixed time from user or culmination time is marked with a chronometer symbol."));
+    if (completionHeader != nullptr)
+        completionHeader->setToolTip(i18n("Completion time for the job', as estimated by the Scheduler.\n"
+                                          "You may specify a fixed time to limit duration of looping jobs. "
+                                          "A warning symbol indicates the altitude at completion may cause the job to abort before completion.\n"));
+    if (captureCountHeader != nullptr)
+        captureCountHeader->setToolTip(i18n("Count of captures stored for the job, based on its sequence job.\n"
+                                            "This is a summary, additional specific frame types may be required to complete the job."));
 
     /* Set first button mode to add observation job from left-hand fields */
     setJobAddApply(true);
@@ -415,8 +438,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
 
     // These connections are looking for changes in the rows queueTable is displaying.
-    connect(queueTable->verticalScrollBar(), &QScrollBar::valueChanged, this, &Scheduler::updateTable);
-    connect(queueTable->verticalScrollBar(), &QAbstractSlider::rangeChanged, this, &Scheduler::updateTable);
+    connect(queueTable->verticalScrollBar(), &QScrollBar::valueChanged, [this](){updateJobTable();});
+    connect(queueTable->verticalScrollBar(), &QAbstractSlider::rangeChanged, [this](){updateJobTable();});
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -464,6 +487,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::addJob, this, &Scheduler::addJob);
     connect(process().data(), &SchedulerProcess::syncGUIToGeneralSettings, this, &Scheduler::syncGUIToGeneralSettings);
     connect(process().data(), &SchedulerProcess::updateSchedulerURL, this, &Scheduler::updateSchedulerURL);
+    connect(process().data(), &SchedulerProcess::newJobStage, this, &Scheduler::updateJobStageUI);
     // Connect geographical location - when it is available
     //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
@@ -962,12 +986,7 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
         return false;
     }
 
-    const bool savedUpdate = job->graphicsUpdatesEnabled();
-    job->enableGraphicsUpdates(false);
-
     /* Configure or reconfigure the observation job */
-
-    job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
 
     // Get several job values depending on the state of the UI.
@@ -1013,13 +1032,12 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
                              schedulerGuideStep->isChecked());
 
     // success
-    job->enableGraphicsUpdates(savedUpdate);
+    updateJobTable(job);
     return true;
 }
 
 void Scheduler::saveJob(SchedulerJob *job)
 {
-
     watchJobChanges(false);
 
     /* Create or Update a scheduler job */
@@ -1059,9 +1077,9 @@ void Scheduler::saveJob(SchedulerJob *job)
                 return;
             }
         }
-        /* Innsert the job in the job list and add a row in the table for it just after the row currently selected. */
+        /* Insert the job in the job list and add a row in the table for it just after the row currently selected. */
         moduleState()->mutlableJobs().insert(currentRow, job);
-        queueTable->insertRow(currentRow);
+        insertJobTableRow(currentRow);
     }
 
     /* Verifications */
@@ -1076,7 +1094,7 @@ void Scheduler::saveJob(SchedulerJob *job)
         }
         else if (a_job->getName() == job->getName())
         {
-            int const a_job_row = a_job->getNameCell() ? a_job->getNameCell()->row() + 1 : 0;
+            int const a_job_row = moduleState()->jobs().indexOf(a_job);
 
             /* FIXME: Warning about duplicate jobs only checks the target name, doing it properly would require checking storage for each sequence job of each scheduler job. */
             appendLogText(i18n("Warning: job '%1' at row %2 has a duplicate target at row %3, "
@@ -1101,43 +1119,7 @@ void Scheduler::saveJob(SchedulerJob *job)
         }
     }
 
-    if (-1 == jobUnderEdit)
-    {
-        QTableWidgetItem *nameCell = new QTableWidgetItem();
-        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_NAME), nameCell);
-        nameCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-        QTableWidgetItem *statusCell = new QTableWidgetItem();
-        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STATUS), statusCell);
-        statusCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-        QTableWidgetItem *captureCount = new QTableWidgetItem();
-        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_CAPTURES), captureCount);
-        captureCount->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        captureCount->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-        QTableWidgetItem *startupCell = new QTableWidgetItem();
-        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_STARTTIME), startupCell);
-        startupCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-        QTableWidgetItem *altitudeCell = new QTableWidgetItem();
-        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ALTITUDE), altitudeCell);
-        altitudeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        altitudeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-        QTableWidgetItem *completionCell = new QTableWidgetItem();
-        queueTable->setItem(currentRow, static_cast<int>(SCHEDCOL_ENDTIME), completionCell);
-        completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-        // set the display format of the startup, but postpone the update
-        job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat(), false);
-    }
-
-    setJobStatusCells(currentRow);
+    updateJobTable(job);
 
     /* We just added or saved a job, so we have a job in the list - enable relevant buttons */
     queueSaveAsB->setEnabled(true);
@@ -1147,7 +1129,6 @@ void Scheduler::saveJob(SchedulerJob *job)
     setJobManipulation(true, true);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow + 1);
-    job->updateJobCells();
 
     watchJobChanges(true);
 
@@ -1302,8 +1283,8 @@ void Scheduler::loadJob(QModelIndex i)
 
     watchJobChanges(false);
 
-    //job->setState(SchedulerJob::JOB_IDLE);
-    //job->setStage(SchedulerJob::STAGE_IDLE);
+    //job->setState(SCHEDJOB_IDLE);
+    //job->setStage(SCHEDSTAGE_IDLE);
     syncGUIToJob(job);
 
     /* Turn the add button into an apply button */
@@ -1410,9 +1391,9 @@ bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
         /* Reassign list */
         moduleState()->setJobs(reordered_sublist);
 
-        /* Reassign status cells for all jobs, and reset them */
-        for (int row = 0; row < moduleState()->jobs().size(); row++)
-            setJobStatusCells(row);
+        /* Refresh the table */
+        for (SchedulerJob *job: moduleState()->jobs())
+            updateJobTable(job);
 
         /* Reselect previously selected job */
         if (nullptr != selectedJob)
@@ -1440,9 +1421,9 @@ void Scheduler::moveJobUp()
     moduleState()->jobs().swap(currentRow, destinationRow);
 #endif
 
-    /* Reassign status cells */
-    setJobStatusCells(currentRow);
-    setJobStatusCells(destinationRow);
+    //Update the two table rows
+    updateJobTable(moduleState()->jobs().at(currentRow));
+    updateJobTable(moduleState()->jobs().at(destinationRow));
 
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
@@ -1470,9 +1451,9 @@ void Scheduler::moveJobDown()
     moduleState()->mutlableJobs().swap(currentRow, destinationRow);
 #endif
 
-    /* Reassign status cells */
-    setJobStatusCells(currentRow);
-    setJobStatusCells(destinationRow);
+    //Update the two table rows
+    updateJobTable(moduleState()->jobs().at(currentRow));
+    updateJobTable(moduleState()->jobs().at(destinationRow));
 
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
@@ -1483,27 +1464,239 @@ void Scheduler::moveJobDown()
     evaluateJobs(true);
 }
 
-void Scheduler::updateTable()
+void Scheduler::updateJobTable(SchedulerJob *job)
 {
-    foreach (SchedulerJob* job, moduleState()->jobs())
-        job->updateJobCells();
+    // handle full table update
+    if (job == nullptr)
+    {
+        for (auto onejob: moduleState()->jobs())
+            updateJobTable(onejob);
+
+        return;
+    }
+
+    const int row = moduleState()->jobs().indexOf(job);
+    // Ignore unknown jobs
+    if (row < 0)
+        return;
+    // ensure that the row in the table exists
+    if (row >= queueTable->rowCount())
+        insertJobTableRow(row - 1, false);
+
+    QTableWidgetItem *nameCell = queueTable->item(row, static_cast<int>(SCHEDCOL_NAME));
+    QTableWidgetItem *statusCell = queueTable->item(row, static_cast<int>(SCHEDCOL_STATUS));
+    QTableWidgetItem *altitudeCell = queueTable->item(row, static_cast<int>(SCHEDCOL_ALTITUDE));
+    QTableWidgetItem *startupCell = queueTable->item(row, static_cast<int>(SCHEDCOL_STARTTIME));
+    QTableWidgetItem *completionCell = queueTable->item(row, static_cast<int>(SCHEDCOL_ENDTIME));
+    QTableWidgetItem *captureCountCell = queueTable->item(row, static_cast<int>(SCHEDCOL_CAPTURES));
+
+    // Only in testing.
+    if (!nameCell) return;
+
+    if (nullptr != nameCell)
+    {
+        nameCell->setText(job->getName());
+        updateCellStyle(job, nameCell);
+        if (nullptr != nameCell->tableWidget())
+            nameCell->tableWidget()->resizeColumnToContents(nameCell->column());
+    }
+
+    if (nullptr != statusCell)
+    {
+        static QMap<SchedulerJobStatus, QString> stateStrings;
+        static QString stateStringUnknown;
+        if (stateStrings.isEmpty())
+        {
+            stateStrings[SCHEDJOB_IDLE] = i18n("Idle");
+            stateStrings[SCHEDJOB_EVALUATION] = i18n("Evaluating");
+            stateStrings[SCHEDJOB_SCHEDULED] = i18n("Scheduled");
+            stateStrings[SCHEDJOB_BUSY] = i18n("Running");
+            stateStrings[SCHEDJOB_INVALID] = i18n("Invalid");
+            stateStrings[SCHEDJOB_COMPLETE] = i18n("Complete");
+            stateStrings[SCHEDJOB_ABORTED] = i18n("Aborted");
+            stateStrings[SCHEDJOB_ERROR] =  i18n("Error");
+            stateStringUnknown = i18n("Unknown");
+        }
+        statusCell->setText(stateStrings.value(job->getState(), stateStringUnknown));
+        updateCellStyle(job, statusCell);
+
+        if (nullptr != statusCell->tableWidget())
+            statusCell->tableWidget()->resizeColumnToContents(statusCell->column());
+    }
+
+    if (nullptr != startupCell)
+    {
+        auto time = (job->getState() == SCHEDJOB_BUSY) ? job->getStateTime() : job->getStartupTime();
+        /* Display startup time if it is valid */
+        if (time.isValid())
+        {
+            startupCell->setText(QString("%1%2%L3° %4")
+                                 .arg(job->getAltitudeAtStartup() < job->getMinAltitude() ? QString(QChar(0x26A0)) : "")
+                                 .arg(QChar(job->isSettingAtStartup() ? 0x2193 : 0x2191))
+                                 .arg(job->getAltitudeAtStartup(), 0, 'f', 1)
+                                 .arg(time.toString(startupTimeEdit->displayFormat())));
+
+            switch (job->getFileStartupCondition())
+            {
+                /* If the original condition is START_AT/START_CULMINATION, startup time is fixed */
+                case START_AT:
+                    startupCell->setIcon(QIcon::fromTheme("chronometer"));
+                    break;
+
+                /* If the original condition is START_ASAP, startup time is informational */
+                case START_ASAP:
+                    startupCell->setIcon(QIcon());
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        /* Else do not display any startup time */
+        else
+        {
+            startupCell->setText("-");
+            startupCell->setIcon(QIcon());
+        }
+
+        updateCellStyle(job, startupCell);
+
+        if (nullptr != startupCell->tableWidget())
+            startupCell->tableWidget()->resizeColumnToContents(startupCell->column());
+    }
+
+    if (nullptr != altitudeCell)
+    {
+        // FIXME: Cache altitude calculations
+        bool is_setting = false;
+        double const alt = SchedulerUtils::findAltitude(job->getTargetCoords(), QDateTime(), &is_setting);
+
+        altitudeCell->setText(QString("%1%L2°")
+                              .arg(QChar(is_setting ? 0x2193 : 0x2191))
+                              .arg(alt, 0, 'f', 1));
+        updateCellStyle(job, altitudeCell);
+
+        if (nullptr != altitudeCell->tableWidget())
+            altitudeCell->tableWidget()->resizeColumnToContents(altitudeCell->column());
+    }
+
+    if (nullptr != completionCell)
+    {
+        if (job->getGreedyCompletionTime().isValid())
+        {
+            completionCell->setText(QString("%1")
+                                    .arg(job->getGreedyCompletionTime().toString("hh:mm")));
+        }
+        else
+            /* Display completion time if it is valid and job is not looping */
+            if (FINISH_LOOP != job->getCompletionCondition() && job->getCompletionTime().isValid())
+            {
+                completionCell->setText(QString("%1%2%L3° %4")
+                                        .arg(job->getAltitudeAtCompletion() < job->getMinAltitude() ? QString(QChar(0x26A0)) : "")
+                                        .arg(QChar(job->isSettingAtCompletion() ? 0x2193 : 0x2191))
+                                        .arg(job->getAltitudeAtCompletion(), 0, 'f', 1)
+                                        .arg(job->getCompletionTime().toString(startupTimeEdit->displayFormat())));
+
+                switch (job->getCompletionCondition())
+                {
+                    case FINISH_AT:
+                        completionCell->setIcon(QIcon::fromTheme("chronometer"));
+                        break;
+
+                    case FINISH_SEQUENCE:
+                    case FINISH_REPEAT:
+                    default:
+                        completionCell->setIcon(QIcon());
+                        break;
+                }
+            }
+        /* Else do not display any completion time */
+            else
+            {
+                completionCell->setText("-");
+                completionCell->setIcon(QIcon());
+            }
+
+        updateCellStyle(job, completionCell);
+        if (nullptr != completionCell->tableWidget())
+            completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
+    }
+
+    if (nullptr != captureCountCell)
+    {
+        switch (job->getCompletionCondition())
+        {
+            case FINISH_AT:
+            // FIXME: Attempt to calculate the number of frames until end - requires detailed imaging time
+
+            case FINISH_LOOP:
+                // If looping, display the count of completed frames
+                captureCountCell->setText(QString("%L1/-").arg(job->getCompletedCount()));
+                break;
+
+            case FINISH_SEQUENCE:
+            case FINISH_REPEAT:
+            default:
+                // If repeating, display the count of completed frames to the count of requested frames
+                captureCountCell->setText(QString("%L1/%L2").arg(job->getCompletedCount()).arg(job->getSequenceCount()));
+                break;
+        }
+
+        updateCellStyle(job, captureCountCell);
+        if (nullptr != captureCountCell->tableWidget())
+            captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
+    }
+
+    emit jobsUpdated(getJSONJobs());
 }
 
-void Scheduler::setJobStatusCells(int row)
+void Scheduler::insertJobTableRow(int row, bool above)
 {
-    if (row < 0 || moduleState()->jobs().size() <= row)
-        return;
+    const int pos = above ? row : row + 1;
 
-    SchedulerJob * const job = moduleState()->jobs().at(row);
+    // ensure that there are no gaps
+    if (row > queueTable->rowCount())
+        insertJobTableRow(row - 1, above);
 
-    job->setNameCell(queueTable->item(row, static_cast<int>(SCHEDCOL_NAME)));
-    job->setStatusCell(queueTable->item(row, static_cast<int>(SCHEDCOL_STATUS)));
-    job->setCaptureCountCell(queueTable->item(row, static_cast<int>(SCHEDCOL_CAPTURES)));
-    job->setAltitudeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_ALTITUDE)));
-    job->setStartupCell(queueTable->item(row, static_cast<int>(SCHEDCOL_STARTTIME)));
-    job->setCompletionCell(queueTable->item(row, static_cast<int>(SCHEDCOL_ENDTIME)));
-    job->updateJobCells();
-    emit jobsUpdated(getJSONJobs());
+    queueTable->insertRow(pos);
+
+    QTableWidgetItem *nameCell = new QTableWidgetItem();
+    queueTable->setItem(row, static_cast<int>(SCHEDCOL_NAME), nameCell);
+    nameCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *statusCell = new QTableWidgetItem();
+    queueTable->setItem(row, static_cast<int>(SCHEDCOL_STATUS), statusCell);
+    statusCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *captureCount = new QTableWidgetItem();
+    queueTable->setItem(row, static_cast<int>(SCHEDCOL_CAPTURES), captureCount);
+    captureCount->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    captureCount->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *startupCell = new QTableWidgetItem();
+    queueTable->setItem(row, static_cast<int>(SCHEDCOL_STARTTIME), startupCell);
+    startupCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *altitudeCell = new QTableWidgetItem();
+    queueTable->setItem(row, static_cast<int>(SCHEDCOL_ALTITUDE), altitudeCell);
+    altitudeCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    altitudeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QTableWidgetItem *completionCell = new QTableWidgetItem();
+    queueTable->setItem(row, static_cast<int>(SCHEDCOL_ENDTIME), completionCell);
+    completionCell->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+}
+
+void Scheduler::updateCellStyle(SchedulerJob *job, QTableWidgetItem *cell)
+{
+    QFont font(cell->font());
+    font.setBold(job->getState() == SCHEDJOB_BUSY);
+    font.setItalic(job->getState() == SCHEDJOB_BUSY);
+    cell->setFont(font);
 }
 
 void Scheduler::resetJobEdit()
@@ -1597,7 +1790,7 @@ void Scheduler::removeJob()
     moduleState()->setDirty(true);
     evaluateJobs(true);
     emit jobsUpdated(getJSONJobs());
-    updateTable();
+    updateJobTable();
 }
 
 void Scheduler::removeOneJob(int index)
@@ -1633,10 +1826,11 @@ void Scheduler::stop()
             if (oneJob == activeJob())
                 stopCurrentJobAction();
 
-            if (oneJob->getState() <= SchedulerJob::JOB_BUSY)
+            if (oneJob->getState() <= SCHEDJOB_BUSY)
             {
                 appendLogText(i18n("Job '%1' has not been processed upon scheduler stop, marking aborted.", oneJob->getName()));
-                oneJob->setState(SchedulerJob::JOB_ABORTED);
+                oneJob->setState(SCHEDJOB_ABORTED);
+                updateJobTable(oneJob);
                 wasAborted = true;
             }
         }
@@ -1831,19 +2025,12 @@ void Scheduler::setActiveJob(SchedulerJob *job)
     if (activeJob() == job)
         return;
 
-    /* Reset job widgets */
-    if (activeJob())
-    {
-        activeJob()->setStageLabel(nullptr);
-    }
-
     /* Set current job */
     moduleState()->setActiveJob(job);
 
-    /* Reassign job widgets, or reset to defaults */
+    /* Select the active job's row */
     if (activeJob())
     {
-        activeJob()->setStageLabel(jobStatus);
         int index = moduleState()->jobs().indexOf(job);
 
         // select the row only if editing is not ongoing
@@ -1856,7 +2043,6 @@ void Scheduler::setActiveJob(SchedulerJob *job)
     else
     {
         jobStatus->setText(i18n("No job running"));
-        //queueTable->clearSelection();
     }
 }
 
@@ -1887,6 +2073,8 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
     syncGreedyParams();
     m_GreedyScheduler->scheduleJobs(moduleState()->jobs(), SchedulerModuleState::getLocalTime(),
                                     moduleState()->capturedFramesCount(), this);
+    // schedule or job states might have been changed, update the table
+    updateJobTable();
 
     if (!evaluateOnly && moduleState()->schedulerState() == SCHEDULER_RUNNING)
         // At this step, we finished evaluating jobs.
@@ -1902,15 +2090,15 @@ void Scheduler::selectActiveJob(const QList<SchedulerJob *> &jobs)
 {
     auto finished_or_aborted = [](SchedulerJob const * const job)
     {
-        SchedulerJob::JOBStatus const s = job->getState();
-        return SchedulerJob::JOB_ERROR <= s || SchedulerJob::JOB_ABORTED == s;
+        SchedulerJobStatus const s = job->getState();
+        return SCHEDJOB_ERROR <= s || SCHEDJOB_ABORTED == s;
     };
 
     /* This predicate matches jobs that are neither scheduled to run nor aborted */
     auto neither_scheduled_nor_aborted = [](SchedulerJob const * const job)
     {
-        SchedulerJob::JOBStatus const s = job->getState();
-        return SchedulerJob::JOB_SCHEDULED != s && SchedulerJob::JOB_ABORTED != s;
+        SchedulerJobStatus const s = job->getState();
+        return SCHEDJOB_SCHEDULED != s && SCHEDJOB_ABORTED != s;
     };
 
     /* If there are no jobs left to run in the filtered list, stop evaluation */
@@ -1927,8 +2115,8 @@ void Scheduler::selectActiveJob(const QList<SchedulerJob *> &jobs)
         appendLogText(i18n("Only aborted jobs left in the scheduler queue after evaluating, rescheduling those."));
         std::for_each(jobs.begin(), jobs.end(), [](SchedulerJob * job)
         {
-            if (SchedulerJob::JOB_ABORTED == job->getState())
-                job->setState(SchedulerJob::JOB_EVALUATION);
+            if (SCHEDJOB_ABORTED == job->getState())
+                job->setState(SCHEDJOB_EVALUATION);
         });
 
         return;
@@ -1974,7 +2162,7 @@ bool Scheduler::executeJob(SchedulerJob *job)
         return false;
 
     // Don't execute the current job if it is already busy
-    if (activeJob() == job && SchedulerJob::JOB_BUSY == activeJob()->getState())
+    if (activeJob() == job && SCHEDJOB_BUSY == activeJob()->getState())
         return false;
 
     setActiveJob(job);
@@ -2010,7 +2198,7 @@ bool Scheduler::executeJob(SchedulerJob *job)
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << activeJob()->getName();
 
-    activeJob()->setState(SchedulerJob::JOB_BUSY);
+    activeJob()->setState(SCHEDJOB_BUSY);
     emit jobsUpdated(getJSONJobs());
 
     KSNotification::event(QLatin1String("EkosSchedulerJobStart"),
@@ -2050,9 +2238,6 @@ bool Scheduler::checkShutdownState()
 
 bool Scheduler::checkStatus()
 {
-    for (auto job : moduleState()->jobs())
-        job->updateJobCells();
-
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED)
     {
         if (activeJob() == nullptr)
@@ -2062,10 +2247,10 @@ bool Scheduler::checkStatus()
         }
         switch (activeJob()->getState())
         {
-            case  SchedulerJob::JOB_BUSY:
+            case  SCHEDJOB_BUSY:
                 // do nothing
                 break;
-            case  SchedulerJob::JOB_COMPLETE:
+            case  SCHEDJOB_COMPLETE:
                 // start finding next job before pausing
                 break;
             default:
@@ -2163,12 +2348,13 @@ bool Scheduler::checkStatus()
 
         // #8 Check it it already completed (should only happen starting a paused job)
         //    Find the next job in this case, otherwise execute the current one
-        if (activeJob() && activeJob()->getState() == SchedulerJob::JOB_COMPLETE)
+        if (activeJob() && activeJob()->getState() == SCHEDJOB_COMPLETE)
             findNextJob();
 
         // N.B. We explicitly do not check for return result here because regardless of execution result
         // we do not have any pending tasks further down.
         executeJob(activeJob());
+        updateJobTable();
     }
 
     return true;
@@ -2184,8 +2370,7 @@ void Scheduler::checkJobStage()
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking job stage for" << activeJob()->getName() << "startup" <<
                                        activeJob()->getStartupCondition() << activeJob()->getStartupTime().toString(
-                                           activeJob()->getDateTimeDisplayFormat()) <<
-                                       "state" << activeJob()->getState();
+                                           startupTimeEdit->displayFormat()) << "state" << activeJob()->getState();
         if (checkJobStageCounter++ == 30)
             checkJobStageCounter = 0;
     }
@@ -2194,7 +2379,7 @@ void Scheduler::checkJobStage()
     syncGreedyParams();
     if (!m_GreedyScheduler->checkJob(moduleState()->jobs(), SchedulerModuleState::getLocalTime(), activeJob()))
     {
-        activeJob()->setState(SchedulerJob::JOB_IDLE);
+        activeJob()->setState(SCHEDJOB_IDLE);
         stopCurrentJobAction();
         findNextJob();
         return;
@@ -2220,13 +2405,13 @@ void Scheduler::checkJobStageEplogue()
     if (!activeJob()) return;
     switch (activeJob()->getStage())
     {
-        case SchedulerJob::STAGE_IDLE:
+        case SCHEDSTAGE_IDLE:
             // Job is just starting.
             emit jobStarted(activeJob()->getName());
             getNextAction();
             break;
 
-        case SchedulerJob::STAGE_ALIGNING:
+        case SCHEDSTAGE_ALIGNING:
             // Let's make sure align module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > static_cast<int>(ALIGN_INACTIVITY_TIMEOUT))
             {
@@ -2245,7 +2430,7 @@ void Scheduler::checkJobStageEplogue()
                     else
                     {
                         appendLogText(i18n("Warning: job '%1' alignment procedure failed, marking aborted.", activeJob()->getName()));
-                        activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                        activeJob()->setState(SCHEDJOB_ABORTED);
                         findNextJob();
                     }
                 }
@@ -2254,7 +2439,7 @@ void Scheduler::checkJobStageEplogue()
             }
             break;
 
-        case SchedulerJob::STAGE_CAPTURING:
+        case SCHEDSTAGE_CAPTURING:
             // Let's make sure capture module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > static_cast<int>(CAPTURE_INACTIVITY_TIMEOUT))
             {
@@ -2273,7 +2458,7 @@ void Scheduler::checkJobStageEplogue()
                     else
                     {
                         appendLogText(i18n("Warning: job '%1' capture procedure failed, marking aborted.", activeJob()->getName()));
-                        activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                        activeJob()->setState(SCHEDJOB_ABORTED);
                         findNextJob();
                     }
                 }
@@ -2281,7 +2466,7 @@ void Scheduler::checkJobStageEplogue()
             }
             break;
 
-        case SchedulerJob::STAGE_FOCUSING:
+        case SCHEDSTAGE_FOCUSING:
             // Let's make sure focus module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > static_cast<int>(FOCUS_INACTIVITY_TIMEOUT))
             {
@@ -2300,7 +2485,7 @@ void Scheduler::checkJobStageEplogue()
                     else
                     {
                         appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", activeJob()->getName()));
-                        activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                        activeJob()->setState(SCHEDJOB_ABORTED);
                         findNextJob();
                     }
                 }
@@ -2308,7 +2493,7 @@ void Scheduler::checkJobStageEplogue()
             }
             break;
 
-        case SchedulerJob::STAGE_GUIDING:
+        case SCHEDSTAGE_GUIDING:
             // Let's make sure guide module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > GUIDE_INACTIVITY_TIMEOUT)
             {
@@ -2324,7 +2509,7 @@ void Scheduler::checkJobStageEplogue()
                     else
                     {
                         appendLogText(i18n("Warning: job '%1' guiding procedure failed, marking aborted.", activeJob()->getName()));
-                        activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                        activeJob()->setState(SCHEDJOB_ABORTED);
                         findNextJob();
                     }
                 }
@@ -2332,8 +2517,8 @@ void Scheduler::checkJobStageEplogue()
             }
             break;
 
-        case SchedulerJob::STAGE_SLEWING:
-        case SchedulerJob::STAGE_RESLEWING:
+        case SCHEDSTAGE_SLEWING:
+        case SCHEDSTAGE_RESLEWING:
             // While slewing or re-slewing, check slew status can still be obtained
         {
             TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:property", "status");
@@ -2351,14 +2536,14 @@ void Scheduler::checkJobStageEplogue()
             {
                 appendLogText(i18n("Warning: job '%1' lost connection to the mount, attempting to reconnect.", activeJob()->getName()));
                 if (!process()->manageConnectionLoss())
-                    activeJob()->setState(SchedulerJob::JOB_ERROR);
+                    activeJob()->setState(SCHEDJOB_ERROR);
                 return;
             }
         }
         break;
 
-        case SchedulerJob::STAGE_SLEW_COMPLETE:
-        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+        case SCHEDSTAGE_SLEW_COMPLETE:
+        case SCHEDSTAGE_RESLEWING_COMPLETE:
             // When done slewing or re-slewing and we use a dome, only shift to the next action when the dome is done moving
             if (moduleState()->domeReady())
             {
@@ -2371,7 +2556,7 @@ void Scheduler::checkJobStageEplogue()
                 {
                     appendLogText(i18n("Warning: job '%1' lost connection to the dome, attempting to reconnect.", activeJob()->getName()));
                     if (!process()->manageConnectionLoss())
-                        activeJob()->setState(SchedulerJob::JOB_ERROR);
+                        activeJob()->setState(SCHEDJOB_ERROR);
                     return;
                 }
 
@@ -2392,7 +2577,7 @@ void Scheduler::getNextAction()
 
     switch (activeJob()->getStage())
     {
-        case SchedulerJob::STAGE_IDLE:
+        case SCHEDSTAGE_IDLE:
             if (activeJob()->getLightFramesRequired())
             {
                 if (activeJob()->getStepPipeline() & SchedulerJob::USE_TRACK)
@@ -2426,7 +2611,7 @@ void Scheduler::getNextAction()
 
             break;
 
-        case SchedulerJob::STAGE_SLEW_COMPLETE:
+        case SCHEDSTAGE_SLEW_COMPLETE:
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS && moduleState()->autofocusCompleted() == false)
             {
                 qCDebug(KSTARS_EKOS_SCHEDULER) << "process()->startFocusing on 3514";
@@ -2440,7 +2625,7 @@ void Scheduler::getNextAction()
                 process()->startCapture();
             break;
 
-        case SchedulerJob::STAGE_FOCUS_COMPLETE:
+        case SCHEDSTAGE_FOCUS_COMPLETE:
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN)
                 process()->startAstrometry();
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
@@ -2449,11 +2634,11 @@ void Scheduler::getNextAction()
                 process()->startCapture();
             break;
 
-        case SchedulerJob::STAGE_ALIGN_COMPLETE:
-            activeJob()->setStage(SchedulerJob::STAGE_RESLEWING);
+        case SCHEDSTAGE_ALIGN_COMPLETE:
+            updateJobStage(SCHEDSTAGE_RESLEWING);
             break;
 
-        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+        case SCHEDSTAGE_RESLEWING_COMPLETE:
             // If we have in-sequence-focus in the sequence file then we perform post alignment focusing so that the focus
             // frame is ready for the capture module in-sequence-focus procedure.
             if ((activeJob()->getStepPipeline() & SchedulerJob::USE_FOCUS) && activeJob()->getInSequenceFocus())
@@ -2468,14 +2653,14 @@ void Scheduler::getNextAction()
                 process()->startCapture();
             break;
 
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
+        case SCHEDSTAGE_POSTALIGN_FOCUSING_COMPLETE:
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
                 process()->startGuiding();
             else
                 process()->startCapture();
             break;
 
-        case SchedulerJob::STAGE_GUIDING_COMPLETE:
+        case SCHEDSTAGE_GUIDING_COMPLETE:
             process()->startCapture();
             break;
 
@@ -2493,27 +2678,27 @@ void Scheduler::stopCurrentJobAction()
 
         switch (activeJob()->getStage())
         {
-            case SchedulerJob::STAGE_IDLE:
+            case SCHEDSTAGE_IDLE:
                 break;
 
-            case SchedulerJob::STAGE_SLEWING:
+            case SCHEDSTAGE_SLEWING:
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:call", "abort");
                 process()->mountInterface()->call(QDBus::AutoDetect, "abort");
                 break;
 
-            case SchedulerJob::STAGE_FOCUSING:
+            case SCHEDSTAGE_FOCUSING:
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "focusInterface:call", "abort");
                 process()->focusInterface()->call(QDBus::AutoDetect, "abort");
                 break;
 
-            case SchedulerJob::STAGE_ALIGNING:
+            case SCHEDSTAGE_ALIGNING:
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "alignInterface:call", "abort");
                 process()->alignInterface()->call(QDBus::AutoDetect, "abort");
                 break;
 
             // N.B. Need to use BlockWithGui as proposed by Wolfgang
             // to ensure capture is properly aborted before taking any further actions.
-            case SchedulerJob::STAGE_CAPTURING:
+            case SCHEDSTAGE_CAPTURING:
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:call", "abort");
                 process()->captureInterface()->call(QDBus::BlockWithGui, "abort");
                 break;
@@ -2523,7 +2708,7 @@ void Scheduler::stopCurrentJobAction()
         }
 
         /* Reset interrupted job stage */
-        activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+        updateJobStage(SCHEDSTAGE_IDLE);
     }
 
     /* Guiding being a parallel process, check to stop it */
@@ -2670,10 +2855,10 @@ void Scheduler::findNextJob()
         return;
     }
 
-    Q_ASSERT_X(activeJob()->getState() == SchedulerJob::JOB_ERROR ||
-               activeJob()->getState() == SchedulerJob::JOB_ABORTED ||
-               activeJob()->getState() == SchedulerJob::JOB_COMPLETE ||
-               activeJob()->getState() == SchedulerJob::JOB_IDLE,
+    Q_ASSERT_X(activeJob()->getState() == SCHEDJOB_ERROR ||
+               activeJob()->getState() == SCHEDJOB_ABORTED ||
+               activeJob()->getState() == SCHEDJOB_COMPLETE ||
+               activeJob()->getState() == SCHEDJOB_IDLE,
                __FUNCTION__, "Finding next job requires current to be in error, aborted, idle or complete");
 
     // Reset failed count
@@ -2682,28 +2867,28 @@ void Scheduler::findNextJob()
     moduleState()->resetFocusFailureCount();
     moduleState()->resetCaptureFailureCount();
 
-    if (activeJob()->getState() == SchedulerJob::JOB_ERROR || activeJob()->getState() == SchedulerJob::JOB_ABORTED)
+    if (activeJob()->getState() == SCHEDJOB_ERROR || activeJob()->getState() == SCHEDJOB_ABORTED)
     {
         emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
         moduleState()->resetCaptureBatch();
         // Stop Guiding if it was used
         process()->stopGuiding();
 
-        if (activeJob()->getState() == SchedulerJob::JOB_ERROR)
+        if (activeJob()->getState() == SCHEDJOB_ERROR)
             appendLogText(i18n("Job '%1' is terminated due to errors.", activeJob()->getName()));
         else
             appendLogText(i18n("Job '%1' is aborted.", activeJob()->getName()));
 
         // Always reset job stage
-        activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+        updateJobStage(SCHEDSTAGE_IDLE);
 
         // restart aborted jobs immediately, if error handling strategy is set to "restart immediately"
         if (errorHandlingRestartImmediatelyButton->isChecked() &&
-                (activeJob()->getState() == SchedulerJob::JOB_ABORTED ||
-                 (activeJob()->getState() == SchedulerJob::JOB_ERROR && errorHandlingRescheduleErrorsCB->isChecked())))
+                (activeJob()->getState() == SCHEDJOB_ABORTED ||
+                 (activeJob()->getState() == SCHEDJOB_ERROR && errorHandlingRescheduleErrorsCB->isChecked())))
         {
             // reset the state so that it will be restarted
-            activeJob()->setState(SchedulerJob::JOB_SCHEDULED);
+            activeJob()->setState(SCHEDJOB_SCHEDULED);
 
             appendLogText(i18n("Waiting %1 seconds to restart job '%2'.", errorHandlingStrategyDelay->value(), activeJob()->getName()));
 
@@ -2721,7 +2906,7 @@ void Scheduler::findNextJob()
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
         moduleState()->setupNextIteration(RUN_SCHEDULER);
     }
-    else if (activeJob()->getState() == SchedulerJob::JOB_IDLE)
+    else if (activeJob()->getState() == SCHEDJOB_IDLE)
     {
         emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
 
@@ -2741,7 +2926,7 @@ void Scheduler::findNextJob()
         {
             foreach(SchedulerJob *a_job, moduleState()->jobs())
                 if (a_job == activeJob() || a_job->isDuplicateOf(activeJob()))
-                    a_job->setState(SchedulerJob::JOB_IDLE);
+                    a_job->setState(SCHEDJOB_IDLE);
         }
 
         moduleState()->resetCaptureBatch();
@@ -2751,12 +2936,12 @@ void Scheduler::findNextJob()
         appendLogText(i18n("Job '%1' is complete.", activeJob()->getName()));
 
         // Always reset job stage
-        activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+        updateJobStage(SCHEDSTAGE_IDLE);
 
         // If saving remotely, then can't tell later that the job has been completed.
         // Set it complete now.
         if (!canCountCaptures(*activeJob()))
-            activeJob()->setState(SchedulerJob::JOB_COMPLETE);
+            activeJob()->setState(SCHEDJOB_COMPLETE);
 
         setActiveJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
@@ -2780,7 +2965,7 @@ void Scheduler::findNextJob()
         /* Mark the job idle as well as all its duplicates for re-evaluation */
         foreach(SchedulerJob *a_job, moduleState()->jobs())
             if (a_job == activeJob() || a_job->isDuplicateOf(activeJob()))
-                a_job->setState(SchedulerJob::JOB_IDLE);
+                a_job->setState(SCHEDJOB_IDLE);
 
         /* Re-evaluate all jobs, without selecting a new job */
         evaluateJobs(true);
@@ -2797,7 +2982,7 @@ void Scheduler::findNextJob()
                                     "Job '%1' is complete after #%2 batches.",
                                     activeJob()->getName(), activeJob()->getRepeatsRequired()));
                 if (!canCountCaptures(*activeJob()))
-                    activeJob()->setState(SchedulerJob::JOB_COMPLETE);
+                    activeJob()->setState(SCHEDJOB_COMPLETE);
                 setActiveJob(nullptr);
             }
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
@@ -2814,31 +2999,31 @@ void Scheduler::findNextJob()
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
             {
                 process()->stopGuiding();
-                activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
+                updateJobStage(SCHEDSTAGE_ALIGNING);
                 process()->startAstrometry();
             }
             /* If we are guiding, continue capturing */
             else if ( (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE) )
             {
-                activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
+                updateJobStage(SCHEDSTAGE_CAPTURING);
                 process()->startCapture();
             }
             /* If we are not guiding, but using alignment, realign */
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN)
             {
-                activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
+                updateJobStage(SCHEDSTAGE_ALIGNING);
                 process()->startAstrometry();
             }
             /* Else if we are neither guiding nor using alignment, slew back to target */
             else if (activeJob()->getStepPipeline() & SchedulerJob::USE_TRACK)
             {
-                activeJob()->setStage(SchedulerJob::STAGE_SLEWING);
+                updateJobStage(SCHEDSTAGE_SLEWING);
                 process()->startSlew();
             }
             /* Else just start capturing */
             else
             {
-                activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
+                updateJobStage(SCHEDSTAGE_CAPTURING);
                 process()->startCapture();
             }
 
@@ -2873,12 +3058,12 @@ void Scheduler::findNextJob()
         if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
         {
             process()->stopGuiding();
-            activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
+            updateJobStage(SCHEDSTAGE_ALIGNING);
             process()->startAstrometry();
         }
         else
         {
-            activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
+            updateJobStage(SCHEDSTAGE_CAPTURING);
             process()->startCapture();
         }
 
@@ -2904,7 +3089,7 @@ void Scheduler::findNextJob()
             /* Mark the job idle as well as all its duplicates for re-evaluation */
             foreach(SchedulerJob *a_job, moduleState()->jobs())
                 if (a_job == activeJob() || a_job->isDuplicateOf(activeJob()))
-                    a_job->setState(SchedulerJob::JOB_IDLE);
+                    a_job->setState(SCHEDJOB_IDLE);
             stopCurrentJobAction();
 
             moduleState()->resetCaptureBatch();
@@ -2914,7 +3099,7 @@ void Scheduler::findNextJob()
                                 activeJob()->getName(), moduleState()->captureBatch() + 1));
 
             // Always reset job stage
-            activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+            updateJobStage(SCHEDSTAGE_IDLE);
 
             setActiveJob(nullptr);
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
@@ -2928,12 +3113,12 @@ void Scheduler::findNextJob()
             if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
             {
                 process()->stopGuiding();
-                activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
+                updateJobStage(SCHEDSTAGE_ALIGNING);
                 process()->startAstrometry();
             }
             else
             {
-                activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
+                updateJobStage(SCHEDSTAGE_CAPTURING);
                 process()->startCapture();
             }
 
@@ -2954,7 +3139,7 @@ void Scheduler::findNextJob()
                                        "' timer elapsed, but no action to be taken.";
 
         // Always reset job stage
-        activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+        updateJobStage(SCHEDSTAGE_IDLE);
 
         setActiveJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
@@ -3006,8 +3191,8 @@ void Scheduler::updateCompletedJobsCount(bool forced)
     forced |= std::any_of(moduleState()->jobs().begin(),
                           moduleState()->jobs().end(), [](SchedulerJob * oneJob) -> bool
     {
-        SchedulerJob::JOBStatus const state = oneJob->getState();
-        return state == SchedulerJob::JOB_IDLE || state == SchedulerJob::JOB_EVALUATION;});
+        SchedulerJobStatus const state = oneJob->getState();
+        return state == SCHEDJOB_IDLE || state == SCHEDJOB_EVALUATION;});
 
     /* If update is forced, clear the frame map */
     if (forced)
@@ -3026,7 +3211,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         {
             appendLogText(i18n("Warning: job '%1' has inaccessible sequence '%2', marking invalid.", oneJob->getName(),
                                oneJob->getSequenceFile().toLocalFile()));
-            oneJob->setState(SchedulerJob::JOB_INVALID);
+            oneJob->setState(SCHEDJOB_INVALID);
             continue;
         }
 
@@ -3084,8 +3269,6 @@ void Scheduler::startJobEvaluation()
 
     // And evaluate all pending jobs per the conditions set in each
     evaluateJobs(true);
-
-    updateTable();
 }
 
 void Ekos::Scheduler::resetJobs()
@@ -3222,6 +3405,48 @@ void Scheduler::updateProfiles()
     schedulerProfileCombo->addItems(moduleState()->profiles());
     schedulerProfileCombo->setCurrentText(moduleState()->currentProfile());
     schedulerProfileCombo->blockSignals(false);
+}
+
+void Scheduler::updateJobStage(SchedulerJobStage stage)
+{
+    updateJobStageUI(stage);
+
+    if (activeJob()->getStage() != stage)
+        activeJob()->setStage(stage);
+}
+
+void Scheduler::updateJobStageUI(SchedulerJobStage stage)
+{
+    /* Translated string cache - overkill, probably, and doesn't warn about missing enums like switch/case should ; also, not thread-safe */
+    /* FIXME: this should work with a static initializer in C++11, but QT versions are touchy on this, and perhaps i18n can't be used? */
+    static QMap<SchedulerJobStage, QString> stageStrings;
+    static QString stageStringUnknown;
+    if (stageStrings.isEmpty())
+    {
+        stageStrings[SCHEDSTAGE_IDLE] = i18n("Idle");
+        stageStrings[SCHEDSTAGE_SLEWING] = i18n("Slewing");
+        stageStrings[SCHEDSTAGE_SLEW_COMPLETE] = i18n("Slew complete");
+        stageStrings[SCHEDSTAGE_FOCUSING] =
+            stageStrings[SCHEDSTAGE_POSTALIGN_FOCUSING] = i18n("Focusing");
+        stageStrings[SCHEDSTAGE_FOCUS_COMPLETE] =
+            stageStrings[SCHEDSTAGE_POSTALIGN_FOCUSING_COMPLETE ] = i18n("Focus complete");
+        stageStrings[SCHEDSTAGE_ALIGNING] = i18n("Aligning");
+        stageStrings[SCHEDSTAGE_ALIGN_COMPLETE] = i18n("Align complete");
+        stageStrings[SCHEDSTAGE_RESLEWING] = i18n("Repositioning");
+        stageStrings[SCHEDSTAGE_RESLEWING_COMPLETE] = i18n("Repositioning complete");
+        /*stageStrings[SCHEDSTAGE_CALIBRATING] = i18n("Calibrating");*/
+        stageStrings[SCHEDSTAGE_GUIDING] = i18n("Guiding");
+        stageStrings[SCHEDSTAGE_GUIDING_COMPLETE] = i18n("Guiding complete");
+        stageStrings[SCHEDSTAGE_CAPTURING] = i18n("Capturing");
+        stageStringUnknown = i18n("Unknown");
+    }
+
+    if (activeJob() == nullptr)
+        jobStatus->setText(stageStrings[SCHEDSTAGE_IDLE]);
+    else
+        jobStatus->setText(QString("%1: %2").arg(activeJob()->getName(),
+                                                 stageStrings.value(stage, stageStringUnknown)));
+
 }
 
 
@@ -3536,14 +3761,14 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status);
 
     /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
+    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
     {
         QDateTime const now = SchedulerModuleState::getLocalTime();
         if (now < activeJob()->getStartupTime())
             return;
     }
 
-    if (activeJob()->getStage() == SchedulerJob::STAGE_CAPTURING)
+    if (activeJob()->getStage() == SCHEDSTAGE_CAPTURING)
     {
         if (status == Ekos::CAPTURE_PROGRESS && (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN))
         {
@@ -3588,7 +3813,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
             {
                 /* FIXME: it's not clear whether this situation can be recovered at all */
                 appendLogText(i18n("Warning: job '%1' failed its capture procedure, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                activeJob()->setState(SCHEDJOB_ABORTED);
 
                 findNextJob();
             }
@@ -3598,7 +3823,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
             KSNotification::event(QLatin1String("EkosScheduledImagingFinished"),
                                   i18n("Ekos job (%1) - Capture finished", activeJob()->getName()), KSNotification::Scheduler);
 
-            activeJob()->setState(SchedulerJob::JOB_COMPLETE);
+            activeJob()->setState(SCHEDJOB_COMPLETE);
             findNextJob();
         }
         else if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
@@ -3703,7 +3928,7 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
         appendLogText(i18n("Starting shutdown procedure due to severe weather."));
         if (activeJob())
         {
-            activeJob()->setState(SchedulerJob::JOB_ABORTED);
+            activeJob()->setState(SCHEDJOB_ABORTED);
             stopCurrentJobAction();
         }
         checkShutdownState();
@@ -3736,7 +3961,7 @@ bool Scheduler::shouldSchedulerSleep(SchedulerJob *job)
         appendLogText(i18n(
                           "Job '%1' scheduled for execution at %2. "
                           "Observatory scheduled for shutdown until next job is ready.",
-                          job->getName(), job->getStartupTime().toString(job->getDateTimeDisplayFormat())));
+                          job->getName(), job->getStartupTime().toString(startupTimeEdit->displayFormat())));
         moduleState()->enablePreemptiveShutdown(job->getStartupTime());
         schedulerWeather->setEnabled(false);
         weatherLabel->hide();

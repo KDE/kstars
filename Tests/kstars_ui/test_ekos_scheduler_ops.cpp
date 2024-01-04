@@ -389,7 +389,7 @@ void TestEkosSchedulerOps::startupJobs(
             // check if there is a job scheduled
             bool scheduled_job = false;
             foreach (Ekos::SchedulerJob *sched_job, scheduler->moduleState()->jobs())
-                if (sched_job->state == Ekos::SchedulerJob::JOB_SCHEDULED)
+                if (sched_job->state == Ekos::SCHEDJOB_SCHEDULED)
                     scheduled_job = true;
             if (scheduled_job)
             {
@@ -569,7 +569,7 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
     QVERIFY(iterateScheduler("Wait for Capturing", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->activeJob() != nullptr &&
-                scheduler->activeJob()->getStage() == Ekos::SchedulerJob::STAGE_CAPTURING);
+                scheduler->activeJob()->getStage() == Ekos::SCHEDSTAGE_CAPTURING);
     }));
 
     {
@@ -1058,8 +1058,8 @@ void TestEkosSchedulerOps::testRememberJobProgress()
     QFETCH(bool, scheduled);
 
     // verify if the job is scheduled as expected
-    QVERIFY(scheduler->moduleState()->jobs()[0]->getState() == (scheduled ? Ekos::SchedulerJob::JOB_SCHEDULED :
-            Ekos::SchedulerJob::JOB_COMPLETE));
+    QVERIFY(scheduler->moduleState()->jobs()[0]->getState() == (scheduled ? Ekos::SCHEDJOB_SCHEDULED :
+            Ekos::SCHEDJOB_COMPLETE));
 }
 
 void TestEkosSchedulerOps::loadGreedySchedule(
@@ -1470,7 +1470,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
         if (job->getName() == "M 104")
         {
             m104Job = job;
-            m104Job->setState(Ekos::SchedulerJob::JOB_ABORTED);
+            m104Job->setState(Ekos::SCHEDJOB_ABORTED);
         }
     QVERIFY(m104Job != nullptr);
 

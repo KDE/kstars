@@ -9,6 +9,7 @@
 #include "schedulermodulestate.h"
 #include "ekos/capture/sequencejob.h"
 #include "Options.h"
+#include "skypoint.h"
 #include "kstarsdata.h"
 #include <ekos_scheduler_debug.h>
 
@@ -703,6 +704,54 @@ uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *>
                                   signature) ? expected[signature] : 0);
     }
     return capturesPerRepeat;
+}
+
+double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting, bool debug)
+{
+    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
+
+    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
+    KStarsDateTime ltWhen(when.isValid() ?
+                          Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          SchedulerModuleState::getLocalTime());
+
+    // Create a sky object with the target catalog coordinates
+    SkyObject o;
+    o.setRA0(target.ra0());
+    o.setDec0(target.dec0());
+
+    // Update RA/DEC of the target for the current fraction of the day
+    KSNumbers numbers(ltWhen.djd());
+    o.updateCoordsNow(&numbers);
+
+    // Calculate alt/az coordinates using KStars instance's geolocation
+    CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
+
+    // Hours are reduced to [0,24[, meridian being at 0
+    double offset = LST.Hours() - o.ra().Hours();
+    if (24.0 <= offset)
+        offset -= 24.0;
+    else if (offset < 0.0)
+        offset += 24.0;
+    bool const passed_meridian = 0.0 <= offset && offset < 12.0;
+
+    if (debug)
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("When:%9 LST:%8 RA:%1 RA0:%2 DEC:%3 DEC0:%4 alt:%5 setting:%6 HA:%7")
+                                       .arg(o.ra().toHMSString())
+                                       .arg(o.ra0().toHMSString())
+                                       .arg(o.dec().toHMSString())
+                                       .arg(o.dec0().toHMSString())
+                                       .arg(o.alt().Degrees())
+                                       .arg(passed_meridian ? "yes" : "no")
+                                       .arg(o.ra().Hours())
+                                       .arg(LST.toHMSString())
+                                       .arg(ltWhen.toString("HH:mm:ss"));
+
+    if (is_setting)
+        *is_setting = passed_meridian;
+
+    return o.alt().Degrees();
 }
 
 } // namespace

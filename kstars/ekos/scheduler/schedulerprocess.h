@@ -317,6 +317,8 @@ signals:
     void stopCurrentJobAction();
     void findNextJob();
     void getNextAction();
+    // state changes
+    void newJobStage(SchedulerJobStage stage);
     // loading jobs
     void addJob(SchedulerJob *job);
     void syncGUIToGeneralSettings();
@@ -419,6 +421,12 @@ private:
      * @brief readProcessOutput read running script process output and display it in Ekos
      */
     void readProcessOutput();
+
+    /**
+     * @brief updateStageLabel Helper function that updates the stage label and has to be placed
+     * after all commands that have altered the stage of activeJob()
+     */
+    void updateJobStage(SchedulerJobStage stage);
 
     /**
      * @brief activeJob Shortcut to the active job held in the state machine

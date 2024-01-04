@@ -15,6 +15,8 @@
 #include <QString>
 #include <QUrl>
 
+class SkyPoint;
+
 namespace Ekos {
 
 class SchedulerJob;
@@ -108,6 +110,17 @@ public:
      * @return total expected number of captured frames of a single run of all jobs
      */
     static uint16_t calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected);
+
+    /**
+         * @brief findAltitude Find altitude given a specific time
+         * @param target Target
+         * @param when date time to find altitude
+         * @param is_setting whether target is setting at the argument time (optional).
+         * @param debug outputs calculation to log file (optional).
+         * @return Altitude of the target at the specific date and time given.
+         * @warning This function uses the current KStars geolocation.
+         */
+    static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
 };
 
 

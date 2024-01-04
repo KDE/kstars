@@ -13,12 +13,11 @@
 #include "Options.h"
 #include "scheduler.h"
 #include "schedulermodulestate.h"
+#include "schedulerutils.h"
 #include "ksalmanac.h"
 #include "ksmoon.h"
 
 #include <knotification.h>
-
-#include <QTableWidgetItem>
 
 #include <ekos_scheduler_debug.h>
 
@@ -27,69 +26,67 @@
 
 namespace Ekos
 {
-bool SchedulerJob::m_UpdateGraphics = true;
-
 GeoLocation *SchedulerJob::storedGeo = nullptr;
 KStarsDateTime *SchedulerJob::storedLocalTime = nullptr;
 ArtificialHorizon *SchedulerJob::storedHorizon = nullptr;
 
-QString SchedulerJob::jobStatusString(JOBStatus state)
+QString SchedulerJob::jobStatusString(SchedulerJobStatus state)
 {
     switch(state)
     {
-        case SchedulerJob::JOB_IDLE:
+        case SCHEDJOB_IDLE:
             return "IDLE";
-        case SchedulerJob::JOB_EVALUATION:
+        case SCHEDJOB_EVALUATION:
             return "EVAL";
-        case SchedulerJob::JOB_SCHEDULED:
+        case SCHEDJOB_SCHEDULED:
             return "SCHEDULED";
-        case SchedulerJob::JOB_BUSY:
+        case SCHEDJOB_BUSY:
             return "BUSY";
-        case SchedulerJob::JOB_ERROR:
+        case SCHEDJOB_ERROR:
             return "ERROR";
-        case SchedulerJob::JOB_ABORTED:
+        case SCHEDJOB_ABORTED:
             return "ABORTED";
-        case SchedulerJob::JOB_INVALID:
+        case SCHEDJOB_INVALID:
             return "INVALID";
-        case SchedulerJob::JOB_COMPLETE:
+        case SCHEDJOB_COMPLETE:
             return "COMPLETE";
     }
     return QString("????");
 }
 
-QString SchedulerJob::jobStageString(JOBStage state)
+QString SchedulerJob::jobStageString(SchedulerJobStage state)
 {
     switch(state)
     {
-        case SchedulerJob::STAGE_IDLE:
+        case SCHEDSTAGE_IDLE:
             return "IDLE";
-        case SchedulerJob::STAGE_SLEWING:
+        case SCHEDSTAGE_SLEWING:
             return "SLEWING";
-        case SchedulerJob::STAGE_SLEW_COMPLETE:
+        case SCHEDSTAGE_SLEW_COMPLETE:
             return "SLEW_COMPLETE";
-        case SchedulerJob::STAGE_FOCUSING:
+        case SCHEDSTAGE_FOCUSING:
             return "FOCUSING";
-        case SchedulerJob::STAGE_FOCUS_COMPLETE:
+        case SCHEDSTAGE_FOCUS_COMPLETE:
             return "FOCUS_COMPLETE";
-        case SchedulerJob::STAGE_ALIGNING:
+        case SCHEDSTAGE_ALIGNING:
             return "ALIGNING";
-        case SchedulerJob::STAGE_ALIGN_COMPLETE:
+        case SCHEDSTAGE_ALIGN_COMPLETE:
             return "ALIGN_COMPLETE";
-        case SchedulerJob::STAGE_RESLEWING:
+        case SCHEDSTAGE_RESLEWING:
             return "RESLEWING";
-        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+        case SCHEDSTAGE_RESLEWING_COMPLETE:
             return "RESLEWING_COMPLETE";
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
+        case SCHEDSTAGE_POSTALIGN_FOCUSING:
             return "POSTALIGN_FOCUSING";
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
+        case SCHEDSTAGE_POSTALIGN_FOCUSING_COMPLETE:
             return "POSTALIGN_FOCUSING_COMPLETE";
-        case SchedulerJob::STAGE_GUIDING:
+        case SCHEDSTAGE_GUIDING:
             return "GUIDING";
-        case SchedulerJob::STAGE_GUIDING_COMPLETE:
+        case SCHEDSTAGE_GUIDING_COMPLETE:
             return "GUIDING_COMPLETE";
-        case SchedulerJob::STAGE_CAPTURING:
+        case SCHEDSTAGE_CAPTURING:
             return "CAPTURING";
-        case SchedulerJob::STAGE_COMPLETE:
+        case SCHEDSTAGE_COMPLETE:
             return "COMPLETE";
     }
     return QString("????");
@@ -138,13 +135,11 @@ SchedulerJob::SchedulerJob(KSMoon *moonPtr)
 void SchedulerJob::setName(const QString &value)
 {
     name = value;
-    updateJobCells();
 }
 
 void SchedulerJob::setGroup(const QString &value)
 {
     group = value;
-    updateJobCells();
 }
 
 void SchedulerJob::setCompletedIterations(int value)
@@ -167,14 +162,6 @@ ArtificialHorizon const *SchedulerJob::getHorizon()
             || KStarsData::Instance()->skyComposite()->artificialHorizon() == nullptr)
         return nullptr;
     return &KStarsData::Instance()->skyComposite()->artificialHorizon()->getHorizon();
-}
-
-void SchedulerJob::updateCellStyle(QTableWidgetItem *cell)
-{
-    QFont font(cell->font());
-    font.setBold(state == JOB_BUSY);
-    font.setItalic(state == JOB_BUSY);
-    cell->setFont(font);
 }
 
 void SchedulerJob::setStartupCondition(const StartupCondition &value)
@@ -203,7 +190,7 @@ void SchedulerJob::setStartupTime(const QDateTime &value)
         startupCondition = fileStartupCondition;
 
     // Refresh altitude - invalid date/time is taken care of when rendering
-    altitudeAtStartup = findAltitude(targetCoords, startupTime, &isSettingAtStartup);
+    altitudeAtStartup = SchedulerUtils::findAltitude(targetCoords, startupTime, &settingAtStartup);
 
     /* Refresh estimated time - which update job cells */
     setEstimatedTime(estimatedTime);
@@ -260,22 +247,21 @@ void SchedulerJob::setCompletionTime(const QDateTime &value)
     {
         setCompletionCondition(FINISH_AT);
         completionTime = value;
-        altitudeAtCompletion = findAltitude(targetCoords, completionTime, &isSettingAtCompletion);
+        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
         setEstimatedTime(-1);
     }
     /* If completion time is invalid, and job is looping, keep completion time undefined */
     else if (FINISH_LOOP == completionCondition)
     {
         completionTime = QDateTime();
-        altitudeAtCompletion = findAltitude(targetCoords, completionTime, &isSettingAtCompletion);
+        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
         setEstimatedTime(-1);
     }
     /* If completion time is invalid, deduce completion from startup and duration */
     else if (startupTime.isValid())
     {
         completionTime = startupTime.addSecs(estimatedTime);
-        altitudeAtCompletion = findAltitude(targetCoords, completionTime, &isSettingAtCompletion);
-        updateJobCells();
+        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
     }
     /* Else just refresh estimated time - which update job cells */
     else setEstimatedTime(estimatedTime);
@@ -316,8 +302,6 @@ void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
         default:
             break;
     }
-
-    updateJobCells();
 }
 
 void SchedulerJob::setStepPipeline(const StepPipeline &value)
@@ -325,20 +309,20 @@ void SchedulerJob::setStepPipeline(const StepPipeline &value)
     stepPipeline = value;
 }
 
-void SchedulerJob::setState(const JOBStatus &value)
+void SchedulerJob::setState(const SchedulerJobStatus &value)
 {
     state = value;
     stateTime = getLocalTime();
 
     /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
-    if (JOB_ERROR == state)
+    if (SCHEDJOB_ERROR == state)
     {
         lastErrorTime = getLocalTime();
         KNotification::event(QLatin1String("EkosSchedulerJobFail"), i18n("Ekos job failed (%1)", getName()));
     }
 
     /* If job becomes invalid or idle, automatically reset its startup characteristics, and force its duration to be reestimated */
-    if (JOB_INVALID == value || JOB_IDLE == value)
+    if (SCHEDJOB_INVALID == value || SCHEDJOB_IDLE == value)
     {
         setStartupCondition(fileStartupCondition);
         setStartupTime(fileStartupTime);
@@ -346,106 +330,29 @@ void SchedulerJob::setState(const JOBStatus &value)
     }
 
     /* If job is aborted, automatically reset its startup characteristics */
-    if (JOB_ABORTED == value)
+    if (SCHEDJOB_ABORTED == value)
     {
         lastAbortTime = getLocalTime();
         setStartupCondition(fileStartupCondition);
         /* setStartupTime(fileStartupTime); */
     }
-
-    updateJobCells();
 }
 
 
 void SchedulerJob::setSequenceCount(const int count)
 {
     sequenceCount = count;
-    updateJobCells();
-}
-
-void SchedulerJob::setNameCell(QTableWidgetItem *value)
-{
-    nameCell = value;
 }
 
 void SchedulerJob::setCompletedCount(const int count)
 {
     completedCount = count;
-    updateJobCells();
 }
 
-void SchedulerJob::setStatusCell(QTableWidgetItem *value)
-{
-    statusCell = value;
-    if (nullptr != statusCell)
-        statusCell->setToolTip(i18n("Current status of job '%1', managed by the Scheduler.\n"
-                                    "If invalid, the Scheduler was not able to find a proper observation time for the target.\n"
-                                    "If aborted, the Scheduler missed the scheduled time or encountered transitory issues and will reschedule the job.\n"
-                                    "If complete, the Scheduler verified that all sequence captures requested were stored, including repeats.",
-                                    name));
-}
 
-void SchedulerJob::setAltitudeCell(QTableWidgetItem *value)
-{
-    altitudeCell = value;
-    if (nullptr != altitudeCell)
-        altitudeCell->setToolTip(i18n("Current altitude of the target of job '%1'.\n"
-                                      "A rising target is indicated with an arrow going up.\n"
-                                      "A setting target is indicated with an arrow going down.",
-                                      name));
-}
-
-void SchedulerJob::setStartupCell(QTableWidgetItem *value)
-{
-    startupCell = value;
-    if (nullptr != startupCell)
-        startupCell->setToolTip(i18n("Startup time for job '%1', as estimated by the Scheduler.\n"
-                                     "The altitude at startup, if available, is displayed too.\n"
-                                     "Fixed time from user or culmination time is marked with a chronometer symbol. ",
-                                     name));
-}
-
-void SchedulerJob::setCompletionCell(QTableWidgetItem *value)
-{
-    completionCell = value;
-    if (nullptr != completionCell)
-        completionCell->setToolTip(i18n("Completion time for job '%1', as estimated by the Scheduler.\n"
-                                        "You may specify a fixed time to limit duration of looping jobs. "
-                                        "A warning symbol indicates the altitude at completion may cause the job to abort before completion.\n",
-                                        name));
-}
-
-void SchedulerJob::setCaptureCountCell(QTableWidgetItem *value)
-{
-    captureCountCell = value;
-    if (nullptr != captureCountCell)
-        captureCountCell->setToolTip(i18n("Count of captures stored for job '%1', based on its sequence job.\n"
-                                          "This is a summary, additional specific frame types may be required to complete the job.",
-                                          name));
-}
-
-void SchedulerJob::setDateTimeDisplayFormat(const QString &value, bool update)
-{
-    dateTimeDisplayFormat = value;
-    if (update)
-        updateJobCells();
-}
-
-void SchedulerJob::setStage(const JOBStage &value)
+void SchedulerJob::setStage(const SchedulerJobStage &value)
 {
     stage = value;
-    updateJobCells();
-}
-
-void SchedulerJob::setStageCell(QTableWidgetItem *cell)
-{
-    stageCell = cell;
-    // FIXME: Add a tool tip if cell is used
-}
-
-void SchedulerJob::setStageLabel(QLabel *label)
-{
-    stageLabel = label;
 }
 
 void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
@@ -478,12 +385,10 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     {
         estimatedTime = value;
         completionTime = startupTime.addSecs(value);
-        altitudeAtCompletion = findAltitude(targetCoords, completionTime, &isSettingAtCompletion);
+        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
     }
     /* Else estimated time is simply stored as is - covers FINISH_LOOP from setCompletionTime */
     else estimatedTime = value;
-
-    updateJobCells();
 }
 
 void SchedulerJob::setInSequenceFocus(bool value)
@@ -527,14 +432,11 @@ void SchedulerJob::setRepeatsRequired(const uint16_t &value)
         if (FINISH_LOOP != completionCondition)
             setCompletionCondition(FINISH_LOOP);
     }
-
-    updateJobCells();
 }
 
 void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
 {
     repeatsRemaining = value;
-    updateJobCells();
 }
 
 void SchedulerJob::setCapturedFramesMap(const CapturedFramesMap &value)
@@ -555,224 +457,10 @@ void SchedulerJob::setPositionAngle(double value)
     m_PositionAngle = value;
 }
 
-void SchedulerJob::updateJobCells()
-{
-    if (!m_UpdateGraphics) return;
-
-    // Only in testing.
-    if (!nameCell) return;
-
-    // Only update rows if they are visible.
-    const auto table = nameCell->tableWidget();
-    const int topRow = table->rowAt(0);
-    const int bottomRow = table->rowAt(table->height());
-    const int row = nameCell->row();
-    if (topRow >= 0 && bottomRow >= 0 && (row < topRow || row > bottomRow))
-        return;
-
-    if (nullptr != nameCell)
-    {
-        nameCell->setText(name);
-        updateCellStyle(nameCell);
-        if (nullptr != nameCell->tableWidget())
-            nameCell->tableWidget()->resizeColumnToContents(nameCell->column());
-    }
-
-    if (nullptr != nameLabel)
-    {
-        nameLabel->setText(name + QString(":"));
-    }
-
-    if (nullptr != statusCell)
-    {
-        static QMap<JOBStatus, QString> stateStrings;
-        static QString stateStringUnknown;
-        if (stateStrings.isEmpty())
-        {
-            stateStrings[JOB_IDLE] = i18n("Idle");
-            stateStrings[JOB_EVALUATION] = i18n("Evaluating");
-            stateStrings[JOB_SCHEDULED] = i18n("Scheduled");
-            stateStrings[JOB_BUSY] = i18n("Running");
-            stateStrings[JOB_INVALID] = i18n("Invalid");
-            stateStrings[JOB_COMPLETE] = i18n("Complete");
-            stateStrings[JOB_ABORTED] = i18n("Aborted");
-            stateStrings[JOB_ERROR] =  i18n("Error");
-            stateStringUnknown = i18n("Unknown");
-        }
-        statusCell->setText(stateStrings.value(state, stateStringUnknown));
-        updateCellStyle(statusCell);
-
-        if (nullptr != statusCell->tableWidget())
-            statusCell->tableWidget()->resizeColumnToContents(statusCell->column());
-    }
-
-    if (nullptr != stageCell || nullptr != stageLabel)
-    {
-        /* Translated string cache - overkill, probably, and doesn't warn about missing enums like switch/case should ; also, not thread-safe */
-        /* FIXME: this should work with a static initializer in C++11, but QT versions are touchy on this, and perhaps i18n can't be used? */
-        static QMap<JOBStage, QString> stageStrings;
-        static QString stageStringUnknown;
-        if (stageStrings.isEmpty())
-        {
-            stageStrings[STAGE_IDLE] = i18n("Idle");
-            stageStrings[STAGE_SLEWING] = i18n("Slewing");
-            stageStrings[STAGE_SLEW_COMPLETE] = i18n("Slew complete");
-            stageStrings[STAGE_FOCUSING] =
-                stageStrings[STAGE_POSTALIGN_FOCUSING] = i18n("Focusing");
-            stageStrings[STAGE_FOCUS_COMPLETE] =
-                stageStrings[STAGE_POSTALIGN_FOCUSING_COMPLETE ] = i18n("Focus complete");
-            stageStrings[STAGE_ALIGNING] = i18n("Aligning");
-            stageStrings[STAGE_ALIGN_COMPLETE] = i18n("Align complete");
-            stageStrings[STAGE_RESLEWING] = i18n("Repositioning");
-            stageStrings[STAGE_RESLEWING_COMPLETE] = i18n("Repositioning complete");
-            /*stageStrings[STAGE_CALIBRATING] = i18n("Calibrating");*/
-            stageStrings[STAGE_GUIDING] = i18n("Guiding");
-            stageStrings[STAGE_GUIDING_COMPLETE] = i18n("Guiding complete");
-            stageStrings[STAGE_CAPTURING] = i18n("Capturing");
-            stageStringUnknown = i18n("Unknown");
-        }
-        if (nullptr != stageCell)
-        {
-            stageCell->setText(stageStrings.value(stage, stageStringUnknown));
-            updateCellStyle(stageCell);
-            if (nullptr != stageCell->tableWidget())
-                stageCell->tableWidget()->resizeColumnToContents(stageCell->column());
-        }
-        if (nullptr != stageLabel)
-        {
-            stageLabel->setText(QString("%1: %2").arg(name, stageStrings.value(stage, stageStringUnknown)));
-        }
-    }
-
-    if (nullptr != startupCell)
-    {
-        auto time = (state == JOB_BUSY) ? stateTime : startupTime;
-        /* Display startup time if it is valid */
-        if (time.isValid())
-        {
-            startupCell->setText(QString("%1%2%L3° %4")
-                                 .arg(altitudeAtStartup < minAltitude ? QString(QChar(0x26A0)) : "")
-                                 .arg(QChar(isSettingAtStartup ? 0x2193 : 0x2191))
-                                 .arg(altitudeAtStartup, 0, 'f', 1)
-                                 .arg(time.toString(dateTimeDisplayFormat)));
-
-            switch (fileStartupCondition)
-            {
-                /* If the original condition is START_AT/START_CULMINATION, startup time is fixed */
-                case START_AT:
-                    startupCell->setIcon(QIcon::fromTheme("chronometer"));
-                    break;
-
-                /* If the original condition is START_ASAP, startup time is informational */
-                case START_ASAP:
-                    startupCell->setIcon(QIcon());
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        /* Else do not display any startup time */
-        else
-        {
-            startupCell->setText("-");
-            startupCell->setIcon(QIcon());
-        }
-
-        updateCellStyle(startupCell);
-
-        if (nullptr != startupCell->tableWidget())
-            startupCell->tableWidget()->resizeColumnToContents(startupCell->column());
-    }
-
-    if (nullptr != altitudeCell)
-    {
-        // FIXME: Cache altitude calculations
-        bool is_setting = false;
-        double const alt = findAltitude(targetCoords, QDateTime(), &is_setting);
-
-        altitudeCell->setText(QString("%1%L2°")
-                              .arg(QChar(is_setting ? 0x2193 : 0x2191))
-                              .arg(alt, 0, 'f', 1));
-        updateCellStyle(altitudeCell);
-
-        if (nullptr != altitudeCell->tableWidget())
-            altitudeCell->tableWidget()->resizeColumnToContents(altitudeCell->column());
-    }
-
-    if (nullptr != completionCell)
-    {
-        if (greedyCompletionTime.isValid())
-        {
-            completionCell->setText(QString("%1")
-                                    .arg(greedyCompletionTime.toString("hh:mm")));
-        }
-        else
-            /* Display completion time if it is valid and job is not looping */
-            if (FINISH_LOOP != completionCondition && completionTime.isValid())
-            {
-                completionCell->setText(QString("%1%2%L3° %4")
-                                        .arg(altitudeAtCompletion < minAltitude ? QString(QChar(0x26A0)) : "")
-                                        .arg(QChar(isSettingAtCompletion ? 0x2193 : 0x2191))
-                                        .arg(altitudeAtCompletion, 0, 'f', 1)
-                                        .arg(completionTime.toString(dateTimeDisplayFormat)));
-
-                switch (completionCondition)
-                {
-                    case FINISH_AT:
-                        completionCell->setIcon(QIcon::fromTheme("chronometer"));
-                        break;
-
-                    case FINISH_SEQUENCE:
-                    case FINISH_REPEAT:
-                    default:
-                        completionCell->setIcon(QIcon());
-                        break;
-                }
-            }
-        /* Else do not display any completion time */
-            else
-            {
-                completionCell->setText("-");
-                completionCell->setIcon(QIcon());
-            }
-
-        updateCellStyle(completionCell);
-        if (nullptr != completionCell->tableWidget())
-            completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
-    }
-
-    if (nullptr != captureCountCell)
-    {
-        switch (completionCondition)
-        {
-            case FINISH_AT:
-            // FIXME: Attempt to calculate the number of frames until end - requires detailed imaging time
-
-            case FINISH_LOOP:
-                // If looping, display the count of completed frames
-                captureCountCell->setText(QString("%L1/-").arg(completedCount));
-                break;
-
-            case FINISH_SEQUENCE:
-            case FINISH_REPEAT:
-            default:
-                // If repeating, display the count of completed frames to the count of requested frames
-                captureCountCell->setText(QString("%L1/%L2").arg(completedCount).arg(sequenceCount));
-                break;
-        }
-
-        updateCellStyle(captureCountCell);
-        if (nullptr != captureCountCell->tableWidget())
-            captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
-    }
-
-}
-
 void SchedulerJob::reset()
 {
-    state = JOB_IDLE;
-    stage = STAGE_IDLE;
+    state = SCHEDJOB_IDLE;
+    stage = SCHEDSTAGE_IDLE;
     stateTime = getLocalTime();
     lastAbortTime = QDateTime();
     lastErrorTime = QDateTime();
@@ -789,20 +477,19 @@ void SchedulerJob::reset()
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
     completedIterations = 0;
-    updateJobCells();
     clearCache();
 }
 
 bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJob const *job2, QDateTime const &when)
 {
-    bool A_is_setting = job1->isSettingAtStartup;
+    bool A_is_setting = job1->settingAtStartup;
     double const altA = when.isValid() ?
-                        findAltitude(job1->getTargetCoords(), when, &A_is_setting) :
+                        SchedulerUtils::findAltitude(job1->getTargetCoords(), when, &A_is_setting) :
                         job1->altitudeAtStartup;
 
-    bool B_is_setting = job2->isSettingAtStartup;
+    bool B_is_setting = job2->settingAtStartup;
     double const altB = when.isValid() ?
-                        findAltitude(job2->getTargetCoords(), when, &B_is_setting) :
+                        SchedulerUtils::findAltitude(job2->getTargetCoords(), when, &B_is_setting) :
                         job2->altitudeAtStartup;
 
     // Sort with the setting target first
@@ -1063,54 +750,6 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
     return QDateTime();
 }
 
-double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting, bool debug)
-{
-    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-
-    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
-    KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
-                          getLocalTime());
-
-    // Create a sky object with the target catalog coordinates
-    SkyObject o;
-    o.setRA0(target.ra0());
-    o.setDec0(target.dec0());
-
-    // Update RA/DEC of the target for the current fraction of the day
-    KSNumbers numbers(ltWhen.djd());
-    o.updateCoordsNow(&numbers);
-
-    // Calculate alt/az coordinates using KStars instance's geolocation
-    CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
-    o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
-
-    // Hours are reduced to [0,24[, meridian being at 0
-    double offset = LST.Hours() - o.ra().Hours();
-    if (24.0 <= offset)
-        offset -= 24.0;
-    else if (offset < 0.0)
-        offset += 24.0;
-    bool const passed_meridian = 0.0 <= offset && offset < 12.0;
-
-    if (debug)
-        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("When:%9 LST:%8 RA:%1 RA0:%2 DEC:%3 DEC0:%4 alt:%5 setting:%6 HA:%7")
-                                       .arg(o.ra().toHMSString())
-                                       .arg(o.ra0().toHMSString())
-                                       .arg(o.dec().toHMSString())
-                                       .arg(o.dec0().toHMSString())
-                                       .arg(o.alt().Degrees())
-                                       .arg(passed_meridian ? "yes" : "no")
-                                       .arg(o.ra().Hours())
-                                       .arg(LST.toHMSString())
-                                       .arg(ltWhen.toString("HH:mm:ss"));
-
-    if (is_setting)
-        *is_setting = passed_meridian;
-
-    return o.alt().Degrees();
-}
-
 bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
         QDateTime *nextPossibleSuccess) const
 {
@@ -1350,6 +989,9 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
 
 QJsonObject SchedulerJob::toJson() const
 {
+    bool is_setting = false;
+    double const alt = SchedulerUtils::findAltitude(getTargetCoords(), QDateTime(), &is_setting);
+
     return
     {
         {"name", name},
@@ -1365,9 +1007,9 @@ QJsonObject SchedulerJob::toJson() const
         {"repeatsRequired", repeatsRequired},
         {"repeatsRemaining", repeatsRemaining},
         {"inSequenceFocus", inSequenceFocus},
-        {"startupTime", startupCell ? startupCell->text() : "--"},
-        {"completionTime", completionCell ? completionCell->text() : "--"},
-        {"altitude", altitudeCell ? altitudeCell->text() : "--"},
+        {"startupTime", startupTime.isValid() ? startupTime.toString() : "--"},
+        {"completionTime", completionTime.isValid() ? completionTime.toString() : "--"},
+        {"altitude", alt},
     };
 }
 } // Ekos namespace
