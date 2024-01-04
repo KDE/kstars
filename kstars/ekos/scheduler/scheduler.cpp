@@ -1341,9 +1341,15 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
 
     if (job != nullptr)
     {
-        // avoid changing the UI values for the currently edited job
-        if (jobUnderEdit != current.row())
+        if (jobUnderEdit < 0)
             syncGUIToJob(job);
+        else if (jobUnderEdit != current.row())
+        {
+            // avoid changing the UI values for the currently edited job
+            appendLogText(i18n("Stop editing of job #%1, resetting to original value.", jobUnderEdit+1));
+            resetJobEdit();
+            syncGUIToJob(job);
+        }
     }
     else nightTime->setText("-");
 }
