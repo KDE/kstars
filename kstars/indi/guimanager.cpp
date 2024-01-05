@@ -139,7 +139,6 @@ void GUIManager::hideEvent(QHideEvent * /*event*/)
 void GUIManager::showEvent(QShowEvent * /*event*/)
 {
     QAction *a = KStars::Instance()->actionCollection()->action("show_control_panel");
-    a->setEnabled(true);
     a->setChecked(true);
 }
 
@@ -161,6 +160,9 @@ void GUIManager::updateStatus(bool toggle_behavior)
         showINDIPanel->setEnabled(false);
         return;
     }
+
+    // enable the INDI button if at least one device has been recognized
+    showINDIPanel->setEnabled(getDevices().size() > 0);
 
     if (toggle_behavior)
         showINDIPanel->setChecked(! showINDIPanel->isChecked());
