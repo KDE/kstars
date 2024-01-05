@@ -4,11 +4,13 @@
 #
 # Ravishankar Shrivastava <raviratlami@yahoo.com>, 2007.
 # Raghavendra Kamath <raghu@raghukamath.com>, 2021, 2022.
+#: ekos/focus/adaptivefocus.cpp:180
+#, kde-format
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 00:38+0000\n"
+"POT-Creation-Date: 2024-01-05 00:38+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -428,7 +430,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2034
-#: ekos/scheduler/scheduler.cpp:2623
+#: ekos/scheduler/scheduler.cpp:2814
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -594,7 +596,7 @@ msgstr "रद्द करें"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:23 ekos/manager.cpp:1094 ekos/manager.cpp:1109
-#: ekos/manager.cpp:1139 ekos/scheduler/schedulerjob.cpp:599
+#: ekos/manager.cpp:1139 ekos/scheduler/scheduler.cpp:1517
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
 #: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:523
@@ -1045,7 +1047,7 @@ msgstr "पृथ्वी"
 #: data/qml/whatisinteresting/wiview.qml:176
 #: data/qml/whatisinteresting/wiview.qml:188 dialogs/detaildialog.cpp:216
 #: dialogs/detaildialog.cpp:232 dialogs/detaildialog.cpp:255
-#: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:129
+#: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:126
 #: printing/detailstable.cpp:145 printing/detailstable.cpp:162
 #: printing/detailstable.cpp:173 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:606
@@ -2030,14 +2032,14 @@ msgstr "स्थिति"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:2854 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:2878 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:23
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:598 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.ui:1247
-#: ekos/scheduler/schedulerjob.cpp:592 ekos/scheduler/schedulerjob.cpp:617
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1510
+#: ekos/scheduler/scheduler.cpp:3426 ekos/scheduler/scheduler.ui:1247
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2398,8 +2400,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:600
-#: ekos/scheduler/schedulerjob.cpp:632 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1518
+#: ekos/scheduler/scheduler.cpp:3441 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2645,9 +2647,9 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3869
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/analyze/analyze.cpp:1172 ekos/capture/capture.cpp:1957
+#: ekos/analyze/analyze.cpp:1191 ekos/capture/capture.cpp:1957
 #: ekos/capture/capture.cpp:2043 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:2543 ekos/scheduler/scheduler.cpp:2633
+#: ekos/scheduler/scheduler.cpp:2734 ekos/scheduler/scheduler.cpp:2824
 #: fitsviewer/fitstab.cpp:501 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -3943,7 +3945,7 @@ msgstr "0.0 पीसी"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:906 ekos/capture/capture.cpp:946
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:886
-#: ekos/focus/focus.cpp:413 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
+#: ekos/focus/focus.cpp:415 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6110,7 +6112,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "कनेक्शन"
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:195
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5148
+#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:4806
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6137,14 +6139,14 @@ msgstr "आकाश की वस्तुएँ लोड की जा रह
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1571 ekos/focus/focus.cpp:1834
+#: ekos/align/align.cpp:1571 ekos/focus/focus.cpp:1491
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image..."
 msgstr "छवियां लोड की जा रही हैं..."
 
 #: ekos/align/align.cpp:1661 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2770
+#: ekos/focus/focus.cpp:2424
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image received."
@@ -6288,7 +6290,7 @@ msgid "Refresh is complete."
 msgstr "%1 आनलाइन है."
 
 #: ekos/align/align.cpp:2496 ekos/auxiliary/darklibrary.cpp:1411
-#: ekos/focus/focus.cpp:1602
+#: ekos/focus/focus.cpp:1259
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6301,9 +6303,9 @@ msgid "Solver aborted after %1 seconds."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1483
-#: ekos/focus/focus.cpp:4261 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1925
+#: ekos/focus/focus.cpp:3923 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1925
 #: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:671
+#: ekos/scheduler/scheduler.cpp:695
 #, fuzzy, kde-format
 #| msgid "%1 and %2"
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6475,7 +6477,7 @@ msgid "dDE (arcsec)"
 msgstr "पार्सन्स"
 
 #: ekos/align/align.cpp:3563 ekos/capture/capture.cpp:2662
-#: ekos/focus/focus.cpp:5040
+#: ekos/focus/focus.cpp:4698
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -6515,7 +6517,7 @@ msgstr "सभी परिक्रमापथ पुछल्ले साफ
 #: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1956
 #: ekos/capture/capture.cpp:2042 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2542 ekos/scheduler/scheduler.cpp:2632
+#: ekos/scheduler/scheduler.cpp:2733 ekos/scheduler/scheduler.cpp:2823
 #: fitsviewer/fitstab.cpp:500 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10063,7 +10065,7 @@ msgstr "प्रारंभ (&S)"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1874
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1895
 #: ekos/analyze/analyze.ui:374 ekos/auxiliary/opslogs.ui:285
 #: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:137
 #: ekos/opsekos.ui:551
@@ -10167,7 +10169,7 @@ msgid "Parking"
 msgstr "पीकिंग"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/schedulerjob.cpp:618 indi/indimount.cpp:31
+#: ekos/scheduler/scheduler.cpp:3427 indi/indimount.cpp:31
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Slewing"
@@ -10225,7 +10227,7 @@ msgstr "फ़ाइल नाम चुनें"
 msgid "Set an alternate base directory for your captured images"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1171
+#: ekos/analyze/analyze.cpp:1190
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not find image file: %1"
@@ -10235,7 +10237,7 @@ msgstr "फ़ाइलः %1 को मिटा नहीं सका"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
-#: ekos/analyze/analyze.cpp:1875 ekos/auxiliary/opslogs.ui:377
+#: ekos/analyze/analyze.cpp:1896 ekos/auxiliary/opslogs.ui:377
 #: ekos/manager.cpp:2044 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:442
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
@@ -10245,7 +10247,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:1876 ekos/manager.cpp:2018
+#: ekos/analyze/analyze.cpp:1897 ekos/manager.cpp:2018
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:395
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, fuzzy, kde-format
@@ -10258,7 +10260,7 @@ msgstr "इस पर फ़ोकसः"
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
-#: ekos/analyze/analyze.cpp:1877 ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.cpp:1898 ekos/analyze/analyze.ui:338
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:58
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2202
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
@@ -10268,7 +10270,7 @@ msgstr "इस पर फ़ोकसः"
 msgid "Guide"
 msgstr "मार्गदर्शक"
 
-#: ekos/analyze/analyze.cpp:1878
+#: ekos/analyze/analyze.cpp:1899
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Fairview"
@@ -10279,7 +10281,7 @@ msgstr "फेयरव्यू"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:1879 ekos/analyze/analyze.ui:356
+#: ekos/analyze/analyze.cpp:1900 ekos/analyze/analyze.ui:356
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
 #: ekos/manager.cpp:2127 ekos/manager.ui:665
 #, fuzzy, kde-format
@@ -10288,12 +10290,12 @@ msgid "Mount"
 msgstr "गणनाः"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:1880 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:1901 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2138
+#: ekos/analyze/analyze.cpp:2159
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10301,7 +10303,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2154
+#: ekos/analyze/analyze.cpp:2175
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10309,74 +10311,74 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2856 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:2880 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:23 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/schedulerjob.cpp:598
+#: ekos/scheduler/scheduler.cpp:1516
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arborg"
 msgid "Aborted"
 msgstr "अरबॉर्ग"
 
-#: ekos/analyze/analyze.cpp:2858 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "कनेक्ट"
 
-#: ekos/analyze/analyze.cpp:2860 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:2884 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "डिस्कनेक्ट"
 
-#: ekos/analyze/analyze.cpp:2862 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/schedulerjob.cpp:631
+#: ekos/analyze/analyze.cpp:2886 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:3440
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing"
 msgstr "छवि कैप्चर करें"
 
-#: ekos/analyze/analyze.cpp:2864 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:2888 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2866 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:2890 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Subtracting"
 msgstr "केलिएन्टे"
 
-#: ekos/analyze/analyze.cpp:2868 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:2892 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "नाम:"
 
-#: ekos/analyze/analyze.cpp:2870 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:2894 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selecting star"
 msgstr "कोई तारा चुनें"
 
-#: ekos/analyze/analyze.cpp:2872 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:2896 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibrating"
 msgstr "केलिएन्टे"
 
-#: ekos/analyze/analyze.cpp:2874 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:2898 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration error"
 msgstr "केलिएन्टे"
 
-#: ekos/analyze/analyze.cpp:2876 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:2900 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -10384,27 +10386,27 @@ msgid "Calibrated"
 msgstr "केलिएन्टे"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:2878 ekos/ekos.h:32
-#: ekos/scheduler/schedulerjob.cpp:629
+#: ekos/analyze/analyze.cpp:2902 ekos/ekos.h:32
+#: ekos/scheduler/scheduler.cpp:3438
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "मार्गदर्शक"
 
-#: ekos/analyze/analyze.cpp:2880 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:2904 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "मार्गदर्शक"
 
-#: ekos/analyze/analyze.cpp:2882 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:2906 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Reacquiring"
 msgstr "छवि कैप्चर करें"
 
-#: ekos/analyze/analyze.cpp:2884 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:2908 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10412,26 +10414,26 @@ msgid "Dithering"
 msgstr "अन्य"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:2886 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:2910 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "अन्य"
 
-#: ekos/analyze/analyze.cpp:2888 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:2912 ekos/ekos.h:37
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dithering error"
 msgstr "डोम क्रीक"
 
-#: ekos/analyze/analyze.cpp:2890 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:2914 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2892 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:2916 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling"
@@ -14337,7 +14339,7 @@ msgstr "स्थिति रीसेट करें"
 msgid "Editing job #%1..."
 msgstr "लिंक का संपादन करें..."
 
-#: ekos/capture/capture.cpp:2301 ekos/scheduler/scheduler.cpp:1368
+#: ekos/capture/capture.cpp:2301 ekos/scheduler/scheduler.cpp:1355
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
@@ -15784,13 +15786,13 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1929 ekos/focus/focus.cpp:5190
+#: ekos/capture/captureprocess.cpp:1929 ekos/focus/focus.cpp:4848
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर प्रारंभ करें. अवधि सेकंड में है."
 
-#: ekos/capture/captureprocess.cpp:1953 ekos/focus/focus.cpp:5195
+#: ekos/capture/captureprocess.cpp:1953 ekos/focus/focus.cpp:4853
 #: ekos/guide/guide.cpp:915
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
@@ -16802,7 +16804,7 @@ msgid "In Progress"
 msgstr "प्रगति"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:597
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1515
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Complete"
@@ -16932,7 +16934,7 @@ msgstr "अन्य"
 msgid "Image Received"
 msgstr "छवि कैप्चर करें"
 
-#: ekos/ekos.h:73 ekos/scheduler/schedulerjob.cpp:621
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:3430
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing"
@@ -16968,7 +16970,7 @@ msgstr "लक्ष्य सीसीडी चिप तापक्रम �
 msgid "Setting Rotator"
 msgstr "कोई तारा चुनें"
 
-#: ekos/ekos.h:74 ekos/scheduler/schedulerjob.cpp:624
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:3433
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Aligning"
@@ -17031,7 +17033,7 @@ msgstr "इस पर फ़ोकसः"
 msgid "Startup"
 msgstr "प्रारंभ (&S)"
 
-#: ekos/ekos.h:198 ekos/scheduler/schedulerjob.cpp:595
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1513
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Running"
@@ -17593,8 +17595,96 @@ msgid ""
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
 
+#: ekos/focus/adaptivefocus.cpp:152
+#, kde-format
+msgid "Adaptive Focus: No movement (below threshold)"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:163
+#, kde-format
+msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:171
+#, kde-format
+msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:179
+#, kde-format
+msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:180
+#, kde-format
+msgid "; AltΔ %1"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:181
+#, kde-format
+msgid ")"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:181
+#, fuzzy, kde-format
+#| msgid "Download Error"
+msgid "; Pos Error %1)"
+msgstr "डाउनलोड त्रुटि"
+
+#: ekos/focus/adaptivefocus.cpp:197
+#, kde-format
+msgid "Adaptive Focus unable to move focuser"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:363
+#, kde-format
+msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:371
+#, kde-format
+msgid "Adaptive start point, no temperature source available"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:373
+#, kde-format
+msgid "Adaptive start point, no temperature for last AF solution"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:380
+#, kde-format
+msgid "Adaptive start point, very large temperature delta, ignoring"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:392
+#, kde-format
+msgid "Adaptive start point, no alt recorded for last AF solution"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:394
+#, kde-format
+msgid "Adaptive start point, very large altitude delta, ignoring"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:404
+#, kde-format
+msgid "Adaptive start point, target position is outside Max Travel, ignoring"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:412
+#, fuzzy, kde-format
+#| msgid "Planet Name"
+msgid "Adaptive start point [%1] excessive move disallowed"
+msgstr "ग्रह नाम"
+
+#: ekos/focus/adaptivefocus.cpp:426
+#, fuzzy, kde-format
+#| msgid "Planet Name"
+msgid "Adapting start point [%1] from %2 to %3"
+msgstr "ग्रह नाम"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6751
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6406
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus Advisor"
@@ -18025,12 +18115,12 @@ msgstr "इनपुट फ़ाइल में %1 को निर्धा�
 msgid " nm"
 msgstr "मिमी"
 
-#: ekos/focus/focus.cpp:105
+#: ekos/focus/focus.cpp:107
 #, kde-format
 msgid "Idle."
 msgstr ""
 
-#: ekos/focus/focus.cpp:127
+#: ekos/focus/focus.cpp:129
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Focus Options Profile Editor"
@@ -18039,7 +18129,7 @@ msgstr "लघुछवि संपादक "
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:184 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:186 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:103 options/opsimageoverlay.ui:38
 #, fuzzy, kde-format
 #| msgid "&Settings"
@@ -18047,27 +18137,27 @@ msgid "Settings"
 msgstr "विन्यास (&S)"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:184 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:186 ekos/focus/opsfocussettings.ui:14
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Focus Settings"
 msgstr "विन्यास (&S)"
 
-#: ekos/focus/focus.cpp:188
+#: ekos/focus/focus.cpp:190
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Process"
 msgstr "इस पर फ़ोकसः"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:188 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:190 ekos/focus/opsfocusprocess.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arrecife"
 msgid "Focus Process"
 msgstr "एरेसिफ़े"
 
-#: ekos/focus/focus.cpp:192
+#: ekos/focus/focus.cpp:194
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Buchans"
@@ -18075,217 +18165,145 @@ msgid "Mechanics"
 msgstr "बुकान्स"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:192 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:194 ekos/focus/opsfocusmechanics.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Buchans"
 msgid "Focus Mechanics"
 msgstr "बुकान्स"
 
-#: ekos/focus/focus.cpp:888
+#: ekos/focus/focus.cpp:890
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Finally found temperature source %1"
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:1013
-#, kde-format
-msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1028
-#, kde-format
-msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1036
-#, kde-format
-msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1042
-#, kde-format
-msgid "Adaptive Focus moving from %1 to %2"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1056
-#, kde-format
-msgid "Adaptive Focus unable to move focuser"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1188
+#: ekos/focus/focus.cpp:967
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No Focuser connected."
 msgstr "आईएनडीआई का उपकरण कनेक्शन पोर्ट सेट करें."
 
-#: ekos/focus/focus.cpp:1195 ekos/focus/focus.cpp:4309
+#: ekos/focus/focus.cpp:974 ekos/focus/focus.cpp:3971
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No CCD connected."
 msgstr "आईएनडीआई का उपकरण कनेक्शन पोर्ट सेट करें."
 
-#: ekos/focus/focus.cpp:1202
+#: ekos/focus/focus.cpp:981
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1213
+#: ekos/focus/focus.cpp:992
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1223
+#: ekos/focus/focus.cpp:1002
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1231
+#: ekos/focus/focus.cpp:1010
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1240
+#: ekos/focus/focus.cpp:1019
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1248
+#: ekos/focus/focus.cpp:1027
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1394
+#: ekos/focus/focus.cpp:1173
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1396
+#: ekos/focus/focus.cpp:1175
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1410
+#: ekos/focus/focus.cpp:1189
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation started"
 msgstr "इनपुट निर्देशांक चुनें"
 
-#: ekos/focus/focus.cpp:1498
-#, kde-format
-msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1506
-#, kde-format
-msgid "Adaptive start point, no temperature source available"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1508
-#, kde-format
-msgid "Adaptive start point, no temperature for last AF solution"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1515
-#, kde-format
-msgid "Adaptive start point, very large temperature delta, ignoring"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1527
-#, kde-format
-msgid "Adaptive start point, no alt recorded for last AF solution"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1529
-#, kde-format
-msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1539
-#, kde-format
-msgid "Adaptive start point, target position is outside Max Travel, ignoring"
-msgstr ""
-
-#: ekos/focus/focus.cpp:1547
-#, fuzzy, kde-format
-#| msgid "Planet Name"
-msgid "Adaptive start point [%1] excessive move disallowed"
-msgstr "ग्रह नाम"
-
-#: ekos/focus/focus.cpp:1561
-#, fuzzy, kde-format
-#| msgid "Planet Name"
-msgid "Adapting start point [%1] from %2 to %3"
-msgstr "ग्रह नाम"
-
-#: ekos/focus/focus.cpp:1608
+#: ekos/focus/focus.cpp:1265
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "डोम क्रीक"
 
-#: ekos/focus/focus.cpp:1642
+#: ekos/focus/focus.cpp:1299
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus aborted."
 msgstr "पूर्ण"
 
-#: ekos/focus/focus.cpp:1729
+#: ekos/focus/focus.cpp:1386
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1736
+#: ekos/focus/focus.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Camera."
 msgstr "कनेक्शन"
 
-#: ekos/focus/focus.cpp:1757
+#: ekos/focus/focus.cpp:1414
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1763
+#: ekos/focus/focus.cpp:1420
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "कनेक्शन"
 
-#: ekos/focus/focus.cpp:1902
+#: ekos/focus/focus.cpp:1559
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1909
+#: ekos/focus/focus.cpp:1566
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
 msgstr "कनेक्शन"
 
-#: ekos/focus/focus.cpp:1923
+#: ekos/focus/focus.cpp:1580
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "outward"
 msgstr "सीवार्ड"
 
-#: ekos/focus/focus.cpp:1923
+#: ekos/focus/focus.cpp:1580
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "inward"
 msgstr "सीवार्ड"
 
-#: ekos/focus/focus.cpp:1940
+#: ekos/focus/focus.cpp:1597
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 steps..."
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:1946
+#: ekos/focus/focus.cpp:1603
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 step..."
@@ -18293,66 +18311,66 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "इस पर फ़ोकसः"
 msgstr[1] "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:1952
+#: ekos/focus/focus.cpp:1609
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 ms..."
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:1990
+#: ekos/focus/focus.cpp:1644
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर प्रारंभ करें. अवधि सेकंड में है."
 
-#: ekos/focus/focus.cpp:1997
+#: ekos/focus/focus.cpp:1651
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:2008
+#: ekos/focus/focus.cpp:1662
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:2054
+#: ekos/focus/focus.cpp:1708
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2063
+#: ekos/focus/focus.cpp:1717
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "छवि कैप्चर करें"
 
-#: ekos/focus/focus.cpp:2112
+#: ekos/focus/focus.cpp:1766
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "पूर्ण"
 
-#: ekos/focus/focus.cpp:2304
+#: ekos/focus/focus.cpp:1958
 #, fuzzy, kde-format
 #| msgid "Download Extra Data..."
 msgid "Detecting sources..."
 msgstr "अतिरिक्त डाटा डाउनलोड करें..."
 
-#: ekos/focus/focus.cpp:2418
+#: ekos/focus/focus.cpp:2072
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "इनपुट निर्देशांक चुनें"
 
-#: ekos/focus/focus.cpp:2430
+#: ekos/focus/focus.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation failed"
 msgstr "इनपुट निर्देशांक चुनें"
 
-#: ekos/focus/focus.cpp:2466
+#: ekos/focus/focus.cpp:2120
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus procedure completed after %1 iteration."
@@ -18360,232 +18378,232 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "पूर्ण"
 msgstr[1] "पूर्ण"
 
-#: ekos/focus/focus.cpp:2550
+#: ekos/focus/focus.cpp:2204
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling for %1s..."
 msgstr "विन्यास (&S)"
 
-#: ekos/focus/focus.cpp:2557
+#: ekos/focus/focus.cpp:2211
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "पूर्ण"
 
-#: ekos/focus/focus.cpp:2570
+#: ekos/focus/focus.cpp:2224
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2607
+#: ekos/focus/focus.cpp:2261
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2848
+#: ekos/focus/focus.cpp:2502
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2942
+#: ekos/focus/focus.cpp:2596
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "निर्देशांक ग्रिड टॉगल करें"
 
-#: ekos/focus/focus.cpp:2973
+#: ekos/focus/focus.cpp:2627
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3117
+#: ekos/focus/focus.cpp:2771
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3128 ekos/focus/focus.cpp:3834
+#: ekos/focus/focus.cpp:2782 ekos/focus/focus.cpp:3488
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3134 ekos/focus/focus.cpp:3840
+#: ekos/focus/focus.cpp:2788 ekos/focus/focus.cpp:3494
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "छवि लोड करने में असफल"
 
-#: ekos/focus/focus.cpp:3139 ekos/focus/focus.cpp:3845
+#: ekos/focus/focus.cpp:2793 ekos/focus/focus.cpp:3499
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3325
+#: ekos/focus/focus.cpp:2979
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3345
+#: ekos/focus/focus.cpp:2999
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3406
+#: ekos/focus/focus.cpp:3060
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3414
+#: ekos/focus/focus.cpp:3068
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3458
+#: ekos/focus/focus.cpp:3112
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3460
+#: ekos/focus/focus.cpp:3114
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3521
+#: ekos/focus/focus.cpp:3175
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3528
+#: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3633
+#: ekos/focus/focus.cpp:3287
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3697
+#: ekos/focus/focus.cpp:3351
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3708
+#: ekos/focus/focus.cpp:3362
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3718
+#: ekos/focus/focus.cpp:3372
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3747
+#: ekos/focus/focus.cpp:3401
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3819
+#: ekos/focus/focus.cpp:3473
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3823
+#: ekos/focus/focus.cpp:3477
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3913 ekos/focus/focus.cpp:3926
-#: ekos/focus/focus.cpp:4056 ekos/focus/focus.cpp:4128
-#: ekos/focus/focus.cpp:4189 ekos/focus/focus.cpp:4253
+#: ekos/focus/focus.cpp:3567 ekos/focus/focus.cpp:3580
+#: ekos/focus/focus.cpp:3712 ekos/focus/focus.cpp:3786
+#: ekos/focus/focus.cpp:3849 ekos/focus/focus.cpp:3915
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3962 ekos/focus/focus.cpp:4072
+#: ekos/focus/focus.cpp:3616 ekos/focus/focus.cpp:3728
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Simulate focuser comms failure..."
 msgstr "पूर्ण"
 
-#: ekos/focus/focus.cpp:4037 ekos/focus/focus.cpp:4113
-#: ekos/focus/focus.cpp:4174 ekos/focus/focus.cpp:4207
+#: ekos/focus/focus.cpp:3692 ekos/focus/focus.cpp:3770
+#: ekos/focus/focus.cpp:3833 ekos/focus/focus.cpp:3868
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Restarting autofocus process..."
 msgstr "फार्मिंगटन"
 
-#: ekos/focus/focus.cpp:4325
+#: ekos/focus/focus.cpp:3987
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting continuous exposure..."
 msgstr "फार्मिंगटन"
 
-#: ekos/focus/focus.cpp:4611
+#: ekos/focus/focus.cpp:4273
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4616
+#: ekos/focus/focus.cpp:4278
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Focus star is selected."
 msgstr "कोई वस्तु चुना नहीं गया."
 
-#: ekos/focus/focus.cpp:4745
+#: ekos/focus/focus.cpp:4407
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4751
+#: ekos/focus/focus.cpp:4413
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4866
+#: ekos/focus/focus.cpp:4528
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "इस पर फ़ोकसः"
 
-#: ekos/focus/focus.cpp:5208
+#: ekos/focus/focus.cpp:4866
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image again..."
 msgstr "छवियां लोड की जा रही हैं..."
 
-#: ekos/focus/focus.cpp:5223
+#: ekos/focus/focus.cpp:4881
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "छवि लोड करने में असफल"
 
-#: ekos/focus/focus.cpp:5233
+#: ekos/focus/focus.cpp:4891
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर प्रारंभ करें. अवधि सेकंड में है."
 
-#: ekos/focus/focus.cpp:5238
+#: ekos/focus/focus.cpp:4896
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "कैमरा सीसीडी एक्सपोजर प्रारंभ करें. अवधि सेकंड में है."
 
-#: ekos/focus/focus.cpp:5486
+#: ekos/focus/focus.cpp:5144
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "पुछल्ला हटाएँ"
 
-#: ekos/focus/focus.cpp:6718
+#: ekos/focus/focus.cpp:6373
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -18610,7 +18628,7 @@ msgid ""
 "default."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6734
+#: ekos/focus/focus.cpp:6389
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -18622,7 +18640,7 @@ msgid ""
 "range of focuser motion."
 msgstr ""
 
-#: ekos/focus/focus.cpp:6741
+#: ekos/focus/focus.cpp:6396
 #, kde-format
 msgid ""
 "\n"
@@ -23958,7 +23976,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1756 ekos/scheduler/scheduler.cpp:1780
+#: ekos/scheduler/scheduler.cpp:1956 ekos/scheduler/scheduler.cpp:1980
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Stop Scheduler"
@@ -26342,14 +26360,14 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:856
+#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:880
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "आवृत्तिः"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:858
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:882
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
@@ -26378,14 +26396,14 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "डिफ़ॉल्ट एफआईटीएस डिरेक्ट्री:"
 
-#: ekos/scheduler/greedyscheduler.cpp:180
+#: ekos/scheduler/greedyscheduler.cpp:167
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Job '%1' has no more batches remaining."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:320
+#: ekos/scheduler/scheduler.cpp:317
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -26393,31 +26411,76 @@ msgid ""
 "Double click to edit a job with the left-hand fields."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:327
+#: ekos/scheduler/scheduler.cpp:325
+#, kde-format
+msgid ""
+"Current status of the job, managed by the Scheduler.\n"
+"If invalid, the Scheduler was not able to find a proper observation time for "
+"the target.\n"
+"If aborted, the Scheduler missed the scheduled time or encountered "
+"transitory issues and will reschedule the job.\n"
+"If complete, the Scheduler verified that all sequence captures requested "
+"were stored, including repeats."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:330
+#, kde-format
+msgid ""
+"Current altitude of the target of the job.\n"
+"A rising target is indicated with an arrow going up.\n"
+"A setting target is indicated with an arrow going down."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:334
+#, kde-format
+msgid ""
+"Startup time of the job, as estimated by the Scheduler.\n"
+"The altitude at startup, if available, is displayed too.\n"
+"Fixed time from user or culmination time is marked with a chronometer symbol."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:338
+#, kde-format
+msgid ""
+"Completion time for the job', as estimated by the Scheduler.\n"
+"You may specify a fixed time to limit duration of looping jobs. A warning "
+"symbol indicates the altitude at completion may cause the job to abort "
+"before completion.\n"
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:342
+#, kde-format
+msgid ""
+"Count of captures stored for the job, based on its sequence job.\n"
+"This is a summary, additional specific frame types may be required to "
+"complete the job."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:350
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
 "Job properties are copied in the edition fields before removal."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:331
+#: ekos/scheduler/scheduler.cpp:354
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line up in the list.\n"
 msgstr "सूची में सभी चयनित वस्तुओं को मिटाएँ"
 
-#: ekos/scheduler/scheduler.cpp:334
+#: ekos/scheduler/scheduler.cpp:357
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line down in the list.\n"
 msgstr "सूची में सभी चयनित वस्तुओं को मिटाएँ"
 
-#: ekos/scheduler/scheduler.cpp:338
+#: ekos/scheduler/scheduler.cpp:361
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:342
+#: ekos/scheduler/scheduler.cpp:365
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -26428,7 +26491,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:490 ekos/scheduler/scheduler.cpp:3170
+#: ekos/scheduler/scheduler.cpp:514 ekos/scheduler/scheduler.cpp:3359
 #: ekos/scheduler/schedulerprocess.cpp:1808
 #, kde-format
 msgid ""
@@ -26436,78 +26499,78 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:734
+#: ekos/scheduler/scheduler.cpp:758
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "एफआईटीएस खोलें..."
 
-#: ekos/scheduler/scheduler.cpp:787
+#: ekos/scheduler/scheduler.cpp:811
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:806
+#: ekos/scheduler/scheduler.cpp:830
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:866
+#: ekos/scheduler/scheduler.cpp:890
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "कोई तारा चुनें"
 
-#: ekos/scheduler/scheduler.cpp:868 ekos/scheduler/scheduler.cpp:883
+#: ekos/scheduler/scheduler.cpp:892 ekos/scheduler/scheduler.cpp:907
 #, fuzzy, kde-format
 #| msgid "Script Data"
 msgid "Script (*)"
 msgstr "स्क्रिप्ट डाटा"
 
-#: ekos/scheduler/scheduler.cpp:881
+#: ekos/scheduler/scheduler.cpp:905
 #, fuzzy, kde-format
 #| msgid "Select a category:"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "वर्ग चुनें:"
 
-#: ekos/scheduler/scheduler.cpp:932
+#: ekos/scheduler/scheduler.cpp:956
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target name is required."
 msgstr "प्रत्यक्ष निर्देशांक:"
 
-#: ekos/scheduler/scheduler.cpp:938
+#: ekos/scheduler/scheduler.cpp:962
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:945
+#: ekos/scheduler/scheduler.cpp:969
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target coordinates are required."
 msgstr "प्रत्यक्ष निर्देशांक:"
 
-#: ekos/scheduler/scheduler.cpp:955
+#: ekos/scheduler/scheduler.cpp:979
 #, fuzzy, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "अंतिम तारीख़ अवैध है."
 
-#: ekos/scheduler/scheduler.cpp:961
+#: ekos/scheduler/scheduler.cpp:985
 #, fuzzy, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "अंतिम तारीख़ अवैध है."
 
-#: ekos/scheduler/scheduler.cpp:1082
+#: ekos/scheduler/scheduler.cpp:1100
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1090
+#: ekos/scheduler/scheduler.cpp:1108
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -26515,178 +26578,200 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1098
+#: ekos/scheduler/scheduler.cpp:1116
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1290
+#: ekos/scheduler/scheduler.cpp:1271
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 %2 %3"
 msgstr "%1, %2 तथा %3"
 
-#: ekos/scheduler/scheduler.cpp:1361
+#: ekos/scheduler/scheduler.cpp:1330
+#, kde-format
+msgid "Stop editing of job #%1, resetting to original value."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:1348
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1545
+#: ekos/scheduler/scheduler.cpp:1511
+#, kde-format
+msgid "Evaluating"
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:1512
+#, fuzzy, kde-format
+#| msgid "Set Time..."
+msgid "Scheduled"
+msgstr "समय नियत करें..."
+
+#: ekos/scheduler/scheduler.cpp:1514
+#, fuzzy, kde-format
+#| msgid "Invalid URL"
+msgid "Invalid"
+msgstr "अवैध यूआरएल"
+
+#: ekos/scheduler/scheduler.cpp:1744
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1551
+#: ekos/scheduler/scheduler.cpp:1750
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1632
+#: ekos/scheduler/scheduler.cpp:1831
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:1639
+#: ekos/scheduler/scheduler.cpp:1839
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler aborted."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:1691
+#: ekos/scheduler/scheduler.cpp:1891
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1717 ekos/scheduler/scheduler.ui:1119
+#: ekos/scheduler/scheduler.cpp:1917 ekos/scheduler/scheduler.ui:1119
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Start Scheduler"
 msgstr "घड़ी चालू करें"
 
-#: ekos/scheduler/scheduler.cpp:1737
+#: ekos/scheduler/scheduler.cpp:1937
 #, fuzzy, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "अंतिम तारीख़ अवैध है."
 
-#: ekos/scheduler/scheduler.cpp:1745
+#: ekos/scheduler/scheduler.cpp:1945
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1773
+#: ekos/scheduler/scheduler.cpp:1973
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler started."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:1793
+#: ekos/scheduler/scheduler.cpp:1993
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler resuming."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:1806
+#: ekos/scheduler/scheduler.cpp:2006
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler pause planned..."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:1810
+#: ekos/scheduler/scheduler.cpp:2010
 #, fuzzy, kde-format
 msgid "Resume Scheduler"
 msgstr "शुयलर"
 
-#: ekos/scheduler/scheduler.cpp:1819
+#: ekos/scheduler/scheduler.cpp:2019
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler paused."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:1852
+#: ekos/scheduler/scheduler.cpp:2045
 #, kde-format
 msgid "No job running"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1913
+#: ekos/scheduler/scheduler.cpp:2107
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1921
+#: ekos/scheduler/scheduler.cpp:2115
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1935
+#: ekos/scheduler/scheduler.cpp:2129
 #, kde-format
 msgid "No jobs scheduled."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1949
+#: ekos/scheduler/scheduler.cpp:2143
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler is awake."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:1955
+#: ekos/scheduler/scheduler.cpp:2149
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1957
+#: ekos/scheduler/scheduler.cpp:2151
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2011
+#: ekos/scheduler/scheduler.cpp:2205
 #, fuzzy, kde-format
 msgid "Ekos job started (%1)"
 msgstr "आकाश की वस्तुएँ लोड की जा रही हैं"
 
-#: ekos/scheduler/scheduler.cpp:2026
+#: ekos/scheduler/scheduler.cpp:2220
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2111
+#: ekos/scheduler/scheduler.cpp:2302
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2241 ekos/scheduler/schedulerprocess.cpp:1948
+#: ekos/scheduler/scheduler.cpp:2432 ekos/scheduler/schedulerprocess.cpp:1948
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "फार्मिंगटन"
 
-#: ekos/scheduler/scheduler.cpp:2269
+#: ekos/scheduler/scheduler.cpp:2460
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "फार्मिंगटन"
 
-#: ekos/scheduler/scheduler.cpp:2296 ekos/scheduler/schedulerprocess.cpp:2071
+#: ekos/scheduler/scheduler.cpp:2487 ekos/scheduler/schedulerprocess.cpp:2071
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "फार्मिंगटन"
 
-#: ekos/scheduler/scheduler.cpp:2320 ekos/scheduler/schedulerprocess.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2511 ekos/scheduler/schedulerprocess.cpp:2019
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "फार्मिंगटन"
 
-#: ekos/scheduler/scheduler.cpp:2346
+#: ekos/scheduler/scheduler.cpp:2537
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -26694,73 +26779,73 @@ msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:2366
+#: ekos/scheduler/scheduler.cpp:2557
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:2404
+#: ekos/scheduler/scheduler.cpp:2595
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2416
+#: ekos/scheduler/scheduler.cpp:2607
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2532
+#: ekos/scheduler/scheduler.cpp:2723
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "सूची को देखा जा रहा है"
 
-#: ekos/scheduler/scheduler.cpp:2604
+#: ekos/scheduler/scheduler.cpp:2795
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "सूची को देखा जा रहा है"
 
-#: ekos/scheduler/scheduler.cpp:2623
+#: ekos/scheduler/scheduler.cpp:2814
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save scheduler list"
 msgstr "छवि लोड करने में असफल"
 
-#: ekos/scheduler/scheduler.cpp:2687
+#: ekos/scheduler/scheduler.cpp:2878
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2689
+#: ekos/scheduler/scheduler.cpp:2880
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2702
+#: ekos/scheduler/scheduler.cpp:2893
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2708
+#: ekos/scheduler/scheduler.cpp:2899
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler waits for a retry."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:2745
+#: ekos/scheduler/scheduler.cpp:2936
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' is complete."
 msgstr "%1 आनलाइन है."
 
-#: ekos/scheduler/scheduler.cpp:2790
+#: ekos/scheduler/scheduler.cpp:2981
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Job '%1' is complete after #%2 batch."
@@ -26768,19 +26853,19 @@ msgid_plural "Job '%1' is complete after #%2 batches."
 msgstr[0] "पूर्ण"
 msgstr[1] "पूर्ण"
 
-#: ekos/scheduler/scheduler.cpp:2839 ekos/scheduler/scheduler.cpp:2882
+#: ekos/scheduler/scheduler.cpp:3030 ekos/scheduler/scheduler.cpp:3073
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/scheduler/scheduler.cpp:2886
+#: ekos/scheduler/scheduler.cpp:3077
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2906
+#: ekos/scheduler/scheduler.cpp:3097
 #, kde-format
 msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
@@ -26788,7 +26873,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/scheduler/scheduler.cpp:2936
+#: ekos/scheduler/scheduler.cpp:3127
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
@@ -26796,26 +26881,63 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/scheduler/scheduler.cpp:3021
+#: ekos/scheduler/scheduler.cpp:3212
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:3202
+#: ekos/scheduler/scheduler.cpp:3391
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3204
+#: ekos/scheduler/scheduler.cpp:3393
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3246
+#: ekos/scheduler/scheduler.cpp:3428
+#, fuzzy, kde-format
+#| msgid "completed"
+msgid "Slew complete"
+msgstr "पूर्ण"
+
+#: ekos/scheduler/scheduler.cpp:3432
+#, fuzzy, kde-format
+#| msgid "completed"
+msgid "Focus complete"
+msgstr "पूर्ण"
+
+#: ekos/scheduler/scheduler.cpp:3434
+#, fuzzy, kde-format
+#| msgid "completed"
+msgid "Align complete"
+msgstr "पूर्ण"
+
+#: ekos/scheduler/scheduler.cpp:3435
+#, fuzzy, kde-format
+#| msgid "Position"
+msgid "Repositioning"
+msgstr "स्थिति"
+
+#: ekos/scheduler/scheduler.cpp:3436
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Caliente"
+msgid "Repositioning complete"
+msgstr "केलिएन्टे"
+
+#: ekos/scheduler/scheduler.cpp:3439
+#, fuzzy, kde-format
+#| msgid "completed"
+msgid "Guiding complete"
+msgstr "पूर्ण"
+
+#: ekos/scheduler/scheduler.cpp:3477
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -26824,14 +26946,14 @@ msgid ""
 "ready..."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:3556
+#: ekos/scheduler/scheduler.cpp:3787
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed to capture target."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:3569
+#: ekos/scheduler/scheduler.cpp:3800
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -26840,112 +26962,112 @@ msgid ""
 "%3)."
 msgstr "फार्मिंगटन"
 
-#: ekos/scheduler/scheduler.cpp:3578
+#: ekos/scheduler/scheduler.cpp:3809
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:3584
+#: ekos/scheduler/scheduler.cpp:3815
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:3593
+#: ekos/scheduler/scheduler.cpp:3824
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3637
+#: ekos/scheduler/scheduler.cpp:3868
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3641
+#: ekos/scheduler/scheduler.cpp:3872
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3645
+#: ekos/scheduler/scheduler.cpp:3876
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3667
+#: ekos/scheduler/scheduler.cpp:3898
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3676
+#: ekos/scheduler/scheduler.cpp:3907
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3697
+#: ekos/scheduler/scheduler.cpp:3928
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3731
+#: ekos/scheduler/scheduler.cpp:3962
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3754
+#: ekos/scheduler/scheduler.cpp:3985
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3764
+#: ekos/scheduler/scheduler.cpp:3995
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "केलिएन्टे"
 
-#: ekos/scheduler/scheduler.cpp:3766
+#: ekos/scheduler/scheduler.cpp:3997
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
-#: ekos/scheduler/scheduler.cpp:3774
+#: ekos/scheduler/scheduler.cpp:4005
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3872
+#: ekos/scheduler/scheduler.cpp:4103
 #, fuzzy, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "आकाश की वस्तुएँ लोड की जा रही हैं"
 
-#: ekos/scheduler/scheduler.cpp:3874
+#: ekos/scheduler/scheduler.cpp:4105
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed: %1s %2"
 msgstr "एफओवी नहीं"
 
-#: ekos/scheduler/scheduler.cpp:3909
+#: ekos/scheduler/scheduler.cpp:4140
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:3954
+#: ekos/scheduler/scheduler.cpp:4185
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Manual startup procedure completed successfully."
 msgstr "इनपुट निर्देशांक चुनें"
 
-#: ekos/scheduler/scheduler.cpp:3958
+#: ekos/scheduler/scheduler.cpp:4189
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -27545,110 +27667,10 @@ msgstr "गुच्छ खोलें"
 msgid "UnCap"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:337
+#: ekos/scheduler/schedulerjob.cpp:321
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:381
-#, kde-format
-msgid ""
-"Current status of job '%1', managed by the Scheduler.\n"
-"If invalid, the Scheduler was not able to find a proper observation time for "
-"the target.\n"
-"If aborted, the Scheduler missed the scheduled time or encountered "
-"transitory issues and will reschedule the job.\n"
-"If complete, the Scheduler verified that all sequence captures requested "
-"were stored, including repeats."
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:392
-#, kde-format
-msgid ""
-"Current altitude of the target of job '%1'.\n"
-"A rising target is indicated with an arrow going up.\n"
-"A setting target is indicated with an arrow going down."
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:402
-#, kde-format
-msgid ""
-"Startup time for job '%1', as estimated by the Scheduler.\n"
-"The altitude at startup, if available, is displayed too.\n"
-"Fixed time from user or culmination time is marked with a chronometer "
-"symbol. "
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:412
-#, kde-format
-msgid ""
-"Completion time for job '%1', as estimated by the Scheduler.\n"
-"You may specify a fixed time to limit duration of looping jobs. A warning "
-"symbol indicates the altitude at completion may cause the job to abort "
-"before completion.\n"
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:422
-#, kde-format
-msgid ""
-"Count of captures stored for job '%1', based on its sequence job.\n"
-"This is a summary, additional specific frame types may be required to "
-"complete the job."
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:593
-#, kde-format
-msgid "Evaluating"
-msgstr ""
-
-#: ekos/scheduler/schedulerjob.cpp:594
-#, fuzzy, kde-format
-#| msgid "Set Time..."
-msgid "Scheduled"
-msgstr "समय नियत करें..."
-
-#: ekos/scheduler/schedulerjob.cpp:596
-#, fuzzy, kde-format
-#| msgid "Invalid URL"
-msgid "Invalid"
-msgstr "अवैध यूआरएल"
-
-#: ekos/scheduler/schedulerjob.cpp:619
-#, fuzzy, kde-format
-#| msgid "completed"
-msgid "Slew complete"
-msgstr "पूर्ण"
-
-#: ekos/scheduler/schedulerjob.cpp:623
-#, fuzzy, kde-format
-#| msgid "completed"
-msgid "Focus complete"
-msgstr "पूर्ण"
-
-#: ekos/scheduler/schedulerjob.cpp:625
-#, fuzzy, kde-format
-#| msgid "completed"
-msgid "Align complete"
-msgstr "पूर्ण"
-
-#: ekos/scheduler/schedulerjob.cpp:626
-#, fuzzy, kde-format
-#| msgid "Position"
-msgid "Repositioning"
-msgstr "स्थिति"
-
-#: ekos/scheduler/schedulerjob.cpp:627
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Caliente"
-msgid "Repositioning complete"
-msgstr "केलिएन्टे"
-
-#: ekos/scheduler/schedulerjob.cpp:630
-#, fuzzy, kde-format
-#| msgid "completed"
-msgid "Guiding complete"
-msgstr "पूर्ण"
 
 #: ekos/scheduler/schedulerprocess.cpp:70
 #, fuzzy, kde-format
@@ -28270,20 +28292,20 @@ msgstr ""
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:339
+#: ekos/scheduler/schedulerutils.cpp:340
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open sequence queue file '%1'"
 msgstr "फ़ाइल %1 खोल नहीं सका."
 
-#: ekos/scheduler/schedulerutils.cpp:410
+#: ekos/scheduler/schedulerutils.cpp:411
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
 "procedures currently set in its sequence will not occur."
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:437
+#: ekos/scheduler/schedulerutils.cpp:438
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr ""
@@ -93119,11 +93141,6 @@ msgstr "आकाश के पृष्ठ भूमि का रंग."
 #~| msgid "Invalid file: %1"
 #~ msgid "Invalid host port %1"
 #~ msgstr "अवैध फ़ाइल: %1"
-
-#, fuzzy
-#~| msgid "Download Error"
-#~ msgid " Error: %1"
-#~ msgstr "डाउनलोड त्रुटि"
 
 #~ msgid "FITS Open"
 #~ msgstr "एफआईटीएस खोलें"
