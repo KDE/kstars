@@ -326,7 +326,7 @@
        <item row="6" column="0">
         <widget class="QLabel" name="offsetLabel">
          <property name="toolTip">
-          <string>Set the Elements offset from its Anchor. For an Anchor Element this is from the center of the image.</string>
+          <string>Set the Element's offset from its Anchor. For an Anchor Element this is from the center of the image.</string>
          </property>
          <property name="text">
           <string>Offset:</string>
