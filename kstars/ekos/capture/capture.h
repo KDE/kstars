@@ -873,7 +873,7 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // Module logging
         // ////////////////////////////////////////////////////////////////////
-        void clearLog();
+        Q_SCRIPTABLE void clearLog();
         void appendLogText(const QString &);
 
 
