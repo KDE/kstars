@@ -591,13 +591,13 @@ public:
      * @param fileURL full URL of the filename
      * @param targetName override the target defined in the sequence queue file (necessary for using the target of the scheduler)
      */
-     bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
+     bool loadSequenceQueue(const QString &fileURL, const QString &targetName = "", bool setOptions = true);
 
     /**
      * Saves the Sequence Queue to the Ekos Sequence Queue file.
      * @param fileURL full URL of the filename
      */
-     bool saveSequenceQueue(const QString &path);
+     bool saveSequenceQueue(const QString &path, bool loadOptions = true);
 
     // ////////////////////////////////////////////////////////////////////
     // helper functions

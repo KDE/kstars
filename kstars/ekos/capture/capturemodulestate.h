@@ -32,6 +32,8 @@ namespace Ekos
 {
 
 class SequenceJob;
+class SequenceQueue;
+class CaptureDeviceAdaptor;
 class RefocusState;
 
 class CaptureModuleState: public QObject
@@ -105,9 +107,11 @@ class CaptureModuleState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
         // ////////////////////////////////////////////////////////////////////
-        QList<SequenceJob *> &allJobs()
+        QList<SequenceJob *> &allJobs();
+
+        QSharedPointer<SequenceQueue> getSequenceQueue()
         {
-            return m_allJobs;
+            return m_sequenceQueue;
         }
 
         SequenceJob *getActiveJob() const
@@ -116,14 +120,8 @@ class CaptureModuleState: public QObject
         }
         void setActiveJob(SequenceJob *value);
 
-        const QUrl &sequenceURL() const
-        {
-            return m_SequenceURL;
-        }
-        void setSequenceURL(const QUrl &newSequenceURL)
-        {
-            m_SequenceURL = newSequenceURL;
-        }
+        const QUrl &sequenceURL() const;
+        void setSequenceURL(const QUrl &newSequenceURL);
 
         // ////////////////////////////////////////////////////////////////////
         // pointer to last captured frame
@@ -990,10 +988,8 @@ class CaptureModuleState: public QObject
         void newLog(const QString &text);
 
 private:
-        // list of all sequence jobs
-        QList<SequenceJob *> m_allJobs;
-        // file URL of the current capture sequence
-        QUrl m_SequenceURL;
+        // Container for the list of SequenceJobs.
+        QSharedPointer<SequenceQueue> m_sequenceQueue;
         // Currently active sequence job.
         SequenceJob *m_activeJob { nullptr };
         // pointer to the image data

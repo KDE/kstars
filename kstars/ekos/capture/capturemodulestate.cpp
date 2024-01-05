@@ -7,6 +7,7 @@
 #include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
+#include "ekos/capture/sequencequeue.h"
 #include "ekos/capture/refocusstate.h"
 #include "fitsviewer/fitsdata.h"
 
@@ -19,6 +20,7 @@ namespace Ekos
 {
 CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
 {
+    m_sequenceQueue.reset(new SequenceQueue());
     m_refocusState.reset(new RefocusState());
     m_TargetADUTolerance = Options::calibrationADUValueTolerance();
     connect(m_refocusState.get(), &RefocusState::newLog, this, &CaptureModuleState::newLog);
@@ -31,6 +33,21 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     wallCoord().setAz(Options::calibrationWallAz());
     wallCoord().setAlt(Options::calibrationWallAlt());
     setTargetADU(Options::calibrationADUValue());
+}
+
+QList<SequenceJob *> &CaptureModuleState::allJobs()
+{
+    return m_sequenceQueue->allJobs();
+}
+
+const QUrl &CaptureModuleState::sequenceURL() const
+{
+    return m_sequenceQueue->sequenceURL();
+}
+
+void CaptureModuleState::setSequenceURL(const QUrl &newSequenceURL)
+{
+    m_sequenceQueue->setSequenceURL(newSequenceURL);
 }
 
 void CaptureModuleState::setActiveJob(SequenceJob *value)
@@ -925,7 +942,7 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
 
     // Find the first aborted job
     SequenceJob *abortedJob = nullptr;
-    for(auto &job : m_allJobs)
+    for(auto &job : allJobs())
     {
         if (job->getStatus() == JOB_ABORTED)
         {

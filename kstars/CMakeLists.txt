@@ -238,6 +238,7 @@ if (INDI_FOUND)
             ekos/capture/refocusstate.cpp
             ekos/capture/sequencejob.cpp
             ekos/capture/sequencejobstate.cpp
+            ekos/capture/sequencequeue.cpp
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp

@@ -106,7 +106,9 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
-        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<CaptureModuleState> sharedState, SequenceJobType jobType, XMLEle *root = nullptr, QString targetName = "");
+        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
+                    const QSharedPointer<CaptureModuleState> sharedState,
+                    SequenceJobType jobType, XMLEle *root = nullptr, QString targetName = "");
         SequenceJob(XMLEle *root, QString targetName);
         ~SequenceJob() = default;
 
@@ -303,7 +305,7 @@ class SequenceJob : public QObject
             return state->getFrameType();
         }
 
-        int getTargetFilter()
+        int getTargetFilter() const
         {
             return state->targetFilterID;
         }
@@ -396,6 +398,10 @@ class SequenceJob : public QObject
         double currentGain() const;
         double currentOffset() const;
 
+        void saveTo(QTextStream &outstream, const QLocale &cLocale) const;
+        void loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType,
+                      QSharedPointer<CaptureModuleState> sharedState);
+
     signals:
         // All preparations necessary for capturing are completed
         void prepareComplete(bool success = true);
@@ -416,7 +422,7 @@ private:
         /**
          * @brief init Initialize the sequence job from its XML representation
          */
-        void init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState, QString targetName);
+        void init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState, const QString &targetName);
 
         // job type (batch, preview, ...)
         SequenceJobType m_jobType;
@@ -457,11 +463,11 @@ private:
         /**
          * @brief frameTypes Retrieve the frame types from the active camera's primary chip.
          */
-        QStringList frameTypes();
+        QStringList frameTypes() const;
         /**
          * @brief filterLabels list of currently available filter labels
          */
-        QStringList filterLabels();
+        QStringList filterLabels() const;
 
         //////////////////////////////////////////////////////////////
         /// State machines encapsulating the state of this capture sequence job
@@ -469,4 +475,5 @@ private:
         QSharedPointer<CaptureDeviceAdaptor> devices;
         QSharedPointer<SequenceJobState> state;
 };
+
 }
