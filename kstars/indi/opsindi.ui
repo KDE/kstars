@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>513</width>
-    <height>412</height>
+    <width>578</width>
+    <height>519</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -529,6 +529,19 @@
           </property>
           <property name="text">
            <string>INDI messages in status &amp;bar</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_showINDIwindowInitially">
+          <property name="toolTip">
+           <string>Open INDI window on EKOS startup</string>
+          </property>
+          <property name="text">
+           <string>INDI window on startup</string>
           </property>
           <property name="checked">
            <bool>true</bool>

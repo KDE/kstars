@@ -86,6 +86,10 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     resize(Options::iNDIWindowWidth(), Options::iNDIWindowHeight());
+
+    QAction *showINDIPanel =
+        KStars::Instance()->actionCollection()->action("show_control_panel");
+    showINDIPanel->setChecked(Options::showINDIwindowInitially());
 }
 
 GUIManager::~GUIManager()
@@ -158,17 +162,18 @@ void GUIManager::updateStatus(bool toggle_behavior)
         return;
     }
 
-    showINDIPanel->setChecked(true);
+    if (toggle_behavior)
+        showINDIPanel->setChecked(! showINDIPanel->isChecked());
 
-    if (isVisible() && isActiveWindow() && toggle_behavior)
-    {
-        hide();
-    }
-    else
+    if (showINDIPanel->isChecked())
     {
         raise();
         activateWindow();
         showNormal();
+    }
+    else
+    {
+        hide();
     }
 }
 
