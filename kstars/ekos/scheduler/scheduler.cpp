@@ -335,7 +335,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
                                        "The altitude at startup, if available, is displayed too.\n"
                                        "Fixed time from user or culmination time is marked with a chronometer symbol."));
     if (completionHeader != nullptr)
-        completionHeader->setToolTip(i18n("Completion time for the job', as estimated by the Scheduler.\n"
+        completionHeader->setToolTip(i18n("Completion time for the job, as estimated by the Scheduler.\n"
                                           "You may specify a fixed time to limit duration of looping jobs. "
                                           "A warning symbol indicates the altitude at completion may cause the job to abort before completion.\n"));
     if (captureCountHeader != nullptr)
