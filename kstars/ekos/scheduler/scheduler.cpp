@@ -438,8 +438,14 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
 
     // These connections are looking for changes in the rows queueTable is displaying.
-    connect(queueTable->verticalScrollBar(), &QScrollBar::valueChanged, [this](){updateJobTable();});
-    connect(queueTable->verticalScrollBar(), &QAbstractSlider::rangeChanged, [this](){updateJobTable();});
+    connect(queueTable->verticalScrollBar(), &QScrollBar::valueChanged, [this]()
+    {
+        updateJobTable();
+    });
+    connect(queueTable->verticalScrollBar(), &QAbstractSlider::rangeChanged, [this]()
+    {
+        updateJobTable();
+    });
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
     startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -746,9 +752,6 @@ void Scheduler::addObject(SkyObject *object)
         raBox->show(object->ra0());
         decBox->show(object->dec0());
 
-        addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
-        //mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
-
         setDirty();
     }
 }
@@ -771,9 +774,6 @@ void Scheduler::processFITSSelection(const QUrl &url)
     fitsURL = url;
     dirPath = QUrl(fitsURL.url(QUrl::RemoveFilename));
     fitsEdit->setText(fitsURL.toLocalFile());
-    if (nameEdit->text().isEmpty())
-        nameEdit->setText(fitsURL.fileName());
-    addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
     setDirty();
 
     const QString filename = fitsEdit->text();
@@ -863,15 +863,6 @@ void Scheduler::setSequence(const QString &sequenceFileURL)
 
     sequenceEdit->setText(sequenceURL.toLocalFile());
 
-    // For object selection, all fields must be filled
-    if ((raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
-            // For FITS selection, only the name and fits URL should be filled.
-            || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false))
-    {
-        addToQueueB->setEnabled(true);
-        //mosaicB->setEnabled(true);
-    }
-
     setDirty();
 }
 
@@ -939,7 +930,6 @@ void Scheduler::addJob(SchedulerJob *job)
 
         /* If a job is being added, save fields into a new job */
         saveJob(job);
-        addToQueueB->setEnabled(true);
 
         // select the first appended row (if any was added)
         if (moduleState()->jobs().count() > currentRow)
@@ -1127,6 +1117,7 @@ void Scheduler::saveJob(SchedulerJob *job)
     startB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
     setJobManipulation(true, true);
+    checkJobInputComplete();
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow + 1);
 
@@ -1327,7 +1318,7 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
         else if (jobUnderEdit != current.row())
         {
             // avoid changing the UI values for the currently edited job
-            appendLogText(i18n("Stop editing of job #%1, resetting to original value.", jobUnderEdit+1));
+            appendLogText(i18n("Stop editing of job #%1, resetting to original value.", jobUnderEdit + 1));
             resetJobEdit();
             syncGUIToJob(job);
         }
@@ -1346,16 +1337,15 @@ void Scheduler::setJobAddApply(bool add_mode)
     {
         addToQueueB->setIcon(QIcon::fromTheme("list-add"));
         addToQueueB->setToolTip(i18n("Use edition fields to create a new job in the observation list."));
-        //addToQueueB->setStyleSheet(QString());
         addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     }
     else
     {
         addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
         addToQueueB->setToolTip(i18n("Apply job changes."));
-        //addToQueueB->setStyleSheet("background-color:orange;}");
-        addToQueueB->setEnabled(true);
     }
+    // check if the button should be enabled
+    checkJobInputComplete();
 }
 
 void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
@@ -1392,7 +1382,7 @@ bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
         moduleState()->setJobs(reordered_sublist);
 
         /* Refresh the table */
-        for (SchedulerJob *job: moduleState()->jobs())
+        for (SchedulerJob *job : moduleState()->jobs())
             updateJobTable(job);
 
         /* Reselect previously selected job */
@@ -1469,7 +1459,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
     // handle full table update
     if (job == nullptr)
     {
-        for (auto onejob: moduleState()->jobs())
+        for (auto onejob : moduleState()->jobs())
             updateJobTable(onejob);
 
         return;
@@ -3147,8 +3137,28 @@ void Scheduler::findNextJob()
     }
 }
 
+void Scheduler::checkJobInputComplete()
+{
+    // For object selection, all fields must be filled
+    bool const nameSelectionOK = !raBox->isEmpty()  && !decBox->isEmpty() && !nameEdit->text().isEmpty();
+
+    // For FITS selection, only the name and fits URL should be filled.
+    bool const fitsSelectionOK = !nameEdit->text().isEmpty() && !fitsURL.isEmpty();
+
+    // Sequence selection is required
+    bool const seqSelectionOK = !sequenceEdit->text().isEmpty();
+
+    // Finally, adding is allowed upon object/FITS and sequence selection
+    bool const addingOK = (nameSelectionOK || fitsSelectionOK) && seqSelectionOK;
+
+    addToQueueB->setEnabled(addingOK);
+}
+
 void Scheduler::setDirty()
 {
+    // check if all fields are filled to allow adding a job
+    checkJobInputComplete();
+
     // ignore changes that are a result of syncGUIToJob() or syncGUIToGeneralSettings()
     if (jobUnderEdit < 0)
         return;
@@ -3163,21 +3173,6 @@ void Scheduler::setDirty()
         moduleState()->setStartupScriptURL(QUrl::fromUserInput(schedulerStartupScript->text()));
     else if (sender() == schedulerShutdownScript)
         moduleState()->setShutdownScriptURL(QUrl::fromUserInput(schedulerShutdownScript->text()));
-
-    // For object selection, all fields must be filled
-    bool const nameSelectionOK = !raBox->isEmpty()  && !decBox->isEmpty() && !nameEdit->text().isEmpty();
-
-    // For FITS selection, only the name and fits URL should be filled.
-    bool const fitsSelectionOK = !nameEdit->text().isEmpty() && !fitsURL.isEmpty();
-
-    // Sequence selection is required
-    bool const seqSelectionOK = !sequenceEdit->text().isEmpty();
-
-    // Finally, adding is allowed upon object/FITS and sequence selection
-    bool const addingOK = (nameSelectionOK || fitsSelectionOK) && seqSelectionOK;
-
-    addToQueueB->setEnabled(addingOK);
-    //mosaicB->setEnabled(addingOK);
 }
 
 void Scheduler::updateCompletedJobsCount(bool forced)
@@ -3445,7 +3440,7 @@ void Scheduler::updateJobStageUI(SchedulerJobStage stage)
         jobStatus->setText(stageStrings[SCHEDSTAGE_IDLE]);
     else
         jobStatus->setText(QString("%1: %2").arg(activeJob()->getName(),
-                                                 stageStrings.value(stage, stageStringUnknown)));
+                           stageStrings.value(stage, stageStringUnknown)));
 
 }
 

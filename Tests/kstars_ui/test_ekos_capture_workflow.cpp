@@ -11,7 +11,6 @@
 #include "kstars_ui_tests.h"
 #include "ui_calibrationoptions.h"
 #include "indicom.h"
-#include "indi/guimanager.h"
 #include "Options.h"
 #include "skymapcomposite.h"
 #include "ekos/capture/sequencejobstate.h"
@@ -1031,7 +1030,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()
     QVector<TestEkosCaptureHelper::SimpleCaptureLightsJob> jobs;
     jobs.append(job);
     QStringList content = m_CaptureHelper->getSimpleEsqContent(settings, jobs,
-                                                               static_cast<TestEkosCaptureHelper::ESQVersion>(esqVersion));
+                          static_cast<TestEkosCaptureHelper::ESQVersion>(esqVersion));
     QString esqFilename = destination->filePath("test.esq");
     qCInfo(KSTARS_EKOS_TEST) << "Sequence file name: " << esqFilename;
     m_CaptureHelper->writeFile(esqFilename, content);
@@ -1212,7 +1211,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings()
     jobs.append(job);
     // create capture sequence file
     QStringList content = m_CaptureHelper->getSimpleEsqContent(settings, jobs,
-                                                               static_cast<TestEkosCaptureHelper::ESQVersion>(esqVersion));
+                          static_cast<TestEkosCaptureHelper::ESQVersion>(esqVersion));
     QString esqFilename = destination->filePath("test.esq");
     qCInfo(KSTARS_EKOS_TEST) << "Sequence file name: " << esqFilename;
     m_CaptureHelper->writeFile(esqFilename, content);
@@ -1346,13 +1345,13 @@ void TestEkosCaptureWorkflow::testLightPanelSource_data()
     QTest::addColumn<bool>("internalLight");             /*!< use internal or external flat light */
 
     for (auto frametype :
-    {
-         "Flat", "Dark", "Bias"
-})
+            {
+                "Flat", "Dark", "Bias"
+            })
         for (auto internalLight : // light source integrated into the light panel?
-        {
-             true, false
-})
+                {
+                    true, false
+                })
             QTest::newRow(QString("%1, light=%2").arg(frametype).arg(internalLight ? "internal" : "external").toLatin1())
                     << frametype << internalLight;
 }
@@ -1421,17 +1420,17 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
     QTest::newRow(QString("observer v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())
             << version << "KStars Freak" << false << false << false << false << false << false;
     QTest::newRow(QString("guideDeviation v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
-                                                                                                                  "KStars Freak" << true << false << false << false << false << false;
+            "KStars Freak" << true << false << false << false << false << false;
     QTest::newRow(QString("startGuideDeviation v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version
-                                                                                                                    << "KStars Freak" << false << true << false << false << false << false;
+            << "KStars Freak" << false << true << false << false << false << false;
     QTest::newRow(QString("inSequenceFocus v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
-                                                                                                                   "KStars Freak" << false << false << true << false << false << false;
+            "KStars Freak" << false << false << true << false << false << false;
     QTest::newRow(QString("autofocusOnTemperature v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) <<
-                                                                                                                          version << "KStars Freak" << false << false << false << true << false << false;
+            version << "KStars Freak" << false << false << false << true << false << false;
     QTest::newRow(QString("refocusEveryN v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
-                                                                                                                 "KStars Freak" << false << false << false << false << true << false;
+            "KStars Freak" << false << false << false << false << true << false;
     QTest::newRow(QString("refocusAfterMeridianFlip v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) <<
-                                                                                                                            version << "KStars Freak" << false << false << false << false << false << true;
+            version << "KStars Freak" << false << false << false << false << false << true;
 }
 
 void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings_data()
@@ -1470,14 +1469,14 @@ void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings_data()
     QString placeholderFormat("/%t/%T/%T_%t_%e");
 
     for (uint version :
-    {
-         TestEkosCaptureHelper::ESQ_VERSION_2_4, TestEkosCaptureHelper::ESQ_VERSION_2_5, TestEkosCaptureHelper::ESQ_VERSION_2_6
-})
+            {
+                TestEkosCaptureHelper::ESQ_VERSION_2_4, TestEkosCaptureHelper::ESQ_VERSION_2_5, TestEkosCaptureHelper::ESQ_VERSION_2_6
+            })
     {
         QTest::newRow(QString("%2x %5 %3 %1s bin=%6x%7 dir=%4 v=%8").arg(exposureTime).arg(count).arg(filter)
                       .arg(fitsDirectory).arg(type).arg(binX).arg(binY).arg(m_CaptureHelper->esqVersionNames[version]).toLatin1())
                 << version << exposureTime << target << count << delay << filter << type << encoding << binX << binY << x << y << w << h <<
-                   fitsDirectory << placeholderFormat << formatSuffix << cameraTemperature << cameraCooling << fileUploadMode;
+                fitsDirectory << placeholderFormat << formatSuffix << cameraTemperature << cameraCooling << fileUploadMode;
     }
 }
 
@@ -1496,18 +1495,18 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
     QTest::addColumn<int>("tolerance");               /*!< ADU tolerance                */
 
     for (uint version :
-    {
-         TestEkosCaptureHelper::ESQ_VERSION_2_5, TestEkosCaptureHelper::ESQ_VERSION_2_6
-})
+            {
+                TestEkosCaptureHelper::ESQ_VERSION_2_5, TestEkosCaptureHelper::ESQ_VERSION_2_6
+            })
     {
         QTest::newRow(QString("Flat pre_action=wall adu=manual v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())
                 << version << 1.0 << 2 <<
-                   "Flat" << static_cast<uint>(ACTION_WALL) << 180.0 << 85.0 << true << false << 12345 << 1234;
+                "Flat" << static_cast<uint>(ACTION_WALL) << 180.0 << 85.0 << true << false << 12345 << 1234;
         QTest::newRow(QString("Dark pre_action=none adu=automatic v=%1").arg(
                           m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version  << 1.0 << 2 << "Dark" <<
-                                                                                       static_cast<uint>(ACTION_NONE) << 180.0 << 85.0 << false << true <<  12345 << 1234;
+                                  static_cast<uint>(ACTION_NONE) << 180.0 << 85.0 << false << true <<  12345 << 1234;
         QTest::newRow(QString("Bias pre_action=park_mount v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) <<
-                                                                                                                                  version  << 1.0 << 2 << "Bias" << static_cast<uint>(ACTION_PARK_MOUNT) << 180.0 << 85.0 << false << true << 12345 << 1234;
+                version  << 1.0 << 2 << "Bias" << static_cast<uint>(ACTION_PARK_MOUNT) << 180.0 << 85.0 << false << true << 12345 << 1234;
     }
 }
 
@@ -1581,9 +1580,6 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     //            dome->unpark();
     //        KTRY_VERIFY_WITH_TIMEOUT_SUB(dome->parkStatus() == ISD::PARK_UNPARKED, 30000);
     //    }
-
-    // close INDI window
-    GUIManager::Instance()->close();
 
     // preparation successful
     return true;

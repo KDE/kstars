@@ -632,6 +632,11 @@ private:
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
+        /**
+         * @brief checkJobInputComplete Check if all inputs are filled such that a new job could be added.
+         */
+        void checkJobInputComplete();
+
         int sequenceExecutionCounter = 1;
 
         Ekos::Scheduler *ui { nullptr };

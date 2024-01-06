@@ -340,12 +340,12 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
     KTRY_SET_LINEEDIT_SUB(scheduler, raBox, "14 50 42");
     KTRY_SET_LINEEDIT_SUB(scheduler, decBox, "74 09 20");
     // disable all step checks
-    KTRY_SET_CHECKBOX_SUB(scheduler, trackStepCheck, false);
-    KTRY_SET_CHECKBOX_SUB(scheduler, focusStepCheck, false);
-    KTRY_SET_CHECKBOX_SUB(scheduler, alignStepCheck, false);
-    KTRY_SET_CHECKBOX_SUB(scheduler, guideStepCheck, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerTrackStep, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerFocusStep, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerAlignStep, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerGuideStep, false);
     // ignore twilight
-    KTRY_SET_CHECKBOX_SUB(scheduler, twilightCheck, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerTwilight, false);
     // set remember job progress
     Options::setRememberJobProgress(rememberJobProgress);
     // disable INDI stopping after scheduler finished
@@ -356,11 +356,11 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
     {
         case Ekos::FINISH_REPEAT:
             // repeat the job for a fixed amount
-            KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
-            KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerRepeatSequences, true);
+            KTRY_SET_SPINBOX_SUB(scheduler, schedulerExecutionSequencesLimit, iterations);
             break;
         case Ekos::FINISH_LOOP:
-            KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerUntilTerminated, true);
             break;
         default:
             QWARN(QString("Unsupported completion condition %1!").arg(completionCondition).toStdString().c_str());
@@ -419,7 +419,7 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
                  QString("Scheduler job table shows %1 captured frames instead of %2.").arg(captured).arg(
                      captured_expected).toStdString().c_str());
 
-    // check estimated duration time (only relevant for repeats
+    // check estimated duration time (only relevant for repeats)
     if (completionCondition == Ekos::FINISH_REPEAT)
     {
         QTime startTime = QTime::fromString(queueTable->item(0, 4)->text(), "HH:mm");
