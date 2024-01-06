@@ -195,7 +195,7 @@
       </entry>
       <entry name="showINDIwindowInitially" type="Bool">
          <label>Show the INDI window on startup?</label>
-         <whatsthis>Show the INDI window when starting EKOS..</whatsthis>
+         <whatsthis>Show the INDI window when starting EKOS.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="SaveFocusImages" type="Bool">
