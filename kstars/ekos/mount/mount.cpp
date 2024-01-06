@@ -67,6 +67,9 @@ Mount::Mount()
 
     // initialize the state machine
     mf_state.reset(new MeridianFlipState());
+    // connect to the MF state maichine
+    getMeridianFlipState()->connectMount(this);
+
     // set the status message in the mount tab and write it to the log
     connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
     {
@@ -243,10 +246,7 @@ bool Mount::setMount(ISD::Mount *device)
     }
 
     if (m_Mount)
-    {
         m_Mount->disconnect(m_Mount, nullptr, this, nullptr);
-        m_Mount->disconnect(m_Mount, nullptr, mf_state.get(), nullptr);
-    }
 
     m_Mount = device;
 
@@ -279,8 +279,6 @@ bool Mount::setMount(ISD::Mount *device)
     connect(m_Mount, &ISD::Mount::newTargetName, this, &Mount::newTargetName);
     connect(m_Mount, &ISD::Mount::newCoords, this, &Mount::newCoords);
     connect(m_Mount, &ISD::Mount::newCoords, this, &Mount::updateTelescopeCoords);
-    connect(m_Mount, &ISD::Mount::newCoords, mf_state.get(), &MeridianFlipState::updateTelescopeCoord);
-    connect(m_Mount, &ISD::Mount::newStatus, mf_state.get(), &MeridianFlipState::setMountStatus);
     connect(m_Mount, &ISD::Mount::slewRateChanged, this, &Mount::slewRateChanged);
     connect(m_Mount, &ISD::Mount::pierSideChanged, this, &Mount::pierSideChanged);
     connect(m_Mount, &ISD::Mount::axisReversed, this, &Mount::syncAxisReversed);

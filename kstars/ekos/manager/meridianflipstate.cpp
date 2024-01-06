@@ -5,6 +5,7 @@
 */
 
 #include "meridianflipstate.h"
+#include "ekos/mount/mount.h"
 #include "Options.h"
 
 #include "kstarsdata.h"
@@ -48,6 +49,12 @@ void MeridianFlipState::setEnabled(bool value)
     // reset meridian flip if disabled
     if (m_enabled == false)
         updateMFMountState(MOUNT_FLIP_NONE);
+}
+
+void MeridianFlipState::connectMount(Mount *mount)
+{
+    connect(mount, &Mount::newCoords, this, &MeridianFlipState::updateTelescopeCoord, Qt::UniqueConnection);
+    connect(mount, &Mount::newStatus, this, &MeridianFlipState::setMountStatus, Qt::UniqueConnection);
 }
 
 void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage)
@@ -309,8 +316,13 @@ void MeridianFlipState::startMeridianFlip()
 
     if (m_MountStatus != ISD::Mount::MOUNT_TRACKING)
     {
+        // this should never happen
+        if (m_hasMount == false)
+            qCWarning(KSTARS_EKOS_MOUNT()) << "No mount connected!";
+
         // no meridian flip necessary
-        qCInfo(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking";
+        qCInfo(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking, current state:" <<
+                                  ISD::Mount::mountStates[m_MountStatus];
         return;
     }
 
@@ -471,11 +483,13 @@ QString MeridianFlipState::meridianFlipStatusString(MeridianFlipMountState statu
 
 void MeridianFlipState::setMountStatus(ISD::Mount::Status status)
 {
+    qCDebug(KSTARS_EKOS_MOUNT) << "New mount state for MF:" << ISD::Mount::mountStates[status];
     m_PrevMountStatus = m_MountStatus;
     m_MountStatus = status;
 }
 
-void MeridianFlipState::setMountParkStatus(ISD::ParkStatus status) {
+void MeridianFlipState::setMountParkStatus(ISD::ParkStatus status)
+{
     // clear the meridian flip when parking
     if (status == ISD::PARK_PARKING || status == ISD::PARK_PARKED)
         updateMFMountState(MOUNT_FLIP_NONE);

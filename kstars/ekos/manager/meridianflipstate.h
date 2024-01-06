@@ -37,6 +37,9 @@
 
 namespace Ekos
 {
+
+class Mount;
+
 class MeridianFlipState : public QObject
 {
     Q_OBJECT
@@ -101,6 +104,11 @@ public:
     // offset past the meridian
     double getOffset() const { return m_offset; }
     void setOffset(double newOffset) { m_offset = newOffset; }
+
+    /**
+     * @brief connectMount Establish the connection to the mount
+     */
+    void connectMount(Mount *mount);
 
     MeridianFlipState::MFStage getMeridianFlipStage() const { return meridianFlipStage; };
     const QString &getMeridianStatusText()

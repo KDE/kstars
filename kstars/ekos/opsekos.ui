@@ -695,7 +695,7 @@
          <item row="3" column="0">
           <widget class="QLabel" name="label_17">
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimal duration of a meridian flip. Checks if the  meridian flip has been completed will be postponed until the configured duration has past since the meridian flip has been started.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimal duration of a meridian flip in seconds. Increase this value if Ekos reports that a meridian flip has failed because the pier side did not change. A good estimation for this value is at least 50% of the typical duration of a meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
             <string>Minimal meridian flip duration: </string>
