@@ -325,6 +325,18 @@ void CaptureModuleState::decreaseDitherCounter()
         --m_ditherCounter;
 }
 
+void CaptureModuleState::resetDitherCounter()
+{
+    uint value = 0;
+    if (m_activeJob)
+        value = m_activeJob->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt(0);
+
+    if (value > 0)
+        m_ditherCounter = value;
+    else
+        m_ditherCounter = Options::ditherFrames();
+}
+
 bool CaptureModuleState::checkDithering()
 {
     // No need if preview only
@@ -341,7 +353,8 @@ bool CaptureModuleState::checkDithering()
             // Check dither counter
             && m_ditherCounter == 0)
     {
-        m_ditherCounter = Options::ditherFrames();
+        // reset the dither counter
+        resetDitherCounter();
 
         qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
         appendLogText(i18n("Dithering..."));
@@ -430,12 +443,7 @@ void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStag
 
             // after a meridian flip we do not need to dither
             if ( Options::ditherEnabled() || Options::ditherNoGuiding())
-            {
-                uint value = 0;
-                if (m_activeJob)
-                    value = m_activeJob->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt(0);
-                resetDitherCounter(value);
-            }
+                resetDitherCounter();
 
             // if requested set flag so it perform refocus before next frame
             if (Options::refocusAfterMeridianFlip() == true)

@@ -427,10 +427,6 @@ void CaptureProcess::prepareJob(SequenceJob * job)
 {
     state()->setActiveJob(job);
 
-    // Reset Dither Per Job Counter based on job property
-    if ( Options::ditherEnabled() || Options::ditherNoGuiding())
-        state()->resetDitherCounter(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt(0));
-
     // If job is Preview and NO view is available, ask to enable it.
     // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
     if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW && Options::useFITSViewer() == false
