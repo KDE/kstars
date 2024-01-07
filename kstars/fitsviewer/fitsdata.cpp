@@ -1172,6 +1172,9 @@ void FITSData::clearImageBuffers()
 
 void FITSData::makeRoiBuffer(QRect roi)
 {
+    if (!roi.isValid())
+        return;
+
     uint32_t channelSize = roi.height() * roi.width();
     if(channelSize  > m_Statistics.samples_per_channel || channelSize == 1)
     {

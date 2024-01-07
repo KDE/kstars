@@ -1654,6 +1654,8 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     {
         if (captureProcess)
             captureProcess->setDome(dome);
+        if (alignProcess)
+            alignProcess->setDome(dome);
         if (observatoryProcess)
             observatoryProcess->setDome(dome);
     }
@@ -1983,6 +1985,16 @@ void Manager::initCapture()
         toolsWidget->setTabIcon(index, icon);
     }
     connect(captureModule(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
+    connect(captureModule(), &Ekos::Capture::newLog, ekosLiveClient.get()->message(),
+            [this]()
+    {
+        QJsonObject cStatus =
+        {
+            {"log", captureModule()->getLogText()}
+        };
+
+        ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
+    });
     connect(captureModule(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
     connect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureModule(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);

@@ -270,6 +270,10 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     redScopePixmap = QPixmap(":/icons/center_telescope_red.svg").scaled(32, 32, Qt::KeepAspectRatio, Qt::FastTransformation);
     magentaScopePixmap = QPixmap(":/icons/center_telescope_magenta.svg").scaled(32, 32, Qt::KeepAspectRatio,
                          Qt::FastTransformation);
+
+    // Hack! This is same initialization as roiRB in FITSLabel.
+    // Otherwise initial ROI selection wouldn't have stats.
+    selectionRectangleRaw = QRect(QPoint(1, 1), QPoint(100, 100));
 }
 
 FITSView::~FITSView()
@@ -448,13 +452,6 @@ bool FITSView::processData()
         updateFrame();
     });
 
-    connect(this, &FITSView::rectangleUpdated, this, [this](const QRect roi)
-    {
-        if(m_ImageData)
-        {
-            m_ImageData->makeRoiBuffer(roi);
-        }
-    });
     currentWidth = m_ImageData->width();
     currentHeight = m_ImageData->height();
 
@@ -1923,7 +1920,11 @@ void FITSView::processRectangle(QPoint p1, QPoint p2, bool calculate)
 
     if(calculate)
     {
-        emit rectangleUpdated(selectionRectangleRaw);
+        if(m_ImageData)
+        {
+            m_ImageData->makeRoiBuffer(selectionRectangleRaw);
+            emit rectangleUpdated(selectionRectangleRaw);
+        }
     }
     //updateFrameRoi();
 
@@ -2018,6 +2019,14 @@ void FITSView::toggleHiPSOverlay()
 void FITSView::toggleSelectionMode()
 {
     showSelectionRect = !showSelectionRect;
+    if (!showSelectionRect)
+        emit rectangleUpdated(QRect());
+    else if (m_ImageData)
+    {
+        m_ImageData->makeRoiBuffer(selectionRectangleRaw);
+        emit rectangleUpdated(selectionRectangleRaw);
+    }
+
     emit showRubberBand(showSelectionRect);
     if (m_ImageFrame)
         updateFrame();

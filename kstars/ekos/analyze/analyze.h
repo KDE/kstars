@@ -153,9 +153,8 @@ class Analyze : public QWidget, public Ui::Analyze
                 QVector<double> hfrs;
 
                 // Adaptive focus parameters
-                int tempTicks;
-                double altitude;
-                int altTicks, totalTicks, adaptedPosition;
+                double tempTicks, altitude, altTicks;
+                int prevPosError, thisPosError, totalTicks, adaptedPosition;
 
                 // false for adaptiveFocus.
                 bool standardSession = true;
@@ -164,8 +163,8 @@ class Analyze : public QWidget, public Ui::Analyze
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                              const QString &filter_, const QString &points_, const QString &curve_, const QString &title_);
                 FocusSession(double start_, double end_, QCPItemRect *rect,
-                             const QString &filter_, double temperature_, int tempTicks_, double altitude_,
-                             int altTicks_, int totalTicks_, int position_);
+                             const QString &filter_, double temperature_, double tempTicks_, double altitude_,
+                             double altTicks_, int prevPosError, int thisPosError, int totalTicks_, int position_);
                 double focusPosition();
         };
 
@@ -186,8 +185,9 @@ class Analyze : public QWidget, public Ui::Analyze
         // From Focus
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title);
-        void adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks,
-                                   double altitude, int altTicks, int totalTicks, int position, bool focuserMoved);
+        void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
+                                   double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
+                                   int position, bool focuserMoved);
         void autofocusAborted(const QString &filter, const QString &points);
         void newTemperature(double temperatureDelta, double temperature);
 
@@ -227,8 +227,9 @@ class Analyze : public QWidget, public Ui::Analyze
         void processAutofocusStarting(double time, double temperature, const QString &filter);
         void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve,
                                       const QString &title, bool batchMode = false);
-        void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, int tempTicks,
-                                          double altitude, int altTicks, int totalTicks, int position, bool focuserMoved, bool batchMode = false);
+        void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
+                                          double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
+                                          int position, bool focuserMoved, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode = false);
         void processTemperature(double time, double temperature, bool batchMode = false);
         void processGuideState(double time, const QString &state, bool batchMode = false);
@@ -358,7 +359,8 @@ class Analyze : public QWidget, public Ui::Analyze
         void initInputSelection();
 
         // Displays the focus positions and HFRs on the graphics plot.
-        void displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, const QString &curve, const QString &title, bool success);
+        void displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, const QString &curve,
+                                  const QString &title, bool success);
         // Displays the guider ra and dec drift plot, and computes RMS errors.
         void displayGuideGraphics(double start, double end, double *raRMS,
                                   double *decRMS, double *totalRMS, int *numSamples);

@@ -636,6 +636,16 @@ bool FilterManager::setFilterExposure(int index, double exposure)
     return false;
 }
 
+int FilterManager::getFilterOffset(const QString &name) const
+{
+    int offset = INVALID_VALUE;
+    auto filterDetails = getFilterByName(name);
+    if (filterDetails)
+        offset = filterDetails->offset();
+
+    return offset;
+}
+
 bool FilterManager::setFilterOffset(QString color, int offset)
 {
     if (m_currentFilterLabels.empty())

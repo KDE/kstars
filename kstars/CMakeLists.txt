@@ -238,6 +238,7 @@ if (INDI_FOUND)
             ekos/capture/refocusstate.cpp
             ekos/capture/sequencejob.cpp
             ekos/capture/sequencejobstate.cpp
+            ekos/capture/sequencequeue.cpp
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
@@ -284,6 +285,7 @@ if (INDI_FOUND)
             ekos/focus/curvefit.cpp
             ekos/focus/focusfwhm.cpp
             ekos/focus/focusfourierpower.cpp
+            ekos/focus/adaptivefocus.cpp
             ekos/focus/opsfocussettings.cpp
             ekos/focus/opsfocusprocess.cpp
             ekos/focus/opsfocusmechanics.cpp

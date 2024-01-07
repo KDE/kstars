@@ -870,8 +870,26 @@ double Analyze::processInputLine(const QString &line)
         const QString title = list.size() > 5 ? list[5] : "";
         processAutofocusComplete(time, filter, samples, curve, title, true);
     }
+    else if ((list[0] == "AdaptiveFocusComplete") && (list.size() == 12))
+    {
+        // This is the second version of the AdaptiveFocusComplete message
+        const QString filter = list[2];
+        double temperature = QString(list[3]).toDouble(&ok);
+        const double tempTicks = QString(list[4]).toDouble(&ok);
+        double altitude = QString(list[5]).toDouble(&ok);
+        const double altTicks = QString(list[6]).toDouble(&ok);
+        const int prevPosError = QString(list[7]).toInt(&ok);
+        const int thisPosError = QString(list[8]).toInt(&ok);
+        const int totalTicks = QString(list[9]).toInt(&ok);
+        const int position = QString(list[10]).toInt(&ok);
+        const bool focuserMoved = QString(list[11]).toInt(&ok) != 0;
+        processAdaptiveFocusComplete(time, filter, temperature, tempTicks, altitude, altTicks, prevPosError,
+                                     thisPosError, totalTicks, position, focuserMoved, true);
+    }
     else if ((list[0] == "AdaptiveFocusComplete") && (list.size() >= 9))
     {
+        // This is the first version of the AdaptiveFocusComplete message - retained os Analyze can process
+        // historical messages correctly
         const QString filter = list[2];
         double temperature = QString(list[3]).toDouble(&ok);
         const int tempTicks = QString(list[4]).toInt(&ok);
@@ -881,7 +899,7 @@ double Analyze::processInputLine(const QString &line)
         const int position = QString(list[8]).toInt(&ok);
         const bool focuserMoved = list.size() < 10 || QString(list[9]).toInt(&ok) != 0;
         processAdaptiveFocusComplete(time, filter, temperature, tempTicks,
-                                     altitude, altTicks, totalTicks, position, focuserMoved, true);
+                                     altitude, altTicks, 0, 0, totalTicks, position, focuserMoved, true);
     }
     else if ((list[0] == "AutofocusAborted") && (list.size() == 4))
     {
@@ -1117,10 +1135,11 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
 }
 
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect,
-                                    const QString &filter_, double temperature_, int tempTicks_, double altitude_,
-                                    int altTicks_, int totalTicks_, int position_)
+                                    const QString &filter_, double temperature_, double tempTicks_, double altitude_,
+                                    double altTicks_, int prevPosError_, int thisPosError_, int totalTicks_, int position_)
     : Session(start_, end_, FOCUS_Y, rect), temperature(temperature_), filter(filter_), tempTicks(tempTicks_),
-      altitude(altitude_), altTicks(altTicks_), totalTicks(totalTicks_), adaptedPosition(position_)
+      altitude(altitude_), altTicks(altTicks_), prevPosError(prevPosError_), thisPosError(thisPosError_),
+      totalTicks(totalTicks_), adaptedPosition(position_)
 {
     standardSession = false;
 }
@@ -1204,9 +1223,11 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
         c.setupTable("Focus", "Adaptive", clockTime(c.end), clockTime(c.end), detailsTable);
         c.addRow("Filter", c.filter);
         addDetailsRow(detailsTable, "Temperature", Qt::yellow, QString("%1°").arg(c.temperature, 0, 'f', 1),
-                      Qt::white, signedIntString(c.tempTicks));
+                      Qt::white, QString("%1").arg(c.tempTicks, 0, 'f', 1));
         addDetailsRow(detailsTable, "Altitude", Qt::yellow, QString("%1°").arg(c.altitude, 0, 'f', 1),
-                      Qt::white, signedIntString(c.altTicks));
+                      Qt::white, QString("%1").arg(c.altTicks, 0, 'f', 1));
+        addDetailsRow(detailsTable, "Pos Error", Qt::yellow, "Start / End", Qt::white,
+                      QString("%1 / %2").arg(c.prevPosError).arg(c.thisPosError));
         addDetailsRow(detailsTable, "Position", Qt::yellow, QString::number(c.adaptedPosition),
                       Qt::white, signedIntString(c.totalTicks));
         return;
@@ -2730,28 +2751,31 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
     temporaryFocusSession.filter = filter;
 }
 
-void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, int tempTicks,
-                                    double altitude, int altTicks, int totalTicks, int position, bool focuserMoved)
+void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
+                                    double altitude, double altTicks, int prevPosError, int thisPosError,
+                                    int totalTicks, int position, bool focuserMoved)
 {
-    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(filter).arg(temperature, 0, 'f', 2)
-                .arg(tempTicks).arg(altitude, 0, 'f', 2).arg(altTicks).arg(totalTicks).arg(position).arg(focuserMoved ? 1 : 0));
+    saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10").arg(filter).arg(temperature, 0, 'f', 2)
+                .arg(tempTicks, 0, 'f', 2).arg(altitude, 0, 'f', 2).arg(altTicks, 0, 'f', 2).arg(prevPosError)
+                .arg(thisPosError).arg(totalTicks).arg(position).arg(focuserMoved ? 1 : 0));
 
     if (runtimeDisplay)
-        processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, totalTicks, position,
-                                     focuserMoved);
+        processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError,
+                                     totalTicks, position, focuserMoved);
 }
 
-void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, double temperature, int tempTicks,
-        double altitude, int altTicks, int totalTicks, int position, bool focuserMoved, bool batchMode)
+void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
+        double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks, int position,
+        bool focuserMoved, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
 
     addFocusPosition(position, time);
     updateMaxX(time);
 
-    // Don't plot an adaptive focus that does nothing.
-    // The message is still useful, though, to keep updating the focus position (above).
-    if (totalTicks == 0 || !focuserMoved)
+    // In general if nothing happened we won't plot a value. This means there won't be lots of points with zeros in them.
+    // However, we need to cover the situation of offsetting movements that overall don't move the focuser but still have non-zero detail
+    if (!focuserMoved || (abs(tempTicks) < 1.00 && abs(altTicks) < 1.0 && prevPosError == 0 && thisPosError == 0))
         return;
 
     // Add a dot on the timeline.
@@ -2760,7 +2784,7 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
     // Add mouse sensitivity on the timeline.
     constexpr int artificialInterval = 10;
     auto session = FocusSession(time - artificialInterval, time + artificialInterval, nullptr,
-                                filter, temperature, tempTicks, altitude, altTicks, totalTicks, position);
+                                filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError, totalTicks, position);
     focusSessions.add(session);
 
     if (!batchMode)

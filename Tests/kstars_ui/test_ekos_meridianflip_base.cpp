@@ -110,9 +110,6 @@ void TestEkosMeridianFlipBase::init()
     noise_setting->setValue(0.0);
     ccd_settings->processSetButton();
 
-    // close INDI window
-    GUIManager::Instance()->close();
-
     // clear guiding calibration to ensure proper guiding
     // TestEkosHelper::prepareGuidingModule() stores a guiding calibration, override if necessary
     // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);

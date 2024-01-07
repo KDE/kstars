@@ -38,25 +38,29 @@ void GreedyScheduler::setParams(bool restartImmediately, bool restartQueue,
     setErrorDelaySeconds(errorHandlingDelay);
 }
 
-QList<SchedulerJob *> GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
-        const QDateTime &now,
-        const QMap<QString, uint16_t> &capturedFramesCount,
-        Scheduler *scheduler)
+// The possible changes made to a job in jobs are:
+// Those listed in prepareJobsForEvaluation()
+// Those listed in selectNextJob
+// job->clearCache()
+// job->updateJobCells()
+
+void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
+                                   const QDateTime &now,
+                                   const QMap<QString, uint16_t> &capturedFramesCount,
+                                   Scheduler *scheduler)
 {
     for (auto job : jobs)
         job->clearCache();
 
-    SchedulerJob::enableGraphicsUpdates(false);
     QDateTime when;
     QElapsedTimer timer;
     timer.start();
     scheduledJob = nullptr;
     schedule.clear();
 
-    QList<SchedulerJob *> sortedJobs =
-        prepareJobsForEvaluation(jobs, now, capturedFramesCount, scheduler);
+    prepareJobsForEvaluation(jobs, now, capturedFramesCount, scheduler);
 
-    scheduledJob = selectNextJob(sortedJobs, now, nullptr, SIMULATE, &when, nullptr, nullptr, &capturedFramesCount);
+    scheduledJob = selectNextJob(jobs, now, nullptr, SIMULATE, &when, nullptr, nullptr, &capturedFramesCount);
     auto schedule = getSchedule();
     if (scheduler != nullptr)
     {
@@ -77,27 +81,20 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> 
         qCDebug(KSTARS_EKOS_SCHEDULER)
                 << QString("Greedy Scheduler scheduling next job %1 at %2")
                 .arg(scheduledJob->getName(), when.toString("hh:mm"));
-        scheduledJob->setState(SchedulerJob::JOB_SCHEDULED);
+        scheduledJob->setState(SCHEDJOB_SCHEDULED);
         scheduledJob->setStartupTime(when);
-        foreach (auto job, sortedJobs)
-            job->updateJobCells();
-    }
-    // The graphics would get updated many times during scheduling, which can
-    // cause significant cpu usage. No need for that, so we turn off updates
-    // at the start of this method, and then update all jobs once here.
-    SchedulerJob::enableGraphicsUpdates(true);
-    for (auto job : sortedJobs)
-    {
-        job->updateJobCells();
-        job->clearCache();
     }
 
-    return sortedJobs;
+    for (auto job : jobs)
+        job->clearCache();
 }
 
+// The changes made to a job in jobs are:
+//  Those listed in selectNextJob()
+// Not a const method because it sets the schedule class variable.
 bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
                                const QDateTime &now,
-                               SchedulerJob *currentJob)
+                               const SchedulerJob * const currentJob)
 {
     // Don't interrupt a job that just started.
     if (currentJob && currentJob->getStateTime().secsTo(now) < 5)
@@ -112,15 +109,12 @@ bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
             (m_LastCheckJobSim.isValid() && m_LastCheckJobSim.secsTo(now) < 60))
         simType = DONT_SIMULATE;
 
-    SchedulerJob *next = selectNextJob(jobs, now, currentJob, simType, &startTime);
+    const SchedulerJob *next = selectNextJob(jobs, now, currentJob, simType, &startTime);
     if (next == currentJob && now.secsTo(startTime) <= 1)
     {
         if (simType != DONT_SIMULATE)
-        {
             m_LastCheckJobSim = now;
-            foreach (auto job, jobs)
-                job->updateJobCells();
-        }
+
         return true;
     }
     else
@@ -133,13 +127,26 @@ bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
     }
 }
 
-QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
+// The changes made to a job in jobs are:
+// job->setState(JOB_COMPLETE|JOB_EVALUATION|JOB_INVALID|JOB_COMPLETEno_change)
+// job->setEstimatedTime(0|-1|-2|time)
+// job->setInitialFilter(filter)
+// job->setLightFramesRequired(bool)
+// job->setInSequenceFocus(bool);
+// job->setCompletedIterations(completedIterations);
+// job->setCapturedFramesMap(capture_map);
+// job->setSequenceCount(count);
+// job->setEstimatedTimePerRepeat(time);
+// job->setEstimatedTimeLeftThisRepeat(time);
+// job->setEstimatedStartupTime(time);
+// job->setCompletedCount(count);
+
+void GreedyScheduler::prepareJobsForEvaluation(
     const QList<SchedulerJob *> &jobs, const QDateTime &now,
-    const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTimes)
+    const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTimes) const
 {
-    QList<SchedulerJob *> sortedJobs = jobs;
     // Remove some finished jobs from eval.
-    foreach (SchedulerJob *job, sortedJobs)
+    foreach (SchedulerJob *job, jobs)
     {
         switch (job->getCompletionCondition())
         {
@@ -147,7 +154,7 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
                 /* If planned finishing time has passed, the job is set to IDLE waiting for a next chance to run */
                 if (job->getCompletionTime().isValid() && job->getCompletionTime() < now)
                 {
-                    job->setState(SchedulerJob::JOB_COMPLETE);
+                    job->setState(SCHEDJOB_COMPLETE);
                     continue;
                 }
                 break;
@@ -158,7 +165,7 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
                 if (job->getRepeatsRemaining() == 0)
                 {
                     if (scheduler != nullptr) scheduler->appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
-                    job->setState(SchedulerJob::JOB_COMPLETE);
+                    job->setState(SCHEDJOB_COMPLETE);
                     job->setEstimatedTime(0);
                     continue;
                 }
@@ -170,33 +177,33 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
     }
 
     // Change the state to eval or ERROR/ABORTED for all jobs that will be evaluated.
-    foreach (SchedulerJob *job, sortedJobs)
+    foreach (SchedulerJob *job, jobs)
     {
         switch (job->getState())
         {
-            case SchedulerJob::JOB_INVALID:
-            case SchedulerJob::JOB_COMPLETE:
+            case SCHEDJOB_INVALID:
+            case SCHEDJOB_COMPLETE:
                 // If job is invalid or complete, bypass evaluation.
                 break;
 
-            case SchedulerJob::JOB_ERROR:
-            case SchedulerJob::JOB_ABORTED:
+            case SCHEDJOB_ERROR:
+            case SCHEDJOB_ABORTED:
                 // These will be evaluated, but we'll have a delay to start.
                 break;
-            case SchedulerJob::JOB_IDLE:
-            case SchedulerJob::JOB_BUSY:
-            case SchedulerJob::JOB_SCHEDULED:
-            case SchedulerJob::JOB_EVALUATION:
+            case SCHEDJOB_IDLE:
+            case SCHEDJOB_BUSY:
+            case SCHEDJOB_SCHEDULED:
+            case SCHEDJOB_EVALUATION:
             default:
-                job->setState(SchedulerJob::JOB_EVALUATION);
+                job->setState(SCHEDJOB_EVALUATION);
                 break;
         }
     }
 
     // Estimate the job times
-    foreach (SchedulerJob *job, sortedJobs)
+    foreach (SchedulerJob *job, jobs)
     {
-        if (job->getState() == SchedulerJob::JOB_INVALID || job->getState() == SchedulerJob::JOB_COMPLETE)
+        if (job->getState() == SCHEDJOB_INVALID || job->getState() == SCHEDJOB_COMPLETE)
             continue;
 
         // -1 = Job is not estimated yet
@@ -207,19 +214,17 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
             job->setEstimatedTime(-1);
             if (SchedulerUtils::estimateJobTime(job, capturedFramesCount, scheduler) == false)
             {
-                job->setState(SchedulerJob::JOB_INVALID);
+                job->setState(SCHEDJOB_INVALID);
                 continue;
             }
         }
         if (job->getEstimatedTime() == 0)
         {
             job->setRepeatsRemaining(0);
-            job->setState(SchedulerJob::JOB_COMPLETE);
+            job->setState(SCHEDJOB_COMPLETE);
             continue;
         }
     }
-
-    return sortedJobs;
 }
 
 namespace
@@ -227,13 +232,13 @@ namespace
 // Don't Allow INVALID or COMPLETE jobs to be scheduled.
 // Allow ABORTED if one of the rescheduleAbort... options are true.
 // Allow ERROR if rescheduleErrors is true.
-bool allowJob(SchedulerJob *job, bool rescheduleAbortsImmediate, bool rescheduleAbortsQueue, bool rescheduleErrors)
+bool allowJob(const SchedulerJob *job, bool rescheduleAbortsImmediate, bool rescheduleAbortsQueue, bool rescheduleErrors)
 {
-    if (job->getState() == SchedulerJob::JOB_INVALID || job->getState() == SchedulerJob::JOB_COMPLETE)
+    if (job->getState() == SCHEDJOB_INVALID || job->getState() == SCHEDJOB_COMPLETE)
         return false;
-    if (job->getState() == SchedulerJob::JOB_ABORTED && !rescheduleAbortsImmediate && !rescheduleAbortsQueue)
+    if (job->getState() == SCHEDJOB_ABORTED && !rescheduleAbortsImmediate && !rescheduleAbortsQueue)
         return false;
-    if (job->getState() == SchedulerJob::JOB_ERROR && !rescheduleErrors)
+    if (job->getState() == SCHEDJOB_ERROR && !rescheduleErrors)
         return false;
     return true;
 }
@@ -241,7 +246,7 @@ bool allowJob(SchedulerJob *job, bool rescheduleAbortsImmediate, bool reschedule
 // Returns the first possible time a job may be scheduled. That is, it doesn't
 // evaluate the job, but rather just computes the needed delay (for ABORT and ERROR jobs)
 // or returns now for other jobs.
-QDateTime firstPossibleStart(SchedulerJob *job, const QDateTime &now,
+QDateTime firstPossibleStart(const SchedulerJob *job, const QDateTime &now,
                              bool rescheduleAbortsQueue, int abortDelaySeconds,
                              bool rescheduleErrors, int errorDelaySeconds)
 {
@@ -280,8 +285,16 @@ QDateTime firstPossibleStart(SchedulerJob *job, const QDateTime &now,
 // - If currentJob is not nullptr, this method is really evaluating whether
 //   that job can continue to be run, or if can't meet constraints, or if it
 //   should be preempted for another job.
+//
+// This does not modify any of the jobs in jobs if there is no simType is DONT_SIMULATE.
+// If we are simulating, then jobs may change in the following ways:
+//  job->setGreedyCompletionTime()
+//  job->setState(state);
+//  job->setStartupTime(time);
+//  job->setStopReason(reason);
+// The only reason this isn't a const method is because it sets the schedule class variable.
 SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, const QDateTime &now,
-        SchedulerJob *currentJob, SimulationType simType, QDateTime *when,
+        const SchedulerJob * const currentJob, SimulationType simType, QDateTime *when,
         QDateTime *nextInterruption, QString *interruptReason,
         const QMap<QString, uint16_t> *capturedFramesCount)
 {
@@ -295,12 +308,12 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
     bool currentJobIsStartAt = (currentJob && currentJob->getFileStartupCondition() == START_AT &&
                                 currentJob->getFileStartupTime().isValid());
     QDateTime nextStart;
-    SchedulerJob *nextJob = nullptr;
+    SchedulerJob * nextJob = nullptr;
     QString interruptStr;
 
     for (int i = 0; i < jobs.size(); ++i)
     {
-        SchedulerJob *job = jobs[i];
+        SchedulerJob * const job = jobs[i];
         const bool evaluatingCurrentJob = (currentJob && (job == currentJob));
 
         if (!allowJob(job, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
@@ -372,7 +385,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         // However, in order for the START_AT job to interrupt a current job, it must start now.
         for (int i = 0; i < jobs.size(); ++i)
         {
-            SchedulerJob *atJob = jobs[i];
+            SchedulerJob * const atJob = jobs[i];
             if (atJob == nextJob)
                 continue;
             const QDateTime atTime = atJob->getFileStartupTime();
@@ -431,7 +444,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
             bool foundSelectedJob = false;
             for (int i = 0; i < jobs.size(); ++i)
             {
-                SchedulerJob *job = jobs[i];
+                SchedulerJob * const job = jobs[i];
                 if (job == nextJob)
                 {
                     foundSelectedJob = true;
@@ -515,6 +528,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
     return nextJob;
 }
 
+// The only reason this isn't a const method is because it sets the schedule class variable
 QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time, const QDateTime &endTime,
                                     const QMap<QString, uint16_t> *capturedFramesCount, SimulationType simType)
 {
@@ -529,9 +543,6 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         SchedulerJob *newJob = new SchedulerJob();
         // Make sure the copied class pointers aren't affected!
         *newJob = *job;
-        // Don't want to affect the UI
-        newJob->setStatusCell(nullptr);
-        newJob->setStartupCell(nullptr);
         copiedJobs.append(newJob);
         job->setGreedyCompletionTime(QDateTime());
     }
@@ -544,16 +555,16 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
     {
         job->setStartupTime(QDateTime());
         const auto state = job->getState();
-        if (state == SchedulerJob::JOB_SCHEDULED || state == SchedulerJob::JOB_EVALUATION ||
-                state == SchedulerJob::JOB_BUSY || state == SchedulerJob::JOB_IDLE)
+        if (state == SCHEDJOB_SCHEDULED || state == SCHEDJOB_EVALUATION ||
+                state == SCHEDJOB_BUSY || state == SCHEDJOB_IDLE)
             numStartupCandidates++;
     }
 
     QMap<QString, uint16_t> capturedFramesCopy;
     if (capturedFramesCount != nullptr)
         capturedFramesCopy = *capturedFramesCount;
-    QList<SchedulerJob *>simJobs =
-        prepareJobsForEvaluation(copiedJobs, time, capturedFramesCopy, nullptr, false);
+    QList<SchedulerJob *>simJobs = copiedJobs;
+    prepareJobsForEvaluation(copiedJobs, time, capturedFramesCopy, nullptr, false);
 
     QDateTime simTime = time;
     int iterations = 0;
@@ -592,8 +603,8 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             if (job != selectedJob &&
                     job->getStartupCondition() == START_AT &&
                     jobStartTime.secsTo(job->getStartupTime()) > 0 &&
-                    (job->getState() == SchedulerJob::JOB_EVALUATION ||
-                     job->getState() == SchedulerJob::JOB_SCHEDULED))
+                    (job->getState() == SCHEDJOB_EVALUATION ||
+                     job->getState() == SCHEDJOB_SCHEDULED))
             {
                 QDateTime startAtTime = job->getStartupTime();
                 if (!nextStartAtTime.isValid() || nextStartAtTime.secsTo(startAtTime) < 0)
@@ -723,7 +734,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             selectedJob->setStartupTime(jobStartTime);
             selectedJob->setGreedyCompletionTime(jobStopTime);
             selectedJob->setStopReason(stopReason);
-            selectedJob->setState(SchedulerJob::JOB_SCHEDULED);
+            selectedJob->setState(SCHEDJOB_SCHEDULED);
             scheduledJobs.append(selectedJob);
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("  Scheduled: %1 %2 -> %3 %4 work done %5s")
                        .arg(selectedJob->getName()).arg(selectedJob->getStartupTime().toString("MM/dd hh:mm"))
@@ -735,7 +746,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         if (selectedJob->getEstimatedTime() >= 0 &&
                 workDone[selectedJob] >= selectedJob->getEstimatedTime())
         {
-            selectedJob->setState(SchedulerJob::JOB_COMPLETE);
+            selectedJob->setState(SCHEDJOB_COMPLETE);
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("   job %1 is complete")
                        .arg(selectedJob->getName()).toLatin1().data());
         }
@@ -784,9 +795,9 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         if (scheduledJobs.indexOf(copiedJobs[i]) >= 0)
         {
             // If this is a simulation where the job is already running, don't change its state or startup time.
-            if (jobs[i]->getState() != SchedulerJob::JOB_BUSY)
+            if (jobs[i]->getState() != SCHEDJOB_BUSY)
             {
-                jobs[i]->setState(SchedulerJob::JOB_SCHEDULED);
+                jobs[i]->setState(SCHEDJOB_SCHEDULED);
                 jobs[i]->setStartupTime(copiedJobs[i]->getStartupTime());
             }
             // Can't set the standard completionTime as it affects getEstimatedTime()
@@ -801,12 +812,12 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
     return exceededIterations ? QDateTime() : simEndTime;
 }
 
-void GreedyScheduler::unsetEvaluation(const QList<SchedulerJob *> &jobs)
+void GreedyScheduler::unsetEvaluation(const QList<SchedulerJob *> &jobs) const
 {
     for (int i = 0; i < jobs.size(); ++i)
     {
-        if (jobs[i]->getState() == SchedulerJob::JOB_EVALUATION)
-            jobs[i]->setState(SchedulerJob::JOB_IDLE);
+        if (jobs[i]->getState() == SCHEDJOB_EVALUATION)
+            jobs[i]->setState(SCHEDJOB_IDLE);
     }
 }
 

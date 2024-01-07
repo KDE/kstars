@@ -15,8 +15,6 @@
 #include <QJsonObject>
 
 class ArtificialHorizon;
-class QTableWidgetItem;
-class QLabel;
 class KSMoon;
 class TestSchedulerUnit;
 class TestEkosSchedulerOps;
@@ -30,39 +28,6 @@ class SchedulerJob
         SchedulerJob();
 
         QJsonObject toJson() const;
-
-        /** @brief States of a SchedulerJob. */
-        typedef enum
-        {
-            JOB_IDLE,       /**< Job was just created, and is not evaluated yet */
-            JOB_EVALUATION, /**< Job is being evaluated */
-            JOB_SCHEDULED,  /**< Job was evaluated, and has a schedule */
-            JOB_BUSY,       /**< Job is being processed */
-            JOB_ERROR,      /**< Job encountered a fatal issue while processing, and must be reset manually */
-            JOB_ABORTED,    /**< Job encountered a transitory issue while processing, and will be rescheduled */
-            JOB_INVALID,    /**< Job has an incorrect configuration, and cannot proceed */
-            JOB_COMPLETE    /**< Job finished all required captures */
-        } JOBStatus;
-
-        /** @brief Running stages of a SchedulerJob. */
-        typedef enum
-        {
-            STAGE_IDLE,
-            STAGE_SLEWING,
-            STAGE_SLEW_COMPLETE,
-            STAGE_FOCUSING,
-            STAGE_FOCUS_COMPLETE,
-            STAGE_ALIGNING,
-            STAGE_ALIGN_COMPLETE,
-            STAGE_RESLEWING,
-            STAGE_RESLEWING_COMPLETE,
-            STAGE_POSTALIGN_FOCUSING,
-            STAGE_POSTALIGN_FOCUSING_COMPLETE,
-            STAGE_GUIDING,
-            STAGE_GUIDING_COMPLETE,
-            STAGE_CAPTURING,
-            STAGE_COMPLETE
-        } JOBStage;
 
         /** @brief Actions that may be processed when running a SchedulerJob.
          * FIXME: StepPipeLine is actually a mask, change this into a bitfield.
@@ -177,15 +142,6 @@ class SchedulerJob
         void setCompletionCondition(const CompletionCondition &value);
         /** @} */
 
-        /** @brief Timestamp format to use when displaying information about this job. */
-        /** @{ */
-        QString const &getDateTimeDisplayFormat() const
-        {
-            return dateTimeDisplayFormat;
-        }
-        void setDateTimeDisplayFormat(const QString &value, bool update = true);
-        /** @} */
-
         /** @brief Original startup condition, as entered by the user. */
         /** @{ */
         StartupCondition getFileStartupCondition() const
@@ -258,15 +214,6 @@ class SchedulerJob
         void setCompletedIterations(int value);
         /** @} */
 
-        /** @brief Shortcut to widget cell for job name in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getNameCell() const
-        {
-            return nameCell;
-        }
-        void setNameCell(QTableWidgetItem *cell);
-        /** @} */
-
         /** @brief Current state of the scheduler job.
          * Setting state to JOB_ABORTED automatically resets the startup characteristics.
          * Setting state to JOB_INVALID automatically resets the startup characteristics and the duration estimation.
@@ -274,7 +221,7 @@ class SchedulerJob
          * and SchedulerJob::setFileStartupTime.
          */
         /** @{ */
-        JOBStatus getState() const
+        SchedulerJobStatus getState() const
         {
             return state;
         }
@@ -290,39 +237,16 @@ class SchedulerJob
         {
             return lastErrorTime;
         }
-        void setState(const JOBStatus &value);
-        /** @} */
-
-        /** @brief Shortcut to widget cell for job state in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getStatusCell() const
-        {
-            return statusCell;
-        }
-        void setStatusCell(QTableWidgetItem *cell);
+        void setState(const SchedulerJobStatus &value);
         /** @} */
 
         /** @brief Current stage of the scheduler job. */
         /** @{ */
-        JOBStage getStage() const
+        SchedulerJobStage getStage() const
         {
             return stage;
         }
-        void setStage(const JOBStage &value);
-        /** @} */
-
-        /** @brief Shortcut to widget cell for job stage in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getStageCell() const
-        {
-            return stageCell;
-        }
-        void setStageCell(QTableWidgetItem *cell);
-        QLabel *getStageLabel() const
-        {
-            return stageLabel;
-        }
-        void setStageLabel(QLabel *label);
+        void setStage(const SchedulerJobStage &value);
         /** @} */
 
         /** @brief Number of captures required in the associated sequence. */
@@ -343,15 +267,6 @@ class SchedulerJob
         void setCompletedCount(const int count);
         /** @} */
 
-        /** @brief Shortcut to widget cell for captures in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getCaptureCountCell() const
-        {
-            return captureCountCell;
-        }
-        void setCaptureCountCell(QTableWidgetItem *value);
-        /** @} */
-
         /** @brief Time at which the job must start. */
         /** @{ */
         QDateTime getStartupTime() const
@@ -359,24 +274,6 @@ class SchedulerJob
             return startupTime;
         }
         void setStartupTime(const QDateTime &value);
-        /** @} */
-
-        /** @brief Shortcut to widget cell for startup time in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getStartupCell() const
-        {
-            return startupCell;
-        }
-        void setStartupCell(QTableWidgetItem *value);
-        /** @} */
-
-        /** @brief Shortcut to widget cell for altitude in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getAltitudeCell() const
-        {
-            return altitudeCell;
-        }
-        void setAltitudeCell(QTableWidgetItem *value);
         /** @} */
 
         /** @brief Time after which the job is considered complete. */
@@ -400,15 +297,6 @@ class SchedulerJob
         void setCompletionTime(const QDateTime &value);
         /** @} */
         void setGreedyCompletionTime(const QDateTime &value);
-
-        /** @brief Shortcut to widget cell for completion time in the job queue table. */
-        /** @{ */
-        QTableWidgetItem *getCompletionCell() const
-        {
-            return completionCell;
-        }
-        void setCompletionCell(QTableWidgetItem *value);
-        /** @} */
 
         /** @brief Estimation of the time the job will take to process. */
         /** @{ */
@@ -487,9 +375,6 @@ class SchedulerJob
         }
         void setCapturedFramesMap(const CapturedFramesMap &value);
         /** @} */
-
-        /** @brief Refresh all cells connected to this SchedulerJob. */
-        void updateJobCells();
 
         /** @brief Resetting a job to original values:
          * - idle state and stage
@@ -578,17 +463,6 @@ class SchedulerJob
         bool runsDuringAstronomicalNightTime(const QDateTime &time = QDateTime(), QDateTime *nextPossibleSuccess = nullptr) const;
 
         /**
-             * @brief findAltitude Find altitude given a specific time
-             * @param target Target
-             * @param when date time to find altitude
-             * @param is_setting whether target is setting at the argument time (optional).
-             * @param debug outputs calculation to log file (optional).
-             * @return Altitude of the target at the specific date and time given.
-             * @warning This function uses the current KStars geolocation.
-             */
-        static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
-
-        /**
              * @brief satisfiesAltitudeConstraint sees if altitude is allowed for this job at the given azimuth.
              * @param azimuth Azimuth
              * @param altitude Altitude
@@ -605,26 +479,34 @@ class SchedulerJob
         const QString &getInitialFilter() const;
 
         // Convenience debugging methods.
-        static QString jobStatusString(JOBStatus status);
-        static QString jobStageString(JOBStage stage);
+        static QString jobStatusString(SchedulerJobStatus status);
+        static QString jobStageString(SchedulerJobStage stage);
         QString jobStartupConditionString(StartupCondition condition) const;
         QString jobCompletionConditionString(CompletionCondition condition) const;
-
-        static void enableGraphicsUpdates(bool update)
-        {
-            m_UpdateGraphics = update;
-        }
-        static bool graphicsUpdatesEnabled()
-        {
-            return(m_UpdateGraphics);
-        }
 
         // Clear the cache that keeps results for getNextPossibleStartTime().
         void clearCache()
         {
             startTimeCache.clear();
         }
-    private:
+        double getAltitudeAtStartup() const
+        {
+            return altitudeAtStartup;
+        }
+        double getAltitudeAtCompletion() const
+        {
+            return altitudeAtCompletion;
+        }
+        bool isSettingAtStartup() const
+        {
+            return settingAtStartup;
+        }
+        bool isSettingAtCompletion() const
+        {
+            return settingAtCompletion;
+        }
+
+private:
         bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
                 QDateTime *nextPossibleSuccess = nullptr) const;
 
@@ -650,11 +532,6 @@ class SchedulerJob
             return storedHorizon != nullptr;
         }
 
-        /**
-         * @brief Update the style of a cell, depending on the job's state
-         */
-        void updateCellStyle(QTableWidgetItem *cell);
-
         /** @} */
 
         QString name;
@@ -662,8 +539,8 @@ class SchedulerJob
         int completedIterations { 0 };
         SkyPoint targetCoords;
         double m_PositionAngle { -1 };
-        JOBStatus state { JOB_IDLE };
-        JOBStage stage { STAGE_IDLE };
+        SchedulerJobStatus state { SCHEDJOB_IDLE };
+        SchedulerJobStage stage { SCHEDSTAGE_IDLE };
 
         // The time that the job stage was set.
         // Used by the Greedy Algorithm to decide when to run JOB_ABORTED jobs again.
@@ -690,8 +567,8 @@ class SchedulerJob
         /* @{ */
         double altitudeAtStartup { 0 };
         double altitudeAtCompletion { 0 };
-        bool isSettingAtStartup { false };
-        bool isSettingAtCompletion { false };
+        bool settingAtStartup { false };
+        bool settingAtCompletion { false };
         /* @} */
 
         QUrl sequenceFile;
@@ -708,19 +585,6 @@ class SchedulerJob
         QDateTime nextDusk;
 
         StepPipeline stepPipeline { USE_NONE };
-
-        /** @internal Widget cell/label shortcuts. */
-        /** @{ */
-        QTableWidgetItem *nameCell { nullptr };
-        QLabel *nameLabel { nullptr };
-        QTableWidgetItem *statusCell { nullptr };
-        QTableWidgetItem *stageCell { nullptr };
-        QLabel *stageLabel { nullptr };
-        QTableWidgetItem *altitudeCell { nullptr };
-        QTableWidgetItem *startupCell { nullptr };
-        QTableWidgetItem *completionCell { nullptr };
-        QTableWidgetItem *captureCountCell { nullptr };
-        /** @} */
 
         int64_t estimatedTime { -1 };
         int64_t estimatedTimePerRepeat { 0 };
@@ -739,9 +603,6 @@ class SchedulerJob
 
         /// Pointer to Moon object
         KSMoon *moon { nullptr };
-
-        // There are times when we pause graphics updates for all jobs.
-        static bool m_UpdateGraphics;
 
         // This class is used to cache the results computed in getNextPossibleStartTime()
         // which is called repeatedly by the Greedy scheduler.

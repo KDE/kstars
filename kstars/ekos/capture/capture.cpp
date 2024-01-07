@@ -41,12 +41,6 @@
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 
-
-// Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.6
-// We accept file formats with version back to:
-#define SQ_COMPAT_VERSION 2.0
-
 // Qt version calming
 #include <qtendl.h>
 
@@ -486,6 +480,7 @@ Capture::Capture()
     connect(m_captureModuleState.data(), &CaptureModuleState::newFocusStatus, this, &Capture::updateFocusStatus);
     connect(m_captureModuleState.data(), &CaptureModuleState::newMeridianFlipStage, this, &Capture::updateMeridianFlipStage);
     connect(m_captureModuleState.data(), &CaptureModuleState::meridianFlipStarted, this, &Capture::meridianFlipStarted);
+
     // forward signals from capture process
     connect(m_captureProcess.data(), &CaptureProcess::cameraReady, this, &Capture::ready);
     connect(m_captureProcess.data(), &CaptureProcess::refreshCamera, this, &Capture::updateCamera);
@@ -1533,9 +1528,6 @@ void Capture::updateRotatorAngle(double value)
 
 void Capture::addJob(SequenceJob *job)
 {
-    // add the job to the job list
-    state()->allJobs().append(job);
-
     // create a new row
     createNewJobTableRow(job);
 }

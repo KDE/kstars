@@ -94,6 +94,39 @@ typedef enum
     RUN_NOTHING
 } SchedulerTimerState;
 
+/** @brief States of a SchedulerJob. */
+typedef enum
+{
+    SCHEDJOB_IDLE,       /**< Job was just created, and is not evaluated yet */
+    SCHEDJOB_EVALUATION, /**< Job is being evaluated */
+    SCHEDJOB_SCHEDULED,  /**< Job was evaluated, and has a schedule */
+    SCHEDJOB_BUSY,       /**< Job is being processed */
+    SCHEDJOB_ERROR,      /**< Job encountered a fatal issue while processing, and must be reset manually */
+    SCHEDJOB_ABORTED,    /**< Job encountered a transitory issue while processing, and will be rescheduled */
+    SCHEDJOB_INVALID,    /**< Job has an incorrect configuration, and cannot proceed */
+    SCHEDJOB_COMPLETE    /**< Job finished all required captures */
+} SchedulerJobStatus;
+
+/** @brief Running stages of a SchedulerJob. */
+typedef enum
+{
+    SCHEDSTAGE_IDLE,
+    SCHEDSTAGE_SLEWING,
+    SCHEDSTAGE_SLEW_COMPLETE,
+    SCHEDSTAGE_FOCUSING,
+    SCHEDSTAGE_FOCUS_COMPLETE,
+    SCHEDSTAGE_ALIGNING,
+    SCHEDSTAGE_ALIGN_COMPLETE,
+    SCHEDSTAGE_RESLEWING,
+    SCHEDSTAGE_RESLEWING_COMPLETE,
+    SCHEDSTAGE_POSTALIGN_FOCUSING,
+    SCHEDSTAGE_POSTALIGN_FOCUSING_COMPLETE,
+    SCHEDSTAGE_GUIDING,
+    SCHEDSTAGE_GUIDING_COMPLETE,
+    SCHEDSTAGE_CAPTURING,
+    SCHEDSTAGE_COMPLETE
+} SchedulerJobStage;
+
 /** @brief mapping signature --> frames count */
 typedef QMap<QString, uint16_t> CapturedFramesMap;
 

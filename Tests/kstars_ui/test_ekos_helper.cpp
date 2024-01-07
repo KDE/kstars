@@ -680,7 +680,7 @@ void TestEkosHelper::prepareMountModule(ScopeType primary, ScopeType guiding)
         guider_aperture->setValue(guidingTrain["aperture"].toDouble());
         guider_focallength->setValue(guidingTrain["focal_length"].toDouble() * guidingTrain["reducer"].toDouble());
         guider_scope_info
-                ->processSetButton();
+        ->processSetButton();
     }
 
     // select the primary train for the mount
@@ -918,6 +918,8 @@ void TestEkosHelper::init()
     Options::setDitherEnabled(false);
     // clear the script map
     scripts.clear();
+    // do not open INDI window on Ekos startup
+    Options::setShowINDIwindowInitially(false);
 }
 void TestEkosHelper::cleanup()
 {

@@ -159,12 +159,12 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
 
     QString group = "";
     Ekos::SchedulerUtils::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
-                                     sequenceUrl, fitsUrl,
-                                     sCond, sTime,
-                                     eCond, eTime, eReps,
-                                     minAlt, minMoonSep,
-                                     enforceWeather, enforceTwilight, enforceArtificialHorizon,
-                                     track, focus, align, guide);
+                                   sequenceUrl, fitsUrl,
+                                   sCond, sTime,
+                                   eCond, eTime, eReps,
+                                   minAlt, minMoonSep,
+                                   enforceWeather, enforceTwilight, enforceArtificialHorizon,
+                                   track, focus, align, guide);
     QVERIFY(name == job.getName());
     QVERIFY(ra == job.getTargetCoords().ra0());
     QVERIFY(dec == job.getTargetCoords().dec0());
@@ -473,13 +473,12 @@ void TestSchedulerUnit::evaluateJobsTest()
     const bool restart = true;
     const QMap<QString, uint16_t> capturedFrames;
     QList<Ekos::SchedulerJob *> jobs;
-    QList<Ekos::SchedulerJob *> jobsToProcess;
     const double minAltitude = 30.0;
 
     // Test 1: Evaluating an empty jobs list should return an empty list.
     scheduler.setParams(restart, true, rescheduleErrors, 3600, 3600);
-    jobsToProcess = scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
-    QVERIFY(jobsToProcess.empty());
+    scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+    QVERIFY(jobs.empty());
 
     // Test 2: Add one job to the list.
     // It should be on the list, and scheduled starting right away (there are no conflicting constraints)
@@ -492,10 +491,9 @@ void TestSchedulerUnit::evaluateJobsTest()
                 minAltitude);
     jobs.append(&job);
 
-    jobsToProcess = scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
+    scheduler.scheduleJobs(jobs, now, capturedFrames, nullptr);
     // Should have the one same job on both lists.
-    QVERIFY(jobsToProcess.size() == 1);
-    QVERIFY(jobs[0] == jobsToProcess[0]);
+    QVERIFY(jobs.size() == 1);
     QVERIFY(jobs[0] == &job);
     // The job should start now.
     QVERIFY(job.getStartupTime().secsTo(now) == 0);
@@ -515,7 +513,6 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(Ekos::SchedulerModuleState::Dawn() <= Ekos::SchedulerModuleState::Dusk());
 
     jobs.clear();
-    jobsToProcess.clear();
 
     // Test 3: In this case, there are two jobs.
     // The first must wait for to get above the min altitude (which is set to 80-degrees).
@@ -546,30 +543,29 @@ void TestSchedulerUnit::evaluateJobsTest()
                 30.0);
     jobs.append(&job2);
 
-    jobsToProcess = scheduler.scheduleJobs(jobs, localTime8pm, capturedFrames, nullptr);
+    scheduler.scheduleJobs(jobs, localTime8pm, capturedFrames, nullptr);
 
-    QVERIFY(jobsToProcess.size() == 2);
-    QVERIFY(jobsToProcess[0] == &job1);
-    QVERIFY(jobsToProcess[1] == &job2);
-    QVERIFY(compareTimes(jobsToProcess[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
-    QVERIFY(compareTimes(jobsToProcess[0]->getCompletionTime(), midNight.addSecs(43 * 60), 300));
+    QVERIFY(jobs.size() == 2);
+    QVERIFY(jobs[0] == &job1);
+    QVERIFY(jobs[1] == &job2);
+    QVERIFY(compareTimes(jobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
+    QVERIFY(compareTimes(jobs[0]->getCompletionTime(), midNight.addSecs(43 * 60), 300));
 
-    QVERIFY(compareTimes(jobsToProcess[1]->getStartupTime(), localTime8pm, 300));
-    QVERIFY(compareTimes(jobsToProcess[1]->getCompletionTime(), localTime8pm.addSecs(48 * 60), 300));
+    QVERIFY(compareTimes(jobs[1]->getStartupTime(), localTime8pm, 300));
+    QVERIFY(compareTimes(jobs[1]->getCompletionTime(), localTime8pm.addSecs(48 * 60), 300));
 
     Ekos::SchedulerModuleState::calculateDawnDusk();
 
     // The two job should run inside the twilight interval and have the same twilight values as Scheduler current values
-    QVERIFY(jobsToProcess[0]->runsDuringAstronomicalNightTime());
-    QVERIFY(jobsToProcess[1]->runsDuringAstronomicalNightTime());
-    QVERIFY(jobsToProcess[0]->getDawnAstronomicalTwilight() == Ekos::SchedulerModuleState::Dawn());
-    QVERIFY(jobsToProcess[1]->getDuskAstronomicalTwilight() == Ekos::SchedulerModuleState::Dusk());
+    QVERIFY(jobs[0]->runsDuringAstronomicalNightTime());
+    QVERIFY(jobs[1]->runsDuringAstronomicalNightTime());
+    QVERIFY(jobs[0]->getDawnAstronomicalTwilight() == Ekos::SchedulerModuleState::Dawn());
+    QVERIFY(jobs[1]->getDuskAstronomicalTwilight() == Ekos::SchedulerModuleState::Dusk());
 
     // The two job can start now, thus the next events for today are dawn, then dusk
     QVERIFY(Ekos::SchedulerModuleState::Dawn() <= Ekos::SchedulerModuleState::Dusk());
 
     jobs.clear();
-    jobsToProcess.clear();
 
     // Test 4: Similar to above, but the first job estimate will run past dawn as it has 10 repetitions.
     // The second job, therefore, should be initially scheduled to start "tomorrow" just after dusk.
@@ -595,19 +591,18 @@ void TestSchedulerUnit::evaluateJobsTest()
                 80.0);
     jobs.append(&job4);
 
-    jobsToProcess = scheduler.scheduleJobs(jobs, localTime8pm, capturedFrames, nullptr);
+    scheduler.scheduleJobs(jobs, localTime8pm, capturedFrames, nullptr);
 
-    QVERIFY(jobsToProcess.size() == 2);
-    QVERIFY(jobsToProcess[0] == &job3);
-    QVERIFY(jobsToProcess[1] == &job4);
-    QVERIFY(compareTimes(jobsToProcess[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
-    QVERIFY(compareTimes(jobsToProcess[0]->getCompletionTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
+    QVERIFY(jobs.size() == 2);
+    QVERIFY(jobs[0] == &job3);
+    QVERIFY(jobs[1] == &job4);
+    QVERIFY(compareTimes(jobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
+    QVERIFY(compareTimes(jobs[0]->getCompletionTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
 
-    QVERIFY(compareTimes(jobsToProcess[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 54 * 60), 300));
-    QVERIFY(compareTimes(jobsToProcess[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
+    QVERIFY(compareTimes(jobs[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 54 * 60), 300));
+    QVERIFY(compareTimes(jobs[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
 
     jobs.clear();
-    jobsToProcess.clear();
 }
 
 QTEST_GUILESS_MAIN(TestSchedulerUnit)

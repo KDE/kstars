@@ -35,7 +35,7 @@ const QString getFilterStatusString(FilterState state, bool translated)
 {
     return translated ? i18n(filterStates[state]) : filterStates[state];
 }
-const QString getSchedulerStatusString(FilterState state, bool translated)
+const QString getSchedulerStatusString(SchedulerState state, bool translated)
 {
     return translated ? i18n(schedulerStates[state]) : schedulerStates[state];
 }

@@ -86,6 +86,10 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     resize(Options::iNDIWindowWidth(), Options::iNDIWindowHeight());
+
+    QAction *showINDIPanel =
+        KStars::Instance()->actionCollection()->action("show_control_panel");
+    showINDIPanel->setChecked(Options::showINDIwindowInitially());
 }
 
 GUIManager::~GUIManager()
@@ -135,7 +139,6 @@ void GUIManager::hideEvent(QHideEvent * /*event*/)
 void GUIManager::showEvent(QShowEvent * /*event*/)
 {
     QAction *a = KStars::Instance()->actionCollection()->action("show_control_panel");
-    a->setEnabled(true);
     a->setChecked(true);
 }
 
@@ -158,17 +161,21 @@ void GUIManager::updateStatus(bool toggle_behavior)
         return;
     }
 
-    showINDIPanel->setChecked(true);
+    // enable the INDI button if at least one device has been recognized
+    showINDIPanel->setEnabled(getDevices().size() > 0);
 
-    if (isVisible() && isActiveWindow() && toggle_behavior)
-    {
-        hide();
-    }
-    else
+    if (toggle_behavior)
+        showINDIPanel->setChecked(! showINDIPanel->isChecked());
+
+    if (showINDIPanel->isChecked())
     {
         raise();
         activateWindow();
         showNormal();
+    }
+    else
+    {
+        hide();
     }
 }
 

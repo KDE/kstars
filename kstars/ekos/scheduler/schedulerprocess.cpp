@@ -62,11 +62,11 @@ void SchedulerProcess::startSlew()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' slew request received DBUS error: %2").arg(
                                               activeJob()->getName(), QDBusError::errorString(slewModeReply.error().type()));
         if (!manageConnectionLoss())
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
+            activeJob()->setState(SCHEDJOB_ERROR);
     }
     else
     {
-        activeJob()->setStage(SchedulerJob::STAGE_SLEWING);
+        updateJobStage(SCHEDSTAGE_SLEWING);
         emit newLog(i18n("Job '%1' is slewing to target.", activeJob()->getName()));
     }
 }
@@ -77,14 +77,14 @@ void SchedulerProcess::startFocusing()
 
     // 2017-09-30 Jasem: We're skipping post align focusing now as it can be performed
     // when first focus request is made in capture module
-    if (activeJob()->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE ||
-            activeJob()->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
+    if (activeJob()->getStage() == SCHEDSTAGE_RESLEWING_COMPLETE ||
+            activeJob()->getStage() == SCHEDSTAGE_POSTALIGN_FOCUSING)
     {
         // Clear the HFR limit value set in the capture module
         captureInterface()->call(QDBus::AutoDetect, "clearAutoFocusHFR");
         // Reset Focus frame so that next frame take a full-resolution capture first.
         focusInterface()->call(QDBus::AutoDetect, "resetFrame");
-        activeJob()->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+        updateJobStage(SCHEDSTAGE_POSTALIGN_FOCUSING_COMPLETE);
         emit getNextAction();
         return;
     }
@@ -99,7 +99,7 @@ void SchedulerProcess::startFocusing()
                                               activeJob()->getName(), QDBusError::errorString(focusModeReply.error().type()));
         if (!manageConnectionLoss())
         {
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
+            activeJob()->setState(SCHEDJOB_ERROR);
             emit findNextJob();
         }
         return;
@@ -110,7 +110,7 @@ void SchedulerProcess::startFocusing()
         emit newLog(i18n("Warning: job '%1' is unable to proceed with autofocus, not supported.", activeJob()->getName()));
         activeJob()->setStepPipeline(
             static_cast<SchedulerJob::StepPipeline>(activeJob()->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
-        activeJob()->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+        updateJobStage(SCHEDSTAGE_FOCUS_COMPLETE);
         emit getNextAction();
         return;
     }
@@ -127,7 +127,7 @@ void SchedulerProcess::startFocusing()
                                               activeJob()->getName(), reply.errorMessage());
         if (!manageConnectionLoss())
         {
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
+            activeJob()->setState(SCHEDJOB_ERROR);
             emit findNextJob();
         }
         return;
@@ -152,7 +152,7 @@ void SchedulerProcess::startFocusing()
                                                   activeJob()->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
             {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
                 emit findNextJob();
             }
             return;
@@ -166,13 +166,13 @@ void SchedulerProcess::startFocusing()
                                               activeJob()->getName(), reply.errorMessage());
         if (!manageConnectionLoss())
         {
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
+            activeJob()->setState(SCHEDJOB_ERROR);
             emit findNextJob();
         }
         return;
     }
 
-    activeJob()->setStage(SchedulerJob::STAGE_FOCUSING);
+    updateJobStage(SCHEDSTAGE_FOCUSING);
     emit newLog(i18n("Job '%1' is focusing.", activeJob()->getName()));
     moduleState()->startCurrentOperationTimer();
 }
@@ -201,7 +201,7 @@ void SchedulerProcess::startAstrometry()
         if (QFile::exists(path) == false)
         {
             emit newLog(i18n("Warning: job '%1' target FITS file does not exist.", activeJob()->getName()));
-            activeJob()->setState(SchedulerJob::JOB_ERROR);
+            activeJob()->setState(SCHEDJOB_ERROR);
             emit findNextJob();
             return;
         }
@@ -216,7 +216,7 @@ void SchedulerProcess::startAstrometry()
                              activeJob()->getName(), reply.errorMessage()));
             if (!manageConnectionLoss())
             {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
                 emit findNextJob();
             }
             return;
@@ -224,7 +224,7 @@ void SchedulerProcess::startAstrometry()
         else if (reply.arguments().first().toBool() == false)
         {
             emit newLog(i18n("Warning: job '%1' loadAndSlew request failed.", activeJob()->getName()));
-            activeJob()->setState(SchedulerJob::JOB_ABORTED);
+            activeJob()->setState(SCHEDJOB_ABORTED);
             emit findNextJob();
             return;
         }
@@ -247,7 +247,7 @@ void SchedulerProcess::startAstrometry()
                              activeJob()->getName(), reply.errorMessage()));
             if (!manageConnectionLoss())
             {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
                 emit findNextJob();
             }
             return;
@@ -263,7 +263,7 @@ void SchedulerProcess::startAstrometry()
                                 activeJob()->getName(), reply.errorMessage()));
                 if (!manageConnectionLoss())
                 {
-                    activeJob()->setState(SchedulerJob::JOB_ERROR);
+                    activeJob()->setState(SCHEDJOB_ERROR);
                     emit findNextJob();
                 }
                 return;
@@ -276,7 +276,7 @@ void SchedulerProcess::startAstrometry()
                             activeJob()->getName(), reply.errorMessage()));
             if (!manageConnectionLoss())
             {
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
                 emit findNextJob();
             }
             return;
@@ -284,7 +284,7 @@ void SchedulerProcess::startAstrometry()
         else if (reply.arguments().first().toBool() == false)
         {
             emit newLog(i18n("Warning: job '%1' captureAndSolve request failed.", activeJob()->getName()));
-            activeJob()->setState(SchedulerJob::JOB_ABORTED);
+            activeJob()->setState(SCHEDJOB_ABORTED);
             emit findNextJob();
             return;
         }
@@ -293,7 +293,7 @@ void SchedulerProcess::startAstrometry()
     }
 
     /* FIXME: not supposed to modify the job */
-    activeJob()->setStage(SchedulerJob::STAGE_ALIGNING);
+    updateJobStage(SCHEDSTAGE_ALIGNING);
     moduleState()->startCurrentOperationTimer();
 }
 
@@ -304,7 +304,7 @@ void SchedulerProcess::startGuiding(bool resetCalibration)
     // avoid starting the guider twice
     if (resetCalibration == false && getGuidingStatus() == GUIDE_GUIDING)
     {
-        activeJob()->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
+        updateJobStage(SCHEDSTAGE_GUIDING_COMPLETE);
         emit newLog(i18n("Guiding already running for %1, starting next scheduler action...", activeJob()->getName()));
         emit getNextAction();
         moduleState()->startCurrentOperationTimer();
@@ -327,7 +327,7 @@ void SchedulerProcess::startGuiding(bool resetCalibration)
 
     guideInterface()->call(QDBus::AutoDetect, "guide");
 
-    activeJob()->setStage(SchedulerJob::STAGE_GUIDING);
+    updateJobStage(SCHEDSTAGE_GUIDING);
 
     emit newLog(i18n("Starting guiding procedure for %1 ...", activeJob()->getName()));
 
@@ -370,7 +370,7 @@ void SchedulerProcess::startCapture(bool restart)
     if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE && getGuidingStatus() != GUIDE_GUIDING)
     {
         // guiding should run, but it doesn't. So start guiding first
-        activeJob()->setStage(SchedulerJob::STAGE_GUIDING);
+        updateJobStage(SCHEDSTAGE_GUIDING);
         startGuiding();
         return;
     }
@@ -395,7 +395,7 @@ void SchedulerProcess::startCapture(bool restart)
                                               QString("Warning: job '%1' loadSequenceQueue request received DBUS error: %1").arg(activeJob()->getName()).arg(
                                                   captureReply.error().message());
             if (!manageConnectionLoss())
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
             return;
         }
         // Check if loading sequence fails for whatever reason
@@ -404,7 +404,7 @@ void SchedulerProcess::startCapture(bool restart)
             qCCritical(KSTARS_EKOS_SCHEDULER) <<
                                               QString("Warning: job '%1' loadSequenceQueue request failed").arg(activeJob()->getName());
             if (!manageConnectionLoss())
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
             return;
         }
     }
@@ -427,7 +427,7 @@ void SchedulerProcess::startCapture(bool restart)
                                               QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(activeJob()->getName()).arg(
                                                   reply.errorMessage());
             if (!manageConnectionLoss())
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
             return;
         }
     }
@@ -435,7 +435,7 @@ void SchedulerProcess::startCapture(bool restart)
     // Start capture process
     captureInterface()->call(QDBus::AutoDetect, "start");
 
-    activeJob()->setStage(SchedulerJob::STAGE_CAPTURING);
+    updateJobStage(SCHEDSTAGE_CAPTURING);
 
     KSNotification::event(QLatin1String("EkosScheduledImagingStart"),
                           i18n("Ekos job (%1) - Capture started", activeJob()->getName()), KSNotification::Scheduler);
@@ -1899,14 +1899,14 @@ void SchedulerProcess::setAlignStatus(AlignState status)
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Align State" << Ekos::getAlignStatusString(status);
 
     /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
+    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
     {
         QDateTime const now = SchedulerModuleState::getLocalTime();
         if (now < activeJob()->getStartupTime())
             return;
     }
 
-    if (activeJob()->getStage() == SchedulerJob::STAGE_ALIGNING)
+    if (activeJob()->getStage() == SCHEDSTAGE_ALIGNING)
     {
         // Is solver complete?
         if (status == Ekos::ALIGN_COMPLETE)
@@ -1914,7 +1914,7 @@ void SchedulerProcess::setAlignStatus(AlignState status)
             emit newLog(i18n("Job '%1' alignment is complete.", activeJob()->getName()));
             moduleState()->resetAlignFailureCount();
 
-            activeJob()->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
+            updateJobStage(SCHEDSTAGE_ALIGN_COMPLETE);
 
             // If we solved a FITS file, let's use its center coords as our target.
             if (activeJob()->getFITSFile().isEmpty() == false)
@@ -1946,7 +1946,7 @@ void SchedulerProcess::setAlignStatus(AlignState status)
             else
             {
                 emit newLog(i18n("Warning: job '%1' alignment procedure failed, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                activeJob()->setState(SCHEDJOB_ABORTED);
 
                 emit findNextJob();
             }
@@ -1962,14 +1962,14 @@ void SchedulerProcess::setGuideStatus(GuideState status)
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Guide State" << Ekos::getGuideStatusString(status);
 
     /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
+    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
     {
         QDateTime const now = SchedulerModuleState::getLocalTime();
         if (now < activeJob()->getStartupTime())
             return;
     }
 
-    if (activeJob()->getStage() == SchedulerJob::STAGE_GUIDING)
+    if (activeJob()->getStage() == SCHEDSTAGE_GUIDING)
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "Calibration & Guide stage...";
 
@@ -1981,7 +1981,7 @@ void SchedulerProcess::setGuideStatus(GuideState status)
             // if guiding recovered while we are waiting, abort the restart
             moduleState()->cancelGuidingTimer();
 
-            activeJob()->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
+            updateJobStage(SCHEDSTAGE_GUIDING_COMPLETE);
             emit getNextAction();
         }
         else if (status == Ekos::GUIDE_CALIBRATION_ERROR ||
@@ -2017,7 +2017,7 @@ void SchedulerProcess::setGuideStatus(GuideState status)
             else
             {
                 emit newLog(i18n("Warning: job '%1' guiding procedure failed, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                activeJob()->setState(SCHEDJOB_ABORTED);
 
                 emit findNextJob();
             }
@@ -2033,14 +2033,14 @@ void SchedulerProcess::setFocusStatus(FocusState status)
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus State" << Ekos::getFocusStatusString(status);
 
     /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
+    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
     {
         QDateTime const now = SchedulerModuleState::getLocalTime();
         if (now < activeJob()->getStartupTime())
             return;
     }
 
-    if (activeJob()->getStage() == SchedulerJob::STAGE_FOCUSING)
+    if (activeJob()->getStage() == SCHEDSTAGE_FOCUSING)
     {
         // Is focus complete?
         if (status == Ekos::FOCUS_COMPLETE)
@@ -2049,7 +2049,7 @@ void SchedulerProcess::setFocusStatus(FocusState status)
 
             moduleState()->setAutofocusCompleted(true);
 
-            activeJob()->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+            updateJobStage(SCHEDSTAGE_FOCUS_COMPLETE);
 
             emit getNextAction();
         }
@@ -2069,7 +2069,7 @@ void SchedulerProcess::setFocusStatus(FocusState status)
             else
             {
                 emit newLog(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ABORTED);
+                activeJob()->setState(SCHEDJOB_ABORTED);
 
                 emit findNextJob();
             }
@@ -2085,57 +2085,57 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << status;
 
     /* If current job is scheduled and has not started yet, wait */
-    if (SchedulerJob::JOB_SCHEDULED == activeJob()->getState())
+    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
         if (static_cast<QDateTime const>(SchedulerModuleState::getLocalTime()) < activeJob()->getStartupTime())
             return;
 
     switch (activeJob()->getStage())
     {
-        case SchedulerJob::STAGE_SLEWING:
+        case SCHEDSTAGE_SLEWING:
         {
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing stage...";
 
             if (status == ISD::Mount::MOUNT_TRACKING)
             {
                 emit newLog(i18n("Job '%1' slew is complete.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
+                updateJobStage(SCHEDSTAGE_SLEW_COMPLETE);
                 /* getNextAction is deferred to checkJobStage for dome support */
             }
             else if (status == ISD::Mount::MOUNT_ERROR)
             {
                 emit newLog(i18n("Warning: job '%1' slew failed, marking terminated due to errors.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
                 emit findNextJob();
             }
             else if (status == ISD::Mount::MOUNT_IDLE)
             {
                 emit newLog(i18n("Warning: job '%1' found not slewing, restarting.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+                updateJobStage(SCHEDSTAGE_IDLE);
                 emit getNextAction();
             }
         }
         break;
 
-        case SchedulerJob::STAGE_RESLEWING:
+        case SCHEDSTAGE_RESLEWING:
         {
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
 
             if (status == ISD::Mount::MOUNT_TRACKING)
             {
                 emit newLog(i18n("Job '%1' repositioning is complete.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
+                updateJobStage(SCHEDSTAGE_RESLEWING_COMPLETE);
                 /* getNextAction is deferred to checkJobStage for dome support */
             }
             else if (status == ISD::Mount::MOUNT_ERROR)
             {
                 emit newLog(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", activeJob()->getName()));
-                activeJob()->setState(SchedulerJob::JOB_ERROR);
+                activeJob()->setState(SCHEDJOB_ERROR);
                 emit findNextJob();
             }
             else if (status == ISD::Mount::MOUNT_IDLE)
             {
                 emit newLog(i18n("Warning: job '%1' found not repositioning, restarting.", activeJob()->getName()));
-                activeJob()->setStage(SchedulerJob::STAGE_IDLE);
+                updateJobStage(SCHEDSTAGE_IDLE);
                 emit getNextAction();
             }
         }
@@ -2657,6 +2657,12 @@ void SchedulerProcess::checkProcessExit(int exitCode)
 void SchedulerProcess::readProcessOutput()
 {
     emit newLog(scriptProcess().readAllStandardOutput().simplified());
+}
+
+void SchedulerProcess::updateJobStage(SchedulerJobStage stage)
+{
+    activeJob()->setStage(stage);
+    emit newJobStage(stage);
 }
 
 SchedulerJob *SchedulerProcess::activeJob()
