@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-06 00:38+0000\n"
+"POT-Creation-Date: 2024-01-07 00:38+0000\n"
 "PO-Revision-Date: 2024-01-02 18:09+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -415,7 +415,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2026
-#: ekos/scheduler/scheduler.cpp:2814
+#: ekos/scheduler/scheduler.cpp:2804
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -565,7 +565,7 @@ msgstr "Prekliči"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1094 ekos/manager.cpp:1109
-#: ekos/manager.cpp:1139 ekos/scheduler/scheduler.cpp:1517
+#: ekos/manager.cpp:1139 ekos/scheduler/scheduler.cpp:1507
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
 #: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:523
@@ -1925,8 +1925,8 @@ msgstr "Stanje:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:598 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1510
-#: ekos/scheduler/scheduler.cpp:3426 ekos/scheduler/scheduler.ui:1247
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1500
+#: ekos/scheduler/scheduler.cpp:3421 ekos/scheduler/scheduler.ui:1247
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2295,8 +2295,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Preverite, ali je magnituda neznana"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1518
-#: ekos/scheduler/scheduler.cpp:3441 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1508
+#: ekos/scheduler/scheduler.cpp:3436 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2539,7 +2539,7 @@ msgstr "URL ni veljaven. Ali naj v spletnem brskalniku odprem iskalnik Google?"
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1191 ekos/capture/capture.cpp:1949
 #: ekos/capture/capture.cpp:2035 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:2734 ekos/scheduler/scheduler.cpp:2824
+#: ekos/scheduler/scheduler.cpp:2724 ekos/scheduler/scheduler.cpp:2814
 #: fitsviewer/fitstab.cpp:501 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:930
 #, kde-format
@@ -6088,8 +6088,8 @@ msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1478
 #: ekos/focus/focus.cpp:3923 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1927
-#: ekos/mount/mount.cpp:831 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:695
+#: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
+#: ekos/scheduler/scheduler.cpp:701
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6281,7 +6281,7 @@ msgstr "Izvozi točke rešitve"
 #: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1948
 #: ekos/capture/capture.cpp:2034 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:2733 ekos/scheduler/scheduler.cpp:2823
+#: ekos/scheduler/scheduler.cpp:2723 ekos/scheduler/scheduler.cpp:2813
 #: fitsviewer/fitstab.cpp:500 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10067,7 +10067,7 @@ msgid "Parking"
 msgstr "Parkiranje"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:3427 indi/indimount.cpp:31
+#: ekos/scheduler/scheduler.cpp:3422 indi/indimount.cpp:31
 #, kde-format
 msgid "Slewing"
 msgstr "Premikanje"
@@ -10206,7 +10206,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:2880 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1516
+#: ekos/scheduler/scheduler.cpp:1506
 #, kde-format
 msgid "Aborted"
 msgstr "Prekinjeno"
@@ -10222,7 +10222,7 @@ msgid "Disconnected"
 msgstr "Povezava prekinjena"
 
 #: ekos/analyze/analyze.cpp:2886 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:3440
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:3435
 #, kde-format
 msgid "Capturing"
 msgstr "Zajemanje"
@@ -10264,7 +10264,7 @@ msgstr "Umerjeno"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:2902 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:3438
+#: ekos/scheduler/scheduler.cpp:3433
 #, kde-format
 msgid "Guiding"
 msgstr "Vodenje"
@@ -14215,7 +14215,7 @@ msgstr "Ponastavi stanje poslov"
 msgid "Editing job #%1..."
 msgstr "Urejanje %1. posla ..."
 
-#: ekos/capture/capture.cpp:2293 ekos/scheduler/scheduler.cpp:1355
+#: ekos/capture/capture.cpp:2293 ekos/scheduler/scheduler.cpp:1345
 #, kde-format
 msgid "Apply job changes."
 msgstr "Uveljavi spremembe poslov."
@@ -16657,7 +16657,7 @@ msgid "In Progress"
 msgstr "V teku"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1515
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1505
 #, kde-format
 msgid "Complete"
 msgstr "Zaključeno"
@@ -16798,7 +16798,7 @@ msgstr "Čakanje"
 msgid "Image Received"
 msgstr "Slika prejeta"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:3430
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:3425
 #, kde-format
 msgid "Focusing"
 msgstr "Ostrenje"
@@ -16829,7 +16829,7 @@ msgstr "Nastavljanje temperature"
 msgid "Setting Rotator"
 msgstr "Nastavitev rotatorja"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:3433
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:3428
 #, kde-format
 msgid "Aligning"
 msgstr "Poravnavanje"
@@ -16881,7 +16881,7 @@ msgstr "Pomik ostrine"
 msgid "Startup"
 msgstr "Začetek"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1513
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1503
 #, kde-format
 msgid "Running"
 msgstr "V teku"
@@ -23335,64 +23335,64 @@ msgstr "Vodilna zvezda"
 msgid "guide star"
 msgstr "vodilna zvezda"
 
-#: ekos/manager/meridianflipstate.cpp:120
+#: ekos/manager/meridianflipstate.cpp:127
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Obrat čez poldnevnik je nedejaven (teleskop ni povezan)"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:134
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Obrat čez poldnevnik je nedejaven (obrat ni zahtevan)"
 
-#: ekos/manager/meridianflipstate.cpp:134
-#: ekos/manager/meridianflipstate.cpp:528
+#: ekos/manager/meridianflipstate.cpp:141
+#: ekos/manager/meridianflipstate.cpp:542
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Obrat čez poldnevnik je nedejaven (parkirano)"
 
-#: ekos/manager/meridianflipstate.cpp:140
+#: ekos/manager/meridianflipstate.cpp:147
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Obrat čez poldnevnik je nedejaven (cilj ni določen)"
 
-#: ekos/manager/meridianflipstate.cpp:179
+#: ekos/manager/meridianflipstate.cpp:186
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Obrat čez poldnevnik je nedejaven (vleka za poldnevnikom)"
 
-#: ekos/manager/meridianflipstate.cpp:195
+#: ekos/manager/meridianflipstate.cpp:202
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Obrat čez poldnevnik čez %1"
 
-#: ekos/manager/meridianflipstate.cpp:246
+#: ekos/manager/meridianflipstate.cpp:253
 #, fuzzy, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "Obrat čez poldnevnik je spodletel - čas je prekratek, stran pomola neznana."
 
-#: ekos/manager/meridianflipstate.cpp:270
+#: ekos/manager/meridianflipstate.cpp:277
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "Obrat čez poldnevnik je spodletel, ponoven poskus čez 4 minute"
 
-#: ekos/manager/meridianflipstate.cpp:274
+#: ekos/manager/meridianflipstate.cpp:281
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr "Obrat čez poldnevnik ni bil uspešno opravljen, zakasnitev je prevelika"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:288
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Obrat čez poldnevnik se je uspešno dokončal."
 
-#: ekos/manager/meridianflipstate.cpp:352
+#: ekos/manager/meridianflipstate.cpp:364
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Teleskop je uspešno izvedel obrat čez poldnevnik."
 
-#: ekos/manager/meridianflipstate.cpp:407 ekos/observatory/observatory.cpp:1028
+#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1028
 #: ekos/observatory/observatory.cpp:1039
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -23400,27 +23400,27 @@ msgstr "Teleskop je uspešno izvedel obrat čez poldnevnik."
 msgid "Status: inactive"
 msgstr "Stanje: nedejavno"
 
-#: ekos/manager/meridianflipstate.cpp:411
+#: ekos/manager/meridianflipstate.cpp:423
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Obrat čez poldnevnik načrtovan …"
 
-#: ekos/manager/meridianflipstate.cpp:415
+#: ekos/manager/meridianflipstate.cpp:427
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Obrat čez poldnevnik na čakanju …"
 
-#: ekos/manager/meridianflipstate.cpp:419
+#: ekos/manager/meridianflipstate.cpp:431
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Obrat čez poldnevnik pripravljen za začetek ..."
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:435
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Obrat čez poldnevnik je v teku …"
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:439
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Obrat čez poldnevnik končan."
@@ -23431,23 +23431,23 @@ msgstr "Obrat čez poldnevnik končan."
 msgid "Meridian Flip Status"
 msgstr "Stanje obrata čez poldnevnik"
 
-#: ekos/mount/mount.cpp:94
+#: ekos/mount/mount.cpp:97
 #, fuzzy, kde-format
 msgid "Are you sure you want to clear all mount configurations?"
 msgstr "Ali ste prepričani, da želite počistiti vse konfiguracije namestitve?"
 
-#: ekos/mount/mount.cpp:95
+#: ekos/mount/mount.cpp:98
 #, kde-format
 msgid "Mount Configuration"
 msgstr "Nastavitve stativa"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:140 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:143 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "Nadzor stativa"
 
-#: ekos/mount/mount.cpp:365
+#: ekos/mount/mount.cpp:363
 #, fuzzy, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -23456,27 +23456,27 @@ msgstr ""
 "Gps gonilnik zaznan. KStars ter nastavitve časa namestitve in lokacije so "
 "zdaj sinhronizirane z gonilnikom GPS."
 
-#: ekos/mount/mount.cpp:380
+#: ekos/mount/mount.cpp:378
 #, fuzzy, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr "GPS je zaznan. Ali želite preklopiti čas in vir lokacije na GPS?"
 
-#: ekos/mount/mount.cpp:381
+#: ekos/mount/mount.cpp:379
 #, kde-format
 msgid "GPS Settings"
 msgstr "Nastavitve GPS"
 
-#: ekos/mount/mount.cpp:509
+#: ekos/mount/mount.cpp:507
 #, fuzzy, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Ali ste prepričani, da želite izklopiti sledenje nosilca?"
 
-#: ekos/mount/mount.cpp:510
+#: ekos/mount/mount.cpp:508
 #, fuzzy, kde-format
 msgid "Mount Tracking"
 msgstr "Sledenje stativa"
 
-#: ekos/mount/mount.cpp:597
+#: ekos/mount/mount.cpp:595
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -23484,7 +23484,7 @@ msgstr ""
 "Višina daljnogleda je pod najnižjo mejo višine: %1. Prekinjanje "
 "premikanja ..."
 
-#: ekos/mount/mount.cpp:613
+#: ekos/mount/mount.cpp:611
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -23492,7 +23492,7 @@ msgstr ""
 "Višina daljnogleda je nad najvišjo mejo višine: %1. Prekinjanje "
 "premikanja ..."
 
-#: ekos/mount/mount.cpp:665
+#: ekos/mount/mount.cpp:663
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -23500,66 +23500,66 @@ msgid ""
 msgstr ""
 "Višina daljnogleda je nad najvišjo mejo višine: %1. Prekinjanje premikanja..."
 
-#: ekos/mount/mount.cpp:808
+#: ekos/mount/mount.cpp:806
 #, fuzzy, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 "Obrat čez poldnevnik je nastavljen na neaktivnega med polarno poravnavo."
 
-#: ekos/mount/mount.cpp:822
+#: ekos/mount/mount.cpp:820
 #, fuzzy, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "Premiki polarne poravnave končani, obrat čez poldnevnik aktiviran."
 
-#: ekos/mount/mount.cpp:845
+#: ekos/mount/mount.cpp:843
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1443
+#: ekos/mount/mount.cpp:1441
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "Model poravnave je počiščen."
 
-#: ekos/mount/mount.cpp:1447
+#: ekos/mount/mount.cpp:1445
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Modela poravnave ni uspelo počistiti."
 
-#: ekos/mount/mount.cpp:1557 ekos/scheduler/schedulerprocess.cpp:2283
+#: ekos/mount/mount.cpp:1555 ekos/scheduler/schedulerprocess.cpp:2283
 #, kde-format
 msgid "Mount already parked."
 msgstr "Stojalo je že parkirano."
 
-#: ekos/mount/mount.cpp:1582
+#: ekos/mount/mount.cpp:1580
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Čas parkiranja ne more biti v preteklosti."
 
-#: ekos/mount/mount.cpp:1591
+#: ekos/mount/mount.cpp:1589
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "Čas parkiranja mora biti v roku 24 ur od trenutnega časa."
 
-#: ekos/mount/mount.cpp:1596
+#: ekos/mount/mount.cpp:1594
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Opozorilo! Parkiranje je oddaljeno več kot 12 ur."
 
-#: ekos/mount/mount.cpp:1598
+#: ekos/mount/mount.cpp:1596
 #, fuzzy, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Previdno: ne uporabljajte samodejnega parkiranja, medtem ko je "
 "razporejevalnik aktiven."
 
-#: ekos/mount/mount.cpp:1618
+#: ekos/mount/mount.cpp:1616
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Časovnik parkiranja je vklopljen."
 
-#: ekos/mount/mount.cpp:1628
+#: ekos/mount/mount.cpp:1626
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Zagon samodejnega parkiranja …"
@@ -24248,7 +24248,7 @@ msgstr "Zapri zaslonko"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:1956 ekos/scheduler/scheduler.cpp:1980
+#: ekos/scheduler/scheduler.cpp:1946 ekos/scheduler/scheduler.cpp:1970
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Zaustavi razporejevalnik"
@@ -24815,16 +24815,17 @@ msgstr "Hitrost premikanja"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:698
-#, fuzzy, kde-format
+#, fuzzy, no-c-format, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
 #| "meridian fip has been completed will be postponed until the configured "
 #| "duration has past since the meridian flip has been started.</p></body></"
 #| "html>"
 msgid ""
-"<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-"meridian flip has been completed will be postponed until the configured "
-"duration has past since the meridian flip has been started.</p></body></html>"
+"<html><head/><body><p>Minimal duration of a meridian flip in seconds. "
+"Increase this value if Ekos reports that a meridian flip has failed because "
+"the pier side did not change. A good estimation for this value is at least "
+"50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Minimalno trajanje obrata čez poldnevnik. Preverjanja, "
 "ali je bil obrat čez poldnevnik dokončan, bodo preložena, dokler prilagojeno "
@@ -26764,14 +26765,14 @@ msgstr "Ponavljaj do u&ničenja"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Ustvari načrtovane posle za izvajanje načrta mozaika"
 
-#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:880
+#: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:871
 #, fuzzy, kde-format
 #| msgid "Select Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Izberi čakalno vrsto zaporedja"
 
-#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:882
+#: ekos/scheduler/framingassistantui.cpp:694 ekos/scheduler/scheduler.cpp:873
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Čakalna vrsta zaporedja Ekos (*.esq)"
@@ -26927,7 +26928,7 @@ msgstr ""
 "Upoštevajte algoritem najprej izračuna vse razdalje z uporabo istega časa, "
 "nato pa oceni delovna mesta."
 
-#: ekos/scheduler/scheduler.cpp:514 ekos/scheduler/scheduler.cpp:3359
+#: ekos/scheduler/scheduler.cpp:520 ekos/scheduler/scheduler.cpp:3354
 #: ekos/scheduler/schedulerprocess.cpp:1808
 #, kde-format
 msgid ""
@@ -26937,7 +26938,7 @@ msgstr ""
 "Opozorilo: algoritem klasičnega razporejevalnika je bil ukinjen. Prehajamo "
 "na pohlepni algoritem (angl. Greedy)."
 
-#: ekos/scheduler/scheduler.cpp:758
+#: ekos/scheduler/scheduler.cpp:761
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Select FITS Image"
@@ -26955,49 +26956,49 @@ msgstr "Glava FITS: ni mogoče najti OBJCTRA (%1)."
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "Glava FITS: ni mogoče najti OBJCTDEC (%1)."
 
-#: ekos/scheduler/scheduler.cpp:890
+#: ekos/scheduler/scheduler.cpp:881
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Izberite zagonski skript"
 
-#: ekos/scheduler/scheduler.cpp:892 ekos/scheduler/scheduler.cpp:907
+#: ekos/scheduler/scheduler.cpp:883 ekos/scheduler/scheduler.cpp:898
 #, kde-format
 msgid "Script (*)"
 msgstr "Skript (*)"
 
-#: ekos/scheduler/scheduler.cpp:905
+#: ekos/scheduler/scheduler.cpp:896
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Izberite skript za izklop"
 
-#: ekos/scheduler/scheduler.cpp:956
+#: ekos/scheduler/scheduler.cpp:946
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Opozorilo: Zahtevano je ime cilja."
 
-#: ekos/scheduler/scheduler.cpp:962
+#: ekos/scheduler/scheduler.cpp:952
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Opozorilo: Zahtevana je datoteka zaporedja."
 
-#: ekos/scheduler/scheduler.cpp:969
+#: ekos/scheduler/scheduler.cpp:959
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Opozorilo: Zahtevane so ciljne koordinate."
 
-#: ekos/scheduler/scheduler.cpp:979
+#: ekos/scheduler/scheduler.cpp:969
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Opozorilo: Vrednost rekt. %1 ni veljavna."
 
-#: ekos/scheduler/scheduler.cpp:985
+#: ekos/scheduler/scheduler.cpp:975
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Opozorilo: Vrednost dekl. %1 ni veljavna."
 
-#: ekos/scheduler/scheduler.cpp:1100
+#: ekos/scheduler/scheduler.cpp:1090
 #, fuzzy, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -27006,7 +27007,7 @@ msgstr ""
 "Opozorilo: posel »%1« v vrstici %2 ima podvojeni cilj v vrstici %3, "
 "razporejevalnik lahko upošteva enako shranjevanje za zajeme."
 
-#: ekos/scheduler/scheduler.cpp:1108
+#: ekos/scheduler/scheduler.cpp:1098
 #, fuzzy, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27017,124 +27018,124 @@ msgstr ""
 "število ponovitev, saj se bodo po %4 bbolih hkrati končali (ali onemogočili "
 "možnost »Zapomnite si napredovanje posla«)"
 
-#: ekos/scheduler/scheduler.cpp:1116
+#: ekos/scheduler/scheduler.cpp:1106
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Preskočeno preverjanje dvojnikov."
 
-#: ekos/scheduler/scheduler.cpp:1271
+#: ekos/scheduler/scheduler.cpp:1262
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1330
+#: ekos/scheduler/scheduler.cpp:1321
 #, fuzzy, kde-format
 #| msgid "Bad RA string entered for %1. Reset to original value."
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr "Vnesen slab niz RA za %1. Ponastavite na prvotno vrednost."
 
-#: ekos/scheduler/scheduler.cpp:1348
+#: ekos/scheduler/scheduler.cpp:1339
 #, fuzzy, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Uporabite polja izdaje, če želite ustvariti nov posel na seznamu opazovanja."
 
-#: ekos/scheduler/scheduler.cpp:1511
+#: ekos/scheduler/scheduler.cpp:1501
 #, kde-format
 msgid "Evaluating"
 msgstr "Vrednotenje"
 
-#: ekos/scheduler/scheduler.cpp:1512
+#: ekos/scheduler/scheduler.cpp:1502
 #, kde-format
 msgid "Scheduled"
 msgstr "Razporejeno"
 
-#: ekos/scheduler/scheduler.cpp:1514
+#: ekos/scheduler/scheduler.cpp:1504
 #, kde-format
 msgid "Invalid"
 msgstr "Neveljavno"
 
-#: ekos/scheduler/scheduler.cpp:1744
+#: ekos/scheduler/scheduler.cpp:1734
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1750
+#: ekos/scheduler/scheduler.cpp:1740
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1831
+#: ekos/scheduler/scheduler.cpp:1821
 #, fuzzy, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr ""
 "Posel »%1« ni bil obdelan ob ustavljanju načrtovalca, označevanje je bilo "
 "ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:1839
+#: ekos/scheduler/scheduler.cpp:1829
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Razporejevalnik prekinjen."
 
-#: ekos/scheduler/scheduler.cpp:1891
+#: ekos/scheduler/scheduler.cpp:1881
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 "Razporejevalnik je izklopljen, dokler ne bo pripravljen naslednji posel"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1917 ekos/scheduler/scheduler.ui:1119
+#: ekos/scheduler/scheduler.cpp:1907 ekos/scheduler/scheduler.ui:1119
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Zaženi razporejevalnik"
 
-#: ekos/scheduler/scheduler.cpp:1937
+#: ekos/scheduler/scheduler.cpp:1927
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
 msgstr "Opozorilo: URL zagonskega skripta %1 ni veljaven."
 
-#: ekos/scheduler/scheduler.cpp:1945
+#: ekos/scheduler/scheduler.cpp:1935
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
 msgstr "Opozorilo: URL skripta za izklop %1 ni veljaven."
 
-#: ekos/scheduler/scheduler.cpp:1973
+#: ekos/scheduler/scheduler.cpp:1963
 #, kde-format
 msgid "Scheduler started."
 msgstr "Razporejevalnik je pognan."
 
-#: ekos/scheduler/scheduler.cpp:1993
+#: ekos/scheduler/scheduler.cpp:1983
 #, kde-format
 msgid "Scheduler resuming."
 msgstr "Razporejevalnik nadaljuje s tekom."
 
-#: ekos/scheduler/scheduler.cpp:2006
+#: ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Razporejevalnik je planiral odmor..."
 
-#: ekos/scheduler/scheduler.cpp:2010
+#: ekos/scheduler/scheduler.cpp:2000
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Nadaljuj razporejevalnik"
 
-#: ekos/scheduler/scheduler.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2009
 #, kde-format
 msgid "Scheduler paused."
 msgstr "Razporejevalnik v premoru."
 
-#: ekos/scheduler/scheduler.cpp:2045
+#: ekos/scheduler/scheduler.cpp:2035
 #, fuzzy, kde-format
 msgid "No job running"
 msgstr "Brez teka dela"
 
-#: ekos/scheduler/scheduler.cpp:2107
+#: ekos/scheduler/scheduler.cpp:2097
 #, fuzzy, kde-format
 #| msgid "Scheduler complete. Starting shutdown procedure..."
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "Razporejevalnik je zaključil. Začenjanje postopka za izklop ..."
 
-#: ekos/scheduler/scheduler.cpp:2115
+#: ekos/scheduler/scheduler.cpp:2105
 #, fuzzy, kde-format
 #| msgid "Scheduler complete. Starting shutdown procedure..."
 msgid ""
@@ -27142,69 +27143,69 @@ msgid ""
 "those."
 msgstr "Razporejevalnik je zaključil. Začenjanje postopka za izklop ..."
 
-#: ekos/scheduler/scheduler.cpp:2129
+#: ekos/scheduler/scheduler.cpp:2119
 #, fuzzy, kde-format
 #| msgid "No jobs left in the scheduler queue."
 msgid "No jobs scheduled."
 msgstr "Ni več poslov v čakalni vrsti."
 
-#: ekos/scheduler/scheduler.cpp:2143
+#: ekos/scheduler/scheduler.cpp:2133
 #, kde-format
 msgid "Scheduler is awake."
 msgstr "Razporejevalnik teče."
 
-#: ekos/scheduler/scheduler.cpp:2149
+#: ekos/scheduler/scheduler.cpp:2139
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr "Razporejevalnik teče. Posli se bodo zagnali, ko bodo pripravljeni ..."
 
-#: ekos/scheduler/scheduler.cpp:2151
+#: ekos/scheduler/scheduler.cpp:2141
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 "Razporejevalnik je zagnan. Posli se bodo zagnali, ko se bo razporejevalnik "
 "nadaljeval."
 
-#: ekos/scheduler/scheduler.cpp:2205
+#: ekos/scheduler/scheduler.cpp:2195
 #, fuzzy, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Delo Ekos se je začelo (%1)"
 
-#: ekos/scheduler/scheduler.cpp:2220
+#: ekos/scheduler/scheduler.cpp:2210
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Opazovalnica se izklaplja"
 
-#: ekos/scheduler/scheduler.cpp:2302
+#: ekos/scheduler/scheduler.cpp:2292
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr "Začetek ponovitve zaporedja opravil #%1"
 
-#: ekos/scheduler/scheduler.cpp:2432 ekos/scheduler/schedulerprocess.cpp:1948
+#: ekos/scheduler/scheduler.cpp:2422 ekos/scheduler/schedulerprocess.cpp:1948
 #, fuzzy, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Opozorilo: postopek poravnave »%1« ni uspel, označevanje je bilo ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:2460
+#: ekos/scheduler/scheduler.cpp:2450
 #, fuzzy, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Opozorilo: postopek zajemanja »%1« ni uspel, označevanje je bilo ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:2487 ekos/scheduler/schedulerprocess.cpp:2071
+#: ekos/scheduler/scheduler.cpp:2477 ekos/scheduler/schedulerprocess.cpp:2071
 #, fuzzy, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Opozorilo: postopek osredotočanja »%1« ni uspel, označevanje je bilo "
 "ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:2511 ekos/scheduler/schedulerprocess.cpp:2019
+#: ekos/scheduler/scheduler.cpp:2501 ekos/scheduler/schedulerprocess.cpp:2019
 #, fuzzy, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "Opozorilo: opravilo »%1« ni uspelo, označevanje je bilo ugasnjeno."
 
-#: ekos/scheduler/scheduler.cpp:2537
+#: ekos/scheduler/scheduler.cpp:2527
 #, fuzzy, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
@@ -27212,19 +27213,19 @@ msgstr ""
 "Opozorilo: posel »%1« je izgubil povezavo z namestitvenim nosilnikom in "
 "poskušal znova vzpostaviti povezavo."
 
-#: ekos/scheduler/scheduler.cpp:2557
+#: ekos/scheduler/scheduler.cpp:2547
 #, fuzzy, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Opozorilo: posel »%1« je izgubil povezavo s kupolo in poskušal znova "
 "vzpostaviti povezavo."
 
-#: ekos/scheduler/scheduler.cpp:2595
+#: ekos/scheduler/scheduler.cpp:2585
 #, fuzzy, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "Vodenje že teče, neposredno začnite ujet."
 
-#: ekos/scheduler/scheduler.cpp:2607
+#: ekos/scheduler/scheduler.cpp:2597
 #, fuzzy, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
@@ -27233,52 +27234,52 @@ msgstr ""
 "Posel »%1« poteka neposredno v fazo zajemanja, ker čakajo le okvirji za "
 "umerjanje."
 
-#: ekos/scheduler/scheduler.cpp:2723
+#: ekos/scheduler/scheduler.cpp:2713
 #, fuzzy, kde-format
 #| msgid "Open Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Odpri seznam razporejevalnika Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2795
+#: ekos/scheduler/scheduler.cpp:2785
 #, fuzzy, kde-format
 #| msgid "Save Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Shrani seznam razporejevalnika Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2814
+#: ekos/scheduler/scheduler.cpp:2804
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Ni bilo mogoče shraniti seznama razporejevalnika Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2878
+#: ekos/scheduler/scheduler.cpp:2868
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
 msgstr "Posel opazovanja %1 je bil končan zaradi napak."
 
-#: ekos/scheduler/scheduler.cpp:2880
+#: ekos/scheduler/scheduler.cpp:2870
 #, kde-format
 msgid "Job '%1' is aborted."
 msgstr "Opravilo »%1« je prekinjeno."
 
-#: ekos/scheduler/scheduler.cpp:2893
+#: ekos/scheduler/scheduler.cpp:2883
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
 msgstr "Čakanje %1 s, da znova se posel »%2« ponovno zažene."
 
-#: ekos/scheduler/scheduler.cpp:2899
+#: ekos/scheduler/scheduler.cpp:2889
 #, fuzzy, kde-format
 #| msgid "Scheduler is awake."
 msgid "Scheduler waits for a retry."
 msgstr "Razporejevalnik teče."
 
-#: ekos/scheduler/scheduler.cpp:2936
+#: ekos/scheduler/scheduler.cpp:2926
 #, kde-format
 msgid "Job '%1' is complete."
 msgstr "Posel %1 je zaključen."
 
-#: ekos/scheduler/scheduler.cpp:2981
+#: ekos/scheduler/scheduler.cpp:2971
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Job '%1' is complete after #%2 batch."
@@ -27288,7 +27289,7 @@ msgstr[1] "Samodejno ostrenje zaključeno."
 msgstr[2] "Samodejno ostrenje zaključeno."
 msgstr[3] "Samodejno ostrenje zaključeno."
 
-#: ekos/scheduler/scheduler.cpp:3030 ekos/scheduler/scheduler.cpp:3073
+#: ekos/scheduler/scheduler.cpp:3020 ekos/scheduler/scheduler.cpp:3063
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
@@ -27297,12 +27298,12 @@ msgstr[1] "Posel »%1« se ponavlja, #%2 preostala paketa"
 msgstr[2] "Posel »%1« se ponavlja, #%2 preostali paketi."
 msgstr[3] "Posel »%1« se ponavlja, #%2 preostalih paketov."
 
-#: ekos/scheduler/scheduler.cpp:3077
+#: ekos/scheduler/scheduler.cpp:3067
 #, fuzzy, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
 msgstr "Posel »%1« se ponavlja in zatiče za nedoločen čas."
 
-#: ekos/scheduler/scheduler.cpp:3097
+#: ekos/scheduler/scheduler.cpp:3087
 #, fuzzy, kde-format
 #| msgid ""
 #| "%1 observation job reached completion time with #%2 batch done. "
@@ -27326,7 +27327,7 @@ msgstr[3] ""
 "Posel opazovanja %1 je dosegel zaključek s končanimi %2 paketnimi opravili. "
 "Zaustavljanje ..."
 
-#: ekos/scheduler/scheduler.cpp:3127
+#: ekos/scheduler/scheduler.cpp:3117
 #, fuzzy, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
@@ -27343,13 +27344,13 @@ msgstr[3] ""
 "Opravilo »%1« je dokončalo #%2 paketov pred časom dokončanja, znova je "
 "zagnano."
 
-#: ekos/scheduler/scheduler.cpp:3212
+#: ekos/scheduler/scheduler.cpp:3207
 #, fuzzy, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Opozorilo: posel »%1« ima nedostopno zaporedje »%2«, kar pomeni neveljavno."
 
-#: ekos/scheduler/scheduler.cpp:3391
+#: ekos/scheduler/scheduler.cpp:3386
 #, fuzzy, kde-format
 #| msgid ""
 #| "Warning! Turning off astronomial twilight check may cause the observatory "
@@ -27362,43 +27363,43 @@ msgstr ""
 "Opozorilo! Izklop preverjanja za astronomski somrak bo morda povzročil, da "
 "bo opazovalnica tekla podnevi. To lahko nepovratno poškoduje vašo opremo!"
 
-#: ekos/scheduler/scheduler.cpp:3393
+#: ekos/scheduler/scheduler.cpp:3388
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr "Opozorilo astronomskega somraka"
 
-#: ekos/scheduler/scheduler.cpp:3428
+#: ekos/scheduler/scheduler.cpp:3423
 #, kde-format
 msgid "Slew complete"
 msgstr "Premikanje zaključeno"
 
-#: ekos/scheduler/scheduler.cpp:3432
+#: ekos/scheduler/scheduler.cpp:3427
 #, kde-format
 msgid "Focus complete"
 msgstr "Ostrenje zaključeno"
 
-#: ekos/scheduler/scheduler.cpp:3434
+#: ekos/scheduler/scheduler.cpp:3429
 #, kde-format
 msgid "Align complete"
 msgstr "Poravnava zaključena"
 
-#: ekos/scheduler/scheduler.cpp:3435
+#: ekos/scheduler/scheduler.cpp:3430
 #, kde-format
 msgid "Repositioning"
 msgstr "Ponovna nastavitev položaja"
 
-#: ekos/scheduler/scheduler.cpp:3436
+#: ekos/scheduler/scheduler.cpp:3431
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Ponovna nastavitev položaja zaključena"
 
-#: ekos/scheduler/scheduler.cpp:3439
+#: ekos/scheduler/scheduler.cpp:3434
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Guiding complete"
 msgstr "Poravnava zaključena"
 
-#: ekos/scheduler/scheduler.cpp:3477
+#: ekos/scheduler/scheduler.cpp:3472
 #, fuzzy, kde-format
 #| msgid "%1 observation job is scheduled at %2"
 msgid ""
@@ -27406,13 +27407,13 @@ msgid ""
 "ready..."
 msgstr "%1 posel opazovanja je razporejen ob %2"
 
-#: ekos/scheduler/scheduler.cpp:3787
+#: ekos/scheduler/scheduler.cpp:3782
 #, fuzzy, kde-format
 #| msgid "Manual startup procedure terminated due to errors."
 msgid "Warning: job '%1' failed to capture target."
 msgstr "Ročni postopek zagona je bil prekinjen zaradi napak."
 
-#: ekos/scheduler/scheduler.cpp:3800
+#: ekos/scheduler/scheduler.cpp:3795
 #, fuzzy, kde-format
 #| msgid "Restarting %1 guiding procedure..."
 msgid ""
@@ -27420,56 +27421,56 @@ msgid ""
 "%3)."
 msgstr "Ponovno zaganjanje postopka vodenja %1 ..."
 
-#: ekos/scheduler/scheduler.cpp:3809
+#: ekos/scheduler/scheduler.cpp:3804
 #, fuzzy, kde-format
 #| msgid "Manual startup procedure terminated due to errors."
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "Ročni postopek zagona je bil prekinjen zaradi napak."
 
-#: ekos/scheduler/scheduler.cpp:3815
+#: ekos/scheduler/scheduler.cpp:3810
 #, fuzzy, kde-format
 #| msgid "Manual startup procedure terminated due to errors."
 msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "Ročni postopek zagona je bil prekinjen zaradi napak."
 
-#: ekos/scheduler/scheduler.cpp:3824
+#: ekos/scheduler/scheduler.cpp:3819
 #, kde-format
 msgid "Ekos job (%1) - Capture finished"
 msgstr "Opravilo Ekos (%1) - zajem končan"
 
-#: ekos/scheduler/scheduler.cpp:3868
+#: ekos/scheduler/scheduler.cpp:3863
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Vremenski pogoji so v redu."
 
-#: ekos/scheduler/scheduler.cpp:3872
+#: ekos/scheduler/scheduler.cpp:3867
 #, fuzzy, kde-format
 #| msgid "Warning! Weather conditions are in the WARNING zone."
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Opozorilo! Vremenski pogoji so v OPOZORILNEM območju."
 
-#: ekos/scheduler/scheduler.cpp:3876
+#: ekos/scheduler/scheduler.cpp:3871
 #, fuzzy, kde-format
 #| msgid "Caution! Weather conditions are in the DANGER zone!"
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Pozor! Vremenski pogoji so v NEVARNEM območju!"
 
-#: ekos/scheduler/scheduler.cpp:3898
+#: ekos/scheduler/scheduler.cpp:3893
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Vremenski pogoji so v opozorilnem območju"
 
-#: ekos/scheduler/scheduler.cpp:3907
+#: ekos/scheduler/scheduler.cpp:3902
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Vremenski pogoji so kritični. Izklop opazovalnice je neizbežen"
 
-#: ekos/scheduler/scheduler.cpp:3928
+#: ekos/scheduler/scheduler.cpp:3923
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "Začenjanje postopka za izklop zaradi zelo slabega vremena."
 
-#: ekos/scheduler/scheduler.cpp:3962
+#: ekos/scheduler/scheduler.cpp:3957
 #, fuzzy, kde-format
 #| msgid ""
 #| "%1 observation job is scheduled for execution at %2. Observatory is "
@@ -27481,7 +27482,7 @@ msgstr ""
 "Posel opazovanja %1 je razporejen za izvajanje ob %2. Opazovalnica je "
 "razporejena za izklop, dokler ne bo pripravljen naslednji posel."
 
-#: ekos/scheduler/scheduler.cpp:3985
+#: ekos/scheduler/scheduler.cpp:3980
 #, fuzzy, kde-format
 #| msgid ""
 #| "%1 observation job is scheduled for execution at %2. Parking the mount "
@@ -27493,18 +27494,18 @@ msgstr ""
 "Posel opazovanja %1 je razporejen za izvajanje ob %2. Parkiranje stojala, "
 "dokler ne bo pripravljen naslednji posel."
 
-#: ekos/scheduler/scheduler.cpp:3995
+#: ekos/scheduler/scheduler.cpp:3990
 #, fuzzy, kde-format
 #| msgid "%1 observation job is scheduled at %2"
 msgid "Sleeping until observation job %1 is ready at %2..."
 msgstr "%1 posel opazovanja je razporejen ob %2"
 
-#: ekos/scheduler/scheduler.cpp:3997
+#: ekos/scheduler/scheduler.cpp:3992
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Razporejevalnik je v pripravljenosti"
 
-#: ekos/scheduler/scheduler.cpp:4005
+#: ekos/scheduler/scheduler.cpp:4000
 #, fuzzy, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -27513,30 +27514,30 @@ msgstr ""
 "Opozorilo: Posel »%1« je od zdaj oddaljen %2, morda boste želeli omogočiti "
 "preemptive Shutdown."
 
-#: ekos/scheduler/scheduler.cpp:4103
+#: ekos/scheduler/scheduler.cpp:4098
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out: %1s %2"
 msgstr "Časovna omejitev za reševalnik je potekla."
 
-#: ekos/scheduler/scheduler.cpp:4105
+#: ekos/scheduler/scheduler.cpp:4100
 #, fuzzy, kde-format
 #| msgid "Solver failed: %1s"
 msgid "Solver failed: %1s %2"
 msgstr "Reševalnik ni uspel: %1 s"
 
-#: ekos/scheduler/scheduler.cpp:4140
+#: ekos/scheduler/scheduler.cpp:4135
 #, fuzzy, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 "Zajeti okvir je %1 obločnih minut stran od cilja, ponovno poravnava ..."
 
-#: ekos/scheduler/scheduler.cpp:4185
+#: ekos/scheduler/scheduler.cpp:4180
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Ročni postopek zagona se je uspešno zaključil."
 
-#: ekos/scheduler/scheduler.cpp:4189
+#: ekos/scheduler/scheduler.cpp:4184
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Ročni postopek zagona je bil prekinjen zaradi napak."
@@ -32960,9 +32961,10 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
-#, kde-format
-msgid "Show the INDI window when starting EKOS.."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "INDI window width"
+msgid "Show the INDI window when starting EKOS."
+msgstr "Širina okna INDI"
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
