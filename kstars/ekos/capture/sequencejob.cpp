@@ -59,8 +59,6 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root,
     // initialize the state machine
     state.reset(new SequenceJobState(sharedState));
 
-    sharedState->scripts().clear();
-
     loadFrom(root, targetName, jobType, sharedState);
 
     // signal forwarding between this and the state machine
@@ -74,9 +72,6 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root,
     // finish if XML document empty
     if (root == nullptr)
         return;
-
-    // Sync scripts
-    setScripts(sharedState->scripts());
 
     // copy general state attributes
     // TODO: does this really make sense? This is a general setting - sterne-jaeger@openfuture.de, 2023-09-21
@@ -742,19 +737,19 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
         {
-            sharedState->scripts()[SCRIPT_POST_CAPTURE] = pcdataXMLEle(ep);
+            m_Scripts[SCRIPT_POST_CAPTURE] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "PreCaptureScript"))
         {
-            sharedState->scripts()[SCRIPT_PRE_CAPTURE] = pcdataXMLEle(ep);
+            m_Scripts[SCRIPT_PRE_CAPTURE] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "PostJobScript"))
         {
-            sharedState->scripts()[SCRIPT_POST_JOB] = pcdataXMLEle(ep);
+            m_Scripts[SCRIPT_POST_JOB] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "PreJobScript"))
         {
-            sharedState->scripts()[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
+            m_Scripts[SCRIPT_PRE_JOB] = pcdataXMLEle(ep);
         }
         else if (!strcmp(tagXMLEle(ep), "GuideDitherPerJob"))
         {

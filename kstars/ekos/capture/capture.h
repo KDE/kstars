@@ -68,6 +68,7 @@ namespace Ekos
 class CaptureDeviceAdaptor;
 class CaptureModuleState;
 class CaptureProcess;
+class ScriptsManager;
 
 /**
  *@class Capture
@@ -1197,9 +1198,11 @@ class Capture : public QWidget, public Ui::Capture
         double GainSpinSpecialValue { INVALID_VALUE };
         double OffsetSpinSpecialValue { INVALID_VALUE };
 
-        // Dark Processor
+        // sub dialogs
         std::unique_ptr<Ui::Limits> m_LimitsUI;
         QPointer<QDialog> m_LimitsDialog;
+        QPointer<ScriptsManager> m_scriptsManager;
+
 
         QVariantMap m_Metadata;
 

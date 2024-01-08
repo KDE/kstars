@@ -97,6 +97,7 @@ Capture::Capture()
     m_LimitsDialog = new QDialog(this);
     m_LimitsUI.reset(new Ui::Limits());
     m_LimitsUI->setupUi(m_LimitsDialog);
+    m_scriptsManager = new ScriptsManager(this);
 
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
@@ -2146,9 +2147,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     state()->setTargetADU(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble());
     state()->setTargetADUTolerance(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble());
     state()->setWallCoord(job->getWallCoord());
-
-    // Script options
-    state()->setScripts(job->getScripts());
+    m_scriptsManager->setScripts(job->getScripts());
 
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
@@ -3198,14 +3197,11 @@ void Capture::editFilterName()
 
 void Capture::handleScriptsManager()
 {
-    QScopedPointer<ScriptsManager> manager(new ScriptsManager(this));
+    QMap<ScriptTypes, QString> old_scripts = m_scriptsManager->getScripts();
 
-    manager->setScripts(state()->scripts());
-
-    if (manager->exec() == QDialog::Accepted)
-    {
-        state()->setScripts(manager->getScripts());
-    }
+    if (m_scriptsManager->exec() != QDialog::Accepted)
+        // reset to old value
+        m_scriptsManager->setScripts(old_scripts);
 }
 
 void Capture::showTemperatureRegulation()
@@ -3323,8 +3319,8 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
         job->setTargetTemperature(cameraTemperatureN->value());
     }
 
+    job->setScripts(m_scriptsManager->getScripts());
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
-    job->setScripts(state()->scripts());
     job->setFlatFieldDuration(state()->flatFieldDuration());
     job->setCalibrationPreAction(state()->calibrationPreAction());
     job->setWallCoord(state()->wallCoord());
