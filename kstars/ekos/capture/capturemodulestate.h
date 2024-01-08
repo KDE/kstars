@@ -467,13 +467,12 @@ class CaptureModuleState: public QObject
             return m_ditherCounter;
         }
         void decreaseDitherCounter();
-        void resetDitherCounter(uint value = 0)
-        {
-            if (value > 0)
-                m_ditherCounter = value;
-            else
-                m_ditherCounter = Options::ditherFrames();
-        }
+
+        /**
+         * @brief resetDitherCounter Reset the dither counter to its start value. If a per job counter is
+         * set to > 0, this value is used and the general dither counter otherwise.
+         */
+        void resetDitherCounter();
 
         /**
          * @brief checkSeqBoundary Determine the next file number sequence.

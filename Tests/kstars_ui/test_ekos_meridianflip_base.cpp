@@ -346,12 +346,13 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useAl
     KTRY_SET_LINEEDIT_SUB(scheduler, decBox, target->dec0().toDMSString());
     // define step checks
     QFETCH(bool, guide);
-    KTRY_SET_CHECKBOX_SUB(scheduler, trackStepCheck, true);
-    KTRY_SET_CHECKBOX_SUB(scheduler, focusStepCheck, false);
-    KTRY_SET_CHECKBOX_SUB(scheduler, alignStepCheck, useAlign);
-    KTRY_SET_CHECKBOX_SUB(scheduler, guideStepCheck, guide);
+    // disable all step checks
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerTrackStep, true);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerFocusStep, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerAlignStep, useAlign);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerGuideStep, guide);
     // ignore twilight
-    KTRY_SET_CHECKBOX_SUB(scheduler, twilightCheck, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, schedulerTwilight, false);
     prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {0}, {false}, {false});
     // disable remember job progress
     Options::setRememberJobProgress(false);
@@ -363,11 +364,11 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useAl
     {
         case Ekos::FINISH_REPEAT:
             // repeat the job for a fixed amount
-            KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
-            KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerRepeatSequences, true);
+            KTRY_SET_SPINBOX_SUB(scheduler, schedulerExecutionSequencesLimit, iterations);
             break;
         case Ekos::FINISH_LOOP:
-            KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerUntilTerminated, true);
             break;
         default:
             QWARN(QString("Unsupported completion condition %1!").arg(completionCondition).toStdString().c_str());

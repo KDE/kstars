@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 00:38+0000\n"
+"POT-Creation-Date: 2024-01-08 00:38+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -6091,7 +6091,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Ошибка: потеряно соединение с колесом фильтров."
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:588 ekos/focus/focus.cpp:4806
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4806
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6405,8 +6405,8 @@ msgstr "Всемирная система координат (WCS) выключ�
 msgid "Capture error. Aborting..."
 msgstr "Захват прерван."
 
-#: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1482
-#: ekos/capture/captureprocess.cpp:1992
+#: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1478
+#: ekos/capture/captureprocess.cpp:1988
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6519,7 +6519,7 @@ msgstr "Невозможно записать в файл %1"
 
 #: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1964
-#: ekos/capture/captureprocess.cpp:2306 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2302 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:1576
 #: ekos/scheduler/schedulerprocess.cpp:1765
 #: ekos/scheduler/schedulerprocess.cpp:2588
@@ -7221,7 +7221,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Открыть очередь Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1963
-#: ekos/capture/captureprocess.cpp:2305 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2301 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:1764
 #: ekos/scheduler/schedulerprocess.cpp:2607
 #, kde-format
@@ -12636,7 +12636,7 @@ msgid "Waiting..."
 msgstr "Ожидание..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:347
+#: ekos/capture/capturemodulestate.cpp:360
 #, kde-format
 msgid "Dithering..."
 msgstr "Размывание..."
@@ -14862,7 +14862,7 @@ msgstr "Не удалось сохранить очередь."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Вы действительно хотите сбросить статус всех заданий?"
 
-#: ekos/capture/capture.cpp:2069 ekos/capture/captureprocess.cpp:2426
+#: ekos/capture/capture.cpp:2069 ekos/capture/captureprocess.cpp:2422
 #, kde-format
 msgid "Reset job status"
 msgstr "Сбросить статус задания"
@@ -16059,65 +16059,65 @@ msgstr "Размывание не удалось. Автогидирование
 msgid "Warning: Dithering failed."
 msgstr "Размывание..."
 
-#: ekos/capture/capturemodulestate.cpp:447
+#: ekos/capture/capturemodulestate.cpp:455
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:543
+#: ekos/capture/capturemodulestate.cpp:551
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Выполняется повторная калибровка и гидирование после перекладывания..."
 
-#: ekos/capture/capturemodulestate.cpp:556
+#: ekos/capture/capturemodulestate.cpp:564
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 "Калибровка перекладывания после прохождения меридиана успешно завершена."
 
-#: ekos/capture/capturemodulestate.cpp:576
+#: ekos/capture/capturemodulestate.cpp:584
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Автогидирование остановлено."
 
-#: ekos/capture/capturemodulestate.cpp:585
+#: ekos/capture/capturemodulestate.cpp:593
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Автогидирование остановлено."
 
-#: ekos/capture/capturemodulestate.cpp:592
+#: ekos/capture/capturemodulestate.cpp:600
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 "Калибровка перекладывания после прохождения меридиана успешно завершена."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:622
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Adaptive focus complete."
 msgstr "Автофокусировка завершена."
 
-#: ekos/capture/capturemodulestate.cpp:638
+#: ekos/capture/capturemodulestate.cpp:646
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Автофокусировка не удалась. Прерывание экспозиции..."
 
-#: ekos/capture/capturemodulestate.cpp:785
+#: ekos/capture/capturemodulestate.cpp:793
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Выполняется повторное выравнивание после перекладывания..."
 
-#: ekos/capture/capturemodulestate.cpp:803
+#: ekos/capture/capturemodulestate.cpp:811
 #, fuzzy, kde-format
 #| msgid "Guiding timed out."
 msgid "Guide module timed out."
 msgstr "Истекло время гидирования."
 
-#: ekos/capture/capturemodulestate.cpp:835
+#: ekos/capture/capturemodulestate.cpp:843
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16127,7 +16127,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:844
+#: ekos/capture/capturemodulestate.cpp:852
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16137,13 +16137,13 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:866
+#: ekos/capture/capturemodulestate.cpp:874
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 "Калибровка перекладывания после прохождения меридиана успешно завершена."
 
-#: ekos/capture/capturemodulestate.cpp:880
+#: ekos/capture/capturemodulestate.cpp:888
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16153,7 +16153,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:894
+#: ekos/capture/capturemodulestate.cpp:902
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16163,7 +16163,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:921
+#: ekos/capture/capturemodulestate.cpp:929
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -16175,7 +16175,7 @@ msgstr ""
 "Отклонение %1 гидирования достигло предела в %2 угл. секунды, прерываем "
 "экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:968
+#: ekos/capture/capturemodulestate.cpp:976
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16184,7 +16184,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:972
+#: ekos/capture/capturemodulestate.cpp:980
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16196,7 +16196,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:987
+#: ekos/capture/capturemodulestate.cpp:995
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16206,18 +16206,18 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/capturemodulestate.cpp:1362
+#: ekos/capture/capturemodulestate.cpp:1370
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторное выравнивание после перекладывания успешно завершено."
 
-#: ekos/capture/capturemodulestate.cpp:1381
+#: ekos/capture/capturemodulestate.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed."
 msgstr "Истекло время выравнивания."
 
-#: ekos/capture/capturemodulestate.cpp:1386
+#: ekos/capture/capturemodulestate.cpp:1394
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
@@ -16257,7 +16257,7 @@ msgstr "Удалить"
 msgid "Target: "
 msgstr "Сарджент"
 
-#: ekos/capture/captureprocess.cpp:192 ekos/capture/captureprocess.cpp:589
+#: ekos/capture/captureprocess.cpp:192 ekos/capture/captureprocess.cpp:585
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
@@ -16280,7 +16280,7 @@ msgstr "Отложенных заданий не найдено. Добавьт�
 msgid "No new job created."
 msgstr "готово"
 
-#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:835
+#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:831
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
@@ -16325,81 +16325,81 @@ msgstr ""
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:452
+#: ekos/capture/captureprocess.cpp:448
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:453
+#: ekos/capture/captureprocess.cpp:449
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Панель просмотра"
 
-#: ekos/capture/captureprocess.cpp:537
+#: ekos/capture/captureprocess.cpp:533
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:550
+#: ekos/capture/captureprocess.cpp:546
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:781
+#: ekos/capture/captureprocess.cpp:777
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding resumed."
 msgstr "Гидирование возобновлено."
 
-#: ekos/capture/captureprocess.cpp:825
+#: ekos/capture/captureprocess.cpp:821
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Не удалось установить область кадра."
 
-#: ekos/capture/captureprocess.cpp:830
+#: ekos/capture/captureprocess.cpp:826
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Не удалось установить биннинг."
 
-#: ekos/capture/captureprocess.cpp:1081
+#: ekos/capture/captureprocess.cpp:1077
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Файл данных сохранён в %1"
 
-#: ekos/capture/captureprocess.cpp:1180
+#: ekos/capture/captureprocess.cpp:1176
 #, fuzzy, kde-format
 #| msgid "Guiding suspended."
 msgid "Autoguiding suspended."
 msgstr "Гидирование приостановлено."
 
-#: ekos/capture/captureprocess.cpp:1209
+#: ekos/capture/captureprocess.cpp:1205
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1275
+#: ekos/capture/captureprocess.cpp:1271
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "CCD capture sequence completed"
 msgstr "Параметры сверхновых"
 
-#: ekos/capture/captureprocess.cpp:1332
+#: ekos/capture/captureprocess.cpp:1328
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Ошибка: потеряно соединение с ПЗС."
 
-#: ekos/capture/captureprocess.cpp:1361
+#: ekos/capture/captureprocess.cpp:1357
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1474 ekos/capture/captureprocess.cpp:1984
+#: ekos/capture/captureprocess.cpp:1470 ekos/capture/captureprocess.cpp:1980
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error syncing telescope info. Check INDI control panel for more details."
@@ -16408,110 +16408,110 @@ msgstr ""
 "Ошибка синхронизации информации о телескопе. Проверьте контрольную панель "
 "INDI для получения подробностей."
 
-#: ekos/capture/captureprocess.cpp:1575
+#: ekos/capture/captureprocess.cpp:1571
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1623
+#: ekos/capture/captureprocess.cpp:1619
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Получено изображение %1 из %2."
 
-#: ekos/capture/captureprocess.cpp:1656
+#: ekos/capture/captureprocess.cpp:1652
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Захватить изображение"
 
-#: ekos/capture/captureprocess.cpp:1661
+#: ekos/capture/captureprocess.cpp:1657
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1694
+#: ekos/capture/captureprocess.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Выполняется сценарий: %1"
 
-#: ekos/capture/captureprocess.cpp:1709
+#: ekos/capture/captureprocess.cpp:1705
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1717
+#: ekos/capture/captureprocess.cpp:1713
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1729
+#: ekos/capture/captureprocess.cpp:1725
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Processing meridian flip..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/capture/captureprocess.cpp:1739
+#: ekos/capture/captureprocess.cpp:1735
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1744
+#: ekos/capture/captureprocess.cpp:1740
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1925 ekos/focus/focus.cpp:4848
+#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4848
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/capture/captureprocess.cpp:1949 ekos/focus/focus.cpp:4853
+#: ekos/capture/captureprocess.cpp:1945 ekos/focus/focus.cpp:4853
 #: ekos/guide/guide.cpp:915
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Автофокусировка не удалась. Прерывание экспозиции..."
 
-#: ekos/capture/captureprocess.cpp:2043
+#: ekos/capture/captureprocess.cpp:2039
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2054
+#: ekos/capture/captureprocess.cpp:2050
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1% Next exposure is %2 seconds."
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Текущее ADU составляет %1%. Следующая экспозиция %2 секунд."
 
-#: ekos/capture/captureprocess.cpp:2076
+#: ekos/capture/captureprocess.cpp:2072
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2109
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2117
+#: ekos/capture/captureprocess.cpp:2113
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1% Next exposure is %2 seconds."
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Текущее ADU составляет %1%. Следующая экспозиция %2 секунд."
 
-#: ekos/capture/captureprocess.cpp:2372
+#: ekos/capture/captureprocess.cpp:2368
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Sequence paused."
 msgstr "Очередь серии"
 
-#: ekos/capture/captureprocess.cpp:2425
+#: ekos/capture/captureprocess.cpp:2421
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16520,20 +16520,20 @@ msgstr ""
 "Все задания завершены. Вы действительно хотите сбросить состояние всех "
 "заданий и перезапустить съёмку?"
 
-#: ekos/capture/captureprocess.cpp:2439
+#: ekos/capture/captureprocess.cpp:2435
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2554
+#: ekos/capture/captureprocess.cpp:2550
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Вы действительно хотите удалить %1?"
 
-#: ekos/capture/captureprocess.cpp:2555
+#: ekos/capture/captureprocess.cpp:2551
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 00:38+0000\n"
-"PO-Revision-Date: 2024-01-06 08:14+0100\n"
+"POT-Creation-Date: 2024-01-08 00:38+0000\n"
+"PO-Revision-Date: 2024-01-07 21:49+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -5870,7 +5870,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Eraro: perdita konekto al filtrila rado."
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:588 ekos/focus/focus.cpp:4806
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4806
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6173,8 +6173,8 @@ msgstr "Monda Koordinata Sistemo (WCS) estas malŝaltita."
 msgid "Capture error. Aborting..."
 msgstr "Kapta eraro. Abortante..."
 
-#: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1482
-#: ekos/capture/captureprocess.cpp:1992
+#: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1478
+#: ekos/capture/captureprocess.cpp:1988
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Rekomencante kaptoprovon #%1"
@@ -6274,7 +6274,7 @@ msgstr "Ne eblas skribi al dosiero %1"
 
 #: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1964
-#: ekos/capture/captureprocess.cpp:2306 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2302 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:1576
 #: ekos/scheduler/schedulerprocess.cpp:1765
 #: ekos/scheduler/schedulerprocess.cpp:2588
@@ -6914,7 +6914,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Malfermi Ekos-Vicigoliston"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1963
-#: ekos/capture/captureprocess.cpp:2305 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2301 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:1764
 #: ekos/scheduler/schedulerprocess.cpp:2607
 #, kde-format
@@ -9717,7 +9717,7 @@ msgstr ""
 "<html><head/><body><p>Elekti korektan algoritmon de polusa vicigo:</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin- "
 "dekstre: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block -indent:0; text-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Pletsolvi</span>: Uzas "
 "pletsolvadon por spuri kia estas la korektita viciga eraro dum la Refreŝiĝ-"
 "procezo. Uzanto devus provi redukti la eraron en la Ĝisdatigita Err-linio "
@@ -11935,7 +11935,7 @@ msgid "Waiting..."
 msgstr "Atendas..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:347
+#: ekos/capture/capturemodulestate.cpp:360
 #, kde-format
 msgid "Dithering..."
 msgstr "Malklariĝo..."
@@ -14075,7 +14075,7 @@ msgstr "Malsukcesis konservi la sekvencan vicon"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ĉu vi certas, ke vi volas restarigi la staton de ĉiuj taskoj?"
 
-#: ekos/capture/capture.cpp:2069 ekos/capture/captureprocess.cpp:2426
+#: ekos/capture/capture.cpp:2069 ekos/capture/captureprocess.cpp:2422
 #, kde-format
 msgid "Reset job status"
 msgstr "Restarigi taskstatuson"
@@ -14432,7 +14432,7 @@ msgstr ""
 "<html><head/><body><p>Elektu kiel kaptitaj bildoj estas alŝutitaj:</p><ol "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin- "
 "dekstre: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block -indent:0; text-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Loke</span>: Kaptitaj bildoj "
 "estas konservitaj loke sur disko en la dosierujo supre specifita.</li><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
@@ -14622,7 +14622,7 @@ msgstr ""
 "%D</span> aŭ <span style=\" font-weight:700;\">%Datetime</span>: La nunaj "
 "horo kaj dato <span style=\" font-weight:700;\">kiam la dosiero estas "
 "konservita.</span></li><li style=\" margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; teksto -indent:0px;"
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Lokokupilo<span style=\" font-weight:700;\"> %T</span> aŭ <span style=\" "
 "font-weight:700;\">%Type</span>: La kadrotipo ekz.: 'Luma', 'Bias', "
 "'Malhela', 'Ebena'...</li> <li style=\" margin-top:0px; margin-bottom:0px; "
@@ -14667,7 +14667,7 @@ msgstr ""
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Lokokupilo <span "
 "style=\" font-weight:600;\">%P</span> aŭ <span style=\" font-weight:600;\">"
 "%pierside</span>: La moleflanko de la nuna muntaĵo.</li><li style=\" margin-"
-"top:0px; rando-malsupro:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Lokokupilo<span style=\" font-weight:700;\"> "
 "%s*</span> aŭ <span style=\" font-weight:700;\">%sequence </span>: La "
 "bildsekvenca identigilo kie * estas la nombro da uzataj ciferoj (1-9). <span "
@@ -15200,82 +15200,82 @@ msgstr "Averto: Dithering malsukcesis. Rekomenco post %1 sekundoj..."
 msgid "Warning: Dithering failed."
 msgstr "Averto: Dithering malsukcesis."
 
-#: ekos/capture/capturemodulestate.cpp:447
+#: ekos/capture/capturemodulestate.cpp:455
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Meridiana turniĝo estas sukcese finita"
 
-#: ekos/capture/capturemodulestate.cpp:543
+#: ekos/capture/capturemodulestate.cpp:551
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Farante post-flip rekalibradon kaj gvidadon..."
 
-#: ekos/capture/capturemodulestate.cpp:556
+#: ekos/capture/capturemodulestate.cpp:564
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Eraro pri kalibrado de post-meridiana inversigo. Rekomencante..."
 
-#: ekos/capture/capturemodulestate.cpp:576
+#: ekos/capture/capturemodulestate.cpp:584
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Aŭtogvidado ĉesis. Atendante la finiĝon de aŭtomata fokuso..."
 
-#: ekos/capture/capturemodulestate.cpp:585
+#: ekos/capture/capturemodulestate.cpp:593
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Aŭtogvidado ĉesis. Abortante..."
 
-#: ekos/capture/capturemodulestate.cpp:592
+#: ekos/capture/capturemodulestate.cpp:600
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Eraro pri kalibrado de afiŝu meridiano. Abortante..."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:622
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Sinadapta fokusado kompletiĝis."
 
-#: ekos/capture/capturemodulestate.cpp:638
+#: ekos/capture/capturemodulestate.cpp:646
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Aŭtomata fokuso malsukcesis. Ĉesigante malkovron..."
 
-#: ekos/capture/capturemodulestate.cpp:785
+#: ekos/capture/capturemodulestate.cpp:793
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Realigante post-flipa realignigo..."
 
-#: ekos/capture/capturemodulestate.cpp:803
+#: ekos/capture/capturemodulestate.cpp:811
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Gvidmodulo elĉerpita."
 
-#: ekos/capture/capturemodulestate.cpp:835
+#: ekos/capture/capturemodulestate.cpp:843
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Komenca gvida devio %1 sub limvaloro de %2 arksekoj"
 
-#: ekos/capture/capturemodulestate.cpp:844
+#: ekos/capture/capturemodulestate.cpp:852
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Komenca gvida devio %1 superis limvaloron de %2 arksekoj"
 
-#: ekos/capture/capturemodulestate.cpp:866
+#: ekos/capture/capturemodulestate.cpp:874
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Postmeridiana flip-kalibrado kompletigita sukcese."
 
-#: ekos/capture/capturemodulestate.cpp:880
+#: ekos/capture/capturemodulestate.cpp:888
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "Gvida devio ĉe kapta ekfunkciigo %1 superis la limon %2 arksekoj."
 
-#: ekos/capture/capturemodulestate.cpp:894
+#: ekos/capture/capturemodulestate.cpp:902
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "Gvida devio ĉe kapta ekfunkciigo %1 sub limvaloro de %2 arksekoj"
 
-#: ekos/capture/capturemodulestate.cpp:921
+#: ekos/capture/capturemodulestate.cpp:929
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -15284,7 +15284,7 @@ msgstr ""
 "Gvid-devio %1 superis limvaloron de %2 arksekoj por %4 sinsekvaj specimenoj, "
 "ĉesigante malkovron kaj atendante gvidilon ĝis %3 sekundoj."
 
-#: ekos/capture/capturemodulestate.cpp:968
+#: ekos/capture/capturemodulestate.cpp:976
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15293,7 +15293,7 @@ msgstr ""
 "Gvida devio %1 nun estas pli malalta ol limvaloro de %2 arksekoj, "
 "rekomencante ekspozicion."
 
-#: ekos/capture/capturemodulestate.cpp:972
+#: ekos/capture/capturemodulestate.cpp:980
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15302,22 +15302,22 @@ msgstr ""
 "Gvida devio %1 nun estas pli malalta ol limvaloro de %2 arksekundoj, "
 "rekomencante ekspozicion en %3 sekundoj."
 
-#: ekos/capture/capturemodulestate.cpp:987
+#: ekos/capture/capturemodulestate.cpp:995
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "Gvida devio %1 estas ankoraŭ pli alta ol limvaloro de %2 arksekoj."
 
-#: ekos/capture/capturemodulestate.cpp:1362
+#: ekos/capture/capturemodulestate.cpp:1370
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Post-flip re-alignigo kompletigita sukcese."
 
-#: ekos/capture/capturemodulestate.cpp:1381
+#: ekos/capture/capturemodulestate.cpp:1389
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Post-flipa vicigo malsukcesis."
 
-#: ekos/capture/capturemodulestate.cpp:1386
+#: ekos/capture/capturemodulestate.cpp:1394
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Post-flipa vicigo malsukcesis. Reprovante..."
@@ -15352,7 +15352,7 @@ msgstr "Forigi"
 msgid "Target: "
 msgstr "Celo:"
 
-#: ekos/capture/captureprocess.cpp:192 ekos/capture/captureprocess.cpp:589
+#: ekos/capture/captureprocess.cpp:192 ekos/capture/captureprocess.cpp:585
 #, kde-format
 msgid "Image Transfer"
 msgstr "Bilda Transdono"
@@ -15374,7 +15374,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "Neniu nova labortaskoj kreita."
 
-#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:835
+#: ekos/capture/captureprocess.cpp:284 ekos/capture/captureprocess.cpp:831
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Ne povas kapti dum fokusa modulo estas okupata."
@@ -15414,17 +15414,17 @@ msgstr "Paŭzi nur eblas dum kadra kaptado funkcias."
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "Sekvenco estos paŭzita post kiam nuna ekspozicio estas kompleta."
 
-#: ekos/capture/captureprocess.cpp:452
+#: ekos/capture/captureprocess.cpp:448
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr "Neniu vido disponebla por antaŭprezentoj. Ĉu ebligi FITS-rigardilon?"
 
-#: ekos/capture/captureprocess.cpp:453
+#: ekos/capture/captureprocess.cpp:449
 #, kde-format
 msgid "Display preview"
 msgstr "Montri antaŭrigardon"
 
-#: ekos/capture/captureprocess.cpp:537
+#: ekos/capture/captureprocess.cpp:533
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15433,7 +15433,7 @@ msgstr ""
 "Ijobo postulas %1-sekundan %2 bildojn, havas jam %3/%4 kaptojn kaj ne "
 "bezonas ruliĝi."
 
-#: ekos/capture/captureprocess.cpp:550
+#: ekos/capture/captureprocess.cpp:546
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15442,119 +15442,119 @@ msgstr ""
 "Tasko postulas %1-sekundan %2 bildojn, havas %3/%4 kadrojn kaptitajn kaj "
 "estos prilaborita."
 
-#: ekos/capture/captureprocess.cpp:781
+#: ekos/capture/captureprocess.cpp:777
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Aŭtogvidado rekomenciĝis."
 
-#: ekos/capture/captureprocess.cpp:825
+#: ekos/capture/captureprocess.cpp:821
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Malsukcesis agordi subkadron."
 
-#: ekos/capture/captureprocess.cpp:830
+#: ekos/capture/captureprocess.cpp:826
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Malsukcesis agordi binning."
 
-#: ekos/capture/captureprocess.cpp:1081
+#: ekos/capture/captureprocess.cpp:1077
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Fora bildo konservita al %1"
 
-#: ekos/capture/captureprocess.cpp:1180
+#: ekos/capture/captureprocess.cpp:1176
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Aŭtogvidado ĉesigita."
 
-#: ekos/capture/captureprocess.cpp:1209
+#: ekos/capture/captureprocess.cpp:1205
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Averto: Kalibrado procezo estis antaŭtempe ĉesigita."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1275
+#: ekos/capture/captureprocess.cpp:1271
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD-kapta sekvenco finiĝis"
 
-#: ekos/capture/captureprocess.cpp:1332
+#: ekos/capture/captureprocess.cpp:1328
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Eraro: Perdita konekto al CCD."
 
-#: ekos/capture/captureprocess.cpp:1361
+#: ekos/capture/captureprocess.cpp:1357
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Ne povas kalkuli ADU-nivelojn en ne-FITS-bildoj."
 
-#: ekos/capture/captureprocess.cpp:1474 ekos/capture/captureprocess.cpp:1984
+#: ekos/capture/captureprocess.cpp:1470 ekos/capture/captureprocess.cpp:1980
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Kaptado malsukcesis. Kontrolu INDI-Kontrolpanelon por detaloj."
 
-#: ekos/capture/captureprocess.cpp:1575
+#: ekos/capture/captureprocess.cpp:1571
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Elŝuta Tempo: %1 s, Nova Elŝuta Tempotakso: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1623
+#: ekos/capture/captureprocess.cpp:1619
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Ricevita bildo %1 el %2."
 
-#: ekos/capture/captureprocess.cpp:1656
+#: ekos/capture/captureprocess.cpp:1652
 #, kde-format
 msgid "Captured %1"
 msgstr "Kaptita %1"
 
-#: ekos/capture/captureprocess.cpp:1661
+#: ekos/capture/captureprocess.cpp:1657
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "AVERTO: ceteraj kaj eble nekonataj anstataŭiloj %1 en %2"
 
-#: ekos/capture/captureprocess.cpp:1694
+#: ekos/capture/captureprocess.cpp:1690
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Efektivigante kaptoskripton %1"
 
-#: ekos/capture/captureprocess.cpp:1709
+#: ekos/capture/captureprocess.cpp:1705
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Antaŭkapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1717
+#: ekos/capture/captureprocess.cpp:1713
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Post-kapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1729
+#: ekos/capture/captureprocess.cpp:1725
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Prilaborado de meridiano renverso..."
 
-#: ekos/capture/captureprocess.cpp:1739
+#: ekos/capture/captureprocess.cpp:1735
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Antaŭtaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1744
+#: ekos/capture/captureprocess.cpp:1740
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Posttaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1925 ekos/focus/focus.cpp:4848
+#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4848
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Eksponiĝotempo. Abortante..."
 
-#: ekos/capture/captureprocess.cpp:1949 ekos/focus/focus.cpp:4853
+#: ekos/capture/captureprocess.cpp:1945 ekos/focus/focus.cpp:4853
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Eksponiĝotempo. Rekomencante ekspozicion..."
 
-#: ekos/capture/captureprocess.cpp:2043
+#: ekos/capture/captureprocess.cpp:2039
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15563,17 +15563,17 @@ msgstr ""
 "Plata calibrado malsukcesis. Kaptita bildo estas nur %1-bita dum petita ADU "
 "estas %2."
 
-#: ekos/capture/captureprocess.cpp:2054
+#: ekos/capture/captureprocess.cpp:2050
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Nuna bildo estas saturita (%1). La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/captureprocess.cpp:2076
+#: ekos/capture/captureprocess.cpp:2072
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Nuna ADU %1 ene de la celita ADU-toleremo intervalo."
 
-#: ekos/capture/captureprocess.cpp:2109
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -15582,17 +15582,17 @@ msgstr ""
 "Ne eblas kalkuli optimumajn eksponajn agordojn, bonvolu kapti la ebenaĵojn "
 "permane."
 
-#: ekos/capture/captureprocess.cpp:2117
+#: ekos/capture/captureprocess.cpp:2113
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Nuna ADU estas %1 La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/captureprocess.cpp:2372
+#: ekos/capture/captureprocess.cpp:2368
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekvenco paŭzita."
 
-#: ekos/capture/captureprocess.cpp:2425
+#: ekos/capture/captureprocess.cpp:2421
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15601,7 +15601,7 @@ msgstr ""
 "Ĉiuj taskoj estas kompletaj. Ĉu vi volas restarigi la staton de ĉiuj taskoj "
 "kaj rekomenci kaptado?"
 
-#: ekos/capture/captureprocess.cpp:2439
+#: ekos/capture/captureprocess.cpp:2435
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15610,12 +15610,12 @@ msgstr ""
 "Averto: opcio \"Ĉiam Restarigi Sekvencon Kiam Komencante\" estas ebligita "
 "kaj restarigas la sinsekvon."
 
-#: ekos/capture/captureprocess.cpp:2554
+#: ekos/capture/captureprocess.cpp:2550
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ĉu vi certas, ke vi volas rekomenci %1 fotilpelilon?"
 
-#: ekos/capture/captureprocess.cpp:2555
+#: ekos/capture/captureprocess.cpp:2551
 #, kde-format
 msgid "Driver Restart"
 msgstr "Restarto de Pelilo"
@@ -19239,7 +19239,7 @@ msgstr ""
 "polinomaj konvenaj koeficientoj kune kun ebla minimuma solvo estas "
 "kalkulitaj. Ĉi tiu algoritmo povas esti pli rapida ol pure ripeta aliro "
 "donita bonan datuman aron.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; - qt-block-indent:0; text-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Liniaj</span>: Specimenoj "
 "fokusiĝas internen laŭ regula maniero, uzante 2 paŝojn. La algoritmo povas "
 "esti malrapida, sed ĝi estas pli rezistema kontraŭ reago. Komencu kun la "
@@ -21918,12 +21918,12 @@ msgstr ""
 "margin-right: 0px; -qt-list-indent:\n"
 " 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
 "margin-right:0px; -qt-block-indent:0;\n"
-" teksto-indent :0px;\">Granaĵo en la ilarĉeno,</li><li style=\" margin-"
+" text-indent :0px;\">Granaĵo en la ilarĉeno,</li><li style=\" margin-"
 "top:12px; margin-bottom:12px;\n"
-" margin-left:0px; margin-right:0px; -qt- block-indent:0; text-indent:0px;"
+" margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Ventoblovoj,</li><li style=\"\n"
-" margin-top:12px; margin-bottom:12px; margin-left:0px; margin- right:0px; -"
-"qt-block-indent:0;\n"
+" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0;\n"
 " text-indent:0px;\">Strukturaj vibroj, kiel paŝoj aŭ trafiko,</li><li style="
 "\" margin-top:12px;\n"
 " margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
@@ -22308,10 +22308,10 @@ msgid ""
 "\">indihub.space</span></a></h2></body></html>"
 msgstr ""
 "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; teksto -indent:0px;\"><span "
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-size:x-large; font-weight:600;\">Kunhavu aliron al via "
 "observatorio ĉe </span><a href=\"https:/ /indihub.space\"><span style=\" "
-"font-size:x-large; tiparo-pezo:600; text-decoration: underline; color:"
+"font-size:x-large; font-weight:600; text-decoration: underline; color:"
 "#007af4;\">indihub.space</span></a></h2></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, solorR)
@@ -24333,22 +24333,17 @@ msgstr "Gvidado:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:698
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-#| "meridian flip has been completed will be postponed until the configured "
-#| "duration has past since the meridian flip has been started.</p></body></"
-#| "html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip in seconds. "
 "Increase this value if Ekos reports that a meridian flip has failed because "
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Minimuma daŭro de meridiana renverso. Kontrolas ĉu la "
-"meridiana renverso estis kompletigita aŭ ĉu estos prokrastita ĝis kiam la "
-"agordita daŭro pasis ekde la komenco de la meridiana renverso.</p></body></"
-"html>"
+"<html><head/><body><p>Minimuma daŭro de meridiana renverso. Pliigu ĉi tiun "
+"valoron se Ekos raportas ke meridiana renverso malsukcesis ĉar la kajoflanko "
+"ne ŝanĝiĝis. Bona takso por ĉi valoro estas almenaŭ 50% de la tipa daŭro de "
+"meridiana renverso.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
@@ -27439,8 +27434,8 @@ msgid ""
 "jobs that step into an error are never re-scheduled.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Difinu kio devus okazi kiam tasko eniras eraron aŭ "
-"ĉesas:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin -left: "
-"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"ĉesas:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
 "margin-bottom:0px; margin-left:0px; margin-right :0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\" font-weight:600;\">Ne replanu</span>: Ne "
 "rekomencu la taskon en kazo de eraro aŭ ĉesigo.</li><li style=\" margin-"
@@ -27450,7 +27445,7 @@ msgstr ""
 "se kiam ĉiuj taskoj estas finitaj aŭ ĉesigitaj. Se tio estas la kazo, la "
 "planilo reprogramas ĉiujn ĉesigitajn taskojn kaj dormas por la donita "
 "prokrasto.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin -right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Reprogramu tuj</span>: Tuj kiam tasko estas "
 "nuligita, la planisto reprogramas ĝin kaj atendos la donitan prokraston.</"
 "li></ul><p>Se la opcio por reprogramado de eraroj estas elektita, eraroj "
@@ -32070,10 +32065,9 @@ msgstr "Ĉu montri la INDI-fenestron je startigo?"
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
-#, fuzzy, kde-format
-#| msgid "Show the INDI window when starting EKOS.."
+#, kde-format
 msgid "Show the INDI window when starting EKOS."
-msgstr "Montri la INDI-fenestron je startigo de EKOS"
+msgstr "Montri la INDI-fenestron je startigo de EKOS."
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
@@ -79623,11 +79617,11 @@ msgstr ""
 "style= \" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Por desegni <span style=\" "
 "font-weight:600;\">Regiono</span>, enigu liston de <span style=\" font-"
-"weight:600;\">Punktoj</span> (<span style=\" tiparo -style:italic;"
-"\">minimumo</span> 2) kiu skizas la supron de blokita areo (la <span style="
-"\" font-weight:600;\">blokado estas sub</span> la linioj).</li><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"weight:600;\">Punktoj</span> (<span style=\" font-style:italic;\">minimumo</"
+"span> 2) kiu skizas la supron de blokita areo (la <span style=\" font-"
+"weight:600;\">blokado estas sub</span> la linioj).</li><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Agordo "
 "<span style= \" font-style:italic;\">plafono/fenestra reĝimo</span> por "
 "listo de punktoj anstataŭe fiksas la <span style=\" font-weight:600;"
@@ -79644,7 +79638,7 @@ msgstr ""
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Kiam finite alklaku <span "
 "style=\" font-style:italic;\">Apliki</span>.</li><li style=\" margin-"
-"top:0px; rando-malsupro:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Difini regionojn estas pli facila kiam uzata "
 "kune kun la Fona funkcio Tereno.</li></ul></body></html>"
 
