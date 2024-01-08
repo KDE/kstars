@@ -1815,10 +1815,8 @@ void Capture::updatePrepareState(CaptureState prepareState)
                                            Qt::yellow);
             break;
         case CAPTURE_GUIDER_DRIFT:
-            appendLogText(i18n("Waiting for guide drift below %1\"...",
-                               activeJob()->getTargetStartGuiderDrift()));
-            captureStatusWidget->setStatus(i18n("Wait for Guider < %1\"...",
-                                                activeJob()->getTargetStartGuiderDrift()), Qt::yellow);
+            appendLogText(i18n("Waiting for guide drift below %1\"...", Options::startGuideDeviation()));
+            captureStatusWidget->setStatus(i18n("Wait for Guider < %1\"...", Options::startGuideDeviation()), Qt::yellow);
             break;
 
         case CAPTURE_SETTING_ROTATOR:
@@ -2135,9 +2133,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    m_LimitsUI->startGuiderDriftS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool());
-    if (job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool())
-        m_LimitsUI->startGuiderDriftN->setValue(job->getTargetStartGuiderDrift());
+    m_LimitsUI->startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
+    if (Options::enforceStartGuiderDrift())
+        m_LimitsUI->startGuiderDriftN->setValue(Options::startGuideDeviation());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -3327,10 +3325,6 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_TargetADU, state()->targetADU());
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
-
-    job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
-                         && Options::enforceStartGuiderDrift()));
-    job->setTargetStartGuiderDrift(Options::startGuideDeviation());
 
     if (FilterPosCombo->currentIndex() != -1 && devices()->filterWheel() != nullptr)
         job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());

@@ -73,11 +73,6 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root,
     if (root == nullptr)
         return;
 
-    // copy general state attributes
-    // TODO: does this really make sense? This is a general setting - sterne-jaeger@openfuture.de, 2023-09-21
-    setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, Options::enforceStartGuiderDrift());
-    setTargetStartGuiderDrift(Options::startGuideDeviation());
-
     // create signature with current target
     auto placeholderPath = Ekos::PlaceholderPath();
     placeholderPath.processJobInfo(this);

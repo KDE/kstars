@@ -2307,14 +2307,7 @@ bool CaptureProcess::loadSequenceQueue(const QString &fileURL,
         queue->setOptions();
 
     for (auto j : state()->allJobs())
-    {
-        // TODO: This hack is due to hack in sequencejob.cpp near end of init(). See TODO there.
-        // Hopefully will fix both soon. Hy 1/5/24.
-        j->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift,
-                           queue->getEnforceStartGuiderDrift());
-        j->setTargetStartGuiderDrift(queue->getStartGuideDeviation());
         emit addJob(j);
-    }
 
     return true;
 }
