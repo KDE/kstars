@@ -35,7 +35,7 @@ void TestSequenceJobState::testPrepareLightFrames()
     if (enforce_rotate)
         m_stateMachine->setTargetRotatorAngle(current_angle + angle_delta);
     if (enforce_guiding)
-        m_stateMachine->setTargetStartGuiderDrift(target_guide_dev);
+        Options::setStartGuideDeviation(target_guide_dev);
 
     // connect the processor
     connect(m_stateMachine, &Ekos::SequenceJobState::setRotatorAngle, m_adapter, &TestAdapter::setRotatorAngle);

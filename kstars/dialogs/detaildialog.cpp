@@ -332,7 +332,7 @@ void DetailDialog::createGeneralTab()
             Data->dataGridLayout->addWidget(redShift, 4, 1);
 
             QLabel *urlLabel = new QLabel(i18n("URL:"), this);
-            QLabel *url      = new QLabel(QString("<a href=\"%1\">%1</a>").arg(sup->url()),this);
+            QLabel *url      = new QLabel(QString("<a href=\"%1\">%1</a>").arg(sup->url()), this);
             url->setTextFormat(Qt::RichText);
             url->setTextInteractionFlags(Qt::TextBrowserInteraction);
             url->setOpenExternalLinks(true);
@@ -969,12 +969,8 @@ void DetailDialog::removeLinkDialog()
 
     if (!success.first)
         KSNotification::sorry(success.second, i18n("Could not delete the entry."));
-
-    // Set focus to the 1st item in the list
-    if (type == SkyObjectUserdata::LinkData::Type::website)
-        Links->InfoTitleList->clearSelection();
     else
-        Links->ImageTitleList->clearSelection();
+        updateLists();
 }
 
 void DetailDialog::populateADVTree()

@@ -75,17 +75,10 @@ void ScriptsManager::handleSelectScripts()
 
 void ScriptsManager::setScripts(const QMap<ScriptTypes, QString> &scripts)
 {
-    if (scripts.contains(SCRIPT_PRE_JOB))
-        ui->preJobScript->setText(scripts[SCRIPT_PRE_JOB]);
-
-    if (scripts.contains(SCRIPT_POST_JOB))
-        ui->postJobScript->setText(scripts[SCRIPT_POST_JOB]);
-
-    if (scripts.contains(SCRIPT_PRE_CAPTURE))
-        ui->preCaptureScript->setText(scripts[SCRIPT_PRE_CAPTURE]);
-
-    if (scripts.contains(SCRIPT_POST_CAPTURE))
-        ui->postCaptureScript->setText(scripts[SCRIPT_POST_CAPTURE]);
+    ui->preJobScript->setText(scripts[SCRIPT_PRE_JOB]);
+    ui->postJobScript->setText(scripts[SCRIPT_POST_JOB]);
+    ui->preCaptureScript->setText(scripts[SCRIPT_PRE_CAPTURE]);
+    ui->postCaptureScript->setText(scripts[SCRIPT_POST_CAPTURE]);
 }
 
 QMap<ScriptTypes, QString> ScriptsManager::getScripts()

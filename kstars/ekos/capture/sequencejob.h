@@ -41,7 +41,7 @@ class SequenceJob : public QObject
             // Bool
             SJ_EnforceTemperature,
             // Bool
-            SJ_EnforceStartGuiderDrift,
+            // SJ_EnforceStartGuiderDrift, // no specific option
             // Bool
             SJ_GuiderActive,
             // Double
@@ -322,15 +322,6 @@ class SequenceJob : public QObject
         void setFocusStatus(FocusState value)
         {
             state->setFocusStatus(value);
-        }
-
-        double getTargetStartGuiderDrift() const
-        {
-            return state->targetStartGuiderDrift;
-        }
-        void setTargetStartGuiderDrift(double value)
-        {
-            state->targetStartGuiderDrift = value;
         }
 
         double getTargetRotation() const

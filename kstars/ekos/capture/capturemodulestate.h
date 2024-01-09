@@ -935,14 +935,6 @@ class CaptureModuleState: public QObject
         {
             return m_DSLRInfos;
         }
-        QMap<ScriptTypes, QString> &scripts()
-        {
-            return m_Scripts;
-        }
-        void setScripts(QMap<ScriptTypes, QString> value)
-        {
-            m_Scripts = value;
-        }
 
     signals:
         // controls for capture execution
@@ -1005,8 +997,6 @@ private:
         QString m_CurrentFilterName { "--" };
         // holds the filter name used for focusing or "--" if the current one is used
         QString m_CurrentFocusFilterName { "--" };
-        // pre/post capture/sequence scripts
-        QMap<ScriptTypes, QString> m_Scripts;
         // HFR value as loaded from the sequence file
         double m_fileHFR { 0 };
         // Captured Frames Map

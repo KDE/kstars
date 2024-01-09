@@ -190,13 +190,6 @@ class SequenceJobState: public QObject
         {
             targetTemperature = value;
         }
-        /**
-         * @brief Set the target guiding deviation when capture starts
-         */
-        void setTargetStartGuiderDrift(double value)
-        {
-            targetStartGuiderDrift = value;
-        }
 
         /**
          * @brief setFocusStatus Evaluate the current focus state
@@ -481,8 +474,6 @@ class SequenceJobState: public QObject
         double targetTemperature { Ekos::INVALID_VALUE };
         // target rotation in absolute ticks, NOT angle
         double targetPositionAngle { Ekos::INVALID_VALUE };
-        // target guiding deviation at start time
-        double targetStartGuiderDrift { 0.0 };
         // calibration state
         CalibrationStage calibrationStage { CAL_NONE };
         // query state for (un)covering the scope
