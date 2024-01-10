@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-09 00:38+0000\n"
-"PO-Revision-Date: 2024-01-08 13:14+0100\n"
+"PO-Revision-Date: 2024-01-09 12:17+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -10678,17 +10678,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountRaOut)
 #: ekos/analyze/analyze.ui:817
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Update the fits header with the found solution.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Right Ascension (RA) in HMS where the telescope is "
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Actualizar a cabeceira de FITS coa solución atopada.</"
-"p></body></html>"
+"<html><head/><body><p>A ascensión recta (α) onde apunta o telescopio, en "
+"«HMS» (horas, minutos, segundos). Prema aquí para ver este eixo nos valores "
+"do eixo esquerdo. Clic duplo para actualizar o eixo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
 #: ekos/analyze/analyze.ui:839
@@ -10702,17 +10700,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountDecOut)
 #: ekos/analyze/analyze.ui:864
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Declination (DEC) in degrees:arc-minutes:arc-"
 "seconds where the telescope is pointing. Click here to view this axis on "
 "left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Visualización do gráfico de δ na representación de "
-"gráficos de deriva.</p></body></html>"
+"<html><head/><body><p>A declinación (δ) onde apunta o telescopio, en «graos:"
+"minutos de arco:segundos de arco». Prema aquí para ver este eixo nos valores "
+"do eixo esquerdo. Clic duplo para actualizar o eixo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:886
@@ -10726,20 +10722,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:892
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Kraz"
+#, kde-format
 msgid "az"
-msgstr "Kraz"
+msgstr "ac"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, azOut)
 #: ekos/analyze/analyze.ui:905
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The telescope's azimuth (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
-msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
+msgstr ""
+"<html><head/><body><p>O acimut do telescopio (en graos). Preme aquí para ver "
+"este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o eixo.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altCB)
 #: ekos/analyze/analyze.ui:933
@@ -10753,20 +10749,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, altCB)
 #: ekos/analyze/analyze.ui:939
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Halt"
+#, kde-format
 msgid "alt"
-msgstr "Deter"
+msgstr "alt"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, altOut)
 #: ekos/analyze/analyze.ui:952
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The telescope's altitude (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
-msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
+msgstr ""
+"<html><head/><body><p>A altitude do telescopio (en graos). Preme aquí para "
+"ver este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o "
+"eixo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:980
@@ -10780,11 +10776,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:986
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "sidereal"
+#, kde-format
 msgid "side"
-msgstr "sideral"
+msgstr "lado"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pierSideOut)
 #: ekos/analyze/analyze.ui:999
@@ -10809,23 +10803,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1033
-#, fuzzy, kde-format
-#| msgid "h"
+#, kde-format
 msgid "ha"
-msgstr "h"
+msgstr "ω"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountHaOut)
 #: ekos/analyze/analyze.ui:1052
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Update the fits header with the found solution.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The mount's hour angle value. Click here to view this "
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Actualizar a cabeceira de FITS coa solución atopada.</"
-"p></body></html>"
+"<html><head/><body><p>O valor de ángulo horario da montura. Preme aquí para "
+"ver este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o "
+"eixo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1074
@@ -10839,25 +10830,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1080
-#, fuzzy, kde-format
-#| msgctxt "hours"
-#| msgid "hrs"
+#, kde-format
 msgid "hfr"
-msgstr "horas"
+msgstr "hfr"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, hfrOut)
 #: ekos/analyze/analyze.ui:1093
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Half-Flux Radius (in pixels) of the captured "
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Axustar a escala do eixo de valores ao intervalo de "
-"valores actual.</p></body></html>"
+"<html><head/><body><p>O raio de medio fluxo (en píxeles) das imaxes "
+"capturadas. Preme aquí para ver este eixo nos valores do eixo esquerdo. Clic "
+"duplo para actualizar o eixo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #: ekos/analyze/analyze.ui:1115
@@ -10893,10 +10880,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, medianCB)
 #: ekos/analyze/analyze.ui:1162
-#, fuzzy, kde-format
-#| msgid "Median"
+#, kde-format
 msgid "median"
-msgstr "Mediana"
+msgstr "mediana"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, medianOut)
 #: ekos/analyze/analyze.ui:1175
@@ -10922,11 +10908,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, eccentricityCB)
 #: ekos/analyze/analyze.ui:1203
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Lecce"
+#, kde-format
 msgid "ecc"
-msgstr "Lecce"
+msgstr "ecc"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, eccentricityOut)
 #: ekos/analyze/analyze.ui:1216
@@ -10951,7 +10935,7 @@ msgstr ""
 #: ekos/analyze/analyze.ui:1244
 #, kde-format
 msgid "temp"
-msgstr ""
+msgstr "temp"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, temperatureOut)
 #: ekos/analyze/analyze.ui:1257
@@ -10979,10 +10963,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsCOut)
 #: ekos/analyze/analyze.ui:1304
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The root-mean-squared (RMS) value of the combined RA "
 "and DEC drift in arc-seconds, averaged on approximately the past 40 samples, "
@@ -10990,8 +10971,11 @@ msgid ""
 "values. Shares axis with RA/DEC error, drift, and RMS values. Double click "
 "to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Visualización do gráfico de α na representación de "
-"gráficos de deriva.</p></body></html>"
+"<html><head/><body><p>A media cuadrática (RMS) da deriva combinada da α e da "
+"δ en arcos de segundo, a partir de aproximadamente as últimas 40 mostras, "
+"pero só durante a captura. Prema aquí para ver este eixe en valores do eixe "
+"esquerdo. Comparte eixes con valores de erro e desviación de α e δ, e α/δ. "
+"Faga clic duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, targetDistanceCB)
 #: ekos/analyze/analyze.ui:1332
@@ -11009,7 +10993,7 @@ msgstr ""
 #: ekos/analyze/analyze.ui:1338
 #, kde-format
 msgid "dist a-s"
-msgstr ""
+msgstr "dist a-s"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, targetDistanceOut)
 #: ekos/analyze/analyze.ui:1351
@@ -11037,10 +11021,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1385
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "focus"
-msgstr "Foco"
+msgstr "foco"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1398
@@ -11066,14 +11049,13 @@ msgstr "Detalles"
 #, kde-format
 msgctxt "@title:window"
 msgid "Y-Axis Tool"
-msgstr ""
+msgstr "Ferramenta do eixe Y"
 
 #. i18n: ectx: property (text), widget (QLabel, statLabel)
 #: ekos/analyze/yaxistool.ui:25
-#, fuzzy, kde-format
-#| msgid "Star Name"
+#, kde-format
 msgid "Stat Name"
-msgstr "Nome da estrela"
+msgstr "Nome da estatística"
 
 #. i18n: ectx: property (text), widget (QLabel, statShortLabel)
 #. i18n: ectx: property (text), widget (QLabel, labelDate)
@@ -11085,63 +11067,54 @@ msgstr "Nome da estrela"
 msgid "TextLabel"
 msgstr "Etiqueta de texto"
 
+# «Óptica adaptábel».
 #. i18n: ectx: property (text), widget (QLabel, upperLimitLabel)
 #: ekos/analyze/yaxistool.ui:76
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Philippines"
+#, kde-format
 msgid "Upper Limit"
-msgstr "Filipinas"
+msgstr "Limite superior"
 
 # «Óptica adaptábel».
 #. i18n: ectx: property (text), widget (QLabel, lowerLimitLabel)
 #: ekos/analyze/yaxistool.ui:122
-#, fuzzy, kde-format
-#| msgid "AO Limits"
+#, kde-format
 msgid "Lower Limit"
-msgstr "Límites de OA"
+msgstr "Límite inferior"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoLimitsCB)
 #: ekos/analyze/yaxistool.ui:166
-#, fuzzy, kde-format
-#| msgid "Automatic mode"
+#, kde-format
 msgid "Automatic Limits"
-msgstr "Modo automático"
+msgstr "Límites automáticos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftAxisCB)
 #: ekos/analyze/yaxistool.ui:173
 #, kde-format
 msgid "Use for Left Axis"
-msgstr ""
+msgstr "Usar para o eixe esquerdo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/analyze/yaxistool.ui:188
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Color"
+#, kde-format
 msgid "Color"
 msgstr "Cor"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorB)
 #: ekos/analyze/yaxistool.ui:217
-#, fuzzy, kde-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-format
 msgid "Change"
-msgstr "Gangwon"
+msgstr "Cambiar"
 
 #. i18n: ectx: property (text), widget (QPushButton, defaultB)
 #: ekos/analyze/yaxistool.ui:239
-#, fuzzy, kde-format
-#| msgid "Default city"
+#, kde-format
 msgid "Use Default Limits"
-msgstr "Cidade predeterminada"
+msgstr "Usar os límites predeterminados"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:134
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to quit?"
-msgstr "Seguro que quere cancelar?"
+msgstr "Seguro que quere saír?"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
@@ -11166,25 +11139,24 @@ msgid "Lock Filter"
 msgstr "Bloquear o filtro"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#, fuzzy, kde-format
-#| msgid "Focus In"
+#, kde-format
 msgid "# Focus Runs"
-msgstr "Enfocar dentro"
+msgstr "N.° de execucións do foco"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:183
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
-msgstr ""
+msgstr "Filtro. * indica un filtro de referencia. Clic duplo para cambiar."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:185
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
-msgstr ""
+msgstr "N.° de execucións do foco. Definir por filtro. 0 para ignorar."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:322
 #, kde-format
 msgid "AF Run %1"
-msgstr ""
+msgstr "Execución de enfoque automático %1"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:325
 #, kde-format
@@ -11192,48 +11164,45 @@ msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
 "from average."
 msgstr ""
+"Execución de enfoque automático %1. Calcúlase automaticamente pero pode "
+"editarse. Definir como 0 para excluír da media."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #: ekos/auxiliary/buildfilteroffsets.cpp:331 ekos/auxiliary/darklibrary.ui:221
-#, fuzzy, kde-format
-#| msgid "Average FPS"
+#, kde-format
 msgid "Average"
-msgstr "FPS medios"
+msgstr "Media"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Average (1 sec.)"
+#, kde-format
 msgid "AF Average (mean)."
-msgstr "Media (1 seg.)"
+msgstr "Media de enfoque automático."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:336
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "New Offset"
-msgstr "Desprazamento"
+msgstr "Novo desprazamento"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:339
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
-msgstr ""
+msgstr "Novo desprazamento. Calculado relativo ao filtro con *. Pode editarse."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:346
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
+"Gardar. Marque para gardar o novo desprazamento para o filtro asociado."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
-msgstr "Seguro que quere cancelar?"
+msgstr "Seguro que quere deter os desprazamentos de filtros de construción?"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Stop Build Filter Offsets"
-msgstr "Desprazamento"
+msgstr "Deter os desprazamentos de filtros de construción"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:407
 #, kde-format
@@ -11241,46 +11210,44 @@ msgid ""
 "An unexpected problem occurred.\n"
 "Stop Build Filter Offsets, or Cancel to retry?"
 msgstr ""
+"Produciuse un problema inesperado. Quere deter os desprazamentos de filtros "
+"de construción, ou cancelar para intentalo de novo?"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:408
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
-msgstr ""
+msgstr "Problema inesperado cos desprazamentos de filtros de construción"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:451
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Completouse o enfoque."
+msgstr "Completouse o procesamento."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:472
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Cambiando o filtro a %1…"
+msgstr "Produciuse un problema ao cambiar o filtro a %1…"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:481
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Executando o enfoque automático en %1 (%2/%3)…"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:611
 #, kde-format
 msgid "(ΔT=%1)"
-msgstr ""
+msgstr "(ΔT=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:612
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "(%1 ticks)"
-msgstr "Marcas"
+msgstr "(marcas de %1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
 msgid "(ΔAlt=%1)"
-msgstr ""
+msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
 #, kde-format
