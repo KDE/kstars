@@ -94,7 +94,7 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
         ui->userSkyQuality->setValue(aPreferredSkyQualityValue);
 
         ui->noiseTolerance->setMinimum(0.02);
-        ui->noiseTolerance->setMaximum(200.00);
+        ui->noiseTolerance->setMaximum(500.00);
         ui->noiseTolerance->setSingleStep(0.25);
         ui->noiseTolerance->setValue(5.0);
 
