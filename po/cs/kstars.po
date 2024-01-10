@@ -11986,10 +11986,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/auxiliary/opticaltrains.ui:430
-#, fuzzy, kde-format
-#| msgid "Reset Position"
+#, kde-format
 msgid "Reset train"
-msgstr "Resetovat polohu"
+msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -16261,7 +16260,7 @@ msgstr ""
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
@@ -16369,17 +16368,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:105
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:128
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:141
@@ -16413,10 +16410,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:180
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/focus/advisor.ui:222
@@ -16439,10 +16435,9 @@ msgstr "Nápověda..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "Focus CFZ"
-msgstr "Zaměření"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/cfz.ui:87
@@ -16735,10 +16730,9 @@ msgstr "Nastavení"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
 #: ekos/focus/focus.cpp:186 ekos/focus/opsfocussettings.ui:14
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Focus Settings"
-msgstr "Nastavení"
+msgstr ""
 
 #: ekos/focus/focus.cpp:190
 #, kde-format
@@ -16747,10 +16741,9 @@ msgstr "Zpracovat"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
 #: ekos/focus/focus.cpp:190 ekos/focus/opsfocusprocess.ui:14
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Focus Process"
-msgstr "Zpracovat"
+msgstr ""
 
 #: ekos/focus/focus.cpp:194
 #, kde-format
@@ -18231,7 +18224,7 @@ msgstr "Úhl. sekundy"
 #: ekos/focus/opsfocussettings.ui:242
 #, kde-format
 msgid "Mask"
-msgstr ""
+msgstr "Maska"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:257
@@ -27720,10 +27713,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
 #: indi/collimationOptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options"
-msgstr "Nastavení názvů souhvězdí"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: indi/collimationOptions.ui:55
@@ -27757,17 +27749,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable:"
-msgstr "Povolit"
+msgstr "Povolit:"
 
 #. i18n: ectx: property (text), widget (QPushButton, renameB)
 #: indi/collimationOptions.ui:192
-#, fuzzy, kde-format
-#| msgid "Filename"
+#, kde-format
 msgid "Rename"
-msgstr "Název souboru"
+msgstr "Přejmenovat"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
 #: indi/collimationOptions.ui:211
@@ -27779,26 +27769,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Select color for the FOV symbol"
+#, kde-format
 msgid "Select color for the Element"
-msgstr "Zvolte barvu pro symbol zorného úhlu (ZÚ)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
 #. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
 #: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Y"
+#, kde-format
 msgid "Y"
 msgstr "Y"
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
 #: indi/collimationOptions.ui:293
-#, fuzzy, kde-format
-#| msgid "The color for the constellation names."
+#, kde-format
 msgid "Select a color for the Collimation Overlay Element."
-msgstr "Barva pro názvy souhvězdí."
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:310
@@ -27808,11 +27794,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Whiteness"
+#, kde-format
 msgid "Thickness:"
-msgstr "Bělost"
+msgstr "Tloušťka:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
@@ -27824,10 +27808,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
-#, fuzzy, kde-format
-#| msgid "Set the color for the label."
+#, kde-format
 msgid "Set the size of the Element"
-msgstr "Nastavit barvu popisku."
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
 #: indi/collimationOptions.ui:389
@@ -28634,10 +28617,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:544
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "INDI window on startup"
-msgstr "Šířka okna INDI"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_messageNotificationINDI)
 #. i18n: ectx: whatsthis, entry (messageNotificationINDI), group (indi)
@@ -28837,17 +28819,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
-#| msgid "Toggle constellation lines"
+#, kde-format
 msgid "Toggle collimation overlay"
-msgstr "Zapnout tvary souhvězdí"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation overlay options"
-msgstr "Nastavení názvů souhvězdí"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:215
@@ -29784,10 +29764,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "Show the INDI window when starting EKOS."
-msgstr "Šířka okna INDI"
+msgstr ""
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
@@ -80639,8 +80618,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#, fuzzy
-#~| msgid "Color:"
-#~ msgid "Colour:"
-#~ msgstr "Barva:"
