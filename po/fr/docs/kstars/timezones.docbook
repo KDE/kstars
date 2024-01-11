@@ -24,7 +24,7 @@
 >fuseaux horaire</firstterm
 >. L'heure locale est la même dans un fuseau horaire donné, mais l'heure dans chaque zone est une heure <emphasis
 >plus tôt</emphasis
-> que l'heure dans la zone voisine à l'est. En réalité les démarcations des zones ne sont pas des lignes parfaites ; souvent elles suivent le long des frontières des pays et autres. </para
+> que l'heure dans la zone voisine à l'est. En réalité les démarcations des zones ne sont pas des lignes parfaites ; souvent elles suivent le lignes des frontières des pays et autres considérations politiques. </para
 ><para
 >Notez que lorsqu'on se déplace vers l'est et qu'on traverse les 24 zones, on se trouve une journée plus tôt. On résout ce paradoxe en définissant la <firstterm
 >ligne de date internationale</firstterm

@@ -422,7 +422,7 @@
 >. </para>
 
 <para
->Le format standard pour la capture d'images est FITS. Une fois l'une image acquise et téléchargée, elle sera affichée dans <link linkend="tool-fitsviewer"
+>Le format standard pour la capture d'images est FITS. Une fois l'une image acquise et téléchargée, elle sera affichée dans <link linkend="fitsviewer"
 >l'afficheur FITS</link
 > de &kstars;. </para>
 </sect1>
