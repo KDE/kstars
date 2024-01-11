@@ -2638,6 +2638,7 @@ void Align::updateProperty(INDI::Property prop)
                             setState(ALIGN_COMPLETE);
                             emit newStatus(state);
                             solverIterations = 0;
+                            loadSlewB->setEnabled(true);
                         }
                     }
                     break;

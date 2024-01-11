@@ -34,7 +34,7 @@
 ></term>
 <listitem
 ><para
->Ouvre une image dans l'outil d'affichage FITS. </para
+>Ouvre une image dans l'afficheur FITS. </para
 ></listitem>
 </varlistentry>
 
@@ -1027,7 +1027,9 @@
 ></term>
 <listitem>
 <para
->Ouvre Ekos, un outil complet et puissant pour l'astrophotographie. Avec Ekos vous pouvez aligner et guider votre télescope, ajuster la mise au point de votre CCD et procéder à l'acquisition d'images en utilisant une interface facile et intuitive. </para>
+>Ouvre <link linkend="ekos"
+>Ekos</link
+>, un outil complet et puissant pour l'astrophotographie. Avec Ekos vous pouvez aligner et guider votre télescope, ajuster la mise au point de votre CCD et procéder à l'acquisition d'images en utilisant une interface facile et intuitive. </para>
 </listitem>
 </varlistentry>
 

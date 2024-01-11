@@ -354,9 +354,9 @@
 
 <!-- Ekos page: -->
 <para
->Pour une explication détaillée des options sur <guilabel
+>Pour une explication détaillée des options de la suite astrophotographie <guilabel
 >Ekos</guilabel
->, veuillez vous reporter à la section <link linkend="tool-ekos"
+>, veuillez vous reporter à la section <link linkend="ekos"
 >Section Ekos</link
 > de ce manuel. </para>
 
@@ -396,7 +396,7 @@
 ></indexterm
 >La page des <guilabel
 >Développeurs</guilabel
-> permet d'activer ou de désactiver quelques options surtout utiles pour les développeurs ou pour les personnes qui souhaitent aider à déterrer les bogues. Actuellement elles activent la sauvegarde des images des processus de mise au point automatique, de guidage et d'alignement. </para>
+> permet d'activer ou de désactiver quelques options surtout utiles pour les développeurs ou pour les personnes qui souhaitent aider à déterrer les bogues. Actuellement elles activent l'enregistrement des images des processus de mise au point automatique, de guidage et d'alignement. </para>
 </sect1>
 
 <sect1 id="catalogs">
@@ -1602,7 +1602,7 @@
 >Annuler</guibutton
 > durant la résolution, et en cas de succès, les paramètres de résolution seront affichées dans la table et le statut passe à <guilabel
 >Ok</guilabel
->. Cette information est enregistrée dans la base de données de l'utilisateur afin de ne pas devoir répéter la résolution. Les images résolues apparaîtront dès lors à leur correcte position sur la carte du ciel. Vous pouvez résoudre plusieurs images en une seule opération en cliquant sur le nom de la première image puis en cliquant sur d'autres nom de fichier en maintenant la touche &Shift; enfoncée. Toutes les images entre ces deux devraient être sélectionnées. Puis en cliquant sur le bouton <guibutton
+>. Cette information est enregistrée dans la base de données de l'utilisateur afin de ne pas devoir répéter la résolution. Les images résolues apparaîtront dès lors à leur correcte position sur la carte du ciel. Vous pouvez résoudre plusieurs images en une seule opération en cliquant sur le nom de la première image puis en cliquant sur d'autres nom de fichier en maintenant la touche Maj enfoncée. Toutes les images entre ces deux devraient être sélectionnées. Puis en cliquant sur le bouton <guibutton
 >Résoudre</guibutton
 >, toutes les images tenteront d'être résolues. Toutefois &kstars; ignorera les images de statut <guilabel
 >Ok</guilabel
@@ -1642,9 +1642,9 @@
 <para
 >La boîte à cocher <guilabel
 >Center la carte du ciel à la sélection</guilabel
-> permet de naviguer facilement vers les images de superposition sans devoir manipuler la carte du ciel. Lorsque que cette option est activée, il suffit de sélectionner une ligne dans la table de superposition (&ie; en cliquant sur le champ de nom de fichier) et la carte du ciel est déplacée vers cette image si son statut est <guilabel
+> permet de naviguer facilement vers les images de superposition sans devoir manipuler la carte du ciel. Lorsque que cette option est activée, il suffit de sélectionner une ligne dans la table de superposition (c'est à dire en cliquant sur le champ de nom de fichier) et la carte du ciel est déplacée vers cette image si son statut est <guilabel
 >Ok</guilabel
->. Vous pouvez ensuite passer d'une image à l'autre à l'aide des flèches &Up; et &Down; du clavier. </para>
+>. Vous pouvez ensuite passer d'une image à l'autre à l'aide des flèches Up et Down du clavier. </para>
 </sect1>
 
 <sect1 id="colors">
@@ -1785,7 +1785,7 @@
 >. </para>
 </sect1>
 
-<sect1 id="ekos">
+<sect1 id="ekos-window">
 <title
 >Ekos</title>
 <screenshot>
@@ -1804,7 +1804,7 @@
 <para
 >Ekos est une suite d'astrophotographie complète qui permet de contrôler tout périphérique INDI tels que des montures, des CCD, des APN, des moteurs de mise au point, des roues à filtres et bien plus encore. Ekos gère le suivi de haute précision en utilisant des résolveurs en ligne et hors ligne, la mise au point automatique et l'autoguidage ainsi que l'acquisition d'images unique ou multiple en utilisant le puissant gestionnaire de séquences. Pour des explications détaillées d'<guilabel
 >Ekos</guilabel
->, veuillez lire la <link linkend="tool-ekos"
+>, veuillez lire la <link linkend="ekos"
 >section Ekos de ce manuel</link
 >. </para>
 </sect1>

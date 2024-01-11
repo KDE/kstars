@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect2 id="ekos-focus">
+<sect1 id="ekos-focus">
   <title
 >Mise au point</title>
 
@@ -14,7 +14,7 @@
 >Mise au point</tertiary>
   </indexterm>
 
-  <sect3 id="focus-theory">
+  <sect2 id="focus-theory">
     <title
 >Théorie de la procédure</title>
 
@@ -166,9 +166,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="optical-train-group">
+  <sect2 id="optical-train-group">
     <title
 >Groupe du train optique</title>
 
@@ -210,9 +210,9 @@
 
     <para
 >Les paramètres de mise au point de chaque train optique sont automatiquement enregistrés.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-focuser-group">
+  <sect2 id="focus-focuser-group">
     <title
 >Moteur de mise au point</title>
 
@@ -328,6 +328,15 @@
 
     <para
 >Le bouton <guibutton
+>Inspecteur</guibutton
+> démarre l'exécution de <link linkend="focus-aberration-inspector"
+>l'inspecteur d'aberration</link
+>. Le bouton <guibutton
+>Arrêter</guibutton
+> l'arrête. </para>
+
+    <para
+>Le bouton <guibutton
 >Acquisition image</guibutton
 > démarre l'acquisition d'une image dont les réglages actuels proviennent de <link linkend="focus-ccd-filter-wheel"
 >groupe APN et roue à filtres</link
@@ -350,9 +359,9 @@
 
     <para
 >Si vous êtes complètement novice en astronomie, c'est toujours une bonne idée de se familiariser avec son équipement de jour. Cela inclut de trouver la position approximative de la mise au point sur un objet distant et permettra d'avoir un bon point de départ à la nuit tombée.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-ccd-filter-wheel">
+  <sect2 id="focus-ccd-filter-wheel">
     <title
 >APN &amp; Roue à filtres</title>
 
@@ -468,9 +477,9 @@
 > permet de réinitialiser les réglages.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-settings">
+  <sect2 id="focus-settings">
     <title
 >Réglages de la mise au point</title>
 
@@ -695,9 +704,9 @@
         </para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-process">
+  <sect2 id="focus-process">
     <title
 >Procédure de mise au point</title>
 
@@ -1069,9 +1078,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-mechanics">
+  <sect2 id="focus-mechanics">
     <title
 >Mécanique de la mise au point</title>
 
@@ -1277,9 +1286,9 @@
 > : spécifie le nombre de secondes à attendre que le mouvement du moteur de mise au point soit à la position requise avant de déclarer une expiration du délai. Cela ne devrait être déclenché que s'il y a des problèmes avec le moteur de mise au point, ainsi réglez à une valeur suffisamment haute pour éviter que cela n'intervienne durant les opérations normales.</para>
   </listitem>
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-cfz">
+  <sect2 id="focus-cfz">
     <title
 >Mise au point de la zone critique de mise au point (CFZ)</title>
 
@@ -1494,10 +1503,10 @@
   </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="focus-advisor">
+  <sect2 id="focus-advisor">
     <title
 >Conseiller de mise au point</title>
 
@@ -1602,9 +1611,9 @@
     </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-filter-settings">
+  <sect2 id="focus-filter-settings">
       <title
 >Réglages des filtres</title>
 
@@ -1826,10 +1835,10 @@
 >Oiii : le filtre Oiii est configuré pour exécuter une mise au point automatique, est bloqué sur le filtre Lum et possède un décalage de -100. Ainsi quand la séquence Oiii démarre, il y aura une mise au point automatique sur le filtre Lum et comme le décalage relatif entre Lum et Oiii vaut -100 - 0 = -100, le moteur se déplacera vers la solution de mise au point de Lum, puis se déplacera vers l'intérieur de 100 pas.</para>
           </listitem>
       </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="build-filter-offsets">
+  <sect2 id="build-filter-offsets">
       <title
 >Construction des décalages</title>
 
@@ -2035,9 +2044,9 @@
 ></listitem>
             </itemizedlist>
       </para>
-</sect3>
+</sect2>
 
-  <sect3 id="focus-display">
+  <sect2 id="focus-display">
     <title
 >Affichage de la mise au point</title>
 
@@ -2136,9 +2145,9 @@
 > : lance la boîte de dialogue de l'affichage du profil de l'étoile.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-v-curve">
+  <sect2 id="focus-v-curve">
     <title
 >Courbe en V</title>
 
@@ -2309,9 +2318,9 @@
         </textobject>
       </mediaobject>
     </screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-relative-profile">
+  <sect2 id="focus-relative-profile">
     <title
 >Profil relatif</title>
 
@@ -2334,9 +2343,9 @@
 
     <para
 >Le profil relatif est un graphique qui représente les valeurs HFR affichées les unes contre les autres. Les valeurs basses de HFR correspondent à des formes plus étroites et inversement. La courbe en rouge plein représente le profil de la valeur HFR courante, alors que la courbe en vert pointillé représente la valeur précédente. Enfin, la courbe en magenta montre la première valeur HFR mesurée. Ce graphique vous permet de juger de la qualité de la mise au point relative. </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+  <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
     <title
 >Le réglage de la procédure de mise au point automatique</title>
 
@@ -2402,9 +2411,9 @@
 ></textobject
 ></mediaobject
 ></screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-backlash">
+  <sect2 id="focus-backlash">
     <title
 >Jeu du moteur de mise au point</title>
 
@@ -2484,9 +2493,9 @@
       </listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-adaptive">
+  <sect2 id="focus-adaptive">
     <title
 >Mise au point adaptative</title>
 
@@ -2615,10 +2624,10 @@
 >Le concept de la mise au point adaptative a été implémenté dans l'outil de <link linkend="build-filter-offsets"
 >Construction des décalages</link
 >.</para>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="Coefficient_of_Determination">
+  <sect2 id="Coefficient_of_Determination">
     <title
 >Coefficient de détermination R²</title>
 
@@ -2638,9 +2647,9 @@
 
     <para
 >Cette fonctionnalité est désactivée en réglant la limite de R² à zéro.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="Levenberg-Marquardt">
+  <sect2 id="Levenberg-Marquardt">
     <title
 >Résolveur de Levenberg-Marquardt</title>
 
@@ -2688,5 +2697,472 @@
 
     <para
 >Pour le moment le résolveur est utilisé pour interpoler une courbe hyperbolique ou parabolique.</para>
-  </sect3>
-</sect2>
+  </sect2>
+
+  <sect2 id="focus-aberration-inspector">
+    <title
+>Inspecteur d'aberration</title>
+
+    <screenshot>
+      <screeninfo
+>Inspecteur d'aberration </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="aberration_inspector.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Inspecteur d'aberration</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>L'inspecteur d'aberration est un outil utilisant la mise au point automatique pour analyser le backfocus et l'inclinaison du capteur du train optique.</para>
+    <para
+>Pour exécuter l'inspecteur d'aberration, veuillez cliquer sur le bouton de l'inspecteur du module de mise au point situé près du bouton de mise au point automatique. Reportez-vous au <link linkend="focus-focuser-group"
+>Groupe de mise au point</link
+> pour davantage de détails. Les critères suivants doivent être remplis pour que l'outil fonctionne :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Le moteur de mise au point doit être de type absolu.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>L'algorithme de mise au point doit être Linéaire 1 passe.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Un masque de mosaïque doit avoir été appliqué.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>La taille de pas du moteur de mise au point doit être réglée. Elle correspond au nombre de microns d'un pas de déplacement. Cela est réglé dans l'onglet CFZ. Reportez-vous à la <link linkend="focus-cfz"
+>section CFZ</link
+> pour davantage de détails.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para
+>Lorsque le bouton de l'Inspecteur est cliqué, une exécution de la mise au point automatique sera lancée, mais, en plus, pour chaque point, de l'information supplémentaire sera enregistrée pour une utilisation ultérieure par l'Inspecteur. La fenêtre de l'Inspecteur sera affichée dès que la mise au point automatique sera terminée.</para>
+
+    <para
+>Le réglage initial pour l'utilisation de cet outil nécessite les points suivants :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Pointer vers une région du ciel connue pour obtenir une bonne résolution. C'est typiquement haut dans le ciel sans obstacle où il y a beaucoup d'étoiles, comme la voie Lactée. La raison pour laquelle il est plus important pour l'inspecteur d'aberration que pour la mise au point automatique d'avoir un ciel très étoilé et que l'analyse de mise au point doit être réalisée pour chaque tuile de la mosaïque. Il faut donc que chaque tuile ait assez d'étoiles pour réaliser une mise au point précise.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Exécuter la mise au point automatique plusieurs fois pour s'assurer que la résolution se fasse correctement et qu'il y ait assez d'étoiles par tuile. Bien que la plupart des paramètres peuvent être utilisés, il est recommandé d'utiliser les paramètres de mise au point automatique qui fonctionnent le mieux avec votre équipement. La raison est que l'Inspecteur d'aberration doit réaliser une résolution pour chaque tuile et pas seulement pour le capteur en entier.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Un masque de mosaïque doit être appliqué. Un peu d'expérimentation sera probablement nécessaire pour trouver le réglage optimal pour votre équipement. Le paramètre a ajusté est la taille de la tuile qui est un pourcentage de la largeur du capteur. Ainsi, plus ce pourcentage est grand et plus la tuile sera grande ; par exemple, pour un capteur 4:3 et une tuile de taille 25%, cela signifie que chaque tuile représente 8% de la surface du capteur. Pour 10%, chaque tuile représente 1% de la surface du capteur. Plus la surface est grande et plus grand sera le nombre d'étoile et meilleure sera la résolution. Toutefois, la raison d'être de l'Inspecteur d'aberration est de fournir de l'information sur l'aberration (backfocus et inclinaison) du capteur, et par conséquent l'information pour chaque tuile sera aussi petite que la surface de la tuile.</para>
+        <para
+>La meilleur taille de tuile est la plus petite possible qui permet une résolution pour chaque tuile.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>L'inspecteur d'aberration peut être utilisé conjointement avec un périphérique permettant d'ajuster l'inclinaison et/ou le backfocus. La méthode est itérative comme par exemple la collimation du télescope. Les étapes sont :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Exécuter l'Inspecteur d'aberration et obtenir des résultats.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Inspectez les résultats et assurez-vous qu'ils soient bons, c'est-à-dire que le nombre d'étoiles dans chaque tuile est suffisant et que le R² soit acceptable pour chaque tuile.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Ajustez l'inclinaison et/ou le backfocus en utilisant votre périphérique, en se référant aux résultats obtenus.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Relancez l'Inspecteur d'aberration. Cela ouvrira une nouvelle fenêtre. Vérifiez les résultats comme précédemment. Si l'inclinaison et/ou le backfocus s'améliorent, cela signifie que les corrections vont dans le bon sens. Dans le cas contraire, inversez le sens et réessayez. Utilisez le retour de l'ajustement précédent pour le prochain ajustement.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Répétez la procédure jusqu'à parvenir aux limites de votre équipement.</para>
+
+    <para
+>Notez la valeur de l'ajustement, c'est-à-dire le nombre de tours, le sens (horaire ou anti-horaire). Ces réglages dépendent de votre équipement et doivent être trouvés par tâtonnements.</para>
+
+    <para
+>À chaque exécution de l'Inspecteur, une fenêtre s'ouvre et affiche le nombre d'exécution pour chaque tuile. Ainsi, plusieurs exécutions peuvent être réalisées et les résultats comparés. Veuillez toutefois noter la grande quantité de données (environ 10x celle d'une mise au point automatique). Les ressources système associées sont affichées une fois la fenêtre fermée. Il est ainsi recommandé, pour les machines de faibles ressources, de fermer toutes les fenêtres de l'inspecteur avant de commencer d'imager.</para>
+
+    <para
+>Les sections suivantes décrivent les parties de la fenêtre de l'inspecteur d'aberration.</para>
+
+    <sect3 id="aberration-inspector-vcurve">
+      <title
+>Courbe en V de l'inspecteur d'aberration</title>
+
+      <screenshot>
+        <screeninfo
+>Courbe en V de l'inspecteur d'aberration </screeninfo>
+
+        <mediaobject>
+          <imageobject>
+          <imagedata fileref="aberration_inspector_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Courbe en V de l'inspecteur d'aberration</phrase>
+        </textobject>
+        </mediaobject>
+      </screenshot>
+
+    <para
+>En haut de la fenêtre se trouvent quelques boutons suivi par la courbe en V. Ce sont :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Tuiles</guilabel
+> : trois options sont disponibles :</para>
+        <itemizedlist>
+          <listitem>
+            <para
+>Tout : les 9 tuiles sont affichées</para>
+          </listitem>
+          <listitem>
+            <para
+>Centre et coins : la tuile du centre et les 4 tuiles de coins sont affichés.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centre et losanges intérieurs : la tuile du centre et les 4 tuiles des losanges intérieurs sont affichés.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Étiquettes</guilabel
+> : case à cocher qui affiche/masque les étiquettes des points de la courbe en V.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>CFZ</guilabel
+> : case à cocher qui affiche/masque la zone CFZ sur la courbe en V.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Optimiser les centres des tuiles</guilabel
+> : si décoché, le centre géométrique de la tuile est utilisé. Si coché, le centre de la tuile est calculé comme étant la moyenne des positions des étoiles de la tuile. Bien que théoriquement plus plus précis, cette option a un impact important que pour les tuiles n'ayant que très peu d'étoiles.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Fermer</guilabel
+> : fermer la boîte de dialogue de l'inspecteur d'aberration</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>La courbe en V est similaire à celle affichée dans l'onglet de la mise au point, sauf que chaque tuile possède sa propre courbe. Le nombre de courbes est déterminé par le réglage des <guilabel
+>Tuiles</guilabel
+>. L'axe x affiche la position du moteur de mise au point et l'axe y affiche la mesure (p.ex. le HFR) utilisé par la mise au point automatique. Chaque courbe a sa propre couleur et est identifiée par 2 caractères affichés dans la légende.</para>
+
+    <para
+>Un survol du minimum de la courbe affiche davantage d'informations sur cette courbe.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-table">
+    <title
+>Tableau de l'inspecteur d'aberration</title>
+
+    <screenshot>
+      <screeninfo
+>Tableau de l'inspecteur d'aberration </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_table.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Tableau de l'inspecteur d'aberration</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Le tableau affiche l'information pertinente pour chaque tuile sélectionnée avec le paramètre <guilabel
+>Tuiles</guilabel
+>.</para>
+
+    <para
+>Une boîte d'aide est affichée lors d'un survol de la souris sur les deux colonnes les plus à gauche. Le graphique affiche une image du capteur à l'échelle de dimensions du capteur. Les tuiles sont superposées au capteur tel que spécifié par le paramètres <guilabel
+>Tuiles</guilabel
+>. Elles sont dimensionnées selon ce réglage. Chaque tuile est étiquetée de son nom et la tuile correspondant à la ligne survolée par la souris est colorée de la même couleur que la tuile.</para>
+
+    <para
+>Les colonnes suivantes sont affichées :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Tuile</guilabel
+> : le nom de la tuile résumé en 1 ou 2 caractères, par exemple TL = Top Left, C = Centre, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Description</guilabel
+> : la description de la tuile, par exemple Top Left, Centre, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Solution</guilabel
+> : la solution de mise au point. Correspond à la solution de la courbe en V.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (pas)</guilabel
+> : différence entre la solution de la table actuelle et du centre de la tuile. La différence de la ligne du Centre sera bien sûr de zéro.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (μm)</guilabel
+> : différence convertie en microns à l'aide de la taille de pas en microns telle que spécifiée dans la partie CFZ de l'onglet Mise au point.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Nombre d'étoiles</guilabel
+> : affiche le nombre minimal et maximal d'étoiles détectées durant l'exécution de la mise au point automatique. Normalement, le nombre minimal doit se trouver loin de la position de mise au point, alors que le maximum doit être à la position de mise au point.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>R²</guilabel
+> : la valeur R² de la courbe de régression pour cette tuile. Voyez <link linkend="Coefficient_of_Determination"
+>Coefficient de détermination</link
+> pour davantage de détails.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Exclure</guilabel
+> : case à cocher pour inclure/exclure cette tuile des calculs. Par défaut, chaque tuile ayant réussi la régression sera inclue. En cas d'échec, elle ne sera pas inclue. De plus, l'utilisateur peut décider qu'une tuile ne contient pas assez d'information de qualité (R² petit ou trop peu d'étoiles) et ainsi l'exclure des calculs. Veuillez noter qu'en excluant des tuiles, certains calculs ne seront pas réalisés. Si la tuile du centre est exclue, aucun calcul ne peut être réalisé.</para>
+
+        <para
+>Notez également que bien qu'il soit possible d'exclure des tuiles et d'obtenir des valeurs, si les données sont vraiment mauvaises, il est fortement recommandé de relancer l'Inspecteur d'aberration plutôt que de persister avec ces mauvaises données.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>L'approche recommandée est de vérifier le tableau pour obtenir de bonnes données et une fois fait, d'analyser les <link linkend="aberration-inspector-results"
+>Résultats de l'Inspecteur d'aberration</link
+>.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-results">
+    <title
+>Résultats de l'inspecteur d'aberration</title>
+
+    <screenshot>
+      <screeninfo
+>Résultats de l'inspecteur d'aberration </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_results.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Résultats de l'inspecteur d'aberration</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Les résultats des calculs sont affichés dans cette section, fondés sur les données affichées dans la table :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Δ du backfocus</guilabel
+> : la valeur du delta du backfocus. Le meilleur backfocus est obtenu pour des deltas petits. Veuillez noter que cette valeur donne une indication sur le positionnement du backfocus en terme d'échelle et de direction, mais n'est en aucun cas une mesure de la quantité à déplacer le capteur. La relation entre ces deux grandeurs dépend de l'équipement et nécessite d'être trouvée par l'utilisateur.</para>
+
+        <para
+>Le champ donne le sens de mouvement du backfocus nécessaire à l'améliorer ; il faut soit le rapprocher du correcteur de champ du télescope, soit l'en éloigner.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Inclinaison gauche-droite</guilabel
+> : indique l'inclinaison gauche-droite en microns et en pourcentage.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Inclinaison haut-bas</guilabel
+> : indique l'inclinaison haut-bas en microns et en pourcentage.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Inclinaison totale</guilabel
+> : l'inclinaison diagonale en microns et en pourcentage</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>À nouveau, plus le delta est petit et plus le capteur est près du backfocus parfait. Si l'aplatisseur de champ n'aplatit pas le champ jusque dans les coins du capteur, il est possible de voir cela en positionnant l'option de « Centre et coins extérieurs » à « Centre et losanges intérieurs ». Si les résultats du backfocus sont cohérents entre ces deux options, cela signifie que l'aplatisseur de champ fait bien son travail jusqu'aux coins du capteur.</para>
+
+    <para
+>Il y aura toujours un peu de backfocus, et cela est dû au bruit contenu dans les données. La chose importante est qu'en position de mise au point, les étoiles sont circulaires sur toute la surface du capteur.</para>
+
+    <para
+>Plus le pourcentage d'inclinaison est petit et plus le capteur est parallèle au plan de la lumière provenant de l'aplatisseur et du télescope. Comme pour le delta du backfocus, il y aura toujours un peu de bruit dans les données, ce qui sera présenté comme du bruit. Le point important est la taille des étoiles qui doit être cohérente sur toute la surface du capteur.</para>
+
+    <para
+>Comme ces deux grandeurs sont liées dans les calculs, l'une affectera l'autre et il sera ainsi plus judicieux d'ajuster les deux grandeurs en même temps, par petite touche, plutôt que d'essayer d'ajuster parfaitement l'une avant d'ajuster l'autre.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-3dgraphic">
+    <title
+>Graphique 3D de l'Inspecteur d'aberration</title>
+
+    <screenshot>
+      <screeninfo
+>Graphique 3D de l'inspecteur d'aberration </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_3dgraphic.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Graphique 3D de l'inspecteur d'aberration</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Le graphique 3D affiche le capteur incliné selon les <link linkend="aberration-inspector-results"
+>résultats de l'Inspecteur d'aberration</link
+>. Pour faciliter la visualisation de la surface de Petzval (voir <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
+>Petzval Field Curvature</ulink
+> pour davantage de détails) de la lumière provenant du télescope sur le capteur, la surface du capteur est également modélisée. Plus l'erreur de backfocus est importante et plus la surface de Petzval sera courbée.</para>
+
+    <para
+>Le graphique peut être zoomé et tourné à l'aide de mouvements. Pour zoomer, il faut pincer et pour tourner, il faut toucher et déplacer.</para>
+
+    <para
+>Le graphique possède un mode de simulation permettant d'ajuster le backfocus et l'inclinaison à l'aide de curseurs. L'effet de l'inclinaison du capteur et de la surface de Petzval est affiché sur le graphique.</para>
+
+    <para
+>Les options suivantes sont disponibles pour le graphique</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Sélection</guilabel
+> : les options suivantes sont disponibles :</para>
+
+        <itemizedlist>
+          <listitem>
+          <para
+>Aucun : aucune sélection possible</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Point : un point peut être sélectionné et ses valeurs affichées.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Tranche : une tranche 2D du graphique 3D est affichée.</para>
+          </listitem>
+        </itemizedlist>
+
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Thème</guilabel
+> : un certain nombre de thèmes de couleurs est disponible.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Étiquettes</guilabel
+> : case à cocher pour afficher/masquer les étiquettes des tuiles sur le graphique.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Capteur</guilabel
+> : case à cocher pour afficher/masquer le capteur.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Câble de Petzval</guilabel
+> : case à cocher pour afficher/masquer la surface de Petzval comme un câble de Petzval.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Surface de Petzval</guilabel
+> : case à cocher pour afficher/masquer la surface de Petzval.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Mode simulation</guilabel
+> : case à cocher pour (dés)activer le mode simulation. Quand décoché, le graphique affiche le capteur et la surface de Petzval selon les résultats calculés par l'Inspecteur d'aberration. Quand coché, les curseurs du backfocus et des inclinaisons sont activés et peuvent être modifiés par l'utilisateur. Un survol par la souris des curseurs décrit leur fonctionnalité.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Le graphique 3D n'est pas essentiel pour l'utilisation de l'Inspecteur d'aberration. Toute l'information pertinente est affichée dans la section <link linkend="aberration-inspector-table"
+>Tableau</link
+> et <link linkend="aberration-inspector-results"
+>Résultats</link
+>. Son intérêt réside surtout dans l'aide qu'il apporte à l'utilisateur pour la compréhension de l'Inspecteur d'aberration et de l'orienter vers l'information que fournit l'outil.</para>
+    </sect3>
+  </sect2>
+</sect1>

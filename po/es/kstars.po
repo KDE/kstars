@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-09 00:38+0000\n"
-"PO-Revision-Date: 2024-01-05 01:47+0100\n"
+"POT-Creation-Date: 2024-01-11 01:34+0000\n"
+"PO-Revision-Date: 2024-01-11 01:27+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -3744,7 +3744,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/capture.cpp:902 ekos/capture/capture.cpp:942
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:886
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/focus/focus.cpp:415 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -5120,7 +5120,7 @@ msgstr "Calcular campo visual"
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:157
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #, kde-format
 msgid "Camera"
 msgstr "Cámara"
@@ -8412,7 +8412,7 @@ msgstr "Añadir una carpeta donde se guardan los archivos de índice"
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:553
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:565
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
@@ -14585,8 +14585,10 @@ msgstr "Control del rotador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/capture.ui:785
-#, kde-format
-msgid "<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Optimal sub-exposure calculator</p></body></html>"
+msgid "<html><head/><body><p>Exposure calculator</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Calculadora de subexposición óptima</p></body></html>"
 
@@ -16043,8 +16045,9 @@ msgstr "Valores no válidos. Por favor, defina todos los valores."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
-#, kde-format
-msgid "Sub-Exposure Calculator"
+#, fuzzy, kde-format
+#| msgid "Sub-Exposure Calculator"
+msgid "Exposure Calculator"
 msgstr "Calculadora de subexposición"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
@@ -16075,171 +16078,171 @@ msgid "Alter the bias of the noise sources"
 msgstr "Alterar el sesgo de las fuentes de ruido"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:170
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:182
 #, kde-format
 msgid "Bortle Class"
 msgstr "Clase de Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:215
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:227
 #, kde-format
 msgid "Gain"
 msgstr "Ganancia"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:240
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
 #, kde-format
 msgid "Select Camera Sensor Gain"
 msgstr "Seleccionar ganancia del sensor de la cámara"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:259
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:271
 #, kde-format
 msgid "Select DSLR ISO Value"
 msgstr "Seleccionar valor ISO de DSLR"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:278
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:290
 #, kde-format
 msgid "ISO"
 msgstr "ISO"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:297
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:309
 #, kde-format
 msgid "Read noise constant"
 msgstr "Constante de ruido de lectura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:363
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:375
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
 msgstr "Ruido de la subexposición por contaminación lumínica"
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:379
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:391
 #, kde-format
 msgid "Total Noise"
 msgstr "Ruido total"
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:386
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
 #, kde-format
 msgid "Pollution Electrons"
 msgstr "Electrones de contaminación"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:405
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:417
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr ""
 "Ruido total de la subexposición (contaminación lumínica + ruido de lectura)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:421
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:433
 #, kde-format
 msgid "Shot Noise"
 msgstr "Ruido de disparo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:440
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
 msgid "Estimated light pollution electrons in the sub-exposure."
 msgstr "Electrones de contaminación lumínica estimados de la subexposición."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:494
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:506
 #, kde-format
 msgid "Duration of Sub-exposure"
 msgstr "Duración de la subexposición"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:510
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:522
 #, kde-format
 msgid "Exposure Time (sec)"
 msgstr "Tiempo de exposición (s)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:550
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:562
 #, kde-format
 msgid "Download additional camera data files"
 msgstr "Descargar archivos de datos adicionales de la cámara"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:581
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:593
 #, kde-format
 msgid "Bortle Zone Color"
 msgstr "Color de zona de Bortle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:600
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:612
 #, kde-format
 msgid "Bortle class value"
 msgstr "Valor de clase de Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:603
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:615
 #, kde-format
 msgid "9"
 msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:626
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
 "Seleccionar el modo de lectura en las cámaras con múltiples modos de lectura."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:645
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:657
 #, kde-format
 msgid "Adjust the quality of the sky"
 msgstr "Ajustar la calidad del cielo"
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:655
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:667
 #, kde-format
 msgid "Read Mode"
 msgstr "Modo de lectura"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:680
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:692
 #, kde-format
 msgid "Apply a compensation for an optical filter"
 msgstr "Aplicar una compensación para un filtro óptico"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:703
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
 #, kde-format
 msgid "Camera Data Selection"
 msgstr "Selección de datos de la cámara"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:738
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:750
 #, kde-format
 msgid "Potential exposure time graph"
 msgstr "Gráfico de tiempo de exposición potencial"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:757
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:769
 #, no-c-format, kde-format
 msgid "Noise Increase %"
 msgstr "Aumento de ruido %"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:777
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:789
 #, kde-format
 msgid "Table"
 msgstr "Tabla"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:809
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:821
 #, kde-format
 msgid "Graph"
 msgstr "Gráfico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:842
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:854
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
 msgstr ""
@@ -16247,37 +16250,37 @@ msgstr ""
 "actual"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:864
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:876
 #, kde-format
 msgid "Exposures"
 msgstr "Exposiciones"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:883
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:895
 #, kde-format
 msgid "Calculated exposure count for integration"
 msgstr "Recuento de exposición calculada para integración"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:905
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:917
 #, kde-format
 msgid "Integration Time to Noise Ratio"
 msgstr "Relación tiempo-ruido de integración"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:937
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:949
 #, kde-format
 msgid "Time/Noise Ratio"
 msgstr "Relación tiempo/ruido"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:956
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:968
 #, kde-format
 msgid "dy ="
 msgstr "dy ="
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
-#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:969
+#: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:981
 #, kde-format
 msgid "Integration time to noise ratio (potential quality)"
 msgstr "Relación tiempo-ruido de integración (calidad potencial)"
@@ -17530,10 +17533,9 @@ msgstr ""
 "table></font>"
 
 #: ekos/focus/adaptivefocus.cpp:152
-#, fuzzy, kde-format
-#| msgid "Adaptive Focus moving from %1 to %2"
+#, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
-msgstr "Moviendo enfoque adaptativo de %1 a %2"
+msgstr "Enfoque adaptativo: Sin movimientos (por debajo del umbral)"
 
 #: ekos/focus/adaptivefocus.cpp:163
 #, kde-format
@@ -17550,26 +17552,24 @@ msgstr ""
 "adaptativo."
 
 #: ekos/focus/adaptivefocus.cpp:179
-#, fuzzy, kde-format
-#| msgid "Adaptive Focus moving from %1 to %2"
+#, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
-msgstr "Moviendo enfoque adaptativo de %1 a %2"
+msgstr "Enfoque adaptativo: Moviendo de %1 a %2 (TempΔ %3"
 
 #: ekos/focus/adaptivefocus.cpp:180
 #, kde-format
 msgid "; AltΔ %1"
-msgstr ""
+msgstr "; AltΔ %1"
 
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: ekos/focus/adaptivefocus.cpp:181
-#, fuzzy, kde-format
-#| msgid " Error: %1"
+#, kde-format
 msgid "; Pos Error %1)"
-msgstr " Error: %1"
+msgstr "; Error de posición %1)"
 
 #: ekos/focus/adaptivefocus.cpp:197
 #, kde-format
@@ -24766,22 +24766,18 @@ msgstr "Estabilización del guiado:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:698
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-#| "meridian flip has been completed will be postponed until the configured "
-#| "duration has past since the meridian flip has been started.</p></body></"
-#| "html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip in seconds. "
 "Increase this value if Ekos reports that a meridian flip has failed because "
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Duración mínima de una inversión de meridiano. Las "
-"comprobaciones de si se ha completado la inversión de meridiano se "
-"pospondrán hasta que haya transcurrido la duración configurada desde que se "
-"inició la inversión de meridiano.</p></body></html>"
+"<html><head/><body><p>Duración mínima de una inversión de meridiano en "
+"segundos. Aumente este valor si Ekos informa de que ha fallado una inversión "
+"de meridiano porque no ha cambiado el lado de la columna. Una buena "
+"estimación para este valor es al menos el 50% de la duración típica de una "
+"inversión de meridiano.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
@@ -26750,15 +26746,7 @@ msgstr ""
 "Doble clic para editar un trabajo con los campos de la izquierda."
 
 #: ekos/scheduler/scheduler.cpp:325
-#, fuzzy, kde-format
-#| msgid ""
-#| "Current status of job '%1', managed by the Scheduler.\n"
-#| "If invalid, the Scheduler was not able to find a proper observation time "
-#| "for the target.\n"
-#| "If aborted, the Scheduler missed the scheduled time or encountered "
-#| "transitory issues and will reschedule the job.\n"
-#| "If complete, the Scheduler verified that all sequence captures requested "
-#| "were stored, including repeats."
+#, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
 "If invalid, the Scheduler was not able to find a proper observation time for "
@@ -26768,7 +26756,7 @@ msgid ""
 "If complete, the Scheduler verified that all sequence captures requested "
 "were stored, including repeats."
 msgstr ""
-"Estado actual del trabajo «%1», gestionado por el planificador.\n"
+"Estado actual del trabajo, gestionado por el planificador.\n"
 "Si no es válido, el planificador no ha podido encontrar una hora de "
 "observación para el objetivo.\n"
 "Si se ha interrumpido, el planificador ha perdido el tiempo programado o ha "
@@ -26778,68 +26766,50 @@ msgstr ""
 "las secuencias de capturas solicitadas, incluidas las repeticiones."
 
 #: ekos/scheduler/scheduler.cpp:330
-#, fuzzy, kde-format
-#| msgid ""
-#| "Current altitude of the target of job '%1'.\n"
-#| "A rising target is indicated with an arrow going up.\n"
-#| "A setting target is indicated with an arrow going down."
+#, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
 "A rising target is indicated with an arrow going up.\n"
 "A setting target is indicated with an arrow going down."
 msgstr ""
-"Altitud actual del objetivo para el trabajo «%1».\n"
+"Altitud actual del objetivo para el trabajo.\n"
 "Un objetivo en ascenso se indica con una flecha hacia arriba.\n"
 "Un objetivo en descenso se indica con una flecha hacia abajo."
 
 #: ekos/scheduler/scheduler.cpp:334
-#, fuzzy, kde-format
-#| msgid ""
-#| "Startup time for job '%1', as estimated by the Scheduler.\n"
-#| "The altitude at startup, if available, is displayed too.\n"
-#| "Fixed time from user or culmination time is marked with a chronometer "
-#| "symbol. "
+#, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
 "The altitude at startup, if available, is displayed too.\n"
 "Fixed time from user or culmination time is marked with a chronometer symbol."
 msgstr ""
-"Hora de inicio para el trabajo «%1», estimada por el planificador.\n"
+"Hora de inicio para el trabajo, estimada por el planificador.\n"
 "La altitud durante el inicio, si está disponible, también se muestra.\n"
 "La hora fijada por el usuario o la hora de culminación se marca con un "
 "símbolo de cronómetro."
 
 #: ekos/scheduler/scheduler.cpp:338
-#, fuzzy, kde-format
-#| msgid ""
-#| "Completion time for job '%1', as estimated by the Scheduler.\n"
-#| "You may specify a fixed time to limit duration of looping jobs. A warning "
-#| "symbol indicates the altitude at completion may cause the job to abort "
-#| "before completion.\n"
+#, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
 "You may specify a fixed time to limit duration of looping jobs. A warning "
 "symbol indicates the altitude at completion may cause the job to abort "
 "before completion.\n"
 msgstr ""
-"Hora de finalización para el trabajo «%1», estimada por el planificador.\n"
+"Hora de finalización para el trabajo, estimada por el planificador.\n"
 "Puede indicar una hora fija para limitar la duración de los trabajos "
 "cíclicos. Un símbolo de advertencia indica que la altitud durante la "
 "finalización puede hacer que el trabajo se interrumpa antes de terminar.\n"
 
 #: ekos/scheduler/scheduler.cpp:342
-#, fuzzy, kde-format
-#| msgid ""
-#| "Count of captures stored for job '%1', based on its sequence job.\n"
-#| "This is a summary, additional specific frame types may be required to "
-#| "complete the job."
+#, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
 "This is a summary, additional specific frame types may be required to "
 "complete the job."
 msgstr ""
-"Contador de capturas almacenadas para el trabajo «%1», basado en su trabajo "
-"de secuencia.\n"
+"Contador de capturas almacenadas para el trabajo, basado en su trabajo de "
+"secuencia.\n"
 "Esto es un resumen; es posible que se necesiten tipos de fotogramas "
 "específicos adicionales para completar el trabajo."
 
@@ -26988,11 +26958,9 @@ msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
 #: ekos/scheduler/scheduler.cpp:1321
-#, fuzzy, kde-format
-#| msgid "Bad RA string entered for %1. Reset to original value."
+#, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
-msgstr ""
-"Cadena de AR incorrecta introducida para %1. Se reinicia al valor original."
+msgstr "Detener la edición del trabajo #%1. Se reinicia al valor original."
 
 #: ekos/scheduler/scheduler.cpp:1339
 #, kde-format
@@ -30646,10 +30614,7 @@ msgstr "Grosor:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the Elements offset from its Anchor. For an Anchor Element this is "
-#| "from the center of the image."
+#, kde-format
 msgid ""
 "Set the Element's offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
@@ -31507,14 +31472,13 @@ msgstr "Cruce&ta del telescopio"
 #: indi/opsindi.ui:541
 #, kde-format
 msgid "Open INDI window on EKOS startup"
-msgstr ""
+msgstr "Abrir la ventana de INDI durante el inicio de EKOS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:544
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "INDI window on startup"
-msgstr "Anchura de la ventana de INDI"
+msgstr "Ventana de INDI durante el inicio"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_messageNotificationINDI)
 #. i18n: ectx: whatsthis, entry (messageNotificationINDI), group (indi)
@@ -32733,14 +32697,13 @@ msgstr "Mostrar/ocultar mensajes de INDI en la barra de estado de KStars."
 #: kstars.kcfg:197
 #, kde-format
 msgid "Show the INDI window on startup?"
-msgstr ""
+msgstr "¿Mostrar la ventana de INDI durante el inicio?"
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "Show the INDI window when starting EKOS."
-msgstr "Anchura de la ventana de INDI"
+msgstr "Mostrar la ventana de INDI al iniciar EKOS."
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202

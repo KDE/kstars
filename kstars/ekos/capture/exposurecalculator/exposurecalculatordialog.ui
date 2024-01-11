@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Sub-Exposure Calculator</string>
+   <string>Exposure Calculator</string>
   </property>
   <property name="toolTip">
    <string/>
@@ -135,6 +135,18 @@
         </property>
         <property name="toolTip">
          <string>Alter the bias of the noise sources</string>
+        </property>
+        <property name="minimum">
+         <double>0.250000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>500.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>5.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -969,7 +981,7 @@
              <string>Integration time to noise ratio (potential quality)</string>
             </property>
             <property name="decimals">
-             <number>1</number>
+             <number>2</number>
             </property>
             <property name="maximum">
              <double>2000.000000000000000</double>

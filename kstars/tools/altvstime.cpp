@@ -667,6 +667,9 @@ void AltVsTime::slotClearBoxes()
 
 void AltVsTime::slotComputeAltitudeByTime()
 {
+    if (avtUI->PlotList->currentRow() < 0)
+        return;
+
     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
     {
@@ -700,6 +703,9 @@ void AltVsTime::slotComputeAltitudeByTime()
 
 void AltVsTime::slotMarkRiseTime()
 {
+    if (avtUI->PlotList->currentRow() < 0)
+        return;
+
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
@@ -744,6 +750,9 @@ void AltVsTime::slotMarkRiseTime()
 
 void AltVsTime::slotMarkSetTime()
 {
+    if (avtUI->PlotList->currentRow() < 0)
+        return;
+
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
@@ -791,6 +800,9 @@ void AltVsTime::slotMarkSetTime()
 
 void AltVsTime::slotMarkTransitTime()
 {
+    if (avtUI->PlotList->currentRow() < 0)
+        return;
+
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)

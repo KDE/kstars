@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->Un survol de &kstars;</title>
+>Un survol de la carte du ciel de &kstars;</title>
 
 <para
->Ce chapitre propose une visite guidée de &kstars; et introduit beaucoup de concepts et fonctionnalités importantes. </para>
+>Ce chapitre propose une visite guidée de la carte du ciel de &kstars; et introduit beaucoup de concepts et fonctionnalités importantes. </para>
 
 <screenshot>
 <screeninfo
@@ -490,7 +490,7 @@
 <title
 >Fin de la visite</title>
 <para
->Ceci conclut la visite de &kstars;, bien que nous ayons à peine égratigné la surface des fonctionnalités disponibles. &kstars; inclut beaucoup d'<link linkend="tools"
+>Cela conclut la visite de la carte du ciel de &kstars;, bien que nous ayons à peine égratigné la surface des fonctionnalités disponibles. &kstars; inclut beaucoup d'<link linkend="tools"
 >outils astronomiques</link
 >, il peut contrôler directement <link linkend="indi"
 >votre télescope</link
