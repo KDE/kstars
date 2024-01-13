@@ -472,7 +472,7 @@
 >Vista prèvia</guibutton
 >. </para>
         <para
->Les cues de seqüències es poden guardar com a fitxer &XML; amb l'extensió <literal role="extension"
+>Les cues de seqüències es poden guardar com a fitxer en &XML; amb l'extensió <literal role="extension"
 >.esq</literal
 > (cua en seqüència d'Ekos -Ekos Sequence Queue-). Per a carregar una cua en seqüència, fent clic en el botó s'obrirà el document <inlinemediaobject
 ><imageobject
@@ -745,7 +745,9 @@
 >Qualitat del cel</guilabel
 >: Este selector establix la mesura de la magnitud en segons d'arc al quadrat del cel de fons.</para>
                             <para
->L'interval de la qualitat del cel va des de 22 per als cels més foscos, fins a 16 per als cels més brillants (més contaminats per la llum). L'escala de magnituds no és lineal; és una escala logarítmica basada en la 5a arrel de 100. Per tant, 5 passos en l'escala representen un canvi en la brillantor per un factor de 100. (Una qualitat del cel de 17 és 100 vegades més brillant que una qualitat del cel de 22. Cada pas sencer en l'escala és un canvi per un factor d'aproximadament 2,512). <ulink url="https://ca.wikipedia.org/wiki/Contaminaci%C3%B3_lum%C3%ADnica"
+>L'interval de la qualitat del cel va des de 22 per als cels més foscos, fins a 16 per als cels més brillants (més contaminats per la llum). L'escala de magnituds no és lineal; és una escala logarítmica basada en la 5a arrel de 100. Per tant, 5 passos en l'escala representen un canvi en la brillantor per un factor de 100. (Una qualitat del cel de 17 és 100 vegades més brillant que una qualitat del cel de 22. Cada pas sencer en l'escala és un canvi per un factor d'aproximadament 2,512). <ulink url="https://en.wikipedia.org/wiki/Sky_brightness"
+>Sky Brightness a la Wikipedia</ulink
+> i <ulink url="https://ca.wikipedia.org/wiki/Contaminaci%C3%B3_lum%C3%ADnica"
 >Contaminació lumínica en la Viquipèdia</ulink
 ></para>
                             <para
@@ -947,7 +949,7 @@
 >Per a un objectiu intens, (exemple, la nebulosa d'Orió, de magnitud 4), proporcionaria un senyal relativament fort. En este objectiu, el valor de la relació temps a soroll es podria reduir i el càlcul de subexposicions encara pot produir una imatge amb una relació senyal a soroll molt bona. Un objectiu molt més feble (exemple, el casc de Thor, de magnitud 11), pot requerir una relació temps a soroll més alta per a compensar un senyal de l'objectiu relativament feble. </para>
 
 <para
->Depenent de les entrades i condicions diferents de l'obtenció d'imatges, la qualitat potencial d'una subexposició pot variar molt. En mala qualitat del cel amb poc o cap filtratge, el temps calculat de subexposició serà naturalment curt per a evitar un soroll aclaparador de la pol·lució lumínica, i el temps d'exposició en relació amb el soroll calculat serà baix (una relació de temps a soroll baixa). Per a aconseguir una imatge integrada d'alta qualitat a partir de subexposicions de baixa relació temps a soroll pot requerir milers de subexposicions. Si l'usuari està preocupat pel temps d'obtenció de les imatges i el de processament o la capacitat d'emmagatzematge, llavors es necessitaria una relació de temps a soroll més alta per a reduir la quantitat de subexposicions. Per contra, quan les condicions d'entrada donen lloc a una subexposició amb un temps d'exposició llarg en relació amb el soroll calculat (com amb l'obtenció d'imatges de banda estreta), el resultat és una subexposició amb una relació temps a soroll molt alta. En estos casos, el valor predeterminat de 80, pot resultar en molt poques subexposicions per a la integració. Però el valor delta serà força elevat, la qual cosa indica que augmentar la relació temps a soroll millorarà enormement la qualitat potencial de la imatge integrada. </para>
+>Depenent de les entrades i condicions diferents de l'obtenció d'imatges, la qualitat potencial d'una subexposició pot variar molt. En mala qualitat del cel amb poc o cap filtratge, el temps calculat de subexposició serà naturalment curt per a evitar un soroll aclaparador de la pol·lució lumínica, i el temps d'exposició en relació amb el soroll calculat serà baix (una relació de temps a soroll baixa). Per a aconseguir una imatge integrada d'alta qualitat a partir de subexposicions de baixa relació temps a soroll pot requerir milers de subexposicions. Si l'usuari està preocupat pel temps d'obtenció de les imatges i el de processament o la capacitat d'emmagatzematge, llavors es necessitaria una relació de temps a soroll més alta per a reduir la quantitat de subexposicions. Per contra, quan les condicions d'entrada donen lloc a una subexposició amb un temps d'exposició llarg en relació amb el soroll calculat (com amb l'obtenció d'imatges de banda estreta), el resultat pot ser una subexposició amb una relació temps a soroll molt alta. En estos casos, el valor predeterminat de 80, pot resultar en molt poques subexposicions per a la integració. Però el valor delta serà força elevat, la qual cosa indica que augmentar la relació temps a soroll millorarà enormement la qualitat potencial de la imatge integrada. </para>
 
 <para
 >Una part del valor d'utilitzar una relació temps a soroll com a entrada per al càlcul del nombre requerit de subexposicions és que hauria de tendir a compensar les diferències en el soroll relatiu per a la subexposició de durades diverses. Una subexposició més curta tindria una relació temps a soroll més baixa, de manera que té menys capacitat per a millorar una imatge integrada. Per tant, es necessita un nombre desproporcionadament més alt d'exposicions curtes per a aconseguir una relació temps a soroll determinada a una imatge integrada.</para>

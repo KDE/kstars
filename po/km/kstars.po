@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-11 01:34+0000\n"
+"POT-Creation-Date: 2024-01-13 01:44+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -450,14 +450,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "រក្សា​ទុក."
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3858
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3859
 #: ekos/guide/guidedriftgraph.cpp:466 kstarsactions.cpp:1335
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "ឯកសារ​ដែល​មាន​ឈ្មោះ​\"%1\" មាន​រួច​ហើយ ។ សសេរ​ជាន់​លើវាឬ?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3861
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3862
 #: ekos/guide/guidedriftgraph.cpp:469 kstarsactions.cpp:1336
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, fuzzy, kde-format
@@ -2467,7 +2467,7 @@ msgid ""
 "to the Google search engine?"
 msgstr ""
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3869
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3870
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1191 ekos/capture/capture.cpp:1948
 #: ekos/capture/capture.cpp:2034 ekos/guide/guidedriftgraph.cpp:477
@@ -5740,7 +5740,7 @@ msgstr ""
 msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
 msgstr "របារ​ឧបករណ៍"
 
-#: ekos/align/align.cpp:1517 ekos/align/align.cpp:2993
+#: ekos/align/align.cpp:1517 ekos/align/align.cpp:2994
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
@@ -5912,175 +5912,175 @@ msgstr ""
 msgid "Mount is synced to solution coordinates."
 msgstr ""
 
-#: ekos/align/align.cpp:2666 ekos/align/align.cpp:2683
-#: ekos/align/align.cpp:3994 ekos/align/polaralignmentassistant.cpp:639
+#: ekos/align/align.cpp:2667 ekos/align/align.cpp:2684
+#: ekos/align/align.cpp:3995 ekos/align/polaralignmentassistant.cpp:639
 #, fuzzy, kde-format
 msgid "Settling..."
 msgstr "ការ​កំណត់"
 
-#: ekos/align/align.cpp:2673
+#: ekos/align/align.cpp:2674
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2675
+#: ekos/align/align.cpp:2676
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2718 ekos/align/align.cpp:2870
+#: ekos/align/align.cpp:2719 ekos/align/align.cpp:2871
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2720
+#: ekos/align/align.cpp:2721
 #, fuzzy, kde-format
 msgid "Slewing failed."
 msgstr "ផ្សេងៗ"
 
-#: ekos/align/align.cpp:2763
+#: ekos/align/align.cpp:2764
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "មុំ​ទីតាំង"
 
-#: ekos/align/align.cpp:2775
+#: ekos/align/align.cpp:2776
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2820
+#: ekos/align/align.cpp:2821
 #, fuzzy, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
 
-#: ekos/align/align.cpp:2864
+#: ekos/align/align.cpp:2865
 #, fuzzy, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/align/align.cpp:2888
+#: ekos/align/align.cpp:2889
 #, fuzzy, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/align/align.cpp:2893
+#: ekos/align/align.cpp:2894
 #, fuzzy, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/align/align.cpp:2912
+#: ekos/align/align.cpp:2913
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:2962
+#: ekos/align/align.cpp:2963
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "រូបភាព"
 
-#: ekos/align/align.cpp:3192
+#: ekos/align/align.cpp:3193
 #, fuzzy, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
 
-#: ekos/align/align.cpp:3197
+#: ekos/align/align.cpp:3198
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr ""
 
-#: ekos/align/align.cpp:3216
+#: ekos/align/align.cpp:3217
 #, fuzzy, kde-format
 msgid "Capture error. Aborting..."
 msgstr "ការ​កំណត់"
 
-#: ekos/align/align.cpp:3221 ekos/capture/captureprocess.cpp:1478
+#: ekos/align/align.cpp:3222 ekos/capture/captureprocess.cpp:1478
 #: ekos/capture/captureprocess.cpp:1988
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3345
+#: ekos/align/align.cpp:3346
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "ផ្សេងៗ"
 
-#: ekos/align/align.cpp:3420
+#: ekos/align/align.cpp:3421
 #, fuzzy, kde-format
 msgid "StellarSolver Options"
 msgstr "កំណែ"
 
-#: ekos/align/align.cpp:3425
+#: ekos/align/align.cpp:3426
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3429
+#: ekos/align/align.cpp:3430
 #, fuzzy, kde-format
 msgid "Scale & Position"
 msgstr "ទីតាំង"
 
-#: ekos/align/align.cpp:3433
+#: ekos/align/align.cpp:3434
 #, fuzzy, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3451 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3452 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 msgid "Index Files"
 msgstr "ឯកសារ​មិន​ត្រឹមត្រូវ"
 
-#: ekos/align/align.cpp:3516 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3517 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 msgid "dRA (arcsec)"
 msgstr "ផ្កាយ​"
 
-#: ekos/align/align.cpp:3517 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3518 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 msgid "dDE (arcsec)"
 msgstr "វិនាទី"
 
-#: ekos/align/align.cpp:3563 ekos/capture/capture.cpp:2651
+#: ekos/align/align.cpp:3564 ekos/capture/capture.cpp:2651
 #: ekos/focus/focus.cpp:4698
 #, fuzzy, kde-format
 msgid "Filter operation failed."
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/align/align.cpp:3575 ekos/capture/capture.cpp:2587
+#: ekos/align/align.cpp:3576 ekos/capture/capture.cpp:2587
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3582 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3583 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/capture.cpp:2592
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3587 ekos/capture/capture.cpp:2597
+#: ekos/align/align.cpp:3588 ekos/capture/capture.cpp:2597
 #, fuzzy, kde-format
 msgid "Auto focus on filter change..."
 msgstr "គណនា"
 
-#: ekos/align/align.cpp:3708
+#: ekos/align/align.cpp:3709
 #, fuzzy, kde-format
 msgid "Invalid FOV."
 msgstr "URL មិន​ត្រឹមត្រូវ"
 
-#: ekos/align/align.cpp:3845
+#: ekos/align/align.cpp:3846
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "ជម្រះ បញ្ជី"
 
-#: ekos/align/align.cpp:3868 ekos/align/mountmodel.cpp:264
+#: ekos/align/align.cpp:3869 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:1947
 #: ekos/capture/capture.cpp:2033 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:2723 ekos/scheduler/scheduler.cpp:2813
@@ -6090,7 +6090,7 @@ msgstr "ជម្រះ បញ្ជី"
 msgid "Invalid URL: %1"
 msgstr ""
 
-#: ekos/align/align.cpp:3877 ekos/align/mountmodel.cpp:401
+#: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:213 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:1575
 #: ekos/scheduler/schedulerprocess.cpp:2587
@@ -6098,7 +6098,7 @@ msgstr ""
 msgid "Unable to write to file %1"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:284
+#: ekos/align/align.cpp:3879 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1963
 #: ekos/capture/captureprocess.cpp:2302 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:1576
@@ -6118,28 +6118,28 @@ msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡ�
 msgid "Could Not Open File"
 msgstr "មិន​អាច​បើក​ឯកសារ %1បាន​ឡើយ​"
 
-#: ekos/align/align.cpp:3899
+#: ekos/align/align.cpp:3900
 #, fuzzy, kde-format
 msgid "Error in table structure."
 msgstr "កំហុស​​​បើក​​ឯកសារ​"
 
-#: ekos/align/align.cpp:3908
+#: ekos/align/align.cpp:3909
 #, fuzzy, kde-format
 #| msgid "Coordinate Grid"
 msgid "Solution Points Saved as: %1"
 msgstr "ក្រឡា​ចត្រង្គ​កូអរដោណេ"
 
-#: ekos/align/align.cpp:3922
+#: ekos/align/align.cpp:3923
 #, fuzzy, kde-format
 msgid "Polar Alignment"
 msgstr "ផ្សេងៗ"
 
-#: ekos/align/align.cpp:4450
+#: ekos/align/align.cpp:4451
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "ផ្ទុកឡើង"
 
-#: ekos/align/align.cpp:4459
+#: ekos/align/align.cpp:4460
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "របារ​ឧបករណ៍"
@@ -75046,7 +75046,7 @@ msgstr "កែសម្រួល..."
 msgid "Print the Altitude vs. time plot"
 msgstr ""
 
-#: tools/altvstime.cpp:579 tools/altvstime.cpp:937
+#: tools/altvstime.cpp:579 tools/altvstime.cpp:949
 #, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
@@ -75054,13 +75054,13 @@ msgid ""
 "tr></table>"
 msgstr ""
 
-#: tools/altvstime.cpp:1393
+#: tools/altvstime.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Print elevation vs time plot"
 msgstr ""
 
-#: tools/altvstime.cpp:1407
+#: tools/altvstime.cpp:1419
 #, kde-format
 msgid "Elevation vs. Time Plot"
 msgstr ""
