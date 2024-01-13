@@ -55,6 +55,12 @@ private slots:
     /** @brief Test data for @see testCaptureAlignGuidingPausedMF() */
     void testCaptureAlignGuidingPausedMF_data();
 
+    /** @brief Test call pausing a capture sequence as soon as a meridian flip has already been planned. */
+    void testCaptureAlignGuidingPauseMFPlanned();
+
+    /** @brief Test data for @see testCaptureAlignGuidingPauseMFPlanned() */
+    void testCaptureAlignGuidingPauseMFPlanned_data();
+
     /** @brief Test if a meridian flip takes place while re-focusing and consequently
      * leads to abort the refocusing and refocusing is restarted after a successful meridian flip */
     void testAbortRefocusMF();

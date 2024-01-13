@@ -160,6 +160,7 @@ void CaptureModuleState::setCaptureState(CaptureState value)
         case CAPTURE_IDLE:
         case CAPTURE_ABORTED:
         case CAPTURE_SUSPENDED:
+        case CAPTURE_PAUSED:
             // meridian flip may take place if requested
             if (mf_state->getMeridianFlipStage() == MeridianFlipState::MF_REQUESTED)
                 mf_state->updateMeridianFlipStage(MeridianFlipState::MF_READY);

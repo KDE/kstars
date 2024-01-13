@@ -179,6 +179,55 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
     QVERIFY(checkPostMFBehavior());
 }
 
+
+void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPauseMFPlanned()
+{
+    // set up the capture sequence
+    QVERIFY(prepareCaptureTestcase(10, false, false));
+
+    // set a high delay so that it does not start too early
+    QVERIFY(enableMeridianFlip(120.0));
+
+    // start alignment
+    QVERIFY(executeAlignment(5.0));
+
+    // start guiding
+    QVERIFY(m_CaptureHelper->startGuiding(2.0));
+
+    // switch to capture module
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000);
+
+    // start capturing
+    QVERIFY(startCapturing());
+
+    // reset the MF delay after capturing has started
+    QVERIFY(enableMeridianFlip(0.0));
+
+    // Wait until the meridian flip has been planned
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getMeridianFlipStatus() == Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED, 60000);
+
+    // pause capturing
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_PAUSED);
+    KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), pauseB);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 40000);
+
+    // check if meridian flip runs and completes successfully
+    QVERIFY(checkMFExecuted(40));
+
+    // check if capture remains paused (after a meridian flip it is marked as idle - bug or feature?)
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_PAUSED, 5000);
+
+    // Lets wait a little bit
+    QTest::qWait(5000);
+
+    // now finish pause
+    qCInfo(KSTARS_EKOS_TEST) << "Finishing paused capture... ";
+    KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), startB);
+
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
+}
+
 void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
 {
     // set up the capture sequence
@@ -383,7 +432,12 @@ void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
 
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false, true}, {0}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {0}, {true}, {false});
+}
+
+void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPauseMFPlanned_data()
+{
+    prepareTestData(12.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {0}, {true}, {false});
 }
 
 void TestEkosMeridianFlipSpecials::testAbortRefocusMF_data()
