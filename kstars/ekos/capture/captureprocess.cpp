@@ -2362,9 +2362,6 @@ bool CaptureProcess::checkPausing(CaptureModuleState::ContinueAction continueAct
         state()->setCaptureState(CAPTURE_PAUSED);
         // disconnect camera device
         setCamera(false);
-        // handle a requested meridian flip
-        if (state()->getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_NONE)
-            emit updateMeridianFlipStage(MeridianFlipState::MF_READY);
         // save continue action
         state()->setContinueAction(continueAction);
         // pause

@@ -93,7 +93,7 @@
 <secondary
 >La simulació del rellotge</secondary
 ></indexterm
->Quan s'inicia &kstars;, el temps es pren del rellotge del sistema de l'ordinador, i el rellotge de &kstars; comença a comptar en sincronització amb el temps real. Si voleu parar el rellotge, seleccioneu l'element de menú <menuchoice
+>Quan s'inicia &kstars;, el temps es pren des del rellotge del sistema de l'ordinador, i el rellotge de &kstars; comença a comptar en sincronització amb el temps real. Si voleu parar el rellotge, seleccioneu l'element de menú <menuchoice
 ><guimenu
 >Temps</guimenu
 > <guimenuitem
