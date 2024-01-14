@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-13 01:44+0000\n"
+"POT-Creation-Date: 2024-01-14 01:57+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -12208,7 +12208,7 @@ msgid "Waiting..."
 msgstr "Άλλο"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:360
+#: ekos/capture/capturemodulestate.cpp:361
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -14357,7 +14357,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του δεσμού %1;"
 
-#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2415
+#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2412
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -15466,7 +15466,7 @@ msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:215
+#: ekos/capture/capturemodulestate.cpp:216
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -15474,154 +15474,154 @@ msgid "Dithering succeeded."
 msgstr "Άλλο"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:222
+#: ekos/capture/capturemodulestate.cpp:223
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Η αυτόματη οδήγηση ξεκίνησε."
 
-#: ekos/capture/capturemodulestate.cpp:230
+#: ekos/capture/capturemodulestate.cpp:231
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Dither complete."
 msgstr "Ολοκληρώθηκε"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:244
+#: ekos/capture/capturemodulestate.cpp:245
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Η αυτόματη οδήγηση ξεκίνησε."
 
-#: ekos/capture/capturemodulestate.cpp:253
+#: ekos/capture/capturemodulestate.cpp:254
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Dithering failed."
 msgstr "Άλλο"
 
-#: ekos/capture/capturemodulestate.cpp:455
+#: ekos/capture/capturemodulestate.cpp:456
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:551
+#: ekos/capture/capturemodulestate.cpp:552
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:564
+#: ekos/capture/capturemodulestate.cpp:565
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/capturemodulestate.cpp:584
+#: ekos/capture/capturemodulestate.cpp:585
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Η αυτόματη οδήγηση διακόπηκε."
 
-#: ekos/capture/capturemodulestate.cpp:593
+#: ekos/capture/capturemodulestate.cpp:594
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Η αυτόματη οδήγηση διακόπηκε."
 
-#: ekos/capture/capturemodulestate.cpp:600
+#: ekos/capture/capturemodulestate.cpp:601
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/capturemodulestate.cpp:622
+#: ekos/capture/capturemodulestate.cpp:623
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Adaptive focus complete."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/capture/capturemodulestate.cpp:646
+#: ekos/capture/capturemodulestate.cpp:647
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/capture/capturemodulestate.cpp:793
+#: ekos/capture/capturemodulestate.cpp:794
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:811
+#: ekos/capture/capturemodulestate.cpp:812
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Guide module timed out."
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: ekos/capture/capturemodulestate.cpp:843
+#: ekos/capture/capturemodulestate.cpp:844
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:852
+#: ekos/capture/capturemodulestate.cpp:853
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:874
+#: ekos/capture/capturemodulestate.cpp:875
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/capturemodulestate.cpp:888
+#: ekos/capture/capturemodulestate.cpp:889
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:902
+#: ekos/capture/capturemodulestate.cpp:903
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:929
+#: ekos/capture/capturemodulestate.cpp:930
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:976
+#: ekos/capture/capturemodulestate.cpp:977
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:980
+#: ekos/capture/capturemodulestate.cpp:981
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:995
+#: ekos/capture/capturemodulestate.cpp:996
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1370
+#: ekos/capture/capturemodulestate.cpp:1371
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post flip re-alignment completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/capturemodulestate.cpp:1389
+#: ekos/capture/capturemodulestate.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Post-flip alignment failed."
 msgstr "Στοίχιση"
 
-#: ekos/capture/capturemodulestate.cpp:1394
+#: ekos/capture/capturemodulestate.cpp:1395
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Post-flip alignment failed. Retrying..."
@@ -15909,7 +15909,7 @@ msgstr ""
 msgid "Sequence paused."
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/capture/captureprocess.cpp:2414
+#: ekos/capture/captureprocess.cpp:2411
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15917,20 +15917,20 @@ msgid ""
 "restart capturing?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του δεσμού %1;"
 
-#: ekos/capture/captureprocess.cpp:2428
+#: ekos/capture/captureprocess.cpp:2425
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2543
+#: ekos/capture/captureprocess.cpp:2540
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/capture/captureprocess.cpp:2544
+#: ekos/capture/captureprocess.cpp:2541
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"

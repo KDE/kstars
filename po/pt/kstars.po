@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-13 01:44+0000\n"
+"POT-Creation-Date: 2024-01-14 01:57+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -13250,7 +13250,7 @@ msgid "Waiting..."
 msgstr "À espera..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:360
+#: ekos/capture/capturemodulestate.cpp:361
 #, kde-format
 msgid "Dithering..."
 msgstr "A gerar o ruído..."
@@ -15436,7 +15436,7 @@ msgstr "Não foi possível gravar a fila da sequência"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Tem a certeza que deseja repor o estado de todas as tarefas?"
 
-#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2415
+#: ekos/capture/capture.cpp:2068 ekos/capture/captureprocess.cpp:2412
 #, kde-format
 msgid "Reset job status"
 msgstr "Repor o estado da tarefa"
@@ -16560,119 +16560,119 @@ msgstr ""
 "Atenção: O desvio da guia está seleccionado mas o processo de guia "
 "automática não foi iniciado."
 
-#: ekos/capture/capturemodulestate.cpp:215
+#: ekos/capture/capturemodulestate.cpp:216
 #, kde-format
 msgid "Dithering succeeded."
 msgstr "A geração de ruído decorreu com sucesso."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:222
+#: ekos/capture/capturemodulestate.cpp:223
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "A geração de ruído terminou. A retomar daqui a %1 segundos..."
 
-#: ekos/capture/capturemodulestate.cpp:230
+#: ekos/capture/capturemodulestate.cpp:231
 #, kde-format
 msgid "Dither complete."
 msgstr "A geração de ruído terminou."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:244
+#: ekos/capture/capturemodulestate.cpp:245
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr ""
 "Atenção: A geração de ruído foi mal-sucedida. A retomar daqui a %1 "
 "segundos..."
 
-#: ekos/capture/capturemodulestate.cpp:253
+#: ekos/capture/capturemodulestate.cpp:254
 #, kde-format
 msgid "Warning: Dithering failed."
 msgstr "Atenção: A geração de ruído foi mal-sucedida."
 
-#: ekos/capture/capturemodulestate.cpp:455
+#: ekos/capture/capturemodulestate.cpp:456
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "A inversão do meridiano terminou com sucesso"
 
-#: ekos/capture/capturemodulestate.cpp:551
+#: ekos/capture/capturemodulestate.cpp:552
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "A efectuar a recalibração e a guiar..."
 
-#: ekos/capture/capturemodulestate.cpp:564
+#: ekos/capture/capturemodulestate.cpp:565
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 "A calibração da inversão do pós-meridiano gerou um erro. A reiniciar..."
 
-#: ekos/capture/capturemodulestate.cpp:584
+#: ekos/capture/capturemodulestate.cpp:585
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "A guia automática parou. À espera que a focagem automática termine..."
 
-#: ekos/capture/capturemodulestate.cpp:593
+#: ekos/capture/capturemodulestate.cpp:594
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "A guia automática parou. A interromper..."
 
-#: ekos/capture/capturemodulestate.cpp:600
+#: ekos/capture/capturemodulestate.cpp:601
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 "A calibração da inversão do pós-meridiano gerou um erro. A interromper..."
 
-#: ekos/capture/capturemodulestate.cpp:622
+#: ekos/capture/capturemodulestate.cpp:623
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Focagem adaptativa completa."
 
-#: ekos/capture/capturemodulestate.cpp:646
+#: ekos/capture/capturemodulestate.cpp:647
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "A focagem automática foi mal-sucedida. A interromper a exposição..."
 
-#: ekos/capture/capturemodulestate.cpp:793
+#: ekos/capture/capturemodulestate.cpp:794
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "A efectuar o realinhamento pós-inversão..."
 
-#: ekos/capture/capturemodulestate.cpp:811
+#: ekos/capture/capturemodulestate.cpp:812
 #, kde-format
 msgid "Guide module timed out."
 msgstr "O módulo de guia expirou o tempo limite."
 
-#: ekos/capture/capturemodulestate.cpp:843
+#: ekos/capture/capturemodulestate.cpp:844
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "O desvio inicial da guia %1 está abaixo do valor-limite de %2 arco-segundos."
 
-#: ekos/capture/capturemodulestate.cpp:852
+#: ekos/capture/capturemodulestate.cpp:853
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "O desvio inicial da guia %1 é superior ao valor-limite de %2 arco-segundos"
 
-#: ekos/capture/capturemodulestate.cpp:874
+#: ekos/capture/capturemodulestate.cpp:875
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "A calibração da inversão do meridiano terminou com sucesso."
 
-#: ekos/capture/capturemodulestate.cpp:888
+#: ekos/capture/capturemodulestate.cpp:889
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "O desvio da guia de %1 no arranque da captura é superior ao valor-limite de "
 "%2 arco-segundos."
 
-#: ekos/capture/capturemodulestate.cpp:902
+#: ekos/capture/capturemodulestate.cpp:903
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "O desvio da guia de %1 no arranque da captura é inferior ao valor-limite de "
 "%2 arco-segundos"
 
-#: ekos/capture/capturemodulestate.cpp:929
+#: ekos/capture/capturemodulestate.cpp:930
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16682,7 +16682,7 @@ msgstr ""
 "amostras consecutivas; a suspender a exposição e a esperar pela guia até %3 "
 "segundos."
 
-#: ekos/capture/capturemodulestate.cpp:976
+#: ekos/capture/capturemodulestate.cpp:977
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16691,7 +16691,7 @@ msgstr ""
 "O desvio da guia %1 é agora menor que o valor-limite de %2 arco-segundos; a "
 "retomar a exposição."
 
-#: ekos/capture/capturemodulestate.cpp:980
+#: ekos/capture/capturemodulestate.cpp:981
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16700,23 +16700,23 @@ msgstr ""
 "O desvio da guia %1 é agora menor que o valor-limite de %2 arco-segundos; a "
 "retomar a exposição daqui a %3 segundos."
 
-#: ekos/capture/capturemodulestate.cpp:995
+#: ekos/capture/capturemodulestate.cpp:996
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "O desvio da guia %1 ainda é maior que o valor-limite de %2 arco-segundos."
 
-#: ekos/capture/capturemodulestate.cpp:1370
+#: ekos/capture/capturemodulestate.cpp:1371
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "O realinhamento pós-inversão terminou com sucesso."
 
-#: ekos/capture/capturemodulestate.cpp:1389
+#: ekos/capture/capturemodulestate.cpp:1390
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "O alinhamento da pós-inversão foi mal-sucedido."
 
-#: ekos/capture/capturemodulestate.cpp:1394
+#: ekos/capture/capturemodulestate.cpp:1395
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "O alinhamento da pós-inversão foi mal-sucedido. A repetir..."
@@ -17002,7 +17002,7 @@ msgstr "A ADU actual está a %1. A próxima exposição será daqui a %2 segundo
 msgid "Sequence paused."
 msgstr "A sequência está em pausa."
 
-#: ekos/capture/captureprocess.cpp:2414
+#: ekos/capture/captureprocess.cpp:2411
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -17011,7 +17011,7 @@ msgstr ""
 "Todas as tarefas estão completas. Tem a certeza que deseja repor o estado de "
 "todas as tarefas e reiniciar a captura?"
 
-#: ekos/capture/captureprocess.cpp:2428
+#: ekos/capture/captureprocess.cpp:2425
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -17020,12 +17020,12 @@ msgstr ""
 "Atenção: a opção \"Reiniciar Sempre a Sequência ao Iniciar\" está activa e "
 "repõe os contadores da sequência."
 
-#: ekos/capture/captureprocess.cpp:2543
+#: ekos/capture/captureprocess.cpp:2540
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Tem a certeza que deseja reiniciar o controlador da câmara %1?"
 
-#: ekos/capture/captureprocess.cpp:2544
+#: ekos/capture/captureprocess.cpp:2541
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reiniciar o Controlador"
