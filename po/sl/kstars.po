@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-14 01:57+0000\n"
-"PO-Revision-Date: 2024-01-06 20:30+0100\n"
+"PO-Revision-Date: 2024-01-12 18:23+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6001,7 +6001,7 @@ msgstr "Cilj je znotraj %1 stopinj koordinat rešitve."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
 #: ekos/align/align.cpp:2177
-#, fuzzy, kde-format
+#, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "Položajni kot kamere je %1 stopinj."
 
@@ -6028,9 +6028,8 @@ msgstr "Slika shranjena v %1"
 
 #: ekos/align/align.cpp:2321
 #, fuzzy, kde-format
-#| msgid "Solver failed. Try again."
 msgid "Solver failed. Retrying without scale constraint."
-msgstr "Reševalnik ni uspel. Poskusite znova."
+msgstr "Reševalnik ni uspel. Poskusite znova brez omejitve merila."
 
 #: ekos/align/align.cpp:2331
 #, kde-format
@@ -6043,22 +6042,21 @@ msgid "Solver Failed."
 msgstr "Reševalnik ni uspel."
 
 #: ekos/align/align.cpp:2342
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
 "correct, and the necessary index files are installed. Enable Alignment "
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
-"Preverite, ali imate na sliki dovolj zvezd, označeno vidno polje je pravilno "
-"in nameščene so potrebne indeksne datoteke. Omogočite beleženje poravnave v "
-"zavihku Nastavitev -> Dnevniki, če želite dobiti podrobne informacije o "
-"napaki."
+"Preverite, ali imate na sliki dovolj zvezd, da je označeno vidno polje "
+"pravilno in da so nameščene potrebne indeksne datoteke. Omogočite beleženje "
+"poravnave v zavihku Nastavitev -> Zapisniki, če želite dobiti podrobne "
+"informacije o napaki."
 
 #: ekos/align/align.cpp:2401
-#, fuzzy, kde-format
-#| msgid "Setting position angle to %1 degrees E of N..."
+#, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
-msgstr "Nastavitev položajnega kota na %1 stopinj V od S …"
+msgstr "Nastavljanje položajnega kota na %1 stopinj …"
 
 #: ekos/align/align.cpp:2408
 #, kde-format
@@ -6068,7 +6066,7 @@ msgstr "Kot položaja kamere je v sprejemljivem območju."
 #: ekos/align/align.cpp:2422
 #, fuzzy, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
-msgstr "Trenutno vrtenje je %1; Ciljno vrtenje je %2; diff: %3"
+msgstr "Trenutno vrtenje je %1; ciljno vrtenje je %2; razlika: %3"
 
 #: ekos/align/align.cpp:2489
 #, kde-format
@@ -9448,9 +9446,9 @@ msgid "Clearing mount Alignment Model..."
 msgstr "Model poravnave nosilca za počistitev..."
 
 #: ekos/align/polaralignmentassistant.cpp:781
-#, fuzzy, kde-format
+#, kde-format
 msgid "This could cause the telescope to cross the meridian."
-msgstr "To lahko povzroči, da teleskop prečka meridian."
+msgstr "To lahko povzroči, da teleskop prečka poldnevnik."
 
 #: ekos/align/polaralignmentassistant.cpp:831
 #, kde-format
@@ -9560,15 +9558,14 @@ msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Ustalitev po <i>drugem</i> obračanju montaže.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1215
-#, fuzzy, kde-format
-#| msgid "Capturing %1-second %2 image..."
+#, kde-format
 msgid "<p>Capturing the second image...</p>"
-msgstr "Zajemanje slike %1-sekund %2..."
+msgstr "<p>Zajemanje druge slike …</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1217
-#, fuzzy, kde-format
+#, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
-msgstr "Reševanje z lestvico slepe slike ..."
+msgstr "<p>Reševanje <i>druge</i> slike …</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
@@ -9581,9 +9578,9 @@ msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Zajem <i>tretje</i> in zadnje slike ...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1223
-#, fuzzy, kde-format
+#, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
-msgstr "Reševanje z lestvico slepe slike ..."
+msgstr "<p>Reševanje <i>tretje</i> slike …</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1226
 #, kde-format
@@ -14253,10 +14250,9 @@ msgid "Manage Observers"
 msgstr "Upravljanje z opazovalci"
 
 #: ekos/capture/capture.cpp:2604
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Filter set to %1."
-msgstr "Datoteka shranjena v %1"
+msgstr "Filter nastavljen na %1."
 
 #: ekos/capture/capture.cpp:2948
 #, kde-format
@@ -14524,7 +14520,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
 #: ekos/capture/capture.ui:753 ekos/capture/rotatorsettings.ui:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rotator Control"
 msgstr "Krmilnik rotatorja"
 
@@ -15243,7 +15239,7 @@ msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Preklopite zaslon na grafični način prikaza števila zajemov."
 
 #: ekos/capture/capturedeviceadaptor.cpp:648
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Če želite nadaljevati, odstranite pokrov s teleskopa."
 
@@ -31720,7 +31716,7 @@ msgstr "Ni&tni križ daljnogleda"
 #: indi/opsindi.ui:541
 #, kde-format
 msgid "Open INDI window on EKOS startup"
-msgstr ""
+msgstr "Odpri okno INDI ob zagonu EKOS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:544
@@ -32957,13 +32953,13 @@ msgstr "Preklopi prikaz sporočil INDI v vrstici stanja KStars."
 #: kstars.kcfg:197
 #, kde-format
 msgid "Show the INDI window on startup?"
-msgstr ""
+msgstr "Ali naj se pokaže okno INDI ob zagonu?"
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
 #, kde-format
 msgid "Show the INDI window when starting EKOS."
-msgstr ""
+msgstr "Pokaži okno INDI ob zagonu EKOS."
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
