@@ -210,6 +210,7 @@
     <p xml:lang="zh-TW">包含在 KStars 中的是 Ekos 天文攝影套裝軟體，這是一套可以控制所有 INDI 裝置的完整解決方案，其中包含了眾多望遠鏡、CCS、DSLR、聚焦器、濾光片與許多其他東西。Ekos 使用線上與離線的天體測量計算程式、自動對焦與自動導航功能進行高精度追蹤，並使用功能強大的序列管理程式來照出一張或多張照片。</p>
     <p>Astronomical Catalogs:</p>
     <p xml:lang="ar">الفهارس الفلكيّة:</p>
+    <p xml:lang="bg">Астрономически каталози:</p>
     <p xml:lang="bs">Astronomski katalozi:</p>
     <p xml:lang="ca">Catàlegs astronòmics:</p>
     <p xml:lang="ca-valencia">Catàlegs astronòmics:</p>
@@ -400,6 +401,7 @@
     <screenshot type="default">
       <caption>KStars main window</caption>
       <caption xml:lang="ar">النافذة الرئسية لنجومك</caption>
+      <caption xml:lang="bg">Главният прозорец на KStars</caption>
       <caption xml:lang="ca">Finestra principal del KStars</caption>
       <caption xml:lang="ca-valencia">Finestra principal de KStars</caption>
       <caption xml:lang="cs">Hlavní okno KStars</caption>
