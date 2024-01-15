@@ -921,7 +921,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
     outstream << "<Encoding>" << getCoreProperty(SequenceJob::SJ_Encoding).toString() << "</Encoding>" << Qt::endl;
     outstream << "<Binning>" << Qt::endl;
     outstream << "<X>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << Qt::endl;
-    outstream << "<Y>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</Y>" << Qt::endl;
+    outstream << "<Y>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Binning).toPoint().y()) << "</Y>" << Qt::endl;
     outstream << "</Binning>" << Qt::endl;
     outstream << "<Frame>" << Qt::endl;
     outstream << "<X>" << cLocale.toString(roi.x()) << "</X>" << Qt::endl;
