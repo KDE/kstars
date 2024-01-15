@@ -16,6 +16,7 @@
 #include "Options.h"
 #include "rotatorsettings.h"
 #include "sequencejob.h"
+#include "sequencequeue.h"
 #include "placeholderpath.h"
 #include "ui_calibrationoptions.h"
 #include "auxiliary/ksmessagebox.h"
@@ -59,33 +60,217 @@ enum JobTableColumnIndex
     JOBTABLE_COL_ISO,
     JOBTABLE_COL_OFFSET
 };
+
+// Encode and decode for storing stand-alone options which are really QStringLists.
+QString standAloneEncode(const QStringList &list)
+{
+    if (list.size() == 0)
+        return "";
+    QString encoding;
+    encoding.append(list[0]);
+    for (int i = 1; i < list.size(); ++i)
+    {
+        encoding.append(",");
+        encoding.append(list[i]);
+    }
+    return encoding;
+}
+
+QStringList standAloneDecode(const QString &encoding)
+{
+    auto dec = encoding.split(",");
+    if (dec.size() == 1 && dec[0] == "")
+        return QStringList();
+    return dec;
+}
+
+// Adds the items to the QComboBox if they're not there already.
+void addToCombo(QComboBox *combo, const QStringList &items)
+{
+    if (items.size() == 0)
+        return;
+    QStringList existingItems;
+    for (int index = 0; index < combo->count(); index++)
+        existingItems << combo->itemText(index);
+
+    for (const auto &item : items)
+        if (existingItems.indexOf(item) == -1)
+            combo->addItem(item);
+}
+
 } // namespace
 
 namespace Ekos
 {
-Capture::Capture()
+
+// There are many widgets that are not used in stand-alone mode and should be made invisible and disabled.
+void Capture::initStandAlone()
+{
+    QList<QWidget*> unusedWidgets =
+    {
+        opticalTrainLabel, opticalTrainCombo, trainB, cameraRowLabel, cameraLabel, restartCameraB,
+        clearConfigurationB, coolerOnB, coolerOffB, setTemperatureB, temperatureRegulationB,
+        previewB, loopB, liveVideoB, startB, pauseB, resetB, processGrid, darkB, darkLibraryB,
+        filterManagerB
+    };
+    for (auto &widget : unusedWidgets)
+    {
+        widget->setEnabled(false);
+        widget->setVisible(false);
+    }
+    CCDFWGroup->setTitle("Settings");
+}
+
+// Gets called when the stand-alone editor gets a show event.
+// Do this initialization here so that if the live capture module was
+// used after startup, it will have set more recent remembered values.
+void Capture::onStandAloneShow(QShowEvent* event)
+{
+    Q_UNUSED(event);
+    QSharedPointer<FilterManager> fm;
+
+    // Default comment if there is no previously saved Options::CaptureStandAlone... parameters.
+    QString comment = i18n("<b><font color=\"red\">Please run the Capture tab connected to INDI with your desired "
+                           "camera/filterbank at least once before using the Sequence Editor. </font></b><p>");
+    if (Options::captureStandAloneTimestamp().size() > 0)
+        comment = i18n("<b>Using camera and filterwheel attributes from Capture session started at %1.</b>"
+                       "<p>If you wish to use other cameras/filterbanks, please edit the sequence "
+                       "using the Capture tab.<br>It is not recommended to overwrite a sequence file currently running, "
+                       "please rename it instead.</p><p>", Options::captureStandAloneTimestamp());
+    sequenceEditorComment->setVisible(true);
+    sequenceEditorComment->setEnabled(true);
+    sequenceEditorComment->setStyleSheet("{color: #C0BBFE}");
+    sequenceEditorComment->setText(comment);
+
+    // Add extra load and save buttons at the bottom of the window.
+    loadSaveBox->setEnabled(true);
+    loadSaveBox->setVisible(true);
+    connect(esqSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
+    connect(esqLoadB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
+
+    // This currently gets the filters from filter manager #0.
+    // Could try all of them?
+    bool ok = Manager::Instance()->getFilterManager(fm);
+    if (ok)
+        addToCombo(FilterPosCombo, fm->getFilterLabels());
+    addToCombo(FilterPosCombo, standAloneDecode(Options::captureStandAloneFilters()));
+
+    if (FilterPosCombo->count() > 0)
+        filterEditB->setEnabled(true);
+
+    captureGainN->setEnabled(true);
+    captureGainN->setValue(GainSpinSpecialValue);
+    captureGainN->setSpecialValueText(i18n("--"));
+
+    captureOffsetN->setEnabled(true);
+    captureOffsetN->setValue(OffsetSpinSpecialValue);
+    captureOffsetN->setSpecialValueText(i18n("--"));
+
+    // Always add these strings to the types menu. Might also add other ones
+    // that were used in the last capture session.
+    const QStringList frameTypes = {"Light", "Dark", "Bias", "Flat"};
+    captureTypeS->clear();
+    captureTypeS->addItems(frameTypes);
+    addToCombo(captureTypeS, standAloneDecode(Options::captureStandAloneTypes()));
+
+    // Always add these strings to the encodings menu. Might also add other ones
+    // that were used in the last capture session.
+    const QStringList frameEncodings = {"FITS", "Native", "XISF"};
+    captureEncodingS->clear();
+    captureEncodingS->addItems(frameEncodings);
+    addToCombo(captureEncodingS, standAloneDecode(Options::captureStandAloneEncodings()));
+
+    const QStringList frameFormats = {};
+    captureFormatS->clear();
+    if (frameFormats.size() > 0)
+        captureFormatS->addItems(frameFormats);
+    addToCombo(captureFormatS, standAloneDecode(Options::captureStandAloneFormats()));
+
+    cameraTemperatureN->setEnabled(true);
+
+    // No pre-configured ISOs are available--would be too much of a guess, but
+    // we will use ISOs from the last live capture session.
+    QStringList isoList = standAloneDecode(Options::captureStandAloneISOs());
+    if (isoList.size() > 0)
+    {
+        captureISOS->clear();
+        captureISOS->addItems(isoList);
+        captureISOS->setCurrentIndex(Options::captureStandAloneISOIndex());
+        captureISOS->blockSignals(false);
+        captureISOS->setEnabled(true);
+    }
+    else
+    {
+        captureISOS->blockSignals(true);
+        captureISOS->clear();
+        captureISOS->setEnabled(false);
+    }
+
+    // Remember the sensor width and height from the last live session.
+    // The user can always edit the input box.
+    constexpr int maxFrame = 20000;
+    captureFrameXN->setMaximum(static_cast<int>(maxFrame));
+    captureFrameYN->setMaximum(static_cast<int>(maxFrame));
+    captureFrameWN->setMaximum(static_cast<int>(maxFrame));
+    captureFrameHN->setMaximum(static_cast<int>(maxFrame));
+    QStringList whList = standAloneDecode(Options::captureStandAloneWHGO());
+    if (whList.size() == 4)
+    {
+        captureFrameWN->setValue(whList[0].toInt());
+        captureFrameHN->setValue(whList[1].toInt());
+        m_standAloneUseCcdGain = whList[2] == "CCD_GAIN";
+        m_standAloneUseCcdOffset = whList[3] == "CCD_OFFSET";
+    }
+
+    connect(captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
+    {
+        if (captureGainN->value() != GainSpinSpecialValue)
+            setGain(captureGainN->value());
+        else
+            setGain(-1);
+    });
+
+    connect(captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
+    {
+        if (captureOffsetN->value() != OffsetSpinSpecialValue)
+            setOffset(captureOffsetN->value());
+        else
+            setOffset(-1);
+    });
+}
+
+Capture::Capture(bool standAlone) : m_standAlone(standAlone)
 {
     setupUi(this);
 
-    qRegisterMetaType<CaptureState>("CaptureState");
-    qDBusRegisterMetaType<CaptureState>();
-
+    if (!m_standAlone)
+    {
+        qRegisterMetaType<CaptureState>("CaptureState");
+        qDBusRegisterMetaType<CaptureState>();
+    }
     new CaptureAdaptor(this);
     m_captureModuleState.reset(new CaptureModuleState());
     m_captureDeviceAdaptor.reset(new CaptureDeviceAdaptor());
     m_captureProcess = new CaptureProcess(state(), m_captureDeviceAdaptor);
 
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
-    QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
-            QDBusConnection::sessionBus(), this);
+    state()->getSequenceQueue()->loadOptions();
 
-    // Connecting DBus signals
-    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
-                                          SLOT(registerNewModule(QString)));
+    if (m_standAlone)
+        initStandAlone();
 
-    // ensure that the mount interface is present
-    registerNewModule("Mount");
+    if (!m_standAlone)
+    {
+        QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
+        QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
+                QDBusConnection::sessionBus(), this);
 
+        // Connecting DBus signals
+        QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
+                                              SLOT(registerNewModule(QString)));
+
+        // ensure that the mount interface is present
+        registerNewModule("Mount");
+    }
     KStarsData::Instance()->userdb()->GetAllDSLRInfos(state()->DSLRInfos());
 
     if (state()->DSLRInfos().count() > 0)
@@ -98,7 +283,15 @@ Capture::Capture()
     m_LimitsUI.reset(new Ui::Limits());
     m_LimitsUI->setupUi(m_LimitsDialog);
     m_scriptsManager = new ScriptsManager(this);
-
+    if (m_standAlone)
+    {
+        // Prepend "Capture Sequence Editor" to the two pop-up window titles, to differentiate them
+        // from similar windows in the Capture tab.
+        auto title = i18n("Capture Sequence Editor: %1", m_LimitsDialog->windowTitle());
+        m_LimitsDialog->setWindowTitle(title);
+        title = i18n("Capture Sequence Editor: %1", m_scriptsManager->windowTitle());
+        m_scriptsManager->setWindowTitle(title);
+    }
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     //isAutoGuiding   = false;
@@ -272,42 +465,56 @@ Capture::Capture()
     // Start Guide Deviation Check
     connect(m_LimitsUI->startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
     {
-        Options::setEnforceStartGuiderDrift(checked);
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setEnforceStartGuiderDrift(checked);
     });
 
     // Start Guide Deviation Value
     connect(m_LimitsUI->startGuiderDriftN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
-        Options::setStartGuideDeviation(m_LimitsUI->startGuiderDriftN->value());
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setStartGuideDeviation(m_LimitsUI->startGuiderDriftN->value());
     });
 
     // Abort Guide Deviation Check
     connect(m_LimitsUI->limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
     {
-        Options::setEnforceGuideDeviation(checked);
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setEnforceGuideDeviation(checked);
     });
 
     // Per job dither frequency count
     connect(m_LimitsUI->limitDitherFrequencyN, QOverload<int>::of(&QSpinBox::valueChanged), [this]()
     {
-        Options::setGuideDitherPerJobFrequency(m_LimitsUI->limitDitherFrequencyN->value());
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setGuideDitherPerJobFrequency(m_LimitsUI->limitDitherFrequencyN->value());
     });
 
     // Guide Deviation Value
     connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
-        Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
     });
 
     connect(m_LimitsUI->limitGuideDeviationRepsN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
     {
-        Options::setGuideDeviationReps(static_cast<uint>(m_LimitsUI->limitGuideDeviationRepsN->value()));
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setGuideDeviationReps(static_cast<uint>(m_LimitsUI->limitGuideDeviationRepsN->value()));
     });
 
     // Autofocus HFR Check
     connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
     {
-        Options::setEnforceAutofocusHFR(checked);
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setEnforceAutofocusHFR(checked);
         if (checked == false)
             state()->getRefocusState()->setInSequenceFocus(false);
     });
@@ -316,7 +523,9 @@ Capture::Capture()
     m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
     connect(m_LimitsUI->limitFocusHFRN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
-        Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     });
     connect(m_captureModuleState.get(), &CaptureModuleState::newLimitFocusHFR, this, [this](double hfr)
     {
@@ -326,32 +535,42 @@ Capture::Capture()
     // Autofocus temperature Check
     connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, this,  [ = ](bool checked)
     {
-        Options::setEnforceAutofocusOnTemperature(checked);
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setEnforceAutofocusOnTemperature(checked);
     });
 
     // Autofocus temperature Delta
     connect(m_LimitsUI->limitFocusDeltaTN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
-        Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
     });
 
     // Refocus Every Check
-    connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, this, [](bool checked)
+    connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, this, [ = ](bool checked)
     {
-        Options::setEnforceRefocusEveryN(checked);
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setEnforceRefocusEveryN(checked);
     });
 
     // Refocus Every Value
     connect(m_LimitsUI->limitRefocusN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
     {
-        Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
     });
 
     // Refocus after meridian flip
     m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
-    connect(m_LimitsUI->meridianRefocusS, &QCheckBox::toggled, [](bool checked)
+    connect(m_LimitsUI->meridianRefocusS, &QCheckBox::toggled, [ = ](bool checked)
     {
-        Options::setRefocusAfterMeridianFlip(checked);
+        // We don't want the editor to influence a concurrent live capture session.
+        if (!m_standAlone)
+            Options::setRefocusAfterMeridianFlip(checked);
     });
 
     QCheckBox * const checkBoxes[] =
@@ -622,6 +841,10 @@ bool Capture::updateCamera()
 
 void Capture::setFilterWheel(QString name)
 {
+    // Should not happen
+    if (m_standAlone)
+        return;
+
     if (devices()->filterWheel() && devices()->filterWheel()->getDeviceName() == name)
     {
         refreshFilterSettings();
@@ -697,6 +920,8 @@ void Capture::jobStarting()
 
 void Capture::registerNewModule(const QString &name)
 {
+    if (m_standAlone)
+        return;
     if (name == "Mount" && mountInterface == nullptr)
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Registering new Module (" << name << ")";
@@ -721,7 +946,7 @@ void Capture::refreshCameraSettings()
     auto camera = activeCamera();
     auto targetChip = devices()->getActiveChip();
     // If camera is restarted, try again in one second
-    if (!camera || !targetChip || !targetChip->getCCD() || targetChip->isCapturing())
+    if (!m_standAlone && (!camera || !targetChip || !targetChip->getCCD() || targetChip->isCapturing()))
     {
         QTimer::singleShot(1000, this, &Capture::refreshCameraSettings);
         return;
@@ -781,6 +1006,7 @@ void Capture::updateCaptureFormats()
     {
         captureTypeS->setEnabled(true);
         captureTypeS->addItems(frameTypes);
+        Options::setCaptureStandAloneTypes(standAloneEncode(frameTypes));
         captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
     }
 
@@ -788,6 +1014,7 @@ void Capture::updateCaptureFormats()
     captureFormatS->blockSignals(true);
     captureFormatS->clear();
     captureFormatS->addItems(activeCamera()->getCaptureFormats());
+    Options::setCaptureStandAloneFormats(standAloneEncode(activeCamera()->getCaptureFormats()));
     captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
     captureFormatS->blockSignals(false);
 
@@ -796,7 +1023,10 @@ void Capture::updateCaptureFormats()
     captureEncodingS->clear();
     captureEncodingS->addItems(activeCamera()->getEncodingFormats());
     captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
+    Options::setCaptureStandAloneEncodings(standAloneEncode(activeCamera()->getEncodingFormats()));
     captureEncodingS->blockSignals(false);
+
+    Options::setCaptureStandAloneTimestamp(KStarsData::Instance()->lt().toString("yyyy-MM-dd hh:mm"));
 }
 
 void Capture::syncCameraInfo()
@@ -853,18 +1083,22 @@ void Capture::syncCameraInfo()
 
     auto isoList = devices()->getActiveChip()->getISOList();
     captureISOS->blockSignals(true);
+    captureISOS->setEnabled(false);
     captureISOS->clear();
 
     // No ISO range available
     if (isoList.isEmpty())
     {
         captureISOS->setEnabled(false);
+        Options::setCaptureStandAloneISOs("");
     }
     else
     {
         captureISOS->setEnabled(true);
         captureISOS->addItems(isoList);
         captureISOS->setCurrentIndex(devices()->getActiveChip()->getISOIndex());
+        Options::setCaptureStandAloneISOs(standAloneEncode(isoList));
+        Options::setCaptureStandAloneISOIndex(devices()->getActiveChip()->getISOIndex());
 
         uint16_t w, h;
         uint8_t bbp {8};
@@ -1151,6 +1385,14 @@ void Capture::updateFrameProperties(int reset)
     if (state()->useGuideHead() == false)
         cullToDSLRLimits();
 
+    // Save the sensor's width and height for the stand-alone editor.
+    Options::setCaptureStandAloneWHGO(
+        standAloneEncode(
+            QStringList({QString("%1").arg(captureFrameWN->value()),
+                         QString("%1").arg(captureFrameHN->value()),
+                         QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_GAIN") ? "CCD_GAIN" : "CCD_CONTROLS"),
+                         QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_OFFSET") ? "CCD_OFFSET" : "CCD_CONTROLS")})));
+
     if (reset == 1 || state()->frameSettings().contains(devices()->getActiveChip()) == false)
     {
         QVariantMap settings;
@@ -1334,6 +1576,7 @@ void Capture::refreshFilterSettings()
     process()->updateFilterInfo();
 
     FilterPosCombo->addItems(process()->filterLabels());
+    Options::setCaptureStandAloneFilters(standAloneEncode(process()->filterLabels()));
 
     updateCurrentFilterPosition();
 
@@ -1967,7 +2210,8 @@ bool Capture::loadSequenceQueue(const QString &fileURL, QString targetName)
     state()->clearCapturedFramesMap();
     clearSequenceQueue();
 
-    const bool result = process()->loadSequenceQueue(fileURL, targetName);
+    // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
+    const bool result = process()->loadSequenceQueue(fileURL, targetName, !m_standAlone);
     // cancel if loading fails
     if (result == false)
         return result;
@@ -2020,7 +2264,8 @@ void Capture::saveSequenceQueue()
 
     if (state()->sequenceURL().isValid())
     {
-        if ((process()->saveSequenceQueue(state()->sequenceURL().toLocalFile())) == false)
+        // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
+        if ((process()->saveSequenceQueue(state()->sequenceURL().toLocalFile(), !m_standAlone)) == false)
         {
             KSNotification::error(i18n("Failed to save sequence queue"), i18n("Save"));
             return;
@@ -2454,12 +2699,15 @@ void Capture::openCalibrationDialog()
 
         state()->setDirty(true);
 
-        Options::setCalibrationPreActionIndex(state()->calibrationPreAction());
-        Options::setCalibrationFlatDurationIndex(state()->flatFieldDuration());
-        Options::setCalibrationWallAz(state()->wallCoord().az().Degrees());
-        Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
-        Options::setCalibrationADUValue(static_cast<uint>(std::round(state()->targetADU())));
-        Options::setCalibrationADUValueTolerance(static_cast<uint>(std::round(state()->targetADUTolerance())));
+        if (!m_standAlone)
+        {
+            Options::setCalibrationPreActionIndex(state()->calibrationPreAction());
+            Options::setCalibrationFlatDurationIndex(state()->flatFieldDuration());
+            Options::setCalibrationWallAz(state()->wallCoord().az().Degrees());
+            Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
+            Options::setCalibrationADUValue(static_cast<uint>(std::round(state()->targetADU())));
+            Options::setCalibrationADUValueTolerance(static_cast<uint>(std::round(state()->targetADUTolerance())));
+        }
     }
 }
 
@@ -3135,8 +3383,88 @@ void Capture::createDSLRDialog()
     emit dslrInfoRequested(devices()->getActiveCamera()->getDeviceName());
 }
 
+void Capture::setStandAloneGain(double value)
+{
+    QMap<QString, QMap<QString, QVariant> > propertyMap = customPropertiesDialog->getCustomProperties();
+
+    if (m_standAloneUseCcdGain)
+    {
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdGain;
+            ccdGain["GAIN"] = value;
+            propertyMap["CCD_GAIN"] = ccdGain;
+        }
+        else
+        {
+            propertyMap["CCD_GAIN"].remove("GAIN");
+            if (propertyMap["CCD_GAIN"].size() == 0)
+                propertyMap.remove("CCD_GAIN");
+        }
+    }
+    else
+    {
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdGain = propertyMap["CCD_CONTROLS"];
+            ccdGain["Gain"] = value;
+            propertyMap["CCD_CONTROLS"] = ccdGain;
+        }
+        else
+        {
+            propertyMap["CCD_CONTROLS"].remove("Gain");
+            if (propertyMap["CCD_CONTROLS"].size() == 0)
+                propertyMap.remove("CCD_CONTROLS");
+        }
+    }
+
+    customPropertiesDialog->setCustomProperties(propertyMap);
+}
+
+void Capture::setStandAloneOffset(double value)
+{
+    QMap<QString, QMap<QString, QVariant> > propertyMap = customPropertiesDialog->getCustomProperties();
+
+    if (m_standAloneUseCcdOffset)
+    {
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdOffset;
+            ccdOffset["OFFSET"] = value;
+            propertyMap["CCD_OFFSET"] = ccdOffset;
+        }
+        else
+        {
+            propertyMap["CCD_OFFSET"].remove("OFFSET");
+            if (propertyMap["CCD_OFFSET"].size() == 0)
+                propertyMap.remove("CCD_OFFSET");
+        }
+    }
+    else
+    {
+        if (value >= 0)
+        {
+            QMap<QString, QVariant> ccdOffset = propertyMap["CCD_CONTROLS"];
+            ccdOffset["Offset"] = value;
+            propertyMap["CCD_CONTROLS"] = ccdOffset;
+        }
+        else
+        {
+            propertyMap["CCD_CONTROLS"].remove("Offset");
+            if (propertyMap["CCD_CONTROLS"].size() == 0)
+                propertyMap.remove("CCD_CONTROLS");
+        }
+    }
+
+    customPropertiesDialog->setCustomProperties(propertyMap);
+}
 void Capture::setGain(double value)
 {
+    if (m_standAlone)
+    {
+        setStandAloneGain(value);
+        return;
+    }
     if (!devices()->getActiveCamera())
         return;
 
@@ -3147,6 +3475,11 @@ void Capture::setGain(double value)
 
 void Capture::setOffset(double value)
 {
+    if (m_standAlone)
+    {
+        setStandAloneOffset(value);
+        return;
+    }
     if (!devices()->getActiveCamera())
         return;
 
@@ -3156,14 +3489,34 @@ void Capture::setOffset(double value)
     customPropertiesDialog->setCustomProperties(customProps);
 }
 
-
-
 void Capture::editFilterName()
 {
-    if (devices()->filterWheel() == nullptr || state()->getCurrentFilterPosition() < 1)
-        return;
+    if (m_standAlone)
+    {
+        QStringList labels;
+        for (int index = 0; index < FilterPosCombo->count(); index++)
+            labels << FilterPosCombo->itemText(index);
+        QStringList newLabels;
+        if (editFilterNameInternal(labels, newLabels))
+        {
+            FilterPosCombo->clear();
+            FilterPosCombo->addItems(newLabels);
+        }
+    }
+    else
+    {
+        if (devices()->filterWheel() == nullptr || state()->getCurrentFilterPosition() < 1)
+            return;
 
-    QStringList labels = m_FilterManager->getFilterLabels();
+        QStringList labels = m_FilterManager->getFilterLabels();
+        QStringList newLabels;
+        if (editFilterNameInternal(labels, newLabels))
+            m_FilterManager->setFilterNames(newLabels);
+    }
+}
+
+bool Capture::editFilterNameInternal(const QStringList &labels, QStringList &newLabels)
+{
     QDialog filterDialog;
 
     QFormLayout *formLayout = new QFormLayout(&filterDialog);
@@ -3177,7 +3530,9 @@ void Capture::editFilterName()
         formLayout->addRow(existingLabel, newLabel);
     }
 
-    filterDialog.setWindowTitle(devices()->filterWheel()->getDeviceName());
+    QString title = m_standAlone ?
+                    "Edit Filter Names" : devices()->filterWheel()->getDeviceName();
+    filterDialog.setWindowTitle(title);
     filterDialog.setLayout(formLayout);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &filterDialog);
     connect(buttonBox, &QDialogButtonBox::accepted, &filterDialog, &QDialog::accept);
@@ -3186,11 +3541,13 @@ void Capture::editFilterName()
 
     if (filterDialog.exec() == QDialog::Accepted)
     {
-        QStringList newLabels;
+        QStringList results;
         for (uint8_t i = 0; i < labels.count(); i++)
-            newLabels << newLabelEdits[i]->text();
-        m_FilterManager->setFilterNames(newLabels);
+            results << newLabelEdits[i]->text();
+        newLabels = results;
+        return true;
     }
+    return false;
 }
 
 void Capture::handleScriptsManager()
@@ -3300,7 +3657,7 @@ void Capture::generateDarkFlats()
     }
 }
 
-void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview)
+void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePreview)
 {
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
@@ -3326,7 +3683,7 @@ void Capture::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
 
-    if (FilterPosCombo->currentIndex() != -1 && devices()->filterWheel() != nullptr)
+    if (FilterPosCombo->currentIndex() != -1 && (m_standAlone || devices()->filterWheel() != nullptr))
         job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
 
     job->setCoreProperty(SequenceJob::SJ_Exposure, captureExposureN->value());

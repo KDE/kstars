@@ -40,6 +40,7 @@
 #include <fitsio.h>
 #include <ekos_scheduler_debug.h>
 #include <indicom.h>
+#include "ekos/capture/sequenceeditor.h"
 
 // Qt version calming
 #include <qtendl.h>
@@ -534,6 +535,15 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     });
 
     connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::applyConfig);
+
+    connect(editSequenceB, &QPushButton::clicked, this, [this]()
+    {
+        if (!m_SequenceEditor)
+            m_SequenceEditor.reset(new SequenceEditor(this));
+
+        m_SequenceEditor->show();
+        m_SequenceEditor->raise();
+    });
 
     moduleState()->calculateDawnDusk();
     updateNightTime();

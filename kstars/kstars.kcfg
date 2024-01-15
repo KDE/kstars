@@ -1934,6 +1934,38 @@
          <label>Calculate position after captures.</label>
          <default>false</default>
       </entry>      
+      <entry name="CaptureStandAloneTypes" type="String">
+         <label>Camera frame types when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneFormats" type="String">
+         <label>Camera frame formats when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneEncodings" type="String">
+         <label>Camera frame encodings when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneISOs" type="String">
+         <label>Camera ISOs when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneISOIndex" type="UInt">
+         <label>Camera ISO choice when using stand-alone esq editor.</label>
+         <default>0</default>
+      </entry>      
+      <entry name="CaptureStandAloneFilters" type="String">
+         <label>Filter names when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneWHGO" type="String">
+         <label>Width,Height of sensor size remembered for stand-alone esq editor, and Gain/Offset keywords.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneTimestamp" type="String">
+         <label>Local time that the CaptureStandAlone options were set.</label>
+         <default></default>
+      </entry>      
    </group>
    <group name="Focus">      
       <entry name="AbsTicksSpin" type="UInt">

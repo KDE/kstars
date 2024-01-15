@@ -114,7 +114,7 @@ class Capture : public QWidget, public Ui::Capture
             REMOTE_PREVIEW
         } FilenamePreviewType;
 
-        Capture();
+        Capture(bool standAlone = false);
         ~Capture();
 
         /** @defgroup CaptureDBusInterface Ekos DBus Interface - Capture Module
@@ -534,6 +534,8 @@ class Capture : public QWidget, public Ui::Capture
         void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
 
         void openExposureCalculatorDialog();
+
+        void onStandAloneShow(QShowEvent* event);
 
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
@@ -1152,6 +1154,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Change filter name in INDI
         void editFilterName();
+        bool editFilterNameInternal(const QStringList &labels, QStringList &newLabels);
 
         // ////////////////////////////////////////////////////////////////////
         // device control
@@ -1165,11 +1168,17 @@ class Capture : public QWidget, public Ui::Capture
         void setOffset(double value);
         double getOffset();
 
+        void setStandAloneGain(double value);
+        void setStandAloneOffset(double value);
+
         /**
          * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
          * @param nvp pointer to number property.
          */
         void processCCDNumber(INumberVectorProperty *nvp);
+
+        // Disable all the widgets that aren't used in stand-alone mode.
+        void initStandAlone();
 
         // ////////////////////////////////////////////////////////////////////
         // Attributes
@@ -1208,6 +1217,10 @@ class Capture : public QWidget, public Ui::Capture
 
         QSharedPointer<FilterManager> m_FilterManager;
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
+
+        bool m_standAlone {false};
+        bool m_standAloneUseCcdGain { true};
+        bool m_standAloneUseCcdOffset { true};
 };
 
 }

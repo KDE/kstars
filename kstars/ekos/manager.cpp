@@ -3503,6 +3503,16 @@ bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager
     return false;
 }
 
+bool Manager::getFilterManager(QSharedPointer<FilterManager> &fm)
+{
+    if (m_FilterManagers.size() > 0)
+    {
+        fm = m_FilterManagers.values()[0];
+        return true;
+    }
+    return false;
+}
+
 void Manager::createRotatorController(ISD::Rotator *device)
 {
     auto Name = device->getDeviceName();
