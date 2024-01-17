@@ -1485,7 +1485,7 @@ void Focus::capture(double settleTime)
     {
         // Timeout is exposure duration + timeout threshold in seconds
         //long const timeout = lround(ceil(focusExposure->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-        captureTimeout.start(m_OpsFocusMechanics->focusCaptureTimeout->value() * 1000);
+        captureTimeout.start( (focusExposure->value() + m_OpsFocusMechanics->focusCaptureTimeout->value()) * 1000);
 
         if (inFocusLoop == false)
             appendLogText(i18n("Capturing image..."));
@@ -4860,7 +4860,7 @@ void Focus::processCaptureTimeout()
         {
             // Timeout is exposure duration + timeout threshold in seconds
             //long const timeout = lround(ceil(focusExposure->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-            captureTimeout.start(m_OpsFocusMechanics->focusCaptureTimeout->value() * 1000);
+            captureTimeout.start( (focusExposure->value() + m_OpsFocusMechanics->focusCaptureTimeout->value()) * 1000);
 
             if (inFocusLoop == false)
                 appendLogText(i18n("Capturing image again..."));
