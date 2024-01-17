@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-16 01:36+0000\n"
-"PO-Revision-Date: 2024-01-11 10:36+0100\n"
+"PO-Revision-Date: 2024-01-16 13:05+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -14017,6 +14017,9 @@ msgid ""
 "your desired camera/filterbank at least once before using the Sequence "
 "Editor. </font></b><p>"
 msgstr ""
+"<b><font color=\"red\">Voer het tabblad Opnamen verbonden met INDI uit met "
+"uw gewenste camera/filterbank minstens één keer alvorens de bewerker van "
+"reeksen te gebruiken.</font></b><p>"
 
 #: ekos/capture/capture.cpp:136
 #, kde-format
@@ -14026,11 +14029,16 @@ msgid ""
 "sequence using the Capture tab.<br>It is not recommended to overwrite a "
 "sequence file currently running, please rename it instead.</p><p>"
 msgstr ""
+"<b>Attributen van camera en filterwheel gebruiken uit opnamesessie gestart "
+"op %1.</b><p>Als u andere camera's/filterbanks wilt gebruiken, bewerk de "
+"reeks met het tabblad Opnamen.<br>Het is niet aanbevolen om een reeksbestand "
+"die nu actief is te overschrijven, geef het in plaats daarvan een andere "
+"naam.</p><p>"
 
 #: ekos/capture/capture.cpp:290 ekos/capture/capture.cpp:292
 #, kde-format
 msgid "Capture Sequence Editor: %1"
-msgstr ""
+msgstr "Bewerker van opnamereeks: %1"
 
 #: ekos/capture/capture.cpp:450 ekos/capture/capture.cpp:2553
 #, kde-format
@@ -15127,25 +15135,21 @@ msgstr "\""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
 #: ekos/capture/capture.ui:2443
-#, fuzzy, kde-format
-#| msgid "Load capture sequence from file"
+#, kde-format
 msgid "Load a new sequence file"
-msgstr "Opnamereeks uit bestand lezen"
+msgstr "Een nieuw reeksbestand laden"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
 #: ekos/capture/capture.ui:2446
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Load"
+#, kde-format
 msgid "Load"
-msgstr "Inlezen"
+msgstr "Laden"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/capture.ui:2465
-#, fuzzy, kde-format
-#| msgid "Unable to open sequence file %1"
+#, kde-format
 msgid "Save to a new sequence file"
-msgstr "Bestand %1 voor reeks kon niet worden geopend"
+msgstr "Naar een nieuw reeksbestand opslaan"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/capture.ui:2468 kstarslite/qml/indi/ImagePreview.qml:36
@@ -16646,10 +16650,9 @@ msgstr "Post-jobscript:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SequenceEditorUI)
 #: ekos/capture/sequenceeditorui.ui:20
-#, fuzzy, kde-format
-#| msgid "Pause Sequence"
+#, kde-format
 msgid "Capture Sequence Editor"
-msgstr "Serie tijdelijk stoppen"
+msgstr "Bewerker van opnamereeks"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -27307,10 +27310,9 @@ msgstr "De Mozaïek planner openen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSequenceB)
 #: ekos/scheduler/scheduler.ui:912
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Capture sequence file editor"
-msgstr "Opnamereeks met CCD voltooid"
+msgstr "Bewerker van opnamereeksbestand"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueAppendB)
 #: ekos/scheduler/scheduler.ui:963
@@ -36395,37 +36397,37 @@ msgstr "Positie na opnamen berekenen."
 #: kstars.kcfg:1938
 #, kde-format
 msgid "Camera frame types when using stand-alone esq editor."
-msgstr ""
+msgstr "Typen cameraframe bij gebruik van alleenstaande esq-bewerker."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFormats), group (Capture)
 #: kstars.kcfg:1942
 #, kde-format
 msgid "Camera frame formats when using stand-alone esq editor."
-msgstr ""
+msgstr "Formaten van cameraframe bij gebruik van alleenstaande esq-bewerker."
 
 #. i18n: ectx: label, entry (CaptureStandAloneEncodings), group (Capture)
 #: kstars.kcfg:1946
 #, kde-format
 msgid "Camera frame encodings when using stand-alone esq editor."
-msgstr ""
+msgstr "Coderingen van cameraframe bij gebruik van alleenstaande esq-bewerker."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOs), group (Capture)
 #: kstars.kcfg:1950
 #, kde-format
 msgid "Camera ISOs when using stand-alone esq editor."
-msgstr ""
+msgstr "Camera-ISO's bij gebruik van alleenstaande esq-bewerker."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOIndex), group (Capture)
 #: kstars.kcfg:1954
 #, kde-format
 msgid "Camera ISO choice when using stand-alone esq editor."
-msgstr ""
+msgstr "Camera-ISO keuze bij gebruik van alleenstaande esq-bewerker."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFilters), group (Capture)
 #: kstars.kcfg:1958
 #, kde-format
 msgid "Filter names when using stand-alone esq editor."
-msgstr ""
+msgstr "Filternamen bij gebruik van alleenstaande esq-bewerker."
 
 #. i18n: ectx: label, entry (CaptureStandAloneWHGO), group (Capture)
 #: kstars.kcfg:1962
@@ -36434,12 +36436,14 @@ msgid ""
 "Width,Height of sensor size remembered for stand-alone esq editor, and Gain/"
 "Offset keywords."
 msgstr ""
+"Breedte,hoogte van sensorgrootte onthouden voor alleenstaande esq-bewerker "
+"en sleutelwoorden versterking/offset."
 
 #. i18n: ectx: label, entry (CaptureStandAloneTimestamp), group (Capture)
 #: kstars.kcfg:1966
 #, kde-format
 msgid "Local time that the CaptureStandAlone options were set."
-msgstr ""
+msgstr "Locale tijd die waarop de opties CaptureStandAlone werden ingesteld."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1972

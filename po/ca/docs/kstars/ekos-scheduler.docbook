@@ -89,9 +89,9 @@
     </sect2>
     <sect2 id="scheduler-files">
         <title
->Fitxers del programador (.esq)</title>
+>Fitxers del programador (.esl)</title>
         <para
->La taula del programador amb la seva llista de tasques i atributs es pot desar al disc i tornar-la a llegir. S'escriu en un fitxer «.esq». Controla l'escriptura de la taula del programador actual al disc, i per a llegir altres fitxers «.esq» que es troben a sobre de la taula a la dreta. </para>
+>La taula del programador amb la seva llista de tasques i atributs es pot desar al disc i tornar-la a llegir. S'escriu en un fitxer «.esl». Controla l'escriptura de la taula del programador actual al disc, i per a llegir altres fitxers «.esl» que es troben a sobre de la taula a la dreta. </para>
     </sect2>
     <sect2 id="ekos-scheduler-settings">
       <title
@@ -231,6 +231,42 @@
         <para
 >Hi ha una casella de selecció i una entrada de números just a sota de la taula de tasques del programador que permet repetir la planificació completa N vegades. Això es pot utilitzar per alternar entre tasques. Podeu llistar les tasques en el programador, establir-les per repetir N vegades, i les tasques es repetiran. No obstant això, aquest canvi és incompatible amb «Recorda el progrés de la tasca» (a dalt) i no està disponible si es marca «Recorda el progrés de la tasca». (Nota: Es recomana recordar el progrés de la tasca). </para>
        </sect3>
+    </sect2>
+    <sect2 id="editing-running-jobs">
+        <title
+>Edició de tasques en execució</title>
+        <para
+>És possible editar la taula de tasques del programador, i els atributs de tasques individuals, mentre el programador està executant-se. Com sempre, feu doble clic en una tasca canvieu els atributs desitjats, i feu clic en la casella de selecció per a finalitzar el canvi. Si editeu la tasca en execució, es reiniciarà (és a dir, els passos d'inici (orientació, enfocament, alineació, guiatge) es refaran). També podeu moure feines amunt i avall en prioritat, afegir tasques noves, o eliminar-ne d'existents. No podeu eliminar la tasca en curs. </para>
+        <para
+>Un atribut important de les tasques del programador és el seu fitxer de seqüència (.esq) que controla el mòdul de captura mentre s'executa la tasca. Per exemple, posa número de captures, els filtres utilitzats, ISO/guany, etc. Normalment, el «.esq» és creat i editat en la pestanya de captura, però això no es pot fer mentre el programador està executant-se. Si desitgeu fer canvis en un fitxer «.esq» mentre el programador està en execució, o crear-ne un de nou, el programador proporciona una eina anomenada Editor de seqüències de captura. </para>
+       <sect3 id="capture-sequence-editor">
+        <title
+>Editor de seqüències de captura</title>
+        <para
+>L'Editor de seqüències de captura és una eina per crear i editar fitxers de seqüències de captura (.esq) que es pot iniciar fent clic a la icona d'edició (llapis) damunt la taula del programador. A sota es mostra una captura de pantalla. </para>
+      <screenshot>
+            <screeninfo
+>Editor de seqüències de captura </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_capture_sequence_editor.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Editor de seqüències de captura</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>L'editor és molt similar en ús i disposició a la pestanya de captura, encara que li manquen tots els controls de capturar realment imatges. Editeu les tasques de la mateixa manera que ho feu en la captura, i també carregueu o deseu les cues de seqüències de la mateixa manera (encara que hi ha botons addicionals de càrrega i desament proporcionats en l'editor). </para>
+        <important>
+        <para
+>És important entendre que les seqüències de captura confien fins a cert punt en la roda de filtres i la càmera que s'utilitza (p. ex., els noms de filtre, els valors ISO possibles,...). L'Editor de seqüències de captura, el qual no està connectat als controladors dels dispositius, no té accés directe a aquesta informació. En comptes d'això, l'editor utilitza els valors de l'última vegada que la pestanya de captura s'ha connectat als seus dispositius. Així, no pot tenir sentit intentar i crear un fitxer «.esq» per a una càmera o roda de filtres diferent de l'última connectada. Podeu necessitar esperar fins que la tasca programada és completi i editar directament aquest «.*esq» en la pestanya de captura. </para>
+        <para
+>També es recomana no sobreescriure els fitxers «.esq» quan les tasques del programador estan utilitzant aquests mateixos fitxers. (Està bé si el programador s'està executant, però no està executant aquesta tasca.) Això pot fer que el programador i els mòduls de captura no estiguin sincronitzats, ja que llegeixen els fitxers en moments diferents. En el seu lloc, podeu desar a un nom de fitxer diferent i després editar la tasca del programador per a utilitzar el nom nou de fitxer «.esq». </para>
+        </important>
+     </sect3
+>          
     </sect2>
     <sect2 id="workflow">
         <title

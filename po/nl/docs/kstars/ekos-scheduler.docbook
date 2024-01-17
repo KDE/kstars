@@ -38,7 +38,7 @@
         <itemizedlist>
             <listitem>
               <para
->U kunt een plantaakrij toevoegen in de tabel, als alle vereiste attributen zijn ingevuld (naam, positie en sequentiebestand), door op de knop <guilabel
+>U kunt een plantaakrij toevoegen in de tabel, als alle vereiste attributen zijn ingevuld (naam, positie en reeksbestand), door op de knop <guilabel
 >+</guilabel
 > boven de tabel te klikken. </para>
             </listitem>
@@ -89,9 +89,9 @@
     </sect2>
     <sect2 id="scheduler-files">
         <title
->Plannerbestanden (.esq)</title>
+>Plannerbestanden (.esl)</title>
         <para
->De plannertabel met zijn lijst met taken en attributen kan opgeslagen worden op schijf en terug ingelezen. Het schrijft een .esq bestand. Besturing voor het schrijven van de huidige plannertabel naar schijf en teruglezen van andere .esq bestanden staan boven de tabel rechts. </para>
+>De plannertabel met zijn lijst met taken en attributen kan opgeslagen worden op schijf en terug ingelezen. Het schrijft een .esl-bestand. Besturing voor het schrijven van de huidige plannertabel naar schijf en teruglezen van andere .esl-bestanden staan boven de tabel rechts. </para>
     </sect2>
     <sect2 id="ekos-scheduler-settings">
       <title
@@ -100,7 +100,7 @@
 >De planner van Ekos heeft een eenvoudige interface, waarin de gebruiker de condities en beperkingen kan instellen, die vereist zijn voor een job in de planner. U moet het <guilabel
 >Doel</guilabel
 >, zijn coördinaten en de <guilabel
->Sequentie</guilabel
+>Reeks</guilabel
 > selecteren voordat u een job aan de planner kunt toevoegen. </para>
         <para
 >Elke job in de planner bestaat uit het volgende: </para>
@@ -132,8 +132,8 @@
             <listitem>
                 <para
 ><guilabel
->Sequentie</guilabel
->bestand: Het sequentiebestand wordt samengesteld in de<link linkend="ekos-capture"
+>Reeks</guilabel
+>bestand: Het reeksbestand wordt samengesteld in de<link linkend="ekos-capture"
 >Opnamemodule</link
 > van Ekos. Het bevat een lijst met opnamespecificaties, waar elk specificatiedetail het aantal op te nemen afbeeldingen bevat, welk te gebruiken filter, de opnameduur, de versterking, details van de naam van het bestand, temperatuurinstellingen, voorvoegsels, downloadmap, &etc; </para>
             </listitem>
@@ -171,7 +171,7 @@
                 <para
 ><guilabel
 >Condities voor voltooien</guilabel
->: Condities die het voltooien van de plannertaak inleiden. De standaard selectie is het eenvoudig aanmerken van de plannertaak als voltooid, als het hele proces klaar is. Extra condities maken het mogelijk de gehele sequentie een aantal keren of oneindig te herhalen, of tot een specifiek tijdstip. </para>
+>: Condities die het voltooien van de plannertaak inleiden. De standaard selectie is het eenvoudig aanmerken van de plannertaak als voltooid, als het hele proces klaar is. Extra condities maken het mogelijk de gehele reeks een aantal keren of oneindig te herhalen, of tot een specifiek tijdstip. </para>
             </listitem>
         </itemizedlist>
     </sect2>
@@ -203,11 +203,11 @@
 >Herhalen tot beëindigen</guilabel
 >. Als <guilabel
 >Taakvoortgang herinneren</guilabel
-> niet is geactiveerd, zouden taken elke keer opnieuw gestart worden vanaf het begin van hun sequentiespecificatie, wat waarschijnlijk niet is wat u wilt. Helaas, als de afbeeldingen niet opgeslagen worden op dezelfde computer waarop Ekos actief is, dan werkt deze functie niet en de taken beginnen van voor af aan. </para>
+> niet is geactiveerd, zouden taken elke keer opnieuw gestart worden vanaf het begin van hun reeksspecificatie, wat waarschijnlijk niet is wat u wilt. Helaas, als de afbeeldingen niet opgeslagen worden op dezelfde computer waarop Ekos actief is, dan werkt deze functie niet en de taken beginnen van voor af aan. </para>
         <para
 >Een mogelijk verwarrend bijeffect van <guilabel
 >Taakvoortgang herinneren</guilabel
-> is dat als u een taak hebt uitgevoerd met de (standaard) eindvoorwaarde van de beëindiging van de sequentie, en alle zijn afbeeldingen zijn opgenomen en nu wilt u de taak opnieuw uitvoeren, dan zal de planner de taak niet uitvoeren omdat deze geloofd dat alle afbeeldingen al zijn opgenomen. U moet ofwel deze afbeeldingen verplaatsen naar elders op de schijf of de eindvoorwaarde  wijzigen naar N keer herhalen of Herhalen tot beëindiging. </para>
+> is dat als u een taak hebt uitgevoerd met de (standaard) eindvoorwaarde van de beëindiging van de reeks, en alle zijn afbeeldingen zijn opgenomen en nu wilt u de taak opnieuw uitvoeren, dan zal de planner de taak niet uitvoeren omdat deze geloofd dat alle afbeeldingen al zijn opgenomen. U moet ofwel deze afbeeldingen verplaatsen naar elders op de schijf of de eindvoorwaarde  wijzigen naar N keer herhalen of Herhalen tot beëindiging. </para>
        </sect3>
        <sect3 id="group-repeats">
         <title
@@ -223,7 +223,7 @@
 >groep</guilabel
 > toekennen en aan de taken een van de beëindigingsvoorwaarden voor herhaling geven (&eg; N keer herhalen of Herhalen tot beëindiging). Met die opzet, zullen taken in dezelfde groep het uitvoer afstaan aan elkaar als ze meet 'Herhalingen' dan de andere taak hebben. Dus, als Taak2 met groep "MijnGroep" zijn tweede iteratie heeft voltooid en Taak3 met dezelfde groepsnaam heeft slechts 0 of 1 iteratie voltooid, dan wanneer de tijd komt om Taak2 uit te voeren, zal Taak3 in plaats daarvan worden uitgevoerd. </para>
         <para
->Praktisch gesproken, stel u hebt een 6-paneel mozaïek dat u wilt afwisselen. U zou al die taken dezelfde groepsnaam geven, maak ze allen  &eg; "Herhaal 5 keer". Daarna zou u ze uitvoeren in vergrendelde stap. De cadens van het omschakelen van taken zou bestuurd worden door de lengte van het sequentiebestand toegekend aan elk van die taken. U wilt de cadans niet te kort maken (&eg; een 2-minuten afbeelding), omdat er overhead is in het omschakelen van taken. Bijvoorbeeld, starten van taken kan uitlijnen, volgen starten en zelfs focusseren betekenen. </para>
+>Praktisch gesproken, stel u hebt een 6-paneel mozaïek dat u wilt afwisselen. U zou al die taken dezelfde groepsnaam geven, maak ze allen  &eg; "Herhaal 5 keer". Daarna zou u ze uitvoeren in vergrendelde stap. De cadens van het omschakelen van taken zou bestuurd worden door de lengte van het reeksbestand toegekend aan elk van die taken. U wilt de cadans niet te kort maken (&eg; een 2-minuten afbeelding), omdat er overhead is in het omschakelen van taken. Bijvoorbeeld, starten van taken kan uitlijnen, volgen starten en zelfs focusseren betekenen. </para>
        </sect3>
        <sect3 id="repeat-all-jobs">
         <title
@@ -231,6 +231,42 @@
         <para
 >Er is een keuzevak en getalinvoer direct onder de takentabel van de planner die u het herhalen biedt van het gehele plan N keer. Dit kan gebruikt worden om een paar taken te alterneren. U kunt de taken in de planner bekijken, deze instellen op N keer herhalen en de taken zullen zich herhalen. Deze wijziging is niet compatibel met 'Taakvoortgang onthouden (hier boven) en niet beschikbaar als Taakvoortgang onthouden is geactiveerd. (Opmerking: taakvoortgang onthouden is aanbevolen). </para>
        </sect3>
+    </sect2>
+    <sect2 id="editing-running-jobs">
+        <title
+>Actieve taken bewerken</title>
+        <para
+>Het is mogelijk de tabel met taken in de planner en attributen van individuele taken te bewerken, terwijl de planner actief is. Zoals altijd klikt u dubbel op een taak, wijzigt de gewenste attributen en klikt op het keuzevak om de wijziging af te ronden. Als u edit de actieve taak bewerkt zal deze opnieuw gestart worden (d.w.z. de opstartstappen (draaien, focusseren, uitlijnen, volgen) zullen opnieuw gedaan worden. U kunt ook taken omhoog en omlaag in prioriteit verplaatsen, nieuwe taken toevoegen of bestaande verwijderen. U kunt de actieve taak niet verwijderen. </para>
+        <para
+>Eén belangrijk attribuut van plannertaken is hun reeksbestand (.esq) die de opnamemodule bestuurt terwijl de taak actief is. Het stelt bijvoorbeeld het aantal opnamen, gebruikte filters, versterking/ISO, etc. in. De .esq wordt normaal aangemaakt en bewerkt in het tabblad Opnamen, maar dat kan niet gedaan worden terwijl de planner actief is. Als u wijzigingen wilt maken in een .esq-bestand terwijl de planner actief is of een nieuwe wilt aanmaken, biedt de planner een hulpmiddel genaamd de bewerker van opnamereeksen. </para>
+       <sect3 id="capture-sequence-editor">
+        <title
+>Bewerker van opnamereeks</title>
+        <para
+>De Bewerker van opnamereeksen is een hulpmiddel om opnamereeksbestanden aan te maken en te bewerken (.esq) die gestart kunnen worden door te klikken op het bewerkpictogram (potlood) net boven de plannertabel. Een schermafdruk wordt onderstaand getoond. </para>
+      <screenshot>
+            <screeninfo
+>Bewerker van opnamereeks </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_capture_sequence_editor.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Bewerker van opnamereeks</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>De bewerker lijkt in gebruik en indeling erg op het tabblad Opname--hoewel er alle besturing ontbreekt om de afbeelding op te nemen. U bewerkt taken op dezelfde manier zoals u doet in opnamen en laadt of slaat reekswachtrijen op ook op dezelfde manier (hoewel er extra knoppen Laden en Opslaan naar in de bewerker geboden worden). </para>
+        <important>
+        <para
+>Het is belangrijk te begrijpen dat opnamereeksen tot op zekere hoogt afhangen van het te gebruiken filterwiel en camera (bijv. de filternamen, de mogelijke ISO-waarden, ...). De Bewerker van opnamereeksen, die niet verbonden is met de apparaatbesturing, heeft geen directe toegang tot die informatie. In plaats daarvan gebruikt de bewerker de waarde uit de laatste keer dat het tabblad Opnamen was verbonden met zijn apparaten. Het kan dus zinloos zijn om een .esq-bestand aan te maken voor een andere camera of filterwiel dan de laatste waarmee was verbonden. U moet misschien wachten totdat u plannertaak gereed is en die .esq direct bewerken in het tabblad Opnemen. </para>
+        <para
+>Het is ook aanbevolen dat u geen .esq-bestanden overschrijft wanneer plannertaken nu diezelfde bestanden gebruiken. (Het is OK als de planner actief is, maar niet die taak uitvoert.) Dit kan de planner en opnamemodulen uit synchronisatie halen, omdat ze de bestanden op verschillende momenten lezen. In plaats daarvan kunt u opslaan naar een verschillende bestandsnaam en daarna de te gebruiken plannertaak de nieuwe .esq bestandsnaam geven. </para>
+        </important>
+     </sect3
+>          
     </sect2>
     <sect2 id="workflow">
         <title
@@ -313,7 +349,7 @@
 >voorloop</emphasis
 >tijd 5 minuten voor de <emphasis
 >opstart</emphasis
->tijd). Zodra het opstarten met succes is voltooid, kiest de planner de plannertaak en wordt de eerste waarneemsequentie gestart. Indien een opstartscript werd opgegeven, wordt die eerst uitgevoerd. </para>
+>tijd). Zodra het opstarten met succes is voltooid, kiest de planner de plannertaak en wordt de eerste waarneemreeks gestart. Indien een opstartscript werd opgegeven, wordt die eerst uitgevoerd. </para>
     </sect2>
 
     <sect2 id="ekos-scheduler-data-acquisition">

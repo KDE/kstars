@@ -77,7 +77,7 @@
         <para
 >Quan s'inicia el programador (o quan es torna a planificar, el qual ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat l'obtenció de totes les imatges desitjades... </para>
     <para
->L'algoritme mostra les hores d'inici i les hores de parada previstes per a totes les tasques en la taula del programador. També mostra la seua estimació de les vegades que les tasques s'executaran durant les properes 48 hores en el quadro de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del planificador a la part superior d'esta secció. </para>
+>L'algoritme mostra les hores d'inici i les hores de parada previstes per a totes les tasques en la taula del programador. També mostra la seua estimació de les vegades que les tasques s'executaran durant les properes 48 hores en el quadro de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del programador a la part superior d'esta secció. </para>
         <para
 >L'algorisme de planificació descrit en el paràgraf anterior es coneix com l'algorisme de planificació voraç. És el que es recomana utilitzar. En versions anteriors d'Ekos, hi havia un altre «algorisme de planificació clàssica», el qual ja no es troba en Ekos. Este esquema no podia avançar-se a les tasques en execució, i per tant, no feia tant ús de l'equip com l'algorisme voraç. </para>
         <para
@@ -87,9 +87,13 @@
     </sect2>
     <sect2 id="scheduler-files">
         <title
->Fitxers del programador (.esq)</title>
+>Fitxers del programador (.esl)</title>
         <para
->La taula del programador amb la seua llista de tasques i atributs es pot guardar en el disc i tornar-la a llegir. S'escriu en un fitxer «.esq». Controla l'escriptura actual de la taula del programador al disc, i per a llegir altres fitxers «.esq» que es troben damunt de la taula a la dreta. </para>
+>La taula del programador amb la seua llista de tasques i atributs es pot guardar en el disc i tornar-la a llegir. S'escriu en un fitxer <literal role="extension"
+>.esl</literal
+>. Controla l'escriptura actual de la taula del programador al disc, i per a llegir altres fitxers <literal role="extension"
+>.esl</literal
+> que es troben damunt de la taula a la dreta. </para>
     </sect2>
     <sect2 id="ekos-scheduler-settings">
       <title
@@ -249,6 +253,78 @@
 >Recorda el progrés de la tasca</guilabel
 > (a dalt) i no estarà disponible si se selecciona. (Nota: recordeu que es recomana esta última opció). </para>
        </sect3>
+    </sect2>
+    <sect2 id="editing-running-jobs">
+        <title
+>Editar les tasques per a executar</title>
+        <para
+>És possible editar la taula de tasques del programador i els atributs de tasques individuals mentre s'executa el programador. Com sempre, feu doble clic en una tasca, canvieu els atributs desitjats i feu clic en la casella de selecció per a finalitzar el canvi. Si editeu la tasca en execució, es reiniciarà (&ead;, es tornaran a fer els passos d'inici (orienta, enfoca, alinea i guia). També es poden moure les tasques cap amunt i cap avall per a establir la prioritat, afegir tasques noves o suprimir-ne les existents. No es podrà suprimir la tasca en execució. </para>
+        <para
+>Un atribut important de les tasques del programador és el seu fitxer de seqüència (<literal role="extension"
+>.esq</literal
+>), el qual controla el mòdul <guilabel
+>Captura</guilabel
+> mentre s'executa la tasca. Per exemple, establix el nombre de captures, filtres utilitzats, guany o ISO, &etc; Normalment, es crea el fitxer <literal role="extension"
+>.esq</literal
+> i s'edita en la pestanya <guilabel
+>Captura</guilabel
+>, però açò no es pot fer mentre s'està executant el programador. Si voleu fer canvis en un fitxer <literal role="extension"
+>.esq</literal
+> mentre s'està executant el programador, o crear-ne un de nou, el programador proporciona una eina anomenada <guilabel
+>Editor de la seqüència de captura</guilabel
+>. </para>
+       <sect3 id="capture-sequence-editor">
+        <title
+>Editor de la seqüència de captura</title>
+        <para
+>L'<guilabel
+>Editor de la seqüència de captura</guilabel
+> és una eina per a crear i editar fitxers de seqüència de captura (<literal role="extension"
+>.esq</literal
+>), el qual es pot iniciar fent clic damunt de la icona d'edició (un llapis) just damunt de la taula del programador. A continuació es mostra una captura de pantalla. </para>
+      <screenshot>
+            <screeninfo
+>Editor de la seqüència de captura </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_capture_sequence_editor.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Editor de la seqüència de captura</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>L'editor és molt similar en ús i disposició a la pestanya <guilabel
+>Captura</guilabel
+>, tot i que li falten tots els controls per a capturar imatges. Editeu les tasques de la mateixa manera que ho feu en la captura i també carregueu o guardeu les cues en seqüència de la mateixa manera (tot i que hi ha els botons addicionals <guibutton
+>Carrega</guibutton
+> i <guibutton
+>Guarda</guibutton
+> en l'editor). </para>
+        <important>
+        <para
+>És important entendre que les seqüències de captura depenen fins a cert punt de la roda de filtres i de la càmera que s'utilitzen (&pex;, els noms dels filtres, els possibles valors ISO...). L'<guilabel
+>Editor de la seqüència de captura</guilabel
+>, el qual no està connectat amb els controladors del dispositiu, no té accés directe a esta informació. En canvi, utilitza els valors de l'última vegada que la pestanya <guilabel
+>Captura</guilabel
+> es va connectar amb els seus dispositius. Per tant, pot ser que no tinga sentit provar de crear un fitxer <literal role="extension"
+>.esq</literal
+> per a una càmera o roda de filtres diferent de l'última amb la que es va connectar. És possible que hàgeu d'esperar fins que s'haja completat la tasca del programador i editar este fitxer directament en la pestanya <guilabel
+>Captura</guilabel
+>. </para>
+        <para
+>També es recomana no sobreescriure els fitxers <literal role="extension"
+>.esq</literal
+> quan les tasques del programador els estan utilitzant. (Està bé si el programador s'està executant, però no si executa esta tasca). Açò pot fer que  els mòduls <guilabel
+>Programador</guilabel
+> i <guilabel
+>Captura</guilabel
+> no estiguen sincronitzats, ja que lligen els fitxers en moments diferents. En comptes d'açò, podeu guardar amb un nom de fitxer diferent i, a continuació, editar la tasca del programador per a utilitzar el nom nou. </para>
+        </important>
+     </sect3
+>          
     </sect2>
     <sect2 id="workflow">
         <title
@@ -513,9 +589,9 @@ exit(0)
 >, entre d'altres, i no serà el tema de debat ací. El primer pas es pot aconseguir al programador d'Ekos, on este crearà un mosaic adequat per al vostre equip i d'acord amb el camp de visió desitjat. No només Ekos crea subfinestres en mosaic per al vostre objectiu, sinó que també construïx les tasques corresponents per a l'observatori, requerides per a capturar totes les imatges. Açò facilita enormement la logística de capturar moltes imatges amb diferents filtres i calibratge de l'enquadrat en una àmplia àrea del cel. </para>
         <para
 >El <guilabel
->Planificador de mosaic</guilabel
+>Planificador del mosaic</guilabel
 > en el Programador d'Ekos crearà múltiples tasques del programador basant-se en un objectiu central. Per a fer canvis en el planificador, feu clic en el botó <guibutton
->Planificador de mosaic</guibutton
+>Planificador del mosaic</guibutton
 > en el Programador d'Ekos o en la barra d'eines INDI de KStars, tal com s'il·lustra en la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
         <orderedlist>
             <listitem>

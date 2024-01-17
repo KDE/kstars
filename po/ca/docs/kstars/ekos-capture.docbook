@@ -497,6 +497,12 @@
 ><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
 ></inlinemediaobject
 >. Feu els canvis al costat esquerre del mòdul per al CCD i, una vegada fet, feu clic al botó marca de selecció. Per a cancel·lar una tasca editada, feu clic a qualsevol lloc de l'espai buit de la taula en la cua de seqüències. </para>
+        <important>
+            <para
+><emphasis role="bold"
+>Edició de treballs en execució</emphasis
+>: quan s'està executant la captura, o quan el programador s'està executant, no podeu editar la cua de seqüències o un fitxer .esq al disc utilitzant la pestanya Captura. No obstant això, la pestanya planificador té una eina de l'editor de seqüències de captura que es pot utilitzar per a editar fitxers .esl al disc, o crear-ne de nous. </para>
+        </important>
         <para
 >Si la vostra càmera admet un canal amb flux de vídeo en directe, podeu fer clic al botó <guibutton
 >Vídeo en directe</guibutton
@@ -737,7 +743,7 @@
 >Qualitat del cel</guimenu
 > estableix la mesura de la magnitud en segons d'arc al quadrat del cel de fons.</para>
                             <para
->The range for Sky Quality is from 22 for the darkest skies, to 16 for the brightest (most light-polluted) skies. The magnitude scale is non-linear; it is a logarithmic scale based on the 5th root of 100. So 5 steps on the scale represent a change in brightness by a factor of 100. (A Sky Quality of 17 is 100 times as bright as a Sky Quality of 22. Each full integer step on the scale is a change by a factor of approximately 2.512.). <ulink url="https://en.wikipedia.org/wiki/Light_pollution"
+>L'interval de la qualitat del cel va des de 22 per als cels més foscos, fins a 16 per als cels més brillants (més contaminats per la llum). L'escala de magnitud és no lineal; és una escala logarítmica basada en la 5a arrel de 100. Per tant, 5 passos en l'escala representen un canvi en la brillantor per un factor de 100. (Una qualitat del cel de 17 és 100 vegades més brillant que una qualitat del cel de 22. Cada pas sencer de l'escala és un canvi per un factor d'aproximadament 2,512). <ulink url="https://en.wikipedia.org/wiki/Sky_brightness"
 >Wikipedia Sky Brightness</ulink
 > <ulink url="https://en.wikipedia.org/wiki/Light_pollution"
 >Wikipedia Light Pollution</ulink
@@ -761,10 +767,10 @@
                         <listitem>
                             <para
 ><guilabel
->Focal Ratio</guilabel
->: The selector for <guimenu
->Focal Ratio</guimenu
-> set the value from the optical train, which is needed for the evaluation of light gathering capability.</para>
+>Relació focal</guilabel
+>: El selector per a la <guimenu
+>Relació focal</guimenu
+> estableix el valor del tren òptic, el qual és necessari per a l'avaluació de la capacitat de captació de la llum.</para>
                             <para
 >El valor de la relació focal de l'òptica té un efecte directe en el càlcul de l'exposició. Una relació focal inferior es considera que és una «òptica més ràpida», ja que té una capacitat de captació de llum més gran que una òptica amb una relació focal més llarga. Per tant, el càlcul de l'exposició es reduirà quan s'utilitzi una relació focal més baixa, i s'incrementarà quan s'utilitzi una relació focal més alta.</para>
                             <para
@@ -943,7 +949,7 @@
 >Per a un objectiu intens, (exemple, la nebulosa d'Orió de magnitud 4), proporcionaria un senyal relativament intens. En aquest objectiu, el valor de la relació temps/soroll es podria reduir i el càlcul de subexposicions, encara pot produir una imatge amb una relació senyal/soroll molt bona. Un objectiu molt més feble (exemple, el casc de Thor, magnitud 11), pot requerir una relació temps/soroll més alta per a compensar el senyal d'objectiu relativament feble. </para>
 
 <para
->Depending on the various inputs and imaging conditions, the potential quality of a sub-exposure can vary greatly. In poor sky quality with little or no filtering, the computed sub-exposure time will naturally be short to avoid an overwhelming noise from light pollution, and the exposure time relative to the computed noise will be low (a low time/noise ratio). To achieve a high quality integrated image from low time/noise ratio sub-exposures may require thousands sub-exposures. If the user is concerned about imaging and processing time or storage capacity; then a higher time/noise ratio would needed to reduce the quantity of sub-exposures. Conversely, when input conditions result in a sub-exposure with a long exposure time relative to the computed noise (as with narrow-band imaging), the result is a sub-exposure with a very high time/noise ratio. In such cases the default value of 80, might result in very few sub-exposures for the integration. But the delta value will be quite high, indicating that raising the time-noise ratio will greatly improve the potential quality of the integrated image. </para>
+>Depenent de les diferents entrades i condicions del processament d'imatges, la qualitat potencial d'una subexposició pot variar molt. En mala qualitat del cel amb poc o cap filtratge, el temps calcular de subexposició serà naturalment curt per evitar un soroll aclaparador de la contaminació lumínica, i el temps d'exposició en relació amb el soroll calculat serà baix (una relació de temps/soroll baixa). Per aconseguir una imatge integrada d'alta qualitat a partir de subexposicions de baixa relació temps/soroll pot requerir milers de subexposicions. Si l'usuari es preocupa per la imatge i el temps de processament o la capacitat d'emmagatzematge, llavors es necessitaria una relació de temps/soroll més alta per a reduir la quantitat de subexposicions. Per contra, quan les condicions d'entrada donen lloc a una subexposició amb un temps d'exposició llarg en relació amb el soroll calculat (com amb imatges de banda estreta), el resultat pot ser una subexposició amb una relació temps/soroll molt alta. En aquests casos, el valor predeterminat de 80, pot resultar en molt poques subexposicions per a la integració. Però el valor delta serà bastant alt, la qual cosa indica que augmentar la relació temps-soroll millorarà enormement la qualitat potencial de la imatge integrada. </para>
 
 <para
 >Part del valor d'utilitzar una relació temps/soroll com a entrada per al càlcul del nombre requerit de subexposicions és que hauria de tendir a compensar les diferències en el soroll relatiu per a subexposicions de durades diverses. Una subexposició més curta tindria una relació temps/soroll més baixa, de manera que té menys capacitat per a millorar una imatge integrada. Per tant, es necessita un nombre desproporcionadament més alt d'exposicions curtes per a aconseguir una relació temps/soroll determinada en una imatge integrada.</para>

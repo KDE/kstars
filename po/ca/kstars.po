@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-16 01:36+0000\n"
-"PO-Revision-Date: 2024-01-11 15:56+0100\n"
+"PO-Revision-Date: 2024-01-16 17:48+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -14155,6 +14155,9 @@ msgid ""
 "your desired camera/filterbank at least once before using the Sequence "
 "Editor. </font></b><p>"
 msgstr ""
+"<b><font color=\"red\">Executeu la pestanya Captura connectada a l'INDI amb "
+"la càmera/banc de filtres desitjada almenys una vegada abans d'utilitzar "
+"l'Editor de seqüències. </font></b><p>"
 
 #: ekos/capture/capture.cpp:136
 #, kde-format
@@ -14164,11 +14167,16 @@ msgid ""
 "sequence using the Capture tab.<br>It is not recommended to overwrite a "
 "sequence file currently running, please rename it instead.</p><p>"
 msgstr ""
+"<b>Ús d'atributs de càmera i de roda de filtres a partir de la sessió de "
+"Captura iniciada a %1.</b><p>Si voleu utilitzar altres càmeres/bancs de "
+"filtres, editeu la seqüència utilitzant la pestanya Captura.<br>No es "
+"recomana sobreescriure un fitxer de seqüència que s'està executant "
+"actualment, canvieu-li el nom.</p><p>"
 
 #: ekos/capture/capture.cpp:290 ekos/capture/capture.cpp:292
 #, kde-format
 msgid "Capture Sequence Editor: %1"
-msgstr ""
+msgstr "Editor de seqüències de captura: %1"
 
 #: ekos/capture/capture.cpp:450 ekos/capture/capture.cpp:2553
 #, kde-format
@@ -15273,25 +15281,21 @@ msgstr "\""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
 #: ekos/capture/capture.ui:2443
-#, fuzzy, kde-format
-#| msgid "Load capture sequence from file"
+#, kde-format
 msgid "Load a new sequence file"
-msgstr "Carrega la seqüència de captura des d'un fitxer"
+msgstr "Carrega un fitxer nou de seqüències"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
 #: ekos/capture/capture.ui:2446
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Load"
+#, kde-format
 msgid "Load"
 msgstr "Carrega"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/capture.ui:2465
-#, fuzzy, kde-format
-#| msgid "Failed to save sequence queue"
+#, kde-format
 msgid "Save to a new sequence file"
-msgstr "Ha fallat el desament de la cua de seqüències"
+msgstr "Desa a un fitxer nou de seqüències"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/capture.ui:2468 kstarslite/qml/indi/ImagePreview.qml:36
@@ -16821,10 +16825,9 @@ msgstr "Script posterior a la tasca:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SequenceEditorUI)
 #: ekos/capture/sequenceeditorui.ui:20
-#, fuzzy, kde-format
-#| msgid "Pause Sequence"
+#, kde-format
 msgid "Capture Sequence Editor"
-msgstr "Fa pausa de la seqüència"
+msgstr "Editor de seqüències de captura"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -27644,10 +27647,9 @@ msgstr "Obre el planificador de mosaics"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSequenceB)
 #: ekos/scheduler/scheduler.ui:912
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Capture sequence file editor"
-msgstr "S'ha completat la seqüència de captura CCD"
+msgstr "Editor de fitxer de seqüències de captura"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueAppendB)
 #: ekos/scheduler/scheduler.ui:963
@@ -36927,36 +36929,42 @@ msgstr "Calcula la posició després de les captures."
 #, kde-format
 msgid "Camera frame types when using stand-alone esq editor."
 msgstr ""
+"Tipus de fotogrames de càmera quan s'utilitza un editor independent d'«esq»."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFormats), group (Capture)
 #: kstars.kcfg:1942
 #, kde-format
 msgid "Camera frame formats when using stand-alone esq editor."
 msgstr ""
+"Formats de fotogrames de càmera quan s'utilitza un editor independent "
+"d'«esq»."
 
 #. i18n: ectx: label, entry (CaptureStandAloneEncodings), group (Capture)
 #: kstars.kcfg:1946
 #, kde-format
 msgid "Camera frame encodings when using stand-alone esq editor."
 msgstr ""
+"Codificacions de fotogrames de càmera quan s'utilitza un editor independent "
+"d'«esq»."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOs), group (Capture)
 #: kstars.kcfg:1950
 #, kde-format
 msgid "Camera ISOs when using stand-alone esq editor."
-msgstr ""
+msgstr "ISO de càmera quan s'utilitza un editor independent d'«esq»."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOIndex), group (Capture)
 #: kstars.kcfg:1954
 #, kde-format
 msgid "Camera ISO choice when using stand-alone esq editor."
 msgstr ""
+"Selecció d'ISO de càmera quan s'utilitza un editor independent d'«esq»."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFilters), group (Capture)
 #: kstars.kcfg:1958
 #, kde-format
 msgid "Filter names when using stand-alone esq editor."
-msgstr ""
+msgstr "Noms de filtre quan s'utilitza un editor independent d'«esq»."
 
 #. i18n: ectx: label, entry (CaptureStandAloneWHGO), group (Capture)
 #: kstars.kcfg:1962
@@ -36965,12 +36973,15 @@ msgid ""
 "Width,Height of sensor size remembered for stand-alone esq editor, and Gain/"
 "Offset keywords."
 msgstr ""
+"Amplada, alçada de la mida del sensor recordada per l'editor independent "
+"«esq», i paraules clau Guany/Desplaçament."
 
 #. i18n: ectx: label, entry (CaptureStandAloneTimestamp), group (Capture)
 #: kstars.kcfg:1966
 #, kde-format
 msgid "Local time that the CaptureStandAlone options were set."
 msgstr ""
+"Hora local en la qual s'han establert les opcions de CaptureStandAlone."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1972
