@@ -14316,7 +14316,7 @@ msgstr ""
 "captura ha començat a les %1.</b><p>Si voleu utilitzar altres càmeres o "
 "bancs de filtres, editeu la seqüència mitjançant la pestanya «Captura»."
 "<br>No es recomana sobreescriure un fitxer de seqüències que s'estiga "
-"executant, canvieu de nom-lo.</p><p>"
+"executant, canvieu-lo de nom.</p><p>"
 
 #: ekos/capture/capture.cpp:290 ekos/capture/capture.cpp:292
 #, kde-format
