@@ -108,7 +108,7 @@
      <item>
       <widget class="QPushButton" name="helpB">
        <property name="text">
-        <string>Help</string>
+        <string>Help...</string>
        </property>
       </widget>
      </item>
@@ -335,7 +335,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Guide</string>
+         <string>Guide:</string>
         </property>
        </widget>
       </item>
@@ -353,7 +353,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Mount</string>
+         <string>Mount:</string>
         </property>
        </widget>
       </item>
@@ -371,7 +371,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Capture</string>
+         <string>Capture:</string>
         </property>
        </widget>
       </item>

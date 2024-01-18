@@ -473,14 +473,14 @@
           <string>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</string>
          </property>
          <property name="text">
-          <string>Verify captured image position every</string>
+          <string>Verify captured image position every:</string>
          </property>
         </widget>
        </item>
        <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
          <property name="text">
-          <string>Reset mount model before starting each job</string>
+          <string>Reset mount model before starting each job:</string>
          </property>
         </widget>
        </item>
@@ -497,7 +497,7 @@
           <string>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</string>
          </property>
          <property name="text">
-          <string>Reset pipeline if verified image delta exceeds</string>
+          <string>Reset pipeline if verified image delta exceeds:</string>
          </property>
         </widget>
        </item>

@@ -602,7 +602,7 @@
                <bool>false</bool>
               </property>
               <property name="toolTip">
-               <string>Filter Settings</string>
+               <string>Filter Settings...</string>
               </property>
               <property name="text">
                <string/>
@@ -670,7 +670,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Show in FITS Viewer</string>
+               <string>Show in FITS Viewer...</string>
               </property>
               <property name="text">
                <string/>
@@ -695,7 +695,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Live Video</string>
+               <string>Live Video...</string>
               </property>
               <property name="text">
                <string/>

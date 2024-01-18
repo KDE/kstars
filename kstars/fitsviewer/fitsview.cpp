@@ -2477,7 +2477,7 @@ void FITSView::createFloatingToolBar()
 #ifdef HAVE_DATAVISUALIZATION
     toggleProfileAction =
         floatingToolBar->addAction(QIcon::fromTheme("star-profile", QIcon(":/icons/star_profile.svg")),
-                                   i18n("View Star Profile"), this, SLOT(toggleStarProfile()));
+                                   i18n("View Star Profile..."), this, SLOT(toggleStarProfile()));
     toggleProfileAction->setCheckable(true);
 #endif
 

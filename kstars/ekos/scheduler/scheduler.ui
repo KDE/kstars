@@ -881,7 +881,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Open the Mosaic Planner</string>
+             <string>Open the Mosaic Planner...</string>
             </property>
             <property name="text">
              <string/>
@@ -909,7 +909,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Capture sequence file editor</string>
+             <string>Capture Sequence File Editor...</string>
             </property>
             <property name="text">
              <string/>
@@ -1022,7 +1022,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Save schedule</string>
+             <string>Save Schedule...</string>
             </property>
             <property name="statusTip">
              <string/>
@@ -1056,7 +1056,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Save schedule as...</string>
+             <string>Save Schedule As...</string>
             </property>
             <property name="statusTip">
              <string/>
@@ -1345,7 +1345,7 @@ font-weight:bold;
              </sizepolicy>
             </property>
             <property name="text">
-             <string>&amp;Repeat for</string>
+             <string>&amp;Repeat for:</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">completionButtonGroup</string>
@@ -1405,7 +1405,7 @@ font-weight:bold;
              <string>Terminate the job on the given date and time.</string>
             </property>
             <property name="text">
-             <string>Repeat &amp;until</string>
+             <string>Repeat &amp;until:</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">completionButtonGroup</string>
@@ -1518,10 +1518,10 @@ font-weight:bold;
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>start the job on the specified date and time</string>
+             <string>Start the job on the specified date and time</string>
             </property>
             <property name="text">
-             <string>O&amp;n</string>
+             <string>O&amp;n:</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">startupButtonGroup</string>
@@ -1612,7 +1612,7 @@ font-weight:bold;
              <string>The moon separation must remain equal to or higher than the given value.</string>
             </property>
             <property name="text">
-             <string>Moon  &gt; </string>
+             <string>Moon  &gt;: </string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">constraintButtonGroup</string>
@@ -1631,7 +1631,7 @@ font-weight:bold;
              <string>The object's altitude must remain equal or higher than the given value.</string>
             </property>
             <property name="text">
-             <string>Alt &gt; </string>
+             <string>Alt &gt;: </string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -1672,7 +1672,7 @@ font-weight:bold;
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Weather</string>
+             <string>Weather:</string>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">constraintButtonGroup</string>
@@ -1710,7 +1710,7 @@ font-weight:bold;
              <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The twilight restriction constrains jobs to execute in astronomical darkness. Use the dusk and dawn offsets in the Ekos Scheduler options to adjust the interval.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Twilight</string>
+             <string>Twilight:</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -2069,7 +2069,7 @@ font-weight:bold;
              <string>Treat errors like aborts.</string>
             </property>
             <property name="text">
-             <string>Re-schedule errors</string>
+             <string>Re-schedule errors:</string>
             </property>
            </widget>
           </item>

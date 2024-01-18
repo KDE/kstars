@@ -179,7 +179,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 
     zoomView = new QComboBox(this);
     zoomView->setToolTip(i18n("Zooms the view to preset locations."));
-    zoomView->addItem(i18n("ZoomTo:"));
+    zoomView->addItem(i18n("ZoomTo"));
     zoomView->addItem(i18n("Front"));
     zoomView->addItem(i18n("Front High"));
     zoomView->addItem(i18n("Overhead"));

@@ -138,7 +138,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to display the CFZ on the V-curve after a successful Autofocus run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Display</string>
+         <string>Display:</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -261,7 +261,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Step Size:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Step size:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="buddy">
          <cstring>focusCFZStepSize</cstring>
@@ -277,7 +277,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>CFZ Camera:</string>
+         <string>CFZ camera:</string>
         </property>
        </widget>
       </item>
@@ -444,7 +444,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reset Wavelength,  Aperture,  Focal Ratio to values from the currently selected filter and optical train&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reset Wavelength,  Aperture,  Focal ratio to values from the currently selected filter and optical train&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Reset To OT</string>
@@ -460,7 +460,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Focal Ratio (f):</string>
+         <string>Focal ratio (f):</string>
         </property>
         <property name="buddy">
          <cstring>focusCFZFNumber</cstring>

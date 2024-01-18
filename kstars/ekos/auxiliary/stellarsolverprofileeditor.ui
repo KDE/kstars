@@ -169,7 +169,7 @@
            </size>
           </property>
           <property name="toolTip">
-           <string>Loads the default set of profiles, clearing any modifications or custom profiles. </string>
+           <string>Loads the default set of profiles, clearing any modifications or custom profiles.</string>
           </property>
           <property name="text">
            <string/>
@@ -844,7 +844,7 @@
       <item row="0" column="4">
        <widget class="QLineEdit" name="keepNum">
         <property name="toolTip">
-         <string>The number of stars to keep in the list after star extraction.  This parameter is based on magnitude and is most useful to speed up plate solving, such as in the Align Module.</string>
+         <string>The number of stars to keep in the list after star extraction. This parameter is based on magnitude and is most useful to speed up plate solving, such as in the Align Module.</string>
         </property>
         <property name="text">
          <string>0</string>
@@ -854,7 +854,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="initialKeep">
         <property name="toolTip">
-         <string>The number of stars to keep in the list initially.  This filter is based on the size of the stars.  It is primarily useful for speeding up star extraction with HFR such as in Focus, Guide, and HFR monitoring.  </string>
+         <string>The number of stars to keep in the list initially. This filter is based on the size of the stars.  It is primarily useful for speeding up star extraction with HFR such as in Focus, Guide, and HFR monitoring.</string>
         </property>
         <property name="text">
          <string>500</string>

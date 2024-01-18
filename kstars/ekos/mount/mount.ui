@@ -141,7 +141,7 @@
              <string>Right Ascension</string>
             </property>
             <property name="text">
-             <string>RA</string>
+             <string>RA:</string>
             </property>
            </widget>
           </item>
@@ -158,7 +158,7 @@
              <string>Declination</string>
             </property>
             <property name="text">
-             <string>DEC</string>
+             <string>DEC:</string>
             </property>
            </widget>
           </item>
@@ -178,7 +178,7 @@
              <string>Azimuth</string>
             </property>
             <property name="text">
-             <string>AZ</string>
+             <string>AZ:</string>
             </property>
            </widget>
           </item>
@@ -195,7 +195,7 @@
              <string>Altitude</string>
             </property>
             <property name="text">
-             <string>ALT</string>
+             <string>ALT:</string>
             </property>
            </widget>
           </item>
@@ -212,7 +212,7 @@
              <string>Hour Angle</string>
             </property>
             <property name="text">
-             <string>HA</string>
+             <string>HA:</string>
             </property>
            </widget>
           </item>
@@ -229,7 +229,7 @@
              <string>Local Sidereal TIme</string>
             </property>
             <property name="text">
-             <string>LST</string>
+             <string>LST:</string>
             </property>
            </widget>
           </item>
@@ -275,7 +275,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Flip if HA &gt;</string>
+               <string>Flip if HA &gt;:</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -401,7 +401,7 @@
             <item row="1" column="0" colspan="2">
              <widget class="QPushButton" name="purgeConfigB">
               <property name="text">
-               <string>Purge all configuration</string>
+               <string>Purge All Configuration</string>
               </property>
               <property name="icon">
                <iconset theme="delete">
@@ -444,7 +444,7 @@
           <item>
            <widget class="QLabel" name="label_12">
             <property name="text">
-             <string>Park At:</string>
+             <string>Park at:</string>
             </property>
            </widget>
           </item>
@@ -840,7 +840,7 @@ font-weight:bold;
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Enable Alt Limits</string>
+             <string>Enable Alt limits</string>
             </property>
            </widget>
           </item>
@@ -926,7 +926,7 @@ font-weight:bold;
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount Hour Angle limit. Once enabled, Ekos monitors the mount's hour angle while slewing or tracking. If the mount slews/tracks past the limit while the Pier Side is in the state that does not allow that, it shall be commanded to stop and tracking will be turned off. Requires a mount that reports the pier side correctly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Enable HA Limits</string>
+             <string>Enable HA limits</string>
             </property>
            </widget>
           </item>

@@ -460,7 +460,7 @@ background-color: rgb(164, 0, 0);
            </font>
           </property>
           <property name="toolTip">
-           <string>Type and filter (if present) of the currently active capture. </string>
+           <string>Type and filter (if present) of the currently active capture.</string>
           </property>
           <property name="text">
            <string>Light Luminance</string>

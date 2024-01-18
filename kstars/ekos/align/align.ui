@@ -298,7 +298,7 @@
              <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
             </property>
             <property name="text">
-             <string>Settle</string>
+             <string>Settle:</string>
             </property>
            </widget>
           </item>
@@ -335,7 +335,7 @@
              <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
             </property>
             <property name="text">
-             <string>Accuracy</string>
+             <string>Accuracy:</string>
             </property>
            </widget>
           </item>
@@ -581,7 +581,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Show in FITS Viewer</string>
+             <string>Show in FITS Viewer...</string>
             </property>
             <property name="text">
              <string/>
@@ -626,7 +626,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Toggle full screen</string>
+             <string>Toggle Full Screen</string>
             </property>
             <property name="text">
              <string/>
@@ -743,7 +743,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked, the currently selected filter will be used for alignment. &lt;/p&gt;&lt;p&gt;If you want to use a certain (fixed) filter for alignment, leave unchecked and select the filter manually.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>use current</string>
+             <string>Use current</string>
             </property>
            </widget>
           </item>

@@ -131,7 +131,7 @@
          <string>Abort sequence if guiding deviation exceed this value N consecutive times</string>
         </property>
         <property name="text">
-         <string>Abort if Guide Deviation &gt;</string>
+         <string>Abort if guide deviation &gt;:</string>
         </property>
         <property name="checked">
          <bool>false</bool>
@@ -147,7 +147,7 @@
          <string>Start capturing only if guide deviation is below the given threshold (ignored for previews)</string>
         </property>
         <property name="text">
-         <string>Only Start if Guide Deviation &lt;</string>
+         <string>Only start if guide deviation &lt;:</string>
         </property>
        </widget>
       </item>
@@ -174,7 +174,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Dither Per Job Every</string>
+         <string>Dither per job every:</string>
         </property>
        </widget>
       </item>
@@ -196,7 +196,7 @@
          <string>Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit</string>
         </property>
         <property name="text">
-         <string>Autofocus if HFR &gt;</string>
+         <string>Autofocus if HFR &gt;:</string>
         </property>
        </widget>
       </item>
@@ -244,7 +244,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus when the change in temperature since last focus exceeded this limit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Autofocus if ΔT°  &gt;</string>
+         <string>Autofocus if ΔT° &gt;:</string>
         </property>
        </widget>
       </item>
@@ -283,7 +283,7 @@
          <bool>true</bool>
         </property>
         <property name="text">
-         <string>Refocus every</string>
+         <string>Refocus every:</string>
         </property>
        </widget>
       </item>

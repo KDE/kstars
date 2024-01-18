@@ -781,7 +781,7 @@
                  <string>If checked, display a label in the upper right corner.</string>
                 </property>
                 <property name="text">
-                 <string>Show label</string>
+                 <string>Show label:</string>
                 </property>
                </widget>
               </item>
@@ -881,7 +881,7 @@
            <item>
             <widget class="QRadioButton" name="kcfg_XplanetLatLong">
              <property name="text">
-              <string>Place the observer above latitude </string>
+              <string>Place the observer above latitude: </string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -907,7 +907,7 @@
            <item>
             <widget class="QLabel" name="textLabelXplanetLongitude">
              <property name="text">
-              <string> and longitude </string>
+              <string> and longitude: </string>
              </property>
             </widget>
            </item>

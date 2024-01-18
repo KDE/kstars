@@ -164,7 +164,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Add profile</string>
+                <string>Add profile...</string>
                </property>
                <property name="statusTip">
                 <string/>
@@ -201,7 +201,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Edit profile</string>
+                <string>Edit profile...</string>
                </property>
                <property name="statusTip">
                 <string/>
@@ -269,7 +269,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Custom Drivers</string>
+                <string>Custom Drivers...</string>
                </property>
                <property name="text">
                 <string/>
@@ -297,7 +297,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Launch Ekos Profile Wizard</string>
+                <string>Launch Ekos Profile Wizard...</string>
                </property>
                <property name="text">
                 <string/>
@@ -389,7 +389,7 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Ekos Live</string>
+                  <string>Ekos Live...</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -418,7 +418,7 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>INDI Control Panel</string>
+                  <string>INDI Control Panel...</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -447,7 +447,7 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Devices Port Selector&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Devices Port Selector...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -476,7 +476,7 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Ekos Options</string>
+                  <string>Ekos Options...</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -502,10 +502,10 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Logs</string>
+                  <string>Logs to diagnose issues with Ekos and INDI.</string>
                  </property>
                  <property name="text">
-                  <string>Logs</string>
+                  <string>Logs...</string>
                  </property>
                  <property name="iconSize">
                   <size>

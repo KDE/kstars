@@ -131,14 +131,14 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>HiPS Opacity:</string>
+               <string>HiPS opacity:</string>
               </property>
              </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>HiPS Offset:</string>
+               <string>HiPS offset:</string>
               </property>
              </widget>
             </item>
@@ -479,7 +479,7 @@
            <string>Enable StellarSolver partition. Partitions the image in multiple threads to speed up detecting stars. This may significantly speed up source extraction but may result in unstable operation.</string>
           </property>
           <property name="text">
-           <string>StellarSolver Partitioning</string>
+           <string>StellarSolver partitioning</string>
           </property>
           <property name="checked">
            <bool>false</bool>
