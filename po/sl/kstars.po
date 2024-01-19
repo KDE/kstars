@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-16 01:36+0000\n"
-"PO-Revision-Date: 2024-01-12 18:23+0100\n"
+"PO-Revision-Date: 2024-01-17 21:39+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -14055,26 +14055,33 @@ msgid "Tolerance:"
 msgstr "Toleranca:"
 
 #: ekos/capture/capture.cpp:133
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
 "your desired camera/filterbank at least once before using the Sequence "
 "Editor. </font></b><p>"
 msgstr ""
+"<b><font color=\"red\">Pred uporabo urejevalnika zaporedij vsaj enkrat "
+"zaženite zavihek Zajem, povezan z INDI, z želeno kamero/filtrirno banko.</"
+"font></b><p>"
 
 #: ekos/capture/capture.cpp:136
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
 "%1.</b><p>If you wish to use other cameras/filterbanks, please edit the "
 "sequence using the Capture tab.<br>It is not recommended to overwrite a "
 "sequence file currently running, please rename it instead.</p><p>"
 msgstr ""
+"<b>Uporaba atributov kamere/fotoaparata in filtrirnega kolesa iz seje zajema "
+"se je začela pri %1.</b><p>Če želite uporabljati druge fotoaparate/filtrirne "
+"banke, uredite zaporedje na zavihku Zajem.<br>Priporočamo, da ne prepišete "
+"datoteke zaporedja, ki se trenutno izvaja, temveč jo preimenujte.</p><p>"
 
 #: ekos/capture/capture.cpp:290 ekos/capture/capture.cpp:292
 #, kde-format
 msgid "Capture Sequence Editor: %1"
-msgstr ""
+msgstr "Urejevalnik zaporedja zajemov: %1"
 
 #: ekos/capture/capture.cpp:450 ekos/capture/capture.cpp:2553
 #, kde-format
@@ -37039,53 +37046,56 @@ msgstr "Izračunajte položaj po zajemih."
 
 #. i18n: ectx: label, entry (CaptureStandAloneTypes), group (Capture)
 #: kstars.kcfg:1938
-#, kde-format
+#, fuzzy, kde-format
 msgid "Camera frame types when using stand-alone esq editor."
-msgstr ""
+msgstr "Vrste sličic kamere, ko uporabljate samostojni urejevalnik esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFormats), group (Capture)
 #: kstars.kcfg:1942
-#, kde-format
+#, fuzzy, kde-format
 msgid "Camera frame formats when using stand-alone esq editor."
-msgstr ""
+msgstr "Formati sličic kamere pri uporabi samostojnega urejevalnika esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneEncodings), group (Capture)
 #: kstars.kcfg:1946
 #, kde-format
 msgid "Camera frame encodings when using stand-alone esq editor."
-msgstr ""
+msgstr "Kodiranje sličic kamere pri uporabi samostojnega urejevalnika esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOs), group (Capture)
 #: kstars.kcfg:1950
 #, kde-format
 msgid "Camera ISOs when using stand-alone esq editor."
-msgstr ""
+msgstr "ISO vrednosti kamere pri uporabi samostojnega urejevalnika esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOIndex), group (Capture)
 #: kstars.kcfg:1954
 #, kde-format
 msgid "Camera ISO choice when using stand-alone esq editor."
 msgstr ""
+"Izbira ISO fotoaparata/kamere pri uporabi samostojnega urejevalnika esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFilters), group (Capture)
 #: kstars.kcfg:1958
 #, kde-format
 msgid "Filter names when using stand-alone esq editor."
-msgstr ""
+msgstr "Filtrirajte imena pri uporabi samostojnega urejevalnika esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneWHGO), group (Capture)
 #: kstars.kcfg:1962
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Width,Height of sensor size remembered for stand-alone esq editor, and Gain/"
 "Offset keywords."
 msgstr ""
+"Širina, višina velikosti tipala, pomnjena za samostojni urejevalnik esq in "
+"ključni besedi Ojačitev/Zamik."
 
 #. i18n: ectx: label, entry (CaptureStandAloneTimestamp), group (Capture)
 #: kstars.kcfg:1966
 #, kde-format
 msgid "Local time that the CaptureStandAlone options were set."
-msgstr ""
+msgstr "Krajevni čas, ko so bile nastavljene možnosti CaptureStandAlone."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1972
