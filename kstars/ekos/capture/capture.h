@@ -691,7 +691,8 @@ class Capture : public QWidget, public Ui::Capture
          * @param filenamePreview if the job is to generate a preview filename
          * @return pointer to job created or nullptr otherwise.
          */
-        SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH, FilenamePreviewType filenamePreview = NOT_PREVIEW);
+        SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH,
+                               FilenamePreviewType filenamePreview = NOT_PREVIEW);
 
         /**
          * @brief jobEditFinished Editing of an existing job finished, update its
@@ -857,7 +858,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setHFR Receive the measured HFR value of the latest frame
          */
-        void setHFR(double newHFR, int);
+        void setHFR(double newHFR, int position, bool inAutofocus);
 
         // Filter
         void setFilterStatus(FilterState filterState);
@@ -1135,6 +1136,11 @@ class Capture : public QWidget, public Ui::Capture
          * @brief updateCaptureFormats Update encoding and transfer formats
          */
         void updateCaptureFormats();
+
+        /**
+         * @brief updateHFRCheckAlgo Update the in-sequence HFR check algorithm
+         */
+        void updateHFRCheckAlgo();
 
         /**
          * @brief syncGUIToJob Update UI to job settings

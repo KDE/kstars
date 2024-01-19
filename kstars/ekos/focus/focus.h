@@ -490,7 +490,7 @@ class Focus : public QWidget, public Ui::Focus
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::FocusState state);
-        void newHFR(double hfr, int position);
+        void newHFR(double hfr, int position, bool inAutofocus);
         void newFocusTemperatureDelta(double delta, double absTemperature);
 
         void absolutePositionChanged(int value);

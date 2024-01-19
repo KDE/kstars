@@ -2304,7 +2304,11 @@ bool CaptureProcess::loadSequenceQueue(const QString &fileURL,
     }
 
     if (setOptions)
+    {
         queue->setOptions();
+        // Set the HFR Check value appropriately for the conditions, e.g. using Autofocus
+        state()->updateHFRThreshold();
+    }
 
     for (auto j : state()->allJobs())
         emit addJob(j);

@@ -51,20 +51,20 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         }
     }
 
-    // 3. check if HFR based in sequence focusing is necessary
-    if (!isRefocusing() && isInSequenceFocus() && getInSequenceFocusCounter() == 0)
-    {
-        setRefocusing(true);
-        appendLogText(i18n("In sequence HFR based refocus starting..."));
-        return REFOCUS_HFR;
-    }
-
-    // 4. check if post meridian flip refocusing is necessary
+    // 3. check if post meridian flip refocusing is necessary
     if (!isRefocusing() && isRefocusAfterMeridianFlip())
     {
         setRefocusing(true);
         appendLogText(i18n("Refocus after meridian flip"));
         return REFOCUS_POST_MF;
+    }
+
+    // 4. check if HFR based in sequence focusing is necessary
+    if (!isRefocusing() && isInSequenceFocus() && getInSequenceFocusCounter() == 0)
+    {
+        setRefocusing(true);
+        appendLogText(i18n("In sequence HFR based refocus starting..."));
+        return REFOCUS_HFR;
     }
 
     // 5. no full refocus required so check if adaptive focus is necessary - no need to do both
@@ -114,7 +114,7 @@ void RefocusState::decreaseInSequenceFocusCounter()
 void RefocusState::addHFRValue(const QString &filter)
 {
     QList<double> filterHFRList = m_HFRMap[filter];
-    filterHFRList.append(m_focusHFR);
+    filterHFRList.append(getFocusHFR());
     m_HFRMap[filter] = filterHFRList;
 }
 

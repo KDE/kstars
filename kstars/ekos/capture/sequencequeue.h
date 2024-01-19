@@ -13,7 +13,7 @@
 
 /**
  * @class SequenceJob
- * @short SequenceQueue represents a sequence of capture jobs to be executed 
+ * @short SequenceQueue represents a sequence of capture jobs to be executed
  * by the capture module.
  *
  * @author Hy Murveit
@@ -28,7 +28,7 @@ class CaptureModuleState;
 
 class SequenceQueue : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         SequenceQueue() {}
@@ -54,74 +54,96 @@ class SequenceQueue : public QObject
         {
             m_SequenceURL = newSequenceURL;
         }
-        bool getEnforceGuideDeviation() {
+        bool getEnforceGuideDeviation()
+        {
             return m_EnforceGuideDeviation;
         }
-        void setEnforceGuideDeviation(bool value) {
-          m_EnforceGuideDeviation = value;
+        void setEnforceGuideDeviation(bool value)
+        {
+            m_EnforceGuideDeviation = value;
         }
-        double getGuideDeviation() {
+        double getGuideDeviation()
+        {
             return m_GuideDeviation;
         }
-        void setGuideDeviation(double value) {
-          m_GuideDeviation = value;
+        void setGuideDeviation(double value)
+        {
+            m_GuideDeviation = value;
         }
-        bool getEnforceStartGuiderDrift() {
+        bool getEnforceStartGuiderDrift()
+        {
             return m_EnforceStartGuiderDrift;
         }
-        void setEnforceStartGuiderDrift(bool value) {
-          m_EnforceStartGuiderDrift = value;
+        void setEnforceStartGuiderDrift(bool value)
+        {
+            m_EnforceStartGuiderDrift = value;
         }
-        double getStartGuideDeviation() {
+        double getStartGuideDeviation()
+        {
             return m_StartGuideDeviation;
         }
-        void setStartGuideDeviation(double value) {
-          m_StartGuideDeviation = value;
+        void setStartGuideDeviation(double value)
+        {
+            m_StartGuideDeviation = value;
         }
-        bool getEnforceAutofocusHFR() {
+        bool getEnforceAutofocusHFR()
+        {
             return m_EnforceAutofocusHFR;
         }
-        void setEnforceAutofocusHFR(bool value) {
-          m_EnforceAutofocusHFR = value;
+        void setEnforceAutofocusHFR(bool value)
+        {
+            m_EnforceAutofocusHFR = value;
         }
-        double getHFRDeviation() {
+        double getHFRDeviation()
+        {
             return m_HFRDeviation;
         }
-        void setHFRDeviation(double value) {
-          m_HFRDeviation = value;
+        void setHFRDeviation(double value)
+        {
+            m_HFRDeviation = value;
         }
-        bool getEnforceAutofocusOnTemperature() {
+        bool getEnforceAutofocusOnTemperature()
+        {
             return m_EnforceAutofocusOnTemperature;
         }
-        void setEnforceAutofocusOnTemperature(bool value) {
-          m_EnforceAutofocusOnTemperature = value;
+        void setEnforceAutofocusOnTemperature(bool value)
+        {
+            m_EnforceAutofocusOnTemperature = value;
         }
-        double getMaxFocusTemperatureDelta() {
+        double getMaxFocusTemperatureDelta()
+        {
             return m_MaxFocusTemperatureDelta;
         }
-        void setMaxFocusTemperatureDelta(double value) {
-          m_MaxFocusTemperatureDelta = value;
+        void setMaxFocusTemperatureDelta(double value)
+        {
+            m_MaxFocusTemperatureDelta = value;
         }
-        bool getEnforceRefocusEveryN() {
+        bool getEnforceRefocusEveryN()
+        {
             return m_EnforceRefocusEveryN;
         }
-        void setEnforceRefocusEveryN(bool value) {
-          m_EnforceRefocusEveryN = value;
+        void setEnforceRefocusEveryN(bool value)
+        {
+            m_EnforceRefocusEveryN = value;
         }
-        double getRefocusEveryN() {
+        double getRefocusEveryN()
+        {
             return m_RefocusEveryN;
         }
-        void setRefocusEveryN(double value) {
-          m_RefocusEveryN = value;
+        void setRefocusEveryN(double value)
+        {
+            m_RefocusEveryN = value;
         }
-        bool getRefocusAfterMeridianFlip() {
+        bool getRefocusAfterMeridianFlip()
+        {
             return m_RefocusAfterMeridianFlip;
         }
-        void setRefocusAfterMeridianFlip(bool value) {
-          m_RefocusAfterMeridianFlip = value;
+        void setRefocusAfterMeridianFlip(bool value)
+        {
+            m_RefocusAfterMeridianFlip = value;
         }
 
-signals:
+    signals:
         void newLog(const QString &message);
 
     private:
@@ -141,6 +163,9 @@ signals:
 
         bool m_AutofocusSet { false };
         bool m_EnforceAutofocusHFR { false };
+        HFR_CHECK_ALGORITHM m_HFRCheckAlgorithm { HFR_CHECK_LAST_AUTOFOCUS };
+        double m_HFRCheckThresholdPercentage = HFR_CHECK_DEFAULT_THRESHOLD;
+        int m_HFRCheckFrames = 1;
         double m_HFRDeviation = 0;
 
         bool m_RefocusOnTemperatureDeltaSet { false };

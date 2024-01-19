@@ -518,8 +518,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
         if (checked == false)
             state()->getRefocusState()->setInSequenceFocus(false);
     });
-
-    // Autofocus HFR Deviation
     m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
     connect(m_LimitsUI->limitFocusHFRN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
@@ -527,9 +525,27 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
         if (!m_standAlone)
             Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     });
+    m_LimitsUI->limitFocusHFRThresholdPercentage->setValue(Options::hFRThresholdPercentage());
+    connect(m_LimitsUI->limitFocusHFRThresholdPercentage, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
+    {
+        Options::setHFRThresholdPercentage(m_LimitsUI->limitFocusHFRThresholdPercentage->value());
+        Capture::updateHFRCheckAlgo();
+    });
+    m_LimitsUI->limitFocusHFRCheckFrames->setValue(Options::inSequenceCheckFrames());
+    connect(m_LimitsUI->limitFocusHFRCheckFrames, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
+    {
+        Options::setInSequenceCheckFrames(m_LimitsUI->limitFocusHFRCheckFrames->value());
+    });
     connect(m_captureModuleState.get(), &CaptureModuleState::newLimitFocusHFR, this, [this](double hfr)
     {
         m_LimitsUI->limitFocusHFRN->setValue(hfr);
+    });
+    m_LimitsUI->limitFocusHFRAlgorithm->setCurrentIndex(Options::hFRCheckAlgorithm());
+    updateHFRCheckAlgo();
+    connect(m_LimitsUI->limitFocusHFRAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        Options::setHFRCheckAlgorithm(index);
+        Capture::updateHFRCheckAlgo();
     });
 
     // Autofocus temperature Check
@@ -591,12 +607,22 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     QDoubleSpinBox * const dspinBoxes[]
     {
         m_LimitsUI->limitFocusHFRN,
+        m_LimitsUI->limitFocusHFRThresholdPercentage,
         m_LimitsUI->limitFocusDeltaTN,
         m_LimitsUI->limitGuideDeviationN,
         m_LimitsUI->startGuiderDriftN
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]()
+    {
+        state()->setDirty(true);
+    });
+
+    connect(m_LimitsUI->limitFocusHFRCheckFrames, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+    {
+        state()->setDirty(true);
+    });
+    connect(m_LimitsUI->limitFocusHFRAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
     {
         state()->setDirty(true);
     });
@@ -803,6 +829,16 @@ Capture::~Capture()
 {
     qDeleteAll(state()->allJobs());
     state()->allJobs().clear();
+}
+
+void Capture::updateHFRCheckAlgo()
+{
+    // Threshold % is not relevant for FIXED HFR do disable the field
+    const bool threshold = (m_LimitsUI->limitFocusHFRAlgorithm->currentIndex() != HFR_CHECK_FIXED);
+    m_LimitsUI->limitFocusHFRThresholdPercentage->setEnabled(threshold);
+    m_LimitsUI->limitFocusHFRThresholdLabel->setEnabled(threshold);
+    m_LimitsUI->limitFocusHFRPercentLabel->setEnabled(threshold);
+    state()->updateHFRThreshold();
 }
 
 bool Capture::updateCamera()
@@ -2145,10 +2181,6 @@ void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
 
             case MeridianFlipState::MF_COMPLETED:
                 captureStatusWidget->setStatus(i18n("Flip complete."), Qt::yellow);
-
-                // Reset HFR pixels to file value after meridian flip
-                if (state()->getRefocusState()->isInSequenceFocus())
-                    m_LimitsUI->limitFocusHFRN->setValue(state()->getFileHFR());
                 break;
 
             default:
@@ -2444,7 +2476,10 @@ void Capture::syncGUIToGeneralSettings()
     m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
     m_LimitsUI->limitGuideDeviationRepsN->setValue(static_cast<int>(Options::guideDeviationReps()));
     m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocusHFR());
+    m_LimitsUI->limitFocusHFRThresholdPercentage->setValue(Options::hFRThresholdPercentage());
     m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
+    m_LimitsUI->limitFocusHFRCheckFrames->setValue(Options::inSequenceCheckFrames());
+    m_LimitsUI->limitFocusHFRAlgorithm->setCurrentIndex(Options::hFRCheckAlgorithm());
     m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
     m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
     m_LimitsUI->limitRefocusS->setChecked(Options::enforceRefocusEveryN());
@@ -2604,8 +2639,7 @@ void Capture::checkFrameType(int index)
 
 void Capture::clearAutoFocusHFR()
 {
-    // If HFR limit was set from file, we cannot override it.
-    if (state()->getFileHFR() > 0)
+    if (Options::hFRCheckAlgorithm() == HFR_CHECK_FIXED)
         return;
 
     m_LimitsUI->limitFocusHFRN->setValue(0);
@@ -3100,7 +3134,11 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     const bool deviationCheck = settings["deviationCheck"].toBool(Options::enforceGuideDeviation());
     const double deviationValue = settings["deviationValue"].toDouble(Options::guideDeviation());
     const bool focusHFRCheck = settings["focusHFRCheck"].toBool(m_LimitsUI->limitFocusHFRS->isChecked());
+    const double focusHFRThresholdPercentage = settings["hFRThresholdPercentage"].toDouble(
+                m_LimitsUI->limitFocusHFRThresholdPercentage->value());
     const double focusHFRValue = settings["focusHFRValue"].toDouble(m_LimitsUI->limitFocusHFRN->value());
+    const int focusHFRCheckFrames = settings["inSequenceCheckFrames"].toInt(m_LimitsUI->limitFocusHFRCheckFrames->value());
+    const int focusHFRAlgorithm = settings["hFRCheckAlgorithm"].toInt(m_LimitsUI->limitFocusHFRAlgorithm->currentIndex());
     const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(m_LimitsUI->limitFocusDeltaTS->isChecked());
     const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(m_LimitsUI->limitFocusDeltaTN->value());
     const bool refocusNCheck = settings["refocusNCheck"].toBool(m_LimitsUI->limitRefocusS->isChecked());
@@ -3118,7 +3156,10 @@ void Capture::setLimitSettings(const QJsonObject &settings)
     if (focusHFRCheck)
     {
         m_LimitsUI->limitFocusHFRS->setChecked(true);
+        m_LimitsUI->limitFocusHFRThresholdPercentage->setValue(focusHFRThresholdPercentage);
         m_LimitsUI->limitFocusHFRN->setValue(focusHFRValue);
+        m_LimitsUI->limitFocusHFRCheckFrames->setValue(focusHFRCheckFrames);
+        m_LimitsUI->limitFocusHFRAlgorithm->setCurrentIndex(focusHFRAlgorithm);
     }
     else
         m_LimitsUI->limitFocusHFRS->setChecked(false);
@@ -3152,7 +3193,10 @@ QJsonObject Capture::getLimitSettings()
         {"deviationValue", Options::guideDeviation()},
         {"ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value()},
         {"focusHFRCheck", m_LimitsUI->limitFocusHFRS->isChecked()},
+        {"hFRThresholdPercentage", m_LimitsUI->limitFocusHFRThresholdPercentage->value()},
         {"focusHFRValue", m_LimitsUI->limitFocusHFRN->value()},
+        {"inSequenceCheckFrames", m_LimitsUI->limitFocusHFRCheckFrames->value()},
+        {"hFRCheckAlgorithm", m_LimitsUI->limitFocusHFRAlgorithm->currentIndex()},
         {"focusDeltaTCheck", m_LimitsUI->limitFocusDeltaTS->isChecked()},
         {"focusDeltaTValue", m_LimitsUI->limitFocusDeltaTN->value()},
         {"refocusNCheck", m_LimitsUI->limitRefocusS->isChecked()},
@@ -3741,7 +3785,10 @@ void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
 void Capture::syncRefocusOptionsFromGUI()
 {
     Options::setEnforceAutofocusHFR(m_LimitsUI->limitFocusHFRS->isChecked());
+    Options::setHFRThresholdPercentage(m_LimitsUI->limitFocusHFRThresholdPercentage->value());
     Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
+    Options::setInSequenceCheckFrames(m_LimitsUI->limitFocusHFRCheckFrames->value());
+    Options::setHFRCheckAlgorithm(m_LimitsUI->limitFocusHFRAlgorithm->currentIndex());
     Options::setEnforceAutofocusOnTemperature(m_LimitsUI->limitFocusDeltaTS->isChecked());
     Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
     Options::setEnforceRefocusEveryN(m_LimitsUI->limitRefocusS->isChecked());
@@ -4020,9 +4067,9 @@ double Capture::getOffset()
     return devices()->cameraOffset(customPropertiesDialog->getCustomProperties());
 }
 
-void Capture::setHFR(double newHFR, int)
+void Capture::setHFR(double newHFR, int, bool inAutofocus)
 {
-    state()->getRefocusState()->setFocusHFR(newHFR);
+    state()->getRefocusState()->setFocusHFR(newHFR, inAutofocus);
 }
 
 ISD::Camera *Capture::activeCamera()

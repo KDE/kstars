@@ -2099,8 +2099,9 @@ void Manager::initFocus()
     connectModules();
 }
 
-void Manager::updateCurrentHFR(double newHFR, int position)
+void Manager::updateCurrentHFR(double newHFR, int position, bool inAutofocus)
 {
+    Q_UNUSED(inAutofocus);
     focusManager->updateCurrentHFR(newHFR);
 
     QJsonObject cStatus =

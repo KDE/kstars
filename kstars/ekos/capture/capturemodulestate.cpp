@@ -433,11 +433,10 @@ void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStag
 
         case MeridianFlipState::MF_COMPLETED:
 
-            // Reset HFR pixels to file value after meridian flip
+            // Reset HFR Check counter after meridian flip
             if (getRefocusState()->isInSequenceFocus())
             {
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << getFileHFR() <<
-                                             "pixels after meridian flip.";
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR Check counter after meridian flip.";
                 //firstAutoFocus = true;
                 getRefocusState()->setInSequenceFocusCounter(0);
             }
@@ -654,12 +653,15 @@ void CaptureModuleState::updateFocusState(FocusState state)
             // forward to the active job
             if (m_activeJob != nullptr)
                 m_activeJob->setAutoFocusReady(true);
-            // successful focus so reset elapsed time, force a reset
-            m_refocusState->startRefocusTimer(true);
+            // reset the timer if a full autofocus was run (rather than an HFR check)
+            if (m_refocusState->getFocusHFRInAutofocus())
+                m_refocusState->startRefocusTimer(true);
 
-            if (m_fileHFR == 0.0)
+            // update HFR Threshold for those algorithms that use Autofocus as reference
+            if (Options::hFRCheckAlgorithm() == HFR_CHECK_MEDIAN_MEASURE ||
+                    (m_refocusState->getFocusHFRInAutofocus() && Options::hFRCheckAlgorithm() == HFR_CHECK_LAST_AUTOFOCUS))
             {
-                m_refocusState->addHFRValue(getCurrentFilterName());
+                m_refocusState->addHFRValue(getFocusFilterName());
                 updateHFRThreshold();
             }
             emit newFocusStatus(state);
@@ -741,42 +743,46 @@ bool CaptureModuleState::startFocusIfRequired()
 
 void CaptureModuleState::updateHFRThreshold()
 {
-    if (m_fileHFR != 0.0)
+    // For Ficed algo no need to update the HFR threshold
+    if (Options::hFRCheckAlgorithm() == HFR_CHECK_FIXED)
         return;
 
-    QList<double> filterHFRList;
-    if (m_CurrentFilterPosition > 0)
+    QString finalFilter = getFocusFilterName();
+    QList<double> filterHFRList = m_refocusState->getHFRMap()[finalFilter];
+
+    // Update the limit only if HFR values have been measured for the current filter
+    if (filterHFRList.empty())
+        return;
+
+    double value = 0;
+    if (Options::hFRCheckAlgorithm() == HFR_CHECK_LAST_AUTOFOCUS)
+        value = filterHFRList.last();
+    else // algo = Median Measure
     {
+        int count = filterHFRList.size();
+        if (count > 1)
+            value = (count % 2) ? filterHFRList[count / 2] : (filterHFRList[count / 2 - 1] + filterHFRList[count / 2]) / 2.0;
+        else if (count == 1)
+            value = filterHFRList[0];
+    }
+    value += value * (Options::hFRThresholdPercentage() / 100.0);
+    Options::setHFRDeviation(value);
+    emit newLimitFocusHFR(value); // Updates the limits UI with the new HFR threshold
+}
+
+QString CaptureModuleState::getFocusFilterName()
+{
+    QString finalFilter;
+    if (m_CurrentFilterPosition > 0)
         // If we are using filters, then we retrieve which filter is currently active.
         // We check if filter lock is used, and store that instead of the current filter.
         // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
         // If no lock filter exists, then we store as is (HA)
-        QString finalFilter = (m_CurrentFocusFilterName == "--" ? m_CurrentFilterName : m_CurrentFocusFilterName);
-
-        filterHFRList = m_refocusState->getHFRMap()[finalFilter];
-    }
-    // No filters
+        finalFilter = (m_CurrentFocusFilterName == "--" ? m_CurrentFilterName : m_CurrentFocusFilterName);
     else
-    {
-        filterHFRList = m_refocusState->getHFRMap()["--"];
-    }
-
-    // Update the limit only if HFR values have been measured for the current filter
-    if (filterHFRList.empty() == false)
-    {
-        double median = 0;
-        int count = filterHFRList.size();
-        if (count > 1)
-            median = (count % 2) ? filterHFRList[count / 2] : (filterHFRList[count / 2 - 1] + filterHFRList[count / 2]) / 2.0;
-        else if (count == 1)
-            median = filterHFRList[0];
-
-        // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
-        // in case in-sequence-focusing is used.
-        median += median * (Options::hFRThresholdPercentage() / 100.0);
-        Options::setHFRDeviation(median);
-        emit newLimitFocusHFR(median);
-    }
+        // No filters
+        finalFilter = "--";
+    return finalFilter;
 }
 
 bool CaptureModuleState::checkAlignmentAfterFlip()

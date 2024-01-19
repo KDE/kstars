@@ -1452,7 +1452,7 @@ void Focus::capture(double settleTime)
             // Change the filter. When done this will signal to update the focusFilter combo
             // Apply all policies except autofocus since we are already in autofocus module doh.
             m_FilterManager->setFilterPosition(targetPosition,
-                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY));
+                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
         else if (targetPosition != focusFilter->currentIndex() + 1)
@@ -2245,9 +2245,9 @@ void Focus::setCurrentMeasure()
     // Let signal the current HFR now depending on whether the focuser is absolute or relative
     // Outside of Focus we continue to rely on HFR and independent of which measure the user selected we always calculate HFR
     if (canAbsMove)
-        emit newHFR(currentHFR, currentPosition);
+        emit newHFR(currentHFR, currentPosition, inAutoFocus);
     else
-        emit newHFR(currentHFR, -1);
+        emit newHFR(currentHFR, -1, inAutoFocus);
 
     // Format the labels under the V-curve
     HFROut->setText(QString("%1").arg(currentHFR * getStarUnits(m_StarMeasure, m_StarUnits), 0, 'f', 2));

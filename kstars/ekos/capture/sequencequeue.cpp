@@ -86,12 +86,52 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                 }
                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
                 {
+                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
+                }
+                else if (!strcmp(tagXMLEle(ep), "HFRCheck"))
+                {
                     m_AutofocusSet = true;
                     m_EnforceAutofocusHFR = !strcmp(findXMLAttValu(ep, "enabled"), "true");
-                    double const HFRValue = cLocale.toDouble(pcdataXMLEle(ep));
-                    // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
-                    // Note that HFR value will only be serialized to XML when option "Save Sequence HFR to File" is enabled
-                    m_HFRDeviation = (HFRValue > 0.0 ? HFRValue : 0.0);
+
+                    XMLEle *epHFR;
+                    //Set default values in case of malformed XML
+                    m_HFRDeviation = 0.0;
+                    m_HFRCheckAlgorithm = HFR_CHECK_LAST_AUTOFOCUS;
+                    m_HFRCheckThresholdPercentage = HFR_CHECK_DEFAULT_THRESHOLD;
+                    m_HFRCheckFrames = 1;
+
+                    for (epHFR = nextXMLEle(ep, 1); epHFR != nullptr; epHFR = nextXMLEle(ep, 0))
+                    {
+                        if (!strcmp(tagXMLEle(epHFR), "HFRDeviation"))
+                        {
+                            double const HFRValue = cLocale.toDouble(pcdataXMLEle(epHFR));
+                            // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
+                            if (HFRValue >= 0.0)
+                                m_HFRDeviation = HFRValue;
+                        }
+
+                        if (!strcmp(tagXMLEle(epHFR), "HFRCheckAlgorithm"))
+                        {
+                            int HFRCheckAlgo = cLocale.toInt(pcdataXMLEle(epHFR));
+                            // Set the HFR Check Algo from XML, or reset it to Last Autofocus
+                            if (HFRCheckAlgo >= 0 && HFRCheckAlgo < HFR_CHECK_MAX_ALGO)
+                                m_HFRCheckAlgorithm = static_cast<HFR_CHECK_ALGORITHM>(HFRCheckAlgo);
+                        }
+                        else if (!strcmp(tagXMLEle(epHFR), "HFRCheckThreshold"))
+                        {
+                            double const hFRCheckThreshold = cLocale.toDouble(pcdataXMLEle(epHFR));
+                            // Set the HFR Threshold Percentage from XML, or reset it to 10%, don't let another unrelated older value be used
+                            if (hFRCheckThreshold >= 0.0)
+                                m_HFRCheckThresholdPercentage = hFRCheckThreshold;
+                        }
+                        else if (!strcmp(tagXMLEle(epHFR), "HFRCheckFrames"))
+                        {
+                            int const hFRCheckFrames = cLocale.toInt(pcdataXMLEle(epHFR));
+                            // Set the HFR Frames from XML, or reset it to 1, don't let another unrelated older value be used
+                            if (hFRCheckFrames > 1)
+                                m_HFRCheckFrames = hFRCheckFrames;
+                        }
+                    }
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusOnTemperatureDelta"))
                 {
@@ -158,6 +198,9 @@ void SequenceQueue::setOptions()
     if (m_AutofocusSet)
     {
         Options::setEnforceAutofocusHFR(m_EnforceAutofocusHFR);
+        Options::setHFRCheckAlgorithm(m_HFRCheckAlgorithm);
+        Options::setHFRThresholdPercentage(m_HFRCheckThresholdPercentage);
+        Options::setInSequenceCheckFrames(m_HFRCheckFrames);
         Options::setHFRDeviation(m_HFRDeviation);
     }
     if (m_RefocusOnTemperatureDeltaSet)
@@ -189,6 +232,9 @@ void SequenceQueue::loadOptions()
 
     m_AutofocusSet = true;
     m_EnforceAutofocusHFR = Options::enforceAutofocusHFR();
+    m_HFRCheckAlgorithm = static_cast<HFR_CHECK_ALGORITHM>(Options::hFRCheckAlgorithm());
+    m_HFRCheckThresholdPercentage = Options::hFRThresholdPercentage();
+    m_HFRCheckFrames = Options::inSequenceCheckFrames();
     m_HFRDeviation = Options::hFRDeviation();
 
     m_RefocusOnTemperatureDeltaSet = true;
@@ -228,13 +274,12 @@ bool SequenceQueue::save(const QString &path, const QString &observerName)
               << cLocale.toString(m_GuideDeviation) << "</GuideDeviation>" << Qt::endl;
     outstream << "<GuideStartDeviation enabled='" << (m_EnforceStartGuiderDrift ? "true" : "false") << "'>"
               << cLocale.toString(m_StartGuideDeviation) << "</GuideStartDeviation>" << Qt::endl;
-    // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
-    if (m_EnforceAutofocusHFR && !Options::saveHFRToFile())
-        emit newLog(i18n(
-                        "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to File\" is not enabled. "
-                        "Current HFR value will not be written to sequence file."));
-    outstream << "<Autofocus enabled='" << (m_EnforceAutofocusHFR ? "true" : "false") << "'>"
-              << cLocale.toString(Options::saveHFRToFile() ? m_HFRDeviation : 0) << "</Autofocus>" << Qt::endl;
+    outstream << "<HFRCheck enabled='" << (m_EnforceAutofocusHFR ? "true" : "false") << "'>" << Qt::endl;
+    outstream << "<HFRDeviation>" << cLocale.toString(m_HFRDeviation) << "</HFRDeviation>" << Qt::endl;
+    outstream << "<HFRCheckAlgorithm>" << m_HFRCheckAlgorithm << "</HFRCheckAlgorithm>" << Qt::endl;
+    outstream << "<HFRCheckThreshold>" << cLocale.toString(m_HFRCheckThresholdPercentage) << "</HFRCheckThreshold>" << Qt::endl;
+    outstream << "<HFRCheckFrames>" << cLocale.toString(m_HFRCheckFrames) << "</HFRCheckFrames>" << Qt::endl;
+    outstream << "</HFRCheck>" << Qt::endl;
     outstream << "<RefocusOnTemperatureDelta enabled='" << (m_EnforceAutofocusOnTemperature ? "true" : "false") <<
               "'>"
               << cLocale.toString(m_MaxFocusTemperatureDelta) << "</RefocusOnTemperatureDelta>" << Qt::endl;

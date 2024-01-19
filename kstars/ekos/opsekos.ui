@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
+    <width>483</width>
     <height>475</height>
    </rect>
   </property>
@@ -854,124 +854,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="title">
-       <string>In-Sequence Focus</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item row="1" column="4">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>frames</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="2" colspan="2">
-          <widget class="QDoubleSpinBox" name="kcfg_HFRThresholdPercentage">
-           <property name="maximum">
-            <double>50.000000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>%</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" colspan="2">
-          <widget class="QLabel" name="label_5">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set HFR Threshold percentage gain. When an autofocus operation is completed, the autofocus HFR value is increased by this threshold percentage value and stored within the capture module. If In-Sequence-Focus is engaged, the autofocus module only performs autofocusing procedure if current HFR value exceeds the capture module HFR threshold. Increase value to permit more relaxed changes in HFR values without requiring a full autofocus run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="text">
-            <string>HFR threshold modifier:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QLabel" name="label_11">
-           <property name="toolTip">
-            <string>Run in-sequence HFR check after this many frames.</string>
-           </property>
-           <property name="text">
-            <string>In-sequence HFR check:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2" colspan="2">
-          <widget class="QSpinBox" name="kcfg_InSequenceCheckFrames">
-           <property name="toolTip">
-            <string>Run In-Sequence HFR check after this many frames.</string>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>30</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_UseMedianFocus">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculate median focus value after each autofocus operation is complete. If the autofocus results become progressively worse with time, the median value shall reflect this trend and prevent unnecessary autofocus operations when the seeing conditions deteriorate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Use median focus</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_SaveHFRToFile">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In-sequence HFR threshold value controls when the autofocus process is started. If the measured HFR value exceeds the HFR threshold, autofocus process is initiated. If the HFR threshold value is zero initially (default), then the autofocus process best HFR value is used to set the new HFR threshold, after applying the HFR threshold modifier percentage. This new HFR threshold is then used for subsequent In-Sequence focus checks. If this option is enabled, the HFR threshold value is constant and gets saved to the sequence file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Save sequence HFR value to file</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

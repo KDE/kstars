@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>305</height>
+    <width>538</width>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -187,107 +187,32 @@
       <string>Focus Limits</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="limitFocusHFRS">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="limitFocusHFRAlgorithm">
         <property name="toolTip">
-         <string>Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The HFR Check algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Last Autofocus&lt;/span&gt;: This is the default algorithm and uses the HFR value from the most recent Autofocus run as the reference for the check.&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Fixed&lt;/span&gt;: This algorthm lets the user specify a fixed HFR to use in the check.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Relative Measure&lt;/span&gt;: This algorithm collects datapoints from Autofocus and HFR Checks, maintains the data in a sequenced list and uses the median value as the reference for the next HFR Check.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
-        <property name="text">
-         <string>Autofocus if HFR &gt;:</string>
+        <property name="editable">
+         <bool>false</bool>
         </property>
+        <item>
+         <property name="text">
+          <string>Last Autofocus</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fixed</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Median Measure</string>
+         </property>
+        </item>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="limitFocusHFRN">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="decimals">
-         <number>3</number>
-        </property>
-        <property name="minimum">
-         <double>0.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-        <property name="value">
-         <double>0.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="textLabel1_2_5">
-        <property name="toolTip">
-         <string>Number of images to capture</string>
-        </property>
-        <property name="whatsThis">
-         <string/>
-        </property>
-        <property name="text">
-         <string>pixels</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="limitFocusDeltaTS">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus when the change in temperature since last focus exceeded this limit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Autofocus if ΔT° &gt;:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="limitFocusDeltaTN">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="decimals">
-         <number>3</number>
-        </property>
-        <property name="minimum">
-         <double>0.100000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
-        </property>
-        <property name="value">
-         <double>1.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>°C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="limitRefocusS">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>Refocus every:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+      <item row="3" column="1">
        <widget class="QSpinBox" name="limitRefocusN">
         <property name="enabled">
          <bool>true</bool>
@@ -303,20 +228,189 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
+      <item row="4" column="1">
+       <widget class="QDoubleSpinBox" name="limitFocusDeltaTN">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
+        <property name="minimum">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="limitFocusDeltaTS">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to force an Autofocus when the change in temperature since last focus exceeded this value.  Reference temperature is reset at each Autofocus.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Refocus if ΔT°  &gt;:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0" colspan="2">
+       <widget class="QCheckBox" name="meridianRefocusS">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to force an Autofocus after a Meridian Flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Refocus after meridian flip</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="limitRefocusS">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to force an Autofocus every N minutes.  Timer is reset at each Autofocus.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Refocus every:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="limitFocusHFRS">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to perform an HFR Check between Subframes.  The Check may result is an Autofocus.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Refocus on ΔHFR.  Use:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="toolTip">
+         <string>Run in-sequence HFR check after this many frames.</string>
+        </property>
+        <property name="text">
+         <string>Check every:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="limitFocusHFRCheckFrames">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run HFR check after this many sub-frames.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>30</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QDoubleSpinBox" name="limitFocusHFRThresholdPercentage">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify the % to apply to the HFR Check value appropriate to the selected algorithm, to use as the threshold to perform the HFR Check.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="maximum">
+         <double>50.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>10.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="limitFocusHFRThresholdLabel">
+        <property name="text">
+         <string>Threshold:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
        <widget class="QLabel" name="textLabel_1_2_7">
         <property name="text">
          <string>minutes</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="3">
-       <widget class="QCheckBox" name="meridianRefocusS">
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>°C</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="4">
+       <widget class="QLabel" name="limitFocusHFRPercentLabel">
+        <property name="text">
+         <string>%</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="4">
+       <widget class="QLabel" name="textLabel1_2_5">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus after meridian flip&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Number of images to capture</string>
+        </property>
+        <property name="whatsThis">
+         <string/>
         </property>
         <property name="text">
-         <string>Refocus after meridian flip</string>
+         <string>pixels</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QDoubleSpinBox" name="limitFocusHFRN">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The HFR Check value in pixels. This is an output field when Last Autofocus or Relative Measure is selected, and an input field for Fixed.  In all cases,  the user can override the system generated value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="decimals">
+         <number>2</number>
+        </property>
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>frames.   HFR:</string>
         </property>
        </widget>
       </item>
@@ -348,6 +442,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>startGuiderDriftS</tabstop>
+  <tabstop>startGuiderDriftN</tabstop>
+  <tabstop>limitGuideDeviationS</tabstop>
+  <tabstop>limitGuideDeviationN</tabstop>
+  <tabstop>limitGuideDeviationRepsN</tabstop>
+  <tabstop>limitDitherFrequencyN</tabstop>
+  <tabstop>limitRefocusS</tabstop>
+  <tabstop>limitRefocusN</tabstop>
+  <tabstop>limitFocusDeltaTS</tabstop>
+  <tabstop>limitFocusDeltaTN</tabstop>
+  <tabstop>limitFocusHFRS</tabstop>
+  <tabstop>limitFocusHFRAlgorithm</tabstop>
+  <tabstop>limitFocusHFRThresholdPercentage</tabstop>
+  <tabstop>limitFocusHFRCheckFrames</tabstop>
+  <tabstop>limitFocusHFRN</tabstop>
+  <tabstop>meridianRefocusS</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
