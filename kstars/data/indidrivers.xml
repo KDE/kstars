@@ -35,13 +35,17 @@
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
             <version>1.22</version>
         </device>
+        <device label="WARPDRIVE" manufacturer="WarpAstron">
+            <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
+            <version>1.22</version>
+        </device>
         <device label="LX200 OpenAstroTech" manufacturer="OpenAstroTech">
             <driver name="LX200 OpenAstroTech">indi_lx200_OpenAstroTech</driver>
             <version>0.9</version>
         </device>
         <device label="LX200 TeenAstro" manufacturer="TeenAstro">
             <driver name="LX200 TeenAstro">indi_lx200_TeenAstro</driver>
-            <version>1.3</version>
+            <version>1.4</version>
         </device>
         <device label="LX200 16" manufacturer="Meade">
             <driver name="LX200 16">indi_lx200_16</driver>
@@ -79,9 +83,13 @@
             <driver name="Pegasus NYX-101">indi_lx200_pegasus_nyx101</driver>
             <version>2.1</version>
         </device>
-        <device label="ZWO AM5" manufacturer="ZWO">
+        <device label="ZWO AM5 WiFi" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.0</version>
+            <version>1.1</version>
+        </device>
+        <device label="ZWO AM5 USB" manufacturer="ZWO">
+            <driver name="ZWO AM5">indi_lx200am5</driver>
+            <version>1.1</version>
         </device>
         <device label="Celestron GPS" manufacturer="Celestron">
             <driver name="Celestron GPS">indi_celestron_gps</driver>
@@ -110,10 +118,6 @@
         <device label="Astro-Electronic FS-2" manufacturer="Astro-Electronic">
             <driver name="Astro-Electronic FS-2">indi_lx200fs2</driver>
             <version>2.3</version>
-        </device>
-        <device label="Avalon Legacy" manufacturer="Avalon">
-            <driver name="LX200 Basic">indi_lx200basic</driver>
-            <version>2.1</version>
         </device>
         <device label="Paramount" manufacturer="Software Bisque">
             <driver name="Paramount">indi_paramount_telescope</driver>
@@ -317,6 +321,10 @@
             <driver name="RoboFocus">indi_robo_focus</driver>
             <version>1.0</version>
         </device>
+        <device label="iEAFFocus" manufacturer="iOptron">
+            <driver name="iEAFFocus">indi_ieaf_focus</driver>
+            <version>1.0</version>
+        </device>
         <device label="Shoestring Astronomy FCUSB" manufacturer="Shoestring">
             <driver name="FCUSB">indi_fcusb_focus</driver>
             <version>0.3</version>
@@ -427,6 +435,10 @@
         </device>
         <device label="Rotator Simulator" manufacturer="Simulator">
             <driver name="Rotator Simulator">indi_simulator_rotator</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Wanderer Rotator Lite" manufacturer="Wanderer Astro">
+            <driver name="Wanderer Rotator Lite">indi_wanderer_lite_rotator</driver>
             <version>1.0</version>
         </device>
         <device label="Microtouch" manufacturer="Starizona">
@@ -641,6 +653,10 @@
             <driver name="Pegasus FlatMaster">indi_pegasus_flatmaster</driver>
             <version>1.2</version>
         </device>
+        <device label="Pegasus Saddle Powerbox" manufacturer="Pegasus Astro">
+            <driver name="Pegasus SPB">indi_pegasus_spb</driver>
+            <version>1.2</version>
+        </device>
         <device label="PlaneWave Delta-T" manufacturer="Planewave Instruments">
             <driver name="PlaneWave Delta-T">indi_planewave_deltat</driver>
             <version>1.1</version>
@@ -719,10 +735,6 @@
         </device>
         <device label="DeepSkyDad FR1" manufacturer="DeepSkyDad">
             <driver name="DeepSkyDad FR1">indi_deepskydad_fr1</driver>
-            <version>1.0</version>
-        </device>
-        <device label="Wanderer Rotator Lite" manufacturer="Wanderer Astro">
-            <driver name="Wanderer Rotator Lite">indi_wanderer_lite_rotator</driver>
             <version>1.0</version>
         </device>
         <device label="Wanderer Cover V3" manufacturer="Wanderer Astro">
@@ -867,37 +879,25 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>2.3</version>
+            <version>2.4</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
-        <device label="ASI EFW" mdpd="true" manufacturer="ZWO">
-            <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>2.3</version>
-        </device>
         <device label="ZWO EFW" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO EFW">indi_asi_wheel</driver>
-            <version>2.3</version>
+            <version>2.4</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
-        <device label="ASI EAF" manufacturer="ZWO">
-            <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>2.3</version>
-        </device>
         <device label="ZWO EAF" manufacturer="ZWO">
             <driver name="ZWO EAF">indi_asi_focuser</driver>
-            <version>2.3</version>
+            <version>2.4</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
-        <device label="ASI ST4" manufacturer="ZWO">
-            <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>2.3</version>
-        </device>
         <device label="ZWO ST4" manufacturer="ZWO">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>2.3</version>
+            <version>2.4</version>
         </device>
     </devGroup>
 </driversList>
@@ -1117,8 +1117,8 @@
             <driver name="EQMod Mount">indi_eqmod_telescope</driver>
             <version>1.2</version>
         </device>
-        <device label="SkyAdventurer GTi" manufacturer="SkyWatcher">
-            <driver name="SkyAdventurer GTi">indi_skyadventurergti_telescope</driver>
+        <device label="Star Adventurer GTi" manufacturer="SkyWatcher">
+            <driver name="Star Adventurer GTi">indi_staradventurergti_telescope</driver>
             <version>1.2</version>
         </device>
         <device label="AZ-GTi Equatorial WiFi" manufacturer="SkyWatcher">
@@ -1184,6 +1184,14 @@
         <device label="FLI CFW" manufacturer="Finger Lakes Instruments">
             <driver name="FLI CFW">indi_fli_wheel</driver>
             <version>2.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Generic CCD" mdpd="true" manufacturer="Simulator">
+            <driver name="Generic CCD">indi_generic_ccd</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1343,25 +1351,25 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>1.12</version>
+            <version>1.13</version>
         </device>
         <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.12</version>
+            <version>1.13</version>
         </device>
         <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.12</version>
+            <version>1.13</version>
         </device>
         <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.12</version>
+            <version>1.13</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-            <version>1.12</version>
+            <version>1.13</version>
         </device>
     </devGroup>
 </driversList>
@@ -1544,7 +1552,7 @@
             <version>2.1</version>
         </device>
     </devGroup>
-    <devGroup group="FilterWheels">
+    <devGroup group="Filter Wheels">
         <device label="Toupcam" mdpd="true" manufacturer="Toupcam">
             <driver name="Touptek">indi_toupcam_wheel</driver>
             <version>2.1</version>
@@ -1611,7 +1619,7 @@
   <devGroup group="CCDs">
     <device label="LibCamera" manufacturer="Raspberry PI">
       <driver name="LibCamera">indi_libcamera_ccd</driver>
-      <version>1.0</version>
+      <version>1.1</version>
     </device>
   </devGroup>
 </driversList>
