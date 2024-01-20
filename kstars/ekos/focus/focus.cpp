@@ -1530,15 +1530,41 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
 
 bool Focus::focusIn(int ms)
 {
+    if (currentPosition == absMotionMin)
+    {
+        appendLogText(i18n("At minimum focus position %1...", absMotionMin));
+        return false;
+    }
+    focusInB->setEnabled(false);
+    focusOutB->setEnabled(false);
+    startGotoB->setEnabled(false);
     if (ms <= 0)
         ms = m_OpsFocusMechanics->focusTicks->value();
+    if (currentPosition - ms <= absMotionMin)
+    {
+        ms = currentPosition - absMotionMin;
+        appendLogText(i18n("Moving to minimum focus position %1...", absMotionMin));
+    }
     return changeFocus(-ms);
 }
 
 bool Focus::focusOut(int ms)
 {
+    if (currentPosition == absMotionMax)
+    {
+        appendLogText(i18n("At maximum focus position %1...", absMotionMax));
+        return false;
+    }
+    focusInB->setEnabled(false);
+    focusOutB->setEnabled(false);
+    startGotoB->setEnabled(false);
     if (ms <= 0)
         ms = m_OpsFocusMechanics->focusTicks->value();
+    if (currentPosition + ms >= absMotionMax)
+    {
+        ms = absMotionMax - currentPosition;
+        appendLogText(i18n("Moving to maximum focus position %1...", absMotionMax));
+    }
     return changeFocus(ms);
 }
 
@@ -4419,6 +4445,14 @@ void Focus::checkAutoStarTimeout()
 
 void Focus::setAbsoluteFocusTicks()
 {
+    if (absTicksSpin->value() == currentPosition)
+    {
+        appendLogText(i18n("Focuser already at %1...", currentPosition));
+        return;
+    }
+    focusInB->setEnabled(false);
+    focusOutB->setEnabled(false);
+    startGotoB->setEnabled(false);
     if (!changeFocus(absTicksSpin->value() - currentPosition))
         qCDebug(KSTARS_EKOS_FOCUS) << "setAbsoluteFocusTicks unable to move focuser.";
 }
