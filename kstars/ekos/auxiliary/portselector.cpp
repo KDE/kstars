@@ -260,17 +260,6 @@ void Device::syncGUI()
             m_HostProtocolUDP->setStyleSheet(connectionType->findOnSwitchIndex() == 1 ? ACTIVE_STYLESHEET : QString());
         }
     }
-
-    if (m_Device->isConnected())
-    {
-        m_ConnectB->setStyleSheet(ACTIVE_STYLESHEET);
-        m_DisconnectB->setStyleSheet(QString());
-    }
-    else
-    {
-        m_ConnectB->setStyleSheet(QString());
-        m_DisconnectB->setStyleSheet(ACTIVE_STYLESHEET);
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -341,6 +330,19 @@ void Device::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("CONNECTION_TYPE") || prop.isNameMatch("SYSTEM_PORTS") ||
              prop.isNameMatch("DEVICE_BAUD_RATE") || prop.isNameMatch("DEVICE_PORT"))
         syncGUI();
+    else if (prop.isNameMatch("CONNECTION"))
+    {
+        if (m_Device->isConnected())
+        {
+            m_ConnectB->setStyleSheet(ACTIVE_STYLESHEET);
+            m_DisconnectB->setStyleSheet(QString());
+        }
+        else
+        {
+            m_ConnectB->setStyleSheet(QString());
+            m_DisconnectB->setStyleSheet(ACTIVE_STYLESHEET);
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
