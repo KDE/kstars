@@ -138,7 +138,18 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     vlayout->addWidget(m_AlignView.get());
     alignWidget->setLayout(vlayout);
 
-    connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
+    connect(solveB, &QPushButton::clicked, this, [this]()
+    {
+        if (m_TargetCoord.ra().degree() < 0) // no object selected yet (see default constructor skypoint())
+        {
+            appendLogText(i18n("No Target - Please pick an object."));
+        }
+        else
+        {
+            m_DestinationCoord = m_TargetCoord;
+            captureAndSolve();
+        }
+    });
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
 
     // Effective FOV Edit
@@ -1397,6 +1408,15 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
 
 bool Align::captureAndSolve()
 {
+    if (m_TargetCoord.ra().degree() < 0) // no object selected yet (see default constructor skypoint())
+    {
+        appendLogText(i18n("No Target - Please pick an object."));
+        return false;
+    }
+    qCDebug(KSTARS_EKOS_ALIGN) << "Capture&Solve - Target RA:" <<  m_TargetCoord.ra().toHMSString(true)
+                               << " DE:" << m_TargetCoord.dec().toDMSString(true);
+    qCDebug(KSTARS_EKOS_ALIGN) << "Capture&Solve - Destination RA:" <<  m_DestinationCoord.ra().toHMSString(true)
+                               << " DE:" << m_DestinationCoord.dec().toDMSString(true);
     m_AlignTimer.stop();
     m_CaptureTimer.stop();
 
@@ -1558,7 +1578,7 @@ bool Align::captureAndSolve()
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    differentialSlewingActivated = false;
+    RotatorGOTO = false;
 
     setState(ALIGN_PROGRESS);
     emit newStatus(state);
@@ -2052,7 +2072,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         m_EffectiveFOVPending = false;
     }
 
-    m_AlignCoord.setRA0(ra / 15.0);
+    m_AlignCoord.setRA0(ra / 15.0);  // set catalog coordinates
     m_AlignCoord.setDec0(dec);
 
     // Convert to JNow
@@ -2063,6 +2083,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Do not update diff if we are performing load & slew.
     if (!m_SolveFromFile)
     {
+        /* DEBUG Induce persistant error for testing differential slewing
+        ra = ra - 0.05;
+        m_AlignCoord.setRA0(ra / 15.0);
+        dec = dec + 0.01;
+        m_AlignCoord.setDec0(dec);
+        m_AlignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd()); */
+
         pixScaleOut->setText(QString::number(pixscale, 'f', 2));
         calculateAlignTargetDiff();
     }
@@ -2648,7 +2675,7 @@ void Align::updateProperty(INDI::Property prop)
                         if (!didSlewStart())
                         {
                             // If mount has not started slewing yet, then skip
-                            //qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
+                            // qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
                             break;
                         }
 
@@ -2764,6 +2791,7 @@ void Align::updateProperty(INDI::Property prop)
                 appendLogText(i18n("Rotator reached camera position angle."));
                 // Check angle once again (no slew -> no settle time)
                 // QTimer::singleShot(alignSettlingTime->value(), this, &Ekos::Align::executeGOTO);
+                RotatorGOTO = true; // Flag for SlewToTarget()
                 executeGOTO();
             }
             else
@@ -2840,6 +2868,9 @@ void Align::executeGOTO()
 {
     if (m_SolveFromFile)
     {
+        // Differential slew uses target coords to move the scope and destination coords get lost.
+        // Thus we have to remember these coords for later
+        m_DestinationCoord = m_AlignCoord;
         m_TargetCoord = m_AlignCoord;
 
         qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file. Setting Target Coordinates align coords. RA:"
@@ -2915,16 +2946,15 @@ void Align::SlewToTarget()
         }
 #endif
 
-        // Do we perform a regular sync or use differential slewing?
-        if (Options::astrometryDifferentialSlewing())
+        if (Options::astrometryDifferentialSlewing())  // Differential slew: Target coords are hijacked to move the telescope
         {
-            dms m_TargetDiffRA = m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra());
-            dms m_TargetDiffDE = m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec());
-            m_TargetCoord.setRA(m_TargetCoord.ra() - m_TargetDiffRA);
-            m_TargetCoord.setDec(m_TargetCoord.dec() - m_TargetDiffDE);
-            qCDebug(KSTARS_EKOS_ALIGN) << "Using differential slewing. Setting Target Coordinates to RA:"
-                                       << m_TargetCoord.ra().toHMSString()
-                                       << "DE:" << m_TargetCoord.dec().toDMSString();
+            if (!RotatorGOTO) // Only for GOTO's originating from telescope
+            {
+                m_TargetCoord.setRA(m_TargetCoord.ra() - m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra()));
+                m_TargetCoord.setDec(m_TargetCoord.dec() - m_AlignCoord.dec().deltaAngle(m_DestinationCoord.dec()));
+                qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Target RA:" << m_TargetCoord.ra().toHMSString()
+                                           << " DE:" << m_TargetCoord.dec().toDMSString();
+            }
             Slew();
         }
         else
@@ -2974,7 +3004,7 @@ bool Align::loadAndSlew(QString fileURL)
 
     dirPath = fileInfo.absolutePath();
 
-    differentialSlewingActivated = false;
+    RotatorGOTO = false;
 
     m_SolveFromFile = true;
 
@@ -3006,7 +3036,7 @@ bool Align::loadAndSlew(QString fileURL)
 
 bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 {
-    differentialSlewingActivated = false;
+    RotatorGOTO = false;
     m_SolveFromFile = true;
     RUN_PAH(stopPAHProcess());
     slewR->setChecked(true);
@@ -3765,7 +3795,20 @@ void Align::calculateAlignTargetDiff()
     m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;
     m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;
 
-    dms RADiff(fabs(m_TargetDiffRA) / 3600.0), DEDiff(m_TargetDiffDE / 3600.0);
+    if (!Options::astrometryDifferentialSlewing()) // Normal align: Target coords are destinations coords
+    {
+        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;  // arcsec
+        m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;  // arcsec
+    }
+    else // Differential slew: Target coords are hijacked to move the telescope ->SlewToTarget()
+    {
+        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra())).Degrees() * 3600;  // arcsec
+        m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_DestinationCoord.dec())).Degrees() * 3600;  // arcsec
+        qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Solution RA:" << m_AlignCoord.ra().toHMSString()
+                                   << " DE:" << m_AlignCoord.dec().toDMSString();
+        qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Destination RA:" << m_DestinationCoord.ra().toHMSString()
+                                   << " DE:" << m_DestinationCoord.dec().toDMSString();
+    }
 
     m_TargetDiffTotal = sqrt(m_TargetDiffRA * m_TargetDiffRA + m_TargetDiffDE * m_TargetDiffDE);
 
