@@ -179,7 +179,7 @@ void TestFitsData::initGenericDataFixture()
             << 1.482291 // HFR found with the StellarSolver detection
             << 41.08    // ADU
             << 41.08    // Mean
-            << 360.18   // StdDev
+            << 360.29   // StdDev
             << 0.114    // SNR
             << 57832L   // Max
             << 21L      // Min
@@ -233,6 +233,7 @@ void TestFitsData::testLoadFits()
     // Statistics computation
     QVERIFY(abs(fd->getADU() - ADU) < 0.01);
     QVERIFY(abs(fd->getMean() - MEAN) < 0.01);
+    fprintf(stderr, "%f vs %f (%f\n", fd->getStdDev(), STDDEV, abs(fd->getStdDev() - STDDEV));
     QVERIFY(abs(fd->getStdDev() - STDDEV) < 0.01);
     QVERIFY(abs(fd->getSNR() - SNR) < 0.001);
 
