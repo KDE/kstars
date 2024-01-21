@@ -18,6 +18,7 @@
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
 #include "indi/indirotator.h"
+#include "ekos/auxiliary/rotatorutils.h"
 
 namespace Ekos
 {
@@ -241,11 +242,12 @@ void CaptureDeviceAdaptor::setRotatorAngle(double rawAngle)
 {
     if (m_ActiveRotator != nullptr && m_ActiveRotator->setAbsoluteAngle(rawAngle))
     {
+        RotatorUtils::Instance()->initTimeFrame(rawAngle);
         qCInfo(KSTARS_EKOS_CAPTURE) << "Setting rotator angle to" << rawAngle << "degrees.";
     }
     else
         qCWarning(KSTARS_EKOS_CAPTURE) << "Setting rotator angle to " << rawAngle
-                                       << "failed due missing or unresponsive rotator.";
+                                       << "failed due to missing or unresponsive rotator.";
 }
 
 double CaptureDeviceAdaptor::getRotatorAngle()

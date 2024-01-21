@@ -67,7 +67,8 @@
 
 #define MAXIMUM_SOLVER_ITERATIONS 10
 #define CAPTURE_RETRY_DELAY       10000
-#define PAH_CUTOFF_FOV            10 // Minimum FOV width in arcminutes for PAH to work
+#define CAPTURE_ROTATOR_DELAY     5000  // After 5 seconds estimated value should be not bad
+#define PAH_CUTOFF_FOV            10    // Minimum FOV width in arcminutes for PAH to work
 #define CHECK_PAH(x) \
     m_PolarAlignmentAssistant && m_PolarAlignmentAssistant->x
 #define RUN_PAH(x) \
@@ -1516,10 +1517,35 @@ bool Align::captureAndSolve()
     // Let rotate the camera BEFORE taking a capture in [Capture & Solve]
     if (!m_SolveFromFile && m_Rotator && m_Rotator->absoluteAngleState() == IPS_BUSY)
     {
-        appendLogText(i18n("Cannot capture while rotator is busy. Retrying in %1 seconds...",
-                           CAPTURE_RETRY_DELAY / 1000));
-        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
-        return false;
+        int TimeOut = CAPTURE_ROTATOR_DELAY;
+        switch (m_CaptureTimeoutCounter)
+        {
+            case 0:// Set start time & start angle and estimate rotator time frame during first timeout
+            {
+                auto absAngle = 0;
+                if ((absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE")->at(0)->getValue()))
+                {
+                    RotatorUtils::Instance()->startTimeFrame(absAngle);
+                    m_estimateRotatorTimeFrame = true;
+                    appendLogText(i18n("Cannot capture while rotator is busy: Time delay estimate started..."));
+                }
+                m_CaptureTimer.start(TimeOut);
+                break;
+            }
+            case 1:// Use estimated time frame (in updateProperty()) for second timeout
+            {
+                TimeOut = m_RotatorTimeFrame * 1000;
+                [[fallthrough]];
+            }
+            default:
+            {
+                TimeOut *= m_CaptureTimeoutCounter; // Extend Timeout in case estimated value is too short
+                m_estimateRotatorTimeFrame = false;
+                appendLogText(i18n("Cannot capture while rotator is busy: Retrying in %1 seconds...", TimeOut / 1000));
+                m_CaptureTimer.start(TimeOut);
+            }
+        }
+        return true; // Return value is used in 'Scheduler::startAstrometry()'
     }
 
     m_AlignView->setBaseSize(alignWidget->size());
@@ -2692,6 +2718,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
+                            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
                             m_CaptureTimer.start(alignSettlingTime->value());
                             return;
                         }
@@ -2709,8 +2736,8 @@ void Align::updateProperty(INDI::Property prop)
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
+                            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
                             m_CaptureTimer.start(alignSettlingTime->value());
-                            return;
                         }
                         break;
 
@@ -2770,7 +2797,8 @@ void Align::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("ABS_ROTATOR_ANGLE"))
     {
         auto nvp = prop.getNumber();
-        currentRotatorPA = RotatorUtils::Instance()->calcCameraAngle(nvp->np[0].value, false);
+        double RAngle = nvp->np[0].value;
+        currentRotatorPA = RotatorUtils::Instance()->calcCameraAngle(RAngle, false);
         /*QString logtext = "Alignstate: " + QString::number(state)
                         + " IPSstate: " + QString::number(nvp->s)
                         + " Raw Rotator Angle:" + QString::number(nvp->np[0].value)
@@ -2782,7 +2810,7 @@ void Align::updateProperty(INDI::Property prop)
         if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_OK)
         {
             auto diff = fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60;
-            qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
+            qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << RAngle << "Current PA:" << currentRotatorPA
                                        << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:"
                                        << Options::pAOffset();
 
@@ -2809,6 +2837,10 @@ void Align::updateProperty(INDI::Property prop)
                     }
                 });
             }
+        }
+        else if (m_estimateRotatorTimeFrame) // Estimate time frame during first timeout
+        {
+            m_RotatorTimeFrame = RotatorUtils::Instance()->calcTimeFrame(RAngle);
         }
     }
     else if (prop.isNameMatch("DOME_MOTION"))
@@ -3323,10 +3355,12 @@ void Align::setCaptureStatus(CaptureState newState)
                 qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (m_Mount->clearAlignmentModel() ?
                                            "successful." : "failed.");
             }
-
+            if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
+                appendLogText(i18n("Settling..."));
+            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
             m_CaptureTimer.start(alignSettlingTime->value());
             break;
-
+        // Is this needed anymore with new flip policy? (sb 2023-10-20)
         // On meridian flip, reset Target Position Angle to fully rotated value
         // expected after MF so that we do not end up with reversed camera rotation
         case CAPTURE_MERIDIAN_FLIP:
@@ -4507,6 +4541,11 @@ void Align::processCaptureTimeout()
         else
         {
             setAlignTableResult(ALIGN_RESULT_FAILED);
+            if (m_resetCaptureTimeoutCounter)
+            {
+                m_resetCaptureTimeoutCounter = false;
+                m_CaptureTimeoutCounter = 0;
+            }
             captureAndSolve();
         }
     }

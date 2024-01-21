@@ -145,3 +145,51 @@ double RotatorUtils::DiffPA(double diff)
     else
         return diff;
 }
+
+void RotatorUtils::initTimeFrame(const double EndAngle)
+{
+    m_EndAngle = EndAngle;
+    m_initParameter = true;
+    m_CCW = true;
+}
+
+int RotatorUtils::calcTimeFrame(const double CurrentAngle)
+{
+    m_CurrentTime = QTime::currentTime();
+    m_DeltaTime = m_StartTime.secsTo(m_CurrentTime);
+    m_TimeFrame = 0;
+    if (m_DeltaTime >= 1)
+    {
+        if (m_initParameter)
+        {
+            m_DeltaAngle = CurrentAngle + m_ShiftAngle;
+            // Moving CCW or positive
+            if (m_DeltaAngle >= 360)
+            {
+                if (m_DiffAngle < 0)
+                    m_DiffAngle = (360 + m_DiffAngle);
+            }
+            else // Moving CW or negative
+            {
+                if (m_DiffAngle > 0)
+                    m_DiffAngle = (360 - m_DiffAngle);
+                m_CCW = false;
+            }
+            m_initParameter = false;
+        }
+        m_DeltaAngle = KSUtils::range360(CurrentAngle + m_ShiftAngle);
+        if (!m_CCW)
+                m_DeltaAngle = 360 - m_DeltaAngle;
+
+        m_TimeFrame = fabs(m_DiffAngle) / fabs(m_DeltaAngle/m_DeltaTime);
+    }
+    return m_TimeFrame;
+}
+
+void RotatorUtils::startTimeFrame(const double StartAngle)
+{
+    m_StartAngle = StartAngle;
+    m_StartTime = QTime::currentTime();
+    m_ShiftAngle = 360 - m_StartAngle;
+    m_DiffAngle = m_EndAngle - m_StartAngle;
+}

@@ -417,7 +417,7 @@ class Align : public QWidget, public Ui::Align
 
         /** DBUS interface function.
              * Capture and solve an image using the astrometry.net engine
-             * @return Returns true if the procedure started successful, false otherwise.
+             * @return Returns true if the procedure started successful, false otherwise (return true, not false, when retrying!)
              */
         Q_SCRIPTABLE bool captureAndSolve();
 
@@ -837,6 +837,7 @@ class Align : public QWidget, public Ui::Align
         uint8_t m_CaptureTimeoutCounter { 0 };
         uint8_t m_CaptureErrorCounter { 0 };
         uint8_t m_SlewErrorCounter { 0 };
+        bool m_resetCaptureTimeoutCounter = false;
 
         QTimer m_CaptureTimer;
 
@@ -924,6 +925,8 @@ class Align : public QWidget, public Ui::Align
 
         // Rotator Control
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
+        int m_RotatorTimeFrame = 0;
+        bool m_estimateRotatorTimeFrame = false;
 
         // Settings
         QVariantMap m_Settings;

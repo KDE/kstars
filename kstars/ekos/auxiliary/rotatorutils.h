@@ -26,6 +26,9 @@ class RotatorUtils : public QObject
         void   setImagePierside(ISD::Mount::PierSide ImgPierside);
         ISD::Mount::PierSide getMountPierside();
         double DiffPA(double diff);
+        void   initTimeFrame(const double EndAngle);
+        int    calcTimeFrame(const double CurrentAngle);
+        void   startTimeFrame(const double StartAngle);
 
     private:
         RotatorUtils();
@@ -35,8 +38,15 @@ class RotatorUtils : public QObject
         ISD::Mount::PierSide m_CalPierside {ISD::Mount::PIER_WEST};
         ISD::Mount::PierSide m_ImgPierside {ISD::Mount::PIER_UNKNOWN};
         double m_Offset {0};
-        bool m_flippedMount {false};
+        bool   m_flippedMount {false};
         ISD::Mount *m_Mount {nullptr};
+        double m_StartAngle, m_EndAngle {0};
+        double m_ShiftAngle, m_DiffAngle {0};
+        QTime  m_StartTime, m_CurrentTime;
+        int    m_DeltaTime = 0;
+        double m_DeltaAngle = 0;
+        int    m_TimeFrame = 0;
+        bool   m_initParameter, m_CCW = true;
 
     signals:
         void   changedPierside(ISD::Mount::PierSide index);
