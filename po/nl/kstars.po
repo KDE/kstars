@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-20 01:33+0000\n"
-"PO-Revision-Date: 2024-01-18 09:57+0100\n"
+"POT-Creation-Date: 2024-01-21 01:34+0000\n"
+"PO-Revision-Date: 2024-01-20 16:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5903,7 +5903,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Fout: verbinding met filterwiel verbroken."
 
 #: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4806
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4840
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5944,7 +5944,7 @@ msgid "Capturing image..."
 msgstr "Afbeelding vastleggen..."
 
 #: ekos/align/align.cpp:1661 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2424
+#: ekos/focus/focus.cpp:2450
 #, kde-format
 msgid "Image received."
 msgstr "Afbeelding ontvangen."
@@ -6102,7 +6102,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Oplossen gestopt na %1 seconden."
 
 #: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1758
-#: ekos/focus/focus.cpp:3923 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1927
+#: ekos/focus/focus.cpp:3949 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1927
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:711
 #, kde-format
@@ -6262,7 +6262,7 @@ msgid "dDE (arcsec)"
 msgstr "dDe (arcsec)"
 
 #: ekos/align/align.cpp:3564 ekos/capture/capture.cpp:2933
-#: ekos/focus/focus.cpp:4698
+#: ekos/focus/focus.cpp:4732
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filteren is mislukt!"
@@ -6504,10 +6504,9 @@ msgstr "Zich zetten:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:338
-#, fuzzy, kde-format
-#| msgid "Accuracy"
+#, kde-format
 msgid "Accuracy:"
-msgstr "Nauwkeurigheid"
+msgstr "Nauwkeurigheid:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:348
@@ -6639,10 +6638,9 @@ msgstr "Bin:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:673 ekos/guide/guide.ui:166
-#, fuzzy, kde-format
-#| msgid "Show in FITS Viewer"
+#, kde-format
 msgid "Show in FITS Viewer..."
-msgstr "Tonen van FITS-afbeeldingen"
+msgstr "Tonen van FITS-afbeeldingen..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #: ekos/align/align.ui:600
@@ -6744,10 +6742,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
-#, fuzzy, kde-format
-#| msgid "use current"
+#, kde-format
 msgid "Use current"
-msgstr "huidige gebruiken"
+msgstr "Huidige gebruiken"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -10388,10 +10385,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #: ekos/analyze/analyze.ui:338
-#, fuzzy, kde-format
-#| msgid "Guide: "
+#, kde-format
 msgid "Guide:"
-msgstr "Volger: "
+msgstr "Volger:"
 
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
@@ -10404,10 +10400,9 @@ msgstr "Opstelling:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/analyze/analyze.ui:374
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture:"
-msgstr "Opnemen"
+msgstr "Opname:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:387
@@ -11456,8 +11451,7 @@ msgstr "Binning:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/darklibrary.ui:213
-#, fuzzy, kde-format
-#| msgid "Exp. Range:"
+#, kde-format
 msgid "Exp. range:"
 msgstr "Bel. bereik:"
 
@@ -11470,8 +11464,7 @@ msgstr "Stap:"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureLabel)
 #: ekos/auxiliary/darklibrary.ui:256
-#, fuzzy, kde-format
-#| msgid "T. Range:"
+#, kde-format
 msgid "T. range:"
 msgstr "T. bereik:"
 
@@ -11526,8 +11519,7 @@ msgstr "Stapgrootte in seconden"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/darklibrary.ui:382
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total time:"
 msgstr "Totale tijd:"
 
@@ -11564,8 +11556,7 @@ msgstr "Maximale belichtingstijd in seconden."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/darklibrary.ui:464
-#, fuzzy, kde-format
-#| msgid "Total Images:"
+#, kde-format
 msgid "Total images:"
 msgstr "Totaal aantal afbeeldingen:"
 
@@ -11627,8 +11618,7 @@ msgstr "Mediaan:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/auxiliary/darklibrary.ui:783
-#, fuzzy, kde-format
-#| msgid "Std. Deviation:"
+#, kde-format
 msgid "Std. deviation:"
 msgstr "Std. afwijking:"
 
@@ -11640,10 +11630,9 @@ msgstr "Slechte pixels"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/darklibrary.ui:827
-#, fuzzy, kde-format
-#| msgid "Hot Pixels"
+#, kde-format
 msgid "Hot pixels:"
-msgstr "Hotpixels"
+msgstr "Hotpixels:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, coldPixelsCount)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hotPixelsCount)
@@ -11654,10 +11643,9 @@ msgstr "Gedetecteerde pixels na filter voor agressiviteit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/auxiliary/darklibrary.ui:847
-#, fuzzy, kde-format
-#| msgid "Cold Pixels"
+#, kde-format
 msgid "Cold pixels:"
-msgstr "Koude pixels"
+msgstr "Koude pixels:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, coldPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:854
@@ -12161,10 +12149,9 @@ msgstr "Problemen met Ekos? Activeer loggen voor Ekos-modules met problemen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/opslogs.ui:133
-#, fuzzy, kde-format
-#| msgid "Ekos"
+#, kde-format
 msgid "Ekos:"
-msgstr "Ekos"
+msgstr "Ekos:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_RegularLogging)
 #: ekos/auxiliary/opslogs.ui:140 options/opsadvanced.ui:238
@@ -12282,10 +12269,9 @@ msgstr "Activiteiten Ekos opnamemodule loggen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/auxiliary/opslogs.ui:295
-#, fuzzy, kde-format
-#| msgid "Astrometry"
+#, kde-format
 msgid "Astrometry:"
-msgstr "Astrometry"
+msgstr "Astrometrie:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIGPSLogging)
 #: ekos/auxiliary/opslogs.ui:302
@@ -12325,10 +12311,9 @@ msgstr "Waarneemstation"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:338
-#, fuzzy, kde-format
-#| msgid "Enable verbose debug output"
+#, kde-format
 msgid "Enable verbose debug output level"
-msgstr "Uitvoerig loggen debug uitvoer aan"
+msgstr "Debuguitvoerniveau uitvoerig inschakelen"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:341 options/opsadvanced.ui:307
@@ -12385,10 +12370,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:410
-#, fuzzy, kde-format
-#| msgid "Drivers"
+#, kde-format
 msgid "Drivers:"
-msgstr "Drivers"
+msgstr "Stuurprogramma's:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_MountLogging)
 #: ekos/auxiliary/opslogs.ui:417
@@ -12476,10 +12460,9 @@ msgstr "INDI-meldingen in de status&balk"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: ekos/auxiliary/opslogs.ui:529
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory"
+#, kde-format
 msgid "Open Logs Directory..."
-msgstr "Map voor logs openen"
+msgstr "Map voor logs openen..."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:139
 #, kde-format
@@ -12616,8 +12599,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:209
-#, fuzzy, kde-format
-#| msgid "Dust Cap:"
+#, kde-format
 msgid "Dust cap:"
 msgstr "Stofkap:"
 
@@ -12654,8 +12636,7 @@ msgstr "Selecteer een vlakveldlichtbox indien aanwezig (bijv. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:265
-#, fuzzy, kde-format
-#| msgid "Light Box:"
+#, kde-format
 msgid "Light box:"
 msgstr "Lichtbox:"
 
@@ -12671,8 +12652,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:278
-#, fuzzy, kde-format
-#| msgid "Filter Wheel:"
+#, kde-format
 msgid "Filter wheel:"
 msgstr "Filterwiel:"
 
@@ -12705,8 +12685,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:301
-#, fuzzy, kde-format
-#| msgid "Guide Via:"
+#, kde-format
 msgid "Guide via:"
 msgstr "Volgen via:"
 
@@ -13171,10 +13150,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadDefaults)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:172
-#, fuzzy, kde-format
-#| msgid ""
-#| "Loads the default set of profiles, clearing any modifications or custom "
-#| "profiles. "
+#, kde-format
 msgid ""
 "Loads the default set of profiles, clearing any modifications or custom "
 "profiles."
@@ -13685,27 +13661,19 @@ msgstr "# behouden"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keepNum)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:847
-#, fuzzy, kde-format
-#| msgid ""
-#| "The number of stars to keep in the list after star extraction.  This "
-#| "parameter is based on magnitude and is most useful to speed up plate "
-#| "solving, such as in the Align Module."
+#, kde-format
 msgid ""
 "The number of stars to keep in the list after star extraction. This "
 "parameter is based on magnitude and is most useful to speed up plate "
 "solving, such as in the Align Module."
 msgstr ""
-"Het aantal te behouden sterren in de lijst na ster-extractie.  Deze "
-"parameter is gebaseerd op magnitude en is het meest nuttig om plaat oplossen "
-"te versnellen, zoals in de uitlijnmodule."
+"Het aantal te behouden sterren in de lijst na ster-extractie. Deze parameter "
+"is gebaseerd op magnitude en is het meest nuttig om plaat oplossen te "
+"versnellen, zoals in de uitlijnmodule."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:857
-#, fuzzy, kde-format
-#| msgid ""
-#| "The number of stars to keep in the list initially.  This filter is based "
-#| "on the size of the stars.  It is primarily useful for speeding up star "
-#| "extraction with HFR such as in Focus, Guide, and HFR monitoring.  "
+#, kde-format
 msgid ""
 "The number of stars to keep in the list initially. This filter is based on "
 "the size of the stars.  It is primarily useful for speeding up star "
@@ -13713,7 +13681,7 @@ msgid ""
 msgstr ""
 "Het aantal initieel te behouden sterren in de lijst. Dit filter is gebaseerd "
 "op de grootte van de sterren. Het is primair nuttig om ster-extractie met "
-"HFR zoals in Focus, Guide en HFR-monitoring te versnellen.  "
+"HFR zoals in Focus, Guide en HFR-monitoring te versnellen."
 
 #. i18n: ectx: property (text), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:860
@@ -14965,31 +14933,27 @@ msgstr "Status van alle jobs terugzetten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/capture.ui:1740
-#, fuzzy, kde-format
-#| msgid "Select Observer"
+#, kde-format
 msgid "Select Observer..."
-msgstr "Waarnemer selecteren"
+msgstr "Waarnemer selecteren..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/capture/capture.ui:1781
-#, fuzzy, kde-format
-#| msgid "Load capture sequence from file"
+#, kde-format
 msgid "Load Capture Sequence from File..."
-msgstr "Opnamereeks uit bestand lezen"
+msgstr "Opnamereeks uit bestand lezen..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/capture/capture.ui:1815
-#, fuzzy, kde-format
-#| msgid "Save capture sequence as ..."
+#, kde-format
 msgid "Save Capture Sequence..."
-msgstr "Opnamereeks opslaan als ..."
+msgstr "Opnamereeks opslaan..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/capture/capture.ui:1849
-#, fuzzy, kde-format
-#| msgid "Save capture sequence as ..."
+#, kde-format
 msgid "Save Capture Sequence As..."
-msgstr "Opnamereeks opslaan als ..."
+msgstr "Opnamereeks opslaan als..."
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -15028,24 +14992,21 @@ msgstr "ISO/Versterking"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
 #: ekos/capture/capture.ui:1946
-#, fuzzy, kde-format
-#| msgid "Capture a preview"
+#, kde-format
 msgid "Capture a Preview..."
-msgstr "Voorbeeldweergave opnemen"
+msgstr "Voorvertoning opnemen..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
 #: ekos/capture/capture.ui:1987
-#, fuzzy, kde-format
-#| msgid "Start framing (looping)"
+#, kde-format
 msgid "Start Framing (Looping)..."
-msgstr "Framing starten (in een lus)"
+msgstr "Framing starten (in een lus)..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
 #: ekos/capture/capture.ui:2025 ekos/focus/focus.ui:698
-#, fuzzy, kde-format
-#| msgid "Live Video"
+#, kde-format
 msgid "Live Video..."
-msgstr "Als video"
+msgstr "Live video..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
 #: ekos/capture/capture.ui:2088
@@ -15073,10 +15034,9 @@ msgstr "Dark bibliotheek aanmaken en beheren"
 
 #. i18n: ectx: property (text), widget (QPushButton, darkLibraryB)
 #: ekos/capture/capture.ui:2174
-#, fuzzy, kde-format
-#| msgid "Darks"
+#, kde-format
 msgid "Darks..."
-msgstr "Donkers"
+msgstr "Donkers..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/capture.ui:2181
@@ -15086,10 +15046,9 @@ msgstr "Volgen & focusgrenzen configureren"
 
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #: ekos/capture/capture.ui:2184
-#, fuzzy, kde-format
-#| msgid "Limits"
+#, kde-format
 msgid "Limits..."
-msgstr "Grenzen"
+msgstr "Grenzen..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
 #: ekos/capture/capture.ui:2197
@@ -15099,10 +15058,9 @@ msgstr "Scripts met volgorde beheren"
 
 #. i18n: ectx: property (text), widget (QPushButton, scriptManagerB)
 #: ekos/capture/capture.ui:2200
-#, fuzzy, kde-format
-#| msgid "Scripts"
+#, kde-format
 msgid "Scripts..."
-msgstr "Scripts"
+msgstr "Scripts..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
 #: ekos/capture/capture.ui:2220
@@ -15117,10 +15075,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/capture.ui:2248
-#, fuzzy, kde-format
-#| msgid "total remaining:"
+#, kde-format
 msgid "Total remaining:"
-msgstr "totaal resterend:"
+msgstr "Totaal resterend:"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, gr_frameRemainingTime)
@@ -15183,10 +15140,9 @@ msgstr "Een nieuw reeksbestand laden"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
 #: ekos/capture/capture.ui:2446
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Load..."
-msgstr "Wordt gedownload..."
+msgstr "Laden..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/capture.ui:2465
@@ -15318,10 +15274,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, frameInfoLabel)
 #: ekos/capture/capturecountswidget.ui:463
-#, fuzzy, kde-format
-#| msgid "Type and filter (if present) of the currently active capture. "
+#, kde-format
 msgid "Type and filter (if present) of the currently active capture."
-msgstr "Type en filter (indien aanwezig) van de huidige actieve opname. "
+msgstr "Type en filter (indien aanwezig) van de huidige actieve opname."
 
 #. i18n: ectx: property (text), widget (QLabel, overallLabel)
 #: ekos/capture/capturecountswidget.ui:511
@@ -15737,12 +15692,12 @@ msgstr "Pre-jobscript beëindigd met code %1."
 msgid "Post job script finished with code %1."
 msgstr "Post-jobscript beëindigd met code %1."
 
-#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4848
+#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4882
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Belichtingstijd verlopen. Wordt afgebroken..."
 
-#: ekos/capture/captureprocess.cpp:1945 ekos/focus/focus.cpp:4853
+#: ekos/capture/captureprocess.cpp:1945 ekos/focus/focus.cpp:4887
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16296,10 +16251,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitGuideDeviationS)
 #: ekos/capture/limits.ui:134
-#, fuzzy, kde-format
-#| msgid "Abort if Guide Deviation >"
+#, kde-format
 msgid "Abort if guide deviation >:"
-msgstr "Afbreken als volgafwijking >"
+msgstr "Afbreken als volgafwijking >:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, startGuiderDriftS)
 #: ekos/capture/limits.ui:147
@@ -16313,10 +16267,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, startGuiderDriftS)
 #: ekos/capture/limits.ui:150
-#, fuzzy, kde-format
-#| msgid "Only Start if Guide Deviation <"
+#, kde-format
 msgid "Only start if guide deviation <:"
-msgstr "Alleen starten als volgafwijking <"
+msgstr "Alleen starten als volgafwijking <:"
 
 #. i18n: ectx: property (text), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:170
@@ -16326,10 +16279,9 @@ msgstr "opeenvolgende keren"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/limits.ui:177
-#, fuzzy, kde-format
-#| msgid "Dither Per Job Every"
+#, kde-format
 msgid "Dither per job every:"
-msgstr "Per taak wiebelen iedere"
+msgstr "Per taak wiebelen iedere:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:187
@@ -16341,22 +16293,23 @@ msgstr "Focusgrenzen"
 #: ekos/capture/limits.ui:193
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+#| "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
+#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+#| "style=\" font-weight:600;\">Last Autofocus</span>: This is the default "
+#| "algorithm and uses the HFR value from the most recent Autofocus run as "
+#| "the reference for the check.</li></ul><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
 #| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#| "font-weight:600;\">Fixed</span>: This algorthm lets the user specify a "
+#| "fixed HFR to use in the check.</li><li style=\" margin-top:0px; margin-"
+#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+#| "indent:0px;\"><span style=\" font-weight:600;\">Relative Measure</span>: "
+#| "This algorithm collects datapoints from Autofocus and HFR Checks, "
+#| "maintains the data in a sequenced list and uses the median value as the "
+#| "reference for the next HFR Check.</li></ul></body></html>"
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -16368,7 +16321,7 @@ msgid ""
 "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Fixed</span>: This algorthm lets the user specify a fixed HFR "
+"weight:600;\">Fixed</span>: This algorithm lets the user specify a fixed HFR "
 "to use in the check.</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Relative Measure</span>: This algorithm "
@@ -16376,76 +16329,70 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecteer het type kromme om de gegevens te fitten:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Kwadratisch</span>: Gebruikt "
-"een polynoom fit met graad 2.  Dit is nu de standaard optie en nu de enige "
-"optie voor alle algoritmen behalve Lineair 1 doorgang.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Hyperbool</span>: Fit een hyperbool door de gegevenspunten.  Dit is nu de "
-"enige beschikbare voor het algoritme Lineaire 1 doorgang.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parabool</span>: Fit een parabool door de gegevenspunten.  Dit is nu de "
-"enige beschikbare voor het algoritme Lineaire 1 doorgang.</li></ul></body></"
-"html>"
+"<html><head/><body><p>Het HFR controlealgoritme:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Laatste autofocus</span>: dit is het standaard "
+"algoritme en gebruikt de HFR waarde uit de meest recente uitvoering van "
+"autofocus als de referentie voor de controle.</li></ul><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Vastgezet</span>: dit algoritme laat de "
+"gebruiker een vaste HFR specificeren om te gebruiken bij de controle.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Relatieve maat</span>: Dit algoritme collects verzamelt uit "
+"autofocus en HFR controles, handhaaft de gegevens in een reekslijst en "
+"gebruikt de mediaanwaarde als de referentie voor de volgende HFR controle.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:200
-#, fuzzy, kde-format
-#| msgid "Auto focus:"
+#, kde-format
 msgid "Last Autofocus"
-msgstr "Autofocus:"
+msgstr "Laatste autofocus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:205
-#, fuzzy, kde-format
-#| msgid "Fixed DEC"
+#, kde-format
 msgid "Fixed"
-msgstr "Vaste DEC"
+msgstr "Vastgezet"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:210
-#, fuzzy, kde-format
-#| msgid "Measure:"
+#, kde-format
 msgid "Median Measure"
-msgstr "Maat:"
+msgstr "Mediaanmaat"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusDeltaTS)
 #: ekos/capture/limits.ui:259
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Perform autofocus when the change in temperature "
-#| "since last focus exceeded this limit</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus when the change in "
 "temperature since last focus exceeded this value.  Reference temperature is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Autofocus uitvoeren wanneer de temperatuur na de "
-"laatste focus meer verandert dan deze limiet </p></body></html>"
+"<html><head/><body><p>Activeer om een autofocus te doen wanneer de wijziging "
+"in temperatuur sinds de laatste focus deze waarde oversteeg. "
+"Referentietemperatuur is reset bij elke autofocus.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitFocusDeltaTS)
 #: ekos/capture/limits.ui:262
-#, fuzzy, kde-format
-#| msgid "Autofocus if ΔT°  >"
+#, kde-format
 msgid "Refocus if ΔT°  >:"
-msgstr "Autofocus als ΔT°  >"
+msgstr "Opnieuw focussen als ΔT°  >:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, meridianRefocusS)
 #: ekos/capture/limits.ui:269
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Perform autofocus after meridian flip</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Autofocus uitvoeren na meridiaanflip.</p></body></html>"
+"<html><head/><body><p>Activeer om en autofocus af te dwingen na een "
+"meridiaanflip.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, meridianRefocusS)
 #: ekos/capture/limits.ui:272 ekos/capture/refocusstate.cpp:58
@@ -16455,42 +16402,38 @@ msgstr "Opnieuw focusseren na meridiaanflip"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitRefocusS)
 #: ekos/capture/limits.ui:282
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus every N minutes.  Timer is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit activeren voor toepassen van aanpasbare focus op "
-"autofocus-runs.</p></body></html>"
+"<html><head/><body><p>Activeer om een autofocus elke N minuten af te "
+"dwingen. Timer wordt gereset bij elke autofocus.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitRefocusS)
 #: ekos/capture/limits.ui:285
-#, fuzzy, kde-format
-#| msgid "Refocus every"
+#, kde-format
 msgid "Refocus every:"
-msgstr "Herfocusseren elke "
+msgstr "Opnieuw focusseren elke:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:295
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
-#| "successful Autofocus run.</p></body></html>"
+#| "<html><head/><body><p>Check to perform an HFR Check between Subframes.  "
+#| "The Check may result is an Autofocus.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
-"Check may result is an Autofocus.</p></body></html>"
+"Check may result in an Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kies dit voor het tonen van de CFZ op de V-kromme na "
-"succesvolle Autofocus run.</p></body></html>"
+"<html><head/><body><p>Activeren om een HFR controle uit te voeren tussen "
+"subframes. De controle kan resulteren is een autofocus.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:298
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
-msgstr ""
+msgstr "Opnieuw focussen bij ΔHFR.  Gebruik:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:305
@@ -16500,39 +16443,31 @@ msgstr "Na dit aantal frames doorgaande HFR-controle uitvoeren:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:308
-#, fuzzy, kde-format
-#| msgid "Refocus every"
+#, kde-format
 msgid "Check every:"
-msgstr "Herfocusseren elke "
+msgstr "Controle elke:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, limitFocusHFRCheckFrames)
 #: ekos/capture/limits.ui:318
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run HFR check after this many sub-frames.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Gemiddelde HFR waarde uit het laatste frame.</p></"
+"<html><head/><body><p>HFR controle uitvoeren na dit aantal subframes.</p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, limitFocusHFRThresholdPercentage)
 #: ekos/capture/limits.ui:331
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Specify the % to apply to the HFR Check value "
 "appropriate to the selected algorithm, to use as the threshold to perform "
 "the HFR Check.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Pas de schaal van de correctiegrafieken aan, aan de "
-"schaal van de driftgrafieken, door slepen van de schuifknop.</p></body></"
-"html>"
+"<html><head/><body><p>Het % specificeren om toe te passen op de HFR "
+"controlewaarde van toepassing op het geselecteerde algoritme, om te "
+"gebruiken als de drempel om de HFR controle uit te voeren.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
@@ -16556,6 +16491,10 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>De HFR controlewaarde in pixels. Dit is een "
+"uitvoerveld wanneer Laatste autofocus of Relatieve maat is geselecteerd en "
+"een invoerveld voor Vastgezet.  In alle gevallen kan de gebruiker de door "
+"het systeem gegenereerde waarde overschrijven.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
@@ -17740,7 +17679,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Startpunt aanpassen [%1] van %2 tot %3"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6406
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6440
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Focusadviseur"
@@ -18262,7 +18201,7 @@ msgstr "Eindelijk de temperatuurbron %1 gevonden"
 msgid "No Focuser connected."
 msgstr "Geen focusseerder verbonden."
 
-#: ekos/focus/focus.cpp:974 ekos/focus/focus.cpp:3971
+#: ekos/focus/focus.cpp:974 ekos/focus/focus.cpp:3997
 #, kde-format
 msgid "No CCD connected."
 msgstr "Geen CCD aangekoppeld.."
@@ -18346,190 +18285,214 @@ msgstr "Fout: Geen filterwiel gedetecteerd."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Fout: verbinding met filterwiel verloren."
 
-#: ekos/focus/focus.cpp:1559
+#: ekos/focus/focus.cpp:1535
+#, fuzzy, kde-format
+#| msgid "Go to an absolute focus position"
+msgid "At minimum focus position %1..."
+msgstr "Ga naar een absolute focuspositie"
+
+#: ekos/focus/focus.cpp:1546
+#, fuzzy, kde-format
+#| msgid "Solving with blind image position..."
+msgid "Moving to minimum focus position %1..."
+msgstr "Met de blinde afbeeldingspositie oplossen..."
+
+#: ekos/focus/focus.cpp:1555
+#, fuzzy, kde-format
+#| msgid "Go to an absolute focus position"
+msgid "At maximum focus position %1..."
+msgstr "Ga naar een absolute focuspositie"
+
+#: ekos/focus/focus.cpp:1566
+#, fuzzy, kde-format
+#| msgid "Go to an absolute focus position"
+msgid "Moving to maximum focus position %1..."
+msgstr "Ga naar een absolute focuspositie"
+
+#: ekos/focus/focus.cpp:1585
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Fout: geen focusseerder gedetecteerd."
 
-#: ekos/focus/focus.cpp:1566
+#: ekos/focus/focus.cpp:1592
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Fout: Verbinding met focusser verbroken."
 
-#: ekos/focus/focus.cpp:1580
+#: ekos/focus/focus.cpp:1606
 #, kde-format
 msgid "outward"
 msgstr "naar buiten"
 
-#: ekos/focus/focus.cpp:1580
+#: ekos/focus/focus.cpp:1606
 #, kde-format
 msgid "inward"
 msgstr "naar binnen"
 
-#: ekos/focus/focus.cpp:1597
+#: ekos/focus/focus.cpp:1623
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "%2 focusseren met %1 stappen..."
 
-#: ekos/focus/focus.cpp:1603
+#: ekos/focus/focus.cpp:1629
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "%2 focusseren met %1 stappen..."
 msgstr[1] "%2 focusseren met %1 stappen..."
 
-#: ekos/focus/focus.cpp:1609
+#: ekos/focus/focus.cpp:1635
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "%2 focusseren met %1 ms..."
 
-#: ekos/focus/focus.cpp:1644
+#: ekos/focus/focus.cpp:1670
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Focus instellen overschrijdt steeds de tijdslimiet. Afbreken..."
 
-#: ekos/focus/focus.cpp:1651
+#: ekos/focus/focus.cpp:1677
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Beweging van focus overschreed tijdslimiet (%1). Stuurprogramma %2 voor "
 "focusseren wordt herstart "
 
-#: ekos/focus/focus.cpp:1662
+#: ekos/focus/focus.cpp:1688
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Beweging van focus overschreed tijdslimiet (%1). Focusseren naar %2 "
 "stappen..."
 
-#: ekos/focus/focus.cpp:1708
+#: ekos/focus/focus.cpp:1734
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Poging om opnieuw te verbinden met insteller van focus: %1"
 
-#: ekos/focus/focus.cpp:1717
+#: ekos/focus/focus.cpp:1743
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Kan niet verbinden met insteller van focus: %1. Afbreken..."
 
-#: ekos/focus/focus.cpp:1766
+#: ekos/focus/focus.cpp:1792
 #, kde-format
 msgid "Detection complete."
 msgstr "Detectie voltooid."
 
-#: ekos/focus/focus.cpp:1958
+#: ekos/focus/focus.cpp:1984
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Bronnen worden gedetecteerd..."
 
-#: ekos/focus/focus.cpp:2072
+#: ekos/focus/focus.cpp:2098
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Autofocusproces met succes voltooid"
 
-#: ekos/focus/focus.cpp:2084
+#: ekos/focus/focus.cpp:2110
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Autofocusproces is mislukt"
 
-#: ekos/focus/focus.cpp:2120
+#: ekos/focus/focus.cpp:2146
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Focusprocedure voltooid na %1 iteratie."
 msgstr[1] "Focusprocedure voltooid na %1 iteraties."
 
-#: ekos/focus/focus.cpp:2204
+#: ekos/focus/focus.cpp:2230
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Settelen gedurende %1s..."
 
-#: ekos/focus/focus.cpp:2211
+#: ekos/focus/focus.cpp:2237
 #, kde-format
 msgid "Settling complete."
 msgstr "Instellen voltooid"
 
-#: ekos/focus/focus.cpp:2224
+#: ekos/focus/focus.cpp:2250
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr "Autofocus is mislukt, keert terug naar beginpositie %1 voor focus."
 
-#: ekos/focus/focus.cpp:2261
+#: ekos/focus/focus.cpp:2287
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS ontvangen. Geen sterren gedetecteerd."
 
-#: ekos/focus/focus.cpp:2502
+#: ekos/focus/focus.cpp:2528
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Automatisch een ster selecteren is mislukt. Kies handmatig een ster."
 
-#: ekos/focus/focus.cpp:2596
+#: ekos/focus/focus.cpp:2622
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Afbeelding opgenomen. Kies een ster om te focusseren."
 
-#: ekos/focus/focus.cpp:2627
+#: ekos/focus/focus.cpp:2653
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "Bij testen van HFR geen sterren gevonden, vastleggen wordt voortgezet..."
 
-#: ekos/focus/focus.cpp:2771
+#: ekos/focus/focus.cpp:2797
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr "Autofocus is niet gelukt. Probeer het met hogere tolerantiewaarde."
 
-#: ekos/focus/focus.cpp:2782 ekos/focus/focus.cpp:3488
+#: ekos/focus/focus.cpp:2808 ekos/focus/focus.cpp:3514
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Geen sterren gevonden, vastleggen wordt voortgezet..."
 
-#: ekos/focus/focus.cpp:2788 ekos/focus/focus.cpp:3494
+#: ekos/focus/focus.cpp:2814 ekos/focus/focus.cpp:3520
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Geen sterren gedetecteerd op positie %1. Doorgaan..."
 
-#: ekos/focus/focus.cpp:2793 ekos/focus/focus.cpp:3499
+#: ekos/focus/focus.cpp:2819 ekos/focus/focus.cpp:3525
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Geen sterren gevonden. Herstel frame en probeer het nog eens."
 
-#: ekos/focus/focus.cpp:2979
+#: ekos/focus/focus.cpp:3005
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Aberratie-inspecteur uitvoering %1 starten lukt niet..."
 
-#: ekos/focus/focus.cpp:2999
+#: ekos/focus/focus.cpp:3025
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Aberratie-inspecteur uitvoering %1 wordt gestart..."
 
-#: ekos/focus/focus.cpp:3060
+#: ekos/focus/focus.cpp:3086
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Controle op fitten van kromme is mislukt R2=%1 focusR2limiet=%2 opnieuw "
 "proberen..."
 
-#: ekos/focus/focus.cpp:3068
+#: ekos/focus/focus.cpp:3094
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Controle op fitten van kromme is opnieuw mislukt R2=%1 focusR2limiet=%2 gaat "
 "echter door..."
 
-#: ekos/focus/focus.cpp:3112
+#: ekos/focus/focus.cpp:3138
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS ontvangen. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3114
+#: ekos/focus/focus.cpp:3140
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS ontvangen. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3175
+#: ekos/focus/focus.cpp:3201
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -18538,26 +18501,26 @@ msgstr ""
 "Verandering in HFR is te klein. Probeer de stapgrootte groter te maken of de "
 "tolerantie te verkleinen."
 
-#: ekos/focus/focus.cpp:3182
+#: ekos/focus/focus.cpp:3208
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Geen ster om te focusseren gevonden in frame. Selecteer een ster voor "
 "focusseren."
 
-#: ekos/focus/focus.cpp:3287
+#: ekos/focus/focus.cpp:3313
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Veelterm oplossing gevonden @ %1"
 
-#: ekos/focus/focus.cpp:3351
+#: ekos/focus/focus.cpp:3377
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Verder focusseren lukt niet, apparaat heeft limieten bereikt. Autofocus "
 "afgebroken."
 
-#: ekos/focus/focus.cpp:3362
+#: ekos/focus/focus.cpp:3388
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -18565,22 +18528,22 @@ msgstr ""
 "Onstabiele fluctuaties. Probeer initiële stapgrootte of belichtingstijd te "
 "verhogen."
 
-#: ekos/focus/focus.cpp:3372
+#: ekos/focus/focus.cpp:3398
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Einde is bereikt. Probeer het opnieuw met andere instellingen."
 
-#: ekos/focus/focus.cpp:3401
+#: ekos/focus/focus.cpp:3427
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "Maximale verplaatsingslimiet bereikt. Autofocus afgebroken."
 
-#: ekos/focus/focus.cpp:3473
+#: ekos/focus/focus.cpp:3499
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS ontvangen. HFR %1. Delta (%2%) Min HFR (%3)"
 
-#: ekos/focus/focus.cpp:3477
+#: ekos/focus/focus.cpp:3503
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -18588,84 +18551,90 @@ msgstr ""
 "Autofocus heeft de juiste focus niet bereikt. Probeer het met een andere "
 "tolerantiewaarde."
 
-#: ekos/focus/focus.cpp:3567 ekos/focus/focus.cpp:3580
-#: ekos/focus/focus.cpp:3712 ekos/focus/focus.cpp:3786
-#: ekos/focus/focus.cpp:3849 ekos/focus/focus.cpp:3915
+#: ekos/focus/focus.cpp:3593 ekos/focus/focus.cpp:3606
+#: ekos/focus/focus.cpp:3738 ekos/focus/focus.cpp:3812
+#: ekos/focus/focus.cpp:3875 ekos/focus/focus.cpp:3941
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Focusfout, zie INDI-paneel."
 
-#: ekos/focus/focus.cpp:3616 ekos/focus/focus.cpp:3728
+#: ekos/focus/focus.cpp:3642 ekos/focus/focus.cpp:3754
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Mislukking van communicatie met insteller van focus simuleren..."
 
-#: ekos/focus/focus.cpp:3692 ekos/focus/focus.cpp:3770
-#: ekos/focus/focus.cpp:3833 ekos/focus/focus.cpp:3868
+#: ekos/focus/focus.cpp:3718 ekos/focus/focus.cpp:3796
+#: ekos/focus/focus.cpp:3859 ekos/focus/focus.cpp:3894
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Autofocusproces wordt herstart..."
 
-#: ekos/focus/focus.cpp:3987
+#: ekos/focus/focus.cpp:4013
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Starten met continue belichting..."
 
-#: ekos/focus/focus.cpp:4273
+#: ekos/focus/focus.cpp:4299
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Selectie Auto Star wordt uitgeschakeld omdat het vak voor de sterselectie "
 "met de hand is verplaatst."
 
-#: ekos/focus/focus.cpp:4278
+#: ekos/focus/focus.cpp:4304
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Focusster wordt geselecteerd."
 
-#: ekos/focus/focus.cpp:4407
+#: ekos/focus/focus.cpp:4433
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Geen ster geselecteerd. Laatst bekende positie wordt gebruikt..."
 
-#: ekos/focus/focus.cpp:4413
+#: ekos/focus/focus.cpp:4439
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Geen ster geselecteerd. Afgebroken..."
 
-#: ekos/focus/focus.cpp:4528
+#: ekos/focus/focus.cpp:4450
+#, fuzzy, kde-format
+#| msgid "Focusing outward by %1 ms..."
+msgid "Focuser already at %1..."
+msgstr "Uitwaarts %1 ms focusseren..."
+
+#: ekos/focus/focus.cpp:4562
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Focusframe"
 
-#: ekos/focus/focus.cpp:4866
+#: ekos/focus/focus.cpp:4900
 #, kde-format
 msgid "Capturing image again..."
 msgstr "Afbeelding wordt opnieuw vastgelegd..."
 
-#: ekos/focus/focus.cpp:4881
+#: ekos/focus/focus.cpp:4915
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Afbeelding opslaan is mislukt. Afbreken..."
 
-#: ekos/focus/focus.cpp:4891
+#: ekos/focus/focus.cpp:4925
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Belichtingsfout. Wordt afgebroken..."
 
-#: ekos/focus/focus.cpp:4896
+#: ekos/focus/focus.cpp:4930
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Belichtingsfout. Belichten wordt herhaald..."
 
-#: ekos/focus/focus.cpp:5144
+#: ekos/focus/focus.cpp:5178
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Relatief profiel"
 
-#: ekos/focus/focus.cpp:6373
+#: ekos/focus/focus.cpp:6407
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -18713,7 +18682,7 @@ msgstr ""
 "De derde stap is het instellen van de Out Step Multiple. Start met de "
 "gesuggereerde standaard."
 
-#: ekos/focus/focus.cpp:6389
+#: ekos/focus/focus.cpp:6423
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -18733,7 +18702,7 @@ msgstr ""
 "sterdetectie acceptabel is. Pas \"Out Step Multiple\" aan om overeen te "
 "komen met deze reeks van de verplaatsing van de focusseerder."
 
-#: ekos/focus/focus.cpp:6396
+#: ekos/focus/focus.cpp:6430
 #, kde-format
 msgid ""
 "\n"
@@ -18778,9 +18747,12 @@ msgstr "Framing starten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:193
-#, kde-format
-msgid "Focus Out"
-msgstr "Uitfocusseren"
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+msgid ""
+"<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
+"body></html>"
+msgstr "<html><head/><body><p>Langs de X-as uitzoomen.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
@@ -18835,9 +18807,12 @@ msgstr "Huidige absolute focusserpositie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:423
-#, kde-format
-msgid "Focus In"
-msgstr "Infocusseren"
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+msgid ""
+"<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
+"body></html>"
+msgstr "<html><head/><body><p>Inzoomen langs de X-as</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:468
@@ -23236,7 +23211,7 @@ msgstr "Opties Ekos"
 #: ekos/manager.ui:505
 #, kde-format
 msgid "Logs to diagnose issues with Ekos and INDI."
-msgstr ""
+msgstr "Logs om problemen met Ekos en INDI te diagnostiseren."
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:508
@@ -23588,7 +23563,7 @@ msgstr "DEC:"
 #: ekos/mount/mount.ui:198
 #, kde-format
 msgid "ALT:"
-msgstr ""
+msgstr "Hgte:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/mount/mount.ui:212
@@ -23606,7 +23581,7 @@ msgstr "Lokale Sterretijd"
 #: ekos/mount/mount.ui:232
 #, kde-format
 msgid "LST:"
-msgstr ""
+msgstr "LST:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:275
@@ -27631,8 +27606,7 @@ msgstr "dd-MM hh:mm"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, startupTimeConditionR)
 #: ekos/scheduler/scheduler.ui:1521
-#, fuzzy, kde-format
-#| msgid "start the job on the specified date and time"
+#, kde-format
 msgid "Start the job on the specified date and time"
 msgstr "De taak starten op opgegeven datum en tijdstip"
 
@@ -27640,7 +27614,7 @@ msgstr "De taak starten op opgegeven datum en tijdstip"
 #: ekos/scheduler/scheduler.ui:1524
 #, kde-format
 msgid "O&n:"
-msgstr ""
+msgstr "O&n:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
 #: ekos/scheduler/scheduler.ui:1540
@@ -27674,10 +27648,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1615
-#, fuzzy, kde-format
-#| msgid "Moon  > "
+#, kde-format
 msgid "Moon  >: "
-msgstr "Maan > "
+msgstr "Maan  >: "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1631
@@ -27688,10 +27661,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1634
-#, fuzzy, kde-format
-#| msgid "Alt > "
+#, kde-format
 msgid "Alt >: "
-msgstr "Hgt > "
+msgstr "Hgte >: "
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -27726,10 +27698,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1713
-#, fuzzy, kde-format
-#| msgid "Twilight"
+#, kde-format
 msgid "Twilight:"
-msgstr "Schemering"
+msgstr "Schemering:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerHorizon)
 #: ekos/scheduler/scheduler.ui:1732
@@ -27943,10 +27914,9 @@ msgstr "Fouten behandelen als afbreken."
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
 #: ekos/scheduler/scheduler.ui:2072
-#, fuzzy, kde-format
-#| msgid "Re-schedule errors"
+#, kde-format
 msgid "Re-schedule errors:"
-msgstr "Fouten herindelen"
+msgstr "Fouten bij opnieuw plannen:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingStrategyDelay)
 #: ekos/scheduler/scheduler.ui:2085
@@ -28753,40 +28723,40 @@ msgstr "Geschiedenis bijwerken is mislukt: %1"
 msgid "Failed to write image: %1"
 msgstr "Afbeelding schrijven is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:2783 fitsviewer/fitsdata.cpp:2794
-#: fitsviewer/fitsdata.cpp:2830 fitsviewer/fitsdata.cpp:2866
-#: fitsviewer/fitsdata.cpp:2913
+#: fitsviewer/fitsdata.cpp:2777 fitsviewer/fitsdata.cpp:2788
+#: fitsviewer/fitsdata.cpp:2824 fitsviewer/fitsdata.cpp:2860
+#: fitsviewer/fitsdata.cpp:2907
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Geen wereld coördinatensystemen gevonden."
 
-#: fitsviewer/fitsdata.cpp:3635
+#: fitsviewer/fitsdata.cpp:3629
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Alleen 8 en 16 bits bayer-afbeeldingen worden ondersteund."
 
-#: fitsviewer/fitsdata.cpp:3668
+#: fitsviewer/fitsdata.cpp:3662
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Niet ondersteund bayerpatroon %1."
 
-#: fitsviewer/fitsdata.cpp:3699
+#: fitsviewer/fitsdata.cpp:3693
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Niet ondersteunde bayer offsets %1 %2."
 
-#: fitsviewer/fitsdata.cpp:3767 fitsviewer/fitsdata.cpp:3814
-#: fitsviewer/fitsdata.cpp:3859 fitsviewer/fitsdata.cpp:3906
+#: fitsviewer/fitsdata.cpp:3761 fitsviewer/fitsdata.cpp:3808
+#: fitsviewer/fitsdata.cpp:3853 fitsviewer/fitsdata.cpp:3900
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:3777 fitsviewer/fitsdata.cpp:3869
+#: fitsviewer/fitsdata.cpp:3771 fitsviewer/fitsdata.cpp:3863
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer."
 
-#: fitsviewer/fitsdata.cpp:3797 fitsviewer/fitsdata.cpp:3889
+#: fitsviewer/fitsdata.cpp:3791 fitsviewer/fitsdata.cpp:3883
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Ontbayeren mislukt (%1)"
@@ -85072,6 +85042,12 @@ msgstr "Achtergrondkleur:"
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
 
+#~ msgid "Focus Out"
+#~ msgstr "Uitfocusseren"
+
+#~ msgid "Focus In"
+#~ msgstr "Infocusseren"
+
 #~ msgid "Toggle full screen"
 #~ msgstr "Volledig scherm aan/uit"
 
@@ -110227,9 +110203,6 @@ msgstr "Instellen van de kleur van de achtergrond."
 
 #~ msgid "Linear (Experimental v3.2)"
 #~ msgstr "Lineair (Experimenteel v3.2)"
-
-#~ msgid "Focusing outward by %1 ms..."
-#~ msgstr "Uitwaarts %1 ms focusseren..."
 
 #~ msgid ""
 #~ "<html><head/><body><p>Select focus process algorithm:</p>\n"
