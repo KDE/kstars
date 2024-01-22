@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-21 01:34+0000\n"
-"PO-Revision-Date: 2024-01-20 16:18+0100\n"
+"POT-Creation-Date: 2024-01-22 01:56+0000\n"
+"PO-Revision-Date: 2024-01-21 14:49+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -236,7 +236,7 @@ msgstr "Volgfout RK"
 msgid "DEC Guide Error"
 msgstr "Volgfout DEC"
 
-#: auxiliary/colorscheme.cpp:66 ekos/align/align.cpp:101
+#: auxiliary/colorscheme.cpp:66 ekos/align/align.cpp:102
 #, kde-format
 msgid "Solver FOV"
 msgstr "Oplosser GV"
@@ -463,14 +463,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3859
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3936
 #: ekos/guide/guidedriftgraph.cpp:466 kstarsactions.cpp:1335
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Een bestand met de naam  \"%1\" bestaat reeds. Dit overschrijven?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3862
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3939
 #: ekos/guide/guidedriftgraph.cpp:469 kstarsactions.cpp:1336
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2546,7 +2546,7 @@ msgstr ""
 "Het URL-adres is ongeldig. Wilt u een venster openen in een\n"
 "bladerprogramma voor de zoekmachine Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3870
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3947
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1191 ekos/capture/capture.cpp:2223
 #: ekos/capture/capture.cpp:2311 ekos/guide/guidedriftgraph.cpp:477
@@ -3725,7 +3725,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:929
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:941
 #: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1054
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
@@ -5804,7 +5804,12 @@ msgstr ""
 "<p>Deze assistent helpt u met wat basisinstellingen, zoals uw locatie op "
 "aarde.</p><p>Begin met te klikken op de knop <b>Volgende</b>.</p>"
 
-#: ekos/align/align.cpp:333
+#: ekos/align/align.cpp:146 ekos/align/align.cpp:1414
+#, kde-format
+msgid "No Target - Please pick an object."
+msgstr ""
+
+#: ekos/align/align.cpp:345
 #, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">Object %1: %2</th></tr><tr><td>RA:</td><td>%3</"
@@ -5815,32 +5820,32 @@ msgstr ""
 "td></tr><tr><td>DE:</td><td>%4</td></tr><tr><td>dRK:</td><td>%5</td></"
 "tr><tr><td>dDE:</td><td>%6</td></tr></table>"
 
-#: ekos/align/align.cpp:463
+#: ekos/align/align.cpp:475
 #, kde-format
 msgid "Are you sure you want to clear all of the solution points?"
 msgstr "Wilt u alle oplospunten wissen?"
 
-#: ekos/align/align.cpp:464
+#: ekos/align/align.cpp:476
 #, kde-format
 msgid "Clear Solution Points"
 msgstr "Oplospunten wissen"
 
-#: ekos/align/align.cpp:537
+#: ekos/align/align.cpp:549
 #, kde-format
 msgid "Solver timed out."
 msgstr "Tijd voor oplossen is verlopen."
 
-#: ekos/align/align.cpp:829
+#: ekos/align/align.cpp:841
 #, kde-format
 msgid "Mount does not support syncing."
 msgstr "Opstelling ondersteunt geen synchronisatie."
 
-#: ekos/align/align.cpp:1034
+#: ekos/align/align.cpp:1046
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr "Effectieve brandpuntsafstand telescoop bijgewerkt tot %1 mm."
 
-#: ekos/align/align.cpp:1076
+#: ekos/align/align.cpp:1088
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
@@ -5849,7 +5854,7 @@ msgstr ""
 "Waarschuwing! Het berekende gezichtsveld (%1) klopt niet. Controleer de "
 "brandpuntsafstand van de telescoop en de pixelgrootte van de camera."
 
-#: ekos/align/align.cpp:1115
+#: ekos/align/align.cpp:1127
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5860,27 +5865,27 @@ msgstr ""
 "en bepaal hiermee een keer de  grootte van de effectieve GV, of voer de "
 "waarden zelf in.</p><p>Berekende GV: %1</p>"
 
-#: ekos/align/align.cpp:1124
+#: ekos/align/align.cpp:1136
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Effectieve grootte gezichtsveld, in boogminuten.</p>"
 
-#: ekos/align/align.cpp:1405
+#: ekos/align/align.cpp:1426
 #, kde-format
 msgid "Error: No camera detected."
 msgstr "Fout: Geen camera gevonden."
 
-#: ekos/align/align.cpp:1411
+#: ekos/align/align.cpp:1432
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Fout: Verbinding met camera verbroken."
 
-#: ekos/align/align.cpp:1412 ekos/align/align.cpp:2344
+#: ekos/align/align.cpp:1433 ekos/align/align.cpp:2397
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Uitlijnen met Astrometry is mislukt!"
 
-#: ekos/align/align.cpp:1428
+#: ekos/align/align.cpp:1449
 #, kde-format
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
@@ -5889,7 +5894,7 @@ msgstr ""
 "Opening en brandpuntsafstand telescoop ontbreken. Controleer de instellingen "
 "van uw optische trein en probeer het opnieuw."
 
-#: ekos/align/align.cpp:1434
+#: ekos/align/align.cpp:1455
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
@@ -5897,12 +5902,12 @@ msgstr ""
 "Pixelgrootte CCD ontbreekt. Controleer de instellingen en probeer het "
 "opnieuw."
 
-#: ekos/align/align.cpp:1442
+#: ekos/align/align.cpp:1463
 #, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "Fout: verbinding met filterwiel verbroken."
 
-#: ekos/align/align.cpp:1462 ekos/capture/captureprocess.cpp:191
+#: ekos/align/align.cpp:1483 ekos/capture/captureprocess.cpp:191
 #: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4840
 #, kde-format
 msgid ""
@@ -5910,14 +5915,14 @@ msgid ""
 msgstr ""
 "Overdracht afbeelding is voor deze camera uitgezet. Wilt u dit aanzetten?"
 
-#: ekos/align/align.cpp:1482
+#: ekos/align/align.cpp:1503
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "Kan geen opnames maken tijdens scherpstellen! Nieuwe poging over %1 "
 "seconden..."
 
-#: ekos/align/align.cpp:1490
+#: ekos/align/align.cpp:1511
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
@@ -5925,31 +5930,40 @@ msgstr ""
 "Kan geen opnames maken tijdens belichting CCD. Nieuwe poging over %1 "
 "seconden..."
 
-#: ekos/align/align.cpp:1499
-#, kde-format
-msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#: ekos/align/align.cpp:1530
+#, fuzzy, kde-format
+#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
 "Kan geen opnames maken wanneer rotator bezig is! Nieuwe poging over %1 "
 "seconden..."
 
-#: ekos/align/align.cpp:1517 ekos/align/align.cpp:2994
+#: ekos/align/align.cpp:1544
+#, fuzzy, kde-format
+#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
+msgstr ""
+"Kan geen opnames maken wanneer rotator bezig is! Nieuwe poging over %1 "
+"seconden..."
+
+#: ekos/align/align.cpp:1563 ekos/align/align.cpp:3056
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Geen externe astrometrry driver gevonden, StellarSolver wordt gebruikt."
 
-#: ekos/align/align.cpp:1571 ekos/focus/focus.cpp:1491
+#: ekos/align/align.cpp:1617 ekos/focus/focus.cpp:1491
 #, kde-format
 msgid "Capturing image..."
 msgstr "Afbeelding vastleggen..."
 
-#: ekos/align/align.cpp:1661 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1707 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:2450
 #, kde-format
 msgid "Image received."
 msgstr "Afbeelding ontvangen."
 
-#: ekos/align/align.cpp:1791
+#: ekos/align/align.cpp:1837
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -5960,38 +5974,38 @@ msgstr ""
 "indexbestanden.  Download enige indexbestanden of voeg de juiste map toe aan "
 "de lijst."
 
-#: ekos/align/align.cpp:1850
+#: ekos/align/align.cpp:1896
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "De blinde afbeeldingsschaal wordt opgelost..."
 
-#: ekos/align/align.cpp:1858
+#: ekos/align/align.cpp:1904
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "Met de blinde afbeeldingspositie oplossen..."
 
-#: ekos/align/align.cpp:1890
+#: ekos/align/align.cpp:1936
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "Geladen afbeelding heeft geen informatie over de richting."
 
-#: ekos/align/align.cpp:1895
+#: ekos/align/align.cpp:1941
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "Geladen afbeelding is genomen in de richting %1"
 
-#: ekos/align/align.cpp:2020
+#: ekos/align/align.cpp:2066
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "Oplossen gereed na %1 seconden."
 
-#: ekos/align/align.cpp:2036
+#: ekos/align/align.cpp:2082
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Oplosser RK (%1) Dec (%2) Oriëntatie (%3) Pixelschaal (%4) Pariteit (%5)"
 
-#: ekos/align/align.cpp:2103
+#: ekos/align/align.cpp:2156
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -6000,7 +6014,7 @@ msgstr ""
 "Informatie voor WCS is bijgewerkt. Afbeeldingen die vanaf nu worden gemaakt "
 "hebben een geldige WCS."
 
-#: ekos/align/align.cpp:2121
+#: ekos/align/align.cpp:2174
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -6009,56 +6023,56 @@ msgstr ""
 "Oploscoördinaten: RK (%1) DEC (%2) Telescoopcoördinaten: RK (%3) DEC (%4) "
 "Doelcoördinaten: RK (%5) DEC (%6)"
 
-#: ekos/align/align.cpp:2132
+#: ekos/align/align.cpp:2185
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Doel is binnen %1 boogseconden van de oplossingscoördinaten."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2177
+#: ekos/align/align.cpp:2230
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "Positiehoek van camera is op %1 graden."
 
-#: ekos/align/align.cpp:2199 ekos/align/align.cpp:2637
+#: ekos/align/align.cpp:2252 ekos/align/align.cpp:2690
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Uitlijnen met Astrometry met succes voltooid"
 
-#: ekos/align/align.cpp:2221
+#: ekos/align/align.cpp:2274
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 "Maximum aantal iteraties (herhalingen) is bereikt. Oplossen is mislukt."
 
-#: ekos/align/align.cpp:2250
+#: ekos/align/align.cpp:2303
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "Doel is binnen acceptabel bereik."
 
-#: ekos/align/align.cpp:2312
+#: ekos/align/align.cpp:2365
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Opslaan van oplosafbeelding naar %1 is mislukt"
 
-#: ekos/align/align.cpp:2321
+#: ekos/align/align.cpp:2374
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 "Oplossen mislukt. Wordt opnieuw geprobeerd zonder beperking van schaal."
 
-#: ekos/align/align.cpp:2331
+#: ekos/align/align.cpp:2384
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 "Oplossen mislukt. Wordt opnieuw geprobeerd zonder beperking voor positie."
 
-#: ekos/align/align.cpp:2339
+#: ekos/align/align.cpp:2392
 #, kde-format
 msgid "Solver Failed."
 msgstr "Oplossen mislukt."
 
-#: ekos/align/align.cpp:2342
+#: ekos/align/align.cpp:2395
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6070,38 +6084,38 @@ msgstr ""
 "uitlijning in tabblad Instellingen -> Logs inschakelen om gedetailleerde "
 "informatie over het mislukken te krijgen."
 
-#: ekos/align/align.cpp:2401
+#: ekos/align/align.cpp:2454
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Positiehoek van camera wordt ingesteld op %1 graden ..."
 
-#: ekos/align/align.cpp:2408
+#: ekos/align/align.cpp:2461
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "Positiehoek van camera is binnen acceptabele reeks."
 
-#: ekos/align/align.cpp:2422
+#: ekos/align/align.cpp:2475
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Huidige PA is %1; Doel-PA is %2; verschil: %3"
 
-#: ekos/align/align.cpp:2489
+#: ekos/align/align.cpp:2542
 #, kde-format
 msgid "Refresh is complete."
 msgstr "Verversen is voltooid."
 
-#: ekos/align/align.cpp:2496 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2549 ekos/auxiliary/darklibrary.cpp:1411
 #: ekos/focus/focus.cpp:1259
 #, kde-format
 msgid "Capture aborted."
 msgstr "Opnemen gestopt."
 
-#: ekos/align/align.cpp:2502
+#: ekos/align/align.cpp:2555
 #, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "Oplossen gestopt na %1 seconden."
 
-#: ekos/align/align.cpp:2545 ekos/capture/capture.cpp:1758
+#: ekos/align/align.cpp:2598 ekos/capture/capture.cpp:1758
 #: ekos/focus/focus.cpp:3949 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1927
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:711
@@ -6110,52 +6124,53 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2608
+#: ekos/align/align.cpp:2661
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "Opstelling klaar met draaien rondom hemelpool. Maak nieuwe opname ter "
 "bevestiging."
 
-#: ekos/align/align.cpp:2631
+#: ekos/align/align.cpp:2684
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "Opstelling is synchroon met oplossingscoördinaten."
 
-#: ekos/align/align.cpp:2667 ekos/align/align.cpp:2684
-#: ekos/align/align.cpp:3995 ekos/align/polaralignmentassistant.cpp:639
+#: ekos/align/align.cpp:2720 ekos/align/align.cpp:2738
+#: ekos/align/align.cpp:3359 ekos/align/align.cpp:4072
+#: ekos/align/polaralignmentassistant.cpp:639
 #, kde-format
 msgid "Settling..."
 msgstr "Bezig met instellen..."
 
-#: ekos/align/align.cpp:2674
+#: ekos/align/align.cpp:2728
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Draaien is voltooid. Gewenste nauwkeurigheid is niet bereikt, oplossen wordt "
 "voortgezet..."
 
-#: ekos/align/align.cpp:2676
+#: ekos/align/align.cpp:2730
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Draaien voltooid. Uitlijnpunt wordt opgelost. . ."
 
-#: ekos/align/align.cpp:2719 ekos/align/align.cpp:2871
+#: ekos/align/align.cpp:2773 ekos/align/align.cpp:2934
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synchroniseren is mislukt."
 
-#: ekos/align/align.cpp:2721
+#: ekos/align/align.cpp:2775
 #, kde-format
 msgid "Slewing failed."
 msgstr "Draaien is mislukt."
 
-#: ekos/align/align.cpp:2764
+#: ekos/align/align.cpp:2819
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Rotator heeft gewenste positiehoek van camera bereikt."
 
-#: ekos/align/align.cpp:2776
+#: ekos/align/align.cpp:2832
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6164,22 +6179,22 @@ msgstr ""
 "De rotator is niet op de gevraagde positiehoek gekomen (Afwijking %1 "
 "boogmin)."
 
-#: ekos/align/align.cpp:2821
+#: ekos/align/align.cpp:2881
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Draaien gedetecteerd, oplossen wordt onderbroken..."
 
-#: ekos/align/align.cpp:2865
+#: ekos/align/align.cpp:2928
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Syncen naar RK (%1) Dec (%2)"
 
-#: ekos/align/align.cpp:2889
+#: ekos/align/align.cpp:2952
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Naar gewenste coördinaten draaien: RK (%1) DEC (%2)."
 
-#: ekos/align/align.cpp:2894
+#: ekos/align/align.cpp:2957
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6187,114 +6202,114 @@ msgid ""
 msgstr ""
 "Naar doelcoördinaten draaien: RA (%1) DEC (%2) is afgewezen. (Zie melding)"
 
-#: ekos/align/align.cpp:2913
+#: ekos/align/align.cpp:2976
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Ekos-taak (%1) - Telescoop gesynct"
 
-#: ekos/align/align.cpp:2963
+#: ekos/align/align.cpp:3025
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Afbeelding Inlezen"
 
-#: ekos/align/align.cpp:3193
+#: ekos/align/align.cpp:3255
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "World Coordinate System (WCS) is ingeschakeld."
 
-#: ekos/align/align.cpp:3198
+#: ekos/align/align.cpp:3260
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "World Coordinate System (WCS) is uitgezet."
 
-#: ekos/align/align.cpp:3217
+#: ekos/align/align.cpp:3279
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Fout bij opname! Wordt afgebroken..."
 
-#: ekos/align/align.cpp:3222 ekos/capture/captureprocess.cpp:1478
+#: ekos/align/align.cpp:3284 ekos/capture/captureprocess.cpp:1478
 #: ekos/capture/captureprocess.cpp:1988
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Volgende poging tot opnemen #%1"
 
-#: ekos/align/align.cpp:3346
+#: ekos/align/align.cpp:3410
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Frame uitlijnen"
 
-#: ekos/align/align.cpp:3421
+#: ekos/align/align.cpp:3485
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Opties voor StellarSolver"
 
-#: ekos/align/align.cpp:3426
+#: ekos/align/align.cpp:3490
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Externe & online programma's"
 
-#: ekos/align/align.cpp:3430
+#: ekos/align/align.cpp:3494
 #, kde-format
 msgid "Scale & Position"
 msgstr "Schaal & Positie"
 
-#: ekos/align/align.cpp:3434
+#: ekos/align/align.cpp:3498
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Uitlijnopties voor  bewerken Profiel"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3452 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3516 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Indexbestanden"
 
-#: ekos/align/align.cpp:3517 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3581 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dRK (arcsec)"
 
-#: ekos/align/align.cpp:3518 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3582 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDe (arcsec)"
 
-#: ekos/align/align.cpp:3564 ekos/capture/capture.cpp:2933
+#: ekos/align/align.cpp:3628 ekos/capture/capture.cpp:2933
 #: ekos/focus/focus.cpp:4732
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filteren is mislukt!"
 
-#: ekos/align/align.cpp:3576 ekos/capture/capture.cpp:2869
+#: ekos/align/align.cpp:3640 ekos/capture/capture.cpp:2869
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Focus-offset wijzigen in stappen van %1..."
 
-#: ekos/align/align.cpp:3583 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3647 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/capture.cpp:2874
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Ander filter: %1..."
 
-#: ekos/align/align.cpp:3588 ekos/capture/capture.cpp:2879
+#: ekos/align/align.cpp:3652 ekos/capture/capture.cpp:2879
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Autofocus na filterwissel..."
 
-#: ekos/align/align.cpp:3709
+#: ekos/align/align.cpp:3773
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Ongeldige GV."
 
-#: ekos/align/align.cpp:3846
+#: ekos/align/align.cpp:3923
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Oplospunten exporteren"
 
-#: ekos/align/align.cpp:3869 ekos/align/mountmodel.cpp:264
+#: ekos/align/align.cpp:3946 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:2222
 #: ekos/capture/capture.cpp:2310 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:2733 ekos/scheduler/scheduler.cpp:2823
@@ -6304,7 +6319,7 @@ msgstr "Oplospunten exporteren"
 msgid "Invalid URL: %1"
 msgstr "Ongeldige URL: %1"
 
-#: ekos/align/align.cpp:3878 ekos/align/mountmodel.cpp:401
+#: ekos/align/align.cpp:3955 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:1575
 #: ekos/scheduler/schedulerprocess.cpp:2587
@@ -6312,7 +6327,7 @@ msgstr "Ongeldige URL: %1"
 msgid "Unable to write to file %1"
 msgstr "Kon niet schrijven naar bestand %1"
 
-#: ekos/align/align.cpp:3879 ekos/align/mountmodel.cpp:284
+#: ekos/align/align.cpp:3956 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2238
 #: ekos/capture/captureprocess.cpp:2302 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:1576
@@ -6332,27 +6347,27 @@ msgstr "Kon niet schrijven naar bestand %1"
 msgid "Could Not Open File"
 msgstr "Het bestand kon niet worden geopend"
 
-#: ekos/align/align.cpp:3900
+#: ekos/align/align.cpp:3977
 #, kde-format
 msgid "Error in table structure."
 msgstr "Fout in tabelstructuur"
 
-#: ekos/align/align.cpp:3909
+#: ekos/align/align.cpp:3986
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Oplospunten opgeslagen als: %1"
 
-#: ekos/align/align.cpp:3923
+#: ekos/align/align.cpp:4000
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Uitlijnen op de pool"
 
-#: ekos/align/align.cpp:4451
+#: ekos/align/align.cpp:4528
 #, kde-format
 msgid "Capture timed out."
 msgstr "Tijd voor opnemen is verlopen."
 
-#: ekos/align/align.cpp:4460
+#: ekos/align/align.cpp:4537
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Nog bezig met opnemen, probeer het opnieuw in %1 seconden..."
@@ -15292,22 +15307,22 @@ msgstr ""
 "Scherm omschakelen naar de grafische modus van het tonen van het aantal "
 "opnamen."
 
-#: ekos/capture/capturedeviceadaptor.cpp:648
+#: ekos/capture/capturedeviceadaptor.cpp:650
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Verwijder lenskap van de telescoop voordat u verder gaat."
 
-#: ekos/capture/capturedeviceadaptor.cpp:649
+#: ekos/capture/capturedeviceadaptor.cpp:651
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescoop bedekt"
 
-#: ekos/capture/capturedeviceadaptor.cpp:781
+#: ekos/capture/capturedeviceadaptor.cpp:783
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Heeft %1 een sluiter?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:782
+#: ekos/capture/capturedeviceadaptor.cpp:784
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -16291,25 +16306,7 @@ msgstr "Focusgrenzen"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:193
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Last Autofocus</span>: This is the default "
-#| "algorithm and uses the HFR value from the most recent Autofocus run as "
-#| "the reference for the check.</li></ul><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Fixed</span>: This algorthm lets the user specify a "
-#| "fixed HFR to use in the check.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Relative Measure</span>: "
-#| "This algorithm collects datapoints from Autofocus and HFR Checks, "
-#| "maintains the data in a sequenced list and uses the median value as the "
-#| "reference for the next HFR Check.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -16418,10 +16415,7 @@ msgstr "Opnieuw focusseren elke:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:295
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to perform an HFR Check between Subframes.  "
-#| "The Check may result is an Autofocus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
 "Check may result in an Autofocus.</p></body></html>"
@@ -16498,10 +16492,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "frames.   HFR:"
-msgstr "frames"
+msgstr "frames.   HFR:"
 
 #: ekos/capture/refocusstate.cpp:35
 #, kde-format
@@ -16784,8 +16777,7 @@ msgstr "Scriptbeheerder"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/scriptsmanager.ui:22
-#, fuzzy, kde-format
-#| msgid "Pre-Job Script:"
+#, kde-format
 msgid "Pre-job script:"
 msgstr "Pre-jobscript:"
 
@@ -16801,22 +16793,19 @@ msgstr "Script is uitvoerbaar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/scriptsmanager.ui:67
-#, fuzzy, kde-format
-#| msgid "Pre-Capture Script:"
+#, kde-format
 msgid "Pre-capture script:"
 msgstr "Pre-opnamescript:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/scriptsmanager.ui:112
-#, fuzzy, kde-format
-#| msgid "Post-Capture Script:"
+#, kde-format
 msgid "Post-capture script:"
-msgstr "Post-opanmescript:"
+msgstr "Script voor na de opname:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/scriptsmanager.ui:157
-#, fuzzy, kde-format
-#| msgid "Post-Job Script:"
+#, kde-format
 msgid "Post-job script:"
 msgstr "Post-jobscript:"
 
@@ -17841,10 +17830,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/cfz.ui:141
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display:"
-msgstr "Weergave"
+msgstr "Weergave:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/cfz.ui:160
@@ -17903,15 +17891,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/cfz.ui:264
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step Size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Step size:</p></body></html>"
 msgstr "<html><head/><body><p>Stapgrootte:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/cfz.ui:280
-#, fuzzy, kde-format
-#| msgid "CFZ Camera:"
+#, kde-format
 msgid "CFZ camera:"
 msgstr "CFZ van camera:"
 
@@ -18013,10 +17999,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/cfz.ui:447
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal Ratio to values "
-#| "from the currently selected filter and optical train</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
@@ -18033,8 +18016,7 @@ msgstr "Naar OT resetten"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/cfz.ui:463
-#, fuzzy, kde-format
-#| msgid "Focal Ratio (f):"
+#, kde-format
 msgid "Focal ratio (f):"
 msgstr "Brandpuntverhouding (f):"
 
@@ -18286,28 +18268,24 @@ msgid "Error: Lost connection to Filter Wheel."
 msgstr "Fout: verbinding met filterwiel verloren."
 
 #: ekos/focus/focus.cpp:1535
-#, fuzzy, kde-format
-#| msgid "Go to an absolute focus position"
+#, kde-format
 msgid "At minimum focus position %1..."
-msgstr "Ga naar een absolute focuspositie"
+msgstr "Bij minimale focuspositie %1..."
 
 #: ekos/focus/focus.cpp:1546
-#, fuzzy, kde-format
-#| msgid "Solving with blind image position..."
+#, kde-format
 msgid "Moving to minimum focus position %1..."
-msgstr "Met de blinde afbeeldingspositie oplossen..."
+msgstr "Naar minimale focuspositie %1 verplaatsen..."
 
 #: ekos/focus/focus.cpp:1555
-#, fuzzy, kde-format
-#| msgid "Go to an absolute focus position"
+#, kde-format
 msgid "At maximum focus position %1..."
-msgstr "Ga naar een absolute focuspositie"
+msgstr "Bij maximale focuspositie %1..."
 
 #: ekos/focus/focus.cpp:1566
-#, fuzzy, kde-format
-#| msgid "Go to an absolute focus position"
+#, kde-format
 msgid "Moving to maximum focus position %1..."
-msgstr "Ga naar een absolute focuspositie"
+msgstr "Naar maximale focuspositie %1 verplaatsen..."
 
 #: ekos/focus/focus.cpp:1585
 #, kde-format
@@ -18597,10 +18575,9 @@ msgid "No star was selected. Aborting..."
 msgstr "Geen ster geselecteerd. Afgebroken..."
 
 #: ekos/focus/focus.cpp:4450
-#, fuzzy, kde-format
-#| msgid "Focusing outward by %1 ms..."
+#, kde-format
 msgid "Focuser already at %1..."
-msgstr "Uitwaarts %1 ms focusseren..."
+msgstr "Focuser al op %1..."
 
 #: ekos/focus/focus.cpp:4562
 #, kde-format
@@ -18747,12 +18724,13 @@ msgstr "Framing starten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:193
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Langs de X-as uitzoomen.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Focus uitwaarts. </p><p>Voor SCT's is dit gewoonlijk "
+"CW.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
@@ -18807,12 +18785,13 @@ msgstr "Huidige absolute focusserpositie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:423
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Inzoomen langs de X-as</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Focus inwaarts. </p><p>Voor SCT's is dit gewoonlijk "
+"CCW.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:468
@@ -18836,10 +18815,9 @@ msgstr "Focuser temperatuurbron selecteren"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
 #: ekos/focus/focus.ui:605
-#, fuzzy, kde-format
-#| msgid "Filter Settings"
+#, kde-format
 msgid "Filter Settings..."
-msgstr "Filterinstellingen"
+msgstr "Filterinstellingen..."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:627
@@ -20895,10 +20873,9 @@ msgstr "Volgen in Rechte Klimming"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
 #: ekos/guide/guide.ui:431
-#, fuzzy, kde-format
-#| msgid "Directions"
+#, kde-format
 msgid "Directions:"
-msgstr "Aanwijzingen"
+msgstr "Aanwijzingen:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
 #: ekos/guide/guide.ui:438
@@ -20946,10 +20923,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
 #: ekos/guide/guide.ui:504
-#, fuzzy, kde-format
-#| msgid "Manual Pulse"
+#, kde-format
 msgid "Manual Pulse..."
-msgstr "Handmatige puls"
+msgstr "Handmatige puls..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:529
@@ -20989,17 +20965,15 @@ msgstr "Volginformatie"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
 #: ekos/guide/guide.ui:748
-#, fuzzy, kde-format
-#| msgid "Pulse Length (ms)"
+#, kde-format
 msgid "Pulse length (ms):"
-msgstr "Pulsduur (ms)"
+msgstr "Pulsduur (ms):"
 
 #. i18n: ectx: property (text), widget (QLabel, l_16)
 #: ekos/guide/guide.ui:755
-#, fuzzy, kde-format
-#| msgid "Guiding Delta \""
+#, kde-format
 msgid "Guiding delta \":"
-msgstr "Volgdelta \""
+msgstr "Volgdelta \":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
 #: ekos/guide/guide.ui:767
@@ -21033,10 +21007,9 @@ msgstr "RMS-fout van volgen"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:831
-#, fuzzy, kde-format
-#| msgid "RMS\" (RA/DEC)"
+#, kde-format
 msgid "RMS\" (RA/DEC):"
-msgstr "RMS\" (RA/DEC)"
+msgstr "RMS\" (RA/DEC):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
 #: ekos/guide/guide.ui:843
@@ -21052,10 +21025,9 @@ msgstr "DEC RMS-fout van volgen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/guide/guide.ui:871
-#, fuzzy, kde-format
-#| msgid "Total RMS\""
+#, kde-format
 msgid "Total RMS\":"
-msgstr "Totale RMS\""
+msgstr "Totale RMS\":"
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
@@ -21066,10 +21038,9 @@ msgstr "xxx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
 #: ekos/guide/guide.ui:891
-#, fuzzy, kde-format
-#| msgid "Guide SNR"
+#, kde-format
 msgid "Guide SNR:"
-msgstr "SNR van volgen"
+msgstr "SNR van volgen:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
 #: ekos/guide/guide.ui:1073
@@ -23143,17 +23114,15 @@ msgstr "Profiel:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addProfileB)
 #: ekos/manager.ui:167
-#, fuzzy, kde-format
-#| msgid "Add profile"
+#, kde-format
 msgid "Add profile..."
-msgstr "Profiel toevoegen"
+msgstr "Profiel toevoegen..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfileB)
 #: ekos/manager.ui:204
-#, fuzzy, kde-format
-#| msgid "Edit profile"
+#, kde-format
 msgid "Edit profile..."
-msgstr "Profiel bewerken"
+msgstr "Profiel bewerken..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, deleteProfileB)
 #: ekos/manager.ui:241
@@ -23169,10 +23138,9 @@ msgstr "Aangepaste drivers..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, wizardProfileB)
 #: ekos/manager.ui:300
-#, fuzzy, kde-format
-#| msgid "Launch Ekos Profile Wizard"
+#, kde-format
 msgid "Launch Ekos Profile Wizard..."
-msgstr "Assistent voor Ekos-profiel starten"
+msgstr "Assistent voor Ekos-profiel starten..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/manager.ui:335
@@ -23182,10 +23150,9 @@ msgstr "2. Ekos starten && stoppen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
 #: ekos/manager.ui:392
-#, fuzzy, kde-format
-#| msgid "Ekos Live"
+#, kde-format
 msgid "Ekos Live..."
-msgstr "Ekos Live"
+msgstr "Ekos Live..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
 #: ekos/manager.ui:421 kstarsinit.cpp:515
@@ -23195,17 +23162,15 @@ msgstr "INDI-besturingspaneel..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, portSelectorB)
 #: ekos/manager.ui:450
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Devices Port Selector...</p></body></html>"
-msgstr "<html><head/><body><p>Poortkiezer van apparaten</p></body></html>"
+msgstr "<html><head/><body><p>Poortkiezer van apparaten...</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: ekos/manager.ui:479
-#, fuzzy, kde-format
-#| msgid "Ekos Options"
+#, kde-format
 msgid "Ekos Options..."
-msgstr "Opties Ekos"
+msgstr "Ekos-opties..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, logsB)
 #: ekos/manager.ui:505
@@ -23215,10 +23180,9 @@ msgstr "Logs om problemen met Ekos en INDI te diagnostiseren."
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:508
-#, fuzzy, kde-format
-#| msgid "Show Logs..."
+#, kde-format
 msgid "Logs..."
-msgstr "Logs tonen..."
+msgstr "Logs..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/manager.ui:532
@@ -23597,10 +23561,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:278
-#, fuzzy, kde-format
-#| msgid "Flip if HA >"
+#, kde-format
 msgid "Flip if HA >:"
-msgstr "Meridiaanflip als Uurhoek >"
+msgstr "Flip indien HA >:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, meridianFlipOffsetDegrees)
 #: ekos/mount/mount.ui:294
@@ -23646,10 +23609,9 @@ msgstr "Alle configuratie opruimen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:447
-#, fuzzy, kde-format
-#| msgid "Park At:"
+#, kde-format
 msgid "Park at:"
-msgstr "Parkeren om:"
+msgstr "Parkeren op:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
 #: ekos/mount/mount.ui:465
@@ -23745,10 +23707,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
 #: ekos/mount/mount.ui:843
-#, fuzzy, kde-format
-#| msgid "Enable Alt Limits"
+#, kde-format
 msgid "Enable Alt limits"
-msgstr "Begrenzingen in hoogte  aanzetten"
+msgstr "Begrenzingen in hoogte inschakelen"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minimumAltLimit)
 #: ekos/mount/mount.ui:859
@@ -23812,10 +23773,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:929
-#, fuzzy, kde-format
-#| msgid "Enable HA Limits"
+#, kde-format
 msgid "Enable HA limits"
-msgstr "Begrenzingen HA (uurhoek) aanzetten"
+msgstr "Begrenzingen HA inschakelen"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
 #: ekos/mount/mount.ui:942
@@ -24673,17 +24633,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/opsekos.ui:476
-#, fuzzy, kde-format
-#| msgid "Verify captured image position every"
+#, kde-format
 msgid "Verify captured image position every:"
-msgstr "Opgenomen afbeeldingspositie verifiëren elke"
+msgstr "Opgenomen afbeeldingspositie verifiëren elke:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelBeforeJob)
 #: ekos/opsekos.ui:483
-#, fuzzy, kde-format
-#| msgid "Reset mount model before starting each job"
+#, kde-format
 msgid "Reset mount model before starting each job:"
-msgstr "Reset opstellingsmodel voor het starten van een taak"
+msgstr "Reset opstellingsmodel voor het starten van een taak:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
@@ -24698,11 +24656,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/opsekos.ui:500
-#, fuzzy, kde-format
-#| msgid "Reset pipeline if verified image delta exceeds"
+#, kde-format
 msgid "Reset pipeline if verified image delta exceeds:"
 msgstr ""
-"Pijplijn resetten als geverifieerde afbeeldingsdelta wordt overschreden"
+"Pijplijn resetten als geverifieerde afbeeldingsdelta wordt overschreden:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelOnAlignFail)
 #: ekos/opsekos.ui:507
@@ -27449,17 +27406,15 @@ msgstr "Coördinaten invullen met midden van de hemelkaart"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mosaicB)
 #: ekos/scheduler/scheduler.ui:884
-#, fuzzy, kde-format
-#| msgid "Open the Mosaic Planner"
+#, kde-format
 msgid "Open the Mosaic Planner..."
-msgstr "De Mozaïek planner openen"
+msgstr "De Mozaïek planner openen..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSequenceB)
 #: ekos/scheduler/scheduler.ui:912
-#, fuzzy, kde-format
-#| msgid "Capture Sequence Editor"
+#, kde-format
 msgid "Capture Sequence File Editor..."
-msgstr "Bewerker van opnamereeks"
+msgstr "Bestandsbewerker van opnamereeksbestand..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueAppendB)
 #: ekos/scheduler/scheduler.ui:963
@@ -27483,17 +27438,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/scheduler/scheduler.ui:1025
-#, fuzzy, kde-format
-#| msgid "Save schedule as..."
+#, kde-format
 msgid "Save Schedule..."
-msgstr "Schema opslaan als ..."
+msgstr "Planning opslaan..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/scheduler/scheduler.ui:1059
-#, fuzzy, kde-format
-#| msgid "Save schedule as..."
+#, kde-format
 msgid "Save Schedule As..."
-msgstr "Schema opslaan als ..."
+msgstr "Planning opslaan als..."
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/scheduler/scheduler.ui:1102
@@ -27568,10 +27521,9 @@ msgstr "Condities taakvoltooiing"
 
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerRepeatSequences)
 #: ekos/scheduler/scheduler.ui:1348
-#, fuzzy, kde-format
-#| msgid "&Repeat for"
+#, kde-format
 msgid "&Repeat for:"
-msgstr "&Herhalen"
+msgstr "&Herhalen voor:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, schedulerUntilValue)
 #: ekos/scheduler/scheduler.ui:1364
@@ -27587,10 +27539,9 @@ msgstr "Beëindig de taak op gegeven datum en tijdstip."
 
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntil)
 #: ekos/scheduler/scheduler.ui:1408
-#, fuzzy, kde-format
-#| msgid "Repeat &until"
+#, kde-format
 msgid "Repeat &until:"
-msgstr "Herhaal &totdat"
+msgstr "Herhaal &totdat:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroup)
 #: ekos/scheduler/scheduler.ui:1473
@@ -29190,10 +29141,9 @@ msgid "Detect Stars in Image"
 msgstr "Sterren in afbeelding detecteren"
 
 #: fitsviewer/fitsview.cpp:2480
-#, fuzzy, kde-format
-#| msgid "View Star Profile"
+#, kde-format
 msgid "View Star Profile..."
-msgstr "Profiel van ster bekijken"
+msgstr "Profiel van ster bekijken..."
 
 #: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsviewer.cpp:232
 #: fitsviewer/fitsviewer.cpp:972
@@ -29549,15 +29499,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "HiPS Opacity:"
+#, kde-format
 msgid "HiPS opacity:"
 msgstr "HiPS-dekking"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "HiPS Offset:"
+#, kde-format
 msgid "HiPS offset:"
 msgstr "HiPS-offset:"
 
@@ -29827,8 +29775,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StellarSolverPartition)
 #: fitsviewer/opsfits.ui:482
-#, fuzzy, kde-format
-#| msgid "StellarSolver Partitioning"
+#, kde-format
 msgid "StellarSolver partitioning"
 msgstr "Opdelingen met StellarSolver"
 
@@ -30066,10 +30013,9 @@ msgid "Zooms the view to preset locations."
 msgstr "Beeld zoomen naar vooringestelde locaties."
 
 #: fitsviewer/starprofileviewer.cpp:182
-#, fuzzy, kde-format
-#| msgid "ZoomTo:"
+#, kde-format
 msgid "ZoomTo"
-msgstr "ZoomNaar:"
+msgstr "ZoomNaar"
 
 #: fitsviewer/starprofileviewer.cpp:183
 #, kde-format
@@ -31255,10 +31201,9 @@ msgstr "Hemelkaart"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:349
-#, fuzzy, kde-format
-#| msgid "external Sky Map (experimental)"
+#, kde-format
 msgid "External Sky Map (experimental)"
-msgstr "externe hemelkaart (experimenteel)"
+msgstr "Externe hemelkaart (experimenteel)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:372
@@ -31359,10 +31304,9 @@ msgstr "Stream opnemen gedurende een bepaalde tijd in seconden"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
 #: indi/recordingoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Tijdsduur"
+msgstr "Tijdsduur:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/recordingoptions.ui:65
@@ -31458,8 +31402,7 @@ msgstr "Stream opnemen tot handmatig stoppen"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:194
-#, fuzzy, kde-format
-#| msgid "Until Stopped"
+#, kde-format
 msgid "Until stopped"
 msgstr "Tot gestopt"
 
@@ -31522,43 +31465,37 @@ msgstr "Video Stream"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:58
-#, fuzzy, kde-format
-#| msgid "Start recording"
+#, kde-format
 msgid "Start Recording"
-msgstr "Opnemen starten"
+msgstr "Opname starten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: indi/streamform.ui:86
-#, fuzzy, kde-format
-#| msgid "Recording Options"
+#, kde-format
 msgid "Recording Options..."
-msgstr "Opties voor opnemen"
+msgstr "Opname-opties..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
-#, fuzzy, kde-format
-#| msgid "Reset frame"
+#, kde-format
 msgid "Reset Frame"
 msgstr "Frame terugzetten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
-#, fuzzy, kde-format
-#| msgid "Toggle debayer"
+#, kde-format
 msgid "Toggle Debayer"
 msgstr "Ontbayeren aan/uit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
-#| msgid "Toggle collimation overlay"
+#, kde-format
 msgid "Toggle Collimation Overlay"
 msgstr "Collimatie-overlay omschakelen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Collimation Overlay Options"
+#, kde-format
 msgid "Collimation Overlay Options..."
 msgstr "Opties voor collimatie-overlay"
 
@@ -31601,10 +31538,9 @@ msgstr "Duur video-frames in seconden"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:329
-#, fuzzy, kde-format
-#| msgid "Frame (s)"
+#, kde-format
 msgid "Frame(s):"
-msgstr "Frame (s)"
+msgstr "Frame(s):"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:370
@@ -36466,10 +36402,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (HFRCheckAlgorithm), group (Capture)
 #: kstars.kcfg:1871
-#, fuzzy, kde-format
-#| msgid "In-sequence HFR check:"
+#, kde-format
 msgid "Algorithm for In Sequence HFR Check"
-msgstr "Doorgaande HFR-controle:"
+msgstr "Algoritme voor doorgaande HFR-controle"
 
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
 #: kstars.kcfg:1875
@@ -75438,10 +75373,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:95
-#, fuzzy, kde-format
-#| msgid "Maximum image dimension"
+#, kde-format
 msgid "Maximum image dimension:"
-msgstr "Maximale grootte van afbeelding"
+msgstr "Maximale grootte van afbeelding:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:140
@@ -75455,10 +75389,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:146
-#, fuzzy, kde-format
-#| msgid "Overlay Directory"
+#, kde-format
 msgid "Overlay Directory..."
-msgstr "Map met overlays"
+msgstr "Map met overlays..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:165
@@ -75521,10 +75454,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:274
-#, fuzzy, kde-format
-#| msgid "Default a-s/px"
+#, kde-format
 msgid "Default a-s/px:"
-msgstr "Standaard a-s/px"
+msgstr "Standaard a-s/px:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -75536,10 +75468,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:315
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout:"
-msgstr "Time out:"
+msgstr "Tijdslimiet:"
 
 #: options/opssatellites.cpp:100
 #, kde-format
@@ -76075,17 +76006,15 @@ msgstr "De zwakste magnitude bij waarschuwen voor supernova's:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download URL"
+#, kde-format
 msgid "Download URL:"
-msgstr "Download-URL"
+msgstr "Download-URL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
-#, fuzzy, kde-format
-#| msgid "Age (days)"
+#, kde-format
 msgid "Age (days):"
-msgstr "Leeftijd (days)"
+msgstr "Leeftijd (days):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeHostOnly)
 #: options/opssupernovae.ui:137
@@ -83272,17 +83201,14 @@ msgstr "Script testen"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
-#, fuzzy, kde-format
-#| msgid ""
-#| "Executes the script in the KStars main window.  You may want to "
-#| "reposition the Script Builder tool so that the Sky map is visible.  "
+#, kde-format
 msgid ""
 "Executes the script in the KStars main window. You may want to reposition "
 "the Script Builder tool so that the Sky map is visible."
 msgstr ""
 "Uitvoeren van het script in het hoofdvenster van KStars.  Het kan zijn dat u "
 "het venster van de scriptbouwer wat moet verplaatsen zodat u de sterrenkaart "
-"kunt zien.  "
+"kunt zien."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/scriptbuilder.ui:235
@@ -83292,22 +83218,17 @@ msgstr "Huidig script"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ScriptListBox)
 #: tools/scriptbuilder.ui:279
-#, fuzzy, kde-format
-#| msgid ""
-#| "This shows the list of commands present in the current working script.  "
-#| "Highlighting any command will present a widget where you can specify its "
-#| "arguments below.  Use the action buttons at right to copy, remove, or "
-#| "change the position of the selected command.  "
+#, kde-format
 msgid ""
 "This shows the list of commands present in the current working script. "
 "Highlighting any command will present a widget where you can specify its "
 "arguments below. Use the action buttons at right to copy, remove, or change "
 "the position of the selected command."
 msgstr ""
-"Laat u een lijst van opdrachten zien in het huidige werkende script.  Het "
+"Laat u een lijst van opdrachten zien in het huidige werkende script. Het "
 "selecteren van een opdracht opent een \"widget\" (beeldelement) waarin u de "
 "argumenten onderin kunt opgeven. Gebruik de actieknoppen rechts om de "
-"geselecteerde opdracht te kopiëren, te verwijderen of te verplaatsen.  "
+"geselecteerde opdracht te kopiëren, te verwijderen of te verplaatsen."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
@@ -84876,10 +84797,9 @@ msgstr "Indien gekozen een tekst tonen in de rechter bovenhoek."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:784
-#, fuzzy, kde-format
-#| msgid "Show label"
+#, kde-format
 msgid "Show label:"
-msgstr "Naam tonen"
+msgstr "Label tonen:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: xplanet/opsxplanet.ui:796
@@ -84931,10 +84851,9 @@ msgstr "Schrijf grenzen merktekens naar:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetLatLong)
 #: xplanet/opsxplanet.ui:884
-#, fuzzy, kde-format
-#| msgid "Place the observer above latitude "
+#, kde-format
 msgid "Place the observer above latitude: "
-msgstr "Plaats de waarnemer op breedte "
+msgstr "Plaats de waarnemer op breedtegraad: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLatitude)
 #: xplanet/opsxplanet.ui:897
@@ -84948,10 +84867,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetLongitude)
 #: xplanet/opsxplanet.ui:910
-#, fuzzy, kde-format
-#| msgid " and longitude "
+#, kde-format
 msgid " and longitude: "
-msgstr "en lengte:"
+msgstr " en lengtegraad: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLongitude)
 #: xplanet/opsxplanet.ui:920
