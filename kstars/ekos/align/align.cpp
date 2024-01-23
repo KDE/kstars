@@ -1476,17 +1476,15 @@ bool Align::captureAndSolve()
         }
     }
 
-    if (m_Camera->getDriverInfo()->getClientManager()->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(),
-            "CCD1") == B_NEVER)
+    auto clientManager = m_Camera->getDriverInfo()->getClientManager();
+    if (clientManager && clientManager->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(), "CCD1") == B_NEVER)
     {
         if (KMessageBox::questionYesNo(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
-            m_Camera->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(),
-                    "CCD1");
-            m_Camera->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(),
-                    "CCD2");
+            clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD1");
+            clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD2");
         }
         else
         {
@@ -2146,7 +2144,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             auto rotation = ccdRotation->findWidgetByName("CCD_ROTATION_VALUE");
             if (rotation)
             {
-                ClientManager *clientManager = m_Camera->getDriverInfo()->getClientManager();
+                auto clientManager = m_Camera->getDriverInfo()->getClientManager();
                 rotation->setValue(orientation);
                 clientManager->sendNewProperty(ccdRotation);
 
