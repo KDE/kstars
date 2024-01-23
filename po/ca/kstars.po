@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-21 12:04+0100\n"
+"PO-Revision-Date: 2024-01-22 10:47+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5832,7 +5832,7 @@ msgstr ""
 #: ekos/align/align.cpp:146 ekos/align/align.cpp:1414
 #, kde-format
 msgid "No Target - Please pick an object."
-msgstr ""
+msgstr "Sense objectiu - Trieu un objecte."
 
 #: ekos/align/align.cpp:345
 #, kde-format
@@ -5958,19 +5958,17 @@ msgstr ""
 "intentar en %1 segons..."
 
 #: ekos/align/align.cpp:1530
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"No es pot capturar mentre el rotor està ocupat. Es tornarà a intentar en %1 "
-"segons..."
+"No es pot capturar mentre el rotor està ocupat: s'ha iniciat l'estimació del "
+"retard de temps..."
 
 #: ekos/align/align.cpp:1544
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
-"No es pot capturar mentre el rotor està ocupat. Es tornarà a intentar en %1 "
+"No es pot capturar mentre el rotor està ocupat: es tornarà a intentar en %1 "
 "segons..."
 
 #: ekos/align/align.cpp:1563 ekos/align/align.cpp:3056

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-21 09:22+0200\n"
+"PO-Revision-Date: 2024-01-22 09:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5790,7 +5790,7 @@ msgstr ""
 #: ekos/align/align.cpp:146 ekos/align/align.cpp:1414
 #, kde-format
 msgid "No Target - Please pick an object."
-msgstr ""
+msgstr "Немає цілі — будь ласка, виберіть об'єкт."
 
 #: ekos/align/align.cpp:345
 #, kde-format
@@ -5913,16 +5913,14 @@ msgstr ""
 "Повторюємо спробу за %1 секунд…"
 
 #: ekos/align/align.cpp:1530
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"Захоплення знімків неможливе, доки засіб обертання зайнятий. Повторюємо "
-"спробу за %1 секунд…"
+"Захоплення знімків неможливе, доки засіб обертання зайнятий. Розпочато "
+"оцінку затримки…"
 
 #: ekos/align/align.cpp:1544
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
 "Захоплення знімків неможливе, доки засіб обертання зайнятий. Повторюємо "

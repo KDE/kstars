@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-21 23:45+0100\n"
+"PO-Revision-Date: 2024-01-22 14:47+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -10657,7 +10657,7 @@ msgid ""
 "<html><head/><body><p>Plot the number of stars detected in the guide images."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>\fПоказване на броя на звездите, открити в гид "
+"<html><head/><body><p>Показване на броя на звездите, открити в гид "
 "изображенията.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, numStarsCB)
@@ -11021,7 +11021,7 @@ msgid ""
 "to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Средноквадратичната стойност (RMS) на комбинирания "
-"дрейф RA и DEC в дъгови секунди, осреднена на \fприблизително последните 40 "
+"дрейф RA и DEC в дъгови секунди, осреднена на приблизително последните 40 "
 "проби, но само по време на заснемането. Щракнете тук, за да видите "
 "стойностите на тази ос на лявата ос. Споделя оста с грешки РА/Декл, "
 "отклонение и RMS стойности. Щракнете два пъти, за да актуализирате оста.</"
@@ -16413,18 +16413,36 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Алгоритъм за HFR проверка:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Последно автофокусиране</span>: Това е "
+"настройката по подразбиране Тя използва стойността на HFR от последното "
+"стартиране на автофокуса при проверката.</li></ul><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Фиксиран</span>: Този алгоритъм позволява на "
+"потребителя да зададе фиксиран HFR, който да се използва при проверката.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Относително измерване</span>: Този алгоритъм събира точкови "
+"данни от проверките на автофокуса и HFR и поддържа данните в списък с "
+"последователност и използва медианната стойност като референция за "
+"следващата HFR проверка.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:200
 #, kde-format
 msgid "Last Autofocus"
-msgstr "Последно автоматично фокусиране"
+msgstr "Последно автофокусиране"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:205
 #, kde-format
 msgid "Fixed"
-msgstr "Фиксирано"
+msgstr "Фиксиран"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:210
@@ -16529,6 +16547,9 @@ msgid ""
 "appropriate to the selected algorithm, to use as the threshold to perform "
 "the HFR Check.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Задаване на %, който да се приложат към стойността на "
+"проверката на HFR, подходяща за избрания алгоритъм, която да се използва "
+"като праг за извършване на HFR проверката.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
@@ -16552,6 +16573,10 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Стойността на проверката на HFR в пиксели. Това е "
+"изходно поле, когато е избрана опция Последен автофокус или Относително "
+"измерване, и входно поле за Фиксиран.  Във всички случаи потребителят може "
+"да отмени генерираната от системата стойност.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
@@ -16694,8 +16719,7 @@ msgstr ""
 #: ekos/capture/rotatorsettings.ui:289
 #, kde-format
 msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
-msgstr ""
-"<html><head/><body><p>\fЪгъл на отместване на камерата</p></body></html>"
+msgstr "<html><head/><body><p>Ъгъл на отместване на камерата</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
@@ -18811,11 +18835,13 @@ msgstr "Начало на кадриране"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:193
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>\fНамалете мащаба за оста X.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Фокусиране навън.</p><p>За SCT това е обикновено е CW."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
@@ -18870,11 +18896,13 @@ msgstr "Текуща абсолютна позиция на фокуса"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:423
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Увеличете мащаба за оста X.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Фокусиране навътре.</p><p>За SCT това е обикновено е "
+"CCW.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:468
@@ -18898,9 +18926,9 @@ msgstr "Избор на източник на температура на фок
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
 #: ekos/focus/focus.ui:605
-#, fuzzy, kde-format
+#, kde-format
 msgid "Filter Settings..."
-msgstr "Настройки на филтъра"
+msgstr "Настройки на филтъра..."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:627
@@ -19604,6 +19632,12 @@ msgid ""
 "is improved by the process then this new dataset is used and outliers "
 "highlighted on the v-curve. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Проверка за извършване на пропуск за отклонение, "
+"когато всички точки от данни имат са взети. Проверката използва критериите "
+"на Пиърс за откриване на праг на отклонение. Ако има отклонения, те се "
+"отстраняват и се извършва повторно изравняване на кривата. Ако R² се "
+"подобрява от процеса, тогава се използва тази нова съвкупност от данни, а "
+"отклоненията се открояват на V-образната крива. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/opsfocusprocess.ui:262
@@ -19886,8 +19920,8 @@ msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
 "image before for instance the Bahtinov edge detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>\fСигма стойността на размазването по Гаус. Използва "
-"се за замъгляване на изображението преди например разпознаване на ръбовепо "
+"<html><head/><body><p>Сигма стойността на размазването по Гаус. Използва се "
+"за замъгляване на изображението преди например разпознаване на ръбове по "
 "Бахтинов.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
@@ -20967,9 +21001,9 @@ msgstr "Водеща ос на ректасценазия"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
 #: ekos/guide/guide.ui:431
-#, fuzzy, kde-format
+#, kde-format
 msgid "Directions:"
-msgstr "Посоки"
+msgstr "Посоки:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
 #: ekos/guide/guide.ui:438
@@ -21017,9 +21051,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
 #: ekos/guide/guide.ui:504
-#, fuzzy, kde-format
+#, kde-format
 msgid "Manual Pulse..."
-msgstr "Ръчна пулсация"
+msgstr "Ръчна пулсация..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:529
@@ -21059,15 +21093,15 @@ msgstr "Данни за гидирането"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
 #: ekos/guide/guide.ui:748
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pulse length (ms):"
-msgstr "Дължина на импулса (ms)"
+msgstr "Дължина на импулса (ms):"
 
 #. i18n: ectx: property (text), widget (QLabel, l_16)
 #: ekos/guide/guide.ui:755
-#, fuzzy, kde-format
+#, kde-format
 msgid "Guiding delta \":"
-msgstr "Делта \" на гидирането"
+msgstr "Делта \" на гидирането:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
 #: ekos/guide/guide.ui:767
@@ -21101,9 +21135,9 @@ msgstr "Средноквадратична грешка при водене"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:831
-#, fuzzy, kde-format
+#, kde-format
 msgid "RMS\" (RA/DEC):"
-msgstr "RMS\" (RA/DEC)"
+msgstr "RMS\" (RA/DEC):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
 #: ekos/guide/guide.ui:843
@@ -21119,9 +21153,9 @@ msgstr "Насочваща DEC RMS грешка"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/guide/guide.ui:871
-#, fuzzy, kde-format
+#, kde-format
 msgid "Total RMS\":"
-msgstr "Total RMS\""
+msgstr "Обща RMS\""
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
@@ -21132,9 +21166,9 @@ msgstr "xxx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
 #: ekos/guide/guide.ui:891
-#, fuzzy, kde-format
+#, kde-format
 msgid "Guide SNR:"
-msgstr "Гид-телескопи"
+msgstr "Съотношение сигнал/шум (SNR) на гидирането:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
 #: ekos/guide/guide.ui:1073
@@ -21254,7 +21288,8 @@ msgstr "<html><head/><body><p>Увеличете мащаба за оста X.</
 #: ekos/guide/guide.ui:1361
 #, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>\fНамалете мащаба за оста X.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Намаляване на мащаба за оста X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1387
@@ -23231,15 +23266,15 @@ msgstr "Профил:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addProfileB)
 #: ekos/manager.ui:167
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add profile..."
-msgstr "Добавяне на профил"
+msgstr "Добавяне на профил..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfileB)
 #: ekos/manager.ui:204
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit profile..."
-msgstr "Редактиране на профил"
+msgstr "Редактиране на профил..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, deleteProfileB)
 #: ekos/manager.ui:241
@@ -23255,9 +23290,9 @@ msgstr "Потребителски драйвери..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, wizardProfileB)
 #: ekos/manager.ui:300
-#, fuzzy, kde-format
+#, kde-format
 msgid "Launch Ekos Profile Wizard..."
-msgstr "Стартиране на съветника за профили на Ekos"
+msgstr "Стартиране на съветника за профили на Ekos..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/manager.ui:335
@@ -23267,9 +23302,9 @@ msgstr "2. Стартиране и спиране на Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
 #: ekos/manager.ui:392
-#, fuzzy, kde-format
+#, kde-format
 msgid "Ekos Live..."
-msgstr "Режим на фокусиране"
+msgstr "Ekos Live..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
 #: ekos/manager.ui:421 kstarsinit.cpp:515
@@ -23279,28 +23314,28 @@ msgstr "Контролен панел на INDI..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, portSelectorB)
 #: ekos/manager.ui:450
-#, fuzzy, kde-format
+#, kde-format
 msgid "<html><head/><body><p>Devices Port Selector...</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Избиране на портове на устройства</p></body></html>"
+"<html><head/><body><p>Избиране на портове на устройства...</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: ekos/manager.ui:479
-#, fuzzy, kde-format
+#, kde-format
 msgid "Ekos Options..."
-msgstr "Настройки на Ekos"
+msgstr "Настройки на Ekos..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, logsB)
 #: ekos/manager.ui:505
 #, kde-format
 msgid "Logs to diagnose issues with Ekos and INDI."
-msgstr ""
+msgstr "Дневници за диагностициране на проблеми с Ekos и INDI."
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:508
-#, fuzzy, kde-format
+#, kde-format
 msgid "Logs..."
-msgstr "Показване на  журнал…"
+msgstr "Журнали..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/manager.ui:532
@@ -24901,6 +24936,11 @@ msgid ""
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Минимална продължителност на обръщане на меридиана в "
+"секунди. Увеличете тази стойност, ако Ekos докладва, че обръщането на "
+"меридиана е неуспешно, защото страната на стойката не се е променила. Добра "
+"стойност е поне 50% от типичната продължителност на обръщането на меридиана."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
@@ -25267,7 +25307,7 @@ msgstr "<html><body><p>Порт на външен гид модул</p></body></
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
 msgstr ""
-"<html><body><p>\fСканиране на локалната мрежа за INDI уеб мениджъри.</p></"
+"<html><body><p>Сканиране на локалната мрежа за INDI уеб мениджъри.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
@@ -27593,9 +27633,9 @@ msgstr "Попълнете координатите с центъра на не�
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mosaicB)
 #: ekos/scheduler/scheduler.ui:884
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open the Mosaic Planner..."
-msgstr "Отваряне на инструмента за планиране на мозайка"
+msgstr "Отваряне на инструмента за планиране на мозайка..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSequenceB)
 #: ekos/scheduler/scheduler.ui:912
@@ -27669,6 +27709,11 @@ msgid ""
 "settings is <span style=\" font-weight:700;\">not</span> selected.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Повтаряне на всички планирани задачи веднага щом "
+"всички задачи са завършени. Тази опция е налична само, ако опцията <span "
+"style=\" font-weight:700;\">Запомняне на напредъка на задачите</span> в "
+"настройките на планиращия модул на Ekos <span style=\" font-weight:700;\">не "
+"е </span> избран.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, repeatSequenceCB)
 #: ekos/scheduler/scheduler.ui:1243
@@ -36809,36 +36854,39 @@ msgstr "Изчислете позицията след заснемане."
 #, kde-format
 msgid "Camera frame types when using stand-alone esq editor."
 msgstr ""
+"Вид на кадрите на камерата при използване на самостоятелен редактор esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFormats), group (Capture)
 #: kstars.kcfg:1938
 #, kde-format
 msgid "Camera frame formats when using stand-alone esq editor."
 msgstr ""
+"Формати на кадрите на камерата при използване на самостоятелен редактор esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneEncodings), group (Capture)
 #: kstars.kcfg:1942
 #, kde-format
 msgid "Camera frame encodings when using stand-alone esq editor."
 msgstr ""
+"Кодиране на кадрите на камерата при използване на самостоятелен редактор esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOs), group (Capture)
 #: kstars.kcfg:1946
 #, kde-format
 msgid "Camera ISOs when using stand-alone esq editor."
-msgstr ""
+msgstr "ISO на камерата при използване на самостоятелен esq редактор."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOIndex), group (Capture)
 #: kstars.kcfg:1950
 #, kde-format
 msgid "Camera ISO choice when using stand-alone esq editor."
-msgstr ""
+msgstr "Избор на ISO на камерата при използване на самостоятелен редактор esq."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFilters), group (Capture)
 #: kstars.kcfg:1954
 #, kde-format
 msgid "Filter names when using stand-alone esq editor."
-msgstr ""
+msgstr "Имена на филтрите при използване на самостоятелен esq редактор."
 
 #. i18n: ectx: label, entry (CaptureStandAloneWHGO), group (Capture)
 #: kstars.kcfg:1958
@@ -36847,12 +36895,14 @@ msgid ""
 "Width,Height of sensor size remembered for stand-alone esq editor, and Gain/"
 "Offset keywords."
 msgstr ""
+"Ширина, височина на размера на сензора, запомнени за самостоятелен esq "
+"редактор, и ключови думи за усилване/отместване)."
 
 #. i18n: ectx: label, entry (CaptureStandAloneTimestamp), group (Capture)
 #: kstars.kcfg:1962
 #, kde-format
 msgid "Local time that the CaptureStandAlone options were set."
-msgstr ""
+msgstr "Местно време, в което са зададени опциите CaptureStandAlone."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1968
@@ -79984,7 +80034,7 @@ msgstr "Координати на планети"
 #: tools/astrocalc.cpp:169
 #, kde-format
 msgid "Conjunctions"
-msgstr "Свързвания"
+msgstr "Съединения"
 
 #: tools/astrocalc.cpp:170
 #, kde-format
@@ -80041,7 +80091,7 @@ msgstr "Ъглово отстояние"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Conjunctions"
-msgstr "Запазване на свързванията"
+msgstr "Запазване на съединенията"
 
 #: tools/conjunctions.cpp:253
 #, kde-format

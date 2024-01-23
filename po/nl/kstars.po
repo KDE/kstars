@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-21 14:49+0100\n"
+"PO-Revision-Date: 2024-01-22 10:52+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5807,7 +5807,7 @@ msgstr ""
 #: ekos/align/align.cpp:146 ekos/align/align.cpp:1414
 #, kde-format
 msgid "No Target - Please pick an object."
-msgstr ""
+msgstr "Geen doel - kies een object."
 
 #: ekos/align/align.cpp:345
 #, kde-format
@@ -5931,19 +5931,17 @@ msgstr ""
 "seconden..."
 
 #: ekos/align/align.cpp:1530
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"Kan geen opnames maken wanneer rotator bezig is! Nieuwe poging over %1 "
-"seconden..."
+"Kan geen opnames maken wanneer de rotator bezig is! Vertraagt in tijd, "
+"geschatte start..."
 
 #: ekos/align/align.cpp:1544
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
-"Kan geen opnames maken wanneer rotator bezig is! Nieuwe poging over %1 "
+"Kan geen opnames maken wanneer rotator bezig is: nieuwe poging over %1 "
 "seconden..."
 
 #: ekos/align/align.cpp:1563 ekos/align/align.cpp:3056

@@ -1,6 +1,6 @@
 # Translation of kstars.po to French
 # Traduction de kstars.po en français
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
 # Matthieu Robin <kde@macolu.org>, 2004, 2005, 2006, 2007.
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2004, 2005.
 # Delafond <gerard@delafond.org>, 2005.
@@ -26,9 +26,9 @@ msgstr ""
 "Project-Id-Version: kstars_3.6.7\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2023-12-02 07:03+0100\n"
-"Last-Translator: stax <stax@ik.me>\n"
-"Language-Team: fr\n"
+"PO-Revision-Date: 2024-01-21 21:16+0100\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.4\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -223,7 +223,7 @@ msgstr "Étiquettes des satellites"
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
-msgstr "Supernovae"
+msgstr "Supernova"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
@@ -2154,7 +2154,7 @@ msgid ""
 "buttons at the bottom do."
 msgstr ""
 "Le panneau « Digne d'intérêt » permet d'explorer de différentes façons, les "
-"objects observables cette nuit. Il inclut les objets visibles à l'œil nu "
+"objets observables cette nuit. Il inclut les objets visibles à l'œil nu "
 "aussi bien que ceux nécessitant un instrument. Il s'adresse à la fois aux "
 "astronomes débutants ou expérimentés. En cliquant sur une catégorie ou un "
 "catalogue, une liste d'objets apparaît. Cliquez sur un objet dans la liste, "
@@ -6056,7 +6056,7 @@ msgid ""
 "valid WCS."
 msgstr ""
 "Informations WCS mises à jour. Les images acquises dès maintenant "
-"possèderont des informations WCS valables."
+"posséderont des informations WCS valables."
 
 #: ekos/align/align.cpp:2174
 #, kde-format
@@ -6730,7 +6730,7 @@ msgstr "Dark"
 #: ekos/align/align.ui:610
 #, kde-format
 msgid "Camera binning"
-msgstr "Binning caméra"
+msgstr "Regroupement de caméra"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
 #: ekos/align/align.ui:629 ekos/focus/focus.ui:651
@@ -7001,8 +7001,8 @@ msgid ""
 "Options&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Pour désactiver la validation de la rotation, décochez "
-"&quote;Contrôle automatique et manuel du rotateur&quote; dans les options de "
-"&quote;StellarSolver&quote;.</p></body></html>"
+"&quot;Contrôle automatique et manuel du rotateur&quot; dans les options de "
+"&quot;StellarSolver&quot;.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, currentRotationL)
 #: ekos/align/manualrotator.ui:58
@@ -7511,10 +7511,10 @@ msgid ""
 "again."
 msgstr ""
 "Démarrer ou mettre en pause la procédure de modélisation de la monture. Il "
-"fera pointer et résoudre astrométriquement la liste des points dans la table "
-"ci-dessus en utilisant ces paramètres dans le module d'alignement. Si la "
-"procédure avait été mise en pause antérieurement, elle reprendra à son point "
-"d'arrêt. Si elle a été arrêtée ou terminée, elle sera redémarrée."
+"fera pointer et résoudre de façon astrométrique la liste des points dans la "
+"table ci-dessus en utilisant ces paramètres dans le module d'alignement. Si "
+"la procédure avait été mise en pause antérieurement, elle reprendra à son "
+"point d'arrêt. Si elle a été arrêtée ou terminée, elle sera redémarrée."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopAlignB)
 #: ekos/align/mountmodel.ui:592
@@ -7776,7 +7776,8 @@ msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">La politique de "
 "retournement</span> détermine le comportement du rotateur après un "
 "retournement ou si le résultat d'une image de référence résolue indique un "
-"côté différent du pied par rapport au côté actuel de la monture."
+"côté différent du pied par rapport au côté actuel de la monture.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
@@ -7818,7 +7819,8 @@ msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">L'option Conserver "
 "l'angle de position</span> conserve l'angle de position de l'appareil. Le "
 "rotateur tourne toujours l'appareil vers l'angle de position original de "
-"l'appareil et donc l'image montrera l'arrangement original de l'étoile."
+"l'appareil et donc l'image montrera l'arrangement original de l'étoile.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
@@ -7848,8 +7850,8 @@ msgid ""
 "zero value will result in auto selection downsampling.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sous-échantillonner avant la résolution, aussi appelé "
-"binning. Une valeur de zéro conduira à un sous-échantillonnage en sélection "
-"automatique.</p></body></html>"
+"catégorisation. Une valeur de zéro conduira à un sous-échantillonnage en "
+"sélection automatique.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_ASTAPExecutable)
 #: ekos/align/opsastap.ui:62
@@ -9265,7 +9267,7 @@ msgstr "Programme Sextractor local"
 #: ekos/align/opsprograms.ui:69
 #, kde-format
 msgid "sextractor binary:"
-msgstr "Exécutable de sextractor"
+msgstr "Exécutable de Sextractor"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SextractorBinary)
 #: ekos/align/opsprograms.ui:76
@@ -9295,7 +9297,7 @@ msgstr "Exécutable de WCSinfo d'astrometry.net"
 #: ekos/align/opsprograms.ui:115
 #, kde-format
 msgid "wcsinfo:"
-msgstr "wcsinfo"
+msgstr "WCSinfo :"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometrySolverBinary)
 #: ekos/align/opsprograms.ui:122
@@ -9987,7 +9989,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:649
 #, kde-format
 msgid "Updated Err:"
-msgstr "Erreur MaJ"
+msgstr "Erreur mise à jour :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
@@ -12734,7 +12736,7 @@ msgstr ""
 #: ekos/auxiliary/opticaltrains.ui:206
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
-msgstr "Sélectionner un capuchon antipoussière si existant (p. ex. FlipFlat)."
+msgstr "Sélectionner un capuchon anti-poussière si existant (p. ex. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:209
@@ -13580,7 +13582,7 @@ msgid ""
 "\">Deblending Params</a>"
 msgstr ""
 "<a href=\"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html"
-"\">Paramètres de démixage</a>"
+"\">Paramètres de dé-mixage</a>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:537
@@ -13979,7 +13981,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:992
 #, kde-format
 msgid "Resort"
-msgstr "Retriage"
+msgstr "Trier à nouveau"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:999
@@ -14074,7 +14076,7 @@ msgid ""
 "Flat frame is captured.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sélectionnez l'action à réaliser avant l'acquisition "
-"d'une image Bias/Dark/Flat.</p></body></html>"
+"d'une image Bias / Dark / Flat.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
@@ -15894,7 +15896,7 @@ msgstr "Exécution du script d'acquisition %1"
 #: ekos/capture/captureprocess.cpp:1705
 #, kde-format
 msgid "Pre capture script finished with code %1."
-msgstr "Le script de préacquisition s'est terminé avec le code %1."
+msgstr "Le script de pré-acquisition s'est terminé avec le code %1."
 
 #: ekos/capture/captureprocess.cpp:1713
 #, kde-format
@@ -16365,7 +16367,7 @@ msgstr "Graphique du temps d'exposition potentiel"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:769
 #, no-c-format, kde-format
 msgid "Noise Increase %"
-msgstr "Augmentation du bruit %"
+msgstr "Augmentation du bruit %"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:789
@@ -16768,7 +16770,8 @@ msgstr ""
 #: ekos/capture/refocusstate.cpp:66
 #, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr "Redémarrage de la mise au point basée sur la séquence HFR…"
+msgstr ""
+"Redémarrage de la mise au point à partir de la séquence HFR…baBarreBarresée"
 
 #: ekos/capture/refocusstate.cpp:74
 #, kde-format
@@ -17023,7 +17026,7 @@ msgstr "Script de post-acquisition"
 #, kde-format
 msgctxt "@title:window"
 msgid "Pre Capture Script"
-msgstr "Script de préacquisition"
+msgstr "Script de pré-acquisition"
 
 #: ekos/capture/scriptsmanager.cpp:59
 #, kde-format
@@ -17111,12 +17114,12 @@ msgstr "Couvrir le télescope pour faire un dark."
 #: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
 #, kde-format
 msgid "Unparking dust cap..."
-msgstr "Ouverture du capuchon antipoussière…"
+msgstr "Ouverture du capuchon anti-poussière…"
 
 #: ekos/capture/sequencejobstate.cpp:432
 #, kde-format
 msgid "Parking dust cap..."
-msgstr "Fermeture du capuchon antipoussière…"
+msgstr "Fermeture du capuchon anti-poussière…"
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
@@ -17172,12 +17175,12 @@ msgstr "Boîte à flat allumée."
 #: ekos/capture/sequencejobstate.cpp:791
 #, kde-format
 msgid "Dust cap parked."
-msgstr "Parcage du capuchon antipoussière effectuée."
+msgstr "Parcage du capuchon anti-poussière effectuée."
 
 #: ekos/capture/sequencejobstate.cpp:795
 #, kde-format
 msgid "Dust cap unparked."
-msgstr "Ouverture du capuchon antipoussière."
+msgstr "Ouverture du capuchon anti-poussière."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -17463,7 +17466,7 @@ msgstr "Delta depuis le centre de la tuile en micromètres."
 #: ekos/focus/aberrationinspector.cpp:103
 #, kde-format
 msgid "Min / max number of stars detected in the focus run"
-msgstr "Nombre Min / Max d'étoiles détectées dans la passe de mise au point."
+msgstr "Nombre Min / Max d'étoiles détectées dans la passe de mise au point."
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
@@ -17476,7 +17479,7 @@ msgstr "Cochez pour exclure cette ligne des calculs"
 #: ekos/focus/aberrationinspector.cpp:584
 #, kde-format
 msgid "N/A"
-msgstr "N/A"
+msgstr "N / D"
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
@@ -17808,21 +17811,22 @@ msgstr "Mode simulation"
 #, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Barre de défilement du backfocus<br/></p></body></html>"
+"<html><head/><body><p>Curseur de défilement du backfocus<br/></p></body></"
+"html>Barre"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
 #, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Barre de défilement de l'inclinaison gauche-droite</"
+"<html><head/><body><p>Curseur de défilement de l'inclinaison gauche-droite</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
 #, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Barre de défilement haut-bas</p></body></html>"
+msgstr "<html><head/><body><p>Curseur de défilement haut-bas</p></body></html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
 #, kde-format
@@ -18522,7 +18526,7 @@ msgstr ""
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
-"Rejet de la requête de mise au point automatique . AdaptativeFocus en cours"
+"Rejet de la requête de mise au point automatique. AdaptativeFocus en cours"
 
 #: ekos/focus/focus.cpp:1173
 #, kde-format
@@ -19489,9 +19493,9 @@ msgstr ""
 "point pour l'algorithme <span style=\"font-weight:600;\">Linéaire 1 passe</"
 "span>. Pour <span style=\"font-weight:600;\">Linéaire</span>, seul <span "
 "style=\"font-wight:600;\">Classique</span> est disponible.</p><p><span style="
-"\"font-wight:600;\">Classique</span> : Pas extérieur &quot; Multiple de pas "
-"extérieur&quot;, prend une trame et ensuite se déplace vers l'intérieur à un "
-"taux constant de taille de pas en prenant une trame et en l'analysant à "
+"\"font-wight:600;\">Classique</span> : aucun extérieur &quot; Multiple de "
+"pas extérieur&quot;, prend une trame et ensuite se déplace vers l'intérieur "
+"à un taux constant de taille de pas en prenant une trame et en l'analysant à "
 "chaque étape. Le point exact d'arrêt de la passe dépend des données, ainsi "
 "cette méthode tolère un point de départ plus éloigné de la position de mise "
 "au point, mais au prix de davantage d'étapes.</p><p><span style=\"font-"
@@ -19812,7 +19816,7 @@ msgstr ""
 "et utilise la courbe pour calculer la FWHM. Cette fonctionnalité est encore "
 "expérimentale.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\"># d'étoiles</span> : Nombre d'étoiles. Le nombre "
+"style=\" font-weight:600;\"># d'étoiles</span> : nombre d'étoiles. Le nombre "
 "d'étoiles détectées à la position optimale de mise au point sera un maximum. "
 "Cette fonctionnalité est encore expérimentale.</li></ul></body></html>"
 
@@ -19953,7 +19957,7 @@ msgstr ""
 "moyennant un bon ensemble de données.</li><li style=\" margin-top:0px ; "
 "margin-bottom:12px ; margin-left:0px ; margin-right:0px ; -qt-block-"
 "indent:0 ; text-indent:0px ;\"><span style=\" font-weight:600 ;\">Linéaire</"
-"span> : les échantillons se concentrent vers l'intérieur de façon régulière, "
+"span> : les échantillons se concentrent vers l'intérieur de façon homogène, "
 "en utilisant 2 passes. L'algorithme peut être lent, mais il est plus "
 "résistant aux contrecoups. Commencez avec le moteur de mise au point "
 "positionné près de la bonne mise au point. Définissez la taille du pas "
@@ -21028,7 +21032,7 @@ msgstr "Décalage totalement réussi."
 #: ekos/guide/guide.cpp:1675
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
-msgstr "Le binning %1x%1 n'est pas autorisé pour le guidage."
+msgstr "Le regroupement %1 x %1 n'est pas autorisé pour le guidage."
 
 #: ekos/guide/guide.cpp:1697
 #, kde-format
@@ -21238,8 +21242,8 @@ msgstr "Appliquer un filtre à une image après acquisition pour l'améliorer"
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
-"Binning de la caméra de guidage. Il est recommandé de définir le binning à "
-"2x2 ou plus."
+"Regroupement de la caméra de guidage. Il est recommandé de définir le "
+"binning à 2x2 ou plus."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rAGuideEnabled)
 #: ekos/guide/guide.ui:418
@@ -21954,25 +21958,25 @@ msgstr "Pulsation manuelle"
 #: ekos/guide/manualpulse.ui:37
 #, kde-format
 msgid "North / DE+"
-msgstr "Nord / DEC+"
+msgstr "Nord / DEC+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "West / RA-"
-msgstr "Ouest / AD-"
+msgstr "Ouest / AD-"
 
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr "Est / AD+"
+msgstr "Est / AD+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
 #, kde-format
 msgid "South / DE-"
-msgstr "Sud / DEC-"
+msgstr "Sud / DEC-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
@@ -21991,13 +21995,13 @@ msgstr " ms"
 #: ekos/guide/manualpulse.ui:112
 #, kde-format
 msgid "RA Offset\":"
-msgstr "Décalage en AD\""
+msgstr "Décalage en AD\" :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
 #, kde-format
 msgid "DE Offset\":"
-msgstr "Décalage en DEC\""
+msgstr "Décalage en DEC\" :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -23460,7 +23464,7 @@ msgstr "Le GPS %1 est connecté."
 #: ekos/manager.cpp:1587
 #, kde-format
 msgid "%1 Dust cap is online."
-msgstr "Le bouchon antipoussière %1 est connecté."
+msgstr "Le bouchon anti-poussière %1 est connecté."
 
 #: ekos/manager.cpp:1594
 #, kde-format
@@ -24220,7 +24224,7 @@ msgstr ""
 "<html><head/><body><p>Active ou désactive la limite de l'angle horaire de la "
 "monture. Une fois activé, Ekos surveille l'angle horaire de la monture "
 "pendant sa rotation ou son suivi. Si celui-ci tourne/suit au delà de la "
-"limite et que l' état courant du côté de la butée ne le permet pas, alors il "
+"limite et que l'état courant du côté de la butée ne le permet pas, alors il "
 "recevra une commande d'arrêt et le suivi sera désactivé. Cela nécessite une "
 "monture fournissant correctement le côté de pied.</p></body></html>"
 
@@ -24594,7 +24598,7 @@ msgstr ""
 "<ul>\n"
 "<li><b>Dôme</b> : débloqué &rarr; prêt</li>\n"
 "<li><b>Couvercle</b> : ouvert &rarr; prêt</li>\n"
-"<li><b>Météo</b> : Ok &rarr; prêt</li>\n"
+"<li><b>Météo</b> : correcte &rarr; prêt</li>\n"
 "</ul>\n"
 "</body></html>"
 
@@ -26186,7 +26190,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Utiliser un pilote de joystick INDI pour activer le "
 "contrôle des montures, des dômes et des gestionnaires de mise au point avec "
-"tout manette compatible.</p></body></html>"
+"tout joystick compatible.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useJoystickCheck)
 #: ekos/profilewizard.ui:1048
@@ -28299,7 +28303,7 @@ msgstr "Chauffage CCD"
 #: ekos/scheduler/scheduler.ui:1839
 #, kde-format
 msgid "Close dust cover"
-msgstr "Fermer le couvercle antipoussière."
+msgstr "Fermer le couvercle anti-poussière."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerCloseDustCover)
 #: ekos/scheduler/scheduler.ui:1842
@@ -28480,7 +28484,7 @@ msgstr "Déparquer la monture"
 #: ekos/scheduler/scheduler.ui:2185
 #, kde-format
 msgid "Open dust cover"
-msgstr "Ouvrir le couvercle antipoussière"
+msgstr "Ouvrir le couvercle anti-poussière"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2188
@@ -28713,7 +28717,7 @@ msgstr "Capuchon fermé."
 #: ekos/scheduler/schedulerprocess.cpp:865
 #, kde-format
 msgid "Cap unparked."
-msgstr "Déblocage du capuchon antipoussière."
+msgstr "Déblocage du capuchon anti-poussière."
 
 #: ekos/scheduler/schedulerprocess.cpp:877
 #: ekos/scheduler/schedulerprocess.cpp:1106
@@ -28730,7 +28734,7 @@ msgstr "Erreur lors du retrait du capuchon."
 #: ekos/scheduler/schedulerprocess.cpp:895
 #, kde-format
 msgid "Cap unparking error."
-msgstr "Erreur lors du déblocage du couvercle antipoussière."
+msgstr "Erreur lors du déblocage du couvercle anti-poussière."
 
 #: ekos/scheduler/schedulerprocess.cpp:937
 #, kde-format
@@ -29005,12 +29009,12 @@ msgstr "La fermeture du capuchon est demandée mais aucun capuchon détecté."
 #: ekos/scheduler/schedulerprocess.cpp:2206
 #, kde-format
 msgid "Parking Cap..."
-msgstr "Fermeture du capuchon antipoussière…"
+msgstr "Fermeture du capuchon anti-poussière…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2212
 #, kde-format
 msgid "Cap already parked."
-msgstr "Capuchon antipoussière déjà en sécurité."
+msgstr "Capuchon anti-poussière déjà en sécurité."
 
 #: ekos/scheduler/schedulerprocess.cpp:2221
 #, kde-format
@@ -29020,12 +29024,12 @@ msgstr "L'ouverture du capuchon est demandée mais aucun capuchon détecté."
 #: ekos/scheduler/schedulerprocess.cpp:2243
 #, kde-format
 msgid "Unparking cap..."
-msgstr "Retrait du capuchon antipoussière…"
+msgstr "Retrait du capuchon anti-poussière…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2249
 #, kde-format
 msgid "Cap already unparked."
-msgstr "Capuchon antipoussière déjà débloqué."
+msgstr "Capuchon anti-poussière déjà débloqué."
 
 #: ekos/scheduler/schedulerprocess.cpp:2258
 #, kde-format
@@ -33856,13 +33860,13 @@ msgstr ""
 #: kstars.kcfg:495
 #, kde-format
 msgid "Draw supernovae in the sky map?"
-msgstr "Dessiner les supernovae sur la carte du ciel ?"
+msgstr "Dessiner les supernova sur la carte du ciel ?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:496
 #, kde-format
 msgid "Toggle whether supernovae are drawn in the sky map."
-msgstr "Décide si les supernovae sont ou non dessinées sur la carte du ciel."
+msgstr "Décide si les supernova sont ou non dessinées sur la carte du ciel."
 
 #. i18n: ectx: label, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:500
@@ -33883,7 +33887,7 @@ msgstr ""
 #, kde-format
 msgid "Set magnitude limit for supernovae to be shown on the skymap"
 msgstr ""
-"Définir la limite de magnitude concernant les supernovae à afficher sur la "
+"Définir la limite de magnitude concernant les supernova à afficher sur la "
 "carte du ciel"
 
 #. i18n: ectx: whatsthis, entry (MagnitudeLimitShowSupernovae), group (View)
@@ -33891,7 +33895,7 @@ msgstr ""
 #, kde-format
 msgid "Set magnitude limit for supernovae to be shown on the skymap."
 msgstr ""
-"Définit la limite de magnitude concernant les supernovae à afficher sur la "
+"Définit la limite de magnitude concernant les supernova à afficher sur la "
 "carte du ciel."
 
 #. i18n: ectx: label, entry (SupernovaDetectionAge), group (View)
@@ -33912,37 +33916,37 @@ msgstr "Nombre maximum de jour depuis la dernière détection."
 #: kstars.kcfg:521
 #, kde-format
 msgid "Limit Supernovae by zoom limit"
-msgstr "Limite de supernovae en fonction de la limite de zoom"
+msgstr "Limite de supernova en fonction de la limite de zoom"
 
 #. i18n: ectx: whatsthis, entry (LimitSupernovaeByZoom), group (View)
 #: kstars.kcfg:522
 #, kde-format
 msgid "Limit Supernovae by zoom limit."
-msgstr "Limite de supernovae en fonction de la limite de zoom."
+msgstr "Limite de supernova en fonction de la limite de zoom."
 
 #. i18n: ectx: label, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:526
 #, kde-format
 msgid "Show only supernovae with host"
-msgstr "N'afficher que les supernovae avec hôte"
+msgstr "N'afficher que les supernova avec hôte"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:527
 #, kde-format
 msgid "Show only supernovae for which a host galaxy is given."
-msgstr "N'afficher que les supernovae dont la galaxie hôte est donnée."
+msgstr "N'afficher que les supernova dont la galaxie hôte est donnée."
 
 #. i18n: ectx: label, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:531
 #, kde-format
 msgid "Show only classified supernovae?"
-msgstr "N'afficher que les supernovae classées ?"
+msgstr "N'afficher que les supernova classées ?"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:532
 #, kde-format
 msgid "Show only classified supernovae where the supernova type is given."
-msgstr "N'afficher que les supernovae dont le type est donné."
+msgstr "N'afficher que les supernova dont le type est donné."
 
 #. i18n: ectx: label, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:536
@@ -33961,7 +33965,7 @@ msgstr "(Dés)active les alertes concernant les supernovas."
 #, kde-format
 msgid "Set magnitude limit for supernovae to be alerted"
 msgstr ""
-"Définir la limite de magnitude concernant les supernovae faisant l'objet "
+"Définir la limite de magnitude concernant les supernova faisant l'objet "
 "d'alertes"
 
 #. i18n: ectx: whatsthis, entry (MagnitudeLimitAlertSupernovae), group (View)
@@ -33969,7 +33973,7 @@ msgstr ""
 #, kde-format
 msgid "Set magnitude limit for supernovae to be alerted."
 msgstr ""
-"Définit la limite de magnitude concernant les supernovae faisant l'objet "
+"Définit la limite de magnitude concernant les supernova faisant l'objet "
 "d'alertes."
 
 #. i18n: ectx: label, entry (ShowCBounds), group (View)
@@ -35518,7 +35522,7 @@ msgstr "Couleur des étiquettes des satellites."
 #: kstars.kcfg:1104
 #, kde-format
 msgid "Color of supernovae"
-msgstr "Couleur des supernovae"
+msgstr "Couleur des supernova"
 
 #. i18n: ectx: whatsthis, entry (SupernovaColor), group (Colors)
 #: kstars.kcfg:1105
@@ -37259,7 +37263,7 @@ msgstr "Emplacement du dossier pour l'enregistrement des images."
 #: kstars.kcfg:1915
 #, kde-format
 msgid "How to format captured image filename."
-msgstr "Comment formatter le nom du fichier de l'image acquise."
+msgstr "Comment formater le nom du fichier de l'image acquise."
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:1919
@@ -37360,14 +37364,14 @@ msgstr ""
 #: kstars.kcfg:1977
 #, kde-format
 msgid "Default Camera binning"
-msgstr "Binning par défaut de la caméra"
+msgstr "Regroupement par défaut de la caméra"
 
 #. i18n: ectx: whatsthis, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:1978
 #, kde-format
 msgid "Set binning of camera while in focus mode."
 msgstr ""
-"Positionner le binning de la caméra quand elle est en mode mise au point."
+"Positionner le regroupement de caméra quand elle est en mode mise au point."
 
 #. i18n: ectx: label, entry (FocusGain), group (Focus)
 #: kstars.kcfg:1982
@@ -38136,7 +38140,7 @@ msgstr ""
 #: kstars.kcfg:2377
 #, kde-format
 msgid "Default camera binning in alignment mode"
-msgstr "Binning par défaut de la caméra dans le mode d'alignement"
+msgstr "Regroupement par défaut de la caméra dans le mode d'alignement"
 
 #. i18n: ectx: label, entry (AlignGain), group (Align)
 #: kstars.kcfg:2381
@@ -39092,8 +39096,8 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for closing dust cover on shutdown."
 msgstr ""
-"Case à cocher par défaut de l'ordonnanceur pour la fermeture du bouchon "
-"antipoussière lors de l'extinction."
+"Case à cocher par défaut de l'ordonnanceur pour la fermeture du bouchon anti-"
+"poussière lors de l'extinction."
 
 #. i18n: ectx: label, entry (SchedulerWarmCCD), group (Scheduler)
 #: kstars.kcfg:2996
@@ -39124,8 +39128,8 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for opening dust cover on startup."
 msgstr ""
-"Case à cocher par défaut de l'ordonnanceur pour l'ouverture du bouchon "
-"antipoussière au démarrage."
+"Case à cocher par défaut de l'ordonnanceur pour l'ouverture du bouchon anti-"
+"poussière au démarrage."
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
 #: kstars.kcfg:3012
@@ -43125,7 +43129,7 @@ msgstr "CASSIOPEE W"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FISH HOOK"
-msgstr "HAMECON "
+msgstr "HAMEÇON "
 
 #: kstars_i18n.cpp:664
 #, kde-kuit-format
@@ -45189,7 +45193,7 @@ msgstr "Biddeford"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Big Bear Solar Obs."
-msgstr "Big Bear (obs. solaire de)"
+msgstr "Big Bear (Obs. solaire de)"
 
 #: kstars_i18n.cpp:1014
 #, kde-kuit-format
@@ -46575,7 +46579,7 @@ msgstr "Cerro Cala"
 #, kde-kuit-format
 msgctxt "City in Chile"
 msgid "Cerro Tololo Int'l Obs."
-msgstr "Cerro Tololo (obs. int. de)"
+msgstr "Cerro Tololo (Obs. int. de)"
 
 #: kstars_i18n.cpp:1245
 #, kde-kuit-format
@@ -48447,7 +48451,7 @@ msgstr "Dwingeloo (Observatoire de)"
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Dyer Observatory"
-msgstr "Dyer (obs.)"
+msgstr "Dyer (Obs.)"
 
 #: kstars_i18n.cpp:1557
 #, kde-kuit-format
@@ -50901,7 +50905,7 @@ msgstr "Hastings"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Hat Creek Radio Obs."
-msgstr "Hat Creek (obs. radio de)"
+msgstr "Hat Creek (Obs. radio de)"
 
 #: kstars_i18n.cpp:1966
 #, kde-kuit-format
@@ -53751,7 +53755,7 @@ msgstr "Lolo"
 #, kde-kuit-format
 msgctxt "City in Slovakia"
 msgid "Lomnicky stit"
-msgstr "Lomnicky Stit"
+msgstr "Lomnicky Stit"
 
 #: kstars_i18n.cpp:2441
 #, kde-kuit-format
@@ -54663,13 +54667,13 @@ msgstr "McCook"
 #, kde-kuit-format
 msgctxt "City in Virginia USA"
 msgid "McCormick Obs."
-msgstr "McCormik (obs.)"
+msgstr "McCormik (Obs.)"
 
 #: kstars_i18n.cpp:2593
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "McDonald Obs."
-msgstr "McDonald (obs.)"
+msgstr "McDonald (Obs.)"
 
 #: kstars_i18n.cpp:2594
 #, kde-kuit-format
@@ -54885,13 +54889,13 @@ msgstr "Meredith"
 #, kde-kuit-format
 msgctxt "City in Connecticut USA"
 msgid "Meriden"
-msgstr "Meriden"
+msgstr "Méridien"
 
 #: kstars_i18n.cpp:2630
 #, kde-kuit-format
 msgctxt "City in Mississippi USA"
 msgid "Meridian"
-msgstr "Meridian"
+msgstr "Méridien"
 
 #: kstars_i18n.cpp:2631
 #, kde-kuit-format
@@ -55701,7 +55705,7 @@ msgstr "Mount Forest"
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Mount Graham Obs."
-msgstr "Mont Graham (obs. du)"
+msgstr "Mont Graham (Obs. du)"
 
 #: kstars_i18n.cpp:2766
 #, kde-kuit-format
@@ -55713,7 +55717,7 @@ msgstr "Mount John"
 #, kde-kuit-format
 msgctxt "City in Arizona USA"
 msgid "Mount Lemmon Obs."
-msgstr "Mont Lemmon (obs. du)"
+msgstr "Mont Lemmon (Obs. du)"
 
 #: kstars_i18n.cpp:2768
 #, kde-kuit-format
@@ -55725,7 +55729,7 @@ msgstr "Mont Mario"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Mount Palomar Obs."
-msgstr "Mont Palomar (obs. du)"
+msgstr "Mont Palomar (Obs. du)"
 
 #: kstars_i18n.cpp:2770
 #, kde-kuit-format
@@ -55749,7 +55753,7 @@ msgstr "Mount Vernon"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Mount Wilson Obs."
-msgstr "Mont Wilson (obs. du)"
+msgstr "Mont Wilson (Obs. du)"
 
 #: kstars_i18n.cpp:2774
 #, kde-kuit-format
@@ -56301,13 +56305,13 @@ msgstr "New Hartford"
 #, kde-kuit-format
 msgctxt "City in Connecticut USA"
 msgid "New Haven"
-msgstr "New Haven"
+msgstr "New Haven"
 
 #: kstars_i18n.cpp:2866
 #, kde-kuit-format
 msgctxt "City in Louisiana USA"
 msgid "New Iberia"
-msgstr "New Iberia"
+msgstr "New Iberia"
 
 #: kstars_i18n.cpp:2867
 #, kde-kuit-format
@@ -56589,7 +56593,7 @@ msgstr "North Las Vegas"
 #, kde-kuit-format
 msgctxt "City in Iowa USA"
 msgid "North Liberty Obs."
-msgstr "North Liberty (obs.)"
+msgstr "North Liberty (Obs.)"
 
 #: kstars_i18n.cpp:2914
 #, kde-kuit-format
@@ -56661,7 +56665,7 @@ msgstr "Norwalk"
 #, kde-kuit-format
 msgctxt "City in Maine USA"
 msgid "Norway"
-msgstr "Norway"
+msgstr "Norvège"
 
 #: kstars_i18n.cpp:2926
 #, kde-kuit-format
@@ -56751,7 +56755,7 @@ msgstr "Oak Ridge"
 #, kde-kuit-format
 msgctxt "City in Massachusetts USA"
 msgid "Oak Ridge Obs."
-msgstr "Oak Ridge (obs.)"
+msgstr "Oak Ridge (Obs.)"
 
 #: kstars_i18n.cpp:2941
 #, kde-kuit-format
@@ -56799,7 +56803,7 @@ msgstr "Oberpfaffenhofen"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Obs. Astronomico de Madrid"
-msgstr "Madrid (obs. astronomique de)"
+msgstr "Madrid (Obs. astronomique de)"
 
 #: kstars_i18n.cpp:2949
 #, kde-kuit-format
@@ -56823,7 +56827,7 @@ msgstr "Ocala"
 #, kde-kuit-format
 msgctxt "City in Maryland USA"
 msgid "Ocean City"
-msgstr "Ocean City"
+msgstr "Ocean City"
 
 #: kstars_i18n.cpp:2953
 #, kde-kuit-format
@@ -57189,7 +57193,7 @@ msgstr "Owen Sound"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Owens Valley Radio Obs."
-msgstr "Owens Valley (obs. radio de)"
+msgstr "Owens Valley (Obs. radio de)"
 
 #: kstars_i18n.cpp:3014
 #, kde-kuit-format
@@ -57435,13 +57439,13 @@ msgstr "Paris"
 #, kde-kuit-format
 msgctxt "City in Minnesota USA"
 msgid "Park Rapids"
-msgstr "Park Rapids"
+msgstr "Park Rapids"
 
 #: kstars_i18n.cpp:3055
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Park View"
-msgstr "Park View"
+msgstr "Park View"
 
 #: kstars_i18n.cpp:3056
 #, kde-kuit-format
@@ -57525,7 +57529,7 @@ msgstr "Pawtucket"
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Peace River"
-msgstr "Peace River"
+msgstr "Peace River"
 
 #: kstars_i18n.cpp:3070
 #, kde-kuit-format
@@ -57609,7 +57613,7 @@ msgstr "Peoria"
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Perkins Obs."
-msgstr "Perkins (obs.)"
+msgstr "Perkins (Obs.)"
 
 #: kstars_i18n.cpp:3084
 #, kde-kuit-format
@@ -57759,7 +57763,7 @@ msgstr "Plaisance"
 #, kde-kuit-format
 msgctxt "City in Hautes-Pyrénées France"
 msgid "Pic du Midi (observatory)"
-msgstr "Pic du Midi (obs. du)"
+msgstr "Pic du Midi (Obs. du)"
 
 #: kstars_i18n.cpp:3109
 #, kde-kuit-format
@@ -57945,7 +57949,7 @@ msgstr "Ponape"
 #, kde-kuit-format
 msgctxt "City in Alaska USA"
 msgid "Point Hope"
-msgstr "Point Hope"
+msgstr "Point Hope"
 
 #: kstars_i18n.cpp:3140
 #, kde-kuit-format
@@ -58083,7 +58087,7 @@ msgstr "Port-Gentil"
 #, kde-kuit-format
 msgctxt "City in Nigeria"
 msgid "Port Harcourt"
-msgstr "Port Harcourt"
+msgstr "Port Harcourt"
 
 #: kstars_i18n.cpp:3163
 #, kde-kuit-format
@@ -58419,7 +58423,7 @@ msgstr "Puerto Real"
 #, kde-kuit-format
 msgctxt "City in Gran Canaria Spain"
 msgid "Puerto del Rosario"
-msgstr "Puerto del Rosario"
+msgstr "Puerto del Rosario"
 
 #: kstars_i18n.cpp:3219
 #, kde-kuit-format
@@ -58695,7 +58699,7 @@ msgstr "Recklinghausen"
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Red Deer"
-msgstr "Red Deer"
+msgstr "Red Deer"
 
 #: kstars_i18n.cpp:3265
 #, kde-kuit-format
@@ -59013,7 +59017,7 @@ msgstr "Rochester"
 #, kde-kuit-format
 msgctxt "City in Michigan USA"
 msgid "Rochester Hills"
-msgstr "Rochester Hills"
+msgstr "Rochester Hills"
 
 #: kstars_i18n.cpp:3318
 #, kde-kuit-format
@@ -59271,7 +59275,7 @@ msgstr "Ruston"
 #, kde-kuit-format
 msgctxt "City in United Kingdom"
 msgid "Rutherford Appleton Lab."
-msgstr "Rutherford Appleton (lab. de)"
+msgstr "Rutherford Appleton (Lab. de)"
 
 #: kstars_i18n.cpp:3361
 #, kde-kuit-format
@@ -59523,7 +59527,7 @@ msgstr "Salmon"
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Salmon Arm"
-msgstr "Salmon Arm"
+msgstr "Salmon Arm"
 
 #: kstars_i18n.cpp:3403
 #, kde-kuit-format
@@ -59859,7 +59863,7 @@ msgstr "Sault St. Marie"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Sault Ste. Marie"
-msgstr "Sault Ste. Marie"
+msgstr "Sault Sainte. Marie"
 
 #: kstars_i18n.cpp:3459
 #, kde-kuit-format
@@ -60723,7 +60727,7 @@ msgstr "Squamish"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "St. Alban's"
-msgstr "St. Alban's"
+msgstr "Saint Alban's"
 
 #: kstars_i18n.cpp:3603
 #, kde-kuit-format
@@ -61929,7 +61933,7 @@ msgstr "Truro"
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Truth or Consequences"
-msgstr "Truth or Consequences"
+msgstr "Truth or Consequences"
 
 #: kstars_i18n.cpp:3804
 #, kde-kuit-format
@@ -62049,7 +62053,7 @@ msgstr "Türi"
 #, kde-kuit-format
 msgctxt "City in Washington, DC USA"
 msgid "US Naval Observatory"
-msgstr "US Naval (obs.)"
+msgstr "US Naval (Obs.)"
 
 #: kstars_i18n.cpp:3824
 #, kde-kuit-format
@@ -62169,7 +62173,7 @@ msgstr "Unity"
 #, kde-kuit-format
 msgctxt "City in Missouri USA"
 msgid "University City"
-msgstr "University City"
+msgstr "University City"
 
 #: kstars_i18n.cpp:3844
 #, kde-kuit-format
@@ -62499,7 +62503,7 @@ msgstr "Vérone"
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Very Large Array"
-msgstr "Very Large Array"
+msgstr "Very Large Array"
 
 #: kstars_i18n.cpp:3899
 #, kde-kuit-format
@@ -63249,7 +63253,7 @@ msgstr "Wiesbaden"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Wilcox Solar Obs."
-msgstr "Wilcox (obs. solaire de)"
+msgstr "Wilcox (Obs. solaire de)"
 
 #: kstars_i18n.cpp:4024
 #, kde-kuit-format
@@ -63675,7 +63679,7 @@ msgstr "Yeosu"
 #, kde-kuit-format
 msgctxt "City in Wisconsin USA"
 msgid "Yerkes Obs."
-msgstr "Yerkes (obs.)"
+msgstr "Yerkes (Obs.)"
 
 #: kstars_i18n.cpp:4095
 #, kde-kuit-format
@@ -67497,7 +67501,7 @@ msgstr "Rana"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Tseen Ke"
-msgstr "Tseen Ke"
+msgstr "Tseen Ke"
 
 #: kstars_i18n.cpp:4732
 #, kde-kuit-format
@@ -67983,7 +67987,7 @@ msgstr "GPS opérationnel"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Glonass Operational"
-msgstr "Glonass opérationnel"
+msgstr "GLONASS opérationnel"
 
 #: kstars_i18n.cpp:4813
 #, kde-kuit-format
@@ -68079,7 +68083,7 @@ msgstr "METEOSAT supplémentaire"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental INTELSAT"
-msgstr "INTELSAT supplémentaire"
+msgstr "Intelsat supplémentaire"
 
 #: kstars_i18n.cpp:4829
 #, kde-kuit-format
@@ -68151,7 +68155,7 @@ msgstr "Radio"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "High Energy Astrophysical Archive (HEASARC)"
-msgstr "HEASARC (High Energy Astrophysical Archive)"
+msgstr "HEASARC (High Energy Astrophysical Archive)"
 
 #: kstars_i18n.cpp:4841
 #, kde-kuit-format
@@ -68235,7 +68239,7 @@ msgstr "Prépublications d'astrophysique"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multimission Archive at Space Telescope (MAST)"
-msgstr "MAST (Multimission Archive at Space Telescope)"
+msgstr "MAST (Multi-mission Archive at Space Telescope)"
 
 #: kstars_i18n.cpp:4855
 #, kde-kuit-format
@@ -69229,7 +69233,7 @@ msgstr "(Dés)active la Voie Lactée"
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
-msgstr "Grille des coord. équatoriales"
+msgstr "Grille de coordonnées équatoriales"
 
 #: kstarsinit.cpp:587
 #, kde-format
@@ -69240,7 +69244,7 @@ msgstr "(Dés)active la grille des coordonnées équatoriales"
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
-msgstr "Grille des coord. horizontales"
+msgstr "Grille de coordonnées horizontales"
 
 #: kstarsinit.cpp:591
 #, kde-format
@@ -69284,12 +69288,12 @@ msgstr "(Dés)active les satellites"
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
-msgstr "Supernovae"
+msgstr "Supernova"
 
 #: kstarsinit.cpp:607
 #, kde-format
 msgid "Toggle supernovae"
-msgstr "(Dés)active les supernovae"
+msgstr "(Dés)active les supernova"
 
 #: kstarsinit.cpp:609
 #, kde-format
@@ -69474,8 +69478,8 @@ msgid ""
 "arbitrary"
 msgstr ""
 "Ce mode est sélectionné automatiquement si vous avez pivoté manuellement la "
-"carte du ciel en utilisant l'action Cliquer + Glisser de la souris, afin de "
-"vous informer que l'orientation est arbitraire."
+"carte du ciel en utilisant l'action de glisser avec la souris avec la touche "
+"Maj enfoncée, afin de vous informer que l'orientation est arbitraire."
 
 #: kstarsinit.cpp:744
 #, kde-format
@@ -70443,7 +70447,7 @@ msgstr "Orthographique"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:37
 #, kde-kuit-format
 msgid "Equirectangular"
-msgstr "Équirectangulaire"
+msgstr "Équi-rectangulaire"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:38
 #, kde-kuit-format
@@ -70942,7 +70946,7 @@ msgstr "Polarisation"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Binning"
-msgstr "Binning"
+msgstr "Catégorisation"
 
 #: libindi_strings.cpp:45
 #, kde-kuit-format
@@ -71086,7 +71090,7 @@ msgstr "Mouvement de DEC des comètes (minutes d'arc / jour)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Comet RA motion arcmin/day"
-msgstr "Mouvement d'AD des comètes (minutes d'arc / jour)"
+msgstr "Mouvement AD des comètes (En minutes d'arc / jour)"
 
 #: libindi_strings.cpp:70
 #, kde-kuit-format
@@ -71314,7 +71318,7 @@ msgstr "Périphérique"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Diff. Eq."
-msgstr "Diff. éq."
+msgstr "Éq diff."
 
 #: libindi_strings.cpp:108
 #, kde-kuit-format
@@ -71410,7 +71414,7 @@ msgstr "Durée (sec)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dust Cover"
-msgstr "Capuchon antipoussière"
+msgstr "Capuchon anti-poussière"
 
 #: libindi_strings.cpp:125
 #, kde-kuit-format
@@ -71422,7 +71426,7 @@ msgstr "Cycle d'utilisation"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ Coord"
-msgstr "Coord. ÉQ"
+msgstr "Coordonnées EQ"
 
 #: libindi_strings.cpp:127
 #, kde-kuit-format
@@ -72130,7 +72134,7 @@ msgstr "Axe des heures"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Hourangle Coords"
-msgstr "Coord. d'angle horaire"
+msgstr "Coordonnées d'angle horaire"
 
 #: libindi_strings.cpp:247
 #, kde-kuit-format
@@ -72412,7 +72416,7 @@ msgstr "Trajet max."
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Maximum Tick"
-msgstr "Tick maximal"
+msgstr "Marque maximale"
 
 #: libindi_strings.cpp:294
 #, kde-kuit-format
@@ -74252,7 +74256,8 @@ msgstr "Utkarsh Simha"
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
-"Améliorations de l'exécution du plan d'observation, nurserie d'étoiles, etc."
+"Améliorations de l'exécution du plan d'observation, pouponnière d'étoiles, "
+"etc."
 
 #: main.cpp:175
 #, kde-format
@@ -75085,7 +75090,7 @@ msgstr "A&pparence"
 #, kde-format
 msgid "Adjust speed of zooming when scrolling in and out with the mouse wheel"
 msgstr ""
-"Ajuster la vitesse de zoom lors de l'usage de la roulette de souris en avant "
+"Ajuster la vitesse de zoom lors de l'usage de la molette de souris en avant "
 "ou arrière."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -75251,7 +75256,8 @@ msgstr "Cacher les objets pendant le déplacement"
 #: options/opsadvanced.ui:667
 #, kde-format
 msgid "Hide objects only if time step is larger than threshold"
-msgstr "Cacher les objects que si le pas de temps est supérieur au seuil"
+msgstr ""
+"Cacher uniquement les objets que si le pas de temps est supérieur au seuil"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:670
@@ -76372,16 +76378,16 @@ msgstr ""
 "d'alignement ni la position. Elle utilisera l'échelle par défaut vers la "
 "droite (secondes d'arc par pixel) si Aucun est indiqué dans la ligne de la "
 "table et la colonne de l'échelle (0 correspond à aucune contrainte "
-"d'échelle). Elle n'utilisera aucune position sauf si l'AD et la DEC sont "
-"saisies dans la ligne de la table. Elle utilisera le délai ci-dessus. Vous "
-"pouvez sélectionner plusieurs lignes (avec un clic et un Maj clic) pour "
-"résolution,</p><p>La résolution peut s'avérer compliquées et il ne sera "
-"parfois pas possible de résoudre toutes les images. Vous pouvez essayer de "
-"fournir les échelles et positions et essayer différents profils. En cas "
-"d'échec et si vous souhaitez tout de même afficher les images, il est "
+"d'échelle). Elle n'utilisera aucune position sauf si les paramètres AD et "
+"DEC sont saisis dans la ligne de la table. Elle utilisera le délai ci-"
+"dessus. Vous pouvez sélectionner plusieurs lignes (avec un clic et un Maj "
+"clic) pour résolution,</p><p>La résolution peut s'avérer compliquées et il "
+"ne sera parfois pas possible de résoudre toutes les images. Vous pouvez "
+"essayer de fournir les échelles et positions et essayer différents profils. "
+"En cas d'échec et si vous souhaitez tout de même afficher les images, il est "
 "toujours possible de saisir les données d'AD, de DEC, d'échelle et "
 "d'orientation dans les colonnes appropriées de la ligne adéquate et ensuite "
-"régler manuellement l'état à OK, mais vous pouvez aussi régler l'état à "
+"régler manuellement l'état à Ok, mais vous pouvez aussi régler l'état à "
 "quelque chose d'autre pour activer la résolution.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
@@ -76938,13 +76944,13 @@ msgstr "Définir la limite de magnitude des supernovas à afficher"
 #: options/opssupernovae.ui:57
 #, kde-format
 msgid "Limit supernovae by zoom limit"
-msgstr "Limiter les supernovae en fonction de la limite de zoom"
+msgstr "Limiter les supernova en fonction de la limite de zoom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSupernovae)
 #: options/opssupernovae.ui:83
 #, kde-format
 msgid "Show supernovae"
-msgstr "Afficher les supernovae"
+msgstr "Afficher les supernova"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opssupernovae.ui:106
@@ -76970,13 +76976,13 @@ msgstr "Âge (jours)"
 #: options/opssupernovae.ui:137
 #, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr "N'afficher que les supernovae dont la galaxie hôte est donnée"
+msgstr "N'afficher que les supernova dont la galaxie hôte est donnée"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
 #, kde-format
 msgid "Show only classified Supernovae"
-msgstr "N'afficher que les supernovae classées"
+msgstr "N'afficher que les supernova classées"
 
 #: options/opsterrain.cpp:53
 #, kde-format
@@ -77524,10 +77530,10 @@ msgstr ""
 "<p>Dans la méthode de capture manuelle du champ de vision, l'utilisateur "
 "centre la carte du ciel sur un point d'intérêt, puis capture des instantanés "
 "de fragments de ciel à l'intérieur du symbole CdV actif.</p>\n"
-"<p>En mode capture du champ de vision, appuyez <b>Page Up</b> et <b>Page "
-"Down</b> pour changer de symbole CdV. Les images sont acquises en appuyant "
-"sur la touche <b>K</b>. Une fois fait, appuyez sur <b>Escape</b> pour "
-"revenir à l'assistant d'impression.</p>\n"
+"<p>En mode capture du champ de vision, appuyez <b>Page vers le haut</b> et "
+"<b>Page vers le bas</b> pour changer de symbole CdV. Les images sont "
+"acquises en appuyant sur la touche <b>K</b>. Une fois fait, appuyez sur "
+"<b>Escape</b> pour revenir à l'assistant d'impression.</p>\n"
 "<p>Appuyez sur <b>Suivant</b> une fois fait.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton)
@@ -77889,7 +77895,8 @@ msgstr "À droite de l'est"
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
-"Valeur incorrecte de l'AD pour %1. Réinitialisation à la valeur d'origine."
+"Valeur incorrecte du paramètre AD pour %1. Réinitialisation à la valeur "
+"d'origine."
 
 #: skycomponents/imageoverlaycomponent.cpp:179
 #, kde-format
@@ -77914,30 +77921,31 @@ msgstr ""
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
-"Impossible de régler l'état à OK. Valeur différente de 0 pour l'AD requise."
+"Impossible de régler l'état à Ok. Valeur requise différente de 0 pour le "
+"paramètre AD."
 
 #: skycomponents/imageoverlaycomponent.cpp:244
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
-"Impossible de régler l'état à OK. Valeur différente de 0 pour la DEC requise."
+"Impossible de régler l'état à Ok. Valeur différente de 0 pour la DEC requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:255
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
-msgstr "Impossible de régler l'état à OK. Valeur de l'orientation requise."
+msgstr "Impossible de régler l'état à Ok. Valeur de l'orientation requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:266
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
-"Impossible de régler l'état à OK. Valeur différente de 0 en secondes d'arc "
+"Impossible de régler l'état à Ok. Valeur différente de 0 en secondes d'arc "
 "requise."
 
 #: skycomponents/imageoverlaycomponent.cpp:296
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr "État OK enregistré pour %1."
+msgstr "État Ok enregistré pour %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:390
 #, kde-format
@@ -78249,7 +78257,7 @@ msgid ""
 "Consortium [free for non-commercial use]."
 msgstr ""
 "Image SDSS (Sloan Digital Sky Survey) fournie par le Astrophysical Research "
-"Consortium [libre pour une utilisation non commerciale]."
+"Consortium [Libre pour une utilisation non commerciale]."
 
 #: skymap.cpp:675
 #, kde-format
@@ -78494,7 +78502,7 @@ msgstr "Afficher une image Spitzer"
 msgid "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]"
 msgstr ""
 "%1 : télescope spatial Spitzer (HST), avec l'aimable autorisation de la "
-"NASA / JPL-Caltech [domaine public]"
+"NASA / JPL-CALtech [domaine public]"
 
 #: skyobjects/skyobject.cpp:411
 #, kde-format
@@ -78519,14 +78527,14 @@ msgid ""
 "non-commercial use; no physical reproductions]"
 msgstr ""
 "%1 : programme d'observation avancée à l'Observatoire national de Kitt Peak "
-"(Advanced Observing Program at Kitt Peak National Observatory) [libre pour "
-"une utilisation non commerciale, pas de reproduction physique]"
+"(Advanced Observing Program at Kitt Peak National Observatory) [Libre pour "
+"une utilisation non commerciale, aucune reproduction physique]"
 
 #: skyobjects/skyobject.cpp:425
 #, kde-format
 msgid "Show NOAO Image"
 msgstr ""
-"Afficher une image de l'Observatoire optique national d'astronomie (NOAO, "
+"Afficher une image de l'Observatoire Optique National d'Astronomie (NOAO, "
 "National Optical Astronomy Observatories)"
 
 #: skyobjects/skyobject.cpp:428
@@ -79380,7 +79388,8 @@ msgstr ""
 "\t\t<p>L'outil « Constructeur de scripts » permet de construire des scripts\n"
 "\t\t\tD-Bus complexes à l'aide d'une interface graphique simple. Les "
 "scripts\n"
-"\t\t\tpeuvent être réexécutés ultérieurement depuis la ligne de commande ou\n"
+"\t\t\tpeuvent être ré-exécutés ultérieurement depuis la ligne de commande "
+"ou\n"
 "\t\tdepuis KStars.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -79917,7 +79926,7 @@ msgid ""
 msgstr ""
 "\t\t<p> La distance des étoiles les plus proches peuvent être mesurées par "
 "la méthode de la parallaxe. L'idée est exposée dans le projet Astro Info. "
-"Kstars affiche les distances de beaucoup d'étoiles dans la fenêtre de "
+"KStars affiche les distances de beaucoup d'étoiles dans la fenêtre de "
 "Détails. Pour y accéder, cliquez simplement droit sur l'étoile et choisissez "
 "« Détails » dans le menu pop-up.\n"
 "\t\t</p>\n"
@@ -81005,7 +81014,7 @@ msgid ""
 "mode with a preset such as Dobsonian"
 msgstr ""
 "Remarque : ce recouvrement n'est adapté que si l'affichage a été produit "
-"avec le mode Alt/Az avec un préréglage comme « Dobsonien »."
+"avec le mode Alt / Az avec un préréglage tel que « dobsonien »."
 
 #: tools/exporteyepieceview.cpp:174
 #, kde-format
@@ -81171,7 +81180,7 @@ msgstr "Région"
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
-msgstr "Azimuth"
+msgstr "Azimut"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
 #: tools/observinglist.cpp:98 widgets/infoboxwidget.cpp:120
@@ -82322,7 +82331,7 @@ msgstr "Calendrier des phases de Lune"
 #, kde-kuit-format
 msgid "Error: sesameResolver failed. Could not resolve name on CDS Sesame."
 msgstr ""
-"Erreur : échec du résolveur « sesame ». Impossible de trouver le nom sur "
+"Erreur : échec du résolveur « Sesame ». Impossible de trouver le nom sur "
 "« Sesame CDS »."
 
 #: tools/nameresolver.cpp:53
@@ -82415,8 +82424,8 @@ msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
 "observing lists"
 msgstr ""
-"Les étoiles et objects que KStars ne connait pas ne sont pas prises en "
-"charge dans les listes d'observation"
+"Les étoiles et objets que KStars ne connaît pas ne sont pas prises en charge "
+"dans les listes d'observation"
 
 #: tools/observinglist.cpp:274
 #, kde-format
@@ -83238,7 +83247,7 @@ msgstr "Limites de DEC"
 #: tools/obslistwizard.ui:485
 #, kde-format
 msgid "RA limits:"
-msgstr "Limites de l'AD"
+msgstr "Limites du paramètre AD"
 
 #. i18n: ectx: property (text), widget (QLabel, CircularRegionText)
 #: tools/obslistwizard.ui:529
@@ -84536,7 +84545,7 @@ msgid ""
 "Star-hopper algorithm failed. If you're trying a large star hop, try using a "
 "smaller FOV or changing the source point"
 msgstr ""
-"L'algorithme « Star-hopper » a échoué. Si vous essayez un saut d'étoile "
+"L'algorithme « Starhopper » a échoué. Si vous essayez un saut d'étoile "
 "important, essayez d'utiliser un champ de vision (CdV) plus petit ou de "
 "changer le point de la source."
 

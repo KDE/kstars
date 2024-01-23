@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-15 19:59+0100\n"
+"PO-Revision-Date: 2024-01-22 19:31+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -5801,7 +5801,7 @@ msgstr ""
 #: ekos/align/align.cpp:146 ekos/align/align.cpp:1414
 #, kde-format
 msgid "No Target - Please pick an object."
-msgstr ""
+msgstr "Non hai obxectivo, escolla un obxecto."
 
 #: ekos/align/align.cpp:345
 #, kde-format
@@ -5926,19 +5926,17 @@ msgstr ""
 "de novo en %1 segundos…"
 
 #: ekos/align/align.cpp:1530
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"Non se pode capturar mentres o rotor está ocupado. Intentarase de novo en %1 "
-"segundos…"
+"Non se pode capturar mentres o rotor está ocupado. Iniciouse a estimación do "
+"atraso de tempo…"
 
 #: ekos/align/align.cpp:1544
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
-"Non se pode capturar mentres o rotor está ocupado. Intentarase de novo en %1 "
+"Non se pode capturar mentres o rotor está ocupado: Intentarase de novo en %1 "
 "segundos…"
 
 #: ekos/align/align.cpp:1563 ekos/align/align.cpp:3056
@@ -6513,10 +6511,9 @@ msgstr "Asentar:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:338
-#, fuzzy, kde-format
-#| msgid "Accuracy"
+#, kde-format
 msgid "Accuracy:"
-msgstr "Precisión"
+msgstr "Precisión:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:348
@@ -6649,10 +6646,9 @@ msgstr "Bin:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:673 ekos/guide/guide.ui:166
-#, fuzzy, kde-format
-#| msgid "Show in FITS Viewer"
+#, kde-format
 msgid "Show in FITS Viewer..."
-msgstr "Amosar no visor de FITS"
+msgstr "Amosar no visor de FITS…"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #: ekos/align/align.ui:600
@@ -6753,10 +6749,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
-#, fuzzy, kde-format
-#| msgid "use current"
+#, kde-format
 msgid "Use current"
-msgstr "usar o actual"
+msgstr "Usar o actual."
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -10340,10 +10335,9 @@ msgstr "Última."
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvHelp)
 #: ekos/analyze/analyze.ui:111 ekos/focus/advisor.ui:257
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help..."
-msgstr "&Axuda"
+msgstr "Axuda…"
 
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
@@ -10415,8 +10409,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #: ekos/analyze/analyze.ui:338
-#, fuzzy, kde-format
-#| msgid "Guide:"
+#, kde-format
 msgid "Guide:"
 msgstr "Guía:"
 
@@ -10431,10 +10424,9 @@ msgstr "Montaxe:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/analyze/analyze.ui:374
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture:"
-msgstr "Capturar"
+msgstr "Captura:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:387
@@ -24124,7 +24116,8 @@ msgstr "Iniciando o estacionamento automático…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/mount/mount.ui:161
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "DEC:"
 msgid "DEC:"
 msgstr "δ:"
 

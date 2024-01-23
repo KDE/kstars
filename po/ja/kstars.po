@@ -31569,8 +31569,7 @@ msgstr "一時停止の秒数"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
 #: indi/recordingoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Duration:"
+#, kde-format
 msgid "Duration:"
 msgstr "持続時間:"
 
@@ -86258,100 +86257,3 @@ msgstr "背景色:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "背景の色を設定します。"
-
-#, fuzzy
-#~| msgid "Welcome to KStars FITS Viewer"
-#~ msgid "Toggle full screen"
-#~ msgstr "KStars FITS ビューアへようこそ"
-
-#, fuzzy
-#~| msgid "&Help"
-#~ msgid "Help"
-#~ msgstr "ヘルプ(&H)"
-
-#, fuzzy
-#~| msgid "Projection"
-#~ msgid "Directory"
-#~ msgstr "投影法"
-
-#, fuzzy
-#~| msgid "Supernova Remnant"
-#~ msgid "Save capture sequence"
-#~ msgstr "超新星の残骸"
-
-#, fuzzy
-#~| msgid "Download New Data..."
-#~ msgid "Load"
-#~ msgstr "新しいデータをダウンロード..."
-
-#, fuzzy
-#~| msgid "RA:"
-#~ msgid "AZ"
-#~ msgstr "赤経:"
-
-#, fuzzy
-#~| msgid "RA:"
-#~ msgid "ALT"
-#~ msgstr "赤経:"
-
-#, fuzzy
-#~| msgid "RA:"
-#~ msgid "HA"
-#~ msgstr "赤経:"
-
-#, fuzzy
-#~| msgid "LSR"
-#~ msgid "LST"
-#~ msgstr "LSR"
-
-#, fuzzy
-#~| msgid "Delete Confirmation"
-#~ msgid "Purge all configuration"
-#~ msgstr "削除の確認"
-
-#, fuzzy
-#~| msgid "Frequency:"
-#~ msgid "In-Sequence Focus"
-#~ msgstr "周期:"
-
-#, fuzzy
-#~| msgctxt "City in New Jersey USA"
-#~| msgid "Freehold"
-#~ msgid "HFR threshold modifier:"
-#~ msgstr "フリーホルド"
-
-#, fuzzy
-#~| msgid "Supernova Remnant"
-#~ msgid "Capture sequence file editor"
-#~ msgstr "超新星の残骸"
-
-#, fuzzy
-#~| msgctxt "star name"
-#~| msgid "Schedar"
-#~ msgid "Save schedule"
-#~ msgstr "シュダル (Schedar)"
-
-#, fuzzy
-#~| msgid "On"
-#~ msgid "O&n"
-#~ msgstr "オン"
-
-#, fuzzy
-#~| msgid "File name:"
-#~ msgid "File name"
-#~ msgstr "ファイル名:"
-
-#, fuzzy
-#~| msgid "Description"
-#~ msgid "Recording options"
-#~ msgstr "説明"
-
-#, fuzzy
-#~| msgid "Constellation Name Options"
-#~ msgid "Collimation overlay options"
-#~ msgstr "星座名オプション"
-
-#, fuzzy
-#~| msgid "Time:"
-#~ msgid "Timeout"
-#~ msgstr "時間:"

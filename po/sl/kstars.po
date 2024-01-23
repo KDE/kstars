@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-17 21:39+0100\n"
+"PO-Revision-Date: 2024-01-22 08:29+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5790,7 +5790,7 @@ msgstr ""
 #: ekos/align/align.cpp:146 ekos/align/align.cpp:1414
 #, kde-format
 msgid "No Target - Please pick an object."
-msgstr ""
+msgstr "Brez cilja - izberite predmet."
 
 #: ekos/align/align.cpp:345
 #, fuzzy, kde-format
@@ -16554,7 +16554,7 @@ msgstr ""
 #: ekos/capture/limits.ui:298
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
-msgstr ""
+msgstr "Ponovno izostrite na ΔHFR.  Uporabite:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:305
@@ -16606,13 +16606,17 @@ msgstr "°C"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, limitFocusHFRN)
 #: ekos/capture/limits.ui:391
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check value in pixels. This is an output field "
 "when Last Autofocus or Relative Measure is selected, and an input field for "
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Vrednost HFR Check v slikovnih točkah. To je izhodno "
+"polje, ko je izbrana možnost Zadnje samodejno ostrenje ali Relativna mera, "
+"in vnosno polje za Fiksno.  V vseh primerih lahko uporabnik preglasi "
+"vrednost, ki jo je določil sistem.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
@@ -18799,7 +18803,7 @@ msgstr "Izbrane ni bilo nobene zvezde. Prekinjanje ..."
 #: ekos/focus/focus.cpp:4450
 #, kde-format
 msgid "Focuser already at %1..."
-msgstr ""
+msgstr "Ostrilnik je že pri %1 …"
 
 #: ekos/focus/focus.cpp:4562
 #, fuzzy, kde-format
@@ -23558,7 +23562,7 @@ msgstr "Možnosti Ekosa"
 #: ekos/manager.ui:505
 #, kde-format
 msgid "Logs to diagnose issues with Ekos and INDI."
-msgstr ""
+msgstr "Zapisniki za diagnosticiranje težav z Ekos in INDI."
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:508
@@ -23908,9 +23912,9 @@ msgstr "σDEC:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/mount/mount.ui:198
-#, kde-format
+#, fuzzy, kde-format
 msgid "ALT:"
-msgstr ""
+msgstr "VIŠ.:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/mount/mount.ui:212
@@ -23926,9 +23930,9 @@ msgstr "Krajevni zvezdni čas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/mount/mount.ui:232
-#, kde-format
+#, fuzzy, kde-format
 msgid "LST:"
-msgstr ""
+msgstr "LST:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:275
@@ -28087,9 +28091,9 @@ msgstr "začni posel na navedena datum in čas"
 
 #. i18n: ectx: property (text), widget (QRadioButton, startupTimeConditionR)
 #: ekos/scheduler/scheduler.ui:1524
-#, kde-format
+#, fuzzy, kde-format
 msgid "O&n:"
-msgstr ""
+msgstr "&Na:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
 #: ekos/scheduler/scheduler.ui:1540
@@ -86077,174 +86081,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Focus Out"
-#~ msgstr "Ostrilec ven"
-
-#~ msgid "Focus In"
-#~ msgstr "Ostrilec not"
-
-#~ msgid "Toggle full screen"
-#~ msgstr "Preklopi na celotni zaslon"
-
-#~ msgid "Help"
-#~ msgstr "Pomoč"
-
-#~ msgid "Directory"
-#~ msgstr "Mapa"
-
-#~ msgid "Save capture sequence"
-#~ msgstr "Shrani zaporedje zajemov"
-
-#, fuzzy
-#~| msgctxt "string from libindi, used in the config dialog"
-#~| msgid "Load"
-#~ msgid "Load"
-#~ msgstr "Naloži"
-
-#~ msgid ""
-#~ "Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit"
-#~ msgstr ""
-#~ "Izvedi samodejno ostrenje, ko vrednost HFR (Half-Flux-Radius) preseže to "
-#~ "mejo"
-
-#~ msgid "Autofocus if HFR >"
-#~ msgstr "Samodejno izostri, če je HFR >"
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value "
-#~ "to File\" is not enabled. Current HFR value will not be written to "
-#~ "sequence file."
-#~ msgstr ""
-#~ "Opozorilo: Samodejno ostranje, ki temelji na HFR, je nastavljeno, vendar "
-#~ "možnost »Shrani zaporedje HFR vrednost v datoteko« ni omogočena. Trenutna "
-#~ "vrednost HFR ne bo zapisana v zaporedno datoteko."
-
-#, fuzzy
-#~ msgid "AZ"
-#~ msgstr "AZ"
-
-#, fuzzy
-#~ msgid "ALT"
-#~ msgstr "ALT"
-
-#~ msgid "HA"
-#~ msgstr "UK"
-
-#~ msgid "LST"
-#~ msgstr "LST"
-
-#~ msgid "Purge all configuration"
-#~ msgstr "Pospravi vse nastavitve"
-
-#, fuzzy
-#~ msgid "In-Sequence Focus"
-#~ msgstr "Fokus v zaporedju"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Set HFR Threshold percentage gain. When an "
-#~ "autofocus operation is completed, the autofocus HFR value is increased by "
-#~ "this threshold percentage value and stored within the capture module. If "
-#~ "In-Sequence-Focus is engaged, the autofocus module only performs "
-#~ "autofocusing procedure if current HFR value exceeds the capture module "
-#~ "HFR threshold. Increase value to permit more relaxed changes in HFR "
-#~ "values without requiring a full autofocus run.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Nastavite odstotek dobička HFR praga. Ko je "
-#~ "operacija samodejnega ostranjenja končana, se vrednost samodejnega "
-#~ "ostranjenja HFR poveča za to mejno odstotno vrednost in shrani znotraj "
-#~ "modula za zajemanje. Če je vklopi in-sequence-Focus, modul samodejnega "
-#~ "ostranjenja izvede samodejni postopek ostranjenja, če trenutna vrednost "
-#~ "HFR presega prag modula za zajemanje HFR. Povečajte vrednost, da se "
-#~ "dovolijo bolj sproščene spremembe vrednosti HFR, ne da bi bilo potrebno "
-#~ "popolno samodejni zagon.</p></body></html>"
-
-#, fuzzy
-#~ msgid "HFR threshold modifier:"
-#~ msgstr "Spreminjalec praga HFR:"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Calculate median focus value after each autofocus "
-#~ "operation is complete. If the autofocus results become progressively "
-#~ "worse with time, the median value shall reflect this trend and prevent "
-#~ "unnecessary autofocus operations when the seeing conditions deteriorate.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Izračunajte mediano vrednost ostrenca po končani "
-#~ "vsaki operaciji samodejnega ostovanja. Če se rezultati samodejnega "
-#~ "ostiranja s časom postopno poslabšajo, mora mediana vrednosti odražati ta "
-#~ "trend in preprečiti nepotrebne operacije samodejnega ostiranja, ko se "
-#~ "pogoji za pregled poslabšajo.</p></body></html>"
-
-#, fuzzy
-#~ msgid "Use median focus"
-#~ msgstr "Uporaba mediane fokusa"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>In-sequence HFR threshold value controls when the "
-#~ "autofocus process is started. If the measured HFR value exceeds the HFR "
-#~ "threshold, autofocus process is initiated. If the HFR threshold value is "
-#~ "zero initially (default), then the autofocus process best HFR value is "
-#~ "used to set the new HFR threshold, after applying the HFR threshold "
-#~ "modifier percentage. This new HFR threshold is then used for subsequent "
-#~ "In-Sequence focus checks. If this option is enabled, the HFR threshold "
-#~ "value is constant and gets saved to the sequence file.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>V zaporedju HFR threshold value controls when the "
-#~ "autofocus process is started. Če izmerjena vrednost HFR presega prag HFR, "
-#~ "se sproži postopek samoosnaževanja. Če je vrednost praga HFR sprva nična "
-#~ "(privzeto), se po uporabi odstotka spreminjanja praga HFR uporabi "
-#~ "postopek samodejnega ostiranja, ki je najboljša vrednost HFR. Ta novi "
-#~ "prag HFR se nato uporablja za naslednjih preverjanje fokusa med "
-#~ "zaporedjem. Če je ta možnost omogočena, je vrednost praga HFR konstantna "
-#~ "in se shrani v datoteko zaporedja.</p></body></html>"
-
-#~ msgid "Save sequence HFR value to file"
-#~ msgstr "Shrani vrednost zaporedja HFR v datoteko"
-
-#, fuzzy
-#~| msgid "CCD capture sequence completed"
-#~ msgid "Capture sequence file editor"
-#~ msgstr "Zaporedje zajemov CCD-ja zaključeno"
-
-#, fuzzy
-#~ msgid "Save schedule"
-#~ msgstr "Shrani urnik"
-
-#~ msgid "O&n"
-#~ msgstr "&Vključeno"
-
-#~ msgid "File name"
-#~ msgstr "Ime datoteke"
-
-#~ msgid "Recording options"
-#~ msgstr "Možnosti snemanja"
-
-#, fuzzy
-#~| msgid "Constellation Name Options"
-#~ msgid "Collimation overlay options"
-#~ msgstr "Možnosti za imena ozvezdij"
-
-#, fuzzy
-#~ msgid ""
-#~ "Calculate median focus value after each autofocus operation is complete."
-#~ msgstr ""
-#~ "Izračunajte mediano vrednost ostrenca po končani vsaki operaciji "
-#~ "samodejnega ostovanja."
-
-#, fuzzy
-#~ msgid ""
-#~ "When saving a sequence file, save current HFR threshold value. By "
-#~ "default, zero value is used."
-#~ msgstr ""
-#~ "Ko shranite zaporedno datoteko, shranite trenutno vrednost HFR praga. "
-#~ "Privzeto se uporabi ničelna vrednost."
-
-#, fuzzy
-#~| msgid "Time out:"
-#~ msgid "Timeout"
-#~ msgstr "Časovna omejitev:"
