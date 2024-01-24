@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-22 01:56+0000\n"
-"PO-Revision-Date: 2024-01-22 19:31+0100\n"
+"POT-Creation-Date: 2024-01-24 01:34+0000\n"
+"PO-Revision-Date: 2024-01-23 08:55+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -459,14 +459,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Gardar a imaxe"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3936
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3934
 #: ekos/guide/guidedriftgraph.cpp:466 kstarsactions.cpp:1335
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Xa existe un ficheiro chamado «%1». Quérelo substituír?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3939
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3937
 #: ekos/guide/guidedriftgraph.cpp:469 kstarsactions.cpp:1336
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2540,7 +2540,7 @@ msgstr ""
 "O URL non é correcto. Quere abrir unha xanela de navegador\n"
 "para buscalo en Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3947
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3945
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/analyze/analyze.cpp:1191 ekos/capture/capture.cpp:2223
 #: ekos/capture/capture.cpp:2311 ekos/guide/guidedriftgraph.cpp:477
@@ -5875,7 +5875,7 @@ msgstr "Erro: non se detectou ningunha cámara."
 msgid "Error: lost connection to camera."
 msgstr "Erro: perdeuse a conexión á cámara."
 
-#: ekos/align/align.cpp:1433 ekos/align/align.cpp:2397
+#: ekos/align/align.cpp:1433 ekos/align/align.cpp:2395
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "O aliñamento de astrometría fallou."
@@ -5910,14 +5910,14 @@ msgid ""
 msgstr ""
 "A transferencia de imaxes está desactivada para esta cámara. Quere activala?"
 
-#: ekos/align/align.cpp:1503
+#: ekos/align/align.cpp:1501
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "Non se pode capturar mentres o módulo de enfoque está ocupado. Intentarase "
 "de novo en %1 segundos…"
 
-#: ekos/align/align.cpp:1511
+#: ekos/align/align.cpp:1509
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
@@ -5925,39 +5925,39 @@ msgstr ""
 "Non se pode capturar mentres a exposición do CCD está en marcha. Intentarase "
 "de novo en %1 segundos…"
 
-#: ekos/align/align.cpp:1530
+#: ekos/align/align.cpp:1528
 #, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
 "Non se pode capturar mentres o rotor está ocupado. Iniciouse a estimación do "
 "atraso de tempo…"
 
-#: ekos/align/align.cpp:1544
+#: ekos/align/align.cpp:1542
 #, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
 "Non se pode capturar mentres o rotor está ocupado: Intentarase de novo en %1 "
 "segundos…"
 
-#: ekos/align/align.cpp:1563 ekos/align/align.cpp:3056
+#: ekos/align/align.cpp:1561 ekos/align/align.cpp:3054
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Non se detectou ningún controlador de astrometría remoto, cambiando a "
 "StellarSolver."
 
-#: ekos/align/align.cpp:1617 ekos/focus/focus.cpp:1491
+#: ekos/align/align.cpp:1615 ekos/focus/focus.cpp:1491
 #, kde-format
 msgid "Capturing image..."
 msgstr "Capturando a imaxe…"
 
-#: ekos/align/align.cpp:1707 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1705 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:2450
 #, kde-format
 msgid "Image received."
 msgstr "Imaxe recibida."
 
-#: ekos/align/align.cpp:1837
+#: ekos/align/align.cpp:1835
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -5968,38 +5968,38 @@ msgstr ""
 "de índice indicados. Descargue ficheiros de índice ou engada o cartafol "
 "correcto á lista."
 
-#: ekos/align/align.cpp:1896
+#: ekos/align/align.cpp:1894
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "Resolvendo coa escala da imaxe ás cegas…"
 
-#: ekos/align/align.cpp:1904
+#: ekos/align/align.cpp:1902
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "Resolvendo coa posición da imaxe ás cegas…"
 
-#: ekos/align/align.cpp:1936
+#: ekos/align/align.cpp:1934
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "A imaxe cargada non ten información do lado de observación."
 
-#: ekos/align/align.cpp:1941
+#: ekos/align/align.cpp:1939
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "A imaxe cargada tomouse no lado de observación %1."
 
-#: ekos/align/align.cpp:2066
+#: ekos/align/align.cpp:2064
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "O resolvedor rematou en %1 segundos."
 
-#: ekos/align/align.cpp:2082
+#: ekos/align/align.cpp:2080
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Resolvedor: %1 α, %2 δ, orientación %3, escala de píxeles %4, paridade %5."
 
-#: ekos/align/align.cpp:2156
+#: ekos/align/align.cpp:2154
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -6008,7 +6008,7 @@ msgstr ""
 "Actualizouse a información do sistema de coordenadas mundial (SCM). As "
 "imaxes capturadas a partir de agora conterán información correcta do SCM."
 
-#: ekos/align/align.cpp:2174
+#: ekos/align/align.cpp:2172
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -6017,53 +6017,53 @@ msgstr ""
 "Coordenadas da solución: %1 α, %2 δ. Coordenadas do telescopio: %3 α, %4 δ. "
 "Coordenadas de destino: %5 α, %6 δ."
 
-#: ekos/align/align.cpp:2185
+#: ekos/align/align.cpp:2183
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "O obxectivo está a %1 graos ou menos das coordenadas da solución."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2230
+#: ekos/align/align.cpp:2228
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "O ángulo de posición da cámara é de %1 graos."
 
-#: ekos/align/align.cpp:2252 ekos/align/align.cpp:2690
+#: ekos/align/align.cpp:2250 ekos/align/align.cpp:2688
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Completouse o aliñamento de astrometría."
 
-#: ekos/align/align.cpp:2274
+#: ekos/align/align.cpp:2272
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Acadouse o número máximo de iteracións. O resolvedor fallou."
 
-#: ekos/align/align.cpp:2303
+#: ekos/align/align.cpp:2301
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "O destino está dentro do alcance aceptábel."
 
-#: ekos/align/align.cpp:2365
+#: ekos/align/align.cpp:2363
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Non foi posíbel gardar a imaxe do resolvedor en %1."
 
-#: ekos/align/align.cpp:2374
+#: ekos/align/align.cpp:2372
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "O resolvedor fallou. Intentarase de novo sen a restrición da escala."
 
-#: ekos/align/align.cpp:2384
+#: ekos/align/align.cpp:2382
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr "O resolvedor fallou. Intentarase de novo sen a restrición da posición."
 
-#: ekos/align/align.cpp:2392
+#: ekos/align/align.cpp:2390
 #, kde-format
 msgid "Solver Failed."
 msgstr "O resolvedor fallou."
 
-#: ekos/align/align.cpp:2395
+#: ekos/align/align.cpp:2393
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6075,38 +6075,38 @@ msgstr ""
 "rexistro do aliñamento en «Configuración → Rexistro» para consultar "
 "información detallada do fallo."
 
-#: ekos/align/align.cpp:2454
+#: ekos/align/align.cpp:2452
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Definindo o ángulo de posición da cámara en %1 graos…"
 
-#: ekos/align/align.cpp:2461
+#: ekos/align/align.cpp:2459
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "O ángulo de posición da cámara está dentro do alcance aceptábel."
 
-#: ekos/align/align.cpp:2475
+#: ekos/align/align.cpp:2473
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "O ángulo de posición actual é %1. O de destino é %2. A diferenza é %3."
 
-#: ekos/align/align.cpp:2542
+#: ekos/align/align.cpp:2540
 #, kde-format
 msgid "Refresh is complete."
 msgstr "Completouse a actualización."
 
-#: ekos/align/align.cpp:2549 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2547 ekos/auxiliary/darklibrary.cpp:1411
 #: ekos/focus/focus.cpp:1259
 #, kde-format
 msgid "Capture aborted."
 msgstr "Interrompeuse a captura."
 
-#: ekos/align/align.cpp:2555
+#: ekos/align/align.cpp:2553
 #, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "O resolvedor interrompeuse despois de %1 segundos."
 
-#: ekos/align/align.cpp:2598 ekos/capture/capture.cpp:1758
+#: ekos/align/align.cpp:2596 ekos/capture/capture.cpp:1758
 #: ekos/focus/focus.cpp:3949 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1927
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:711
@@ -6115,53 +6115,53 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2661
+#: ekos/align/align.cpp:2659
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "A montura completou o movemento preto o polo celeste. Capture de novo para "
 "verificar."
 
-#: ekos/align/align.cpp:2684
+#: ekos/align/align.cpp:2682
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "A montura sincronizouse coas coordenadas da solución."
 
-#: ekos/align/align.cpp:2720 ekos/align/align.cpp:2738
-#: ekos/align/align.cpp:3359 ekos/align/align.cpp:4072
+#: ekos/align/align.cpp:2718 ekos/align/align.cpp:2736
+#: ekos/align/align.cpp:3357 ekos/align/align.cpp:4070
 #: ekos/align/polaralignmentassistant.cpp:639
 #, kde-format
 msgid "Settling..."
 msgstr "Asentando…"
 
-#: ekos/align/align.cpp:2728
+#: ekos/align/align.cpp:2726
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Completouse o movemento. Non se conseguiu a precisión esperada, executando "
 "de novo o resolvedor…"
 
-#: ekos/align/align.cpp:2730
+#: ekos/align/align.cpp:2728
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Completouse a rotación. Resolvendo o punto de aliñamento…"
 
-#: ekos/align/align.cpp:2773 ekos/align/align.cpp:2934
+#: ekos/align/align.cpp:2771 ekos/align/align.cpp:2932
 #, kde-format
 msgid "Syncing failed."
 msgstr "Fallou a sincronización."
 
-#: ekos/align/align.cpp:2775
+#: ekos/align/align.cpp:2773
 #, kde-format
 msgid "Slewing failed."
 msgstr "O movemento fallou."
 
-#: ekos/align/align.cpp:2819
+#: ekos/align/align.cpp:2817
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "O rotor acadou o ángulo de posición da cámara."
 
-#: ekos/align/align.cpp:2832
+#: ekos/align/align.cpp:2830
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6170,22 +6170,22 @@ msgstr ""
 "O rotor non conseguiu chegar ao ángulo de posición solicitado (desviación de "
 "%1 minutos de arco)."
 
-#: ekos/align/align.cpp:2881
+#: ekos/align/align.cpp:2879
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Detectouse a orientación, suspenderase a resolución…"
 
-#: ekos/align/align.cpp:2928
+#: ekos/align/align.cpp:2926
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Sincronizando con α (%1) δ (%2)"
 
-#: ekos/align/align.cpp:2952
+#: ekos/align/align.cpp:2950
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Movéndose ás coordenadas de destino: %1 α, %2 δ."
 
-#: ekos/align/align.cpp:2957
+#: ekos/align/align.cpp:2955
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6194,114 +6194,114 @@ msgstr ""
 "Orientando cara as coordenadas de destino: rexeitouse %1 α, %2 δ. Consulte a "
 "notificación."
 
-#: ekos/align/align.cpp:2976
+#: ekos/align/align.cpp:2974
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Traballo de Ekos (%1) - Sincronizouse o telescopio"
 
-#: ekos/align/align.cpp:3025
+#: ekos/align/align.cpp:3023
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Cargar unha imaxe"
 
-#: ekos/align/align.cpp:3255
+#: ekos/align/align.cpp:3253
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "O sistema de coordenadas mundial (SCM) está activado."
 
-#: ekos/align/align.cpp:3260
+#: ekos/align/align.cpp:3258
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "O sistema de coordenadas mundial (SCM) está desactivado."
 
-#: ekos/align/align.cpp:3279
+#: ekos/align/align.cpp:3277
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Erro de captura. Interrompendo…"
 
-#: ekos/align/align.cpp:3284 ekos/capture/captureprocess.cpp:1478
+#: ekos/align/align.cpp:3282 ekos/capture/captureprocess.cpp:1478
 #: ekos/capture/captureprocess.cpp:1988
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando o intento de captura número %1."
 
-#: ekos/align/align.cpp:3410
+#: ekos/align/align.cpp:3408
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Aliñar o fotograma"
 
-#: ekos/align/align.cpp:3485
+#: ekos/align/align.cpp:3483
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Opcións de StellarSolver"
 
-#: ekos/align/align.cpp:3490
+#: ekos/align/align.cpp:3488
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Programas externos e por Internet"
 
-#: ekos/align/align.cpp:3494
+#: ekos/align/align.cpp:3492
 #, kde-format
 msgid "Scale & Position"
 msgstr "Escala e posición"
 
-#: ekos/align/align.cpp:3498
+#: ekos/align/align.cpp:3496
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Editor de perfís de opcións de aliñamento"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3516 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3514 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Ficheiros de índice"
 
-#: ekos/align/align.cpp:3581 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3579 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dα (segundos de arco)"
 
-#: ekos/align/align.cpp:3582 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3580 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dδ (segundos de arco)"
 
-#: ekos/align/align.cpp:3628 ekos/capture/capture.cpp:2933
+#: ekos/align/align.cpp:3626 ekos/capture/capture.cpp:2933
 #: ekos/focus/focus.cpp:4732
 #, kde-format
 msgid "Filter operation failed."
 msgstr "A operación de filtro fallou."
 
-#: ekos/align/align.cpp:3640 ekos/capture/capture.cpp:2869
+#: ekos/align/align.cpp:3638 ekos/capture/capture.cpp:2869
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Cambiando o desprazamento do foco en %1 pasos…"
 
-#: ekos/align/align.cpp:3647 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3645 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/capture.cpp:2874
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Cambiando o filtro a %1…"
 
-#: ekos/align/align.cpp:3652 ekos/capture/capture.cpp:2879
+#: ekos/align/align.cpp:3650 ekos/capture/capture.cpp:2879
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfoque automático co cambio de filtro…"
 
-#: ekos/align/align.cpp:3773
+#: ekos/align/align.cpp:3771
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Campo de visión incorrecto."
 
-#: ekos/align/align.cpp:3923
+#: ekos/align/align.cpp:3921
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Exportar os puntos de solución"
 
-#: ekos/align/align.cpp:3946 ekos/align/mountmodel.cpp:264
+#: ekos/align/align.cpp:3944 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:2222
 #: ekos/capture/capture.cpp:2310 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:2733 ekos/scheduler/scheduler.cpp:2823
@@ -6311,7 +6311,7 @@ msgstr "Exportar os puntos de solución"
 msgid "Invalid URL: %1"
 msgstr "O URL é incorrecto: %1"
 
-#: ekos/align/align.cpp:3955 ekos/align/mountmodel.cpp:401
+#: ekos/align/align.cpp:3953 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:1575
 #: ekos/scheduler/schedulerprocess.cpp:2587
@@ -6319,7 +6319,7 @@ msgstr "O URL é incorrecto: %1"
 msgid "Unable to write to file %1"
 msgstr "Non é posíbel escribir no ficheiro %1."
 
-#: ekos/align/align.cpp:3956 ekos/align/mountmodel.cpp:284
+#: ekos/align/align.cpp:3954 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2238
 #: ekos/capture/captureprocess.cpp:2302 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:1576
@@ -6339,27 +6339,27 @@ msgstr "Non é posíbel escribir no ficheiro %1."
 msgid "Could Not Open File"
 msgstr "Non foi posíbel abrir o ficheiro"
 
-#: ekos/align/align.cpp:3977
+#: ekos/align/align.cpp:3975
 #, kde-format
 msgid "Error in table structure."
 msgstr "Erro na estrutura da táboa."
 
-#: ekos/align/align.cpp:3986
+#: ekos/align/align.cpp:3984
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Os puntos de solución gardáronse como: %1"
 
-#: ekos/align/align.cpp:4000
+#: ekos/align/align.cpp:3998
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Aliñamento polar"
 
-#: ekos/align/align.cpp:4528
+#: ekos/align/align.cpp:4526
 #, kde-format
 msgid "Capture timed out."
 msgstr "Esgotouse o tempo límite da captura."
 
-#: ekos/align/align.cpp:4537
+#: ekos/align/align.cpp:4535
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "A captura segue en marcha. Intentarase de novo en %1 segundos…"
@@ -11297,6 +11297,15 @@ msgid ""
 "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
 "td></tr></table></body>"
 msgstr ""
+"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+"caption { text-align: center; vertical-align: top; font-weight: bold; "
+"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"align=top>Explicación do enfoque adaptábel</caption><tr><th></"
+"th><th>Posición</th><th>Temperatura (°C)</th><th>Altitude (°Alt)</th></"
+"tr><tr><th>Posición medida</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></"
+"tr><tr><th>Adaptacións</th><td>%6</td><td>%7</td><td>%8</td></"
+"tr><tr><th>Posición adaptada</th><td>%9</td></tr></table></body>"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
 #, kde-format
@@ -11311,23 +11320,19 @@ msgstr "Desprazamentos de filtros de construción"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the latest guide data and "
-#| "autoscroll the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Marcar para mostrar os últimos datos da guía e "
-"desprazar automaticamente o gráfico.</p></body></html>"
+"<html><head/><body><p>Marque para aplicar o enfoque adaptábel ás execucións "
+"de enfoque automático.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:48
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adapt Focus"
-msgstr "Óptica adaptábel"
+msgstr "Enfoque adaptábel"
 
 #: ekos/auxiliary/darklibrary.cpp:83
 #, kde-format
@@ -11340,11 +11345,14 @@ msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %1 seconds exposure for more accurate results."
 msgstr ""
+"Usando un fotograma escuro dispoñíbel con %1 segundos de exposición. Capture "
+"un fotograma escuro con %1 segundos de exposición para obter resultados máis "
+"precisos."
 
 #: ekos/auxiliary/darklibrary.cpp:305
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
-msgstr ""
+msgstr "O fotograma escuro %s caducou. Cree un novo escuro mestre."
 
 #: ekos/auxiliary/darklibrary.cpp:328
 #, kde-format
@@ -11352,16 +11360,14 @@ msgid "Removing bad dark frame file %1"
 msgstr "Retirando o ficheiro de fotograma escuro en mal estado %1"
 
 #: ekos/auxiliary/darklibrary.cpp:424
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load defect map %1"
-msgstr "Non se puido cargar a imaxe en %1"
+msgstr "Non foi posíbel cargar o mapa de defectos %1"
 
 #: ekos/auxiliary/darklibrary.cpp:444
-#, fuzzy, kde-format
-#| msgid "Failed to load dark frame file %1"
+#, kde-format
 msgid "Failed to load defect map file %1"
-msgstr "Non se puido cargar o ficheiro de fotograma escuro %1"
+msgstr "Non foi posíbel cargar o ficheiro de mapa %1"
 
 #: ekos/auxiliary/darklibrary.cpp:464
 #, kde-format
@@ -11369,22 +11375,19 @@ msgid "Failed to load dark frame file %1"
 msgstr "Non foi posíbel cargar o ficheiro de fotograma escuro %1"
 
 #: ekos/auxiliary/darklibrary.cpp:524
-#, fuzzy, kde-format
-#| msgid "Failed to process star position."
+#, kde-format
 msgid "Failed to process dark data."
-msgstr "Non se puido procesar a posición da estrela."
+msgstr "Non foi posíbel procesar os datos escuros."
 
 #: ekos/auxiliary/darklibrary.cpp:530
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load dark data."
-msgstr "Non se puido cargar a imaxe en %1"
+msgstr "Non foi posíbel cargar os datos escuros."
 
 #: ekos/auxiliary/darklibrary.cpp:540
-#, fuzzy, kde-format
-#| msgid "Received image %1 out of %2."
+#, kde-format
 msgid "Received %1/%2 images."
-msgstr "Recibiuse a imaxe %1 de %2."
+msgstr "Recibiuse %1 imaxe de %2."
 
 #: ekos/auxiliary/darklibrary.cpp:657
 #, kde-format
@@ -11393,40 +11396,34 @@ msgstr ""
 "Seguro que quere eliminar todas as imaxes e datos dos fotogramas escuros?"
 
 #: ekos/auxiliary/darklibrary.cpp:1213
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "In progress..."
-msgstr "En progreso"
+msgstr "En progreso…"
 
 #: ekos/auxiliary/darklibrary.cpp:1369
-#, fuzzy, kde-format
-#| msgid "Failed to set sub frame."
+#, kde-format
 msgid "Failed to save master frame: %1"
-msgstr "Non se puido configurar o sub fotograma."
+msgstr "Non foi posíbel gardar o fotograma mestre: %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1390
-#, fuzzy, kde-format
-#| msgid "Dark frame saved to %1"
+#, kde-format
 msgid "Master Dark saved to %1"
-msgstr "O fotograma escuro gardouse en %1"
+msgstr "O fotograma mestre gardouse en %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1415
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
+#, kde-format
 msgid "Capture completed."
-msgstr "Interrompeuse a captura."
+msgstr "Completouse a captura."
 
 #: ekos/auxiliary/darklibrary.cpp:1442
-#, fuzzy, kde-format
-#| msgid "Remote image saved to %1"
+#, kde-format
 msgid "Defect map saved to %1"
-msgstr "A imaxe remota gardouse en %1"
+msgstr "O mapa de defectos gardouse en %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1462
-#, fuzzy, kde-format
-#| msgid "Failed to save file to %1"
+#, kde-format
 msgid "Failed to save defect map to %1"
-msgstr "Non se puido gardar o ficheiro en %1."
+msgstr "Non foi posíbel gardar o mapa de defectos en %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1637
 #, kde-format
@@ -11441,10 +11438,9 @@ msgstr "Biblioteca escura"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/auxiliary/darklibrary.ui:56
-#, fuzzy, kde-format
-#| msgid "Prefix:"
+#, kde-format
 msgid "Prefer:"
-msgstr "Prefixo:"
+msgstr "Preferir:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDarksRadio)
 #: ekos/auxiliary/darklibrary.ui:115
@@ -11452,27 +11448,29 @@ msgstr "Prefixo:"
 msgid ""
 "For the selected camera, remove noise by means of dark frame subtraction."
 msgstr ""
+"Para a cámara seleccionara, reducir o ruído mediante a subtracción de "
+"fotograma escuro."
 
 #. i18n: ectx: property (text), widget (QRadioButton, preferDarksRadio)
 #. i18n: ectx: attribute (title), widget (QWidget, darkTab)
 #: ekos/auxiliary/darklibrary.ui:118 ekos/auxiliary/darklibrary.ui:167
-#, fuzzy, kde-format
-#| msgid "Dark"
+#, kde-format
 msgid "Darks"
-msgstr "Escura"
+msgstr "Escuros"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDefectsRadio)
 #: ekos/auxiliary/darklibrary.ui:131
 #, kde-format
 msgid "For the selected camera, remove noise by means of defect map filtering."
 msgstr ""
+"Para a cámara seleccionara, reducir o ruído mediante filtro de mapa de "
+"defectos."
 
 #. i18n: ectx: property (text), widget (QRadioButton, preferDefectsRadio)
 #: ekos/auxiliary/darklibrary.ui:134
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgid "Defects"
-msgstr "Efectos"
+msgstr "Defectos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
@@ -11485,56 +11483,48 @@ msgstr "Eliminación de ruído:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/darklibrary.ui:213
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "East Orange"
+#, kde-format
 msgid "Exp. range:"
-msgstr "Orange leste"
+msgstr "Intervalo de exposición:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, temperatureStepLabel)
 #: ekos/auxiliary/darklibrary.ui:229 ekos/auxiliary/darklibrary.ui:263
-#, fuzzy, kde-format
-#| msgid "Step:"
+#, kde-format
 msgid "Step:"
 msgstr "Paso:"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureLabel)
 #: ekos/auxiliary/darklibrary.ui:256
-#, fuzzy, kde-format
-#| msgctxt "City in Georgia USA"
-#| msgid "La Grange"
+#, kde-format
 msgid "T. range:"
-msgstr "La Grange"
+msgstr "Intervalo de temperatura:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, totalTime)
 #: ekos/auxiliary/darklibrary.ui:270
 #, kde-format
 msgid "Total estimated time until all dark frames are captured and processed."
 msgstr ""
+"Tempo total estimado ata que todos os fotogramas escuros se capturen e "
+"procesen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin1Check)
 #: ekos/auxiliary/darklibrary.ui:291
-#, fuzzy, kde-format
-#| msgid "1x"
+#, kde-format
 msgid "1x1"
-msgstr "×1"
+msgstr "1×1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin2Check)
 #: ekos/auxiliary/darklibrary.ui:304
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "12x"
+#, kde-format
 msgid "2x2"
-msgstr "12x"
+msgstr "2×2"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin4Check)
 #: ekos/auxiliary/darklibrary.ui:314
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "64x"
+#, kde-format
 msgid "4x4"
-msgstr "64x"
+msgstr "4×4"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
@@ -11556,24 +11546,21 @@ msgstr "Algoritmo:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, exposureStepSin)
 #: ekos/auxiliary/darklibrary.ui:366
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Step size in seconds"
-msgstr "Tempo de exposición en segundos"
+msgstr "Tamaño do paso en segundos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/darklibrary.ui:382
-#, fuzzy, kde-format
-#| msgid "Local Time:"
+#, kde-format
 msgid "Total time:"
-msgstr "Hora local:"
+msgstr "Tempo total:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minExposureSpin)
 #: ekos/auxiliary/darklibrary.ui:389
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Minimum exposure time in seconds."
-msgstr "Tempo de exposición en segundos"
+msgstr "Tempo mínimo de exposición en segundos."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, countSpin)
 #: ekos/auxiliary/darklibrary.ui:405
@@ -11582,6 +11569,8 @@ msgid ""
 "Captures per configuration. This number of images would be averaged to "
 "produce the master dark frame."
 msgstr ""
+"Capturas por configuración. Faríase a media deste número de imaxes para "
+"producir un fotograma escuro mestre."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, temperatureToLabel)
@@ -11594,37 +11583,33 @@ msgstr "Ata:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxExposureSpin)
 #: ekos/auxiliary/darklibrary.ui:441
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Maximum exposure time in seconds."
-msgstr "Tempo de exposición en segundos"
+msgstr "Tempo máximo de exposición en segundos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/darklibrary.ui:464
-#, fuzzy, kde-format
-#| msgid "Load Image"
+#, kde-format
 msgid "Total images:"
-msgstr "Cargar unha imaxe"
+msgstr "Imaxes totais:"
 
 #. i18n: ectx: property (format), widget (QProgressBar, darkProgress)
 #: ekos/auxiliary/darklibrary.ui:550
 #, no-c-format, kde-format
 msgid "%v/%m"
-msgstr ""
+msgstr "%v/%m"
 
 #. i18n: ectx: attribute (title), widget (QWidget, defectMapsTab)
 #: ekos/auxiliary/darklibrary.ui:595
 #, kde-format
 msgid "Defect Maps"
-msgstr ""
+msgstr "Mapas de defectos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/auxiliary/darklibrary.ui:621
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Master alarm"
+#, kde-format
 msgid "Master Dark:"
-msgstr "Alarma principal"
+msgstr "Escuro mestre:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
@@ -11646,11 +11631,9 @@ msgstr "Exposición:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/auxiliary/darklibrary.ui:723
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Temperature"
+#, kde-format
 msgid "Temperature:"
-msgstr "Temperatura"
+msgstr "Temperatura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, minLabel_2)
@@ -11668,44 +11651,40 @@ msgstr "Mediana:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/auxiliary/darklibrary.ui:783
-#, fuzzy, kde-format
-#| msgid "Standard Deviation"
+#, kde-format
 msgid "Std. deviation:"
-msgstr "Desviación estándar"
+msgstr "Desviación estándar:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/auxiliary/darklibrary.ui:806
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Bad Pixels"
-msgstr "píxeles"
+msgstr "Píxeles malos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/darklibrary.ui:827
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Hot pixels:"
-msgstr "píxeles"
+msgstr "Píxeles quentes:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, coldPixelsCount)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hotPixelsCount)
 #: ekos/auxiliary/darklibrary.ui:834 ekos/auxiliary/darklibrary.ui:952
 #, kde-format
 msgid "Detected pixels after aggressiveness filter"
-msgstr ""
+msgstr "Píxeles detectados tras o filtro de agresividade."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/auxiliary/darklibrary.ui:847
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Cold pixels:"
-msgstr "píxeles"
+msgstr "Píxeles fríos:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, coldPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:854
 #, kde-format
 msgid "Enable cold pixel detection in the master dark frame."
-msgstr ""
+msgstr "Activar a detección de píxeles fríos no fotograma escuro mestre."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessHotSlider)
 #: ekos/auxiliary/darklibrary.ui:872
@@ -11714,12 +11693,14 @@ msgid ""
 "Aggressiveness level. Increase value to include more hot pixels. Click "
 "Generate Map to execute."
 msgstr ""
+"Nivel de agresividade. Aumente o valor para incluír máis píxeles quentes. "
+"Prema «Xerar o mapa» para executar."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hotPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:903
 #, kde-format
 msgid "Enable detection of hot pixels in the master dark frame."
-msgstr ""
+msgstr "Activar a detección de píxeles quentes no fotograma escuro mestre."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessColdSlider)
 #: ekos/auxiliary/darklibrary.ui:921
@@ -11728,13 +11709,16 @@ msgid ""
 "Aggressiveness level. Increase value to include more cold pixels.  Click "
 "Generate Map to execute."
 msgstr ""
+"Nivel de agresividade. Aumente o valor para incluír máis píxeles fríos. "
+"Prema «Xerar o mapa» para executar."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetMapParametersB)
 #: ekos/auxiliary/darklibrary.ui:979
-#, fuzzy, kde-format
-#| msgid "Reset CCD frame & size values to default values"
+#, kde-format
 msgid "Reset aggressiveness sliders to default values."
-msgstr "Restabelecer os valores de fotograma e tamaño predeterminados do CCD."
+msgstr ""
+"Restabelecer os controis esvaradíos de agresividade aos seus valores "
+"predeterminados."
 
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
@@ -11750,28 +11734,26 @@ msgstr "Restabelecer"
 #: ekos/auxiliary/darklibrary.ui:1008
 #, kde-format
 msgid "Detect hot and cold pixels within the aggressiveness threshold."
-msgstr ""
+msgstr "Detectar os píxeles quentes e fríos dentro do limiar de agresividade."
 
 #. i18n: ectx: property (text), widget (QPushButton, generateMapB)
 #: ekos/auxiliary/darklibrary.ui:1011
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Map"
-msgstr "Xerar"
+msgstr "Xerar o mapa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveMapB)
 #: ekos/auxiliary/darklibrary.ui:1030
 #, kde-format
 msgid "Save defect map to disk once the map results are satisfactory."
 msgstr ""
+"Garde o mapa de defectos no disco cando os resultados sexan satisfactorios."
 
 #. i18n: ectx: attribute (title), widget (QWidget, mastersTab)
 #: ekos/auxiliary/darklibrary.ui:1066
-#, fuzzy, kde-format
-#| msgctxt "Region/state in Denmark"
-#| msgid "Falster"
+#, kde-format
 msgid "Masters"
-msgstr "Falster"
+msgstr "Mestres"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearRowB)
 #: ekos/auxiliary/darklibrary.ui:1092
@@ -11804,10 +11786,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/auxiliary/darklibrary.ui:1105
-#, fuzzy, kde-format
-#| msgid "T. Threshold:"
+#, kde-format
 msgid "T. threshold:"
-msgstr "Limiar de t.:"
+msgstr "Limiar de temperatura:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllB)
 #: ekos/auxiliary/darklibrary.ui:1112
@@ -11842,10 +11823,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/darklibrary.ui:1132
-#, fuzzy, kde-format
-#| msgid "Dark Validity"
+#, kde-format
 msgid "Dark validity:"
-msgstr "Validez escura"
+msgstr "Validez escura:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openDarksFolderB)
 #: ekos/auxiliary/darklibrary.ui:1168
@@ -11877,6 +11857,8 @@ msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
 "wizard in Capture module."
 msgstr ""
+"Non se atoparon fotogramas escuros ou mapas de defectos axeitados. Execute o "
+"asistente da biblioteca escura no módulo de captura."
 
 #: ekos/auxiliary/filtermanager.cpp:111
 #, kde-format
@@ -12895,13 +12877,13 @@ msgstr "Conectar"
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: ekos/auxiliary/portselector.cpp:370
+#: ekos/auxiliary/portselector.cpp:372
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connect All"
 msgstr "Conectar"
 
-#: ekos/auxiliary/portselector.cpp:383
+#: ekos/auxiliary/portselector.cpp:385
 #, fuzzy, kde-format
 #| msgctxt "City in Florida USA"
 #| msgid "Port Salerno"
