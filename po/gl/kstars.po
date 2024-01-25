@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 01:34+0000\n"
-"PO-Revision-Date: 2024-01-23 08:55+0100\n"
+"PO-Revision-Date: 2024-01-24 09:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -11893,54 +11893,44 @@ msgid "Lock specific filter when running Auto Focus"
 msgstr "Bloquear un filtro específico ao executar o enfoque automático"
 
 #: ekos/auxiliary/filtermanager.cpp:126
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
-"Os fotogramas planos captúranse nesta posición do foco. O proceso do foco "
-"actualízaos automaticamente se se activa."
+"Última solución de enfoque automático. O proceso de enfoque automático "
+"actualízaa automaticamente."
 
 #: ekos/auxiliary/filtermanager.cpp:127
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Last AF Solution"
-msgstr "Movemento"
+msgstr "Última solución de enfoque automático"
 
 #: ekos/auxiliary/filtermanager.cpp:130
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
 "autofocus process."
 msgstr ""
-"Os fotogramas planos captúranse nesta posición do foco. O proceso do foco "
-"actualízaos automaticamente se se activa."
+"A temperatura da última solución de enfoque automático. O proceso de enfoque "
+"automático actualízaa automaticamente."
 
 #: ekos/auxiliary/filtermanager.cpp:131
 #, kde-format
 msgid "Last AF Temp (°C)"
-msgstr ""
+msgstr "Última temperatura (°C) de enfoque automático"
 
 #: ekos/auxiliary/filtermanager.cpp:134
-#, fuzzy, kde-format
-#| msgid ""
-#| "Flat frames are captured at this focus position. It is updated "
-#| "automatically by focus process if enabled."
+#, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Os fotogramas planos captúranse nesta posición do foco. O proceso do foco "
-"actualízaos automaticamente se se activa."
+"A altitude da última solución de enfoque automático. O proceso de enfoque "
+"automático actualízaa automaticamente."
 
 #: ekos/auxiliary/filtermanager.cpp:135
 #, kde-format
 msgid "Last AF Alt (°Alt)"
-msgstr ""
+msgstr "Última altitude (°Alt) de enfoque automático"
 
 #: ekos/auxiliary/filtermanager.cpp:138
 #, kde-format
@@ -11948,13 +11938,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"O número de marcas por aumento de temperatura en °C. +ve para o movemento "
+"cara fora do focalizador."
 
 #: ekos/auxiliary/filtermanager.cpp:139
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks / °C"
-msgstr "Marcas"
+msgstr "Marcas / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
@@ -11962,22 +11952,23 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"O número de marcas por aumento de altitude en graos. +ve para o movemento "
+"cara fora do focalizador."
 
 #: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Marcas / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Punto medio de lonxitude de onda do filtro en nm."
 
 #: ekos/auxiliary/filtermanager.cpp:146
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength"
-msgstr "Lonxitude de onda:"
+msgstr "Lonxitude de onda"
 
 #: ekos/auxiliary/filtermanager.cpp:545
 #, kde-format
