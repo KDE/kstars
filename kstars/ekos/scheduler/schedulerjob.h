@@ -408,18 +408,11 @@ class SchedulerJob
         static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b, QDateTime const &when = QDateTime());
 
         /**
-             * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
-             * @param when date and time to check the moon separation, now if omitted.
-             * @return Moon separation score
+             * @brief moonSeparationOK return true if angle from target to the Moon is > minMoonSeparation
+             * @param when date and time to check the Moon separation, now if omitted.
+             * @return true if target is separated enough from the Moon.
              */
-        int16_t getMoonSeparationScore(QDateTime const &when = QDateTime()) const;
-
-        /**
-             * @brief getCurrentMoonSeparation Get current moon separation in degrees at current time for the given job
-             * @param job scheduler job
-             * @return Separation in degrees
-             */
-        double getCurrentMoonSeparation() const;
+        bool moonSeparationOK(QDateTime const &when = QDateTime()) const;
 
         /**
              * @brief calculateNextTime calculate the next time constraints are met (or missed).
