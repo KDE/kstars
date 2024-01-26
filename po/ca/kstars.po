@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 01:34+0000\n"
-"PO-Revision-Date: 2024-01-22 10:47+0100\n"
+"PO-Revision-Date: 2024-01-25 13:00+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18949,7 +18949,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Focus enfora. </p><p>Per als SCT, això normalment és "
-"sentit horari</body>"
+"sentit horari.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225

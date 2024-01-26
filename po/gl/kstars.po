@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 01:34+0000\n"
-"PO-Revision-Date: 2024-01-24 09:47+0100\n"
+"PO-Revision-Date: 2024-01-25 09:01+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -11998,24 +11998,21 @@ msgstr "Roda de filtros"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/filtersettings.ui:84
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-#| "span> filter focus offset in steps.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
 "span> filter offsets in steps either directly in the table or use the Build "
 "Offsets tool.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Definir o desprazamento do foco do filtro <span style="
-"\" font-style:italic;\">relativo</span> en pasos.</p></body></html>"
+"<html><head/><body><p>Definir desprazamentos de filtro <span style=\" font-"
+"style:italic;\">relativos</span> nos pasos, ben directamente na táboa ou "
+"usando ferramenta de construír desprazamentos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Build Offsets"
-msgstr "Desprazamento"
+msgstr "Construír desprazamentos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -12034,10 +12031,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:117
-#, fuzzy, kde-format
-#| msgid "Capture flat frames at the same focus as light frames"
+#, kde-format
 msgid "Capture flats at the same focus as lights"
-msgstr "Capturar os fotogramas planos no mesmo foco que os fotogramas claros"
+msgstr "Capturar os planos no mesmo foco que os claros."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:199
 #, kde-format
@@ -12045,16 +12041,14 @@ msgid "Paused"
 msgstr "En pausa"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:36
-#, fuzzy, kde-format
-#| msgid "Complete"
+#, kde-format
 msgid "Completed"
-msgstr "Completo"
+msgstr "Completouse"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:40
-#, fuzzy, kde-format
-#| msgid "Framing..."
+#, kde-format
 msgid "Preparing..."
-msgstr "Encaixe…"
+msgstr "Preparando…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:43
 #, kde-format
@@ -12073,10 +12067,9 @@ msgid "Focusing..."
 msgstr "Enfocando…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:52 ekos/auxiliary/ledstatuswidget.cpp:55
-#, fuzzy, kde-format
-#| msgid "Auto focus on filter change..."
+#, kde-format
 msgid "Filter change..."
-msgstr "Enfoque automático co cambio de filtro…"
+msgstr "Cambio de filtro…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:58
 #, kde-format
@@ -12089,39 +12082,34 @@ msgid "Calibrating..."
 msgstr "Calibrando…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:64
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip..."
 msgstr "Volta do meridiano…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Pause Planned"
+#, kde-format
 msgid "Pause planned..."
-msgstr "Planificouse a pausa"
+msgstr "Planificouse unha pausa…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:145
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "Filter selected."
-msgstr "Seleccionouse unha estrela automaticamente."
+msgstr "Seleccionouse un filtro."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, LedStatusWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, MeridianFlipStatusWidget)
 #: ekos/auxiliary/ledstatuswidget.ui:14
 #: ekos/mount/meridianflipstatuswidget.ui:14
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "Form"
 msgstr "Formulario"
 
 #. i18n: ectx: property (text), widget (QLabel, statusText)
 #: ekos/auxiliary/ledstatuswidget.ui:44
 #: ekos/mount/meridianflipstatuswidget.ui:35
-#, fuzzy, kde-format
-#| msgid "unknown"
+#, kde-format
 msgid "<unknown>"
-msgstr "descoñecido"
+msgstr "<descoñecido>"
 
 #: ekos/auxiliary/opslogs.cpp:56
 #, kde-format
@@ -12199,10 +12187,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/opslogs.ui:133
-#, fuzzy, kde-format
-#| msgid "Ekos"
+#, kde-format
 msgid "Ekos:"
-msgstr "Ekos"
+msgstr "Ekos:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_RegularLogging)
 #: ekos/auxiliary/opslogs.ui:140 options/opsadvanced.ui:238
@@ -12320,10 +12307,9 @@ msgstr "Rexistrar a actividade do módulo de captura de Ekos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/auxiliary/opslogs.ui:295
-#, fuzzy, kde-format
-#| msgid "Astrometry.net"
+#, kde-format
 msgid "Astrometry:"
-msgstr "Astrometry.net"
+msgstr "Astrometría:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIGPSLogging)
 #: ekos/auxiliary/opslogs.ui:302
@@ -12363,10 +12349,9 @@ msgstr "Observatorio"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:338
-#, fuzzy, kde-format
-#| msgid "Enable verbose debug output"
+#, kde-format
 msgid "Enable verbose debug output level"
-msgstr "Activar a información de saída para depuración detallada."
+msgstr "Activar o nivel de saída de depuración detallada."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:341 options/opsadvanced.ui:307
@@ -12424,10 +12409,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:410
-#, fuzzy, kde-format
-#| msgid "Drivers"
+#, kde-format
 msgid "Drivers:"
-msgstr "Controladores"
+msgstr "Controladores:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_MountLogging)
 #: ekos/auxiliary/opslogs.ui:417
@@ -12439,37 +12423,37 @@ msgstr "Rexistrar a actividade do módulo de montaxe de Ekos."
 #: ekos/auxiliary/opslogs.ui:430
 #, kde-format
 msgid "The Logging Level for StellarSolver and Astrometry.net"
-msgstr ""
+msgstr "O nivel de rexistro de StellarSolver e Astrometry.net."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:437
 #, kde-format
 msgid "LOG_NONE"
-msgstr ""
+msgstr "Nada (LOG_NONE)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:442
 #, kde-format
 msgid "LOG_ERROR"
-msgstr ""
+msgstr "Erros (LOG_ERROR)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:447
 #, kde-format
 msgid "LOG_MSG"
-msgstr ""
+msgstr "Mensaxes (LOG_MSG)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:452
 #, kde-format
 msgid "LOG_VERB"
-msgstr ""
+msgstr "Detallado (LOG_VERB)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:457
 #, kde-format
 msgid "LOG_ALL"
-msgstr ""
+msgstr "Todo (LOG_ALL)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryLogToFile)
 #: ekos/auxiliary/opslogs.ui:465
@@ -12478,19 +12462,20 @@ msgid ""
 "Option to log astrometry messages to a separate file.  If you select LOG_ALL "
 "you REALLY want to check this box."
 msgstr ""
+"Opción para rexistrar mensaxes de astrometría nun ficheiro separado. Se "
+"selecciona «Todo», cómpre marcar esta opción."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryLogToFile)
 #: ekos/auxiliary/opslogs.ui:468
-#, fuzzy, kde-format
-#| msgid "Verbose Log File"
+#, kde-format
 msgid " Separate Log File:"
-msgstr "Ficheiro de rexistro detallado."
+msgstr "Ficheiro de rexistro separado:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryLogFilepath)
 #: ekos/auxiliary/opslogs.ui:475
 #, kde-format
 msgid "The external Log File for astrometry logging"
-msgstr ""
+msgstr "O ficheiro de rexistro externo para astrometría."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:494 indi/opsindi.ui:522
@@ -12515,36 +12500,29 @@ msgstr "Mensaxes de INDI na &barra de estado"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: ekos/auxiliary/opslogs.ui:529
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory"
+#, kde-format
 msgid "Open Logs Directory..."
-msgstr "Abrir o directorio dos rexistros"
+msgstr "Abrir o cartafol de rexistro…"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:139
-#, fuzzy, kde-format
-#| msgctxt "City in Connecticut USA"
-#| msgid "New Britian"
+#, kde-format
 msgid "New Train"
-msgstr "New Britian"
+msgstr "Novo tren"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:439
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Primary"
+#, kde-format
 msgid "Primary"
 msgstr "Principal"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:442
-#, fuzzy, kde-format
-#| msgid "Seconds"
+#, kde-format
 msgid "Secondary"
-msgstr "Segundos"
+msgstr "Secundario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:445
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Tertiary"
-msgstr "Vertical"
+msgstr "Terciario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1173
 #, kde-format
@@ -12612,16 +12590,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:150
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Recursos en Internet:"
-"</span></p></body></html>"
+"<html><head/><body><p>Alcance ou lente: <span style=\" color:#ff0000;\">*</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:160
@@ -12645,29 +12620,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:186
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Camera: <span style=\" color:#ff0000;\">*</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Recursos en Internet:"
-"</span></p></body></html>"
+"<html><head/><body><p>Cámara: <span style=\" color:#ff0000;\">*</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:206
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
-msgstr ""
+msgstr "Seleccione se quere unha cuberta mecanizada (p. ex. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:209
-#, fuzzy, kde-format
-#| msgid "Dust Cap"
+#, kde-format
 msgid "Dust cap:"
-msgstr "Cuberta anti po"
+msgstr "Cuberta:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:229
