@@ -69,6 +69,7 @@ enum COMMANDS
     TRAIN_SET,
     TRAIN_ADD,
     TRAIN_DELETE,
+    TRAIN_RESET,
     TRAIN_CONFIGURATION_REQUESTED,
     TRAIN_ACCEPT,
 
@@ -295,6 +296,7 @@ static QMap<COMMANDS, QString> const commands =
     {TRAIN_SET, "train_set"},
     {TRAIN_ADD, "train_add"},
     {TRAIN_DELETE, "train_delete"},
+    {TRAIN_RESET, "train_reset"},
     {TRAIN_CONFIGURATION_REQUESTED, "train_configuration_requested"},
     {TRAIN_ACCEPT, "train_accept"},
 
