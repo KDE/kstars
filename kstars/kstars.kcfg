@@ -2123,6 +2123,14 @@
          <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
          <default>150</default>
       </entry>
+      <entry name="FocusDonut" type="Bool">
+         <whatsthis>Whether to use Donut Busting functionalty during Autofocus.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="FocusTimeDilation" type="Double">
+         <label>Factor to multiply focus exposure by for out of focus frames when using Donut Buster.</label>
+         <default>4.0</default>
+      </entry>
       <entry name="FocusGaussianKernelSize" type="Int">
          <label>Gaussian blur kernel size.</label>
          <default>5</default>

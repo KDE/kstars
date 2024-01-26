@@ -72,6 +72,8 @@ class FocusAlgorithmInterface
             bool refineCurveFit;
             // The type of focus walk
             Focus::FocusWalk focusWalk;
+            // Whether to use donut busting functionality
+            bool donutBuster;
             // Whether we want to minimise or maximise the focus measurement statistic
             CurveFitting::OptimisationDirection optimisationDirection;
             // How to assign weights to focus measurements
@@ -82,7 +84,7 @@ class FocusAlgorithmInterface
                         double _focusTolerance, const QString &filterName_, double _temperature,
                         double _initialOutwardSteps, int _numSteps, Focus::Algorithm _focusAlgorithm, int _backlash,
                         CurveFitting::CurveFit _curveFit, bool _useWeights, Focus::StarMeasure _starMeasure,
-                        Focus::StarPSF _starPSF, bool _refineCurveFit, Focus::FocusWalk _focusWalk,
+                        Focus::StarPSF _starPSF, bool _refineCurveFit, Focus::FocusWalk _focusWalk, bool _donutBuster,
                         CurveFitting::OptimisationDirection _optimisationDirection,
                         Mathematics::RobustStatistics::ScaleCalculation _scaleCalculation) :
                 curveFitting(_curveFitting), maxTravel(_maxTravel), initialStepSize(_initialStepSize),
@@ -92,7 +94,7 @@ class FocusAlgorithmInterface
                 temperature(_temperature), initialOutwardSteps(_initialOutwardSteps), numSteps(_numSteps),
                 focusAlgorithm(_focusAlgorithm), backlash(_backlash), curveFit(_curveFit),
                 useWeights(_useWeights), starMeasure(_starMeasure), starPSF(_starPSF),
-                refineCurveFit(_refineCurveFit), focusWalk(_focusWalk),
+                refineCurveFit(_refineCurveFit), focusWalk(_focusWalk), donutBuster(_donutBuster),
                 optimisationDirection(_optimisationDirection), scaleCalculation(_scaleCalculation) {}
         };
 
@@ -157,6 +159,9 @@ class FocusAlgorithmInterface
 
         // For Linear and L1P returns whether focuser is inFirstPass, other algos return true
         virtual bool isInFirstPass() const = 0;
+
+        // For Linear and L1P returns the focuser step
+        virtual int currentStep() const = 0;
 
         // For testing.
         virtual FocusAlgorithmInterface *Copy() = 0;

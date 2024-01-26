@@ -662,6 +662,11 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setUseWeights();
 
+        /**
+         * @brief setDonutBuster sets the donutBuster checkbox
+         */
+        void setDonutBuster();
+
         // HFR Plot
         void initPlots();
 
@@ -860,6 +865,26 @@ class Focus : public QWidget, public Ui::Focus
          */
         bool scopeHasObstruction(QString scopeType);
 
+        /**
+         * @brief Save the focus frame for later dubugging
+         */
+        void saveFocusFrame();
+
+        /**
+         * @brief Initialise donut processing
+         */
+        void initDonutProcessing();
+
+        /**
+         * @brief Reset donut processing
+         */
+        void resetDonutProcessing();
+
+        /**
+         * @brief Adjust Autofocus capture exposure based on user settings when using Donut Buster
+         */
+        void donutTimeDilation();
+
         /// Focuser device needed for focus operation
         ISD::Focuser *m_Focuser { nullptr };
         /// CCD device needed for focus operation
@@ -1006,7 +1031,8 @@ class Focus : public QWidget, public Ui::Focus
         int R2Retries = 0;
         // Counter to retry starting auto focus if the focuser is still active
         int AFStartRetries = 0;
-
+        // Autofocus run number - to help with debugging logs
+        int m_AFRun = 0;
         /// Autofocus log file info.
         QStringList m_LogText;
         QFile m_FocusLogFile;
@@ -1222,5 +1248,8 @@ class Focus : public QWidget, public Ui::Focus
         QVector<QVector<double>> m_abInsWeight;
         QVector<QVector<int>> m_abInsNumStars;
         QVector<QPoint> m_abInsTileCenterOffset;
+
+        // Donut Buster
+        double m_donutOrigExposure = 0.0;
 };
 }

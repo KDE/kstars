@@ -1030,6 +1030,7 @@ void Focus::start()
     }
 
     inAutoFocus = true;
+    m_AFRun++;
     AFStartRetries = 0;
     m_LastFocusDirection = FOCUS_NONE;
 
@@ -1096,7 +1097,8 @@ void Focus::start()
     profilePlot->clear();
     FWHMOut->setText("");
 
-    qCInfo(KSTARS_EKOS_FOCUS)  << "Starting Autofocus on" << focuserLabel->text()
+    qCInfo(KSTARS_EKOS_FOCUS)  << "Starting Autofocus " << m_AFRun
+                               << " on" << focuserLabel->text()
                                << " CanAbsMove: " << (canAbsMove ? "yes" : "no" )
                                << " CanRelMove: " << (canRelMove ? "yes" : "no" )
                                << " CanTimerMove: " << (canTimerMove ? "yes" : "no" )
@@ -1139,7 +1141,9 @@ void Focus::start()
                                << " Sigma:" << m_OpsFocusProcess->focusGaussianSigma->value()
                                << " Threshold:" << m_OpsFocusProcess->focusThreshold->value()
                                << " Kernel size:" << m_OpsFocusProcess->focusGaussianKernelSize->value()
-                               << " Tolerance:" << m_OpsFocusProcess->focusTolerance->value();
+                               << " Tolerance:" << m_OpsFocusProcess->focusTolerance->value()
+                               << " Donut Buster:" << ( m_OpsFocusProcess->focusDonut->isChecked() ? "yes" : "no" )
+                               << " Donut Time Dilation:" << m_OpsFocusProcess->focusTimeDilation->value();
     qCInfo(KSTARS_EKOS_FOCUS)  << "Mechanics Tab."
                                << " Initial Step Size:" << m_OpsFocusMechanics->focusTicks->value()
                                << " Out Step Multiple:" << m_OpsFocusMechanics->focusOutSteps->value()
@@ -1203,7 +1207,8 @@ void Focus::start()
                 currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
                 m_OpsFocusMechanics->focusOutSteps->value(), m_OpsFocusMechanics->focusNumSteps->value(),
                 m_FocusAlgorithm, m_OpsFocusMechanics->focusBacklash->value(), m_CurveFit, m_OpsFocusProcess->focusUseWeights->isChecked(),
-                m_StarMeasure, m_StarPSF, m_OpsFocusProcess->focusRefineCurveFit->isChecked(), m_FocusWalk, m_OptDir, m_ScaleCalc);
+                m_StarMeasure, m_StarPSF, m_OpsFocusProcess->focusRefineCurveFit->isChecked(), m_FocusWalk,
+                m_OpsFocusProcess->focusDonut->isChecked(), m_OptDir, m_ScaleCalc);
 
         if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
         {
@@ -1211,6 +1216,8 @@ void Focus::start()
             starFitting.reset(new CurveFitting());
             focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
             focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
+            // Donut Buster
+            initDonutProcessing();
         }
 
         if (canAbsMove)
@@ -1224,6 +1231,21 @@ void Focus::start()
         return;
     }
     capture();
+}
+
+// Initialise donut buster
+void Focus::initDonutProcessing()
+{
+    if (m_OpsFocusProcess->focusDonut->isChecked())
+        m_donutOrigExposure = focusExposure->value();
+}
+
+// Reset donut buster
+void Focus::resetDonutProcessing()
+{
+    // If donut busting variable focus exposures have been used, reset to starting value
+    if (m_OpsFocusProcess->focusDonut->isChecked() && inAutoFocus)
+        focusExposure->setValue(m_donutOrigExposure);
 }
 
 int Focus::adjustLinearPosition(int position, int newPosition, int overscan, bool updateDir)
@@ -1313,6 +1335,7 @@ void Focus::stop(Ekos::FocusState completionState)
     m_FocuserReconnectCounter = 0;
 
     opticalTrainCombo->setEnabled(true);
+    resetDonutProcessing();
     inAutoFocus = false;
     inAdjustFocus = false;
     adaptFocus->setInAdaptiveFocus(false);
@@ -1822,6 +1845,14 @@ void Focus::starDetectionFinished()
                 hfr = m_ImageData->getHFR(m_FocusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
         }
     }
+    // JEE Frig
+    if (0)
+    {
+        if (hfr > 3)
+            hfr = 3 - (hfr - 3);
+        if (hfr < 0.5)
+            hfr = INVALID_STAR_MEASURE;
+    }
 
     hfrInProgress = false;
     currentHFR = hfr;
@@ -2062,6 +2093,8 @@ bool Focus::appendMeasure(double newMeasure)
         }
     }
 
+    // Save the focus frame
+    saveFocusFrame();
     // Return whether we need more frame based on user requirement
     return starMeasureFrames.count() < m_OpsFocusProcess->focusFramesCount->value();
 }
@@ -2354,6 +2387,33 @@ void Focus::setCurrentMeasure()
 
     if (m_abInsOn)
         calculateAbInsData();
+}
+
+// Save off focus frame during Autofocus for later debugging
+void Focus::saveFocusFrame()
+{
+    if (inAutoFocus && Options::focusLogging() && Options::saveFocusImages())
+    {
+        QDir dir;
+        QDateTime now = KStarsData::Instance()->lt();
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("autofocus/" +
+                       now.toString("yyyy-MM-dd"));
+        dir.mkpath(path);
+
+        // To help identify focus frames add run number, step and frame (for multiple frames at each step)
+        QString detail;
+        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+        {
+            const int currentStep = linearFocuser->currentStep() + 1;
+            detail = QString("_%1_%2_%3").arg(m_AFRun).arg(currentStep).arg(starMeasureFrames.count());
+        }
+
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + detail + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        m_ImageData->saveImage(filename);
+    }
 }
 
 void Focus::calculateAbInsData()
@@ -2685,21 +2745,6 @@ void Focus::setHFRComplete()
         return;
     }
 
-    // If focus logging is enabled, let's save the frame.
-    if (Options::focusLogging() && Options::saveFocusImages())
-    {
-        QDir dir;
-        QDateTime now = KStarsData::Instance()->lt();
-        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("autofocus/" +
-                       now.toString("yyyy-MM-dd"));
-        dir.mkpath(path);
-        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
-        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
-        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
-        QString filename = path + QStringLiteral("/") + name;
-        m_ImageData->saveImage(filename);
-    }
-
     // If we are not in autofocus process, we're done.
     if (inAutoFocus == false)
     {
@@ -2814,8 +2859,9 @@ bool Focus::autoFocusChecks()
             appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
             noStarCount = 0;
         }
-        else
+        else if(!m_OpsFocusProcess->focusDonut->isChecked())
         {
+            // Carry on for donut detection
             appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             return false;
@@ -3520,8 +3566,9 @@ void Focus::autoFocusRel()
             appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
             noStarCount = 0;
         }
-        else
+        else if(!m_OpsFocusProcess->focusDonut->isChecked())
         {
+            // Carry on for donut detection
             appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             return;
@@ -3598,6 +3645,9 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         {
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(
                                            currentPosition).arg(m_OpsFocusMechanics->focusSettleTime->value());
+            // Adjust exposure if Donut Buster activated
+            if (m_OpsFocusProcess->focusDonut->isChecked())
+                donutTimeDilation();
             capture(m_OpsFocusMechanics->focusSettleTime->value());
         }
     }
@@ -3611,6 +3661,31 @@ void Focus::autoFocusProcessPositionChange(IPState state)
                                    QString("autoFocusProcessPositionChange called with state %1 (%2), focuserAdditionalMovement=%3, inAutoFocus=%4, captureInProgress=%5, currentPosition=%6")
                                    .arg(state).arg(pstateStr(state)).arg(focuserAdditionalMovement).arg(inAutoFocus).arg(captureInProgress)
                                    .arg(currentPosition);
+}
+
+// This routine adjusts capture exposure during Autofocus depending on donut parameter settings
+void Focus::donutTimeDilation()
+{
+    if (m_OpsFocusProcess->focusTimeDilation->value() == 1.0)
+        return;
+
+    // Get the max distance from focus to outer points
+    const double centre = (m_OpsFocusMechanics->focusNumSteps->value() + 1.0) / 2.0;
+    // Get the current step - treat the final
+    const int currentStep = linearFocuser->currentStep() + 1;
+    double distance;
+    if (currentStep <= m_OpsFocusMechanics->focusNumSteps->value())
+        distance = std::abs(centre - currentStep);
+    else
+        // Last step is always back to focus
+        distance = 0.0;
+    double multiplier = distance / (centre - 1.0) * m_OpsFocusProcess->focusTimeDilation->value();
+    multiplier = std::max(multiplier, 1.0);
+    const double exposure = multiplier * m_donutOrigExposure;
+    focusExposure->setValue(exposure);
+    qCDebug(KSTARS_EKOS_FOCUS) << "Donut time dilation for point " << currentStep << " from " << m_donutOrigExposure << " to "
+                               << exposure;
+
 }
 
 void Focus::updateProperty(INDI::Property prop)
@@ -4391,6 +4466,32 @@ void Focus::setUseWeights()
 
 }
 
+// Set the setDonutBuster widget based on various other user selected parameters
+// 1. Donut Buster is only available for algorithm: Linear 1 Pass
+// 2. Donut Buster is available for measures: HFR, HFR Adj and FWHM
+// 3. Donut Buster is available for walks: Fixed and CFZ Shuffle
+void Focus::setDonutBuster()
+{
+    if (m_FocusAlgorithm != FOCUS_LINEAR1PASS)
+    {
+        m_OpsFocusProcess->focusDonut->hide();
+        m_OpsFocusProcess->focusDonut->setEnabled(false);
+        m_OpsFocusProcess->focusDonut->setChecked(false);
+    }
+    else
+    {
+        m_OpsFocusProcess->focusDonut->show();
+        if ((m_StarMeasure == FOCUS_STAR_HFR || m_StarMeasure == FOCUS_STAR_HFR_ADJ || m_StarMeasure == FOCUS_STAR_FWHM) &&
+                (m_FocusWalk == FOCUS_WALK_FIXED_STEPS || m_FocusWalk == FOCUS_WALK_CFZ_SHUFFLE))
+            m_OpsFocusProcess->focusDonut->setEnabled(true);
+        else
+        {
+            m_OpsFocusProcess->focusDonut->setEnabled(false);
+            m_OpsFocusProcess->focusDonut->setChecked(false);
+        }
+    }
+}
+
 void Focus::setExposure(double value)
 {
     focusExposure->setValue(value);
@@ -4802,6 +4903,10 @@ void Focus::connectFilterManager()
     // Save focus exposure for a particular filter
     connect(focusExposure, &QDoubleSpinBox::editingFinished, this, [this]()
     {
+        // Don't save if donut processing is changing this field
+        if (inAutoFocus && m_OpsFocusProcess->focusDonut->isEnabled())
+            return;
+
         if (m_FilterManager)
             m_FilterManager->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
     });
@@ -5059,6 +5164,23 @@ void Focus::loadGlobalSettings()
             qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+    {
+        if (oneWidget->isCheckable())
+        {
+            key = oneWidget->objectName();
+            value = Options::self()->property(key.toLatin1());
+            if (value.isValid())
+            {
+                oneWidget->setChecked(value.toBool());
+                settings[key] = value;
+            }
+            else
+                qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+        }
+    }
+
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
     {
@@ -5132,6 +5254,11 @@ void Focus::connectSyncSettings()
     for (auto &oneWidget : findChildren<QCheckBox*>())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
 
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            connect(oneWidget, &QGroupBox::toggled, this, &Ekos::Focus::syncSettings);
+
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
@@ -5158,6 +5285,11 @@ void Focus::disconnectSyncSettings()
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            disconnect(oneWidget, &QGroupBox::toggled, this, &Ekos::Focus::syncSettings);
 
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
@@ -5414,6 +5546,7 @@ void Focus::setFocusDetection(StarAlgorithm starAlgorithm)
         m_OpsFocusSettings->focusBoxSize->setMaximum(256);
     }
     m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(m_FocusDetection != ALGORITHM_BAHTINOV);
+    setDonutBuster();
 }
 
 void Focus::setFocusAlgorithm(Algorithm algorithm)
@@ -5474,6 +5607,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->focusCurveFitLabel->hide();
             m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusCurveFit);
             m_OpsFocusProcess->focusCurveFit->hide();
+
+            m_OpsFocusProcess->focusDonut->hide();
+            m_OpsFocusProcess->focusDonut->setChecked(false);
+
             // Although CurveFit is not used by Iterative setting to Quadratic will configure other widgets
             m_OpsFocusProcess->focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
 
@@ -5586,6 +5723,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->focusThresholdLabel->hide();
             m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusThreshold);
             m_OpsFocusProcess->focusThreshold->hide();
+
+            // Donut buster not available
+            m_OpsFocusProcess->focusDonut->hide();
+            m_OpsFocusProcess->focusDonut->setChecked(false);
 
             // Set Measure to just HFR
             if (m_OpsFocusProcess->focusStarMeasure->count() != 1)
@@ -5703,6 +5844,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusRefineCurveFit);
             m_OpsFocusProcess->focusRefineCurveFit->hide();
             m_OpsFocusProcess->focusRefineCurveFit->setChecked(false);
+
+            // Donut buster not available
+            m_OpsFocusProcess->focusDonut->hide();
+            m_OpsFocusProcess->focusDonut->setChecked(false);
 
             // Set Measure to just HFR
             if (m_OpsFocusProcess->focusStarMeasure->count() != 1)
@@ -5884,6 +6029,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                 m_OpsFocusProcess->focusGaussianKernelSize->show();
             }
 
+            // Donut Buster
+            m_OpsFocusProcess->focusDonut->show();
+            m_OpsFocusProcess->focusDonut->setEnabled(true);
+
             // Aberration Inspector button
             startAbInsB->setEnabled(canAbInsStart());
 
@@ -5933,6 +6082,7 @@ void Focus::setCurveFit(CurveFitting::CurveFit curve)
     m_CurveFit = curve;
     setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
     setUseWeights();
+    setDonutBuster();
 
     switch(m_CurveFit)
     {
@@ -5971,6 +6121,7 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
     m_StarMeasure = starMeasure;
     setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
     setUseWeights();
+    setDonutBuster();
 
     // So what is the best estimator of scale to use? Not much to choose from analysis on the sim.
     // Variance is the simplest but isn't robust in the presence of outliers.
@@ -6095,6 +6246,7 @@ void Focus::setWalk(FocusWalk walk)
         default:
             break;
     }
+    setDonutBuster();
 }
 
 double Focus::getStarUnits(const StarMeasure starMeasure, const StarUnits starUnits)
@@ -6548,6 +6700,16 @@ QVariantMap Focus::getAllSettings() const
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
