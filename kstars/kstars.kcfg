@@ -2124,7 +2124,7 @@
          <default>150</default>
       </entry>
       <entry name="FocusDonut" type="Bool">
-         <whatsthis>Whether to use Donut Busting functionalty during Autofocus.</whatsthis>
+         <whatsthis>Whether to use Donut Busting functionality during Autofocus.</whatsthis>
          <default>false</default>
       </entry>
       <entry name="FocusTimeDilation" type="Double">

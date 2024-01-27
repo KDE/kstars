@@ -667,7 +667,7 @@
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The furthest datapoints have their exposure times increaed by this factor. The in focus datapoint exposure is not increased. Intermediate points have their exposures scaled appropriately.&lt;/p&gt;&lt;p&gt;Set to 1 to disable this option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The furthest datapoints have their exposure times increased by this factor. The in focus datapoint exposure is not increased. Intermediate points have their exposures scaled appropriately.&lt;/p&gt;&lt;p&gt;Set to 1 to disable this option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="prefix">
          <string/>
