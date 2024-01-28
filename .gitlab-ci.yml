@@ -3,10 +3,16 @@
 # As of 202009, two-stage pipeline fails on propagation of artifact from stage build to stage test
 # Probably because the upload uses a webdav REST API, and there are many large files in the list
 
+include:
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/flatpak.yml
+
 stages:
   - build
   - test
   #- test-unstable
+  - deploy # For Flatpak
 
 image: tallfurryman/kstars-ci:0.12
 
