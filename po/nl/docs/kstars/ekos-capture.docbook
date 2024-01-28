@@ -1,6 +1,6 @@
 <sect1 id="ekos-capture">
     <title
->Opnames</title>
+>Opname</title>
     <indexterm>
         <primary
 >Hulpmiddelen</primary>
@@ -497,6 +497,12 @@
 ><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
 ></inlinemediaobject
 >. Maak uw wijzigingen links in de CCD-module, en eenmaal klaar, klikt u op de knop met het vinkje. U kunt de taakeditor verlaten door ergens op de lege plek in de naam van de wachtrij te klikken. </para>
+        <important>
+            <para
+><emphasis role="bold"
+>Bewerken van actieve taken</emphasis
+>: wanneer Opnemen actief is of wanneer de planner actief is, kunt u de wachtrij met sequenties of een .esq-bestand op schijf met het tabblad Opnemen niet bewerken. Het tabblad planner heeft een hulpmiddel bewerker van opnamesequentie die gebruikt kan worden om .esl-bestanden op schijf te bewerken of nieuwe aan te maken. </para>
+        </important>
         <para
 >Indien uw camera een live video feed ondersteunt, klikt u op de knop <guibutton
 >Live Video</guibutton

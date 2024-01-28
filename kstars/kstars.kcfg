@@ -1865,15 +1865,11 @@
       </entry>
       <entry name="HFRThresholdPercentage" type="Double">
          <label>Increase autofocus HFR value by this percentage gain and store it in Capture Module.</label>
-         <default>2.5</default>
+         <default>10</default>
       </entry>
-      <entry name="UseMedianFocus" type="Bool">
-         <label>Calculate median focus value after each autofocus operation is complete.</label>
-         <default>true</default>
-      </entry>
-      <entry name="SaveHFRToFile" type="Bool">
-         <label>When saving a sequence file, save current HFR threshold value. By default, zero value is used.</label>
-         <default>false</default>
+      <entry name="HFRCheckAlgorithm" type="int">
+         <whatsthis>Algorithm for In Sequence HFR Check</whatsthis>
+         <default>0</default>
       </entry>
       <entry name="InSequenceCheckFrames" type="UInt">
          <label>Run In-Sequence HFR check after this many frames.</label>
@@ -1933,6 +1929,38 @@
       <entry name="CapturePosition" type="Bool">
          <label>Calculate position after captures.</label>
          <default>false</default>
+      </entry>      
+      <entry name="CaptureStandAloneTypes" type="String">
+         <label>Camera frame types when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneFormats" type="String">
+         <label>Camera frame formats when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneEncodings" type="String">
+         <label>Camera frame encodings when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneISOs" type="String">
+         <label>Camera ISOs when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneISOIndex" type="UInt">
+         <label>Camera ISO choice when using stand-alone esq editor.</label>
+         <default>0</default>
+      </entry>      
+      <entry name="CaptureStandAloneFilters" type="String">
+         <label>Filter names when using stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneWHGO" type="String">
+         <label>Width,Height of sensor size remembered for stand-alone esq editor, and Gain/Offset keywords.</label>
+         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneTimestamp" type="String">
+         <label>Local time that the CaptureStandAlone options were set.</label>
+         <default></default>
       </entry>      
    </group>
    <group name="Focus">      
@@ -2094,6 +2122,14 @@
       <entry name="FocusThreshold" type="Double">
          <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
          <default>150</default>
+      </entry>
+      <entry name="FocusDonut" type="Bool">
+         <whatsthis>Whether to use Donut Busting functionality during Autofocus.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="FocusTimeDilation" type="Double">
+         <label>Factor to multiply focus exposure by for out of focus frames when using Donut Buster.</label>
+         <default>4.0</default>
       </entry>
       <entry name="FocusGaussianKernelSize" type="Int">
          <label>Gaussian blur kernel size.</label>

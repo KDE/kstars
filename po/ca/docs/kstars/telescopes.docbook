@@ -14,7 +14,7 @@
 >Telescopis</primary>
 </indexterm>
 <para
->Inventat a Holanda a principis del segle 17, els telescopis són les eines utilitzades pels astrònoms i astrofísics per a les seves observacions. Amb el desenvolupament de la ciència moderna, els telescopis s'utilitzen avui en dia per a l'observació en tot l'interval de l'espectre electromagnètic, dins i fora de l'atmosfera terrestre. Els telescopis treballen recollint la llum amb una àmplia superfície, anomenada objectiu, la qual fa que la llum que entra convergeixi. La imatge final es veu utilitzant un ocular. </para>
+>Inventat a Holanda a principis del segle XVII, els telescopis són les eines utilitzades pels astrònoms i astrofísics per a les seves observacions. Amb el desenvolupament de la ciència moderna, els telescopis s'utilitzen avui en dia per a l'observació en tot l'interval de l'espectre electromagnètic, dins i fora de l'atmosfera terrestre. Els telescopis treballen recollint la llum amb una àmplia superfície, anomenada objectiu, la qual fa que la llum que entra convergeixi. La imatge final es veu utilitzant un ocular. </para>
 
 <sect2 id="aperture">
 <title
@@ -55,7 +55,7 @@
 </indexterm>
 
 <para
->Per obtenir una imatge, els telescopis utilitzen lents o miralls. Malauradament, si fem servir ambdós, obtenim distorsions de la imatge conegudes com a <firstterm
+>Per a obtenir una imatge, els telescopis utilitzen lents o miralls. Malauradament, si fem servir ambdós, obtenim distorsions de la imatge conegudes com a <firstterm
 >aberracions</firstterm
 >. Algunes aberracions són comunes en ambdós, com <firstterm
 >astigmatisme</firstterm
@@ -161,7 +161,7 @@
 > <guisubmenu
 >Símbols del CDV</guisubmenu
 ></menuchoice
-> i seleccioneu el nou element amb el nom que li heu donat. Per a desactivar-lo, feu clic una altra vegada sobre l'element de menú. </para>
+> i seleccioneu l'element nou amb el nom que li heu donat. Per a desactivar-lo, feu clic una altra vegada sobre l'element de menú. </para>
 </tip>
 
 </sect2>
@@ -197,7 +197,7 @@
 >objectiu</firstterm
 >, que recull la llum entrant, formant una imatge en el pla focal i l'<firstterm
 >ocular</firstterm
->, el qual actua com una lupa d'ampliació utilitzada per a l'observació de la imatge final. Les dues lents estan situades en extrems oposats d'un tub en moviment i la distància entre les dues es pot ajustar per tal d'obtenir la imatge final. </para>
+>, el qual actua com una lupa d'ampliació utilitzada per a l'observació de la imatge final. Les dues lents estan situades en extrems oposats d'un tub en moviment i la distància entre les dues es pot ajustar per a obtenir la imatge final. </para>
 
 <para
 >El telescopi refractor més gros del món és a l'<firstterm
@@ -256,7 +256,7 @@
 <para
 >Per a una anàlisi detallada del cel, les observacions també es realitzen en altres regions de l'espectre electromagnètic. Molt popular i eficients són els <firstterm
 >radiotelescopis</firstterm
->, desenvolupats en la seva majoria al segle passat. Un problema comú per als radiotelescopis i telescopis òptics és la necessitat d'una millor resolució. Podem derivar la resolució d'un telescopi utilitzant el criteri de Rayleigh, el qual indica que el poder de resolució és igual que la relació entre la longitud d'ona d'entrada al diàmetre de l'obertura (1,22 vegades per a les obertures circulars). De manera que per a una bona resolució, necessitarem un diàmetre tan gran com sigui possible. El telescopi de ràdio més gran al món és el telescopi d'Arecibo a Puerto Rico, que utilitza un plat enorme de 305 m de diàmetre. Per tal de resoldre el problema de les resolucions, els astrònoms han desenvolupat una nova tècnica anomenada interferometria. El principi bàsic de la interferometria és que en observar el mateix objecte amb dos telescopis diferents, podem obtenir una imatge final en «connectar» les dues imatges inicials. Avui dia, l'observatori més eficient que utilitza la interferometria és el Very Large Array situat a prop de Socorro, Nou Mèxic. Utilitza 27 telescopis disposats en forma de «Y», amb 25 m d'obertura de cadascun. També hi ha una tècnica anomenada interferometria de base molt llarga (Very Long Baseline Interferometry -VLBI-) que permet als astrònoms resoldre les imatges sobre la mida dels continents. El projecte més important del segle en aquest àmbit és la construcció de l'Atacama Large Millimeter Array (ALMA), que utilitzarà 66 telescopis situats al desert d'Atacama al nord de Xile. </para>
+>, desenvolupats en la seva majoria al segle passat. Un problema comú per als radiotelescopis i telescopis òptics és la necessitat d'una millor resolució. Podem derivar la resolució d'un telescopi utilitzant el criteri de Rayleigh, el qual indica que el poder de resolució és igual que la relació entre la longitud d'ona d'entrada al diàmetre de l'obertura (1,22 vegades per a les obertures circulars). De manera que per a una bona resolució, necessitarem un diàmetre tan gran com sigui possible. El telescopi de ràdio més gran al món és el telescopi d'Arecibo a Puerto Rico, que utilitza un plat enorme de 305 m de diàmetre. Per tal de resoldre el problema de les resolucions, els astrònoms han desenvolupat una tècnica nova anomenada interferometria. El principi bàsic de la interferometria és que en observar el mateix objecte amb dos telescopis diferents, podem obtenir una imatge final en «connectar» les dues imatges inicials. Avui dia, l'observatori més eficient que utilitza la interferometria és el Very Large Array situat a prop de Socorro, Nou Mèxic. Utilitza 27 telescopis disposats en forma de «Y», amb 25 m d'obertura de cadascun. També hi ha una tècnica anomenada interferometria de base molt llarga (Very Long Baseline Interferometry -VLBI-) que permet als astrònoms resoldre les imatges de la mida dels continents. El projecte més important del segle en aquest àmbit és la construcció de l'Atacama Large Millimeter Array (ALMA), que utilitzarà 66 telescopis situats al desert d'Atacama al nord de Xile. </para>
 </sect2>
 
 <sect2 id="space">

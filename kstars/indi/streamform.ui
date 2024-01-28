@@ -55,7 +55,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Start recording</string>
+        <string>Start Recording</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -83,7 +83,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Recording options</string>
+        <string>Recording Options...</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -111,7 +111,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Reset frame</string>
+        <string>Reset Frame</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -140,7 +140,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Toggle debayer</string>
+        <string>Toggle Debayer</string>
        </property>
        <property name="text">
         <string/>
@@ -162,7 +162,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Toggle collimation overlay</string>
+        <string>Toggle Collimation Overlay</string>
        </property>
        <property name="text">
         <string/>
@@ -190,7 +190,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Collimation overlay options</string>
+        <string>Collimation Overlay Options...</string>
        </property>
        <property name="whatsThis">
         <string/>
@@ -326,7 +326,7 @@
         <string>Video frame duration in seconds</string>
        </property>
        <property name="text">
-        <string>Frame (s)</string>
+        <string>Frame(s):</string>
        </property>
       </widget>
      </item>

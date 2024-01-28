@@ -135,6 +135,7 @@ if (INDI_FOUND)
             ekos/capture/customproperties.ui
             ekos/capture/scriptsmanager.ui
             ekos/capture/limits.ui
+            ekos/capture/sequenceeditorui.ui
             # Exposure Calculator
             ekos/capture/exposurecalculator/exposurecalculatordialog.ui
             ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui            
@@ -244,6 +245,7 @@ if (INDI_FOUND)
             ekos/capture/customproperties.cpp
             ekos/capture/scriptsmanager.cpp
             ekos/capture/placeholderpath.cpp
+            ekos/capture/sequenceeditor.cpp
             
             # Exposure Calculator
             ekos/capture/exposurecalculator/exposurecalculatordialog.cpp

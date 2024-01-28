@@ -786,7 +786,7 @@
 >Lent</guilabel
 > i <guilabel
 >Filtre</guilabel
->. Podeu afegir un nou equip, completant les seves característiques i prement el botó <guibutton
+>. Podeu afegir un equip nou, completant les seves característiques i prement el botó <guibutton
 >Afegeix nou...</guibutton
 >. També pot desar o eliminar un equip de la llista.</para
 ></listitem>
@@ -866,7 +866,7 @@
 <para
 >Obre l'eina <guilabel
 >Calendari del cel</guilabel
->, el qual permet planificar les observacions dels planetes del Sistema Solar, donant dades gràfiques sobre les postes i sortides d'aquests objectes. </para>
+>, el qual permet planificar les observacions dels planetes del sistema solar, donant dades gràfiques sobre les postes i sortides d'aquests objectes. </para>
 </listitem>
 </varlistentry>
 
@@ -1267,7 +1267,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu de l'hora. De manera predeterminada, el rètol informatiu de l'hora es troba a la part superior esquerra de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu de l'hora. De manera predeterminada, el rètol informatiu de l'hora es troba a la part superior esquerra de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la posició nova.</para
 ></listitem>
     </varlistentry>
 
@@ -1278,7 +1278,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu de l'enfocament. De manera predeterminada, el rètol informatiu de l'enfocament es troba a la part superior dreta de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu de l'enfocament. De manera predeterminada, el rètol informatiu de l'enfocament es troba a la part superior dreta de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la posició nova.</para
 ></listitem>
     </varlistentry>
 
@@ -1289,7 +1289,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta la informació del rètol de l'emplaçament. De manera predeterminada, el rètol informatiu de l'emplaçament es troba a la part inferior esquerra de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta la informació del rètol de l'emplaçament. De manera predeterminada, el rètol informatiu de l'emplaçament es troba a la part inferior esquerra de la pantalla. Podeu canviar la seva posició mantenint premut el &BER; i arrossegant-lo a la posició nova.</para
 ></listitem>
     </varlistentry>
   </variablelist
@@ -1675,15 +1675,15 @@
 ></term>
     <listitem
 ><para
->Si seleccioneu aquest submenú, a continuació s'obrirà el Gestor de l'horitzó artificial. Aquest s'utilitza per a definir una o més regions en el mapa celeste que estan bloquejades a la vista des del vostre emplaçament actual (&ead;, arbres o edificis alts). La finestra es divideix en dues seccions: al costat esquerre hi ha la secció Regions, mentre que en el costat dret hi ha la secció Punts. Podeu afegir una nova regió prement el botó <guibutton
+>Si seleccioneu aquest submenú, a continuació s'obrirà el Gestor de l'horitzó artificial. Aquest s'utilitza per a definir una o més regions en el mapa celeste que estan bloquejades a la vista des del vostre emplaçament actual (&ead;, arbres o edificis alts). La finestra es divideix en dues seccions: al costat esquerre hi ha la secció Regions, mentre que en el costat dret hi ha la secció Punts. Podeu afegir una regió nova prement el botó <guibutton
 >+</guibutton
 > (Afegeix una regió) o la podeu treure, seleccionant-la a la llista de regions i després prement el botó <guibutton
 >-</guibutton
-> (Elimina la regió). Per tal de dibuixar una regió, necessitareu definir una llista de punts que abastin l'àrea bloquejada. Podeu afegir un nou punt prement el botó <guibutton
+> (Elimina la regió). Per tal de dibuixar una regió, necessitareu definir una llista de punts que abastin l'àrea bloquejada. Podeu afegir un punt nou prement el botó <guibutton
 >+</guibutton
-> (Afegeix un punt) des de la secció Punts correctes. També podeu eliminar un punt ressaltat de la llista de punts o els podeu netejar tots. Hi ha dues maneres d'afegir un nou punt a una regió seleccionada: manualment introduint les coordenades del punt o seleccionant-lo en el mapa celeste i després fent clic al botó <guibutton
+> (Afegeix un punt) des de la secció Punts correctes. També podeu eliminar un punt ressaltat de la llista de punts o els podeu netejar tots. Hi ha dues maneres d'afegir un punt nou a una regió seleccionada: manualment introduint les coordenades del punt o seleccionant-lo en el mapa celeste i després fent clic al botó <guibutton
 >Punts seleccionats</guibutton
->. Recordeu que cada punt és descrit per un conjunt de coordenades horitzontals: Az (azimut) i Alt (altitud). Si voleu modificar les coordenades d'un punt, només cal fer doble clic sobre el seu valor al quadre de text Az/Alt i escriure el nou valor. Els punts primer i últim hauran d'estar a l'horitzó. Els polígons hauran d'estar tancats per a ser considerats regions vàlides. El Gestor de l'horitzó artificial proporciona una manera fàcil de canviar el nom de les vostres regions. De manera predeterminada, les regions s'anomenen com: «Regió» a més d'un índex (&ead;, «Regió 1» o «Regió 2»). Per a canviar el nom d'una regió, només cal fer doble clic sobre el seu nom i després se us convidarà a completar un nou nom per a la regió. També podeu controlar quines regions estaran activades o desactivades marcant-les en el mapa amb un simple clic a la casella de selecció al davant de cada regió. Una vegada hàgiu definit les vostres regions desitjades, ho podreu aplicar prement el botó <guibutton
+>. Recordeu que cada punt és descrit per un conjunt de coordenades horitzontals: Az (azimut) i Alt (altitud). Si voleu modificar les coordenades d'un punt, només cal fer doble clic sobre el seu valor al quadre de text Az/Alt i escriure el valor nou. Els punts primer i últim hauran d'estar a l'horitzó. Els polígons hauran d'estar tancats per a ser considerats regions vàlides. El Gestor de l'horitzó artificial proporciona una manera fàcil de canviar el nom de les vostres regions. De manera predeterminada, les regions s'anomenen com: «Regió» a més d'un índex (&ead;, «Regió 1» o «Regió 2»). Per a canviar el nom d'una regió, només cal fer doble clic sobre el seu nom i després se us convidarà a completar un nom nou per a la regió. També podeu controlar quines regions estaran activades o desactivades marcant-les en el mapa amb un simple clic a la casella de selecció al davant de cada regió. Una vegada hàgiu definit les vostres regions desitjades, ho podreu aplicar prement el botó <guibutton
 >Aplica</guibutton
 >. Si voleu utilitzar aquestes regions un altre cop, en sessions d'astronomia posteriors, podeu desar-los de manera que la pròxima vegada que obriu el &kstars; estaran marcats automàticament al mapa celeste.</para
 ></listitem>
@@ -1706,7 +1706,7 @@
 ></term>
     <listitem
 ><para
->Seleccionant-lo s'obrirà la finestra Gestiona els observadors, la qual permet registrar un nombre d'observadors que estan utilitzant el &kstars; en aquest ordinador. Podeu afegir una nova entrada a la llista d'observadors, completant els camps obligatoris: <guilabel
+>Seleccionant-lo s'obrirà la finestra Gestiona els observadors, la qual permet registrar un nombre d'observadors que estan utilitzant el &kstars; en aquest ordinador. Podeu afegir una entrada nova a la llista d'observadors, completant els camps obligatoris: <guilabel
 >Nom:</guilabel
 > i <guilabel
 >Cognom:</guilabel
@@ -1714,7 +1714,7 @@
 >+</guibutton
 > (Afegeix un observador). Recordeu que el camp <guilabel
 >Contacte:</guilabel
-> és opcional, el &kstars; permet afegir un nou observador malgrat que el quadre de text <guilabel
+> és opcional, el &kstars; permet afegir un observador nou malgrat que el quadre de text <guilabel
 >Contacte:</guilabel
 > estigui buit. També podeu eliminar un observador de la llista utilitzant el botó <guibutton
 >-</guibutton
@@ -1739,9 +1739,9 @@
 ></term>
     <listitem
 ><para
->Selecciona un nou <link linkend="setgeo"
+>Selecciona un <link linkend="setgeo"
 >emplaçament geogràfic</link
->.</para
+> nou.</para
 ></listitem>
   </varlistentry>
 
@@ -1756,7 +1756,7 @@
 ></term>
     <listitem
 ><para
->Obriu la finestra Configura les dreceres, la qual permet modificar les dreceres del &kstars;. Podeu utilitzar l'esquema de dreceres predeterminat del &kstars; o definir el vostre propi esquema de dreceres. Per tal d'afegir una nova drecera personalitzada nova a una acció, cal fer clic al nom de l'acció i després prémer la casella de selecció <guibutton
+>Obriu la finestra Configura les dreceres, la qual permet modificar les dreceres del &kstars;. Podeu utilitzar l'esquema de dreceres predeterminat del &kstars; o definir el vostre propi esquema de dreceres. Per tal d'afegir una drecera personalitzada nova a una acció, cal fer clic al nom de l'acció i després prémer la casella de selecció <guibutton
 >Personalitzada:</guibutton
 >. Després, feu clic al botó al costat de la casella de selecció i introduïu la drecera que voleu utilitzar al &kstars;. També podeu eliminar una drecera prement el botó <guibutton
 >Elimina</guibutton
@@ -1816,7 +1816,7 @@
 >Següent</guibutton
 >, obtindreu la pàgina <guilabel
 >Escolliu l'emplaçament de casa vostra</guilabel
->. Aquí podeu seleccionar l'emplaçament d'inici exacte o una ciutat prop de l'emplaçament d'inici si la vostra localització exacta no es troba a la base de dades de ciutats del &kstars;. El fet de navegar per tota la llista no és gaire eficient i per tant, el &kstars; proporciona un mètode fàcil d'ús per a la selecció de la ciutat desitjada en poc temps. Podeu filtrar la llista de ciutats amb el nom de la ciutat, província i país. En donar més detalls sobre el vostre emplaçament, la mida de la llista s'anirà reduint a només les millors coincidències. Quan ressalteu una ciutat a la llista de ciutats, els quadres <guilabel
+>. Aquí podeu seleccionar l'emplaçament d'inici exacte o una ciutat prop de l'emplaçament d'inici si la vostra localització exacta no es troba a la base de dades de ciutats del &kstars;. El fet de navegar per tota la llista no és gaire eficient i, per tant, el &kstars; proporciona un mètode fàcil d'ús per a la selecció de la ciutat desitjada en poc temps. Podeu filtrar la llista de ciutats amb el nom de la ciutat, província i país. En donar més detalls sobre el vostre emplaçament, la mida de la llista s'anirà reduint a només les millors coincidències. Quan ressalteu una ciutat a la llista de ciutats, els quadres <guilabel
 >Longitud:</guilabel
 > i <guilabel
 >Latitud:</guilabel
@@ -1904,7 +1904,7 @@
 >[Tots]</term>
 <listitem
 ><para
->A les següents tres línies es mostren les hores de la sortida, posta i trànsit per a l'objecte sobre la data de simulació actual. </para
+>A les tres línies següents es mostren les hores de la sortida, posta i trànsit per a l'objecte sobre la data de simulació actual. </para
 ></listitem>
 </varlistentry>
 
@@ -1950,7 +1950,7 @@
 >Centra al telescopi</guibutton
 >. Per tal d'eliminar un valor de la llista, només haureu de seleccionar-lo i després prémer el botó <guibutton
 >Elimina</guibutton
->. Els vostres indicadors es desaran després de tancar la sessió actual i per tant els podreu veure cada vegada que utilitzeu el &kstars;. </para
+>. Els vostres indicadors es desaran després de tancar la sessió actual i, per tant, els podreu veure cada vegada que utilitzeu el &kstars;. </para
 ></listitem>
 </varlistentry>
 
@@ -1979,9 +1979,9 @@
 >Detalls</guibutton
 >, centrar l'objecte seleccionat al mapa utilitzant el botó <guibutton
 >Centra en el mapa</guibutton
-> o podeu anar a la següent estrella prement el botó <guibutton
+> o podeu anar a l'estrella següent prement el botó <guibutton
 >Següent</guibutton
->. Recordeu que quan es passi a la següent estrella, se centrarà automàticament en el mapa. A més, l'eina Encadena les estrelles ofereix adreces a les estrelles encadenades per a tots els objectes de la llista. </para
+>. Recordeu que quan es passi a l'estrella següent, se centrarà automàticament en el mapa. A més, l'eina Encadena les estrelles ofereix adreces a les estrelles encadenades per a tots els objectes de la llista. </para
 ></listitem>
 </varlistentry>
 
@@ -2080,7 +2080,7 @@
 
 <varlistentry>
 <term
->[Tots els objectes sense els del Sistema solar]</term>
+>[Tots els objectes sense els del sistema solar]</term>
 <listitem
 ><para
 ><guimenuitem
@@ -2091,7 +2091,7 @@
 
 <varlistentry>
 <term
->[Tots els objectes sense els del Sistema solar]</term>
+>[Tots els objectes sense els del sistema solar]</term>
 <listitem
 ><para
 ><guimenuitem
@@ -2511,7 +2511,7 @@
 ></term>
 <listitem
 ><para
->Afegeix un nou element observador als vostres registres de l'observació.</para
+>Afegeix un element observador nou als vostres registres de l'observació.</para
 ></listitem>
 </varlistentry>
 
@@ -2633,7 +2633,7 @@
 ></indexterm>
 
 <para
->Cadascuna de les següents pulsacions realitza una acció sobre l'<firstterm
+>Cadascuna de les pulsacions següents realitza una acció sobre l'<firstterm
 >objecte seleccionat</firstterm
 >. Aquest serà l'últim objecte sobre el qual s'ha fet clic (identificat en la barra d'estat). De manera alternativa, si manteniu premuda la tecla &Maj;, l'acció serà efectiva sobre l'objecte centrat.</para>
 

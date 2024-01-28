@@ -50,7 +50,7 @@
 >; quan es ressalta a una funció en el quadre Script actual, aquest plafó contindrà els elements per a especificar els valors per a qualsevol argument que requereixi aquesta funció. </para
 ><para
 >Al llarg de la part superior de la finestra, hi ha una fila de botons que operen sobre tot l'script. D'esquerra a dreta, són: <guibutton
->Nou script</guibutton
+>Script nou</guibutton
 >, <guibutton
 >Obre un script...</guibutton
 >, <guibutton
@@ -104,7 +104,7 @@
 >setClockScale</firstterm
 > per a això. Afegiu-la a l'script fent doble clic a sobre seu en el Navegador de funcions. El plafó Arguments de la funció contindrà un botó de selecció de valors de pas temporal per a establir-lo a l'hora desitjada per al rellotge de simulació. Canvieu el pas temporal a 3 hores. </para
 ><para
->BÉ, hem apuntat a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè esperi uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
+>Bé, hem apuntat a la Lluna i accelerat el rellotge. Ara voldríem ajustar l'script perquè esperi uns pocs segons mentre que es fa el seguiment de la Lluna. Afegiu la funció <firstterm
 >waitFor</firstterm
 > a l'script i empreu el plafó Arguments de la funció per a especificar que s'haurà d'esperar 20 segons abans de continuar. </para
 ><para

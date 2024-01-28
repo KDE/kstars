@@ -114,7 +114,7 @@ class Capture : public QWidget, public Ui::Capture
             REMOTE_PREVIEW
         } FilenamePreviewType;
 
-        Capture();
+        Capture(bool standAlone = false);
         ~Capture();
 
         /** @defgroup CaptureDBusInterface Ekos DBus Interface - Capture Module
@@ -535,6 +535,8 @@ class Capture : public QWidget, public Ui::Capture
 
         void openExposureCalculatorDialog();
 
+        void onStandAloneShow(QShowEvent* event);
+
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
     public slots:
@@ -689,7 +691,8 @@ class Capture : public QWidget, public Ui::Capture
          * @param filenamePreview if the job is to generate a preview filename
          * @return pointer to job created or nullptr otherwise.
          */
-        SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH, FilenamePreviewType filenamePreview = NOT_PREVIEW);
+        SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH,
+                               FilenamePreviewType filenamePreview = NOT_PREVIEW);
 
         /**
          * @brief jobEditFinished Editing of an existing job finished, update its
@@ -855,7 +858,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setHFR Receive the measured HFR value of the latest frame
          */
-        void setHFR(double newHFR, int);
+        void setHFR(double newHFR, int position, bool inAutofocus);
 
         // Filter
         void setFilterStatus(FilterState filterState);
@@ -1135,6 +1138,11 @@ class Capture : public QWidget, public Ui::Capture
         void updateCaptureFormats();
 
         /**
+         * @brief updateHFRCheckAlgo Update the in-sequence HFR check algorithm
+         */
+        void updateHFRCheckAlgo();
+
+        /**
          * @brief syncGUIToJob Update UI to job settings
          */
         void syncGUIToJob(SequenceJob *job);
@@ -1152,6 +1160,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // Change filter name in INDI
         void editFilterName();
+        bool editFilterNameInternal(const QStringList &labels, QStringList &newLabels);
 
         // ////////////////////////////////////////////////////////////////////
         // device control
@@ -1165,11 +1174,17 @@ class Capture : public QWidget, public Ui::Capture
         void setOffset(double value);
         double getOffset();
 
+        void setStandAloneGain(double value);
+        void setStandAloneOffset(double value);
+
         /**
          * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
          * @param nvp pointer to number property.
          */
         void processCCDNumber(INumberVectorProperty *nvp);
+
+        // Disable all the widgets that aren't used in stand-alone mode.
+        void initStandAlone();
 
         // ////////////////////////////////////////////////////////////////////
         // Attributes
@@ -1208,6 +1223,10 @@ class Capture : public QWidget, public Ui::Capture
 
         QSharedPointer<FilterManager> m_FilterManager;
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
+
+        bool m_standAlone {false};
+        bool m_standAloneUseCcdGain { true};
+        bool m_standAloneUseCcdOffset { true};
 };
 
 }

@@ -45,7 +45,7 @@
 >llei del quadrat invers</firstterm
 > per a la intensitat de llum, la quantitat de llum que rebem des d'un objecte decau amb el quadrat de la distància. Per tant, podem calcular la distància a un objecte si sabem tant la lluminositat que és en realitat (magnitud absoluta, «M») com el brillant que ens sembla a la terra (magnitud aparent; «m»). Podem definir el <firstterm
 >mòdul de la distància</firstterm
-> de la següent manera: </para
+> de la manera següent: </para
 ><para
 >Mòdul de la distància = M - m = 5 log<subscript
 >10</subscript
@@ -55,7 +55,7 @@
 >parsecs</link
 >. </para>
 <para
->Per a aquests objectes d'espelma estàndard especials, tenim una altra manera de conèixer la seva lluminositat intrínseca, i per tant podrem calcular la seva distància. </para>
+>Per a aquests objectes d'espelma estàndard especials, tenim una altra manera de conèixer la seva lluminositat intrínseca i, per tant, podrem calcular la seva distància. </para>
 <para
 >Les «espelmes estàndard» d'ús general en l'astronomia són: <itemizedlist>
 
@@ -71,7 +71,7 @@
 
 <listitem
 ><para
->Supernova de tipus Ia: Aquestes supernoves tenen una lluminositat molt ben definida, com a resultat de la física que les governa i per tant serveixen com espelmes estàndard.</para
+>Supernova de tipus Ia: Aquestes supernoves tenen una lluminositat molt ben definida, com a resultat de la física que les governa i, per tant, serveixen com espelmes estàndard.</para
 ></listitem>
 
 </itemizedlist>

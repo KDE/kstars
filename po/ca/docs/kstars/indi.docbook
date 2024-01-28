@@ -96,7 +96,7 @@
 <para
 >Podeu executar dispositius navegant per l'arbre de dispositius, seleccionant un dispositiu d'específic, i després fent clic al botó <guibutton
 >Executa el servei</guibutton
->. Podeu triar el mode d'operació, sigui local o servidor com s'ha definit anteriorment. El nombre de port és generat de forma aleatòria entre l'interval de 7.624 a 10.000. Per a especificar un port, feu clic a la columna del port al costat del controlador desitjat. El &kstars; permet múltiples controladors en execució sota un servidor INDI, i per tant un port. Seleccioneu múltiples controladors i premeu el botó <guibutton
+>. Podeu triar el mode d'operació, sigui local o servidor com s'ha definit anteriorment. El número de port és generat de forma aleatòria entre l'interval de 7.624 a 10.000. Per a especificar un port, feu clic a la columna del port al costat del controlador desitjat. El &kstars; permet múltiples controladors en execució sota un servidor INDI, i per tant un port. Seleccioneu múltiples controladors i premeu el botó <guibutton
 >Executa el servei</guibutton
 >. </para>
 
@@ -119,14 +119,14 @@
 <para
 >La majoria de telescopis s'equipen amb la interfície <hardware
 >RS232</hardware
-> per al control remot. Endolleu el connector RS232 del telescopi al port <hardware
+> per al control remot. Endolleu el connector RS232 del telescopi al port en <hardware
 >sèrie/USB</hardware
-> del vostre ordinador. Tradicionalment, el RS232 es connecta al port sèrie de l'ordinador, però molts portàtils nous els abandonen pels ports <hardware
+> del vostre ordinador. Tradicionalment, el RS232 es connecta al port en sèrie de l'ordinador, però molts portàtils nous els abandonen pels ports <hardware
 >USB/FireWire</hardware
 >, possiblement necessitareu obtenir un adaptador sèrie a USB per a emprar-lo amb portàtils nous. </para>
 
 <para
->Després de connectar el vostre telescopi amb el port sèrie/USB, gireu el vostre telescopi. És <emphasis
+>Després de connectar el vostre telescopi amb el port en sèrie/USB, gireu el vostre telescopi. És <emphasis
 >altament</emphasis
 > recomanat que descarregueu i instal·leu l'últim microprogramari per al controlador del vostre telescopi. </para>
 
@@ -649,7 +649,7 @@
 <itemizedlist>
 <listitem>
 <para
->Permisos: Totes les propietats poden habilitar sols lectura, sols escriptura o lectura i escriptura. Un exemple d'una propietat de lectura/escriptura és l'ascensió recta del telescopi. Podeu introduir una nova ascensió recta i el telescopi, basant-se en els valors actuals, orientarà o sincronitzarà amb la nova entrada. A més, quan s'orienta el telescopi, la seva ascensió recta s'actualitzarà i s'enviarà altra vegada cap al client. </para>
+>Permisos: Totes les propietats poden habilitar sols lectura, sols escriptura o lectura i escriptura. Un exemple d'una propietat de lectura/escriptura és l'ascensió recta del telescopi. Podeu introduir una ascensió recta nova i el telescopi, basant-se en els valors actuals, orientarà o sincronitzarà amb l'entrada nova. A més, quan s'orienta el telescopi, la seva ascensió recta s'actualitzarà i s'enviarà altra vegada cap al client. </para>
 </listitem>
 <listitem>
 <para
@@ -714,7 +714,7 @@
 </listitem>
 <listitem>
 <para
->Context: Les propietats numèriques poden acceptar i processar números en dos formats: decimal i sexagesimal. El format sexagesimal és pràctic per a expressar temps o coordenades equatorials/geogràfiques. Podeu emprar qualsevol dels dos formats a la vostra comoditat. Per exemple, tots els següents números són iguals: </para>
+>Context: Les propietats numèriques poden acceptar i processar números en dos formats: decimal i sexagesimal. El format sexagesimal és pràctic per a expressar temps o coordenades equatorials/geogràfiques. Podeu emprar qualsevol dels dos formats a la vostra comoditat. Per exemple, tots els números següents són iguals: </para>
 <itemizedlist>
 <listitem
 ><para
@@ -1010,7 +1010,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 >Orienta</command
 > fa que el telescopi es desplaci a un objectiu en particular, i una vegada trobar, mantingui el seu seguiment a un ritme <emphasis
 >sideri</emphasis
-> (&ead;, el ritme al que les estrelles es mouen en el cel). Això funciona bé amb les estrelles, objectes Messier i amb qualsevol cosa que estigui fora del nostre Sistema Solar. Però els objectes del Sistema Solar viatgen d'una manera diferent a través del cel, i per això utilitzem l'orde <command
+> (&ead;, el ritme al que les estrelles es mouen en el cel). Això funciona bé amb les estrelles, objectes Messier i amb qualsevol cosa que estigui fora del nostre sistema solar. Però els objectes del sistema solar viatgen d'una manera diferent a través del cel, i per això utilitzem l'orde <command
 >Track</command
 > amb ells per a seguir el seu moviment. </para>
 <para
@@ -1038,7 +1038,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 <para
 >Quan intento <guibutton
 >Connecta</guibutton
->, el &kstars; informa que el telescopi no està connectat al port sèrie/USB. Què puc fer? </para>
+>, el &kstars; informa que el telescopi no està connectat al port en sèrie/USB. Què puc fer? </para>
 </question>
 <answer>
 <para
@@ -1101,7 +1101,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 </question>
 <answer>
 <para
->Aquest comportament sobretot es deu a valors incorrectes, si us plau, verifiqueu el següent llistat:</para>
+>Aquest comportament sobretot es deu a valors incorrectes, si us plau, verifiqueu el llistat següent:</para>
 <orderedlist>
 <listitem>
 <para

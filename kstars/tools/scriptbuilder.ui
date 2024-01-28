@@ -197,7 +197,7 @@
         <string>Test Script</string>
        </property>
        <property name="whatsThis">
-        <string>Executes the script in the KStars main window.  You may want to reposition the Script Builder tool so that the Sky map is visible.  </string>
+        <string>Executes the script in the KStars main window. You may want to reposition the Script Builder tool so that the Sky map is visible.</string>
        </property>
        <property name="iconSize">
         <size>
@@ -276,7 +276,7 @@
             </sizepolicy>
            </property>
            <property name="whatsThis">
-            <string>This shows the list of commands present in the current working script.  Highlighting any command will present a widget where you can specify its arguments below.  Use the action buttons at right to copy, remove, or change the position of the selected command.  </string>
+            <string>This shows the list of commands present in the current working script. Highlighting any command will present a widget where you can specify its arguments below. Use the action buttons at right to copy, remove, or change the position of the selected command.</string>
            </property>
           </widget>
          </item>

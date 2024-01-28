@@ -67,7 +67,8 @@
 
 #define MAXIMUM_SOLVER_ITERATIONS 10
 #define CAPTURE_RETRY_DELAY       10000
-#define PAH_CUTOFF_FOV            10 // Minimum FOV width in arcminutes for PAH to work
+#define CAPTURE_ROTATOR_DELAY     5000  // After 5 seconds estimated value should be not bad
+#define PAH_CUTOFF_FOV            10    // Minimum FOV width in arcminutes for PAH to work
 #define CHECK_PAH(x) \
     m_PolarAlignmentAssistant && m_PolarAlignmentAssistant->x
 #define RUN_PAH(x) \
@@ -138,7 +139,18 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     vlayout->addWidget(m_AlignView.get());
     alignWidget->setLayout(vlayout);
 
-    connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
+    connect(solveB, &QPushButton::clicked, this, [this]()
+    {
+        if (m_TargetCoord.ra().degree() < 0) // no object selected yet (see default constructor skypoint())
+        {
+            appendLogText(i18n("No Target - Please pick an object."));
+        }
+        else
+        {
+            m_DestinationCoord = m_TargetCoord;
+            captureAndSolve();
+        }
+    });
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
 
     // Effective FOV Edit
@@ -1397,6 +1409,15 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
 
 bool Align::captureAndSolve()
 {
+    if (m_TargetCoord.ra().degree() < 0) // no object selected yet (see default constructor skypoint())
+    {
+        appendLogText(i18n("No Target - Please pick an object."));
+        return false;
+    }
+    qCDebug(KSTARS_EKOS_ALIGN) << "Capture&Solve - Target RA:" <<  m_TargetCoord.ra().toHMSString(true)
+                               << " DE:" << m_TargetCoord.dec().toDMSString(true);
+    qCDebug(KSTARS_EKOS_ALIGN) << "Capture&Solve - Destination RA:" <<  m_DestinationCoord.ra().toHMSString(true)
+                               << " DE:" << m_DestinationCoord.dec().toDMSString(true);
     m_AlignTimer.stop();
     m_CaptureTimer.stop();
 
@@ -1455,17 +1476,15 @@ bool Align::captureAndSolve()
         }
     }
 
-    if (m_Camera->getDriverInfo()->getClientManager()->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(),
-            "CCD1") == B_NEVER)
+    auto clientManager = m_Camera->getDriverInfo()->getClientManager();
+    if (clientManager && clientManager->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(), "CCD1") == B_NEVER)
     {
         if (KMessageBox::questionYesNo(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
-            m_Camera->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(),
-                    "CCD1");
-            m_Camera->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(),
-                    "CCD2");
+            clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD1");
+            clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD2");
         }
         else
         {
@@ -1496,10 +1515,35 @@ bool Align::captureAndSolve()
     // Let rotate the camera BEFORE taking a capture in [Capture & Solve]
     if (!m_SolveFromFile && m_Rotator && m_Rotator->absoluteAngleState() == IPS_BUSY)
     {
-        appendLogText(i18n("Cannot capture while rotator is busy. Retrying in %1 seconds...",
-                           CAPTURE_RETRY_DELAY / 1000));
-        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
-        return false;
+        int TimeOut = CAPTURE_ROTATOR_DELAY;
+        switch (m_CaptureTimeoutCounter)
+        {
+            case 0:// Set start time & start angle and estimate rotator time frame during first timeout
+            {
+                auto absAngle = 0;
+                if ((absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE")->at(0)->getValue()))
+                {
+                    RotatorUtils::Instance()->startTimeFrame(absAngle);
+                    m_estimateRotatorTimeFrame = true;
+                    appendLogText(i18n("Cannot capture while rotator is busy: Time delay estimate started..."));
+                }
+                m_CaptureTimer.start(TimeOut);
+                break;
+            }
+            case 1:// Use estimated time frame (in updateProperty()) for second timeout
+            {
+                TimeOut = m_RotatorTimeFrame * 1000;
+                [[fallthrough]];
+            }
+            default:
+            {
+                TimeOut *= m_CaptureTimeoutCounter; // Extend Timeout in case estimated value is too short
+                m_estimateRotatorTimeFrame = false;
+                appendLogText(i18n("Cannot capture while rotator is busy: Retrying in %1 seconds...", TimeOut / 1000));
+                m_CaptureTimer.start(TimeOut);
+            }
+        }
+        return true; // Return value is used in 'Scheduler::startAstrometry()'
     }
 
     m_AlignView->setBaseSize(alignWidget->size());
@@ -1558,7 +1602,7 @@ bool Align::captureAndSolve()
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    differentialSlewingActivated = false;
+    RotatorGOTO = false;
 
     setState(ALIGN_PROGRESS);
     emit newStatus(state);
@@ -2052,7 +2096,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         m_EffectiveFOVPending = false;
     }
 
-    m_AlignCoord.setRA0(ra / 15.0);
+    m_AlignCoord.setRA0(ra / 15.0);  // set catalog coordinates
     m_AlignCoord.setDec0(dec);
 
     // Convert to JNow
@@ -2063,6 +2107,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Do not update diff if we are performing load & slew.
     if (!m_SolveFromFile)
     {
+        /* DEBUG Induce persistant error for testing differential slewing
+        ra = ra - 0.05;
+        m_AlignCoord.setRA0(ra / 15.0);
+        dec = dec + 0.01;
+        m_AlignCoord.setDec0(dec);
+        m_AlignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd()); */
+
         pixScaleOut->setText(QString::number(pixscale, 'f', 2));
         calculateAlignTargetDiff();
     }
@@ -2093,7 +2144,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             auto rotation = ccdRotation->findWidgetByName("CCD_ROTATION_VALUE");
             if (rotation)
             {
-                ClientManager *clientManager = m_Camera->getDriverInfo()->getClientManager();
+                auto clientManager = m_Camera->getDriverInfo()->getClientManager();
                 rotation->setValue(orientation);
                 clientManager->sendNewProperty(ccdRotation);
 
@@ -2648,7 +2699,7 @@ void Align::updateProperty(INDI::Property prop)
                         if (!didSlewStart())
                         {
                             // If mount has not started slewing yet, then skip
-                            //qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
+                            // qCDebug(KSTARS_EKOS_ALIGN) << "Mount slew planned, but not started slewing yet...";
                             break;
                         }
 
@@ -2665,6 +2716,7 @@ void Align::updateProperty(INDI::Property prop)
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
+                            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
                             m_CaptureTimer.start(alignSettlingTime->value());
                             return;
                         }
@@ -2682,8 +2734,8 @@ void Align::updateProperty(INDI::Property prop)
 
                             if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
+                            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
                             m_CaptureTimer.start(alignSettlingTime->value());
-                            return;
                         }
                         break;
 
@@ -2743,7 +2795,8 @@ void Align::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("ABS_ROTATOR_ANGLE"))
     {
         auto nvp = prop.getNumber();
-        currentRotatorPA = RotatorUtils::Instance()->calcCameraAngle(nvp->np[0].value, false);
+        double RAngle = nvp->np[0].value;
+        currentRotatorPA = RotatorUtils::Instance()->calcCameraAngle(RAngle, false);
         /*QString logtext = "Alignstate: " + QString::number(state)
                         + " IPSstate: " + QString::number(nvp->s)
                         + " Raw Rotator Angle:" + QString::number(nvp->np[0].value)
@@ -2755,7 +2808,7 @@ void Align::updateProperty(INDI::Property prop)
         if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_OK)
         {
             auto diff = fabs(RotatorUtils::Instance()->DiffPA(currentRotatorPA - m_TargetPositionAngle)) * 60;
-            qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
+            qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << RAngle << "Current PA:" << currentRotatorPA
                                        << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:"
                                        << Options::pAOffset();
 
@@ -2764,6 +2817,7 @@ void Align::updateProperty(INDI::Property prop)
                 appendLogText(i18n("Rotator reached camera position angle."));
                 // Check angle once again (no slew -> no settle time)
                 // QTimer::singleShot(alignSettlingTime->value(), this, &Ekos::Align::executeGOTO);
+                RotatorGOTO = true; // Flag for SlewToTarget()
                 executeGOTO();
             }
             else
@@ -2781,6 +2835,10 @@ void Align::updateProperty(INDI::Property prop)
                     }
                 });
             }
+        }
+        else if (m_estimateRotatorTimeFrame) // Estimate time frame during first timeout
+        {
+            m_RotatorTimeFrame = RotatorUtils::Instance()->calcTimeFrame(RAngle);
         }
     }
     else if (prop.isNameMatch("DOME_MOTION"))
@@ -2840,6 +2898,9 @@ void Align::executeGOTO()
 {
     if (m_SolveFromFile)
     {
+        // Differential slew uses target coords to move the scope and destination coords get lost.
+        // Thus we have to remember these coords for later
+        m_DestinationCoord = m_AlignCoord;
         m_TargetCoord = m_AlignCoord;
 
         qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file. Setting Target Coordinates align coords. RA:"
@@ -2915,16 +2976,15 @@ void Align::SlewToTarget()
         }
 #endif
 
-        // Do we perform a regular sync or use differential slewing?
-        if (Options::astrometryDifferentialSlewing())
+        if (Options::astrometryDifferentialSlewing())  // Differential slew: Target coords are hijacked to move the telescope
         {
-            dms m_TargetDiffRA = m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra());
-            dms m_TargetDiffDE = m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec());
-            m_TargetCoord.setRA(m_TargetCoord.ra() - m_TargetDiffRA);
-            m_TargetCoord.setDec(m_TargetCoord.dec() - m_TargetDiffDE);
-            qCDebug(KSTARS_EKOS_ALIGN) << "Using differential slewing. Setting Target Coordinates to RA:"
-                                       << m_TargetCoord.ra().toHMSString()
-                                       << "DE:" << m_TargetCoord.dec().toDMSString();
+            if (!RotatorGOTO) // Only for GOTO's originating from telescope
+            {
+                m_TargetCoord.setRA(m_TargetCoord.ra() - m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra()));
+                m_TargetCoord.setDec(m_TargetCoord.dec() - m_AlignCoord.dec().deltaAngle(m_DestinationCoord.dec()));
+                qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Target RA:" << m_TargetCoord.ra().toHMSString()
+                                           << " DE:" << m_TargetCoord.dec().toDMSString();
+            }
             Slew();
         }
         else
@@ -2974,7 +3034,7 @@ bool Align::loadAndSlew(QString fileURL)
 
     dirPath = fileInfo.absolutePath();
 
-    differentialSlewingActivated = false;
+    RotatorGOTO = false;
 
     m_SolveFromFile = true;
 
@@ -3006,7 +3066,7 @@ bool Align::loadAndSlew(QString fileURL)
 
 bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 {
-    differentialSlewingActivated = false;
+    RotatorGOTO = false;
     m_SolveFromFile = true;
     RUN_PAH(stopPAHProcess());
     slewR->setChecked(true);
@@ -3293,10 +3353,12 @@ void Align::setCaptureStatus(CaptureState newState)
                 qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (m_Mount->clearAlignmentModel() ?
                                            "successful." : "failed.");
             }
-
+            if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
+                appendLogText(i18n("Settling..."));
+            m_resetCaptureTimeoutCounter = true; // Enable rotator time frame estimate in 'captureandsolve()'
             m_CaptureTimer.start(alignSettlingTime->value());
             break;
-
+        // Is this needed anymore with new flip policy? (sb 2023-10-20)
         // On meridian flip, reset Target Position Angle to fully rotated value
         // expected after MF so that we do not end up with reversed camera rotation
         case CAPTURE_MERIDIAN_FLIP:
@@ -3765,7 +3827,20 @@ void Align::calculateAlignTargetDiff()
     m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;
     m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;
 
-    dms RADiff(fabs(m_TargetDiffRA) / 3600.0), DEDiff(m_TargetDiffDE / 3600.0);
+    if (!Options::astrometryDifferentialSlewing()) // Normal align: Target coords are destinations coords
+    {
+        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;  // arcsec
+        m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;  // arcsec
+    }
+    else // Differential slew: Target coords are hijacked to move the telescope ->SlewToTarget()
+    {
+        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra())).Degrees() * 3600;  // arcsec
+        m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_DestinationCoord.dec())).Degrees() * 3600;  // arcsec
+        qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Solution RA:" << m_AlignCoord.ra().toHMSString()
+                                   << " DE:" << m_AlignCoord.dec().toDMSString();
+        qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Destination RA:" << m_DestinationCoord.ra().toHMSString()
+                                   << " DE:" << m_DestinationCoord.dec().toDMSString();
+    }
 
     m_TargetDiffTotal = sqrt(m_TargetDiffRA * m_TargetDiffRA + m_TargetDiffDE * m_TargetDiffDE);
 
@@ -4464,6 +4539,11 @@ void Align::processCaptureTimeout()
         else
         {
             setAlignTableResult(ALIGN_RESULT_FAILED);
+            if (m_resetCaptureTimeoutCounter)
+            {
+                m_resetCaptureTimeoutCounter = false;
+                m_CaptureTimeoutCounter = 0;
+            }
             captureAndSolve();
         }
     }

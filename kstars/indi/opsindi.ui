@@ -346,7 +346,7 @@
           <item>
            <widget class="QCheckBox" name="kcfg_useExternalSkyMap">
             <property name="text">
-             <string>external Sky Map (experimental)</string>
+             <string>External Sky Map (experimental)</string>
             </property>
            </widget>
           </item>

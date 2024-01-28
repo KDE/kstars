@@ -81,6 +81,11 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
 
         QString getTextStatus(double R2 = 0) const override;
 
+        int currentStep() const override
+        {
+            return numSteps;
+        }
+
     private:
 
         // Called in newMeasurement. Sets up the next iteration.
@@ -97,6 +102,9 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
 
         // Get the minimum number of datapoints before attempting the first curve fit
         int getCurveMinPoints();
+
+        // Analyze data for donuts are remove
+        void removeDonuts();
 
         // Calc the next step size for Linear1Pass for FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE
         int getNextStepSize();
@@ -725,6 +733,10 @@ int LinearFocusAlgorithm::getCurveMinPoints()
     if (params.focusWalk == Focus::FOCUS_WALK_CLASSIC)
         return params.initialOutwardSteps + 2;
 
+    // For donut busting don't try drawing an intermediate curve... as we need to scrub data first
+    if (params.donutBuster)
+        return params.numSteps;
+
     return params.numSteps / 2 + 2;
 }
 
@@ -771,6 +783,9 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
         {
             // Hyperbola or Parabola so use the LM solver
             auto goal = getGoal(numSteps);
+            // Check for Donuts
+            if (params.donutBuster)
+                removeDonuts();
             params.curveFitting->fitCurve(goal, positions, values, weights, pass1Outliers, params.curveFit, params.useWeights,
                                           params.optimisationDirection);
 
@@ -796,6 +811,98 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
 
     int nextStepSize = getNextStepSize();
     return completeIteration(nextStepSize, foundFit, minPos, minVal);
+}
+
+// Check for donuts
+// Assumption is that we are starting near to focus so that we should have a reasonable v-curve
+// near the central datapoints but the wings may contain donuts=poor quality data.
+// 1. Make sure we have enough data to work with
+// 2. Find the central minimum datapoint
+// 3. Move outwards on each side of the minimum checking the next datapoint. If value drops this could be bad data
+// Only remove the wings - bad data near the centre won't be filtered out.
+void LinearFocusAlgorithm::removeDonuts()
+{
+    // 1. We need at least 7 datapoints to do any analysis
+    if (values.size() <= 7)
+        return;
+
+    QVector<bool> queryOutliers = pass1Outliers;
+
+    // 2. Firstly find the central minimum datapoint
+    int centre = values.size() / 2;
+    int minElement = centre;
+    double minValue = values[centre];
+    for (int i = 1; i < 4; i++)
+    {
+        if (values[centre + i] < minValue)
+        {
+            minValue = values[centre + i];
+            minElement = centre + i;
+        }
+        if (values[centre - i] < minValue)
+        {
+            minValue = values[centre - i];
+            minElement = centre - i;
+        }
+    }
+
+    // 3a. Move outward from the central minimum checking for increasing values
+    double threshold = values[minElement];
+    double nextValue, deltaValue;
+    double tolerance = 0.5; //
+    for (int i = minElement; i > 0; i--)
+    {
+        nextValue = values[i - 1];
+        if (nextValue < threshold)
+            // Smaller value indicates bad data
+            queryOutliers[i - 1] = true;
+        else
+        {
+            deltaValue = (nextValue - values[i]) * tolerance;
+            threshold = nextValue + deltaValue;
+        }
+    }
+
+    // Starting at the furthest outward point, move inward to minimum point, marking bad data (donuts) as outliers
+    for (int i = 0; i < minElement - 3; i++)
+    {
+        if (queryOutliers[i])
+            pass1Outliers[i] = true;
+        else
+            // Stop the process at the first good datapoint - don't discard all bad data
+            break;
+    }
+
+    // 3b. Move inward from the central minimum checking for increasing values
+    threshold = values[minElement];
+    for (int i = minElement; i < values.size() - 1; i++)
+    {
+        nextValue = values[i + 1];
+        if (nextValue < threshold)
+            // Smaller value indicates bad data
+            queryOutliers[i + 1] = true;
+        else
+        {
+            deltaValue = (nextValue - values[i]) * tolerance;
+            threshold = nextValue + deltaValue;
+        }
+    }
+
+    // Starting at the furthest outward point, move inward to minimum point, marking bad data (donuts) as outliers
+    for (int i = values.size() - 1; i > minElement + 3; i--)
+    {
+        if (queryOutliers[i])
+            pass1Outliers[i] = true;
+        else
+            // Stop the process at the first good datapoint - don't discard all bad data
+            break;
+    }
+
+    QString str;
+    for (int i = pass1Outliers.size() - 1; i >= 0; i--)
+        str.append((pass1Outliers[i]) ? 'Y' : 'N');
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Donut analysis: %1").arg(str);
+
 }
 
 // Function to calculate the next step size for LINEAR1PASS for walks: FOCUS_WALK_FIXED_STEPS and FOCUS_WALK_CFZ_SHUFFLE

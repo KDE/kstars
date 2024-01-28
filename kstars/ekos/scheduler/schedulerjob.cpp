@@ -534,11 +534,9 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
     return true;
 }
 
-int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
+bool SchedulerJob::moonSeparationOK(QDateTime const &when) const
 {
-    if (moon == nullptr) return 100;
-
-    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
+    if (moon == nullptr) return true;
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
@@ -555,90 +553,12 @@ int16_t SchedulerJob::getMoonSeparationScore(QDateTime const &when) const
     KSNumbers numbers(ltWhen.djd());
     o.updateCoordsNow(&numbers);
 
-    // Update moon
-    //ut = getGeo()->LTtoUT(ltWhen);
-    //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
-    //LST = getGeo()->GSTtoLST(ut.gst());
     CachingDms LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
     moon->updateCoords(&numbers, true, SchedulerModuleState::getGeo()->lat(), &LST, true);
 
-    double const moonAltitude = moon->alt().Degrees();
-
-    // Lunar illumination %
-    double const illum = moon->illum() * 100.0;
-
-    // Moon/Sky separation p
     double const separation = moon->angularDistanceTo(&o).Degrees();
 
-    // Zenith distance of the moon
-    double const zMoon = (90 - moonAltitude);
-    // Zenith distance of target
-    double const zTarget = (90 - o.alt().Degrees());
-
-    int16_t score = 0;
-
-    // If target = Moon, or no illuminiation, or moon below horizon, return static score.
-    if (zMoon == zTarget || illum == 0 || zMoon >= 90)
-        score = 100;
-    else
-    {
-        // JM: Some magic voodoo formula I came up with!
-        double moonEffect = (pow(separation, 1.7) * pow(zMoon, 0.5)) / (pow(zTarget, 1.1) * pow(illum, 0.5));
-
-        // Limit to 0 to 100 range.
-        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);
-
-        if (getMinMoonSeparation() > 0)
-        {
-            if (separation < getMinMoonSeparation())
-                score = BAD_SCORE * 5;
-            else
-                score = moonEffect;
-        }
-        else
-            score = moonEffect;
-    }
-
-    // Limit to 0 to 20
-    score /= 5.0;
-
-    //qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' target is %L3 degrees from Moon (score %2).")
-    //    .arg(getName())
-    //    .arg(separation, 0, 'f', 3)
-    //    .arg(QString::asprintf("%+d", score));
-
-    return score;
-}
-
-
-double SchedulerJob::getCurrentMoonSeparation() const
-{
-    if (moon == nullptr) return 180.0;
-
-    // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-
-    // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
-    KStarsDateTime ltWhen(getLocalTime());
-
-    // Create a sky object with the target catalog coordinates
-    SkyPoint const target = getTargetCoords();
-    SkyObject o;
-    o.setRA0(target.ra0());
-    o.setDec0(target.dec0());
-
-    // Update RA/DEC of the target for the current fraction of the day
-    KSNumbers numbers(ltWhen.djd());
-    o.updateCoordsNow(&numbers);
-
-    // Update moon
-    //ut = getGeo()->LTtoUT(ltWhen);
-    //KSNumbers ksnum(ut.djd()); // BUG: possibly LT.djd() != UT.djd() because of translation
-    //LST = getGeo()->GSTtoLST(ut.gst());
-    CachingDms LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
-    moon->updateCoords(&numbers, true, SchedulerModuleState::getGeo()->lat(), &LST, true);
-
-    // Moon/Sky separation p
-    return moon->angularDistanceTo(&o).Degrees();
+    return (separation >= getMinMoonSeparation());
 }
 
 QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet, int increment,
@@ -712,7 +632,7 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
             // Don't test proximity to dawn in this situation, we only cater for altitude here
 
             // Continue searching if Moon separation is not good enough
-            if (0 < getMinMoonSeparation() && getMoonSeparationScore(ltOffset) < 0)
+            if (0 < getMinMoonSeparation() && !moonSeparationOK(ltOffset))
             {
                 if (checkIfConstraintsAreMet)
                     continue;

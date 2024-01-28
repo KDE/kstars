@@ -37,7 +37,7 @@
         <string>Record stream for specified duration in seconds</string>
        </property>
        <property name="text">
-        <string>Duration</string>
+        <string>Duration:</string>
        </property>
       </widget>
      </item>
@@ -163,7 +163,7 @@
         <string>Record stream until this many frames are captured</string>
        </property>
        <property name="text">
-        <string>Frames</string>
+        <string>Frames:</string>
        </property>
       </widget>
      </item>
@@ -191,7 +191,7 @@
       <string>Record stream until manually stopped</string>
      </property>
      <property name="text">
-      <string>Until Stopped</string>
+      <string>Until stopped</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -212,7 +212,7 @@
 &lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string>File name</string>
+      <string>File name:</string>
      </property>
     </widget>
    </item>

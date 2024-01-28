@@ -57,9 +57,9 @@
 >dret</mousebutton
 > sobre l'objecte. Podeu afegir enllaços personalitzats a l'objecte amb el botó <guibutton
 >Afegeix un enllaç...</guibutton
->. Aquest us obrirà una finestra en la qual podreu omplir l'&URL; i el text per al nou enllaç (també podreu provar l'&URL; en el navegador des d'aquesta finestra). Cada vegada que afegiu un &URL; personalitzat a un objecte determinat, sereu capaç de triar el tipus de recurs utilitzant el botó <guibutton
+>. Aquest us obrirà una finestra en la qual podreu omplir l'&URL; i el text per a l'enllaç nou (també podreu provar l'&URL; en el navegador des d'aquesta finestra). Cada vegada que afegiu un &URL; personalitzat a un objecte determinat, sereu capaç de triar el tipus de recurs utilitzant el botó <guibutton
 >Tipus de recurs</guibutton
->. Cal tenir present que la personalització de l'enllaç pot facilitar que aquest apunti a un fitxer en el vostre disc local, de manera que podreu emprar aquesta característica per a indexar les vostres imatges astronòmiques personals o observar els registres d'observació. </para>
+>. Cal tenir present que la personalització de l'enllaç pot facilitar que aquest apunti a un fitxer en el vostre disc local, de manera que podreu emprar aquesta característica per a indexar les vostres imatges astronòmiques personals o els registres d'observació. </para>
 <para
 >També podeu modificar o eliminar qualsevol enllaç utilitzant els botons <guibutton
 >Edita l'enllaç...</guibutton
@@ -86,7 +86,7 @@ for solar system objects -->
 ><para
 ><guimenuitem
 >SkyView</guimenuitem
->: Proveeix imatges dels rastreigs sobre tot el cel que es fan realitzant en dotzenes de parts diferents de l'espectre, des de raigs gamma fins a la ràdio. La interfície del &kstars; recuperarà una imatge des de qualsevol d'aquests rastreig, centrat en l'objecte seleccionat. </para
+>: Proveeix imatges dels rastreigs sobre tot el cel que es fan realitzant en dotzenes de parts diferents de l'espectre, des de raigs gamma fins a la ràdio. La interfície del &kstars; recuperarà una imatge des de qualsevol d'aquests rastreigs, centrat en l'objecte seleccionat. </para
 ></listitem>
 <listitem
 ><para

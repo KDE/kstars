@@ -70,7 +70,7 @@
 <qandaentry>
 <question>
 <para
->Com puc afegir un nou emplaçament personalitzat al &kstars;? </para>
+>Com puc afegir un emplaçament nou personalitzat al &kstars;? </para>
 </question>
 <answer>
 <para
@@ -83,7 +83,7 @@
 <qandaentry>
 <question>
 <para
->He afegit un emplaçament a mida al &kstars; que ja no vull més. Com l'elimino del programa? </para>
+>He afegit un emplaçament a mida al &kstars; que ja no el vull més. Com l'elimino del programa? </para>
 </question>
 <answer>
 <para
@@ -100,7 +100,7 @@
 </question>
 <answer>
 <para
->Quan la vista està en moviment, el &kstars; haurà de tornar a calcular les coordenades dels píxels de tots els objectes en la seva base de dades, el qual implica forts càlculs de trigonometria. Quan desplaceu la vista (sigui amb les tecles de cursor o arrossegant-la amb el ratolí), la vista es torna lenta i poc precisa, per culpa que l'ordinador no pot realitzar totes les operacions que se li demanen. En excloure molts dels objectes, l'ordinador redueix aquesta càrrega i el desplaçament és molt més ràpid i suau. Seguint aquest plantejament podeu desactivar aquesta opció a la finestra <guilabel
+>Quan la vista està en moviment, el &kstars; haurà de tornar a calcular les coordenades dels píxels de tots els objectes en la seva base de dades, el qual implica forts càlculs de trigonometria. Quan desplaceu la vista (sigui amb les tecles de cursor o arrossegant-la amb el ratolí), la vista es torna lenta i poc precisa, per culpa que l'ordinador no pot efectuar totes les operacions que se li demanen. En excloure molts dels objectes, l'ordinador redueix aquesta càrrega i el desplaçament és molt més ràpid i suau. Seguint aquest plantejament podeu desactivar aquesta opció a la finestra <guilabel
 >Configuració - &kstars;</guilabel
 > o fins i tot personalitzar quins objectes s'ocultaran. </para>
 </answer>

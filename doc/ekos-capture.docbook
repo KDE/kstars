@@ -343,6 +343,11 @@
         <para>
             To edit a job, double click it. You will notice the add button <inlinemediaobject><imageobject><imagedata fileref="list-add.png" format="PNG"/></imageobject></inlinemediaobject> now changed to check mark button <inlinemediaobject><imageobject><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject></inlinemediaobject>. Make your changes on the left-hand side of the CCD module and once done, click on the check mark button. To cancel a job edit, click anywhere on the empty space within the sequence queue table.
         </para>
+        <important>
+            <para>
+              <emphasis role="bold">Editing running jobs</emphasis>: When Capture is running, or when the Scheduler is running, you cannot edit the sequence queue or a .esq file on disk using the Capture tab. However, the scheduler tab does have a Capture Sequence Editor tool that can be used to edit .esl files on disk, or create new ones.
+            </para>
+        </important>
         <para>
             If your camera supports live video feed, then you can click the <guibutton>Live Video</guibutton> button to start streaming. The video stream window enables recording and subframing of the video stream. For more information, check the video below:
         </para>

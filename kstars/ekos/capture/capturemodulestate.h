@@ -31,6 +31,16 @@ class FITSData;
 namespace Ekos
 {
 
+// Typedef for HFR Check algorithms.
+typedef enum
+{
+    HFR_CHECK_LAST_AUTOFOCUS, /* Use last Autofocus as reference   */
+    HFR_CHECK_FIXED,          /* User supplied fixed reference     */
+    HFR_CHECK_MEDIAN_MEASURE, /* Use median algorithm as reference */
+    HFR_CHECK_MAX_ALGO        /* Max counter for enum              */
+} HFR_CHECK_ALGORITHM;
+constexpr double HFR_CHECK_DEFAULT_THRESHOLD = 10.0;
+
 class SequenceJob;
 class SequenceQueue;
 class CaptureDeviceAdaptor;
@@ -96,11 +106,11 @@ class CaptureModuleState: public QObject
             CAPTURE_FOCUS_ERROR,      /* NOT USED.                                                                  */
         } CAPTUREResult;
 
-    /* Interval with double lower and upper bound */
-    typedef struct
-    {
-        double min, max;
-    } DoubleRange;
+        /* Interval with double lower and upper bound */
+        typedef struct
+        {
+            double min, max;
+        } DoubleRange;
 
         CaptureModuleState(QObject *parent = nullptr);
 
@@ -384,15 +394,6 @@ class CaptureModuleState: public QObject
             return m_ObserverName;
         }
         void setObserverName(const QString &value);
-
-        double getFileHFR() const
-        {
-            return m_fileHFR;
-        }
-        void setFileHFR(double newFileHFR)
-        {
-            m_fileHFR = newFileHFR;
-        }
 
         bool ignoreJobProgress() const
         {
@@ -693,6 +694,11 @@ class CaptureModuleState: public QObject
         void updateHFRThreshold();
 
         /**
+         * @brief get the focus filter for the currently active capture filter
+         */
+        QString getFocusFilterName();
+
+        /**
          * @brief Slot that listens to guiding deviations reported by the Guide module.
          *
          * Depending on the current status, it triggers several actions:
@@ -870,7 +876,7 @@ class CaptureModuleState: public QObject
         {
             m_CaptureScriptType = value;
         }
-                double targetADU() const
+        double targetADU() const
         {
             return m_targetADU;
         }
@@ -885,7 +891,7 @@ class CaptureModuleState: public QObject
         void setTargetADUTolerance(double value)
         {
             m_TargetADUTolerance = value;
-        }        
+        }
         SkyPoint &wallCoord()
         {
             return m_wallCoord;
@@ -978,7 +984,7 @@ class CaptureModuleState: public QObject
         // new log text for the module log window
         void newLog(const QString &text);
 
-private:
+    private:
         // Container for the list of SequenceJobs.
         QSharedPointer<SequenceQueue> m_sequenceQueue;
         // Currently active sequence job.
@@ -997,8 +1003,6 @@ private:
         QString m_CurrentFilterName { "--" };
         // holds the filter name used for focusing or "--" if the current one is used
         QString m_CurrentFocusFilterName { "--" };
-        // HFR value as loaded from the sequence file
-        double m_fileHFR { 0 };
         // Captured Frames Map
         CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?

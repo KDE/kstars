@@ -130,7 +130,7 @@
          <string>Have problem with Ekos? Turn on logging for Ekos modules that exhibit issues.</string>
         </property>
         <property name="text">
-         <string>Ekos</string>
+         <string>Ekos:</string>
         </property>
        </widget>
       </item>
@@ -292,7 +292,7 @@
       <item row="10" column="1">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Astrometry</string>
+         <string>Astrometry:</string>
         </property>
        </widget>
       </item>
@@ -335,7 +335,7 @@
       <item row="0" column="3" colspan="3">
        <widget class="QRadioButton" name="kcfg_VerboseLogging">
         <property name="toolTip">
-         <string>Enable verbose debug output</string>
+         <string>Enable verbose debug output level</string>
         </property>
         <property name="text">
          <string>&amp;Verbose</string>
@@ -407,7 +407,7 @@
          <string>Have problems with INDI drivers? Turn on logging for drivers that exhibit issues.</string>
         </property>
         <property name="text">
-         <string>Drivers</string>
+         <string>Drivers:</string>
         </property>
        </widget>
       </item>
@@ -526,7 +526,7 @@
         <string notr="true">font-weight:bold;</string>
        </property>
        <property name="text">
-        <string>Open Logs Directory</string>
+        <string>Open Logs Directory...</string>
        </property>
       </widget>
      </item>

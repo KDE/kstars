@@ -57,6 +57,7 @@ FocusAlgorithmInterface::FocusParams makeParams()
     const Ekos::Focus::StarPSF starPSF = Ekos::Focus::FOCUS_STAR_GAUSSIAN;
     const bool refineCurveFit = false;
     const Ekos::Focus::FocusWalk focusWalk = Ekos::Focus::FOCUS_WALK_CLASSIC;
+    const bool donutBuster = false;
     auto const optimisationDirection = Ekos::CurveFitting::OPTIMISATION_MINIMISE;
     auto const weightCalculation = Mathematics::RobustStatistics::SCALE_QESTIMATOR;
 
@@ -65,7 +66,7 @@ FocusAlgorithmInterface::FocusParams makeParams()
             maxPositionAllowed, maxIterations, focusTolerance, filterName,
             temperature, initialOutwardSteps, numSteps, focusAlgorithm, backlash,
             curveFit, useWeights, starMeasure, starPSF, refineCurveFit, focusWalk,
-            optimisationDirection, weightCalculation);
+            donutBuster, optimisationDirection, weightCalculation);
 
     return params;
 }
@@ -91,6 +92,7 @@ FocusAlgorithmInterface::FocusParams makeL1PHyperbolaParams()
     const Ekos::Focus::StarPSF starPSF = Ekos::Focus::FOCUS_STAR_GAUSSIAN;
     const bool refineCurveFit = false;
     const Ekos::Focus::FocusWalk focusWalk = Ekos::Focus::FOCUS_WALK_CLASSIC;
+    const bool donutBuster = false;
     auto const optimisationDirection = Ekos::CurveFitting::OPTIMISATION_MINIMISE;
     auto const weightCalculation = Mathematics::RobustStatistics::SCALE_QESTIMATOR;
 
@@ -99,7 +101,7 @@ FocusAlgorithmInterface::FocusParams makeL1PHyperbolaParams()
             maxPositionAllowed, maxIterations, focusTolerance, filterName,
             temperature, initialOutwardSteps, numSteps, focusAlgorithm, backlash,
             curveFit, useWeights, starMeasure, starPSF, refineCurveFit, focusWalk,
-            optimisationDirection, weightCalculation);
+            donutBuster, optimisationDirection, weightCalculation);
 
     return params;
 }
@@ -125,6 +127,7 @@ FocusAlgorithmInterface::FocusParams makeL1PParabolaParams()
     const Ekos::Focus::StarPSF starPSF = Ekos::Focus::FOCUS_STAR_GAUSSIAN;
     const bool refineCurveFit = false;
     const Ekos::Focus::FocusWalk focusWalk = Ekos::Focus::FOCUS_WALK_CLASSIC;
+    const bool donutBuster = false;
     auto const optimisationDirection = Ekos::CurveFitting::OPTIMISATION_MINIMISE;
     auto const weightCalculation = Mathematics::RobustStatistics::SCALE_QESTIMATOR;
 
@@ -133,7 +136,7 @@ FocusAlgorithmInterface::FocusParams makeL1PParabolaParams()
             maxPositionAllowed, maxIterations, focusTolerance, filterName,
             temperature, initialOutwardSteps, numSteps, focusAlgorithm, backlash,
             curveFit, useWeights, starMeasure, starPSF, refineCurveFit, focusWalk,
-            optimisationDirection, weightCalculation);
+            donutBuster, optimisationDirection, weightCalculation);
 
     return params;
 }
@@ -159,6 +162,7 @@ FocusAlgorithmInterface::FocusParams makeL1PQuadraticParams()
     const Ekos::Focus::StarPSF starPSF = Ekos::Focus::FOCUS_STAR_GAUSSIAN;
     const bool refineCurveFit = false;
     const Ekos::Focus::FocusWalk focusWalk = Ekos::Focus::FOCUS_WALK_CLASSIC;
+    const bool donutBuster = false;
     auto const optimisationDirection = Ekos::CurveFitting::OPTIMISATION_MINIMISE;
     auto const weightCalculation = Mathematics::RobustStatistics::SCALE_QESTIMATOR;
 
@@ -167,7 +171,7 @@ FocusAlgorithmInterface::FocusParams makeL1PQuadraticParams()
             maxPositionAllowed, maxIterations, focusTolerance, filterName,
             temperature, initialOutwardSteps, numSteps, focusAlgorithm, backlash,
             curveFit, useWeights, starMeasure, starPSF, refineCurveFit, focusWalk,
-            optimisationDirection, weightCalculation);
+            donutBuster, optimisationDirection, weightCalculation);
 
     return params;
 }

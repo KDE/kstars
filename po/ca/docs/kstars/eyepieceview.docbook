@@ -28,7 +28,7 @@
 >Aquesta eina simula com es veurà un objecte a través del vostre ocular. A més de reproduir el camp de l'ocular, el &kstars; també poden obtenir i superposar les imatges DSS. A més, si feu servir un telescopi Dobson, podreu fer girar el camp de visió perquè coincideixi amb la vista de l'ocular. </para>
 
 <para
->Per a utilitzar aquesta característica, en primer lloc definiu els camps dels vostres oculars de vista utilitzant l'<link linkend="customize"
+>Per a utilitzar aquesta característica, en primer lloc, definiu els camps de visió dels vostres oculars utilitzant l'<link linkend="customize"
 >editor de símbols CDV</link
 >.</para>
 

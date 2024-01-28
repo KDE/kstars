@@ -41,6 +41,7 @@ class SequenceJob;
 class GreedyScheduler;
 class SchedulerProcess;
 class SchedulerModuleState;
+class SequenceEditor;
 
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
@@ -831,6 +832,8 @@ private:
         {
             return m_GreedyScheduler;
         }
+
+        QSharedPointer<SequenceEditor> m_SequenceEditor;
 
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;

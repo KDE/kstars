@@ -50,7 +50,7 @@
                         <para
 ><guilabel
 >Selector de ports</guilabel
->: Marqueu aquesta opció per a habilitar el selector de ports. En crear un perfil nou, està marcada de manera predeterminada. El selector de ports s'empra per seleccionar els paràmetres d'inici del port sèrie i de comunicació de la xarxa dels dispositius al perfil de l'equip. Després de connectar a l'equip per primera vegada, es mostra la finestra emergent del selector de ports a on es poden definir els paràmetres de comunicació abans d'establir la connexió. Una vegada s'ha connectat, l'opció del selector de ports s'apaga. Es pot canviar com a desactivat a l'editor de perfils per a tornar-lo a activar. </para>
+>: Marqueu aquesta opció per a habilitar el selector de ports. En crear un perfil nou, està marcada de manera predeterminada. El selector de ports s'empra per a seleccionar els paràmetres d'inici del port en sèrie i de comunicació de la xarxa dels dispositius al perfil de l'equip. Després de connectar a l'equip per primera vegada, es mostra la finestra emergent del selector de ports a on es poden definir els paràmetres de comunicació abans d'establir la connexió. Una vegada s'ha connectat, l'opció del selector de ports s'apaga. Es pot canviar com a desactivat a l'editor de perfils per a tornar-lo a activar. </para>
                     </listitem>
                     <listitem>
                         <para

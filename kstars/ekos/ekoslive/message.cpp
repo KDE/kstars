@@ -1402,6 +1402,10 @@ void Message::processTrainCommands(const QString &command, const QJsonObject &pa
     {
         Ekos::OpticalTrainManager::Instance()->removeOpticalTrain(payload["name"].toString());
     }
+    else if (command == commands[TRAIN_RESET])
+    {
+        Ekos::OpticalTrainManager::Instance()->reset();
+    }
     else if (command == commands[TRAIN_ACCEPT])
     {
         requestOpticalTrains(false);

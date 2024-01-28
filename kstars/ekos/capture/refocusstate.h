@@ -60,9 +60,14 @@ class RefocusState : public QObject
         {
             return m_focusHFR;
         }
-        void setFocusHFR(double newFocusHFR)
+        void setFocusHFR(double newFocusHFR, bool inAutofocus)
         {
             m_focusHFR = newFocusHFR;
+            m_focusHFRInAutofocus = inAutofocus;
+        }
+        bool getFocusHFRInAutofocus() const
+        {
+            return m_focusHFRInAutofocus;
         }
 
         /**
@@ -160,6 +165,8 @@ class RefocusState : public QObject
     private:
         // HFR value as received from the Ekos focus module
         double m_focusHFR { 0 };
+        // Whether m_focusHFR was taken during Autofocus
+        bool m_focusHFRInAutofocus { false };
         // used to determine when next force refocus should occur
         QElapsedTimer m_refocusEveryNTimer;
         // Ready for running autofocus (HFR or temperature based)

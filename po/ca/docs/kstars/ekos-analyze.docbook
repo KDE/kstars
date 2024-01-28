@@ -44,7 +44,7 @@
 >Línia de temps</guilabel
 > mostra els segons transcorreguts des del començament del registre i <guilabel
 >Estadístiques</guilabel
-> mostra l'hora del rellotge. L'eix «x» es pot apropar i allunyar amb el botons <guibutton
+> mostra l'hora del rellotge. L'eix «x» es pot apropar i allunyar amb els botons <guibutton
 >+/-</guibutton
 >, així com amb les dreceres de teclat estàndard (&pex;, apropar és igual que <keycombo
 >&Ctrl;<keycap
@@ -60,7 +60,7 @@
 >Darrer</guilabel
 > mostrarà les dades més recents (podreu controlar l'amplada fent-hi zoom). </para>
         <para
->Les tres pantalles principals es poden ocultar per fer més espai per a les altres pantalles. Hi ha caselles de selecció a l'esquerra dels títols de la secció (Línia de temps, Estadístiques i Detalls) que activen i oculten les pantalles. </para>
+>Les tres pantalles principals es poden ocultar per a fer més espai per a les altres pantalles. Hi ha caselles de selecció a l'esquerra dels títols de la secció (Línia de temps, Estadístiques i Detalls) que activen i oculten les pantalles. </para>
     </sect2>
     <sect2 id="analyze-timeline">
         <title

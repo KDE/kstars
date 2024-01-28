@@ -80,9 +80,9 @@
         </para>
     </sect2>
     <sect2 id="scheduler-files">
-        <title>Scheduler Files (.esq)</title>
+        <title>Scheduler Files (.esl)</title>
         <para>
-          The scheduler table with its list of jobs and attributes can be saved onto disk and read back in. It writes an .esq file. Controls for writing the current Scheduler table to disk, and reading back other .esq files are located above the table to the right.
+          The scheduler table with its list of jobs and attributes can be saved onto disk and read back in. It writes an .esl file. Controls for writing the current Scheduler table to disk, and reading back other .esl files are located above the table to the right.
         </para>
     </sect2>
     <sect2 id="ekos-scheduler-settings">
@@ -188,6 +188,44 @@ Practically speaking, imagine you had a 6-panel mosaic you wanted to alternate. 
 There is a checkbox and number input right below the Scheduler jobs table that allows you to repeat the entire schedule N times.  This can be used to alternate a few jobs. You can just list the jobs on the scheduler, set it to repeat N times, and the jobs will repeat. However, this change is incompatible with 'Remember job progress (above) and unavailable if Remember Job Progress is checked. (Note: Remember Job Progress is recommended.)
         </para>
        </sect3>
+    </sect2>
+    <sect2 id="editing-running-jobs">
+        <title>Editing running jobs</title>
+        <para>
+          It is possible to edit the scheduler's job table, and attributes of individual jobs, while the scheduler is running. As always, you double click on a job, change the desired attributes, and click the checkbox to finalize the change. If you edit the running job it will be restarted (i.e. the startup steps (slew, focus, align, guide) will be re-done. You can also move jobs up and down in priority, add new jobs, or deleted existing ones. You cannot delete the running job.
+        </para>
+        <para>
+          One important attribute of scheduler jobs is their sequence file (.esq) which controls the capture module while the job is running. For example, it sets number of captures, filters used, gain/ISO, etc. The .esq is normally created and edited in the capture tab, but that cannot be done while the scheduler is running. If you desire to make changes to a .esq file while the scheduler is running, or create a new one, the scheduler provides a tool called the Capture Sequence Editor.
+          </para>
+       <sect3 id="capture-sequence-editor">
+        <title>Capture Sequence Editor</title>
+        <para>
+           The Capture Sequence Editor is a tool to create and edit capture sequence files (.esq) which can be started by clicking the edit (pencil) icon just above the scheduler table. A screenshot is shown below.
+        </para>
+      <screenshot>
+            <screeninfo>
+                Capture Sequence Editor
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_capture_sequence_editor.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Capture Sequence Editor</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+          The editor is very similar in use and layout to the capture tab--though it is missing all the controls to actually capture image. You edit jobs the same way you do in capture, and load or save sequence queues the same way too (though there are additional Load and Save-To buttons provided in the editor).
+        </para>
+        <important>
+        <para>It is important to understand that capture sequences rely to some extent on the filterwheel and camera being used (e.g. the filter names, the possible ISO values, ...). The Capture Sequence Editor, which is not connected to the device drivers, does not have direct access to this information. Instead, the editor uses the values from the last time the capture tab connected to its devices. Thus, it may not make sense to try and create a .esq file for a different camera or filterwheel than the last one connected-to. You may need to wait until your scheduler job is completed and edit that .esq directly in the capture tab.
+        </para>
+        <para>
+          It is also recommended that you don't overwrite .esq files when scheduler jobs are currently using those same files. (It is OK if the scheduler is running, but not running that job.) This can get the scheduler and capture modules out of sync, as they read the files at different times. Instead, you can save to a different filename and then edit the scheduler job to use the new .esq filename.
+        </para>
+        </important>
+     </sect3>          
     </sect2>
     <sect2 id="workflow">
         <title>Workflow</title>

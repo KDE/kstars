@@ -1242,35 +1242,35 @@ void FITSData::calculateStats(bool refresh, bool roi)
         switch (m_Statistics.dataType)
         {
             case TBYTE:
-                runningAverageStdDev<uint8_t>();
+                calculateStdDev<uint8_t>();
                 break;
 
             case TSHORT:
-                runningAverageStdDev<int16_t>();
+                calculateStdDev<int16_t>();
                 break;
 
             case TUSHORT:
-                runningAverageStdDev<uint16_t>();
+                calculateStdDev<uint16_t>();
                 break;
 
             case TLONG:
-                runningAverageStdDev<int32_t>();
+                calculateStdDev<int32_t>();
                 break;
 
             case TULONG:
-                runningAverageStdDev<uint32_t>();
+                calculateStdDev<uint32_t>();
                 break;
 
             case TFLOAT:
-                runningAverageStdDev<float>();
+                calculateStdDev<float>();
                 break;
 
             case TLONGLONG:
-                runningAverageStdDev<int64_t>();
+                calculateStdDev<int64_t>();
                 break;
 
             case TDOUBLE:
-                runningAverageStdDev<double>();
+                calculateStdDev<double>();
                 break;
 
             default:
@@ -1288,35 +1288,35 @@ void FITSData::calculateStats(bool refresh, bool roi)
         switch (m_ROIStatistics.dataType)
         {
             case TBYTE:
-                runningAverageStdDev<uint8_t>(roi);
+                calculateStdDev<uint8_t>(roi);
                 break;
 
             case TSHORT:
-                runningAverageStdDev<int16_t>(roi);
+                calculateStdDev<int16_t>(roi);
                 break;
 
             case TUSHORT:
-                runningAverageStdDev<uint16_t>(roi);
+                calculateStdDev<uint16_t>(roi);
                 break;
 
             case TLONG:
-                runningAverageStdDev<int32_t>(roi);
+                calculateStdDev<int32_t>(roi);
                 break;
 
             case TULONG:
-                runningAverageStdDev<uint32_t>(roi);
+                calculateStdDev<uint32_t>(roi);
                 break;
 
             case TFLOAT:
-                runningAverageStdDev<float>(roi);
+                calculateStdDev<float>(roi);
                 break;
 
             case TLONGLONG:
-                runningAverageStdDev<int64_t>(roi);
+                calculateStdDev<int64_t>(roi);
                 break;
 
             case TDOUBLE:
-                runningAverageStdDev<double>(roi);
+                calculateStdDev<double>(roi);
                 break;
 
             default:
@@ -1687,29 +1687,24 @@ void FITSData::calculateMinMax(bool roi)
 }
 
 template <typename T>
-QPair<double, double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t stride, bool roi)
+QPair<double, double> FITSData::getSumAndSquaredSum(uint32_t start, uint32_t stride, bool roi)
 {
-    uint32_t m_n       = 2;
-    double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
-
     auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
     uint32_t end = start + stride;
-
+    double sum = 0;
+    double squaredSum = 0;
     for (uint32_t i = start; i < end; i++)
     {
-        m_newM = m_oldM + (buffer[i] - m_oldM) / m_n;
-        m_newS = m_oldS + (buffer[i] - m_oldM) * (buffer[i] - m_newM);
-
-        m_oldM = m_newM;
-        m_oldS = m_newS;
-        m_n++;
+        double sample = buffer[i];
+        sum += sample;
+        squaredSum += sample * sample;
     }
 
-    return qMakePair<double, double>(m_newM, m_newS);
+    return qMakePair<double, double>(sum, squaredSum);
 }
 
 template <typename T>
-void FITSData::runningAverageStdDev(bool roi )
+void FITSData::calculateStdDev(bool roi )
 {
     // Create N threads
     const uint8_t nThreads = 16;
@@ -1734,30 +1729,31 @@ void FITSData::runningAverageStdDev(bool roi )
         for (int i = 0; i < nThreads; i++)
         {
             // Run threads
-            futures.append(QtConcurrent::run(this, &FITSData::getSquaredSumAndMean<T>, tStart,
+            futures.append(QtConcurrent::run(this, &FITSData::getSumAndSquaredSum<T>, tStart,
                                              (i == (nThreads - 1)) ? fStride : tStride, roi));
             tStart += tStride;
         }
 
-        double mean = 0, squared_sum = 0;
-
         // Now wait for results
+        double sum = 0, squared_sum = 0;
         for (int i = 0; i < nThreads; i++)
         {
             QPair<double, double> result = futures[i].result();
-            mean += result.first;
+            sum += result.first;
             squared_sum += result.second;
-        }
 
-        double variance = squared_sum / (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        }
+        const double numSamples = (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        const double mean = sum / numSamples;
+        const double variance = squared_sum / numSamples - mean * mean;
         if(!roi)
         {
-            m_Statistics.mean[n]   = mean / nThreads;
+            m_Statistics.mean[n]   = mean;
             m_Statistics.stddev[n] = sqrt(variance);
         }
         else
         {
-            m_ROIStatistics.mean[n] = mean / nThreads;
+            m_ROIStatistics.mean[n] = mean;
             m_ROIStatistics.stddev[n] = sqrt(variance);
         }
     }
@@ -2559,9 +2555,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     m_Statistics.min[i] = min[i];
                     m_Statistics.max[i] = max[i];
                 }
-                //if (type != FITS_AUTO && type != FITS_LINEAR)
-                runningAverageStdDev<T>();
-                //QtConcurrent::run(this, &FITSData::runningAverageStdDev<T>);
+                calculateStdDev<T>();
             }
         }
         break;
@@ -2665,7 +2659,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
             delete[] extension;
 
             if (calcStats)
-                runningAverageStdDev<T>();
+                calculateStdDev<T>();
         }
         break;
 

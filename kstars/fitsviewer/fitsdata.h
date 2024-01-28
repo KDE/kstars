@@ -644,11 +644,11 @@ class FITSData : public QObject
         template <typename T>
         void gaussianBlur(int kernelSize, double sigma);
 
-        /* Calculate running average & standard deviation using Welford’s method for computing variance */
+        /* Calculate running average & standard deviation */
         template <typename T>
-        void runningAverageStdDev( bool roi = false );
+        void calculateStdDev( bool roi = false );
         template <typename T>
-        QPair<double, double> getSquaredSumAndMean(uint32_t start, uint32_t stride, bool roi = false);
+        QPair<double, double> getSumAndSquaredSum( uint32_t start, uint32_t stride, bool roi = false);
 
         template <typename T>
         void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);

@@ -74,7 +74,7 @@
 ></listitem>
 </itemizedlist>
 <para
->La finestra del visualitzador de FITS es divideix en les següents regions:</para>
+>La finestra del visualitzador de FITS es divideix en les regions següents:</para>
 <orderedlist>
     <listitem
 ><para
@@ -395,7 +395,7 @@
   </mediaobject>
 </screenshot>
 <para
->De dreta a esquerra, hi ha disponibles els següents indicadors d'estat:</para
+>De dreta a esquerra, hi ha disponibles els indicadors següents d'estat:</para
 >      
             <itemizedlist>
                 <listitem
@@ -541,7 +541,7 @@
 ></listitem>
                 <listitem
 ><para
->Posició: en marcar la casella de selecció «Usa la posició», es limita el solucionador a cercar a prop de les coordenades AR i Dec donades. L'extensió de la cerca la proporciona l'usuari en el quadre Radi en graus. Tingueu en compte que l'AR s'introdueix en hores-minuts-segons, p. ex. 13h, i la Dec s'introdueix en en graus-minuts-segons, p. ex. 85. Quan una solució es completa amb èxit, reemplaça el valor en els quadres AR i Dec amb les coordenades de la solució. A més, omple el camp Angle amb el valor de l'angle de la solució en graus.</para
+>Posició: en marcar la casella de selecció «Usa la posició», es limita el solucionador a cercar a prop de les coordenades AR i Dec donades. L'extensió de la cerca la proporciona l'usuari en el quadre Radi en graus. Tingueu en compte que l'AR s'introdueix en hores-minuts-segons, p. ex. 13h, i la Dec s'introdueix en graus-minuts-segons, p. ex. 85. Quan una solució es completa amb èxit, reemplaça el valor en els quadres AR i Dec amb les coordenades de la solució. A més, omple el camp Angle amb el valor de l'angle de la solució en graus.</para
 ></listitem>
                 <listitem
 ><para
@@ -590,7 +590,7 @@
 ></listitem>
               <listitem
 ><para
->La imatge podria ser inspeccionada per veure si hi havia problemes visuals obvis.</para
+>La imatge podria ser inspeccionada per a veure si hi havia problemes visuals obvis.</para
 ></listitem>
               <listitem
 ><para
@@ -598,11 +598,11 @@
 ></listitem>
               <listitem
 ><para
->L'usuari pot pujar manualment la imatge a «astrometry.net» per obtenir valors d'escala i posició (o només veure si és una imatge problemàtica). </para
+>L'usuari pot pujar manualment la imatge a «astrometry.net» per a obtenir valors d'escala i posició (o només veure si és una imatge problemàtica). </para
 ></listitem>
               <listitem
 ><para
->L'usuari podria experimentar amb «Usa la posició» i «Usa l'escala», utilitzant valors precisos per a aquestes restriccions (o inhabilitant-les) per veure si aquest era el problema, o ajustar els paràmetres en el perfil d'alineació que s'està utilitzant.</para
+>L'usuari podria experimentar amb «Usa la posició» i «Usa l'escala», utilitzant valors precisos per a aquestes restriccions (o inhabilitant-les) per a veure si aquest era el problema, o ajustar els paràmetres en el perfil d'alineació que s'està utilitzant.</para
 ></listitem>
             </itemizedlist>
             <para
@@ -692,9 +692,9 @@
     <para
 >L'eina de visualització de les dades en 3D pot dibuixar gràfics en 3D de la regió seleccionada de la imatge. Això és particularment útil per als astrofotògrafs que volen visualitzar el perfil d'una estrella, la qual consideren enfocar o guiar. Per als científics, els permet examinar una secció transversal de les dades per a entendre la lluminositat relativa dels diferents objectes de la imatge. A més, permet als usuaris que vulguin veure visualment què està passant en la seva recopilació de dades d'una altra manera. </para>
     <para
->Per a utilitzar la nova característica, l'usuari haurà de seleccionar la icona <guiicon
+>Per a utilitzar la característica nova, l'usuari haurà de seleccionar la icona <guiicon
 >Visualitza el perfil de l'estrella</guiicon
-> en una de les vistes del mòdul Ekos o en el visualitzador de FITS. A continuació, la regió seleccionada al quadre de seguiment verd apareixerà al gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
+> en una de les vistes del mòdul Ekos o en el visualitzador de FITS. A continuació, la regió seleccionada al quadre de seguiment verd apareixerà al gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les barres d'eines següents a la part inferior. </para>
     <screenshot>
         <screeninfo
 >Barra d'eines 1 del perfil de l'estrella </screeninfo>

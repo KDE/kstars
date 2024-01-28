@@ -2099,8 +2099,9 @@ void Manager::initFocus()
     connectModules();
 }
 
-void Manager::updateCurrentHFR(double newHFR, int position)
+void Manager::updateCurrentHFR(double newHFR, int position, bool inAutofocus)
 {
+    Q_UNUSED(inAutofocus);
     focusManager->updateCurrentHFR(newHFR);
 
     QJsonObject cStatus =
@@ -3498,6 +3499,16 @@ bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager
     if (m_FilterManagers.contains(name))
     {
         fm = m_FilterManagers[name];
+        return true;
+    }
+    return false;
+}
+
+bool Manager::getFilterManager(QSharedPointer<FilterManager> &fm)
+{
+    if (m_FilterManagers.size() > 0)
+    {
+        fm = m_FilterManagers.values()[0];
         return true;
     }
     return false;

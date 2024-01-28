@@ -1,14 +1,12 @@
-<sect1 id="tool-fitsviewer">
+<chapter id="fitsviewer">
 <title
->Outil d'affichage <acronym
+>Afficheur <acronym
 >FITS</acronym
 ></title>
 <indexterm
 ><primary
->Outils</primary>
-<secondary
->Afficheur FITS</secondary>
-</indexterm>
+>Afficheur FITS</primary
+></indexterm>
 
 <para
 >FITS (Flexible Image Transport System) est le format standard pour représenter les images et les données en astronomie. L'afficheur FITS de &kstars; permet de visualiser ces images. Il n'est pas conçu pour modifier les images FITS.</para>
@@ -28,14 +26,14 @@
 
 <screenshot>
   <screeninfo
->L'outil d'affichage FITS</screeninfo>
+>L'afficheur FITS</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->Outil d'affichage FITS</phrase>
+>L'afficheur FITS</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -45,19 +43,19 @@
 
 <screenshot>
   <screeninfo
->L'outil d'affichage FITS avec le panneau glissant ouvert</screeninfo>
+>L'afficheur FITS avec le panneau glissant ouvert</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer2.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->L'outil d'affichage FITS avec le panneau glissant ouvert</phrase>
+>L'afficheur FITS avec le panneau glissant ouvert</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
 
-<sect2 id="fits-viewer-main-controls">
+<sect1 id="fits-viewer-main-controls">
     <title
 >Contrôles principaux</title>
 
@@ -66,9 +64,9 @@
 <itemizedlist>
   <listitem
 ><para
->prise en charge pour seulement <emphasis
+>Prise en charge pour seulement <emphasis
 >une</emphasis
-> image par fichier,</para
+> image par fichier.</para
 ></listitem>
   <listitem
 ><para
@@ -128,7 +126,7 @@
 ></listitem>
                 <listitem
 ><para
->Filtres : auto-étirement, contraste, passe haut, rotation, inversion</para
+>Filtres : auto-étirement, contraste, passe haut, rotation, inversion.</para
 ></listitem>
                 <listitem
 ><para
@@ -174,7 +172,7 @@
 ></listitem>
                 <listitem
 ><para
->Zoom arrière</para
+>Zoom arrière.</para
 ></listitem>
                 <listitem
 ><para
@@ -274,7 +272,7 @@
     </listitem>
     <listitem
 ><para
->Zone d'affichage de l'image</para>
+>Zone d'affichage de l'image.</para>
             <itemizedlist>
                 <listitem
 ><para
@@ -408,11 +406,11 @@
 ></listitem>
                 <listitem
 ><para
->Résolution : la résolution de l'image en pixels. 4656x3520 dans la capture d'écran ci-dessus</para
+>Résolution : la résolution de l'image en pixels. 4656x3520 dans la capture d'écran ci-dessus.</para
 ></listitem>
                 <listitem
 ><para
->Pourcentage de zoom. 13 % ci-dessus</para
+>Pourcentage de zoom. 13 % ci-dessus.</para
 ></listitem>
                 <listitem
 ><para
@@ -420,19 +418,19 @@
 ></listitem>
                 <listitem
 ><para
->Valeur du pixel : valeur du pixel sous la souris. 1792 ci-dessus</para
+>Valeur du pixel : valeur du pixel sous la souris. 1792 ci-dessus.</para
 ></listitem>
                 <listitem
 ><para
->Coordonnées équatoriales : si l'image contient une en-tête WCS valable, l'ascension droite J2000 (AD) et la déclinaison (Déc) sont affichées. 13h 14' 22" 42 37' 35" ci-dessus</para
+>Coordonnées équatoriales : si l'image contient une en-tête WCS valable, l'ascension droite J2000 (AD) et la déclinaison (Déc) sont affichées. 13h 14' 22" 42 37' 35" ci-dessus.</para
 ></listitem>
                 <listitem
 ><para
->Statistiques de l'image : affiche le HFR, l'excentricité et le nombre d'étoiles si calculées. HFR:1.96 Ecc:0.43 143 étoiles ci-dessus</para
+>Statistiques de l'image : affiche le HFR, l'excentricité et le nombre d'étoiles si calculées. HFR : 1.96 Ecc : 0.43 143 étoiles ci-dessus.</para
 ></listitem>
                 <listitem
 ><para
->Étoiles coupées : si l'option Afficher coupage est activée dans la barre d'outils principale, le nombre de pixels possiblement coupés est affiché. Clip : 403 ci-dessus</para
+>Étoiles coupées : si l'option Afficher coupage est activée dans la barre d'outils principale, le nombre de pixels possiblement coupés est affiché. Clip : 403 ci-dessus.</para
 ></listitem>
             </itemizedlist
 >                  
@@ -471,8 +469,8 @@
 </screenshot>
 <para
 >Le survol d'une option affichera une infobulle détaillée expliquant sa fonction. </para>
-</sect2>
-<sect2 id="fits-viewer-features">
+</sect1>
+<sect1 id="fits-viewer-features">
     <title
 >Fonctionnalités</title>
     <variablelist>
@@ -507,16 +505,16 @@
         </varlistentry>
         <varlistentry>
             <term
->statistiques</term>
+>Statistiques</term>
             <listitem>
                 <para
 >Fournit des statistiques simples pour les valeurs minimales et maximales de pixel et leurs emplacements respectifs. La profondeur, la dimension, la moyenne et l'écart-type FITS. </para>
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-solver">
+<sect1 id="fits-viewer-solver">
     <title
 >Résolveur de l'afficheur FITS</title>
     <screenshot>
@@ -611,9 +609,9 @@
             </itemizedlist>
             <para
 >Pour inspecter ou modifier le profil, l'utilisateur se rendra sur l'onglet Alignement d'Ekos, et, dans le menu des options, sélectionnera les options pour StellarSolver, en faisant attention que les bonnes options du profil sont bien sélectionnées et cliquera sur le stylo pour l'afficher ou le modifier. </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-embedded">
+<sect1 id="fits-viewer-embedded">
     <title
 >Afficheur FITS intégré</title>
     <screenshot>
@@ -674,10 +672,10 @@
         </listitem>
     </itemizedlist>
     <para
->La barre flottante est automatiquement cachée dès que la souris quitte la zone de l'afficheur intégré. Vous pouvez utiliser la souris pour déplacer et zoomer comme avec l'outil de l'afficheur FITS. La boîte de suivi verte peut être utilisée pour sélectionner une étoile particulière ou une région de l'image, par exemple pour choisir une étoile guide. </para>
-</sect2>
+>La barre flottante est automatiquement cachée dès que la souris quitte la zone de l'afficheur intégré. Vous pouvez utiliser la souris pour déplacer et zoomer comme avec l'afficheur FITS. La boîte de suivi verte peut être utilisée pour sélectionner une étoile particulière ou une région de l'image, par exemple pour choisir une étoile guide. </para>
+</sect1>
 
-<sect2 id="fits-viewer-3d-star-profile">
+<sect1 id="fits-viewer-3d-star-profile">
 <title
 >Profil 3D de l'étoile &amp; outil d'affichage des données</title>
 <screenshot>
@@ -736,7 +734,7 @@
 >Colonne</guimenuitem
 >. Cela mettra le graphe en mode Tranche pour permettre à l'utilisateur de voir une vue transversale de l'image. Troisièmement, il y a une case à cocher qui ouvrira deux curseurs qui permettent de changer de sélection. Cela est extrêmement utile pour changer de point sélectionné et se déplacer dans la coupe transversale autour du graphe. Cela est aussi utile dans l'affichage normal du <guilabel
 >Mode exploration</guilabel
-> pour zoomer dans l'image et examiner les pixels.  </para>
+> pour zoomer dans l'image et examiner les pixels. </para>
     <screenshot>
         <screeninfo
 >Profil d'étoile, examiner les pixels </screeninfo>
@@ -790,5 +788,5 @@
             </textobject>
         </mediaobject>
     </screenshot>
-</sect2>
 </sect1>
+</chapter>

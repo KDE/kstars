@@ -505,6 +505,22 @@
 >. Feu els canvis al costat esquerre del mòdul <guilabel
 >CCD</guilabel
 > i, una vegada fet, feu clic en el botó marca de selecció. Per a cancel·lar una tasca editada, feu clic en qualsevol lloc de l'espai buit de la taula en la cua en seqüència. </para>
+        <important>
+            <para
+><emphasis role="bold"
+>Edició de les tasques per a executar</emphasis
+>: Quan s'està executant la captura, o quan s'està executant el programador, no podreu editar la cua en seqüència ni un fitxer <literal role="extension"
+>.esq</literal
+> en el disc mitjançant la pestanya <guilabel
+>Captura</guilabel
+>. Tanmateix, la pestanya <guilabel
+>Programador</guilabel
+> té una eina <guilabel
+>Editor de la seqüència de captura</guilabel
+> que es pot utilitzar per a editar els fitxers <literal role="extension"
+>.esl</literal
+> en el disc o crear-ne de nous. </para>
+        </important>
         <para
 >Si la vostra càmera admet un canal amb flux de vídeo en directe, podeu fer clic en el botó <guibutton
 >Vídeo en directe</guibutton
