@@ -316,7 +316,7 @@
 
 <abstract>
 <para
->El &kstars; és un programa d'astronomia lliure, de codi obert i multiplataforma. Proporciona el mapa celestes del &kstars;, un planetari digital amb eines de superposició i simulació, el paquet d'astrofotografia Ekos que actua com un client per als controladors de dispositius INDI, i el visualitzador de FITS que mostra les imatges capturades del cel. </para>
+>El &kstars; és un programa d'astronomia lliure, de codi obert i multiplataforma. Proporciona el mapa celeste del &kstars;, un planetari digital amb eines de superposició i simulació, el paquet d'astrofotografia Ekos que actua com un client per als controladors de dispositius INDI, i el visualitzador de FITS que mostra les imatges capturades del cel. </para>
 
 <para>
 <itemizedlist>
@@ -386,7 +386,7 @@
 >Altitud en funció del temps</link
 >, la qual representarà les corbes de moviment representant l'altitud en funció del temps per a qualsevol grup d'objectes. Això mateix, tot i que amb més detall, també us proporcionem una eina <link linkend="tool-whatsup"
 >Què passa aquesta nit?</link
-> per a resumir-vos què és el que podreu veure des del vostre emplaçament en qualsevol nit que indiqueu. Podeu afegir els vostres objectes favorits a la llista de desitjos per observar utilitzant l'eina <link linkend="tool-obsplanner"
+> per a resumir-vos què és el que podreu veure des del vostre emplaçament en qualsevol nit que indiqueu. Podeu afegir els vostres objectes favorits a la llista de desitjos per a observar utilitzant l'eina <link linkend="tool-obsplanner"
 >Planificador de l'observació</link
 >, la qual us permetrà planificar les vostres sessions d'observació professionals. Per a veure com apareix l'objecte en l'ocular amb diferents telescopis i camps de visió, utilitzeu l'eina <link linkend="tool-eyepieceview"
 >Simula la vista de l'ocular</link

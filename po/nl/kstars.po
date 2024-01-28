@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 01:34+0000\n"
-"PO-Revision-Date: 2024-01-22 10:52+0100\n"
+"POT-Creation-Date: 2024-01-28 01:37+0000\n"
+"PO-Revision-Date: 2024-01-27 11:36+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19818,30 +19818,43 @@ msgid ""
 "defocused.</p><p>This is a currently an experimental feature that should be "
 "used with caution.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Activeer om Donut Busting functionaliteit in te "
+"schakelen. Gebruik op telescopen met een centrale belemmering die donut "
+"gevormde sterren aanmaakt bij niet juiste focus.</p><p>Dit is nu een een "
+"experimentele functie die voorzichtig gebruikt zou moeten worden.</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:639
 #, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr ""
+msgstr "Donut Buster (WAARSCHUWING: Experimentele functie)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:657
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Time Factor"
+#, kde-format
 msgid "Time Dilation Factor:"
-msgstr "Tijdfactor"
+msgstr "Tijdverwijdingsfactor:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:670
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>The furthest datapoints have their exposure times "
+#| "increaed by this factor. The in focus datapoint exposure is not "
+#| "increased. Intermediate points have their exposures scaled appropriately."
+#| "</p><p>Set to 1 to disable this option.</p></body></html>"
 msgid ""
 "<html><head/><body><p>The furthest datapoints have their exposure times "
-"increaed by this factor. The in focus datapoint exposure is not increased. "
+"increased by this factor. The in focus datapoint exposure is not increased. "
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>De verste gegevenspunten hebben met deze factor hun "
+"belichtingstijden vergroot. De gegevenspuntbelichting in focus is niet "
+"vergroot. Tussenliggende punten hebben hun belichting op gepaste wijze "
+"geschaald.</p><p>Stel het in op 1 om deze optie uit te schakelen.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -36908,13 +36921,9 @@ msgstr ""
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2127
 #, fuzzy, kde-format
-#| msgid ""
-#| "Whether to adapt the focuser starting position at the beginning of an "
-#| "Autofocus run."
-msgid "Whether to use Donut Busting functionalty during Autofocus."
-msgstr ""
-"Of de startpositie van de focuser aan te passen bij het begin van een "
-"autofocus run."
+#| msgid "Whether to use Donut Busting functionalty during Autofocus."
+msgid "Whether to use Donut Busting functionality during Autofocus."
+msgstr "Of functionaliteit Donut Busting tijdens autofocus wordt gebruikt."
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
 #: kstars.kcfg:2131
@@ -36923,6 +36932,8 @@ msgid ""
 "Factor to multiply focus exposure by for out of focus frames when using "
 "Donut Buster."
 msgstr ""
+"Factor om focusbelichting mee te vermenigvuldigen voor frames uit focus bij "
+"gebruik van Donut Buster."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2135

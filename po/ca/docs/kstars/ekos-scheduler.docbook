@@ -32,7 +32,7 @@
         <title
 >Taula del programador</title>
         <para
->El cor del programador és una taula que mostra la llista de tasques del programador que l'usuari vol executar. Associats amb cada tasca hi ha atributs (la majoria descrits a la secció de configuració de sota). Els atributs descriuen el nom de la tasca, on cal apuntar el telescopi quan crea imatges per a aquesta tasca, una descripció de quins tipus d'imatges s'han de capturar, restriccions sobre quan s'han d'executar les tasques (&pex;, altitud, crepuscle, lluna, bloquejos del paisatge, &etc;), coses que cal fer abans i després de l'execució de la tasca, i estratègies per fer front als errors. </para>
+>El cor del programador és una taula que mostra la llista de tasques del programador que l'usuari vol executar. Associats amb cada tasca hi ha atributs (la majoria descrits a la secció de configuració de sota). Els atributs descriuen el nom de la tasca, on cal apuntar el telescopi quan crea imatges per a aquesta tasca, una descripció de quins tipus d'imatges s'han de capturar, restriccions sobre quan s'han d'executar les tasques (&pex;, altitud, crepuscle, lluna, bloquejos del paisatge, &etc;), coses que cal fer abans i després de l'execució de la tasca, i estratègies per a fer front als errors. </para>
         <para
 >Podeu afegir, suprimir, modificar o canviar l'ordre de les files a la taula del programador. </para>
         <itemizedlist>
@@ -46,7 +46,7 @@
               <para
 >Si feu clic en una fila, podeu fer clic al control <guilabel
 >-</guilabel
-> sobre la taula per suprimir aquesta fila. </para>
+> sobre la taula per a suprimir aquesta fila. </para>
             </listitem>
 
             <listitem>
@@ -55,7 +55,7 @@
 >.</guilabel
 > o <guilabel
 >v</guilabel
-> per moure aquestes files amunt o avall a la llista de tasques. </para>
+> per a moure aquestes files amunt o avall a la llista de tasques. </para>
             </listitem>
 
             <listitem>
@@ -97,7 +97,7 @@
       <title
 >Configuració</title>
         <para
->El programador de l'Ekos proporciona una interfície senzilla per a ajudar a l'usuari a establir les condicions i restriccions necessàries per a una tasca del programador. Cal seleccionar l'<guilabel
+>El programador de l'Ekos proporciona una interfície senzilla per a ajudar l'usuari a establir les condicions i restriccions necessàries per a una tasca del programador. Cal seleccionar l'<guilabel
 >objectiu</guilabel
 >, les seves coordenades, i la <guilabel
 >seqüència</guilabel
@@ -221,15 +221,15 @@
         <para
 >Si voleu alternar les tasques, podeu assignar a cadascuna de les tasques el mateix nom de <guilabel
 >grup</guilabel
->, i donar a les tasques una de les condicions de finalització repetides (&pex;, Repeteix N vegades o Repeteix fins que finalitzi). Amb aquesta configuració, les tasques del mateix grup cediran entre elles si han completat més «Iteracions de repetició» que les altres tasques. Per tant, si el Job2 amb el grup «MyGroup» completa la seva segona iteració, i el Job3 amb el mateix nom de grup només ha completat 0 o 1 iteracions, quan arribi el moment de programar el Job2, el Job3 s'executarà. </para>
+>, i donar a les tasques una de les condicions de finalització repetides (&pex;, Repeteix N vegades o Repeteix fins que finalitzi). Amb aquesta configuració, les tasques del mateix grup cediran entre elles si han completat més «Iteracions de repetició» que les altres tasques. Per tant, si el Job2 amb el grup «MyGroup» completa la seva segona iteració, i el Job3 amb el mateix nom de grup només ha completat 0 o 1 iteració, quan arribi el moment de programar el Job2, el Job3 s'executarà. </para>
         <para
->Pràcticament parlant, imagineu que tenia un mosaic de sis plafons que voleu alternar. Podríeu donar a tots aquestes tasques el mateix nom de grup, feu-los tots, &pex;, «Repeteix 5 vegades». Llavors s'executarien en un pas de bloqueig. La cadència de commutació de tasques es controlaria per la longitud del fitxer de seqüència assignat a cada un d'aquestes tasques. No voldreu fer la cadència massa curta (&pex;, capturar una imatge de 2 minuts), ja que hi ha sobrecàrrega en canviar de tasca. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i fins i tot centrar. </para>
+>Pràcticament parlant, imagineu que tenia un mosaic de sis plafons que voleu alternar. Podríeu donar a totes aquestes tasques el mateix nom de grup, feu-los tots, &pex;, «Repeteix 5 vegades». Llavors s'executarien en un pas de bloqueig. La cadència de commutació de tasques es controlaria per la longitud del fitxer de seqüència assignat a cada un d'aquestes tasques. No voldreu fer la cadència massa curta (&pex;, capturar una imatge de 2 minuts), ja que hi ha sobrecàrrega en canviar de tasca. Per exemple, iniciar tasques pot implicar alinear, començar a orientar i fins i tot centrar. </para>
        </sect3>
        <sect3 id="repeat-all-jobs">
         <title
 >Repeteix totes les tasques</title>
         <para
->Hi ha una casella de selecció i una entrada de números just a sota de la taula de tasques del programador que permet repetir la planificació completa N vegades. Això es pot utilitzar per alternar entre tasques. Podeu llistar les tasques en el programador, establir-les per repetir N vegades, i les tasques es repetiran. No obstant això, aquest canvi és incompatible amb «Recorda el progrés de la tasca» (a dalt) i no està disponible si es marca «Recorda el progrés de la tasca». (Nota: Es recomana recordar el progrés de la tasca). </para>
+>Hi ha una casella de selecció i una entrada de números just a sota de la taula de tasques del programador que permet repetir la planificació completa N vegades. Això es pot utilitzar per a alternar entre tasques. Podeu llistar les tasques en el programador, establir-les per a repetir N vegades, i les tasques es repetiran. No obstant això, aquest canvi és incompatible amb «Recorda el progrés de la tasca» (a dalt) i no està disponible si es marca «Recorda el progrés de la tasca». (Nota: Es recomana recordar el progrés de la tasca). </para>
        </sect3>
     </sect2>
     <sect2 id="editing-running-jobs">
@@ -238,12 +238,12 @@
         <para
 >És possible editar la taula de tasques del programador, i els atributs de tasques individuals, mentre el programador està executant-se. Com sempre, feu doble clic en una tasca canvieu els atributs desitjats, i feu clic en la casella de selecció per a finalitzar el canvi. Si editeu la tasca en execució, es reiniciarà (és a dir, els passos d'inici (orientació, enfocament, alineació, guiatge) es refaran). També podeu moure feines amunt i avall en prioritat, afegir tasques noves, o eliminar-ne d'existents. No podeu eliminar la tasca en curs. </para>
         <para
->Un atribut important de les tasques del programador és el seu fitxer de seqüència (.esq) que controla el mòdul de captura mentre s'executa la tasca. Per exemple, posa número de captures, els filtres utilitzats, ISO/guany, etc. Normalment, el «.esq» és creat i editat en la pestanya de captura, però això no es pot fer mentre el programador està executant-se. Si desitgeu fer canvis en un fitxer «.esq» mentre el programador està en execució, o crear-ne un de nou, el programador proporciona una eina anomenada Editor de seqüències de captura. </para>
+>Un atribut important de les tasques del programador és el seu fitxer de seqüència (.esq) que controla el mòdul de captura mentre s'executa la tasca. Per exemple, estableix el nombre de captures, els filtres utilitzats, ISO/guany, etc. Normalment, el «.esq» és creat i editat en la pestanya de captura, però això no es pot fer mentre el programador està executant-se. Si desitgeu fer canvis en un fitxer «.esq» mentre el programador està en execució, o crear-ne un de nou, el programador proporciona una eina anomenada Editor de seqüències de captura. </para>
        <sect3 id="capture-sequence-editor">
         <title
 >Editor de seqüències de captura</title>
         <para
->L'Editor de seqüències de captura és una eina per crear i editar fitxers de seqüències de captura (.esq) que es pot iniciar fent clic a la icona d'edició (llapis) damunt la taula del programador. A sota es mostra una captura de pantalla. </para>
+>L'Editor de seqüències de captura és una eina per a crear i editar fitxers de seqüències de captura (.esq) que es pot iniciar fent clic a la icona d'edició (llapis) damunt la taula del programador. A sota es mostra una captura de pantalla. </para>
       <screenshot>
             <screeninfo
 >Editor de seqüències de captura </screeninfo>
@@ -261,7 +261,7 @@
 >L'editor és molt similar en ús i disposició a la pestanya de captura, encara que li manquen tots els controls de capturar realment imatges. Editeu les tasques de la mateixa manera que ho feu en la captura, i també carregueu o deseu les cues de seqüències de la mateixa manera (encara que hi ha botons addicionals de càrrega i desament proporcionats en l'editor). </para>
         <important>
         <para
->És important entendre que les seqüències de captura confien fins a cert punt en la roda de filtres i la càmera que s'utilitza (p. ex., els noms de filtre, els valors ISO possibles,...). L'Editor de seqüències de captura, el qual no està connectat als controladors dels dispositius, no té accés directe a aquesta informació. En comptes d'això, l'editor utilitza els valors de l'última vegada que la pestanya de captura s'ha connectat als seus dispositius. Així, no pot tenir sentit intentar i crear un fitxer «.esq» per a una càmera o roda de filtres diferent de l'última connectada. Podeu necessitar esperar fins que la tasca programada és completi i editar directament aquest «.*esq» en la pestanya de captura. </para>
+>És important entendre que les seqüències de captura confien fins a cert punt en la roda de filtres i la càmera que s'utilitza (p. ex., els noms de filtre, els valors ISO possibles,...). L'Editor de seqüències de captura, el qual no està connectat als controladors dels dispositius, no té accés directe a aquesta informació. En comptes d'això, l'editor utilitza els valors de l'última vegada que la pestanya de captura s'ha connectat als seus dispositius. Així, no pot tenir sentit intentar i crear un fitxer «.esq» per a una càmera o roda de filtres diferent de l'última connectada. Podeu necessitar esperar fins que la tasca programada es completi i editar directament aquest «.*esq» en la pestanya de captura. </para>
         <para
 >També es recomana no sobreescriure els fitxers «.esq» quan les tasques del programador estan utilitzant aquests mateixos fitxers. (Està bé si el programador s'està executant, però no està executant aquesta tasca.) Això pot fer que el programador i els mòduls de captura no estiguin sincronitzats, ja que llegeixen els fitxers en moments diferents. En el seu lloc, podeu desar a un nom de fitxer diferent i després editar la tasca del programador per a utilitzar el nom nou de fitxer «.esq». </para>
         </important>
@@ -356,7 +356,7 @@
         <title
 >Adquisició de les dades</title>
         <para
->Depenent de la selecció de l'usuari, el flux de treball típic procedirà de la següent manera: </para>
+>Depenent de la selecció de l'usuari, el flux de treball típic procedirà de la manera següent: </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -405,7 +405,7 @@
         <para
 >Si es produeix un error irrecuperable, l'observatori iniciarà el procediment de tancament. Si hi ha un script de tancament, s'executarà l'últim. </para>
         <para
->El següent vídeo mostra una versió anterior del programador, però els principis bàsics encara s'apliquen avui: </para>
+>El vídeo següent mostra una versió anterior del programador, però els principis bàsics encara s'apliquen avui: </para>
         <mediaobject>
             <videoobject>
                 <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/v8vIXD1kois"
@@ -578,11 +578,11 @@ exit(0)
             </mediaobject>
         </screenshot>
         <para
->Una superposició gran farà més fàcil la costura de fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de subfotogrames, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir aquesta quantitat a les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb un superposició del 75% tindrà 16 subfotogrames que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçada en totes les parts del fotograma final, aquest mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
+>Una superposició gran farà més fàcil la costura de fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de subfotogrames, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir aquesta quantitat a les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb una superposició del 75% tindrà 16 subfotogrames que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçada en totes les parts del fotograma final, aquest mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
         <para
 >El nombre gran dibuixat a la cantonada de cada subfinestra en la quadrícula representa l'ordre en què s'han capturat les subfinestres. L'elecció predeterminada en forma de S (oest-est i alternant moviments alts-baixos/baixos-alts), garanteix un moviment mínim de la muntura durant l'observació. Desmarqueu <guilabel
 >Moviment mínim de la muntura</guilabel
-> per tornar als moviments oest-est/alts-baixos. Les coordenades de cada subfinestra es representen al seu centre com a graus, minuts i segons. Finalment, l'angle de cada subfinestra rotarà des del centre del mosaic mostrant-se a la part inferior. Si el vostre camp de visió és gran o si el mosaic es troba a prop d'un pol celeste, observareu que les subfinestres representades començaran a rotar visiblement a causa de la seva posició horitzontal o d'una declinació alta. Utilitzeu la <guilabel
+> per a tornar als moviments oest-est/alts-baixos. Les coordenades de cada subfinestra es representen al seu centre com a graus, minuts i segons. Finalment, l'angle de cada subfinestra girarà des del centre del mosaic mostrant-se a la part inferior. Si el vostre camp de visió és gran o si el mosaic es troba a prop d'un pol celeste, observareu que les subfinestres representades començaran a rotar visiblement a causa de la seva posició horitzontal o d'una declinació alta. Utilitzeu la <guilabel
 >Superposició</guilabel
 > per a assegurar-vos que les subfinestres cobreixin correctament l'extensió desitjada del fotograma. </para>
         <screenshot>

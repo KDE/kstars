@@ -180,7 +180,7 @@
 >Propietats de la tasca</guilabel
 > s'hauran de gravar i desar. </para>
             <para
->El següent vídeo explica que aquest concepte és més detallat amb un exemple en viu: </para>
+>El vídeo següent explica que aquest concepte és més detallat amb un exemple en viu: </para>
             <mediaobject>
                 <videoobject>
                     <videodata contentdepth="450" contentwidth="800" fileref="https://www.stellarmate.com/images/fss/videos/custom_properties.mp4"
@@ -232,7 +232,7 @@
                 <para
 >També es pot incloure text arbitrari a la cadena Format, <emphasis role="bold"
 >excepte els caràcters % i \</emphasis
->. El caràcter / de camí es pot utilitzar per definir directoris arbitraris. </para>
+>. El caràcter / de camí es pot utilitzar per a definir directoris arbitraris. </para>
                 <para
 >Nota: les etiquetes distingeixen entre majúscules i minúscules tant en les seves formes curtes com llargues. </para>
                 <para
@@ -506,7 +506,7 @@
         <para
 >Si la vostra càmera admet un canal amb flux de vídeo en directe, podeu fer clic al botó <guibutton
 >Vídeo en directe</guibutton
-> per a començar la transmissió. La finestra del flux de vídeo permet gravar i la combinació de subfotogrames del flux de vídeo. Per a obtenir més informació, consulteu el següent vídeo: </para>
+> per a començar la transmissió. La finestra del flux de vídeo permet gravar i la combinació de subfotogrames del flux de vídeo. Per a obtenir més informació, consulteu el vídeo següent: </para>
         <mediaobject>
             <videoobject>
                 <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/qRsAqTL4ZZI"
@@ -762,7 +762,7 @@
                             <para
 >Si s'utilitza un valor de mapa de contaminació lumínica per al valor d'entrada del SQM, però el processament d'imatges es realitzarà amb una lluna parcial, llavors s'hauria d'aplicar una disminució de l'entrada del valor del SQM a la calculadora. La llum de la lluna pot ser aclaparadora; en un lloc on un mapa de contaminació lumínica mostrava un valor de 19,63. Es va fer una lectura del SQM en una nit amb una mitja creixent, poc abans de la mitja lluna (edat de la lluna 5,4 i magnitud del KStars de la lluna = -10). La lectura del SQM al zenit va mostrar que el cel era molt més brillant amb un valor mesurat de 18,48. Una lectura presa en una nit amb una gibosa creixent, poc abans d'una lluna plena, (lluna de 12,4, i magnitud del KStars de la lluna = -12). La lectura del SQM al zenit va mostrar un valor mesurat del SQM de 15,95.</para>
 <para
->El valor de la qualitat del cel té un impacte dràstic en l'exposició calculada a causa de l'escala logarítmica implicada. Una imatge presa des d'una ubicació amb una contaminació lumínica intensa (un valor de qualitat baixa del cel), especialment quan no s'aplica el filtratge, pot resultar en un temps d'exposició molt curt per evitar que la contaminació lumínica desbordi el senyal de l'objectiu. Una imatge presa des d'una ubicació amb molt poca contaminació lumínica (un valor alt de qualitat del cel) pot donar lloc a un temps de subexposició de diverses hores.</para>
+>El valor de la qualitat del cel té un impacte dràstic en l'exposició calculada a causa de l'escala logarítmica implicada. Una imatge presa des d'una ubicació amb una contaminació lumínica intensa (un valor de qualitat baixa del cel), especialment quan no s'aplica el filtratge, pot resultar en un temps d'exposició molt curt per a evitar que la contaminació lumínica desbordi el senyal de l'objectiu. Una imatge presa des d'una ubicació amb molt poca contaminació lumínica (un valor alt de qualitat del cel) pot donar lloc a un temps de subexposició de diverses hores.</para>
                         </listitem>
                         <listitem>
                             <para
@@ -782,7 +782,7 @@
 <para
 >Un valor efectiu / ajustat de la relació focal per a un reflector = Relació focal de l'òptica / 0,78</para>
 <para
->Aquests ajustos augmenten lleugerament la relació focal, i per tant, redueixen lleugerament la capacitat de captació de llum calculada considerada en el càlcul.</para>
+>Aquests ajustos augmenten lleugerament la relació focal i, per tant, redueixen lleugerament la capacitat de captació de llum calculada considerada en el càlcul.</para>
                         </listitem>
                         <listitem>
                             <para
@@ -949,7 +949,7 @@
 >Per a un objectiu intens, (exemple, la nebulosa d'Orió de magnitud 4), proporcionaria un senyal relativament intens. En aquest objectiu, el valor de la relació temps/soroll es podria reduir i el càlcul de subexposicions, encara pot produir una imatge amb una relació senyal/soroll molt bona. Un objectiu molt més feble (exemple, el casc de Thor, magnitud 11), pot requerir una relació temps/soroll més alta per a compensar el senyal d'objectiu relativament feble. </para>
 
 <para
->Depenent de les diferents entrades i condicions del processament d'imatges, la qualitat potencial d'una subexposició pot variar molt. En mala qualitat del cel amb poc o cap filtratge, el temps calcular de subexposició serà naturalment curt per evitar un soroll aclaparador de la contaminació lumínica, i el temps d'exposició en relació amb el soroll calculat serà baix (una relació de temps/soroll baixa). Per aconseguir una imatge integrada d'alta qualitat a partir de subexposicions de baixa relació temps/soroll pot requerir milers de subexposicions. Si l'usuari es preocupa per la imatge i el temps de processament o la capacitat d'emmagatzematge, llavors es necessitaria una relació de temps/soroll més alta per a reduir la quantitat de subexposicions. Per contra, quan les condicions d'entrada donen lloc a una subexposició amb un temps d'exposició llarg en relació amb el soroll calculat (com amb imatges de banda estreta), el resultat pot ser una subexposició amb una relació temps/soroll molt alta. En aquests casos, el valor predeterminat de 80, pot resultar en molt poques subexposicions per a la integració. Però el valor delta serà bastant alt, la qual cosa indica que augmentar la relació temps-soroll millorarà enormement la qualitat potencial de la imatge integrada. </para>
+>Depenent de les diferents entrades i condicions del processament d'imatges, la qualitat potencial d'una subexposició pot variar molt. En mala qualitat del cel amb poc o cap filtratge, el temps calcular de subexposició serà naturalment curt per a evitar un soroll aclaparador de la contaminació lumínica, i el temps d'exposició en relació amb el soroll calculat serà baix (una relació de temps/soroll baixa). Per a aconseguir una imatge integrada d'alta qualitat a partir de subexposicions de baixa relació temps/soroll pot requerir milers de subexposicions. Si l'usuari es preocupa per la imatge i el temps de processament o la capacitat d'emmagatzematge, llavors es necessitaria una relació de temps/soroll més alta per a reduir la quantitat de subexposicions. Per contra, quan les condicions d'entrada donen lloc a una subexposició amb un temps d'exposició llarg en relació amb el soroll calculat (com amb imatges de banda estreta), el resultat pot ser una subexposició amb una relació temps/soroll molt alta. En aquests casos, el valor predeterminat de 80, pot resultar en molt poques subexposicions per a la integració. Però el valor delta serà bastant alt, la qual cosa indica que augmentar la relació temps-soroll millorarà enormement la qualitat potencial de la imatge integrada. </para>
 
 <para
 >Part del valor d'utilitzar una relació temps/soroll com a entrada per al càlcul del nombre requerit de subexposicions és que hauria de tendir a compensar les diferències en el soroll relatiu per a subexposicions de durades diverses. Una subexposició més curta tindria una relació temps/soroll més baixa, de manera que té menys capacitat per a millorar una imatge integrada. Per tant, es necessita un nombre desproporcionadament més alt d'exposicions curtes per a aconseguir una relació temps/soroll determinada en una imatge integrada.</para>

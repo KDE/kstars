@@ -67,7 +67,7 @@
 >Calcula</guibutton
 >. Després de seleccionar l'objecte de la llista d'objectes i establir el moment del temps, es pot calcular l'altitud prement el botó <guibutton
 >Calcula</guibutton
->. Però aquesta no és l'única forma en què pot esbrinar l'altitud. Un altre mètode consisteix a desplaçar-se amb el ratolí per sobre d'una corba i per tant, apareixerà un consell d'eina que contindrà l'hora local, l'hora sidèria local i l'altitud. D'aquesta manera podreu llegir la informació en temps real. </para>
+>. Però aquesta no és l'única forma en què pot esbrinar l'altitud. Un altre mètode consisteix a desplaçar-se amb el ratolí per sobre d'una corba i, per tant, apareixerà un consell d'eina que contindrà l'hora local, l'hora sidèria local i l'altitud. D'aquesta manera podreu llegir la informació en temps real. </para>
 <para
 >L'altitud d'un objecte dependrà d'on esteu sobre la Terra i de la data. De manera predeterminada, l'eina adopta l'emplaçament i la data de la configuració actual del &kstars;. Podeu canviar aquests paràmetres a la pestanya <guilabel
 >Data i emplaçament</guilabel

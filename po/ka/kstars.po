@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 01:34+0000\n"
-"PO-Revision-Date: 2024-01-21 14:05+0100\n"
+"POT-Creation-Date: 2024-01-28 01:37+0000\n"
+"PO-Revision-Date: 2024-01-27 05:24+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5743,10 +5743,10 @@ msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
 
 #: ekos/align/align.cpp:1542
-#, fuzzy, kde-format
-#| msgid "Capturing still running, Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
-msgstr "გადაღება ჯერ კიდევ მიმდინარეობს. თავიდან %1 წამში ვცდი..."
+msgstr ""
+"გადაღება შეუძლებელია, როცა როტატორი დაკავებულია. თავიდან %1 წამში ვცდი..."
 
 #: ekos/align/align.cpp:1561 ekos/align/align.cpp:3054
 #, kde-format
@@ -18352,7 +18352,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "<html><head/><body><p>The furthest datapoints have their exposure times "
-"increaed by this factor. The in focus datapoint exposure is not increased. "
+"increased by this factor. The in focus datapoint exposure is not increased. "
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
@@ -34003,7 +34003,7 @@ msgstr ""
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2127
 #, kde-format
-msgid "Whether to use Donut Busting functionalty during Autofocus."
+msgid "Whether to use Donut Busting functionality during Autofocus."
 msgstr ""
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)

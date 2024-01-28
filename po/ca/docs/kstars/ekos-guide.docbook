@@ -169,7 +169,7 @@
 >Guia</guibutton
 >. Tingueu en compte que si el calibratge ja s'ha completat correctament abans, i no heu netejat el calibratge, i esteu reutilitzant els calibratges, llavors el procés de guiatge automàtic començarà immediatament, en cas contrari, iniciarà el procés de calibratge. </para>
         <para
->L'Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura en l'AR i Dec. Impulsa l'eix de l'AR cap a fora, i després l'impulsa cap a dins. Després d'això es mou una mica a la Dec per netejar i compensar el rebot que pogués existir, i llavors impulsa cap enfora i torna cap a dins la Dec. Per a veure-ho gràficament, feu clic a la subpestanya «Traçat de calibratge» de la pàgina principal del guiatge. </para>
+>L'Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura en l'AR i Dec. Impulsa l'eix de l'AR cap a fora, i després l'impulsa cap a dins. Després d'això es mou una mica a la Dec per a netejar i compensar el rebot que pogués existir, i llavors impulsa cap enfora i torna cap a dins la Dec. Per a veure-ho gràficament, feu clic a la subpestanya «Traçat de calibratge» de la pàgina principal del guiatge. </para>
         <sect3 id="guide-calibration-failures">
         <title
 >Fallades del calibratge</title>
@@ -243,12 +243,12 @@
 >Blau</guilabel
 > en la Dec. Els colors de les línies de l'AR/Dec es poden canviar a l'<link linkend="colors"
 >esquema de color del &kstars;</link
-> al diàleg de configuració. L'eix vertical indica la desviació en segons d'arc des de la posició de bloqueig i l'eix horitzontal indica l'hora. Podeu passar el cursor per sobre de la línia per a obtenir la desviació exacta en aquest punt concret del temps. També podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. Un altre lloc adequat per examinar el rendiment del guiatge és a la pestanya Analitza. </para>
+> al diàleg de configuració. L'eix vertical indica la desviació en segons d'arc des de la posició de bloqueig i l'eix horitzontal indica l'hora. Podeu passar el cursor per sobre de la línia per a obtenir la desviació exacta en aquest punt concret del temps. També podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. Un altre lloc adequat per a examinar el rendiment del guiatge és a la pestanya Analitza. </para>
         <para
->L'Ekos pot utilitzar diversos algorismes per a determinar la deriva des de la posició de bloqueig (original), però de lluny el més precís és l'algorisme SEP MultiStar (predeterminat). Utilitza la posició detectada de moltes estrelles (en la configuració anterior, fins a 50) per determinar la seva millor estimació de la deriva actual. Depèn de la detecció precisa d'estrelles. Per tant, pot ser important ajustar els paràmetres de detecció d'estrelles. Comenceu amb el perfil SEP predeterminat de Guia, i opcionalment editeu els paràmetres si creieu que les estrelles no s'estan detectant amb precisió. </para>
+>L'Ekos pot utilitzar diversos algorismes per a determinar la deriva des de la posició de bloqueig (original), però de lluny el més precís és l'algorisme SEP MultiStar (predeterminat). Utilitza la posició detectada de moltes estrelles (en la configuració anterior, fins a 50) per a determinar la seva millor estimació de la deriva actual. Depèn de la detecció precisa d'estrelles. Per tant, pot ser important ajustar els paràmetres de detecció d'estrelles. Comenceu amb el perfil SEP predeterminat de Guia, i opcionalment editeu els paràmetres si creieu que les estrelles no s'estan detectant amb precisió. </para>
         <para
->Aquests són alguns dels paràmetres que potser voleu ajustar. De nou, hi ha un bon consell a l'hora de triar paràmetres a Internet, p. ex. des de <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
->el passi de diapositives anterior</ulink
+>Aquests són alguns dels paràmetres que potser voleu ajustar. De nou, hi ha un bon consell a l'hora de triar paràmetres a Internet, p. ex. des del <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
+>passi de diapositives anterior</ulink
 >. </para>
         <itemizedlist>
             <listitem>

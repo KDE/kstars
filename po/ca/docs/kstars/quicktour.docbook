@@ -226,7 +226,7 @@
 >. </para>
 
 <para
->La secció superior conté algunes línies informatives que no són seleccionables: Els noms de l'objecte («M 42»; «Orion Nebula»), tipus d'objecte («nebulosa gasosa»), i la constel·lació que conté l'objecte («ORIÓ»). Les següents tres línies mostren l'hora de sortida, posta i trànsit. Si l'hora de sortida i posta diuen «circumpolar», això voldrà dir que l'objecte resta per sota de l'horitzó per a l'emplaçament actual. </para>
+>La secció superior conté algunes línies informatives que no són seleccionables: Els noms de l'objecte («M 42»; «Orion Nebula»), tipus d'objecte («nebulosa gasosa»), i la constel·lació que conté l'objecte («ORIÓ»). Les tres línies següents mostren l'hora de sortida, posta i trànsit. Si l'hora de sortida i posta diuen «circumpolar», això voldrà dir que l'objecte resta per sota de l'horitzó per a l'emplaçament actual. </para>
 <para
 >La secció mitjana conté les accions que es poden realitzar sobre l'objecte, com ara <guimenuitem
 >Centra i segueix</guimenuitem
@@ -402,7 +402,7 @@
 <para
 >Quan feu clic sobre un objecte en el mapa, aquest es convertirà en l'<firstterm
 >objecte seleccionat</firstterm
-> i el seu nom serà mostrat en la barra d'estat. Disposeu de diverses ordres de teclat per actuar amb l'objecte seleccionat: <variablelist>
+> i el seu nom serà mostrat en la barra d'estat. Hi ha diverses ordres ràpides de teclat que actuen sobre l'objecte seleccionat: <variablelist>
 <varlistentry>
 <term
 ><keycap
@@ -458,7 +458,7 @@
 ></term>
 <listitem>
 <para
->Mostra o oculta una corba sobre el cel mostrant el camí dels objectes a través del mateix (tan sols és aplicable als cossos del Sistema Solar). </para>
+>Mostra o oculta una corba sobre el cel mostrant el camí dels objectes a través del mateix (tan sols és aplicable als cossos del sistema solar). </para>
 </listitem>
 </varlistentry>
 
@@ -486,7 +486,7 @@
 >opcions de configuració i de personalització</link
 >. A més, aquest manual inclou el <link linkend="astroinfo"
 >Projecte AstroInfo</link
->, una sèrie d'articles curts inter-connectats que expliquen alguns dels conceptes celestes i astrofísics sobre els quals es basa el &kstars;. </para>
+>, una sèrie d'articles curts interconnectats que expliquen alguns dels conceptes celestes i astrofísics sobre els quals es basa el &kstars;. </para>
 </sect1>
 
 </chapter>

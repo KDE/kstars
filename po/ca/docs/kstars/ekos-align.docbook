@@ -32,11 +32,11 @@
 >StellarSolver</ulink
 > o <ulink url="https://www.hnsky.org/astap"
 >ASTAP</ulink
->), i obtindrà de tornada les coordenades centrals (AR, Dec), l'escala i la orientació de la imatge. El solucionador fonamentalment realitzarà un reconeixement de patrons a partir d'un catàleg de milions d'estrelles. Un cop determinades les coordenades, apuntarà de veritat amb el telescopi. </para>
+>), i obtindrà de tornada les coordenades centrals (AR, Dec), l'escala i l'orientació de la imatge. El solucionador fonamentalment realitzarà un reconeixement de patrons a partir d'un catàleg de milions d'estrelles. Un cop determinades les coordenades, apuntarà de veritat amb el telescopi. </para>
         <para
 >Sovint, hi ha una discrepància entre el lloc on el telescopi creu que està mirant i on realment apunta. La magnitud d'aquesta discrepància pot variar des d'uns quants minuts d'arc fins a un parell de graus. L'Ekos ho pot corregir sincronitzant-se amb les coordenades noves, o bé orientant la muntura fins a l'objectiu desitjat sol·licitat originalment. </para>
         <para
->L'Ekos també proporciona una eina d'assistent d'alineació polar per a corregir els errors d'alineació polar. Pren tres imatges, girant entre elles, i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Retorna a l'usuari els ajustos d'altitud i azimut necessaris per alinear aquests eixos. Aquestes imatges es prenen normalment a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant prop del meridià i girant cap a l'est o cap a l'oest. </para>
+>L'Ekos també proporciona una eina d'assistent d'alineació polar per a corregir els errors d'alineació polar. Pren tres imatges, girant entre elles, i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Retorna a l'usuari els ajustos d'altitud i azimut necessaris per a alinear aquests eixos. Aquestes imatges es prenen normalment a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant prop del meridià i girant cap a l'est o cap a l'oest. </para>
         <para
 >Com a mínim, necessitareu una CCD/càmera web i un telescopi que admeti les ordres orienta i sincronitza. El telescopi comercial més popular avui dia les admet sense problemes. </para>
     </sect2>
@@ -59,7 +59,7 @@
                 </listitem>
                 <listitem>
                     <para
->Orienteu cap a una estrella brillant propera utilitzant l'ordre d'orientació del telescopi en el SkyMap utilitzant el <guilabel
+>Orienteu cap a una estrella brillant propera utilitzant l'ordre d'orientació del telescopi en el SkyMap utilitzant <guilabel
 >Orienta el telescopi a la posició del punter del ratolí</guilabel
 >. </para>
                 </listitem>
@@ -137,7 +137,7 @@
 >Mètode de solució</guilabel
 > us recomanem triar <guilabel
 >Solucionador intern</guilabel
-> per utilitzar la còpia del codi Astrometry.net de StellarSolver, o trieu <guilabel
+> per a utilitzar la còpia del codi Astrometry.net de StellarSolver, o trieu <guilabel
 >ASTAP local</guilabel
 > si ho preferiu. El solucionador d'astrometria en línia és precís, però pot trigar molt temps a resoldre a causa de tota la transferència de dades requerida. Per al <guilabel
 >Perfil d'opcions</guilabel
@@ -176,7 +176,7 @@
 >, llavors no és necessari. </para>
       <para
 >Haureu d'assegurar-vos que els camins són correctes per al solucionador que trieu. L'element de menú superior <guilabel
->Seleccioneu per carregar un dels conjunts predeterminats</guilabel
+>Seleccioneu per a carregar un dels conjunts predeterminats</guilabel
 > normalment configura els quadres correctament. </para>
     </sect2>
 
@@ -249,7 +249,7 @@
 >Perfil d'opcions</guilabel
 > a la pestanya <guilabel
 >Opcions de l'StelarSolver</guilabel
->. Els perfils són simplement col·leccions de paràmetres per configurar el rendiment del sistema d'extracció d'estrelles i solució de plaques dins de StellarSolver. El perfil <guilabel
+>. Els perfils són simplement col·leccions de paràmetres per a configurar el rendiment del sistema d'extracció d'estrelles i solució de plaques dins de StellarSolver. El perfil <guilabel
 >1-Predeterminat</guilabel
 > és el recomanat per a començar. Hi ha altres perfils possibles, com ara <guilabel
 >Solució a gran escala</guilabel
@@ -306,7 +306,7 @@
 >Multiplicador del llindar</guilabel
 > i després s'afegeix el <guilabel
 >Desplaçament del llindar</guilabel
->. Si el valor d'un píxel excedeix el resultat, llavors es pot utilitzar per detectar una estrella. Per tant, els valors més baixos (especialment per al multiplicador) poden causar que fins i tot els píxels febles es detectin com a estrelles. Els valors més alts reduiran el nombre d'estrelles detectades.</para
+>. Si el valor d'un píxel excedeix el resultat, llavors es pot utilitzar per a detectar una estrella. Per tant, els valors més baixos (especialment per al multiplicador) poden causar que fins i tot els píxels febles es detectin com a estrelles. Els valors més alts reduiran el nombre d'estrelles detectades.</para
 ></listitem>
          <listitem
 ><para
@@ -340,9 +340,9 @@
 >Nombre d'estrelles a mantenir</guilabel
 > es relacionen amb el nombre d'estrelles retornades pel sistema. El sistema executarà inicialment el seu algorisme de detecció i trobarà un nombre concret de possibles deteccions. Filtrarà aquesta llista, mantenint només el nombre d'estrelles més brillants indicat a <guilabel
 >Mantén d'inici</guilabel
->. Llavors executarà la resta del filtratge, incloent calcular l'HFR de totes aquestes estrelles i finalment només retornarà una llista de <guilabel
+>. Llavors executarà la resta del filtratge, incloent-hi calcular l'HFR de totes aquestes estrelles i finalment només retornarà una llista de <guilabel
 >Nombre d'estrelles a mantenir</guilabel
->. Cap dels usos (alineació, enfocament automàtic, guiatge) de l'StellarSolver requereix milers d'estrelles per poder fer el seu treball, i com més estrelles es processin, més lenta serà l'operació. Una llista inicial de 1000 estrelles i uns quants centenars d'estrelles retornades haurien de ser suficients per a la majoria de les aplicacions.</para
+>. Cap dels usos (alineació, enfocament automàtic, guiatge) de l'StellarSolver requereix milers d'estrelles per a poder fer el seu treball, i com més estrelles es processin, més lenta serà l'operació. Una llista inicial de 1000 estrelles i uns quants centenars d'estrelles retornades haurien de ser suficients per a la majoria de les aplicacions.</para
 ></listitem>
          <listitem
 ><para
@@ -437,7 +437,7 @@
 >mòdul d'alineació</link
 > i, a continuació, seleccioneu la pestanya <guilabel
 >Fitxers d'índex d'astrometria</guilabel
->. La pàgina mostrarà el CDV actual de la configuració actual i, a continuació, una llista dels fitxers d'índex disponibles i els instal·lats. S'utilitzen tres icones per a designar la importància dels fitxers d'índex indicats a la configuració actual de la següent manera: </para>
+>. La pàgina mostrarà el CDV actual de la configuració actual i, a continuació, una llista dels fitxers d'índex disponibles i els instal·lats. S'utilitzen tres icones per a designar la importància dels fitxers d'índex indicats a la configuració actual de la manera següent: </para>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -471,7 +471,7 @@
                 </listitem>
             </itemizedlist>
             <para
->Haureu de baixar tots els fitxers requerits i, si teniu prou espai al disc dur, també podreu baixar els índexs recomanats. Si s'instal·la un fitxer d'índex, s'haurà de marcar la marca de selecció, en cas contrari, marqueu-la per a baixar el fitxer d'índex corresponent. Si us plau, baixeu només un fitxer a la vegada, especialment per als fitxers més grans. Podria ser que se us demani que introduïu la contrasenya de l'administrador (la predeterminada a StellarMate és <userinput
+>Haureu de baixar tots els fitxers requerits i, si teniu prou espai al disc dur, també podreu baixar els índexs recomanats. Si s'instal·la un fitxer d'índex, s'haurà d'activar la marca de selecció, en cas contrari, marqueu-la per a baixar el fitxer d'índex corresponent. Si us plau, baixeu només un fitxer a la vegada, especialment per als fitxers més grans. Podria ser que se us demani que introduïu la contrasenya de l'administrador (la predeterminada a StellarMate és <userinput
 >smate</userinput
 >) per a instal·lar els fitxers. Un cop hàgiu instal·lat tots els fitxers necessaris, podreu començar a utilitzar immediatament el solucionador «astrometry.net» fora de línia. </para>
         </sect3>
@@ -671,7 +671,7 @@
                     </tgroup>
                 </table>
                 <para
->Els paquets de Debian són adequats per a qualsevol distribució basada en Debian (Ubuntu, Mint, &etc;). Si heu baixat els paquets de Debian anteriors per al vostre interval del CDV, podeu instal·lar-los des del vostre gestor de paquets preferit o mitjançant la següent ordre: </para>
+>Els paquets de Debian són adequats per a qualsevol distribució basada en Debian (Ubuntu, Mint, &etc;). Si heu baixat els paquets de Debian anteriors per al vostre interval del CDV, podeu instal·lar-los des del vostre gestor de paquets preferit o mitjançant l'ordre següent: </para>
                 <para>
                     <command
 >sudo dpkg -i astrometry-data-*.deb</command>
@@ -767,7 +767,7 @@
 >&MacOS;</term>
                 <listitem>
                     <para
->L'«astrometry.net» ja està inclòs amb el &kstars; per a &MacOS;, per tant no cal instal·lar-lo. </para>
+>L'«astrometry.net» ja està inclòs amb el &kstars; per a &MacOS;, per tant, no cal instal·lar-lo. </para>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -775,7 +775,7 @@
 >&Linux;</term>
                 <listitem>
                     <para
->L'«astrometry.net» ja està inclòs amb el &kstars; en la versió «bleeding». Però si l'astrometria no està instal·lada, podeu instal·lar-la executant la següent ordre a la &ubuntu;: </para>
+>L'«astrometry.net» ja està inclòs amb el &kstars; en la versió «bleeding». Però si l'astrometria no està instal·lada, podeu instal·lar-la executant l'ordre següent a la &ubuntu;: </para>
                     <para>
                         <command
 >sudo apt-get install astrometry.net</command>
@@ -832,7 +832,7 @@
                     <para
 ><guilabel
 >Tren</guilabel
->: Seleccioneu el tren òptic que s'utilitzarà per a capturar la imatge que s'alinearà. També s'utilitza per calcular l'escala de la imatge. </para>
+>: Seleccioneu el tren òptic que s'utilitzarà per a capturar la imatge que s'alinearà. També s'utilitza per a calcular l'escala de la imatge. </para>
                 </listitem>
                 <listitem>
                     <para
@@ -949,7 +949,7 @@
                 <para
 >Si l'error és prou baix (&pex;, menys d'un minut d'arc) llavors no necessitareu fer cap ajustament. Simplement premeu atura i ja heu acabat. </para>
                 <para
->Si esteu fent correccions a l'eix de la muntura, haureu de seleccionar l'aproximació d'ajust (estem utilitzant el solucionador de plaques en aquest exemple), i amb quina freqüència el sistema hauria de recuperar les imatges per a tornar a mesurar l'error d'alineació polar. L'interval d'actualització hauria de ser freqüent, però no té sentit fer que sigui més ràpid que la CPU pugui capturar i resoldre les imatges. Estem utilitzant 2s en aquest exemple. Després premeu el botó <guibutton
+>Si esteu fent correccions a l'eix de la muntura, haureu de seleccionar l'aproximació d'ajust (estem utilitzant el solucionador de plaques en aquest exemple), i amb quina freqüència el sistema hauria de recuperar les imatges per a tornar a mesurar l'error d'alineació polar. L'interval d'actualització hauria de ser freqüent, però no té sentit fer que sigui més ràpid que la CPU pugui capturar i resoldre les imatges. Estem utilitzant 2 s en aquest exemple. Després premeu el botó <guibutton
 >Actualitza</guibutton
 > per a començar el procés de correcció. </para>
                 <para
@@ -972,7 +972,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->A sota l'usuari també ha ajustat l'azimut per reduir l'error. Ara l'error és molt baix i el procés ha acabat. L'usuari hauria de prémer el botó d'aturar. </para>
+>A sota l'usuari també ha ajustat l'azimut per a reduir l'error. Ara l'error és molt baix i el procés ha acabat. L'usuari hauria de prémer el botó d'aturar. </para>
                 <screenshot>
                     <screeninfo
 >Assistent d'alineació polar </screeninfo>

@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 01:34+0000\n"
+"POT-Creation-Date: 2024-01-28 01:37+0000\n"
 "PO-Revision-Date: 2014-04-26 16:29+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -20510,7 +20510,7 @@ msgstr "Tidsfaktor"
 #, kde-format
 msgid ""
 "<html><head/><body><p>The furthest datapoints have their exposure times "
-"increaed by this factor. The in focus datapoint exposure is not increased. "
+"increased by this factor. The in focus datapoint exposure is not increased. "
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
@@ -38061,7 +38061,7 @@ msgstr ""
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2127
 #, kde-format
-msgid "Whether to use Donut Busting functionalty during Autofocus."
+msgid "Whether to use Donut Busting functionality during Autofocus."
 msgstr ""
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
