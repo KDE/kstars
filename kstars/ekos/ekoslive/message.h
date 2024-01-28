@@ -63,6 +63,7 @@ class Message : public QObject
         // Connection
         void sendConnection();
         void sendModuleState(const QString &name);
+        void clearPendingProperties();
 
         // Ekos
         void setEkosStatingStatus(Ekos::CommunicationStatus status);
