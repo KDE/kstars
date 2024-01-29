@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-28 01:37+0000\n"
+"POT-Creation-Date: 2024-01-29 01:33+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -6246,7 +6246,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "A FITS-fájl el lett mentve %1 néven"
 
 #: ekos/align/align.cpp:2596 ekos/capture/capture.cpp:1758
-#: ekos/focus/focus.cpp:4024 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1927
+#: ekos/focus/focus.cpp:4024 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1929
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:711
 #, kde-format
@@ -10189,7 +10189,7 @@ msgstr "A következő fájl törlése nem sikerült: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:1896 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:2056 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:2058 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:442
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:430
 #, kde-format
@@ -10198,7 +10198,7 @@ msgstr "Fókusz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:1897 ekos/manager.cpp:2030
+#: ekos/analyze/analyze.cpp:1897 ekos/manager.cpp:2032
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:395
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:438
 #, kde-format
@@ -10210,7 +10210,7 @@ msgstr "Igazítás"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:1898 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2215
+#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2217
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:434
 #, kde-format
@@ -10228,7 +10228,7 @@ msgstr "Fairview"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1900 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2140 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2142 ekos/manager.ui:665
 #, fuzzy, kde-format
 #| msgid "Count"
 msgid "Mount"
@@ -12447,7 +12447,7 @@ msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2255
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2257
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City in Tennessee USA"
@@ -23070,61 +23070,61 @@ msgstr "%1 elérhető."
 msgid "%1 Light box is online."
 msgstr "%1 elérhető."
 
-#: ekos/manager.cpp:1730
+#: ekos/manager.cpp:1732
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 nem érhető el."
 
-#: ekos/manager.cpp:1977
+#: ekos/manager.cpp:1979
 #, fuzzy, kde-format
 #| msgid "CCD"
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2272
+#: ekos/manager.cpp:2274
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2461
+#: ekos/manager.cpp:2463
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "Biztosan el szeretné távolítani a(z) %1 klienst?"
 
-#: ekos/manager.cpp:2462
+#: ekos/manager.cpp:2464
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "Konfigurációs fájl"
 
-#: ekos/manager.cpp:2514
+#: ekos/manager.cpp:2516
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2516
+#: ekos/manager.cpp:2518
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2776
+#: ekos/manager.cpp:2778
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2784
+#: ekos/manager.cpp:2786
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2812
+#: ekos/manager.cpp:2814
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2824
+#: ekos/manager.cpp:2826
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
