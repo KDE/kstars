@@ -1721,6 +1721,8 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         oneManager->removeDevice(device);
     }
 
+    ekosLiveClient->message()->clearPendingProperties();
+
     // Remove from rotator controllers
     for (auto &oneController : m_RotatorControllers)
     {
