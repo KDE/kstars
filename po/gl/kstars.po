@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-29 01:33+0000\n"
-"PO-Revision-Date: 2024-01-28 12:51+0100\n"
+"PO-Revision-Date: 2024-01-29 08:53+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -12679,24 +12679,19 @@ msgstr "Caixa luminosa:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:275
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Export the guide data from the current session to a "
-#| "CSV file readable by a spreadsheet program.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Exportar os gráficos de guía da sesión actual a un "
-"ficheiro CSV que un programa de follas de cálculo poida ler.</p></body></"
-"html>"
+"<html><head/><body><p>Seleccione unha roda de filtro.</p><p>Debería ser unha "
+"roda de filtro ou parte do controlador dunha cámara.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:278
-#, fuzzy, kde-format
-#| msgid "Filter Wheel:"
+#, kde-format
 msgid "Filter wheel:"
-msgstr "Roda de filtros:"
+msgstr "Roda de filtro:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:298

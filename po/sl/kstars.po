@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-29 01:33+0000\n"
-"PO-Revision-Date: 2024-01-22 08:29+0100\n"
+"PO-Revision-Date: 2024-01-29 15:44+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -20068,19 +20068,24 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:636
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
 "telescopes with a central obstruction that create donut shaped stars when "
 "defocused.</p><p>This is a currently an experimental feature that should be "
 "used with caution.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Preverite, ali želite omogočiti funkcionalnost "
+"izničenja krofov. Uporabljajte na teleskopih s centralno oviro, ki "
+"ustvarjajo zvezde v obliki krofov, ko niso izostrene.</p><p>To je trenutno "
+"eksperimentalna funkcija, ki jo je treba uporabljati previdno.</p></body></"
+"html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:639
-#, kde-format
+#, fuzzy, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr ""
+msgstr "Izničevalec krofov (OPOZORILO: poskusna funkcija)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:657
@@ -20092,13 +20097,17 @@ msgstr "Časovni faktor"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:670
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The furthest datapoints have their exposure times "
 "increased by this factor. The in focus datapoint exposure is not increased. "
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Pri najbolj oddaljenih podatkovnih točkah se s tem "
+"faktorjem poveča čas ekspozicije. Ekspozicija izostrenih podatkovnih točk se "
+"ne poveča. Pri vmesnih točkah so ekspozicije ustrezno umerjene.</"
+"p><p>Nastavite na 1, da onemogočite to možnost.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -37681,11 +37690,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
 #: kstars.kcfg:2131
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Factor to multiply focus exposure by for out of focus frames when using "
 "Donut Buster."
 msgstr ""
+"Faktor za pomnožitev ekspozicije izostrenega za neizostrene sličice, ko "
+"uporabljate Izničevalca krofov."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2135
