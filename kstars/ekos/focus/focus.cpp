@@ -1473,9 +1473,12 @@ void Focus::capture(double settleTime)
         if (filterPositionPending)
         {
             // Change the filter. When done this will signal to update the focusFilter combo
-            // Apply all policies except autofocus since we are already in autofocus module doh.
-            m_FilterManager->setFilterPosition(targetPosition,
-                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+            // Apply filter change policy if in Autofocus; otherwise apply change and offsets
+            // Note that Autofocus doesn't need the change policy as Adapt Start Pos takes care of this
+            FilterManager::FilterPolicy policy = (inAutoFocus) ?
+                                                 static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY) :
+                                                 static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY);
+            m_FilterManager->setFilterPosition(targetPosition, policy);
             return;
         }
         else if (targetPosition != focusFilter->currentIndex() + 1)
@@ -2151,8 +2154,10 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
     // Delay state notification if we have a locked filter pending return to original filter
     if (fallbackFilterPending)
     {
-        m_FilterManager->setFilterPosition(fallbackFilterPosition,
-                                           static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+        FilterManager::FilterPolicy policy = (autoFocusUsed) ?
+                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY) :
+                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY);
+        m_FilterManager->setFilterPosition(fallbackFilterPosition, policy);
     }
     else
         emit newStatus(state());
