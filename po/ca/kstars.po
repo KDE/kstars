@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-29 01:33+0000\n"
-"PO-Revision-Date: 2024-01-28 11:51+0100\n"
+"POT-Creation-Date: 2024-01-31 01:42+0000\n"
+"PO-Revision-Date: 2024-01-29 20:31+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5934,7 +5934,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: s'ha perdut la connexió amb la roda de filtres."
 
 #: ekos/align/align.cpp:1483 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4945
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:4950
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -5978,13 +5978,13 @@ msgstr ""
 "No s'ha detectat cap controlador remot d'astrometria, es canvia a "
 "l'StellarSolver."
 
-#: ekos/align/align.cpp:1615 ekos/focus/focus.cpp:1514
+#: ekos/align/align.cpp:1615 ekos/focus/focus.cpp:1517
 #, kde-format
 msgid "Capturing image..."
 msgstr "S'està capturant una imatge..."
 
 #: ekos/align/align.cpp:1705 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2510
+#: ekos/focus/focus.cpp:2515
 #, kde-format
 msgid "Image received."
 msgstr "Imatge rebuda."
@@ -6140,7 +6140,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2596 ekos/capture/capture.cpp:1758
-#: ekos/focus/focus.cpp:4024 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1929
+#: ekos/focus/focus.cpp:4029 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1929
 #: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:711
 #, kde-format
@@ -6308,7 +6308,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
 #: ekos/align/align.cpp:3626 ekos/capture/capture.cpp:2933
-#: ekos/focus/focus.cpp:4833
+#: ekos/focus/focus.cpp:4838
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Ha fallat l'operació del filtre."
@@ -9228,7 +9228,7 @@ msgstr ""
 #: ekos/align/opsprograms.ui:27
 #, kde-format
 msgid "Select to load one of the default sets"
-msgstr "Seleccioneu per carregar un dels conjunts predeterminats"
+msgstr "Seleccioneu per a carregar un dels conjunts predeterminats"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:32
@@ -9695,7 +9695,7 @@ msgid ""
 msgstr ""
 "<p>Ajusteu les <i>rodes d´altitud i azimut</i> de la muntura per a reduir "
 "l'error d'alineació a la polar.</p><p>Tingueu paciència, la solució de la "
-"placa pot estar afectada pel moviment de la roda. Considereu fer servir els "
+"placa pot estar afectada pel moviment de la roda. Considereu fer servir el "
 "resultat després de 2 imatges. Feu clic a <i>Atura</i> quan hàgiu acabat.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1233
@@ -10534,7 +10534,7 @@ msgstr ""
 "<html><head/><body><p>L'error de la deriva de l'ascensió recta (AR) en "
 "segons d'arc. Feu clic aquí per a veure aquest eix als valors de l'eix "
 "esquerre. Comparteix l'eix amb els valors d'error AR/Dec, deriva i RMS. Feu "
-"doble clic per actualitzar l'eix.</p></body></html>"
+"doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
 #: ekos/analyze/analyze.ui:428
@@ -10567,7 +10567,7 @@ msgstr ""
 "<html><head/><body><p>Traça l'error de la deriva de la declinació (Dec) en "
 "segons d'arc. Feu clic aquí per a veure aquest eix als valors de l'eix "
 "esquerre. Comparteix l'eix amb els valors d'error AR/Dec, deriva i RMS. Feu "
-"doble clic per actualitzar l'eix.</p></body></html>"
+"doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:469
@@ -10595,7 +10595,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Els polsos de guia de l'ascensió recta (AR) en "
 "mil·lisegons. Feu clic aquí per a veure aquest eix en els valors de l'eix "
-"esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decPulseCB)
 #: ekos/analyze/analyze.ui:516
@@ -10617,7 +10617,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Els polsos de guia de la declinació (Dec) en "
 "mil·lisegons. Feu clic aquí per a veure aquest eix en els valors de l'eix "
-"esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:563
@@ -10646,7 +10646,7 @@ msgstr ""
 "<html><head/><body><p>L'error de la deriva combinada de l'AR i la Dec en "
 "segons d'arc. Feu clic aquí per a veure aquest eix als valors de l'eix "
 "esquerre. Comparteix l'eix amb els valors d'error AR/Dec, deriva i RMS. Feu "
-"doble clic per actualitzar l'eix.</p></body></html>"
+"doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
 #: ekos/analyze/analyze.ui:610
@@ -10680,8 +10680,8 @@ msgstr ""
 "squared», RMS) de la deriva combinada de l'AR i de la Dec en segons d'arc, "
 "fent la mitjana d'aproximadament les 40 darreres mostres. Feu clic aquí per "
 "a veure aquest eix en els valors de l'eix esquerre. Comparteix l'eix amb els "
-"valors d'error AR/Dec, deriva i RMS. Feu doble clic per actualitzar l'eix.</"
-"p></body></html>"
+"valors d'error AR/Dec, deriva i RMS. Feu doble clic per a actualitzar l'eix."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyBgCB)
 #: ekos/analyze/analyze.ui:657
@@ -10709,8 +10709,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El nivell de llum de fons del cel (calculat pel SEP a "
 "partir de les imatges guia). Feu clic aquí per a veure aquest eix en els "
-"valors de l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></"
-"html>"
+"valors de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numStarsCB)
 #: ekos/analyze/analyze.ui:698
@@ -10746,7 +10746,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El nombre d'estrelles detectades a les imatges guia. "
 "Feu clic aquí per a veure aquest eix en els valors de l'eix esquerre. Feu "
-"doble clic per actualitzar l'eix.</p></body></html>"
+"doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, snrCB)
 #: ekos/analyze/analyze.ui:745
@@ -10774,8 +10774,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>La relació de senyal a soroll («signal-to-noise "
 "ratio», SNR) de l'estrella guia. Feu clic aquí per a veure aquest eix en els "
-"valors de l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></"
-"html>"
+"valors de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountRaCB)
 #: ekos/analyze/analyze.ui:792
@@ -10797,7 +10797,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Ascensió recta (AR) en HMS a on està apuntant el "
 "telescopi. Feu clic aquí per a veure aquest eix en els valors de l'eix "
-"esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
 #: ekos/analyze/analyze.ui:839
@@ -10819,8 +10819,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>La declinació (Dec) en graus:minuts-d'arc:segons-d'arc "
 "a on està apuntant el telescopi. Feu clic aquí per a veure aquest eix en els "
-"valors de l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></"
-"html>"
+"valors de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:886
@@ -10901,7 +10901,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El costat del moll de la muntura (esquerra) -> a on "
 "està apuntant la muntura. Feu clic aquí per a veure aquest eix en els valors "
-"de l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1027
@@ -10927,7 +10927,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El valor de l'angle horari de la muntura. Feu clic "
 "aquí per a veure aquest eix en els valors de l'eix esquerre. Feu doble clic "
-"per actualitzar l'eix.</p></body></html>"
+"per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1074
@@ -10955,7 +10955,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El radi de semiflux (HFR, en píxels) de les imatges "
 "capturades. Feu clic aquí per a veure aquest eix en els valors de l'eix "
-"esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #: ekos/analyze/analyze.ui:1115
@@ -10977,7 +10977,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Traça el nombre d'estrelles detectades a les imatges "
 "capturades. Feu clic aquí per a veure aquest eix en els valors de l'eix "
-"esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, medianCB)
 #: ekos/analyze/analyze.ui:1156
@@ -11005,7 +11005,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Traça el valor de la mediana de la mostra a les "
 "imatges capturades. Feu clic aquí per a veure aquest eix en els valors de "
-"l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eccentricityCB)
 #: ekos/analyze/analyze.ui:1197
@@ -11033,7 +11033,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Traça l'excentricitat mediana de les estrelles a les "
 "imatges capturades. Feu clic aquí per a veure aquest eix en els valors de "
-"l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></html>"
+"l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, temperatureCB)
 #: ekos/analyze/analyze.ui:1238
@@ -11087,7 +11087,7 @@ msgstr ""
 "fent la mitjana d'aproximadament les 40 darreres mostres, però només durant "
 "la captura. Feu clic aquí per a veure aquest eix als valors de l'eix "
 "esquerre. Comparteix l'eix amb els valors d'error AR/Dec, deriva i RMS. Feu "
-"doble clic per actualitzar l'eix.</p></body></html>"
+"doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, targetDistanceCB)
 #: ekos/analyze/analyze.ui:1332
@@ -11119,8 +11119,8 @@ msgstr ""
 "<html><head/><body><p>Traça la distància entre la imatge capturada de la "
 "placa solucionada i la posició de l'objectiu en segons d'arc. Cal activar-ho "
 "a les opcions del programador. Feu clic aquí per a veure aquest eix en els "
-"valors de l'eix esquerre. Feu doble clic per actualitzar l'eix.</p></body></"
-"html>"
+"valors de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
 #: ekos/analyze/analyze.ui:1379
@@ -11147,7 +11147,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Traça la posició de la solució d'enfocament automàtic. "
 "Feu clic aquí per a veure aquest eix en els valors de l'eix esquerre. Feu "
-"doble clic per actualitzar l'eix.</p></body></html>"
+"doble clic per a actualitzar l'eix.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -12894,7 +12894,7 @@ msgstr ""
 #: ekos/auxiliary/portselector.cpp:99
 #, kde-format
 msgid "Select Serial port"
-msgstr "Seleccioneu el port sèrie"
+msgstr "Seleccioneu el port en sèrie"
 
 #: ekos/auxiliary/portselector.cpp:130
 #, kde-format
@@ -13066,7 +13066,7 @@ msgstr "Ha fallat en afegir una regla nova."
 #: ekos/auxiliary/serialportassistant.ui:14
 #, kde-format
 msgid "Serial Port Assistant"
-msgstr "Assistent de port sèrie"
+msgstr "Assistent de port en sèrie"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/serialportassistant.ui:81
@@ -13076,8 +13076,8 @@ msgid ""
 "\">Serial Port Assistant</span> tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Us donem la benvinguda a l'eina <span style=\" font-"
-"weight:600;\">Assistent del port sèrie</span> del StellarMate.</p></body></"
-"html>"
+"weight:600;\">Assistent del port en sèrie</span> del StellarMate.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/serialportassistant.ui:88
@@ -13466,8 +13466,8 @@ msgstr ""
 "El tipus de filtre de convolució que el SEP aplicarà a la imatge abans de "
 "l'extracció d'estrelles. Aquests filtres són comparables als filtres "
 "inclosos en una instal·lació del SExtractor, però aquí teniu la flexibilitat "
-"per canviar el FWHM. El filtre predeterminat és el filtre més ràpid, però no "
-"canvia amb el paràmetre FWHM, i per tant és millor per a les estrelles "
+"per a canviar el FWHM. El filtre predeterminat és el filtre més ràpid, però "
+"no canvia amb el paràmetre FWHM, i per tant és millor per a les estrelles "
 "petites. El filtre gaussià és millor per a la detecció d'objectes febles.  "
 "El filtre de barret mexicà és bo en camps d'estrelles atapeïts o als "
 "voltants de nebuloses. El filtre barret de copa alta és bo per a objectes "
@@ -13817,7 +13817,7 @@ msgid ""
 msgstr ""
 "El nombre d'estrelles a mantenir a la llista després de l'extracció "
 "d'estrelles. Aquest paràmetre està basat en la magnitud i és molt útil per a "
-"accelerar la solució de les plaques, així com també en el mòdul d'alineació."
+"accelerar la solució de les plaques, així com en el mòdul d'alineació."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:857
@@ -14738,8 +14738,8 @@ msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El nombre de dígits utilitzats per afegir el número de "
-"seqüència al nom de fitxer.</p></body></html>"
+"<html><head/><body><p>El nombre de dígits utilitzats per a afegir el número "
+"de seqüència al nom de fitxer.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:970
@@ -14932,12 +14932,12 @@ msgstr ""
 "weight:704;\">Aquesta etiqueta és obligatòria i cal que sigui l'últim "
 "element del format.</span></li></ul><p>També es pot incloure text arbitrari "
 "a la cadena Format, <span style=\" font-weight:704;\">excepte els caràcters "
-"% i \\.</span> El caràcter / de camí es pot utilitzar per definir directoris "
-"arbitraris.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
-"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">les etiquetes distingeixen entre "
-"majúscules i minúscules tant en les seves formes curtes com llargues.</"
+"% i \\.</span> El caràcter / de camí es pot utilitzar per a definir "
+"directoris arbitraris.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">les etiquetes distingeixen "
+"entre majúscules i minúscules tant en les seves formes curtes com llargues.</"
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Utilitzeu l'etiqueta "
 "%Datetime només en la part del nom de fitxer del format, no en la definició "
@@ -15875,12 +15875,12 @@ msgstr "L'script %1 anterior a la tasca ha finalitzat amb el codi %1."
 msgid "Post job script finished with code %1."
 msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4987
+#: ekos/capture/captureprocess.cpp:1921 ekos/focus/focus.cpp:4992
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp..."
 
-#: ekos/capture/captureprocess.cpp:1945 ekos/focus/focus.cpp:4992
+#: ekos/capture/captureprocess.cpp:1945 ekos/focus/focus.cpp:4997
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16509,7 +16509,7 @@ msgstr ""
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Fixat</span>: Aquest algorisme permet a "
-"l'usuari especificar un HFR fix per utilitzar en la comprovació.</li><li "
+"l'usuari especificar un HFR fix per a utilitzar en la comprovació.</li><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">Mesure relativa</span>: Aquest algoritme recull els punts de "
@@ -16637,8 +16637,8 @@ msgid ""
 "the HFR Check.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Especifiqueu el % a aplicar al valor de comprovació "
-"HFR adequat a l'algorisme seleccionat, per utilitzar-lo com a llindar per "
-"realitzar la comprovació HFR.</p></body></html>"
+"HFR adequat a l'algorisme seleccionat, per a utilitzar-lo com a llindar per "
+"a realitzar la comprovació HFR.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
@@ -17861,7 +17861,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Punt d'inici adaptatiu [%1] des de %2 a %3"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6592
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6597
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Assessor d'enfocament"
@@ -17901,10 +17901,10 @@ msgid ""
 "Take a focus frame and zoom in on the fitsviewer to see whether stars appear "
 "as stars or donuts.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Una bona xifra per començar és 5. Una excepció és si "
+"<html><head/><body><p>Una bona xifra per a començar és 5. Una excepció és si "
 "teniu un telescopi amb una obstrucció central que converteix les estrelles "
 "en dònuts quan estan fora de focus. Quan això passa, el sistema tindrà "
-"problemes per identificar les estrelles correctament. Per evitar aquesta "
+"problemes per a identificar les estrelles correctament. Per a evitar aquesta "
 "situació reduïu la mida del pas o el nombre de passos.</p><p>Per a verificar "
 "aquesta situació, comenceu al focus i allunyeu-vos tants passos com la «mida "
 "del pas» * «nombre de passos». Preneu un fotograma d'enfocament i apropeu el "
@@ -18378,7 +18378,7 @@ msgstr "Finalment s'ha trobat la font de temperatura %1"
 msgid "No Focuser connected."
 msgstr "No s'ha connectat cap enfocador."
 
-#: ekos/focus/focus.cpp:974 ekos/focus/focus.cpp:4072
+#: ekos/focus/focus.cpp:974 ekos/focus/focus.cpp:4077
 #, kde-format
 msgid "No CCD connected."
 msgstr "No s'ha connectat cap CCD."
@@ -18471,112 +18471,112 @@ msgstr "Error: No s'ha detectat cap roda de filtres."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Error: S'ha perdut la connexió amb la roda de filtres."
 
-#: ekos/focus/focus.cpp:1558
+#: ekos/focus/focus.cpp:1561
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "A la posició d'enfocament mínima %1..."
 
-#: ekos/focus/focus.cpp:1569
+#: ekos/focus/focus.cpp:1572
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "S'està movent a la posició d'enfocament mínima %1..."
 
-#: ekos/focus/focus.cpp:1578
+#: ekos/focus/focus.cpp:1581
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "A la posició d'enfocament màxima %1..."
 
-#: ekos/focus/focus.cpp:1589
+#: ekos/focus/focus.cpp:1592
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "S'està movent a la posició d'enfocament màxima %1..."
 
-#: ekos/focus/focus.cpp:1608
+#: ekos/focus/focus.cpp:1611
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Error: No s'ha detectat cap enfocador."
 
-#: ekos/focus/focus.cpp:1615
+#: ekos/focus/focus.cpp:1618
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Error: S'ha perdut la connexió amb l'enfocador."
 
-#: ekos/focus/focus.cpp:1629
+#: ekos/focus/focus.cpp:1632
 #, kde-format
 msgid "outward"
 msgstr "enfora"
 
-#: ekos/focus/focus.cpp:1629
+#: ekos/focus/focus.cpp:1632
 #, kde-format
 msgid "inward"
 msgstr "endins"
 
-#: ekos/focus/focus.cpp:1646
+#: ekos/focus/focus.cpp:1649
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Enfocant %2 a %1 passos..."
 
-#: ekos/focus/focus.cpp:1652
+#: ekos/focus/focus.cpp:1655
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Enfocant %2 a %1 pas..."
 msgstr[1] "Enfocant %2 a %1 passos..."
 
-#: ekos/focus/focus.cpp:1658
+#: ekos/focus/focus.cpp:1661
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Enfocant %2 a %1 ms..."
 
-#: ekos/focus/focus.cpp:1693
+#: ekos/focus/focus.cpp:1696
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "L'enfocador encara està vençut. S'interromp..."
 
-#: ekos/focus/focus.cpp:1700
+#: ekos/focus/focus.cpp:1703
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "El moviment de l'enfocament ha excedit el temps (%1). S'està reiniciant el "
 "controlador de l'enfocador %2"
 
-#: ekos/focus/focus.cpp:1711
+#: ekos/focus/focus.cpp:1714
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "El moviment de l'enfocament ha excedit el temps (%1). Enfocant a %2 passos..."
 
-#: ekos/focus/focus.cpp:1757
+#: ekos/focus/focus.cpp:1760
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "S'intentarà tornar a connectar a l'enfocador: %1"
 
-#: ekos/focus/focus.cpp:1766
+#: ekos/focus/focus.cpp:1769
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "No s'ha pogut tornar a connectar amb l'enfocador: %1. S'interromp..."
 
-#: ekos/focus/focus.cpp:1815
+#: ekos/focus/focus.cpp:1818
 #, kde-format
 msgid "Detection complete."
 msgstr "Detecció completada."
 
-#: ekos/focus/focus.cpp:2015
+#: ekos/focus/focus.cpp:2018
 #, kde-format
 msgid "Detecting sources..."
 msgstr "S'estan detectant les fonts..."
 
-#: ekos/focus/focus.cpp:2131
+#: ekos/focus/focus.cpp:2134
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "L'operació d'enfocament automàtic s'ha completat correctament"
 
-#: ekos/focus/focus.cpp:2143
+#: ekos/focus/focus.cpp:2146
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Ha fallat l'operació d'enfocament automàtic"
 
-#: ekos/focus/focus.cpp:2179
+#: ekos/focus/focus.cpp:2184
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -18584,106 +18584,106 @@ msgstr[0] "S'ha completat el procediment d'enfocament després d'%1 iteració."
 msgstr[1] ""
 "S'ha completat el procediment d'enfocament després de %1 iteracions."
 
-#: ekos/focus/focus.cpp:2263
+#: ekos/focus/focus.cpp:2268
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "S'està fent el posicionament durant %1 s..."
 
-#: ekos/focus/focus.cpp:2270
+#: ekos/focus/focus.cpp:2275
 #, kde-format
 msgid "Settling complete."
 msgstr "Posicionament completat."
 
-#: ekos/focus/focus.cpp:2283
+#: ekos/focus/focus.cpp:2288
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Ha fallat l'enfocament automàtic, està retornant a la posició inicial de "
 "l'enfocament %1."
 
-#: ekos/focus/focus.cpp:2320
+#: ekos/focus/focus.cpp:2325
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS rebut. No s'ha detectat cap estrella."
 
-#: ekos/focus/focus.cpp:2588
+#: ekos/focus/focus.cpp:2593
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "No s'ha pogut seleccionar automàticament cap estrella. Seleccioneu-ne una "
 "manualment."
 
-#: ekos/focus/focus.cpp:2682
+#: ekos/focus/focus.cpp:2687
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "S'ha completat la captura. Seleccioneu l'estrella a enfocar."
 
-#: ekos/focus/focus.cpp:2713
+#: ekos/focus/focus.cpp:2718
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "No s'han detectat estrelles en provar l'HFR. Es tornarà a capturar..."
 
-#: ekos/focus/focus.cpp:2842
+#: ekos/focus/focus.cpp:2847
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 "L'enfocament automàtic no ha aconseguit enfocar. Proveu d'incrementar el "
 "valor de la tolerància."
 
-#: ekos/focus/focus.cpp:2853 ekos/focus/focus.cpp:3560
+#: ekos/focus/focus.cpp:2858 ekos/focus/focus.cpp:3565
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "No s'han detectat estrelles. S'està tornant a capturar..."
 
-#: ekos/focus/focus.cpp:2859 ekos/focus/focus.cpp:3566
+#: ekos/focus/focus.cpp:2864 ekos/focus/focus.cpp:3571
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
 "Ha fallat en detectar qualsevol estrella en la posició %1. S'està "
 "continuant..."
 
-#: ekos/focus/focus.cpp:2865 ekos/focus/focus.cpp:3572
+#: ekos/focus/focus.cpp:2870 ekos/focus/focus.cpp:3577
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Ha fallat en detectar les estrelles. Reinicieu el fotograma i torneu-ho a "
 "intentar."
 
-#: ekos/focus/focus.cpp:3051
+#: ekos/focus/focus.cpp:3056
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "No s'ha pogut llançar l'execució %1 de l'inspector d'aberracions..."
 
-#: ekos/focus/focus.cpp:3071
+#: ekos/focus/focus.cpp:3076
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Es llança l'execució %1 de l'inspector d'aberracions..."
 
-#: ekos/focus/focus.cpp:3132
+#: ekos/focus/focus.cpp:3137
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Ha fallat la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2. S'està "
 "tornant a intentar..."
 
-#: ekos/focus/focus.cpp:3140
+#: ekos/focus/focus.cpp:3145
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Ha tornat a fallar la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2, "
 "però es continua..."
 
-#: ekos/focus/focus.cpp:3184
+#: ekos/focus/focus.cpp:3189
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS rebut. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3186
+#: ekos/focus/focus.cpp:3191
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS rebut. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3247
+#: ekos/focus/focus.cpp:3252
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -18692,26 +18692,26 @@ msgstr ""
 "El canvi a HFR és massa petit. Proveu d'incrementar la mida del pas o a "
 "disminuir la tolerància."
 
-#: ekos/focus/focus.cpp:3254
+#: ekos/focus/focus.cpp:3259
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Ha fallat en detectar una estrella a enfocar en el fotograma. Captureu i "
 "seleccioneu una estrella a enfocar."
 
-#: ekos/focus/focus.cpp:3359
+#: ekos/focus/focus.cpp:3364
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "S'ha trobat la solució polinòmica @ %1"
 
-#: ekos/focus/focus.cpp:3423
+#: ekos/focus/focus.cpp:3428
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "L'enfocador no pot anar més enllà, s'ha arribat al límit del dispositiu. "
 "S'ha interromput l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3439
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -18719,24 +18719,24 @@ msgstr ""
 "Fluctuacions inestables. Intenteu incrementar la mida del pas inicial o el "
 "temps d'exposició."
 
-#: ekos/focus/focus.cpp:3444
+#: ekos/focus/focus.cpp:3449
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "S'ha arribat a un punt mort. Proveu-ho amb una configuració diferent."
 
-#: ekos/focus/focus.cpp:3473
+#: ekos/focus/focus.cpp:3478
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "S'ha arribat al límit màxim del recorregut. S'ha interromput l'enfocament "
 "automàtic."
 
-#: ekos/focus/focus.cpp:3545
+#: ekos/focus/focus.cpp:3550
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS rebut. HFR %1. Delta (%2%) HFR mínim (%3)"
 
-#: ekos/focus/focus.cpp:3549
+#: ekos/focus/focus.cpp:3554
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -18744,90 +18744,90 @@ msgstr ""
 "L'enfocament automàtic no ha aconseguit enfocar. Proveu d'ajustar el valor "
 "de la tolerància."
 
-#: ekos/focus/focus.cpp:3640 ekos/focus/focus.cpp:3656
-#: ekos/focus/focus.cpp:3813 ekos/focus/focus.cpp:3887
-#: ekos/focus/focus.cpp:3950 ekos/focus/focus.cpp:4016
+#: ekos/focus/focus.cpp:3645 ekos/focus/focus.cpp:3661
+#: ekos/focus/focus.cpp:3818 ekos/focus/focus.cpp:3892
+#: ekos/focus/focus.cpp:3955 ekos/focus/focus.cpp:4021
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Error de l'enfocador, comproveu el plafó de l'INDI."
 
-#: ekos/focus/focus.cpp:3717 ekos/focus/focus.cpp:3829
+#: ekos/focus/focus.cpp:3722 ekos/focus/focus.cpp:3834
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simula una fallada de les comunicacions amb l'enfocador..."
 
-#: ekos/focus/focus.cpp:3793 ekos/focus/focus.cpp:3871
-#: ekos/focus/focus.cpp:3934 ekos/focus/focus.cpp:3969
+#: ekos/focus/focus.cpp:3798 ekos/focus/focus.cpp:3876
+#: ekos/focus/focus.cpp:3939 ekos/focus/focus.cpp:3974
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "S'està reiniciant el procés d'enfocament automàtic..."
 
-#: ekos/focus/focus.cpp:4088
+#: ekos/focus/focus.cpp:4093
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "S'està iniciant l'exposició contínua..."
 
-#: ekos/focus/focus.cpp:4374
+#: ekos/focus/focus.cpp:4379
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "S'ha desactivat la selecció automàtica d'estrella, ja que la casella de "
 "selecció d'estrella s'ha mogut manualment."
 
-#: ekos/focus/focus.cpp:4379
+#: ekos/focus/focus.cpp:4384
 #, kde-format
 msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrella a enfocar."
 
-#: ekos/focus/focus.cpp:4534
+#: ekos/focus/focus.cpp:4539
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "No s'ha seleccionat cap estrella. S'està emprant l'última posició coneguda..."
 
-#: ekos/focus/focus.cpp:4540
+#: ekos/focus/focus.cpp:4545
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "No s'ha seleccionat cap estrella. S'interromp..."
 
-#: ekos/focus/focus.cpp:4551
+#: ekos/focus/focus.cpp:4556
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "L'enfocador ja és a %1..."
 
-#: ekos/focus/focus.cpp:4663
+#: ekos/focus/focus.cpp:4668
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Enquadrat de l'enfocament"
 
-#: ekos/focus/focus.cpp:5005
+#: ekos/focus/focus.cpp:5010
 #, kde-format
 msgid "Capturing image again..."
 msgstr "S'està tornant a capturar una imatge..."
 
-#: ekos/focus/focus.cpp:5020
+#: ekos/focus/focus.cpp:5025
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Ha fallat en desar la imatge. S'interromp..."
 
-#: ekos/focus/focus.cpp:5030
+#: ekos/focus/focus.cpp:5035
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Fallada de l'exposició. S'interromp..."
 
-#: ekos/focus/focus.cpp:5035
+#: ekos/focus/focus.cpp:5040
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Fallada de l'exposició. Es reinicia l'exposició..."
 
-#: ekos/focus/focus.cpp:5310
+#: ekos/focus/focus.cpp:5315
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relatiu"
 
-#: ekos/focus/focus.cpp:6559
+#: ekos/focus/focus.cpp:6564
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -18851,7 +18851,7 @@ msgid ""
 "The third step is to set the Out Step Multiple. Start with the suggested "
 "default."
 msgstr ""
-"L'assessor d'enfocament (AE) està dissenyat per ajudar-vos amb els "
+"L'assessor d'enfocament (AE) està dissenyat per a ajudar-vos amb els "
 "paràmetres d'enfocament.\n"
 "No us donarà necessàriament la combinació perfecta de paràmetres, haureu "
 "d'experimentar-ho, però us donarà un conjunt bàsic de paràmetres per a "
@@ -18875,7 +18875,7 @@ msgstr ""
 "El tercer pas és establir el multiplicador de pas exterior. Comenceu amb el "
 "valor predeterminat suggerit."
 
-#: ekos/focus/focus.cpp:6575
+#: ekos/focus/focus.cpp:6580
 #, kde-format
 msgid ""
 " You have a scope with a central obstruction so be careful not to move too "
@@ -18896,7 +18896,7 @@ msgstr ""
 "multiplicador de pas exterior per a correspondre a aquest interval de "
 "moviment de l'enfocador."
 
-#: ekos/focus/focus.cpp:6582
+#: ekos/focus/focus.cpp:6587
 #, kde-format
 msgid ""
 "\n"
@@ -18933,7 +18933,7 @@ msgstr ""
 "\n"
 "Ara moveu l'enfocador per a aproximar el focus i seleccioneu un filtre de "
 "banda ampla, p. ex. Luminància\n"
-"Ara esteu preparat/da per iniciar una execució d'enfocament automàtic."
+"Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:164
@@ -19104,7 +19104,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Executa l'inspector d'aberració (primer s'executarà "
 "l'enfocament automàtic per a recollir dades).</p><p>Nota: La màscara de "
-"mosaic ha d'estar establerta per activar aquest botó.</p><p>Aquesta és una "
+"mosaic ha d'estar establerta per a activar aquest botó.</p><p>Aquesta és una "
 "característica experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, advisorB)
@@ -19377,10 +19377,10 @@ msgstr ""
 "previsible en el nombre de passos que es prenen. Aquest camí és experimental."
 "</p><p><span style=\" font-weight:600;\">Barreja ZCE</span>: Similar a <span "
 "style=\" font-weight:600;\">Passos fixos</span> excepte que aquest camí fa "
-"mig pas a prop del punt d'enfocament per intentar donar més pes als punts "
+"mig pas a prop del punt d'enfocament per a intentar donar més pes als punts "
 "més a prop del focus en l'ajust de la corba. Igual que amb <span style=\" "
 "font-weight:600;\">Passos fixos</span>, aquest camí s'ha d'iniciar a prop "
-"del focus per ser efectiu, però és previsible en el nombre de passos fets. "
+"del focus per a ser efectiu, però és previsible en el nombre de passos fets. "
 "Aquest camí és experimental.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
@@ -19520,10 +19520,10 @@ msgstr ""
 "<html><head/><body><p>Estableix un mínim per a l'R² acceptable quan es "
 "realitza una execució d'enfocament automàtic. El valor és entre 0 (sense "
 "ajust) i 1 (ajust perfecte). 0,8 és un bon començament. Si no es compleix el "
-"mínim, l'enfocament automàtic es tornarà a executar una vegada per intentar "
-"millorar l'R². Actualment només està disponible per a l'algorisme lineal d'1 "
-"pas quan s'utilitza un ajust de corba d'hipèrbola o paràbola.</p></body></"
-"html>"
+"mínim, l'enfocament automàtic es tornarà a executar una vegada per a "
+"intentar millorar l'R². Actualment només està disponible per a l'algorisme "
+"lineal d'1 pas quan s'utilitza un ajust de corba d'hipèrbola o paràbola.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:59
@@ -19591,8 +19591,8 @@ msgid ""
 "parabola to the data points. This is currently only available for the Linear "
 "1 Pass Algorithm.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tipus de corba per ajustar a les dades:"
-"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"<html><head/><body><p>Seleccioneu el tipus de corba per a ajustar a les "
+"dades:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
 "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Quadràtica</span>: Usa un "
@@ -19664,7 +19664,7 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecció de la mesura a fer servir per ajustar una "
+"<html><head/><body><p>Selecció de la mesura a fer servir per a ajustar una "
 "corba per al lineal d'1 pas:</p><ul style=\"margin-top: 0px; margin-bottom: "
 "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
@@ -19759,7 +19759,7 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marqueu-ho per utilitzar la desviació estàndard de "
+"<html><head/><body><p>Marqueu-ho per a utilitzar la desviació estàndard de "
 "l'estrella HFR o FWHM com a ponderació de l'algorisme d'ajust de la corba. "
 "Si no està marcat, tots els punts de dades tenen la mateixa ponderació. "
 "Actualment només està disponible quan s'utilitza el camp complet (diverses "
@@ -20108,7 +20108,7 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona el camp complet per permetre que "
+"<html><head/><body><p>Selecciona el camp complet per a permetre que "
 "l'enfocament utilitzi diverses estrelles (nota: submarc utilitza una única "
 "estrella). En aquest mode, l'Ekos seleccionarà automàticament diverses "
 "estrelles durant l'enfocament automàtic i, per exemple, la mitjana de l'HFR "
@@ -20264,7 +20264,7 @@ msgid ""
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Durant l'enfocament de camp complet, això controla la "
-"mida d'un anell centrat al mig del sensor per incloure'l per al seu "
+"mida d'un anell centrat al mig del sensor per a incloure'l per al seu "
 "processament. Establiu el % intern a zero per a incloure el centre del "
 "sensor i establiu el % extern a 100 per a incloure les vores exteriors del "
 "sensor. </p></body></html>"
@@ -20324,13 +20324,13 @@ msgstr "Espaiador:"
 #: ekos/focus/opsfocussettings.ui:392
 #, kde-format
 msgid "All stars are used for focusing."
-msgstr "Es fan servir totes les estrelles per enfocar."
+msgstr "Es fan servir totes les estrelles per a enfocar."
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusNoMaskRB)
 #: ekos/focus/opsfocussettings.ui:395
 #, kde-format
 msgid "Use all stars for focusing"
-msgstr "Usa totes les estrelles per enfocar"
+msgstr "Usa totes les estrelles per a enfocar"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
 #: ekos/focus/opsfocussettings.ui:411
@@ -22139,8 +22139,8 @@ msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Distància màxima permesa per considerar el tramat com "
-"a establert (només PHD2).</p></body></html>"
+"<html><head/><body><p>Distància màxima permesa per a considerar el tramat "
+"com a establert (només PHD2).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
@@ -22336,8 +22336,8 @@ msgstr ""
 "Temps màxim entre l'emissió de correccions predictives mentre es capturen "
 "imatges guia. Això podria ser de l'ordre d'1 segon o menys, amb l'exposició "
 "de guia molt més llarga. Els valors exactes i la relació entre ells "
-"dependran en gran mesura de la muntura i les condicions ambientals; però en "
-"general, el pitjor error periòdic de la muntura, la major proporció entre "
+"dependran en gran manera de la muntura i les condicions ambientals; però en "
+"general, el pitjor error periòdic de la muntura, la proporció més gran entre "
 "l'exposició del guiatge i l'interval de guiatge fosc."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -22515,7 +22515,7 @@ msgid ""
 "variance means a larger change in error, on\n"
 "          average.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Variància del senyal del nucli de abast llunyà.</"
+"<html><head/><body><p>Variància del senyal del nucli d'abast llunyà.</"
 "p><p>Això descriu \n"
 "          quant canvia l'error sobre l'escala de temps a llarg termini. Una "
 "variància més alta vol dir un canvi més gran en l'error, de\n"
@@ -26898,7 +26898,7 @@ msgstr "Repeteix fins que &finalitzin"
 #: ekos/scheduler/framingassistant.ui:1696
 #, kde-format
 msgid "Create scheduler jobs to execute the mosaic plan"
-msgstr "Crea les tasques del programador per executar el pla del mosaic"
+msgstr "Crea les tasques del programador per a executar el pla del mosaic"
 
 #: ekos/scheduler/framingassistantui.cpp:692 ekos/scheduler/scheduler.cpp:881
 #, kde-format
@@ -32122,7 +32122,7 @@ msgstr ""
 "telescopi per a les instruccions quant a l'alineació.\n"
 "<br><br>\n"
 "Després d'una alineació correcta, connecteu la interfície RS232 del vostre "
-"telescopi al port sèrie o USB de l'ordinador. \n"
+"telescopi al port en sèrie o USB de l'ordinador. \n"
 "<br><br><br>Feu clic a «Següent» per a continuar."
 
 #. i18n: ectx: property (text), widget (QLabel, localPageLabel)
@@ -32186,8 +32186,8 @@ msgstr ""
 "<h3>4. Determineu el port de connexió</h3>\n"
 "\n"
 "Introduïu el número del port al qual està connectat el telescopi. Si tan "
-"sols teniu un port sèrie al vostre ordinador, usualment aquest serà <tt>/dev/"
-"ttyUSB0</tt>\n"
+"sols teniu un port en sèrie al vostre ordinador, usualment aquest serà <tt>/"
+"dev/ttyUSB0</tt>\n"
 "<br><br>Si no esteu segur de quin és el número del port, podreu deixar el "
 "camp buit i el KStars intentarà escanejar-los per a trobar els telescopis "
 "connectats. Cal tenir present que l'escanejat automàtic pot trigar alguns "
@@ -34545,7 +34545,7 @@ msgstr ""
 "Activeu això si esteu posant l'ull a l'ocular d'un telescopi newtonià muntat "
 "en altazimut. Això té en compte el fet que l'observador es manté dret a "
 "mesura que el telescopi es mou amunt i avall, de manera que l'orientació del "
-"mapa celeste farà un seguiment del que es veu en l'ocular una vegada estigui "
+"mapa celeste farà un seguiment de què es veu en l'ocular una vegada estigui "
 "configurat correctament."
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
@@ -34777,7 +34777,7 @@ msgstr "Mida de la lletra de l'etiqueta"
 #, kde-format
 msgid "Set this to adjust the font-size of labels placed on the sky map"
 msgstr ""
-"Seleccioneu-ho per ajustar la mida del tipus de lletra de les etiquetes "
+"Seleccioneu-ho per a ajustar la mida del tipus de lletra de les etiquetes "
 "situades en el mapa celeste"
 
 #. i18n: ectx: label, entry (MaxRadCometName), group (View)
@@ -36480,8 +36480,8 @@ msgid ""
 "Automatically load Serial Port Assistant tool when detecting unmapped serial "
 "ports?"
 msgstr ""
-"Carrego automàticament l'Eina de l'assistent de port sèrie en detectar ports "
-"sèries no mapats?"
+"Carrego automàticament l'Eina de l'assistent de port en sèrie en detectar "
+"ports en sèrie no mapats?"
 
 #. i18n: ectx: label, entry (RememberCredentials), group (EkosLive)
 #: kstars.kcfg:1621
@@ -37622,13 +37622,13 @@ msgstr ""
 #: kstars.kcfg:2208
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr "La longitud d'ona en nm per utilitzar en l'algorisme Gold."
+msgstr "La longitud d'ona en nm per a utilitzar en l'algorisme Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2212
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr "Obertura del telescopi en mm per utilitzar en els càlculs de la ZCE."
+msgstr "Obertura del telescopi en mm per a utilitzar en els càlculs de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2216
@@ -37641,7 +37641,7 @@ msgstr "El nombre f a utilitzar a l'algorisme de la ZCE."
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
 msgstr ""
-"El «seeing» total en segons d'arc per utilitzar en l'algorisme de la ZCE."
+"El «seeing» total en segons d'arc per a utilitzar en l'algorisme de la ZCE."
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2224
@@ -37732,7 +37732,7 @@ msgstr "Posició de la disposició dreta."
 #, kde-format
 msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
 msgstr ""
-"Si s'ha de ser servir l'enfocament adaptatiu en la utilitat de Construcció "
+"Si s'ha de fer servir l'enfocament adaptatiu en la utilitat de Construcció "
 "de desplaçaments de filtres."
 
 #. i18n: ectx: whatsthis, entry (abInsTileSelection), group (Focus)
@@ -37895,7 +37895,7 @@ msgstr "Si s'ha d'enregistrar a un fitxer."
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr ""
-"Camí al fitxer d'enregistrament per desar l'enregistrament d'astrometria."
+"Camí al fitxer d'enregistrament per a desar l'enregistrament d'astrometria."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2373
@@ -38691,7 +38691,7 @@ msgstr ""
 #: kstars.kcfg:2901
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
-msgstr "´Elimina el rebot de la Dec en calibrar el sistema de guiatge."
+msgstr "Elimina el rebot de la Dec en calibrar el sistema de guiatge."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:2905
@@ -38912,8 +38912,8 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
-"Casella de selecció predeterminada del programador per iniciar el seguiment "
-"de la muntura en iniciar la tasca."
+"Casella de selecció predeterminada del programador per a iniciar el "
+"seguiment de la muntura en iniciar la tasca."
 
 #. i18n: ectx: label, entry (SchedulerStartupScript), group (Scheduler)
 #: kstars.kcfg:3024
@@ -38932,16 +38932,16 @@ msgstr "Executa aquest script en aturar el programador."
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
-"Casella de selecció predeterminada del programador per executar l'enfocament "
-"automàtic en iniciar la tasca."
+"Casella de selecció predeterminada del programador per a executar "
+"l'enfocament automàtic en iniciar la tasca."
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
 #: kstars.kcfg:3034
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
-"Casella de selecció predeterminada del programador per iniciar el guiatge en "
-"iniciar la tasca."
+"Casella de selecció predeterminada del programador per a iniciar el guiatge "
+"en iniciar la tasca."
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
 #: kstars.kcfg:3038
@@ -39293,7 +39293,7 @@ msgstr "Estableix si es dibuixen o no els orígens del HiPS en el mapa celeste."
 #: kstars.kcfg:3234
 #, kde-format
 msgid "Use offline storage to load HiPS?"
-msgstr "Uso l'emmagatzematge fora de línia per carregar el HiPS?"
+msgstr "Uso l'emmagatzematge fora de línia per a carregar el HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
 #: kstars.kcfg:3238
@@ -66234,7 +66234,7 @@ msgstr "Missions Mariner de la NASA Science"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Solar System Exploration Page"
-msgstr "Pàgina d'exploració del Sistema solar de la NASA"
+msgstr "Pàgina d'exploració del sistema solar de la NASA"
 
 #: kstars_i18n.cpp:4552
 #, kde-kuit-format
@@ -68469,7 +68469,7 @@ msgid ""
 msgstr ""
 "El fitxer de registre de notes %1 de l'usuari està mal format en l'obertura "
 "de l'entrada a partir de %2. El KStars encara es pot executar sense llegir "
-"completament aquest fitxer. Premeu Continua per executar el KStars amb "
+"completament aquest fitxer. Premeu Continua per a executar el KStars amb "
 "qualsevol lectura parcial reeixida. El fitxer es pot truncar si el KStars "
 "escriu al fitxer més endavant. Premeu Cancel·la per a cancel·lar ara i "
 "corregir manualment el problema."
@@ -69297,7 +69297,7 @@ msgid ""
 "arbitrary"
 msgstr ""
 "Aquest mode se selecciona automàticament si gireu manualment el mapa celeste "
-"utilitzant l'acció Maj + Arrossegar el ratolí, per informar-vos que "
+"utilitzant l'acció Maj + Arrossegar el ratolí, per a informar-vos que "
 "l'orientació és arbitrària"
 
 #: kstarsinit.cpp:744
@@ -69319,7 +69319,7 @@ msgid ""
 "orientation."
 msgstr ""
 "Activeu aquest mode si esteu utilitzant visualment un telescopi newtonià en "
-"una muntura altazimutal. Corregirà l'orientació del mapa celeste per tenir "
+"una muntura altazimutal. Corregirà l'orientació del mapa celeste per a tenir "
 "en compte que l'observador es manté dret a mesura que el telescopi es mou "
 "amunt i avall, a diferència d'una càmera que giraria amb el telescopi. Això "
 "només té sentit en el mode de coordenades horitzontals i està desactivat "
@@ -79645,7 +79645,7 @@ msgstr ""
 "canvien la seva direcció de moviment a través del cel nocturn. Això "
 "s'anomena moviment retrògrad. El podeu simular en el KStars afegint una "
 "traça a un planeta exterior i deixant que el rellotge de la simulació avanci "
-"ràpid (a 1 dia sideri o així).\n"
+"de pressa (a 1 dia sideri o així).\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -82407,12 +82407,12 @@ msgid_plural ""
 "Planner to add them back using internet search."
 msgstr[0] ""
 "No s'ha pogut trobar %1 objecte a la base de dades, i s'eliminarà de la "
-"llista d'observacions desitjades. Es recomana que copieu els seu nom com una "
+"llista d'observacions desitjades. Es recomana que copieu el seu nom com una "
 "còpia de seguretat de manera que el pugueu afegir després."
 msgstr[1] ""
 "No s'han pogut trobar %1 objectes a la base de dades, i s'eliminarà de la "
 "llista d'observacions desitjades. Es recomana que copieu la llista detallada "
-"com una còpia de seguretat, de manera que després podreu usar la "
+"com a una còpia de seguretat, de manera que després podreu usar la "
 "característica Afegeix un lot al Planificador d'observacions per a tornar-"
 "los a afegir usant una cerca d'Internet."
 

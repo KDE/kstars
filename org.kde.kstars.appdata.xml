@@ -81,7 +81,7 @@
   <description>
     <p>KStars is freely licensed, open source, cross-platform Astronomy Software by KDE.</p>
     <p xml:lang="ar">«نجوم‌ك» هي برمجيّة مجّانيّة ومفتوحة المصدر مختصّة بعلوم الفلك، وتتوفّر على مختلف المنصّات.</p>
-    <p xml:lang="bg">KStars е междуплатформен, с отворен код, свободно лицензиран софтуер за астрономия от Kde.</p>
+    <p xml:lang="bg">KStars е междуплатформен, с отворен код, свободно лицензиран софтуер за астрономия от KDE.</p>
     <p xml:lang="ca">El KStars és un programari d'astronomia de llicència lliure, codi obert i multiplataforma, creat per la comunitat KDE.</p>
     <p xml:lang="ca-valencia">KStars és un programari d'astronomia de llicència lliure, codi obert i multiplataforma, creat per la comunitat KDE.</p>
     <p xml:lang="de">KStars ist eine frei lizenzierte, quelloffene, plattformübergreifende Astronomiesoftware von KDE.</p>
@@ -108,7 +108,7 @@
     <p xml:lang="zh-TW">KStars 是由 KDE 提供的自由授權、開放原始碼、跨平臺的天文學軟體。</p>
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي 100 مليون نجم، و13٬000 جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
-    <p xml:lang="bg">Той осигурява точна графична симулация на нощното небе, от всякоместоположение на земята, за всеки час и дата. Екранът включва до 100милиони звезди, 13 000 обекта на дълбокия космос, всички 8 планети, слънцето и луната, и хиляди комети, астероиди, свръхнови и спътници.</p>
+    <p xml:lang="bg">Той осигурява точна графична симулация на нощното небе, от всяко местоположение на земята, за всеки час и дата. Екранът включва до 100 милиони звезди, 13 000 обекта на дълбокия космос, всички 8 планети, слънцето и луната, и хиляди комети, астероиди, свръхнови и спътници.</p>
     <p xml:lang="ca">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
     <p xml:lang="ca-valencia">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament en la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estreles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
     <p xml:lang="de">KStars simuliert präzise den Blick in den nächtlichen Himmel von jedem Punkt der Erde aus, zu jedem beliebigen Datum und Uhrzeit. Derzeit gibt es im Planetarium bis zu 100 Millionen Sterne, 13000 Deep-Sky-Objekte, alle acht Planeten, die Sonne und den Mond, sowie tausende Kometen, Asteroiden, Supernovae und Satelliten.</p>
@@ -135,7 +135,7 @@
     <p xml:lang="zh-TW">它提供了準確的夜空圖形化模擬，從地球上的任何地方，在任何日期與時間。顯示了包含一億個星體、一萬三千個深空物體、以及八個系內行星、還有太陽與月亮，以及數千個慧星、小行星、超新星與衛星。</p>
     <p>For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="ar">إن كنت طالبًا أو أستاذًا، فستجد أنّ البرمجيّة تدعم ضبط سرعة المحاكاة الذي يتيح عرض الظّواهر التي تحدث على فترات زمنيّة طويلة، وتدعم الكثير من الحسابات الفلكيّة المعروفة، وتوفّر حاسبة فلكيّة لتوقّع الاقترانات.</p>
-    <p xml:lang="bg">За учениците и учителите: програмата поддържа симулация с регулируема скорост, за да може да се видят явления, които се случват за дълги времеви периоди. KStars има астрокалкулатор за прогнозиране на съединения и много често срещани астрономическиизчисления.</p>
+    <p xml:lang="bg">За учениците и учителите: програмата поддържа симулация с регулируема скорост, за да може да се видят явления, които се случват за дълги времеви периоди. KStars има астрокалкулатор за прогнозиране на съединения и много често срещани астрономически изчисления.</p>
     <p xml:lang="ca">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
     <p xml:lang="ca-valencia">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica de KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
     <p xml:lang="de">Für Schüler und Lehrer unterstützt es einstellbare Simulationsgeschwindigkeiten, um Phänomene zu betrachten, die auf langen Zeitskalen ablaufen, den KStars-Astrorechner zur Vorhersage von Konjunktionen und viele allgemeine astronomische Berechnungen.</p>
@@ -162,7 +162,7 @@
     <p xml:lang="zh-TW">對於學生與教師來說，它支援了可調整的模擬速度以檢視在極長的時間尺度下發生的現象，KStars Astrocalculator 可用來預測天體會合，也可以用來計算許多常見的天文學數據。</p>
     <p>For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!</p>
     <p xml:lang="ar">توفّر البرمجيّة لهواة الفلك مخطِّطًا للرّؤية، وأداة لتقويم الطّقس، ومحرّرًا لمجال الرّؤية لحساب مجال رؤية العتاد وعرضها. اطّلع على أجرام شيّقة في أداة ”السّماء هذه الليلة“، وارسم رسومًا بيانيّة لخطّ ارتفاع أيّ جرم مقابل وقته، واطبع رسومًا بيانيّة للسّماء بجودة عالية، واقرأ الكثير من المعلومات والموارد لتساعدك في اكتشاف العالم!</p>
-    <p xml:lang="bg">За астрономите любители: програмата предоставя модул за планиране на наблюдения,  инструменти за небесен календар и изчисляване на зрителното поле на оборудването. Открийте интересни обекти с инструмента "Нещо интересно тази вечер", Създайте графики на височината в зависимост от времето за всеки обект, отпечатайте висококачествени небесни карти. Получавате достъп до много информация и ресурси, които ви помогнат да изследвате Вселената!</p>
+    <p xml:lang="bg">За астрономите любители: програмата предоставя модул за планиране на наблюдения, инструменти за небесен календар и изчисляване на зрителното поле на оборудването. Открийте интересни обекти с инструмента "Нещо интересно тази вечер", Създайте графики на височината в зависимост от времето за всеки обект, отпечатайте висококачествени небесни карти. Получавате достъп до много информация и ресурси, които ви помогнат да изследвате Вселената!</p>
     <p xml:lang="ca">Per a l'astrònom aficionat, proporciona un planificador de l'observació, una eina de calendari del cel i un editor del CDV per a calcular el camp de visió de l'equip i mostrar-lo. Descobreix objectes interessants amb l'eina «Què passa aquesta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimeix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per a ajudar-vos a explorar l'univers!</p>
     <p xml:lang="ca-valencia">Per a l'astrònom aficionat, proporciona un planificador d'observacions, una eina de calendari del cel i un editor de CDV per a calcular el camp de visió de l'equip i mostrar-lo. Descobrix objectes interessants amb l'eina «Què passa esta nit», dibuixa gràfics d'altitud en funció del temps per a qualsevol objecte, imprimix diagrames del cel en alta qualitat i obté accés a molta informació i recursos per a ajudar-vos a explorar l'univers!</p>
     <p xml:lang="de">Für den Amateur-Astronomen bietet es einen Beobachtungsplaner, einen Himmelskalender und einen STF-Editor, um Sichtfelder von Geräten zu berechnen und anzuzeigen. Finden Sie interessante Objekte mit „Was ist los heute Nacht“, zeichnen Sie Höhen-Zeit-Diagramme für jedes Objekt, drucken Sie hochwertige Himmelskarten und erhalten Sie Zugang zu vielen Informationen und Ressourcen, die Ihnen bei der Erkundung des Universums helfen.</p>
@@ -479,7 +479,7 @@
     <screenshot>
       <caption>Ekos tool in KStars</caption>
       <caption xml:lang="ar">أداة ايكوس في نجومك</caption>
-      <caption xml:lang="bg">Инструменти на Ekos в KStars</caption>
+      <caption xml:lang="bg">Инструмент на Ekos в KStars</caption>
       <caption xml:lang="ca">Eina Ekos al KStars</caption>
       <caption xml:lang="ca-valencia">Eina Ekos en KStars</caption>
       <caption xml:lang="cs">Nástroj Ekos v KStars</caption>
