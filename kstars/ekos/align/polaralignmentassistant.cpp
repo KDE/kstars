@@ -1029,7 +1029,9 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 
     setPAHStage(PAH_REFRESH);
     polarAlignWidget->updatePAHStage(m_PAHStage);
-    refreshText->setText(getPAHMessage());
+    auto message = getPAHMessage();
+    refreshText->setText(message);
+    emit newPAHMessage(message);
 
     PAHRefreshB->setEnabled(false);
 
