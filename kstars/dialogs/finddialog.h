@@ -158,7 +158,5 @@ class FindDialog : public QDialog
     QList<SkyObject *> m_HistoryList;
 
     // DSO Database
-    std::unique_ptr<CatalogsDB::AsyncDBManager> m_asyncDBManager; // runs in another thread
     CatalogsDB::DBManager m_dbManager; // runs in this thread
-    QMutex dbCallMutex;
 };

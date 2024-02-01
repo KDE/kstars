@@ -63,7 +63,6 @@ FindDialog::FindDialog(QWidget *parent)
     : QDialog(parent)
     , timer(nullptr)
     , m_targetObject(nullptr)
-    , m_asyncDBManager(new CatalogsDB::AsyncDBManager(CatalogsDB::dso_db_path()))
     , m_dbManager(CatalogsDB::dso_db_path())
 {
 #ifdef Q_OS_OSX

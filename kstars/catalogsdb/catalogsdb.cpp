@@ -20,7 +20,6 @@
 #include "sqlstatements.cpp"
 
 using namespace CatalogsDB;
-QSet<QString> DBManager::m_db_paths{};
 
 /**
  * Get an increasing index for new connections.
@@ -59,8 +58,8 @@ std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
     {
         QSqlQuery add_ts{ db };
         const auto success = add_ts.exec(QString("ALTER TABLE %1catalogs ADD COLUMN "
-                                                 "timestamp DEFAULT NULL")
-                                             .arg(prefix));
+                                         "timestamp DEFAULT NULL")
+                                         .arg(prefix));
         if (!success)
             return { false, add_ts.lastError().text() };
     }
@@ -78,12 +77,9 @@ std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
     return { true, "" };
 }
 
-DBManager::DBManager(const QString &filename)
-    : m_db{ QSqlDatabase::addDatabase(
-          "QSQLITE", QString("cat_%1_%2").arg(filename).arg(get_connection_index())) },
-      m_db_file{ *m_db_paths.insert(filename) }
-
+DBManager::DBManager(const QString &filename) : m_db_file(filename)
 {
+    m_db = QSqlDatabase::addDatabase("QSQLITE", QUuid::createUuid().toString());
     m_db.setDatabaseName(m_db_file);
 
     // we are throwing here, because errors at this stage should be fatal
@@ -99,7 +95,7 @@ DBManager::DBManager(const QString &filename)
     if (!init && m_db_version > 0 && m_db_version < SqlStatements::current_db_version)
     {
         const auto &backup_path = QString("%1.%2").arg(m_db_file).arg(
-            QDateTime::currentDateTime().toString("dd_MMMM_yy_hh_mm_sss_zzz"));
+                                      QDateTime::currentDateTime().toString("dd_MMMM_yy_hh_mm_sss_zzz"));
 
         if (!QFile::copy(m_db_file, backup_path))
         {
@@ -127,8 +123,8 @@ DBManager::DBManager(const QString &filename)
             throw DatabaseError(
                 QString("Wrong database version. Expected %1 and got %2 and "
                         "migration is not possible.")
-                    .arg(SqlStatements::current_db_version)
-                    .arg(m_db_version),
+                .arg(SqlStatements::current_db_version)
+                .arg(m_db_version),
                 DatabaseError::ErrorType::VERSION, success.second);
     }
 
@@ -226,7 +222,7 @@ std::tuple<int, int, bool> DBManager::get_db_meta()
 std::vector<int> DBManager::get_catalog_ids(bool include_disabled)
 {
     auto query = m_db.exec(include_disabled ? SqlStatements::get_all_catalog_ids :
-                                              SqlStatements::get_catalog_ids);
+                           SqlStatements::get_catalog_ids);
 
     std::vector<int> ids;
 
@@ -243,7 +239,10 @@ bool DBManager::update_catalog_views()
 {
     const auto &ids = get_catalog_ids();
     bool result     = true;
-    auto _          = gsl::finally([&]() { m_db.commit(); });
+    auto _          = gsl::finally([&]()
+    {
+        m_db.commit();
+    });
 
     m_db.transaction();
     QSqlQuery query{ m_db };
@@ -255,7 +254,8 @@ bool DBManager::update_catalog_views()
         return result;
     }
 
-    QString view{
+    QString view
+    {
         "CREATE VIEW  "
     }; // small enough to be included here and not in sqlstatements
 
@@ -274,14 +274,14 @@ bool DBManager::update_catalog_views()
     for (auto id : ids)
     {
         catalog_queries << SqlStatements::all_catalog_view_body(
-            prefixed_joined, SqlStatements::catalog_prefix, id);
+                            prefixed_joined, SqlStatements::catalog_prefix, id);
     }
 
     if (ids.size() == 0)
     {
         catalog_queries << SqlStatements::all_catalog_view_body(
-                               prefixed_joined, SqlStatements::catalog_prefix, 0) +
-                               " WHERE FALSE"; // we blackhole the query
+                            prefixed_joined, SqlStatements::catalog_prefix, 0) +
+                        " WHERE FALSE"; // we blackhole the query
     }
 
     view += catalog_queries.join("\nUNION ALL\n");
@@ -336,7 +336,10 @@ std::pair<bool, QString> DBManager::register_catalog(const Catalog &cat)
 
 bool DBManager::compile_master_catalog()
 {
-    auto _ = gsl::finally([&]() { m_db.commit(); });
+    auto _ = gsl::finally([&]()
+    {
+        m_db.commit();
+    });
     QSqlQuery query{ m_db };
     m_db.transaction();
 
@@ -396,7 +399,10 @@ bool DBManager::catalog_exists(const int id)
 {
     QMutexLocker _{ &m_mutex };
     m_q_cat_by_id.bindValue(0, id);
-    auto end = gsl::finally([&]() { m_q_cat_by_id.finish(); });
+    auto end = gsl::finally([&]()
+    {
+        m_q_cat_by_id.finish();
+    });
 
     if (!m_q_cat_by_id.exec())
         return false;
@@ -438,7 +444,7 @@ CatalogObject DBManager::read_catalogobject(const QSqlQuery &query) const
              flux,       m_db_file };
 }
 
-CatalogObjectVector DBManager::_get_objects_in_trixel_generic(QSqlQuery& query, const int trixel)
+CatalogObjectVector DBManager::_get_objects_in_trixel_generic(QSqlQuery &query, const int trixel)
 {
     QMutexLocker _{ &m_mutex }; // this costs ~ .1ms which is ok
     query.bindValue(0, trixel);
@@ -446,7 +452,7 @@ CatalogObjectVector DBManager::_get_objects_in_trixel_generic(QSqlQuery& query, 
     if (!query.exec()) // we throw because this is not recoverable
         throw DatabaseError(
             QString("The by-trixel query for objects in trixel=%1 failed.")
-                .arg(trixel),
+            .arg(trixel),
             DatabaseError::ErrorType::UNKNOWN, query.lastError());
 
     CatalogObjectVector objects;
@@ -475,7 +481,10 @@ CatalogObjectVector DBManager::_get_objects_in_trixel_generic(QSqlQuery& query, 
 CatalogObjectList DBManager::fetch_objects(QSqlQuery &query) const
 {
     CatalogObjectList objects;
-    auto _ = gsl::finally([&]() { query.finish(); });
+    auto _ = gsl::finally([&]()
+    {
+        query.finish();
+    });
 
     query.exec();
 
@@ -515,7 +524,7 @@ CatalogObjectList DBManager::find_objects_by_name(const QString &name, const int
 }
 
 CatalogObjectList DBManager::find_objects_by_name(const int catalog_id,
-                                                  const QString &name, const int limit)
+        const QString &name, const int limit)
 {
     QSqlQuery query{ m_db };
 
@@ -540,7 +549,8 @@ std::pair<bool, CatalogObject> DBManager::get_object(const CatalogObject::oid &o
     QMutexLocker _{ &m_mutex };
     m_q_obj_by_oid.bindValue(0, oid);
 
-    auto f = gsl::finally([&]() { // taken from the GSL, runs when it goes out of scope
+    auto f = gsl::finally([&]()   // taken from the GSL, runs when it goes out of scope
+    {
         m_q_obj_by_oid.finish();
     });
 
@@ -548,7 +558,7 @@ std::pair<bool, CatalogObject> DBManager::get_object(const CatalogObject::oid &o
 };
 
 std::pair<bool, CatalogObject> DBManager::get_object(const CatalogObject::oid &oid,
-                                                     const int catalog_id)
+        const int catalog_id)
 {
     QMutexLocker _{ &m_mutex };
     QSqlQuery query{ m_db };
@@ -587,8 +597,8 @@ CatalogObjectList DBManager::get_objects(SkyObject::TYPE type, float maglim, int
 }
 
 CatalogObjectList DBManager::get_objects_in_catalog(SkyObject::TYPE type,
-                                                    const int catalog_id, float maglim,
-                                                    int limit)
+        const int catalog_id, float maglim,
+        int limit)
 {
     QSqlQuery query{ m_db };
 
@@ -614,7 +624,7 @@ std::pair<bool, QString> DBManager::set_catalog_enabled(const int id, const bool
     query.bindValue(":enabled", enabled);
     query.bindValue(":id", id);
 
-    return { query.exec() && update_catalog_views() && compile_master_catalog(),
+    return { query.exec() &&update_catalog_views() &&compile_master_catalog(),
              query.lastError().text() + m_db.lastError().text() };
 }
 
@@ -625,15 +635,16 @@ const std::vector<Catalog> DBManager::get_catalogs(bool include_disabled)
     catalogs.reserve(ids.size());
 
     std::transform(ids.cbegin(), ids.cend(), std::back_inserter(catalogs),
-                   [&](const int id) {
-                       const auto &found = get_catalog(id);
-                       if (found.first)
-                           return found.second;
+                   [&](const int id)
+    {
+        const auto &found = get_catalog(id);
+        if (found.first)
+            return found.second;
 
-                       // This really should **not** happen
-                       throw DatabaseError(
-                           QString("Could not retrieve the catalog with id=%1").arg(id));
-                   });
+        // This really should **not** happen
+        throw DatabaseError(
+            QString("Could not retrieve the catalog with id=%1").arg(id));
+    });
 
     return catalogs;
 }
@@ -676,7 +687,7 @@ inline void bind_catalogobject(QSqlQuery &query, const int catalog_id,
 };
 
 std::pair<bool, QString> DBManager::add_object(const int catalog_id,
-                                               const CatalogObject &obj)
+        const CatalogObject &obj)
 {
     return add_object(catalog_id, static_cast<SkyObject::TYPE>(obj.type()), obj.ra0(),
                       obj.dec0(), obj.name(), obj.mag(), obj.longname(),
@@ -716,12 +727,12 @@ DBManager::add_object(const int catalog_id, const SkyObject::TYPE t, const Cachi
         return { false, i18n("Could not insert object! %1", err) };
     }
 
-    return { update_catalog_views() && compile_master_catalog(),
+    return { update_catalog_views() &&compile_master_catalog(),
              m_db.lastError().text() };
 }
 
 std::pair<bool, QString> DBManager::remove_object(const int catalog_id,
-                                                  const CatalogObject::oid &id)
+        const CatalogObject::oid &id)
 {
     QSqlQuery query{ m_db };
 
@@ -731,7 +742,7 @@ std::pair<bool, QString> DBManager::remove_object(const int catalog_id,
     if (!query.exec())
         return { false, query.lastError().text() };
 
-    return { update_catalog_views() && compile_master_catalog(),
+    return { update_catalog_views() &&compile_master_catalog(),
              m_db.lastError().text() };
 }
 
@@ -754,19 +765,20 @@ std::pair<bool, QString> DBManager::dump_catalog(int catalog_id, QString file_pa
                  i18n("Could not attach output file.<br>%1", query.lastError().text()) };
 
     m_db.transaction();
-    auto _ = gsl::finally([&]() { // taken from the GSL, runs when it goes out of scope
+    auto _ = gsl::finally([&]()   // taken from the GSL, runs when it goes out of scope
+    {
         m_db.commit();
         query.exec("DETACH tmp");
     });
 
     if (!query.exec(
-            QString("CREATE TABLE tmp.cat AS SELECT * FROM cat_%1").arg(catalog_id)))
+                QString("CREATE TABLE tmp.cat AS SELECT * FROM cat_%1").arg(catalog_id)))
         return { false, i18n("Could not copy catalog to output file.<br>%1")
-                            .arg(query.lastError().text()) };
+                 .arg(query.lastError().text()) };
 
     if (!query.exec(SqlStatements::create_catalog_registry("tmp.catalogs")))
         return { false, i18n("Could not create catalog registry in output file.<br>%1")
-                            .arg(query.lastError().text()) };
+                 .arg(query.lastError().text()) };
 
     query.prepare(SqlStatements::insert_into_catalog_registry("tmp.catalogs"));
 
@@ -778,27 +790,27 @@ std::pair<bool, QString> DBManager::dump_catalog(int catalog_id, QString file_pa
     {
         return { false,
                  i18n("Could not insert catalog into registry in output file.<br>%1")
-                     .arg(query.lastError().text()) };
+                 .arg(query.lastError().text()) };
     }
 
     if (!query.exec(QString("PRAGMA tmp.user_version = %1").arg(m_db_version)))
     {
         return { false, i18n("Could not insert set exported database version.<br>%1")
-                            .arg(query.lastError().text()) };
+                 .arg(query.lastError().text()) };
     }
 
     if (!query.exec(QString("PRAGMA tmp.application_id = %1").arg(application_id)))
     {
         return { false,
                  i18n("Could not insert set exported database application id.<br>%1")
-                     .arg(query.lastError().text()) };
+                 .arg(query.lastError().text()) };
     }
 
     return { true, {} };
 }
 
 std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
-                                                   const bool overwrite)
+        const bool overwrite)
 {
     QTemporaryDir tmp;
     const auto new_path = tmp.filePath("cat.kscat");
@@ -818,17 +830,18 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
                  i18n("Could not attach input file.<br>%1", query.lastError().text()) };
     }
 
-    auto _ = gsl::finally([&]() {
+    auto _ = gsl::finally([&]()
+    {
         m_db.commit();
         query.exec("DETACH tmp");
     });
 
     if (!query.exec("PRAGMA tmp.application_id") || !query.next() ||
-        query.value(0).toInt() != CatalogsDB::application_id)
+            query.value(0).toInt() != CatalogsDB::application_id)
         return { false, i18n("Invalid catalog file.") };
 
     if (!query.exec("PRAGMA tmp.user_version") || !query.next() ||
-        query.value(0).toInt() < m_db_version)
+            query.value(0).toInt() < m_db_version)
     {
         const auto &success = migrate_db(query.value(0).toInt(), m_db, "tmp");
         if (!success.first)
@@ -859,11 +872,11 @@ std::pair<bool, QString> DBManager::import_catalog(const QString &file_path,
     m_db.transaction();
 
     if (!query.exec(
-            "INSERT INTO catalogs (id, name, mut, enabled, precedence, author, source, "
-            "description, version, color, license, maintainer, timestamp) SELECT id, "
-            "name, mut, enabled, precedence, author, source, description, version, "
-            "color, license, maintainer, timestamp FROM tmp.catalogs LIMIT 1") ||
-        !query.exec(QString("CREATE TABLE cat_%1 AS SELECT * FROM tmp.cat").arg(id)))
+                "INSERT INTO catalogs (id, name, mut, enabled, precedence, author, source, "
+                "description, version, color, license, maintainer, timestamp) SELECT id, "
+                "name, mut, enabled, precedence, author, source, description, version, "
+                "color, license, maintainer, timestamp FROM tmp.catalogs LIMIT 1") ||
+            !query.exec(QString("CREATE TABLE cat_%1 AS SELECT * FROM tmp.cat").arg(id)))
         return { false,
                  i18n("Could not import the catalog.<br>%1", query.lastError().text()) };
 
@@ -900,7 +913,7 @@ std::pair<bool, QString> DBManager::remove_catalog_force(const int id)
     {
         m_db.rollback();
         return { false, i18n("Could not remove the catalog from the registry.<br>%1")
-                            .arg(remove_catalog.lastError().text()) };
+                 .arg(remove_catalog.lastError().text()) };
     }
 
     m_db.commit();
@@ -956,10 +969,11 @@ int DBManager::find_suitable_catalog_id()
 
     // find a gap in the ids to use
     const auto element = std::adjacent_find(
-        cats.cbegin(), cats.cend(), [](const auto &c1, const auto &c2) {
-            return (c1.id >= CatalogsDB::custom_cat_min_id) &&
-                   (c2.id >= CatalogsDB::custom_cat_min_id) && (c2.id - c1.id) > 1;
-        });
+                             cats.cbegin(), cats.cend(), [](const auto & c1, const auto & c2)
+    {
+        return (c1.id >= CatalogsDB::custom_cat_min_id) &&
+               (c2.id >= CatalogsDB::custom_cat_min_id) && (c2.id - c1.id) > 1;
+    });
 
     return std::max(CatalogsDB::custom_cat_min_id,
                     (element == cats.cend() ? cats.back().id : element->id) + 1);
@@ -968,13 +982,13 @@ int DBManager::find_suitable_catalog_id()
 QString CatalogsDB::dso_db_path()
 {
     return QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-        .filePath(Options::dSOCatalogFilename());
+           .filePath(Options::dSOCatalogFilename());
 }
 
 std::pair<bool, Catalog> CatalogsDB::read_catalog_meta_from_file(const QString &path)
 {
     QSqlDatabase db{ QSqlDatabase::addDatabase(
-        "QSQLITE", QString("tmp_%1_%2").arg(path).arg(get_connection_index())) };
+                         "QSQLITE", QString("tmp_%1_%2").arg(path).arg(get_connection_index())) };
     db.setDatabaseName(path);
 
     if (!db.open())
@@ -983,7 +997,7 @@ std::pair<bool, Catalog> CatalogsDB::read_catalog_meta_from_file(const QString &
     QSqlQuery query{ db };
 
     if (!query.exec("PRAGMA user_version") || !query.next() ||
-        query.value(0).toInt() < SqlStatements::current_db_version)
+            query.value(0).toInt() < SqlStatements::current_db_version)
     {
         QTemporaryDir tmp;
         const auto new_path = tmp.filePath("cat.kscat");
@@ -1070,12 +1084,12 @@ CatalogsDB::DBManager::add_objects(const int catalog_id,
         }
     }
 
-    return { m_db.commit() && update_catalog_views() && compile_master_catalog(),
+    return { m_db.commit() &&update_catalog_views() &&compile_master_catalog(),
              m_db.lastError().text() };
 };
 
 CatalogObjectList CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard,
-                                                                  const int limit)
+        const int limit)
 {
     QMutexLocker _{ &m_mutex };
 
@@ -1092,7 +1106,7 @@ CatalogObjectList CatalogsDB::DBManager::find_objects_by_wildcard(const QString 
 
 std::tuple<bool, const QString, CatalogObjectList>
 CatalogsDB::DBManager::general_master_query(const QString &where, const QString &order_by,
-                                            const int limit)
+        const int limit)
 {
     QMutexLocker _{ &m_mutex };
 
