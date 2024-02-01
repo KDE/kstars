@@ -65,7 +65,7 @@
             </mediaobject>
         </screenshot>
         <para
->Pour réaliser le guidage, vous devez également régler le train optique du guide. Ce second train optique est presque toujours différent de celui utilisé pour l'acquisition, l'alignement et la mise au point. Voyez l'image ci-dessus pour un exemple de configuration du train optique de guidage. Veuillez noter que le télescope choisi est le télescope guide, qui peut être le même que le télescope principale si vous utilisez le guidage hors axe (OAG ou Off-Axis-Guiding en anglais) ou sur axe (ONAG ou ON-Axis-Guiding en anglais). L'appareil choisi est bien sûr la caméra de guidage. Le paramètre Guide Via devrait être votre monture, en supposant que vous envoyez des impulsions de guidage directement à la monture, ou alors le nom du périphérique ST4 (par exemple votre appareil) si vous utilisez des impulsions de guidage ST4. </para>
+>Pour réaliser le guidage, vous devez également régler le train optique du guide. Ce second train optique est presque toujours différent de celui utilisé pour l'acquisition, l'alignement et la mise au point. Voyez l'image ci-dessus pour un exemple de configuration du train optique de guidage. Veuillez noter que le télescope choisi est le télescope guide, qui peut être le même que le télescope principale si vous utilisez le guidage hors axe (OAG ou « Off-Axis-Guiding » en anglais) ou sur axe (ONAG ou » On-Axis-Guiding » en anglais). L'appareil choisi est bien sûr la caméra de guidage. Le paramètre « Guide Via » devrait être votre monture, en supposant que vous envoyez des impulsions de guidage directement à la monture, ou alors le nom du périphérique ST4 (par exemple votre appareil) si vous utilisez des impulsions de guidage ST4. </para>
         <para
 >Veuillez vous référer à la page principale de guidage en début de section sur le guidage. Il existe de nombreux autres paramètres qui peuvent être réglés, dont certains sont énumérés ci-dessous. </para>
         <itemizedlist>
@@ -97,7 +97,7 @@
                 <para
 ><guilabel
 >Dark</guilabel
-> : cochez pour activer les corrections en tenant compte des darks de vos images de guidage. Voir ci-dessous. </para>
+> : cochez pour activer les corrections en tenant compte des trames sombres de vos images de guidage. Voir ci-dessous. </para>
             </listitem>
             <listitem>
                 <para
@@ -325,7 +325,7 @@
 > du guidage et des <emphasis
 >corrections</emphasis
 >. Par défaut, seules les déviations en AD et DEC sont affichées. L'axe horizontal représente le temps en secondes depuis le début du processus de guidage alors que l'axe vertical représente les déviations ou dérives du guidage en secondes d'arc. Les corrections de guidage (impulsions) peuvent être tracées sur le même graphique et vous pouvez les activer en cochant les cases <guilabel
->Corr</guilabel
+>Corr.</guilabel
 > sous chaque axe. Les corrections sont affichées sous la forme de zones ombrées en arrière-plan avec les mêmes couleurs que celles des axes. </para>
         <para
 >Vous pouvez déplacer le graphique ainsi que faire un zoom et lorsque vous survolez une zone, des infobulles apparaîtront contenant de l'information pour un moment spécifique. Elle contient la dérive et la correction effectuée et l'heure locale d'enregistrement de l'évènement. Un curseur vertical à la droite de l'image permet d'ajuster la hauteur de l'axe Y secondaire qui affiche les impulsions de correction.</para>

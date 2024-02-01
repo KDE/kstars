@@ -94,7 +94,7 @@
 ></listitem>
                 <listitem
 ><para
->Debayerisation : convertit les images brutes en RGB.</para
+>Débayerisation : convertit les images brutes en RGB.</para
 ></listitem>
             </itemizedlist>
             </listitem>
@@ -166,8 +166,8 @@
 ></listitem>
                 <listitem
 ><para
->Zoom avant : zoom avant jusqu'à un maximum de 400 %. Pour des grosses images, cette opération peu prendre beaucoup de mémoire. Activer <quote
->Mode de resource limité</quote
+>Zoom avant : zoom avant jusqu'à un maximum de 400 %. Pour des grosses images, cette opération peut prendre beaucoup de mémoire. Activer <quote
+>Mode « Ressources limitées »</quote
 > pour économiser de la mémoire.</para
 ></listitem>
                 <listitem
@@ -426,7 +426,7 @@
 ></listitem>
                 <listitem
 ><para
->Statistiques de l'image : affiche le HFR, l'excentricité et le nombre d'étoiles si calculées. HFR : 1.96 Ecc : 0.43 143 étoiles ci-dessus.</para
+>Statistiques de l'image : affiche le HFR, l'excentricité et le nombre d'étoiles si calculées. HFR : 1.96 ECC : 0.43 143 étoiles ci-dessus.</para
 ></listitem>
                 <listitem
 ><para
@@ -437,7 +437,7 @@
     </listitem>
 </orderedlist>
 <para
->Outre l'affichage de l'image, l'afficheur peut traiter l'éventuelle en-tête WCS (World Coordinate System) qui fournit des informations précieuses concernant les objets présents dans l'image, la superposition de la grille équatoriales, un menu contextuel et la possibilité de pivoter le télescope vers n'importe quel point de l'image. </para>
+>Outre l'affichage de l'image, l'afficheur peut traiter l'éventuelle en-tête « WCS » (World Coordinate System) qui fournit des informations précieuses concernant les objets présents dans l'image, la superposition de la grille équatoriales, un menu contextuel et la possibilité de pivoter le télescope vers n'importe quel point de l'image. </para>
 <para
 >Plusieurs filtres peuvent être appliqués pour améliorer l'image en incluant l'auto-étirement et le haut contraste. Ces opérations peuvent prendre quelques secondes selon la taille de l'image. La barre d'état du bas affiche la valeur du pixel survolé ainsi que les coordonnées X et Y. Enfin, elle inclut le niveau de zoom actuel et la résolution de l'image. </para>
 <para
@@ -543,7 +543,7 @@
 ></listitem>
                 <listitem
 ><para
->Position : la case à cocher Utiliser Position force le résolveur à chercher près des coordonnées en AD et DEC données. L'étendue de la recherche est donnée par l'utilisateur dans la boîte Rayon, en degrés. Veuillez noter que l'AD doit être donnée en heures-minutes-secondes, par exemple 13h, et la DEC en degrés-minutes-secondes, par exemple 85. Quand une résolution aboutit, les valeurs de la boîte sont remplacées par les coordonnées de la solution. De plus, le champ Angle sera rempli par la solution de l'angle en degrés.</para
+>Position : la case à cocher Utiliser Position force le résolveur à chercher près des coordonnées en AD et DEC données. L'étendue de la recherche est donnée par l'utilisateur dans la boîte Rayon, en degrés. Veuillez noter que le paramètre AD doit être donnée en heures-minutes-secondes, par exemple 13h, et la DEC en degrés-minutes-secondes, par exemple 85. Quand une résolution aboutit, les valeurs de la boîte sont remplacées par les coordonnées de la solution. De plus, le champ « Angle » sera rempli par la solution de l'angle en degrés.</para
 ></listitem>
                 <listitem
 ><para
@@ -555,7 +555,7 @@
 ></listitem>
                 <listitem
 ><para
->Solution : la section Solution affiche le nombre d'étoiles trouvé et le temps pris pour la résolution. Les valeurs de la solution pour l'AD, la DEC, l'échelle et l'angle sont affichées dans les boîtes supérieurs.</para
+>Solution : la section Solution affiche le nombre d'étoiles trouvé et le temps pris pour la résolution. Les valeurs de la solution pour le paramètre AD, la DEC, l'échelle et l'angle sont affichées dans les boîtes supérieurs.</para
 ></listitem>
                 <listitem
 ><para
@@ -692,7 +692,7 @@
         </mediaobject>
     </screenshot>
     <para
->L'outil d'affichage de données 3D peut tracer un graphique 3D d'une région sélectionnée de l'image. Cela est particulièrement utile pour les astrophotographes qui souhaite afficher le profil d'une étoile qu'ils envisagent d'utiliser comme étoile guide. Pour les scientifiques, cela leurs permet d'étudier un échantillon des données pour comprendre la luminosité relative des différents objets de l'image. De plus, cela permet aux personnes qui souhaitent comprendre visuellement ce qui se passe dans leurs données d'une nouvelle manière. </para>
+>L'outil d'affichage de données 3D peut tracer un graphique 3D d'une région sélectionnée de l'image. Cela est particulièrement utile pour les astro-photographes souhaitant afficher le profil d'une étoile qu'ils envisagent d'utiliser comme étoile guide. Pour les scientifiques, cela leurs permet d'étudier un échantillon des données pour comprendre la luminosité relative des différents objets de l'image. De plus, cela permet aux personnes qui souhaitent comprendre visuellement ce qui se passe dans leurs données d'une nouvelle manière. </para>
     <para
 >Pour utiliser cette nouvelle fonctionnalité, l'utilisateur doit sélectionner l'icône <guiicon
 >Voir profil de l'étoile</guiicon
@@ -751,7 +751,7 @@
     <para
 >Ensuite l'utilisateur a la boîte <guilabel
 >Zoomer vers</guilabel
-> qui permet de zoomer vers des endroits préréglés. Puis il y a la boîte de choix de la couleur du graphe. Ensuite, les cases à cocher pour activer les étiquettes pour l'HFR et le pic pour chaque étoile de l'image mais affichera aussi l'une d'entre elles au bas de l'écran. Et enfin il y a la case à cocher des échelles qui active le panneau latéral <guilabel
+> qui permet de zoomer vers des endroits préréglés. Puis il y a la boîte de choix de la couleur du graphe. Ensuite, les cases à cocher pour activer les étiquettes pour le mode HFR et le pic pour chaque étoile de l'image mais affichera aussi l'une d'entre elles au bas de l'écran. Et enfin il y a la case à cocher des échelles qui active le panneau latéral <guilabel
 >Échelles</guilabel
 >. Il y a trois curseurs dans ce panneau, un pour contrôle la valeur minimale affichée sur le graphe ou le <quote
 >point noir</quote

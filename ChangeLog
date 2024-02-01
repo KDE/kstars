@@ -4,6 +4,113 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.9 (Lobi):
+
+e6285e15c 2024-01-30 John Evans           In Sequence HFR Check Bugfix
+e2b4bb982 2024-01-28 Jasem Mutlaq         Fix possible crash when disconnecting devices where we have pending properties
+246836cda 2024-01-27 Yuri Chornoivan      Fix minor typos
+8f9102b14 2024-01-26 Jasem Mutlaq         Add Train reset
+145597bca 2024-01-26 Hy Murveit           Simplify moon separation test
+fb7717365 2024-01-26 John Evans           Donut Buster - Phase 1
+6193ab3e6 2024-01-23 Jasem Mutlaq         Add one more check for client manager, but it should exist by this point
+2d63b2fe6 2024-01-21 Jasem Mutlaq         Fix minor issue in port selector where connection status is not updated per device
+44e743715 2024-01-22 John Evans           CFZ Step Size Precision to 3dp
+38612eaa8 2024-01-21 Toni Schriber        Add capture time delay estimate for rotator movements
+bc0d0f7e0 2024-01-21 Toni Schriber        overhaul "differential slewing"
+b21f5ed2f 2024-01-21 Jasem Mutlaq         Fix driver labels
+4f1532fe3 2024-01-21 Hy Murveit           Simplify variance calculation
+ebee2551c 2024-01-20 John Evans           Focus: Small tweaks as requested by forum user
+e697a1a86 2024-01-20 Yuri Chornoivan      Fix minor typos
+9e20246b5 2024-01-20 Jasem Mutlaq         INDI Driver sync
+ee2923bdb 2024-01-11 Ian Jessen           Added camera data for Player One Astronomy Saturn-C and Poseidon-C
+51b3f1892 2024-01-19 John Evans           In Sequence HFR Check Refactor
+74186b331 2024-01-19 Antoni Bella Pérez   [l10n]: Fixes and improves
+a3c404394 2024-01-17 Jasem Mutlaq         Account for actual exposure time in the focus timeout
+d3889e4e9 2024-01-15 Hy Murveit           Fix small bug in sequencejob save
+47e7a0a6f 2024-01-15 Hy Murveit           Added handbook section on editing the scheduler queue while running, and on...
+4ec204cf3 2024-01-15 Hy Murveit           Create standalone editor for editing and saving .esq files.
+6d38e124d 2024-01-13 Jasem Mutlaq         Fix focus setAllSetting not merging settings as in other modules
+5b6cd4ebe 2024-01-13 Wolfgang Reissenberger Bug fix capture pausing blocks meridian flip
+ae438cfdc 2024-01-11 Toni Schriber        Insert missing activation of LoadSlewB - New approach
+5d6ed6b40 2024-01-11 Yuri Chornoivan      Fix links in documentation
+ae99a90bd 2024-01-08 Thomas Stibor        Fix crash on empty PlotList
+159967706 2024-01-10 Joseph McGee         sub-exposure calculator documentation updates
+85d7e975e 2024-01-08 Wolfgang Reissenberger Global sequence job property removed from job's core properties
+c711a5664 2024-01-08 Wolfgang Reissenberger Bugfix: Making capture scripts job specific
+82449abbf 2024-01-08 Jasem Mutlaq         Fix crash due to not updating list after removing an iten
+3566e05a5 2024-01-07 Wolfgang Reissenberger Bugfix realign after MF when paused
+db539accd 2024-01-07 Wolfgang Reissenberger Bug fix for resetting dithering counter
+fe1a6ee1a 2024-01-06 Wolfgang Reissenberger Bug fix connecting Ekos mount instead of ISD mount to MF state engine
+2795862a8 2024-01-06 Josep M. Ferrer      Fix a minor typo (remove an extra period)
+17aef3994 2024-01-06 Wolfgang Reissenberger Bugfix for scheduler editing
+570acfb22 2024-01-05 Hy Murveit           Move sequenceJob load/save to sequencejob.cpp/h and implement SequenceQueue class
+b4698037b 2024-01-05 Wolfgang Reissenberger Bugfix for INDI button activation
+f0363b848 2024-01-05 Oliver Kellogg       kstars/indi/collimationOptions.ui : In offsetLabel toolTip change Elements to Element's.
+9aa0a72ae 2024-01-05 Oliver Kellogg       kstars/ekos/scheduler/scheduler.cpp (setupScheduler) : In call to completionHeader->setToolTip remove stray quote at "job".
+b87621fd6 2024-01-05 Jasem Mutlaq         Mark 3.6.9 beta
+9dba34235 2024-01-05 Jasem Mutlaq         Send capture status
+1083603d4 2024-01-05 Jasem Mutlaq         Fix issue with dome missing in align module
+2132c4875 2024-01-05 Wolfgang Reissenberger Option making display of INDI window at startup configurable
+00b658156 2024-01-04 John Evans           Adaptive Focus Fix1
+723b9c91d 2024-01-04 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 5
+b788c14fa 2024-01-04 Wolfgang Reissenberger Bugfix for new row selection while editing
+2c716fda2 2024-01-02 Hy Murveit           FITS Roi also updates the stats table.
+e09109c0d 2024-01-03 Hy Murveit           Allow deleting of scheduler jobs and appending to scheduler queue while running other jobs.
+d117a4bc6 2024-01-02 Wolfgang Reissenberger Fixes and enhancements for editing running schedules
+c1f9ad3c7 2024-01-02 Hy Murveit           Refactor scheduler a little
+c7d374cb3 2024-01-01 Wolfgang Reissenberger Always show and edit scheduler job properties
+e829d91bf 2024-01-01 Jasem Mutlaq         Add support to per-job dither frequency. By default it is 0 so it uses global dither frequency. If non-zero, it will instead use this value instead ..
+693c48aac 2024-01-01 John Evans           Focus UI Refactor
+b3fce864d 2024-01-01 Jasem Mutlaq         Send scheduler log and status
+f28fc9e3a 2023-12-31 Jasem Mutlaq         Process FITS selection should have a URL so that it can be set from general settings
+038ab9a90 2023-12-31 Jasem Mutlaq         Add missing set global settings
+202df89bc 2023-12-31 Jasem Mutlaq         Fix signal changed by mistake
+79be76675 2023-12-30 Jasem Mutlaq         Fix scheduler test
+44d2ba4c1 2023-12-30 Jasem Mutlaq         Use standarized settings like rest of Ekos modules where as all settings as synced automatically to disk when changed and are loaded accordingly
+4f96291c8 2023-12-30 Jasem Mutlaq         Use debounced timer for sending settings and save settings to disks once the debounce period is over to over excessive writes to disk
+2f8284bff 2023-12-31 Jasem Mutlaq         Change maximum to 5 since some barlows can go pretty high
+25c82f725 2023-12-28 John Evans           Focuser Properties Log Spam
+c6d5be144 2023-12-28 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 4
+bdfa10a25 2023-12-27 Jasem Mutlaq         Fix issue with autopark not triggering correctly
+3f4597dba 2023-12-26 Jasem Mutlaq         Add button to reset optical train. This is required not only due to convenience but also because of missing devices error that cannot go away unless..
+75f7039db 2023-12-26 Yuri Chornoivan      Fix minor typo
+b5d1c8425 2023-12-25 Wolfgang Reissenberger Minimal flip duration
+fc8639e66 2023-12-25 Yuri Chornoivan      Fix minor typos
+800076133 2023-12-25 Yuri Chornoivan      Fix minor typos
+a47e63015 2023-12-24 Ed Lee               Add Collimation overlay graphics to live view
+0e2a1026a 2023-12-24 Jasem Mutlaq         Separate Alt and HA Abort dispatches
+9b364f10d 2023-12-05 Jasem Mutlaq         Sync scripts
+35d9abbff 2023-12-05 Jasem Mutlaq         Fix crash when downloading observing list images
+fb27d200e 2023-12-11 Hy Murveit           Add logging to driver restart
+b2ece5b20 2023-12-22 Jasem Mutlaq         Fix FITS Viewer crash on close
+dc6302201 2023-12-20 Jasem Mutlaq         Must check if the string value is -- so that we reset the controls to their special values
+25230b597 2023-12-20 Jasem Mutlaq         Fix guiding suspend not working properly when capturing non-light frames.
+4ed1e3232 2023-12-20 Jasem Mutlaq         Send min and max in metadata
+7cf2f7e1e 2023-12-19 Hy Murveit           Fix compile without fitsio
+c9618a44b 2023-12-19 Jasem Mutlaq         Must perform a FULL RESET if the camera resolution changes
+4594efba6 2023-12-17 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 3
+38e985c5c 2023-12-12 Jasem Mutlaq         Use correct logging category
+1d463e265 2023-12-11 Jasem Mutlaq         Clear last reference to pointer to delete the object
+bc5adc3da 2023-12-10 Hy Murveit           undo previous fix
+697b30c9a 2023-12-11 Wolfgang Reissenberger Bugfix for placeholder replacement of implicit values
+ada76a181 2023-12-10 Hy Murveit           Fix bug introduced in 5f3dcf74
+143f4a900 2023-12-10 Jasem Mutlaq         Fix infinite feedback loop that was caused by improper string comparision between a C string and QString
+e7fcc7870 2023-12-09 Jasem Mutlaq         Add robust crash recovery to capture and guide modules. Focus and alignment are pending
+5f3dcf74e 2023-12-09 Jasem Mutlaq         Fix FITSViewer not being removed from list after closing window
+e576820dd 2023-12-07 Hy Murveit           Fix handbook authors section
+ad5215f3b 2023-12-07 Albert Astals Cid    Remove docbook that doesn't compile
+16796ae7a 2023-12-06 Yuri Chornoivan      Fix minor typos
+0a8c955fe 2023-12-05 Yuri Chornoivan      Fix minor typos
+c59528b13 2023-12-05 Yuri Chornoivan      Fix XML
+d694512d8 2023-12-05 Hy Murveit           Increase visibility for Ekos and FITS Viewer in the KStars Handbook
+67fdcaeda 2023-12-05 Jasem Mutlaq         Reduce margins
+147aa0206 2023-12-03 Wolfgang Reissenberger Bug fix for unknown camera temperature, gain or offset
+44e508650 2023-12-02 Yuri Chornoivan      Fix minor typos
+5112379dd 2023-12-02 Yuri Chornoivan      Fix minor typo
+397fcc66b 2023-12-02 Yuri Chornoivan      Fix minor typos
+41cb8e87b 2023-12-02 Yuri Chornoivan      Fix minor typos
+187dcff04 2023-12-02 Yuri Chornoivan      Fix minor typos
+
 3.6.8 (Abberator):
 
 b92ee12e8 2023-12-01 Jasem Mutlaq         INDI drivers sync                                                                                                                                     

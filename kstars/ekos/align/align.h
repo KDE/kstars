@@ -778,8 +778,6 @@ class Align : public QWidget, public Ui::Align
         SkyPoint m_AlignCoord;
         /// Target coordinates we need to slew to
         SkyPoint m_TargetCoord;
-        /// Final destination coordinates we want to reach in case of differential align
-        SkyPoint m_DestinationCoord;
         /// Current telescope coordinates
         SkyPoint m_TelescopeCoord;
         /// Difference between solution and target coordinate
@@ -869,10 +867,8 @@ class Align : public QWidget, public Ui::Align
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };
 
-        // GOTO for image PA
-        bool RotatorGOTO { false };
-
-        // Align slew
+        // Differential Slewing
+        bool differentialSlewingActivated { false };
         bool targetAccuracyNotMet { false };
 
         // Astrometry Options
