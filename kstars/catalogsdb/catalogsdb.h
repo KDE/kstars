@@ -556,7 +556,7 @@ class DBManager
      *
      * Will be a reference to a member of `m_db_paths`.
      */
-    std::reference_wrapper<const QString> m_db_file;
+    QString m_db_file;
 
     //@{
     /**
@@ -669,12 +669,6 @@ class DBManager
      */
     CatalogObjectVector _get_objects_in_trixel_generic(QSqlQuery &query, const int trixel);
 
-    /**
-     * A list of database paths. The index gets stored in the
-     * `CatalogObject` and can be used to retrieve the path to the
-     * database.
-     */
-    static QSet<QString> m_db_paths;
     //@}
 };
 
