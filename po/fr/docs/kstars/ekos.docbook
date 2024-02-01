@@ -9,7 +9,7 @@
 <para
 ><emphasis role="bold"
 >Ekos</emphasis
-> est un outil multiplateforme (&Windows;, &MacOS; et &Linux;) avancé de contrôle d'observatoire et d'automatisation avec un intérêt particulier pour l'astrophotographie. Il est fondé sur un cadre modulaire et extensible pour réaliser les tâches courantes d'astrophotographie. Cela inclut du pointage GOTO hautement précis grâce au résolveur astrometry.net, la possibilité de mesurer <emphasis
+> est un outil multi-plate-forme (&Windows;, &MacOS; et &Linux;) avancé de contrôle d'observatoire et d'automatisation avec un intérêt particulier pour l'astrophotographie. Il est fondé sur un cadre modulaire et extensible pour réaliser les tâches courantes d'astrophotographie. Cela inclut du pointage GOTO hautement précis grâce au résolveur astrometry.net, la possibilité de mesurer <emphasis
 >et</emphasis
 > de corriger les erreurs d'alignement polaire, la mise au point et le guidage automatique ainsi que l'acquisition d'images simples ou multiples avec gestion de roue à filtres. Ekos est distribué avec &kstars;. </para>
 <mediaobject>
@@ -101,7 +101,7 @@
     </listitem>
     <listitem>
         <para
->Export et import d'ensembles de file d'attente de séquences comme des fichiers de séquences Ekos d'extension <literal role="extension"
+>Exportation et importation d'ensembles de file d'attente de séquences comme des fichiers de séquences Ekos d'extension <literal role="extension"
 >.esq</literal
 >. </para>
     </listitem>
@@ -109,11 +109,11 @@
         <para
 ><ulink url="https://www.youtube.com/watch?v=fg2HDFg_dCE"
 >Centrer le télescope n'importe où dans une image FITS</ulink
-> ou n'importe quelle image FITS avec une en-tête WCS (World Coordinate System). </para>
+> ou n'importe quelle image FITS avec une en-tête « WCS » (World Coordinate System). </para>
     </listitem>
     <listitem>
         <para
->Acquisition automatique des images de plage de lumière uniforme (PLU ou flat field en anglais). Définissez le pas de quantification souhaité (ADU ou Analog Digital Unit en anglais) et laissez Ekos faire le reste ! </para>
+>Acquisition automatique des images de plage de lumière uniforme (PLU ou « Flat Field » en anglais). Définissez le pas de quantification souhaité (ADU ou « Analog Digital Unit » en anglais) et laissez Ekos faire le reste ! </para>
     </listitem>
     <listitem>
         <para

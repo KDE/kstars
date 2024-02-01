@@ -647,13 +647,13 @@
 >F8</keycap
 > </shortcut
 > <guimenuitem
->Équirectangulaire</guimenuitem
+>Équi-rectangulaire</guimenuitem
 > </menuchoice
 ></term>
   <listitem
 ><para
 >Passe l'affichage de la carte du ciel à la projection <ulink url="https://fr.wikipedia.org/wiki/Projection_cylindrique_%C3%A9quidistante"
->équirectangulaire </ulink
+>équi-rectangulaire </ulink
 > (appelée encore cylindrique équidistante).</para
 ></listitem>
   </varlistentry>
@@ -1132,11 +1132,11 @@
 ></term>
     <listitem
 ><para
->Ce sous-menu permet de mettre à jour à partir d'Internet les données d'objets divers, nommément les astéroïdes, les comètes, les éléments orbitaux de satellites ainsi que les données des supernovae récentes. Les données seront téléchargées uniquement pour le compte de l'utilisateur courant. Si vous utilisez &kstars; sur plusieurs comptes, vous devrez télécharger ces données pour chaque compte séparément.</para>
+>Ce sous-menu permet de mettre à jour à partir d'Internet les données d'objets divers, nommément les astéroïdes, les comètes, les éléments orbitaux de satellites ainsi que les données des supernova récentes. Les données seront téléchargées uniquement pour le compte de l'utilisateur courant. Si vous utilisez &kstars; sur plusieurs comptes, vous devrez télécharger ces données pour chaque compte séparément.</para>
 
     <para
->&kstars; essaie par défaut de télécharger automatiquement la liste des supernovae récente. Vous pouvez désactiver le téléchargement dans la page <guilabel
->Supernovae</guilabel
+>&kstars; essaie par défaut de télécharger automatiquement la liste des supernova récente. Vous pouvez désactiver le téléchargement dans la page <guilabel
+>Supernova</guilabel
 > de &kstars;.</para
 ></listitem>
   </varlistentry>
@@ -1341,7 +1341,7 @@
 ></term>
       <listitem
 ><para
->(Dés)active l'affichage de la barre d'outils Affichage. Elle contrôle quels objects sont dessinés sur la carte du ciel de &kstars; (étoiles, objets du ciel profond, objets du système solaire, supernovae ou satellites) ainsi que l'information au sujet des constellations à inclure (les lignes de constellations et leur limite, leur nom et leur type de culture céleste). Elle fournit également des raccourcis d'icône pour afficher la Voie Lactée (de couleur grise foncée), pour afficher les grilles équatoriales et azimutales et aussi pour afficher un terrain opaque vert. Veuillez noter que lorsque l'horizon est désactivé, les effets de réfaction sont temporairement désactivés. Cette barre d'outil peut être configurée en utilisant le menu <menuchoice
+>(Dés)active l'affichage de la barre d'outils Affichage. Elle contrôle quels objets sont dessinés sur la carte du ciel de &kstars; (étoiles, objets du ciel profond, objets du système solaire, supernova ou satellites) ainsi que l'information au sujet des constellations à inclure (les lignes de constellations et leur limite, leur nom et leur type de culture céleste). Elle fournit également des raccourcis d'icône pour afficher la Voie Lactée (de couleur grise foncée), pour afficher les grilles équatoriales et azimutales et aussi pour afficher un terrain opaque vert. Veuillez noter que lorsque l'horizon est désactivé, les effets de réfaction sont temporairement désactivés. Cette barre d'outil peut être configurée en utilisant le menu <menuchoice
 ><guimenu
 >Configuration</guimenu
 > <guimenuitem
@@ -1397,7 +1397,7 @@
 ><imagedata fileref="archive-extract.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > <guiicon
->(Dés)active le capteur Cdv</guiicon
+>(Dés)active le capteur « FOV »</guiicon
 ></para
 ></listitem>
           <listitem
@@ -1570,7 +1570,7 @@
 ></term>
   <listitem
 ><para
->Un sous-menu qui liste the différentes barres d'état. <variablelist>
+>Un sous-menu listant les différentes barres d'état. <variablelist>
     <varlistentry>
       <term
 ><guimenuitem
@@ -1685,7 +1685,7 @@
 >+</guibutton
 > (Ajouter Point) de la section de droite. Vous pouvez également supprimer un point sélectionné de la liste de points ou effacer tous les points. Il y a deux manières d'ajouter un point à une région sélectionnée : en indiquant manuellement les coordonnées du point ou en sélectionnant le point de la carte du ciel après avoir cliqué sur le bouton <guibutton
 >Sélectionner Point</guibutton
->. Veuillez noter que chaque point est décrit par des coordonnées horizontales : Az (Azimuth) et Alt (Altitude). Si vous souhaitez modifier les coordonnées d'un point, il suffit de double-cliquer sur sa valeur Az/Alt dans la boîte et indiquer de nouvelles valeurs. Le premier et le dernier point doivent se trouver sur l'horizon. Les polygones doivent être fermés pour être considérés comme des régions valables. Le gestionnaire d'horizon artificiel fournit un moyen simple pour renommer vos régions. Par défaut, les régions sont nommées : <quote
+>. Veuillez noter que chaque point est décrit par des coordonnées horizontales : Az (Azimut) et Alt (Altitude). Si vous souhaitez modifier les coordonnées d'un point, il suffit de double-cliquer sur sa valeur Az/Alt dans la boîte et indiquer de nouvelles valeurs. Le premier et le dernier point doivent se trouver sur l'horizon. Les polygones doivent être fermés pour être considérés comme des régions valables. Le gestionnaire d'horizon artificiel fournit un moyen simple pour renommer vos régions. Par défaut, les régions sont nommées : <quote
 >Région</quote
 > plus un index (c'est-à-dire <quote
 >Région 1</quote
@@ -1829,7 +1829,7 @@
 >. C'est la même fenêtre que vous avez vu lorsque vous avez lancé &kstars; pour la première fois. Cet assistant vous aidera à régler les options de base telles que votre position sur Terre. La première page de cet assistant est une page de bienvenue et si vous cliquez sur <guibutton
 >Suivant</guibutton
 > vous tomberez sur la page <guilabel
->Choisir votre position actuelle</guilabel
+>Sélectionner votre position actuelle</guilabel
 >. Vous pouvez choisir ici votre position actuelle exact ou une ville proche si votre position précise ne se trouve pas dans la base de données de villes de &kstars;. Parcourir la liste entière n'est pas très efficace et donc &kstars; fournit une méthode facile à utiliser pour choisir une ville rapidement. Vous pouvez ainsi filtrer la liste de villes par ville, département et pays. En donnant davantage de détails, la liste sera réduite aux meilleures correspondances. Quand vous surlignez une ville dans cette liste, les boîtes de <guilabel
 >Latitude</guilabel
 > et <guilabel
@@ -1838,10 +1838,10 @@
 >Suivant</guibutton
 >, vous irez sur la dernière page de l'assistant de configuration de &kstars; : <quote
 >Télécharger des données supplémentaires</quote
->. Ici vous pourrez télécharger via Internet des fichiers de données optionnels afin d'améliorer &kstars;, telles que des images des objets Messier ou encore un catalogue NGC/IC plus complet. Cliquez sur le bouton <guibutton
+>. Ici, vous pourrez télécharger via Internet des fichiers de données optionnels afin d'améliorer &kstars;, telles que des images des objets Messier ou encore un catalogue NGC/IC plus complet. Cliquez sur le bouton <guibutton
 >Télécharger des données supplémentaires</guibutton
 > pour commencer. Après avoir cliqué sur ce bouton, la fenêtre <guilabel
->Obtenir Hot New Stuff</guilabel
+>Obtenir les dernières nouveautés</guilabel
 > apparaîtra. C'est l'installateur d'extensions de &kstars; qui vous aidera à gérer l'information supplémentaire que vous avez ajouté à &kstars;. Vous pouvez d'abord choisir le type d'affichage de la liste d'extensions en cliquant sur le bouton <guibutton
 >Mode d'affichage détaillé</guibutton
 > ou <guibutton
@@ -1852,7 +1852,7 @@
 >Installer/Désinstaller</guibutton
 >, vous pouvez ouvrir une fenêtre détaillées en utilisant le bouton <guibutton
 >Détails</guibutton
-> ou vous pouvez évaluer cette extension en donnant un nombre d'étoiles dorées, jusqu'à cinq. Si vous souhaitez envoyer un courriel à l'auteur d'une extension, vous pouvez le faire en cliquant sur son adresse email. Ensuite votre client de messagerie par défaut vous guidera dans le processus d'envoi. Après avoir géré vos extensions de &kstars;, vous pouvez fermer la fenêtre en cliquant sur le bouton <guibutton
+> ou vous pouvez évaluer cette extension en donnant un nombre d'étoiles dorées, jusqu'à cinq. Si vous souhaitez envoyer un courriel à l'auteur d'une extension, vous pouvez le faire en cliquant sur son courriel. Ensuite votre client de messagerie par défaut vous guidera dans le processus d'envoi. Après avoir géré vos extensions de &kstars;, vous pouvez fermer la fenêtre en cliquant sur le bouton <guibutton
 >Fermer</guibutton
 >. Vous pouvez aussi utiliser l'outil de téléchargement de données supplémentaires plus tard en choisissant <menuchoice
 ><guimenu
@@ -1962,7 +1962,7 @@
 >flag</quote
 >. Par exemple, le fichier <quote
 >flagSmall_red_cross.gif</quote
-> sera affiché comme Small red cross dans la boîte. Après avoir spécifié l'information du nouveau drapeau, vous pouvez l'ajouter à la liste de drapeaux en utilisant le bouton <guibutton
+> sera affiché comme « Small red cross » dans la boîte. Après avoir spécifié l'information du nouveau drapeau, vous pouvez l'ajouter à la liste de drapeaux en utilisant le bouton <guibutton
 >Ajouter</guibutton
 >. Vous pouvez aussi modifier les détails du drapeau (c'est-à-dire AD/DEC, l'étiquette ou l'icône) et ensuite les enregistrer avec le bouton <guibutton
 >Enregistrer les changements</guibutton
@@ -2620,7 +2620,7 @@
 <listitem
 ><para
 >Passe l'affichage de la carte du ciel à la projection <ulink url="https://fr.wikipedia.org/wiki/Projection_cylindrique_%C3%A9quidistante"
->équirectangulaire </ulink
+>équi-rectangulaire </ulink
 > (appelée encore cylindrique équidistante). </para
 ></listitem>
 </varlistentry>

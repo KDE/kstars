@@ -24,7 +24,7 @@
 >INDI</acronym
 > <ulink url="https://indilib.org/index.php?title=Devices"
 > des matériels gérés</ulink
->.  </para>
+>. </para>
 
 <sect1 id="indi-kstars-setup">
 <title
@@ -197,32 +197,32 @@
 
 <listitem>
 <para
->cliquez sur le menu <menuchoice
+>Cliquez sur le menu <menuchoice
 ><guimenu
 >Périphériques</guimenu
 > <guimenuitem
 >Gestionnaire de périphériques…</guimenuitem
 ></menuchoice
-> </para>
+>. </para>
 </listitem>
 
 <listitem>
 <para
->sous la colonne <guilabel
+>Sous la colonne <guilabel
 >Périphérique</guilabel
 >, sélectionnez votre modèle de télescope. </para>
 </listitem>
 
 <listitem>
 <para
->cliquez sur le bouton <guibutton
+>Cliquez sur le bouton <guibutton
 >Lancer le service</guibutton
 >. </para>
 </listitem>
 
 <listitem>
 <para
->cliquez sur le bouton <guibutton
+>Cliquez sur le bouton <guibutton
 >Fermer</guibutton
 > pour fermer la boîte de dialogue du gestionnaire de matériel. </para>
 </listitem>
@@ -448,7 +448,7 @@
 > <guimenuitem
 >Configurer &kstars;</guimenuitem
 ></menuchoice
-> de cette page. La fenêtre est divisée en plusieurs catégories principales : général, mises à jour des périphériques automatique, affichage, source de mise à jour, roue à filtres et port du serveur :  </para>
+> de cette page. La fenêtre est divisée en plusieurs catégories principales : général, mises à jour des périphériques automatique, affichage, source de mise à jour, roue à filtres et port du serveur : </para>
 
 <itemizedlist>
   <listitem
@@ -642,7 +642,7 @@
 > interrupteur standard CONNECTION. La propriété CONNECTION possède deux éléments : les interrupteurs CONNECT et DISCONNECT. &kstars; analyse la description générique &XML; des propriétés et construit une représentation graphique adaptée à l'interaction humaine directe. </para>
 
 <para
->Le tableau de bord INDI offre beaucoup de propriétés de périphériques inaccessibles de la carte du ciel. Les propriétés offertes diffèrent d'un périphérique à l'autre. Néanmoins, toutes les propriétés partagent des fonctionnalités communes qui déterminent comment elles sont affichées et utilisées. </para>
+>Le tableau de bord INDI offre beaucoup de propriétés de périphériques inaccessibles de la carte du ciel. Les propriétés offertes diffèrent d'un périphérique à l'autre. Néanmoins, toutes les propriétés partagent des fonctionnalités communes qui déterminent comment elles sont affichées et utilisées : </para>
 
 <itemizedlist>
 <listitem>
@@ -681,7 +681,7 @@
 <entry
 >Vert</entry>
 <entry
->La dernière opération effectuée sur cette propriété a réussi et est active.</entry>
+>La dernière opération effectuée sur cette propriété a réussi et est active</entry>
 </row>
 <row>
 <entry
@@ -1045,15 +1045,15 @@
    <orderedlist>
    <listitem>
 <para
->vérifiez que vous avez à la fois les droits en lecture et en écriture pour le port auquel vous essayez de vous connecter.</para>
+>Vérifiez que vous avez à la fois les droits en lecture et en écriture pour le port auquel vous essayez de vous connecter.</para>
    </listitem>
    <listitem>
 <para
->vérifiez la connexion du câble et assurez-vous qu'il est en bon état et testez-le avec d'autres applications.</para>
+>Vérifiez la connexion du câble et assurez-vous qu'il est en bon état et testez-le avec d'autres applications.</para>
    </listitem>
    <listitem>
 <para
->vérifiez l'alimentation de votre télescope et assurez-vous que le contact est mis et que le télescope reçoit assez d'énergie.</para>
+>Vérifiez l'alimentation de votre télescope et assurez-vous que le contact est mis et que le télescope reçoit assez d'énergie.</para>
    </listitem>
    <listitem>
 <para
@@ -1067,7 +1067,7 @@
 ></menuchoice
 >. Le périphérique par défaut est <constant
 >/dev/ttyS0</constant
->.</para>
+></para>
    </listitem>
    <listitem>
    <para
