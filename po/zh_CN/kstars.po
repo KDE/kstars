@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-01 01:34+0000\n"
+"POT-Creation-Date: 2024-02-02 01:33+0000\n"
 "PO-Revision-Date: 2024-01-21 14:14\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1462,127 +1462,127 @@ msgstr "保存图像至 %1 失败。"
 msgid "Catalog with that ID already exists."
 msgstr "此 ID 对应的星表已经存在。"
 
-#: catalogsdb/catalogsdb.cpp:606 catalogsdb/catalogsdb.cpp:742
+#: catalogsdb/catalogsdb.cpp:616 catalogsdb/catalogsdb.cpp:753
 #, kde-format
 msgid "Catalog could not be found."
 msgstr "无法找到该星表。"
 
-#: catalogsdb/catalogsdb.cpp:695 catalogsdb/catalogsdb.cpp:1048
+#: catalogsdb/catalogsdb.cpp:706 catalogsdb/catalogsdb.cpp:1062
 #, kde-format
 msgid "Catalog with id=%1 not found."
 msgstr "找不到 ID 为%1 的星表。"
 
-#: catalogsdb/catalogsdb.cpp:698 catalogsdb/catalogsdb.cpp:1051
+#: catalogsdb/catalogsdb.cpp:709 catalogsdb/catalogsdb.cpp:1065
 #, kde-format
 msgid "Catalog is immutable!"
 msgstr "星表是不可改动的！"
 
-#: catalogsdb/catalogsdb.cpp:714 catalogsdb/catalogsdb.cpp:1067
+#: catalogsdb/catalogsdb.cpp:725 catalogsdb/catalogsdb.cpp:1081
 #, kde-format
 msgid "The object is already in the catalog!"
 msgstr "该天体已经存在星表！"
 
-#: catalogsdb/catalogsdb.cpp:716 catalogsdb/catalogsdb.cpp:1069
+#: catalogsdb/catalogsdb.cpp:727 catalogsdb/catalogsdb.cpp:1083
 #, kde-format
 msgid "Could not insert object! %1"
 msgstr "未能插入天体！%1"
 
-#: catalogsdb/catalogsdb.cpp:746
+#: catalogsdb/catalogsdb.cpp:757
 #, kde-format
 msgid "Output file is not writable."
 msgstr "输出文件不可写。"
 
-#: catalogsdb/catalogsdb.cpp:754
+#: catalogsdb/catalogsdb.cpp:765
 #, kde-format
 msgid "Could not attach output file.<br>%1"
 msgstr "未能附上输出文件。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:764
+#: catalogsdb/catalogsdb.cpp:776
 #, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
 msgstr "无法复制星表到输出文件。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:768
+#: catalogsdb/catalogsdb.cpp:780
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
 msgstr "无能在输出文件中创建星表注册表。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:780
+#: catalogsdb/catalogsdb.cpp:792
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
 msgstr "未能在输出文件中插入星表到注册表。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:786
+#: catalogsdb/catalogsdb.cpp:798
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
 msgstr "未能插入设置的导出数据库版本。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:793
+#: catalogsdb/catalogsdb.cpp:805
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr "未能插入设置的导出数据库程序 ID。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:809
+#: catalogsdb/catalogsdb.cpp:821
 #, kde-format
 msgid "Catalog file is not readable."
 msgstr "星表文件不可读。"
 
-#: catalogsdb/catalogsdb.cpp:818
+#: catalogsdb/catalogsdb.cpp:830
 #, kde-format
 msgid "Could not attach input file.<br>%1"
 msgstr "未能附上输入文件。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:828
+#: catalogsdb/catalogsdb.cpp:841
 #, kde-format
 msgid "Invalid catalog file."
 msgstr "无效的星表文件。"
 
-#: catalogsdb/catalogsdb.cpp:835
+#: catalogsdb/catalogsdb.cpp:848
 #, kde-format
 msgid "Could not migrate old catalog format.<br>%1"
 msgstr "无法迁移旧星表格式。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:841
+#: catalogsdb/catalogsdb.cpp:854
 #, kde-format
 msgid "Could read the catalog id.<br>%1"
 msgstr "无法读取星表 ID。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:851
+#: catalogsdb/catalogsdb.cpp:864
 #, kde-format
 msgid "Catalog already exists in the database!"
 msgstr "星表已在数据库！"
 
-#: catalogsdb/catalogsdb.cpp:868 dialogs/catalogsdbui.cpp:211
+#: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:211
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
 msgstr "无法导入星表。 <br>%1"
 
-#: catalogsdb/catalogsdb.cpp:873
+#: catalogsdb/catalogsdb.cpp:886
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
 msgstr "未能刷新主星表。<br>"
 
-#: catalogsdb/catalogsdb.cpp:882
+#: catalogsdb/catalogsdb.cpp:895
 #, kde-format
 msgid "Removing the user catalog is not allowed."
 msgstr "不允许删除用户星表。"
 
-#: catalogsdb/catalogsdb.cpp:902
+#: catalogsdb/catalogsdb.cpp:915
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
 msgstr "无能从注册表中删除星表。<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:916
+#: catalogsdb/catalogsdb.cpp:929
 #, kde-format
 msgid "Both catalogs have to exist!"
 msgstr "这两个目录必须存在！"
 
-#: catalogsdb/catalogsdb.cpp:919
+#: catalogsdb/catalogsdb.cpp:932
 #, kde-format
 msgid "Destination catalog has to be mutable!"
 msgstr "目标星表必须是可变的 ！"
 
-#: catalogsdb/catalogsdb.cpp:935
+#: catalogsdb/catalogsdb.cpp:948
 #, kde-format
 msgid "Cannot update nonexisting catalog."
 msgstr "无法更新不存在的星表。"
@@ -4178,54 +4178,54 @@ msgstr "气体星云"
 msgid "Planetary Nebulae"
 msgstr "行星状星云"
 
-#: dialogs/finddialog.cpp:74
+#: dialogs/finddialog.cpp:73
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "查找天体"
 
-#: dialogs/finddialog.cpp:88
+#: dialogs/finddialog.cpp:87
 #, kde-format
 msgid "Details..."
 msgstr "详情..."
 
-#: dialogs/finddialog.cpp:192
+#: dialogs/finddialog.cpp:191
 #, kde-format
 msgid "Andromeda Galaxy"
 msgstr "仙女座星系"
 
-#: dialogs/finddialog.cpp:198
+#: dialogs/finddialog.cpp:197
 #, kde-format
 msgid "Aldebaran"
 msgstr "毕宿五(Aldebaran)"
 
-#: dialogs/finddialog.cpp:205
+#: dialogs/finddialog.cpp:204
 #, kde-format
 msgid "Aaltje"
 msgstr "小行星677 Aaltje"
 
-#: dialogs/finddialog.cpp:211
+#: dialogs/finddialog.cpp:210
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr "1989 W1彗星"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:324
 #, kde-format
 msgid "Search the Internet for %1"
 msgstr "在线搜索 %1"
 
-#: dialogs/finddialog.cpp:326
+#: dialogs/finddialog.cpp:325
 #, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "(无)"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:494
 #, kde-format
 msgid "No object named %1 found."
 msgstr "未找到名为 %1 的天体。"
 
-#: dialogs/finddialog.cpp:496
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "Bad object name"
 msgstr "无效的天体名称"
@@ -9215,40 +9215,40 @@ msgstr "第一次手动旋转完成。"
 msgid "Second manual rotation done."
 msgstr "第二次手动旋转完成。"
 
-#: ekos/align/polaralignmentassistant.cpp:1055
+#: ekos/align/polaralignmentassistant.cpp:1057
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr "赤道仪已被同步至天极。您现在可以继续运行极轴校准助手。"
 
-#: ekos/align/polaralignmentassistant.cpp:1074
+#: ekos/align/polaralignmentassistant.cpp:1076
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "WCS 数据正在处理，请稍候..."
 
-#: ekos/align/polaralignmentassistant.cpp:1105
+#: ekos/align/polaralignmentassistant.cpp:1107
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "WCS 数据处理完毕。"
 
-#: ekos/align/polaralignmentassistant.cpp:1114
+#: ekos/align/polaralignmentassistant.cpp:1116
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "WCS 信息有效。拍摄下一帧..."
 
-#: ekos/align/polaralignmentassistant.cpp:1156
+#: ekos/align/polaralignmentassistant.cpp:1158
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "无法处理世界坐标系统： %1。再试一次。"
 
-#: ekos/align/polaralignmentassistant.cpp:1174
+#: ekos/align/polaralignmentassistant.cpp:1176
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA：找不到赤经轴。退出。"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1205
+#: ekos/align/polaralignmentassistant.cpp:1207
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9256,59 +9256,59 @@ msgid ""
 "capturing the first image...</p>"
 msgstr "<p>助手需要三张图像才能定位。Ekos 现在正在抓取第一张图像...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1207
+#: ekos/align/polaralignmentassistant.cpp:1209
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>解析<i>第y一张</i>图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1209
+#: ekos/align/polaralignmentassistant.cpp:1211
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>正在执行 <i>第一次</i> 支架旋转...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1211
+#: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr "<p>等待安定于<i>第一次</i> 赤道仪旋转后...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1213
+#: ekos/align/polaralignmentassistant.cpp:1215
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>等待安定于<i>第二次</i> 赤道仪旋转后...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1215
+#: ekos/align/polaralignmentassistant.cpp:1217
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>拍摄第二张图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1217
+#: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>解析<i>第二张</i>图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1219
+#: ekos/align/polaralignmentassistant.cpp:1221
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>执行 <i>第二次 </i>支架旋转中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1221
+#: ekos/align/polaralignmentassistant.cpp:1223
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>拍摄 <i>第三张</i> 及最后图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1223
+#: ekos/align/polaralignmentassistant.cpp:1225
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>解析<i>第三张</i>图像中...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1228
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr "<p>旋转你的曝光时间 & 选择调节方法。然后点击 <i>刷新</i> 开始调节</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1230
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9320,7 +9320,7 @@ msgstr ""
 "已在上面画出。 <i>放大并选中一个亮星</i> 来重置校正向量。 使用 <i>移动星点 & "
 "计算误差</i> 方法估计剩余的误差。</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1231
+#: ekos/align/polaralignmentassistant.cpp:1233
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -9332,7 +9332,7 @@ msgstr ""
 "节旋钮会影响平面解析。考虑使用两张图像后的结果。点击 <i>停止</i> 当你已完成。"
 "</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1233
+#: ekos/align/polaralignmentassistant.cpp:1235
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -9344,7 +9344,7 @@ msgstr ""
 "i> 使之沿着绿线移动，直到选中星点居中十字丝。</p><p>点击 <i>停止</i> 当星点居"
 "中时</p><i>"
 
-#: ekos/align/polaralignmentassistant.cpp:1249
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr "刷新开始后无法切换到 MoveStar 算法"
