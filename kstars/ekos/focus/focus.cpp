@@ -2019,7 +2019,7 @@ void Focus::analyzeSources()
     hfrInProgress = true;
 
     QVariantMap extractionSettings;
-    extractionSettings["optionsProfileIndex"] = Options::focusOptionsProfile();
+    extractionSettings["optionsProfileIndex"] = m_OpsFocusProcess->focusSEPProfile->currentIndex();
     extractionSettings["optionsProfileGroup"] =  static_cast<int>(Ekos::FocusProfiles);
     m_ImageData->setSourceExtractorSettings(extractionSettings);
     // When we're using FULL field view, we always use either CENTROID algorithm which is the default
