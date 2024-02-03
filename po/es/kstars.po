@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-02 01:33+0000\n"
-"PO-Revision-Date: 2024-02-01 15:18+0100\n"
+"PO-Revision-Date: 2024-02-02 20:44+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -16455,24 +16455,7 @@ msgstr "Límites del enfoque"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:193
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -16492,22 +16475,24 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccione el tipo de curva para ajustarse a los datos:"
-"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Cuadrática</span>: Usa un "
-"ajuste polinómico de grado 2. En la actualidad, esta es la opción "
-"predeterminada y la única opción para todos los algoritmos, excepto el "
-"«Lineal de 1 paso».</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"<html><head/><body><p>El algoritmo de comprobación de HFR:</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Último enfoque automático</span>: Este es el "
+"algoritmo predeterminado y usa el valor de HFR de la ejecución de enfoque "
+"automático más reciente como referencia para la comprobación.</li></ul><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Hipérbola</span>: Ajusta una hipérbola "
-"a los puntos de los datos. En la actualidad, solo está disponible para el "
-"algoritmo «Lineal de 1 paso».</li><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Parábola</span>: Ajusta una "
-"parábola a los puntos de los datos. Actualmente solo está disponible para el "
-"algoritmo «Lineal de 1 paso».</li></ul></body></html>"
+"\"><span style=\" font-weight:600;\">Fija</span>: Este algoritmo permite "
+"indicar una HFR fija para usar en la comprobación.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Medida "
+"relativa</span>: Este algoritmo recopila puntos de datos de las "
+"comprobaciones de enfoque automático y de HFR, mantiene los datos en una "
+"secuencia y usa el valor de la mediana como referencia para la siguiente "
+"comprobación de HFR.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:200
@@ -16519,14 +16504,13 @@ msgstr "Último enfoque automático"
 #: ekos/capture/limits.ui:205
 #, kde-format
 msgid "Fixed"
-msgstr "Fijado"
+msgstr "Fija"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:210
-#, fuzzy, kde-format
-#| msgid "Measure:"
+#, kde-format
 msgid "Median Measure"
-msgstr "Medida:"
+msgstr "Medida mediana"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusDeltaTS)
 #: ekos/capture/limits.ui:259
@@ -16595,7 +16579,7 @@ msgstr ""
 #: ekos/capture/limits.ui:298
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
-msgstr ""
+msgstr "Reenfocar en ΔHFR. Use:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:305
@@ -16654,6 +16638,10 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>El valor de la comprobación de HFR en píxeles. Este es "
+"un campo de salida cuando se selecciona «Último enfoque automático» o "
+"«Medida relativa», y un campo de entrada para «Fija». En todos los casos, se "
+"puede sobrescribir el valor generado por el sistema.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
@@ -18930,12 +18918,13 @@ msgstr "Iniciar encuadre"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:193
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Alejamiento para el eje X.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Enfocar fuera.</p><p>Para los SCT suele ser en sentido "
+"horario.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
@@ -18990,12 +18979,13 @@ msgstr "Posición absoluta actual del enfocador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:423
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Acercamiento para el eje X.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Enfocar dentro.</p><p>Para los SCT suele ser en "
+"sentido antihorario.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:468
@@ -20034,12 +20024,17 @@ msgid ""
 "defocused.</p><p>This is a currently an experimental feature that should be "
 "used with caution.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Marque esta opción para activar la función de "
+"reducción de dónut. Usar en telescopios que tienen una obstrucción central "
+"que crea estrellas en forma de dónut cuando se desenfocan.</p><p>Esta "
+"función es experimental en la actualidad y se debe usar con precaución.</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:639
 #, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr ""
+msgstr "Reductor de dónut (ADVERTENCIA: función experimental)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:657
@@ -20056,6 +20051,11 @@ msgid ""
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Los tiempos de exposición de los puntos de datos más "
+"lejanos aumentan según este factor. La exposición del punto de datos "
+"enfocado no aumenta. La exposición de los puntos intermedios está escalada "
+"de forma apropiada.</p><p>Use el valor 1 para desactivar esta opción.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -36975,36 +36975,43 @@ msgstr "Calcular la posición después de las capturas."
 #, kde-format
 msgid "Camera frame types when using stand-alone esq editor."
 msgstr ""
+"Tipos de fotogramas de la cámara cuando se usa el editor de esq "
+"independiente."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFormats), group (Capture)
 #: kstars.kcfg:1938
 #, kde-format
 msgid "Camera frame formats when using stand-alone esq editor."
 msgstr ""
+"Formatos de fotogramas de la cámara cuando se usa el editor de esq "
+"independiente."
 
 #. i18n: ectx: label, entry (CaptureStandAloneEncodings), group (Capture)
 #: kstars.kcfg:1942
 #, kde-format
 msgid "Camera frame encodings when using stand-alone esq editor."
 msgstr ""
+"Codificaciones de fotogramas de la cámara cuando se usa el editor de esq "
+"independiente."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOs), group (Capture)
 #: kstars.kcfg:1946
 #, kde-format
 msgid "Camera ISOs when using stand-alone esq editor."
-msgstr ""
+msgstr "Valores ISO de la cámara cuando se usa el editor de esq independiente."
 
 #. i18n: ectx: label, entry (CaptureStandAloneISOIndex), group (Capture)
 #: kstars.kcfg:1950
 #, kde-format
 msgid "Camera ISO choice when using stand-alone esq editor."
 msgstr ""
+"Elección de ISO de la cámara cuando se usa el editor de esq independiente."
 
 #. i18n: ectx: label, entry (CaptureStandAloneFilters), group (Capture)
 #: kstars.kcfg:1954
 #, kde-format
 msgid "Filter names when using stand-alone esq editor."
-msgstr ""
+msgstr "Nombres de filtros cuando se usa el editor de esq independiente."
 
 #. i18n: ectx: label, entry (CaptureStandAloneWHGO), group (Capture)
 #: kstars.kcfg:1958
@@ -37013,12 +37020,15 @@ msgid ""
 "Width,Height of sensor size remembered for stand-alone esq editor, and Gain/"
 "Offset keywords."
 msgstr ""
+"Anchura,Altura del tamaño del sensor recordado para el editor de esq "
+"independiente y palabras clave de ganancia/desplazamiento."
 
 #. i18n: ectx: label, entry (CaptureStandAloneTimestamp), group (Capture)
 #: kstars.kcfg:1962
 #, kde-format
 msgid "Local time that the CaptureStandAlone options were set."
 msgstr ""
+"Hora local a la que se han configurado las opciones de CaptureStandAlone."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:1968
@@ -37342,14 +37352,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2127
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to adapt the focuser starting position at the beginning of an "
-#| "Autofocus run."
+#, kde-format
 msgid "Whether to use Donut Busting functionality during Autofocus."
 msgstr ""
-"Si se debe adaptar la posición inicial del enfocador al principio de una "
-"ejecución de enfoque automático."
+"Controla si se debe usar la función de reducción de dónut durante el enfoque "
+"automático."
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
 #: kstars.kcfg:2131
@@ -37358,6 +37365,8 @@ msgid ""
 "Factor to multiply focus exposure by for out of focus frames when using "
 "Donut Buster."
 msgstr ""
+"Factor por el que se multiplica la exposición de enfoque para fotogramas "
+"desenfocados cuando se usa el reductor de dónut."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2135
