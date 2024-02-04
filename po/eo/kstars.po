@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-02 01:33+0000\n"
-"PO-Revision-Date: 2024-01-28 20:02+0100\n"
+"PO-Revision-Date: 2024-02-03 20:30+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -19722,19 +19722,14 @@ msgstr "Tempodilatiĝa Faktoro:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:670
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The furthest datapoints have their exposure times "
-#| "increaed by this factor. The in focus datapoint exposure is not "
-#| "increased. Intermediate points have their exposures scaled appropriately."
-#| "</p><p>Set to 1 to disable this option.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The furthest datapoints have their exposure times "
 "increased by this factor. The in focus datapoint exposure is not increased. "
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>La plej foraj datumpunktoj havas siajn ekspontempojn "
+"<html><head/><body><p>La plej foraj datumpunktoj havas siajn elmetotempojn "
 "pliigitaj je ĉi tiu faktoro. La enfokusa datenpunkt-elmeto ne estas pliigita."
 "Mezaj punktoj havas siajn elmetojn taŭge skalitaj.</p><p>Agordu al 1 por "
 "malŝalti ĉi tiun opcion.</p></body></html>"
@@ -36602,8 +36597,7 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2127
-#, fuzzy, kde-format
-#| msgid "Whether to use Donut Busting functionalty during Autofocus."
+#, kde-format
 msgid "Whether to use Donut Busting functionality during Autofocus."
 msgstr "Ĉu uzi Benjet-Rompilan funkcion dum Aŭtomata fokuso."
 
@@ -84501,6 +84495,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "No Target - Please pick an object."
-#~ msgstr "Neniu Celo - Bonvolu elekti objekton."

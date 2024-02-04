@@ -47,7 +47,7 @@
             <para
 >Avec le module d'alignement d'Ekos, l'alignement de la monture sur une, deux ou trois étoiles avec la commande de la monture n'est <emphasis
 >pas</emphasis
-> strictement nécessaire, mais pour certaines montures, il peut être recommandé de réaliser un alignement sommaire sur une ou deux étoiles avant d'utiliser le module d'alignement de Ekos. Mais si vous utiliser EQMod, vous pouvez commencer d'utiliser tout de suite le module d'alignement. Une marche à suivre typique pour les alignement GOTO implique les étapes suivantes : </para>
+> strictement nécessaire, mais pour certaines montures, il peut être recommandé de réaliser un alignement sommaire sur une ou deux étoiles avant d'utiliser le module d'alignement de Ekos. Mais si vous utiliser « EQMod », vous pouvez commencer d'utiliser tout de suite le module d'alignement. Une marche à suivre typique pour les alignement GOTO implique les étapes suivantes : </para>
             <orderedlist>
                 <listitem>
                     <para
@@ -140,7 +140,7 @@
 > si vous préférez utiliser cela. Le résolveur en ligne est précis mais prend du temps puisqu'il faut télécharger toutes les données. Pour <guilabel
 >Options du profil</guilabel
 >, démarrez avec le profil <guilabel
->1-Default</guilabel
+>1-Défaut</guilabel
 >. </para>
       <para
 >Il existe deux autres options mineures. <guilabel
@@ -243,14 +243,14 @@
 >Options de profil</guilabel
 > dans l'onglet <guilabel
 >Options de StellarSolver</guilabel
->. Les profils sont simplement une collection de paramètres pour la configuration de l'extraction d'étoiles et leur résolution du système StellarSolver. Le profil <guilabel
->1-Default</guilabel
+>. Les profils sont simplement une collection de paramètres pour la configuration de l'extraction d'étoiles et leur résolution du système « StellarSolver ». Le profil <guilabel
+>1-Défaut</guilabel
 > est celui recommandé pour démarrer. Il en existe d'autres comme <guilabel
->Large Scale Solving</guilabel
+>Résolution à grande échelle</guilabel
 >, <guilabel
->Small Scale Solving</guilabel
+>Résolution à échelle réduite</guilabel
 > et <guilabel
->Single Thread Solving</guilabel
+>Résolution en mono-processus</guilabel
 >. </para
 ><para
 >Les <guilabel
@@ -676,7 +676,7 @@
                     <para
 >Il est recommandé d'utiliser un gestionnaire de téléchargement comme <ulink url="https://addons.mozilla.org/fr/firefox/addon/downthemall/"
 >DownThemAll!</ulink
-> pour &firefox; pour télécharger les paquets Debian puisqu'il arrive que certains gestionnaire de téléchargement de navigateurs rencontrent parfois des problèmes à télécharger de gros fichiers. </para>
+> pour &firefox; pour télécharger les paquets pour Debian puisqu'il arrive que certains gestionnaire de téléchargement de navigateurs rencontrent parfois des problèmes à télécharger de gros fichiers. </para>
                 </note>
             </sect3>
         </sect2>
