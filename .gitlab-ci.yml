@@ -3,6 +3,13 @@
 # As of 202009, two-stage pipeline fails on propagation of artifact from stage build to stage test
 # Probably because the upload uses a webdav REST API, and there are many large files in the list
 
+include:
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/reuse-lint.yml
+      - /gitlab-templates/linux.yml
+      - /gitlab-templates/flatpak.yml
+
 stages:
   - build
   - test

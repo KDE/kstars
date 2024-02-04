@@ -1,0 +1,6 @@
+Dependencies:
+- 'on': ['Linux']
+  'require': {}
+
+Options:
+  in-source-build: False
