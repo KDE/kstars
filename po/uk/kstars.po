@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-01 01:34+0000\n"
+"POT-Creation-Date: 2024-02-02 01:33+0000\n"
 "PO-Revision-Date: 2024-01-28 08:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -1488,127 +1488,127 @@ msgstr "Помилка під час збереження зображення �
 msgid "Catalog with that ID already exists."
 msgstr "Каталог із таким ідентифікатором вже існує."
 
-#: catalogsdb/catalogsdb.cpp:606 catalogsdb/catalogsdb.cpp:742
+#: catalogsdb/catalogsdb.cpp:616 catalogsdb/catalogsdb.cpp:753
 #, kde-format
 msgid "Catalog could not be found."
 msgstr "Не вдалося знайти каталог."
 
-#: catalogsdb/catalogsdb.cpp:695 catalogsdb/catalogsdb.cpp:1048
+#: catalogsdb/catalogsdb.cpp:706 catalogsdb/catalogsdb.cpp:1062
 #, kde-format
 msgid "Catalog with id=%1 not found."
 msgstr "Каталогу з id=%1 не знайдено."
 
-#: catalogsdb/catalogsdb.cpp:698 catalogsdb/catalogsdb.cpp:1051
+#: catalogsdb/catalogsdb.cpp:709 catalogsdb/catalogsdb.cpp:1065
 #, kde-format
 msgid "Catalog is immutable!"
 msgstr "Каталог є непридатним до внесення змін!"
 
-#: catalogsdb/catalogsdb.cpp:714 catalogsdb/catalogsdb.cpp:1067
+#: catalogsdb/catalogsdb.cpp:725 catalogsdb/catalogsdb.cpp:1081
 #, kde-format
 msgid "The object is already in the catalog!"
 msgstr "Об'єкт вже є у каталозі!"
 
-#: catalogsdb/catalogsdb.cpp:716 catalogsdb/catalogsdb.cpp:1069
+#: catalogsdb/catalogsdb.cpp:727 catalogsdb/catalogsdb.cpp:1083
 #, kde-format
 msgid "Could not insert object! %1"
 msgstr "Не вдалося вставити об'єкт! %1"
 
-#: catalogsdb/catalogsdb.cpp:746
+#: catalogsdb/catalogsdb.cpp:757
 #, kde-format
 msgid "Output file is not writable."
 msgstr "Файл для виведення даних непридатний до запису."
 
-#: catalogsdb/catalogsdb.cpp:754
+#: catalogsdb/catalogsdb.cpp:765
 #, kde-format
 msgid "Could not attach output file.<br>%1"
 msgstr "Не вдалося долучити файл виведених даних.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:764
+#: catalogsdb/catalogsdb.cpp:776
 #, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
 msgstr "Не вдалося скопіювати каталог до файла виведених даних.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:768
+#: catalogsdb/catalogsdb.cpp:780
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
 msgstr "Не вдалося створити реєстр каталогу у файлі виведених даних.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:780
+#: catalogsdb/catalogsdb.cpp:792
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
 msgstr "Не вдалося вставити каталог до реєстру у файлі виведених даних.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:786
+#: catalogsdb/catalogsdb.cpp:798
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
 msgstr "Не вдалося вставити експортовану версію бази даних набору.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:793
+#: catalogsdb/catalogsdb.cpp:805
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr "Не вдалося вставити ідентифікатор програми бази даних набору.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:809
+#: catalogsdb/catalogsdb.cpp:821
 #, kde-format
 msgid "Catalog file is not readable."
 msgstr "Файл каталогу є непридатним для читання."
 
-#: catalogsdb/catalogsdb.cpp:818
+#: catalogsdb/catalogsdb.cpp:830
 #, kde-format
 msgid "Could not attach input file.<br>%1"
 msgstr "Не вдалося долучити файл вхідних даних.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:828
+#: catalogsdb/catalogsdb.cpp:841
 #, kde-format
 msgid "Invalid catalog file."
 msgstr "Некоректний файл каталогу."
 
-#: catalogsdb/catalogsdb.cpp:835
+#: catalogsdb/catalogsdb.cpp:848
 #, kde-format
 msgid "Could not migrate old catalog format.<br>%1"
 msgstr "Не вдалося перенести дані каталогу у застарілому форматі.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:841
+#: catalogsdb/catalogsdb.cpp:854
 #, kde-format
 msgid "Could read the catalog id.<br>%1"
 msgstr "Не вдалося прочитати ідентифікатор каталогу.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:851
+#: catalogsdb/catalogsdb.cpp:864
 #, kde-format
 msgid "Catalog already exists in the database!"
 msgstr "Каталог вже існує у базі даних!"
 
-#: catalogsdb/catalogsdb.cpp:868 dialogs/catalogsdbui.cpp:211
+#: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:211
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
 msgstr "Не вдалося імпортувати каталог.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:873
+#: catalogsdb/catalogsdb.cpp:886
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
 msgstr "Не вдалося освіжити основний каталог.<br>"
 
-#: catalogsdb/catalogsdb.cpp:882
+#: catalogsdb/catalogsdb.cpp:895
 #, kde-format
 msgid "Removing the user catalog is not allowed."
 msgstr "Вилучення каталогу користувача заборонено."
 
-#: catalogsdb/catalogsdb.cpp:902
+#: catalogsdb/catalogsdb.cpp:915
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
 msgstr "Не вдалося вилучити каталог з реєстру.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:916
+#: catalogsdb/catalogsdb.cpp:929
 #, kde-format
 msgid "Both catalogs have to exist!"
 msgstr "Мають існувати обидва каталоги!"
 
-#: catalogsdb/catalogsdb.cpp:919
+#: catalogsdb/catalogsdb.cpp:932
 #, kde-format
 msgid "Destination catalog has to be mutable!"
 msgstr "Каталог призначення має бути придатним до внесення змін!"
 
-#: catalogsdb/catalogsdb.cpp:935
+#: catalogsdb/catalogsdb.cpp:948
 #, kde-format
 msgid "Cannot update nonexisting catalog."
 msgstr "Не можна оновлювати каталог, якого не існує."
@@ -4237,54 +4237,54 @@ msgstr "Газові туманності"
 msgid "Planetary Nebulae"
 msgstr "Планетарні туманності"
 
-#: dialogs/finddialog.cpp:74
+#: dialogs/finddialog.cpp:73
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Пошук об'єкта"
 
-#: dialogs/finddialog.cpp:88
+#: dialogs/finddialog.cpp:87
 #, kde-format
 msgid "Details..."
 msgstr "Подробиці…"
 
-#: dialogs/finddialog.cpp:192
+#: dialogs/finddialog.cpp:191
 #, kde-format
 msgid "Andromeda Galaxy"
 msgstr "Туманність Андромеди"
 
-#: dialogs/finddialog.cpp:198
+#: dialogs/finddialog.cpp:197
 #, kde-format
 msgid "Aldebaran"
 msgstr "Альдебаран"
 
-#: dialogs/finddialog.cpp:205
+#: dialogs/finddialog.cpp:204
 #, kde-format
 msgid "Aaltje"
 msgstr "Аальт'є"
 
-#: dialogs/finddialog.cpp:211
+#: dialogs/finddialog.cpp:210
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr "Аарсет-Брюїнгтон (1989 W1)"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:324
 #, kde-format
 msgid "Search the Internet for %1"
 msgstr "Шукати в інтернеті %1"
 
-#: dialogs/finddialog.cpp:326
+#: dialogs/finddialog.cpp:325
 #, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "(нічого)"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:494
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Не знайдено жодного об'єкта з назвою %1."
 
-#: dialogs/finddialog.cpp:496
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "Bad object name"
 msgstr "Неправильна назва об'єкта"
@@ -9510,7 +9510,7 @@ msgstr "Виконано перше обертання вручну."
 msgid "Second manual rotation done."
 msgstr "Виконано друге обертання вручну."
 
-#: ekos/align/polaralignmentassistant.cpp:1055
+#: ekos/align/polaralignmentassistant.cpp:1057
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9519,34 +9519,34 @@ msgstr ""
 "Лафет синхронізовано із небесним полюсом. Тепер ви можете продовжити "
 "процедуру полярного вирівнювання."
 
-#: ekos/align/polaralignmentassistant.cpp:1074
+#: ekos/align/polaralignmentassistant.cpp:1076
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Будь ласка, зачекайте на завершення обробки даних WCS…"
 
-#: ekos/align/polaralignmentassistant.cpp:1105
+#: ekos/align/polaralignmentassistant.cpp:1107
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "Обробку даних WCS завершено."
 
-#: ekos/align/polaralignmentassistant.cpp:1114
+#: ekos/align/polaralignmentassistant.cpp:1116
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "Дані WCS тепер є коректними. Захоплюємо наступний кадр…"
 
-#: ekos/align/polaralignmentassistant.cpp:1156
+#: ekos/align/polaralignmentassistant.cpp:1158
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "Не вдалося обробити дані світової координатної системи: %1. Повторіть спробу."
 
-#: ekos/align/polaralignmentassistant.cpp:1174
+#: ekos/align/polaralignmentassistant.cpp:1176
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: не вдалося знайти вісь ПС. Завершуємо роботу."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1205
+#: ekos/align/polaralignmentassistant.cpp:1207
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9556,52 +9556,52 @@ msgstr ""
 "<p>Для відшукання розв'язку помічнику слід захопити три зображення. Зараз "
 "Ekos захоплює перше зображення…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1207
+#: ekos/align/polaralignmentassistant.cpp:1209
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>Розв'язуємо <i>перше</i> зображення…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1209
+#: ekos/align/polaralignmentassistant.cpp:1211
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>Виконуємо <i>перше</i> обертання лафета…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1211
+#: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr "<p>Стабілізуємо систему після <i>першого</i> обертання лафета.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1213
+#: ekos/align/polaralignmentassistant.cpp:1215
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Стабілізуємо систему після <i>другого</i> обертання лафета.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1215
+#: ekos/align/polaralignmentassistant.cpp:1217
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Захоплюємо друге зображення…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1217
+#: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>Розв'язуємо <i>друге</i> зображення…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1219
+#: ekos/align/polaralignmentassistant.cpp:1221
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Виконуємо <i>друге</i> обертання лафета…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1221
+#: ekos/align/polaralignmentassistant.cpp:1223
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Захоплюємо <i>третє</i> і останнє зображення…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1223
+#: ekos/align/polaralignmentassistant.cpp:1225
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>Розв'язуємо <i>третє</i> зображення…</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1228
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -9610,7 +9610,7 @@ msgstr ""
 "<p>Виберіть час експонування і метод коригування. Далі, натисніть "
 "<i>Оновити</i>, щоб почати коригування.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1230
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9624,7 +9624,7 @@ msgstr ""
 "вектора виправлення. Скористайтеся методом <i>Пересування зірки і похибка</"
 "i> для оцінки залишкової похибки.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1231
+#: ekos/align/polaralignmentassistant.cpp:1233
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -9638,7 +9638,7 @@ msgstr ""
 "створення принаймні 2 знімків. Натисніть кнопку <i>Зупинити</i>, коли "
 "завершите.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1233
+#: ekos/align/polaralignmentassistant.cpp:1235
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -9652,7 +9652,7 @@ msgstr ""
 "перехрестя.</p><p>Натисніть кнопку кнопку <i>Зупинити</i>, коли зірку буде "
 "центровано.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1249
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr "Неможливо змінити алгоритм на MoveStar, коли вже розпочалося оновлення"

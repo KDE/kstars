@@ -47,7 +47,7 @@
             <para
 >Avec le module d'alignement d'Ekos, l'alignement de la monture sur une, deux ou trois étoiles avec la commande de la monture n'est <emphasis
 >pas</emphasis
-> strictement nécessaire, mais pour certaines montures, il peut être recommandé de réaliser un alignement sommaire sur une ou deux étoiles avant d'utiliser le module d'alignement d'Ekos. Mais si vous utiliser EQMod, vous pouvez commencer d'utiliser tout de suite le module d'alignement. Une marche à suivre typique pour les alignement GOTO implique les étapes suivantes : </para>
+> strictement nécessaire, mais pour certaines montures, il peut être recommandé de réaliser un alignement sommaire sur une ou deux étoiles avant d'utiliser le module d'alignement de Ekos. Mais si vous utiliser « EQMod », vous pouvez commencer d'utiliser tout de suite le module d'alignement. Une marche à suivre typique pour les alignement GOTO implique les étapes suivantes : </para>
             <orderedlist>
                 <listitem>
                     <para
@@ -55,7 +55,7 @@
                 </listitem>
                 <listitem>
                     <para
->Déparquez votre monture de sa position initiale (généralement pointée vers le pôle céleste nord pour les montures équatoriales). </para>
+>Dé-parquez votre monture de sa position initiale (généralement pointée vers le pôle céleste nord pour les montures équatoriales). </para>
                 </listitem>
                 <listitem>
                     <para
@@ -140,7 +140,7 @@
 > si vous préférez utiliser cela. Le résolveur en ligne est précis mais prend du temps puisqu'il faut télécharger toutes les données. Pour <guilabel
 >Options du profil</guilabel
 >, démarrez avec le profil <guilabel
->1-Default</guilabel
+>1-Défaut</guilabel
 >. </para>
       <para
 >Il existe deux autres options mineures. <guilabel
@@ -243,14 +243,14 @@
 >Options de profil</guilabel
 > dans l'onglet <guilabel
 >Options de StellarSolver</guilabel
->. Les profils sont simplement une collection de paramètres pour la configuration de l'extraction d'étoiles et leur résolution du système StellarSolver. Le profil <guilabel
->1-Default</guilabel
+>. Les profils sont simplement une collection de paramètres pour la configuration de l'extraction d'étoiles et leur résolution du système « StellarSolver ». Le profil <guilabel
+>1-Défaut</guilabel
 > est celui recommandé pour démarrer. Il en existe d'autres comme <guilabel
->Large Scale Solving</guilabel
+>Résolution à grande échelle</guilabel
 >, <guilabel
->Small Scale Solving</guilabel
+>Résolution à échelle réduite</guilabel
 > et <guilabel
->Single Thread Solving</guilabel
+>Résolution en mono-processus</guilabel
 >. </para
 ><para
 >Les <guilabel
@@ -290,7 +290,7 @@
           <title
 >Paramètres de l'extraction d'étoiles</title>
           <para
->Les intitulés des colonnes sont des liens vers le manuel de Sextractor qui est la source d'information principale pour ces paramètres. Visitez ces liens pour obtenir davantage de détails sur ces paramètres. Nous allons aborder quelqu'uns de ces paramètres qu'il pourrait être intéressant d'ajuster. Toutefois, il est probablement judicieux de garder les valeurs par défaut de la plupart de ces paramètres. </para>
+>Les intitulés des colonnes sont des liens vers le manuel de Sextractor qui est la source d'information principale pour ces paramètres. Visitez ces liens pour obtenir davantage de détails sur ces paramètres. Nous allons aborder quelques uns de ces paramètres qu'il pourrait être intéressant d'ajuster. Toutefois, il est probablement judicieux de garder les valeurs par défaut de la plupart de ces paramètres. </para>
         <itemizedlist>
          <listitem
 ><para
@@ -421,7 +421,7 @@
                 </mediaobject>
             </screenshot>
             <para
->Le téléchargement automatique n'est disponible pour les utilisateurs d'Ekos utilisant &Linux; et &MacOS;. Pour &Windows;, veuillez télécharger le resolveur ANSVR. </para>
+>Le téléchargement automatique n'est disponible pour les utilisateurs d'Ekos utilisant &Linux; et &MacOS;. Pour &Windows;, veuillez télécharger le résolveur « ANSVR ». </para>
             <para
 >Pour accéder à la page de téléchargement, cliquez sur le bouton <guibutton
 >Options</guibutton
@@ -473,8 +473,8 @@
                 <para
 >Vous devez <ulink url="http://data.astrometry.net"
 >télécharger</ulink
-> et installer les fichiers index nécessaire qui conviennent pour votre matériel (champ de vision de l'ensemble télescope et CDD). Vous devez installer les fichiers index couvrant une plage allant de 10 % à 100 % de votre champ de vision. Par exemple si votre champ de vision fait 60 minutes d'arc, vous devez installer les fichiers couvrant la plage allant de 6 minutes d'arc (10 %) à 60 minutes d'arc (100 %). Il existe de nombreux outils en ligne permettant de calculer le champ de vision, par exemple <ulink url="https://astronomy.tools/calculators/field_of_view/"
->Field of view calculator</ulink
+> et installer les fichiers index nécessaire qui conviennent pour votre matériel (champ de vision de l'ensemble télescope et CDD). Vous devez installer les fichiers index couvrant une plage allant de 10 % à 100 % de votre champ de vision. Par exemple si votre champ de vision fait 60 minutes d'arc, vous devez installer les fichiers couvrant la plage allant de 6 minutes d'arc (10 %) à 60 minutes d'arc (100 %). Il existe de nombreux outils en ligne permettant de calculer le champ de vision, par exemple <ulink url="http://starizona.com/acb/ccd/calc_pixel.aspx"
+>Starizona Field of View Calculator</ulink
 >. </para>
                 <table frame="all">
                     <title
@@ -676,7 +676,7 @@
                     <para
 >Il est recommandé d'utiliser un gestionnaire de téléchargement comme <ulink url="https://addons.mozilla.org/fr/firefox/addon/downthemall/"
 >DownThemAll!</ulink
-> pour &firefox; pour télécharger les paquets Debian puisqu'il arrive que certains gestionnaire de téléchargement de navigateurs rencontrent parfois des problèmes à télécharger de gros fichiers. </para>
+> pour &firefox; pour télécharger les paquets pour Debian puisqu'il arrive que certains gestionnaire de téléchargement de navigateurs rencontrent parfois des problèmes à télécharger de gros fichiers. </para>
                 </note>
             </sect3>
         </sect2>
@@ -802,7 +802,7 @@
                 <para
 >Ne <emphasis role="bold"
 >Jamais</emphasis
-> résoudre une image proche du pôle céleste (sauf quand l'outil d'assistance à l'alignement polaire est utilisé). Pivoter à au moins 20 degrés du pôle céleste avant de commencer à résoudre la première image. Une résolution trop proche des pôles péjore le pointage de la monture, alors évitez-là. </para>
+> résoudre une image proche du pôle céleste (sauf quand l'outil d'assistance à l'alignement polaire est utilisé). Pivoter à au moins 20 degrés du pôle céleste avant de commencer à résoudre la première image. Une résolution trop proche des pôles dégradera le pointage de la monture, alors évitez-là. </para>
             </warning>
         </sect2>
         
@@ -863,7 +863,7 @@
             <title
 >Alignement polaire</title>
                 <para
->Un des aspects critiques de l'installation d'une monture équatoriale allemande pour l'imagerie longue durée est un alignement polaire aussi précis que possible. Ces montures ont deux axes : l'ascension droite (AD) et la déclinaison (DEC). Idéalement l'axe d'AD devrait être aligné avec l'axe polaire de la sphère céleste. Le travail d'une monture est de suivre le déplacement d'une étoile dans le ciel depuis son lever à l'horizon est jusqu'au passage au méridien puis enfin jusqu'à son coucher vers l'ouest. </para>
+>Un des aspects critiques de l'installation d'une monture équatoriale allemande pour l'imagerie longue durée est un alignement polaire aussi précis que possible. Ces montures ont deux axes : l'ascension droite (AD) et la déclinaison (DEC). Idéalement l'axe du paramètre « AD » devrait être aligné avec l'axe polaire de la sphère céleste. Le travail d'une monture est de suivre le déplacement d'une étoile dans le ciel depuis son lever à l'horizon est jusqu'au passage au méridien puis enfin jusqu'à son coucher vers l'ouest. </para>
 
                 <mediaobject>
                     <videoobject>
@@ -879,9 +879,9 @@
                 </mediaobject>
 
                 <para
->Dans l'imagerie longue durée, une caméra est montée sur le télescope qui enregistre les photons qui arrivent sur son capteur depuis une région particulière du ciel. Ces photons doivent frapper le même pixel encore et encore pour obtenir une image claire et étincelante. Bien sûr, les vrais photons ne se comportent pas exactement comme cela. Les défauts d'optique, l'atmosphère turbulente, la qualité du ciel (le seeing en anglais) génèrent une légère dispersion des photons sur le capteur. De plus, ils n'arrivent pas uniformément mais suivant une distribution de Poisson. Pour des sources ponctuelles comme les étoiles, une fonction de dispersion de point (point spread function ou PSF en anglais) décrit leur distribution spatiale à travers les pixels. Cela dit, l'idée <emphasis
+>Dans l'imagerie longue durée, une caméra est montée sur le télescope qui enregistre les photons qui arrivent sur son capteur depuis une région particulière du ciel. Ces photons doivent frapper le même pixel encore et encore pour obtenir une image claire et étincelante. Bien sûr, les vrais photons ne se comportent pas exactement comme cela. Les défauts d'optique, l'atmosphère turbulente, la qualité du ciel (« Seeing » en anglais) génèrent une légère dispersion des photons sur le capteur. De plus, ils n'arrivent pas uniformément mais suivant une distribution de Poisson. Pour des sources ponctuelles comme les étoiles, une fonction de dispersion de point (Point Spread Function ou PSF en anglais) décrit leur distribution spatiale à travers les pixels. Cela dit, l'idée <emphasis
 >principale</emphasis
-> est de faire en sorte que les photons frappent toujours le même pixel. Sinon, l'image finale sera polluée de divers trainées et autres artéfacts. </para>
+> est de faire en sorte que les photons frappent toujours le même pixel. Sinon, l'image finale sera polluée de diverses traînées et autres artefacts. </para>
                 <screenshot>
                     <screeninfo
 >Alignement polaire </screeninfo>

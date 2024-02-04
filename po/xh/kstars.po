@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-01 01:34+0000\n"
+"POT-Creation-Date: 2024-02-02 01:33+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -1548,131 +1548,131 @@ msgstr "Ugcino lomfanekiso %1 aluphumeleli!"
 msgid "Catalog with that ID already exists."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:606 catalogsdb/catalogsdb.cpp:742
+#: catalogsdb/catalogsdb.cpp:616 catalogsdb/catalogsdb.cpp:753
 #, fuzzy, kde-format
 msgid "Catalog could not be found."
 msgstr " ayinakufunyanwa."
 
-#: catalogsdb/catalogsdb.cpp:695 catalogsdb/catalogsdb.cpp:1048
+#: catalogsdb/catalogsdb.cpp:706 catalogsdb/catalogsdb.cpp:1062
 #, fuzzy, kde-format
 msgid "Catalog with id=%1 not found."
 msgstr "Akukho njongo enikwe igama %1 efumenweyo."
 
-#: catalogsdb/catalogsdb.cpp:698 catalogsdb/catalogsdb.cpp:1051
+#: catalogsdb/catalogsdb.cpp:709 catalogsdb/catalogsdb.cpp:1065
 #, fuzzy, kde-format
 #| msgid "Catalog Star"
 msgid "Catalog is immutable!"
 msgstr "Inkwenkwenzi Yencwadi yemifanekiso"
 
-#: catalogsdb/catalogsdb.cpp:714 catalogsdb/catalogsdb.cpp:1067
+#: catalogsdb/catalogsdb.cpp:725 catalogsdb/catalogsdb.cpp:1081
 #, fuzzy, kde-format
 #| msgid "This City already exists in the database."
 msgid "The object is already in the catalog!"
 msgstr "Esisixeko sele sikhona kwisiseko sedata."
 
-#: catalogsdb/catalogsdb.cpp:716 catalogsdb/catalogsdb.cpp:1069
+#: catalogsdb/catalogsdb.cpp:727 catalogsdb/catalogsdb.cpp:1083
 #, fuzzy, kde-format
 msgid "Could not insert object! %1"
 msgstr "Ayinakuvula Ifayile"
 
-#: catalogsdb/catalogsdb.cpp:746
+#: catalogsdb/catalogsdb.cpp:757
 #, kde-format
 msgid "Output file is not writable."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:754
+#: catalogsdb/catalogsdb.cpp:765
 #, fuzzy, kde-format
 msgid "Could not attach output file.<br>%1"
 msgstr "Ayinakuvula Ifayile"
 
-#: catalogsdb/catalogsdb.cpp:764
+#: catalogsdb/catalogsdb.cpp:776
 #, fuzzy, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
 msgstr "Ayinakuvula ifayile yedata yesiko:"
 
-#: catalogsdb/catalogsdb.cpp:768
+#: catalogsdb/catalogsdb.cpp:780
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:780
+#: catalogsdb/catalogsdb.cpp:792
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:786
+#: catalogsdb/catalogsdb.cpp:798
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:793
+#: catalogsdb/catalogsdb.cpp:805
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:809
+#: catalogsdb/catalogsdb.cpp:821
 #, kde-format
 msgid "Catalog file is not readable."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:818
+#: catalogsdb/catalogsdb.cpp:830
 #, fuzzy, kde-format
 msgid "Could not attach input file.<br>%1"
 msgstr "Ayinakuvula Ifayile"
 
-#: catalogsdb/catalogsdb.cpp:828
+#: catalogsdb/catalogsdb.cpp:841
 #, fuzzy, kde-format
 msgid "Invalid catalog file."
 msgstr "Igama lefayile Elingasebenziyo"
 
-#: catalogsdb/catalogsdb.cpp:835
+#: catalogsdb/catalogsdb.cpp:848
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not migrate old catalog format.<br>%1"
 msgstr "Ayinakuyicima ifayile: %1"
 
-#: catalogsdb/catalogsdb.cpp:841
+#: catalogsdb/catalogsdb.cpp:854
 #, kde-format
 msgid "Could read the catalog id.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:851
+#: catalogsdb/catalogsdb.cpp:864
 #, fuzzy, kde-format
 #| msgid "This City already exists in the database."
 msgid "Catalog already exists in the database!"
 msgstr "Esisixeko sele sikhona kwisiseko sedata."
 
-#: catalogsdb/catalogsdb.cpp:868 dialogs/catalogsdbui.cpp:211
+#: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:211
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:873
+#: catalogsdb/catalogsdb.cpp:886
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:882
+#: catalogsdb/catalogsdb.cpp:895
 #, kde-format
 msgid "Removing the user catalog is not allowed."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:902
+#: catalogsdb/catalogsdb.cpp:915
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:916
+#: catalogsdb/catalogsdb.cpp:929
 #, kde-format
 msgid "Both catalogs have to exist!"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:919
+#: catalogsdb/catalogsdb.cpp:932
 #, kde-format
 msgid "Destination catalog has to be mutable!"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:935
+#: catalogsdb/catalogsdb.cpp:948
 #, fuzzy, kde-format
 msgid "Cannot update nonexisting catalog."
 msgstr "Ilayisha idata yenkwenkwezi"
@@ -4344,62 +4344,62 @@ msgstr "Inebula Yeghasi"
 msgid "Planetary Nebulae"
 msgstr "Inebula Yeplanethi"
 
-#: dialogs/finddialog.cpp:74
+#: dialogs/finddialog.cpp:73
 #, fuzzy, kde-format
 #| msgid "Find Object"
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Fumana umxholo"
 
-#: dialogs/finddialog.cpp:88
+#: dialogs/finddialog.cpp:87
 #, fuzzy, kde-format
 msgid "Details..."
 msgstr "Iinkcukacha"
 
-#: dialogs/finddialog.cpp:192
+#: dialogs/finddialog.cpp:191
 #, fuzzy, kde-format
 msgid "Andromeda Galaxy"
 msgstr ""
 "Iinketho zegama leqela leenkwenkwezi (iyodwa)\n"
 "GRUS"
 
-#: dialogs/finddialog.cpp:198
+#: dialogs/finddialog.cpp:197
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Aldermaston"
 msgid "Aldebaran"
 msgstr "Aldermaston"
 
-#: dialogs/finddialog.cpp:205
+#: dialogs/finddialog.cpp:204
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Aaltje"
 msgstr "Alt"
 
-#: dialogs/finddialog.cpp:211
+#: dialogs/finddialog.cpp:210
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr ""
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:324
 #, kde-format
 msgid "Search the Internet for %1"
 msgstr ""
 
-#: dialogs/finddialog.cpp:326
+#: dialogs/finddialog.cpp:325
 #, fuzzy, kde-format
 #| msgid "nothing"
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "akukho nto"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:494
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Akukho njongo enikwe igama %1 efumenweyo."
 
-#: dialogs/finddialog.cpp:496
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "Bad object name"
 msgstr "Igama lenjongo embi"
@@ -9305,40 +9305,40 @@ msgstr "Indawo"
 msgid "Second manual rotation done."
 msgstr "Indawo"
 
-#: ekos/align/polaralignmentassistant.cpp:1055
+#: ekos/align/polaralignmentassistant.cpp:1057
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1074
+#: ekos/align/polaralignmentassistant.cpp:1076
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1105
+#: ekos/align/polaralignmentassistant.cpp:1107
 #, fuzzy, kde-format
 msgid "WCS data processing is complete."
 msgstr "Ikhaya"
 
-#: ekos/align/polaralignmentassistant.cpp:1114
+#: ekos/align/polaralignmentassistant.cpp:1116
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1156
+#: ekos/align/polaralignmentassistant.cpp:1158
 #, fuzzy, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "&Indawo ekuyo"
 
-#: ekos/align/polaralignmentassistant.cpp:1174
+#: ekos/align/polaralignmentassistant.cpp:1176
 #, fuzzy, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1205
+#: ekos/align/polaralignmentassistant.cpp:1207
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9346,59 +9346,59 @@ msgid ""
 "capturing the first image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1207
+#: ekos/align/polaralignmentassistant.cpp:1209
 #, fuzzy, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1209
+#: ekos/align/polaralignmentassistant.cpp:1211
 #, fuzzy, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1211
+#: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1213
+#: ekos/align/polaralignmentassistant.cpp:1215
 #, fuzzy, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1215
+#: ekos/align/polaralignmentassistant.cpp:1217
 #, fuzzy, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1217
+#: ekos/align/polaralignmentassistant.cpp:1219
 #, fuzzy, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1219
+#: ekos/align/polaralignmentassistant.cpp:1221
 #, fuzzy, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1221
+#: ekos/align/polaralignmentassistant.cpp:1223
 #, fuzzy, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1223
+#: ekos/align/polaralignmentassistant.cpp:1225
 #, fuzzy, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1228
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1230
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9407,7 +9407,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1231
+#: ekos/align/polaralignmentassistant.cpp:1233
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -9416,7 +9416,7 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1233
+#: ekos/align/polaralignmentassistant.cpp:1235
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -9425,7 +9425,7 @@ msgid ""
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1249
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""

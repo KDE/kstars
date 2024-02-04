@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1671812 $
+# Version: $Revision: 1671882 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-01 01:34+0000\n"
+"POT-Creation-Date: 2024-02-02 01:33+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -1502,127 +1502,127 @@ msgstr "Nie udało się zapisać obrazu do %1."
 msgid "Catalog with that ID already exists."
 msgstr "Katalog o tym ID już istnieje."
 
-#: catalogsdb/catalogsdb.cpp:606 catalogsdb/catalogsdb.cpp:742
+#: catalogsdb/catalogsdb.cpp:616 catalogsdb/catalogsdb.cpp:753
 #, kde-format
 msgid "Catalog could not be found."
 msgstr "Nie można znaleźć katalogu."
 
-#: catalogsdb/catalogsdb.cpp:695 catalogsdb/catalogsdb.cpp:1048
+#: catalogsdb/catalogsdb.cpp:706 catalogsdb/catalogsdb.cpp:1062
 #, kde-format
 msgid "Catalog with id=%1 not found."
 msgstr "Nie znaleziono katalogu o id=%1."
 
-#: catalogsdb/catalogsdb.cpp:698 catalogsdb/catalogsdb.cpp:1051
+#: catalogsdb/catalogsdb.cpp:709 catalogsdb/catalogsdb.cpp:1065
 #, kde-format
 msgid "Catalog is immutable!"
 msgstr "Katalog nie pozwala się zmienić!"
 
-#: catalogsdb/catalogsdb.cpp:714 catalogsdb/catalogsdb.cpp:1067
+#: catalogsdb/catalogsdb.cpp:725 catalogsdb/catalogsdb.cpp:1081
 #, kde-format
 msgid "The object is already in the catalog!"
 msgstr "Ten obiekt istnieje już w katalogu!"
 
-#: catalogsdb/catalogsdb.cpp:716 catalogsdb/catalogsdb.cpp:1069
+#: catalogsdb/catalogsdb.cpp:727 catalogsdb/catalogsdb.cpp:1083
 #, kde-format
 msgid "Could not insert object! %1"
 msgstr "Nie można wstawić obiektu! %1"
 
-#: catalogsdb/catalogsdb.cpp:746
+#: catalogsdb/catalogsdb.cpp:757
 #, kde-format
 msgid "Output file is not writable."
 msgstr "Plik wyjściowy jest nie do odczytu."
 
-#: catalogsdb/catalogsdb.cpp:754
+#: catalogsdb/catalogsdb.cpp:765
 #, kde-format
 msgid "Could not attach output file.<br>%1"
 msgstr "Nie można dołączyć pliku wyjściowego.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:764
+#: catalogsdb/catalogsdb.cpp:776
 #, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
 msgstr "Nie można skopiować katalogu do pliku wynikowego.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:768
+#: catalogsdb/catalogsdb.cpp:780
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
 msgstr "Nie można utworzyć katalogu w rejestrze w pliku wyjściowym.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:780
+#: catalogsdb/catalogsdb.cpp:792
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
 msgstr "Nie można wstawić katalogu do rejestru w pliku wyjściowym.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:786
+#: catalogsdb/catalogsdb.cpp:798
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
 msgstr "Nie można wstawić ustawionej wersji bazy danych aplikacji.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:793
+#: catalogsdb/catalogsdb.cpp:805
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr "Nie można wstawić ustawionego id bazy danych aplikacji.<br>%1 "
 
-#: catalogsdb/catalogsdb.cpp:809
+#: catalogsdb/catalogsdb.cpp:821
 #, kde-format
 msgid "Catalog file is not readable."
 msgstr "Plik katalogu jest nie do odczytu."
 
-#: catalogsdb/catalogsdb.cpp:818
+#: catalogsdb/catalogsdb.cpp:830
 #, kde-format
 msgid "Could not attach input file.<br>%1"
 msgstr "Nie można dołączyć pliku wejściowego.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:828
+#: catalogsdb/catalogsdb.cpp:841
 #, kde-format
 msgid "Invalid catalog file."
 msgstr "Nieprawidłowy plik katalogu."
 
-#: catalogsdb/catalogsdb.cpp:835
+#: catalogsdb/catalogsdb.cpp:848
 #, kde-format
 msgid "Could not migrate old catalog format.<br>%1"
 msgstr "Nie można przejść ze starego formatu katalogu.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:841
+#: catalogsdb/catalogsdb.cpp:854
 #, kde-format
 msgid "Could read the catalog id.<br>%1"
 msgstr "Nie można odczytać id katalogu.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:851
+#: catalogsdb/catalogsdb.cpp:864
 #, kde-format
 msgid "Catalog already exists in the database!"
 msgstr "Ten katalogu istnieje już w bazie danych!"
 
-#: catalogsdb/catalogsdb.cpp:868 dialogs/catalogsdbui.cpp:211
+#: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:211
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
 msgstr "Nie można zaimportować katalogu.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:873
+#: catalogsdb/catalogsdb.cpp:886
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
 msgstr "Nie można odświeżyć głównego katalogu.<br>"
 
-#: catalogsdb/catalogsdb.cpp:882
+#: catalogsdb/catalogsdb.cpp:895
 #, kde-format
 msgid "Removing the user catalog is not allowed."
 msgstr "Usuwanie katalogu użytkownika jest zabronione."
 
-#: catalogsdb/catalogsdb.cpp:902
+#: catalogsdb/catalogsdb.cpp:915
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
 msgstr "Nie można usunąć katalogu z rejestru.<br>%1"
 
-#: catalogsdb/catalogsdb.cpp:916
+#: catalogsdb/catalogsdb.cpp:929
 #, kde-format
 msgid "Both catalogs have to exist!"
 msgstr "Oba katalogi nie istnieją!"
 
-#: catalogsdb/catalogsdb.cpp:919
+#: catalogsdb/catalogsdb.cpp:932
 #, kde-format
 msgid "Destination catalog has to be mutable!"
 msgstr "Katalog docelowy musi dać się zmieniać!"
 
-#: catalogsdb/catalogsdb.cpp:935
+#: catalogsdb/catalogsdb.cpp:948
 #, kde-format
 msgid "Cannot update nonexisting catalog."
 msgstr "Nie można uaktualnić nieistniejącego katalogu."
@@ -4246,54 +4246,54 @@ msgstr "Mgławice gazowe"
 msgid "Planetary Nebulae"
 msgstr "Mgławice planetarne"
 
-#: dialogs/finddialog.cpp:74
+#: dialogs/finddialog.cpp:73
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Object"
 msgstr "Znajdź obiekt"
 
-#: dialogs/finddialog.cpp:88
+#: dialogs/finddialog.cpp:87
 #, kde-format
 msgid "Details..."
 msgstr "Szczegóły..."
 
-#: dialogs/finddialog.cpp:192
+#: dialogs/finddialog.cpp:191
 #, kde-format
 msgid "Andromeda Galaxy"
 msgstr "Galaktyka Andromeda"
 
-#: dialogs/finddialog.cpp:198
+#: dialogs/finddialog.cpp:197
 #, kde-format
 msgid "Aldebaran"
 msgstr "Aldebaran"
 
-#: dialogs/finddialog.cpp:205
+#: dialogs/finddialog.cpp:204
 #, kde-format
 msgid "Aaltje"
 msgstr "Aaltje"
 
-#: dialogs/finddialog.cpp:211
+#: dialogs/finddialog.cpp:210
 #, kde-format
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr "Aarseth-Brewington (1989 W1)"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:324
 #, kde-format
 msgid "Search the Internet for %1"
 msgstr "Poszukaj w internecie %1"
 
-#: dialogs/finddialog.cpp:326
+#: dialogs/finddialog.cpp:325
 #, kde-format
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "(nic)"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:494
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Nie znaleziono obiektu o nazwie %1."
 
-#: dialogs/finddialog.cpp:496
+#: dialogs/finddialog.cpp:495
 #, kde-format
 msgid "Bad object name"
 msgstr "Błędna nazwa obiektu"
@@ -9478,7 +9478,7 @@ msgstr "Ukończono pierwszy ręczny obrót."
 msgid "Second manual rotation done."
 msgstr "Ukończono drugi ręczny obrót."
 
-#: ekos/align/polaralignmentassistant.cpp:1055
+#: ekos/align/polaralignmentassistant.cpp:1057
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9487,35 +9487,35 @@ msgstr ""
 "Montaż jest zsynchronizowany z biegunem niebieskim. Teraz możesz kontynuować "
 "procedurę pomocnika wyrównania biegunowego."
 
-#: ekos/align/polaralignmentassistant.cpp:1074
+#: ekos/align/polaralignmentassistant.cpp:1076
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Czekaj na przetworzenie danych WCS..."
 
-#: ekos/align/polaralignmentassistant.cpp:1105
+#: ekos/align/polaralignmentassistant.cpp:1107
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "Ukończono przetwarzanie danych WCS."
 
-#: ekos/align/polaralignmentassistant.cpp:1114
+#: ekos/align/polaralignmentassistant.cpp:1116
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "WCS jest teraz prawidłowe. Przechwytywanie kolejnej klatki..."
 
-#: ekos/align/polaralignmentassistant.cpp:1156
+#: ekos/align/polaralignmentassistant.cpp:1158
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "Nie udało się przetworzyć Układu Współrzędnych Świata (UCS): %1. Spróbuj "
 "ponownie."
 
-#: ekos/align/polaralignmentassistant.cpp:1174
+#: ekos/align/polaralignmentassistant.cpp:1176
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Nie udało się znaleźć osi RA. Kończenie."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1205
+#: ekos/align/polaralignmentassistant.cpp:1207
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9525,52 +9525,52 @@ msgstr ""
 "<p>Pomocnik wymaga trzech obrazów do znalezienia rozwiązania. Ekos właśnie "
 "przechwytuje pierwszy obraz...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1207
+#: ekos/align/polaralignmentassistant.cpp:1209
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>Rozwiązywanie <i>pierwszego</i> obrazu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1209
+#: ekos/align/polaralignmentassistant.cpp:1211
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>Wykonywanie <i>pierwszego</i> obrotu montażu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1211
+#: ekos/align/polaralignmentassistant.cpp:1213
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr "<p>Ustalenie po <i>pierwszym</i> obrocie montażu.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1213
+#: ekos/align/polaralignmentassistant.cpp:1215
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Ustalenie po <i>drugim</i> obrocie montażu.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1215
+#: ekos/align/polaralignmentassistant.cpp:1217
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Przechwytywanie drugiego obrazu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1217
+#: ekos/align/polaralignmentassistant.cpp:1219
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>Rozwiązywanie <i>drugiego</i> obrazu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1219
+#: ekos/align/polaralignmentassistant.cpp:1221
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Wykonywanie <i>drugiego</i> obrotu montażu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1221
+#: ekos/align/polaralignmentassistant.cpp:1223
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Przechwytywanie <i>trzeciego</i> i końcowego obrazu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1223
+#: ekos/align/polaralignmentassistant.cpp:1225
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>Rozwiązywanie <i>trzeciego</i> obrazu...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1228
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -9579,7 +9579,7 @@ msgstr ""
 "<p>Wybierz swój czas naświetlenia i sposób dostosowania. Następnie naciśnij "
 "<i>odśwież</i>, aby rozpocząć dostosowywanie.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1230
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9593,7 +9593,7 @@ msgstr ""
 "poprawki. Użyj <i>Przesuń Gwiazdę i Oblicz Błąd</i>, aby oszacować pozostały "
 "błąd.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1231
+#: ekos/align/polaralignmentassistant.cpp:1233
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -9606,7 +9606,7 @@ msgstr ""
 "astrofotografii ma wpływ ruch pokrętłami. Rozważ użycie wyników po 2 "
 "obrazach.  Naciśnij <i>Stop</i>, gdy już skończysz.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1233
+#: ekos/align/polaralignmentassistant.cpp:1235
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -9620,7 +9620,7 @@ msgstr ""
 "celowniku.</p><p>Naciśnij <i>Stop</i>, gdy gwiazda będzie już wyśrodkowana.</"
 "p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1249
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr "Nie można zmienić na algorytm MoveStar, gdy odświeżanie jest w trakcie"

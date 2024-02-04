@@ -182,7 +182,7 @@
 >, <guilabel
 >Satellites</guilabel
 >, <guilabel
->Supernovae</guilabel
+>Supernova</guilabel
 >, <guilabel
 >Guides</guilabel
 >, <guilabel
@@ -198,7 +198,7 @@
 >, <guilabel
 >Ekos</guilabel
 >, <guilabel
->Xplanet</guilabel
+>XPlanet</guilabel
 >, <guilabel
 >Avancé</guilabel
 > et <guilabel
@@ -247,11 +247,11 @@
 ><primary
 >La fenêtre de configuration de &kstars;</primary>
 <secondary
->Page des supernovae</secondary
+>Page des supernova</secondary
 ></indexterm
 >L'onglet <guilabel
->Supernovae</guilabel
-> permet de gérer la manière dont les supernovae sont affichées dans &kstars;. </para>
+>Supernova</guilabel
+> permet de gérer la manière dont les supernova sont affichées dans &kstars;. </para>
 
 <!-- Guides page: -->
 <para>
@@ -366,12 +366,12 @@
 ><primary
 >La fenêtre de configuration de &kstars;</primary>
 <secondary
->Page Xplanet</secondary
+>Page de XPlanet</secondary
 ></indexterm
->La page <guilabel
->Xplanet</guilabel
+>La page de <guilabel
+>XPlanet</guilabel
 > fournit un contrôle détaillé du <ulink url="http://xplanet.sourceforge.net/"
->rendu de la surface des planètes du système solaire par Xplanet</ulink
+>rendu de la surface des planètes du système solaire par XPlanet</ulink
 > (à installer séparément). </para>
 
 <!-- Advanced page: -->
@@ -463,17 +463,17 @@
 
 <listitem
 ><para
->Le catalogue des nébuleuses planétaires d'Abell qui contient 86 nébuleuses planétaires. La magnitude maximale est atteinte par le 47e objet dont la valeur est 19,5. </para
+>Le catalogue des nébuleuses planétaires de Abell contenant 86 nébuleuses planétaires. La magnitude maximale est atteinte par le 47 ième objet dont la valeur est 19,5. </para
 ></listitem>
 
 <listitem
 ><para
->Le catalogue Sharpless de la région HII (Sh2) contient les régions des nébuleuses diffuses. </para
+>Le catalogue « Sharpless » de la région « HII » (Sh2) contient les régions des nébuleuses diffuses. </para
 ></listitem>
 
 <listitem
 ><para
->Les groupes compacts d'Hickson forment un catalogue contenant un groupe compact de 99 galaxies. </para
+>Les groupes compacts de Hickson forment un catalogue contenant un groupe compact de 99 galaxies. </para
 ></listitem>
 
 <listitem
@@ -734,7 +734,7 @@
 >Cette section aspire à introduire la base de données de catalogues de &kstars; en des termes simples mais techniques. Elle peut être sautée sans perdre l'essentiel mais aide à comprendre comment gérer et créer des catalogues personnalisés. </para>
 </note>
 <para
->Les catalogues du ciel profond dans &kstars; sont de simples tables SQL (sqlite3) de bases de données. Chaque catalogue est représenté par sa propre table qui contient tous les objets et une entrée dans une table des métadonnées du catalogue. De plus, les catalogues peuvent être importés ou exportés dans des fichiers de base de données autonomes. </para>
+>Les catalogues du ciel profond dans &kstars; sont de simples tables « SQL » (SQLite3) de bases de données. Chaque catalogue est représenté par sa propre table qui contient tous les objets et une entrée dans une table des métadonnées du catalogue. De plus, les catalogues peuvent être importés ou exportés dans des fichiers de base de données autonomes. </para>
 
 <para
 >Chaque objet possède les propriétés usuelles telles que nom et coordonnées mais aussi deux identités. La première est l'identifiant unique de l'objet en question et est calculé par un hachage de tous les champs de l'objet et de l'identifiant du catalogue. Comme des objets peuvent appartenir à plusieurs catalogues, chaque objet possède un identifiant additionnel (OID) qui identifie l'objet physique et peut être partagé par plusieurs objets de différents catalogues. </para>
@@ -1194,7 +1194,7 @@
 ><para
 >Un identifiant interne du catalogue.</para>
     <para
->Par exemple dans la capture d'écran ci-dessus, l'objet vient du catalogue OpenNGC où chaque rangée est identifiée par <quote
+>Par exemple dans la capture d'écran ci-dessus, l'objet vient du catalogue « OpenNGC » où chaque rangée est identifiée par <quote
 >NGCXXXX</quote
 >.</para
 ></listitem>
@@ -1390,7 +1390,7 @@
 >Vous pouvez ajouter de nouveaux satellites à l'ensemble de satellites par défaut de &kstars; en modifiant le fichier <filename
 >kstars/data/satellites.dat</filename
 >. Comme chaque ligne de ce fichier est un groupe de satellites, vous devez saisir une ligne pour votre groupe de satellites désiré. Une entrée doit avoir le format suivant : <userinput
->Nom groupe;fichier_local;URL</userinput
+>Nom groupe;fichier-local;URL</userinput
 >. Par exemple : <userinput
 >Iridium;iridium.tle;https://celestrak.com/NORAD/elements/iridium.txt</userinput
 >. </para>
@@ -1398,17 +1398,17 @@
 
 <sect1 id="supernovae">
 <title
->Supernovae</title>
+>Supernova</title>
 <screenshot>
 <screeninfo
->Fenêtre des supernovae</screeninfo>
+>Fenêtre des supernova</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="supernovae_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Fenêtre des supernovae</phrase>
+>Fenêtre des supernova</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -1417,25 +1417,25 @@
 ><primary
 >La fenêtre de configuration de &kstars;</primary>
 <secondary
->Page des supernovae</secondary
+>Page des supernova</secondary
 ></indexterm
 >La page <guilabel
->Supernovae</guilabel
-> vous permet de choisir si les supernovae sont affichées ou non en cochant la case <guilabel
->Afficher les supernovae</guilabel
->. Par défaut les supernovae sont dessinées comme de petit <quote
+>Supernova</guilabel
+> vous permet de choisir si les supernova sont affichées ou non en cochant la case <guilabel
+>Afficher les supernova</guilabel
+>. Par défaut les supernova sont dessinées comme de petit <quote
 >+</quote
-> de couleur orange clair. Comme pour les satellites, la couleur des supernovae peut facilement être modifiée sur la page des <guilabel
+> de couleur orange clair. Comme pour les satellites, la couleur des supernova peut facilement être modifiée sur la page des <guilabel
 >Couleurs</guilabel
 >. </para>
 <para
->Vous pouvez régler la magnitude limite d'affichage des supernovae ainsi que la magnitude limite pour les alertes. La magnitude limite est la plus faible magnitude d'un objet du ciel visible à l'œil nu ou avec un télescope. </para>
+>Vous pouvez régler la magnitude limite d'affichage des supernova ainsi que la magnitude limite pour les alertes. La magnitude limite est la plus faible magnitude d'un objet du ciel visible à l'œil nu ou avec un télescope. </para>
 <para
->La liste des supernovae récentes peut être mise à jour dans le menu <menuchoice
+>La liste des supernova récentes peut être mise à jour dans le menu <menuchoice
 ><guimenu
 >Données</guimenu
 > <guimenuitem
->Mettre à jour les données des supernovae récentes</guimenuitem
+>Mettre à jour les données des supernova récentes</guimenuitem
 ></menuchoice
 >. </para>
 </sect1>
@@ -1507,7 +1507,7 @@
 >Stellarium</ulink
 >. Les détails de la création d'image sont les mêmes que pour &kstars;. </para>
 <para
->L'utilisateur prend d'abord une image à 360° en projection équirectangulaire depuis approximativement le même point de vue que son télescope. Ce type d'image peut être prise avec l'App de l'appareil photo de Google, ou l'App Youtube de Google, avec son téléphone portable ou tout autre application de l'appareil photo. L'utilisateur doit ensuite modifier l'image pour rendre le ciel transparent et l'enregistrer dans le format PNG. Enfin, il doit déterminer où est le nord dans l'image pour l'aligner avec le nord de la carte du ciel. Une fois tout ceci terminé, la carte du ciel peut simuler la vision locale du ciel en incluant le terrain local. </para>
+>L'utilisateur prend d'abord une image à 360° en projection équi-rectangulaire depuis approximativement le même point de vue que son télescope. Ce type d'image peut être prise avec l'application de l'appareil photo de Google, ou l'application YouTube de Google, avec son téléphone portable ou tout autre application de l'appareil photo. L'utilisateur doit ensuite modifier l'image pour rendre le ciel transparent et l'enregistrer dans le format PNG. Enfin, il doit déterminer où est le nord dans l'image pour l'aligner avec le nord de la carte du ciel. Une fois tout ceci terminé, la carte du ciel peut simuler la vision locale du ciel en incluant le terrain local. </para>
 <para
 >Une fois l'image créée, il faut la charger via la page <guilabel
 >Terrain</guilabel
@@ -1589,7 +1589,7 @@
 >. En vous rendant sur la page de configuration de la <guilabel
 >Superposition d'image</guilabel
 >, vous devriez voir les nouveaux fichiers dans la table. Leur statut sera <guilabel
->Unprocessed</guilabel
+>Non traité</guilabel
 >. Seules les images de statut <guilabel
 >Ok</guilabel
 > sont affichées sur la carte du ciel. La raison en est que &kstars; a besoin de connaître la position du ciel, la taille et l'orientation de ces images pour pouvoir les afficher. Pour modifier le statut en <guilabel
@@ -1602,12 +1602,12 @@
 >Annuler</guibutton
 > durant la résolution, et en cas de succès, les paramètres de résolution seront affichées dans la table et le statut passe à <guilabel
 >Ok</guilabel
->. Cette information est enregistrée dans la base de données de l'utilisateur afin de ne pas devoir répéter la résolution. Les images résolues apparaîtront dès lors à leur correcte position sur la carte du ciel. Vous pouvez résoudre plusieurs images en une seule opération en cliquant sur le nom de la première image puis en cliquant sur d'autres nom de fichier en maintenant la touche Maj enfoncée. Toutes les images entre ces deux devraient être sélectionnées. Puis en cliquant sur le bouton <guibutton
+>. Cette information est enregistrée dans la base de données de l'utilisateur afin de ne pas devoir répéter la résolution. Les images résolues apparaîtront dès lors à leur correcte position sur la carte du ciel. Vous pouvez résoudre plusieurs images en une seule opération en cliquant sur le nom de la première image puis en cliquant sur d'autres nom de fichier en maintenant la touche « Maj » enfoncée. Toutes les images entre ces deux devraient être sélectionnées. Puis en cliquant sur le bouton <guibutton
 >Résoudre</guibutton
 >, toutes les images tenteront d'être résolues. Toutefois &kstars; ignorera les images de statut <guilabel
 >Ok</guilabel
 >. (Si vous souhaitez les résoudre à nouveau, modifiez vous-même leur état en <guilabel
->Unprocessed</guilabel
+>Non traité</guilabel
 >, puis cliquez sur <guibutton
 >Résoudre</guibutton
 >.) Il est possible qu'en sélectionnant plusieurs images, certaines échouent à être résolues. </para>
@@ -1624,7 +1624,7 @@
 >Alignement</guilabel
 > d'Ekos). Enfin, vous pouvez le délai d'attente du résolveur en secondes. </para>
 <para
->Si vous avez quelques images problématiques que vous n'arrivez pas à résoudre, vous pouvez quand même les afficher en saisissant vous-même les valeurs dans la table. Ces valeurs sont l'AD et la DEC en secondes d'arc par pixel, l'angle d'orientation et les réglages par rapport à l'est ou à l'ouest. Une fois fait, modifiez le statut à <guilabel
+>Si vous avez quelques images problématiques que vous n'arrivez pas à résoudre, vous pouvez quand même les afficher en saisissant vous-même les valeurs dans la table. Ces valeurs sont les paramètres « AD » et « DEC » en secondes d'arc par pixel, l'angle d'orientation et les réglages par rapport à l'est ou à l'ouest. Une fois fait, modifiez le statut à <guilabel
 >Ok</guilabel
 > et &kstars; enregistrera ces valeurs dans la base de données de l'utilisateur comme si elles avaient été résolues automatiquement. </para>
 <para
@@ -1638,13 +1638,13 @@
 >Dimension maximale de l'image</guilabel
 > permet de varier la dimension maximale des images utilisée pour les images. Ainsi, si vous mettez des images, par exemple, de 5000 pixels de large dans le dossier <literal
 >imageOverlays</literal
-> mais que la valeur d'entrée de la boîte est de 1000 pixels, ces images seront lues mais réduites à la taille de 1000 pixels avant d'être affichées. Cela est effectué afin de réduire l'empreinte mémoire et la charge du cpu de cette fonctionnalité. Mais il serait plus efficace d'ajouter des images de largeur souhaitée directement. </para>
+> mais que la valeur d'entrée de la boîte est de 1000 pixels, ces images seront lues mais réduites à la taille de 1000 pixels avant d'être affichées. Cela est effectué afin de réduire l'empreinte mémoire et la charge du processeur de cette fonctionnalité. Mais il serait plus efficace d'ajouter des images de largeur souhaitée directement. </para>
 <para
 >La boîte à cocher <guilabel
 >Center la carte du ciel à la sélection</guilabel
 > permet de naviguer facilement vers les images de superposition sans devoir manipuler la carte du ciel. Lorsque que cette option est activée, il suffit de sélectionner une ligne dans la table de superposition (c'est à dire en cliquant sur le champ de nom de fichier) et la carte du ciel est déplacée vers cette image si son statut est <guilabel
 >Ok</guilabel
->. Vous pouvez ensuite passer d'une image à l'autre à l'aide des flèches Up et Down du clavier. </para>
+>. Vous pouvez ensuite passer d'une image à l'autre à l'aide des flèches « Vers le haut » et « Vers le bas » du clavier. </para>
 </sect1>
 
 <sect1 id="colors">
@@ -1730,7 +1730,7 @@
 >FITS</abbrev
 > (Flexible Image Transport System) est un standard ouvert pour l'enregistrement, la transmission et le traitement de données numériques. Pour les détails on peut se référer à la page correspondante sur <ulink url="https://fr.wikipedia.org/wiki/FITS"
 >Wikipedia</ulink
->. Cette section vous permet de configurer la présentation et le traitement de données FITS dans &kstars;. </para>
+>. Cette section vous permet de configurer la présentation et le traitement de données « FITS » dans &kstars;. </para>
 <para
 >Le panneau de gauche permet la configuration de l'afficheur FITS lui-même. </para>
 <para
@@ -1742,7 +1742,7 @@
 >Onglet d'affichage simple</guilabel
 > permet d'afficher toutes les images FITS dans un seul onglet plutôt que de multiples onglets par image. La case <guilabel
 >Fenêtre d'acquisition unique</guilabel
-> permet d'afficher toutes les images FITS de tous les appareils pjoto dans une seule fenêtre plutôt que dans une fenêtre dédiée pour chaque appareil photo. La case <guilabel
+> permet d'afficher toutes les images FITS de tous les appareils photo dans une seule fenêtre plutôt que dans une fenêtre dédiée pour chaque appareil photo. La case <guilabel
 >Ouverture d'une fenêtre unique</guilabel
 > permet d'afficher les images FITS ouvertes dans une fenêtre d'affichage FITS unique plutôt que dans une fenêtre dédiée à chaque fichier et enfin <guilabel
 >Fenêtre indépendante</guilabel
@@ -1751,10 +1751,10 @@
 >Le panneau de droite liste les options de traitement. <guilabel
 > Étirement automatique</guilabel
 > permet de toujours appliquer un étirement automatique sur les images dans l'afficheur FITS, <guilabel
->Mode avec resources limitées</guilabel
-> active le mode de resources limitées qui désactive toute opération demandant des ressources intensives : <guilabel
+>Mode avec ressources limitées</guilabel
+> active le mode de ressources limitées qui désactive toute opération demandant des ressources intensives : <guilabel
 >Filtre de Bayer automatique</guilabel
-> (les images brutes ne seront pas dématricées, seulement les images grises seront affichées), <guilabel
+> (les images brutes ne seront pas dé-matricées, seulement les images grises seront affichées), <guilabel
 >WCS automatique</guilabel
 > (les données WCS ne seront pas traitées) ; les coordonnées du ciel de la carte WCS vers les coordonnées de l'image ; les lignes de la grille équatoriale, les identifiants d'objet et la fonction de pivotage du télescope seront désactivées), et <guilabel
 >Cube 3D</guilabel
@@ -1811,25 +1811,25 @@
 
 <sect1 id="xplanet-configure">
 <title
->Xplanet</title>
+>XPlanet</title>
 <screenshot>
 <screeninfo
->Fenêtre Xplanet</screeninfo>
+>Fenêtre de XPlanet</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="xplanet_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Fenêtre Xplanet</phrase>
+>Fenêtre de XPlanet</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
 <para
 ><ulink url="http://xplanet.sourceforge.net/"
->Xplanet</ulink
+>XPlanet</ulink
 > est un programme de rendu de surfaces des planètes du système solaire (à installer séparément). Cette page vous permet de configurer la configuration et le traitement des données de <application
->Xplanet</application
+>XPlanet</application
 > dans &kstars;. </para>
 </sect1>
 
@@ -1964,7 +1964,7 @@
 ></listitem>
   </itemizedlist
 ><para
->Ces images sont enregistrées dans des dossiers situés au même niveau que le dossier des fichiers journaux. Leurs noms sont guide, autofocus, align et align/failed. </para>
+>Ces images sont enregistrées dans des dossiers situés au même niveau que le dossier des fichiers journaux. Leurs noms sont guide, autofocus, align et align / failed. </para>
 </sect1>
 
 <sect1 id="customize">
@@ -2055,7 +2055,7 @@
 >. <firstterm
 >FOV</firstterm
 > est un acronyme pour <quote
->field-of-view</quote
+>Field Of View</quote
 > (champ de vision = CdV). Un indicateur de champ de vision est dessiné au centre de la fenêtre pour indiquer où l'affichage pointe. Les indicateurs correspondant à différentes tailles angulaires ; vous pouvez utiliser un indicateur pour voir à quoi la vue ressemblerait à travers un certain télescope. Par exemple, si vous choisissez l'indicateur <quote
 >Jumelles 7x35</quote
 >, un cercle de 9,2 degrés de diamètre sera dessiné sur l'écran ; c'est le champ de vision d'une paire de jumelles 7x35. </para>
@@ -2115,7 +2115,7 @@
 ></indexterm
 >Cette fenêtre vous permet de modifier les quatre propriétés qui définissent un indicateur de champ de vision : le nom, la taille, la forme et la couleur. La taille angulaire pour l'indicateur peut être soit donnée directement dans la zone de saisie <guilabel
 >Champ de vision</guilabel
->, soit utiliser l'onglet Appareil photo pour calculer l'angle de champ de vision, étant donné les paramètres de votre réglage de télescope/Viseur ou télescope/appareil photo. Les cinq formes disponibles sont : cercle, carré, croix, cible et semitransparent. Une fois que vous avez spécifié les quatre paramètres, actionnez <guibutton
+>, soit utiliser l'onglet Appareil photo pour calculer l'angle de champ de vision, étant donné les paramètres de votre réglage de télescope/Viseur ou télescope/appareil photo. Les cinq formes disponibles sont : cercle, carré, croix, cible et semi-transparent. Une fois que vous avez spécifié les quatre paramètres, actionnez <guibutton
 >Ok</guibutton
 >, et l'indicateur apparaîtra dans la liste des indicateurs définis. Il sera aussi disponible dans le menu <menuchoice
 ><guimenu
