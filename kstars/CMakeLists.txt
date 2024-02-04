@@ -12,6 +12,7 @@ endif ()
 if (NOT ANDROID)
     find_package(ZLIB REQUIRED)
     include_directories(${ZLIB_INCLUDE_DIR})
+    set(THREADS_PREFER_PTHREAD_FLAG TRUE)
     find_package(Threads REQUIRED)
 endif ()
 
@@ -179,7 +180,6 @@ if (INDI_FOUND)
             ekos/auxiliary/buildfilteroffsets.ui
             ekos/auxiliary/opslogs.ui
             ekos/auxiliary/serialportassistant.ui
-            ekos/auxiliary/stellarsolverprofileeditor.ui
             ekos/auxiliary/darklibrary.ui
             ekos/auxiliary/opticaltrains.ui
             ekos/auxiliary/ledstatuswidget.ui
@@ -221,9 +221,6 @@ if (INDI_FOUND)
             ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
 	    ekos/auxiliary/rotatorutils.cpp
-            ekos/auxiliary/stellarsolverprofileeditor.cpp
-            ekos/auxiliary/stellarsolverprofile.cpp
-            ekos/auxiliary/solverutils.cpp
             ekos/auxiliary/serialportassistant.cpp
             ekos/auxiliary/portselector.cpp
             ekos/auxiliary/ledstatuswidget.cpp
@@ -437,6 +434,16 @@ if (CFITSIO_FOUND)
         fitsviewer/fitshistogramui.ui
         fitsviewer/fitsstretchui.ui
         fitsviewer/opsfits.ui
+        )
+    set (ekos_SRCS
+        ${ekos_SRCS}
+	ekos/auxiliary/stellarsolverprofileeditor.cpp
+        ekos/auxiliary/stellarsolverprofile.cpp
+        ekos/auxiliary/solverutils.cpp
+        )
+    set (ekosui_SRCS
+	${ekosui_SRCS}
+        ekos/auxiliary/stellarsolverprofileeditor.ui
         )
     include_directories(${CFITSIO_INCLUDE_DIR})
 
@@ -1301,6 +1308,10 @@ IF (NOT ANDROID)
         target_link_libraries(KStarsLib KF5::NotifyConfig)
     endif(KF5NotifyConfig_FOUND)
 
+    if (StellarSolver_FOUND)
+	target_link_libraries(KStarsLib StellarSolver::stellarsolver)
+    endif(StellarSolver_FOUND)
+
     if(NOT WIN32)
         target_link_libraries(KStarsLib m)
     endif(NOT WIN32)
@@ -1357,8 +1368,6 @@ if(INDI_FOUND)
     ## Android: Requires INDI Qt5 Client built for Android
     if (NOT ANDROID)
         target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT})
-        # StellarSolver
-        target_link_libraries(KStarsLib StellarSolver::stellarsolver)
     endif ()
 
     if(WIN32 OR ANDROID)
