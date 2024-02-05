@@ -1,4 +1,4 @@
-<sect2 id="ekos-capture">
+<sect1 id="ekos-capture">
     <title
 >Acquisition</title>
     <indexterm>
@@ -26,7 +26,7 @@
 >Le module Acquisition est le module principal d'acquisition d'images et de vidéos d'Ekos. Il permet l'acquisition d'image unique (aperçu), d'images multiples (file de séquence) et d'enregistrer des vidéos au format <ulink url="https://sites.google.com/site/astropipp/ser-player"
 >SER</ulink
 > tout en gérant éventuellement une roue à filtres et un rotateur si ces périphériques sont disponibles. </para>
-    <sect3 id="capture-ccd-filter-wheel">
+    <sect2 id="capture-ccd-filter-wheel">
         <title
 >CCD et roue à filtres</title>
         <para
@@ -55,8 +55,8 @@
 > d'Ekos. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="capture-settings">
+    </sect2>
+    <sect2 id="capture-settings">
         <title
 >Réglages de l'acquisition</title>
         <screenshot>
@@ -162,7 +162,7 @@
 > : spécifie le groupement de pixels horizontal (X) et vertical (Y) (binning en anglais). </para>
             </listitem>
         </itemizedlist>
-        <sect4 id="capture-custom-properties">
+        <sect3 id="capture-custom-properties">
             <title
 >Propriétés personnalisables</title>
             <para
@@ -197,10 +197,10 @@
                     </para>
                 </caption>
             </mediaobject>
-        </sect4>
-    </sect3>
+        </sect3>
+    </sect2>
 
-    <sect3 id="capture-file-settings">
+    <sect2 id="capture-file-settings">
         <title
 >Réglages des fichiers</title>
 
@@ -373,9 +373,9 @@
 > : affiche un aperçu du nom de fichier résultant de la configuration de l'emplacement de la tâche. Le format du nom de fichier des enregistrements à distance est prédéfini (les étiquettes réservées ne peuvent être utilisées). Le numéro de la séquence de fichiers commence toujours à 1 et sera automatiquement incrémenté avec la progression de la séquence. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-limit-settings">
+    <sect2 id="capture-limit-settings">
         <title
 >Réglages des limites</title>
 
@@ -420,9 +420,9 @@
 > est utilisé) et reprendra le guidage (s'il était démarré avant cette opération) et l'acquisition.</para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-sequence-queue">
+    <sect2 id="capture-sequence-queue">
         <title
 >File d'attente des séquences</title>
 
@@ -503,6 +503,12 @@
 ><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
 ></inlinemediaobject
 >. Faites vos changements dans le panneau gauche du module CCD et ensuite cliquez sur la coche pour appliquer. Pour annuler la modification, cliquez n'importe où dans un espace vide de la table de séquences. </para>
+        <important>
+            <para
+><emphasis role="bold"
+>Modification des tâches actives</emphasis
+> : quand une acquisition est en cours ou quand l'ordonnanceur est actif, vous ne pouvez pas modifier la file de séquences ou un fichier .esq dans l'onglet d'acquisition. Toutefois, il existe un outil dans l'onglet de l'ordonnanceur qui permet de modifier les fichiers .esl ou en créer de nouveaux. </para>
+        </important>
         <para
 >Si votre caméra gère les vidéos en direct, vous pouvez cliquer sur le bouton <guilabel
 >Vidéo en direct</guilabel
@@ -519,14 +525,40 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+        <para
+>La vue « Live view » fournit un outil de superposition d'images très utile pour la collimation. Le bouton en croix permet de le (dés)activer. </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
+                </imageobject>
+                <caption>
+                    <para>
+                        <phrase
+>Superposition de la collimation</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        <para
+>Ce bouton ouvre une fenêtre où il est possible de définir de manière flexible des ellipses (cercles inclus), des rectangles et des lignes de toutes tailles, d'agir sur des points d'ancrages permettant de régler les effets de dessin. Chaque élément possède sa propre taille, ses décalages, ses répétitions et ses largeurs de traits et de couleurs (transparence inclue). </para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_live_overlay_options.png" format="PNG"/>
+            </imageobject>
+            <caption>
+                <para>
+                    <phrase
+>Options pour la superposition de la collimation</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect2>
 
-    <sect3 id="capture-fits-viewer">
+    <sect2 id="capture-fits-viewer">
         <title
 >Afficheur FITS</title>
 
         <para
->Les images sont affichées dans l'outil d'affichage de &kstars; ainsi que dans l'écran de résumé. Vous pouvez spécifier les options d'affichage de l'afficheur. </para>
+>Les images sont affichées dans l'afficheur FITS de &kstars; ainsi que dans l'écran de résumé. Vous pouvez spécifier les options d'affichage de l'afficheur. </para>
         <itemizedlist>
             <listitem>
                 <para
@@ -543,9 +575,9 @@
 > : filtre d'amélioration d'une image à appliquer après son acquisition. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-rotation-settings">
+    <sect2 id="capture-rotation-settings">
         <title
 >Réglages du rotateur</title>
 
@@ -599,9 +631,9 @@
 
         <para
 >On peut assigner à chaque tâche d'acquisition un angle de rotation différent mais soyez conscient que cela peut causer l'interruption du guidage puisque l'étoile guide sera perdue pendant la rotation. Ainsi, pour la plupart des séquences, l'angle du rotateur est identique pour toutes les tâches d'acquisition. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="capture-calibration-frames">
+    <sect2 id="capture-calibration-frames">
         <title
 >Trames de calibration</title>
 
@@ -678,9 +710,291 @@
         </orderedlist>
         <para
 >Avant le début de la procédure d'acquisition de la calibration, vous pouvez demander à Ekos de parquer la monture et/ou le dôme. Selon la sélection de la source de Flat ci-dessus, Ekos va utiliser la source de lumière appropriée pour les Flats avant de commencer l'acquisition des trames de Flat. Si une valeur ADU est spécifiée, Ekos commence par prendre une série d'images pour établir la courbe nécessaire pour atteindre la valeur ADU souhaitée. Une fois que cette valeur est calculée, une nouvelle image est prise et l'ADU est recalculée jusqu'à ce que la valeur souhaitée soit atteinte. </para>
-    </sect3>
+    </sect2>
+    <sect2 id="capture-exposure-calculator">
+        <title
+>Calculateur d'exposition</title>
+        <screenshot>
+            <screeninfo
+>Calculateur d'exposition </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposure-calculator.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Calculateur d'exposition</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Le calculateur d'exposition est une implémentation d'un traitement de calcul présenté par le Dr. Robin Glover en 2019. Il cherche à établir le temps d'exposition en considérant deux sources de bruit d'une image : le bruit de lecture de l'appareil et le bruit de la pollution lumineuse. Les effets du bruit thermique de l'appareil sur les images ne sont pas pris en considération dans ce calcul. (Remarque : depuis sa présentation en 2019, le Dr. Glover a amélioré son calcul en tenant compte de l'efficacité quantique du capteur et la taille des pixels. Pour le moment, KStars ne tient pas compte de ces améliorations). </para>
+        <para
+>L'idée principal du calcul est de fournir un temps d'exposition suffisamment long pour que le bruit de lecture de l'appareil soit largement dépassé par le signal provenant de la cible mais pas trop long pour éviter que le bruit de la pollution lumineuse ne dépasse pas le signal de la cible. </para>
+        <para
+>Cette implémentation ne considère pas la force (magnitude ou flux) de la cible, ni d'autres facteurs qui pourraient inciter l'astrophotographe à choisir une durée d'exposition différente. Ces autres facteurs peuvent inclure : les exigences en terme de stockage et le temps supplémentaire de post-traitement dû au nombre important de trames de faible durée d'exposition, les impacts de facteurs externes qui se produiront pour les très longues expositions tels que les performances de suivi et de guidage, les modifications des conditions météorologiques, les intrusions du traffic aérien ou encore le passage de satellites artificiels. </para>
+        <para
+>Les approches à l'imagerie peuvent considérablement varier quant au choix des durées d'exposition et le nombre de trames utilisées pour l'intégration. Une approche largement acceptée pour l'imagerie d'objets du ciel profond implique de longues durées d'exposition qui nécessitent un bon guidage, des conditions de visibilité excellente et emploierait typiquement l'utilisation de filtres pour réduire les effets de la pollution lumineuse. À l'autre extrême, des approches utilisant des techniques rapides (nommées communément « imagerie chanceuse ») en prenant des centaines voir des milliers de trames de durée très courtes dans l'espoir d'éliminer les effets de la pollution lumineuse, ainsi que de mauvaises conditions de visibilité et de guidage. Les choix des valeurs des paramètres du calculateur d'exposition dépendront de l'approche utilisée.</para>
+        <orderedlist>
+            <listitem>
+				<para
+>Valeurs en entrée du calculateur d'exposition <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Qualité du ciel</guilabel
+> : le <guimenu
+>sélecteur de qualité du ciel</guimenu
+> règle la mesure de la magnitude par secondes d'arc au carré du fond du ciel.</para>
+                            <para
+>La plage de valeurs pour la qualité du ciel va de 22 pour les ciels les plus noirs à 16 pour les plus brillants (principalement pollué par la lumière). L'échelle de magnitude est non-linéaire ; c'est une échelle logarithmique basée sur la racine cinquième de 100. Ainsi, 5 pas sur cette échelle représente un changement en magnitude d'un facteur 100. (Une qualité du ciel de 17 est 100 fois plus lumineuse qu'une qualité du ciel de 22. Chaque entier représente un changement d'environ 2.512.). Voir <ulink url="https://en.wikipedia.org/wiki/Sky_brightness"
+>Wikipedia Sky Brightness</ulink
+> et <ulink url="https://fr.wikipedia.org/wiki/Pollution_lumineuse"
+>Pollution lumineuse</ulink
+>.</para>
+                            <para
+>Toute lumière diffusée dans le fond du ciel est considérée comme de la pollution lumineuse quelque ce soit sa source, ainsi la « lumière » de la lune peut être considérée comme de la pollution lumineuse « naturelle ». Mais les conditions météorologiques peuvent également impacter la qualité du ciel ; ainsi, l'humidité ou la couverture nuageuse peuvent réfléchir ou diffuser toute source de lumière à travers l'atmosphère.</para>
+                            <para
+>Un appareil de mesure de la qualité du ciel, en anglais <ulink url="https://en.wikipedia.org/wiki/Sky_quality_meter"
+>Sky Quality Meter (SQM)</ulink
+> permet d'obtenir la mesure la plus précise de la qualité du ciel durant une session d'imagerie mais d'autres sources sur Internet, comme <ulink url="https://www.lightpollutionmap.info/"
+>www.lightpollutionmap.info</ulink
+> ou <ulink url="https://clearoutside.com/"
+>www.clearoutside.com</ulink
+> permettent d'obtenir une valeur estimée. Mais ces sources sur Internet ne tiennent en général pas compte des effets de la « lumière » de la Lune et des conditions météorologiques locales. Elles ne représentent donc que le cas idéal d'une nuit sans nuage et à la nouvelle Lune.</para
+> 
+                            <para
+>Si une valeur provenant d'une carte de pollution lumineuse est utilisée comme valeur d'entrée de la qualité du ciel mais que la session d'imagerie est réalisé durant une lune partielle, il faudra diminuer cette valeur dans le calculateur d'exposition. L'impact de la « lumière » de la lune peut être très important ; par exemple, pour une valeur de 19.63 sur une carte, une lecture avec un appareil de mesure durant une lune croissante juste avant la demi-lune (âge la lune de 5.4 et magnitude dans KStars de -10), donne un résultat au zénith de 18.48, ce qui est bien plus brillant. De même, par une lune gibbeuse, juste après la pleine lune (âge la lune de 12.4 et magnitude dans KStars de -12), une lecture donne 15.95, ce qui est encore plus brillant.</para>
+<para
+>La valeur de la qualité du ciel a un impact radical sur le temps d'exposition calculé en raison de l'échelle logarithmique. Une image prise depuis un endroit avec forte pollution lumineuse (donc une qualité du ciel basse), et particulièrement si aucun filtre n'est utilisé, aboutira à des durées d'exposition très faibles pour prévenir la pollution lumineuse de noyer le signal de la cible. Au contraire, une image prise dans d'excellentes conditions de qualité du ciel, impliquera des durées d'exposition de plusieurs heures.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Rapport F/D</guilabel
+> : le sélecteur pour le <guimenu
+>rapport de focale</guimenu
+> règle la valeur à partir du train optique qui est nécessaire pour l'évaluation de la facilité à obtenir la lumière.</para>
+                            <para
+>Cette valeur a un effet direct sur le calcul de la durée d'exposition. Un petit rapport est considéré comme une « optique rapide » puisqu'il permet d'obtenir beaucoup plus de lumière qu'une optique de rapport plus grand. Ainsi la durée d'exposition sera diminuée avec une optique de rapport faible et augmentée avec une optique de rapport plus grand.</para>
+                            <para
+>Il peut être intéressant d'ajuster légèrement cette valeur pour compenser le rendement ou les obstructions dans les optiques.</para>
+                            <para
+>Prenons par exemple deux optiques de même rapport F/D, un réfracteur (sans obstruction) et un réflecteur (avec une obstruction dû au miroir secondaire) ; ces deux optiques seraient traitées de manière équivalentes dans les calculs. On pourrait compenser l'efficacité optique différente en tenant compte du fait qu'un réfracteur a une efficacité d'environ 94% alors que celle d'un réflecteur est d'environ 78%.</para>
+<para
+>La compensation sera calculée pour un réfracteur ainsi : (rapport F/D) / 0.94.</para>
+<para
+>Et pour un réflecteur : (Rapport F/D) / 0.78.</para>
+<para
+>Ces ajustements augmentent un tout petit peu le rapport F/D et ainsi réduisent un peu l'efficacité de capture de lumière dans les calculs.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Largeur de bande du filtre</guilabel
+> : le sélecteur <guimenu
+>Largeur de bande du filtre</guimenu
+> règle la valeur de largeur de bande (en nanomètres) et devrait être réduit de la valeur par défaut de 300 quand un filtre est ajouté au train optique. L'ajout de filtres dans le train optique affectera grandement la durée d'exposition. La plage de valeur part de 300 pour une imagerie sans filtre jusqu'à 2.8 pour un filtre à bande très étroite.</para>
+                            <para
+>Les filtres tombent généralement dans deux catégories : bande simple et multi-bande. La largeur de bande pour un filtre à bande simple devrait être relativement simple à déterminer ou à estimer. En général, un filtre rouge, vert ou bleu possède une largeur de 100 nanomètres. La documentation des filtres multi-bande contient généralement la largeur de bande (habituellement entre 3 et 12 nm). Mais les largeurs de bande des filtre multi-bande tels que les filtres anti-pollution lumineuses ou ceux spécifiquement conçus pour les nébuleuses peuvent être bien plus difficiles à déterminer puisque leur profil de transmission sont bien plus complexes.</para>
+<para
+>Les filtres ne sont pas 100% efficaces même dans les bandes qu'ils sont censés utiliser. Par conséquent, l'utilisateur du calculateur souhaitera légèrement réduire la valeur de la largeur de bande pour compenser cela. Par exemple, pour un filtre qui est censé posséder une largeur de bande de 100 nm mais dont l'efficacité de transmission n'est que de 92%, une valeur de 92 représentera probablement mieux ce filtre et conduira à une durée d'exposition un peu plus précise. </para>
+                            <para
+>La valeur de la largeur de bande du filtre a un effet inversement proportionnel à la durée d'exposition. Une image prise sans filtre utilisera la valeur de 300 (ce qui représente le spectre visible de 300 nanomètres) et produira le temps d'exposition le plus court. À l'inverse, l'utilisation d'un filtre très étroit (par exemple 3 nanomètres) produira une durée d'exposition bien plus longue.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Appareil</guilabel
+> : le calcul de la durée d'exposition requiert de connaître la valeur du bruit de lecture de l'appareil. Ce bruit apparaît à la fin d'une exposition et provient du fait que l'appareil mesure des valeurs analogiques de la tension des pixels et les convertit ensuite en valeurs digitales. Ce bruit de lecture n'est pas affecté par la durée d'exposition.</para>
+<para
+>Les appareils ont des capteurs de deux types : CCD (Charge Coupled Device) et CMOS (Complementary Metal-Oxide Semiconductor). La différence principale en ce qui concerne le calcul de la durée d'exposition est que les capteurs CCD ne possèdent pas de réglages du gain qui affecte le bruit de lecture ; ainsi, les capteurs CCD n'ont qu'une seule valeur constante pour leur bruit de lecture. Les capteurs CMOS ont un gain variable (ou valeur ISO) et une modification de ce paramètre affecte en général le bruit de lecture.</para>
+                            <para
+>Le calculateur d'exposition repose sur la connaissance des données de l'appareil pour pouvoir accéder à une valeur adéquate du bruit de lecture à utiliser dans le calcul. La liste déroulante permet de choisir le fichier approprié à l'appareil. Pour les appareils CCD, le fichier ne contient qu'une seule valeur mais pour les appareils CMOS, le fichier inclut une table (ou plusieurs) de valeurs qui associe le gain ou l'ISO à un bruit de lecture. No soyez pas déconcerté par le « CCD » apparaissant dans le nom de beaucoup d'appareils dédiés à l'astrophotographie car la plupart utilisent des capteurs CMOS. </para>
+                            <para
+>Les fichiers de données des appareils inclus dans KStars contiennent des valeurs traduites de la documentation techniques des constructeurs. Toutefois, les valeurs réelles du bruit de lecture peuvent varier des valeurs publiées ; ainsi, un utilisateur voudra éventuellement utiliser un outil dédié pour déterminer les vraies valeurs de bruit de lecture de leur appareil. Le Dr Glover fournit un outil d'analyse de capteur dans son outil <ulink url="https://www.sharpcap.co.uk/sharpcap/features/sensor-analysis"
+>SharpCap Sensor Analysis</ulink
+>. Les données obtenues par cet outil peuvent être utilisées pour créer un fichier personnalisé de données liées à un appareil et pourra être ensuite utilisé avec le calculateur d'exposition de KStars.</para>
+                        </listitem>
+                        <listitem>
+<para
+><guilabel
+>Mode lecture</guilabel
+> : certains appareils de la marque QHY ont la possibilité de fonctionner en plusieurs modes. Ces modes modifient les valeurs de bruit de lecture et ainsi les fichiers de données de ces appareils incluent plusieurs tables de bruit de lecture. Lors de l'utilisation de ce type d'appareils multi-modes, la liste déroulante deviendra active et permettra à l'utilisateur de choisir la table correspondante au mode utilisé par l'appareil pour l'imagerie.</para>
+                        </listitem>
+                        <listitem>
+                          <para
+><guilabel
+>Graphique de la durée d'exposition</guilabel
+> : le calculateur affiche un graphique des durées d'exposition potentielles déterminées par les paramètres d'entrée. Dans le cas des appareils à capteur CMOS, ce graphique ressemblera aux données de lecture de l'appareil mais sera transformé en durée d'exposition en fonction des différents gains ou ISO possibles. Pour les appareils CCD, le graphique sera une simple bar puisque le bruit de lecture est invariable. </para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Gain / ISO</guilabel
+> : les appareils ayant un capteur CMOS, une valeur de gain ou d'ISO peut être sélectionnée. Un bouton de contrôle de gain permet la sélection de gain et une liste déroulante permet ce choix pour les APN. L'ajustement de ces valeurs déplace un indicateur situé latéralement du graphique de durée d'exposition pour indiquer l'effet de ces valeurs sur la durée d'exposition.</para>
+<para
+>Les appareils à capteur CMOS ont tendance à avoir un bruit de lecture élevé pour des valeurs de gain/ISO faibles, le bruit de lecture diminuant avec une augmentation du gain/ISO. L'utilisateur sera ainsi tenté de monter le gain/ISO pour réduire le bruit de lecture. Mais la pleine capacité de l'appareil est typiquement plus élevée pour des les gains les plus faibles. Les pleines capacités les plus élevées fournissent une plage dynamique de l'image plus large.</para>
+<para
+>Le choix d'un gain/ISO dépend de la technique d'imagerie utilisée. Pour les longues durées d'exposition (typiquement utilisées pour l'imagerie du ciel profond), une valeur de gain/ISO faible est préférée afin d'obtenir une plage dynamique plus grande. Mais pour l'imagerie à très courte pose, la réduction du bruit de lecture devient si critique qu'elle devient la priorité et il devient ainsi préférable d'utiliser une valeur de gain/ISO élevée.</para>
+<para
+>Certains appareils présentent une courbe de bruit de lecture en fonction du gain très lisse, alors que d'autres en ont une en forme d'escalier (et d'autres anomalies). Ces derniers résultent en général de modes de basculement de l'électronique interne. Dans ces cas, il est préférable de choisir une valeur correspondant au bas d'une marche. Il y aura ainsi un bruit réduit et permettra une durée d'exposition plus courte sans perte significative de la plage dynamique comparée à un choix de gain situé sur le haut de la marche. Mais il faut faire attention pour les valeurs « près » d'une marche. Certains posts sur des forums spécialisés indiquent que les données de bruits de lecture fournies par les constructeurs ne seraient pas tout à fait exactes. Le basculement réel du bruit de lecture pourrait être légèrement plus élevé ou plus faible et il est ainsi recommandé d'éviter de choisir une valeur qui se trouve sur une marche. </para>
+<para
+>Évitez d'utiliser une valeur de gain près d'une marche quand vous vous basez sur la documentation du constructeur. <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation_gain_at_step-avoid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Évitez de choisir une valeur de gain près d'une marche</phrase>
+                </textobject>
+            </mediaobject>
+</para>
+<para
+>Choisissez plutôt une valeur éloignée d'une marche <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation_gain_at_step-shift.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Éloignez-vous de telles marches</phrase>
+                </textobject>
+            </mediaobject>
+</para>
+                   </listitem>
+                   <listitem>
+                            <para
+><guilabel
+>% d'augmentation du bruit</guilabel
+> : le sélecteur <guimenu
+>% d'augmentation du bruit</guimenu
+> est un paramètre utilisé dans l'équation du Dr Glover. Cette valeur modifie l'équilibre relatif entre les deux sources de bruit de l'image. Le Dr Glover recommande d'utiliser une valeur de 5% mais de la diminuer à 2% lorsque la durée d'exposition est considérée trop courte.</para>
+<para
+>Augmentation signifie ici une augmentation relative entre le bruit de lecture et celui de la pollution lumineuse. Cela peut paraître contre-intuitif, mais augmenter cette valeur diminue la durée d'exposition, diminuant ainsi le bruit de la pollution lumineuse (diminuant aussi le signal de la cible), ainsi augmenter signifie une augmentation relative de l'effet de bruit de lecture comparée au bruit de la pollution lumineuse. Au contraire, diminuer cette valeur augmente la durée d'exposition et ainsi le bruit de la pollution lumineuse (augmentant aussi le signal de la cible), ce qui a pour effet de réduire l'impact du bruit de lecture.</para>
+                       <para
+>L'implémentation du calculateur permet de choisir des valeurs de « % d'augmentation du bruit » dans une très grande plage pour permettre à l'utilisateur d'expérimenter cet outil. Mais il devra s'attendre à obtenir des effets indésirables s'il teste avec des valeurs trop grandes. En forçant pour obtenir des durée d'exposition faibles, l'effet du bruit de lecture risque de devenir trop important et réduire ainsi la qualité des images. Au contraire, il risque d'augmenter l'effet de la pollution lumineuse.</para>
+<para
+>Ce paramètre dépend également de la technique d'imagerie utilisée. Pour la technique d'imagerie rapide, il faudra certainement forcer la durée d'exposition vers le bas, typiquement vers des durée sous la seconde, ce qui implique d'augmenter drastiquement ce paramètre.</para>
+                 </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para
+>Résultats du calculateur <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Durée d'exposition (s)</guilabel
+> : spécifie la durée d'exposition.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Électrons de pollution</guilabel
+> : le nombre calculé d'électrons de pollution par pixel impactant la durée d'exposition.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Bruit de l'image</guilabel
+> : le bruit calculé de la pollution lumineuse impactant la durée d'exposition.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Bruit total</guilabel
+> : le bruit calculé provenant de la pollution lumineuse et du bruit de lecture impactant la durée d'exposition.</para>
+<important
+><para
+><emphasis role="bold"
+>Interprétation du rapport durée d'exposition sur bruit total</emphasis
+> : ce nombre peut être interprété comme une mesure de la qualité potentielle d'une durée d'exposition. Les durées d'exposition courtes contiennent beaucoup de bruit par rapport à la durée d'exposition, et ainsi seront de moindre qualité. Elles restent viables mais il faudra un nombre proportionnellement trop important de prises à empiler pour obtenir une image de qualité acceptable.</para
+></important>
 
-    <sect3 id="capture-video-tutorials">
+
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+<para
+>Information sur l'empilement des images</para>
+<para
+>Cette valeur informe sur l'effet bénéfique d'empiler les images sur l'acquisition du signal de la cible. Le résultat est une courbe indiquant la qualité de l'empilement des images en fonction du nombre d'images, la qualité diminuant avec le nombre d'images. </para>
+<para
+>Idéalement, un rapport signal sur bruit (SNR) devrait être utilisé pour mesurer le niveau de qualité des images, mais le calculateur ne permet pas de reconnaître la force du signal d'une image cible et ne peut ainsi pas calculer ce rapport. Le niveau de qualité dans le calcul d'empilement est la durée d'intégration en secondes divisée par le bruit. Ce rapport « Durée/bruit »
+> peut être considéré comme une analogie grossière du rapport signal sur bruit. Mais l'utilisateur doit garder en tête que le rapport « Durée/bruit » n'est pas une mesure absolue de la qualité de l'empilement des images de toutes les cibles puisque la force du signal (magnitude ou flux) ne fait pas partie du calcul. </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para
+><guimenu
+>Table</guimenu
+> : un tableau fournit les détails de l'empilement en fonction du nombre d'heures planifiée pour l'imagerie.</para>
+<para
+>Ce tableau fournit une indication rapide pour trouver le nombre idéal de trames à utiliser pour un nombre d'heures donné pour une session d'imagerie. Mais certaines étapes qui consomment beaucoup de temps ne sont pas inclues dans le calcul de la durée d'exposition. Par exemple, les appareils connectés via un câble USB prennent beaucoup de temps à transmettre les données. Ou encore le décalage automatique entre les prises. Ces étapes ajoutent du temps au processus d'imagerie et ne sont pas inclues dans le calcul.</para>
+<para
+>La colonne tout à droite indique le rapport « Durée/bruit » de l'image empilée qui sera produite.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guimenuitem
+>Graphique</guimenuitem
+> : un graphique interactif permet à l'utilisateur de visualiser les changements relatifs de la qualité potentielle des images empilées en fonction du nombre de trames utilisées pour l'empilement. En faisant varier ce rapport, le nombre de trames sera recalculée pour que l'image empilée atteigne ce rapport « Durée/bruit ».</para>
+
+<para
+>Lors du choix du rapport Durée/Bruit pour le calcul du nombre de trames idéal à empiler, l'utilisateur souhaitera considérer le changement incrémental à la qualité potentielle de l'image d'une trame supplémentaire. Pour l'aider, l'outil inclut un calcul de la pente du point sélectionné sur la courbe de la durée en fonction du bruit (cette valeur est représentée par un symbole delta sur l'interface graphique). Ce delta représente la variation dans la qualité potentielle en ajoutant ou en soustrayant une trame.</para>
+
+<para
+>Comme on peut s'y attendre, pour des petites valeurs du rapport Durée/Bruit, le delta sera relativement élevé, et ainsi l'ajout d'une trame aura un impact important sur l'image empilée. Mais en augmentant le rapport Durée/Bruit, davantage de trames seront inclues dan l'empilement et la valeur du delta va diminuer, indiquant que l'ajout de plus de trames devient de moins en moins intéressant. </para>
+<para
+>La valeur par défaut pour le rapport Durée/Bruit est de 80. Cette valeur de devrait pas être considérée comme une valeur optimale. Elle a simplement été choisie comme une valeur moyenne. L'utilisateur doit tenir compte de plusieurs facteurs pour l'ajuster. 1) La brillance de l'objet cible, 2) le rapport Durée/Bruit des trames calculées et 3) la contrainte de temps pour la session d'imagerie et de traitement, ainsi que de la taille du médium d'enregistrement des images. </para>
+
+<para
+>Les cibles brillantes (par exemple la nébuleuse d'Orion de magnitude 4) fournissent un signal relativement fort. Pour de telles cibles, le rapport Durée/Bruit peut être réduite et le calcul des trames produira toujours une images avec un très bon rapport Signal/Bruit. Les cibles plus faibles (par exemple le Bouclier de Thor de magnitude 11) nécessitent un rapport Durée/Bruit plus élevé pour compenser le signal relativement faible. </para>
+
+<para
+>Selon les différentes valeurs en entrée et les conditions d'imagerie, la qualité potentielle peut grandement varier. Dans des conditions de qualité de ciel mauvaise, la durée calculé des trames sera naturellement courte pour éviter l'effet important de bruit venant de la pollution lumineuse. Si la durée d'imagerie et de traitement, ainsi que la taille d'enregistrement des images sont des paramètres importants pour l'utilisateur, une augmentation du rapport Durée/Bruit sera nécessaire pour réduite la quantité de trames. À l'inverse, quand les conditions sont bonnes et que le rapport résulte en des trames de longues durées par rapport au bruit calculé (dans l'imagerie à filtre étroit par exemple), le résultat sera des trames avec un rapport Durée/Bruit très grand. Dans ce cas, la valeur par défaut de 80 conduira à peu de trames pour l'empilement. Mais la valeur delta sera plutôt haute, indiquant qu'augmenter le rapport Durée/Bruit améliorera de beaucoup la qualité potentielle de l'image empilée. </para>
+
+<para
+>L'intérêt d'utiliser le rapport Durée/Bruit comme paramètre d'entrée pour le calcul du nombre idéal de trames est de compenser la différence de bruit relative lors de l'utilisation de trames de durée différentes. Les trames de petites durées ont un rapport Durée/Bruit plus petit et possède ainsi une moindre capacité à améliorer l'image empilée. Ainsi un nombre disproportionné de courtes expositions est nécessaire pour obtenir un rapport Durée/Bruit défini de l'image empilée.</para>
+
+<para
+>Prenons l'exemple du calcul du nombre de trames nécessaires en comparant deux durées de trames différentes : une trame de 300 secondes et une trame de 30 secondes. Celle de 300 secondes a un rapport calculé de 22.1 résultant en un rapport Durée/Bruit de 13.6. Quand le paramètre « % d'augmentation du bruit » est augmenté pour forcer la durée d'exposition à 30 secondes, on obtient une durée calculée de 9.47, ce qui donne un rapport Durée/Bruit de 3.2. Celle de 300 secondes a une qualité potentielle légèrement supérieure que celle de 30 secondes. On utilise le rapport Durée/Bruit par défaut de 80.</para
+> 
+
+<para
+>Pour l'empilement des trames de 300 secondes, on trouve que 34 trames sont nécessaires pour obtenir le rapport Durée/Bruit de 80. Ce qui donne une durée totale d'exposition de 2.83 heures.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation-example_subexp300.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Trames de 300 secondes</phrase>
+                </textobject>
+            </mediaobject>
+<para
+>Pour l'empilement des trames de 30 secondes, on trouve que 637 trames sont nécessaires pour obtenir le rapport Durée/Bruit de 80. Ce qui donne une durée totale d'exposition de 5.31 heures avec ces trames plus courtes pour obtenir le même rapport Durée/Bruit de l'image empilée.</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="exposurecalculation-example_subexp30.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Trame de 30 secondes</phrase>
+                </textobject>
+            </mediaobject>
+                        </listitem>
+                     </itemizedlist>
+
+           </listitem>
+        </orderedlist>
+
+        </sect2>
+
+    <sect2 id="capture-video-tutorials">
         <title
 >Tutoriels vidéos</title>
 
@@ -709,5 +1023,5 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>
