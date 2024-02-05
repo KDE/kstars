@@ -411,7 +411,13 @@ void CaptureDeviceAdaptor::disconnectFilterManager(SequenceJobState *state)
 
 void Ekos::CaptureDeviceAdaptor::updateFilterPosition()
 {
-    emit filterIdChanged(m_FilterManager->getFilterPosition());
+    if (m_FilterManager.isNull())
+    {
+        qCritical(KSTARS_EKOS_CAPTURE) << "Filter manager is not initilized yet. Filter wheel missing from train?";
+        emit filterIdChanged(-1);
+    }
+    else
+        emit filterIdChanged(m_FilterManager->getFilterPosition());
 }
 
 void CaptureDeviceAdaptor::readCurrentState(CaptureState state)
