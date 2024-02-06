@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 01:33+0000\n"
+"POT-Creation-Date: 2024-02-06 01:57+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -14280,22 +14280,22 @@ msgstr "ពេលវេលា​មូលដ្ឋាន"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:650
+#: ekos/capture/capturedeviceadaptor.cpp:656
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:651
+#: ekos/capture/capturedeviceadaptor.cpp:657
 #, fuzzy, kde-format
 msgid "Telescope Covered"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/capture/capturedeviceadaptor.cpp:783
+#: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:784
+#: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
 #, fuzzy, kde-format
 msgid "Dark Exposure"

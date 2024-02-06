@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 01:33+0000\n"
-"PO-Revision-Date: 2024-01-30 00:25+0100\n"
+"POT-Creation-Date: 2024-02-06 01:57+0000\n"
+"PO-Revision-Date: 2024-02-04 08:35+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -102,7 +102,7 @@ msgstr "Екватор"
 #: skycomponents/ecliptic.cpp:21
 #, kde-format
 msgid "Ecliptic"
-msgstr "Еклиптика"
+msgstr "Еклиптична"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
 #: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
@@ -223,7 +223,7 @@ msgstr "Изкуствен хоризонт"
 #: auxiliary/colorscheme.cpp:64
 #, kde-format
 msgid "RA Guide Error"
-msgstr "Грешка при гидиране по ректасценазия"
+msgstr "Грешка при гидиране по ректасцензия"
 
 #: auxiliary/colorscheme.cpp:65
 #, kde-format
@@ -1787,7 +1787,7 @@ msgstr "1x"
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, kde-format, kde-kuit-format
 msgid "RA:"
-msgstr "RA:"
+msgstr "Ректасцензия:"
 
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -2362,7 +2362,7 @@ msgstr "напр. 54559"
 #: dialogs/addcatalogobject.ui:202
 #, kde-format
 msgid "Flux:"
-msgstr "Поток:"
+msgstr "Осветеност:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/addcatalogobject.ui:212
@@ -2823,7 +2823,7 @@ msgstr "Координатни единици"
 #: tools/modcalcplanets.ui:244 tools/modcalcvlsr.ui:485
 #, kde-format
 msgid "Dec:"
-msgstr "DEC:"
+msgstr "Деклинация:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, column_mapping)
 #: dialogs/catalogcsvimport.ui:222
@@ -3130,7 +3130,7 @@ msgstr "Ъгъл на позицията"
 #: dialogs/catalogobjectlistmodel.cpp:85
 #, kde-format
 msgid "Flux"
-msgstr "Поток"
+msgstr "Осветеност"
 
 #. i18n: ectx: property (text), widget (QCheckBox, coldPixelsEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, hotPixelsEnabled)
@@ -3457,7 +3457,7 @@ msgstr "Изместване в червено:"
 #, kde-format
 msgctxt "integrated flux at a frequency"
 msgid "Flux(%1):"
-msgstr "Поток(%1):"
+msgstr "Осветеност(%1):"
 
 #: dialogs/detaildialog.cpp:373 printing/detailstable.cpp:250
 #, kde-format
@@ -4117,7 +4117,7 @@ msgstr "Експортиране на изображение на небето"
 #: fitsviewer/starprofileviewer.cpp:128 printing/pwizfovconfig.cpp:58
 #, kde-format
 msgid "Horizontal"
-msgstr "Хоризонтално"
+msgstr "Хоризонтална"
 
 #: dialogs/exportimagedialog.cpp:93 fitsviewer/starprofileviewer.cpp:34
 #: fitsviewer/starprofileviewer.cpp:129 printing/pwizfovconfig.cpp:59
@@ -4334,7 +4334,7 @@ msgstr "Ръчно задаване на координати"
 #: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
-msgstr "Стойността на ректасценазията трябва да е между 0.0 и 24.0."
+msgstr "Стойността на ректасцензията трябва да е между 0.0 и 24.0."
 
 #: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
 #, kde-format
@@ -4392,7 +4392,7 @@ msgstr "Задаване на епохата на J2000"
 #: dialogs/focusdialog.ui:104 ekos/manager.ui:786 ekos/mount/mount.ui:141
 #, kde-format
 msgid "Right Ascension"
-msgstr "Ректасценазия"
+msgstr "Ректасцензия"
 
 #. i18n: ectx: property (text), widget (QLineEdit, epochBox)
 #. i18n: ectx: property (text), widget (QLabel, EpochTarget)
@@ -4826,7 +4826,7 @@ msgstr ""
 #: tools/modcalcplanets.ui:739 tools/modcalcvlsr.ui:528
 #, kde-format
 msgid "Longitude:"
-msgstr "Географска дължина:"
+msgstr "Дължина:"
 
 #. i18n: ectx: property (toolTip), widget (dmsBox, NewLong)
 #: dialogs/locationdialog.ui:376
@@ -4852,7 +4852,7 @@ msgstr ""
 #: tools/modcalcplanets.ui:729 tools/modcalcvlsr.ui:541
 #, kde-format
 msgid "Latitude:"
-msgstr "Географска ширина:"
+msgstr "Ширина:"
 
 #. i18n: ectx: property (text), widget (QLabel, ElevationLabel)
 #: dialogs/locationdialog.ui:390
@@ -10866,8 +10866,8 @@ msgid ""
 "<html><head/><body><p>Plot the Half-Flux Radius (in pixels) of the captured "
 "images.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Показване на радиуса на полупотока (в пиксели) на "
-"заснетите изображения.</p></body></html>"
+"<html><head/><body><p>Показване на радиуса на полуосветеостта (HFR - Half-"
+"Flux Radius) в пиксели на заснетите изображения.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1080
@@ -10883,9 +10883,10 @@ msgid ""
 "images. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Радиусът на полупотока (в пиксели) на заснетите "
-"изображения. Щракнете тук, за да видите стойностите на тази ос на лявата ос."
-"Щракнете два пъти, за да актуализирате оста.</p></body></html>"
+"<html><head/><body><p>Радиусът на полуосветеостта (HFR - Half-Flux Radius) в "
+"пиксели на заснетите  изображения. Щракнете тук, за да видите стойностите на "
+"тази ос на лявата ос.Щракнете два пъти, за да актуализирате оста.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #: ekos/analyze/analyze.ui:1115
@@ -11125,7 +11126,7 @@ msgstr "Долна граница"
 #: ekos/analyze/yaxistool.ui:166
 #, kde-format
 msgid "Automatic Limits"
-msgstr "Автоматични граници"
+msgstr "Автоматично ограничаване"
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftAxisCB)
 #: ekos/analyze/yaxistool.ui:173
@@ -13282,7 +13283,7 @@ msgstr "Параметри на Sextractor"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:353
 #, kde-format
 msgid "The minimum radius for stars for flux calculations."
-msgstr "Минималният радиус на звездите за изчисляване на потока."
+msgstr "Минималният радиус на звездите за изчисляване на осветеността."
 
 #. i18n: ectx: property (text), widget (QLineEdit, r_min)
 #. i18n: ectx: property (text), widget (QLineEdit, kron_fact)
@@ -13325,7 +13326,7 @@ msgid ""
 "The percentage of flux a separate peak must have to be considered a separate "
 "object."
 msgstr ""
-"Процентът на потока, който трябва да има отделен връх, за да се счита за "
+"Процентът на осветеност, който трябва да има отделен пик, за да се счита за "
 "отделен обект."
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_contrast)
@@ -13350,7 +13351,7 @@ msgid ""
 "This sets the Kron Factor for use with the kron radius for flux calculations."
 msgstr ""
 "С тази опция се задава коефициентът на Крон за използване с радиуса на Крон "
-"при изчисляване на потока."
+"при изчисляване на осветеността."
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:413
@@ -15373,22 +15374,22 @@ msgstr ""
 "Превключване на дисплея в графичен режим на показване на броячите за "
 "заснемане."
 
-#: ekos/capture/capturedeviceadaptor.cpp:650
+#: ekos/capture/capturedeviceadaptor.cpp:656
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Свалете капака на телескопа, за да продължите."
 
-#: ekos/capture/capturedeviceadaptor.cpp:651
+#: ekos/capture/capturedeviceadaptor.cpp:657
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Покрит телескоп"
 
-#: ekos/capture/capturedeviceadaptor.cpp:783
+#: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Има ли %1 затвор?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:784
+#: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -19558,20 +19559,20 @@ msgstr ""
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">HFR</span>: Half Flux Radius Половин радиус на "
-"потока. Използва алгоритъм за изчисляване на радиуса на окръжност с център "
-"върху центроида на звездата, който обхваща половината от потока на звездата."
-"</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</span>: Коригиран "
-"радиус на половин поток. Нормализира HFR за пиковия интензитет. Това е "
-"експериментална функция.</li></ul><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">FWHM </span>: Full Width "
-"Half Maximum - Пълна ширина, половин максимум. Кривата приляга на PSF към "
-"центроида на всяка звезда и използва кривата, за да изчисли FWHM. Това е "
-"експериментална функция.</li><li style=\" margin-top:0px; margin-"
+"style=\" font-weight:600;\">HFR</span>: Half Flux Radius Радиус на "
+"полуосветеност. Използва алгоритъм за изчисляване на радиуса на окръжност с "
+"център върху центроида на звездата, който обхваща половината от осветеността "
+"на звездата.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
+"span>: Коригиран радиус на полуосветеност. Нормализира HFR за пиковия "
+"интензитет. Това е експериментална функция.</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM </span>: "
+"Full Width Half Maximum - Пълна ширина, половин максимум. Кривата приляга на "
+"PSF към центроида на всяка звезда и използва кривата, за да изчисли FWHM. "
+"Това е експериментална функция.</li><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\"># Звезди</span>: Брой "
 "звезди. Броят на откритите звезди при оптимален фокус ще бъде максимален. "
@@ -21031,7 +21032,7 @@ msgstr ""
 #: ekos/guide/guide.ui:418
 #, kde-format
 msgid "Guide Right Ascention Axis"
-msgstr "Водеща ос на ректасценазия"
+msgstr "Водеща ос на ректасцензия"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
 #: ekos/guide/guide.ui:431
@@ -23732,13 +23733,13 @@ msgstr "Часови ъгъл"
 #: ekos/mount/mount.ui:229
 #, kde-format
 msgid "Local Sidereal TIme"
-msgstr "Местно сидерично време"
+msgstr "Местно звездно време"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/mount/mount.ui:232
 #, kde-format
 msgid "LST:"
-msgstr "LST:"
+msgstr "МЗВ:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:275
@@ -23869,7 +23870,7 @@ msgstr "<html><head/><body><p><br/></p></body></html>"
 #: ekos/mount/mount.ui:791 tools/scriptbuilder.cpp:685
 #, kde-format
 msgid "Limits"
-msgstr "Граници"
+msgstr "Ограничаване"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
@@ -30370,7 +30371,7 @@ msgstr "Вертикално: "
 #: fitsviewer/starprofileviewer.cpp:225
 #, kde-format
 msgid "Horizontal: "
-msgstr "Хоризонтално: "
+msgstr "Хоризонтална: "
 
 #: fitsviewer/starprofileviewer.cpp:238
 #, kde-format
@@ -33192,7 +33193,7 @@ msgstr ""
 #: kstars.kcfg:391
 #, kde-format
 msgid "Right Ascension of focus position"
-msgstr "Ректасценазия на позицията на фокуса"
+msgstr "ректасцензия на позицията на фокуса"
 
 #. i18n: ectx: whatsthis, entry (FocusRA), group (View)
 #: kstars.kcfg:392
@@ -33201,7 +33202,7 @@ msgid ""
 "The right ascension of the initial focus position of the sky map, in decimal "
 "hours. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"Ректасценазия на първоначалната фокусна позиция на картата на небето в "
+"ректасцензия на първоначалната фокусна позиция на картата на небето в "
 "десетични часове. Тази стойност е непостоянна; тя се нулира всеки път, "
 "когато програмата се изключи."
 
@@ -35422,7 +35423,7 @@ msgstr ""
 #: kstars.kcfg:1226
 #, kde-format
 msgid "Random latitude and longitude"
-msgstr "Произволна географска ширина и дължина"
+msgstr "Произволна ширина и дължина"
 
 #. i18n: ectx: whatsthis, entry (XplanetRandom), group (Xplanet)
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetRandom)
@@ -35435,7 +35436,7 @@ msgstr "Поставяне на наблюдателя над произволн
 #: kstars.kcfg:1231
 #, kde-format
 msgid "Latitude-Longitude"
-msgstr "Географска ширина и дължина"
+msgstr "Ширина и дължина"
 
 #. i18n: ectx: whatsthis, entry (XplanetLatLong), group (Xplanet)
 #: kstars.kcfg:1232
@@ -35448,7 +35449,7 @@ msgstr "Поставяне на наблюдателя над зададенит
 #: kstars.kcfg:1236 xplanet/opsxplanet.ui:894
 #, kde-format
 msgid "Latitude in degrees"
-msgstr "Географска ширина в градуси"
+msgstr "Ширина в градуси"
 
 #. i18n: ectx: whatsthis, entry (XplanetLatitude), group (Xplanet)
 #: kstars.kcfg:1237
@@ -35465,7 +35466,7 @@ msgstr ""
 #: kstars.kcfg:1241 xplanet/opsxplanet.ui:917
 #, kde-format
 msgid "Longitude in degrees"
-msgstr "Географска дължина в градуси"
+msgstr "Дължина в градуси"
 
 #. i18n: ectx: whatsthis, entry (XplanetLongitude), group (Xplanet)
 #: kstars.kcfg:1242
@@ -68369,7 +68370,7 @@ msgstr "Запис на изображението на &небето..."
 #: kstarsinit.cpp:167
 #, kde-format
 msgid "&Run Script..."
-msgstr "&Стартиране на скрипт..."
+msgstr "&Изпълняване на скрипт..."
 
 #: kstarsinit.cpp:171
 #, kde-format
@@ -68535,7 +68536,7 @@ msgstr "Показване на азимут/височина"
 #: kstarsinit.cpp:333
 #, kde-format
 msgid "Show RA/Dec Field"
-msgstr "Показване на ректасценазия/деклинация"
+msgstr "Показване на ректасцензия/деклинация"
 
 #: kstarsinit.cpp:334
 #, kde-format
@@ -69479,12 +69480,12 @@ msgstr "Държава: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:294
 #, kde-kuit-format
 msgid "Latitude: "
-msgstr "Географска ширина:"
+msgstr "Ширина:"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Географска дължина:"
+msgstr "Дължина:"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -69863,7 +69864,7 @@ msgstr "0 дни"
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:186
 #, kde-format
 msgid "1 sid day"
-msgstr "1 сидерически ден"
+msgstr "1 звезден ден"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:187
 #, kde-format
@@ -71916,7 +71917,7 @@ msgstr "Осветеност"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Luminosity"
-msgstr "Осветеност"
+msgstr "Светимост"
 
 #: libindi_strings.cpp:280
 #, kde-kuit-format
@@ -72816,7 +72817,7 @@ msgstr "Астрономическо време"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sidereal"
-msgstr "Сидерично"
+msgstr "Звезден"
 
 #: libindi_strings.cpp:430
 #, kde-kuit-format
@@ -73554,7 +73555,7 @@ msgstr "възстановяване"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "sidereal"
-msgstr "сидерично"
+msgstr "звезден"
 
 #: libindi_strings.cpp:553
 #, kde-kuit-format
@@ -74386,7 +74387,7 @@ msgstr "Планирано време:"
 #: tools/modcalcgalcoord.ui:73 tools/modcalcvlsr.ui:193
 #, kde-format
 msgid "Right ascension:"
-msgstr "Ректасценазия:"
+msgstr "Ректасцензия:"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_4)
 #: oal/execute.ui:232
@@ -75760,7 +75761,7 @@ msgid ""
 "and every 20 degrees in Declination."
 msgstr ""
 "При включена отметка, координатната мрежа ще се показва на всеки 2 часа в "
-"ректасценазия и всеки 20 градуса в деклинация на звездната карта."
+"ректасцензия и всеки 20 градуса в деклинация на звездната карта."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:300
@@ -77932,7 +77933,7 @@ msgstr "неизвестно"
 #, kde-format
 msgctxt "Universal time"
 msgid "UT"
-msgstr "Унив. вр.:"
+msgstr "УВ"
 
 #: skyobjects/satellite.cpp:1237
 #, kde-format
@@ -78103,7 +78104,8 @@ msgstr "неименуван обект"
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
 msgstr ""
-"Параметрите lat и LST трябва да се използват само в обекти KSPlanetBase."
+"Параметрите височина и МЗВ (местно звездно време) трябва да се използват "
+"само в обекти KSPlanetBase."
 
 #: skyobjects/starobject.cpp:579
 #, kde-format
@@ -78838,8 +78840,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"<p>\"Слънчева система\" (Ctrl+Y) показва положението на основните тела на "
-"Слънчевата система на зададената дата.</p>\n"
+"\t\t<p>Инструментът \"Слънчева система\" (Ctrl+Y) показва положението на "
+"основните тела на  Слънчевата система на зададената дата.\n"
+"\t\t</p>\n"
+"\t\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:294
@@ -78988,7 +78992,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Може да скриете координатите на ректасценазия/деклинация или\n"
+"\t\t<p>Може да скриете координатите на ректасцензия/деклинация или\n"
 " \t\t\tазимут/височина от лентата на състоянието, или напълно да скриете\n"
 "\t\t\tлентата на състоянието, чрез менюто \"Настройки->Лента на състоянието "
 "\".\n"
@@ -79390,7 +79394,7 @@ msgstr "Графика на височина и време"
 #: tools/altvstime.cpp:92
 #, kde-format
 msgid "Local Sidereal Time"
-msgstr "Местно сидерично време (МСВ)"
+msgstr "Местно звездно време (МЗВ)"
 
 #: tools/altvstime.cpp:96 tools/observinglist.cpp:121
 #, kde-format
@@ -79414,7 +79418,7 @@ msgid ""
 "tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitude:   </td><td>%4</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><th colspan=\"2\">%1</th></tr><tr><td>МСВ:   </td><td>%2 %3</td></"
+"<table><tr><th colspan=\"2\">%1</th></tr><tr><td>МЗВ:   </td><td>%2 %3</td></"
 "tr><tr><td>МВ:   </td><td>%2 \"</td></tr><tr><td>Височина:   </td><td>%4 \"</"
 "td></tr></table>"
 
@@ -79456,7 +79460,7 @@ msgstr ""
 "графиката, а отдолу и координатите на обекта.\n"
 "\n"
 "2. Напишете името на обекта. Трябва да въведете и координатите на "
-"ректасценазията и деклинацията на обекта, след което натиснете бутона "
+"ректасцензията и деклинацията на обекта, след което натиснете бутона "
 "\"Изчертаване\" за построяване на графиката."
 
 #. i18n: ectx: property (text), widget (QPushButton, browseButton)
@@ -79963,18 +79967,18 @@ msgid ""
 "LI><LI><B>LSR Velocity:</B> Computation of the heliocentric, geocentric and "
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
-"<QT>Раздел с алгоритми за преобразуване на различни астрономически "
-"координатни системи:<UL><LI><B>Галактически:</B> Преобразуване между "
-"галактически и екваториални координати</LI><LI><B>Видими:</B> Изчисляване на "
-"текущите екваториални координати от дадена епоха</LI><LI><B>Еклиптични:</B> "
-"Преобразуване между еклиптични и екваториални координати</"
+"<QT>Раздел с алгоритми за преобразуване на различни астрономически  "
+"координатни системи:<UL><LI><B>Галактически:</B> Преобразуване между  "
+"галактически и екваториални координати</LI><LI><B>Видими:</B> Изчисляване "
+"на  текущите екваториални координати от дадена епоха</I><LI><B>Еклиптични:</"
+"B> Преобразуване между еклиптични и екваториални координати</"
 "LI><LI><B>Хоризонтални:</B> Изчисляване на азимут и височина на даден обект, "
-"време и местоположение на Земята</LI><LI><B>Просто:</B> Преобразуване между "
-"ъгли в часове и градуси.</LI><LI><B>Ъглово разстояние:</B> Изчисляване на "
-"ъглово разстояние между два обекта, чиито позиции са дадени в екваториални "
+"време и  местоположение на Земята</LI><LI><B>Просто:</B> Преобразуване между "
+"ъгли в  часове и градуси.</LI><LI><B>Ъглово разстояние:</B> Изчисляване на "
+"ъглово  разстояние между два обекта, чиито позиции са дадени в екваториални "
 "координати</LI><LI><B>Геодезически:</B> Преобразуване между геодезически и "
 "XYZ координати</LI><LI><B>LSR скорост:</B> Изчисляване на хелиоцентричната, "
-"геоцентричната и топоцентричната радиална скорост на обект от неговатаLSR "
+"геоцентричната и топоцентричната радиална скорост на обект от неговата LSR  "
 "скорост</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:93
@@ -80230,7 +80234,7 @@ msgstr "и"
 #: tools/conjunctions.ui:81 tools/eclipsetool.ui:96
 #, kde-format
 msgid "Starting on:"
-msgstr "Започване с:"
+msgstr "Започва на:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: tools/conjunctions.ui:88
@@ -80727,7 +80731,7 @@ msgstr "време (в дни, считано от днес)"
 #: tools/modcalcvizequinox.ui:24 tools/modcalcvlsr.ui:34
 #, kde-format
 msgid "Interactive Mode"
-msgstr "Интерактивен режим"
+msgstr "Интерактивно"
 
 #. i18n: ectx: property (text), widget (QLabel, DateLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -80755,7 +80759,7 @@ msgstr "Екваториални координати (J2000)"
 #: tools/modcalcvlsr.ui:160
 #, kde-format
 msgid "Select Object..."
-msgstr "Избор на обект..."
+msgstr "Намиране на обект..."
 
 #: tools/modcalcangdist.cpp:98
 #, kde-format
@@ -80835,7 +80839,7 @@ msgstr "Градуси от С на И"
 #: tools/modcalcvizequinox.ui:258 tools/modcalcvlsr.ui:453
 #, kde-format
 msgid "Batch Mode"
-msgstr "Фонов режим"
+msgstr "От файл"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
@@ -80848,7 +80852,7 @@ msgstr "Избор на полета от входния файл"
 #: tools/modcalcangdist.ui:466
 #, kde-format
 msgid "Initial right ascension:"
-msgstr "Първоначална ректасцнезия:"
+msgstr "Първоначална ректасцензия:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dec0CheckBatch)
 #: tools/modcalcangdist.ui:476
@@ -80860,7 +80864,7 @@ msgstr "Начална деклинация:"
 #: tools/modcalcangdist.ui:486
 #, kde-format
 msgid "Final right ascension:"
-msgstr "Крайна ректасцнезия:"
+msgstr "Крайна ректасцензия:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dec1CheckBatch)
 #: tools/modcalcangdist.ui:496
@@ -80926,7 +80930,7 @@ msgstr "Каталожни координати"
 #: tools/modcalcapcoord.ui:174
 #, kde-format
 msgid "Target Time && Date"
-msgstr "Крайна дата и час"
+msgstr "Целева дата и час"
 
 #. i18n: ectx: property (text), widget (QPushButton, NowButton)
 #: tools/modcalcapcoord.ui:195
@@ -80941,7 +80945,7 @@ msgstr "Възстановяване до  днешна дата"
 #: tools/modcalcplanets.ui:671 tools/modcalcvlsr.ui:568
 #, kde-format
 msgid "UT:"
-msgstr "Унив. вр.:"
+msgstr "УВ:"
 
 #. i18n: ectx: property (text), widget (QLabel, ApCoordLabel)
 #: tools/modcalcapcoord.ui:281
@@ -81097,7 +81101,7 @@ msgstr "Растяща Луна (75%)"
 #: tools/modcalcdaylength.ui:784
 #, kde-format
 msgid "Batch mode"
-msgstr "Режим на пакетна обработка"
+msgstr "От файл"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/modcalcdaylength.ui:843
@@ -81375,7 +81379,7 @@ msgstr "Обект от Слънчевата система:"
 #: tools/modcalcplanets.ui:346
 #, kde-format
 msgid "Heliocentric Ecliptic Coordinates"
-msgstr "Координати на хелиоцентричната еклиптика"
+msgstr "Хелиоцентрични еклиптични координати"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
@@ -81400,25 +81404,25 @@ msgstr "Избор на координатна система за изходе�
 #: tools/modcalcplanets.ui:783
 #, kde-format
 msgid "Heliocentric ecliptic"
-msgstr "Хелиоцентрична еклиптика"
+msgstr "Хелиоцентрична еклиптична"
 
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
 #: tools/modcalcplanets.ui:793
 #, kde-format
 msgid "Equatorial"
-msgstr "Екваториален"
+msgstr "Екваториална"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GeoEclCheckBatch)
 #: tools/modcalcplanets.ui:803
 #, kde-format
 msgid "Geocentric ecliptic"
-msgstr "Геоцентрична еклиптика"
+msgstr "Геоцентрична еклиптична"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HorizontalCheckBatch)
 #: tools/modcalcplanets.ui:813
 #, kde-format
 msgid "Horizontal "
-msgstr "Хоризонтално "
+msgstr "Хоризонтална "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #: tools/modcalcplanets.ui:826
@@ -81486,7 +81490,7 @@ msgstr "Резултати от изчисляването на звезднот
 #: tools/modcalcsidtime.ui:90
 #, kde-format
 msgid "Sidereal time:"
-msgstr "Сидерично време"
+msgstr "Звездно време"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ComputeComboBatch)
 #: tools/modcalcsidtime.ui:162
@@ -82558,7 +82562,7 @@ msgstr ""
 "<html><head></head><body><p>Избиране на обекти в правоъгълна област</p><p></"
 "p><p>На тази страница можете да ограничите списъка си за наблюдение до "
 "обектите, които се намират е определена правоъгълна област на небето.  "
-"Посочете правоъгълната област, като изберете границите на ректасценазия (RA) "
+"Посочете правоъгълната област, като изберете границите на ректасцензия (RA) "
 "и деклинация (Dec), които определят областта.</p><p></p><p>Когато "
 "приключите, натиснете <span style=\" font-weight:600;\">Напред</span>, за да "
 "продължите. </p></body></html>"
@@ -82748,7 +82752,7 @@ msgstr "Име на параметър"
 #, kde-format
 msgctxt "@title:window"
 msgid "Solar System Viewer"
-msgstr "Визуализатор на Слънчевата система"
+msgstr "Преглед на Слънчевата система"
 
 #: tools/planetviewer.cpp:58
 #, kde-format
@@ -83540,7 +83544,7 @@ msgstr "Запис на скрипта във файл, като може да �
 #: tools/scriptbuilder.ui:197
 #, kde-format
 msgid "Test Script"
-msgstr "Проба на скрипт"
+msgstr "Изпробване на скрипт"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
@@ -84522,13 +84526,13 @@ msgstr "МВ:"
 #, kde-format
 msgctxt "Universal Time"
 msgid "UT: "
-msgstr "Унив. вр.:"
+msgstr "УВ:"
 
 #: widgets/infoboxwidget.cpp:83
 #, kde-format
 msgctxt "Sidereal Time"
 msgid "ST: "
-msgstr "Астр. вр.:"
+msgstr "ЗВ:"
 
 #: widgets/infoboxwidget.cpp:83
 #, kde-format
@@ -84608,7 +84612,7 @@ msgstr "часа"
 #, kde-format
 msgctxt "sidereal day"
 msgid "sid day"
-msgstr "сидерически ден"
+msgstr "звезден ден"
 
 #: widgets/timespinbox.cpp:143
 #, kde-format
@@ -85297,6 +85301,3 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
-
-#~ msgid "No Target - Please pick an object."
-#~ msgstr "Няма цел - моля изберете цел."

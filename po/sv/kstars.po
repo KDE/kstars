@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 01:33+0000\n"
+"POT-Creation-Date: 2024-02-06 01:57+0000\n"
 "PO-Revision-Date: 2024-01-02 21:01+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -15277,22 +15277,22 @@ msgstr "Totalt"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Byt visning av antal tagningar till grafiskt läge."
 
-#: ekos/capture/capturedeviceadaptor.cpp:650
+#: ekos/capture/capturedeviceadaptor.cpp:656
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Ta bort lock teleskopet för att fortsätta."
 
-#: ekos/capture/capturedeviceadaptor.cpp:651
+#: ekos/capture/capturedeviceadaptor.cpp:657
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Teleskop täckt"
 
-#: ekos/capture/capturedeviceadaptor.cpp:783
+#: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Har %1 en slutare?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:784
+#: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"

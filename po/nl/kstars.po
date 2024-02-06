@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 01:33+0000\n"
+"POT-Creation-Date: 2024-02-06 01:57+0000\n"
 "PO-Revision-Date: 2024-01-28 23:33+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -15300,22 +15300,22 @@ msgstr ""
 "Scherm omschakelen naar de grafische modus van het tonen van het aantal "
 "opnamen."
 
-#: ekos/capture/capturedeviceadaptor.cpp:650
+#: ekos/capture/capturedeviceadaptor.cpp:656
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Verwijder lenskap van de telescoop voordat u verder gaat."
 
-#: ekos/capture/capturedeviceadaptor.cpp:651
+#: ekos/capture/capturedeviceadaptor.cpp:657
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescoop bedekt"
 
-#: ekos/capture/capturedeviceadaptor.cpp:783
+#: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Heeft %1 een sluiter?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:784
+#: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"

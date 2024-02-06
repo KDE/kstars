@@ -89,9 +89,9 @@
     </sect2>
     <sect2 id="scheduler-files">
         <title
->Fichiers séquences (.esq)</title>
+>Fichiers séquences (.esl)</title>
         <para
->La table de l'ordonnanceur avec sa liste de tâches peut être enregistrée sur le disque dur pour pouvoir être réimportée plus tard. Les boutons pour cela ainsi que pour importer d'autres fichiers de séquence se trouvent au-dessus de la table sur la droite. </para>
+>La table de l'ordonnanceur avec sa liste de tâches peut être enregistrée sur le disque dur pour pouvoir être réimportée plus tard. Ces données sont enregistrées dans un fichier .esl. Les boutons pour cela ainsi que pour importer d'autres fichiers .esl de séquence se trouvent au-dessus de la table sur la droite. </para>
     </sect2>
     <sect2 id="ekos-scheduler-settings">
       <title
@@ -223,6 +223,42 @@
         <para
 >Il existe une case à cocher et un champ nombre juste sous la table de tâches qui permet de répéter la programmation entière N fois. Cela peut être utilisé pour alterner quelques tâches. Il suffit de lister les tâches sur l'ordonnanceur, régler pour répéter N fois et les tâches se répéteront. Toutefois, ce changement est incompatible avec l'option « Se souvenir de la progression » et indisponible si cette option est cochée. (Remarque : cette option est recommandée). </para>
        </sect3>
+    </sect2>
+    <sect2 id="editing-running-jobs">
+        <title
+>En cours de modification des tâches actives</title>
+        <para
+>Il est possible de modifier la table de tâches et les attributs des tâches individuelles pendant que l'ordonnanceur est actif. Comme toujours, il faut double-cliquer sur une tâche, modifier les attributs et cliquer sur la case à cocher pour enregistrer les modifications. Si vous modifiez une tâche active, celle-ci sera redémarrée (les étapes initiales (rotation, mise au point, alignement, guidage) seront relancées. Vous pouvez également déplacer les tâches pour modifier les priorités, ajouter de nouvelles tâches ou en supprimer. Vous ne pouvez pas supprimer une tâche active. </para>
+        <para
+>Un attribut important des tâches de l'ordonnanceur est leur fichier de séquence (.esq) qui contrôle le module d'acquisition pendant que la tâche est active. Par exemple, il règle le nombre d'acquisitions, les filtres utilisés, le gain/ISO, etc. Le fichier .esq est normalement créé et modifié dans l'onglet d'acquisition, mais cela ne peut pas être fait pendant que l'ordonnanceur est actif. Si vous souhaitez modifier un fichier .esq pendant que l'ordonnanceur est actif, ou en créer un nouveau, il faut utiliser l'outil de modification de la séquence d'acquisition. </para>
+       <sect3 id="capture-sequence-editor">
+        <title
+>Modificateur de séquences d'acquisition</title>
+        <para
+>Le Modificateur de séquence d'acquisition est un outil pour créer et modifier les fichiers (.esq) de séquences d'acquisition qui peut être démarré en cliquant sur l'icône en forme de crayon juste au-dessus de la table de l'ordonnanceur. Une capture d'écran est montrée ci-dessous. </para>
+      <screenshot>
+            <screeninfo
+>Modificateur de séquences d'acquisition </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_capture_sequence_editor.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Modificateur de séquences d'acquisition</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Cet outil est très similaire à l'utilisation et dans sa forme à l'onglet d'acquisition, bien qu'il manque tous les boutons pour l'acquisition proprement dit. Les tâches sont modifiées de la même manière que les acquisitions, ainsi que le chargement et l'enregistrement des files de séquences (mais il y a des boutons de chargement et d'enregistrement additionnels). </para>
+        <important>
+        <para
+>Il est important de noter que les séquences d'acquisitions dépendent dans une certaine mesure de la roue à filtre et de l'appareil utilisé (p. ex. les noms de filtre, les valeur d'ISO possible, …). Cet outil, qui n'est pas connecté aux pilotes de périphériques, n'a pas accès à cette information. Au contraire, il utilise les valeurs de la dernière connexion des périphériques à l'onglet d'acquisition. Il ne fait ainsi pas de sens de créer un fichier .esq pour un appareil ou une roue à filtres différents que celui utilisé lors de la dernière connexion. Il faudra attendre que la tâche de la séquence soit terminée et modifier le fichier .esl directement dans l'onglet d'acquisition. </para>
+        <para
+>Il est également recommandé de ne pas écraser les fichiers .esq pendant que les tâches de l'ordonnanceur utilisent ces mêmes fichiers. (C'est OK de le faire pendant que l'ordonnanceur est en cours mais pas si cette tâche particulière est en exécution). En effet, cela désynchroniserait l'ordonnanceur et les modules d'acquisition, puisqu'ils lisent ces fichiers à des moments différents. Vous devriez plutôt enregistrer sous un nom différent et ensuite modifier la tâche pour utiliser ce nouveau fichier .esq. </para>
+        </important>
+     </sect3
+>          
     </sect2>
     <sect2 id="workflow">
         <title

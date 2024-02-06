@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 01:33+0000\n"
-"PO-Revision-Date: 2024-01-21 14:14\n"
+"POT-Creation-Date: 2024-02-06 01:57+0000\n"
+"PO-Revision-Date: 2024-02-05 11:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5801,16 +5801,14 @@ msgid ""
 msgstr "CCD 曝光正在进行时无法拍摄。 %1 秒后重试..."
 
 #: ekos/align/align.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
-msgstr "无法拍摄，因为旋转模块正在工作，请在 %1 秒后重试..."
+msgstr ""
 
 #: ekos/align/align.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
-msgstr "无法拍摄，因为旋转模块正在工作，请在 %1 秒后重试..."
+msgstr ""
 
 #: ekos/align/align.cpp:1541 ekos/align/align.cpp:3024
 #, kde-format
@@ -14731,22 +14729,22 @@ msgstr "总计"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "切换显示为拍摄计数的图形模式。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:650
+#: ekos/capture/capturedeviceadaptor.cpp:656
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "移开望远镜盖子以继续。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:651
+#: ekos/capture/capturedeviceadaptor.cpp:657
 #, kde-format
 msgid "Telescope Covered"
 msgstr "望远镜已盖上"
 
-#: ekos/capture/capturedeviceadaptor.cpp:783
+#: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 有快门吗？"
 
-#: ekos/capture/capturedeviceadaptor.cpp:784
+#: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -15690,24 +15688,7 @@ msgstr "对焦限制条件"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:193
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable limited resource mode to turn off any "
-#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
-#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
-#| "span>: World Coordinate System data will not be processed. WCS maps sky "
-#| "coordinates to image coordinates. Equatorial grid lines, object "
-#| "identification, and telescope slew within an image are disabled.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
-#| "grayscale images are shown.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -15727,19 +15708,6 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>启用资源限制模式来关闭任何资源密集型操作：</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">自动解拜尔</span>: 将不会被解拜尔图像。 "
-"只显示灰度图像。</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">自动 WCS</span>: 将不会被处理世界坐标系统数据。 "
-"WCS maps sky coordinates to image coordinates. 将禁用图像中的赤道网格线、天体"
-"标识和望远镜转动。</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">3D 立方体</span>: 将不会被处理RGB 图"
-"像。 只显示灰度图像。</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, limitFocusHFRAlgorithm)
 #: ekos/capture/limits.ui:200
@@ -15804,16 +15772,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:295
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
 "Check may result in an Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>选中将 Adaptive focus 用于自动对焦运行。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, limitFocusHFRS)
 #: ekos/capture/limits.ui:298
@@ -17472,28 +17435,24 @@ msgid "Error: Lost connection to Filter Wheel."
 msgstr "错误：与滤镜轮的连接中断。"
 
 #: ekos/focus/focus.cpp:1561
-#, fuzzy, kde-format
-#| msgid "Go to an absolute focus position"
+#, kde-format
 msgid "At minimum focus position %1..."
-msgstr "转到绝对对焦位置"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1572
-#, fuzzy, kde-format
-#| msgid "Solving with blind image position..."
+#, kde-format
 msgid "Moving to minimum focus position %1..."
-msgstr "正在进行未知图像位置的解析..."
+msgstr ""
 
 #: ekos/focus/focus.cpp:1581
-#, fuzzy, kde-format
-#| msgid "Go to an absolute focus position"
+#, kde-format
 msgid "At maximum focus position %1..."
-msgstr "转到绝对对焦位置"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1592
-#, fuzzy, kde-format
-#| msgid "Go to an absolute focus position"
+#, kde-format
 msgid "Moving to maximum focus position %1..."
-msgstr "转到绝对对焦位置"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1611
 #, kde-format
@@ -17862,12 +17821,11 @@ msgstr "启动连续帧"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:193
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>缩小 X 轴。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
@@ -17922,12 +17880,11 @@ msgstr "当前对焦绝对位置"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:423
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>放大 X 轴。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:468
@@ -18790,11 +18747,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:657
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Time Factor"
+#, kde-format
 msgid "Time Dilation Factor:"
-msgstr "时间因子"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:670
@@ -81840,9 +81795,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Focus Out"
-#~ msgstr "向外对焦"
-
-#~ msgid "Focus In"
-#~ msgstr "向内对焦"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 01:33+0000\n"
-"PO-Revision-Date: 2024-02-03 20:30+0100\n"
+"POT-Creation-Date: 2024-02-06 01:57+0000\n"
+"PO-Revision-Date: 2024-02-04 17:21+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15219,22 +15219,22 @@ msgstr "Entuta"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Ŝalti vidigon al la grafika reĝimo de kaptokalkuloj."
 
-#: ekos/capture/capturedeviceadaptor.cpp:650
+#: ekos/capture/capturedeviceadaptor.cpp:656
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Forigu kovrilon de la teleskopo por daŭrigi."
 
-#: ekos/capture/capturedeviceadaptor.cpp:651
+#: ekos/capture/capturedeviceadaptor.cpp:657
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Teleskopo Kovrita"
 
-#: ekos/capture/capturedeviceadaptor.cpp:783
+#: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Ĉu %1 havas ŝutron?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:784
+#: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -15846,14 +15846,14 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Sensor resolution in pixels (W x H)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sensila rezolucio en rastrumeroj (L x H)</p></body></"
+"<html><head/><body><p>Sensila distingivo en rastrumeroj (L x H)</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/dslrinfo.ui:61
 #, kde-format
 msgid "Sensor Resolution:"
-msgstr "Sensila Rezolucio:"
+msgstr "Sensila Distingivo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
 #: ekos/capture/dslrinfo.ui:115
@@ -17761,7 +17761,7 @@ msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>La CFZ de la kamerao (limo de rezolucio) en la aktiva "
+"<html><head/><body><p>La CFZ de la kamerao (limo de distingivo) en la aktiva "
 "optika trajno.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
@@ -29385,8 +29385,8 @@ msgid ""
 "coarse resolution and fast."
 msgstr ""
 "Agordi la krudecon de la antaŭvido montrita dum glitado de la streĉaj "
-"parametraj glitiloj de la fitsviewer. 1 estas plena rezolucio, sed povas "
-"esti malrapida, 4 estus kruda rezolucio kaj rapida."
+"parametraj glitiloj de la fitsviewer. 1 estas plena distingivo, sed povas "
+"esti malrapida, 4 estus kruda distingivo kaj rapida."
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
 #: fitsviewer/opsfits.ui:229
@@ -69788,25 +69788,25 @@ msgstr "Simulilo CCD"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD X Pixel Size"
-msgstr "CCD X Pixel Grandeco"
+msgstr "CCD X Rastrumera Grandeco"
 
 #: libindi_strings.cpp:57
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD X resolution"
-msgstr "CCD X-rezolucio"
+msgstr "CCD X-distingivo"
 
 #: libindi_strings.cpp:58
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD Y Pixel Size"
-msgstr "CCD Y Pixel Size"
+msgstr "CCD Y Rastrumera Grandeco"
 
 #: libindi_strings.cpp:59
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD Y resolution"
-msgstr "CCD Y rezolucio"
+msgstr "CCD Y-distingivo"
 
 #: libindi_strings.cpp:60
 #, kde-kuit-format
@@ -71816,13 +71816,13 @@ msgstr "Restarigi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Resolution x"
-msgstr "Rezolucio x"
+msgstr "Distingivo x"
 
 #: libindi_strings.cpp:398
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Resolution y"
-msgstr "Rezolucio y"
+msgstr "Distingivo y"
 
 #: libindi_strings.cpp:399
 #, kde-kuit-format
@@ -75769,8 +75769,8 @@ msgid ""
 "Set the coarseness of the terrain image rendered. 1 is full resolution, but "
 "can be slow, 6 or more would be coarse resolution and fast."
 msgstr ""
-"Agordi la krudecon de la terenbildo prezentita. 1 estas plena rezolucio, sed "
-"povas esti malrapida, 6 aŭ pli estus kruda rezolucio kaj rapida."
+"Agordi la krudecon de la terenbildo prezentita. 1 estas plena distingivo, "
+"sed povas esti malrapida, 6 aŭ pli estus kruda distingivo kaj rapida."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainDownsamplingLabel)
 #: options/opsterrain.ui:231
