@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-06 01:57+0000\n"
-"PO-Revision-Date: 2024-02-05 09:05+0100\n"
+"PO-Revision-Date: 2024-02-06 08:39+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -13597,16 +13597,15 @@ msgstr "A porcentaxe de estrelas máis brillantes para retirar da lista."
 
 #. i18n: ectx: property (text), widget (QLabel, label_41)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:709
-#, fuzzy, kde-format
-#| msgid "Cut Disabled"
+#, kde-format
 msgid "Cut Dimmest"
-msgstr "Desactivouse o corte"
+msgstr "Cortar as máis tenues"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, dimmestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:716
 #, kde-format
 msgid "The percentage of dimmest stars to remove from the list"
-msgstr ""
+msgstr "A porcentaxe das estrelas máis tenues para retirar da lista."
 
 #. i18n: ectx: property (text), widget (QLabel, label_52)
 #. i18n: ectx: property (text), widget (QLabel, label_51)
@@ -13624,14 +13623,15 @@ msgstr "%"
 #, kde-format
 msgid "Remove all stars above a certain threshold percentage of saturation"
 msgstr ""
+"Retirar todas as estrelas a partir dun certo limiar de porcentaxe de "
+"saturación."
 
 # «Óptica adaptábel».
 #. i18n: ectx: property (text), widget (QLabel, label_46)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:743
-#, fuzzy, kde-format
-#| msgid "AO Limits"
+#, kde-format
 msgid "Sat. Limit"
-msgstr "Límites de OA"
+msgstr "Sat. límite"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:750
@@ -13640,27 +13640,26 @@ msgid ""
 "The minimum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
+"O tamaño mínimo das estrelas para incluír na lista final, en píxeles, en "
+"base aos eixes semimaior e semimenor."
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:760
-#, fuzzy, kde-format
-#| msgid "Eclipses"
+#, kde-format
 msgid "Max Ellipse"
-msgstr "Eclipses"
+msgstr "Eclipse máxima"
 
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Min Size"
-msgstr "Tamaño do tipo de letra"
+msgstr "Tamaño mínimo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
-#, fuzzy, kde-format
-#| msgid "Step size:"
+#, kde-format
 msgid "Max Size"
-msgstr "Tamaño do paso:"
+msgstr "Tamaño máximo"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, maxSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:781
@@ -13669,35 +13668,34 @@ msgid ""
 "The maximum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
+"O tamaño máximo das estrelas para incluír na lista final, en píxeles, en "
+"base aos eixes semimaior e semimenor."
 
 #. i18n: ectx: property (text), widget (QLabel, label_57)
 #. i18n: ectx: property (text), widget (QLabel, label_49)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:791
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:826
-#, fuzzy, kde-format
-#| msgid " px"
+#, kde-format
 msgid "px"
-msgstr " px"
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_40)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:805
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Brightest"
+#, kde-format
 msgid "Cut Brightest"
-msgstr "Os Máis brillantes"
+msgstr "Cortar as máis brillantes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_53)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:833
 #, kde-format
 msgid "a/b"
-msgstr ""
+msgstr "a/b"
 
 #. i18n: ectx: property (text), widget (QLabel, label_54)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:840
 #, kde-format
 msgid "Keep #"
-msgstr ""
+msgstr "Cantas manter"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keepNum)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:847
@@ -13707,6 +13705,9 @@ msgid ""
 "parameter is based on magnitude and is most useful to speed up plate "
 "solving, such as in the Align Module."
 msgstr ""
+"O número de estrelas para manter na lista tras a extracción de estrelas. "
+"Este parámetro baséase na magnitude e é máis útil para acelerar a resolución "
+"de placas, como o módulo de aliñamento."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:857
@@ -13716,35 +13717,34 @@ msgid ""
 "the size of the stars.  It is primarily useful for speeding up star "
 "extraction with HFR such as in Focus, Guide, and HFR monitoring."
 msgstr ""
+"O número de estrelas para manter inicialmente na lista. Este filtro está "
+"baseado no tamaño das estrelas. É útil principalmente para acelerar a "
+"extracción de estrelas con HFR como en monitorización de foco, de guía ou de "
+"HFR."
 
 #. i18n: ectx: property (text), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:860
-#, fuzzy, kde-format
-#| msgid "0.0"
+#, kde-format
 msgid "500"
-msgstr "0.0"
+msgstr "500"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:867
-#, fuzzy, kde-format
-#| msgid "Step size:"
+#, kde-format
 msgid "InitialKeep"
-msgstr "Tamaño do paso:"
+msgstr "Mantidas iniciais"
 
 #. i18n: ectx: property (title), widget (QGroupBox, astrometryOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:884
-#, fuzzy, kde-format
-#| msgid "Control Parameters"
+#, kde-format
 msgid "Astrometry Parameters"
-msgstr "Parámetros de control"
+msgstr "Parámetros de astrometría"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:905
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Maximum travel"
+#, kde-format
 msgid "Maximum time"
-msgstr "Viaxe máximo"
+msgstr "Tempo máximo"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, downsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:912
@@ -13753,11 +13753,12 @@ msgid ""
 "Factor to use for downsampling the image before SEP for plate solving.  Can "
 "speed it up."
 msgstr ""
+"Factor para usar para reducir a taxa de mostras da imaxe antes de SEP para a "
+"resolución de placas. Pode acelerala."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:932
-#, fuzzy, kde-format
-#| msgid "Down Sample"
+#, kde-format
 msgid "DownSample"
 msgstr "Reducir a taxa de mostras"
 
@@ -13768,6 +13769,8 @@ msgid ""
 "Algorithm for running multiple threads on possibly multiple cores to solve "
 "faster"
 msgstr ""
+"Algoritmo para executar varios fíos, posibelmente en varios núcleos, para "
+"resolver máis rápido."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (currentText), widget (QComboBox, abInsSelection)
@@ -13784,16 +13787,15 @@ msgstr "Ningún"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:951
-#, fuzzy, kde-format
-#| msgid "AutoScale"
+#, kde-format
 msgid "MultiScales"
-msgstr "Cambiar de escala automaticamente"
+msgstr "Varias escalas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:956
 #, kde-format
 msgid "MultiDepths"
-msgstr ""
+msgstr "Varias profundidades"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:961
@@ -13808,13 +13810,14 @@ msgid ""
 "If no scale estimate is given, this is the limit on the maximum field width "
 "in degrees."
 msgstr ""
+"Se non se indica unha estimación da escala, este é o límite de anchura de "
+"campo máxima, en graos."
 
 #. i18n: ectx: property (text), widget (QLineEdit, maxWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:972
-#, fuzzy, kde-format
-#| msgid "128"
+#, kde-format
 msgid "180"
-msgstr "128"
+msgstr "180"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:979
@@ -13823,13 +13826,13 @@ msgid ""
 "Only search in indexes within 'radius' of the field center given by RA and "
 "DEC"
 msgstr ""
+"Buscar só en índices dentro do «raio» do centro do campo indicado en α e δ."
 
 #. i18n: ectx: property (text), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:982
-#, fuzzy, kde-format
-#| msgid "5"
+#, kde-format
 msgid "15"
-msgstr "5"
+msgstr "15"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:989
@@ -13838,13 +13841,14 @@ msgid ""
 "Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be "
 "true for the filters above"
 msgstr ""
+"Se ordenar de novo as estrelas por magnitude. Nota: isto DEBE marcarse para "
+"os filtros anteriores."
 
 #. i18n: ectx: property (text), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:992
-#, fuzzy, kde-format
-#| msgid "--resort"
+#, kde-format
 msgid "Resort"
-msgstr "--resort"
+msgstr "Ordenar de novo."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:999
@@ -13853,66 +13857,58 @@ msgid ""
 "If no scale estimate is given, this is the limit on the minimum field width "
 "in degrees."
 msgstr ""
+"Se non se indica unha estimación da escala, este é o límite de anchura de "
+"campo mínima, en graos."
 
 #. i18n: ectx: property (text), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1002
-#, fuzzy, kde-format
-#| msgid "0.0"
+#, kde-format
 msgid "0.1"
-msgstr "0.0"
+msgstr "0,1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1009
-#, fuzzy, kde-format
-#| msgid "in degrees"
+#, kde-format
 msgid "Min Degree Width"
-msgstr "en graos"
+msgstr "Anchura mínima en graos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1016
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Parallel Algorithm"
-msgstr "Algoritmo"
+msgstr "Algoritmo paralelo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1023
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Max. Width"
+#, kde-format
 msgid "Max Degree Width"
-msgstr "Anchura máx."
+msgstr "Anchura máxima en graos"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1030
-#, fuzzy, kde-format
-#| msgid "Pause script execution for specified number of seconds."
+#, kde-format
 msgid "Give up solving after the specified number of seconds of CPU time"
-msgstr "Deter a execución do script durante os segundos que se indican."
+msgstr "Cancelar a resolución tras os segundos de procesador que se indican."
 
 #. i18n: ectx: property (text), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1033
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "600x"
+#, kde-format
 msgid "600"
-msgstr "600x"
+msgstr "600"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoDownsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1040
-#, fuzzy, kde-format
-#| msgid "Automatically downsample based on image size."
+#, kde-format
 msgid "Automatically Downsamples the image based on the image size"
 msgstr ""
-"Reducir automaticamente de redución da taxa de mostras segundo o tamaño da "
-"imaxe."
+"Reducir automaticamente a redución da taxa de mostras da imaxe segundo o "
+"tamaño da imaxe."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoDownsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1043
-#, fuzzy, kde-format
-#| msgid "Down Sample"
+#, kde-format
 msgid "Auto DownSample"
-msgstr "Reducir a taxa de mostras"
+msgstr "Reducir a taxa de mostras automaticamente."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, inParallel)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1053
