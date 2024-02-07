@@ -2423,6 +2423,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     state()->setCalibrationPreAction(job->getCalibrationPreAction());
     state()->setTargetADU(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble());
     state()->setTargetADUTolerance(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble());
+    state()->setSkyFlat(job->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool());
     state()->setWallCoord(job->getWallCoord());
     m_scriptsManager->setScripts(job->getScripts());
 
@@ -2681,6 +2682,7 @@ void Capture::openCalibrationDialog()
             calibrationOptions.ADUC->setChecked(true);
             calibrationOptions.ADUValue->setValue(static_cast<int>(std::round(state()->targetADU())));
             calibrationOptions.ADUTolerance->setValue(static_cast<int>(std::round(state()->targetADUTolerance())));
+            calibrationOptions.skyFlats->setChecked(state()->skyFlat());
             break;
     }
 
@@ -2731,6 +2733,7 @@ void Capture::openCalibrationDialog()
             state()->setFlatFieldDuration(DURATION_ADU);
             state()->setTargetADU(calibrationOptions.ADUValue->value());
             state()->setTargetADUTolerance(calibrationOptions.ADUTolerance->value());
+            state()->setSkyFlat(calibrationOptions.skyFlats->isChecked());
         }
 
         state()->setDirty(true);
@@ -2743,6 +2746,7 @@ void Capture::openCalibrationDialog()
             Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
             Options::setCalibrationADUValue(static_cast<uint>(std::round(state()->targetADU())));
             Options::setCalibrationADUValueTolerance(static_cast<uint>(std::round(state()->targetADUTolerance())));
+            Options::setCalibrationSkyFlat(state()->skyFlat());
         }
     }
 }
@@ -3727,6 +3731,7 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
     job->setWallCoord(state()->wallCoord());
     job->setCoreProperty(SequenceJob::SJ_TargetADU, state()->targetADU());
     job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());
+    job->setCoreProperty(SequenceJob::SJ_SkyFlat, state()->skyFlat());
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
 
     if (FilterPosCombo->currentIndex() != -1 && (m_standAlone || devices()->filterWheel() != nullptr))

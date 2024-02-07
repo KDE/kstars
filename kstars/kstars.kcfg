@@ -1828,6 +1828,11 @@
          <whatsthis>Maximum difference between measured and target ADU values to deem the value as acceptable.</whatsthis>
          <default>1000</default>
       </entry>
+      <entry name="CalibrationSkyFlat" type="Bool">
+         <label>Sky Flat</label>
+         <whatsthis>When shoting flats on sky with changing intensity.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="CalibrationPreActionIndex" type="UInt">
          <label>ORed list of calibration pre-actions.</label>
          <default>0</default>

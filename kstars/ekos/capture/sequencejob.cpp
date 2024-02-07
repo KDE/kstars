@@ -902,6 +902,11 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
                 {
                     setCoreProperty(SequenceJob::SJ_TargetADUTolerance, QVariant(cLocale.toDouble(pcdataXMLEle(aduEP))));
                 }
+                aduEP = findXMLEle(subEP, "SkyFlat");
+                if (aduEP)
+                {
+                    setCoreProperty(SequenceJob::SJ_SkyFlat, (bool)!strcmp(pcdataXMLEle(aduEP), "true"));
+                }
             }
         }
     }
@@ -1016,6 +1021,8 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
                   Qt::endl;
         outstream << "<Tolerance>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble()) <<
                   "</Tolerance>" << Qt::endl;
+        outstream << "<SkyFlat>" << (getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() ? "true" : "false") <<
+                     "</SkyFlat>" << Qt::endl;
     }
     outstream << "</FlatDuration>" << Qt::endl;
     outstream << "</Calibration>" << Qt::endl;

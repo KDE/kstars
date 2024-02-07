@@ -888,6 +888,14 @@ class CaptureModuleState: public QObject
         {
             m_TargetADUTolerance = value;
         }
+        bool skyFlat() const
+        {
+            return m_skyFlat;
+        }
+        void setSkyFlat(bool enabled)
+        {
+            m_skyFlat = enabled;
+        }
         SkyPoint &wallCoord()
         {
             return m_wallCoord;
@@ -1054,6 +1062,7 @@ class CaptureModuleState: public QObject
         // Flat field automation
         double m_TargetADUTolerance { 1000 };
         double m_targetADU { 0 };
+        bool m_skyFlat { false };
         SkyPoint m_wallCoord;
         FlatFieldDuration m_flatFieldDuration { DURATION_MANUAL };
         uint32_t m_CalibrationPreAction { ACTION_NONE };

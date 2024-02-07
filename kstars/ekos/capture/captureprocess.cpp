@@ -2166,6 +2166,15 @@ double CaptureProcess::calculateFlatExpTime(double currentADU)
     double targetADU    = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
     std::vector<double> coeff;
 
+    // limit number of points to two so it can calibrate in intesity changing enviroment like shoting flats
+    // at dawn/sunrise sky
+    if(activeJob()->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() && ExpRaw.size() > 2)
+    {
+        int remove = ExpRaw.size() - 2;
+        ExpRaw.remove(0, remove);
+        ADURaw.remove(0, remove);
+    }
+
     // Check if saturated, then take shorter capture and discard value
     ExpRaw.append(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
     ADURaw.append(currentADU);
