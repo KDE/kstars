@@ -21,6 +21,7 @@ namespace Ekos
 {
 
 class SchedulerJob;
+class GreedyScheduler;
 class SchedulerModuleState;
 
 /**
@@ -28,7 +29,7 @@ class SchedulerModuleState;
  * @brief The SchedulerProcess class holds the entire business logic for controlling the
  * execution of the EKOS scheduler.
  */
-class SchedulerProcess : public QObject
+class SchedulerProcess : public QObject, public ModuleLogger
 {
     Q_OBJECT
 
@@ -38,6 +39,52 @@ public:
     // ////////////////////////////////////////////////////////////////////
     // process steps
     // ////////////////////////////////////////////////////////////////////
+
+    /**
+     * @brief execute Execute the schedule, start if idle or paused.
+     */
+    void execute();
+
+    /**
+     * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate.
+     *  If no jobs are found, it starts the shutdown stage.
+     */
+    void findNextJob();
+
+    /**
+     * @brief stopCurrentJobAction Stop whatever action taking place in the current job (eg. capture, guiding...etc).
+     */
+    void stopCurrentJobAction();
+
+    /**
+      * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
+      * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
+      * @return True if job is accepted and can be executed, false otherwise.
+      */
+    bool executeJob(SchedulerJob *job);
+
+    /**
+     * @brief wakeUpScheduler Wake up scheduler from sleep state
+     */
+    void wakeUpScheduler();
+
+    /**
+     * @brief Setup the main loop and start.
+     */
+    void startScheduler();
+
+    /**
+     * @brief stopScheduler Stop the scheduler execution. If stopping succeeded,
+     * a {@see #schedulerStopped()} signal is emitted
+     */
+    void stopScheduler();
+
+    /**
+     * @brief shouldSchedulerSleep Check if the scheduler needs to sleep until the job is ready
+     * @param job Job to check
+     * @return True if we set the scheduler to sleep mode. False, if not required and we need to execute now
+     */
+    bool shouldSchedulerSleep(SchedulerJob *job);
 
     /**
      * @brief startSlew DBus call for initiating slew
@@ -158,6 +205,56 @@ public:
     void runShutdownProcedure();
 
     /**
+     * @brief setPaused pausing the scheduler
+     */
+    void setPaused();
+
+    /**
+     * @brief resetJobs Reset all jobs counters
+     */
+    void resetJobs();
+
+    /**
+     * @brief selectActiveJob Select the job that should be executed
+     */
+    void selectActiveJob(const QList<SchedulerJob *> &jobs);
+
+    /**
+     * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
+     * Given that score, the scheduler will decide which is the best job that needs to be executed.
+     */
+    void evaluateJobs(bool evaluateOnly);
+
+    /**
+     * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it calls evaluateJobs() when no job is current or executeJob() if a job is selected.
+     * @return False if this function needs to be called again later, true if situation is stable and operations may continue.
+     */
+    bool checkStatus();
+
+    /**
+     * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
+     */
+    void getNextAction();
+
+    /**
+     * @brief Repeatedly runs a scheduler iteration and then sleeps timerInterval millisconds
+     * and run the next iteration. This continues until the sleep time is negative.
+     */
+    void iterate();
+
+    /**
+     * @brief Run a single scheduler iteration.
+     */
+    int runSchedulerIteration();
+
+    /**
+     * @brief checkJobStage Check the progress of the job states and make DBUS calls to start the next stage until the job is complete.
+     */
+    void checkJobStage();
+    void checkJobStageEpilogue();
+
+
+    /**
      * @brief saveScheduler Save scheduler jobs to a file
      * @param path path of a file
      * @return true on success, false on failure.
@@ -170,6 +267,14 @@ public:
      * @return True if contents were loaded successfully, else false.
      */
     bool appendEkosScheduleList(const QString &fileURL);
+
+    /**
+     * @brief appendLogText Append a new line to the logging.
+     */
+    void appendLogText(const QString &logentry) override
+    {
+        emit newLog(logentry);
+    }
 
     // ////////////////////////////////////////////////////////////////////
     // device handling
@@ -191,12 +296,18 @@ public:
     bool isDomeParked();
 
     // ////////////////////////////////////////////////////////////////////
-    // state machine
+    // state machine and scheduler
     // ////////////////////////////////////////////////////////////////////
     QSharedPointer<SchedulerModuleState> m_moduleState;
     QSharedPointer<SchedulerModuleState> moduleState() const
     {
         return m_moduleState;
+    }
+
+    QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;
+    QPointer<GreedyScheduler> &getGreedyScheduler()
+    {
+        return m_GreedyScheduler;
     }
 
     // ////////////////////////////////////////////////////////////////////
@@ -312,17 +423,24 @@ public:
 signals:
     // new log text for the module log window
     void newLog(const QString &text);
-    // controls for scheduler execution
-    void stopScheduler();
-    void stopCurrentJobAction();
-    void findNextJob();
-    void getNextAction();
+    // status updates
+    void schedulerStopped();
+    void shutdownStarted();
+    void schedulerSleeping(bool shutdown, bool sleep);
+    void schedulerPaused();
+    void changeSleepLabel(QString text, bool show = true);
     // state changes
-    void newJobStage(SchedulerJobStage stage);
+    void jobsUpdated(QJsonArray jobsList);
+    void updateJobTable(SchedulerJob *job = nullptr);
     // loading jobs
     void addJob(SchedulerJob *job);
+    void syncGreedyParams();
     void syncGUIToGeneralSettings();
     void updateSchedulerURL(const QString &fileURL);
+    // required for Analyze timeline
+    void jobStarted(const QString &jobName);
+    void jobEnded(const QString &jobName, const QString &endReason);
+
 
 private:
     // DBus interfaces to devices
@@ -336,6 +454,16 @@ private:
     QPointer<QDBusInterface> m_domeInterface { nullptr };
     QPointer<QDBusInterface> m_weatherInterface { nullptr };
     QPointer<QDBusInterface> m_capInterface { nullptr };
+
+    // When a module is commanded to perform an action, wait this many milliseconds
+    // before check its state again. If State is still IDLE, then it either didn't received the command
+    // or there is another problem.
+    static const uint32_t ALIGN_INACTIVITY_TIMEOUT      = 120000;
+    static const uint32_t FOCUS_INACTIVITY_TIMEOUT      = 120000;
+    static const uint32_t CAPTURE_INACTIVITY_TIMEOUT    = 120000;
+    static const uint16_t GUIDE_INACTIVITY_TIMEOUT      = 60000;
+    /// Counter to keep debug logging in check
+    uint8_t checkJobStageCounter { 0 };
 
     // Startup and Shutdown scripts process
     QProcess m_scriptProcess;
@@ -423,14 +551,17 @@ private:
     void readProcessOutput();
 
     /**
-     * @brief updateStageLabel Helper function that updates the stage label and has to be placed
-     * after all commands that have altered the stage of activeJob()
+     * @brief Returns true if the job is storing its captures on the same machine as the scheduler.
      */
-    void updateJobStage(SchedulerJobStage stage);
+    bool canCountCaptures(const SchedulerJob &job);
 
     /**
      * @brief activeJob Shortcut to the active job held in the state machine
      */
     SchedulerJob *activeJob();
+
+    // Prints all the relative state variables set during an iteration. For debugging.
+    void printStates(const QString &label);
+
 };
 } // Ekos namespace

@@ -221,14 +221,14 @@ void TestEkosSchedulerOps::testBasics()
     QVERIFY(focuser->isReset);
 
     // Run the scheduler with nothing setup. Should quickly exit.
-    scheduler->init();
+    scheduler->moduleState()->init();
     QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
-    int sleepMs = scheduler->runSchedulerIteration();
+    int sleepMs = scheduler->process()->runSchedulerIteration();
     QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
-    sleepMs = scheduler->runSchedulerIteration();
+    sleepMs = scheduler->process()->runSchedulerIteration();
     QVERIFY(sleepMs == 1000);
     QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_SHUTDOWN);
-    sleepMs = scheduler->runSchedulerIteration();
+    sleepMs = scheduler->process()->runSchedulerIteration();
     QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_NOTHING);
 }
 
@@ -253,7 +253,7 @@ bool TestEkosSchedulerOps::iterateScheduler(const QString &label, int iterations
 
         *currentUTime = currentUTime->addSecs(*sleepMs / 1000.0);
         KStarsData::Instance()->changeDateTime(*currentUTime); // <-- 175ms
-        *sleepMs = scheduler->runSchedulerIteration();
+        *sleepMs = scheduler->process()->runSchedulerIteration();
         fprintf(stderr, "current time LT %s UT %s\n",
                 KStarsData::Instance()->lt().toString().toLatin1().data(),
                 KStarsData::Instance()->ut().toString().toLatin1().data());
@@ -327,8 +327,8 @@ void TestEkosSchedulerOps::initScheduler(const GeoLocation &geo, const QDateTime
 {
     initTimeGeo(geo, startUTime);
     initFiles(dir, esls, esqs);
-    scheduler->evaluateJobs(false);
-    scheduler->init();
+    scheduler->process()->evaluateJobs(false);
+    scheduler->moduleState()->init();
     QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
 }
 
@@ -1169,24 +1169,24 @@ void TestEkosSchedulerOps::testGreedy()
     // Then Deneb runs for the rest of the night, and also again the next evening before it comletes.
     loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "Deneb", asapStartupCondition, finishCompletionCondition, dir, schedJob400x60, 30);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Deneb",  "2021/06/13 22:48", "2021/06/13 23:35"},
         {"Altair", "2021/06/13 23:35", "2021/06/14 02:59"},
         {"Deneb",  "2021/06/14 02:59", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:48"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Disable greedy scheduling, and Deneb should NOT run until Altair is done.
     Options::setGreedyScheduling(false);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/13 23:34", "2021/06/14 03:00"},
         {"Deneb",  "2021/06/14 03:01", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:52"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
 
     // As above, except Altair has completion condition repeat 2. It should run longer.
@@ -1194,7 +1194,7 @@ void TestEkosSchedulerOps::testGreedy()
     // It also can't start the 2nd night as early as Deneb, so the 2nd night is Deneb, Altair (completing), Deneb, and Deneb finishes the 3rd night.
     loadGreedySchedule(true, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "Deneb", asapStartupCondition, finishCompletionCondition, dir, schedJob400x60, 30);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Deneb",  "2021/06/13 22:48", "2021/06/13 23:35"},
@@ -1203,17 +1203,17 @@ void TestEkosSchedulerOps::testGreedy()
         {"Deneb",  "2021/06/14 22:44", "2021/06/14 23:30"},
         {"Altair", "2021/06/14 23:31", "2021/06/15 02:29"},
         {"Deneb",  "2021/06/15 02:30", "2021/06/15 03:53"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Again disable greedy scheduling, and Deneb should NOT run until Altair is done.
     Options::setGreedyScheduling(false);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/13 23:34", "2021/06/14 03:18"},
         {"Altair", "2021/06/14 23:30", "2021/06/15 02:32"},
         {"Deneb",  "2021/06/15 02:33", "2021/06/15 03:53"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
 
     // Now we're using START_AT 6/14 1am for Altair (but not repeating twice).
@@ -1221,70 +1221,70 @@ void TestEkosSchedulerOps::testGreedy()
     // Deneb runs through the end of the night, and again the next night until it completes.
     loadGreedySchedule(true, "Altair", atStartupCondition, finishCompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "Deneb", asapStartupCondition, finishCompletionCondition, dir, schedJob400x60, 30);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Deneb",  "2021/06/13 22:48", "2021/06/14 01:00"},
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 02:44"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Again disable greedy scheduling, and Deneb should NOT run until Altair is done.
     Options::setGreedyScheduling(false);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:53"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
 
     // We again use START_AT 6/14 1am for Altair, but force Deneb to complete by 3:30am on 6/14.
     // So we get the same first two lines as above, but now Deneb stops on the 3rd line at 3:30.
     loadGreedySchedule(true, "Altair", atStartupCondition, finishCompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "Deneb", asapStartupCondition, atCompletionCondition, dir, schedJob400x60, 30);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Deneb",  "2021/06/13 22:48", "2021/06/14 01:00"},
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:30"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Again disable greedy scheduling, and Deneb should NOT run until Altair is done.
     Options::setGreedyScheduling(false);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:30"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
 
     // We have the same Altair constraints, but this time allow Deneb to run forever.
     // It will look like the 3rd test, except Deneb keeps running through the end of the simulated time (2 days).
     loadGreedySchedule(true, "Altair", atStartupCondition, finishCompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "Deneb", asapStartupCondition, loopCompletionCondition, dir, schedJob400x60, 30);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Deneb",  "2021/06/13 22:48", "2021/06/14 01:00"},
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:52"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Again disable greedy scheduling, and Deneb should NOT run until Altair is done.
     Options::setGreedyScheduling(false);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:19"},
         {"Deneb",  "2021/06/14 03:20", "2021/06/14 03:52"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:52"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
 
     // Altair stars asap, Deneb has an at 1am startup and loop finish.
@@ -1292,23 +1292,23 @@ void TestEkosSchedulerOps::testGreedy()
     // because of its startat. Altair will start up again the next evening because Deneb's startat will have expired.
     loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "Deneb", atStartupCondition, loopCompletionCondition, dir, schedJob400x60, 30);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/13 23:34", "2021/06/14 01:00"},
         {"Deneb",  "2021/06/14 01:00", "2021/06/14 03:52"},
         {"Altair", "2021/06/14 23:30", "2021/06/15 01:31"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Again disable greedy scheduling. Nothing should change as no jobs were running before higher priority ones.
     Options::setGreedyScheduling(false);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
     QVERIFY(checkSchedule(
     {
         {"Altair", "2021/06/13 23:34", "2021/06/14 01:00"},
         {"Deneb",  "2021/06/14 01:00", "2021/06/14 03:52"},
         {"Altair", "2021/06/14 23:30", "2021/06/15 01:31"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
     Options::setGreedyScheduling(true);
 }
 
@@ -1358,7 +1358,7 @@ void TestEkosSchedulerOps::testGroups()
     loadGreedySchedule(false, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob30minutes, 30);
     scheduler->moduleState()->jobs().last()->setName("J3repeat2");
     scheduler->moduleState()->jobs().last()->setGroup("group1");
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     QVERIFY(checkSchedule(
     {
@@ -1369,7 +1369,7 @@ void TestEkosSchedulerOps::testGroups()
         {"J3repeat2", "2021/06/14 01:56", "2021/06/14 02:26"},
         {"J2loop",    "2021/06/14 02:27", "2021/06/14 03:19"},
         {"J2loop",    "2021/06/14 23:31", "2021/06/15 03:15"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Now do the same thing, but this time disable the group scheduling (by not assigning groups).
     // This time J1 should run then J2 will just run/repeat forever.
@@ -1379,14 +1379,14 @@ void TestEkosSchedulerOps::testGroups()
     scheduler->moduleState()->jobs().last()->setName("J2loop");
     loadGreedySchedule(false, "Altair", asapStartupCondition, repeat2CompletionCondition, dir, schedJob30minutes, 30);
     scheduler->moduleState()->jobs().last()->setName("J3repeat2");
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     QVERIFY(checkSchedule(
     {
         {"J1finish",  "2021/06/13 23:34", "2021/06/14 00:10"},
         {"J2loop",    "2021/06/14 00:11", "2021/06/14 03:19"},
         {"J2loop",    "2021/06/14 23:30", "2021/06/15 03:16"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
 void TestEkosSchedulerOps::testGreedyAborts()
@@ -1433,7 +1433,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
     KStarsDateTime evalUTime(QDate(2022, 2, 28), QTime(9, 00, 00), Qt::UTC);
     KStarsData::Instance()->changeDateTime(evalUTime);
 
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     QVERIFY(checkSchedule(
     {
@@ -1446,7 +1446,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
         {"M 42",       "2022/03/01 19:31", "2022/03/01 20:39"},
         {"NGC 3628",   "2022/03/01 21:58", "2022/03/02 00:34"},
         {"M 104",      "2022/03/02 00:35", "2022/03/02 03:45"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Now load the same schedule, but set the M104 job to have been aborted a minute before.
     loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, steps,
@@ -1477,7 +1477,7 @@ void TestEkosSchedulerOps::testGreedyAborts()
     // start the scheduler at 1am
     KStarsData::Instance()->changeDateTime(evalUTime);
 
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     // The M104 job is no longer the first job, since aborted jobs are delayed an hour,
     QVERIFY(checkSchedule(
@@ -1493,32 +1493,33 @@ void TestEkosSchedulerOps::testGreedyAborts()
         {"NGC 3628",   "2022/03/01 21:58", "2022/03/02 00:34"},
         {"M 104",      "2022/03/02 00:35", "2022/03/02 03:45"}},
 
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
-    auto ngc3628 = scheduler->getGreedyScheduler()->getSchedule()[0].job;
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    auto ngc3628 = scheduler->process()->getGreedyScheduler()->getSchedule()[0].job;
     QVERIFY(ngc3628->getName() == "NGC 3628");
 
     // And ngc3628 should not be preempted right away,
     QDateTime localTime(QDate(2022, 2, 28), QTime(1, 00, 00), Qt::LocalTime);
-    bool keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
+    bool keepRunning = scheduler->process()->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime,
+                       ngc3628);
     QVERIFY(keepRunning);
 
     // nor in a half-hour.
     auto newTime = evalUTime.addSecs(1800);
     KStarsData::Instance()->changeDateTime(newTime);
     localTime = localTime.addSecs(1800);
-    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
+    keepRunning = scheduler->process()->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
     QVERIFY(keepRunning);
 
     // But if we wait until 2am, m104 should preempt it,
     newTime = newTime.addSecs(1800);
     KStarsData::Instance()->changeDateTime(newTime);
     localTime = localTime.addSecs(1800);
-    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
+    keepRunning = scheduler->process()->getGreedyScheduler()->checkJob(scheduler->moduleState()->jobs(), localTime, ngc3628);
     QVERIFY(!keepRunning);
 
     // and M104 should be scheduled to start running "now" (2am).
-    scheduler->evaluateJobs(false);
-    auto newSchedule = scheduler->getGreedyScheduler()->getSchedule();
+    scheduler->process()->evaluateJobs(false);
+    auto newSchedule = scheduler->process()->getGreedyScheduler()->getSchedule();
     QVERIFY(newSchedule.size() > 0);
     QVERIFY(newSchedule[0].job->getName() == "M 104");
     QVERIFY(std::abs(newSchedule[0].startTime.secsTo(
@@ -1559,7 +1560,7 @@ void TestEkosSchedulerOps::testArtificialCeiling()
 
     loadGreedySchedule(true, "theta Bootis", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 0,
     {true, true, true, true}, false, true); // min alt = 0, don't enforce twilight
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     // There are no altitude constraints, just an artificial horizon with 2 lines, the top a ceiling.
     // It should scheduler from "now" until the star reaches the ceiling, then shut off until it lowers
@@ -1572,7 +1573,7 @@ void TestEkosSchedulerOps::testArtificialCeiling()
         {"HD 126660", "2022/08/22 10:19", "2022/08/22 15:03"},
         {"HD 126660", "2022/08/22 19:46", "2022/08/23 00:30"},
         {"HD 126660", "2022/08/23 10:15", "2022/08/23 14:59"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
 void TestEkosSchedulerOps::testSettingAltitudeBug()
@@ -1608,7 +1609,7 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
     loadGreedySchedule(false, "NGC 2392", asapStartupCondition, loopCompletionCondition, dir, wolfgangJob, 20);
     loadGreedySchedule(false, "M 101", asapStartupCondition, loopCompletionCondition, dir, wolfgangJob, 20);
 
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     // In the log with bug, the original schedule had 2359 running 20:30 -> 23:04
     //  "Greedy Scheduler plan for the next 48 hours (0.075)s:"
@@ -1637,10 +1638,10 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
 
     KStarsDateTime time2(QDate(2022, 3, 7), QTime(19, 30, 00), Qt::UTC); //20:30 local
     initTimeGeo(geo, time2);
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     // This is fixed, and now, when re-evaluated at 22:28 it should not be preempted.
-    auto greedy = scheduler->getGreedyScheduler();
+    auto greedy = scheduler->process()->getGreedyScheduler();
     Ekos::SchedulerJob *job2359 = scheduler->moduleState()->jobs()[0];
     auto time1Local = (Qt::UTC == time1.timeSpec() ? geo.UTtoLT(KStarsDateTime(time1)) : time1);
     QVERIFY(greedy->checkJob(scheduler->moduleState()->jobs(), time1Local, job2359));
@@ -1713,7 +1714,7 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
     loadGreedySchedule(false, "NGC 2359", asapStartupCondition, loopCompletionCondition, dir, jobNB, 20, steps);
     loadGreedySchedule(false, "M 53", asapStartupCondition, loopCompletionCondition, dir, jobLRGB, 20, steps);
 
-    scheduler->evaluateJobs(false);
+    scheduler->process()->evaluateJobs(false);
 
     // The first (LRGB) version of NGC 2359 is mostly completed and should just run for about 45 minutes.
     // At that point, the narrowband NGC2359 and LRGB M53 jobs run.
@@ -1725,7 +1726,7 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
         {"NGC 2359",   "2022/03/21 19:45", "2022/03/21 22:07"},
         {"M 53",       "2022/03/21 22:08", "2022/03/22 05:12"},
         {"NGC 2359",   "2022/03/22 19:47", "2022/03/22 22:03"}},
-    scheduler->getGreedyScheduler()->getSchedule(), 300));
+    scheduler->process()->getGreedyScheduler()->getSchedule(), 300));
 }
 
 // A helper for setting up the esl and esq files for the test below.
@@ -1836,7 +1837,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
         {"M 2",  "2022/03/09 04:51", "2022/03/09 04:54"},
         {"M 7",  "2022/03/09 04:55", "2022/03/09 05:01"}
     };
-    QVERIFY(checkSchedule(scheduleMinAlt0, scheduler->getGreedyScheduler()->getSchedule(), 300));
+    QVERIFY(checkSchedule(scheduleMinAlt0, scheduler->process()->getGreedyScheduler()->getSchedule(), 300));
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 30 min altitude.");
     Ekos::SchedulerJob::setHorizon(nullptr);
@@ -1859,7 +1860,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
         {"M 14", "2022/03/08 04:50", "2022/03/08 05:00"},
         {"M 34", "2022/03/08 20:03", "2022/03/08 20:14"}
     };
-    QVERIFY(checkSchedule(scheduleMinAlt30, scheduler->getGreedyScheduler()->getSchedule(), 300));
+    QVERIFY(checkSchedule(scheduleMinAlt30, scheduler->process()->getGreedyScheduler()->getSchedule(), 300));
     // TODO: verify this test data.
 
     // The timing was affected by calculating horizon constraints.
@@ -1923,7 +1924,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
         {"M 34", "2022/03/08 20:03", "2022/03/08 20:13"},
         {"M 1",  "2022/03/08 20:14", "2022/03/08 20:25"}
     };
-    QVERIFY(checkSchedule(scheduleAHMinAlt30, scheduler->getGreedyScheduler()->getSchedule(), 300));
+    QVERIFY(checkSchedule(scheduleAHMinAlt30, scheduler->process()->getGreedyScheduler()->getSchedule(), 300));
     // TODO: verify this test data.
 
 }

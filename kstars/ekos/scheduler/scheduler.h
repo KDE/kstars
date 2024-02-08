@@ -98,18 +98,6 @@ public:
         void addObject(SkyObject *object);
 
         /**
-             * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
-             * @param restart Set to true if the goal to restart an existing sequence. The only difference is that when a sequence is restarted, sequence file
-             * is not loaded from disk again since that results in erasing all the history of the capture process.
-             */
-        void startCapture(bool restart = false);
-
-        /**
-             * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
-             */
-        void getNextAction();
-
-        /**
          * @brief importMosaic Import mosaic into planner and generate jobs for the scheduler.
          * @param payload metadata for the mosaic information.
          * @note Only Telescopius.com mosaic format is now supported.
@@ -215,8 +203,6 @@ public:
          * jobUnderEdit determines whether to add or edit
          */
         void saveJob(SchedulerJob *job = nullptr);
-
-        QJsonArray getJSONJobs();
 
         void toggleScheduler();
 
@@ -397,10 +383,10 @@ protected slots:
 
         /**
          * @brief Update scheduler parameters to the currently selected scheduler job
-         * @param current table position
-         * @param previous table position
+         * @param selected table position
+         * @param deselected table position
          */
-        void queueTableSelectionChanged(QModelIndex current, QModelIndex previous);
+        void queueTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
         /**
              * @brief reorderJobs Change the order of jobs in the UI based on a subset of its jobs.
@@ -418,14 +404,23 @@ protected slots:
         void moveJobDown();
 
         /**
-         * @brief shouldSchedulerSleep Check if the scheduler needs to sleep until the job is ready
-         * @param currentJob Job to check
-         * @return True if we set the scheduler to sleep mode. False, if not required and we need to execute now
+         * @brief handleSchedulerSleeping Update UI if scheduler is set to sleep
+         * @param shutdown flag if a preemptive shutdown is executed
+         * @param sleep flag if the scheduler will sleep
          */
-        bool shouldSchedulerSleep(SchedulerJob *currentJob);
+        void handleSchedulerSleeping(bool shutdown, bool sleep);
+
+        /**
+         * @brief handleSchedulerStateChanged Update UI when the scheduler state changes
+         */
+        void handleSchedulerStateChanged(SchedulerState newState);
+
+        /**
+         * @brief handleSetPaused Update the UI when {@see #setPaused()} is called.
+         */
+        void handleSetPaused();
 
         void pause();
-        void setPaused();
         void save();
         void saveAs();
 
@@ -445,26 +440,9 @@ protected slots:
         void updateNightTime(SchedulerJob const * job = nullptr);
 
         /**
-             * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it calls evaluateJobs() when no job is current or executeJob() if a job is selected.
-             * @return False if this function needs to be called again later, true if situation is stable and operations may continue.
-             */
-        bool checkStatus();
-
-        /**
-             * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
-             */
-        void checkJobStage();
-        void checkJobStageEplogue();
-
-        /**
-             * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate. If no jobs are found, it starts the shutdown stage.
-             */
-        void findNextJob();
-
-        /**
-             * @brief stopCurrentJobAction Stop whatever action taking place in the current job (eg. capture, guiding...etc).
-             */
-        void stopCurrentJobAction();
+         * @brief schedulerStopped React when the process engine has stopped the scheduler
+         */
+        void schedulerStopped();
 
         /**
              * @brief resumeCheckStatus If the scheduler primary loop was suspended due to weather or sleep event, resume it again.
@@ -475,11 +453,6 @@ protected slots:
              * @brief checkWeather Check weather status and act accordingly depending on the current status of the scheduler and running jobs.
              */
         //void checkWeather();
-
-        /**
-             * @brief wakeUpScheduler Wake up scheduler from sleep state
-             */
-        void wakeUpScheduler();
 
         /**
              * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
@@ -529,35 +502,15 @@ signals:
 
 private:
         /**
-             * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
-             * Given that score, the scheduler will decide which is the best job that needs to be executed.
-             */
-        void evaluateJobs(bool evaluateOnly);
-        void selectActiveJob(const QList<SchedulerJob *> &jobs);
-
-        /**
-         * @brief resetJobs Reset all jobs counters
+         * @brief handleJobsUpdated Update UI when jobs have been updated
+         * @param jobsList
          */
-        void resetJobs();
+        void handleJobsUpdated(QJsonArray jobsList);
 
         /**
-             * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
-             * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
-             * @param value
-             * @return True if job is accepted and can be executed, false otherwise.
-             */
-        bool executeJob(SchedulerJob *job);
-
-        /**
-             * @brief checkShutdownState Check shutdown procedure stages and make sure all stages are complete.
-             * @return
-             */
-        bool checkShutdownState();
-
-        /** @internal Change the current job, updating associated widgets.
-         * @param job is an existing SchedulerJob to set as current, or nullptr.
+         * @brief handleShutdownStarted Show that the shutdown has been started.
          */
-        void setActiveJob(SchedulerJob *job);
+        void handleShutdownStarted();
 
         /**
          * @brief processFITSSelection When a FITS file is selected, open it and try to guess
@@ -571,35 +524,9 @@ private:
         void updateProfiles();
 
         /**
-         * @brief updateStageLabel Helper function that updates the stage label and has to be placed
-         * after all commands that have altered the stage of activeJob(). Hint: Uses updateJobStageUI().
-         */
-        void updateJobStage(SchedulerJobStage stage);
-
-        /**
          * @brief updateStageLabel Helper function that updates the stage label.
          */
         void updateJobStageUI(SchedulerJobStage stage);
-
-        /**
-            * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
-            * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
-            */
-        void updateCompletedJobsCount(bool forced = false);
-
-        // Returns true if the job is storing its captures on the same machine as the scheduler.
-        bool canCountCaptures(const SchedulerJob &job);
-
-        /**
-         * @brief checkRepeatSequence Check if the entire job sequence might be repeated
-         * @return true if the checkbox is set and the number of iterations is below the
-         * configured threshold
-         */
-        bool checkRepeatSequence()
-        {
-            return repeatSequenceCB->isEnabled() && repeatSequenceCB->isChecked() &&
-                    (executionSequenceLimit->value() == 0 || sequenceExecutionCounter < executionSequenceLimit->value());
-        }
 
         ////////////////////////////////////////////////////////////////////
         /// Settings
@@ -637,8 +564,6 @@ private:
          * @brief checkJobInputComplete Check if all inputs are filled such that a new job could be added.
          */
         void checkJobInputComplete();
-
-        int sequenceExecutionCounter = 1;
 
         Ekos::Scheduler *ui { nullptr };
 
@@ -784,39 +709,15 @@ private:
         /// Pointer to Geographic location
         GeoLocation *geo { nullptr };
 
-        /// Counter to keep debug logging in check
-        uint8_t checkJobStageCounter { 0 };
         /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
         //QTimer weatherTimer;
 
         QUrl dirPath;
 
-        // When a module is commanded to perform an action, wait this many milliseconds
-        // before check its state again. If State is still IDLE, then it either didn't received the command
-        // or there is another problem.
-        static const uint32_t ALIGN_INACTIVITY_TIMEOUT      = 120000;
-        static const uint32_t FOCUS_INACTIVITY_TIMEOUT      = 120000;
-        static const uint32_t CAPTURE_INACTIVITY_TIMEOUT    = 120000;
-        static const uint16_t GUIDE_INACTIVITY_TIMEOUT      = 60000;
-
-        // Methods & variables that control the scheduler's iterations.
-
-        // Executes the scheduler
-        void execute();
-        // Repeatedly runs a scheduler iteration and then sleeps timerInterval millisconds
-        // and run the next iteration. This continues until the sleep time is negative.
-        void iterate();
-        // Initialize the scheduler.
-        void init();
-        // Run a single scheduler iteration.
-        int runSchedulerIteration();
-
-        // True if the scheduler is between iterations and delaying longer than the typical update period.
-        bool currentlySleeping();
+        // update the sleep label and its visibility
+        void changeSleepLabel(QString text, bool show = true);
         // Used by the constructor in testing mainly so a mock ekos could be used.
         void setupScheduler(const QString &ekosPathStr, const QString &ekosInterfaceStr);
-        // Prints all the relative state variables set during an iteration. For debugging.
-        void printStates(const QString &label);
 
 
         /// Target coordinates for pointing check
@@ -825,13 +726,8 @@ private:
         uint32_t m_SolverIteration {0};
 
         void syncGreedyParams();
-        QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;
 
         friend TestEkosSchedulerOps;
-        QPointer<GreedyScheduler> &getGreedyScheduler()
-        {
-            return m_GreedyScheduler;
-        }
 
         QSharedPointer<SequenceEditor> m_SequenceEditor;
 

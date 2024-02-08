@@ -22,6 +22,7 @@ namespace Ekos
 {
 
 class SchedulerProcess;
+class SchedulerJob;
 
 /**
  * @class SchedulerState
@@ -35,6 +36,14 @@ public:
 
 
     SchedulerModuleState();
+
+    // ////////////////////////////////////////////////////////////////////
+    // Overall scheduler state
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * @brief init Set initial conditions that need to be set before starting
+     */
+    void init();
 
     // ////////////////////////////////////////////////////////////////////
     // profiles and scheduler jobs
@@ -61,10 +70,7 @@ public:
     {
         return m_activeJob;
     }
-    void setActiveJob(SchedulerJob *newActiveJob)
-    {
-        m_activeJob = newActiveJob;
-    }
+    void setActiveJob(SchedulerJob *newActiveJob);
 
     QList<SchedulerJob *> &mutlableJobs()
     {
@@ -75,10 +81,22 @@ public:
         return m_jobs;
     }
 
-void setJobs(QList<SchedulerJob *> &newJobs)
+    void setJobs(QList<SchedulerJob *> &newJobs)
     {
         m_jobs = newJobs;
     }
+
+    /**
+     * @brief updateStage Helper function that updates the stage label of the active job.
+     */
+    void updateJobStage(SchedulerJobStage stage);
+
+    /**
+     * @brief getJSONJobs get jobs in JSON format
+     * @return
+     */
+    QJsonArray getJSONJobs();
+
 
     // ////////////////////////////////////////////////////////////////////
     // state attributes accessors
@@ -98,15 +116,19 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     {
         return m_schedulerState;
     }
-    void setSchedulerState(const SchedulerState &newState)
-    {
-        m_schedulerState = newState;
-    }
+    void setSchedulerState(const SchedulerState &newState);
 
     const StartupState &startupState() const
     {
         return m_startupState;
     }
+
+    int currentPosition() const
+    {
+        return m_currentPosition;
+    }
+    void setCurrentPosition(int newCurrentPosition);
+
     void setStartupState(StartupState state);
 
     const QUrl &startupScriptURL() const
@@ -138,6 +160,25 @@ void setJobs(QList<SchedulerJob *> &newJobs)
         return m_parkWaitState;
     }
     void setParkWaitState(ParkWaitState state);
+
+    /**
+     * @brief True if the scheduler is between iterations and delaying longer than the typical update period.
+     */
+    bool currentlySleeping()
+    {
+        return iterationTimer().isActive() && timerState() == RUN_WAKEUP;
+    }
+
+    // ////////////////////////////////////////////////////////////////////
+    // job handling
+    // ////////////////////////////////////////////////////////////////////
+
+    /**
+     * @brief removeJob Remove the job from the job list at the given position.
+     * If this is the currently active job, don't remove it and return false.
+     * @return true iff removing succeeded
+     */
+    bool removeJob(const int currentRow);
 
 
     // ////////////////////////////////////////////////////////////////////
@@ -416,9 +457,9 @@ void setJobs(QList<SchedulerJob *> &newJobs)
     static void calculateDawnDusk(QDateTime const &when, QDateTime &nDawn, QDateTime &nDusk);
 
     /**
-     * @brief calculateDawnDusk Get dawn and dusk times for today
+     * @brief calculateDawnDusk Calculate dawn and dusk times for today
      */
-    static void calculateDawnDusk();
+    void calculateDawnDusk();
 
     static QDateTime Dawn()
     {
@@ -510,7 +551,27 @@ void setJobs(QList<SchedulerJob *> &newJobs)
         return m_UpdatePeriodMs;
     }
 
+     uint sequenceExecutionCounter() const
+     {
+         return m_sequenceExecutionCounter;
+     }
+     void resetSequenceExecutionCounter()
+     {
+         m_sequenceExecutionCounter = 1;
+     }
+     void increaseSequenceExecutionCounter()
+     {
+         m_sequenceExecutionCounter++;
+     }
+
      static uint maxFailureAttempts();
+
+     /**
+      * @brief checkRepeatSequence Check if the entire job sequence might be repeated
+      * @return true if the checkbox is set and the number of iterations is below the
+      * configured threshold
+      */
+     bool checkRepeatSequence();
 
 signals:
     // ////////////////////////////////////////////////////////////////////
@@ -520,6 +581,8 @@ signals:
     void ekosStateChanged(EkosState state);
     // State change of INDI
     void indiStateChanged(INDIState state);
+    // overall scheduler state changed
+    void schedulerStateChanged(SchedulerState state);
     // startup state
     void startupStateChanged(StartupState state);
     // shutdown state
@@ -530,6 +593,15 @@ signals:
     void profilesChanged();
     // current profile changed
     void currentProfileChanged();
+    // new log text for the module log window
+    void newLog(const QString &text);
+    // current position in the job list changed
+    void currentPositionChanged(int pos);
+    // job stage of the current job changed
+    void jobStageChanged(SchedulerJobStage stage);
+    // night time calculation updated
+    void updateNightTime(SchedulerJob const * job = nullptr);
+
 
 private:
     // ////////////////////////////////////////////////////////////////////
@@ -551,6 +623,9 @@ private:
     QUrl m_startupScriptURL;
     // states of the scheduler shutdown
     ShutdownState m_shutdownState { SHUTDOWN_IDLE };
+    // current position on the job list - necessary if there is no line selected in the
+    // UI, for example after deleting a row.
+    int m_currentPosition { -1 };
     // Shutdown script URL
     QUrl m_shutdownScriptURL;
     // states of parking
@@ -593,6 +668,8 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // counters
     // ////////////////////////////////////////////////////////////////////
+    // count for job sequence iteration
+    uint m_sequenceExecutionCounter { 1 };
     // Keep track of INDI connection failures
     uint8_t m_indiConnectFailureCount { 0 };
     // Keep track of Ekos connection failures
