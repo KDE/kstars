@@ -695,6 +695,7 @@ class KStars : public KXmlGuiWindow
 
         /** Open FITS image. */
         void slotOpenFITS();
+        void slotBlink();
 
         /** Action slot to save the sky image to a file.*/
         void slotExportImage();

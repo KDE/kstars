@@ -35,6 +35,8 @@
 #define INITIAL_W 785
 #define INITIAL_H 640
 
+bool FITSViewer::m_BlinkBusy = false;
+
 QStringList FITSViewer::filterTypes =
     QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast") << I18N_NOOP("Equalize")
     << I18N_NOOP("High Pass") << I18N_NOOP("Median") << I18N_NOOP("Gaussian blur")
@@ -124,6 +126,11 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     action = KStandardAction::open(this, &FITSViewer::openFile, actionCollection());
     action->setIcon(QIcon::fromTheme("document-open"));
+
+    action = actionCollection()->addAction("blink");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_O + Qt::AltModifier));
+    action->setText(i18n("Open/Blink Directory"));
+    connect(action, &QAction::triggered, this, &FITSViewer::blink);
 
     saveFileAction = KStandardAction::save(this, &FITSViewer::saveFile, actionCollection());
     saveFileAction->setIcon(QIcon::fromTheme("document-save"));
@@ -259,6 +266,36 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setIcon(QIcon::fromTheme("zoom-fit-width"));
     action->setText(i18n("Zoom To Fit"));
     connect(action, &QAction::triggered, this, &FITSViewer::ZoomToFit);
+
+    action = actionCollection()->addAction("next_tab");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Tab));
+    action->setText(i18n("Next Tab"));
+    connect(action, &QAction::triggered, this, &FITSViewer::nextTab);
+
+    action = actionCollection()->addAction("previous_tab");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Tab + Qt::ShiftModifier));
+    action->setText(i18n("Previous Tab"));
+    connect(action, &QAction::triggered, this, &FITSViewer::previousTab);
+
+    action = actionCollection()->addAction("next_blink");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(QKeySequence::SelectNextWord));
+    action->setText(i18n("Next Blink Image"));
+    connect(action, &QAction::triggered, this, &FITSViewer::nextBlink);
+
+    action = actionCollection()->addAction("previous_blink");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(QKeySequence::SelectPreviousWord));
+    action->setText(i18n("Previous Blink Image"));
+    connect(action, &QAction::triggered, this, &FITSViewer::previousBlink);
+
+    action = actionCollection()->addAction("zoom_all_in");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Plus + Qt::AltModifier));
+    action->setText(i18n("Zoom all tabs in"));
+    connect(action, &QAction::triggered, this, &FITSViewer::ZoomAllIn);
+
+    action = actionCollection()->addAction("zoom_all_out");
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Minus + Qt::AltModifier));
+    action->setText(i18n("Zoom all tabs out"));
+    connect(action, &QAction::triggered, this, &FITSViewer::ZoomAllOut);
 
     action = actionCollection()->addAction("mark_stars");
     action->setIcon(QIcon::fromTheme("glstarbase", QIcon(":/icons/glstarbase.png")));
@@ -469,9 +506,71 @@ bool FITSViewer::addFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &i
 
     tab->getView()->setCursorMode(FITSView::dragCursor);
 
+    actionCollection()->action("next_blink")->setEnabled(tab->blinkFilenames().size() > 1);
+    actionCollection()->action("previous_blink")->setEnabled(tab->blinkFilenames().size() > 1);
+
     updateWCSFunctions();
 
     return true;
+}
+
+void FITSViewer::loadFiles()
+{
+    if (m_urls.size() == 0)
+        return;
+
+    const QUrl imageName = m_urls[0];
+    m_urls.pop_front();
+
+    // Make sure we don't have it open already, if yes, switch to it
+    QString fpath = imageName.toLocalFile();
+    for (auto tab : m_Tabs)
+    {
+        const QString cpath = tab->getCurrentURL()->path();
+        if (fpath == cpath)
+        {
+            fitsTabWidget->setCurrentWidget(tab.get());
+            if (m_urls.size() > 0)
+                loadFiles();
+            return;
+        }
+    }
+
+    led.setColor(Qt::yellow);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    QSharedPointer<FITSTab> tab(new FITSTab(this));
+
+    m_Tabs.push_back(tab);
+
+    connect(tab.get(), &FITSTab::failed, this, [ this ](const QString & errorMessage)
+    {
+        QApplication::restoreOverrideCursor();
+        led.setColor(Qt::red);
+        m_Tabs.removeLast();
+        emit failed(errorMessage);
+        if (m_Tabs.size() == 0)
+        {
+            // Close FITS Viewer and let KStars know it is no longer needed in memory.
+            close();
+        }
+
+        if (m_urls.size() > 0)
+            loadFiles();
+    });
+
+    connect(tab.get(), &FITSTab::loaded, this, [ = ]()
+    {
+        if (addFITSCommon(m_Tabs.last(), imageName, FITS_NORMAL, ""))
+            emit loaded(fitsID++);
+        else
+            m_Tabs.removeLast();
+
+        if (m_urls.size() > 0)
+            loadFiles();
+    });
+
+    tab->loadFile(imageName, FITS_NORMAL, FITS_NONE);
 }
 
 void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText)
@@ -565,12 +664,18 @@ bool FITSViewer::removeFITS(int fitsUID)
 
 void FITSViewer::updateFile(const QUrl &imageName, int fitsUID, FITSScale filter)
 {
+    static bool updateBusy = false;
+    if (updateBusy)
+        return;
+    updateBusy = true;
+
     auto tab = fitsMap.value(fitsUID);
 
     if (tab.isNull())
     {
         QString message = i18n("Cannot find tab with UID %1 in the FITS Viewer", fitsUID);
         emit failed(message);
+        updateBusy = false;
         return;
     }
 
@@ -585,7 +690,16 @@ void FITSViewer::updateFile(const QUrl &imageName, int fitsUID, FITSScale filter
         {
             QObject::disconnect(*conn);
             emit loaded(tab->getUID());
+            updateBusy = false;
         }
+    });
+
+    auto conn2 = std::make_shared<QMetaObject::Connection>();
+    *conn2 = connect(tab.get(), &FITSTab::failed, this, [ = ](const QString & errorMessage)
+    {
+        Q_UNUSED(errorMessage);
+        QObject::disconnect(*conn2);
+        updateBusy = false;
     });
 
     tab->loadFile(imageName, tab->getView()->getMode(), filter);
@@ -620,6 +734,9 @@ bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl
         updateStatusBar("", FITS_HFR);
 
     updateStatusBar(HFRClipString(tab->getView().get()), FITS_CLIP);
+
+    actionCollection()->action("next_blink")->setEnabled(tab->blinkFilenames().size() > 1);
+    actionCollection()->action("previous_blink")->setEnabled(tab->blinkFilenames().size() > 1);
 
     return true;
 }
@@ -697,6 +814,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         updateButtonStatus("view_hips_overlay", i18n("HiPS Overlay"), currentView->isHiPSOverlayShown());
     }
 
+    actionCollection()->action("next_blink")->setEnabled(m_Tabs[currentIndex]->blinkFilenames().size() > 1);
+    actionCollection()->action("previous_blink")->setEnabled(m_Tabs[currentIndex]->blinkFilenames().size() > 1);
+
     updateScopeButton();
     updateWCSFunctions();
 }
@@ -706,32 +826,189 @@ void FITSViewer::starProfileButtonOff()
     updateButtonStatus("toggle_3D_graph", i18n("View 3D Graph"), false);
 }
 
-void FITSViewer::openFile()
+
+QList<QString> findAllImagesBelowDir(const QDir &topDir)
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Open Image"), lastURL,
-                   "Images (*.fits *.fits.fz *.fit *.fts *.xisf "
-                   "*.jpg *.jpeg *.png *.gif *.bmp "
-                   "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
+    QList<QString> result;
+    QList<QString> nameFilter = { "*" };
+    QDir::Filters filter = QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files | QDir::NoSymLinks;
 
-    if (fileURL.isEmpty())
-        return;
+    QList<QDir> dirs;
+    dirs.push_back(topDir);
 
-    lastURL = QUrl(fileURL.url(QUrl::RemoveFilename));
-    QString fpath = fileURL.toLocalFile();
-    QString cpath;
-
-    // Make sure we don't have it open already, if yes, switch to it
-    for (auto tab : m_Tabs)
+    QRegularExpression re(".*(fits|fits.fz|fit|fts|xisf|jpg|jpeg|png|gif|bmp|cr2|cr3|crw|nef|raf|dng|arw|orf)$");
+    while (!dirs.empty())
     {
-        cpath = tab->getCurrentURL()->path();
-        if (fpath == cpath)
+        auto dir = dirs.back();
+        dirs.removeLast();
+        auto list = dir.entryInfoList( nameFilter, filter );
+        foreach( const QFileInfo &entry,  list)
         {
-            fitsTabWidget->setCurrentWidget(tab.get());
-            return;
+            if( entry.isDir() )
+                dirs.push_back(entry.filePath());
+            else
+            {
+                const QString suffix = entry.completeSuffix();
+                QRegularExpressionMatch match = re.match(suffix);
+                if (match.hasMatch())
+                    result.append(entry.absoluteFilePath());
+            }
         }
     }
+    return result;
+}
 
-    loadFile(fileURL, FITS_NORMAL, FITS_NONE, QString());
+void FITSViewer::blink()
+{
+    if (m_BlinkBusy)
+        return;
+    m_BlinkBusy = true;
+    QFileDialog dialog(KStars::Instance(), i18nc("@title:window", "Blink Top Directory"));
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setDirectoryUrl(lastURL);
+
+    if (!dialog.exec())
+    {
+        m_BlinkBusy = false;
+        return;
+    }
+    QStringList selected = dialog.selectedFiles();
+    if (selected.size() < 1)
+    {
+        m_BlinkBusy = false;
+        return;
+    }
+    QString topDir = selected[0];
+
+    auto allImages = findAllImagesBelowDir(QDir(topDir));
+    if (allImages.size() == 0)
+    {
+        m_BlinkBusy = false;
+        return;
+    }
+
+    const QUrl imageName(QUrl::fromLocalFile(allImages[0]));
+
+    led.setColor(Qt::yellow);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    QSharedPointer<FITSTab> tab(new FITSTab(this));
+
+    int tabIndex = m_Tabs.size();
+    if (allImages.size() > 1)
+    {
+        m_Tabs.push_back(tab);
+        tab->initBlink(allImages);
+        tab->setBlinkUpto(1);
+    }
+    QString tabName = QString("%1/%2 %3")
+                      .arg(1).arg(allImages.size()).arg(QFileInfo(allImages[0]).fileName());
+    connect(tab.get(), &FITSTab::failed, this, [ this ](const QString & errorMessage)
+    {
+        Q_UNUSED(errorMessage);
+        QObject::sender()->disconnect(this);
+        QApplication::restoreOverrideCursor();
+        led.setColor(Qt::red);
+        m_BlinkBusy = false;
+    }, Qt::UniqueConnection);
+
+    connect(tab.get(), &FITSTab::loaded, this, [ = ]()
+    {
+        QObject::sender()->disconnect(this);
+        addFITSCommon(m_Tabs.last(), imageName, FITS_NORMAL, "");
+        //fitsTabWidget->tabBar()->setTabTextColor(tabIndex, Qt::red);
+        fitsTabWidget->setTabText(tabIndex, tabName);
+        m_BlinkBusy = false;
+    }, Qt::UniqueConnection);
+
+    actionCollection()->action("next_blink")->setEnabled(allImages.size() > 1);
+    actionCollection()->action("previous_blink")->setEnabled(allImages.size() > 1);
+
+    tab->loadFile(imageName, FITS_NORMAL, FITS_NONE);
+}
+
+
+void FITSViewer::changeBlink(bool increment)
+{
+    if (m_Tabs.empty() || m_BlinkBusy)
+        return;
+
+    m_BlinkBusy = true;
+    const int tabIndex = fitsTabWidget->currentIndex();
+    if (tabIndex >= m_Tabs.count() || tabIndex < 0)
+    {
+        m_BlinkBusy = false;
+        return;
+    }
+    auto tab = m_Tabs[tabIndex];
+    const QList<QString> &filenames = tab->blinkFilenames();
+    if (filenames.size() <= 1)
+    {
+        m_BlinkBusy = false;
+        return;
+    }
+
+    int blinkIndex = tab->blinkUpto() + (increment ? 1 : -1);
+    if (blinkIndex >= filenames.size())
+        blinkIndex = 0;
+    else if (blinkIndex < 0)
+        blinkIndex = filenames.size() - 1;
+
+    QString nextFilename = filenames[blinkIndex];
+    QString tabName = QString("%1/%2 %3")
+                      .arg(blinkIndex + 1).arg(filenames.size()).arg(QFileInfo(nextFilename).fileName());
+    tab->disconnect(this);
+    connect(tab.get(), &FITSTab::failed, this, [ this, nextFilename ](const QString & errorMessage)
+    {
+        Q_UNUSED(errorMessage);
+        QObject::sender()->disconnect(this);
+        QApplication::restoreOverrideCursor();
+        led.setColor(Qt::red);
+        m_BlinkBusy = false;
+    }, Qt::UniqueConnection);
+
+    connect(tab.get(), &FITSTab::loaded, this, [ = ]()
+    {
+        QObject::sender()->disconnect(this);
+        updateFITSCommon(tab, QUrl::fromLocalFile(nextFilename));
+        fitsTabWidget->setTabText(tabIndex, tabName);
+        m_BlinkBusy = false;
+    }, Qt::UniqueConnection);
+
+    tab->setBlinkUpto(blinkIndex);
+    tab->loadFile(QUrl::fromLocalFile(nextFilename), FITS_NORMAL, FITS_NONE);
+}
+
+void FITSViewer::nextBlink()
+{
+    changeBlink(true);
+}
+
+void FITSViewer::previousBlink()
+{
+    changeBlink(false);
+}
+
+void FITSViewer::openFile()
+{
+    QFileDialog dialog(KStars::Instance(), i18nc("@title:window", "Open Image"));
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setDirectoryUrl(lastURL);
+    dialog.setNameFilter("Images (*.fits *.fits.fz *.fit *.fts *.xisf "
+                         "*.jpg *.jpeg *.png *.gif *.bmp "
+                         "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
+    if (!dialog.exec())
+        return;
+    m_urls = dialog.selectedUrls();
+    if (m_urls.size() < 1)
+        return;
+    // Protect against, e.g. opening 1000 tabs. Not sure what the right number is.
+    constexpr int MAX_NUM_OPENS = 40;
+    if (m_urls.size() > MAX_NUM_OPENS)
+        return;
+
+    lastURL = QUrl(m_urls[0].url(QUrl::RemoveFilename));
+    loadFiles();
 }
 
 void FITSViewer::saveFile()
@@ -852,6 +1129,32 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
         default:
             break;
     }
+}
+
+void FITSViewer::ZoomAllIn()
+{
+    if (m_Tabs.empty())
+        return;
+
+    // Could add code to not call View::updateFrame for these
+    for (int i = 0; i < fitsTabWidget->count(); ++i)
+        if (i != fitsTabWidget->currentIndex())
+            m_Tabs[i]->ZoomIn();
+
+    m_Tabs[fitsTabWidget->currentIndex()]->ZoomIn();
+}
+
+void FITSViewer::ZoomAllOut()
+{
+    if (m_Tabs.empty())
+        return;
+
+    // Could add code to not call View::updateFrame for these
+    for (int i = 0; i < fitsTabWidget->count(); ++i)
+        if (i != fitsTabWidget->currentIndex())
+            m_Tabs[i]->ZoomOut();
+
+    m_Tabs[fitsTabWidget->currentIndex()]->ZoomOut();
 }
 
 void FITSViewer::ZoomIn()
@@ -1218,6 +1521,35 @@ void FITSViewer::toggle3DGraph()
 
     currentView->toggleStarProfile();
     updateButtonStatus("toggle_3D_graph", i18n("View 3D Graph"), currentView->isStarProfileShown());
+}
+
+void FITSViewer::nextTab()
+{
+    if (m_Tabs.empty())
+        return;
+
+    int index = fitsTabWidget->currentIndex() + 1;
+    if (index >= m_Tabs.count() || index < 0)
+        index = 0;
+    fitsTabWidget->setCurrentIndex(index);
+
+    actionCollection()->action("next_blink")->setEnabled(m_Tabs[index]->blinkFilenames().size() > 1);
+    actionCollection()->action("previous_blink")->setEnabled(m_Tabs[index]->blinkFilenames().size() > 1);
+}
+
+void FITSViewer::previousTab()
+{
+    if (m_Tabs.empty())
+        return;
+
+    int index = fitsTabWidget->currentIndex() - 1;
+    if (index >= m_Tabs.count() || index < 0)
+        index = m_Tabs.count() - 1;
+    fitsTabWidget->setCurrentIndex(index);
+
+    actionCollection()->action("next_blink")->setEnabled(m_Tabs[index]->blinkFilenames().size() > 1);
+    actionCollection()->action("previous_blink")->setEnabled(m_Tabs[index]->blinkFilenames().size() > 1);
+
 }
 
 void FITSViewer::toggleStars()

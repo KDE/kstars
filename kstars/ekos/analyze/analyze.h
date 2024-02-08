@@ -58,6 +58,8 @@ class Analyze : public QWidget, public Ui::Analyze
                 Session(double s, double e, int o, QCPItemRect *r)
                     : start(s), end(e), offset(o), rect(r) {}
 
+                Session() : start(0), end(0), offset(0), rect(nullptr) {}
+
                 // These 2 are used to build tables for the details display.
                 void setupTable(const QString &name, const QString &status,
                                 const QDateTime &startClock, const QDateTime &endClock,
@@ -295,8 +297,19 @@ class Analyze : public QWidget, public Ui::Analyze
         // (Un)highlights a segment on the timeline after one is clicked.
         // This indicates which segment's data is displayed in the
         // graphicsPlot and details table.
-        void highlightTimelineItem(double y, double start, double end);
+        void highlightTimelineItem(const Session &session);
         void unhighlightTimelineItem();
+
+        // Tied to the keyboard shortcuts that go to the next or previous
+        // items on the timeline. next==true means next, otherwise previous.
+        // Extra means do the double-click action, which is currently only
+        // capture (which shows the captured image in a fitsviewer).
+        void changeTimelineItem(bool next, bool extra);
+        // These are assigned to various keystrokes.
+        void nextTimelineItem();
+        void nextTimelineItemDouble();
+        void previousTimelineItem();
+        void previousTimelineItemDouble();
 
         // logTime() returns the number of seconds between "now" or "time" and
         // the start of the log. They are useful for recording signal and storing
@@ -557,6 +570,10 @@ class Analyze : public QWidget, public Ui::Analyze
 
         QMap<QString, QColor> schedulerJobColors;
         QBrush schedulerJobBrush(const QString &jobName, bool temporary);
+
+        void setSelectedSession(const Session &s);
+        void clearSelectedSession();
+        Session m_selectedSession;
 
         // Y-offsets for the timeline plot for the various modules.
         static constexpr int CAPTURE_Y = 1;

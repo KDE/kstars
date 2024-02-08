@@ -7,6 +7,7 @@
                 <Action name="close_window" />
                 <Separator />
                 <Action name="open_file" />
+                <Action name="blink_directory" />
                 <Action name="export_image" />
                 <Action name="run_script" />
                 <Separator />
