@@ -609,7 +609,7 @@
       </listitem>
     </itemizedlist>
 
-    <para>Mask Section Paramters:</para>
+    <para>Mask Section Parameters:</para>
 
     <para>These controls relate to <emphasis role="bold">Masking Options</emphasis>
     to be used when in <guilabel>Full Field</guilabel> mode. The effect of Masking Options can be seen in the
@@ -1024,7 +1024,7 @@
         moves out to take its first datapoint, an exposure of 2s * 4 = 8s is used. On each successive datapoint the
         exposure is reduced down to 2s around the point of optimum focus. As the focuser moves through focus, so the
         exposure is scaled upwards to 8s for the last datapoint.</para>
-        <para> The purpose of this feature is to increase the brighness of out of focus datapoints which will be dimmer than
+        <para> The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than
         in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
         <para> This feature assumes Autofocus is run from near to optimum focus.</para>
         </warning>
@@ -1252,7 +1252,7 @@
       </mediaobject>
     </screenshot>
 
-    <para> Focus CFZ Parameters:.</para>
+    <para>Focus CFZ Parameters:</para>
 
   <itemizedlist>
   <listitem>
@@ -1274,9 +1274,9 @@
         </imageobject><textobject><phrase>Focus Mechanics</phrase></textobject></mediaobject>
     </screenshot></para>
     <para> It is necessary to specify the <guilabel>Step Size</guilabel> parameter which specifies in microns how far one tick
-    moves the focal plane. For refractors there is uaually a 1-to-1 relationship between moving the focuser which moves the
+    moves the focal plane. For refractors there is usually a 1-to-1 relationship between moving the focuser which moves the
     telescope draw-tube mechanism and the focal plane movement. For other types of telescope the relationship is likely to be
-    more complex. Refer to details of your telescope / manufacturer for this inmformation.</para>
+    more complex. Refer to details of your telescope / manufacturer for this information.</para>
 
     <para> The following algorithms are available:
     <itemizedlist>
