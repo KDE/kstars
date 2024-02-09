@@ -586,16 +586,17 @@ void Analyze::setupKeyboardShortcuts(QWidget *plot)
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousChar), plot);
     connect(s, &QShortcut::activated, this, &Analyze::scrollLeft);
 
+    // Decided to make all MoveToNextWord and SelectNextWord both do the "double-click thing"
     s = new QShortcut(QKeySequence(QKeySequence::MoveToNextWord), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItem);
+    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousWord), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItem);
+    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItemDouble);
     // Additional shortcut because Mac can default control control-right/left
     // so using this with a remote session or a VM on a Mac can be confusing.
     s = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_K), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItem);
+    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
     s = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_J), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItem);
+    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItemDouble);
 
     s = new QShortcut(QKeySequence(QKeySequence::SelectNextWord), plot);
     connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
@@ -1218,6 +1219,15 @@ double Analyze::FocusSession::focusPosition()
     return 0;
 }
 
+namespace
+{
+bool isTemporaryFile(const QString &filename)
+{
+    QString tempFileLocation = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    return filename.startsWith(tempFileLocation);
+}
+}
+
 // When the user clicks on a particular capture session in the timeline,
 // a table is rendered in the details section, and, if it was a double click,
 // the fits file is displayed, if it can be found.
@@ -1244,16 +1254,20 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
     if (!c.isTemporary())
         c.addRow("Filename", c.filename);
 
+
+    // Don't try to display images from temporary sessions (they aren't done yet).
     if (doubleClick && !c.isTemporary())
     {
         QString filename = findFilename(c.filename, alternateFolder);
-        if (filename.size() > 0)
-            displayFITS(filename);
-        else
+        // Don't display temporary files from completed sessions either.
+        bool tempImage = isTemporaryFile(c.filename);
+        if (!tempImage && filename.size() == 0)
         {
             QString message = i18n("Could not find image file: %1", c.filename);
             KSNotification::sorry(message, i18n("Invalid URL"));
         }
+        else if (!tempImage)
+            displayFITS(filename);
     }
 }
 
@@ -1635,7 +1649,25 @@ void Analyze::changeTimelineItem(bool next, bool extra)
         }
             //case MERIDIAN_MOUNT_FLIP_Y:
     }
+    if (!isVisible(m_selectedSession) && !isVisible(m_selectedSession))
+        adjustView((m_selectedSession.start + m_selectedSession.end) / 2.0);
     replot();
+}
+
+bool Analyze::isVisible(const Session &s) const
+{
+    if (fullWidthCB->isChecked())
+        return true;
+    return !((s.start < plotStart && s.end < plotStart) ||
+             (s.start > (plotStart + plotWidth) && s.end > (plotStart + plotWidth)));
+}
+
+void Analyze::adjustView(double time)
+{
+    if (!fullWidthCB->isChecked())
+    {
+        plotStart = time - plotWidth / 2;
+    }
 }
 
 void Analyze::setStatsCursor(double time)

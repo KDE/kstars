@@ -259,6 +259,10 @@ class Analyze : public QWidget, public Ui::Analyze
         void statsYZoom(double zoomAmount);
         void statsYZoomIn();
         void statsYZoomOut();
+        // Return true if the session is visible on the plots.
+        bool isVisible(const Session &s) const;
+        // Shift the view so that time is at the center (keeping the current plot width).
+        void adjustView(double time);
 
 
         // maxXValue keeps the largest time offset we've received so far.
