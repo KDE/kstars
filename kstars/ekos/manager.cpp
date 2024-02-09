@@ -362,6 +362,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     // Initialize Ekos Analyze Module
     analyzeProcess.reset(new Ekos::Analyze());
+    connect(analyzeProcess.get(), &Ekos::Analyze::newLog, this, &Ekos::Manager::updateLog);
+
     index = addModuleTab(EkosModule::Analyze, analyzeProcess.get(), QIcon(":/icons/ekos_analyze.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Analyze"));
 
@@ -1918,6 +1920,8 @@ void Manager::updateLog()
         ekosLogOut->setPlainText(schedulerModule()->getLogText());
     else if (currentWidget == observatoryProcess.get())
         ekosLogOut->setPlainText(observatoryProcess->getLogText());
+    else if (currentWidget == analyzeProcess.get())
+        ekosLogOut->setPlainText(analyzeProcess->getLogText());
 
 #ifdef Q_OS_OSX
     repaint(); //This is a band-aid for a bug in QT 5.10.0
@@ -1959,6 +1963,8 @@ void Manager::clearLog()
         schedulerModule()->clearLog();
     else if (currentWidget == observatoryProcess.get())
         observatoryProcess->clearLog();
+    else if (currentWidget == analyzeProcess.get())
+        analyzeProcess->clearLog();
 }
 
 void Manager::initCapture()

@@ -170,6 +170,16 @@ class Analyze : public QWidget, public Ui::Analyze
                 double focusPosition();
         };
 
+        void clearLog();
+        QStringList logText()
+        {
+            return m_LogText;
+        }
+        QString getLogText()
+        {
+            return m_LogText.join("\n");
+        }
+
     public slots:
         // These slots are messages received from the different Ekos processes
         // used to gather data about those processes.
@@ -212,9 +222,12 @@ class Analyze : public QWidget, public Ui::Analyze
 
         void yAxisRangeChanged(const QCPRange &newRange);
 
+        void appendLogText(const QString &);
+
     private slots:
 
     signals:
+        void newLog(const QString &text);
 
     private:
 
@@ -306,14 +319,10 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // Tied to the keyboard shortcuts that go to the next or previous
         // items on the timeline. next==true means next, otherwise previous.
-        // Extra means do the double-click action, which is currently only
-        // capture (which shows the captured image in a fitsviewer).
-        void changeTimelineItem(bool next, bool extra);
+        void changeTimelineItem(bool next);
         // These are assigned to various keystrokes.
         void nextTimelineItem();
-        void nextTimelineItemDouble();
         void previousTimelineItem();
-        void previousTimelineItemDouble();
 
         // logTime() returns the number of seconds between "now" or "time" and
         // the start of the log. They are useful for recording signal and storing
@@ -578,6 +587,9 @@ class Analyze : public QWidget, public Ui::Analyze
         void setSelectedSession(const Session &s);
         void clearSelectedSession();
         Session m_selectedSession;
+
+        // Analyze log file info.
+        QStringList m_LogText;
 
         // Y-offsets for the timeline plot for the various modules.
         static constexpr int CAPTURE_Y = 1;

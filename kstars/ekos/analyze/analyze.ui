@@ -191,6 +191,22 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="prevSessionB">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Move from the selected session to its previous session (on its left). Keyboard: control-left.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>&lt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="zoomInB">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zoom in to the x-axis on the Timeline and Statistics plots. That is, show a shorter time period.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -245,6 +261,22 @@
        </property>
        <property name="text">
         <string>-</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="nextSessionB">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Move from the selected session to its next session (on its right). Keyboard: control-right.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>&gt;</string>
        </property>
       </widget>
      </item>

@@ -455,6 +455,8 @@ Analyze::Analyze() : m_YAxisTool(this)
 
     connect(zoomInB, &QPushButton::clicked, this, &Analyze::zoomIn);
     connect(zoomOutB, &QPushButton::clicked, this, &Analyze::zoomOut);
+    connect(prevSessionB, &QPushButton::clicked, this, &Analyze::previousTimelineItem);
+    connect(nextSessionB, &QPushButton::clicked, this, &Analyze::nextTimelineItem);
     connect(timelinePlot, &QCustomPlot::mousePress, this, &Analyze::timelineMousePress);
     connect(timelinePlot, &QCustomPlot::mouseDoubleClick, this, &Analyze::timelineMouseDoubleClick);
     connect(timelinePlot, &QCustomPlot::mouseWheel, this, &Analyze::timelineMouseWheel);
@@ -586,27 +588,15 @@ void Analyze::setupKeyboardShortcuts(QWidget *plot)
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousChar), plot);
     connect(s, &QShortcut::activated, this, &Analyze::scrollLeft);
 
-    // Decided to make all MoveToNextWord and SelectNextWord both do the "double-click thing"
     s = new QShortcut(QKeySequence(QKeySequence::MoveToNextWord), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
+    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItem);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousWord), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItemDouble);
-    // Additional shortcut because Mac can default control control-right/left
-    // so using this with a remote session or a VM on a Mac can be confusing.
-    s = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_K), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
-    s = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_J), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItemDouble);
+    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItem);
 
     s = new QShortcut(QKeySequence(QKeySequence::SelectNextWord), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
+    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItem);
     s = new QShortcut(QKeySequence(QKeySequence::SelectPreviousWord), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItemDouble);
-    // Again, adding shortcut in case Mac shortcuts make life complicated.
-    s = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::ShiftModifier + Qt::Key_K), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItemDouble);
-    s = new QShortcut(QKeySequence(Qt::ControlModifier + Qt::ShiftModifier + Qt::Key_J), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItemDouble);
+    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItem);
 
     s = new QShortcut(QKeySequence(QKeySequence::MoveToNextLine), plot);
     connect(s, &QShortcut::activated, this, &Analyze::statsYZoomIn);
@@ -648,6 +638,8 @@ void Analyze::unhighlightTimelineItem()
         selectionHighlight = nullptr;
     }
     detailsTable->clear();
+    prevSessionB->setDisabled(true);
+    nextSessionB->setDisabled(true);
 }
 
 // Highlight the area between start and end of the session on row y in Timeline.
@@ -663,6 +655,9 @@ void Analyze::highlightTimelineItem(const Session &session)
     rect->bottomRight->setCoords(session.end, session.offset - halfHeight);
     rect->setBrush(timelineSelectionBrush);
     selectionHighlight = rect;
+    prevSessionB->setDisabled(false);
+    nextSessionB->setDisabled(false);
+
 }
 
 // Creates a fat line-segment on the Timeline, optionally with a stripe in the middle.
@@ -1262,12 +1257,10 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
         // Don't display temporary files from completed sessions either.
         bool tempImage = isTemporaryFile(c.filename);
         if (!tempImage && filename.size() == 0)
-        {
-            QString message = i18n("Could not find image file: %1", c.filename);
-            KSNotification::sorry(message, i18n("Invalid URL"));
-        }
+            appendLogText(i18n("Could not find image file: %1", c.filename));
         else if (!tempImage)
             displayFITS(filename);
+        else appendLogText(i18n("Cannot display temporary image file: %1", c.filename));
     }
 }
 
@@ -1555,21 +1548,15 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
 
 void Analyze::nextTimelineItem()
 {
-    changeTimelineItem(true, false);
+    changeTimelineItem(true);
 }
-void Analyze::nextTimelineItemDouble()
-{
-    changeTimelineItem(true, true);
-}
+
 void Analyze::previousTimelineItem()
 {
-    changeTimelineItem(false, false);
+    changeTimelineItem(false);
 }
-void Analyze::previousTimelineItemDouble()
-{
-    changeTimelineItem(false, true);
-}
-void Analyze::changeTimelineItem(bool next, bool extra)
+
+void Analyze::changeTimelineItem(bool next)
 {
     if (m_selectedSession.start == 0 && m_selectedSession.end == 0) return;
     switch(m_selectedSession.offset)
@@ -1579,15 +1566,16 @@ void Analyze::changeTimelineItem(bool next, bool extra)
             auto nextSession = next ? captureSessions.findNext(m_selectedSession.start)
                                : captureSessions.findPrevious(m_selectedSession.start);
 
-            // If we're displaying the images, don't want to stop at an aborted capture.
+            // Since we're displaying the images, don't want to stop at an aborted capture.
             // Continue searching until a good session (or no session) is found.
-            while (extra && nextSession && nextSession->aborted)
+            while (nextSession && nextSession->aborted)
                 nextSession = next ? captureSessions.findNext(nextSession->start)
                               : captureSessions.findPrevious(nextSession->start);
 
             if (nextSession)
             {
-                captureSessionClicked(*nextSession, extra);
+                // True because we want to display the image (so simulate a double-click on that session).
+                captureSessionClicked(*nextSession, true);
                 setStatsCursor((nextSession->end + nextSession->start) / 2);
             }
             break;
@@ -1598,7 +1586,7 @@ void Analyze::changeTimelineItem(bool next, bool extra)
                                : focusSessions.findPrevious(m_selectedSession.start);
             if (nextSession)
             {
-                focusSessionClicked(*nextSession, extra);
+                focusSessionClicked(*nextSession, true);
                 setStatsCursor((nextSession->end + nextSession->start) / 2);
             }
             break;
@@ -1609,7 +1597,7 @@ void Analyze::changeTimelineItem(bool next, bool extra)
                                : alignSessions.findPrevious(m_selectedSession.start);
             if (nextSession)
             {
-                alignSessionClicked(*nextSession, extra);
+                alignSessionClicked(*nextSession, true);
                 setStatsCursor((nextSession->end + nextSession->start) / 2);
             }
             break;
@@ -1620,7 +1608,7 @@ void Analyze::changeTimelineItem(bool next, bool extra)
                                : guideSessions.findPrevious(m_selectedSession.start);
             if (nextSession)
             {
-                guideSessionClicked(*nextSession, extra);
+                guideSessionClicked(*nextSession, true);
                 setStatsCursor((nextSession->end + nextSession->start) / 2);
             }
             break;
@@ -1631,7 +1619,7 @@ void Analyze::changeTimelineItem(bool next, bool extra)
                                : mountSessions.findPrevious(m_selectedSession.start);
             if (nextSession)
             {
-                mountSessionClicked(*nextSession, extra);
+                mountSessionClicked(*nextSession, true);
                 setStatsCursor((nextSession->end + nextSession->start) / 2);
             }
             break;
@@ -1642,7 +1630,7 @@ void Analyze::changeTimelineItem(bool next, bool extra)
                                : schedulerJobSessions.findPrevious(m_selectedSession.start);
             if (nextSession)
             {
-                schedulerSessionClicked(*nextSession, extra);
+                schedulerSessionClicked(*nextSession, true);
                 setStatsCursor((nextSession->end + nextSession->start) / 2);
             }
             break;
@@ -3721,6 +3709,22 @@ void Analyze::resetSchedulerJob()
 {
     schedulerJobStartedTime = -1;
     schedulerJobStartedJobName = "";
+}
+
+void Analyze::appendLogText(const QString &text)
+{
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    qCInfo(KSTARS_EKOS_ANALYZE) << text;
+
+    emit newLog(text);
+}
+
+void Analyze::clearLog()
+{
+    m_LogText.clear();
+    emit newLog(QString());
 }
 
 }  // namespace Ekos
