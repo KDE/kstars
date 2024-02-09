@@ -330,15 +330,6 @@
 
     <para
 >De knop <guibutton
->Inspecteur</guibutton
-> start een actie <link linkend="focus-aberration-inspector"
->Aberratie-inspecteur</link
->. De knop <guibutton
->Stop</guibutton
-> wordt gebruikt om de actie te stoppen. </para>
-
-    <para
->De knop <guibutton
 >Afbeelding vangen</guibutton
 > zal een frame gebaseerd op de huidige instellingen in de <link linkend="focus-ccd-filter-wheel"
 > Camera &amp; filterwielgroep</link
@@ -481,7 +472,109 @@
     </itemizedlist>
   </sect2>
 
-  <sect2 id="focus-settings">
+  <sect2 id="focus-tools">
+    <title
+>Hulpmiddelengroep</title>
+
+    <screenshot>
+      <screeninfo
+>Focus op Hulpmiddelengroep </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_tools_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focus op Hulpmiddelengroep</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Deze sectie beschrijft e hulpmiddelen voor focus die nu beschikbaar zijn.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>De knop <guibutton
+>Aberratie-inspecteur</guibutton
+> start een actie <link linkend="focus-aberration-inspector"
+>Aberratie-inspecteur</link
+>. De knop <guibutton
+>Stop</guibutton
+> kan gebruikt worden om de actie te stoppen. </para>
+      </listitem>
+      <listitem>
+        <para
+>De knop <guibutton
+>CFZ</guibutton
+> start het hulpmiddel <link linkend="focus-cfz"
+>Critical Focus Zone</link
+>. </para>
+      </listitem>
+      <listitem>
+        <para
+>De knop <guibutton
+>Adviseur</guibutton
+> start het hulpmiddel <link linkend="focus-advisor"
+>Focus-adviseur</link
+>. </para>
+      </listitem>
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="focus-options">
+  <title
+>Focusopties</title>
+
+  <screenshot>
+    <screeninfo
+>Focusopties </screeninfo>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="focus_options.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Focusopties</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>Parameters om Focus te configureren zijn toegankelijk door op de knop <guibutton
+>Opties...</guibutton
+> te drukken. Dit start de dialoog Opties met drie panelen:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para
+><link linkend="focus-settings"
+>Instellingen</link
+>: Dit zijn algemene instellingen voor focus.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-process"
+>Proces</link
+>: Parameters geassocieerd met het Autofocusproces.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-mechanics"
+>Mechaniek</link
+>: Parameters geassocieerd met het mechaniek van de focuser.</para>
+    </listitem>
+  </itemizedlist>
+
+  <para
+>De parameters zijn opgeslagen voor elke optische trein. Dit biedt verschillende configuraties om opgeslagen te worden voor verschillende apparatuur. Parameters worden opgeslagen wanneer ze zijn gewijzigd, dus bij opstarten wordt de laatst gebruikte configuratie voor de geselecteerde optische trein geladen.</para>
+
+  <sect3 id="focus-settings">
     <title
 >Focusinstellingen</title>
 
@@ -502,8 +595,7 @@
     </screenshot>
 
     <para
->Als volgende zijn er vijf panelen met parameters in tabbladen. Deze parameters worden bewaard tussen sessies. De eerste is het paneel instellingen.</para>
-
+>Parameters in de sectie Algemeen:</para>
     <itemizedlist>
       <listitem>
         <para
@@ -545,7 +637,7 @@
 >: selecteer het volledige veld gebruiken van de camera. In deze modus zal focus automatisch meerder sterren voor gebruik in autofocus uitvoeren selecteren. Het alternatief hiervan is <guilabel
 >Sub-frame</guilabel
 >.</para>
-        </listitem>
+      </listitem>
 
       <listitem>
         <para
@@ -586,73 +678,80 @@
 >Volgen onderbreken</guilabel
 >. Het biedt het settelen van vibraties in de optische trein door deze hoeveelheid seconden te wachten nadat het autofocusproces is voltooid, alvorens volgen te herstarten.</para>
       </listitem>
+    </itemizedlist>
 
-      <listitem>
-        <para
->De volgende set keuzerondjes zijn gerelateerd aan <emphasis role="bold"
+    <para
+>Mask Section Parameters:</para>
+
+    <para
+>Deze besturingen zijn gerelateerd aan <emphasis role="bold"
 >Maskeringopties</emphasis
-> om gebruikt te worden in modus <guilabel
+> om gebruikt te worden in de modus <guilabel
 >Volledig veld</guilabel
->.</para>
-        <para
->Het effect van Maskeringsopties is te zien in de <link linkend="focus-display"
+>. Het effect van Maskeringopties is te zien in de <link linkend="focus-display"
 >FITS-viewer</link
 >.</para>
-	  <itemizedlist>
-	    <listitem>
-	      <para
+    <itemizedlist>
+      <listitem>
+        <para
 ><guilabel
 >Alle sterren voor focusseren gebruiken</guilabel
 >: deze optie selecteren als alle sterren in het veld beschouwd moeten worden voor focusseren.</para>
-	    </listitem>
+      </listitem>
 	    
-	    <listitem>
-              <para
+      <listitem>
+        <para
 ><guilabel
 >Ringmasker</guilabel
 >: deze optie levert twee invoervelden die samen een donut over de FOV van de camera definiëren. Sterren die buiten de donut vallen worden uitgesloten van de bewerking. Een binnenwaarde boven 0% veroorzaakt dat sterren in het centrum van de FOV worden uitgesloten. Dit zou nuttig kunnen zijn om gebruik van sterren in het doel van de afbeelding (bijvoorbeeld een melkwegstelsel) te vermeiden voor het focusseren. Een buitenwaarde onder 100% veroorzaakt dat sterren in de randen van de FOV worden uitgesloten tijdens focusseren. Dit zou nuttig kunnen zijn als u geen plat veld hebt naar de randen van uw FOV.</para>
-	    </listitem>
-
-	    <listitem>
-	      <para
-><guilabel
->Mozaïekmasker</guilabel
->: Een 3x3 mozaïek bestaat uit vakken uit het afbeeldingscentrum, zijn hoeken en de randen. Deze optie is nuttig als u de prestaties van het optiek wilt inspecteren - u zou dit kunnen weten uit het script PixInsight Aberration Inspector. De vakgrootte kan geconfigureerd worden in procenten van de framebreedte, met de scheidingswaarde is de ruimte tussen de vakken gespecificeerd.</para>
-                <para
->Er zijn drie gebruiksgevallen voor het Mozaïekmasker: <itemizedlist>
-                  <listitem>
-                    <para
->Controleren van focus in alle delen van de sensor: het masker biedt een gemakkelijke visuele inspectie en vergelijking van sterren in het centrum, hoeken en randen van de sensor. Dit is speciaal nuttig voor lenzen die aberratie tonen als de focus niet 100% is.</para>
-                  </listitem>
-                  <listitem>
-		    <para
->Corrigeren van afbeeldingshelling: speciaal grote sensors zijn erg gevoelig voor onjuiste afstand en helling van de sensor. In zulke gevallen toont de afbeelding afwijkingen, speciaal in de hoeken van de afbeelding. Als alle hoeken hetzelfde effect tonen, moet de afstand gecorrigeerd worden. Als de afwijkingen in de hoeken verschillen, dan is dat typisch het resultaat van een sensor met een helling.</para>
-                  </listitem>
-                  <listitem>
-                    <para
->Collimating Newtonians: inspecteren van frames in een status uit-focus wordt typisch gebruikt voor collimating Newtonians. Zie, bijvoorbeeld, <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
-> The Photonewton Collimation Primer</ulink
-> van Tommy Nawratil voor meer details.</para>
-                  </listitem>
-                </itemizedlist
-></para>
-	    </listitem
->	    
-	  </itemizedlist>
       </listitem>
 
       <listitem>
         <para
+><guilabel
+>Mozaïekmasker</guilabel
+>: Een 3x3 mozaïek bestaat uit vakken uit het afbeeldingscentrum, zijn hoeken en de randen. Deze optie is nuttig als u de prestaties van het optiek wilt inspecteren - u zou dit kunnen weten uit het script PixInsight Aberration Inspector. De vakgrootte kan geconfigureerd worden in procenten van de framebreedte, met de scheidingswaarde is de ruimte tussen de vakken gespecificeerd.</para>
+        <para
+>Er zijn vier gebruiksgevallen voor het Mozaïekmasker: <itemizedlist>
+            <listitem>
+                <para
+>Controleren van focus in alle delen van de sensor: het masker biedt een gemakkelijke visuele inspectie en vergelijking van sterren in het centrum, hoeken en randen van de sensor. Dit is speciaal nuttig voor lenzen die aberratie tonen als de focus niet 100% is.</para>
+            </listitem>
+            <listitem>
+                <para
+>Corrigeren van afbeeldingshelling: speciaal grote sensors zijn erg gevoelig voor onjuiste afstand en helling van de sensor. In zulke gevallen toont de afbeelding afwijkingen, speciaal in de hoeken van de afbeelding. Als alle hoeken hetzelfde effect tonen, moet de afstand gecorrigeerd worden. Als de afwijkingen in de hoeken verschillen, dan is dat typisch het resultaat van een sensor met een helling.</para>
+            </listitem>
+            <listitem>
+                <para
+>Collimating Newtonians: inspecteren van frames in een status uit-focus wordt typisch gebruikt voor collimating Newtonians. Zie, bijvoorbeeld, <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
+> The Photonewton Collimation Primer</ulink
+> van Tommy Nawratil voor meer details.</para>
+            </listitem>
+            <listitem>
+                <para
+>Uitvoeren van het hulpmiddel <link linkend="focus-aberration-inspector"
+>Aberratie-inspecteur</link
+>.</para>
+            </listitem>
+          </itemizedlist
+></para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Parameters van Adaptieve focus:</para>
+
+    <para
 >De volgende set besturingen hebben te maken met <emphasis role="bold"
 >Adaptieve focus</emphasis
->. Dit is een experimentele mogelijkheid in Ekos. Het idee hier is om de telescoop in focus te houden door de positie van de focuser gebaseerd bij wijzigingen in omgevingscondities zonder het moeten doen van een volledige autofocusactie. Zie de sectie <link linkend="focus-adaptive"
+>. Het idee hier is om de telescoop in focus te houden door de positie van de focuser gebaseerd bij wijzigingen in omgevingscondities zonder het moeten doen van een volledige autofocusactie. Zie de sectie <link linkend="focus-adaptive"
 >Adaptieve focus</link
 > voor meer details.</para>
 
-        <para
+    <para
 >Bijvoorbeeld, als de temperatuur wijzigt tijdens een sessie voor een afbeelding zal het focuspunt wijzigen. Door de temperatuur te meten tussen subframes is het mogelijk om ten eerste de wijziging in temperatuur te berekenen en daarna dit te converteren naar een aantal streepjes van de verplaatsing van focuser om toe te passen tussen subframes.</para>
 
-        <para
+    <para
 >Om <emphasis role="bold"
 >Adaptieve focus</emphasis
 > te kunnen gebruiken is het noodzakelijk om enige gegevens voor uw systeem op te zetten. Speciaal moet u Ekos vertellen hoeveel streepjes (en in welke richting) de focuser te verplaatsen bij de wijziging in omgevingscondities. Dit is gedekt in de popup <link linkend="focus-filter-settings"
@@ -663,7 +762,7 @@
 ></inlinemediaobject
 >.</para>
 
-        <para
+    <para
 >De volgende besturingen zijn beschikbaar: <itemizedlist>
             <listitem>
               <para
@@ -710,13 +809,11 @@
 >Adaptieve focus</guilabel
 > gedeactiveerd totdat het handmatig door de gebruiker opnieuw wordt geactiveerd.</para>
             </listitem>
-          </itemizedlist>
-        </para>
-      </listitem>
-    </itemizedlist>
-  </sect2>
+        </itemizedlist>
+    </para>
+  </sect3>
 
-  <sect2 id="focus-process">
+  <sect3 id="focus-process">
     <title
 >Focusproces</title>
 
@@ -737,7 +834,7 @@
     </screenshot>
 
     <para
->Dit is het paneel voor Focusprocesparameters. Widgets worden alleen getoond als ze relevant zijn voor de gemaakte selecties.</para>
+>Parameters van Focusproces:</para>
 
     <itemizedlist>
       <listitem>
@@ -801,7 +898,7 @@
 >Algoritme</guilabel
 >: selecteer het algoritme voor het autofocusproces: </para>
 
-        <itemizedlist>
+      <itemizedlist>
         <listitem>
           <para
 ><emphasis role="bold"
@@ -845,174 +942,177 @@
 >: Start iteratief. Wanneer de andere tak van de V-kromme wordt bereikt, worden de coëfficiënten berekend van de best passende veelterm (polynoom), en ook de mogelijke waarde van de beste oplossing. Dit algoritme kan sneller zijn dan een zuiver iteratieve berekening, wanneer een goede dataset (gegevens) aanwezig is.</para>
         </listitem>
       </itemizedlist>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Fitten van kromme</guilabel
 >: het type kromme dat fit bij de datapunten. </para>
-      <itemizedlist>
-        <listitem>
-          <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Hyperbool</emphasis
 >: fit een hyperbool met een algoritme niet-lineair minste kwadraten geleverd door GSL (GNU Science Library). Zie <link linkend="Levenberg-Marquardt"
 >Levenberg-Marquardt oplosser</link
 > voor meer details.</para>
 
-          <para
+            <para
 >Dit is de aanbevolen optie.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Parabool</emphasis
 >: fit een parabool met een algoritme niet-lineair minste kwadraten geleverd door GSL (GNU Science Library). Zie <link linkend="Levenberg-Marquardt"
 >Levenberg-Marquardt oplosser</link
 > voor meer details.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Kwadratisch</emphasis
 >: gebruikt een kwadratische vergelijking met een algoritme lineaire stijl minste kwadraten geleverd door GSL (GNU Science Library). Dat wil zeggen, in effect, een parabolische kromme.</para>
 
-          <para
+            <para
 >Het is niet langer aanbevolen om deze kromme te gebruiken.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
+          </listitem>
+        </itemizedlist>
+      </listitem>
 
-    <listitem>
-    <para
+      <listitem>
+        <para
 ><guilabel
 >Meting</guilabel
 >: selecteer Meting om te gebruiken in het focusproces.</para>
 
-    <itemizedlist>
-      <listitem>
-        <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR</emphasis
 >: Half Flux Radius (HFR) is de aanbevolen maat. Wanneer een ster is gedetecteerd zal Ekos de HFR van de ster berekenen. Dit is de straal van een imaginaire cirkel, gecentreerd op het centrum van de ster, die de helft van de totale flux van de ster omvat.</para>
 
-        <para
+            <para
 >Het punt met de beste focus komt overeen met de minimale HFR.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR Aangepast</emphasis
->: dis is een experimentele mogelijkheid die een op helderheid aangepaste HFR berekening gebruikt om rekening te houden met het feit dat de HFR voor helderder sterren groter is dan voor kleinere sterren.</para>
+>: deze mogelijkheid gebruikt een op helderheid aangepaste HFR berekening om rekening te houden met het feit dat de HFR voor helderder sterren groter is dan voor kleinere sterren.</para>
 
-        <para
+            <para
 >Het algoritme past de waarde van de gemeten HFR aan, gewoonlijk omhoog, zodat de verkregen HFR's met de methode HFR Aangepast hoger zal zijn dan de gemeten HFR-waarden. Dit betekent niet dat u slechtere resultaten krijgt door HFR Aangepast te gebruiken, eenvoudig omdat de meting anders is.</para>
 
-        <para
+            <para
 >Bij gebruik van deze Meting is het gebruikelijk kleinere foutenstreepjes op de gegevenspunten te krijgen wanneer <guilabel
 >Gewichten gebruiken</guilabel
 > is geselecteerd.</para>
 
-        <para
+            <para
 >Het punt met de beste focus komt overeen met de minimale aangepaste HFR.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >FWHM</emphasis
->: dit is een experimentele mogelijkheid die een Gaussiaans oppervlak fit aan elke ster en dat gebruikt om de Full Width Half Maximum (FWHM) van de ster te berekenen. De FWHM is de breedte van een cirkel (of ellips) gecentreerd op het centrum van de ster zich uitstrekkend tot de rand van de ster op de helft van zijn maximale intensiteit.</para>
+>: deze mogelijkheid fit een Gaussiaans oppervlak aan elke ster en gebruikt dat om het Full Width Half Maximum (FWHM) van de ster te berekenen. De FWHM is de breedte van een cirkel (of ellips) gecentreerd op het centrum van de ster zich uitstrekkend tot de rand van de ster op de helft van zijn maximale intensiteit.</para>
 
-        <para
+            <para
 >Het punt met de beste focus komt overeen met de minimale FWHM.</para>
 
-        <para
+            <para
 >Verwacht dat de FWHM ongeveer tweemaal de HFR van een ster zal zijn.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 ># Sterren</emphasis
->: dit is een experimentele mogelijkheid die het aantal sterren in de afbeelding berekent en dit aantal gebruikt als de maat voor focus. Het idee is dat als u dichter bij focus komt er meer sterren gedetecteerd zullen worden.</para>
+>: deze mogelijkheid berekent het aantal sterren in de afbeelding en gebruikt dit aantal als de maat voor focus. Het idee is dat als u dichter bij focus komt er meer sterren gedetecteerd zullen worden.</para>
 
-        <para
+            <para
 >Het voordeel van deze Meting is dat het erg eenvoudig is en geen algoritmen vereist om HFR's of FWHM's te berekenen.</para>
 
-        <para
+            <para
 >Het punt met beste focus komt overeen met een minimum aantal sterren.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Fourier</emphasis
 >: Fourier maakt een Fouriertransformatie van de afbeelding en berekent de kracht van de afbeelding in de frequentieruimte. De aanname is dat voor een astronomische afbeelding van sterren en achtergrond, de sterren gaussiaans zullen zijn. Onder een Fouriertransformatie, een gaussiaan transformeert in een andere gaussiaan; maar bredere sterren transformeren in smallere gaussiaansen in de frequentieruimte, en omgekeerd. Dus, bij focus, de inhoud in de frequentieruimte optellen, wat in feite een maat voor kracht is, zal een maximum zijn.</para>
 
-        <para
+            <para
 >Dit volgt het hoofd idee, gesuggereerd door Tan en Schulz in hun artikel: <ulink url="https://arxiv.org/pdf/2201.12466.pdf"
 >Een Fouriermethode voor de bepaling van focus voor telescopen met sterren</ulink
 >. Merk op dat dit artikel andere suggesties voor verwerken maakt boven het idee van het gebruiken van Fouriertransformatie die niet zijn meegenomen in Ekos</para>
 
-        <para
+            <para
 >Dit is een relatief nieuwe methode in de Astro-gemeenschap en vereist geen detectie van sterren. Tan and Schulz rapporteren goede resultaten met zowel amateur als professionele telescopen.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
-    </itemizedlist>
-    </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >PSF</guilabel
 >: als <guilabel
 >Meting</guilabel
 > is ingesteld op FWHM, dan kan het widget PSF geselecteerd worden voor gebruik in fitten van oppervlak op de ster. Op dit moment wordt alleen Gaussian ondersteund.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Gewichten gebruiken</guilabel
 >: dit is alleen beschikbaar met het focusalgoritme Lineaire 1 doorgang en typen hyperbool en parabool fit. Het vereist volledig veld geselecteerd. De optie berekent de standaard deviatie van Metingen van sterren en gebruikt het kwadraat ervan (mathematisch de variantie) als een weging in het proces van fitten van een kromme. Het voordeel hiervan is dat datapunten met minder betrouwbare gegevens en daarom grotere HFR standaard deviaties minder gewicht wordt gegeven dan meer betrouwbare datapunten. Als deze optie niet actief is en voor alle ander fitten van een kromme waar de optie niet is toegestaan, worden aan alle datapunten gelijk gewicht gegeven in het proces van fitten van een kromme.</para>
 
-      <para
+        <para
 >De standaard deviatie wordt getekend op de V-kromme voor elk gegevenspunt als een foutenstreepje.</para>
 
-      <para
+        <para
 >Het is aanbevolen deze optie te activeren.</para>
 
-      <para
+        <para
 >Zie de <link linkend="Levenberg-Marquardt"
 >Levenberg-Marquardt Solver</link
 > voor meer details.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >R² limiet</guilabel
 >: dit is alleen beschikbaar met het focusalgoritme Lineair 1 doorgang en krommen hyperbool en parabool fit. Als onderdeel van het algoritme Lineair 1 doorgang, wordt de graad waarmee de kromme fit met de datapunten, of <link linkend="Coefficient_of_Determination"
 >Coëfficiënt van bepaling, R²</link
 > berekend. Deze optie biedt een minimaal acceptabele waarde van R² om gedefinieerd te worden die vergeleken wordt met de waarde verkregen uit het proces van fitten van krommen. Als de minimale waarde niet is bereikt, zal autofocus opnieuw gedaan worden. Slechts een herhaling wordt gedaan en zelfs als de minimale R² niet wordt bereikt deze tweede keer, zal het doen van autofocus als succesvol worden aangemerkt.</para>
 
-      <para
+        <para
 >Experimenteer om een toepasselijke waarde te vinden maar een goed startpunt zou 0.8 of 0.9 zijn</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Fitten van kromme verfijnen</guilabel
->: dit is een experimentele optie alleen beschikbaar met het focusalgoritme Lineair 1 doorgang en Fitten van kromme van hyperbool en parabool. Als deze optie is geactiveerd fit Ekos aan het eind van de loop van gegevenspunten een kromme en meet de R². Daarna wordt het criterium van Peirce toegepast gebaseerd op de methodologie van Gould voor identificatie van buitenliggers. Zie <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
+>: deze optie is alleen beschikbaar met het focusalgoritme Lineair 1 doorgang en Fitten van kromme van hyperbool en parabool. Als deze optie is geactiveerd fit Ekos aan het eind van de loop van gegevenspunten een kromme en meet de R². Daarna wordt het criterium van Peirce toegepast gebaseerd op de methodologie van Gould voor identificatie van buitenliggers. Zie <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 >Criterium van Peirce</ulink
 > voor details inclusief het oorspronkelijke artikel van Peirce en die van Gould waar naar beiden in de notities wordt verwezen. Als het criterium van Peirce 1 of meer buitenliggers detecteert wordt een ander fitten van de kromme gepoogd met de buitenliggers verwijderd. De R² wordt opnieuw berekend en vergeleken met de R² van het oorspronkelijk fitten van de kromme. Als de R² beter is dan wordt de laatste uitvoering gebruikt, zo niet, dan wordt het originele fitten van de kromme gebruikt (met de buitenliggers meegenomen).</para>
 
-      <para
+        <para
 >Buitenliggers zijn helder gemarkeerd op de V-kromme met een X door het gegevenspunt.</para>
+
+        <para
+>Het is aanbevolen deze optie te activeren.</para>
       </listitem>
 
       <listitem>
@@ -1020,6 +1120,27 @@
 ><guilabel
 >Gemiddelde over</guilabel
 >: aantal op te nemen frames bij elk datapunt. Het is gewoonlijk zinvol om met 1 te starten maar dit verhogen zal resulteren in een middelingsproces over de Meting van de sterren.</para>
+      </listitem>
+
+      <listitem>
+        <warning>
+        <para
+><guilabel
+>Donutbuster</guilabel
+>: dit is een experimentele mogelijkheid en moet voorzichtig worden gebruikt. De intentie van Donutbuster is het verbeteren van focusseren voor telescopen met centrale obstructies die donutvormige sterren maken bij niet-in-focus. Het is mogelijk dat in de toekomst meer functionaliteit zal worden ontwikkeld voor Donutbuster. In deze uitgave is de functionaliteit gericht op gegevens verzamelen om methoden te onderzoeken voor verbeterde focus.</para>
+        </warning>
+      </listitem>
+      <listitem>
+        <warning>
+        <para
+><guilabel
+>Tijddilatiefactor</guilabel
+>: dit is een experimentele mogelijkheid van Donutbuster en moet voorzichtig worden gebruikt. Deze mogelijkheid schaalt de belichtingstijd tijdens Autofocus uit de waarde van belichtingstijd ingevoerd in het veld Belichting voor de verste gegevenspunten uit focus. Gegevenspunten dichtbij focus worden genomen met een niet-geschaalde belichting. Bijvoorbeeld, als Focus is opgezet met een Belichting van 2s en de Tijddilatiefactor is op 4 gezet, dan zal wanneer Autofocus uit beweegt om zijn eerste gegevenspunt te nemen, een belichting van 2s * 4 = 8s worden gebruikt. Op elk opvolgend gegevenspunt zal de belichting verminderd worden tot 2s rond het punt van optimale focus. Terwijl de focuser door focus beweegt, zal dus de belichting omhoog geschaald worden tot 8s voor het laatste gegevenspunt.</para>
+        <para
+>The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
+        <para
+>Deze mogelijkheid neemt aan dat Autofocus wordt uitgevoerd vanaf bijna tot optimale focus.</para>
+        </warning>
       </listitem>
 
       <listitem>
@@ -1088,9 +1209,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect2>
+  </sect3>
 
-  <sect2 id="focus-mechanics">
+  <sect3 id="focus-mechanics">
     <title
 >Focusmechanisme</title>
 
@@ -1111,7 +1232,7 @@
     </screenshot>
 
     <para
->Dit is het paneel voor parameters van het focusmechanisme.</para>
+>Parameters van het focusmechanisme:</para>
 
   <itemizedlist>
   <listitem>
@@ -1141,7 +1262,7 @@
         <para
 ><emphasis role="bold"
 >Vaste stappen</emphasis
->: deze experimentele optie is beschikbaar in het <guilabel
+>: deze mogelijkheid is beschikbaar in het <guilabel
 >Algoritme</guilabel
 > lineaire 1 doorgang. Het is tamelijk gelijk aan Klassiek maar <guilabel
 >Vaste stappen</guilabel
@@ -1172,7 +1293,7 @@
         <para
 ><emphasis role="bold"
 >CFZ Shuffle</emphasis
->: deze experimentele optie is beschikbaar in het <guilabel
+>: deze mogelijkheid is beschikbaar in het <guilabel
 >Algoritme</guilabel
 > lineaire 1 doorgang. Het is een variatie op Vaste stappen zodat de opmerkingen over dat Loopje hier ook van toepassing zijn.</para>
 
@@ -1296,6 +1417,7 @@
 >: de hoeveelheid tijd in seconden om te wachten op de focuser om te verplaatsen naar een gewenste positie alvorens een overschrijding van de tijd te verklaren. Dit zou alleen gestart moeten worden als er problemen zijn met de camera tijdens het focusproces, dus zet dit op een hoog genoeg waarde zodat het niet zal gebeuren tijdens normale werking.</para>
   </listitem>
   </itemizedlist>
+  </sect3>
   </sect2>
 
   <sect2 id="focus-cfz">
@@ -1319,7 +1441,7 @@
     </screenshot>
 
     <para
->Dit is het paneel CFZ-Parameters van het focusproces.</para>
+>Focus CFZ Parameters:</para>
 
   <itemizedlist>
   <listitem>
@@ -1332,7 +1454,7 @@
 >Het vereist enige kennis om het juist te configureren. Er is genoeg informatie beschikbaar in het internet.</para>
 
     <para
->Het idee van het tabblad CFZ is dat het begint met gegevens uit de Optische trein gebruikt in het tabblad Focus en gebruikt dat om de CFZ te berekenen. De gebruiker kan parameters aanpassen om "wat-als" scenario's uit te voeren om de invloed te zien op de CFZ. Klikken op de knop <guilabel
+>Het idee van de dialoog CFZ is dat het begint met gegevens uit de Optische trein gebruikt in het tabblad Focus en gebruikt dat om de CFZ te berekenen. De gebruiker kan parameters aanpassen om "wat-als" scenario's uit te voeren om de invloed te zien op de CFZ. Klikken op de knop <guilabel
 >Resetten op OT</guilabel
 > reset elke aangepaste parameter naar de waarden uit de Optische trein.</para>
 
@@ -1344,7 +1466,7 @@
 >Focusmechanisme </screeninfo>
       <mediaobject
 > <imageobject
-> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="75%"/>
+> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="50%"/>
         </imageobject
 ><textobject
 ><phrase
@@ -1354,9 +1476,9 @@
     </screenshot
 ></para>
     <para
->Het is nodig om de parameter <guilabel
->Stapgrootte</guilabel
-> te specificeren, die in microns specificeert hoever één streepje de focuser verplaatst.</para>
+>It is necessary to specify the <guilabel
+>Step Size</guilabel
+> parameter which specifies in microns how far one tick moves the focal plane. For refractors there is usually a 1-to-1 relationship between moving the focuser which moves the telescope draw-tube mechanism and the focal plane movement. For other types of telescope the relationship is likely to be more complex. Refer to details of your telescope / manufacturer for this information.</para>
 
     <para
 >Het volgende algoritmes is beschikbaar: <itemizedlist>
@@ -1364,14 +1486,14 @@
         <para
 ><emphasis role="bold"
 >Klassiek</emphasis
->: dit is de aanbevolen instelling. De gebruikte vergelijking wordt rechtsboven in het paneel getoond en is de vergelijking die het meest algemeen wordt gezien op het internet. De vergelijking komt van een lineair optische behandeling met gebruik van de Airy Disc en er is bekend dat het beperkingen heeft. Daarom bevat het een factor "tolerantie" die aangepast kan worden door de gebruiker. Bijvoorbeeld, in het vaak aangehaalde artikel "Perfect in focus” door Don Goldman en Barry Megdal in Sky &amp; Telescope 2010 suggereren ze de instelling t=1/3.</para>
+>: dit is de aanbevolen instelling. De gebruikte vergelijking wordt rechtsboven in de dialoog getoond en is de vergelijking die het meest algemeen wordt gezien op het internet. De vergelijking komt van een lineair optische behandeling met gebruik van de Airy Disc en er is bekend dat het beperkingen heeft. Daarom bevat het een factor "tolerantie" die aangepast kan worden door de gebruiker. Bijvoorbeeld, in het vaak aangehaalde artikel "Perfect in focus” door Don Goldman en Barry Megdal in Sky &amp; Telescope 2010 suggereren ze de instelling t=1/3.</para>
       </listitem>
 
       <listitem>
         <para
 ><emphasis role="bold"
 >Golffront</emphasis
->: de gebruikte vergelijking wordt rechtsboven in het paneel getoond. De vergelijking komt van een golffrontbenadering tot de CFZ. Opnieuw, het heeft beperkingen en opnieuw, om die reden bevat het een factor "tolerantie" die door de gebruiker kan worden aangepast. <screenshot>
+>: de gebruikte vergelijking wordt rechtsboven in de dialoog getoond. De vergelijking komt van een golffrontbenadering tot de CFZ. Opnieuw, het heeft beperkingen en opnieuw, om die reden bevat het een factor "tolerantie" die door de gebruiker kan worden aangepast. <screenshot>
           <screeninfo
 >Focusmechanisme </screeninfo>
           <mediaobject
@@ -1528,7 +1650,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_advisor.png" format="PNG" width="50%"/>
+          <imagedata fileref="focus_advisor.png" format="PNG" width="33%"/>
         </imageobject>
 
         <textobject>
@@ -1539,7 +1661,7 @@
     </screenshot>
 
     <para
->Dit is het adviespaneel voor focus. Het is een experimentele functie om te assisteren bij het beheer van parameters voor focus.</para>
+>Dit is de adviesdialoog voor focus. Het is een mogelijkheid om te assisteren bij het beheer van parameters voor focus.</para>
 
     <para
 >Het doel van de adviseur van focus is mensen helpen die worstelen met het gebruiken van de module focus in Ekos. De module focus heeft een rijke functionaliteit en bevat heel wat parameters die zelf-consistent ingesteld moeten worden om goede resultaten te bereiken. De adviseur van focus is ontworpen om te helpen met de opzet van de basis parameter die focus zouden moeten bereiken. Het is niet ontworpen om de best mogelijke focus voor uw apparatuur te bereiken; u zult moeten experimenteren met uw opzet om dat te bereiken. Maar de adviseur voor focus biedt een plaats om te beginnen met die experimenten.</para>
@@ -1549,9 +1671,9 @@
     <para
 >Als de adviseur voor focus geen goede resultaten lijkt te geven bij uw opzet waarom start u dan geen discussie op het forum zodat het verbeterd kan worden om in de toekomst betere resultaten te geven. Op deze manier zal het in de tijd nuttiger gemaakt kunnen worden.</para>
     <para
->Wanneer u klikt op het adviespaneel voor focus werkt het een serie parameter uit uit aanbevelingen gebaseerd op de optische trein die u in focus gebruikt.</para>
+>Wanneer u klikt op het Focusadviseur werkt het een serie parameter uit uit aanbevelingen gebaseerd op de optische trein die u in focus gebruikt.</para>
     <para
->Bovenaan het paneel toont het informatie over de verbonden optische trein. Daarna toont het 6 regels gerelateerd aan verschillende sets parameters gebruikt binnen focus. Aan elke regel is een keuzevak verbonden om de bijbehorende focusvelden bij te werken met aanbevelingen van de adviseur van focus.</para>
+>Bovenaan de dialoog toont het informatie over de verbonden optische trein. Daarna toont het 6 regels gerelateerd aan verschillende sets parameters gebruikt binnen focus. Aan elke regel is een keuzevak verbonden om de bijbehorende focusvelden bij te werken met aanbevelingen van de adviseur van focus.</para>
     <para
 >Focus-parameters zijn opgebroken in de volgende groepen:</para>
 
@@ -1560,7 +1682,7 @@
     <para
 ><guilabel
 >Stapgrootte</guilabel
->: dit is de gesuggereerde stapgrootte voor de gebruiken focus. Dit is een kritische parameter. De standaard komt uit het paneel Critical Focus Zone (CFZ). Dus is het eerst ding te doen het opzetten van dit paneel en een redelijke waarde voor de CFZ te verkrijgen. Als alternatief, als u een redelijke waarde voor uw apparatuur uit andere bronnen weet dan kunt u die invoeren.</para>
+>: dit is de gesuggereerde stapgrootte voor de gebruiken focus. Dit is een kritische parameter. De standaard komt uit de dialoog Critical Focus Zone (CFZ). Dus is het eerst ding te doen het opzetten van deze dialoog en een redelijke waarde voor de CFZ te verkrijgen. Als alternatief, als u een redelijke waarde voor uw apparatuur uit andere bronnen weet dan kunt u die invoeren.</para>
     </listitem>
 
     <listitem>
@@ -1582,28 +1704,28 @@
     <listitem>
     <para
 ><guilabel
->Parameters in het tabblad Instellingen</guilabel
->: dit stelt de parameters in in het paneel <link linkend="focus-settings"
+>Parameters in instellingen</guilabel
+>: dit stelt de parameters in <link linkend="focus-settings"
 >Focusinstellingen</link
-> van het scherm Focus. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+> in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Parameters in het tabblad Proces</guilabel
->: dit stelt de parameters in in het paneel <link linkend="focus-process"
+>Parameters van Proces</guilabel
+>: dit stelt de parameters in <link linkend="focus-process"
 >Focusproces</link
-> van het scherm Focus. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+> in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Parameters in het tabblad Mechaniek</guilabel
->: dit stelt de parameters in in het paneel <link linkend="focus-mechanics"
+>Parameters in Mechaniek</guilabel
+>: dit stelt de parameters in <link linkend="focus-mechanics"
 >Focusmechaniek</link
-> van het scherm Focus. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+> in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
     </listitem>
 
     <listitem>
@@ -2527,7 +2649,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="75%"/>
+          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="50%"/>
         </imageobject>
 
         <textobject>
@@ -2544,7 +2666,7 @@
 >Het idee van AF is om focus als aan te passen als omgevingsfactoren wijzigen om te proberen elk subframe op te nemen zo dicht mogelijk bij optimale focus. Ideaal is het effect van Adaptieve focus als doen van Autofocus voor elk subframe maar zonder de overhead van het echt doen ervan.</para>
 
     <para
->AF werkt als een aanvulling op de verschillende starters voor Autofocus die nu beschikbaar zijn in Ekos. Het is dus niet nodig om de starters van Autofocus te wijzigen bij het beginnen met gebruik van AF. Aan het begin is het inderdaad, gegeven dat AF een experimentele functie is, niet aanbevolen om condities voor Autofocus te verzachten bij gebruik van AF. Echter, na enige tijd, als het vertrouwen in AF groeit zou het mogelijk zijn om minder Autofocus te doen (en daarom meer opnamen). Maar op beide manieren zou elk subframe meer in focus moeten zijn bij gebruik van AF, als het juist is opgezet. </para>
+>AF werkt als een aanvulling op de verschillende starters voor Autofocus die nu beschikbaar zijn in Ekos. Het is dus niet nodig om de starters van Autofocus te wijzigen bij het beginnen met gebruik van AF. Aan het begin is het inderdaad niet aanbevolen om condities voor Autofocus te verzachten bij gebruik van AF. Echter, na enige tijd, als het vertrouwen in AF groeit zou het mogelijk zijn om minder Autofocus te doen (en daarom meer opnamen). Maar op beide manieren zou elk subframe meer in focus moeten zijn bij gebruik van AF, als het juist is opgezet. </para>
 
     <para
 >Dus hoe weet u of AF nuttig zou zijn voor uw opzet of niet? Misschien is de eenvoudigste manier subframes te bekijken net na een Autofocus en ze te vergelijken met subframes net voor de volgende Autofocus. Kunt een verschil zien in focus? Als u een opzet hebt waar het focuspunt tolerant is voor omgevingswijzigingen tussen keren Autofocus dan kan AF misschien niets toevoegen aan uw afbeeldingen; als u echter een opzet hebt die gevoelig is voor omgevingswijzigingen en de frequentie van Autofocus doen is een compromis tussen kwaliteit en opnametijd dan zou AF de kwaliteit van uw subframes verbeteren.</para>
@@ -2633,9 +2755,9 @@
     <para
 >Nadat u uw gegevens hebt kunt u het configureren in de pop-up <link linkend="focus-filter-settings"
 >Filterinstellingen</link
->. Daarna in Focus, schakel Aanpasbare focus in in het tabblad <link linkend="focus-settings"
+>. Daarna in Focus, schakel Aanpasbare focus in <link linkend="focus-settings"
 >Focusinstellingen</link
->. Op dit punt, wanneer u een sequentie uitvoert, zal Ekos na elk subframe controleren of het de positie van de focuser moet aanpassen. Zo ja, dan zal Focus dat doen en daarna zal Opnemen doorgaan met het volgende subframe.</para>
+> in. Op dit punt, wanneer u een sequentie uitvoert, zal Ekos na elk subframe controleren of het de positie van de focuser moet aanpassen. Zo ja, dan zal Focus dat doen en daarna zal Opnemen doorgaan met het volgende subframe.</para>
 
     <para
 >De schermafdruk  bovenaan deze sectie toont een voorbeeld. <guilabel
@@ -2659,7 +2781,9 @@
 > beschikbaar. Dit is beschikbaar voor het focusalgoritme Lineair 1-doorgang. In essentie geeft, R² een waarde tussen 0 en 1, met 1 betekent dat een perfecte fit waar alle datapunten op de kromme zitten en 0 betekent dat er geen correlatie is tussen de datapunten en de kromme. De gebruiker zou moeten experimenteren met zijn apparatuur om te zien welke waarden bereikt kunnen worden, maar als richtlijn zou een waarde boven, zeg 0.8 een goede fit moeten zijn.</para>
 
     <para
->Er is een optie om een "Limiet voor R²” in het tabblad Instellingen van het venster Focus in te stellen die wordt vergeleken met de berekende R² nadat het doen van autofocus is voltooid. Als de limietwaarde niet is bereikt, dan wordt het doen van autofocus herhaald.</para>
+>Er is een optie om een "Limiet voor R²” in <link linkend="focus-settings"
+> Focusinstellingen</link
+> in te stellen die wordt vergeleken met de berekende R² nadat het doen van autofocus is voltooid. Als de limietwaarde niet is bereikt, dan wordt het doen van autofocus herhaald.</para>
 
     <para
 >Een limiet voor R² instellen zou nuttig kunnen zijn voor onbewaakte waarnemingen als het doen van autofocus een slecht resultaat voor een enkele reden heeft. als de reden niet niet tijdelijk is dan zal opnieuw doen geen verbetering brengen.</para>
@@ -2744,9 +2868,11 @@
     <para
 >De aberratie-inspecteur is een hulpmiddel die gebruik maakt van autofocus om backfocus en kanteling van sensor in de verbonden optische trein te analyseren.</para>
     <para
->Om de aberratie-inspecteur uit te voeren druk op de knop Inspecteur op het focusscherm gelokaliseerd naast de knop Autofocus. Zie <link linkend="focus-focuser-group"
->Focuser-groep</link
-> for more details. The following criteria must be met in order for the tool to work:</para>
+>Om de Aberratie-inspecteur uit te voeren druk op de knop <guibutton
+>Aberratie-inspecteur</guibutton
+>. Zie <link linkend="focus-tools"
+>Focushulpmiddelen</link
+> for more details. De volgende criteria moeten gelden voor de knop om actief te zijn en het hulpmiddel te laten werken:</para>
 
     <itemizedlist>
       <listitem>
@@ -2766,8 +2892,8 @@
 
       <listitem>
         <para
->Stapgrootte van focuser moet zijn ingesteld. Het is het aantal microns dat het focusvlak beweegt voor 1 streepje van de focuser. Dit is ingesteld in het tabblad CFZ parameters. Zie the <link linkend="focus-cfz"
->CFZ section</link
+>Stapgrootte van focuser moet zijn ingesteld. Het is het aantal microns dat het focusvlak beweegt voor 1 streepje van de focuser. Dit is ingesteld in de dialoog CFZ. Zie the <link linkend="focus-cfz"
+>CFZ-sectie</link
 > voor meer details.</para>
       </listitem>
 

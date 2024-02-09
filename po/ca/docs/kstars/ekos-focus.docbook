@@ -330,15 +330,6 @@
 
     <para
 >El botó <guibutton
->Inspector</guibutton
-> inicia una execució de l'<link linkend="focus-aberration-inspector"
->Inspector d'aberracions</link
->. El botó <guibutton
->Atura</guibutton
-> s'utilitza per a aturar l'execució. </para>
-
-    <para
->El botó <guibutton
 >Captura la imatge</guibutton
 > prendrà un fotograma basat en la configuració actual en el grup <link linkend="focus-ccd-filter-wheel"
 >Càmera i roda de filtres</link
@@ -481,7 +472,109 @@
     </itemizedlist>
   </sect2>
 
-  <sect2 id="focus-settings">
+  <sect2 id="focus-tools">
+    <title
+>Grup d'eines</title>
+
+    <screenshot>
+      <screeninfo
+>Grup d'eines d'enfocament </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_tools_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Grup d'eines d'enfocament</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Aquesta secció descriu les eines d'enfocament que estan disponibles actualment.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>El botó <guibutton
+>Inspector d'aberracions</guibutton
+> inicia una execució de l'<link linkend="focus-aberration-inspector"
+>Inspector d'aberracions</link
+>. El botó <guibutton
+>Atura</guibutton
+> es pot utilitzar per a aturar l'execució. </para>
+      </listitem>
+      <listitem>
+        <para
+>El botó <guibutton
+>ZCE</guibutton
+> llança l'eina de <link linkend="focus-cfz"
+>Zona crítica d'enfocament</link
+>. </para>
+      </listitem>
+      <listitem>
+        <para
+>El botó <guibutton
+>Assessor</guibutton
+> llança l'eina de l'<link linkend="focus-advisor"
+>Assessor d'enfocament</link
+>. </para>
+      </listitem>
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="focus-options">
+  <title
+>Opcions d'enfocament</title>
+
+  <screenshot>
+    <screeninfo
+>Opcions d'enfocament </screeninfo>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="focus_options.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Opcions d'enfocament</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>S'accedeix als paràmetres per a configurar el focus prement el botó <guibutton
+>Opcions...</guibutton
+>. Això llança el diàleg d'opcions amb tres subfinestres:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para
+><link linkend="focus-settings"
+>Configuració</link
+>: Aquesta és la configuració general del focus.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-process"
+>Procés</link
+>: Paràmetres associats amb el procés d'enfocament automàtic.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-mechanics"
+>Mecànica</link
+>: Paràmetres associats a la mecànica de l'enfocador.</para>
+    </listitem>
+  </itemizedlist>
+
+  <para
+>Els paràmetres s'emmagatzemen per a cada tren òptic. Això permet emmagatzemar configuracions diferents per a equips diferents. Els paràmetres s'emmagatzemen quan es canvien, de manera que a l'inici es carrega l'última configuració utilitzada per al tren òptic seleccionat.</para>
+
+  <sect3 id="focus-settings">
     <title
 >Configuració de l'enfocament</title>
 
@@ -502,8 +595,7 @@
     </screenshot>
 
     <para
->A continuació hi ha 5 subfinestres amb pestanyes de paràmetres. Aquests paràmetres es mantenen entre sessions. Primer hi ha la subfinestra de configuració.</para>
-
+>Paràmetres de la secció general:</para>
     <itemizedlist>
       <listitem>
         <para
@@ -545,7 +637,7 @@
 >: Seleccioneu utilitzar el camp complet de la càmera. En aquest mode, l'enfocament seleccionarà automàticament diverses estrelles per a utilitzar-les en una execució d'enfocament automàtic. L'alternativa a això és <guilabel
 >Submarc</guilabel
 >.</para>
-        </listitem>
+      </listitem>
 
       <listitem>
         <para
@@ -586,73 +678,80 @@
 >Suspèn el guiatge</guilabel
 >. Permet que qualsevol vibració en el tren òptic s'arregli esperant aquest nombre de segons després que el procés d'enfocament automàtic s'hagi completat, abans de reiniciar el guiatge.</para>
       </listitem>
+    </itemizedlist>
 
-      <listitem>
-        <para
->El conjunt següent de controls de botons d'opció es relaciona amb <emphasis role="bold"
+    <para
+>Mask Section Parameters:</para>
+
+    <para
+>Aquests controls estan relacionats amb les <emphasis role="bold"
 >Opcions d'emmascarament</emphasis
 > que s'utilitzaran en el mode <guilabel
 >Camp complet</guilabel
->.</para>
-        <para
->L'efecte de les opcions d'emmascarament es pot veure al <link linkend="focus-display"
+>. L'efecte de les opcions d'emmascarament es poden veure en el <link linkend="focus-display"
 >Visualitzador de FITS</link
 >.</para>
-	  <itemizedlist>
-	    <listitem>
-	      <para
+    <itemizedlist>
+      <listitem>
+        <para
 ><guilabel
 >Usa totes les estrelles per a enfocar</guilabel
 >: Seleccioneu aquesta opció si s'han de considerar totes les estrelles del camp per enfocar.</para>
-	    </listitem>
+      </listitem>
 	    
-	    <listitem>
-              <para
+      <listitem>
+        <para
 ><guilabel
 >Màscara d'anell</guilabel
 >: Aquesta opció proporciona dos camps d'entrada que junts defineixen un dònut sobre el CDV de la càmera. Les estrelles que cauen fora del dònut es descompten del processament. Establir un valor interior per sobre del 0% fa que les estrelles del centre del CDV es descartin. Això podria ser útil per evitar l'ús d'estrelles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per sota del 100% fa que les estrelles de les vores del CDV es descartin durant l'enfocament. Això podria ser útil si no teniu cap camp pla a les vores del CDV.</para>
-	    </listitem>
-
-	    <listitem>
-	      <para
-><guilabel
->Màscara de mosaic</guilabel
->: Es compon un mosaic de 3x3 amb tessel·les a partir del centre de la imatge, les seves cantonades i de les vores. Aquesta opció és útil si voleu inspeccionar el rendiment de l'òptica: potser ho coneixeu a partir de l'script PixInsight Aberration Inspector. La mida de les tessel·les es pot configurar com un percentatge de l'amplada del fotograma, amb el valor espaiador especificant l'espai entre les tessel·les.</para>
-                <para
->Hi ha tres casos d'ús per a la Màscara de mosaic: <itemizedlist>
-                  <listitem>
-                    <para
->Comprovant l'enfocament en totes les parts del sensor: la màscara permet una inspecció visual fàcil i la comparació d'estrelles al centre, cantonades i vores del sensor. Això és especialment útil per a l'òptica que presenta aberració si l'enfocament no es compleix al 100%.</para>
-                  </listitem>
-                  <listitem>
-		    <para
->Correcció de la inclinació de la imatge: especialment els sensors grans són molt sensibles a la distància i la inclinació incorrecta del sensor. En aquests casos, la imatge presenta aberració, especialment a les cantonades de la imatge. Si totes les cantonades mostren el mateix efecte, cal corregir la distància. Si les aberracions en les cantonades difereixen, això és normalment el resultat d'un sensor inclinat.</para>
-                  </listitem>
-                  <listitem>
-                    <para
->Col·limació dels newtonians: inspeccionar els fotogrames en un estat desenfocat s'utilitza típicament per a col·limar els newtonians. Vegeu, per exemple, <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
->The Photonewton Collimation Primer</ulink
-> de Tommy Nawratil per a més detalls.</para>
-                  </listitem>
-                </itemizedlist
-></para>
-	    </listitem
->	    
-	  </itemizedlist>
       </listitem>
 
       <listitem>
         <para
+><guilabel
+>Màscara de mosaic</guilabel
+>: Es compon un mosaic de 3x3 amb tessel·les a partir del centre de la imatge, les seves cantonades i de les vores. Aquesta opció és útil si voleu inspeccionar el rendiment de l'òptica: potser ho coneixeu a partir de l'script PixInsight Aberration Inspector. La mida de les tessel·les es pot configurar com un percentatge de l'amplada del fotograma, amb el valor espaiador especificant l'espai entre les tessel·les.</para>
+        <para
+>Hi ha quatre casos d'ús per a la Màscara de mosaic: <itemizedlist>
+            <listitem>
+                <para
+>Comprovant l'enfocament en totes les parts del sensor: la màscara permet una inspecció visual fàcil i la comparació d'estrelles al centre, cantonades i vores del sensor. Això és especialment útil per a l'òptica que presenta aberració si l'enfocament no es compleix al 100%.</para>
+            </listitem>
+            <listitem>
+                <para
+>Correcció de la inclinació de la imatge: especialment els sensors grans són molt sensibles a la distància i la inclinació incorrecta del sensor. En aquests casos, la imatge presenta aberració, especialment a les cantonades de la imatge. Si totes les cantonades mostren el mateix efecte, cal corregir la distància. Si les aberracions en les cantonades difereixen, això és normalment el resultat d'un sensor inclinat.</para>
+            </listitem>
+            <listitem>
+                <para
+>Col·limació dels newtonians: inspeccionar els fotogrames en un estat desenfocat s'utilitza típicament per a col·limar els newtonians. Vegeu, per exemple, <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
+>The Photonewton Collimation Primer</ulink
+> de Tommy Nawratil per a més detalls.</para>
+            </listitem>
+            <listitem>
+                <para
+>Execució de l'eina de l'<link linkend="focus-aberration-inspector"
+>Inspector d'aberracions</link
+>.</para>
+            </listitem>
+          </itemizedlist
+></para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Paràmetres d'enfocament adaptatiu:</para>
+
+    <para
 >El conjunt següent de controls es relaciona amb <emphasis role="bold"
 >Enfocament adaptatiu</emphasis
->. Aquesta és una característica experimental a l'Ekos. La idea aquí és mantenir el telescopi enfocat adaptant la posició de l'enfocador basant-se en els canvis en les condicions ambientals sense haver de realitzar una execució completa d'enfocament automàtic. Vegeu la secció <link linkend="focus-adaptive"
+>. La idea aquí és mantenir el telescopi enfocat adaptant la posició de l'enfocador basant-se en els canvis en les condicions ambientals sense haver de realitzar una execució completa d'enfocament automàtic. Vegeu la secció <link linkend="focus-adaptive"
 >Enfocament adaptatiu</link
 > per a més detalls.</para>
 
-        <para
+    <para
 >Per exemple, a mesura que la temperatura canvia durant una sessió de processament d'imatges, el punt d'enfocament canviarà. Mostrejant la temperatura entre submarcs és possible calcular primer el canvi de temperatura i després convertir això a una sèrie de marques de moviment d'enfocament per a aplicar entre submarcs.</para>
 
-        <para
+    <para
 >Per a utilitzar l'<emphasis role="bold"
 >Enfocament adaptatiu</emphasis
 >, cal configurar algunes dades del vostre sistema. En particular, cal dir a l'Ekos quantes marques (i en quina direcció) moure l'enfocador quan canviïn les condicions ambientals. Això es tracta en la finestra emergent <link linkend="focus-filter-settings"
@@ -663,7 +762,7 @@
 ></inlinemediaobject
 >.</para>
 
-        <para
+    <para
 >Hi ha disponibles els controls següents: <itemizedlist>
             <listitem>
               <para
@@ -710,13 +809,11 @@
 >Enfocament adaptatiu</guilabel
 > no estarà marcat fins que l'usuari el torni a marcar manualment.</para>
             </listitem>
-          </itemizedlist>
-        </para>
-      </listitem>
-    </itemizedlist>
-  </sect2>
+        </itemizedlist>
+    </para>
+  </sect3>
 
-  <sect2 id="focus-process">
+  <sect3 id="focus-process">
     <title
 >Procés d'enfocament</title>
 
@@ -737,7 +834,7 @@
     </screenshot>
 
     <para
->Aquesta és la subfinestra de paràmetres del procés d'enfocament. Els ginys només es mostren si són rellevants per a les seleccions fetes.</para>
+>Paràmetres del procés d'enfocament:</para>
 
     <itemizedlist>
       <listitem>
@@ -801,7 +898,7 @@
 >Algorisme</guilabel
 >: Seleccioneu l'algorisme per al procés d'enfocament automàtic: </para>
 
-        <itemizedlist>
+      <itemizedlist>
         <listitem>
           <para
 ><emphasis role="bold"
@@ -845,174 +942,177 @@
 >: S'inicia amb el mètode iteratiu. En creuar cap a l'altre costat de la corba V, es calcularan els coeficients d'ajust polinòmic, juntament amb la possible solució mínima. Aquest algorisme pot ser més ràpid que un enfocament purament iteratiu, donat un bon conjunt de dades.</para>
         </listitem>
       </itemizedlist>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Ajust de la corba</guilabel
 >: El tipus de corba que s'ajusta als punts de dades. </para>
-      <itemizedlist>
-        <listitem>
-          <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Hipèrbola</emphasis
 >: Ajusta una hipèrbola utilitzant un algorisme de mínims quadrats no lineals subministrat per la GSL (GNU Science Library). Vegeu el <link linkend="Levenberg-Marquardt"
 >solucionador Levenberg-Marquardt</link
 > per a més detalls.</para>
 
-          <para
+            <para
 >Aquesta és l'opció recomanada.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Paràbola</emphasis
 >: Ajusta una paràbola utilitzant un algorisme de mínims quadrats no lineals subministrat per la GSL (GNU Science Library). Vegeu <link linkend="Levenberg-Marquardt"
 >Solucionador Levenberg-Marquardt</link
 > per a més detalls.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Quadràtica</emphasis
 >: Utilitza una equació quadràtica usant un algorisme de mínims quadrats d'estil lineal subministrat per la GSL (GNU Science Library). Aquesta és, de fet, una corba parabòlica.</para>
 
-          <para
+            <para
 >Ja no es recomana utilitzar aquesta corba.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
+          </listitem>
+        </itemizedlist>
+      </listitem>
 
-    <listitem>
-    <para
+      <listitem>
+        <para
 ><guilabel
 >Mesura</guilabel
 >: Seleccioneu la mesura a emprar en el procés d'enfocament. Hi ha disponibles les següents:</para>
 
-    <itemizedlist>
-      <listitem>
-        <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR</emphasis
 >: «Half Flux Radius» (HFR) o radi de semiflux és la mesura recomanada. Quan es detecta una estrella, l'Ekos calcularà l'HFR de l'estrella. Aquest és el radi d'un cercle imaginari, centrat al centre de l'estrella, que tanca la meitat del flux total de l'estrella.</para>
 
-        <para
+            <para
 >El punt de millor focus correspon a l'HFR mínim.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR Adj</emphasis
->: Aquesta és una característica experimental que utilitza un càlcul HFR ajustat a la lluminositat per a tenir en compte el fet que l'HFR de les estrelles més brillants és més gran que el de les estrelles més petites.</para>
+>: Aquesta característica utilitza un càlcul HFR ajustat a la lluminositat per a tenir en compte el fet que l'HFR de les estrelles més brillants és més gran que el de les estrelles més petites.</para>
 
-        <para
+            <para
 >L'algorisme ajusta el valor de l'HFR mesurat, normalment cap amunt, de manera que l'HFR obtingut pel mètode HFR Adj serà més alt que els valors HFR mesurats. Això no significa que estiguin empitjorant els resultats mitjançant l'ús de l'HFR Adj, simplement que la mesura és diferent.</para>
 
-        <para
+            <para
 >Quan s'utilitza aquesta mesura, és habitual obtenir barres d'error més petites als punts de dades quan s'ha seleccionat <guilabel
 >Empra ponderacions</guilabel
 >.</para>
 
-        <para
+            <para
 >El punt de millor focus correspon a l'HFR mínim ajustat.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >FWHM</emphasis
->: Aquesta és una característica experimental que s'ajusta a una superfície gaussiana per a cada estrella i que s'utilitza per a calcular el semimàxim d'amplada completa (FWHM) de l'estrella. El FWHM és l'amplada d'un cercle (o el·lipse) centrat en el centre de l'estrella arribant a la vora de l'estrella a la meitat de la seva intensitat màxima.</para>
+>: Aquesta característica ajusta una superfície gaussiana a cada estrella i s'utilitza per a calcular el semimàxim d'amplada completa (FWHM) de l'estrella. El FWHM és l'amplada d'un cercle (o el·lipse) centrat en el centre de l'estrella arribant a la vora de l'estrella a la meitat de la seva intensitat màxima.</para>
 
-        <para
+            <para
 >El punt de millor focus correspon a l'FWHM mínim.</para>
 
-        <para
+            <para
 >S'espera que la FWHM sigui aproximadament el doble de la HFR d'una estrella.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Nombre d'estrelles</emphasis
->: Aquesta és una característica experimental que calcula el nombre d'estrelles a la imatge i utilitza aquest nombre com a mesura d'enfocament. La idea és que a mesura que ens acostem al focus, es poden detectar més estrelles.</para>
+>: Aquesta característica calcula el nombre d'estrelles a la imatge i utilitza aquest nombre com a mesura d'enfocament. La idea és que a mesura que ens acostem al focus, es poden detectar més estrelles.</para>
 
-        <para
+            <para
 >L'avantatge d'aquesta mesura és que és molt simple i no requereix algorismes per a calcular les HFR o FWHM.</para>
 
-        <para
+            <para
 >El punt de millor focus correspon a un nombre màxim d'estrelles.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Fourier</emphasis
 >: Fourier pren una transformada de Fourier de la imatge i calcula la potència de la imatge en l'espai de freqüència. La hipòtesi és que per a una imatge astronòmica d'estrelles i fons, les estrelles seran gaussianes. Sota una transformada de Fourier, una gaussiana es transforma en una altra gaussiana; però les estrelles més amples es transformen en gaussianes més estretes en l'espai de freqüència, i viceversa. Per tant, a l'enfocament, el resum del contingut en l'espai de freqüència, que és en efecte una mesura de potència, serà un màxim.</para>
 
-        <para
+            <para
 >Això segueix la idea principal suggerida per Tan i Schulz en el seu document: <ulink url="https://arxiv.org/pdf/2201.12466.pdf"
 >A Fourier method for the determination of focus for telescopes with stars</ulink
 > (Un mètode de Fourier per a la determinació de l'enfocament de telescopis amb estrelles). Tingueu en compte que aquest document fa altres suggeriments de processament més enllà de la idea d'utilitzar transformacions de Fourier que no s'inclouen a l'Ekos</para>
 
-        <para
+            <para
 >Aquest és un mètode relativament nou en la comunitat astronòmica, i no requereix la detecció d'estrelles. Tan i Schulz informen de bons resultats amb telescopis d'aficionats i professionals.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
-    </itemizedlist>
-    </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >PSF</guilabel
 >: Si <guilabel
 >Mesura</guilabel
 > està establert a FWHM, llavors el giny PSF es pot seleccionar per a ajustar una superfície a l'estrella. Actualment només s'admet Gaussià.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Empra ponderacions</guilabel
 >: Aquesta és una opció només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Requereix que se seleccioni el camp complet. L'opció calcula la desviació estàndard de la Mesura de les estrelles i utilitza el quadrat d'aquesta (matemàticament la variància) com a ponderació en el procés d'ajust de la corba. L'avantatge d'això és que els punts de dades amb dades menys fiables i, per tant, les desviacions estàndard HFR més grans tindran menys pes que els punts de dades més fiables. Si aquesta opció no està marcada, i per a totes les altres coincidències de corba on no es permet l'opció, tots els punts de dades tenen el mateix pes en el procés d'ajust de la corba.</para>
 
-      <para
+        <para
 >La desviació estàndard es dibuixa a la corba V per a cada punt de dades com una barra d'errors.</para>
 
-      <para
+        <para
 >Es recomana marcar aquesta opció.</para>
 
-      <para
+        <para
 >Vegeu el <link linkend="Levenberg-Marquardt"
 >solucionador Levenberg-Marquardt</link
 > per a més detalls.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Límit R²</guilabel
 >: Aquesta és una opció només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Com a part de l'algorisme lineal d'1 pas, es calcula el grau en què la corba s'ajusta als punts de dades, o <link linkend="Coefficient_of_Determination"
 >coeficient de determinació, R²</link
 >. Aquesta opció permet definir un valor mínim acceptable de R² que es compara amb el valor obtingut del procés d'ajust de la corba. Si no s'ha aconseguit el valor mínim, es tornarà a executar l'enfocament automàtic. Només es realitzarà una reexecució i, fins i tot si el mínim R² no s'ha complert la segona vegada, l'execució de l'enfocament automàtic encara es considerarà reeixida.</para>
 
-      <para
+        <para
 >Experimenteu per a trobar un valor adequat, però un bon punt de partida seria 0,8 o 0,9</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Refina l'ajust de la corba</guilabel
->: Aquesta és una opció experimental només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si aquesta opció està marcada, llavors al final de l'escombrat dels punts de dades, l'Ekos ajusta una corba i mesura l'R². Després aplica el criteri de Peirce basat en la metodologia de Gould per a la identificació d'atípics. Vegeu el Criteri de Peirce <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
+>: Aquesta opció només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si aquesta opció està marcada, llavors al final de l'escombrat dels punts de dades, l'Ekos ajusta una corba i mesura l'R². Després aplica el criteri de Peirce basat en la metodologia de Gould per a la identificació d'atípics. Vegeu el Criteri de Peirce <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 ></ulink
 > per a més detalls incloent-hi el document original de Peirce i el document de Gould que són referenciats en les notes. Si el criteri de Peirce detecta 1 o més valors atípics, llavors s'intenta un altre ajust de la corba amb els valors atípics eliminats. De nou, es calcula l'R² i es compara amb la corba original ajustada a l'R². Si l'R² és millor, llavors s'utilitza l'última execució, si no, s'utilitza l'ajust de la corba original (amb els valors atípics inclosos).</para>
 
-      <para
+        <para
 >Els valors atípics estan clarament marcats a la corba V amb una X a través del punt de dades.</para>
+
+        <para
+>Es recomana marcar aquesta opció.</para>
       </listitem>
 
       <listitem>
@@ -1020,6 +1120,27 @@
 ><guilabel
 >Mitjana superior</guilabel
 >: Nombre de fotogrames a capturar a cada punt de dades. Normalment és assenyat començar amb 1 però augmentar això resultarà en un procés de mitjana per a l'estrella de mesura seleccionada.</para>
+      </listitem>
+
+      <listitem>
+        <warning>
+        <para
+><guilabel
+>Reductor de dònuts</guilabel
+>: Aquesta és una característica experimental i s'ha d'utilitzar amb precaució. La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de donut quan està desenfocat. En el futur és probable que es desenvolupin més funcionalitats per al Reductor de dònuts. En aquest llançament, la funcionalitat està dirigida a la recollida de dades per tal d'investigar mètodes per a millorar l'enfocament.</para>
+        </warning>
+      </listitem>
+      <listitem>
+        <warning>
+        <para
+><guilabel
+>Factor de dilatació del temps</guilabel
+>: Aquesta és una característica experimental del Reductor de dònuts i s'ha d'utilitzar amb precaució. Aquesta característica escala el temps d'exposició durant l'enfocament automàtic des del valor de l'exposició introduït al camp Exposició per als punts de dades més allunyats del focus. Els punts de dades propers al focus es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una exposició de 2 s i el Factor de dilatació del temps s'estableix a 4, llavors quan l'enfocament automàtic es mou per prendre el seu primer punt de dades, s'utilitza una exposició de 2 s * 4 = 8 s. En cada punt de dades successiu l'exposició es redueix a 2 s al voltant del punt d'enfocament òptim. A mesura que l'enfocador es mou a través del focus, de manera que l'exposició s'escala cap amunt fins a 8 s per a l'últim punt de dades.</para>
+        <para
+>The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
+        <para
+>Aquesta característica assumeix que l'enfocament automàtic s'executa des d'un enfocament proper a l'òptim.</para>
+        </warning>
       </listitem>
 
       <listitem>
@@ -1088,9 +1209,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect2>
+  </sect3>
 
-  <sect2 id="focus-mechanics">
+  <sect3 id="focus-mechanics">
     <title
 >Mecànica de l'enfocament</title>
 
@@ -1111,7 +1232,7 @@
     </screenshot>
 
     <para
->Aquesta és la subfinestra de paràmetres de mecànica de l'enfocament.</para>
+>Paràmetres de la mecànica d'enfocament:</para>
 
   <itemizedlist>
   <listitem>
@@ -1141,7 +1262,7 @@
         <para
 ><emphasis role="bold"
 >Passos fixos</emphasis
->: Aquesta opció experimental està disponible en l'<guilabel
+>: Aquesta característica està disponible en l'<guilabel
 >Algorisme</guilabel
 > lineal d'1 pas. És molt similar a Clàssic però <guilabel
 >Passos fixos</guilabel
@@ -1172,7 +1293,7 @@
         <para
 ><emphasis role="bold"
 >Barreja ZCE</emphasis
->: Aquesta opció experimental està disponible en l'<guilabel
+>: Aquesta característica està disponible en l'<guilabel
 >Algorisme</guilabel
 > lineal d'1 pas. Es tracta d'una variació de passos fixos, de manera que els comentaris en aquest camí també són aplicables aquí.</para>
 
@@ -1296,6 +1417,7 @@
 >: La quantitat de temps en segons a esperar que l'enfocador es mogui a la posició sol·licitada abans de declarar l'exhauriment. Això només s'hauria d'activar si hi ha problemes amb l'enfocador durant el procés d'enfocament, de manera que establiu un valor prou alt que no es produirà durant l'operativa normal.</para>
   </listitem>
   </itemizedlist>
+  </sect3>
   </sect2>
 
   <sect2 id="focus-cfz">
@@ -1319,7 +1441,7 @@
     </screenshot>
 
     <para
->Aquesta és la subfinestra de paràmetres de l'enfocament ZCE.</para>
+>Paràmetres de l'enfocament ZCE:</para>
 
   <itemizedlist>
   <listitem>
@@ -1332,7 +1454,7 @@
 >Requereix algun coneixement per a configurar-lo correctament. Hi ha molta informació disponible a Internet.</para>
 
     <para
->La idea de la pestanya ZCE és que comença amb les dades del tren òptic utilitzat a la pestanya Enfocament i que utilitza per a calcular la ZCE. L'usuari pot ajustar els paràmetres per a fer escenaris «què passa si» per veure com afecta la ZCE. En fer clic al botó <guilabel
+>La idea del diàleg ZCE és que comença amb les dades del tren òptic utilitzat a la pestanya Enfocament i que utilitza per a calcular la ZCE. L'usuari pot ajustar els paràmetres per a fer escenaris «què passa si» per a veure com afecta la ZCE. En fer clic al botó <guilabel
 >Reinicia al TO</guilabel
 > es restabliran els paràmetres ajustats als valors del tren òptic.</para>
 
@@ -1344,7 +1466,7 @@
 >Mecànica de l'enfocament </screeninfo>
       <mediaobject
 > <imageobject
-> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="75%"/>
+> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="50%"/>
         </imageobject
 ><textobject
 ><phrase
@@ -1354,9 +1476,9 @@
     </screenshot
 ></para>
     <para
->Cal especificar el paràmetre <guilabel
->Mida del pas</guilabel
-> que especifica (en micres) quant mou l'enfocador una marca.</para>
+>It is necessary to specify the <guilabel
+>Step Size</guilabel
+> parameter which specifies in microns how far one tick moves the focal plane. For refractors there is usually a 1-to-1 relationship between moving the focuser which moves the telescope draw-tube mechanism and the focal plane movement. For other types of telescope the relationship is likely to be more complex. Refer to details of your telescope / manufacturer for this information.</para>
 
     <para
 >Hi ha disponibles els algorismes següents: <itemizedlist>
@@ -1364,14 +1486,14 @@
         <para
 ><emphasis role="bold"
 >Clàssic</emphasis
->: Aquest és el paràmetre recomanat. L'equació usada es mostra a la part superior dreta del tauler i és l'equació que es veu més habitualment a Internet. L'equació prové d'un tractament d'òptica lineal que utilitza el Disc Airy i se sap que té limitacions. Per aquesta raó inclou un factor de «tolerància» que l'usuari pot ajustar. Per exemple, a l'article «In Perfect Focus» de Don Goldman i Barry Megdal a Sky &amp; Telescope 2010 suggereixen establir t=1/3.</para>
+>: Aquest és el paràmetre recomanat. L'equació usada es mostra a la part superior dreta del diàleg i és l'equació que es veu més habitualment a Internet. L'equació prové d'un tractament d'òptica lineal que utilitza el Disc Airy i se sap que té limitacions. Per aquesta raó inclou un factor de «tolerància» que l'usuari pot ajustar. Per exemple, a l'article «In Perfect Focus» de Don Goldman i Barry Megdal a Sky &amp; Telescope 2010 suggereixen establir t=1/3.</para>
       </listitem>
 
       <listitem>
         <para
 ><emphasis role="bold"
 >Front d'ona</emphasis
->: L'equació utilitzada es mostra a la part superior dreta del plafó. L'equació prové d'un enfocament de front d'ona al ZCE. De nou, té limitacions i de nou, per aquesta raó inclou un factor de «tolerància» que l'usuari pot ajustar. <screenshot>
+>: L'equació utilitzada es mostra a la part superior dreta del diàleg. L'equació prové d'un enfocament de front d'ona al ZCE. De nou, té limitacions i de nou, per aquesta raó inclou un factor de «tolerància» que l'usuari pot ajustar. <screenshot>
           <screeninfo
 >Mecànica de l'enfocament </screeninfo>
           <mediaobject
@@ -1528,7 +1650,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_advisor.png" format="PNG" width="50%"/>
+          <imagedata fileref="focus_advisor.png" format="PNG" width="33%"/>
         </imageobject>
 
         <textobject>
@@ -1539,7 +1661,7 @@
     </screenshot>
 
     <para
->Aquesta és la subfinestra de l'assessor d'enfocament. És una característica experimental per a ajudar a la gestió dels paràmetres d'enfocament.</para>
+>Aquest és el diàleg de l'assessor d'enfocament. És una característica per a ajudar a la gestió dels paràmetres d'enfocament.</para>
 
     <para
 >El propòsit de l'assessor d'enfocament és ajudar les persones que malden per utilitzar el mòdul d'enfocament dins de l'Ekos. El mòdul d'enfocament és ric en funcionalitats i té molts paràmetres que necessiten ser establerts de manera coherent per aconseguir bons resultats. L'assessor d'enfocament està dissenyat per a ajudar a la configuració bàsica dels paràmetres que haurien d'aconseguir l'enfocament. No està dissenyat per a aconseguir el millor enfocament possible per al vostre equip; haureu d'experimentar amb la configuració per a aconseguir-ho. Però l'assessor d'enfocament proporciona un lloc per iniciar l'experimentació.</para>
@@ -1549,9 +1671,9 @@
     <para
 >Si l'assessor d'enfocament no sembla donar bons resultats per a la vostra configuració, per què no iniciar un debat al fòrum perquè es pugui millorar per a donar millors resultats en el futur. D'aquesta manera, amb el temps es farà que sigui més útil.</para>
     <para
->Quan feu clic a la subfinestra de l'assessor d'enfocament, s'elaboren una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant a l'enfocament.</para>
+>Quan feu clic a l'assessor d'enfocament, s'elaboren una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant a l'enfocament.</para>
     <para
->A la part superior de la subfinestra mostra informació sobre el tren òptic connectat. A continuació, mostra 6 línies relacionades amb diversos conjunts de paràmetres utilitzats en l'enfocament. A cada línia hi ha una casella de selecció per actualitzar els camps associats d'enfocament amb les recomanacions de l'assessor d'enfocament.</para>
+>A la part superior del diàleg es mostra informació sobre el tren òptic connectat. A continuació, mostra 6 línies relacionades amb diversos conjunts de paràmetres utilitzats en l'enfocament. A cada línia hi ha una casella de selecció per actualitzar els camps associats d'enfocament amb les recomanacions de l'assessor d'enfocament.</para>
     <para
 >Els paràmetres d'enfocament es divideixen en els grups següents:</para>
 
@@ -1560,7 +1682,7 @@
     <para
 ><guilabel
 >Mida del pas</guilabel
->: Aquesta és la mida suggerida del pas d'enfocament a utilitzar. Aquest és un paràmetre crític. Està predeterminat des de la subfinestra zona crítica d'enfocament (ZCE). Per tant, el primer que cal fer és establir aquest plafó i obtenir un valor raonable per a la ZCE. Alternativament, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
+>: Aquesta és la mida suggerida del pas d'enfocament a utilitzar. Aquest és un paràmetre crític. Està predeterminat en el diàleg de la Zona crítica d'enfocament (ZCE). Per tant, el primer que cal fer és establir aquest diàleg i obtenir un valor raonable per a la ZCE. Alternativament, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
     </listitem>
 
     <listitem>
@@ -1582,28 +1704,28 @@
     <listitem>
     <para
 ><guilabel
->Paràmetres de la pestanya Configuració</guilabel
->: Això estableix els paràmetres a la subfinestra <link linkend="focus-settings"
->Configuració d'enfocament</link
-> de la pantalla d'enfocament. En passar el ratolí per sobre d'aquesta etiqueta, veureu en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
+>Paràmetres de la configuració</guilabel
+>: Això estableix els paràmetres de la <link linkend="focus-settings"
+>Configuració de l'enfocament</link
+>. En passar el ratolí per sobre d'aquesta etiqueta, veureu en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Paràmetres de la pestanya de procés</guilabel
->: Això estableix els paràmetres a la subfinestra <link linkend="focus-process"
+>Paràmetres de procés</guilabel
+>: Això estableix els paràmetres del <link linkend="focus-process"
 >Procés d'enfocament</link
-> de la pantalla d'enfocament. En passar el ratolí per sobre d'aquesta etiqueta, veureu en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
+>. En passar el ratolí per sobre d'aquesta etiqueta, veureu en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Paràmetres de la pestanya Mecànica</guilabel
->: Això estableix els paràmetres a la subfinestra <link linkend="focus-mechanics"
+>Paràmetres de la mecànica</guilabel
+>: Això estableix els paràmetres de <link linkend="focus-mechanics"
 >Mecànica de l'enfocament</link
-> de la pantalla d'enfocament. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
+>. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
     </listitem>
 
     <listitem>
@@ -2527,7 +2649,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="75%"/>
+          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="50%"/>
         </imageobject>
 
         <textobject>
@@ -2544,7 +2666,7 @@
 >La idea de l'EA és ajustar l'enfocament a mesura que canvien els factors ambientals per a intentar aproximar cada submarc el més possible a l'enfocament òptim. Idealment, l'efecte de l'enfocament adaptatiu és com realitzar una execució d'enfocament automàtic abans de cada submarc, però sense la sobrecàrrega de fer realment l'execució.</para>
 
     <para
->L'EA funciona com a complement dels diversos activadors per a l'enfocament automàtic que ara estan disponibles a l'Ekos. Per tant, no és necessari canviar els activadors d'enfocament automàtic quan es comença a utilitzar l'EA. De fet, al principi, atès que l'EA és una característica experimental, no es recomana relaxar les condicions d'enfocament automàtic quan s'utilitza l'EA. No obstant això, amb el temps, a mesura que creix la confiança en l'EA, seria possible fer menys enfocament automàtic (i, per tant, més processament d'imatges). Però de qualsevol manera, cada submarc hauria d'estar més enfocat quan s'utilitza l'EA, sempre que estigui configurat correctament. </para>
+>L'EA funciona com a complement dels diversos activadors per a l'enfocament automàtic que ara estan disponibles a l'Ekos. Per tant, no és necessari canviar els activadors d'enfocament automàtic quan es comença a utilitzar l'EA. De fet, al principi, no es recomana relaxar les condicions d'enfocament automàtic quan s'utilitza l'EA. No obstant això, amb el temps, a mesura que creix la confiança en l'EA, seria possible fer menys enfocament automàtic (i, per tant, més processament d'imatges). Però de qualsevol manera, cada submarc hauria d'estar més enfocat quan s'utilitza l'EA, sempre que estigui configurat correctament. </para>
 
     <para
 >Com conèixer si l'EA seria útil per a la vostra configuració o no? Potser la forma més senzilla seria examinar els submarcs just després d'un enfocament automàtic i comparar-los amb els submarcs just abans de l'enfocament automàtic següent. Podeu veure una diferència en l'enfocament? Si teniu una configuració on el punt d'enfocament és tolerant als canvis ambientals entre les execucions d'enfocament automàtic, aleshores l'EA no pot afegir res a les vostres imatges; tanmateix, si teniu una configuració que és sensible als canvis ambientals i la freqüència de les execucions d'enfocament automàtic és un compromís entre la qualitat i el temps de processament d'imatges, aleshores l'EA hauria de millorar la qualitat dels submarcs.</para>
@@ -2633,7 +2755,7 @@
     <para
 >Un cop tingueu les dades, podreu configurar-les a la finestra emergent <link linkend="focus-filter-settings"
 >Configuració del filtre</link
->. Després, en l'enfocament, activeu l'enfocament adaptatiu a la pestanya <link linkend="focus-settings"
+>. Després, en l'enfocament, activeu l'enfocament adaptatiu a la <link linkend="focus-settings"
 >Configuració de l'enfocament</link
 >. En aquest punt, quan executeu una seqüència, l'Ekos comprovarà després de cada submarc si necessita adaptar la posició de l'enfocador. Si és així, l'enfocament ho farà i després la captura continuarà amb el submarc següent.</para>
 
@@ -2659,7 +2781,9 @@
 >. Aquesta característica és disponible per a l'algorisme d'enfocament lineal d'1 pas. En essència, R² dona un valor entre 0 i 1, amb 1 que significa un ajust perfecte on tots els punts de dades es troben a la corba, i 0 que significa que no hi ha correlació entre els punts de dades i la corba. L'usuari hauria d'experimentar amb el seu equip per a veure quins valors poden obtenir, però com a guia, un valor per sobre de 0,9 seria un bon ajust.</para>
 
     <para
->Hi ha una opció per a establir un «límit R²» a la pestanya Configuració de la finestra Enfocament que es compara amb el R² calculat després que s'hagi completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>
+>Hi ha una opció per a establir un «límit R²» a la <link linkend="focus-settings"
+>Configuració de l'enfocament</link
+> que es compara amb el R² calculat després que s'hagi completat l'execució d'enfocament automàtic. Si no s'ha aconseguit el valor límit, es tornarà a executar l'enfocament automàtic.</para>
 
     <para
 >Establir un límit R² podria ser útil per a l'observació desatesa si l'execució de l'enfocament produeix un resultat dolent per un motiu puntual. És evident que si el motiu no és transitori, la reactivació no millorarà res.</para>
@@ -2744,9 +2868,11 @@
     <para
 >L'Inspector d'aberracions és una eina que fa ús de l'enfocament automàtic per a analitzar el focus per darrere i la inclinació del sensor en el tren òptic connectat.</para>
     <para
->Per a executar l'Inspector d'aberracions, premeu el botó Inspector a la pantalla d'enfocament situada al costat del botó Autofocus. Per a més detalls, vegeu el <link linkend="focus-focuser-group"
->Grup de l'enfocador</link
->. Per tal que l'eina funcioni, s'han de complir els criteris següents:</para>
+>Per a executar l'Inspector d'aberracions, premeu el botó <guibutton
+>Inspector d'aberracions</guibutton
+>. Per a més detalls, vegeu el <link linkend="focus-tools"
+>Eines d'enfocament</link
+>. Per tal que l'eina funcioni i el boto estigui activat, s'han de complir els criteris següents:</para>
 
     <itemizedlist>
       <listitem>
@@ -2766,7 +2892,7 @@
 
       <listitem>
         <para
->Cal configurar la mida del pas de l'enfocador. És el nombre de micres que el pla focal es mou per a una marca de l'enfocador. Això es configura a la pestanya de paràmetres ZCE. Vegeu la secció <link linkend="focus-cfz"
+>Cal configurar la mida del pas de l'enfocador. És el nombre de micres que el pla focal es mou per a una marca de l'enfocador. Això es configura al diàleg de paràmetres ZCE. Vegeu la secció <link linkend="focus-cfz"
 >ZCE</link
 > per a més detalls.</para>
       </listitem>
