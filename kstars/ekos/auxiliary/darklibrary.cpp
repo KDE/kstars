@@ -827,7 +827,7 @@ void DarkLibrary::loadCurrentMasterDark(const QString &camera, int masterIndex)
     // Get the master dark frame file name
     m_MasterDarkFrameFilename = record.value("filename").toString();
 
-    if (m_MasterDarkFrameFilename.isEmpty())
+    if (m_MasterDarkFrameFilename.isEmpty() || !QFileInfo::exists(m_MasterDarkFrameFilename))
         return;
 
     // Get defect file name as well if available.
