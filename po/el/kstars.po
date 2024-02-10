@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-09 01:41+0000\n"
+"POT-Creation-Date: 2024-02-10 01:49+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -578,8 +578,8 @@ msgstr "Ακύρωση"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1094 ekos/manager.cpp:1109
-#: ekos/manager.cpp:1139 ekos/scheduler/scheduler.cpp:1384
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1096 ekos/manager.cpp:1111
+#: ekos/manager.cpp:1141 ekos/scheduler/scheduler.cpp:1384
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:489 kstarsactions.cpp:497
 #: kstarsactions.cpp:507 skycomponents/imageoverlaycomponent.cpp:523
@@ -1997,12 +1997,12 @@ msgstr "Κατάσταση"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3041 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3061 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:598 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:600 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1377
 #: ekos/scheduler/scheduler.cpp:2040 ekos/scheduler/scheduler.ui:1279
 #: indi/indidome.cpp:20 indi/indidustcap.cpp:17 indi/indimount.cpp:31
@@ -2619,11 +2619,10 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3902
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/analyze/analyze.cpp:1255 ekos/capture/capture.cpp:2223
-#: ekos/capture/capture.cpp:2311 ekos/guide/guidedriftgraph.cpp:477
-#: ekos/scheduler/scheduler.cpp:1759 ekos/scheduler/scheduler.cpp:1855
-#: fitsviewer/fitstab.cpp:501 tools/scriptbuilder.cpp:832
-#: tools/scriptbuilder.cpp:930
+#: ekos/capture/capture.cpp:2223 ekos/capture/capture.cpp:2311
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1759
+#: ekos/scheduler/scheduler.cpp:1855 fitsviewer/fitstab.cpp:501
+#: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
 msgstr "Μη έγκυρο URL"
@@ -3719,7 +3718,7 @@ msgstr "Αδύνατη η λήψη του αρχείου."
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: dialogs/detaildialog.cpp:781 ekos/analyze/analyze.cpp:539
+#: dialogs/detaildialog.cpp:781 ekos/analyze/analyze.cpp:541
 #: kstarslite/qml/dialogs/DetailsDialog.qml:55
 #: kstarslite/qml/dialogs/DetailsDialog.qml:453
 #, kde-format, kde-kuit-format
@@ -6318,10 +6317,10 @@ msgstr "Σύλληψη εικόνας"
 msgid "Solver aborted after %1 seconds."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/align/align.cpp:2569 ekos/capture/capture.cpp:1758
-#: ekos/focus/focus.cpp:4030 ekos/guide/guide.cpp:1143 ekos/manager.cpp:1929
-#: ekos/mount/mount.cpp:829 ekos/observatory/observatory.cpp:952
-#: ekos/scheduler/scheduler.cpp:562
+#: ekos/align/align.cpp:2569 ekos/analyze/analyze.cpp:3716
+#: ekos/capture/capture.cpp:1758 ekos/focus/focus.cpp:4030
+#: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1933 ekos/mount/mount.cpp:829
+#: ekos/observatory/observatory.cpp:952 ekos/scheduler/scheduler.cpp:562
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -8545,7 +8544,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, downloadCameraB)
 #. i18n: ectx: property (text), widget (QCheckBox, eastRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
-#: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:199
+#: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:215
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:213
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:565
 #: ekos/guide/guide.ui:304 ekos/guide/guide.ui:456
@@ -8566,7 +8565,7 @@ msgstr "Στοίχιση"
 #. i18n: ectx: property (text), widget (QPushButton, removeOptionProfile)
 #. i18n: ectx: property (text), widget (QCheckBox, westRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, southDECGuideEnabled)
-#: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:247
+#: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:263
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:314
 #: ekos/guide/guide.ui:466 kstarslite/qml/indi/modules/MotionControl.qml:264
 #, fuzzy, kde-format, kde-kuit-format
@@ -10141,7 +10140,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:143 ekos/manager.cpp:232 ekos/manager.cpp:606
+#: ekos/manager.cpp:143 ekos/manager.cpp:232 ekos/manager.cpp:608
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10157,7 +10156,7 @@ msgstr "Εκκίνηση"
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2058
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2078
 #: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:79
 #: ekos/guide/guide.ui:137 ekos/opsekos.ui:551
 #, kde-format
@@ -10277,19 +10276,19 @@ msgstr "Φόρτωση %1"
 msgid "Tracking"
 msgstr "Ανίχνευση"
 
-#: ekos/analyze/analyze.cpp:512 ekos/analyze/analyze.cpp:524
+#: ekos/analyze/analyze.cpp:514 ekos/analyze/analyze.cpp:526
 #, fuzzy, kde-format
 #| msgid "Save Current session?"
 msgid "Current Session"
 msgstr "Αποθήκευση τρέχουσας συνεδρίας;"
 
-#: ekos/analyze/analyze.cpp:513
+#: ekos/analyze/analyze.cpp:515
 #, fuzzy, kde-format
 #| msgid "Read from input file"
 msgid "Read from File"
 msgstr "Ανάγνωση από αρχείο εισόδου"
 
-#: ekos/analyze/analyze.cpp:514
+#: ekos/analyze/analyze.cpp:516
 #, kde-format
 msgid "Set alternative image-file base directory"
 msgstr ""
@@ -10297,36 +10296,42 @@ msgstr ""
 #. i18n call below is broken up (and the word "analyze" is protected from it) because i18n
 #. translates "analyze" to "analyse" for the English UK locale, but we need to keep it ".analyze"
 #. because that's what how the files are named.
-#: ekos/analyze/analyze.cpp:538
+#: ekos/analyze/analyze.cpp:540
 #, fuzzy, kde-format
 #| msgid "Select Fields in Input File"
 msgctxt "@title:window"
 msgid "Select input file"
 msgstr "Επιλογή πεδίων στο αρχείο εισόδου"
 
-#: ekos/analyze/analyze.cpp:539
+#: ekos/analyze/analyze.cpp:541
 #, fuzzy, kde-format
 #| msgid "Select Filenames"
 msgid "All Files (*)"
 msgstr "Επιλογή ονομάτων αρχείων"
 
-#: ekos/analyze/analyze.cpp:559
+#: ekos/analyze/analyze.cpp:561
 #, kde-format
 msgid "Set an alternate base directory for your captured images"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:1254
+#: ekos/analyze/analyze.cpp:1260
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not find image file: %1"
+msgstr "Αδυναμία διαγραφής του αρχείου: %1"
+
+#: ekos/analyze/analyze.cpp:1263
+#, fuzzy, kde-format
+#| msgid "Could not delete the file: %1"
+msgid "Cannot display temporary image file: %1"
 msgstr "Αδυναμία διαγραφής του αρχείου: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
-#: ekos/analyze/analyze.cpp:2059 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:2058 ekos/manager/focusmanager.ui:101
+#: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
+#: ekos/manager.cpp:2064 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:442
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:467
 #, kde-format
@@ -10335,7 +10340,7 @@ msgstr "Εστίαση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2060 ekos/manager.cpp:2032
+#: ekos/analyze/analyze.cpp:2080 ekos/manager.cpp:2038
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:395
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:475
 #, fuzzy, kde-format
@@ -10347,15 +10352,15 @@ msgstr "Στοίχιση"
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
-#: ekos/analyze/analyze.cpp:2061 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2217
+#: ekos/analyze/analyze.cpp:2081 ekos/auxiliary/opslogs.ui:120
+#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2223
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:471
 #, kde-format
 msgid "Guide"
 msgstr "Οδηγός"
 
-#: ekos/analyze/analyze.cpp:2062
+#: ekos/analyze/analyze.cpp:2082
 #, fuzzy, kde-format
 msgid "Flip"
 msgstr "Φέρβιου"
@@ -10363,19 +10368,19 @@ msgstr "Φέρβιου"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:2063 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2142 ekos/manager.ui:665
+#: ekos/analyze/analyze.cpp:2083 ekos/auxiliary/opslogs.ui:77
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2148 ekos/manager.ui:665
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "Πλήθος:"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:2064 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:2084 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2322
+#: ekos/analyze/analyze.cpp:2342
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10383,7 +10388,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2338
+#: ekos/analyze/analyze.cpp:2358
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10391,7 +10396,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3043 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3063 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1383
@@ -10400,88 +10405,88 @@ msgstr ""
 msgid "Aborted"
 msgstr "Εγκατάλειψη"
 
-#: ekos/analyze/analyze.cpp:3045 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3065 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "Σύνδεση"
 
-#: ekos/analyze/analyze.cpp:3047 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3067 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "Αποσύνδεση"
 
-#: ekos/analyze/analyze.cpp:3049 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3069 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2054
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capturing"
 msgstr "Σύλληψη"
 
-#: ekos/analyze/analyze.cpp:3051 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3071 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3053 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3073 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Subtracting"
 msgstr "Βαθμονόμηση"
 
-#: ekos/analyze/analyze.cpp:3055 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3075 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
 msgid "Subframing"
 msgstr "Καρέ"
 
-#: ekos/analyze/analyze.cpp:3057 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3077 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select begin star:"
 msgid "Selecting star"
 msgstr "Επιλογή αστέρα εκκίνησης:"
 
-#: ekos/analyze/analyze.cpp:3059 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3079 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating"
 msgstr "Βαθμονόμηση"
 
-#: ekos/analyze/analyze.cpp:3061 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3081 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration error"
 msgstr "Βαθμονόμηση"
 
-#: ekos/analyze/analyze.cpp:3063 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3083 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgid "Calibrate"
 msgid "Calibrated"
 msgstr "Βαθμονόμηση"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3065 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3085 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:2052
 #, kde-format
 msgid "Guiding"
 msgstr "Οδήγηση"
 
-#: ekos/analyze/analyze.cpp:3067 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3087 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guiding"
 msgid "Suspended"
 msgstr "Οδήγηση"
 
-#: ekos/analyze/analyze.cpp:3069 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3089 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Reacquiring"
 msgstr "Σύλληψη"
 
-#: ekos/analyze/analyze.cpp:3071 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3091 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10489,24 +10494,24 @@ msgid "Dithering"
 msgstr "Άλλο"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3073 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3093 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "Άλλο"
 
-#: ekos/analyze/analyze.cpp:3075 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3095 ekos/ekos.h:37
 #, fuzzy, kde-format
 msgid "Dithering error"
 msgstr "Ντομ Κρικ"
 
-#: ekos/analyze/analyze.cpp:3077 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3097 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3079 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3099 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
@@ -10585,8 +10590,27 @@ msgstr "&Βοήθεια"
 msgid "Statistics"
 msgstr "Στατιστικά"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
+#: ekos/analyze/analyze.ui:202
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file"
+msgid ""
+"<html><head/><body><p>Move from the selected session to its previous session "
+"(on its left). Keyboard: control-left.</p></body></html>"
+msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
+
+#. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
+#. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
+#. i18n: ectx: property (text), widget (QPushButton, guideDetailPrevButton)
+#. i18n: ectx: property (text), widget (QPushButton, previousButton)
+#: ekos/analyze/analyze.ui:205 ekos/manager/focusmanager.ui:267
+#: ekos/manager/guidemanager.ui:415 printing/foveditordialog.ui:115
+#, kde-format
+msgid "<"
+msgstr "<"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, zoomInB)
-#: ekos/analyze/analyze.ui:196
+#: ekos/analyze/analyze.ui:212
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10595,7 +10619,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, cursorTimeOut)
-#: ekos/analyze/analyze.ui:212
+#: ekos/analyze/analyze.ui:228
 #, kde-format
 msgid ""
 "<html><head/><body><p>The number of seconds from the start of the log to the "
@@ -10604,7 +10628,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, cursorClockTimeOut)
-#: ekos/analyze/analyze.ui:231
+#: ekos/analyze/analyze.ui:247
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10614,7 +10638,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, zoomOutB)
-#: ekos/analyze/analyze.ui:244
+#: ekos/analyze/analyze.ui:260
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10622,8 +10646,27 @@ msgid ""
 "plots. That is, show a longer time period.</p></body></html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
+#: ekos/analyze/analyze.ui:276
+#, fuzzy, kde-format
+#| msgid "Use the specified configuration file"
+msgid ""
+"<html><head/><body><p>Move from the selected session to its next session (on "
+"its right). Keyboard: control-right.</p></body></html>"
+msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
+
+#. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
+#. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
+#. i18n: ectx: property (text), widget (QPushButton, guideDetailNextButton)
+#. i18n: ectx: property (text), widget (QPushButton, nextButton)
+#: ekos/analyze/analyze.ui:279 ekos/manager/focusmanager.ui:339
+#: ekos/manager/guidemanager.ui:503 printing/foveditordialog.ui:122
+#, kde-format
+msgid ">"
+msgstr ">"
+
 #. i18n: ectx: property (toolTip), widget (QScrollBar, analyzeSB)
-#: ekos/analyze/analyze.ui:296
+#: ekos/analyze/analyze.ui:328
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10633,7 +10676,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label2)
-#: ekos/analyze/analyze.ui:338
+#: ekos/analyze/analyze.ui:370
 #, fuzzy, kde-format
 #| msgid "Guider:"
 msgid "Guide:"
@@ -10642,21 +10685,21 @@ msgstr "Οδηγός:"
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/analyze/analyze.ui:356 ekos/auxiliary/opticaltrains.ui:163
+#: ekos/analyze/analyze.ui:388 ekos/auxiliary/opticaltrains.ui:163
 #: ekos/profileeditor.ui:658
 #, fuzzy, kde-format
 msgid "Mount:"
 msgstr "Πλήθος:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/analyze/analyze.ui:374
+#: ekos/analyze/analyze.ui:406
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capture:"
 msgstr "Σύλληψη"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
-#: ekos/analyze/analyze.ui:387
+#: ekos/analyze/analyze.ui:419
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10666,14 +10709,14 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 
 #. i18n: ectx: property (text), widget (QCheckBox, raCB)
 #. i18n: ectx: property (text), widget (QCheckBox, mountRaCB)
-#: ekos/analyze/analyze.ui:393 ekos/analyze/analyze.ui:798
+#: ekos/analyze/analyze.ui:425 ekos/analyze/analyze.ui:830
 #, fuzzy, kde-format
 #| msgid "rad"
 msgid "ra"
 msgstr "ακτίνια"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, raOut)
-#: ekos/analyze/analyze.ui:406
+#: ekos/analyze/analyze.ui:438
 #, kde-format
 msgid ""
 "<html><head/><body><p>The right ascension (RA) drift error in arc-seconds. "
@@ -10682,7 +10725,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
-#: ekos/analyze/analyze.ui:428
+#: ekos/analyze/analyze.ui:460
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10693,15 +10736,15 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 #. i18n: ectx: property (text), widget (QCheckBox, decCB)
 #. i18n: ectx: property (text), widget (QCheckBox, decPulseCB)
 #. i18n: ectx: property (text), widget (QCheckBox, mountDecCB)
-#: ekos/analyze/analyze.ui:434 ekos/analyze/analyze.ui:522
-#: ekos/analyze/analyze.ui:845
+#: ekos/analyze/analyze.ui:466 ekos/analyze/analyze.ui:554
+#: ekos/analyze/analyze.ui:877
 #, fuzzy, kde-format
 #| msgid "deg"
 msgid "dec"
 msgstr "μοίρες"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decOut)
-#: ekos/analyze/analyze.ui:447
+#: ekos/analyze/analyze.ui:479
 #, kde-format
 msgid ""
 "<html><head/><body><p>Plot the declination (DEC) drift error in arc-seconds. "
@@ -10710,7 +10753,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
-#: ekos/analyze/analyze.ui:469
+#: ekos/analyze/analyze.ui:501
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10719,13 +10762,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raPulseCB)
-#: ekos/analyze/analyze.ui:475
+#: ekos/analyze/analyze.ui:507
 #, kde-format
 msgid "ra pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, raPulseOut)
-#: ekos/analyze/analyze.ui:488
+#: ekos/analyze/analyze.ui:520
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10735,7 +10778,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decPulseCB)
-#: ekos/analyze/analyze.ui:516
+#: ekos/analyze/analyze.ui:548
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10744,7 +10787,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decPulseOut)
-#: ekos/analyze/analyze.ui:535
+#: ekos/analyze/analyze.ui:567
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10754,7 +10797,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, driftCB)
-#: ekos/analyze/analyze.ui:563
+#: ekos/analyze/analyze.ui:595
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10763,13 +10806,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, driftCB)
-#: ekos/analyze/analyze.ui:569
+#: ekos/analyze/analyze.ui:601
 #, kde-format
 msgid "drift"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, driftOut)
-#: ekos/analyze/analyze.ui:582
+#: ekos/analyze/analyze.ui:614
 #, kde-format
 msgid ""
 "<html><head/><body><p>The combined RA and DEC drift error in arc-seconds. "
@@ -10778,7 +10821,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
-#: ekos/analyze/analyze.ui:610
+#: ekos/analyze/analyze.ui:642
 #, kde-format
 msgid ""
 "<html><head/><body><p>Plot the root-mean-squared (RMS) value of the combined "
@@ -10788,14 +10831,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCB)
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCCB)
-#: ekos/analyze/analyze.ui:616 ekos/analyze/analyze.ui:1291
+#: ekos/analyze/analyze.ui:648 ekos/analyze/analyze.ui:1323
 #, fuzzy, kde-format
 #| msgid "m"
 msgid "rms"
 msgstr "μ"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsOut)
-#: ekos/analyze/analyze.ui:629
+#: ekos/analyze/analyze.ui:661
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10806,7 +10849,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyBgCB)
-#: ekos/analyze/analyze.ui:657
+#: ekos/analyze/analyze.ui:689
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10815,14 +10858,14 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyBgCB)
-#: ekos/analyze/analyze.ui:663
+#: ekos/analyze/analyze.ui:695
 #, fuzzy, kde-format
 #| msgid "Sky"
 msgid "sky"
 msgstr "Ουρανός"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, skyBgOut)
-#: ekos/analyze/analyze.ui:676
+#: ekos/analyze/analyze.ui:708
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10832,7 +10875,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numStarsCB)
-#: ekos/analyze/analyze.ui:698
+#: ekos/analyze/analyze.ui:730
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10846,7 +10889,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: ekos/analyze/analyze.ui:704 ekos/analyze/analyze.ui:1121
+#: ekos/analyze/analyze.ui:736 ekos/analyze/analyze.ui:1153
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:812
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:874 ekos/guide/opsguide.ui:434
 #: ekos/guide/opsguide.ui:540
@@ -10856,7 +10899,7 @@ msgid "stars"
 msgstr "αστέρας"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numStarsOut)
-#: ekos/analyze/analyze.ui:717
+#: ekos/analyze/analyze.ui:749
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10866,7 +10909,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, snrCB)
-#: ekos/analyze/analyze.ui:745
+#: ekos/analyze/analyze.ui:777
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10875,13 +10918,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, snrCB)
-#: ekos/analyze/analyze.ui:751
+#: ekos/analyze/analyze.ui:783
 #, kde-format
 msgid "snr"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, snrOut)
-#: ekos/analyze/analyze.ui:764
+#: ekos/analyze/analyze.ui:796
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10891,7 +10934,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountRaCB)
-#: ekos/analyze/analyze.ui:792
+#: ekos/analyze/analyze.ui:824
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10900,7 +10943,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountRaOut)
-#: ekos/analyze/analyze.ui:817
+#: ekos/analyze/analyze.ui:849
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10910,7 +10953,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
-#: ekos/analyze/analyze.ui:839
+#: ekos/analyze/analyze.ui:871
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10919,7 +10962,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountDecOut)
-#: ekos/analyze/analyze.ui:864
+#: ekos/analyze/analyze.ui:896
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10929,7 +10972,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
-#: ekos/analyze/analyze.ui:886
+#: ekos/analyze/analyze.ui:918
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10938,7 +10981,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, azCB)
-#: ekos/analyze/analyze.ui:892
+#: ekos/analyze/analyze.ui:924
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Kraz"
@@ -10946,7 +10989,7 @@ msgid "az"
 msgstr "Κραζ"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, azOut)
-#: ekos/analyze/analyze.ui:905
+#: ekos/analyze/analyze.ui:937
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10955,7 +10998,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altCB)
-#: ekos/analyze/analyze.ui:933
+#: ekos/analyze/analyze.ui:965
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10964,7 +11007,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, altCB)
-#: ekos/analyze/analyze.ui:939
+#: ekos/analyze/analyze.ui:971
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Halt"
@@ -10972,7 +11015,7 @@ msgid "alt"
 msgstr "Τερματισμός"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, altOut)
-#: ekos/analyze/analyze.ui:952
+#: ekos/analyze/analyze.ui:984
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10981,7 +11024,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pierSideCB)
-#: ekos/analyze/analyze.ui:980
+#: ekos/analyze/analyze.ui:1012
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -10990,13 +11033,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
-#: ekos/analyze/analyze.ui:986
+#: ekos/analyze/analyze.ui:1018
 #, fuzzy, kde-format
 msgid "side"
 msgstr "Αστρική ώρα"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pierSideOut)
-#: ekos/analyze/analyze.ui:999
+#: ekos/analyze/analyze.ui:1031
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11006,7 +11049,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
-#: ekos/analyze/analyze.ui:1027
+#: ekos/analyze/analyze.ui:1059
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11014,7 +11057,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, mountHaCB)
-#: ekos/analyze/analyze.ui:1033
+#: ekos/analyze/analyze.ui:1065
 #, fuzzy, kde-format
 #| msgctxt "Saturn's moon Rheas"
 #| msgid "Rhea"
@@ -11022,7 +11065,7 @@ msgid "ha"
 msgstr "Ρέα"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountHaOut)
-#: ekos/analyze/analyze.ui:1052
+#: ekos/analyze/analyze.ui:1084
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11031,7 +11074,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
-#: ekos/analyze/analyze.ui:1074
+#: ekos/analyze/analyze.ui:1106
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11040,7 +11083,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
-#: ekos/analyze/analyze.ui:1080
+#: ekos/analyze/analyze.ui:1112
 #, fuzzy, kde-format
 #| msgctxt "hours"
 #| msgid "hrs"
@@ -11048,7 +11091,7 @@ msgid "hfr"
 msgstr "ώρες"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, hfrOut)
-#: ekos/analyze/analyze.ui:1093
+#: ekos/analyze/analyze.ui:1125
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11058,7 +11101,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
-#: ekos/analyze/analyze.ui:1115
+#: ekos/analyze/analyze.ui:1147
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11067,7 +11110,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, numCaptureStarsOut)
-#: ekos/analyze/analyze.ui:1134
+#: ekos/analyze/analyze.ui:1166
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11077,7 +11120,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, medianCB)
-#: ekos/analyze/analyze.ui:1156
+#: ekos/analyze/analyze.ui:1188
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11086,13 +11129,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, medianCB)
-#: ekos/analyze/analyze.ui:1162
+#: ekos/analyze/analyze.ui:1194
 #, fuzzy, kde-format
 msgid "median"
 msgstr "Μέριντεν"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, medianOut)
-#: ekos/analyze/analyze.ui:1175
+#: ekos/analyze/analyze.ui:1207
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11102,7 +11145,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eccentricityCB)
-#: ekos/analyze/analyze.ui:1197
+#: ekos/analyze/analyze.ui:1229
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11111,7 +11154,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, eccentricityCB)
-#: ekos/analyze/analyze.ui:1203
+#: ekos/analyze/analyze.ui:1235
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Lecce"
@@ -11119,7 +11162,7 @@ msgid "ecc"
 msgstr "Λέτσε"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, eccentricityOut)
-#: ekos/analyze/analyze.ui:1216
+#: ekos/analyze/analyze.ui:1248
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11129,20 +11172,20 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, temperatureCB)
-#: ekos/analyze/analyze.ui:1238
+#: ekos/analyze/analyze.ui:1270
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, temperatureCB)
-#: ekos/analyze/analyze.ui:1244
+#: ekos/analyze/analyze.ui:1276
 #, kde-format
 msgid "temp"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, temperatureOut)
-#: ekos/analyze/analyze.ui:1257
+#: ekos/analyze/analyze.ui:1289
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11151,7 +11194,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCCB)
-#: ekos/analyze/analyze.ui:1285
+#: ekos/analyze/analyze.ui:1317
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11161,7 +11204,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsCOut)
-#: ekos/analyze/analyze.ui:1304
+#: ekos/analyze/analyze.ui:1336
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11173,7 +11216,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, targetDistanceCB)
-#: ekos/analyze/analyze.ui:1332
+#: ekos/analyze/analyze.ui:1364
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11183,13 +11226,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, targetDistanceCB)
-#: ekos/analyze/analyze.ui:1338
+#: ekos/analyze/analyze.ui:1370
 #, kde-format
 msgid "dist a-s"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, targetDistanceOut)
-#: ekos/analyze/analyze.ui:1351
+#: ekos/analyze/analyze.ui:1383
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11200,7 +11243,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
-#: ekos/analyze/analyze.ui:1379
+#: ekos/analyze/analyze.ui:1411
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11208,14 +11251,14 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusPositionCB)
-#: ekos/analyze/analyze.ui:1385
+#: ekos/analyze/analyze.ui:1417
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "focus"
 msgstr "Εστίαση"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
-#: ekos/analyze/analyze.ui:1398
+#: ekos/analyze/analyze.ui:1430
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -11226,7 +11269,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
-#: ekos/analyze/analyze.ui:1417 kstarslite/qml/modules/menus/ContextMenu.qml:71
+#: ekos/analyze/analyze.ui:1449 kstarslite/qml/modules/menus/ContextMenu.qml:71
 #: tools/starhopperdialog.ui:39
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Show Detailed Information Dialog"
@@ -12542,7 +12585,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2257
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2263
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -19325,24 +19368,24 @@ msgstr "Καθαρισμός"
 msgid "Called newMeasurement after a solution was found."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:803
+#: ekos/focus/focusalgorithms.cpp:804
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to fit curve to data."
 msgstr "Αποτυχία φόρτωσης της εικόνας στο %1"
 
-#: ekos/focus/focusalgorithms.cpp:955
+#: ekos/focus/focusalgorithms.cpp:956
 #, fuzzy, kde-format
 #| msgid "Star-Hop Route"
 msgid "Solution found."
 msgstr "Διαδρομή αστρο-αλμάτων"
 
-#: ekos/focus/focusalgorithms.cpp:999
+#: ekos/focus/focusalgorithms.cpp:1000
 #, kde-format
 msgid "Too many steps."
 msgstr ""
 
-#: ekos/focus/focusalgorithms.cpp:1028
+#: ekos/focus/focusalgorithms.cpp:1029
 #, kde-format
 msgid "Solution lies outside max travel."
 msgstr ""
@@ -23216,44 +23259,44 @@ msgstr ""
 msgid "Logging"
 msgstr "Φόρμα καταγραφών"
 
-#: ekos/manager.cpp:366
+#: ekos/manager.cpp:368
 #, kde-format
 msgid "Analyze"
 msgstr ""
 
-#: ekos/manager.cpp:630
+#: ekos/manager.cpp:632
 #, fuzzy, kde-format
 #| msgid "Ekos"
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:835 ekos/manager.cpp:861
+#: ekos/manager.cpp:837 ekos/manager.cpp:863
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 "Το Ekos χρειάζεται τουλάχιστον ένα CCD ή έναν Οδηγό για να να λειτουργήσει."
 
-#: ekos/manager.cpp:923
+#: ekos/manager.cpp:925
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:924
+#: ekos/manager.cpp:926
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "PTP Camera"
 msgstr "Φωτογραφική"
 
-#: ekos/manager.cpp:939
+#: ekos/manager.cpp:941
 #, fuzzy, kde-format
 #| msgid "Connecting INDI devices..."
 msgid "Starting INDI services..."
 msgstr "Σύνδεση συσκευών του INDI..."
 
-#: ekos/manager.cpp:970
+#: ekos/manager.cpp:972
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23261,13 +23304,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:972 indi/opsindi.ui:375
+#: ekos/manager.cpp:974 indi/opsindi.ui:375
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "INDI Server"
 msgstr "Εξυπηρετητής του INDI:"
 
-#: ekos/manager.cpp:987
+#: ekos/manager.cpp:989
 #, fuzzy, kde-format
 #| msgid "Connection to INDI server at host %1 with port %2 failed."
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
@@ -23275,41 +23318,41 @@ msgstr ""
 "Η σύνδεση με τον εξυπηρετητή του INDI στον υπολογιστή %1 με τη θύρα %2 "
 "απέτυχε."
 
-#: ekos/manager.cpp:1007
+#: ekos/manager.cpp:1009
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1011
+#: ekos/manager.cpp:1013
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1024
+#: ekos/manager.cpp:1026
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1044
+#: ekos/manager.cpp:1046
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1067
+#: ekos/manager.cpp:1069
 #, fuzzy, kde-format
 #| msgid "INDI services started. Please connect devices."
 msgid "INDI services started on port %1."
 msgstr "Οι υπηρεσίες του INDI ξεκίνησαν. Παρακαλώ συνδέστε τις συσκευές. "
 
-#: ekos/manager.cpp:1070
+#: ekos/manager.cpp:1072
 #, fuzzy, kde-format
 #| msgid "INDI services started. Please connect devices."
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Οι υπηρεσίες του INDI ξεκίνησαν. Παρακαλώ συνδέστε τις συσκευές. "
 
-#: ekos/manager.cpp:1075
+#: ekos/manager.cpp:1077
 #, fuzzy, kde-format
 #| msgid "INDI services started. Connection to %1 at %2 is successful."
 msgid ""
@@ -23319,31 +23362,31 @@ msgstr ""
 "Οι υπηρεσίες του INDI ξεκίνησαν. Η σύνδεση του %1 στο %2 πραγματοποιήθηκε με "
 "επιτυχία."
 
-#: ekos/manager.cpp:1085
+#: ekos/manager.cpp:1087
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1087
+#: ekos/manager.cpp:1089
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1100
+#: ekos/manager.cpp:1102
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Σύνδεση"
 
-#: ekos/manager.cpp:1102
+#: ekos/manager.cpp:1104
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1179
+#: ekos/manager.cpp:1181
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23353,7 +23396,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1181
+#: ekos/manager.cpp:1183
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23365,7 +23408,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1209
+#: ekos/manager.cpp:1211
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23377,15 +23420,15 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1213 ekos/manager.cpp:1221 ekos/manager.cpp:1251
-#: ekos/manager.cpp:1259
+#: ekos/manager.cpp:1215 ekos/manager.cpp:1223 ekos/manager.cpp:1253
+#: ekos/manager.cpp:1261
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Ekos startup error"
 msgstr "Ανιχνεύθηκε %1 αστέρας."
 
-#: ekos/manager.cpp:1217
+#: ekos/manager.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23397,7 +23440,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1247
+#: ekos/manager.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23409,7 +23452,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1255
+#: ekos/manager.cpp:1257
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23421,33 +23464,33 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1310
+#: ekos/manager.cpp:1312
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Σύνδεση συσκευών του INDI..."
 
-#: ekos/manager.cpp:1321
+#: ekos/manager.cpp:1323
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Αποσύνδεση συσκευών του INDI..."
 
-#: ekos/manager.cpp:1359
+#: ekos/manager.cpp:1361
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Οι υπηρεσίες του INDI διακόπηκαν."
 
-#: ekos/manager.cpp:1433
+#: ekos/manager.cpp:1435
 #, fuzzy, kde-format
 #| msgid "Remote devices established. Please connect devices."
 msgid "Remote devices established."
 msgstr "Οι απομακρυσμένες συσκευές εγκαταστάθηκαν. Παρακαλώ συνδέστε συσκευές."
 
-#: ekos/manager.cpp:1435
+#: ekos/manager.cpp:1437
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Οι απομακρυσμένες συσκευές εγκαταστάθηκαν. Παρακαλώ συνδέστε συσκευές."
 
-#: ekos/manager.cpp:1496
+#: ekos/manager.cpp:1498
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -23458,115 +23501,115 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1503
+#: ekos/manager.cpp:1505
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "%1 is disconnected."
 msgstr "Αποσύνδεση"
 
-#: ekos/manager.cpp:1522 ekos/manager.cpp:1531 ekos/manager.cpp:1564
+#: ekos/manager.cpp:1524 ekos/manager.cpp:1533 ekos/manager.cpp:1566
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1539
+#: ekos/manager.cpp:1541
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 filter is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1550
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 focuser is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1555
+#: ekos/manager.cpp:1557
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1571
+#: ekos/manager.cpp:1573
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Weather is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1580
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1587
+#: ekos/manager.cpp:1589
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Dust cap is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1594
+#: ekos/manager.cpp:1596
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Light box is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1732
+#: ekos/manager.cpp:1734
 #, kde-format
 msgid "%1 is offline."
 msgstr "Το %1 είναι εκτός σύνδεσης."
 
-#: ekos/manager.cpp:1979
+#: ekos/manager.cpp:1985
 #, fuzzy, kde-format
 #| msgid "CCD"
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2274
+#: ekos/manager.cpp:2280
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Η θύρα του Οδηγού από το %1 είναι έτοιμη."
 
-#: ekos/manager.cpp:2463
+#: ekos/manager.cpp:2469
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/manager.cpp:2464
+#: ekos/manager.cpp:2470
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "Αρχείο ρύθμισης"
 
-#: ekos/manager.cpp:2516
+#: ekos/manager.cpp:2522
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2518
+#: ekos/manager.cpp:2524
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2778
+#: ekos/manager.cpp:2784
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2792
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2814
+#: ekos/manager.cpp:2820
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2826
+#: ekos/manager.cpp:2832
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -23711,15 +23754,6 @@ msgstr "Επιλογές"
 msgid "Options..."
 msgstr "Επιλογές..."
 
-#. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
-#. i18n: ectx: property (text), widget (QPushButton, guideDetailPrevButton)
-#. i18n: ectx: property (text), widget (QPushButton, previousButton)
-#: ekos/manager/focusmanager.ui:267 ekos/manager/guidemanager.ui:415
-#: printing/foveditordialog.ui:115
-#, kde-format
-msgid "<"
-msgstr "<"
-
 #. i18n: ectx: property (toolTip), widget (FocusProfilePlot, profilePlot)
 #: ekos/manager/focusmanager.ui:275
 #, fuzzy, kde-format
@@ -23734,15 +23768,6 @@ msgstr "Αρχείο arc"
 #| msgid "Focus Out"
 msgid "Focus star"
 msgstr "Αναίρεση εστίασης"
-
-#. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
-#. i18n: ectx: property (text), widget (QPushButton, guideDetailNextButton)
-#. i18n: ectx: property (text), widget (QPushButton, nextButton)
-#: ekos/manager/focusmanager.ui:339 ekos/manager/guidemanager.ui:503
-#: printing/foveditordialog.ui:122
-#, kde-format
-msgid ">"
-msgstr ">"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/manager/guidemanager.ui:92

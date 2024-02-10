@@ -681,7 +681,7 @@
     </itemizedlist>
 
     <para
->Mask Section Parameters:</para>
+>Paràmetres de la secció de màscara:</para>
 
     <para
 >Aquests controls estan relacionats amb les <emphasis role="bold"
@@ -1137,7 +1137,7 @@
 >Factor de dilatació del temps</guilabel
 >: Aquesta és una característica experimental del Reductor de dònuts i s'ha d'utilitzar amb precaució. Aquesta característica escala el temps d'exposició durant l'enfocament automàtic des del valor de l'exposició introduït al camp Exposició per als punts de dades més allunyats del focus. Els punts de dades propers al focus es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una exposició de 2 s i el Factor de dilatació del temps s'estableix a 4, llavors quan l'enfocament automàtic es mou per prendre el seu primer punt de dades, s'utilitza una exposició de 2 s * 4 = 8 s. En cada punt de dades successiu l'exposició es redueix a 2 s al voltant del punt d'enfocament òptim. A mesura que l'enfocador es mou a través del focus, de manera que l'exposició s'escala cap amunt fins a 8 s per a l'últim punt de dades.</para>
         <para
->The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
+>El propòsit d'aquesta característica és augmentar la lluminositat dels punts de dades desenfocats, que seran més foscos que els punts de dades enfocats i, per tant, més difícils de resoldre per la detecció d'estrelles a partir del soroll de fons.</para>
         <para
 >Aquesta característica assumeix que l'enfocament automàtic s'executa des d'un enfocament proper a l'òptim.</para>
         </warning>
@@ -1476,9 +1476,9 @@
     </screenshot
 ></para>
     <para
->It is necessary to specify the <guilabel
->Step Size</guilabel
-> parameter which specifies in microns how far one tick moves the focal plane. For refractors there is usually a 1-to-1 relationship between moving the focuser which moves the telescope draw-tube mechanism and the focal plane movement. For other types of telescope the relationship is likely to be more complex. Refer to details of your telescope / manufacturer for this information.</para>
+>Cal especificar el paràmetre <guilabel
+>Mida del pas</guilabel
+> que especifica, en micres, fins a on es mou el pla focal. Per als refractors, hi ha una relació d'1 a 1 entre moure l'enfocador que mou el mecanisme del tub de dibuix del telescopi i el moviment del pla focal. Per a altres tipus de telescopi, és probable que la relació sigui més complexa. Consulteu els detalls del vostre telescopi / fabricant per a aquesta informació.</para>
 
     <para
 >Hi ha disponibles els algorismes següents: <itemizedlist>

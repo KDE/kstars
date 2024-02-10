@@ -681,7 +681,7 @@
     </itemizedlist>
 
     <para
->Mask Section Parameters:</para>
+>Parameters in de sectie Maskering:</para>
 
     <para
 >Deze besturingen zijn gerelateerd aan <emphasis role="bold"
@@ -1137,7 +1137,7 @@
 >Tijddilatiefactor</guilabel
 >: dit is een experimentele mogelijkheid van Donutbuster en moet voorzichtig worden gebruikt. Deze mogelijkheid schaalt de belichtingstijd tijdens Autofocus uit de waarde van belichtingstijd ingevoerd in het veld Belichting voor de verste gegevenspunten uit focus. Gegevenspunten dichtbij focus worden genomen met een niet-geschaalde belichting. Bijvoorbeeld, als Focus is opgezet met een Belichting van 2s en de Tijddilatiefactor is op 4 gezet, dan zal wanneer Autofocus uit beweegt om zijn eerste gegevenspunt te nemen, een belichting van 2s * 4 = 8s worden gebruikt. Op elk opvolgend gegevenspunt zal de belichting verminderd worden tot 2s rond het punt van optimale focus. Terwijl de focuser door focus beweegt, zal dus de belichting omhoog geschaald worden tot 8s voor het laatste gegevenspunt.</para>
         <para
->The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
+>Het doel van deze mogelijkheid is het verhogen van de helderheid van datapunten uit-focus die meer gedimd zijn dan in-focus gegevenspunten en daarom moeilijker voor ontdekken van sterren om op te lossen uit de achtergrondruis.</para>
         <para
 >Deze mogelijkheid neemt aan dat Autofocus wordt uitgevoerd vanaf bijna tot optimale focus.</para>
         </warning>
@@ -1441,7 +1441,7 @@
     </screenshot>
 
     <para
->Focus CFZ Parameters:</para>
+>CFZ-parameters van focus:</para>
 
   <itemizedlist>
   <listitem>
@@ -1476,9 +1476,9 @@
     </screenshot
 ></para>
     <para
->It is necessary to specify the <guilabel
->Step Size</guilabel
-> parameter which specifies in microns how far one tick moves the focal plane. For refractors there is usually a 1-to-1 relationship between moving the focuser which moves the telescope draw-tube mechanism and the focal plane movement. For other types of telescope the relationship is likely to be more complex. Refer to details of your telescope / manufacturer for this information.</para>
+>Het is nodig om de parameter <guilabel
+>Stapgrootte</guilabel
+> te specificeren die in microns specificeert hoever één streepje het focusvlak verplaatst. Voor refractors is er gewoonlijk een 1-op-1 relatie tussen de focuser verplaatsen die het trekbuismechaniek van de telescoop verplaatst en de verplaatsing van focusvlak. Voor andere typen telescopen zal de relatie waarschijnlijk complexer zijn. Bekijk de details van uw telescoop / maker voor deze informatie.</para>
 
     <para
 >Het volgende algoritmes is beschikbaar: <itemizedlist>
