@@ -2497,9 +2497,9 @@ int SchedulerProcess::runSchedulerIteration()
     if (moduleState()->startMSecs() == 0)
         moduleState()->setStartMSecs(now);
 
-    printStates(QString("\nrunScheduler Iteration %1 @ %2")
-                .arg(moduleState()->increaseSchedulerIteration())
-                .arg((now - moduleState()->startMSecs()) / 1000.0, 1, 'f', 3));
+    //    printStates(QString("\nrunScheduler Iteration %1 @ %2")
+    //                .arg(moduleState()->increaseSchedulerIteration())
+    //                .arg((now - moduleState()->startMSecs()) / 1000.0, 1, 'f', 3));
 
     SchedulerTimerState keepTimerState = moduleState()->timerState();
 
@@ -2536,7 +2536,7 @@ int SchedulerProcess::runSchedulerIteration()
         // qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler iteration never set up.";
         moduleState()->setTimerInterval(moduleState()->updatePeriodMs());
     }
-    printStates(QString("End iteration, sleep %1: ").arg(moduleState()->timerInterval()));
+    //    printStates(QString("End iteration, sleep %1: ").arg(moduleState()->timerInterval()));
     return moduleState()->timerInterval();
 }
 
@@ -3994,8 +3994,8 @@ void SchedulerProcess::printStates(const QString &label)
                                    .arg(shutdownStateString(moduleState()->shutdownState()))
                                    .arg(parkWaitStateString(moduleState()->parkWaitState())).toLatin1().data();
     foreach (auto j, moduleState()->jobs())
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "job %s", QString("%1 %2\n").arg(j->getName())
-                                       .arg(SchedulerJob::jobStatusString(j->getState())).toLatin1().data();
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("job %1 %2\n").arg(j->getName()).arg(SchedulerJob::jobStatusString(
+                                           j->getState())).toLatin1().data();
 }
 
 } // Ekos namespace
