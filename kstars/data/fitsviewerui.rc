@@ -4,6 +4,7 @@
 <MenuBar noMerge="1">
 <Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_open" />
+		<Action name="blink" />
                 <Action name="file_save"/>
                 <Action name="file_save_as"/>
                 <Separator/>
@@ -23,6 +24,8 @@
 <Menu name="view"><text>&amp;View</text>
 		<Action name="view_zoom_in"/>
 		<Action name="view_zoom_out"/>
+		<Action name="zoom_all_in"/>
+		<Action name="zoom_all_out"/>                
 		<Action name="view_actual_size"/>
                 <Separator/>
                 <Action name="filter1"/>
@@ -38,6 +41,13 @@
                 <Separator/>
                 <Action name="mark_stars"/>
                 <Action name="view_clipping"/>
+                <Separator/>
+                <Action name="next_blink"/>
+                <Action name="previous_blink"/>
+                <Separator/>
+                <Action name="next_tab"/>
+                <Action name="previous_tab"/>
+                
 </Menu>
 
 <Menu name="help"><text>&amp;Help</text>

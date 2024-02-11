@@ -3628,7 +3628,7 @@ void Focus::autoFocusRel()
 
 void Focus::autoFocusProcessPositionChange(IPState state)
 {
-    if (state == IPS_OK && captureInProgress == false)
+    if (state == IPS_OK)
     {
         // Normally, if we are auto-focusing, after we move the focuser we capture an image.
         // However, the Linear algorithm, at the start of its passes, requires two
@@ -3767,7 +3767,8 @@ void Focus::updateProperty(INDI::Property prop)
         else
         {
             // Systematically reset UI when focuser finishes moving
-            resetButtons();
+            if (focuserAdditionalMovement == 0)
+                resetButtons();
 
             if (inAdjustFocus)
             {
@@ -4102,6 +4103,9 @@ void Focus::resetButtons()
         startFocusB->setEnabled(false);
         startAbInsB->setEnabled(false);
         startLoopB->setEnabled(false);
+        focusOutB->setEnabled(true);
+        focusInB->setEnabled(true);
+        startGotoB->setEnabled(canAbsMove);
         stopFocusB->setEnabled(true);
         captureB->setEnabled(false);
         opticalTrainCombo->setEnabled(false);

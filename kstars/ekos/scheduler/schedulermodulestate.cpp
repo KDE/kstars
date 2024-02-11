@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "schedulermodulestate.h"
+#include "schedulerjob.h"
 #include <ekos_scheduler_debug.h>
 #include "schedulerprocess.h"
 #include "schedulerjob.h"
@@ -20,6 +21,17 @@ QDateTime SchedulerModuleState::m_Dawn, SchedulerModuleState::m_Dusk, SchedulerM
 GeoLocation *SchedulerModuleState::storedGeo = nullptr;
 
 SchedulerModuleState::SchedulerModuleState() {}
+
+void SchedulerModuleState::init()
+{
+    // This is needed to get wakeupScheduler() to call start() and startup,
+    // instead of assuming it is already initialized (if preemptiveShutdown was not set).
+    // The time itself is not used.
+    enablePreemptiveShutdown(SchedulerModuleState::getLocalTime());
+
+    setIterationSetup(false);
+    setupNextIteration(RUN_WAKEUP, 10);
+}
 
 void SchedulerModuleState::setCurrentProfile(const QString &newName, bool signal)
 {
@@ -50,6 +62,46 @@ void SchedulerModuleState::updateProfiles(const QStringList &newProfiles)
     emit profilesChanged();
 }
 
+void SchedulerModuleState::setActiveJob(SchedulerJob *newActiveJob)
+{
+    m_activeJob = newActiveJob;
+}
+
+void SchedulerModuleState::updateJobStage(SchedulerJobStage stage)
+{
+    if (activeJob() == nullptr)
+    {
+        emit jobStageChanged(SCHEDSTAGE_IDLE);
+    }
+    else
+    {
+        activeJob()->setStage(stage);
+        emit jobStageChanged(stage);
+    }
+}
+
+QJsonArray SchedulerModuleState::getJSONJobs()
+{
+    QJsonArray jobArray;
+
+    for (const auto &oneJob : jobs())
+        jobArray.append(oneJob->toJson());
+
+    return jobArray;
+}
+
+void SchedulerModuleState::setSchedulerState(const SchedulerState &newState)
+{
+    m_schedulerState = newState;
+    emit schedulerStateChanged(newState);
+}
+
+void SchedulerModuleState::setCurrentPosition(int newCurrentPosition)
+{
+    m_currentPosition = newCurrentPosition;
+    emit currentPositionChanged(newCurrentPosition);
+}
+
 void SchedulerModuleState::setStartupState(StartupState state)
 {
     if (m_startupState != state)
@@ -75,6 +127,44 @@ void SchedulerModuleState::setParkWaitState(ParkWaitState state)
         m_parkWaitState = state;
         emit parkWaitStateChanged(state);
     }
+}
+
+bool SchedulerModuleState::removeJob(const int currentRow)
+{
+    /* Don't remove a row that is not selected */
+    if (currentRow < 0)
+        return false;
+
+    /* Grab the job currently selected */
+    SchedulerJob * const job = jobs().at(currentRow);
+
+    // Can't delete the currently running job
+    if (job == m_activeJob)
+    {
+        emit newLog(i18n("Cannot delete currently running job '%1'.", job->getName()));
+        return false;
+    }
+    else if (job == nullptr || (activeJob() == nullptr && schedulerState() != SCHEDULER_IDLE))
+    {
+        // Don't allow delete--worried that we're about to schedule job that's being deleted.
+        emit newLog(i18n("Cannot delete job. Scheduler state: %1",
+                         getSchedulerStatusString(schedulerState(), true)));
+        return false;
+    }
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is being deleted.").arg(job->getName()).arg(currentRow + 1);
+
+    /* Remove the job object */
+    mutlableJobs().removeOne(job);
+    delete (job);
+
+    // Reduce the current position if the last element has been deleted
+    if (currentPosition() >= jobs().count())
+        setCurrentPosition(jobs().count() - 1);
+
+    setDirty(true);
+    // success
+    return true;
 }
 
 void SchedulerModuleState::enablePreemptiveShutdown(const QDateTime &wakeupTime)
@@ -282,6 +372,7 @@ void SchedulerModuleState::calculateDawnDusk()
     calculateDawnDusk(QDateTime(), m_Dawn, m_Dusk);
 
     m_PreDawnDateTime = m_Dawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+    emit updateNightTime();
 }
 
 const GeoLocation *SchedulerModuleState::getGeo()
@@ -330,5 +421,12 @@ void SchedulerModuleState::setupNextIteration(SchedulerTimerState nextState, int
 uint SchedulerModuleState::maxFailureAttempts()
 {
     return MAX_FAILURE_ATTEMPTS;
+}
+
+bool SchedulerModuleState::checkRepeatSequence()
+{
+    return (!Options::rememberJobProgress() && Options::schedulerRepeatSequences() &&
+            (Options::schedulerExecutionSequencesLimit() == 0
+             || sequenceExecutionCounter()) < Options::schedulerExecutionSequencesLimit());
 }
 } // Ekos namespace

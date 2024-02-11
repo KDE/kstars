@@ -647,8 +647,6 @@ class FITSData : public QObject
         /* Calculate running average & standard deviation */
         template <typename T>
         void calculateStdDev( bool roi = false );
-        template <typename T>
-        QPair<double, double> getSumAndSquaredSum( uint32_t start, uint32_t stride, bool roi = false);
 
         template <typename T>
         void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);

@@ -93,6 +93,9 @@ class FITSViewer : public KXmlGuiWindow
     public slots:
         void changeAlwaysOnTop(Qt::ApplicationState state);
         void openFile();
+        void blink();
+        void nextBlink();
+        void previousBlink();
         void saveFile();
         void saveFileAs();
         void copyFITS();
@@ -105,12 +108,16 @@ class FITSViewer : public KXmlGuiWindow
         void updateStatusBar(const QString &msg, FITSBar id);
         void ZoomIn();
         void ZoomOut();
+        void ZoomAllIn();
+        void ZoomAllOut();
         void ZoomDefault();
         void ZoomToFit();
         void updateAction(const QString &name, bool enable);
         void updateTabStatus(bool clean, const QUrl &imageURL);
         void closeTab(int index);
         void toggleStars();
+        void nextTab();
+        void previousTab();
         void toggleCrossHair();
         void toggleClipping();
         void toggleEQGrid();
@@ -153,6 +160,11 @@ class FITSViewer : public KXmlGuiWindow
         QUrl lastURL;
         KActionMenu *roiActionMenu { nullptr };
         KActionMenu* roiMenu { nullptr };
+
+        void loadFiles();
+        QList<QUrl> m_urls;
+        void changeBlink(bool increment);
+        static bool m_BlinkBusy;
 
     signals:
         void trackingStarSelected(int x, int y);

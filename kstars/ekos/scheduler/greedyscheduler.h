@@ -18,6 +18,7 @@ namespace Ekos
 
 class Scheduler;
 class SchedulerJob;
+class ModuleLogger;
 
 class GreedyScheduler : public QObject
 {
@@ -55,12 +56,12 @@ class GreedyScheduler : public QObject
           * @param jobs A list of SchedulerJobs
           * @param now The time at which the scheduling should start.
           * @param capturedFramesCount A structure, computed by the scheduler, which keeps track of previous job progress.
-          * @param scheduler A pointer to the scheduler object, useful for notifying the user. Can be nullptr.
+          * @param scheduler A pointer to the module logging, useful for notifying the user. Can be nullptr.
           */
         void scheduleJobs(const QList<SchedulerJob *> &jobs,
                                            const QDateTime &now,
                                            const QMap<QString, uint16_t> &capturedFramesCount,
-                                           Scheduler *scheduler);
+                                           ModuleLogger *logger);
         /**
           * @brief checkJob Checks to see if a job should continue running.
           * @param jobs A list of SchedulerJobs
@@ -136,7 +137,7 @@ class GreedyScheduler : public QObject
         // In addition, jobs with no remaining time are marked JOB_COMPLETED,
         // jobs with invalid sequence file as JOB_INVALID.
         void prepareJobsForEvaluation(const QList<SchedulerJob *> &jobs, const QDateTime &now,
-            const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true) const;
+            const QMap<QString, uint16_t> &capturedFramesCount, ModuleLogger *scheduler, bool reestimateJobTime = true) const;
 
         // Removes the EVALUATION state, after eval is done.
         void unsetEvaluation(const QList<SchedulerJob *> &jobs) const;

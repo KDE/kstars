@@ -179,7 +179,7 @@ void TestFitsData::initGenericDataFixture()
             << 1.482291 // HFR found with the StellarSolver detection
             << 41.08    // ADU
             << 41.08    // Mean
-            << 360.29   // StdDev
+            << 360.2932 // StdDev
             << 0.114    // SNR
             << 57832L   // Max
             << 21L      // Min

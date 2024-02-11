@@ -653,9 +653,9 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
             {
                 case PAUSED:
                 case DITHERING:
-                    emit newLog(i18n("PHD2: Guiding resumed."));
+                    emit newLog(i18n("PHD2: Dithering successful."));
                     abortTimer->stop();
-                    emit newStatus(Ekos::GUIDE_GUIDING);
+                    emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
                     break;
                 default:
                     emit newLog(i18n("PHD2: Guiding started."));

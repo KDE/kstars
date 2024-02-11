@@ -754,10 +754,11 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear1Pass: step %1, linearWalk %2, %3")
                                .arg(numSteps).arg(position).arg(value);
 
-    // If we are within 1 tick of where we should be then fine, otherwise try again
-    if (abs(position - requestedPosition) > 1)
+    // If we are within stepsize ticks of where we should be then fine, otherwise try again
+    if (abs(position - requestedPosition) > params.initialStepSize)
     {
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear1Pass: linearWalk error didn't get the requested position");
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("linearWalk error: position %1, requested position %2").arg(position)
+                                   .arg(requestedPosition);
         return requestedPosition;
     }
 

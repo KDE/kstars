@@ -169,11 +169,11 @@ void TestEkosScheduler::testScheduleManipulation()
     // This verifies the fix to the issue causing sequence files to be messed up when pasting jobs
     for (int i = count - 2; i > 0; i--)
     {
-        queueTable->selectRow(std::min(i, queueTable->rowCount()-1));
+        queueTable->selectRow(std::min(i, queueTable->rowCount() - 1));
 
         KTRY_SCHEDULER_CLICK(removeFromQueueB);
         KTRY_SCHEDULER_CLICK(addToQueueB);
-        queueTable->selectRow(std::min(i+1, queueTable->rowCount()-1));
+        queueTable->selectRow(std::min(i + 1, queueTable->rowCount() - 1));
 
         QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(i)));
         QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[i % seqs.count()]));
@@ -187,20 +187,18 @@ void TestEkosScheduler::testScheduleManipulation()
     {
         QCOMPARE(queueTable->rowCount(), count - i);
 
-        // Clear selection, no removal possible
-        queueTable->setCurrentIndex(QModelIndex());
-        QTRY_COMPARE_WITH_TIMEOUT(queueTable->currentRow(), -1, 500);
-        QEXPECT_FAIL("", "Removal button is not disabled when there is no line selection.", Continue);
-        QVERIFY(!removeFromQueueB->isEnabled());
-        KTRY_SCHEDULER_CLICK(removeFromQueueB);
         //QEXPECT_FAIL("", "Removal button is ineffective when there is no line selection.", Continue);
         //QTRY_COMPARE_WITH_TIMEOUT(queueTable->rowCount(), count - i, 5000);
 
         // Select a line, remove job - note removal can be quite slow
-        queueTable->selectRow(i % queueTable->rowCount());
+        const int pos = i % queueTable->rowCount();
+        queueTable->selectRow(pos);
         //queueTable->selectionModel()->select(queueTable->model()->index(i % queueTable->model()->rowCount(), 0), QItemSelectionModel::SelectCurrent);
         KTRY_SCHEDULER_CLICK(removeFromQueueB);
         QTRY_COMPARE_WITH_TIMEOUT(queueTable->rowCount(), count - i - 1, 5000);
+
+        // After a removal, no row is selected, no further removal possible
+        QVERIFY(!removeFromQueueB->isEnabled());
     }
 
     QCOMPARE(queueTable->rowCount(), 0);

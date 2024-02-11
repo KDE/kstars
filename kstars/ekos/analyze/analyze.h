@@ -58,6 +58,8 @@ class Analyze : public QWidget, public Ui::Analyze
                 Session(double s, double e, int o, QCPItemRect *r)
                     : start(s), end(e), offset(o), rect(r) {}
 
+                Session() : start(0), end(0), offset(0), rect(nullptr) {}
+
                 // These 2 are used to build tables for the details display.
                 void setupTable(const QString &name, const QString &status,
                                 const QDateTime &startClock, const QDateTime &endClock,
@@ -168,6 +170,16 @@ class Analyze : public QWidget, public Ui::Analyze
                 double focusPosition();
         };
 
+        void clearLog();
+        QStringList logText()
+        {
+            return m_LogText;
+        }
+        QString getLogText()
+        {
+            return m_LogText.join("\n");
+        }
+
     public slots:
         // These slots are messages received from the different Ekos processes
         // used to gather data about those processes.
@@ -210,9 +222,12 @@ class Analyze : public QWidget, public Ui::Analyze
 
         void yAxisRangeChanged(const QCPRange &newRange);
 
+        void appendLogText(const QString &);
+
     private slots:
 
     signals:
+        void newLog(const QString &text);
 
     private:
 
@@ -257,6 +272,10 @@ class Analyze : public QWidget, public Ui::Analyze
         void statsYZoom(double zoomAmount);
         void statsYZoomIn();
         void statsYZoomOut();
+        // Return true if the session is visible on the plots.
+        bool isVisible(const Session &s) const;
+        // Shift the view so that time is at the center (keeping the current plot width).
+        void adjustView(double time);
 
 
         // maxXValue keeps the largest time offset we've received so far.
@@ -295,8 +314,15 @@ class Analyze : public QWidget, public Ui::Analyze
         // (Un)highlights a segment on the timeline after one is clicked.
         // This indicates which segment's data is displayed in the
         // graphicsPlot and details table.
-        void highlightTimelineItem(double y, double start, double end);
+        void highlightTimelineItem(const Session &session);
         void unhighlightTimelineItem();
+
+        // Tied to the keyboard shortcuts that go to the next or previous
+        // items on the timeline. next==true means next, otherwise previous.
+        void changeTimelineItem(bool next);
+        // These are assigned to various keystrokes.
+        void nextTimelineItem();
+        void previousTimelineItem();
 
         // logTime() returns the number of seconds between "now" or "time" and
         // the start of the log. They are useful for recording signal and storing
@@ -557,6 +583,13 @@ class Analyze : public QWidget, public Ui::Analyze
 
         QMap<QString, QColor> schedulerJobColors;
         QBrush schedulerJobBrush(const QString &jobName, bool temporary);
+
+        void setSelectedSession(const Session &s);
+        void clearSelectedSession();
+        Session m_selectedSession;
+
+        // Analyze log file info.
+        QStringList m_LogText;
 
         // Y-offsets for the timeline plot for the various modules.
         static constexpr int CAPTURE_Y = 1;

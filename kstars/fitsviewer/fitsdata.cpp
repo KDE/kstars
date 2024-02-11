@@ -1686,11 +1686,22 @@ void FITSData::calculateMinMax(bool roi)
 
 }
 
-template <typename T>
-QPair<double, double> FITSData::getSumAndSquaredSum(uint32_t start, uint32_t stride, bool roi)
+// This struct is used when returning results from the threaded getSumAndSquaredSum calculations
+// used to compute the mean and variance of the image.
+struct SumData
 {
-    auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
-    uint32_t end = start + stride;
+    double sum;
+    double squaredSum;
+    double numSamples;
+    SumData(double s, double sq, int n) : sum(s), squaredSum(sq), numSamples(n) {}
+    SumData() : sum(0), squaredSum(0), numSamples(0) {}
+};
+
+template <typename T>
+SumData getSumAndSquaredSum(uint32_t start, uint32_t stride, uint8_t *buff)
+{
+    auto * buffer = reinterpret_cast<T *>(buff);
+    const uint32_t end = start + stride;
     double sum = 0;
     double squaredSum = 0;
     for (uint32_t i = start; i < end; i++)
@@ -1699,8 +1710,8 @@ QPair<double, double> FITSData::getSumAndSquaredSum(uint32_t start, uint32_t str
         sum += sample;
         squaredSum += sample * sample;
     }
-
-    return qMakePair<double, double>(sum, squaredSum);
+    const double numSamples = end - start;
+    return SumData(sum, squaredSum, numSamples);
 }
 
 template <typename T>
@@ -1724,26 +1735,29 @@ void FITSData::calculateStdDev(bool roi )
         uint32_t tStart = cStart;
 
         // List of futures
-        QList<QFuture<QPair<double, double>>> futures;
+        QList<QFuture<SumData>> futures;
 
         for (int i = 0; i < nThreads; i++)
         {
             // Run threads
-            futures.append(QtConcurrent::run(this, &FITSData::getSumAndSquaredSum<T>, tStart,
-                                             (i == (nThreads - 1)) ? fStride : tStride, roi));
+            uint8_t *buff = roi ? m_ImageRoiBuffer : m_ImageBuffer;
+            futures.append(QtConcurrent::run(&getSumAndSquaredSum<T>, tStart,
+                                             (i == (nThreads - 1)) ? fStride : tStride, buff));
             tStart += tStride;
         }
 
         // Now wait for results
         double sum = 0, squared_sum = 0;
+        double numSamples = 0;
         for (int i = 0; i < nThreads; i++)
         {
-            QPair<double, double> result = futures[i].result();
-            sum += result.first;
-            squared_sum += result.second;
+            const SumData result = futures[i].result();
+            sum += result.sum;
+            squared_sum += result.squaredSum;
+            numSamples += result.numSamples;
 
         }
-        const double numSamples = (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        if (numSamples <= 0) continue;
         const double mean = sum / numSamples;
         const double variance = squared_sum / numSamples - mean * mean;
         if(!roi)
@@ -2057,7 +2071,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
                     const int w = getStatistics().width;
                     const int h = getStatistics().height;
                     QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                    return m_StarDetector->findSources(middle);
+                    m_StarFindFuture = m_StarDetector->findSources(middle);
+                    return m_StarFindFuture;
                 }
             }
             m_StarFindFuture = m_StarDetector->findSources(trackingBox);

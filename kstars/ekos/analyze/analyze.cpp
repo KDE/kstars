@@ -274,10 +274,40 @@ class IntervalFinder
         QList<T> find(double t)
         {
             QList<T> result;
-            for (const auto &i : intervals)
+            for (const auto &interval : intervals)
             {
-                if (t >= i.start && t <= i.end)
-                    result.push_back(i);
+                if (t >= interval.start && t <= interval.end)
+                    result.push_back(interval);
+            }
+            return result;
+        }
+        // Finds the interval AFTER t, not including t
+        T *findNext(double t)
+        {
+            double bestStart = 1e7;
+            T *result = nullptr;
+            for (auto &interval : intervals)
+            {
+                if (interval.start > t && interval.start < bestStart)
+                {
+                    bestStart = interval.start;
+                    result = &interval;
+                }
+            }
+            return result;
+        }
+        // Finds the interval BEFORE t, not including t
+        T *findPrevious(double t)
+        {
+            double bestStart = -1e7;
+            T *result = nullptr;
+            for (auto &interval : intervals)
+            {
+                if (interval.start < t && interval.start > bestStart)
+                {
+                    bestStart = interval.start;
+                    result = &interval;
+                }
             }
             return result;
         }
@@ -425,6 +455,8 @@ Analyze::Analyze() : m_YAxisTool(this)
 
     connect(zoomInB, &QPushButton::clicked, this, &Analyze::zoomIn);
     connect(zoomOutB, &QPushButton::clicked, this, &Analyze::zoomOut);
+    connect(prevSessionB, &QPushButton::clicked, this, &Analyze::previousTimelineItem);
+    connect(nextSessionB, &QPushButton::clicked, this, &Analyze::nextTimelineItem);
     connect(timelinePlot, &QCustomPlot::mousePress, this, &Analyze::timelineMousePress);
     connect(timelinePlot, &QCustomPlot::mouseDoubleClick, this, &Analyze::timelineMouseDoubleClick);
     connect(timelinePlot, &QCustomPlot::mouseWheel, this, &Analyze::timelineMouseWheel);
@@ -555,6 +587,17 @@ void Analyze::setupKeyboardShortcuts(QWidget *plot)
     connect(s, &QShortcut::activated, this, &Analyze::scrollRight);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousChar), plot);
     connect(s, &QShortcut::activated, this, &Analyze::scrollLeft);
+
+    s = new QShortcut(QKeySequence(QKeySequence::MoveToNextWord), plot);
+    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItem);
+    s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousWord), plot);
+    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItem);
+
+    s = new QShortcut(QKeySequence(QKeySequence::SelectNextWord), plot);
+    connect(s, &QShortcut::activated, this, &Analyze::nextTimelineItem);
+    s = new QShortcut(QKeySequence(QKeySequence::SelectPreviousWord), plot);
+    connect(s, &QShortcut::activated, this, &Analyze::previousTimelineItem);
+
     s = new QShortcut(QKeySequence(QKeySequence::MoveToNextLine), plot);
     connect(s, &QShortcut::activated, this, &Analyze::statsYZoomIn);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousLine), plot);
@@ -574,30 +617,47 @@ Analyze::~Analyze()
     // (e.g. capture, focus, guide)
 }
 
+void Analyze::setSelectedSession(const Session &s)
+{
+    m_selectedSession = s;
+}
+
+void Analyze::clearSelectedSession()
+{
+    m_selectedSession = Session();
+}
+
 // When a user selects a timeline session, the previously selected one
 // is deselected.  Note: this does not replot().
 void Analyze::unhighlightTimelineItem()
 {
+    clearSelectedSession();
     if (selectionHighlight != nullptr)
     {
         timelinePlot->removeItem(selectionHighlight);
         selectionHighlight = nullptr;
     }
     detailsTable->clear();
+    prevSessionB->setDisabled(true);
+    nextSessionB->setDisabled(true);
 }
 
-// Highlight the area between start and end on row y in Timeline.
+// Highlight the area between start and end of the session on row y in Timeline.
 // Note that this doesn't replot().
-void Analyze::highlightTimelineItem(double y, double start, double end)
+void Analyze::highlightTimelineItem(const Session &session)
 {
     constexpr double halfHeight = 0.5;
     unhighlightTimelineItem();
 
+    setSelectedSession(session);
     QCPItemRect *rect = new QCPItemRect(timelinePlot);
-    rect->topLeft->setCoords(start, y + halfHeight);
-    rect->bottomRight->setCoords(end, y - halfHeight);
+    rect->topLeft->setCoords(session.start, session.offset + halfHeight);
+    rect->bottomRight->setCoords(session.end, session.offset - halfHeight);
     rect->setBrush(timelineSelectionBrush);
     selectionHighlight = rect;
+    prevSessionB->setDisabled(false);
+    nextSessionB->setDisabled(false);
+
 }
 
 // Creates a fat line-segment on the Timeline, optionally with a stripe in the middle.
@@ -1154,12 +1214,21 @@ double Analyze::FocusSession::focusPosition()
     return 0;
 }
 
+namespace
+{
+bool isTemporaryFile(const QString &filename)
+{
+    QString tempFileLocation = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    return filename.startsWith(tempFileLocation);
+}
+}
+
 // When the user clicks on a particular capture session in the timeline,
 // a table is rendered in the details section, and, if it was a double click,
 // the fits file is displayed, if it can be found.
 void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
 {
-    highlightTimelineItem(c.offset, c.start, c.end);
+    highlightTimelineItem(c);
 
     if (c.isTemporary())
         c.setupTable("Capture", "in progress", clockTime(c.start), clockTime(c.start), detailsTable);
@@ -1180,16 +1249,18 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
     if (!c.isTemporary())
         c.addRow("Filename", c.filename);
 
+
+    // Don't try to display images from temporary sessions (they aren't done yet).
     if (doubleClick && !c.isTemporary())
     {
         QString filename = findFilename(c.filename, alternateFolder);
-        if (filename.size() > 0)
+        // Don't display temporary files from completed sessions either.
+        bool tempImage = isTemporaryFile(c.filename);
+        if (!tempImage && filename.size() == 0)
+            appendLogText(i18n("Could not find image file: %1", c.filename));
+        else if (!tempImage)
             displayFITS(filename);
-        else
-        {
-            QString message = i18n("Could not find image file: %1", c.filename);
-            KSNotification::sorry(message, i18n("Invalid URL"));
-        }
+        else appendLogText(i18n("Cannot display temporary image file: %1", c.filename));
     }
 }
 
@@ -1215,7 +1286,7 @@ QString signedIntString(int val)
 void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(c.offset, c.start, c.end);
+    highlightTimelineItem(c);
 
     if (!c.standardSession)
     {
@@ -1267,7 +1338,7 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
 void Analyze::guideSessionClicked(GuideSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(GUIDE_Y, c.start, c.end);
+    highlightTimelineItem(c);
 
     QString st;
     if (c.simpleState == G_IDLE)
@@ -1363,7 +1434,7 @@ void Analyze::displayGuideGraphics(double start, double end, double *raRMS,
 void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(MOUNT_Y, c.start, c.end);
+    highlightTimelineItem(c);
 
     c.setupTable("Mount", mountStatusString(c.state), clockTime(c.start),
                  clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
@@ -1374,7 +1445,7 @@ void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
 void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(ALIGN_Y, c.start, c.end);
+    highlightTimelineItem(c);
     c.setupTable("Align", getAlignStatusString(c.state), clockTime(c.start),
                  clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
@@ -1384,7 +1455,7 @@ void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(MERIDIAN_MOUNT_FLIP_Y, c.start, c.end);
+    highlightTimelineItem(c);
     c.setupTable("Meridian Flip", MeridianFlipState::meridianFlipStatusString(c.state),
                  clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
@@ -1394,7 +1465,7 @@ void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 void Analyze::schedulerSessionClicked(SchedulerJobSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(SCHEDULER_Y, c.start, c.end);
+    highlightTimelineItem(c);
     c.setupTable("Scheduler Job", c.jobName,
                  clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
     c.addRow("End reason", c.reason);
@@ -1473,6 +1544,118 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
     }
     setStatsCursor(xval);
     replot();
+}
+
+void Analyze::nextTimelineItem()
+{
+    changeTimelineItem(true);
+}
+
+void Analyze::previousTimelineItem()
+{
+    changeTimelineItem(false);
+}
+
+void Analyze::changeTimelineItem(bool next)
+{
+    if (m_selectedSession.start == 0 && m_selectedSession.end == 0) return;
+    switch(m_selectedSession.offset)
+    {
+        case CAPTURE_Y:
+        {
+            auto nextSession = next ? captureSessions.findNext(m_selectedSession.start)
+                               : captureSessions.findPrevious(m_selectedSession.start);
+
+            // Since we're displaying the images, don't want to stop at an aborted capture.
+            // Continue searching until a good session (or no session) is found.
+            while (nextSession && nextSession->aborted)
+                nextSession = next ? captureSessions.findNext(nextSession->start)
+                              : captureSessions.findPrevious(nextSession->start);
+
+            if (nextSession)
+            {
+                // True because we want to display the image (so simulate a double-click on that session).
+                captureSessionClicked(*nextSession, true);
+                setStatsCursor((nextSession->end + nextSession->start) / 2);
+            }
+            break;
+        }
+        case FOCUS_Y:
+        {
+            auto nextSession = next ? focusSessions.findNext(m_selectedSession.start)
+                               : focusSessions.findPrevious(m_selectedSession.start);
+            if (nextSession)
+            {
+                focusSessionClicked(*nextSession, true);
+                setStatsCursor((nextSession->end + nextSession->start) / 2);
+            }
+            break;
+        }
+        case ALIGN_Y:
+        {
+            auto nextSession = next ? alignSessions.findNext(m_selectedSession.start)
+                               : alignSessions.findPrevious(m_selectedSession.start);
+            if (nextSession)
+            {
+                alignSessionClicked(*nextSession, true);
+                setStatsCursor((nextSession->end + nextSession->start) / 2);
+            }
+            break;
+        }
+        case GUIDE_Y:
+        {
+            auto nextSession = next ? guideSessions.findNext(m_selectedSession.start)
+                               : guideSessions.findPrevious(m_selectedSession.start);
+            if (nextSession)
+            {
+                guideSessionClicked(*nextSession, true);
+                setStatsCursor((nextSession->end + nextSession->start) / 2);
+            }
+            break;
+        }
+        case MOUNT_Y:
+        {
+            auto nextSession = next ? mountSessions.findNext(m_selectedSession.start)
+                               : mountSessions.findPrevious(m_selectedSession.start);
+            if (nextSession)
+            {
+                mountSessionClicked(*nextSession, true);
+                setStatsCursor((nextSession->end + nextSession->start) / 2);
+            }
+            break;
+        }
+        case SCHEDULER_Y:
+        {
+            auto nextSession = next ? schedulerJobSessions.findNext(m_selectedSession.start)
+                               : schedulerJobSessions.findPrevious(m_selectedSession.start);
+            if (nextSession)
+            {
+                schedulerSessionClicked(*nextSession, true);
+                setStatsCursor((nextSession->end + nextSession->start) / 2);
+            }
+            break;
+        }
+            //case MERIDIAN_MOUNT_FLIP_Y:
+    }
+    if (!isVisible(m_selectedSession) && !isVisible(m_selectedSession))
+        adjustView((m_selectedSession.start + m_selectedSession.end) / 2.0);
+    replot();
+}
+
+bool Analyze::isVisible(const Session &s) const
+{
+    if (fullWidthCB->isChecked())
+        return true;
+    return !((s.start < plotStart && s.end < plotStart) ||
+             (s.start > (plotStart + plotWidth) && s.end > (plotStart + plotWidth)));
+}
+
+void Analyze::adjustView(double time)
+{
+    if (!fullWidthCB->isChecked())
+    {
+        plotStart = time - plotWidth / 2;
+    }
 }
 
 void Analyze::setStatsCursor(double time)
@@ -3526,6 +3709,22 @@ void Analyze::resetSchedulerJob()
 {
     schedulerJobStartedTime = -1;
     schedulerJobStartedJobName = "";
+}
+
+void Analyze::appendLogText(const QString &text)
+{
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    qCInfo(KSTARS_EKOS_ANALYZE) << text;
+
+    emit newLog(text);
+}
+
+void Analyze::clearLog()
+{
+    m_LogText.clear();
+    emit newLog(QString());
 }
 
 }  // namespace Ekos

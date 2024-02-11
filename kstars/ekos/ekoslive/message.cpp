@@ -20,6 +20,7 @@
 #include "ekos/guide/guide.h"
 #include "ekos/mount/mount.h"
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
@@ -1203,7 +1204,7 @@ void Message::sendSchedulerJobs()
 {
     QJsonObject jobs =
     {
-        {"jobs", m_Manager->schedulerModule()->getJSONJobs()}
+        {"jobs", m_Manager->schedulerModule()->moduleState()->getJSONJobs()}
     };
     sendResponse(commands[SCHEDULER_GET_JOBS], jobs);
 }

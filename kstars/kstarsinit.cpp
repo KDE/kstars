@@ -153,8 +153,13 @@ void KStars::initActions()
 
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
-            << i18n("Open Image...") << QIcon::fromTheme("document-open")
+            << i18n("Open Image(s)...") << QIcon::fromTheme("document-open")
             << QKeySequence(Qt::CTRL + Qt::Key_O);
+
+    actionCollection()->addAction("blink_directory", this, SLOT(slotBlink()))
+            << i18n("Open/Blink Directory") << QIcon::fromTheme("folder-open")
+            << QKeySequence(Qt::CTRL + Qt::Key_O + Qt::AltModifier);
+
 #endif
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))
             << i18n("&Save Sky Image...")

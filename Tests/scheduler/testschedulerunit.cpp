@@ -462,7 +462,8 @@ void TestSchedulerUnit::evaluateJobsTest()
 {
     auto now = midNight;
     Ekos::GreedyScheduler scheduler;
-    Ekos::SchedulerModuleState::setLocalTime(&now);
+    Ekos::SchedulerModuleState state;
+    state.setLocalTime(&now);
     // The nullptr is moon pointer. Not currently tested.
     Ekos::SchedulerJob job(nullptr);
 
@@ -502,7 +503,7 @@ void TestSchedulerUnit::evaluateJobsTest()
                          now.addSecs(Ekos::SchedulerUtils::timeHeuristics(&job) +
                                      computeExposureDurations(details9Filters))));
 
-    Ekos::SchedulerModuleState::calculateDawnDusk();
+    state.calculateDawnDusk();
 
     // The job should run inside the twilight interval and have the same twilight values as Scheduler current values
     QVERIFY(job.runsDuringAstronomicalNightTime());
@@ -554,7 +555,7 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(compareTimes(jobs[1]->getStartupTime(), localTime8pm, 300));
     QVERIFY(compareTimes(jobs[1]->getCompletionTime(), localTime8pm.addSecs(48 * 60), 300));
 
-    Ekos::SchedulerModuleState::calculateDawnDusk();
+    state.calculateDawnDusk();
 
     // The two job should run inside the twilight interval and have the same twilight values as Scheduler current values
     QVERIFY(jobs[0]->runsDuringAstronomicalNightTime());

@@ -47,7 +47,7 @@ void GreedyScheduler::setParams(bool restartImmediately, bool restartQueue,
 void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
                                    const QDateTime &now,
                                    const QMap<QString, uint16_t> &capturedFramesCount,
-                                   Scheduler *scheduler)
+                                   ModuleLogger *logger)
 {
     for (auto job : jobs)
         job->clearCache();
@@ -58,11 +58,11 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
     scheduledJob = nullptr;
     schedule.clear();
 
-    prepareJobsForEvaluation(jobs, now, capturedFramesCount, scheduler);
+    prepareJobsForEvaluation(jobs, now, capturedFramesCount, logger);
 
     scheduledJob = selectNextJob(jobs, now, nullptr, SIMULATE, &when, nullptr, nullptr, &capturedFramesCount);
     auto schedule = getSchedule();
-    if (scheduler != nullptr)
+    if (logger != nullptr)
     {
         if (!schedule.empty())
         {
@@ -70,11 +70,11 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
             // prints "upside down" -- most recent on top -- and I believe that view
             // is more important than the log file (where we can invert when debugging).
             for (int i = schedule.size() - 1; i >= 0; i--)
-                scheduler->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
-            scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:")
-                                     .arg(now.toString()).arg(timer.elapsed() / 1000.0));
+                logger->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
+            logger->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:")
+                                  .arg(now.toString()).arg(timer.elapsed() / 1000.0));
         }
-        else scheduler->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
+        else logger->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
     }
     if (scheduledJob != nullptr)
     {
@@ -143,7 +143,7 @@ bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
 
 void GreedyScheduler::prepareJobsForEvaluation(
     const QList<SchedulerJob *> &jobs, const QDateTime &now,
-    const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTimes) const
+    const QMap<QString, uint16_t> &capturedFramesCount, ModuleLogger *logger, bool reestimateJobTimes) const
 {
     // Remove some finished jobs from eval.
     foreach (SchedulerJob *job, jobs)
@@ -164,7 +164,7 @@ void GreedyScheduler::prepareJobsForEvaluation(
                 // If we don't, re-estimate imaging time for the scheduler job before concluding
                 if (job->getRepeatsRemaining() == 0)
                 {
-                    if (scheduler != nullptr) scheduler->appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
+                    if (logger != nullptr) logger->appendLogText(i18n("Job '%1' has no more batches remaining.", job->getName()));
                     job->setState(SCHEDJOB_COMPLETE);
                     job->setEstimatedTime(0);
                     continue;
@@ -212,7 +212,7 @@ void GreedyScheduler::prepareJobsForEvaluation(
         if (reestimateJobTimes)
         {
             job->setEstimatedTime(-1);
-            if (SchedulerUtils::estimateJobTime(job, capturedFramesCount, scheduler) == false)
+            if (SchedulerUtils::estimateJobTime(job, capturedFramesCount, logger) == false)
             {
                 job->setState(SCHEDJOB_INVALID);
                 continue;

@@ -61,6 +61,26 @@ class FITSTab : public QWidget
         void loadFile(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
         bool loadData(const QSharedPointer<FITSData> &data, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
+        // Methods to setup and control blinking--loading a directory of images one-by-one
+        // into a single tab.
+        void initBlink(const QList<QString> &filenames)
+        {
+            m_BlinkFilenames = filenames;
+        }
+        const QList<QString> &blinkFilenames() const
+        {
+            return m_BlinkFilenames;
+        }
+        int blinkUpto() const
+        {
+            return m_BlinkIndex;
+        };
+        void setBlinkUpto(int index)
+        {
+            if (index >= 0 && index < m_BlinkFilenames.size())
+                m_BlinkIndex = index;
+        };
+
         bool saveImage(const QString &filename);
 
         inline QUndoStack *getUndoStack()
@@ -168,6 +188,9 @@ class FITSTab : public QWidget
         void extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void initSolverUI();
         QSharedPointer<SolverUtils> m_Solver;
+
+        QList<QString> m_BlinkFilenames;
+        int m_BlinkIndex { 0 };
 
     signals:
         void debayerToggled(bool);
