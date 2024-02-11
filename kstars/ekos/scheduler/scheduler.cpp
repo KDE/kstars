@@ -1795,6 +1795,7 @@ void Scheduler::removeAllJobs()
 
     qDeleteAll(moduleState()->jobs());
     moduleState()->mutlableJobs().clear();
+    moduleState()->setCurrentPosition(-1);
 }
 
 bool Scheduler::loadScheduler(const QString &fileURL)

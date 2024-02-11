@@ -312,7 +312,7 @@
           <item row="3" column="2">
            <widget class="QLabel" name="textLabel1_8">
             <property name="toolTip">
-             <string>Delay in seconds between consecutive images</string>
+             <string>Delay in seconds before capturing an image</string>
             </property>
             <property name="whatsThis">
              <string/>
