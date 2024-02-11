@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -20668,9 +20668,9 @@ msgstr "PHD2: Stern ausgewählt."
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-#| msgid "Guiding resumed."
-msgid "PHD2: Guiding resumed."
-msgstr "Die automatische Nachführung wurde fortgesetzt."
+#| msgid "PHD2: Guiding Started."
+msgid "PHD2: Dithering succesdsful."
+msgstr "PHD2: Die Nachführung wurde gestartet."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
@@ -85761,6 +85761,11 @@ msgstr "Hintergrundfarbe:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Bestimmt die Farbe für den Hintergrund."
+
+#, fuzzy
+#~| msgid "Guiding resumed."
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "Die automatische Nachführung wurde fortgesetzt."
 
 #, fuzzy
 #~ msgid "Open FITS"

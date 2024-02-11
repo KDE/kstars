@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -20269,7 +20269,7 @@ msgstr "Atrasta %1 zvaigzne."
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
 #| msgid "Loading stars"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "Ielādē zvaigznes"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -88188,6 +88188,11 @@ msgstr "Fona krāsa:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Loading stars"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "Ielādē zvaigznes"
 
 #, fuzzy
 #~| msgid "Open Script"

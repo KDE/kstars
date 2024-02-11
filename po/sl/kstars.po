@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
-"PO-Revision-Date: 2024-01-29 15:44+0100\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
+"PO-Revision-Date: 2024-02-10 10:10+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5798,7 +5798,7 @@ msgstr ""
 "tr><tr><td>Dde:</td><td>%6</td></tr></table>"
 
 #: ekos/align/align.cpp:464
-#, fuzzy, kde-format
+#, kde-format
 msgid "Are you sure you want to clear all of the solution points?"
 msgstr "Ali ste prepričani, da želite počistiti vse točke rešitve?"
 
@@ -6030,13 +6030,12 @@ msgid "Target is within acceptable range."
 msgstr "Cilj je znotraj sprejemljivega območja."
 
 #: ekos/align/align.cpp:2336
-#, fuzzy, kde-format
-#| msgid "Saved image to %1"
+#, kde-format
 msgid "Saving failed solver image to %1"
-msgstr "Slika shranjena v %1"
+msgstr "Shranjevanje slike neuspešnega reševanja v %1"
 
 #: ekos/align/align.cpp:2345
-#, fuzzy, kde-format
+#, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Reševalnik ni uspel. Poskusite znova brez omejitve merila."
 
@@ -6490,16 +6489,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/align/align.ui:301
 #, fuzzy, kde-format
-#| msgid "Settle"
 msgid "Settle:"
-msgstr "Čakaj na umiritev"
+msgstr "Umiritev:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:338
-#, fuzzy, kde-format
-#| msgid "Accuracy"
+#, kde-format
 msgid "Accuracy:"
-msgstr "Natančnost"
+msgstr "Natančnost:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:348
@@ -6550,9 +6547,8 @@ msgstr "Kot vrtenja slike, vzhodno od severa"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/align/align.ui:443
 #, fuzzy, kde-format
-#| msgid "PA"
 msgid "PA:"
-msgstr "PA"
+msgstr "PA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
 #: ekos/align/align.ui:450
@@ -6636,10 +6632,9 @@ msgstr "Zdr.:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
 #: ekos/align/align.ui:584 ekos/focus/focus.ui:673 ekos/guide/guide.ui:166
-#, fuzzy, kde-format
-#| msgid "Show in FITS Viewer"
+#, kde-format
 msgid "Show in FITS Viewer..."
-msgstr "Pokaži v pregledovalniku FITS"
+msgstr "Pokaži v pregledovalniku FITS …"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #: ekos/align/align.ui:600
@@ -6738,11 +6733,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:746
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Current"
+#, kde-format
 msgid "Use current"
-msgstr "Trenutni"
+msgstr "Uporabi trenutno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
 #: ekos/align/align.ui:756
@@ -7038,7 +7031,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:1012
 #, fuzzy, kde-format
 msgid "Pointing Model Report Only?"
-msgstr "Samo poročilo o modelu?"
+msgstr "Samo poročilo o kazalnem modelu?"
 
 #: ekos/align/mountmodel.cpp:1029
 #, kde-format
@@ -7048,7 +7041,7 @@ msgstr "Orodje modela montaže se zaganja."
 #: ekos/align/mountmodel.cpp:1038
 #, fuzzy, kde-format
 msgid "The Mount Model Tool is Paused."
-msgstr "Orodje modela montaže je v pavzi."
+msgstr "Orodje modela montaže je sredi premora."
 
 #: ekos/align/mountmodel.cpp:1097
 #, fuzzy, kde-format
@@ -7450,7 +7443,7 @@ msgstr "Nastavitve reševalnika zvezd"
 #: ekos/align/opsalign.ui:62
 #, fuzzy, kde-format
 msgid "Source Extraction Method"
-msgstr "Način pridobivanja vira"
+msgstr "Metoda ekstrakcije vira"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
@@ -7745,7 +7738,7 @@ msgstr ""
 #: ekos/align/opsalign.ui:339
 #, fuzzy, kde-format
 msgid "Preserve rotator angle"
-msgstr "Kontrolnik kota rotatorja"
+msgstr "Ohrani kot rotatorja"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
@@ -7766,10 +7759,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position Angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Kot položaja:"
+msgstr "Ohrani položajni kot"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
@@ -7825,7 +7817,7 @@ msgstr "Izvedljiva datoteka"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPDownSample)
 #: ekos/align/opsastap.ui:127
-#, fuzzy, kde-format
+#, kde-format
 msgid "Down Sample"
 msgstr "Vzorči navzdol"
 
@@ -20726,9 +20718,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: zvezda izbrana."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: Vodenje se nadaljuje."
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Razprševanje uspešno"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -29971,12 +29964,12 @@ msgstr "Predogled slike"
 #: fitsviewer/fitsviewer.cpp:292
 #, kde-format
 msgid "Zoom all tabs in"
-msgstr ""
+msgstr "Približaj vse zavihke"
 
 #: fitsviewer/fitsviewer.cpp:297
 #, kde-format
 msgid "Zoom all tabs out"
-msgstr ""
+msgstr "Oddalji vse zavihke"
 
 #: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1560
 #, kde-format
@@ -86208,12 +86201,5 @@ msgstr "Barva ozadja:"
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
 
-#, fuzzy
-#~ msgid "No job running"
-#~ msgstr "Brez teka dela"
-
-#~ msgid "Open FITS"
-#~ msgstr "Odpri FITS"
-
-#~ msgid "No Target - Please pick an object."
-#~ msgstr "Brez cilja - izberite predmet."
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: Vodenje se nadaljuje."

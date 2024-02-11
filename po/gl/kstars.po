@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2024-02-09 21:10+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -20722,9 +20722,9 @@ msgstr "PHD2: Seleccionouse unha estrela."
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-#| msgid "PHD2: Guiding Resumed."
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: Continuouse o proceso de guía."
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Completouse o tramado"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
@@ -86333,6 +86333,11 @@ msgstr "Cor do fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Indicar a cor do fondo."
+
+#, fuzzy
+#~| msgid "PHD2: Guiding Resumed."
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: Continuouse o proceso de guía."
 
 #~ msgid "No job running"
 #~ msgstr "Non hai ningún traballo en execución"

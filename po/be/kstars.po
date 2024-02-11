@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2007-06-25 11:21+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -19222,7 +19222,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
 #| msgid "Toolbars"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "Панелі начыння"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -82654,6 +82654,11 @@ msgstr "Бурундзі"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Toolbars"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "Панелі начыння"
 
 #, fuzzy
 #~ msgid "Open FITS"

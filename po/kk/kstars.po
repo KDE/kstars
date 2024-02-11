@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -21049,9 +21049,9 @@ msgstr "%1 жұлдыз көрінді."
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-#| msgid "Guiding rate,x15\"/sec"
-msgid "PHD2: Guiding resumed."
-msgstr "Дәлдеу жылдамдығы, x15\"/сек"
+#| msgid "Autoguiding started."
+msgid "PHD2: Dithering succesdsful."
+msgstr "Автодәлдеу басталды."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
@@ -93408,6 +93408,11 @@ msgstr "Аясының түсі"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Аспан аясының түсін орнату."
+
+#, fuzzy
+#~| msgid "Guiding rate,x15\"/sec"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "Дәлдеу жылдамдығы, x15\"/сек"
 
 #, fuzzy
 #~| msgid "Open FITS..."

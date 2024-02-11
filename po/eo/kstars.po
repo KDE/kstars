@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
-"PO-Revision-Date: 2024-02-09 21:14+0100\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
+"PO-Revision-Date: 2024-02-10 07:05+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -10015,10 +10015,9 @@ msgid "Could not find image file: %1"
 msgstr "Ne eblis trovi bildodosieron: %1"
 
 #: ekos/analyze/analyze.cpp:1263
-#, fuzzy, kde-format
-#| msgid "Cannot load to memory: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "Ne povas ŝargi en memoron: %1"
+msgstr "Ne eblas montri provizoran bilddosieron: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -10273,16 +10272,13 @@ msgstr "Statistikoj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
 #: ekos/analyze/analyze.ui:202
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its previous session "
 "(on its left). Keyboard: control-left.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Elektu la enigon por la diagramoj. Tio povas esti la "
-"nuna Ekos-seanco, aŭ ĝi legeblas el dosiero.</p></body></html>"
+"<html><head/><body><p>Movi de la elektita seanco al ĝia antaŭa seanco (je "
+"sia maldekstro). Klavaro: ctrl-maldekstrensago.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
@@ -10341,16 +10337,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
 #: ekos/analyze/analyze.ui:276
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its next session (on "
 "its right). Keyboard: control-right.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nuntempaj datumoj de la vetersensiloj. Klaku sur la "
-"sensilnomo por montri ĝiajn datumojn laŭlonge de la tempo.</p></body></html>"
+"<html><head/><body><p>Movi de la elektita seanco al ĝia antaŭa seanco (je "
+"sia dekstro). Klavaro: ctrl-dekstrensago.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
@@ -20353,9 +20346,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Stelo Elektita."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: Gvidado rekomencita."
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Dithering sukcesa"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -84563,3 +84557,6 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
+
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: Gvidado rekomencita."

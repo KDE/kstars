@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2009-04-22 00:00+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -20377,7 +20377,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
 #| msgid "Guides"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "निर्देश"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -91501,6 +91501,11 @@ msgstr "पृष्ठभूमि क' रंगः"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Guides"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "निर्देश"
 
 #, fuzzy
 #~| msgid "Open Script"

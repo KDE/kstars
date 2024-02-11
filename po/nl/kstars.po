@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2024-02-09 10:34+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -20467,9 +20467,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Ster geselecteerd."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: Volgen is hervat."
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Ditheren gelukt"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -85079,6 +85080,9 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: Volgen is hervat."
 
 #~ msgid "No job running"
 #~ msgstr "Er wordt nu geen taak uitgevoerd."

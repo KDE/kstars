@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -22048,9 +22048,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Seleccionou-se a Estrela."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: A guia foi retomada."
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "A geração de ruído decorreu com sucesso"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -86976,6 +86977,9 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
+
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: A guia foi retomada."
 
 #~ msgid "No job running"
 #~ msgstr "Sem tarefas em execução"

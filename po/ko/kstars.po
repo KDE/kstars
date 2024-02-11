@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -20329,7 +20329,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
 #| msgid "Loading stars"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "별 읽어오는 중"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -85080,6 +85080,11 @@ msgstr "배경색:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "배경색 설정"
+
+#, fuzzy
+#~| msgid "Loading stars"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "별 읽어오는 중"
 
 #, fuzzy
 #~| msgid "Open FITS..."

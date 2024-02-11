@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -20062,7 +20062,7 @@ msgstr ""
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "Ҷустуҷӯи объект"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -90421,6 +90421,10 @@ msgstr "Ранг ва шароити пайраҳаи пажмурда шуда"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Ранг ва шароити пайраҳа пажмурда шуда?"
+
+#, fuzzy
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "Ҷустуҷӯи объект"
 
 #, fuzzy
 #~| msgid "Open FITS..."

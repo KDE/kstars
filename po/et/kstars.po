@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -20304,9 +20304,9 @@ msgstr "PHD2: täht valitud."
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-#| msgid "PHD2: Guiding Resumed."
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: gideerimine taastatud."
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Pseudotoonimine oli edukas"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
@@ -84461,6 +84461,11 @@ msgstr "Taustavärv:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Värvi määramine taustaks."
+
+#, fuzzy
+#~| msgid "PHD2: Guiding Resumed."
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: gideerimine taastatud."
 
 #~ msgid "No job running"
 #~ msgstr "Ükski töö ei käi"

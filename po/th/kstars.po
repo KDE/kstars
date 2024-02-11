@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -19543,7 +19543,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "แสดงภาพ DSS"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -82656,6 +82656,12 @@ msgstr ""
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgctxt "Digitized Sky Survey"
+#~| msgid "Show DSS Image"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "แสดงภาพ DSS"
 
 #, fuzzy
 #~| msgid "Save"

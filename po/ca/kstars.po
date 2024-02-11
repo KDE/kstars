@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
-"PO-Revision-Date: 2024-02-09 10:17+0100\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
+"PO-Revision-Date: 2024-02-10 11:07+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -10169,10 +10169,9 @@ msgid "Could not find image file: %1"
 msgstr "No s'ha pogut trobar el fitxer d'imatge: %1"
 
 #: ekos/analyze/analyze.cpp:1263
-#, fuzzy, kde-format
-#| msgid "Cannot load to memory: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "No s'ha pogut carregar a la memòria: %1"
+msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -10429,17 +10428,13 @@ msgstr "Estadístiques"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
 #: ekos/analyze/analyze.ui:202
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its previous session "
 "(on its left). Keyboard: control-left.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'entrada per als traçats. Aquesta pot ser "
-"la sessió actual de l'Ekos, o es pot llegir des d'un fitxer.</p></body></"
-"html>"
+"<html><head/><body><p>Mou des de la sessió seleccionada a la seva sessió "
+"anterior (a la seva esquerra). Teclat: Control-Esquerra.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
@@ -10499,17 +10494,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
 #: ekos/analyze/analyze.ui:276
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its next session (on "
 "its right). Keyboard: control-right.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic al "
-"nom del sensor per a mostrar les seves dades amb el pas del temps.</p></"
-"body></html>"
+"<html><head/><body><p>Mou des de la sessió seleccionada a la seva sessió "
+"següent (a la seva dreta). Teclat: Control-Dreta.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
@@ -20704,9 +20695,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: S'ha seleccionat l'estrella."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: S'ha reprès el guiatge."
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Tramat correcte"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -85816,6 +85808,9 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
+
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: S'ha reprès el guiatge."
 
 #~ msgid "No job running"
 #~ msgstr "No hi ha cap tasca executant-se"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -20567,7 +20567,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
 #| msgid "Loading stars"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "恒星をロード中"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -86364,6 +86364,11 @@ msgstr "背景色:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "背景の色を設定します。"
+
+#, fuzzy
+#~| msgid "Loading stars"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "恒星をロード中"
 
 #, fuzzy
 #~| msgid "Update"

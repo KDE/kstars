@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
-"PO-Revision-Date: 2024-02-09 09:54+0200\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
+"PO-Revision-Date: 2024-02-10 08:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -10116,10 +10116,9 @@ msgid "Could not find image file: %1"
 msgstr "Не вдалося знайти файл зображення: %1"
 
 #: ekos/analyze/analyze.cpp:1263
-#, fuzzy, kde-format
-#| msgid "Cannot load to memory: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "Не вдалося завантажити до пам'яті: %1"
+msgstr "Не вдалося показати тимчасовий файл зображення: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -10375,16 +10374,13 @@ msgstr "Статистика"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
 #: ekos/analyze/analyze.ui:202
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its previous session "
 "(on its left). Keyboard: control-left.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Виберіть вхідні дані для креслень. Це можуть бути дані "
-"з поточного сеансу Ekos або дані з файла.</p></body></html>"
+"<html><head/><body><p>Пересунути з позначеного сеансу до його попереднього "
+"сеансу (ліворуч). Клавіатура: Ctrl-←.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
@@ -10442,16 +10438,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
 #: ekos/analyze/analyze.ui:276
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its next session (on "
 "its right). Keyboard: control-right.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Поточні дані метеорологічних датчиків. Натисніть мітку "
-"датчика, щоб побачити графік зміни даних з часом.</p></body></html>"
+"<html><head/><body><p>Пересунути з позначеного сеансу до його наступного "
+"сеансу (праворуч). Клавіатура: Ctrl-→.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
@@ -20620,9 +20613,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: вибрано зірку."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: відновлено наведення."
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "Успішний малий рух"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -85412,6 +85406,9 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: відновлено наведення."
 
 #~ msgid "No job running"
 #~ msgstr "Немає запущених завдань"

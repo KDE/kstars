@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -20639,9 +20639,9 @@ msgstr "PHD2: Hviezda vybraná."
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-#| msgid "PHD2: Guiding Resumed."
-msgid "PHD2: Guiding resumed."
-msgstr "PHD2: Navádzanie obnovené."
+#| msgid "PHD2: Guiding Started."
+msgid "PHD2: Dithering succesdsful."
+msgstr "PHD2: Navádzanie spustené."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
@@ -86067,6 +86067,11 @@ msgstr "Farba pozadia:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte farbu pre pozadie."
+
+#, fuzzy
+#~| msgid "PHD2: Guiding Resumed."
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "PHD2: Navádzanie obnovené."
 
 #~ msgid "Open FITS"
 #~ msgstr "Otvoriť FITS"

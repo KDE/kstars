@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
-"PO-Revision-Date: 2024-01-27 05:24+0100\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
+"PO-Revision-Date: 2024-02-11 02:22+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9553,10 +9553,9 @@ msgid "Could not find image file: %1"
 msgstr "გამოსახულების ფაილის პოვნა შეუძლებელია: %1"
 
 #: ekos/analyze/analyze.cpp:1263
-#, fuzzy, kde-format
-#| msgid "Could not find image file: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "გამოსახულების ფაილის პოვნა შეუძლებელია: %1"
+msgstr "ვერ გამოვიტანე დროებითი გამოსახულების ფაილი: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -9798,16 +9797,13 @@ msgstr "სტატისტიკა"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
 #: ekos/analyze/analyze.ui:202
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set the F# to use. This is defaulted from the "
-#| "selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its previous session "
 "(on its left). Keyboard: control-left.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>დააყენეთ გამოსაყენებელი F#. ეს ნაგულისხმევია არჩეული "
-"ოპტიკური მატარებლიდან.</p></body></html>"
+"<html><head/><body><p>გადატანა მონიშნული სესიიდან წინა (მარცხენა მხარეს) "
+"სესიაში. კლავიატურით: Ctrl+მარცხნივ</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
@@ -9855,13 +9851,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
 #: ekos/analyze/analyze.ui:276
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Delete selected optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its next session (on "
 "its right). Keyboard: control-right.</p></body></html>"
-msgstr "<html><head/><body><p>ამ ოპტიკური მატარებლის წაშლა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>გადატანა არჩეული სესიიდან მის შემდეგ (მარჯვენა მხარეს) "
+"სესიაში. კლავიატურით: ctri+მარჯვნივ</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
@@ -18921,9 +18917,10 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: ვარსკვლავი არჩეულია."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, kde-format
-msgid "PHD2: Guiding resumed."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Dithering successful"
+msgid "PHD2: Dithering succesdsful."
+msgstr "დიზერინგი წარმატებულია"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -26951,10 +26948,9 @@ msgid "Flip Vertical"
 msgstr "ვერტიკალურად გადაბრუნება"
 
 #: fitsviewer/fitsviewer.cpp:132 kstarsinit.cpp:160
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory..."
+#, kde-format
 msgid "Open/Blink Directory"
-msgstr "ჟურნალის საქაღალდის გახსნა..."
+msgstr "ჟურნალის საქაღალდის გახსნა/გაციმციმება"
 
 #: fitsviewer/fitsviewer.cpp:151
 #, kde-format
@@ -26984,28 +26980,24 @@ msgid "Zoom To Fit"
 msgstr "გადიდება მოსარგებად"
 
 #: fitsviewer/fitsviewer.cpp:272
-#, fuzzy, kde-format
-#| msgid "Next >"
+#, kde-format
 msgid "Next Tab"
-msgstr "შემდეგი >"
+msgstr "შემდეგი ჩანართი"
 
 #: fitsviewer/fitsviewer.cpp:277
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous Tab"
-msgstr "წინა წელი"
+msgstr "წინა ჩანართი"
 
 #: fitsviewer/fitsviewer.cpp:282
-#, fuzzy, kde-format
-#| msgid "Save Align Images"
+#, kde-format
 msgid "Next Blink Image"
-msgstr "სწორების გამოსახულებების შენახვა"
+msgstr "შემდეგი ციმციმა გამოსახულება"
 
 #: fitsviewer/fitsviewer.cpp:287
-#, fuzzy, kde-format
-#| msgid "Preview image"
+#, kde-format
 msgid "Previous Blink Image"
-msgstr "გამოსახულების გადახედვა"
+msgstr "წინა ციმციმა გამოსახულება"
 
 #: fitsviewer/fitsviewer.cpp:292
 #, kde-format
@@ -27089,11 +27081,10 @@ msgid "HiPS Overlay"
 msgstr "HiPS დადება"
 
 #: fitsviewer/fitsviewer.cpp:866
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
-msgstr "საქაღალდე"
+msgstr "საწყისი საქაღალდის გაციმციმება"
 
 #: fitsviewer/fitsviewer.cpp:994
 #, kde-format
@@ -64882,10 +64873,9 @@ msgid "Downloads new data"
 msgstr "ახალი მონაცემების გადმოწერა"
 
 #: kstarsinit.cpp:156
-#, fuzzy, kde-format
-#| msgid "Open Image..."
+#, kde-format
 msgid "Open Image(s)..."
-msgstr "გამოსახულების გახსნა..."
+msgstr "გამოსახულებ(ებ)-ის გახსნა..."
 
 #: kstarsinit.cpp:165
 #, kde-format

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -20157,7 +20157,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"
-msgid "PHD2: Guiding resumed."
+msgid "PHD2: Dithering succesdsful."
 msgstr "باشقا"
 
 #: ekos/guide/externalguide/phd2.cpp:661
@@ -89629,6 +89629,12 @@ msgstr "تەگلىك رەڭگى:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Other"
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "باشقا"
 
 #, fuzzy
 #~| msgid "Open Script"

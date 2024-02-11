@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-10 01:49+0000\n"
+"POT-Creation-Date: 2024-02-11 01:38+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -20574,9 +20574,9 @@ msgstr "FITS-Bild haalt, keen Steerns funnen."
 
 #: ekos/guide/externalguide/phd2.cpp:656
 #, fuzzy, kde-format
-#| msgid "Guiding resumed."
-msgid "PHD2: Guiding resumed."
-msgstr "Naföhren wedderopnahmen."
+#| msgid "Autoguiding started."
+msgid "PHD2: Dithering succesdsful."
+msgstr "Automaatsch Naföhren anfungen"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
@@ -93168,6 +93168,11 @@ msgstr "Achtergrundklöör:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "De Klöör för den Achtergrund fastleggen."
+
+#, fuzzy
+#~| msgid "Guiding resumed."
+#~ msgid "PHD2: Guiding resumed."
+#~ msgstr "Naföhren wedderopnahmen."
 
 #, fuzzy
 #~| msgid "Open FITS..."
