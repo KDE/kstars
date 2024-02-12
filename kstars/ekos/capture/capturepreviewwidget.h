@@ -20,7 +20,7 @@ namespace Ekos
 {
 class Capture;
 class Mount;
-class Scheduler;
+class SchedulerModuleState;
 class SequenceJob;
 }
 
@@ -31,7 +31,7 @@ public:
     explicit CapturePreviewWidget(QWidget *parent = nullptr);
 
     void shareCaptureModule(Ekos::Capture *module);
-    void shareSchedulerModule(Ekos::Scheduler *module);
+    void shareSchedulerModuleState(QSharedPointer<Ekos::SchedulerModuleState> state);
     void shareMountModule(Ekos::Mount *module);
 
     /**
@@ -95,9 +95,9 @@ public slots:
     void updateCaptureCountDown(int delta);
 
 private:
-    Ekos::Scheduler *schedulerModule = nullptr;
-    Ekos::Capture *captureModule = nullptr;
-    Ekos::Mount *mountModule = nullptr;
+    QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState = nullptr;
+    Ekos::Capture *m_captureModule = nullptr;
+    Ekos::Mount *m_mountModule = nullptr;
 
     // cache frame data
     CaptureProcessOverlay::FrameData m_currentFrame;
@@ -108,7 +108,8 @@ private:
     // summary FITS view
     SummaryFITSView *m_fitsPreview = nullptr;
     // FITS data overlay
-    CaptureProcessOverlay *overlay = nullptr;
+    CaptureProcessOverlay *m_overlay
+    = nullptr;
 
     // move to trash or delete finally
     bool m_permanentlyDelete {false};

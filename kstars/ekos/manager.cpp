@@ -331,7 +331,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     schedulerProcess.reset(new Scheduler());
     int index = addModuleTab(EkosModule::Scheduler, schedulerModule(), QIcon(":/icons/ekos_scheduler.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
-    capturePreview->shareSchedulerModule(schedulerModule());
+    capturePreview->shareSchedulerModuleState(schedulerModule()->moduleState());
     connect(schedulerModule(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     connect(schedulerModule(), &Ekos::Scheduler::newTarget, this, &Manager::setTarget);
     // Scheduler <---> EkosLive connections

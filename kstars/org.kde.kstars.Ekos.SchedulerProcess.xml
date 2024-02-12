@@ -1,0 +1,42 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.Ekos.SchedulerProcess">
+    <!--
+  <property name="profile" type="s" access="readwrite"/>
+  <property name="logText" type="as" access="read"/>
+  <property name="status" type="i" access="read">
+    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::SchedulerState"/>
+  </property>
+    <method name="start">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="stop">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="removeAllJobs">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="loadScheduler">
+      <arg name="fileURL" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+    </method>
+    <method name="setSequence">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="sequenceFileURL" type="s" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+    </method>
+    <method name="resetAllJobs">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <signal name="newStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::SchedulerState"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::SchedulerState"/>
+    </signal>
+    <signal name="newLog">
+        <arg name="text" type="s" direction="out"/>
+    </signal>
+    -->
+  </interface>
+</node>
