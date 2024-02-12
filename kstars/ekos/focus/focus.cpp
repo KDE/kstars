@@ -3648,6 +3648,12 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         }
         else if (inAutoFocus)
         {
+            // Add a check that the current position matches the requested position (within a tolerance)
+            if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+                if (abs(linearRequestedPosition - currentPosition) > m_OpsFocusMechanics->focusTicks->value())
+                    qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus positioning error: requested position %1, current position %2")
+                                               .arg(linearRequestedPosition).arg(currentPosition);
+
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(
                                            currentPosition).arg(m_OpsFocusMechanics->focusSettleTime->value());
             // Adjust exposure if Donut Buster activated
@@ -3726,6 +3732,7 @@ void Focus::updateProperty(INDI::Property prop)
 
         m_FocusMotionTimer.stop();
         INumber *pos = IUFindNumber(nvp, "FOCUS_ABSOLUTE_POSITION");
+        IPState newState = nvp->s;
 
         // FIXME: We should check state validity, but some focusers do not care - make ignore an option!
         if (pos)
@@ -3735,14 +3742,14 @@ void Focus::updateProperty(INDI::Property prop)
             // Some absolute focuser constantly report the position without a state change.
             // Therefore we ignore it if both value and state are the same as last time.
             // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
-            if (currentPosition == newPosition && currentPositionState == nvp->s)
+            if (currentPosition == newPosition && currentPositionState == newState)
             {
                 qCDebug(KSTARS_EKOS_FOCUS) << "Focuser position " << currentPosition << " and state:"
                                            << pstateStr(currentPositionState) << " unchanged";
                 return;
             }
 
-            currentPositionState = nvp->s;
+            currentPositionState = newState;
 
             if (currentPosition != newPosition)
             {
@@ -3754,13 +3761,13 @@ void Focus::updateProperty(INDI::Property prop)
             }
         }
 
-        if (nvp->s != IPS_OK)
+        if (newState != IPS_OK)
         {
             if (inAutoFocus || inAdjustFocus || adaptFocus->inAdaptiveFocus())
             {
                 // We had something back from the focuser but we're not done yet, so
                 // restart motion timer in case focuser gets stuck.
-                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer, state " << pstateStr(nvp->s);
+                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer, state " << pstateStr(newState);
                 m_FocusMotionTimer.start();
             }
         }
@@ -3813,8 +3820,8 @@ void Focus::updateProperty(INDI::Property prop)
         }
 
         if (canAbsMove)
-            autoFocusProcessPositionChange(nvp->s);
-        else if (nvp->s == IPS_ALERT)
+            autoFocusProcessPositionChange(newState);
+        else if (newState == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
         return;
     }
@@ -3839,14 +3846,15 @@ void Focus::updateProperty(INDI::Property prop)
         m_FocusMotionTimer.stop();
 
         INumber *pos = IUFindNumber(nvp, "manualfocusdrive");
-        if (pos && nvp->s == IPS_OK)
+        IPState newState = nvp->s;
+        if (pos && newState == IPS_OK)
         {
             currentPosition += pos->value;
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
             emit absolutePositionChanged(currentPosition);
         }
 
-        if (inAdjustFocus && nvp->s == IPS_OK)
+        if (inAdjustFocus && newState == IPS_OK)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3856,7 +3864,7 @@ void Focus::updateProperty(INDI::Property prop)
             }
         }
 
-        if (adaptFocus->inAdaptiveFocus() && nvp->s == IPS_OK)
+        if (adaptFocus->inAdaptiveFocus() && newState == IPS_OK)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3866,7 +3874,7 @@ void Focus::updateProperty(INDI::Property prop)
         }
 
         // restart if focus movement has finished
-        if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
+        if (m_RestartState == RESTART_NOW && newState == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3877,7 +3885,7 @@ void Focus::updateProperty(INDI::Property prop)
                 start();
             }
         }
-        else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
+        else if (m_RestartState == RESTART_ABORT && newState == IPS_OK)
         {
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -3887,8 +3895,8 @@ void Focus::updateProperty(INDI::Property prop)
         }
 
         if (canRelMove)
-            autoFocusProcessPositionChange(nvp->s);
-        else if (nvp->s == IPS_ALERT)
+            autoFocusProcessPositionChange(newState);
+        else if (newState == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
 
         return;
@@ -3899,7 +3907,8 @@ void Focus::updateProperty(INDI::Property prop)
         m_FocusMotionTimer.stop();
 
         INumber *pos = IUFindNumber(nvp, "FOCUS_RELATIVE_POSITION");
-        if (pos && nvp->s == IPS_OK)
+        IPState newState = nvp->s;
+        if (pos && newState == IPS_OK)
         {
             currentPosition += pos->value * (m_LastFocusDirection == FOCUS_IN ? -1 : 1);
             qCDebug(KSTARS_EKOS_FOCUS)
@@ -3909,7 +3918,7 @@ void Focus::updateProperty(INDI::Property prop)
             emit absolutePositionChanged(currentPosition);
         }
 
-        if (inAdjustFocus && nvp->s == IPS_OK)
+        if (inAdjustFocus && newState == IPS_OK)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3919,7 +3928,7 @@ void Focus::updateProperty(INDI::Property prop)
             }
         }
 
-        if (adaptFocus->inAdaptiveFocus() && nvp->s == IPS_OK)
+        if (adaptFocus->inAdaptiveFocus() && newState == IPS_OK)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3929,7 +3938,7 @@ void Focus::updateProperty(INDI::Property prop)
         }
 
         // restart if focus movement has finished
-        if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
+        if (m_RestartState == RESTART_NOW && newState == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3940,7 +3949,7 @@ void Focus::updateProperty(INDI::Property prop)
                 start();
             }
         }
-        else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
+        else if (m_RestartState == RESTART_ABORT && newState == IPS_OK)
         {
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -3950,8 +3959,8 @@ void Focus::updateProperty(INDI::Property prop)
         }
 
         if (canRelMove)
-            autoFocusProcessPositionChange(nvp->s);
-        else if (nvp->s == IPS_ALERT)
+            autoFocusProcessPositionChange(newState);
+        else if (newState == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
 
         return;
@@ -3962,9 +3971,10 @@ void Focus::updateProperty(INDI::Property prop)
 
     if (nvp->isNameMatch("FOCUS_TIMER"))
     {
+        IPState newState = nvp->s;
         m_FocusMotionTimer.stop();
         // restart if focus movement has finished
-        if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
+        if (m_RestartState == RESTART_NOW && newState == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
             if (focuserAdditionalMovement == 0)
             {
@@ -3975,7 +3985,7 @@ void Focus::updateProperty(INDI::Property prop)
                 start();
             }
         }
-        else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
+        else if (m_RestartState == RESTART_ABORT && newState == IPS_OK)
         {
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -3996,7 +4006,7 @@ void Focus::updateProperty(INDI::Property prop)
                         .arg((m_LastFocusDirection == FOCUS_IN) ? "in" : "out").arg(pos->value).arg(currentPosition);
             }
 
-            if (inAdjustFocus && nvp->s == IPS_OK)
+            if (inAdjustFocus && newState == IPS_OK)
             {
                 if (focuserAdditionalMovement == 0)
                 {
@@ -4006,7 +4016,7 @@ void Focus::updateProperty(INDI::Property prop)
                 }
             }
 
-            if (adaptFocus->inAdaptiveFocus() && nvp->s == IPS_OK)
+            if (adaptFocus->inAdaptiveFocus() && newState == IPS_OK)
             {
                 if (focuserAdditionalMovement == 0)
                 {
@@ -4015,9 +4025,9 @@ void Focus::updateProperty(INDI::Property prop)
                 }
             }
 
-            autoFocusProcessPositionChange(nvp->s);
+            autoFocusProcessPositionChange(newState);
         }
-        else if (nvp->s == IPS_ALERT)
+        else if (newState == IPS_ALERT)
             appendLogText(i18n("Focuser error, check INDI panel."));
 
         return;
