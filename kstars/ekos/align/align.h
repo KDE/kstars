@@ -419,7 +419,7 @@ class Align : public QWidget, public Ui::Align
              * Capture and solve an image using the astrometry.net engine
              * @return Returns true if the procedure started successful, false otherwise (return true, not false, when retrying!)
              */
-        Q_SCRIPTABLE bool captureAndSolve();
+        Q_SCRIPTABLE bool captureAndSolve(bool initialCall = true);
 
         /** DBUS interface function.
              * Loads an image (FITS, RAW, or JPG/PNG) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
@@ -776,8 +776,10 @@ class Align : public QWidget, public Ui::Align
 
         /// Solver alignment coordinates
         SkyPoint m_AlignCoord;
-        /// Target coordinates we need to slew to
+        /// Target coordinates the mount will slew to
         SkyPoint m_TargetCoord;
+        /// Final coordinates we want to reach in case of differential align
+        SkyPoint m_DestinationCoord;
         /// Current telescope coordinates
         SkyPoint m_TelescopeCoord;
         /// Difference between solution and target coordinate
@@ -867,8 +869,10 @@ class Align : public QWidget, public Ui::Align
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };
 
-        // Differential Slewing
-        bool differentialSlewingActivated { false };
+        // move rotator
+        bool RotatorGOTO { false };
+
+        // Align slew
         bool targetAccuracyNotMet { false };
 
         // Astrometry Options
