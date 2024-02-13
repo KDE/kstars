@@ -98,16 +98,16 @@ void TestEkosSchedulerOps::init()
     scheduler.reset(new Scheduler("/MockKStars/MockEkos/Scheduler", "org.kde.mockkstars",
                                   Ekos::MockEkos::mockPath, "org.kde.mockkstars.MockEkos"));
     // These org.kde.* interface strings are set up in the various .xml files.
-    scheduler->setFocusInterfaceString("org.kde.mockkstars.MockEkos.MockFocus");
-    scheduler->setMountInterfaceString("org.kde.mockkstars.MockEkos.MockMount");
-    scheduler->setCaptureInterfaceString("org.kde.mockkstars.MockEkos.MockCapture");
-    scheduler->setAlignInterfaceString("org.kde.mockkstars.MockEkos.MockAlign");
-    scheduler->setGuideInterfaceString("org.kde.mockkstars.MockEkos.MockGuide");
-    scheduler->setFocusPathString(Ekos::MockFocus::mockPath);
-    scheduler->setMountPathString(Ekos::MockMount::mockPath);
-    scheduler->setCapturePathString(Ekos::MockCapture::mockPath);
-    scheduler->setAlignPathString(Ekos::MockAlign::mockPath);
-    scheduler->setGuidePathString(Ekos::MockGuide::mockPath);
+    scheduler->process()->setFocusInterfaceString("org.kde.mockkstars.MockEkos.MockFocus");
+    scheduler->process()->setMountInterfaceString("org.kde.mockkstars.MockEkos.MockMount");
+    scheduler->process()->setCaptureInterfaceString("org.kde.mockkstars.MockEkos.MockCapture");
+    scheduler->process()->setAlignInterfaceString("org.kde.mockkstars.MockEkos.MockAlign");
+    scheduler->process()->setGuideInterfaceString("org.kde.mockkstars.MockEkos.MockGuide");
+    scheduler->process()->setFocusPathString(Ekos::MockFocus::mockPath);
+    scheduler->process()->setMountPathString(Ekos::MockMount::mockPath);
+    scheduler->process()->setCapturePathString(Ekos::MockCapture::mockPath);
+    scheduler->process()->setAlignPathString(Ekos::MockAlign::mockPath);
+    scheduler->process()->setGuidePathString(Ekos::MockGuide::mockPath);
 
     // Let's not deal with the dome for now.
     scheduler->schedulerUnparkDome->setChecked(false);

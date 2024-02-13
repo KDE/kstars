@@ -260,6 +260,7 @@ class MockCapture : public QObject
 
     signals:
         Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
+        Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
         void ready();
 
     private:

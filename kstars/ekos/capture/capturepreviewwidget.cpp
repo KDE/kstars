@@ -16,47 +16,47 @@
 #include "sequencejob.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/summaryfitsview.h"
-#include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 
 using Ekos::SequenceJob;
 
 CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
-    overlay = new CaptureProcessOverlay();
-    overlay->setVisible(false);
+    m_overlay = new CaptureProcessOverlay();
+    m_overlay->setVisible(false);
     // history navigation
-    connect(overlay->historyBackwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showPreviousFrame);
-    connect(overlay->historyForwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showNextFrame);
+    connect(m_overlay->historyBackwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showPreviousFrame);
+    connect(m_overlay->historyForwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showNextFrame);
     // deleting of captured frames
-    connect(overlay->deleteCurrentFrameButton, &QPushButton::clicked, this, &CapturePreviewWidget::deleteCurrentFrame);
+    connect(m_overlay->deleteCurrentFrameButton, &QPushButton::clicked, this, &CapturePreviewWidget::deleteCurrentFrame);
 }
 
 void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
 {
-    captureModule = module;
+    m_captureModule = module;
     captureCountsWidget->shareCaptureProcess(module);
 
-    if (captureModule != nullptr)
+    if (m_captureModule != nullptr)
     {
-        connect(captureModule, &Ekos::Capture::newDownloadProgress, captureCountsWidget,
+        connect(m_captureModule, &Ekos::Capture::newDownloadProgress, captureCountsWidget,
                 &CaptureCountsWidget::updateDownloadProgress);
-        connect(captureModule, &Ekos::Capture::newExposureProgress, captureCountsWidget,
+        connect(m_captureModule, &Ekos::Capture::newExposureProgress, captureCountsWidget,
                 &CaptureCountsWidget::updateExposureProgress);
-        connect(captureModule, &Ekos::Capture::captureTarget, this, &CapturePreviewWidget::setTargetName);
+        connect(m_captureModule, &Ekos::Capture::captureTarget, this, &CapturePreviewWidget::setTargetName);
     }
 }
 
-void CapturePreviewWidget::shareSchedulerModule(Ekos::Scheduler *module)
+void CapturePreviewWidget::shareSchedulerModuleState(QSharedPointer<Ekos::SchedulerModuleState> state)
 {
-    schedulerModule = module;
-    captureCountsWidget->shareSchedulerProcess(module);
+    m_schedulerModuleState = state;
+    captureCountsWidget->shareSchedulerState(state);
 }
 
 void CapturePreviewWidget::shareMountModule(Ekos::Mount *module)
 {
-    mountModule = module;
-    connect(mountModule, &Ekos::Mount::newTargetName, this, &CapturePreviewWidget::setTargetName);
+    m_mountModule = module;
+    connect(m_mountModule, &Ekos::Mount::newTargetName, this, &CapturePreviewWidget::setTargetName);
 }
 
 void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data)
@@ -72,8 +72,8 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.frameType = job->getFrameType();
     if (job->getFrameType() == FRAME_LIGHT)
     {
-        if (schedulerModule != nullptr && schedulerModule->activeJob() != nullptr)
-            m_currentFrame.target = schedulerModule->activeJob()->getName();
+        if (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr)
+            m_currentFrame.target = m_schedulerModuleState->activeJob()->getName();
         else
             m_currentFrame.target = m_mountTarget;
     }
@@ -91,14 +91,14 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.height      = data->height();
 
     const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
-    if (ISOIndex >= 0 && ISOIndex <= captureModule->captureISOS->count())
-        m_currentFrame.iso = captureModule->captureISOS->itemText(ISOIndex);
+    if (ISOIndex >= 0 && ISOIndex <= m_captureModule->captureISOS->count())
+        m_currentFrame.iso = m_captureModule->captureISOS->itemText(ISOIndex);
     else
         m_currentFrame.iso = "";
 
     // add it to the overlay
-    overlay->addFrameData(m_currentFrame);
-    overlay->setVisible(true);
+    m_overlay->addFrameData(m_currentFrame);
+    m_overlay->setVisible(true);
 
     // load frame
     if (m_fitsPreview != nullptr && Options::useSummaryPreview())
@@ -107,34 +107,34 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
 
 void CapturePreviewWidget::showNextFrame()
 {
-    overlay->setEnabled(false);
-    if (overlay->showNextFrame())
-        m_fitsPreview->loadFile(overlay->currentFrame().filename);
+    m_overlay->setEnabled(false);
+    if (m_overlay->showNextFrame())
+        m_fitsPreview->loadFile(m_overlay->currentFrame().filename);
     // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
     else
-        overlay->setEnabled(true);
+        m_overlay->setEnabled(true);
 }
 
 void CapturePreviewWidget::showPreviousFrame()
 {
-    overlay->setEnabled(false);
-    if (overlay->showPreviousFrame())
-        m_fitsPreview->loadFile(overlay->currentFrame().filename);
+    m_overlay->setEnabled(false);
+    if (m_overlay->showPreviousFrame())
+        m_fitsPreview->loadFile(m_overlay->currentFrame().filename);
     // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
     else
-        overlay->setEnabled(true);
+        m_overlay->setEnabled(true);
 }
 
 void CapturePreviewWidget::deleteCurrentFrame()
 {
-    overlay->setEnabled(false);
-    if (overlay->hasFrames() == false)
+    m_overlay->setEnabled(false);
+    if (m_overlay->hasFrames() == false)
         // nothing to delete
         return;
 
     // make sure that the history does not change inbetween
-    int pos = overlay->currentPosition();
-    CaptureProcessOverlay::FrameData current = overlay->getFrame(pos);
+    int pos = m_overlay->currentPosition();
+    CaptureProcessOverlay::FrameData current = m_overlay->getFrame(pos);
     QFile *file = new QFile(current.filename);
 
     // prepare a warning dialog
@@ -153,32 +153,32 @@ void CapturePreviewWidget::deleteCurrentFrame()
         bool success = false;
         if (this->m_permanentlyDelete == false && (success = file->moveToTrash()))
         {
-            qCInfo(KSTARS_EKOS_CAPTURE) << overlay->currentFrame().filename << "moved to Trash.";
+            qCInfo(KSTARS_EKOS_CAPTURE) << m_overlay->currentFrame().filename << "moved to Trash.";
         }
         else if (this->m_permanentlyDelete && (success = file->remove()))
         {
-            qCInfo(KSTARS_EKOS_CAPTURE) << overlay->currentFrame().filename << "deleted.";
+            qCInfo(KSTARS_EKOS_CAPTURE) << m_overlay->currentFrame().filename << "deleted.";
         }
 
         if (success)
         {
             // delete it from the history and update the FITS view
-            if (overlay->deleteFrame(pos) && overlay->hasFrames())
+            if (m_overlay->deleteFrame(pos) && m_overlay->hasFrames())
             {
-                m_fitsPreview->loadFile(overlay->currentFrame().filename);
+                m_fitsPreview->loadFile(m_overlay->currentFrame().filename);
                 // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
             }
             else
             {
                 m_fitsPreview->clearData();
-                overlay->setEnabled(true);
+                m_overlay->setEnabled(true);
             }
         }
         else
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Deleting" << overlay->currentFrame().filename << "failed!";
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Deleting" << m_overlay->currentFrame().filename << "failed!";
             // give up
-            overlay->setEnabled(true);
+            m_overlay->setEnabled(true);
         }
         // clear the check box
         KSMessageBox::Instance()->setCheckBox(nullptr);
@@ -191,7 +191,7 @@ void CapturePreviewWidget::deleteCurrentFrame()
         // clear the check box
         KSMessageBox::Instance()->setCheckBox(nullptr);
         //do nothing
-        overlay->setEnabled(true);
+        m_overlay->setEnabled(true);
     });
 
     // open the message box
@@ -214,17 +214,17 @@ void CapturePreviewWidget::setSummaryFITSView(SummaryFITSView *view)
     // initialize the FITS data overlay
     // create vertically info box as overlay
     QVBoxLayout *layout = new QVBoxLayout(view->processInfoWidget);
-    layout->addWidget(overlay, 0);
+    layout->addWidget(m_overlay, 0);
 
     view->processInfoWidget->setLayout(layout);
     // react upon signals
     connect(view, &FITSView::loaded, [&]()
     {
-        overlay->setEnabled(true);
+        m_overlay->setEnabled(true);
     });
     connect(view, &FITSView::failed, [&]()
     {
-        overlay->setEnabled(true);
+        m_overlay->setEnabled(true);
     });
 }
 
@@ -237,7 +237,7 @@ void CapturePreviewWidget::setEnabled(bool enabled)
 
 void CapturePreviewWidget::reset()
 {
-    overlay->setVisible(false);
+    m_overlay->setVisible(false);
     // forward to sub widget
     captureCountsWidget->reset();
 }
@@ -252,7 +252,7 @@ void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status)
 void CapturePreviewWidget::updateTargetDistance(double targetDiff)
 {
     // forward it to the overlay
-    overlay->updateTargetDistance(targetDiff);
+    m_overlay->updateTargetDistance(targetDiff);
 }
 
 void CapturePreviewWidget::updateCaptureCountDown(int delta)

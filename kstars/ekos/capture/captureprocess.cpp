@@ -377,7 +377,7 @@ void CaptureProcess::stopCapturing(CaptureState targetState)
     state()->setLooping(false);
     state()->setBusy(false);
 
-    state()->getSeqDelayTimer().stop();
+    state()->getCaptureDelayTimer().stop();
 
     state()->setActiveJob(nullptr);
 
@@ -843,6 +843,23 @@ void CaptureProcess::checkNextExposure()
         QTimer::singleShot(1000, this, &CaptureProcess::checkNextExposure);
 }
 
+IPState CaptureProcess::captureImageWithDelay()
+{
+    auto theJob = activeJob();
+
+    if (theJob == nullptr)
+        return IPS_IDLE;
+
+    const int seqDelay = theJob->getCoreProperty(SequenceJob::SJ_Delay).toInt();
+    // nothing pending, let's start the next exposure
+    if (seqDelay > 0)
+    {
+        state()->setCaptureState(CAPTURE_WAITING);
+    }
+    state()->getCaptureDelayTimer().start(seqDelay);
+    return IPS_OK;
+}
+
 IPState CaptureProcess::startNextExposure()
 {
     // Since this function is looping while pending tasks are running in parallel
@@ -862,13 +879,7 @@ IPState CaptureProcess::startNextExposure()
             return pending;
     }
 
-    const int seqDelay = theJob->getCoreProperty(SequenceJob::SJ_Delay).toInt();
-    // nothing pending, let's start the next exposure
-    if (seqDelay > 0)
-    {
-        state()->setCaptureState(CAPTURE_WAITING);
-    }
-    state()->getSeqDelayTimer().start(seqDelay);
+    return captureImageWithDelay();
 
     return IPS_OK;
 }
@@ -1216,7 +1227,7 @@ void CaptureProcess::updatePreCaptureCalibrationStatus()
         return;
     }
 
-    captureImage();
+    captureImageWithDelay();
 }
 
 void CaptureProcess::processJobCompletion1()
@@ -1331,7 +1342,6 @@ void CaptureProcess::captureImage()
     }
 
     state()->getCaptureTimeout().stop();
-    state()->getSeqDelayTimer().stop();
     state()->getCaptureDelayTimer().stop();
     if (activeCamera()->isFastExposureEnabled())
     {
@@ -2433,7 +2443,7 @@ SequenceJob *CaptureProcess::findNextPendingJob()
     return first_job;
 }
 
-void Ekos::CaptureProcess::resetJobStatus(JOBStatus newStatus)
+void CaptureProcess::resetJobStatus(JOBStatus newStatus)
 {
     if (activeJob() != nullptr)
     {
@@ -2442,7 +2452,7 @@ void Ekos::CaptureProcess::resetJobStatus(JOBStatus newStatus)
     }
 }
 
-void Ekos::CaptureProcess::resetAllJobs()
+void CaptureProcess::resetAllJobs()
 {
     for (auto &job : state()->allJobs())
     {
@@ -2454,7 +2464,7 @@ void Ekos::CaptureProcess::resetAllJobs()
     emit updateJobTable(nullptr);
 }
 
-void Ekos::CaptureProcess::updatedCaptureCompleted(int count)
+void CaptureProcess::updatedCaptureCompleted(int count)
 {
     activeJob()->setCompleted(count);
     emit updateJobTable(activeJob());

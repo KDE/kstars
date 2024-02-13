@@ -32,9 +32,10 @@ class SchedulerModuleState;
 class SchedulerProcess : public QObject, public ModuleLogger
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.SchedulerProcess")
 
 public:
-    SchedulerProcess(QSharedPointer<SchedulerModuleState> state);
+    SchedulerProcess(QSharedPointer<SchedulerModuleState> state, const QString &ekosPathStr, const QString &ekosInterfaceStr);
 
     // ////////////////////////////////////////////////////////////////////
     // process steps
@@ -220,6 +221,11 @@ public:
     void selectActiveJob(const QList<SchedulerJob *> &jobs);
 
     /**
+     * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
+     */
+    void startJobEvaluation();
+
+    /**
      * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
      * Given that score, the scheduler will decide which is the best job that needs to be executed.
      */
@@ -253,6 +259,10 @@ public:
     void checkJobStage();
     void checkJobStageEpilogue();
 
+    /**
+     * @brief applyConfig Apply configuration changes from the global configuration dialog.
+     */
+    void applyConfig();
 
     /**
      * @brief saveScheduler Save scheduler jobs to a file
@@ -275,16 +285,6 @@ public:
     {
         emit newLog(logentry);
     }
-
-    // ////////////////////////////////////////////////////////////////////
-    // device handling
-    // ////////////////////////////////////////////////////////////////////
-    void setAlignStatus(Ekos::AlignState status);
-    void setGuideStatus(Ekos::GuideState status);
-    void setCaptureStatus(Ekos::CaptureState status);
-    void setFocusStatus(Ekos::FocusState status);
-    void setMountStatus(ISD::Mount::Status status);
-    void setWeatherStatus(ISD::Weather::Status status);
 
     /**
      * @return True if mount is parked
@@ -313,6 +313,96 @@ public:
     // ////////////////////////////////////////////////////////////////////
     // DBUS interfaces to devices
     // ////////////////////////////////////////////////////////////////////
+
+    QString focusInterfaceString { "org.kde.kstars.Ekos.Focus" };
+    void setFocusInterfaceString(const QString &interface)
+    {
+        focusInterfaceString = interface;
+    }
+    QString focusPathString { "/KStars/Ekos/Focus" };
+    void setFocusPathString(const QString &interface)
+    {
+        focusPathString = interface;
+    }
+
+    QString mountInterfaceString { "org.kde.kstars.Ekos.Mount" };
+    void setMountInterfaceString(const QString &interface)
+    {
+        mountInterfaceString = interface;
+    }
+    QString mountPathString { "/KStars/Ekos/Mount" };
+    void setMountPathString(const QString &interface)
+    {
+        mountPathString = interface;
+    }
+
+    QString captureInterfaceString { "org.kde.kstars.Ekos.Capture" };
+    void setCaptureInterfaceString(const QString &interface)
+    {
+        captureInterfaceString = interface;
+    }
+    QString capturePathString { "/KStars/Ekos/Capture" };
+    void setCapturePathString(const QString &interface)
+    {
+        capturePathString = interface;
+    }
+
+    QString alignInterfaceString { "org.kde.kstars.Ekos.Align" };
+    void setAlignInterfaceString(const QString &interface)
+    {
+        alignInterfaceString = interface;
+    }
+    QString alignPathString { "/KStars/Ekos/Align" };
+    void setAlignPathString(const QString &interface)
+    {
+        alignPathString = interface;
+    }
+
+    QString guideInterfaceString { "org.kde.kstars.Ekos.Guide" };
+    void setGuideInterfaceString(const QString &interface)
+    {
+        guideInterfaceString = interface;
+    }
+    QString guidePathString { "/KStars/Ekos/Guide" };
+    void setGuidePathString(const QString &interface)
+    {
+        guidePathString = interface;
+    }
+
+    QString domeInterfaceString { "org.kde.kstars.INDI.Dome" };
+    void setDomeInterfaceString(const QString &interface)
+    {
+        domeInterfaceString = interface;
+    }
+
+    QString domePathString;
+    void setDomePathString(const QString &interface)
+    {
+        domePathString = interface;
+    }
+
+    QString weatherInterfaceString { "org.kde.kstars.INDI.Weather" };
+    void setWeatherInterfaceString(const QString &interface)
+    {
+        weatherInterfaceString = interface;
+    }
+    QString weatherPathString;
+    void setWeatherPathString(const QString &interface)
+    {
+        weatherPathString = interface;
+    }
+
+    QString dustCapInterfaceString { "org.kde.kstars.INDI.DustCap" };
+    void setDustCapInterfaceString(const QString &interface)
+    {
+        dustCapInterfaceString = interface;
+    }
+    QString dustCapPathString;
+    void setDustCapPathString(const QString &interface)
+    {
+        dustCapPathString = interface;
+    }
+
     QPointer<QDBusInterface> ekosInterface() const
     {
         return m_ekosInterface;
@@ -432,29 +522,66 @@ signals:
     // state changes
     void jobsUpdated(QJsonArray jobsList);
     void updateJobTable(SchedulerJob *job = nullptr);
+    void interfaceReady(QDBusInterface *iface);
     // loading jobs
     void addJob(SchedulerJob *job);
     void syncGreedyParams();
     void syncGUIToGeneralSettings();
     void updateSchedulerURL(const QString &fileURL);
+    // check the alignment after a completed capture
+    void checkAlignment(const QVariantMap &metadata);
     // required for Analyze timeline
     void jobStarted(const QString &jobName);
     void jobEnded(const QString &jobName, const QString &endReason);
 
 
-private:
-    // DBus interfaces to devices
-    QPointer<QDBusInterface> m_ekosInterface { nullptr };
-    QPointer<QDBusInterface> m_indiInterface { nullptr };
-    QPointer<QDBusInterface> m_focusInterface { nullptr };
-    QPointer<QDBusInterface> m_captureInterface { nullptr };
-    QPointer<QDBusInterface> m_mountInterface { nullptr };
-    QPointer<QDBusInterface> m_alignInterface { nullptr };
-    QPointer<QDBusInterface> m_guideInterface { nullptr };
-    QPointer<QDBusInterface> m_domeInterface { nullptr };
-    QPointer<QDBusInterface> m_weatherInterface { nullptr };
-    QPointer<QDBusInterface> m_capInterface { nullptr };
+private slots:
+    void setINDICommunicationStatus(Ekos::CommunicationStatus status);
+    void setEkosCommunicationStatus(Ekos::CommunicationStatus status);
 
+    /**
+     * @brief syncProperties Sync startup properties from the various device to enable/disable features in the scheduler
+     * like the ability to park/unpark..etc
+     */
+    void syncProperties()
+    {
+        checkInterfaceReady(qobject_cast<QDBusInterface*>(sender()));
+
+    }
+
+    /**
+     * @brief checkInterfaceReady Sometimes syncProperties() is not sufficient since the ready signal could have fired already
+     * and cannot be relied on to know once a module interface is ready. Therefore, we explicitly check if the module interface
+     * is ready.
+     * @param iface interface to test for readiness.
+     */
+    void checkInterfaceReady(QDBusInterface *iface);
+
+    /**
+     * @brief registerNewModule Register an Ekos module as it arrives via DBus
+     * and create the appropriate DBus interface to communicate with it.
+     * @param name of module
+     */
+    void registerNewModule(const QString &name);
+
+    /**
+       * @brief registerNewDevice register interfaces associated with devices
+       * @param name Device name
+       * @param interface Device driver interface
+       */
+    void registerNewDevice(const QString &name, int interface);
+
+    // ////////////////////////////////////////////////////////////////////
+    // device handling
+    // ////////////////////////////////////////////////////////////////////
+    void setAlignStatus(Ekos::AlignState status);
+    void setGuideStatus(Ekos::GuideState status);
+    void setCaptureStatus(Ekos::CaptureState status);
+    void setFocusStatus(Ekos::FocusState status);
+    void setMountStatus(ISD::Mount::Status status);
+    void setWeatherStatus(ISD::Weather::Status status);
+
+private:
     // When a module is commanded to perform an action, wait this many milliseconds
     // before check its state again. If State is still IDLE, then it either didn't received the command
     // or there is another problem.
@@ -467,6 +594,28 @@ private:
 
     // Startup and Shutdown scripts process
     QProcess m_scriptProcess;
+    // ////////////////////////////////////////////////////////////////////
+    // DBUS interfaces
+    // ////////////////////////////////////////////////////////////////////
+    // Interface strings for the dbus. Changeable for mocks when testing. Private so only tests can change.
+    QString schedulerProcessPathString { "/KStars/Ekos/SchedulerProcess" };
+    QString kstarsInterfaceString { "org.kde.kstars" };
+    // This is only used in the constructor
+    QString ekosInterfaceString { "org.kde.kstars.Ekos" };
+    QString ekosPathString { "/KStars/Ekos" };
+    QString INDIInterfaceString { "org.kde.kstars.INDI" };
+    QString INDIPathString {"/KStars/INDI"};
+    // DBus interfaces to devices
+    QPointer<QDBusInterface> m_ekosInterface { nullptr };
+    QPointer<QDBusInterface> m_indiInterface { nullptr };
+    QPointer<QDBusInterface> m_focusInterface { nullptr };
+    QPointer<QDBusInterface> m_captureInterface { nullptr };
+    QPointer<QDBusInterface> m_mountInterface { nullptr };
+    QPointer<QDBusInterface> m_alignInterface { nullptr };
+    QPointer<QDBusInterface> m_guideInterface { nullptr };
+    QPointer<QDBusInterface> m_domeInterface { nullptr };
+    QPointer<QDBusInterface> m_weatherInterface { nullptr };
+    QPointer<QDBusInterface> m_capInterface { nullptr };
     // ////////////////////////////////////////////////////////////////////
     // process steps
     // ////////////////////////////////////////////////////////////////////

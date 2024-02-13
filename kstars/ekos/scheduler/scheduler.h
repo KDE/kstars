@@ -93,7 +93,11 @@ public:
             return m_LogText.join("\n");
         }
         Q_SCRIPTABLE void clearLog();
-        void applyConfig();
+
+        /**
+         * @brief handleConfigChanged Update UI after changes to the global configuration
+         */
+        void handleConfigChanged();
 
         void addObject(SkyObject *object);
 
@@ -286,38 +290,13 @@ protected:
 protected slots:
 
         /**
-         * @brief registerNewModule Register an Ekos module as it arrives via DBus
-         * and create the appropriate DBus interface to communicate with it.
-         * @param name of module
-         */
-        void registerNewModule(const QString &name);
-
-        /**
-           * @brief registerNewDevice register interfaces associated with devices
-           * @param name Device name
-           * @param interface Device driver interface
-           */
-        void registerNewDevice(const QString &name, int interface);
-
-        /**
-         * @brief syncProperties Sync startup properties from the various device to enable/disable features in the scheduler
-         * like the ability to park/unpark..etc
-         */
-        void syncProperties();
-
-        /**
          * @brief checkInterfaceReady Sometimes syncProperties() is not sufficient since the ready signal could have fired already
          * and cannot be relied on to know once a module interface is ready. Therefore, we explicitly check if the module interface
          * is ready.
          * @param iface interface to test for readiness.
          */
-        void checkInterfaceReady(QDBusInterface *iface);
+        void interfaceReady(QDBusInterface *iface);
 
-        void setAlignStatus(Ekos::AlignState status);
-        void setGuideStatus(Ekos::GuideState status);
-        void setCaptureStatus(Ekos::CaptureState status);
-        void setFocusStatus(Ekos::FocusState status);
-        void setMountStatus(ISD::Mount::Status status);
         void setWeatherStatus(ISD::Weather::Status status);
 
         /**
@@ -455,17 +434,9 @@ protected slots:
         //void checkWeather();
 
         /**
-             * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
-             */
-        void startJobEvaluation();
-
-        /**
              * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
              */
         void checkTwilightWarning(bool enabled);
-
-        void setINDICommunicationStatus(Ekos::CommunicationStatus status);
-        void setEkosCommunicationStatus(Ekos::CommunicationStatus status);
 
         void simClockScaleChanged(float);
         void simClockTimeChanged();
@@ -484,7 +455,7 @@ protected slots:
          * to ensure it does not deviation from current scheduler job target.
          * @param metadata Metadata for image including filename, exposure, filter, hfr..etc.
          */
-        void setCaptureComplete(const QVariantMap &metadata);
+        void checkAlignment(const QVariantMap &metadata);
 
 signals:
         void newLog(const QString &text);
@@ -570,111 +541,9 @@ private:
         // Interface strings for the dbus. Changeable for mocks when testing. Private so only tests can change.
         QString schedulerPathString { "/KStars/Ekos/Scheduler" };
         QString kstarsInterfaceString { "org.kde.kstars" };
-
-        QString focusInterfaceString { "org.kde.kstars.Ekos.Focus" };
-        void setFocusInterfaceString(const QString &interface)
-        {
-            focusInterfaceString = interface;
-        }
-        QString focusPathString { "/KStars/Ekos/Focus" };
-        void setFocusPathString(const QString &interface)
-        {
-            focusPathString = interface;
-        }
-
         // This is only used in the constructor
         QString ekosInterfaceString { "org.kde.kstars.Ekos" };
         QString ekosPathString { "/KStars/Ekos" };
-
-        QString mountInterfaceString { "org.kde.kstars.Ekos.Mount" };
-        void setMountInterfaceString(const QString &interface)
-        {
-            mountInterfaceString = interface;
-        }
-        QString mountPathString { "/KStars/Ekos/Mount" };
-        void setMountPathString(const QString &interface)
-        {
-            mountPathString = interface;
-        }
-
-        QString captureInterfaceString { "org.kde.kstars.Ekos.Capture" };
-        void setCaptureInterfaceString(const QString &interface)
-        {
-            captureInterfaceString = interface;
-        }
-        QString capturePathString { "/KStars/Ekos/Capture" };
-        void setCapturePathString(const QString &interface)
-        {
-            capturePathString = interface;
-        }
-
-        QString alignInterfaceString { "org.kde.kstars.Ekos.Align" };
-        void setAlignInterfaceString(const QString &interface)
-        {
-            alignInterfaceString = interface;
-        }
-        QString alignPathString { "/KStars/Ekos/Align" };
-        void setAlignPathString(const QString &interface)
-        {
-            alignPathString = interface;
-        }
-
-        QString guideInterfaceString { "org.kde.kstars.Ekos.Guide" };
-        void setGuideInterfaceString(const QString &interface)
-        {
-            guideInterfaceString = interface;
-        }
-        QString guidePathString { "/KStars/Ekos/Guide" };
-        void setGuidePathString(const QString &interface)
-        {
-            guidePathString = interface;
-        }
-
-        QString INDIInterfaceString { "org.kde.kstars.INDI" };
-        void setINDIInterfaceString(const QString &interface)
-        {
-            INDIInterfaceString = interface;
-        }
-
-        QString INDIPathString {"/KStars/INDI"};
-        void setINDIPathString(const QString &interface)
-        {
-            INDIPathString = interface;
-        }
-
-        QString domeInterfaceString { "org.kde.kstars.INDI.Dome" };
-        void setDomeInterfaceString(const QString &interface)
-        {
-            domeInterfaceString = interface;
-        }
-
-        QString domePathString;
-        void setDomePathString(const QString &interface)
-        {
-            domePathString = interface;
-        }
-
-        QString weatherInterfaceString { "org.kde.kstars.INDI.Weather" };
-        void setWeatherInterfaceString(const QString &interface)
-        {
-            weatherInterfaceString = interface;
-        }
-        QString weatherPathString;
-        void setWeatherPathString(const QString &interface)
-        {
-            weatherPathString = interface;
-        }
-
-        QString dustCapInterfaceString { "org.kde.kstars.INDI.DustCap" };
-        void setDustCapInterfaceString(const QString &interface)
-        {
-            dustCapInterfaceString = interface;
-        }
-        QString dustCapPathString;
-        void setDustCapPathString(const QString &interface)
-        {
-            dustCapPathString = interface;
-        }
 
         // the state machine holding all states
         QSharedPointer<SchedulerModuleState> m_moduleState;

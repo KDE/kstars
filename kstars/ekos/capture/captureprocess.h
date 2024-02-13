@@ -778,5 +778,10 @@ private:
      * number.
      */
     void updatedCaptureCompleted(int count);
+    /**
+     * @brief captureImageWithDelay Helper function that starts the sequence delay timer
+     * for starting to capture after the configured delay.
+     */
+    IPState captureImageWithDelay();
 };
 } // Ekos namespace

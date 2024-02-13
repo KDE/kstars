@@ -18,7 +18,7 @@ namespace Ekos
 {
 class Capture;
 class SequenceJob;
-class Scheduler;
+class SchedulerModuleState;
 }
 
 class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
@@ -45,8 +45,8 @@ public slots:
 
 
 private:
-    void shareCaptureProcess(Ekos::Capture *process) {captureProcess = process;}
-    void shareSchedulerProcess(Ekos::Scheduler *process) {schedulerProcess = process;}
+    void shareCaptureProcess(Ekos::Capture *process) {m_captureProcess = process;}
+    void shareSchedulerState(QSharedPointer<Ekos::SchedulerModuleState> state);
 
     /**
      * @brief update the count down value of the current exposure
@@ -80,8 +80,8 @@ private:
     void setFrameInfo(const QString frametype, const QString filter = "", const double exptime = -1, const int xBin = -1, const int yBin = -1, const double gain = -1);
 
 
-    Ekos::Scheduler *schedulerProcess = nullptr;
-    Ekos::Capture *captureProcess = nullptr;
+    QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState;
+    Ekos::Capture *m_captureProcess = nullptr;
 
     QTime imageCountDown;
     QTime sequenceCountDown;

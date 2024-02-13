@@ -509,10 +509,6 @@ class CaptureModuleState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // Timers
         // ////////////////////////////////////////////////////////////////////
-        QTimer &getCaptureDelayTimer()
-        {
-            return m_captureDelayTimer;
-        }
         QTimer &getCaptureTimeout()
         {
             return m_captureTimeout;
@@ -541,9 +537,9 @@ class CaptureModuleState: public QObject
         {
             return m_DownloadTimer;
         }
-        QTimer &getSeqDelayTimer()
+        QTimer &getCaptureDelayTimer()
         {
-            return m_seqDelayTimer;
+            return m_captureDelayTimer;
         }
         QTimer &getGuideDeviationTimer()
         {
@@ -1017,10 +1013,6 @@ class CaptureModuleState: public QObject
         int m_SpikesDetected { 0 };
         // Timer for guiding recovery
         QTimer m_guideDeviationTimer;
-        // Timer to start the entire capturing with the delay configured
-        // for the first capture job that is ready to be executed.
-        // @see Capture::start().
-        QTimer m_captureDelayTimer;
         // Capture timeout timer
         QTimer m_captureTimeout;
         uint8_t m_CaptureTimeoutCounter { 0 };
@@ -1028,9 +1020,9 @@ class CaptureModuleState: public QObject
         // time left of the current exposure
         QTime m_imageCountDown;
         double m_lastRemainingFrameTimeMS;
-        // Timer for starting the next capture sequence with delay
-        // @see Capture::startNextExposure()
-        QTimer m_seqDelayTimer;
+        // Timer for delay before capturing an image
+        // @see CaptureProcess::captureImageWithDelay()
+        QTimer m_captureDelayTimer;
         // time left for the current sequence
         QTime m_sequenceCountDown;
         // timer for updating the download progress

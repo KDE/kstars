@@ -8,7 +8,7 @@
 #include "capturecountswidget.h"
 #include "Options.h"
 #include "ekos/manager.h"
-#include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 #include "ekos/capture/capture.h"
 #include "ekos/capture/sequencejob.h"
 
@@ -65,6 +65,11 @@ void CaptureCountsWidget::updateDownloadProgress(double timeLeft)
     frameRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
 }
 
+void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModuleState> state)
+{
+    m_schedulerModuleState = state;
+}
+
 void CaptureCountsWidget::updateCaptureCountDown(int delta)
 {
     overallCountDown  = overallCountDown.addSecs(delta);
@@ -80,8 +85,8 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
         sequenceCountDown.setHMS(0, 0, 0);
 
     // do not change overall remaining time if scheduler is in endless loop
-    if (schedulerProcess == nullptr || schedulerProcess->activeJob() == nullptr ||
-            schedulerProcess->activeJob()->getCompletionCondition() != Ekos::FINISH_LOOP)
+    if (m_schedulerModuleState == nullptr || m_schedulerModuleState->activeJob() == nullptr ||
+            m_schedulerModuleState->activeJob()->getCompletionCondition() != Ekos::FINISH_LOOP)
     {
         overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
@@ -176,27 +181,27 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
     // determine total number of frames and completed ones - used either for
     // total numbers if scheduler is not used - and for job figures in the text
     // display if the scheduler is used
-    double capture_total_percentage = captureProcess->getProgressPercentage();
-    int    capture_remaining_time   = captureProcess->getOverallRemainingTime();
+    double capture_total_percentage = m_captureProcess->getProgressPercentage();
+    int    capture_remaining_time   = m_captureProcess->getOverallRemainingTime();
     int capture_total_count = 0, capture_total_completed = 0;
-    for (int i = 0; i < captureProcess->getJobCount(); i++)
+    for (int i = 0; i < m_captureProcess->getJobCount(); i++)
     {
-        capture_total_count     += captureProcess->getJobImageCount(i);
-        capture_total_completed += captureProcess->getJobImageProgress(i);
+        capture_total_count     += m_captureProcess->getJobImageCount(i);
+        capture_total_completed += m_captureProcess->getJobImageProgress(i);
     }
 
 
-    if (schedulerProcess != nullptr && schedulerProcess->activeJob() != nullptr)
+    if (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr)
     {
-        total_label = schedulerProcess->getCurrentJobName();
+        total_label = m_schedulerModuleState->activeJob()->getName();
         // FIXME: accessing the completed count might be one too low due to concurrency of updating the count and this loop
-        total_completed = schedulerProcess->activeJob()->getCompletedCount();
-        total_count     = schedulerProcess->activeJob()->getSequenceCount();
-        infinite_loop   = (schedulerProcess->activeJob()->getCompletionCondition() == Ekos::FINISH_LOOP);
+        total_completed = m_schedulerModuleState->activeJob()->getCompletedCount();
+        total_count     = m_schedulerModuleState->activeJob()->getSequenceCount();
+        infinite_loop   = (m_schedulerModuleState->activeJob()->getCompletionCondition() == Ekos::FINISH_LOOP);
         if (total_count > 0)
             total_percentage = (100 * total_completed) / total_count;
-        if (schedulerProcess->activeJob()->getEstimatedTime() > 0)
-            total_remaining_time = int(schedulerProcess->activeJob()->getEstimatedTime());
+        if (m_schedulerModuleState->activeJob()->getEstimatedTime() > 0)
+            total_remaining_time = int(m_schedulerModuleState->activeJob()->getEstimatedTime());
     }
     else
     {
@@ -235,13 +240,13 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
             gr_overallLabel->setText(overallLabel->text());
 
             // update job remaining time if run from the scheduler
-            bool show_job_progress = (schedulerProcess != nullptr && schedulerProcess->activeJob() != nullptr);
+            bool show_job_progress = (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr);
             jobLabel->setVisible(show_job_progress);
             jobRemainingTime->setVisible(show_job_progress);
             if (show_job_progress)
             {
                 jobCountDown.setHMS(0, 0, 0);
-                jobCountDown = jobCountDown.addSecs(captureProcess->getOverallRemainingTime());
+                jobCountDown = jobCountDown.addSecs(m_captureProcess->getOverallRemainingTime());
                 jobLabel->setText(QString("Job (%1/%2)")
                                   .arg(capture_total_completed)
                                   .arg(capture_total_count));
@@ -249,7 +254,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
 
             // update sequence remaining time
             sequenceCountDown.setHMS(0, 0, 0);
-            sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
+            sequenceCountDown = sequenceCountDown.addSecs(m_captureProcess->getActiveJobRemainingTime());
     }
 }
 

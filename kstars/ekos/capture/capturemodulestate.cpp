@@ -973,7 +973,7 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
             getGuideDeviationTimer().stop();
 
             // Start with delay if start hasn't been triggered before
-            if (! m_captureDelayTimer.isActive())
+            if (! getCaptureDelayTimer().isActive())
             {
                 // if capturing has been suspended, restart it
                 if (m_CaptureState == CAPTURE_SUSPENDED)
@@ -988,7 +988,7 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
                                            "resuming exposure in %3 seconds.",
                                            deviationText, Options::startGuideDeviation(), seqDelay / 1000.0));
 
-                    m_captureDelayTimer.start(seqDelay);
+                    emit startCapture();
                 }
             }
             return;
@@ -996,8 +996,8 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
         else
         {
             // stop the delayed capture start if necessary
-            if (m_captureDelayTimer.isActive())
-                m_captureDelayTimer.stop();
+            if (getCaptureDelayTimer().isActive())
+                getCaptureDelayTimer().stop();
 
             appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
                                deviationText, Options::startGuideDeviation()));

@@ -304,9 +304,8 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     avgDownloadLabel->setVisible(false);
     secLabel->setVisible(false);
 
-    connect(&state()->getSeqDelayTimer(), &QTimer::timeout, m_captureProcess, &CaptureProcess::captureImage);
     state()->getCaptureDelayTimer().setSingleShot(true);
-    connect(&state()->getCaptureDelayTimer(), &QTimer::timeout, this, &Capture::start, Qt::UniqueConnection);
+    connect(&state()->getCaptureDelayTimer(), &QTimer::timeout, m_captureProcess, &CaptureProcess::captureImage);
 
     connect(startB, &QPushButton::clicked, this, &Capture::toggleSequence);
     connect(pauseB, &QPushButton::clicked, this, &Capture::pause);

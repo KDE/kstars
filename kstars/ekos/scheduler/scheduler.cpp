@@ -104,7 +104,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     qDBusRegisterMetaType<Ekos::SchedulerState>();
 
     m_moduleState.reset(new SchedulerModuleState());
-    m_process.reset(new SchedulerProcess(moduleState()));
+    m_process.reset(new SchedulerProcess(moduleState(), ekosPathStr, ekosInterfaceStr));
 
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
@@ -123,24 +123,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     QDBusConnection::sessionBus().unregisterObject(schedulerPathString);
     if (!QDBusConnection::sessionBus().registerObject(schedulerPathString, this))
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Scheduler failed to register with dbus");
-    process()->setEkosInterface(new QDBusInterface(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr,
-                                QDBusConnection::sessionBus(), this));
-
-    process()->setIndiInterface(new QDBusInterface(kstarsInterfaceString, INDIPathString, INDIInterfaceString,
-                                QDBusConnection::sessionBus(), this));
-
-    // Example of connecting DBus signals
-    //connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
-    //connect(ekosInterface, SIGNAL(ekosStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
-    //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
-    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newModule", this,
-                                          SLOT(registerNewModule(QString)));
-    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newDevice", this,
-                                          SLOT(registerNewDevice(QString, int)));
-    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "indiStatusChanged",
-                                          this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
-    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "ekosStatusChanged",
-                                          this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
 
     sleepLabel->setPixmap(
         QIcon::fromTheme("chronometer").pixmap(QSize(32, 32)));
@@ -272,7 +254,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(removeFromQueueB, &QPushButton::clicked, this, &Scheduler::removeJob);
     connect(queueUpB, &QPushButton::clicked, this, &Scheduler::moveJobUp);
     connect(queueDownB, &QPushButton::clicked, this, &Scheduler::moveJobDown);
-    connect(evaluateOnlyB, &QPushButton::clicked, this, &Scheduler::startJobEvaluation);
+    connect(evaluateOnlyB, &QPushButton::clicked, process().data(), &SchedulerProcess::startJobEvaluation);
     connect(sortJobsB, &QPushButton::clicked, this, &Scheduler::sortJobsPerAltitude);
     connect(queueTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &Scheduler::queueTableSelectionChanged);
     connect(queueTable, &QAbstractItemView::clicked, this, &Scheduler::clickQueueTable);
@@ -338,6 +320,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::shutdownStarted, this, &Scheduler::handleShutdownStarted);
     connect(process().data(), &SchedulerProcess::schedulerSleeping, this, &Scheduler::handleSchedulerSleeping);
     connect(process().data(), &SchedulerProcess::jobsUpdated, this, &Scheduler::handleJobsUpdated);
+    connect(process().data(), &SchedulerProcess::checkAlignment, this, &Scheduler::checkAlignment);
     connect(process().data(), &SchedulerProcess::updateJobTable, this, &Scheduler::updateJobTable);
     connect(process().data(), &SchedulerProcess::addJob, this, &Scheduler::addJob);
     connect(process().data(), &SchedulerProcess::jobStarted, this, &Scheduler::jobStarted);
@@ -346,6 +329,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::syncGUIToGeneralSettings, this, &Scheduler::syncGUIToGeneralSettings);
     connect(process().data(), &SchedulerProcess::changeSleepLabel, this, &Scheduler::changeSleepLabel);
     connect(process().data(), &SchedulerProcess::updateSchedulerURL, this, &Scheduler::updateSchedulerURL);
+    connect(process().data(), &SchedulerProcess::interfaceReady, this, &Scheduler::interfaceReady);
     // Connect geographical location - when it is available
     //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
@@ -385,7 +369,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         decBox->show(center.dec0());
     });
 
-    connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::applyConfig);
+    connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::handleConfigChanged);
 
     connect(editSequenceB, &QPushButton::clicked, this, [this]()
     {
@@ -397,8 +381,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     });
 
     moduleState()->calculateDawnDusk();
-    updateNightTime();
-
     process()->loadProfiles();
 
     watchJobChanges(true);
@@ -573,17 +555,10 @@ void Scheduler::clearLog()
     emit newLog(QString());
 }
 
-void Scheduler::applyConfig()
+void Scheduler::handleConfigChanged()
 {
-    moduleState()->calculateDawnDusk();
-    updateNightTime();
     repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
     executionSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
-
-    if (SCHEDULER_RUNNING != moduleState()->schedulerState())
-    {
-        process()->evaluateJobs(true);
-    }
 }
 
 void Scheduler::selectObject()
@@ -1109,10 +1084,11 @@ void Scheduler::syncGUIToGeneralSettings()
 
 void Scheduler::updateNightTime(SchedulerJob const *job)
 {
-    if (job == nullptr)
+    // select job from current position
+    if (job == nullptr && moduleState()->jobs().size() > 0)
     {
         int const currentRow = moduleState()->currentPosition();
-        if (0 < currentRow && currentRow < moduleState()->jobs().size())
+        if (0 <= currentRow && currentRow < moduleState()->jobs().size())
             job = moduleState()->jobs().at(currentRow);
 
         if (job == nullptr)
@@ -1781,7 +1757,7 @@ void Scheduler::load(bool clearQueue, const QString &filename)
             moduleState()->setCurrentPosition(row);
 
         /* Run a job idle evaluation after a successful load */
-        startJobEvaluation();
+        process()->startJobEvaluation();
     }
 }
 
@@ -1795,6 +1771,7 @@ void Scheduler::removeAllJobs()
 
     qDeleteAll(moduleState()->jobs());
     moduleState()->mutlableJobs().clear();
+    moduleState()->setCurrentPosition(-1);
 }
 
 bool Scheduler::loadScheduler(const QString &fileURL)
@@ -1894,20 +1871,6 @@ void Scheduler::setDirty()
         moduleState()->setShutdownScriptURL(QUrl::fromUserInput(schedulerShutdownScript->text()));
 }
 
-void Scheduler::startJobEvaluation()
-{
-    // Reset all jobs
-    // other states too?
-    if (SCHEDULER_RUNNING != moduleState()->schedulerState())
-        process()->resetJobs();
-
-    // reset the iterations counter
-    moduleState()->resetSequenceExecutionCounter();
-
-    // And evaluate all pending jobs per the conditions set in each
-    process()->evaluateJobs(true);
-}
-
 void Scheduler::sortJobsPerAltitude()
 {
     // We require a first job to sort, so bail out if list is empty
@@ -2000,7 +1963,7 @@ void Scheduler::resetAllJobs()
         job->setCompletedCount(0);
 
     // Evaluate all jobs, this refreshes storage and resets job states
-    startJobEvaluation();
+    process()->startJobEvaluation();
 }
 
 void Scheduler::checkTwilightWarning(bool enabled)
@@ -2064,22 +2027,6 @@ void Scheduler::updateJobStageUI(SchedulerJobStage stage)
 }
 
 
-void Scheduler::setINDICommunicationStatus(Ekos::CommunicationStatus status)
-{
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %d\n", __LINE__, "ekosInterface:indiStatusChanged", status);
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler INDI status is" << status;
-
-    moduleState()->setIndiCommunicationStatus(status);
-}
-
-void Scheduler::setEkosCommunicationStatus(Ekos::CommunicationStatus status)
-{
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %d\n", __LINE__, "ekosInterface:ekosStatusChanged", status);
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler Ekos status is" << status;
-
-    moduleState()->setEkosCommunicationStatus(status);
-}
-
 void Scheduler::simClockScaleChanged(float newScale)
 {
     if (moduleState()->currentlySleeping())
@@ -2098,205 +2045,15 @@ void Scheduler::simClockScaleChanged(float newScale)
 void Scheduler::simClockTimeChanged()
 {
     moduleState()->calculateDawnDusk();
-    updateNightTime();
 
     // If the Scheduler is not running, reset all jobs and re-evaluate from a new current start point
     if (SCHEDULER_RUNNING != moduleState()->schedulerState())
     {
-        startJobEvaluation();
+        process()->startJobEvaluation();
     }
 }
 
-void Scheduler::registerNewDevice(const QString &name, int interface)
-{
-    Q_UNUSED(name)
-
-    if (interface & INDI::BaseDevice::DOME_INTERFACE)
-    {
-        QList<QVariant> dbusargs;
-        dbusargs.append(INDI::BaseDevice::DOME_INTERFACE);
-        QDBusReply<QStringList> paths = process()->indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
-                                        dbusargs);
-        if (paths.error().type() == QDBusError::NoError)
-        {
-            // Select last device in case a restarted caused multiple instances in the tree
-            setDomePathString(paths.value().last());
-            delete process()->domeInterface();
-            process()->setDomeInterface(new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
-                                        QDBusConnection::sessionBus(), this));
-            connect(process()->domeInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-            checkInterfaceReady(process()->domeInterface());
-        }
-    }
-
-    if (interface & INDI::BaseDevice::WEATHER_INTERFACE)
-    {
-        QList<QVariant> dbusargs;
-        dbusargs.append(INDI::BaseDevice::WEATHER_INTERFACE);
-        QDBusReply<QStringList> paths = process()->indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
-                                        dbusargs);
-        if (paths.error().type() == QDBusError::NoError)
-        {
-            // Select last device in case a restarted caused multiple instances in the tree
-            setWeatherPathString(paths.value().last());
-            delete process()->weatherInterface();
-            process()->setWeatherInterface(new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
-                                           QDBusConnection::sessionBus(), this));
-            connect(process()->weatherInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-            connect(process()->weatherInterface(), SIGNAL(newStatus(ISD::Weather::Status)), this,
-                    SLOT(setWeatherStatus(ISD::Weather::Status)));
-            checkInterfaceReady(process()->weatherInterface());
-        }
-    }
-
-    if (interface & INDI::BaseDevice::DUSTCAP_INTERFACE)
-    {
-        QList<QVariant> dbusargs;
-        dbusargs.append(INDI::BaseDevice::DUSTCAP_INTERFACE);
-        QDBusReply<QStringList> paths = process()->indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
-                                        dbusargs);
-        if (paths.error().type() == QDBusError::NoError)
-        {
-            // Select last device in case a restarted caused multiple instances in the tree
-            setDustCapPathString(paths.value().last());
-            delete process()->capInterface();
-            process()->setCapInterface(new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
-                                       QDBusConnection::sessionBus(), this));
-            connect(process()->capInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-            checkInterfaceReady(process()->capInterface());
-        }
-    }
-}
-
-void Scheduler::registerNewModule(const QString &name)
-{
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Registering new Module (" << name << ")";
-
-    if (name == "Focus")
-    {
-        delete process()->focusInterface();
-        process()->setFocusInterface(new QDBusInterface(kstarsInterfaceString, focusPathString, focusInterfaceString,
-                                     QDBusConnection::sessionBus(), this));
-        connect(process()->focusInterface(), SIGNAL(newStatus(Ekos::FocusState)), this,
-                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
-    }
-    else if (name == "Capture")
-    {
-        delete process()->captureInterface();
-        process()->setCaptureInterface(new QDBusInterface(kstarsInterfaceString, capturePathString, captureInterfaceString,
-                                       QDBusConnection::sessionBus(), this));
-
-        connect(process()->captureInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(process()->captureInterface(), SIGNAL(newStatus(Ekos::CaptureState)), this,
-                SLOT(setCaptureStatus(Ekos::CaptureState)),
-                Qt::UniqueConnection);
-        connect(process()->captureInterface(), SIGNAL(captureComplete(QVariantMap)), this, SLOT(setCaptureComplete(QVariantMap)),
-                Qt::UniqueConnection);
-        checkInterfaceReady(process()->captureInterface());
-    }
-    else if (name == "Mount")
-    {
-        delete process()->mountInterface();
-        process()->setMountInterface(new QDBusInterface(kstarsInterfaceString, mountPathString, mountInterfaceString,
-                                     QDBusConnection::sessionBus(), this));
-
-        connect(process()->mountInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(process()->mountInterface(), SIGNAL(newStatus(ISD::Mount::Status)), this, SLOT(setMountStatus(ISD::Mount::Status)),
-                Qt::UniqueConnection);
-
-        checkInterfaceReady(process()->mountInterface());
-    }
-    else if (name == "Align")
-    {
-        delete process()->alignInterface();
-        process()->setAlignInterface(new QDBusInterface(kstarsInterfaceString, alignPathString, alignInterfaceString,
-                                     QDBusConnection::sessionBus(), this));
-        connect(process()->alignInterface(), SIGNAL(newStatus(Ekos::AlignState)), this, SLOT(setAlignStatus(Ekos::AlignState)),
-                Qt::UniqueConnection);
-    }
-    else if (name == "Guide")
-    {
-        delete process()->guideInterface();
-        process()->setGuideInterface(new QDBusInterface(kstarsInterfaceString, guidePathString, guideInterfaceString,
-                                     QDBusConnection::sessionBus(), this));
-        connect(process()->guideInterface(), SIGNAL(newStatus(Ekos::GuideState)), this,
-                SLOT(setGuideStatus(Ekos::GuideState)), Qt::UniqueConnection);
-    }
-}
-
-void Scheduler::syncProperties()
-{
-    QDBusInterface *iface = qobject_cast<QDBusInterface*>(sender());
-
-    if (iface == process()->mountInterface())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "mountInterface:property", "canPark");
-        QVariant canMountPark = process()->mountInterface()->property("canPark");
-        TEST_PRINT(stderr, "  @@@dbus received %s\n", !canMountPark.isValid() ? "invalid" : (canMountPark.toBool() ? "T" : "F"));
-
-        schedulerUnparkMount->setEnabled(canMountPark.toBool());
-        schedulerParkMount->setEnabled(canMountPark.toBool());
-        moduleState()->setMountReady(true);
-    }
-    else if (iface == process()->capInterface())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "dustCapInterface:property", "canPark");
-        QVariant canCapPark = process()->capInterface()->property("canPark");
-        TEST_PRINT(stderr, "  @@@dbus received %s\n", !canCapPark.isValid() ? "invalid" : (canCapPark.toBool() ? "T" : "F"));
-
-        if (canCapPark.isValid())
-        {
-            schedulerCloseDustCover->setEnabled(canCapPark.toBool());
-            schedulerOpenDustCover->setEnabled(canCapPark.toBool());
-            moduleState()->setCapReady(true);
-        }
-        else
-        {
-            schedulerCloseDustCover->setEnabled(false);
-            schedulerOpenDustCover->setEnabled(false);
-        }
-    }
-    else if (iface == process()->domeInterface())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:property", "canPark");
-        QVariant canDomePark = process()->domeInterface()->property("canPark");
-        TEST_PRINT(stderr, "  @@@dbus received %s\n", !canDomePark.isValid() ? "invalid" : (canDomePark.toBool() ? "T" : "F"));
-
-        if (canDomePark.isValid())
-        {
-            schedulerParkDome->setEnabled(canDomePark.toBool());
-            schedulerUnparkDome->setEnabled(canDomePark.toBool());
-            moduleState()->setDomeReady(true);
-        }
-        else
-        {
-            schedulerParkDome->setEnabled(false);
-            schedulerUnparkDome->setEnabled(false);
-        }
-    }
-    else if (iface == process()->weatherInterface())
-    {
-        QVariant status = process()->weatherInterface()->property("status");
-        if (status.isValid())
-        {
-            schedulerWeather->setEnabled(true);
-            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
-        }
-        else
-            schedulerWeather->setEnabled(false);
-    }
-    else if (iface == process()->captureInterface())
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:property", "coolerControl");
-        QVariant hasCoolerControl = process()->captureInterface()->property("coolerControl");
-        TEST_PRINT(stderr, "  @@@dbus received %s\n",
-                   !hasCoolerControl.isValid() ? "invalid" : (hasCoolerControl.toBool() ? "T" : "F"));
-        schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
-        moduleState()->setCaptureReady(true);
-    }
-}
-
-void Scheduler::checkInterfaceReady(QDBusInterface *iface)
+void Scheduler::interfaceReady(QDBusInterface *iface)
 {
     if (iface == process()->mountInterface())
     {
@@ -2305,7 +2062,6 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         {
             schedulerUnparkMount->setEnabled(canMountPark.toBool());
             schedulerParkMount->setEnabled(canMountPark.toBool());
-            moduleState()->setMountReady(true);
         }
     }
     else if (iface == process()->capInterface())
@@ -2315,7 +2071,6 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         {
             schedulerCloseDustCover->setEnabled(canCapPark.toBool());
             schedulerOpenDustCover->setEnabled(canCapPark.toBool());
-            moduleState()->setCapReady(true);
         }
         else
         {
@@ -2328,8 +2083,8 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         QVariant status = process()->weatherInterface()->property("status");
         if (status.isValid())
         {
-            schedulerWeather->setEnabled(true);
             setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
+            schedulerWeather->setEnabled(true);
         }
         else
             schedulerWeather->setEnabled(false);
@@ -2341,7 +2096,6 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         {
             schedulerUnparkDome->setEnabled(canDomePark.toBool());
             schedulerParkDome->setEnabled(canDomePark.toBool());
-            moduleState()->setDomeReady(true);
         }
     }
     else if (iface == process()->captureInterface())
@@ -2350,125 +2104,10 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
         if (hasCoolerControl.isValid())
         {
             schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
-            moduleState()->setCaptureReady(true);
         }
     }
 }
 
-void Scheduler::setAlignStatus(AlignState status)
-{
-    process()->setAlignStatus(status);
-}
-
-void Scheduler::setGuideStatus(GuideState status)
-{
-    process()->setGuideStatus(status);
-}
-
-void Scheduler::setCaptureStatus(Ekos::CaptureState status)
-{
-    TEST_PRINT(stderr, "sch%d @@@setCaptureStatus(%d) %s\n", __LINE__, static_cast<int>(status),
-               (activeJob() == nullptr) ? "IGNORED" : "OK");
-    if (activeJob() == nullptr)
-        return;
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status);
-
-    /* If current job is scheduled and has not started yet, wait */
-    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
-    {
-        QDateTime const now = SchedulerModuleState::getLocalTime();
-        if (now < activeJob()->getStartupTime())
-            return;
-    }
-
-    if (activeJob()->getStage() == SCHEDSTAGE_CAPTURING)
-    {
-        if (status == Ekos::CAPTURE_PROGRESS && (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN))
-        {
-            // JM 2021.09.20
-            // Re-set target coords in align module
-            // When capture starts, alignment module automatically rests target coords to mount coords.
-            // However, we want to keep align module target synced with the scheduler target and not
-            // the mount coord
-            const SkyPoint targetCoords = activeJob()->getTargetCoords();
-            QList<QVariant> targetArgs;
-            targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
-            process()->alignInterface()->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords", targetArgs);
-        }
-        else if (status == Ekos::CAPTURE_ABORTED)
-        {
-            appendLogText(i18n("Warning: job '%1' failed to capture target.", activeJob()->getName()));
-
-            if (moduleState()->increaseCaptureFailureCount())
-            {
-                // If capture failed due to guiding error, let's try to restart that
-                if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
-                {
-                    // Check if it is guiding related.
-                    Ekos::GuideState gStatus = process()->getGuidingStatus();
-                    if (gStatus == Ekos::GUIDE_ABORTED ||
-                            gStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
-                            gStatus == GUIDE_DITHERING_ERROR)
-                    {
-                        appendLogText(i18n("Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of %3).",
-                                           activeJob()->getName(),
-                                           moduleState()->captureFailureCount(), moduleState()->maxFailureAttempts()));
-                        process()->startGuiding(true);
-                        return;
-                    }
-                }
-
-                /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
-                appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", activeJob()->getName()));
-                process()->startCapture(true);
-            }
-            else
-            {
-                /* FIXME: it's not clear whether this situation can be recovered at all */
-                appendLogText(i18n("Warning: job '%1' failed its capture procedure, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SCHEDJOB_ABORTED);
-
-                process()->findNextJob();
-            }
-        }
-        else if (status == Ekos::CAPTURE_COMPLETE)
-        {
-            KSNotification::event(QLatin1String("EkosScheduledImagingFinished"),
-                                  i18n("Ekos job (%1) - Capture finished", activeJob()->getName()), KSNotification::Scheduler);
-
-            activeJob()->setState(SCHEDJOB_COMPLETE);
-            process()->findNextJob();
-        }
-        else if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
-        {
-            // We received a new image, but we don't know precisely where so update the storage map and re-estimate job times.
-            // FIXME: rework this once capture storage is reworked
-            if (Options::rememberJobProgress())
-            {
-                process()->updateCompletedJobsCount(true);
-
-                for (const auto &job : moduleState()->jobs())
-                    SchedulerUtils::estimateJobTime(job, moduleState()->capturedFramesCount(), this);
-            }
-            // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
-            else
-                activeJob()->setCompletedCount(activeJob()->getCompletedCount() + 1);
-
-            moduleState()->resetCaptureFailureCount();
-        }
-    }
-}
-
-void Scheduler::setFocusStatus(FocusState status)
-{
-    process()->setFocusStatus(status);
-}
-
-void Scheduler::setMountStatus(ISD::Mount::Status status)
-{
-    process()->setMountStatus(status);
-}
 
 void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 {
@@ -2496,8 +2135,6 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 
     if (newStatus != moduleState()->weatherStatus())
     {
-        moduleState()->setWeatherStatus(newStatus);
-
         qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
 
         if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_OK)
@@ -2531,21 +2168,6 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
         appendLogText(statusString);
 
         emit weatherChanged(moduleState()->weatherStatus());
-    }
-
-    // Shutdown scheduler if it was started and not already in shutdown
-    // and if weather checkbox is checked.
-    if (schedulerWeather->isChecked() && moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT
-            && moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE
-            && moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN)
-    {
-        appendLogText(i18n("Starting shutdown procedure due to severe weather."));
-        if (activeJob())
-        {
-            activeJob()->setState(SCHEDJOB_ABORTED);
-            process()->stopCurrentJobAction();
-        }
-        process()->checkShutdownState();
     }
 }
 
@@ -2595,7 +2217,7 @@ void Scheduler::handleSetPaused()
     pauseB->setChecked(true);
 }
 
-void Scheduler::setCaptureComplete(const QVariantMap &metadata)
+void Scheduler::checkAlignment(const QVariantMap &metadata)
 {
     if (activeJob() &&
             activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN &&
