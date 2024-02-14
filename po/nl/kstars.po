@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-13 01:38+0000\n"
-"PO-Revision-Date: 2024-02-12 10:51+0100\n"
+"PO-Revision-Date: 2024-02-13 10:52+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2280,7 +2280,7 @@ msgstr "bijv. PGC 54559"
 #: dialogs/addcatalogobject.ui:50
 #, kde-format
 msgid "RA / Dec (J2000):"
-msgstr "RA / Dec (J2000):"
+msgstr "RK / Dec (J2000):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/addcatalogobject.ui:72
@@ -5865,10 +5865,9 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Effectieve grootte gezichtsveld, in boogminuten.</p>"
 
 #: ekos/align/align.cpp:1412
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "Temperatuur wordt op %1 °C ingesteld..."
+msgstr "Doel wordt op RK:%1 DEC:%2 ingesteld"
 
 #: ekos/align/align.cpp:1431
 #, kde-format
@@ -6185,7 +6184,7 @@ msgstr "Draaien gedetecteerd, oplossen wordt onderbroken..."
 #: ekos/align/align.cpp:2925
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
-msgstr "Syncen naar RK (%1) Dec (%2)"
+msgstr "Synchroniseren naar RK (%1) Dec (%2)"
 
 #: ekos/align/align.cpp:2949
 #, kde-format
@@ -6198,7 +6197,7 @@ msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr ""
-"Naar doelcoördinaten draaien: RA (%1) DEC (%2) is afgewezen. (Zie melding)"
+"Naar doelcoördinaten draaien: RK (%1) DEC (%2) is afgewezen. (Zie melding)"
 
 #: ekos/align/align.cpp:2973
 #, kde-format
@@ -6897,7 +6896,7 @@ msgstr "Opstellingsmodel"
 #: ekos/align/alignview.cpp:166
 #, kde-format
 msgid "RA Axis"
-msgstr "RA-as"
+msgstr "RK-as"
 
 #: ekos/align/astapastrometryparser.cpp:57
 #, kde-format
@@ -7129,7 +7128,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Selecteer het type objecten/punten die door de "
 "assistent worden toegevoegd.</p><p><span style=\" font-weight:600;\">Let op:"
-"</span> : alle opties behalve Vaste Dec beginnen met een roostervan RK/DEC-"
+"</span> : alle opties behalve Vaste Dec beginnen met een rooster van RK/DEC-"
 "punten.</p><p>Een ster – De assistent zoekt naar de dichtstbijzijnde ster..</"
 "p><p>Een object –- De assistent zoekt naar het dichtstbijzijnde object, "
 "ongeacht het type.</p><p>Sterren met een naam –- De assistent zoekt naar de "
@@ -9426,7 +9425,7 @@ msgstr "Tweede rotatie opstelling is voltooid."
 #: ekos/align/polaralignmentassistant.cpp:651
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
-msgstr "Opstellen afgebroken. Draai richting RA-as om en probeer opnieuw."
+msgstr "Opstellen afgebroken. Draai richting RK-as om en probeer opnieuw."
 
 #: ekos/align/polaralignmentassistant.cpp:736
 #, kde-format
@@ -9466,7 +9465,7 @@ msgstr "PAA: findCorrectedPixel is mislukt."
 #: ekos/align/polaralignmentassistant.cpp:919
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
-msgstr "PAA: vinden van RA-ascentrum is mislukt."
+msgstr "PAA: vinden van RK-ascentrum is mislukt."
 
 #: ekos/align/polaralignmentassistant.cpp:990
 #, kde-format
@@ -9519,7 +9518,7 @@ msgstr "Fout bij verwerken World Coordinate System: %1. Probeer nogmaals."
 #: ekos/align/polaralignmentassistant.cpp:1176
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
-msgstr "PAA: vinden van RA-as is mislukt. Wordt verlaten."
+msgstr "PAA: vinden van RK-as is mislukt. Wordt verlaten."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
 #: ekos/align/polaralignmentassistant.cpp:1207
@@ -9731,7 +9730,7 @@ msgstr "Met de hand draaien"
 #: ekos/align/polaralignmentassistant.ui:262
 #, kde-format
 msgid "Please rotate your mount in RA"
-msgstr "Draai uw opstelling in RA"
+msgstr "Draai uw opstelling in RK"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
 #: ekos/align/polaralignmentassistant.ui:337
@@ -21094,13 +21093,13 @@ msgstr "RMS-fout van volgen"
 #: ekos/guide/guide.ui:831
 #, kde-format
 msgid "RMS\" (RA/DEC):"
-msgstr "RMS\" (RA/DEC):"
+msgstr "RMS\" (RK/DEC):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
 #: ekos/guide/guide.ui:843
 #, kde-format
 msgid "Guiding RA RMS error"
-msgstr "RA RMS-fout van volgen"
+msgstr "RK RMS-fout van volgen"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
 #: ekos/guide/guide.ui:856
@@ -21429,7 +21428,7 @@ msgstr "Starten"
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
 msgid "RA drifting forward..."
-msgstr "Volgen_RK loopt voor...."
+msgstr "Volgen RK loopt voor...."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:182
 #, kde-format
@@ -21444,7 +21443,7 @@ msgstr "Kalibreren RK uit"
 #: ekos/guide/internalguide/calibrationprocess.cpp:241
 #, kde-format
 msgid "RA drifting reverse..."
-msgstr "Volgen_RK loopt achter..."
+msgstr "Volgen RK loopt achter..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:247
 #: ekos/guide/internalguide/calibrationprocess.cpp:385
@@ -21481,7 +21480,7 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
-"Volgen_RK: Telescoop kan beginpunt niet bereiken na %1 iteratie. Mogelijk "
+"Volgen RK: Telescoop kan beginpunt niet bereiken na %1 iteratie. Mogelijk "
 "door speling of aandrijfproblemen..."
 msgstr[1] ""
 "Volgen RK: Telescoop kan beginpunt niet bereiken na %1 iteraties. Mogelijk "
@@ -21650,13 +21649,13 @@ msgstr "Noord / DE+"
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "West / RA-"
-msgstr "West / RA-"
+msgstr "West / RK-"
 
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr "Oost / RA+"
+msgstr "Oost / RK+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
@@ -21681,7 +21680,7 @@ msgstr " ms"
 #: ekos/guide/manualpulse.ui:112
 #, kde-format
 msgid "RA Offset\":"
-msgstr "RA-offset\":"
+msgstr "RK-offset\":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
@@ -22198,7 +22197,7 @@ msgstr "Periode schatten"
 #: ekos/guide/opsgpg.ui:218
 #, kde-format
 msgid "Uses RA \"Aggressiveness\" from Guide controls"
-msgstr "Gebruikt RA \"Agressiviteit\" uit volgbesturing"
+msgstr "Gebruikt RK \"Agressiviteit\" uit volgbesturing"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs4a)
 #: ekos/guide/opsgpg.ui:232
@@ -22221,7 +22220,7 @@ msgstr "Minimum verplaatsing"
 #: ekos/guide/opsgpg.ui:247
 #, kde-format
 msgid "Uses RA \"Min error\" from Guide controls"
-msgstr "Gebruikt RA \"Min. fout\" uit volgbesturing"
+msgstr "Gebruikt RK \"Min. fout\" uit volgbesturing"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs3a)
 #: ekos/guide/opsgpg.ui:264
@@ -23335,7 +23334,7 @@ msgstr "Totale RMS: "
 #: ekos/manager/guidemanager.ui:239
 #, kde-format
 msgid " σRA: "
-msgstr " σRA: "
+msgstr " σRK: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/manager/guidemanager.ui:310
@@ -23639,7 +23638,7 @@ msgid ""
 "RA position in degrees behind the meridian where the meridian flip should be "
 "activated."
 msgstr ""
-"RA-positie in graden achter de meridiaan waar de meridiaanflip geactiveerd "
+"RK-positie in graden achter de meridiaan waar de meridiaanflip geactiveerd "
 "zou moeten worden."
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
@@ -29934,7 +29933,7 @@ msgstr ""
 msgid ""
 "Set the approximate RA/DEC positions using the center position of the SkyMap."
 msgstr ""
-"De benaderde RA/DEC posities instellen met de centrumpositie van de "
+"De benaderde RK/DEC posities instellen met de centrumpositie van de "
 "hemelkaart."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
@@ -40512,7 +40511,7 @@ msgstr "CAVALERIE VAN DE KEIZER"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "GENERAL OF MOBILE TROOPS"
-msgstr "GENRAAL VAN DE MOBIELE LEGEREENHEDEN"
+msgstr "GENERAAL VAN DE MOBIELE LEGEREENHEDEN"
 
 #: kstars_i18n.cpp:248
 #, kde-kuit-format
@@ -41334,7 +41333,7 @@ msgstr "MARKT VOOR LEGER"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "GRANDCHILDREN"
-msgstr "GROOTKINDEREN"
+msgstr "KLEINKINDEREN"
 
 #: kstars_i18n.cpp:396
 #, kde-kuit-format
@@ -75546,14 +75545,14 @@ msgstr ""
 "oplossen toepassen.</p><p>Gebruikt het geselecteerde uitlijnprofiel rechts, "
 "maar niet schaal uitlijnen noch positie. Het zal de standaard schaal rechts "
 "(b-s/px) gebruiken, als er geen is gegeven in de tabelrij en de schaalkolom "
-"(0 is geen schaalbeperking). Het zal geen positie gebruiken tenzij RA en DEC "
+"(0 is geen schaalbeperking). Het zal geen positie gebruiken tenzij RK en DEC "
 "zijn ingevoerd in de tabelrij. Gebruikt de bovenstaande tijdslimiet. U kunt "
 "vele rijen selecteren (met klik en shift-klik) en het zal proberen ze "
 "allemaal op te lossen.</p><p>Plaat oplossen kan moeilijk zijn. U zou niet in "
 "staat kunnen zijn om dat te doen met al uw afbeeldingen. U kunt proberen "
 "schalen en posities te leveren en verschillende profielen te proberen. Heeft "
 "dat geen succes, maar u wilt nog steeds een afbeelding te tonen, dan kunt u "
-"een RA, DEC, Schaal, Oriëntatie in de bijbehorende kolommen in te voeren "
+"een RK, DEC, Schaal, Oriëntatie in de bijbehorende kolommen in te voeren "
 "voor de rij waarin u bent geïnteresseerd, zet daarna handmatig de "
 "statuskolom naar OK.</p><p>U kunt niet een rij waarvan de status OK is, "
 "opnieuw plaat oplossen, maar u kunt handmatig de status in iets anders "
@@ -77043,7 +77042,7 @@ msgstr "Oost-rechts"
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
-"Verkeerde Ba tekenreeks ingevoerd voor %1. Reset naar oorspronkelijke waarde."
+"Verkeerde RK tekenreeks ingevoerd voor %1. Reset naar oorspronkelijke waarde."
 
 #: skycomponents/imageoverlaycomponent.cpp:179
 #, kde-format
@@ -77069,7 +77068,7 @@ msgstr ""
 #: skycomponents/imageoverlaycomponent.cpp:233
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
-msgstr "Kan status niet op OK zetten. Legale niet-0 RA-waarde vereist."
+msgstr "Kan status niet op OK zetten. Legale niet-0 RK-waarde vereist."
 
 #: skycomponents/imageoverlaycomponent.cpp:244
 #, kde-format
@@ -77201,7 +77200,7 @@ msgstr "Oplossen is mislukt na %1s"
 #: skycomponents/imageoverlaycomponent.cpp:816
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr "Succes van oplosser in %1s: RA %2 DEC %3 Schaal %4 hoek %5"
+msgstr "Succes van oplosser in %1s: RK %2 DEC %3 Schaal %4 hoek %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:848
 #, kde-format

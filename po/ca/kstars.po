@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-13 01:38+0000\n"
-"PO-Revision-Date: 2024-02-12 09:10+0100\n"
+"PO-Revision-Date: 2024-02-13 12:55+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5891,10 +5891,9 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Mida del camp de visió efectiu, en minuts d'arc.</p>"
 
 #: ekos/align/align.cpp:1412
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "S'està establint la temperatura a %1 °C..."
+msgstr "S'està establint l'objectiu a AR:%1 Dec:%2"
 
 #: ekos/align/align.cpp:1431
 #, kde-format
