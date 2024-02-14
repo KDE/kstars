@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-13 01:38+0000\n"
-"PO-Revision-Date: 2024-02-11 05:33+0100\n"
+"PO-Revision-Date: 2024-02-13 22:38+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -5834,10 +5834,9 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Efika vidkampo grandeco en arkminutoj.</p>"
 
 #: ekos/align/align.cpp:1412
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "Agordante temperaturon al %1 °C..."
+msgstr "Metante celon al RA:%1 DEC:%2"
 
 #: ekos/align/align.cpp:1431
 #, kde-format
@@ -14352,10 +14351,9 @@ msgstr "Vertikala rubujo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/capture.ui:315
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay in seconds before capturing an image"
-msgstr "Prokrasto en sekundoj inter sinsekvaj bildoj"
+msgstr "Prokrasto en sekundoj antaŭ kaptado de bildo"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -20334,8 +20332,7 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Stelo Elektita."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, fuzzy, kde-format
-#| msgid "PHD2: Dithering succesdsful."
+#, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "PHD2: Dithering sukcesa."
 
