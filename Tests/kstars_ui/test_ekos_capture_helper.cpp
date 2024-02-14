@@ -12,6 +12,7 @@
 #include "ekos/capture/scriptsmanager.h"
 #include "ekos/capture/capture.h"
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulerprocess.h"
 #include "Options.h"
 
 TestEkosCaptureHelper::TestEkosCaptureHelper(QString guider) : TestEkosHelper(guider) {}
@@ -178,10 +179,10 @@ bool TestEkosCaptureHelper::fillScriptManagerDialog(const QMap<Ekos::ScriptTypes
 
 void TestEkosCaptureHelper::cleanupScheduler()
 {
-    Ekos::Manager::Instance()->schedulerModule()->stop();
+    Ekos::Manager::Instance()->schedulerModule()->process()->stop();
     QTest::qWait(5000);
     // remove jobs
-    Ekos::Manager::Instance()->schedulerModule()->removeAllJobs();
+    Ekos::Manager::Instance()->schedulerModule()->process()->removeAllJobs();
 }
 
 QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs,

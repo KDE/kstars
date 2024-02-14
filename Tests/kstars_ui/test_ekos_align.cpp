@@ -12,6 +12,7 @@
 #include "test_ekos.h"
 #include "test_ekos_scheduler_helper.h"
 #include "mountmodel.h"
+#include "ekos/scheduler/schedulerprocess.h"
 #include "Options.h"
 #include "indi/guimanager.h"
 #include "ekos/align/align.h"
@@ -272,8 +273,8 @@ void TestEkosAlign::cleanup()
     if (scheduler->status() == Ekos::SCHEDULER_STARTUP || scheduler->status() == Ekos::SCHEDULER_RUNNING)
         KTRY_CLICK(scheduler, startB);
     // in all cases, stop the scheduler and remove all jobs
-    scheduler->stop();
-    scheduler->removeAllJobs();
+    scheduler->process()->stop();
+    scheduler->process()->removeAllJobs();
 }
 
 bool TestEkosAlign::prepareMountModel(int points)
@@ -416,7 +417,7 @@ bool TestEkosAlign::alignWithScheduler(SkyObject *targetObject, QString fitsTarg
     KVERIFY_SUB(TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerFile, eslFile, sequenceFile, esqFile));
     // load the scheduler file
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
-    scheduler->loadScheduler(eslFile);
+    scheduler->process()->loadScheduler(eslFile);
 
     // start
     KTRY_CLICK_SUB(scheduler, startB);
