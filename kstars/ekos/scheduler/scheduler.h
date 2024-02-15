@@ -109,8 +109,6 @@ public:
              */
         Q_SCRIPTABLE void sortJobsPerAltitude();
 
-        Ekos::SchedulerState status();
-
         void setProfile(const QString &profile)
         {
             schedulerProfileCombo->setCurrentText(profile);
@@ -168,23 +166,6 @@ public:
         void toggleScheduler();
 
         QJsonObject getSchedulerSettings();
-        /**
-             * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
-             * and a new version given the supplied parameters are saved to the output directory
-             * @param prefix Prefix to set for the job sequence
-             * @param outputDir Output dir to set for the job sequence
-             * @return True if new file is saved, false otherwise
-             */
-        bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
-
-        XMLEle *getSequenceJobRoot(const QString &filename);
-
-        /**
-             * @brief saveScheduler Save scheduler jobs to a file
-             * @param path path of a file
-             * @return true on success, false on failure.
-             */
-        Q_SCRIPTABLE bool saveScheduler(const QUrl &fileURL);
 
         // the state machine
         QSharedPointer<SchedulerModuleState> moduleState() const
@@ -405,25 +386,6 @@ protected slots:
              */
         void checkTwilightWarning(bool enabled);
 
-        void simClockScaleChanged(float);
-        void simClockTimeChanged();
-
-        /**
-         * @brief solverDone Process solver solution after it is done.
-         * @param timedOut True if the process timed out.
-         * @param success True if successful, false otherwise.
-         * @param solution The solver solution if successful.
-         * @param elapsedSeconds How many seconds elapsed to solve the image.
-         */
-        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
-
-        /**
-         * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check
-         * to ensure it does not deviation from current scheduler job target.
-         * @param metadata Metadata for image including filename, exposure, filter, hfr..etc.
-         */
-        void checkAlignment(const QVariantMap &metadata);
-
 signals:
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
@@ -551,8 +513,6 @@ private:
 
         /// Target coordinates for pointing check
         QSharedPointer<SolverUtils> m_Solver;
-        // Used when solving position every nth capture.
-        uint32_t m_SolverIteration {0};
 
         void syncGreedyParams();
 

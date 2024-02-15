@@ -13,6 +13,7 @@
 #include "test_ekos_scheduler_helper.h"
 #include "mountmodel.h"
 #include "ekos/scheduler/schedulerprocess.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 #include "Options.h"
 #include "indi/guimanager.h"
 #include "ekos/align/align.h"
@@ -270,7 +271,8 @@ void TestEkosAlign::cleanup()
     Ekos::Manager *ekos = Ekos::Manager::Instance();
     Ekos::Scheduler *scheduler = ekos->schedulerModule();
     // press stop button if running
-    if (scheduler->status() == Ekos::SCHEDULER_STARTUP || scheduler->status() == Ekos::SCHEDULER_RUNNING)
+    if (scheduler->moduleState()->schedulerState() == Ekos::SCHEDULER_STARTUP
+            || scheduler->moduleState()->schedulerState() == Ekos::SCHEDULER_RUNNING)
         KTRY_CLICK(scheduler, startB);
     // in all cases, stop the scheduler and remove all jobs
     scheduler->process()->stop();
