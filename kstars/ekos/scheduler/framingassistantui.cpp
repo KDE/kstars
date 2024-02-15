@@ -16,6 +16,7 @@
 #include "skymap.h"
 #include "ekos/manager.h"
 #include "ekos/mount/mount.h"
+#include "schedulerprocess.h"
 #include "skymapcomposite.h"
 #include "ksparser.h"
 
@@ -605,7 +606,7 @@ void FramingAssistantUI::createJobs()
 
     tiles->setPositionAngle(ui->positionAngleSpin->value());
     // Start by removing any jobs.
-    scheduler->removeAllJobs();
+    scheduler->process()->removeAllJobs();
 
     QString completionVal, completionArg;
 

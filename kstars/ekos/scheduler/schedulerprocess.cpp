@@ -5,6 +5,7 @@
 */
 #include "schedulerprocess.h"
 #include "schedulermodulestate.h"
+#include "scheduleradaptor.h"
 #include "greedyscheduler.h"
 #include "schedulerutils.h"
 #include "schedulerjob.h"
@@ -38,7 +39,12 @@ SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, c
     m_GreedyScheduler = new GreedyScheduler();
     connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &SchedulerProcess::applyConfig);
 
+    // connection to state machine events
+    connect(moduleState().data(), &SchedulerModuleState::schedulerStateChanged, this, &SchedulerProcess::newStatus);
+    connect(moduleState().data(), &SchedulerModuleState::newLog, this, &SchedulerProcess::appendLogText);
+
     // Set up DBus interfaces
+    new SchedulerAdaptor(this);
     QDBusConnection::sessionBus().unregisterObject(schedulerProcessPathString);
     if (!QDBusConnection::sessionBus().registerObject(schedulerProcessPathString, this))
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("SchedulerProcess failed to register with dbus");
@@ -55,6 +61,11 @@ SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, c
                                           SLOT(registerNewModule(QString)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newDevice", this,
                                           SLOT(registerNewDevice(QString, int)));
+}
+
+SchedulerState SchedulerProcess::status()
+{
+    return moduleState()->schedulerState();
 }
 
 void SchedulerProcess::execute()
@@ -458,7 +469,7 @@ void SchedulerProcess::wakeUpScheduler()
     }
 }
 
-void SchedulerProcess::startScheduler()
+void SchedulerProcess::start()
 {
     // New scheduler session shouldn't inherit ABORT or ERROR states from the last one.
     foreach (auto j, moduleState()->jobs())
@@ -470,7 +481,7 @@ void SchedulerProcess::startScheduler()
     iterate();
 }
 
-void SchedulerProcess::stopScheduler()
+void SchedulerProcess::stop()
 {
     // do nothing if the scheduler is not running
     if (moduleState()->schedulerState() != SCHEDULER_RUNNING)
@@ -556,6 +567,40 @@ void SchedulerProcess::stopScheduler()
 
     // report success
     emit schedulerStopped();
+}
+
+void SchedulerProcess::removeAllJobs()
+{
+    emit clearJobTable();
+
+    qDeleteAll(moduleState()->jobs());
+    moduleState()->mutlableJobs().clear();
+    moduleState()->setCurrentPosition(-1);
+
+}
+
+bool SchedulerProcess::loadScheduler(const QString &fileURL)
+{
+    removeAllJobs();
+    return appendEkosScheduleList(fileURL);
+}
+
+void SchedulerProcess::setSequence(const QString &sequenceFileURL)
+{
+    emit changeCurrentSequence(sequenceFileURL);
+}
+
+void SchedulerProcess::resetAllJobs()
+{
+    if (moduleState()->schedulerState() == SCHEDULER_RUNNING)
+        return;
+
+    // Reset capture count of all jobs before re-evaluating
+    foreach (SchedulerJob *job, moduleState()->jobs())
+        job->setCompletedCount(0);
+
+    // Evaluate all jobs, this refreshes storage and resets job states
+    startJobEvaluation();
 }
 
 bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
@@ -1133,7 +1178,7 @@ bool SchedulerProcess::checkEkosState()
                 }
 
                 appendLogText(i18n("Starting Ekos failed."));
-                stopScheduler();
+                stop();
                 return false;
             }
             else if (moduleState()->ekosCommunicationStatus() == Ekos::Idle)
@@ -1154,7 +1199,7 @@ bool SchedulerProcess::checkEkosState()
                 }
 
                 appendLogText(i18n("Starting Ekos timed out."));
-                stopScheduler();
+                stop();
                 return false;
             }
         }
@@ -1220,7 +1265,7 @@ bool SchedulerProcess::checkINDIState()
                 else
                 {
                     appendLogText(i18n("One or more INDI devices failed to connect. Check INDI control panel for details."));
-                    stopScheduler();
+                    stop();
                 }
             }
             // If 30 seconds passed, we retry
@@ -1235,7 +1280,7 @@ bool SchedulerProcess::checkINDIState()
                 else
                 {
                     appendLogText(i18n("One or more INDI devices timed out. Check INDI control panel for details."));
-                    stopScheduler();
+                    stop();
                 }
             }
         }
@@ -1358,7 +1403,7 @@ bool SchedulerProcess::completeShutdown()
         appendLogText(i18n("Shutdown procedure failed, aborting..."));
 
     // Stop Scheduler
-    stopScheduler();
+    stop();
 
     return true;
 }
@@ -1859,7 +1904,7 @@ bool SchedulerProcess::checkStartupState()
             return true;
 
         case STARTUP_ERROR:
-            stopScheduler();
+            stop();
             return true;
     }
 
@@ -2001,7 +2046,7 @@ bool SchedulerProcess::checkShutdownState()
             return completeShutdown();
 
         case SHUTDOWN_ERROR:
-            stopScheduler();
+            stop();
             return true;
     }
 
@@ -2043,7 +2088,7 @@ bool SchedulerProcess::checkParkWaitState()
 
         case PARKWAIT_ERROR:
             appendLogText(i18n("park/unpark wait procedure failed, aborting..."));
-            stopScheduler();
+            stop();
             return true;
 
     }
@@ -2374,7 +2419,7 @@ bool SchedulerProcess::checkStatus()
         if (moduleState()->startupState() == STARTUP_ERROR)
         {
             // Stop Scheduler
-            stopScheduler();
+            stop();
             return true;
         }
 
@@ -3156,6 +3201,21 @@ bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
     return true;
 }
 
+void SchedulerProcess::appendLogText(const QString &logentry)
+{
+    /* FIXME: user settings for log length */
+    int const max_log_count = 2000;
+    if (moduleState()->logText().size() > max_log_count)
+        moduleState()->logText().removeLast();
+
+    moduleState()->logText().prepend(i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+                                           SchedulerModuleState::getLocalTime().toString("yyyy-MM-ddThh:mm:ss"), logentry));
+
+    qCInfo(KSTARS_EKOS_SCHEDULER) << logentry;
+
+    emit newLog(logentry);
+}
+
 void SchedulerProcess::setAlignStatus(AlignState status)
 {
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
@@ -3908,6 +3968,21 @@ GuideState SchedulerProcess::getGuidingStatus()
     Ekos::GuideState gStatus = static_cast<Ekos::GuideState>(guideStatus.toInt());
 
     return gStatus;
+}
+
+const QString &SchedulerProcess::profile() const
+{
+    return moduleState()->currentProfile();
+}
+
+void SchedulerProcess::setProfile(const QString &newProfile)
+{
+    moduleState()->setCurrentProfile(newProfile);
+}
+
+QStringList SchedulerProcess::logText()
+{
+    return moduleState()->logText();
 }
 
 bool SchedulerProcess::isDomeParked()

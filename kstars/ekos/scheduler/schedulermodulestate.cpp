@@ -423,6 +423,12 @@ uint SchedulerModuleState::maxFailureAttempts()
     return MAX_FAILURE_ATTEMPTS;
 }
 
+void SchedulerModuleState::clearLog()
+{
+    logText().clear();
+    emit newLog(QString());
+}
+
 bool SchedulerModuleState::checkRepeatSequence()
 {
     return (!Options::rememberJobProgress() && Options::schedulerRepeatSequences() &&

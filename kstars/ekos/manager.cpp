@@ -9,6 +9,8 @@
 #include "analyze/analyze.h"
 #include "capture/capture.h"
 #include "scheduler/scheduler.h"
+#include "scheduler/schedulerprocess.h"
+#include "scheduler/schedulermodulestate.h"
 #include "focus/focus.h"
 #include "align/align.h"
 #include "guide/guide.h"
@@ -332,19 +334,19 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     int index = addModuleTab(EkosModule::Scheduler, schedulerModule(), QIcon(":/icons/ekos_scheduler.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
     capturePreview->shareSchedulerModuleState(schedulerModule()->moduleState());
-    connect(schedulerModule(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
+    connect(schedulerModule()->process().data(), &SchedulerProcess::newLog, this, &Ekos::Manager::updateLog);
     connect(schedulerModule(), &Ekos::Scheduler::newTarget, this, &Manager::setTarget);
     // Scheduler <---> EkosLive connections
     connect(schedulerModule(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
     connect(schedulerModule(), &Ekos::Scheduler::settingsUpdated, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendSchedulerSettings, Qt::UniqueConnection);
-    connect(schedulerModule(), &Ekos::Scheduler::newLog, ekosLiveClient.get()->message(),
+    connect(schedulerModule()->process().data(), &SchedulerProcess::newLog, ekosLiveClient.get()->message(),
             [this]()
     {
         QJsonObject cStatus =
         {
-            {"log", schedulerModule()->getLogText()}
+            {"log", schedulerModule()->moduleState()->getLogText()}
         };
 
         ekosLiveClient.get()->message()->sendSchedulerStatus(cStatus);
@@ -1917,7 +1919,7 @@ void Manager::updateLog()
     else if (currentWidget == mountModule())
         ekosLogOut->setPlainText(mountModule()->getLogText());
     else if (currentWidget == schedulerModule())
-        ekosLogOut->setPlainText(schedulerModule()->getLogText());
+        ekosLogOut->setPlainText(schedulerModule()->moduleState()->getLogText());
     else if (currentWidget == observatoryProcess.get())
         ekosLogOut->setPlainText(observatoryProcess->getLogText());
     else if (currentWidget == analyzeProcess.get())
@@ -1960,7 +1962,7 @@ void Manager::clearLog()
     else if (currentWidget == mountModule())
         mountModule()->clearLog();
     else if (currentWidget == schedulerModule())
-        schedulerModule()->clearLog();
+        schedulerModule()->moduleState()->clearLog();
     else if (currentWidget == observatoryProcess.get())
         observatoryProcess->clearLog();
     else if (currentWidget == analyzeProcess.get())

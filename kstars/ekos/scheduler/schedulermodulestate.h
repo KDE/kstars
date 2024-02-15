@@ -566,6 +566,16 @@ public:
 
      static uint maxFailureAttempts();
 
+     QStringList &logText()
+     {
+         return m_logText;
+     }
+     QString getLogText()
+     {
+         return logText().join("\n");
+     }
+     void clearLog();
+
      /**
       * @brief checkRepeatSequence Check if the entire job sequence might be repeated
       * @return true if the checkbox is set and the number of iterations is below the
@@ -634,6 +644,8 @@ private:
     QString m_currentProfile;
     // all profiles
     QStringList m_profiles;
+    /// Store all log strings
+    QStringList m_logText;
     // Was job modified and needs saving?
     bool m_dirty { false };
 
