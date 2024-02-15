@@ -1100,7 +1100,7 @@ void CaptureProcess::imageCapturingCompleted()
 
     // If fast exposure is off, disconnect exposure progress
     // otherwise, keep it going since it fires off from driver continuous capture process.
-    if (activeCamera()->isFastExposureEnabled() == false)
+    if (activeCamera()->isFastExposureEnabled() == false && state()->isLooping() == false)
     {
         disconnect(activeCamera(), &ISD::Camera::newExposureValue, this,
                    &CaptureProcess::setExposureProgress);
