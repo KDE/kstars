@@ -1,6 +1,10 @@
+# SPDX-FileCopyrightText: 2024 Eric Dejouhanet <eric.dejouhanet@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 Dependencies:
 - 'on': ['Linux']
-  'require': {}
+  'require':
+    'frameworks/extra-cmake-modules': '@latest-kf5'
 
 Options:
   in-source-build: False
