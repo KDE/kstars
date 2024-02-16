@@ -4,7 +4,18 @@
 Dependencies:
 - 'on': ['Linux']
   'require':
-    'frameworks/extra-cmake-modules': '@latest-kf5'
+    'frameworks/extra-cmake-modules': '@stable'
+    'frameworks/kconfig': '@stable'
+    'frameworks/kcrash': '@stable'
+    'frameworks/kdoctools': '@stable'
+    'frameworks/kguidaddons': '@stable'
+    'frameworks/ki18n': '@stable'
+    'frameworks/kinit': '@stable'
+    'frameworks/knewstuff': '@stable'
+    'frameworks/knotifications': '@stable'
+    'frameworks/knotifyconfig': '@stable'
+    'frameworks/kxmlgui': '@stable'
+    'frameworks/kplotting': '@stable'
 
 Options:
   in-source-build: False
