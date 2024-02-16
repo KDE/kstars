@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 Dependencies:
-- 'on': ['Linux']
+- 'on': ['Linux/Qt5','Windows/Qt5']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'frameworks/kconfig': '@stable'
