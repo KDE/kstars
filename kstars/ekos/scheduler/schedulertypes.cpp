@@ -39,7 +39,7 @@ QString indiStateString(INDIState state)
         case INDI_DISCONNECTING:
             return "Disconnecting to INDI";
         case INDI_READY:
-            return "INDIis ready";
+            return "INDI is ready";
     }
     return QString("????");
 }

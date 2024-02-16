@@ -328,7 +328,7 @@ void CaptureProcess::stopCapturing(CaptureState targetState)
                     break;
 
                 case CAPTURE_ABORTED:
-                    stopText = i18n("CCD capture aborted");
+                    stopText = state()->isLooping() ? i18n("Framing stopped") : i18n("CCD capture stopped");
                     resetJobStatus(JOB_ABORTED);
                     break;
 
@@ -1659,7 +1659,11 @@ IPState CaptureProcess::updateImageMetadataAction(QSharedPointer<FITSData> image
         median = imageData->getMedian();
         eccentricity = imageData->getEccentricity();
         filename = imageData->filename();
-        emit newLog(i18n("Captured %1", filename));
+
+        // avoid logging that we captured a temporary file
+        if (state()->isLooping() == false && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
+            emit newLog(i18n("Captured %1", filename));
+
         auto remainingPlaceholders = PlaceholderPath::remainingPlaceholders(filename);
         if (remainingPlaceholders.size() > 0)
         {

@@ -1737,9 +1737,6 @@ void Capture::captureRunning()
 {
     emit captureStarting(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                          activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString());
-    appendLogText(i18n("Capturing %1-second %2 image...",
-                       QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                       activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
     frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob()->getFrameType(),
                             activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
                             .arg(activeJob()->getCompleted()).arg(activeJob()->getCoreProperty(
@@ -1750,6 +1747,12 @@ void Capture::captureRunning()
     secLabel->setVisible(true);
     // show estimated download time
     avgDownloadTime->setText(QString("%L1").arg(state()->averageDownloadTime(), 0, 'd', 2));
+
+    // avoid logging that we captured a temporary file
+    if (state()->isLooping() == false && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
+        appendLogText(i18n("Capturing %1-second %2 image...",
+                           QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                           activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
 }
 
 void Capture::appendLogText(const QString &text)

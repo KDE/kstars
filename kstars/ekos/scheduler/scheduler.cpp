@@ -2164,20 +2164,39 @@ void Scheduler::startupStateChanged(StartupState state)
 }
 void Scheduler::shutdownStateChanged(ShutdownState state)
 {
-    jobStatus->setText(shutdownStateString(state));
     if (state == SHUTDOWN_COMPLETE || state == SHUTDOWN_IDLE
             || state == SHUTDOWN_ERROR)
+    {
         shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+        pi->stopAnimation();
+    }
     else
         shutdownB->setIcon(QIcon::fromTheme("media-playback-stop"));
+
+    if (state == SHUTDOWN_IDLE)
+        jobStatus->setText(i18n("Idle"));
+    else
+        jobStatus->setText(shutdownStateString(state));
 }
 void Scheduler::ekosStateChanged(EkosState state)
 {
-    jobStatus->setText(ekosStateString(state));
+    if (state == EKOS_IDLE)
+    {
+        jobStatus->setText(i18n("Idle"));
+        pi->stopAnimation();
+    }
+    else
+        jobStatus->setText(ekosStateString(state));
 }
 void Scheduler::indiStateChanged(INDIState state)
 {
-    jobStatus->setText(indiStateString(state));
+    if (state == INDI_IDLE)
+    {
+        jobStatus->setText(i18n("Idle"));
+        pi->stopAnimation();
+    }
+    else
+        jobStatus->setText(indiStateString(state));
 }
 void Scheduler::parkWaitStateChanged(ParkWaitState state)
 {
