@@ -583,6 +583,15 @@ public:
       */
      bool checkRepeatSequence();
 
+     void resetSolverIteration()
+     {
+         m_solverIteration = 0;
+     }
+     uint32_t increaseSolverIteration()
+     {
+         return ++m_solverIteration;
+     }
+
 signals:
     // ////////////////////////////////////////////////////////////////////
     // communication with the UI
@@ -673,6 +682,10 @@ private:
     // Check if initial autofocus is completed and do not run autofocus until
     // there is a change is telescope position/alignment.
     bool m_autofocusCompleted { false };
+
+    // Used when solving position every nth capture.
+    uint32_t m_solverIteration {0};
+
 
     // Keep watch of weather status
     ISD::Weather::Status m_weatherStatus { ISD::Weather::WEATHER_IDLE };

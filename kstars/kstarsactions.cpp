@@ -84,6 +84,7 @@
 #include "ekos/manager.h"
 #include "ekos/scheduler/framingassistantui.h"
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulermodulestate.h"
 #include "ekos/opsekos.h"
 #include "ekos/mount/mount.h"
 #endif
@@ -358,7 +359,7 @@ void KStars::slotINDIToolBar()
         // TODO
         // If scheduler is not running, then we should also show the Mosaic Planner dialog.
         auto scheduler = Ekos::Manager::Instance()->schedulerModule();
-        if (a->isChecked() && scheduler && scheduler->status() != Ekos::SCHEDULER_RUNNING)
+        if (a->isChecked() && scheduler && scheduler->moduleState()->schedulerState() != Ekos::SCHEDULER_RUNNING)
         {
             // Only create if we don't have an instance already
             if (findChild<Ekos::FramingAssistantUI *>("FramingAssistant") == nullptr)

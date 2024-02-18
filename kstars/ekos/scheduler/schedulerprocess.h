@@ -9,6 +9,7 @@
 #include "schedulertypes.h"
 #include "ekos/auxiliary/modulelogger.h"
 #include "ekos/align/align.h"
+#include "ekos/auxiliary/solverutils.h"
 #include "indi/indiweather.h"
 #include "dms.h"
 
@@ -325,6 +326,9 @@ public:
      */
     bool isDomeParked();
 
+    void simClockScaleChanged(float);
+    void simClockTimeChanged();
+
     // ////////////////////////////////////////////////////////////////////
     // state machine and scheduler
     // ////////////////////////////////////////////////////////////////////
@@ -550,6 +554,7 @@ signals:
     void newLog(const QString &text);
     // status updates
     void newStatus(SchedulerState state);
+    void newWeatherStatus(ISD::Weather::Status state);
     void schedulerStopped();
     void shutdownStarted();
     void schedulerSleeping(bool shutdown, bool sleep);
@@ -566,8 +571,9 @@ signals:
     void syncGreedyParams();
     void syncGUIToGeneralSettings();
     void updateSchedulerURL(const QString &fileURL);
-    // check the alignment after a completed capture
-    void checkAlignment(const QVariantMap &metadata);
+    // distance in arc-seconds measured by plate solving the a captured image and
+    // comparing that position to the target position.
+    void targetDistance(double distance);
     // required for Analyze timeline
     void jobStarted(const QString &jobName);
     void jobEnded(const QString &jobName, const QString &endReason);
@@ -584,8 +590,27 @@ private slots:
     void syncProperties()
     {
         checkInterfaceReady(qobject_cast<QDBusInterface*>(sender()));
-
     }
+
+    // ////////////////////////////////////////////////////////////////////
+    // alignment checks
+    // ////////////////////////////////////////////////////////////////////
+
+    /**
+     * @brief checkAlignment Handle one sequence image completion. This is used now only to run alignment check
+     * to ensure it does not deviation from current scheduler job target.
+     * @param metadata Metadata for image including filename, exposure, filter, hfr..etc.
+     */
+    void checkAlignment(const QVariantMap &metadata);
+
+    /**
+     * @brief solverDone Process solver solution after it is done.
+     * @param timedOut True if the process timed out.
+     * @param success True if successful, false otherwise.
+     * @param solution The solver solution if successful.
+     * @param elapsedSeconds How many seconds elapsed to solve the image.
+     */
+    void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
     /**
      * @brief checkInterfaceReady Sometimes syncProperties() is not sufficient since the ready signal could have fired already
@@ -632,6 +657,8 @@ private:
 
     // Startup and Shutdown scripts process
     QProcess m_scriptProcess;
+    // solver for alignment checks
+    QSharedPointer<SolverUtils> m_Solver;
     // ////////////////////////////////////////////////////////////////////
     // DBUS interfaces
     // ////////////////////////////////////////////////////////////////////

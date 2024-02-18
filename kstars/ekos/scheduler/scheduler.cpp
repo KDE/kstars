@@ -281,10 +281,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     connect(schedulerTwilight, &QCheckBox::toggled, this, &Scheduler::checkTwilightWarning);
 
-    // Connect simulation clock scale
-    connect(KStarsData::Instance()->clock(), &SimClock::scaleChanged, this, &Scheduler::simClockScaleChanged);
-    connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, this, &Scheduler::simClockTimeChanged);
-
     // Connect to the state machine
     connect(moduleState().data(), &SchedulerModuleState::ekosStateChanged, this, &Scheduler::ekosStateChanged);
     connect(moduleState().data(), &SchedulerModuleState::indiStateChanged, this, &Scheduler::indiStateChanged);
@@ -306,7 +302,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::shutdownStarted, this, &Scheduler::handleShutdownStarted);
     connect(process().data(), &SchedulerProcess::schedulerSleeping, this, &Scheduler::handleSchedulerSleeping);
     connect(process().data(), &SchedulerProcess::jobsUpdated, this, &Scheduler::handleJobsUpdated);
-    connect(process().data(), &SchedulerProcess::checkAlignment, this, &Scheduler::checkAlignment);
+    connect(process().data(), &SchedulerProcess::targetDistance, this, &Scheduler::targetDistance);
     connect(process().data(), &SchedulerProcess::updateJobTable, this, &Scheduler::updateJobTable);
     connect(process().data(), &SchedulerProcess::clearJobTable, this, &Scheduler::clearJobTable);
     connect(process().data(), &SchedulerProcess::addJob, this, &Scheduler::addJob);
@@ -318,6 +314,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(process().data(), &SchedulerProcess::changeSleepLabel, this, &Scheduler::changeSleepLabel);
     connect(process().data(), &SchedulerProcess::updateSchedulerURL, this, &Scheduler::updateSchedulerURL);
     connect(process().data(), &SchedulerProcess::interfaceReady, this, &Scheduler::interfaceReady);
+    connect(process().data(), &SchedulerProcess::newWeatherStatus, this, &Scheduler::setWeatherStatus);
     // Connect geographical location - when it is available
     //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
@@ -1769,7 +1766,7 @@ void Scheduler::save()
 
     if (schedulerURL.isValid())
     {
-        if ((saveScheduler(schedulerURL)) == false)
+        if ((process()->saveScheduler(schedulerURL)) == false)
         {
             KSNotification::error(i18n("Failed to save scheduler list"), i18n("Save"));
             return;
@@ -1922,7 +1919,6 @@ void Scheduler::checkTwilightWarning(bool enabled)
     }
 }
 
-
 void Scheduler::updateProfiles()
 {
     schedulerProfileCombo->blockSignals(true);
@@ -1964,33 +1960,6 @@ void Scheduler::updateJobStageUI(SchedulerJobStage stage)
         jobStatus->setText(QString("%1: %2").arg(activeJob()->getName(),
                            stageStrings.value(stage, stageStringUnknown)));
 
-}
-
-
-void Scheduler::simClockScaleChanged(float newScale)
-{
-    if (moduleState()->currentlySleeping())
-    {
-        QTime const remainingTimeMs = QTime::fromMSecsSinceStartOfDay(std::lround(static_cast<double>
-                                      (moduleState()->iterationTimer().remainingTime())
-                                      * KStarsData::Instance()->clock()->scale()
-                                      / newScale));
-        process()->appendLogText(i18n("Sleeping for %1 on simulation clock update until next observation job is ready...",
-                                      remainingTimeMs.toString("hh:mm:ss")));
-        moduleState()->iterationTimer().stop();
-        moduleState()->iterationTimer().start(remainingTimeMs.msecsSinceStartOfDay());
-    }
-}
-
-void Scheduler::simClockTimeChanged()
-{
-    moduleState()->calculateDawnDusk();
-
-    // If the Scheduler is not running, reset all jobs and re-evaluate from a new current start point
-    if (SCHEDULER_RUNNING != moduleState()->schedulerState())
-    {
-        process()->startJobEvaluation();
-    }
 }
 
 void Scheduler::interfaceReady(QDBusInterface *iface)
@@ -2047,7 +2016,6 @@ void Scheduler::interfaceReady(QDBusInterface *iface)
         }
     }
 }
-
 
 void Scheduler::setWeatherStatus(ISD::Weather::Status status)
 {
@@ -2157,149 +2125,12 @@ void Scheduler::handleSetPaused()
     pauseB->setChecked(true);
 }
 
-void Scheduler::checkAlignment(const QVariantMap &metadata)
-{
-    if (activeJob() &&
-            activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN &&
-            metadata["type"].toInt() == FRAME_LIGHT &&
-            Options::alignCheckFrequency() > 0 &&
-            ++m_SolverIteration >= Options::alignCheckFrequency())
-    {
-        m_SolverIteration = 0;
-
-        auto filename = metadata["filename"].toString();
-        auto exposure = metadata["exposure"].toDouble();
-
-        constexpr double minSolverSeconds = 5.0;
-        double solverTimeout = std::max(exposure - 2, minSolverSeconds);
-        if (solverTimeout >= minSolverSeconds)
-        {
-            auto profiles = getDefaultAlignOptionsProfiles();
-            auto parameters = profiles.at(Options::solveOptionsProfile());
-            // Double search radius
-            parameters.search_radius = parameters.search_radius * 2;
-            m_Solver.reset(new SolverUtils(parameters, solverTimeout),  &QObject::deleteLater);
-            connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone, Qt::UniqueConnection);
-            //connect(m_Solver.get(), &SolverUtils::newLog, this, &Ekos::Scheduler::process()->appendLogText, Qt::UniqueConnection);
-
-            auto width = metadata["width"].toUInt();
-            auto height = metadata["height"].toUInt();
-
-            auto lowScale = Options::astrometryImageScaleLow();
-            auto highScale = Options::astrometryImageScaleHigh();
-
-            // solver utils uses arcsecs per pixel only
-            if (Options::astrometryImageScaleUnits() == SSolver::DEG_WIDTH)
-            {
-                lowScale = (lowScale * 3600) / std::max(width, height);
-                highScale = (highScale * 3600) / std::min(width, height);
-            }
-            else if (Options::astrometryImageScaleUnits() == SSolver::ARCMIN_WIDTH)
-            {
-                lowScale = (lowScale * 60) / std::max(width, height);
-                highScale = (highScale * 60) / std::min(width, height);
-            }
-
-            m_Solver->useScale(Options::astrometryUseImageScale(), lowScale, highScale);
-            m_Solver->usePosition(Options::astrometryUsePosition(), activeJob()->getTargetCoords().ra().Degrees(),
-                                  activeJob()->getTargetCoords().dec().Degrees());
-            m_Solver->setHealpix(moduleState()->indexToUse(), moduleState()->healpixToUse());
-            m_Solver->runSolver(filename);
-        }
-    }
-}
-
 void Scheduler::handleJobsUpdated(QJsonArray jobsList)
 {
     syncGreedyParams();
     updateJobTable();
 
     emit jobsUpdated(jobsList);
-}
-
-void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
-{
-    disconnect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone);
-
-    if (!activeJob())
-        return;
-
-    QString healpixString = "";
-    if (moduleState()->indexToUse() != -1 || moduleState()->healpixToUse() != -1)
-        healpixString = QString("Healpix %1 Index %2").arg(moduleState()->healpixToUse()).arg(moduleState()->indexToUse());
-
-    if (timedOut || !success)
-    {
-        // Don't use the previous index and healpix next time we solve.
-        moduleState()->setIndexToUse(-1);
-        moduleState()->setHealpixToUse(-1);
-    }
-    else
-    {
-        int index, healpix;
-        // Get the index and healpix from the successful solve.
-        m_Solver->getSolutionHealpix(&index, &healpix);
-        moduleState()->setIndexToUse(index);
-        moduleState()->setHealpixToUse(healpix);
-    }
-
-    if (timedOut)
-        process()->appendLogText(i18n("Solver timed out: %1s %2", QString("%L1").arg(elapsedSeconds, 0, 'f', 1), healpixString));
-    else if (!success)
-        process()->appendLogText(i18n("Solver failed: %1s %2", QString("%L1").arg(elapsedSeconds, 0, 'f', 1), healpixString));
-    else
-    {
-        const double ra = solution.ra;
-        const double dec = solution.dec;
-
-        const auto target = activeJob()->getTargetCoords();
-
-        SkyPoint alignCoord;
-        alignCoord.setRA0(ra / 15.0);
-        alignCoord.setDec0(dec);
-        alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
-        alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        const double diffRa = (alignCoord.ra().deltaAngle(target.ra())).Degrees() * 3600;
-        const double diffDec = (alignCoord.dec().deltaAngle(target.dec())).Degrees() * 3600;
-
-        // This is an approximation, probably ok for small angles.
-        const double diffTotal = hypot(diffRa, diffDec);
-
-        // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
-        // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
-        qCDebug(KSTARS_EKOS_SCHEDULER) <<
-                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) %6 solved in %7s")
-                                       .arg(QString("%L1").arg(diffTotal, 0, 'f', 0),
-                                            target.ra().toDMSString(),
-                                            target.dec().toDMSString(),
-                                            alignCoord.ra().toDMSString(),
-                                            alignCoord.dec().toDMSString(),
-                                            healpixString,
-                                            QString("%L1").arg(elapsedSeconds, 0, 'f', 2));
-        emit targetDistance(diffTotal);
-
-        // If we exceed align check threshold, we abort and re-align.
-        if (diffTotal / 60 > Options::alignCheckThreshold())
-        {
-            process()->appendLogText(i18n("Captured frame is %1 arcminutes away from target, re-aligning...",
-                                          QString::number(diffTotal / 60.0,
-                                                  'f', 1)));
-            process()->stopCurrentJobAction();
-            process()->startAstrometry();
-        }
-    }
-}
-
-
-
-bool Scheduler::createJobSequence(XMLEle * root, const QString &prefix, const QString &outputDir)
-{
-    return process()->createJobSequence(root, prefix, outputDir);
-}
-
-XMLEle *Scheduler::getSequenceJobRoot(const QString &filename)
-{
-    return process()->getSequenceJobRoot(filename);
 }
 
 bool Scheduler::importMosaic(const QJsonObject &payload)
@@ -2333,20 +2164,39 @@ void Scheduler::startupStateChanged(StartupState state)
 }
 void Scheduler::shutdownStateChanged(ShutdownState state)
 {
-    jobStatus->setText(shutdownStateString(state));
     if (state == SHUTDOWN_COMPLETE || state == SHUTDOWN_IDLE
             || state == SHUTDOWN_ERROR)
+    {
         shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+        pi->stopAnimation();
+    }
     else
         shutdownB->setIcon(QIcon::fromTheme("media-playback-stop"));
+
+    if (state == SHUTDOWN_IDLE)
+        jobStatus->setText(i18n("Idle"));
+    else
+        jobStatus->setText(shutdownStateString(state));
 }
 void Scheduler::ekosStateChanged(EkosState state)
 {
-    jobStatus->setText(ekosStateString(state));
+    if (state == EKOS_IDLE)
+    {
+        jobStatus->setText(i18n("Idle"));
+        pi->stopAnimation();
+    }
+    else
+        jobStatus->setText(ekosStateString(state));
 }
 void Scheduler::indiStateChanged(INDIState state)
 {
-    jobStatus->setText(indiStateString(state));
+    if (state == INDI_IDLE)
+    {
+        jobStatus->setText(i18n("Idle"));
+        pi->stopAnimation();
+    }
+    else
+        jobStatus->setText(indiStateString(state));
 }
 void Scheduler::parkWaitStateChanged(ParkWaitState state)
 {
@@ -2356,16 +2206,6 @@ void Scheduler::parkWaitStateChanged(ParkWaitState state)
 SchedulerJob *Scheduler::activeJob()
 {
     return moduleState()->activeJob();
-}
-
-Ekos::SchedulerState Scheduler::status()
-{
-    return moduleState()->schedulerState();
-}
-
-bool Scheduler::saveScheduler(const QUrl &fileURL)
-{
-    return process()->saveScheduler(fileURL);
 }
 
 void Scheduler::loadGlobalSettings()

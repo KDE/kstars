@@ -624,12 +624,12 @@ void FramingAssistantUI::createJobs()
     for (auto oneTile : tiles->tiles())
     {
         batchCount++;
-        XMLEle *root = scheduler->getSequenceJobRoot(sequence);
+        XMLEle *root = scheduler->process()->getSequenceJobRoot(sequence);
         if (root == nullptr)
             return;
 
         const auto oneTarget = QString("%1-Part_%2").arg(target).arg(batchCount);
-        if (scheduler->createJobSequence(root, oneTarget, outputDirectory) == false)
+        if (scheduler->process()->createJobSequence(root, oneTarget, outputDirectory) == false)
         {
             delXMLEle(root);
             return;
@@ -661,7 +661,7 @@ void FramingAssistantUI::createJobs()
     }
 
     auto schedulerListFile = QString("%1/%2.esl").arg(outputDirectory, target);
-    scheduler->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
+    scheduler->process()->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
     accept();
     Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
     scheduler->updateJobTable();
