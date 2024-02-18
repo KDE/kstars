@@ -168,7 +168,6 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     domeGroup->setExclusive(false);
     skymapOrientationGroup = new QActionGroup(this);
 
-
     m_KStarsData = KStarsData::Create();
     Q_ASSERT(m_KStarsData);
     //Set Geographic Location from Options
@@ -345,6 +344,7 @@ void KStars::applyConfig(bool doApplyFocus)
     actionCollection()->action("show_satellites")->setChecked(Options::showSatellites());
     actionCollection()->action("erect_observer_correction")->setChecked(Options::erectObserverCorrection());
     actionCollection()->action("erect_observer_correction")->setEnabled(Options::useAltAz());
+    actionCollection()->action("mirror_skymap")->setChecked(Options::mirrorSkyMap());
     statusBar()->setVisible(Options::showStatusBar());
 
     //color scheme

@@ -806,6 +806,11 @@
          <min>0.</min>
          <max>359.9999</max>
       </entry>
+      <entry name="MirrorSkyMap" type="Bool">
+         <label>Mirrors the sky map</label>
+         <whatsthis>Enable this if you want the sky map to be mirrored left-right, e.g. to match the view through an erecting prism.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="ErectObserverCorrection" type="Bool">
          <label>Orients the sky-map to account for an erect observer at the eyepiece</label>
          <whatsthis>Enable this if you are using your eye at the eyepiece in an altazimuth mounted Newtonian telescope. This accounts for the fact that the observer stands erect as the telescope moves up and down, so that the orientation of the sky map will track what is seen in your eyepiece once it is set up correctly.</whatsthis>

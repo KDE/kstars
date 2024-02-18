@@ -48,6 +48,7 @@
                 <Action name="fullscreen" />
                 <Separator />
                 <Action name="coordsys" />
+                <Action name="mirror_skymap" />
                 <Action name="skymap_orientation" />
                 <Action name="toggle_terrain" />
                 <Action name="toggle_image_overlays" />

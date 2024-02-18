@@ -540,7 +540,6 @@ void SkyMap::slotCopyCoordinates()
                                        Alt.toDMSString()));
 }
 
-
 void SkyMap::slotCopyTLE()
 {
 
@@ -554,7 +553,6 @@ void SkyMap::slotCopyTLE()
     {
         tle = "NO TLE FOR OBJECT";
     }
-
 
     QApplication::clipboard()->setText(tle);
 }
@@ -1246,6 +1244,7 @@ void SkyMap::setupProjector()
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
     p.rotationAngle = determineSkyRotation();
+    p.mirror        = Options::mirrorSkyMap();
     p.fillGround    = Options::showGround();
     //Check if we need a new projector
     if (m_proj && Options::projection() == m_proj->type())
@@ -1364,5 +1363,3 @@ void SkyMap::slotStartXplanetViewer()
     else
         new XPlanetImageViewer(i18n("Saturn"), this);
 }
-
-

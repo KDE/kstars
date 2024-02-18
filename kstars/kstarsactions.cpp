@@ -1743,12 +1743,17 @@ void KStars::slotSkyMapOrientation()
     {
         Options::setSkyRotation(180.0);
     }
+    else if (sender() == actionCollection()->action("mirror_skymap"))
+    {
+        ;
+    }
     else
     {
         Q_ASSERT(false && "Unhandled orientation action");
         qCWarning(KSTARS) << "Unhandled orientation action";
     }
 
+    Options::setMirrorSkyMap(actionCollection()->action("mirror_skymap")->isChecked());
     Options::setErectObserverCorrection(actionCollection()->action("erect_observer_correction")->isChecked());
     map()->forceUpdate();
 }
