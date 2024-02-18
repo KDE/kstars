@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-17 01:37+0000\n"
-"PO-Revision-Date: 2024-02-15 16:46+0100\n"
+"PO-Revision-Date: 2024-02-17 07:06+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -17457,17 +17457,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "Left-Right Tilt:"
-msgstr "Esquerda ou dereita"
+msgstr "Inclinación de esquerda a dereita:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
-#, fuzzy, kde-format
-#| msgid "Detection:"
+#, kde-format
 msgid "Selection:"
-msgstr "Detección:"
+msgstr "Selección:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:333
@@ -17528,84 +17526,73 @@ msgstr "Elemento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:350
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Alice"
+#, kde-format
 msgid "Slice"
-msgstr "Antía"
+msgstr "Sección"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
-#, fuzzy, kde-format
-#| msgid "&Themes"
+#, kde-format
 msgid "Theme:"
-msgstr "&Temas"
+msgstr "Tema:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:365
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
+"<html><head/><body><p>Seleccione o tema de cor do gráfico 3D.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
-#, fuzzy, kde-format
-#| msgid "Primary Scope"
+#, kde-format
 msgid "Primary Colors"
-msgstr "Telescopio principal"
+msgstr "Cores primarias"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
 #, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Musgo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Blue"
+#, kde-format
 msgid "Army Blue"
-msgstr "Azul"
+msgstr "Azul mariño"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Detroit"
+#, kde-format
 msgid "Retro"
-msgstr "Detroit"
+msgstr "Retro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Ébano"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Isabella"
+#, kde-format
 msgid "Isabelle"
-msgstr "Isabella"
+msgstr "Isabela"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
@@ -17622,19 +17609,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+msgstr "<html><head/><body><p>Marcar para amosar o sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
-#, fuzzy, kde-format
-#| msgid "Sensor FOV"
+#, kde-format
 msgid "Sensor"
-msgstr "Campo de visión do sensor"
+msgstr "Sensor"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:441

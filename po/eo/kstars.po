@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-17 01:37+0000\n"
-"PO-Revision-Date: 2024-02-13 22:38+0100\n"
+"PO-Revision-Date: 2024-02-17 11:46+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15521,10 +15521,9 @@ msgid "CCD capture complete"
 msgstr "CCD-kapto kompleta"
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Ĝis haltita"
+msgstr "Kadrigo haltita"
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
@@ -84546,6 +84545,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "CCD capture aborted"
-#~ msgstr "CCD-kapto ĉesigita"

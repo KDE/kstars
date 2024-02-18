@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-17 01:37+0000\n"
-"PO-Revision-Date: 2024-02-16 11:04+0100\n"
+"PO-Revision-Date: 2024-02-17 07:07+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15691,10 +15691,9 @@ msgid "CCD capture complete"
 msgstr "CCD заснемането е завършено"
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "До спиране"
+msgstr "Кадрирането е спряно"
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-17 01:37+0000\n"
-"PO-Revision-Date: 2024-02-13 22:42+0200\n"
+"PO-Revision-Date: 2024-02-17 09:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -15703,10 +15703,9 @@ msgid "CCD capture complete"
 msgstr "Захоплення з ПЗЗ завершено"
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Доки не буде зупинено"
+msgstr "Кадрування зупинено"
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
