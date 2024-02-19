@@ -1628,6 +1628,7 @@ from the <menuchoice><guimenu>Settings</guimenu><guisubmenu>FOV Symbols</guisubm
   </para>
   <para>
     If your instrument is using an erecting prism, typically used on Schmidt-Cassegrain and refracting type telescopes, the view through the eyepiece will be mirrored horizontally. You can have the sky map match this by checking the <guilabel>Mirrored View</guilabel> option under the <guimenu>View</guimenu> menu.
+  </para>
   <para>
     Next, to rotate the sky map freely, you can hold down the &Shift; key and drag the mouse on the sky map. A temporary overlay will appear showing the direction of north and zenith at the point, and displaying the angle they make with the vertical in a counterclockwise sense. The orientations of zenith and north will update as you rotate the sky map. Letting go of &Shift; or the mouse button will stop the rotation operation. As you pan the sky map or focus it on different objects, the rotation you set is retained as an offset from the reference direction. The reference direction is north when using Equatorial Coordinates and zenith when using Horizontal Coordinates. As a reminder, the reference direction is solid and brighter in the temporary overlay. For the two common orientations of erect and inverted, the rotation can be set / reset using the <menuchoice><guimenu>View</guimenu><guisubmenu>Skymap Orientation</guisubmenu></menuchoice> submenu. Select "North Down" or "Zenith Down" as is applicable to set an orientation of 180 degrees.
   </para>
