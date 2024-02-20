@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-11 02:22+0100\n"
+"PO-Revision-Date: 2024-02-19 06:04+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -14585,10 +14585,9 @@ msgid "CCD capture complete"
 msgstr "CCD გადაღება დასრულდა"
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "შეჩერებამდე"
+msgstr ""
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
@@ -18926,10 +18925,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: ვარსკვლავი არჩეულია."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, fuzzy, kde-format
-#| msgid "Dithering successful"
+#, kde-format
 msgid "PHD2: Dithering successful."
-msgstr "დიზერინგი წარმატებულია"
+msgstr "PHD2: დიზერინგი წარმატებულია."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -31445,10 +31443,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw asteroids in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "დავხატო ასტეროიდები ვარსკვლავების რუკაზე?"
+msgstr "ცის რუკის ანარეკლი"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811

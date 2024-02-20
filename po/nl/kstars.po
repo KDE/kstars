@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-17 10:45+0100\n"
+"PO-Revision-Date: 2024-02-19 10:05+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -34120,10 +34120,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Mars tonen in de hemelkaart?"
+msgstr "Spiegelt de hemelkaart"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
@@ -34132,6 +34131,8 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Schakel dit in als u de hemelkaart links-rechts gespiegeld wilt zien, bijv. "
+"om het overeen te laten komen met het beeld door een oprichtend prisma."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -68102,7 +68103,7 @@ msgstr "&Zoomen naar hoekgrootte ..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Gespiegeld beeld"
 
 #: kstarsinit.cpp:287
 #, kde-format

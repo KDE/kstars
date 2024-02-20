@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-17 12:06+0100\n"
+"PO-Revision-Date: 2024-02-19 10:21+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -34596,10 +34596,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Voleu dibuixar Mart en el mapa celeste?"
+msgstr "Emmiralla el mapa celeste"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
@@ -34608,6 +34607,8 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Activeu això si voleu que el mapa celeste s'emmiralli d'esquerra a dreta, p. "
+"ex., perquè coincideixi amb la vista a través d'un prisma reflectant."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -68767,7 +68768,7 @@ msgstr "&Amplia a una mida angular..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Vista emmirallada"
 
 #: kstarsinit.cpp:287
 #, kde-format

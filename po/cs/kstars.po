@@ -14598,11 +14598,9 @@ msgid "CCD capture complete"
 msgstr ""
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgctxt "City in New Mexico USA"
-#| msgid "Farmington"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Farmington"
+msgstr ""
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
@@ -31439,10 +31437,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Vykreslit Mars na mapě oblohy?"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811

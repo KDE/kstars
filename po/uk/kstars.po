@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-17 09:28+0200\n"
+"PO-Revision-Date: 2024-02-19 17:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -34397,10 +34397,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Показувати Марс на карті неба?"
+msgstr "Віддзеркалює карту неба"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
@@ -34409,6 +34408,8 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Увімкніть, якщо хочете віддзеркалити карту неба у напрямку ліворуч-праворуч, "
+"наприклад для встановлення відповідності перегляду крізь висувну призму."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -68481,7 +68482,7 @@ msgstr "&Встановити кут видимості…"
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Віддзеркалений перегляд"
 
 #: kstarsinit.cpp:287
 #, kde-format

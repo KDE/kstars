@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-17 07:07+0100\n"
+"PO-Revision-Date: 2024-02-19 22:04+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -20715,7 +20715,7 @@ msgstr "Калибриране"
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
 #, kde-format
 msgid "Dither"
-msgstr "Размиване"
+msgstr "Дитериране"
 
 #: ekos/guide/guide.cpp:77
 #, kde-format
@@ -20982,7 +20982,7 @@ msgstr "Изчистване на данните за калибриране."
 #: ekos/guide/guide.ui:217
 #, kde-format
 msgid "Manual Dither"
-msgstr "Ръчно изместване"
+msgstr "Ръчно дитериране"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/guide/guide.ui:237
@@ -34429,10 +34429,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Да се показва ли Марс на небесната карта?"
+msgstr "Огледално обръщане на небесната карта"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811

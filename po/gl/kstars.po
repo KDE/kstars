@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-17 07:06+0100\n"
+"PO-Revision-Date: 2024-02-19 21:27+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15654,10 +15654,9 @@ msgid "CCD capture complete"
 msgstr "Completouse a captura do CCD."
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until Stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Ata que se deteña"
+msgstr "Detívose o encaixe"
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
@@ -17665,10 +17664,9 @@ msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Sim Mode"
-msgstr "Modo"
+msgstr "Modo de simulación."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
@@ -43017,15 +43015,13 @@ msgstr "FUNGASIA"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Western (sternenkarten.com)"
-msgstr ""
+msgstr "C. Occidentais (sternenkarten.com)"
 
 #: kstars_i18n.cpp:638
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SERPENS CAPUT"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SERPENS"
-msgstr "CABEZA DA SERPENTE"
+msgstr "Serpe"
 
 #: kstars_i18n.cpp:651
 #, fuzzy, kde-kuit-format

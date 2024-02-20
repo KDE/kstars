@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-17 11:48+0100\n"
+"PO-Revision-Date: 2024-02-19 17:27+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -34523,10 +34523,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "¿Mostrar Marte en el mapa del cielo?"
+msgstr "Refleja el mapa del cielo"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
@@ -34535,6 +34534,9 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Active esta opción si quiere que el mapa del cielo se refleje de izquierda a "
+"derecha (es decir, para que coincida con la vista a través de un prisma "
+"erguido)."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -68619,7 +68621,7 @@ msgstr "&Ampliar a tamaño angular..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Vista reflejada"
 
 #: kstarsinit.cpp:287
 #, kde-format
@@ -69191,10 +69193,11 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
-"Seleccione esto para una vista erecta del mapa del cielo, donde el norte (en "
-"el modo de coordenadas ecuatoriales) o el cenit (en el modo de coordenadas "
-"horizontales) está verticalmente arriba. Esta sería la elección natural para "
-"un telescopio buscador de imágenes erecto o para la visión a ojo desnudo."
+"Seleccione esto para una vista erguida del mapa del cielo, donde el norte "
+"(en el modo de coordenadas ecuatoriales) o el cenit (en el modo de "
+"coordenadas horizontales) está verticalmente arriba. Esta sería la elección "
+"natural para un telescopio buscador de imágenes erecto o para la visión a "
+"ojo desnudo."
 
 #: kstarsinit.cpp:737
 #, kde-format
