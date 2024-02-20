@@ -371,6 +371,9 @@ QVector<Eigen::Vector2f> Projector::groundPoly(SkyPoint *labelpoint, bool *drawL
         return ground;
     }
 
+    if (m_vp.mirror)
+        std::reverse(ground.begin(), ground.end());
+
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic

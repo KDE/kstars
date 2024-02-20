@@ -86,7 +86,10 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
 
     drawZoomBox(p);
 
-    drawOrientationArrows(p);
+    if (m_SkyMap->rotationStart.x() > 0 && m_SkyMap->rotationStart.y() > 0)
+    {
+        drawOrientationArrows(p);
+    }
 
     // FIXME: Maybe we should take care of this differently. Maybe
     // drawOverlays should remain in SkyMap, since it just calls
@@ -113,51 +116,51 @@ void SkyMapDrawAbstract::drawAngleRuler(QPainter &p)
 
 void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
 {
-    if (m_SkyMap->rotationStart.x() > 0 && m_SkyMap->rotationStart.y() > 0)
+    auto* data = m_KStarsData;
+    const SkyPoint centerSkyPoint = m_SkyMap->m_proj->fromScreen(
+                                                                 p.viewport().center(),
+                                                                 data->lst(), data->geo()->lat());
+
+    QPointF centerScreenPoint = p.viewport().center();
+    double northRotation = m_SkyMap->m_proj->findNorthPA(
+                                                         &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+    double zenithRotation = m_SkyMap->m_proj->findZenithPA(
+                                                           &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+
+    QColor overlayColor(data->colorScheme()->colorNamed("CompassColor"));
+    p.setPen(Qt::NoPen);
+    auto drawArrow = [&](double angle, const QString & marker, const float labelRadius, const bool primary)
     {
-        auto* data = m_KStarsData;
-        const SkyPoint centerSkyPoint = m_SkyMap->m_proj->fromScreen(
-                                            p.viewport().center(),
-                                            data->lst(), data->geo()->lat());
+        constexpr float radius = 150.0f; // In pixels
+        const auto fontMetrics = QFontMetricsF(QFont());
+        QTransform transform;
+        QColor color = overlayColor;
+        color.setAlphaF(primary ? 1.0 : 0.75);
+        QPen pen(color, 1.0, primary ? Qt::SolidLine : Qt::DotLine);
+        QBrush brush(color);
 
-        QPointF centerScreenPoint = p.viewport().center();
-        double northRotation = m_SkyMap->m_proj->findNorthPA(
-                                   &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
-        double zenithRotation = m_SkyMap->m_proj->findZenithPA(
-                                    &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+        QPainterPath arrowstem;
+        arrowstem.moveTo(0.f, 0.f);
+        arrowstem.lineTo(0.f, -radius + radius / 7.5f);
+        transform.reset();
+        transform.translate(centerScreenPoint.x(), centerScreenPoint.y());
+        transform.rotate(angle);
+        arrowstem = transform.map(arrowstem);
+        p.strokePath(arrowstem, pen);
 
-        QColor overlayColor(data->colorScheme()->colorNamed("CompassColor"));
-        p.setPen(Qt::NoPen);
-        auto drawArrow = [&](double angle, const QString & marker, const float labelRadius, const bool primary)
+        QPainterPath arrowhead;
+        arrowhead.moveTo(0.f, 0.f);
+        arrowhead.lineTo(-radius / 30.f, radius / 7.5f);
+        arrowhead.lineTo(radius / 30.f, radius / 7.5f);
+        arrowhead.lineTo(0.f, 0.f);
+        arrowhead.addText(QPointF(-1.1 * fontMetrics.width(marker), radius / 7.5f + 1.2f * fontMetrics.ascent()),
+                          QFont(), marker);
+        transform.translate(0, -radius);
+        arrowhead = transform.map(arrowhead);
+        p.fillPath(arrowhead, brush);
+
+        if (labelRadius > 0.f)
         {
-            constexpr float radius = 150.0f; // In pixels
-            const auto fontMetrics = QFontMetricsF(QFont());
-            QTransform transform;
-            QColor color = overlayColor;
-            color.setAlphaF(primary ? 1.0 : 0.75);
-            QPen pen(color, 1.0, primary ? Qt::SolidLine : Qt::DotLine);
-            QBrush brush(color);
-
-            QPainterPath arrowstem;
-            arrowstem.moveTo(0.f, 0.f);
-            arrowstem.lineTo(0.f, -radius + radius / 7.5f);
-            transform.reset();
-            transform.translate(centerScreenPoint.x(), centerScreenPoint.y());
-            transform.rotate(angle);
-            arrowstem = transform.map(arrowstem);
-            p.strokePath(arrowstem, pen);
-
-            QPainterPath arrowhead;
-            arrowhead.moveTo(0.f, 0.f);
-            arrowhead.lineTo(-radius / 30.f, radius / 7.5f);
-            arrowhead.lineTo(radius / 30.f, radius / 7.5f);
-            arrowhead.lineTo(0.f, 0.f);
-            arrowhead.addText(QPointF(-1.1 * fontMetrics.width(marker), radius / 7.5f + 1.2f * fontMetrics.ascent()),
-                              QFont(), marker);
-            transform.translate(0, -radius);
-            arrowhead = transform.map(arrowhead);
-            p.fillPath(arrowhead, brush);
-
             QRectF angleMarkerRect(centerScreenPoint.x() - labelRadius, centerScreenPoint.y() - labelRadius,
                                    2.f * labelRadius, 2.f * labelRadius);
             p.setPen(pen);
@@ -179,11 +182,13 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
             transform.rotate(90);
             angleLabel = transform.map(angleLabel);
             p.fillPath(angleLabel, brush);
+        }
 
-        };
-        drawArrow(northRotation, i18nc("North", "N"), 80.f, !Options::useAltAz());
-        drawArrow(zenithRotation, i18nc("Zenith", "Z"), 40.f, Options::useAltAz());
-    }
+    };
+    auto eastRotation = northRotation + (m_SkyMap->m_proj->viewParams().mirror ? 90 : -90);
+    drawArrow(northRotation, i18nc("North", "N"), 80.f, !Options::useAltAz());
+    drawArrow(eastRotation, i18nc("East", "E"), -1.f, !Options::useAltAz());
+    drawArrow(zenithRotation, i18nc("Zenith", "Z"), 40.f, Options::useAltAz());
 }
 
 void SkyMapDrawAbstract::drawZoomBox(QPainter &p)

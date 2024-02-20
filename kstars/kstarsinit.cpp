@@ -132,7 +132,6 @@ bool KStars::setResourceFile(QString const rc)
     else return false;
 }
 
-
 void KStars::initActions()
 {
     // Check if we have this specific Breeze icon. If not, try to set the theme search path and if appropriate, the icon theme rcc file
@@ -269,6 +268,11 @@ void KStars::initActions()
                 i18n("Switch to Horizontal View (Horizontal &Coordinates)"))
             << QKeySequence("Space");
 
+    newToggleAction(
+        actionCollection(), "mirror_skymap",
+        i18nc("Mirror the view of the sky map", "Mirrored View"),
+        this, SLOT(slotSkyMapOrientation())) << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M);;
+
     actionCollection()->addAction("toggle_terrain", this, SLOT(slotTerrain()))
             << (Options::showTerrain() ? i18n("Hide Terrain") :
                 i18n("Show Terrain"))
@@ -338,7 +342,6 @@ void KStars::initActions()
     newToggleAction(actionCollection(), "show_sbRADec", i18n("Show RA/Dec Field"), this, SLOT(slotShowGUIItem(bool)));
     newToggleAction(actionCollection(), "show_sbJ2000RADec", i18n("Show J2000.0 RA/Dec Field"), this,
                     SLOT(slotShowGUIItem(bool)));
-
 
     populateThemes();
 
@@ -741,7 +744,6 @@ void KStars::repopulateOrientation()
         << Checked(rot != 180. && rot != 0.)
         << ToolTip(i18nc("Orientation of the sky map",
                          "This mode is selected automatically if you manually rotated the sky map using Shift + Drag mouse action, to inform you that the orientation is arbitrary")));
-
 
     orientationActionMenu->addSeparator();
     QAction *erectObserverAction = newToggleAction(

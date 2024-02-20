@@ -42,10 +42,11 @@ class ViewParams
         bool useRefraction;
         bool useAltAz;
         bool fillGround; ///<If the ground is filled, then points below horizon are invisible
+        bool mirror;     // Mirrors along the X-axis
         SkyPoint *focus;
         ViewParams() : width(0), height(0), zoomFactor(0), rotationAngle(0),
             useRefraction(false), useAltAz(false), fillGround(false),
-            focus(nullptr) {}
+            mirror(false), focus(nullptr) {}
 };
 
 /**
@@ -309,10 +310,11 @@ class Projector
          */
         inline Eigen::Vector2f rst(double x, double y) const
         {
+            const double sgn = m_vp.mirror ? -1. : 1.;
             return
             {
-                m_vp.width / 2 - m_vp.zoomFactor * (x * m_vp.rotationAngle.cos() - y * m_vp.rotationAngle.sin()),
-                m_vp.height / 2 - m_vp.zoomFactor * (x * m_vp.rotationAngle.sin() + y * m_vp.rotationAngle.cos())
+                m_vp.width / 2 - m_vp.zoomFactor * (x * sgn * m_vp.rotationAngle.cos() - y * m_vp.rotationAngle.sin()),
+                    m_vp.height / 2 - m_vp.zoomFactor * (x * sgn * m_vp.rotationAngle.sin() + y * m_vp.rotationAngle.cos())
             };
         }
 
@@ -330,11 +332,12 @@ class Projector
          */
         inline Eigen::Vector2f derst(double x, double y) const
         {
+            const double sgn = m_vp.mirror ? -1. : 1;
             const double X = (m_vp.width / 2 - x) / m_vp.zoomFactor;
             const double Y = (m_vp.height / 2 - y) / m_vp.zoomFactor;
             return
             {
-                m_vp.rotationAngle.cos() * X + m_vp.rotationAngle.sin() * Y,
+                sgn * (m_vp.rotationAngle.cos() * X + m_vp.rotationAngle.sin() * Y),
                 -m_vp.rotationAngle.sin() * X + m_vp.rotationAngle.cos() * Y
             };
         }
