@@ -2139,7 +2139,7 @@
   <title
 >Oriëntatie van de hemelkaart aanpassen</title>
   <para
->U kunt verschillende instellingen aanpassen om de oriëntatie van de hemelkaart overeen te laten komen met het beeld door uw optische instrument, aangenomen (vanaf deze versie) dat het instrument het zichtveld niet spiegelt (zoals door prisma's gebruikt met SCT's en refractoren wordt gedaan). </para>
+>You can tweak various settings to make the orientation of the sky map match the view through your optical instrument, provided (as of this version) the instrument does not mirror the field-of-view (as is done by prisms used with SCTs and refractors). </para>
   <para
 >Ten eerste, kies het coördinatensysteem dat overeenkomt met uw opstelling. Voor een equatoriaal opgesteld instrument, schakel naar de modus Equatoriale coördinaat in het menu <guimenu
 >Beeld</guimenu
@@ -2151,13 +2151,13 @@
 >Schakel naar Sterrenglobe beeld (Equatoriale coördinaten)</guilabel
 >. Dit stelt het basis coördinatensysteem, gebruikt om de hemelkaart te maken, in en ook de referentie voor de oriëntatie van de hemelkaart: zenit of noord. </para>
   <para
->Om de hemelkaart vrij te draaien, kunt u de toets &Shift; indrukken en de muis op de hemelkaart slepen. Een tijdelijke overlay zal verschijnen die de richting noord en zenit aan de punt laat zien, en de hoek toont die ze maken met se verticaal op een linksom manier. De oriëntaties van zenit en noord zullen bijgewerkt worden als u de hemelkaart draait. De toets &Shift; of de muisknop loslaten zal het draaien stoppen. Tijdens het draaien van de hemelkaart of deze focust op andere objecten, zal de draaiing die u instelt behouden worden als een offset vanaf de referentie richting. De referentie richting is noord bij gebruik van Equatoriale coördinaten en  zenith bij gebruik van Horizontale coördinaten. Voor aandacht trekken is de referentie richting vet en helderder in de tijdelijke overlay. Voor de twee algemene oriëntaties van rechtop en geïnverteerd, kan de draaiing ingesteld / gereset worden met het submenu <menuchoice
+>To rotate the sky map freely, you can hold down the &Shift; key and drag the mouse on the sky map. A temporary overlay will appear showing the direction of north and zenith at the point, and displaying the angle they make with the vertical in a counterclockwise sense. The orientations of zenith and north will update as you rotate the sky map. Letting go of &Shift; or the mouse button will stop the rotation operation. As you pan the sky map or focus it on different objects, the rotation you set is retained as an offset from the reference direction. The reference direction is north when using Equatorial Coordinates and zenith when using Horizontal Coordinates. As a reminder, the reference direction is solid and brighter in the temporary overlay. For the two common orientations of erect and inverted, the rotation can be set / reset using the <menuchoice
 ><guimenu
->Beeld</guimenu
+>View</guimenu
 ><guisubmenu
->Oriëntatie van hemelkaart</guisubmenu
+>Skymap Orientation</guisubmenu
 ></menuchoice
->. Selecteer "Noord omlaag" of "Zenit omlaag" zoals van toepassing is om een oriëntatie van 180 graden in te stellen. </para>
+> submenu. Select "North Down" or "Zenith Down" as is applicable to set an orientation of 180 degrees. </para>
   <para
 >Als u op zicht waarneemt door een oogstuk van een instrument, dan moet u misschien enige correctie toepassen. Voor het algemene geval van een grote Dobsonian telescoop (of algemener en Newto-ontwerp opgesteld op een altazimuth opstelling), is een systematische additionele correctie behulpzaam. Deze correctie is van toepassing omdat we rechtop staan bij gebruik van de telescoop onafhankelijk van de hoek die de telescoopbuis maakt met de grond. Dus bij het verplaatsen van de telescoop in hoogte, moet een additionele correctie toegepast worden afhankelijk van de hoogte van het object om de hemelkaart overeen te laten komen met het beeld door het oogstuk. Deze correctie is ingeschakeld door het keuzevakje <guilabel
 >Correctie voor rechtop staande waarnemer</guilabel

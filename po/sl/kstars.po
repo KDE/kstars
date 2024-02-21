@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-19 18:12+0100\n"
-"Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
+"PO-Revision-Date: 2024-02-20 18:21+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: LUGOS\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11238,9 +11238,9 @@ msgstr "(ΔT=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:612
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, kde-format
+#, fuzzy, kde-format
 msgid "(%1 ticks)"
-msgstr ""
+msgstr "(%1 oznak)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
@@ -14621,7 +14621,7 @@ msgstr "Cilj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/capture.ui:1110
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
 "use of placeholder tags.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -14697,6 +14697,79 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Format se uporablja za določanje imen slikovnih "
+"datotek z uporabo oznak za mesto.</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Ograda <span style=\" "
+"font-weight:704;\">%f</span> ali <span style=\" font-weight:704;«>%filename</"
+"span> : ime datoteke .esq brez pripone.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"> Ograda <span style=\" font-weight:704;\">%D</span> ali "
+"<span style=\" font-weight:704;\">%Datetime</span> : trenutni čas in datum "
+"<span style=\" font-weight:704;\">, ko je datoteka shranjena.</span></li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Ograda <span style=\" "
+"font-weight:704;\">%T</span> ali <span style=\" font-weight:704;\">%Type</"
+"span> : vrsta sličice, npr.: 'Light', 'Bias', 'Dark', 'Flat' ...</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Ograda <span style=\" "
+"font-weight:704;\">%e</span> ali <span style=\" font-weight:704;\">"
+"%exposure</span> : trajanje osvetlitve v sekundah s pripono '_secs'.</li><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> "
+"Oznaka mesta <span style=\" font-weight:704;\">%E</span> ali <span style=\" "
+"font-weight:704;\">%exp</span> : trajanje osvetlitve v sekundah kot navadno "
+"število, brez pripone enote.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"> Ograda <span style=\" font-weight:704;\">%F</span> ali <span "
+"style=\" font-weight:704;\">%Filter</span> : ime aktivnega filtra.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Nadomestni znak <span "
+"style=\" font-weight:704;\">%t</span> ali <span style=\" font-weight:704;\">"
+"%target</span> : Ime cilja.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"> Ograda <span style=\" font-weight:600;\">%C</span> ali <span "
+"style=\" font-weight:600;\">%tetemperature</span> : temperatura kamere pri "
+"zajemanju.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"> Ograda <span style=\" font-weight:600;\">%B</span> ali "
+"<span style=\" font-weight:600;\">%bin</span> : Razvrščanje v koše, "
+"konfigurirano za zajem.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> "
+"Ograda <span style=\" font-weight:600;\">%G</span> ali <span style=\" font-"
+"weight:600;\">%gain</span> : ojačanje, nastavljeno za zajem.</li></ul><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Ograda <span style=\" "
+"font-weight:600;\">%O</span> ali <span style=\" font-weight:600;\">%offset</"
+"span> : odmik, nastavljen za zajem.</li><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Nadomestni znak <span "
+"style=\" font-weight:600;\">%I</span> ali <span style=\" font-weight:600;\">"
+"%itako</span> : vrednost ISO (samo DSLR).</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"> Ograda <span style=\" font-weight:600;\">%P</"
+"span> ali <span style=\" font-weight:600;\">%pierside</span> : stran pomola "
+"trenutnega nosilca.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> "
+"Ograda <span style=\" font-weight:704;\">%s*</span> ali <span style=\" font-"
+"weight:704;\">%sequence</span> : identifikator zaporedja slik, kjer je * "
+"število uporabljenih števk (1–9). <span style=\" font-weight:704;\">Ta "
+"oznaka je obvezna in mora biti zadnji element v formatu.</span></li></ul><p> "
+"V niz za obliko je lahko vključeno tudi poljubno besedilo, <span style=\" "
+"font-weight:704;\">razen % a znakov \\.</span> Znak / pot lahko uporabite za "
+"definiranje poljubnih imenikov.</p><p> Opombe:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> Oznake "
+"razlikujejo med velikimi in malimi črkami v kratkih in dolgih oblikah.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> Oznako %Datetime "
+"uporabite le v delu zapisa z imenom datoteke, ne pa v definiciji poti.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/capture.ui:1120
@@ -29607,12 +29680,12 @@ msgstr "Predogled slike"
 #: fitsviewer/fitsviewer.cpp:292
 #, kde-format
 msgid "Zoom all tabs in"
-msgstr ""
+msgstr "Približaj vse zavihke"
 
 #: fitsviewer/fitsviewer.cpp:297
 #, kde-format
 msgid "Zoom all tabs out"
-msgstr ""
+msgstr "Oddalji vse zavihke"
 
 #: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1560
 #, kde-format
@@ -34508,11 +34581,13 @@ msgstr "Izris Marsa na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"To omogočite, če želite, da se zemljevid neba zrcali levo-desno, npr. da se "
+"ujema s pogledom skozi pokončne prizme."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -68798,7 +68873,7 @@ msgstr "Približaj na &kotno velikost ..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Zrcalni pogled"
 
 #: kstarsinit.cpp:287
 #, kde-format
@@ -85853,19 +85928,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "CCD capture aborted"
-#~ msgstr "Zajem CCD prekinjen"
-
-#~ msgid "PHD2: Guiding resumed."
-#~ msgstr "PHD2: Vodenje se nadaljuje."
-
-#, fuzzy
-#~ msgid "No job running"
-#~ msgstr "Brez teka dela"
-
-#~ msgid "Open FITS"
-#~ msgstr "Odpri FITS"
-
-#~ msgid "No Target - Please pick an object."
-#~ msgstr "Brez cilja - izberite predmet."
