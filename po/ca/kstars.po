@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-19 10:21+0100\n"
+"PO-Revision-Date: 2024-02-20 12:37+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -34608,7 +34608,7 @@ msgid ""
 "the view through an erecting prism."
 msgstr ""
 "Activeu això si voleu que el mapa celeste s'emmiralli d'esquerra a dreta, p. "
-"ex., perquè coincideixi amb la vista a través d'un prisma reflectant."
+"ex., perquè coincideixi amb la vista a través d'un prisma erector."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815

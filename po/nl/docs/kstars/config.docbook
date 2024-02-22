@@ -2139,7 +2139,7 @@
   <title
 >Oriëntatie van de hemelkaart aanpassen</title>
   <para
->U kunt verschillende instellingen aanpassen om de oriëntatie van de hemelkaart overeen te laten komen met het beeld door uw optische instrument, aangenomen (vanaf deze versie) dat het instrument het zichtveld niet spiegelt (zoals door prisma's gebruikt met SCT's en refractoren wordt gedaan). </para>
+>U kunt verschillende instellingen aanpassen om de oriëntatie van de hemelkaart overeen te laten komen met het beeld door uw optische instrument. </para>
   <para
 >Ten eerste, kies het coördinatensysteem dat overeenkomt met uw opstelling. Voor een equatoriaal opgesteld instrument, schakel naar de modus Equatoriale coördinaat in het menu <guimenu
 >Beeld</guimenu
@@ -2151,7 +2151,13 @@
 >Schakel naar Sterrenglobe beeld (Equatoriale coördinaten)</guilabel
 >. Dit stelt het basis coördinatensysteem, gebruikt om de hemelkaart te maken, in en ook de referentie voor de oriëntatie van de hemelkaart: zenit of noord. </para>
   <para
->Om de hemelkaart vrij te draaien, kunt u de toets &Shift; indrukken en de muis op de hemelkaart slepen. Een tijdelijke overlay zal verschijnen die de richting noord en zenit aan de punt laat zien, en de hoek toont die ze maken met se verticaal op een linksom manier. De oriëntaties van zenit en noord zullen bijgewerkt worden als u de hemelkaart draait. De toets &Shift; of de muisknop loslaten zal het draaien stoppen. Tijdens het draaien van de hemelkaart of deze focust op andere objecten, zal de draaiing die u instelt behouden worden als een offset vanaf de referentie richting. De referentie richting is noord bij gebruik van Equatoriale coördinaten en  zenith bij gebruik van Horizontale coördinaten. Voor aandacht trekken is de referentie richting vet en helderder in de tijdelijke overlay. Voor de twee algemene oriëntaties van rechtop en geïnverteerd, kan de draaiing ingesteld / gereset worden met het submenu <menuchoice
+>Als uw instrument een opgericht prisma gebruikt, typisch gebruikt op Schmidt-Cassegrain en type refractie telescopen, zal het zicht door de oculair horizontaal gespiegeld zijn. U kunt de hemelkaart hiermee overeen laten komen door de optie <guilabel
+>Gespiegelde weergave</guilabel
+> onder het menu <guimenu
+>Beeld</guimenu
+> te activeren. </para>
+  <para
+>Vervolgens, om de hemelkaart vrij te draaien, kunt u de toets &Shift; indrukken en de muis op de hemelkaart slepen. Een tijdelijke overlay zal verschijnen die de richting noord en zenit aan de punt laat zien, en de hoek toont die ze maken met se verticaal op een linksom manier. De oriëntaties van zenit en noord zullen bijgewerkt worden als u de hemelkaart draait. De toets &Shift; of de muisknop loslaten zal het draaien stoppen. Tijdens het draaien van de hemelkaart of deze focust op andere objecten, zal de draaiing die u instelt behouden worden als een offset vanaf de referentie richting. De referentie richting is noord bij gebruik van Equatoriale coördinaten en  zenith bij gebruik van Horizontale coördinaten. Voor aandacht trekken is de referentie richting vet en helderder in de tijdelijke overlay. Voor de twee algemene oriëntaties van rechtop en geïnverteerd, kan de draaiing ingesteld / gereset worden met het submenu <menuchoice
 ><guimenu
 >Beeld</guimenu
 ><guisubmenu
@@ -2189,6 +2195,18 @@
       <listitem
 ><para
 >Verrekijker gebruiken: dezelfde instellingen als observeren met het blote oog</para
+></listitem>
+      <listitem
+><para
+>Oculair van een altazimut Schmidt-Cassegrain telescoop met een opgericht prisma: onder het menu <guimenu
+>Beeld</guimenu
+>, kies <guilabel
+>Gespiegelde weergave</guilabel
+>, en onder het submenu <guisubmenu
+>Oriëntatie van hemelkaart</guisubmenu
+>, kies <guilabel
+>Zenit omhoog</guilabel
+>. Pas tenslotte de draaiing handmatig aan om overeen te komen met het zicht door het oculair volgens de hoek die u gebruikt voor uw opgerichte prisma.</para
 ></listitem>
       <listitem
 ><para
