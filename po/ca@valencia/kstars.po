@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-19 01:39+0000\n"
-"PO-Revision-Date: 2024-02-13 12:22+0100\n"
+"PO-Revision-Date: 2024-02-21 14:58+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -15957,10 +15957,9 @@ msgid "CCD capture complete"
 msgstr "S'ha completat la captura per CCD"
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Fins que es para"
+msgstr "S'ha parat l'enquadrament"
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
@@ -34991,10 +34990,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Voleu que es dibuixe Mart en el mapa celeste?"
+msgstr "Emmiralla el mapa celeste"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
@@ -35003,6 +35001,8 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Seleccioneu-la si voleu que el mapa celeste s'emmiralle d'esquerra a dreta, "
+"p. ex., perquè coincidisca amb la vista a través d'un prisma erecte."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -69240,7 +69240,7 @@ msgstr "&Amplia a una mida angular…"
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Vista emmirallada"
 
 #: kstarsinit.cpp:287
 #, kde-format
@@ -86449,6 +86449,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "CCD capture aborted"
-#~ msgstr "Captura interrompuda de CCD"

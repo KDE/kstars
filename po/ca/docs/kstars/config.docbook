@@ -2204,15 +2204,15 @@
 ></listitem>
       <listitem
 ><para
->Eyepiece of an altazimuth Schmidt-Cassegrain telescope with an erecting prism: Under the <guimenu
->View</guimenu
-> menu, choose <guilabel
->Mirrored View</guilabel
->, and under the <guisubmenu
->Skymap Orientation</guisubmenu
-> sub-menu, choose <guilabel
->Zenith Up</guilabel
->. Finally, tweak the rotation manually to match the eyepiece view according to the angle you are using for your erecting prism.</para
+>Ocular d'un telescopi Schmidt-Cassegrain altazimutal amb un prisma erector: en el menú <guimenu
+>Visualitza</guimenu
+>, trieu <guilabel
+>Vista emmirallada</guilabel
+>, i sota el submenú <guisubmenu
+>Orientació del mapa celeste</guisubmenu
+>, trieu <guilabel
+>Zenit cap amunt</guilabel
+>. Finalment, retoqueu manualment el gir per a fer coincidir la vista de l'ocular segons l'angle que utilitzeu al prisma erector.</para
 ></listitem>
       <listitem
 ><para
