@@ -328,15 +328,6 @@
 
     <para
 >Le bouton <guibutton
->Inspecteur</guibutton
-> démarre l'exécution de <link linkend="focus-aberration-inspector"
->l'inspecteur d'aberration</link
->. Le bouton <guibutton
->Arrêter</guibutton
-> l'arrête. </para>
-
-    <para
->Le bouton <guibutton
 >Acquisition image</guibutton
 > démarre l'acquisition d'une image dont les réglages actuels proviennent de <link linkend="focus-ccd-filter-wheel"
 >groupe APN et roue à filtres</link
@@ -479,7 +470,109 @@
     </itemizedlist>
   </sect2>
 
-  <sect2 id="focus-settings">
+  <sect2 id="focus-tools">
+    <title
+>Groupe d'outils</title>
+
+    <screenshot>
+      <screeninfo
+>Groupe d'outils de la mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_tools_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Groupe d'outils de la mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Cette section décrit les outils de la mise au point actuellement disponibles.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Le bouton <guibutton
+>Inspecteur</guibutton
+> démarre l'exécution de <link linkend="focus-aberration-inspector"
+>l'inspecteur d'aberration</link
+>. Le bouton <guibutton
+>Arrêter</guibutton
+> peut être utilisé pour l'arrêter. </para>
+      </listitem>
+      <listitem>
+        <para
+>Le bouton <guibutton
+>CFZ</guibutton
+> lance l'outil de la <link linkend="focus-cfz"
+>zone critique de mise au point</link
+>. </para>
+      </listitem>
+      <listitem>
+        <para
+>Le bouton <guibutton
+>Conseiller</guibutton
+> lance l'outil <link linkend="focus-advisor"
+>Conseiller de mise au point</link
+>. </para>
+      </listitem>
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="focus-options">
+  <title
+>Options de la mise au point</title>
+
+  <screenshot>
+    <screeninfo
+>Options de la mise au point </screeninfo>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="focus_options.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Options de la mise au point</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>Les paramètres de configuration de la mise au point s'affichent en cliquant sur le bouton <guibutton
+>Options…</guibutton
+>. Une boîte de dialogue avec trois panneaux s'ouvre :</para>
+
+  <itemizedlist>
+    <listitem>
+      <para
+><link linkend="focus-settings"
+>Réglages</link
+> : ce sont les réglages principaux de la mise au point.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-process"
+>Processus</link
+> : ce sont les paramètres associés au processus de mise au point automatique.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-mechanics"
+>Mécanique</link
+> : ce sont les paramètres associées à la partie mécanique du moteur de mise au point.</para>
+    </listitem>
+  </itemizedlist>
+
+  <para
+>Les paramètres sont spécifiques à chaque train optique. Cela permet d'avoir différentes configurations pour différents équipements. Les paramètres sont enregistrés quand ils sont modifiés, ainsi, au démarrage, c'est la dernière configuration du train optique sélectionné qui est chargée.</para>
+
+  <sect3 id="focus-settings">
     <title
 >Réglages de la mise au point</title>
 
@@ -500,8 +593,7 @@
     </screenshot>
 
     <para
->Ensuite il y a cinq onglets contenant des panneaux de réglages. Ces paramètres sont conservés entre les sessions. Le premier est le panneau de Réglages.</para>
-
+>Paramètres de la section principale :</para>
     <itemizedlist>
       <listitem>
         <para
@@ -541,7 +633,7 @@
 > : utilise le plein champ de l'appareil. Dans ce mode, la mise au point va automatiquement sélectionner plusieurs étoiles pour la procédure de mise au point automatique. Une alternative à cela est <guilabel
 >Sous-trame</guilabel
 >.</para>
-        </listitem>
+      </listitem>
 
       <listitem>
         <para
@@ -578,73 +670,80 @@
 >Suspendre le guidage</guilabel
 >. Elle permet d'attendre ce nombre de secondes pour que le train optique se stabilise après la procédure de mise au point automatique avant de reprendre le guidage.</para>
       </listitem>
+    </itemizedlist>
 
-      <listitem>
-        <para
+    <para
+>Paramètres de la section sur les masques :</para>
+
+    <para
 >L'ensemble suivant de boutons radio est associé aux <emphasis role="bold"
 >Options de masquage</emphasis
 > qui sont utilisées dans le mode <guilabel
 >Plein champ</guilabel
+>. L'effet des options de masquage peut être vu dans l'<link linkend="focus-display"
+>Afficheur FITS</link
 >.</para>
+    <itemizedlist>
+      <listitem>
         <para
->L'effet des options de masquage peut être vu dans <link linkend="focus-display"
->l'afficheur FITS</link
->.</para>
-	  <itemizedlist>
-	    <listitem>
-	      <para
 ><guilabel
 >Utiliser toutes les étoiles pour la mise au point</guilabel
 > : choisissez cette option si toutes les étoiles du champ doivent participer à la mise au point.</para>
-	    </listitem>
+      </listitem>
 	    
-	    <listitem>
-              <para
+      <listitem>
+        <para
 ><guilabel
 >Masque annulaire</guilabel
 > : cette option fournit deux champs d'entrée qui définissent une surface en forme de beignet recouvrant le champ de vue (CdV) de l'appareil. Les étoiles en dehors de cette région ne sont pas prise en compte dans le traitement. En réglant la valeur intérieure au dessus de 0 %, les étoiles au centre du CdV sont rejetées. Cela peut être utile pour éviter d'utiliser des étoiles de la cible de l'image (par exemple une galaxie) pour la procédure de mise au point. En réglant la valeur extérieure sous 100 %, les étoiles se trouvant sur les bords du CdV sont rejetées. Cela peut être utile si vous ne disposez pas d'une image flat allant jusqu'aux coins du CdV.</para>
-	    </listitem>
-
-	    <listitem>
-	      <para
-><guilabel
->Masque de mosaïque</guilabel
-> : une mosaïque 3x3 est composée de tuiles du centre de l'image, de ses coins et de ses côtés. Cette option est utile si vous souhaitez inspecter la performance des optiques (vous connaissez peut-être ceci du script de l'inspecteur d'aberrations de PixInsight). La taille des tuiles peut être configurée en pourcent de la largeur de l'image avec la valeur du séparateur spécifiant l'espace entre les tuiles.</para>
-                <para
->Il existe trois cas d'utilisation pour le masque de mosaïque : <itemizedlist>
-                  <listitem>
-                    <para
->La vérification de la mise au point sur toute la surface du capteur : le masque permet une inspection visuelle facile et la comparaison des étoiles au centre, sur les bords et dans le coin du capteur. Cela est particulièrement utile pour les optiques présentant une aberration lorsque la mise au point n'est pas réalisée à 100%.</para>
-                  </listitem>
-                  <listitem>
-		    <para
->La correction de l'inclinaison de l'image : les grands capteurs sont particulièrement sensibles à une distance et une inclinaison du capteur. Dans de tels cas, l'image présente une aberration, surtout dans les coins. Si tous les coins sont touchés par le même effet, alors il est alors nécessaire de corriger les distances. Si ces aberrations sont différentes dans les coins, cela est typique d'une inclinaison du capteur.</para>
-                  </listitem>
-                  <listitem>
-                    <para
->La collimation des télescopes de Newton : l'inspection des images à une position légèrement éloignée de la mise au point est typiquement utilisée pour régler ces télescopes. Référez-vous par exemple à l'article de Tommy Nawratil <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
->The Photonewton Collimation Primer</ulink
-> pour davantage de détails.</para>
-                  </listitem>
-                </itemizedlist
-></para>
-	    </listitem
->	    
-	  </itemizedlist>
       </listitem>
 
       <listitem>
         <para
+><guilabel
+>Masque de mosaïque</guilabel
+> : une mosaïque 3x3 est composée de tuiles du centre de l'image, de ses coins et de ses côtés. Cette option est utile si vous souhaitez inspecter la performance des optiques (vous connaissez peut-être ceci du script de l'inspecteur d'aberrations de PixInsight). La taille des tuiles peut être configurée en pourcent de la largeur de l'image avec la valeur du séparateur spécifiant l'espace entre les tuiles.</para>
+        <para
+>Il existe quatre cas d'utilisation pour le masque de mosaïque : <itemizedlist>
+            <listitem>
+                <para
+>La vérification de la mise au point sur toute la surface du capteur : le masque permet une inspection visuelle facile et la comparaison des étoiles au centre, sur les bords et dans le coin du capteur. Cela est particulièrement utile pour les optiques présentant une aberration lorsque la mise au point n'est pas réalisée à 100%.</para>
+            </listitem>
+            <listitem>
+                <para
+>La correction de l'inclinaison de l'image : les grands capteurs sont particulièrement sensibles à une distance et une inclinaison du capteur. Dans de tels cas, l'image présente une aberration, surtout dans les coins. Si tous les coins sont touchés par le même effet, alors il est alors nécessaire de corriger les distances. Si ces aberrations sont différentes dans les coins, cela est typique d'une inclinaison du capteur.</para>
+            </listitem>
+            <listitem>
+                <para
+>La collimation des télescopes de Newton : l'inspection des images à une position légèrement éloignée de la mise au point est typiquement utilisée pour régler ces télescopes. Référez-vous par exemple à l'article de Tommy Nawratil <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
+>The Photonewton Collimation Primer</ulink
+> pour davantage de détails.</para>
+            </listitem>
+            <listitem>
+                <para
+>Exécution de l'outil de <link linkend="focus-aberration-inspector"
+>l'inspecteur d'aberration</link
+></para>
+            </listitem>
+          </itemizedlist
+></para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Paramètres de la mise au point adaptative :</para>
+
+    <para
 >L'ensemble suivant de boutons est associé à la <emphasis role="bold"
 >mise au point adaptative</emphasis
->. C'est une fonctionnalité encore expérimentale. L'idée ici est de conserver la mise au point du télescope en adaptant la position du moteur de mise au point en fonction de conditions environnementales sans avoir à lancer une procédure complète de mise au point automatique. Voir la section <link linkend="focus-adaptive"
+>. L'idée ici est de conserver la mise au point du télescope en adaptant la position du moteur de mise au point en fonction de conditions environnementales sans avoir à lancer une procédure complète de mise au point automatique. Voir la section <link linkend="focus-adaptive"
 >Mise au point adaptative</link
 > pour davantage de détails.</para>
 
-        <para
+    <para
 >Par exemple, la position de mise au point va varier en fonction de la température durant une session d'acquisition. En enregistrant la température entre les prises, il est possible de calculer la différence de température et ensuite de la convertir en un nombre de pas du moteur de mise au point à appliquer entre les prises.</para>
 
-        <para
+    <para
 >Afin d'utiliser la <emphasis role="bold"
 >mise au point adaptative</emphasis
 > il est nécessaire de régler certaines données de votre système. Vous devez en particulier indiquer à Ekos le nombre de pas (et dans quelle direction) de déplacement lorsque les conditions environnementales changent. Cela est expliqué dans la fenêtre popup du <link linkend="focus-filter-settings"
@@ -655,7 +754,7 @@
 ></inlinemediaobject
 >.</para>
 
-        <para
+    <para
 >Les boutons de contrôle suivants sont disponibles : <itemizedlist>
             <listitem>
               <para
@@ -700,13 +799,11 @@
 >Mise au point adaptative</guilabel
 > est décochée jusqu'à une intervention manuelle de l'opérateur.</para>
             </listitem>
-          </itemizedlist>
-        </para>
-      </listitem>
-    </itemizedlist>
-  </sect2>
+        </itemizedlist>
+    </para>
+  </sect3>
 
-  <sect2 id="focus-process">
+  <sect3 id="focus-process">
     <title
 >Procédure de mise au point</title>
 
@@ -727,7 +824,7 @@
     </screenshot>
 
     <para
->Cela est le tableau de bord des réglages du processus de mise au point. Les composants graphiques ne sont affichés que dans les cas pertinents.</para>
+>Paramètres du processus de mise au point :</para>
 
     <itemizedlist>
       <listitem>
@@ -791,7 +888,7 @@
 >Algorithme</guilabel
 > : choisissez l'algorithme pour la procédure de mise au point automatique : </para>
 
-        <itemizedlist>
+      <itemizedlist>
         <listitem>
           <para
 ><emphasis role="bold"
@@ -835,174 +932,177 @@
 > : débute avec la méthode itérative. Quand la position passe de l'autre côté de la courbe en V, une régression polynomiale est calculée pour déterminer la position de la solution minimale. Cet algorithme peut être plus rapide que la méthode itérative avec un bon ensemble de données.</para>
         </listitem>
       </itemizedlist>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Courbe de régression</guilabel
 > : le type de courbe pour la régression des points. </para>
-      <itemizedlist>
-        <listitem>
-          <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Hyperbole</emphasis
 > : interpole une hyperbole avec l'algorithme non-linéaire de moindres carrés fourni par la bibliothèque GNU Science GSL. Veuillez voir le <link linkend="Levenberg-Marquardt"
 >résolveur Levenberg-Marquardt Solver</link
 > pour davantage de détails.</para>
 
-          <para
+            <para
 >Cela est l'option recommandée.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Parabole</emphasis
 > : interpole une parabole avec l'algorithme non-linéaire de moindres carrés fourni par la bibliothèque GNU Science GSL. Veuillez voir le <link linkend="Levenberg-Marquardt"
 >résolveur Levenberg-Marquardt Solver</link
 > pour davantage de détails.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Quadratique</emphasis
 > : utilise une équation quadratique avec l'algorithme de moindres carrés linéaire fourni par la bibliothèque GNU Science GSL.</para>
 
-          <para
+            <para
 >Il n'est plus recommandé d'utiliser cette courbe.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
+          </listitem>
+        </itemizedlist>
+      </listitem>
 
-    <listitem>
-    <para
+      <listitem>
+        <para
 ><guilabel
 >Mesure</guilabel
 > : choisissez une mesure pour la procédure de mise au point automatique. Les options suivantes sont disponibles :</para>
 
-    <itemizedlist>
-      <listitem>
-        <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR</emphasis
 > : HFR est la mesure recommandée. À la détection d'une étoile, Ekos calculera le HFR de l'étoile. C'est la moitié du flux total de l'étoile contenu dans un cercle imaginaire autour du centre de l'étoile.</para>
 
-        <para
+            <para
 >La position de la meilleure mise au point correspond au minimum de HFR.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR ajusté</emphasis
-> : c'est encore une fonctionnalité expérimentale qui utilise un calcul ajusté du HFR qui tient compte du fait que le HFR des étoiles plus lumineuses est plus large que pour les étoiles peu lumineuses.</para>
+> : cette fonctionnalité utilise un calcul ajusté du HFR qui tient compte du fait que le HFR des étoiles plus lumineuses est plus large que pour les étoiles peu lumineuses.</para>
 
-        <para
+            <para
 >L'algorithme ajuste la valuer du HFR mesuré, généralement vers le haut, de telle sorte que le HFR obtenu par cette méthode est plus grand que les valeurs HFR mesurées. Cela ne signifie pas que vous obtenez de moins bons résultats avec cette méthode mais simplement que la mesure est différente.</para>
 
-        <para
+            <para
 >Avec cette mesure, il est courant d'obtenir des barres d'erreur plus petites pour l'ensemble de données quand <guilabel
 >Utiliser les poids</guilabel
 > est utilisée.</para>
 
-        <para
+            <para
 >La position de la meilleure mise au point correspond au minimum du HFR ajusté.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >FWHM</emphasis
-> : c'est encore une fonctionnalité expérimentale qui ajuste une surface gaussienne à chaque étoile et l'utilise pour calculer le FWHM de l'étoile. Le FWHM est la largeur d'un cercle (ou d'une ellipse) autour du centre de l'étoile et qui atteint le bord de l'étoile à la moitié de son intensité maximale.</para>
+> : cette fonctionnalité ajuste une surface gaussienne à chaque étoile et l'utilise pour calculer le FWHM de l'étoile. Le FWHM est la largeur d'un cercle (ou d'une ellipse) autour du centre de l'étoile et qui atteint le bord de l'étoile à la moitié de son intensité maximale.</para>
 
-        <para
+            <para
 >La meilleure position de la mise au point correspond au minimum de FWHM.</para>
 
-        <para
+            <para
 >Attendez-vous que le FWHM soit environ le double du HFR de l'étoile.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 ># étoiles</emphasis
-> : c'est encore une fonctionnalité expérimentale qui calcule le nombre d'étoiles de l'image et utilise ce nombre pour une mesure de la mise au point. L'idée est qu'en s'approchant de plus en plus de la position de mise au point, davantage d'étoiles deviendront détectables.</para>
+> : cette fonctionnalité calcule le nombre d'étoiles de l'image et utilise ce nombre pour une mesure de la mise au point. L'idée est qu'en s'approchant de plus en plus de la position de mise au point, davantage d'étoiles deviendront détectables.</para>
 
-        <para
+            <para
 >L'avantage de cette mesure est sa simplicité puisqu'elle ne requiert pas de calculer le HFR ou le FWHM.</para>
 
-        <para
+            <para
 >La position de meilleure mise au point correspond au nombre maximal d'étoiles.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Fourier</emphasis
 > : cette méthode utilise une transformée de Fourier de l'image et calcule sa puissance dans l'espace des fréquences. L'hypothèse est que pour une image astronomique d'étoiles et de fond, les étoiles suivront une gaussienne. Dans une transformée de Fourier, une gaussienne se transforme en une autre gaussienne ; mais les étoiles les plus larges se transformeront en une gaussienne plus étroite dans l'espace des fréquences et vice-versa. Ainsi, à la position de meilleure mise au point, la somme en espace des fréquences, qui est une mesure de la puissance, sera un maximum.</para>
 
-        <para
+            <para
 >Cette méthode implémente l'idée principale de Tan et Schulz dans leur papier <ulink url="https://arxiv.org/pdf/2201.12466.pdf"
 >A Fourier method for the determination of focus for telescopes with stars</ulink
 >. Veuillez noter que d'autres idées sont formulées dans ce papier mais ne sont pas implémentées dans Ekos.</para>
 
-        <para
+            <para
 >Cette méthode est relativement nouvelle dans la communauté astronomique et ne requiert pas de détection d'étoiles. Tan et Schulz rapportent de bons résultats autant avec des télescopes amateurs que professionnels.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
-    </itemizedlist>
-    </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >PSF</guilabel
 > : si <guilabel
 >Mesure</guilabel
 > est réglé à FWHM, alors le composant graphique PSF peut être sélectionné pour être utilisé pour appliquer la régression de la surface à l'étoile. Pour le moment seule la méthode gaussienne est proposée.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Utiliser les poids</guilabel
 > : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Elle nécessite l'option Plein Champ. Elle calcule la déviation standard du HFR des étoiles et utilise le carré de cette valeur (la variance mathématique) comme poids pour la courbe de régression. L'avantage de cette méthode est que les points moins fiables, de déviation standard du HFR plus grande, auront un poids plus petit que les points plus fiables. Si cette option n'est pas cochée, et pour toutes les courbes de régression n'autorisant pas cette option, tous les points auront un poids identique dans le calcul de régression.</para>
 
-      <para
+        <para
 >La déviation standard est dessinée comme barre d'erreur sur la courbe en V pour chaque ensemble de points.</para>
 
-      <para
+        <para
 >Il est recommandé de cocher cette option.</para>
 
-      <para
+        <para
 >Voir le <link linkend="Levenberg-Marquardt"
 >résolveur de Levenberg-Marquardt</link
 > pour davantage de détails.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Limite R²</guilabel
 > : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Faisant partie de l'algorithme linéaire à 1 passe, le degré de la courbe de régression, ou <link linkend="Coefficient_of_Determination"
 >coefficient de détermination R²</link
 > est calculé. Cette option permet de définir une valeur minimale acceptable pour R² qui est comparée à la valeur obtenue par la régression. Si la valeur minimale n'a pas été atteinte, alors la procédure de mise au point automatique est relancée. Néanmoins, une seule relance du processus sera réalisée et même si le minimum de R² n'a pas été atteinte, le processus de mise au point automatique sera considérée comme étant un succès.</para>
 
-      <para
+        <para
 >Testez pour trouver une valeur appropriée mais un bon point de départ serait 0,8 ou 0,9.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Affiner la courbe de régression</guilabel
-> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Si cette option est cochée et à la fin du balayage de l'ensemble de points, Ekos calcule la courbe de régression et mesure le R². Le critère de Peirce fondé sur la méthode de Gould est ensuite appliqué pour identifier les points aberrants. Veuillez consulter la page sur le <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
+> : cette option n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Si cette option est cochée et à la fin du balayage de l'ensemble de points, Ekos calcule la courbe de régression et mesure le R². Le critère de Peirce fondé sur la méthode de Gould est ensuite appliqué pour identifier les points aberrants. Veuillez consulter la page sur le <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 >critère de Peirce</ulink
 > pour les détails (inclus les articles originaux de Peirce et de Gould qui sont référencés dans les notes). Si le critère de Peirce détecte au moins une valeur aberrante, alors une nouvelle courbe est calculée sans ces valeurs aberrantes. Le R² est calculé à nouveau et comparé à l'ancien. S'il est meilleur, la dernière passe est utilisée et sinon, c'est la première (avec les valeurs aberrantes) qui est utilisée.</para>
 
-      <para
+        <para
 >Les valeurs aberrantes sont clairement indiquées sur la courbe en V grâce à un X sur les points.</para>
+
+        <para
+>Il est recommandé de cocher cette option.</para>
       </listitem>
 
       <listitem>
@@ -1010,6 +1110,27 @@
 ><guilabel
 >Moyenner sur</guilabel
 > : nombre d'images à acquérir pour chaque point de données. Il est généralement raisonnable de commencer à 1 mais l'augmentation de ce nombre résultera dans un processus de calcul de la moyenne pour la mesure des étoiles sélectionnées.</para>
+      </listitem>
+
+      <listitem>
+        <warning>
+        <para
+><guilabel
+>Donut Buster</guilabel
+> : c'est encore une fonctionnalité expérimentale qui devrait être utilisé avec précaution. L'idée ici est d'améliorer la mise au point pour des télescopes ayant une obstruction centrale qui crée des étoiles en forme de beignet lorsque loin de la position de mise au point. Il est probable que dans le futur il y aura davantage de fonctionnalités développées. Dans cette version, cette fonctionnalité est davantage ciblée vers la récolte de données afin d'améliorer la mise au point.</para>
+        </warning>
+      </listitem>
+      <listitem>
+        <warning>
+        <para
+><guilabel
+>Facteur de dilatation du temps</guilabel
+> : cette fonctionnalité de Donut Buster est encore expérimentale et devrait être utilisée avec précaution. Elle règle la durée d'exposition à partir de la valeur de la mise au point automatique saisie dans le champ d'exposition pour les points les plus éloignés de la mise au point. Les points proches de la mise au point ne sont pas impactés. Par exemple, si la mise au point est réglée à 2s et que le facteur de dilatation du temps est réglé à 4, la mise au point automatique se déplace vers l'extérieur pour son premier point et la durée d'exposition sera de 2s * 4 = 8s. Pour les points suivants, la durée d'exposition est réduite à 2s autour de la position de mise au point optimale. À mesure que le moteur de mise au point passe la position optimale, la durée sera augmentée à 8s pour le dernier point.</para>
+        <para
+>Le but de cette méthode est d'augmenter la luminosité des points loin de la position optimale qui sont par nature moins brillants que les points proches et donc plus difficile à résoudre par rapport au bruit ambiant.</para>
+        <para
+>Cette fonctionnalité implique que le processus de mise au point automatique est lancé près de la position optimale de mise au point.</para>
+        </warning>
       </listitem>
 
       <listitem>
@@ -1078,9 +1199,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect2>
+  </sect3>
 
-  <sect2 id="focus-mechanics">
+  <sect3 id="focus-mechanics">
     <title
 >Mécanique de la mise au point</title>
 
@@ -1101,7 +1222,7 @@
     </screenshot>
 
     <para
->Voici le panneau de configuration des paramètres de l'aspect mécanique de la mise au point.</para>
+>Paramètres de la mécanique de la mise au point :</para>
 
   <itemizedlist>
   <listitem>
@@ -1131,7 +1252,7 @@
         <para
 ><emphasis role="bold"
 >Pas fixes</emphasis
-> : cette option expérimentale est disponible pour l'<guilabel
+> : cette option est disponible pour l'<guilabel
 >algorithme</guilabel
 > linéaire à 1 passe. Elle est similaire à Classique mais <guilabel
 >Pas fixes</guilabel
@@ -1162,7 +1283,7 @@
         <para
 ><emphasis role="bold"
 >Mélange CFZ</emphasis
-> : cette option expérimentale est disponible pour l'<guilabel
+> : cette option est disponible pour l'<guilabel
 >algorithme</guilabel
 > linéaire à 1 passe. C'est une variante de Pas fixes et donc les commentaires sur cette course sont applicables ici aussi.</para>
 
@@ -1286,6 +1407,7 @@
 > : spécifie le nombre de secondes à attendre que le mouvement du moteur de mise au point soit à la position requise avant de déclarer une expiration du délai. Cela ne devrait être déclenché que s'il y a des problèmes avec le moteur de mise au point, ainsi réglez à une valeur suffisamment haute pour éviter que cela n'intervienne durant les opérations normales.</para>
   </listitem>
   </itemizedlist>
+  </sect3>
   </sect2>
 
   <sect2 id="focus-cfz">
@@ -1309,7 +1431,7 @@
     </screenshot>
 
     <para
->Ceci est le tableau de bord des paramètres de la mise au point de la CFZ.</para>
+>Paramètres de la mise au point de la CFZ :</para>
 
   <itemizedlist>
   <listitem>
@@ -1322,7 +1444,9 @@
 >Cet algorithme nécessite un peu de connaissance pour le configurer correctement. Il existe quantité d'information sur Internet.</para>
 
     <para
->L'idée de l'onglet CFZ est de débuter avec les données du train optique de l'onglet de mise au point et utilise cela pour calculer la CFZ. L'opérateur peut ajuster les paramètres pour simuler des modèles de scénarios pour voir comment cela affecte la CFZ.</para>
+>L'idée de l'onglet CFZ est de débuter avec les données du train optique de l'onglet de mise au point et utilise cela pour calculer la CFZ. L'opérateur peut ajuster les paramètres pour simuler des modèles de scénarios pour voir comment cela affecte la CFZ. Le bouton <guilabel
+>Réinitialiser à OT</guilabel
+> permet de réinitialiser les valeurs à celle du train optique.</para>
 
     <para
 >Si la case <guilabel
@@ -1332,7 +1456,7 @@
 >Mécanique de la mise au point </screeninfo>
       <mediaobject
 > <imageobject
-> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="75%"/>
+> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="50%"/>
         </imageobject
 ><textobject
 ><phrase
@@ -1342,9 +1466,9 @@
     </screenshot
 ></para>
     <para
->Il est nécessaire de spécifier le paramètre <guilabel
+>Il est nécessaire d'indiquer la <guilabel
 >Taille de pas</guilabel
-> qui précise la distance en microns du déplacement du moteur de mise au point.</para>
+> (en microns) qui précise la distance d'un pas par rapport au plan focal. La relation est normalement linéaire pour les réfracteurs entre les déplacements du tube et l'éloignement du plan focal. Veuillez vous référer aux données de votre télescope pour obtenir cette information.</para>
 
     <para
 >Les algorithmes suivants sont disponibles : <itemizedlist>
@@ -1516,7 +1640,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_advisor.png" format="PNG" width="50%"/>
+          <imagedata fileref="focus_advisor.png" format="PNG" width="33%"/>
         </imageobject>
 
         <textobject>
@@ -1527,7 +1651,7 @@
     </screenshot>
 
     <para
->Ceci est le panneau du conseiller de mise au point. C'est une fonctionnalité expérimentale d'assistance à la gestion des paramètres de mise au point.</para>
+>Ceci est le panneau du conseiller de mise au point. C'est une fonctionnalité d'assistance à la gestion des paramètres de mise au point.</para>
 
     <para
 >Le but de ce conseiller de mise au point est d'aider les personnes qui ont des difficultés pour utiliser le module de mise au point d'Ekos. Ce module est riche en fonctionnalités et contient beaucoup de paramètres qui doivent être réglés de manière cohérente entre eux pour donner de bons résultats. Le conseiller est conçu pour aider à régler les paramètres de base pour obtenir la mise au point, mais n'est néanmoins pas conçu pour obtenir la meilleure mise au point possible pour votre équipement ; il sera donc nécessaire d'expérimenter avec votre montage pour obtenir cela. Mais cela est un bon point de départ pour ces tests.</para>
@@ -1537,7 +1661,7 @@
     <para
 >Si le conseiller de mise au point ne donne pas de bons résultats, pourquoi ne pas ouvrir une discussion sur le forum afin de permettre de l'améliorer pour donner de meilleurs résultats dans le futur ? Cela permettra de l'améliorer avec le temps.</para>
     <para
->En cliquant sur l'onglet du conseiller de mise au point, une série de paramètres est recommandée, fondée sur le train optique que vous êtes en train d'utiliser dans le module de mise au point.</para>
+>En cliquant sur le bouton du conseiller de mise au point, une série de paramètres est recommandée, fondée sur le train optique que vous êtes en train d'utiliser dans le module de mise au point.</para>
     <para
 >En haut du panneau est affiché de l'information concernant le train optique utilisé. Ensuite, six lignes sont affichées liées aux différents ensembles de paramètres utilisés par le module de mise au point. Et à côté de chaque ligne il y a une case à cocher permettant d'utiliser les données des recommandations du conseiller pour les champs de mise au point associés.</para>
     <para
@@ -1548,7 +1672,7 @@
     <para
 ><guilabel
 >Taille de pas</guilabel
-> : c'est la taille de pas recommandée, qui est un paramètre critique. La valeur vient du panneau de la zone critique de mise au point (CFZ). Ainsi, la première chose à faire est de configurer ce panneau et y mettre une valeur raisonnable pour la CFZ. Alternativement, si vous avez obtenu une bonne valeur pour votre équipement d'autres sources, vous pouvez simplement la saisir ici.</para>
+> : c'est la taille de pas recommandée, qui est un paramètre critique. La valeur provient de la boîte de dialogue de la zone critique de mise au point (CFZ). Ainsi, la première chose à faire est de configurer ce panneau et y mettre une valeur raisonnable pour la CFZ. Alternativement, si vous avez obtenu une bonne valeur pour votre équipement d'autres sources, vous pouvez simplement la saisir ici.</para>
     </listitem>
 
     <listitem>
@@ -1570,7 +1694,7 @@
     <listitem>
     <para
 ><guilabel
->Paramètres de l'onglet des réglages</guilabel
+>Paramètres des réglages</guilabel
 > : ce sont les paramètres du panneau des <link linkend="focus-settings"
 >Réglages de la mise au point</link
 > de l'écran de mise au point. En survolant cette étiquette avec la souris, vous pouvez voir dans l'info-bulle les valeurs recommandées par le conseiller de mise au point.</para>
@@ -1579,7 +1703,7 @@
     <listitem>
     <para
 ><guilabel
->Paramètres de l'onglet du processus</guilabel
+>Paramètres du processus</guilabel
 > : ce sont les paramètres du panneau du <link linkend="focus-process"
 >Processus de mise au point</link
 > de l'écran de mise au point. En survolant cette étiquette avec la souris, vous pouvez voir dans l'info-bulle les valeurs recommandées par le conseiller de mise au point.</para>
@@ -1588,7 +1712,7 @@
     <listitem>
     <para
 ><guilabel
->Paramètres de l'onglet de la mécanique</guilabel
+>Paramètres de la mécanique</guilabel
 > : ce sont les paramètres du panneau de la <link linkend="focus-mechanics"
 >Mécanique de la mise au point</link
 > de l'écran de mise au point. En survolant cette étiquette avec la souris, vous pouvez voir dans l'info-bulle les valeurs recommandées par le conseiller de mise au point.</para>
@@ -2505,7 +2629,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="75%"/>
+          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="50%"/>
         </imageobject>
 
         <textobject>
@@ -2522,7 +2646,7 @@
 >L'idée derrière la mise au point adaptative est d'ajuster la mise au point en tenant compte des changements de facteurs environnementaux pour essayer de prendre des poses le plus près possible de la position optimale. L'effet est similaire à une mise au point automatique mais sans la charge de la faire vraiment.</para>
 
     <para
->La MaPA est complémentaire aux différents déclencheurs de mise au point automatique qui sont disponibles dans Ekos. Il est ainsi inutile de les modifier pour utiliser la MaPA. D'ailleurs, comme cette fonctionnalité est encore expérimentale, il n'est pas recommandé d'assouplir les conditions de mise au point automatique quand on veut utiliser la MaPA. Toutefois, au fil du temps et de la confiance grandissante en cette méthode, il sera possible de faire moins de mise au point automatique (et ainsi plus d'imagerie). Quoiqu'il en soit, chaque image devrait être plus nette en utilisant la MaPA si la configuration est correcte. </para>
+>La MaPA est complémentaire aux différents déclencheurs de mise au point automatique qui sont disponibles dans Ekos. Il est ainsi inutile de les modifier pour utiliser la MaPA. D'ailleurs il n'est pas recommandé d'assouplir les conditions de mise au point automatique quand on veut utiliser la MaPA. Toutefois, au fil du temps et de la confiance grandissante en cette méthode, il sera possible de faire moins de mise au point automatique (et ainsi plus d'imagerie). Quoiqu'il en soit, chaque image devrait être plus nette en utilisant la MaPA si la configuration est correcte. </para>
 
     <para
 >Mais comment savoir si la MaPA est utile avec son équipement ? Peut-être que la méthode la plus simple est d'étudier les images prises juste après une mise au point automatique et de les comparer avec des images prises juste avant la prochaine mise au point automatique. Pouvez-vous voir une différence de netteté ? Si vous possédez un équipement dont le point focal est tolérant aux changements environnementaux entre des mises au point automatiques, alors la MaPA ne va probablement rien vous apporter de substantiel ; dans le cas contraire où la fréquence de mise au point automatique est un compromis entre la qualité des images et le temps d'imagerie, alors il se peut bien que la MaPA va améliorer la qualité des images.</para>
@@ -2637,7 +2761,9 @@
 >. Cette fonctionnalité est disponible pour l'algorithme linéaire à 1 passe. En substance, ce coefficient R² est un nombre entre 0 et 1, avec 1 signifiant que tous les points se trouvent sur la courbe et 0 signifiant qu'il n'y a pas de corrélation entre les points et la courbe. L'utilisateur devrait expérimenter avec son matériel pour sentir quelle valeur peut être obtenue, mais toute valeur au-dessus d'environ 0,9 traduit une bonne régression.</para>
 
     <para
->Il y a une option pour régler la « limite R² » dans l'onglet des réglages de la fenêtre de mise au point qui est comparée au R² calculé après le processus de mise au point. Si cette limite n'a pas été atteinte, le processus est relancé.</para>
+>Il y a une option pour régler la « limite R² » dans les <link linkend="focus-settings"
+>réglages de mise au point</link
+> qui est comparée au R² calculé après le processus de mise au point. Si cette limite n'a pas été atteinte, le processus est relancé.</para>
 
     <para
 >Régler une limite pour R² peut être utile pour les observatoires automatisés si la procédure de mise au point donne de mauvais résultats pour une raison isolée. Évidemment, si la raison n'est pas transitoire, une relance du processus n'apportera aucun gain.</para>
@@ -2722,8 +2848,10 @@
     <para
 >L'inspecteur d'aberration est un outil utilisant la mise au point automatique pour analyser le backfocus et l'inclinaison du capteur du train optique.</para>
     <para
->Pour exécuter l'inspecteur d'aberration, veuillez cliquer sur le bouton de l'inspecteur du module de mise au point situé près du bouton de mise au point automatique. Reportez-vous au <link linkend="focus-focuser-group"
->Groupe de mise au point</link
+>Pour exécuter l'inspecteur d'aberration, veuillez cliquer sur le bouton de l'<guibutton
+>Inspecteur d'aberration</guibutton
+>. Reportez-vous au <link linkend="focus-tools"
+>Outils de mise au point</link
 > pour davantage de détails. Les critères suivants doivent être remplis pour que l'outil fonctionne :</para>
 
     <itemizedlist>
@@ -2744,7 +2872,7 @@
 
       <listitem>
         <para
->La taille de pas du moteur de mise au point doit être réglée. Elle correspond au nombre de microns d'un pas de déplacement. Cela est réglé dans l'onglet CFZ. Reportez-vous à la <link linkend="focus-cfz"
+>La taille de pas du moteur de mise au point doit être réglée. Elle correspond au nombre de microns d'un pas de déplacement. Cela est réglé dans la boîte de dialogue de la CFZ. Reportez-vous à la <link linkend="focus-cfz"
 >section CFZ</link
 > pour davantage de détails.</para>
       </listitem>
