@@ -219,7 +219,7 @@ QStringList TestEkosCaptureHelper::serializeGeneralSettings(CaptureSettings sett
                         QString("<Observer>%1</Observer>").arg(settings.observer),
                         QString("<GuideDeviation enabled='%1'>%2</GuideDeviation>").arg(settings.guideDeviation.enabled ? "true" : "false").arg(settings.guideDeviation.value),
                         QString("<GuideStartDeviation enabled='%1'>%2</GuideStartDeviation>").arg(settings.startGuideDeviation.enabled ? "true" : "false").arg(settings.startGuideDeviation.value),
-                        QString("<Autofocus enabled='%1'>%2</Autofocus>").arg(settings.inSequenceFocus.enabled ? "true" : "false").arg(settings.inSequenceFocus.value),
+                        QString("<HFRCheck enabled='%1'><HFRDeviation>%2</HFRDeviation></HFRCheck>").arg(settings.inSequenceFocus.enabled ? "true" : "false").arg(settings.inSequenceFocus.value),
                         QString("<RefocusOnTemperatureDelta enabled='%1'>%2</RefocusOnTemperatureDelta>").arg(settings.autofocusOnTemperature.enabled ? "true" : "false").arg(settings.autofocusOnTemperature.value),
                         QString("<RefocusEveryN enabled='%1'>%2</RefocusEveryN>").arg(settings.refocusEveryN.enabled ? "true" : "false").arg(settings.refocusEveryN.value),
                         QString("<RefocusOnMeridianFlip enabled='%1'/>").arg(settings.refocusAfterMeridianFlip ? "true" : "false")});

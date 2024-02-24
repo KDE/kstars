@@ -1421,6 +1421,19 @@ void CaptureProcess::captureImage()
     auto placeholderPath = PlaceholderPath(state()->sequenceURL().toLocalFile());
     placeholderPath.setGenerateFilenameSettings(*activeJob());
     activeCamera()->setPlaceholderPath(placeholderPath);
+
+    // update remote filename and directory filling all placeholders
+    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+    {
+        auto remoteUpload = placeholderPath.generateSequenceFilename(*activeJob(), false, true, 1, "", "",  false, false);
+
+        auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
+        auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
+        auto remoteFilename = remoteUpload.mid(lastSeparator + 1);
+        activeJob()->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
+        activeJob()->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, remoteFilename);
+    }
+
     // now hand over the control of capturing to the sequence job. As soon as capturing
     // has started, the sequence job will report the result with the captureStarted() event
     // that will trigger Capture::captureStarted()
