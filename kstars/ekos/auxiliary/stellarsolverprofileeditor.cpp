@@ -376,8 +376,29 @@ void StellarSolverProfileEditor::loadProfiles()
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
         optionsList = getDefaultProfiles();
-    for(SSolver::Parameters params : optionsList)
-        optionsProfile->addItem(params.listName);
+    if (selectedProfileGroup == FocusProfiles)
+    {
+        bool defaultProfile = false;
+        bool defaultProfileDonut = false;
+        for(SSolver::Parameters params : optionsList)
+        {
+            optionsProfile->addItem(params.listName);
+            if (params.listName == FOCUS_DEFAULT_NAME)
+                defaultProfile = true;
+            else if (params.listName == FOCUS_DEFAULT_DONUT_NAME)
+                defaultProfileDonut = true;
+        }
+        if (!defaultProfile)
+        {
+            optionsList.append(getFocusOptionsProfileDefault());
+            optionsProfile->addItem(FOCUS_DEFAULT_NAME);
+        }
+        if (!defaultProfileDonut)
+        {
+            optionsList.append(getFocusOptionsProfileDefaultDonut());
+            optionsProfile->addItem(FOCUS_DEFAULT_DONUT_NAME);
+        }
+    }
     if(optionsList.count() > 0)
     {
         sendSettingsToUI(optionsList.at(0));

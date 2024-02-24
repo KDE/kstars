@@ -777,14 +777,13 @@ void CurveFitting::fitCurve(const FittingGoal goal, const QVector<int> &x_, cons
     m_x.clear();
     m_y.clear();
     m_scale.clear();
+    m_outliers.clear();
     for (int i = 0; i < x_.size(); ++i)
     {
-        if (!outliers_[i])
-        {
-            m_x.push_back(static_cast<double>(x_[i]));
-            m_y.push_back(y_[i]);
-            m_scale.push_back(weight_[i]);
-        }
+        m_x.push_back(static_cast<double>(x_[i]));
+        m_y.push_back(y_[i]);
+        m_scale.push_back(weight_[i]);
+        m_outliers.push_back(outliers_[i]);
     }
 
     m_useWeights = useWeights;
@@ -796,10 +795,10 @@ void CurveFitting::fitCurve(const FittingGoal goal, const QVector<int> &x_, cons
             m_coefficients = polynomial_fit(m_x.data(), m_y.data(), m_x.count(), 2);
             break;
         case FOCUS_HYPERBOLA :
-            m_coefficients = hyperbola_fit(goal, m_x, m_y, m_scale, useWeights, optDir);
+            m_coefficients = hyperbola_fit(goal, m_x, m_y, m_scale, m_outliers, useWeights, optDir);
             break;
         case FOCUS_PARABOLA :
-            m_coefficients = parabola_fit(goal, m_x, m_y, m_scale, useWeights, optDir);
+            m_coefficients = parabola_fit(goal, m_x, m_y, m_scale, m_outliers, useWeights, optDir);
             break;
         default :
             // Something went wrong, log an error and reset state so solver starts from scratch if called again
@@ -935,23 +934,25 @@ QVector<double> CurveFitting::polynomial_fit(const double *const data_x, const d
 }
 
 QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
-        const QVector<double> data_weights, const bool useWeights, const OptimisationDirection optDir)
+        const QVector<double> data_weights, const QVector<bool> outliers, const bool useWeights, const OptimisationDirection optDir)
 {
     QVector<double> vc;
     DataPointT dataPoints;
 
-    auto weights = gsl_vector_alloc(data_weights.size());
     // Fill in the data to which the curve will be fitted
     dataPoints.useWeights = useWeights;
+    dataPoints.dir = optDir;
     for (int i = 0; i < data_x.size(); i++)
-        dataPoints.push_back(data_x[i], data_y[i], data_weights[i]);
+        if (!outliers[i])
+            dataPoints.push_back(data_x[i], data_y[i], data_weights[i]);
 
+    auto weights = gsl_vector_alloc(dataPoints.dps.size());
     // Set the gsl error handler off as it aborts the program on error.
     auto const oldErrorHandler = gsl_set_error_handler_off();
 
     // Setup variables to be used by the solver
     gsl_multifit_nlinear_parameters params = gsl_multifit_nlinear_default_parameters();
-    gsl_multifit_nlinear_workspace *w = gsl_multifit_nlinear_alloc(gsl_multifit_nlinear_trust, &params, data_x.size(),
+    gsl_multifit_nlinear_workspace *w = gsl_multifit_nlinear_alloc(gsl_multifit_nlinear_trust, &params, dataPoints.dps.size(),
                                         NUM_HYPERBOLA_PARAMS);
     gsl_multifit_nlinear_fdf fdf;
     gsl_vector *guess = gsl_vector_alloc(NUM_HYPERBOLA_PARAMS);
@@ -962,7 +963,7 @@ QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<doub
     fdf.f = hypFx;
     fdf.df = hypJx;
     fdf.fvv = hypFxx;
-    fdf.n = data_x.size();
+    fdf.n = dataPoints.dps.size();
     fdf.p = NUM_HYPERBOLA_PARAMS;
     fdf.params = &dataPoints;
 
@@ -1004,13 +1005,13 @@ QVector<double> CurveFitting::hyperbola_fit(FittingGoal goal, const QVector<doub
     for (int attempt = 0; attempt < 5; attempt++)
     {
         // Make initial guesses
-        hypMakeGuess(attempt, data_x, data_y, optDir, guess);
+        hypMakeGuess(attempt, dataPoints, guess);
 
         // Load up the weights and guess vectors
         if (useWeights)
         {
-            for (int i = 0; i < data_weights.size(); i++)
-                gsl_vector_set(weights, i, data_weights[i]);
+            for (int i = 0; i < dataPoints.dps.size(); i++)
+                gsl_vector_set(weights, i, dataPoints.dps[i].weight);
             gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
         }
         else
@@ -1152,15 +1153,8 @@ void CurveFitting::hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
 // If we found a solution before and we're just adding more datapoints use the last solution as the guess.
 // If we don't have a solution use the datapoints to approximate. Work out the min and max points and use these
 // to find "close" values for the starting point parameters
-void CurveFitting::hypMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
-                                const OptimisationDirection optDir, gsl_vector * guess)
+void CurveFitting::hypMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess)
 {
-    if (inX.size() < 1 || inX.size() != inY.size())
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Bad call to hypMakeGuess: inX.size=%1, inY.size=%2").arg(inX.size()).arg(inY.size());
-        return;
-    }
-
     // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
     // will be nudged to find a solution this time
     double perturbation = 1.0 + pow(-1, attempt) * (attempt * 0.1);
@@ -1175,27 +1169,27 @@ void CurveFitting::hypMakeGuess(const int attempt, const QVector<double> inX, co
     }
     else
     {
-        double minX = inX[0];
-        double minY = inY[0];
+        double minX = dataPoints.dps[0].x;
+        double minY = dataPoints.dps[0].y;
         double maxX = minX;
         double maxY = minY;
-        for(int i = 0; i < inX.size(); i++)
+        for(int i = 0; i < dataPoints.dps.size(); i++)
         {
-            if (inY[i] <= 0.0)
+            if (dataPoints.dps[i].y <= 0.0)
                 continue;
-            if(minY <= 0.0 || inY[i] < minY)
+            if(minY <= 0.0 || dataPoints.dps[i].y < minY)
             {
-                minX = inX[i];
-                minY = inY[i];
+                minX = dataPoints.dps[i].x;
+                minY = dataPoints.dps[i].y;
             }
-            if(maxY <= 0.0 || inY[i] > maxY)
+            if(maxY <= 0.0 || dataPoints.dps[0].y > maxY)
             {
-                maxX = inX[i];
-                maxY = inY[i];
+                maxX = dataPoints.dps[i].x;
+                maxY = dataPoints.dps[i].y;
             }
         }
         double A, B, C, D;
-        if (optDir == OPTIMISATION_MAXIMISE)
+        if (dataPoints.dir == OPTIMISATION_MAXIMISE)
         {
             // Hyperbola equation: y = f(x) = b * sqrt(1 + ((x - c) / a) ^2) + d
             // For a maximum: c = maximum x = x(max)
@@ -1256,23 +1250,25 @@ void CurveFitting::hypMakeGuess(const int attempt, const QVector<double> inX, co
 }
 
 QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
-        const QVector<double> data_weights, bool useWeights, const OptimisationDirection optDir)
+        const QVector<double> data_weights, const QVector<bool> outliers, bool useWeights, const OptimisationDirection optDir)
 {
     QVector<double> vc;
     DataPointT dataPoints;
 
-    auto weights = gsl_vector_alloc(data_weights.size());
     // Fill in the data to which the curve will be fitted
     dataPoints.useWeights = useWeights;
+    dataPoints.dir = optDir;
     for (int i = 0; i < data_x.size(); i++)
-        dataPoints.push_back(data_x[i], data_y[i], data_weights[i]);
+        if (!outliers[i])
+            dataPoints.push_back(data_x[i], data_y[i], data_weights[i]);
 
+    auto weights = gsl_vector_alloc(dataPoints.dps.size());
     // Set the gsl error handler off as it aborts the program on error.
     auto const oldErrorHandler = gsl_set_error_handler_off();
 
     // Setup variables to be used by the solver
     gsl_multifit_nlinear_parameters params = gsl_multifit_nlinear_default_parameters();
-    gsl_multifit_nlinear_workspace* w = gsl_multifit_nlinear_alloc (gsl_multifit_nlinear_trust, &params, data_x.size(),
+    gsl_multifit_nlinear_workspace* w = gsl_multifit_nlinear_alloc (gsl_multifit_nlinear_trust, &params, dataPoints.dps.size(),
                                         NUM_PARABOLA_PARAMS);
     gsl_multifit_nlinear_fdf fdf;
     gsl_vector * guess = gsl_vector_alloc(NUM_PARABOLA_PARAMS);
@@ -1283,7 +1279,7 @@ QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<doubl
     fdf.f = parFx;
     fdf.df = parJx;
     fdf.fvv = parFxx;
-    fdf.n = data_x.size();
+    fdf.n = dataPoints.dps.size();
     fdf.p = NUM_PARABOLA_PARAMS;
     fdf.params = &dataPoints;
 
@@ -1323,13 +1319,13 @@ QVector<double> CurveFitting::parabola_fit(FittingGoal goal, const QVector<doubl
     for (int attempt = 0; attempt < 5; attempt++)
     {
         // Make initial guesses - here we just set all parameters to 1.0
-        parMakeGuess(attempt, data_x, data_y, optDir, guess);
+        parMakeGuess(attempt, dataPoints, guess);
 
         // Load up the weights and guess vectors
         if (useWeights)
         {
-            for (int i = 0; i < data_weights.size(); i++)
-                gsl_vector_set(weights, i, data_weights[i]);
+            for (int i = 0; i < dataPoints.dps.size(); i++)
+                gsl_vector_set(weights, i, dataPoints.dps[i].weight);
             gsl_multifit_nlinear_winit(guess, weights, &fdf, w);
         }
         else
@@ -1456,15 +1452,8 @@ void CurveFitting::parSetupParams(FittingGoal goal, gsl_multifit_nlinear_paramet
 // If we found a solution before and we're just adding more datapoints use the last solution as the guess.
 // If we don't have a solution use the datapoints to approximate. Work out the min and max points and use these
 // to find "close" values for the starting point parameters
-void CurveFitting::parMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
-                                const OptimisationDirection optDir, gsl_vector * guess)
+void CurveFitting::parMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess)
 {
-    if (inX.size() < 1 || inX.size() != inY.size())
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Bad call to parMakeGuess: inX.size=%1, inY.size=%2").arg(inX.size()).arg(inY.size());
-        return;
-    }
-
     // If we are retrying then perturb the initial conditions. The hope is that by doing this the solver
     // will be nudged to find a solution this time
     double perturbation = 1.0 + pow(-1, attempt) * (attempt * 0.1);
@@ -1478,27 +1467,27 @@ void CurveFitting::parMakeGuess(const int attempt, const QVector<double> inX, co
     }
     else
     {
-        double minX = inX[0];
-        double minY = inY[0];
+        double minX = dataPoints.dps[0].x;
+        double minY = dataPoints.dps[0].y;
         double maxX = minX;
         double maxY = minY;
-        for(int i = 0; i < inX.size(); i++)
+        for(int i = 0; i < dataPoints.dps.size(); i++)
         {
-            if (inY[i] <= 0.0)
+            if (dataPoints.dps[i].y <= 0.0)
                 continue;
-            if(minY <= 0.0 || inY[i] < minY)
+            if(minY <= 0.0 || dataPoints.dps[i].y < minY)
             {
-                minX = inX[i];
-                minY = inY[i];
+                minX = dataPoints.dps[i].x;
+                minY = dataPoints.dps[i].y;
             }
-            if(maxY <= 0.0 || inY[i] > maxY)
+            if(maxY <= 0.0 || dataPoints.dps[i].y > maxY)
             {
-                maxX = inX[i];
-                maxY = inY[i];
+                maxX = dataPoints.dps[i].x;
+                maxY = dataPoints.dps[i].y;
             }
         }
         double A, B, C;
-        if (optDir == OPTIMISATION_MAXIMISE)
+        if (dataPoints.dir == OPTIMISATION_MAXIMISE)
         {
             // Equation y = f(x) = a + b((x - c) ^2)
             // For a maximum b < 0 and a > 0
@@ -2141,7 +2130,7 @@ bool CurveFitting::getGaussianParams(StarParams *starParams)
 double CurveFitting::calculateR2(CurveFit curveFit)
 {
     double R2 = 0.0;
-    QVector<double> dataPoints, curvePoints;
+    QVector<double> dataPoints, curvePoints, scalePoints;
     int i;
 
     switch (curveFit)
@@ -2161,11 +2150,17 @@ double CurveFitting::calculateR2(CurveFit curveFit)
             }
 
             for (i = 0; i < m_y.size(); i++)
-                // Load up the curvePoints vector
-                curvePoints.push_back(hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX],
-                                            m_coefficients[D_IDX]));
+                if (!m_outliers[i])
+                {
+                    // Load up the dataPoints and curvePoints vector, excluding any outliers
+                    dataPoints.push_back(m_y[i]);
+                    curvePoints.push_back(hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX],
+                                                m_coefficients[D_IDX]));
+                    scalePoints.push_back(m_scale[i]);
+                }
+
             // Do the actual R2 calculation
-            R2 = calcR2(m_y, curvePoints, m_scale, m_useWeights);
+            R2 = calcR2(dataPoints, curvePoints, scalePoints, m_useWeights);
             break;
 
         case FOCUS_PARABOLA :
@@ -2178,11 +2173,16 @@ double CurveFitting::calculateR2(CurveFit curveFit)
             }
 
             for (i = 0; i < m_y.size(); i++)
-                // Load up the curvePoints vector
-                curvePoints.push_back(parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX]));
+                if (!m_outliers[i])
+                {
+                    dataPoints.push_back(m_y[i]);
+                    // Load up the dataPoints and curvePoints vector, excluding any outliers
+                    curvePoints.push_back(parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX]));
+                    scalePoints.push_back(m_scale[i]);
+                }
 
             // Do the actual R2 calculation
-            R2 = calcR2(m_y, curvePoints, m_scale, m_useWeights);
+            R2 = calcR2(dataPoints, curvePoints, scalePoints, m_useWeights);
             break;
 
         case FOCUS_GAUSSIAN :
@@ -2290,9 +2290,9 @@ void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair
             }
 
             for (int i = 0; i < m_y.size(); i++)
-                curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
-                                                     m_coefficients[C_IDX],
-                                                     m_coefficients[D_IDX]))));
+                if (!m_outliers[i])
+                    curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                                                         m_coefficients[C_IDX], m_coefficients[D_IDX]))));
             break;
 
         case FOCUS_PARABOLA :
@@ -2304,8 +2304,9 @@ void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair
             }
 
             for (int i = 0; i < m_y.size(); i++)
-                curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
-                                                     m_coefficients[C_IDX]))));
+                if (!m_outliers[i])
+                    curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                                                         m_coefficients[C_IDX]))));
             break;
 
         case FOCUS_GAUSSIAN :

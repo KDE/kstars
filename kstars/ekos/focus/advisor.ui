@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>404</width>
-    <height>235</height>
+    <height>230</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,69 +47,23 @@
       <property name="verticalSpacing">
        <number>3</number>
       </property>
-      <item row="2" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QCheckBox" name="focusAdvOutStepMultiple">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Update</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0" colspan="2">
-       <widget class="QLabel" name="focusAdvCameraLabel">
-        <property name="text">
-         <string>Camera &amp; Filter Wheel Parameters</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="focusAdvOutStepMultLabel">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A good figure to start with is 5. An exception is if you have a scope with a central obstruction that turns stars to donuts when they are out of focus. When this happens the system will struggle to identify stars correctly. To avoid this situation reduce either the step size or the number of steps.&lt;/p&gt;&lt;p&gt;To check this situation, start at focus and move away by &amp;quot;step size&amp;quot; * &amp;quot;number of steps&amp;quot; steps. Take a focus frame and zoom in on the fitsviewer to see whether stars appear as stars or donuts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Out Step Multiple:</string>
-        </property>
-        <property name="buddy">
-         <cstring>focusAdvOutStepMult</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QCheckBox" name="focusAdvStepSize">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Update</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
        <widget class="QLabel" name="focusAdvSettingsLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>Settings Parameters</string>
+         <string>Settings Parameters:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QCheckBox" name="focusAdvMechanicsTab">
+      <item row="4" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QCheckBox" name="focusAdvProcessTab">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -122,33 +76,42 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QLabel" name="focusAdvProcessLabel">
-        <property name="text">
-         <string>Process Parameters</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="2">
-       <widget class="QPushButton" name="focusAdvReset">
+      <item row="2" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QCheckBox" name="focusAdvCamera">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update Focus Parameters to Focus Advisor suggestions where the associated Update box is checked.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <property name="text">
+         <string>Update</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QCheckBox" name="focusAdvSettingsTab">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="text">
-         <string>Update Params</string>
+         <string>Update</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="focusAdvSteps">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -167,6 +130,19 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="focusAdvProcessLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Process Parameters:</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0" colspan="3">
        <widget class="QLabel" name="focusAdvLabel">
         <property name="text">
@@ -174,33 +150,10 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QLabel" name="focusAdvMechanicsLabel">
-        <property name="text">
-         <string>Mechanics Parameters</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QCheckBox" name="focusAdvProcessTab">
+      <item row="6" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QCheckBox" name="focusAdvSEP">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Update</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QCheckBox" name="focusAdvCamera">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -214,7 +167,13 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_32">
+       <widget class="QLabel" name="focusAdvStepSizeLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Step size can be defaulted to the Critical Focus Zone. Make sure you configure the CFZ tab to give an appropriate value for your system.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -226,10 +185,10 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QCheckBox" name="focusAdvSettingsTab">
+      <item row="5" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QCheckBox" name="focusAdvMechanicsTab">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -242,10 +201,52 @@
         </property>
        </widget>
       </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QLabel" name="focusAdvMechanicsLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Mechanics Parameters:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QPushButton" name="focusAdvReset">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update Focus Parameters to Focus Advisor suggestions where the associated Update box is checked.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Update Params</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="focusAdvCameraLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Camera &amp; Filter Wheel Parameters:</string>
+        </property>
+       </widget>
+      </item>
       <item row="7" column="1">
        <widget class="QPushButton" name="focusAdvHelp">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -258,25 +259,32 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="focusAdvOutStepMult">
+      <item row="6" column="0" colspan="2">
+       <widget class="QLabel" name="focusAdvSEPLabel">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A good figure to start with is 5. An exception is if you have a scope with a central obstruction that turns stars to donuts when they are out of focus. When this happens the system will struggle to identify stars correctly. To avoid this situation reduce either the step size or the number of steps.&lt;/p&gt;&lt;p&gt;To check this situation, start at focus and move away by &amp;quot;step size&amp;quot; * &amp;quot;number of steps&amp;quot; steps. Take a focus frame and zoom in on the fitsviewer to see whether stars appear as stars or donuts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <property name="text">
+         <string>SEP Parameters:</string>
         </property>
-        <property name="minimum">
-         <number>3</number>
+       </widget>
+      </item>
+      <item row="1" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QCheckBox" name="focusAdvStepSize">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="maximum">
-         <number>10</number>
+        <property name="text">
+         <string>Update</string>
         </property>
-        <property name="value">
-         <number>5</number>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -311,12 +319,11 @@
  <tabstops>
   <tabstop>focusAdvSteps</tabstop>
   <tabstop>focusAdvStepSize</tabstop>
-  <tabstop>focusAdvOutStepMult</tabstop>
-  <tabstop>focusAdvOutStepMultiple</tabstop>
   <tabstop>focusAdvCamera</tabstop>
   <tabstop>focusAdvSettingsTab</tabstop>
   <tabstop>focusAdvProcessTab</tabstop>
   <tabstop>focusAdvMechanicsTab</tabstop>
+  <tabstop>focusAdvSEP</tabstop>
   <tabstop>focusAdvHelp</tabstop>
   <tabstop>focusAdvReset</tabstop>
  </tabstops>

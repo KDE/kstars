@@ -1168,20 +1168,15 @@ int LinearFocusAlgorithm::finishFirstPass(int position, double value)
                                      curveDeltasX2Vec);
 
             // Order the curveDeltas, highest first, then check against the limit
-            // Remove points over the limit, but don't remove too many points to compromise the curve
-            double maxOutliers;
-            if (curveDeltas.size() < 7)
-                maxOutliers = 1;
-            else if (curveDeltas.size() < 11)
-                maxOutliers = 2;
-            else
-                maxOutliers = 3;
+            // Remove points over the limit, but don't remove too many points to compromise the curve.
+            double outlierRejection = params.donutBuster ? params.outlierRejection : 0.2;
+            int maxOutliers = curveDeltas.size() * outlierRejection;
 
             double modelUnknowns = params.curveFit == CurveFitting::FOCUS_PARABOLA ? 3.0 : 4.0;
 
             // Use Peirce's Criterion to get the outlier threshold
             // Note this operates on the square of the curve deltas
-            double pc = peirce_criterion(static_cast<double> (curveDeltas.size()), maxOutliers, modelUnknowns);
+            double pc = peirce_criterion(static_cast<double>(curveDeltas.size()), static_cast<double>(maxOutliers), modelUnknowns);
             double pc_threshold = sqrt(pc * curveDeltasX2Mean);
 
             // Sort the curve deltas, largest first

@@ -667,6 +667,13 @@ class Focus : public QWidget, public Ui::Focus
          */
         void setDonutBuster();
 
+        /**
+         * @brief addMissingStellarSolverProfiles
+         * @param profile to add
+         * @param profilePath file pathname
+         */
+        void addMissingStellarSolverProfile(const QString profilesPath, const QString profile);
+
         // HFR Plot
         void initPlots();
 
@@ -752,7 +759,7 @@ class Focus : public QWidget, public Ui::Focus
         void focusAdvisorSetup();
 
         // Update parameters based on Focus Advisor recommendations
-        void focusAdvisorAction();
+        void focusAdvisorAction(bool forceAll);
 
         // Update parameters based on Focus Advisor recommendations
         void focusAdvisorHelp();
@@ -872,8 +879,20 @@ class Focus : public QWidget, public Ui::Focus
 
         /**
          * @brief Initialise donut processing
+         * @return whether scanStartPos has been kicked off
          */
-        void initDonutProcessing();
+        bool initDonutProcessing();
+
+        /**
+         * @brief Setup Linear Focuser
+         * @param initialPosition of the focuser
+         */
+        void setupLinearFocuser(int initialPosition);
+
+        /**
+         * @brief Process the scan for the Autofocus starting position
+         */
+        void scanStartPos();
 
         /**
          * @brief Reset donut processing
@@ -998,6 +1017,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Keep track of what we're doing right now
         bool inAutoFocus { false };
         bool inFocusLoop { false };
+        bool inScanStartPos { false };
         //bool inSequenceFocus { false };
         /// Keep track of request to retry or abort an AutoFocus run after focus position has been reset
         /// RESTART_NONE = normal operation, no restart
@@ -1215,6 +1235,7 @@ class Focus : public QWidget, public Ui::Focus
 
         // Settings tab
         bool FAAutoSelectStar = true;
+        bool FAFullFrame = true;
         bool FADarkFrame = false;
         double FAFullFieldInnerRadius = 0.0;
         double FAFullFieldOuterRadius = 80.0;
@@ -1231,10 +1252,15 @@ class Focus : public QWidget, public Ui::Focus
         double FAFocusR2Limit = 0.8;
         bool FAFocusRefineCurveFit = false;
         int FAFocusFramesCount = 1;
+        bool FADonutBuster = false;
+        double FATimeDilation = 1.0;
+        double FAOutlierRejection = 0.2;
+        bool FAScanForStartPosition = false;
 
         // Mechanics tab
         FocusWalk FAFocusWalk = FOCUS_WALK_CLASSIC;
         double FAFocusSettleTime = 1.0;
+        int FAFocusNumSteps = 11;
         double FAFocusMaxTravel = 0;
         int FAFocusCaptureTimeout = 30;
         int FAFocusMotionTimeout = 30;
@@ -1251,5 +1277,8 @@ class Focus : public QWidget, public Ui::Focus
 
         // Donut Buster
         double m_donutOrigExposure = 0.0;
+        QVector<int> m_scanPosition;
+        QVector<double> m_scanMeasure;
+        QString m_AFfilter = NULL_FILTER;
 };
 }

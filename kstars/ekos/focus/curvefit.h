@@ -223,10 +223,10 @@ class CurveFitting
         QVector<double> polynomial_fit(const double *const data_x, const double *const data_y, const int n, const int order);
 
         QVector<double> hyperbola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
-                                      const QVector<double> weights, bool useWeights, const OptimisationDirection optDir);
+                                      const QVector<double> weights, const QVector<bool> outliers, bool useWeights, const OptimisationDirection optDir);
         QVector<double> parabola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
                                      const QVector<double> data_weights,
-                                     bool useWeights, const OptimisationDirection optDir);
+                                     const QVector<bool> outliers, bool useWeights, const OptimisationDirection optDir);
         QVector<double> gaussian_fit(DataPoint3DT data, const StarParams &starParams);
         QVector<double> plane_fit(const DataPoint3DT data);
 
@@ -237,14 +237,11 @@ class CurveFitting
                             const OptimisationDirection optDir);
         bool getGaussianParams(StarParams *starParams);
 
-        void hypMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
-                          const OptimisationDirection optDir, gsl_vector * guess);
+        void hypMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess);
         void hypSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol,
                             double *ftol);
 
-        void parMakeGuess(const int attempt, const QVector<double> inX, const QVector<double> inY,
-                          const OptimisationDirection optDir,
-                          gsl_vector * guess);
+        void parMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess);
         void parSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol,
                             double *ftol);
         void gauMakeGuess(const int attempt, const StarParams &starParams, gsl_vector * guess);
@@ -266,6 +263,7 @@ class CurveFitting
         CurveFit m_CurveType;
         // The data values.
         QVector<double> m_x, m_y, m_scale;
+        QVector<bool> m_outliers;
         // Use weights or not
         bool m_useWeights;
         DataPoint3DT m_dataPoints;

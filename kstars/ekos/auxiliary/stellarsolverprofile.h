@@ -11,6 +11,8 @@
 
 namespace Ekos
 {
+const QString FOCUS_DEFAULT_NAME = "1-Focus-Default";
+const QString FOCUS_DEFAULT_DONUT_NAME = "1-Focus-Default-Donut";
 typedef enum
 {
     AlignProfiles,
@@ -23,4 +25,6 @@ QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles();
 QList<SSolver::Parameters> getDefaultAlignOptionsProfiles();
 QList<SSolver::Parameters> getDefaultHFROptionsProfiles();
+SSolver::Parameters getFocusOptionsProfileDefault();
+SSolver::Parameters getFocusOptionsProfileDefaultDonut();
 }
