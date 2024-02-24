@@ -477,11 +477,27 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_SAVE_SEQUENCE_FILE])
     {
-        capture->saveSequenceQueue(payload["filepath"].toString());
+        if (capture->saveSequenceQueue(payload["filepath"].toString()))
+            sendResponse(commands[CAPTURE_SAVE_SEQUENCE_FILE], QString::fromUtf8(QFile(payload["filepath"].toString()).readAll()));
     }
     else if (command == commands[CAPTURE_LOAD_SEQUENCE_FILE])
     {
-        capture->loadSequenceQueue(payload["filepath"].toString());
+        QString path;
+        if (payload.contains("filedata"))
+        {
+            QTemporaryFile file;
+            if (file.open())
+            {
+                path = file.fileName();
+                file.write(payload["filedata"].toString().toUtf8());
+                file.close();
+            }
+        }
+        else
+            path = payload["filepath"].toString();
+
+        if (!path.isEmpty())
+            capture->loadSequenceQueue(path);
     }
     else if (command == commands[CAPTURE_GET_CALIBRATION_SETTINGS])
     {
