@@ -72,7 +72,10 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
                                      10000 +  1000 * capture->captureExposureN->value());
     // now move the focuser twice to increase the HFR
+    KTRY_GADGET(manager->focusModule(), QPushButton, focusOutB);
+    QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
+    QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
     // check if focusing has started, latest after two more frames
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
@@ -109,7 +112,10 @@ void TestEkosCaptureWorkflow::testCaptureRefocusTemperature()
     // now change the temperature on the focuser
     SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_FocuserDevice, "FOCUS_TEMPERATURE", "TEMPERATURE", -2 * deltaT);
 
+    KTRY_GADGET(manager->focusModule(), QPushButton, focusOutB);
+    QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
+    QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
     // check if focusing has started, latest after two more frames
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
@@ -601,6 +607,8 @@ void TestEkosCaptureWorkflow::testLightPanelSource()
 {
     // use the light panel simulator
     m_CaptureHelper->m_LightPanelDevice = "Light Panel Simulator";
+    // ensure that we know that the CCD has a shutter
+    m_CaptureHelper->ensureCCDShutter(true);
     // default initialization
     QVERIFY(prepareTestCase());
 
@@ -1018,7 +1026,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()
     KTRY_SET_DOUBLESPINBOX(capture, startGuiderDriftN, 0.0);
     KTRY_SET_CHECKBOX(capture, startGuiderDriftS, !settings.startGuideDeviation.enabled);
     KTRY_SET_DOUBLESPINBOX(capture, limitFocusHFRN, 0.1);
-    KTRY_SET_CHECKBOX(capture, limitFocusHFRS, !settings.guideDeviation.enabled);
+    KTRY_SET_CHECKBOX(capture, limitFocusHFRS, !settings.inSequenceFocus.enabled);
     KTRY_SET_DOUBLESPINBOX(capture, limitFocusDeltaTN, 0.2);
     KTRY_SET_CHECKBOX(capture, limitFocusDeltaTS, !settings.autofocusOnTemperature.enabled);
     KTRY_SET_SPINBOX(capture, limitRefocusN, 100);

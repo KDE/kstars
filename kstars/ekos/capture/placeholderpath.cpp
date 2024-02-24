@@ -122,37 +122,12 @@ void PlaceholderPath::processJobInfo(SequenceJob *job)
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 
-void PlaceholderPath::addJob(SequenceJob *job, const QString &targetName)
+void PlaceholderPath::updateFullPrefix(SequenceJob *job, const QString &targetName)
 {
-    auto frameType = job->getFrameType();
-    auto frameTypeString = getFrameType(job->getFrameType());
     QString imagePrefix = KSUtils::sanitize(targetName);
+    QString fullPrefix = constructPrefix(job, imagePrefix);
 
-    const auto isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
-    if (isDarkFlat)
-        frameTypeString = "DarkFlat";
-
-    QString tempPrefix = constructPrefix(job, imagePrefix);
-
-    job->setCoreProperty(SequenceJob::SJ_FullPrefix, tempPrefix);
-
-    QString directoryPostfix;
-
-    const auto filterName = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
-
-    /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
-    if (targetName.isEmpty())
-        directoryPostfix = QDir::separator() + frameTypeString;
-    else
-        directoryPostfix = QDir::separator() + imagePrefix + QDir::separator() + frameTypeString;
-
-
-    if ((frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE || isDarkFlat)
-            &&  filterName.isEmpty() == false)
-        directoryPostfix += QDir::separator() + filterName;
-
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, directoryPostfix);
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, directoryPostfix);
+    job->setCoreProperty(SequenceJob::SJ_FullPrefix, fullPrefix);
 }
 
 QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &imagePrefix)
@@ -448,12 +423,17 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         {
             if (glob)
                 replacement = "(?<id>\\d+)";
-            else
+            else if (local)
             {
                 int level = 0;
                 if (!match.captured("level").isEmpty())
                     level = match.captured("level").toInt();
                 replacement = QString("%1").arg(nextSequenceID, level, 10, QChar('0'));
+            }
+            else
+            {
+                // fix string for remote, ID is set remotely
+                replacement = "XXX";
             }
         }
         else

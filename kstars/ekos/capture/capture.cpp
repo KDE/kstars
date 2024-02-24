@@ -3753,27 +3753,12 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
     job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->limitDitherFrequencyN->value());
 
     auto placeholderPath = PlaceholderPath();
-    placeholderPath.addJob(job, placeholderFormatT->text());
+    placeholderPath.updateFullPrefix(job, placeholderFormatT->text());
 
     QString signature = placeholderPath.generateSequenceFilename(*job,
                         filenamePreview != REMOTE_PREVIEW, true, 1,
                         ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
-
-    auto remoteUpload = placeholderPath.generateSequenceFilename(*job,
-                        false,
-                        true,
-                        1,
-                        ".fits",
-                        "",
-                        false,
-                        true);
-
-    auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
-    auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
-    auto remoteFilename = QString("%1_XXX").arg(remoteUpload.mid(lastSeparator + 1));
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
-    job->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, remoteFilename);
 }
 
 void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
