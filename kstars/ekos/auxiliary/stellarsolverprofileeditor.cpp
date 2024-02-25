@@ -553,11 +553,15 @@ void StellarSolverProfileEditor::slotApply()
 {
     int index = optionsProfile->currentIndex();
     SSolver::Parameters currentParams = getSettingsFromUI();
-    SSolver::Parameters savedParams = optionsList.at(index);
-    if(!(currentParams == savedParams) || currentParams.description != savedParams.description)
+
+    if (index >= 0 && index < optionsList.count())
     {
-        currentParams.listName = savedParams.listName;
-        optionsList.replace(index, currentParams);
+        SSolver::Parameters savedParams = optionsList.at(index);
+        if(!(currentParams == savedParams) || currentParams.description != savedParams.description)
+        {
+            currentParams.listName = savedParams.listName;
+            optionsList.replace(index, currentParams);
+        }
     }
     optionsAreSaved = true;
 
