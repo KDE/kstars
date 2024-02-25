@@ -2907,7 +2907,7 @@ bool Focus::autoFocusChecks()
 {
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
-        appendLogText(i18n("Autofocus failed: excceded max iterations %1", MAXIMUM_ABS_ITERATIONS));
+        appendLogText(i18n("Autofocus failed: exceeded max iterations %1", MAXIMUM_ABS_ITERATIONS));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return false;
     }

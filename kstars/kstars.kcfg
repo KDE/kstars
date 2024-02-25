@@ -1830,7 +1830,7 @@
       </entry>
       <entry name="CalibrationSkyFlat" type="Bool">
          <label>Sky Flat</label>
-         <whatsthis>When shoting flats on sky with changing intensity.</whatsthis>
+         <whatsthis>When shooting flats on sky with changing intensity.</whatsthis>
          <default>false</default>
       </entry>
       <entry name="CalibrationPreActionIndex" type="UInt">
