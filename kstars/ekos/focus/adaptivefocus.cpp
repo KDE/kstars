@@ -274,6 +274,9 @@ void AdaptiveFocus::adaptiveFocusAdmin(const int currentPosition, const bool suc
 // Get the filter to use for Adaptive Focus
 QString AdaptiveFocus::getAdaptiveFilter(const QString filter)
 {
+    if (!m_focus->m_FilterManager)
+        return QString();
+
     // If the active filter has a lock filter use that
     QString adaptiveFilter = filter;
     QString lockFilter = m_focus->m_FilterManager->getFilterLock(filter);
@@ -287,6 +290,9 @@ QString AdaptiveFocus::getAdaptiveFilter(const QString filter)
 int AdaptiveFocus::getAdaptiveFilterOffset(const QString &activeFilter, const QString &adaptiveFilter)
 {
     int offset = 0;
+    if (!m_focus->m_FilterManager)
+        return offset;
+
     if (activeFilter != adaptiveFilter)
     {
         int activeOffset = m_focus->m_FilterManager->getFilterOffset(activeFilter);
