@@ -1421,6 +1421,19 @@ void CaptureProcess::captureImage()
     auto placeholderPath = PlaceholderPath(state()->sequenceURL().toLocalFile());
     placeholderPath.setGenerateFilenameSettings(*activeJob());
     activeCamera()->setPlaceholderPath(placeholderPath);
+
+    // update remote filename and directory filling all placeholders
+    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+    {
+        auto remoteUpload = placeholderPath.generateSequenceFilename(*activeJob(), false, true, 1, "", "",  false, false);
+
+        auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
+        auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
+        auto remoteFilename = remoteUpload.mid(lastSeparator + 1);
+        activeJob()->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
+        activeJob()->setCoreProperty(SequenceJob::SJ_RemoteFormatFilename, remoteFilename);
+    }
+
     // now hand over the control of capturing to the sequence job. As soon as capturing
     // has started, the sequence job will report the result with the captureStarted() event
     // that will trigger Capture::captureStarted()
@@ -2152,6 +2165,15 @@ double CaptureProcess::calculateFlatExpTime(double currentADU)
     double nextExposure = 0;
     double targetADU    = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
     std::vector<double> coeff;
+
+    // limit number of points to two so it can calibrate in intesity changing enviroment like shoting flats
+    // at dawn/sunrise sky
+    if(activeJob()->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() && ExpRaw.size() > 2)
+    {
+        int remove = ExpRaw.size() - 2;
+        ExpRaw.remove(0, remove);
+        ADURaw.remove(0, remove);
+    }
 
     // Check if saturated, then take shorter capture and discard value
     ExpRaw.append(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());

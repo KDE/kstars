@@ -33,6 +33,7 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     wallCoord().setAz(Options::calibrationWallAz());
     wallCoord().setAlt(Options::calibrationWallAlt());
     setTargetADU(Options::calibrationADUValue());
+    setSkyFlat(Options::calibrationSkyFlat());
 }
 
 QList<SequenceJob *> &CaptureModuleState::allJobs()
@@ -1205,6 +1206,7 @@ QJsonObject CaptureModuleState::calibrationSettings()
         {"al", wallCoord().alt().Degrees()},
         {"adu", targetADU()},
         {"tolerance", targetADUTolerance()},
+        {"skyflat", skyFlat()},
     };
 
     return settings;
@@ -1218,6 +1220,7 @@ void CaptureModuleState::setCalibrationSettings(const QJsonObject &settings)
     const double al = settings["al"].toDouble(wallCoord().alt().Degrees());
     const int adu = settings["adu"].toInt(static_cast<int>(std::round(targetADU())));
     const int tolerance = settings["tolerance"].toInt(static_cast<int>(std::round(targetADUTolerance())));
+    const int skyflat = settings["skyflat"].toBool();
 
     setCalibrationPreAction(static_cast<CalibrationPreActions>(preAction));
     setFlatFieldDuration(static_cast<FlatFieldDuration>(duration));
@@ -1225,6 +1228,7 @@ void CaptureModuleState::setCalibrationSettings(const QJsonObject &settings)
     wallCoord().setAlt(al);
     setTargetADU(adu);
     setTargetADUTolerance(tolerance);
+    setSkyFlat(skyflat);
 }
 
 bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)

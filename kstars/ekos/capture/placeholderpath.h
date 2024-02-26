@@ -65,7 +65,7 @@ class PlaceholderPath
          * @param sequence job to be processed
          * @param targetname name of the celestial target
          */
-        void addJob(SequenceJob *job, const QString &targetName);
+        void updateFullPrefix(SequenceJob *job, const QString &targetName);
 
         /**
          * @brief constructPrefix creates the prefix for the SequenceJob

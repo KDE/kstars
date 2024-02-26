@@ -17,21 +17,11 @@ QList<Parameters> getDefaultFocusOptionsProfiles()
 {
     QList<Parameters> profileList;
 
-    Parameters focusDefault;
-    focusDefault.listName = "1-Focus-Default";
-    focusDefault.description = i18n("Default focus star-extraction.");
-    focusDefault.initialKeep = 250;
-    focusDefault.keepNum = 100;
-    focusDefault.minarea = 20;
-    focusDefault.maxEllipse = 1.5;
-    focusDefault.convFilterType = SSolver::CONV_GAUSSIAN;
-    focusDefault.fwhm = 1;
-    focusDefault.r_min = 5;
-    focusDefault.maxSize = 10;
-    focusDefault.removeBrightest = 10;
-    focusDefault.removeDimmest = 20;
-    focusDefault.saturationLimit = 90;
+    Parameters focusDefault = getFocusOptionsProfileDefault();
     profileList.append(focusDefault);
+
+    Parameters focusDefaultDonut = getFocusOptionsProfileDefaultDonut();
+    profileList.append(focusDefaultDonut);
 
     Parameters stars;
     stars.listName = "2-AllStars";
@@ -83,6 +73,44 @@ QList<Parameters> getDefaultFocusOptionsProfiles()
     profileList.append(big);
 
     return profileList;
+}
+
+SSolver::Parameters getFocusOptionsProfileDefault()
+{
+    Parameters focusDefault;
+    focusDefault.listName = FOCUS_DEFAULT_NAME;
+    focusDefault.description = i18n("Default focus star-extraction.");
+    focusDefault.initialKeep = 250;
+    focusDefault.keepNum = 100;
+    focusDefault.minarea = 20;
+    focusDefault.maxEllipse = 1.5;
+    focusDefault.convFilterType = SSolver::CONV_GAUSSIAN;
+    focusDefault.fwhm = 1;
+    focusDefault.r_min = 5;
+    focusDefault.maxSize = 10;
+    focusDefault.removeBrightest = 10;
+    focusDefault.removeDimmest = 20;
+    focusDefault.saturationLimit = 90;
+    return focusDefault;
+}
+
+SSolver::Parameters getFocusOptionsProfileDefaultDonut()
+{
+    Parameters focusDefaultDonut;
+    focusDefaultDonut.listName = FOCUS_DEFAULT_DONUT_NAME;
+    focusDefaultDonut.description = i18n("Profile optimized for source extraction of stars including Donuts.");
+    focusDefaultDonut.initialKeep = 10000;
+    focusDefaultDonut.keepNum = 1000;
+    focusDefaultDonut.minarea = 20;
+    focusDefaultDonut.maxEllipse = 1.5;
+    focusDefaultDonut.convFilterType = SSolver::CONV_DEFAULT;
+    focusDefaultDonut.deblend_contrast = 1.0;
+    focusDefaultDonut.r_min = 5;
+    focusDefaultDonut.maxSize = 0.0;
+    focusDefaultDonut.removeBrightest = 0.0;
+    focusDefaultDonut.removeDimmest = 0.0;
+    focusDefaultDonut.saturationLimit = 90.0;
+    return focusDefaultDonut;
 }
 
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles()

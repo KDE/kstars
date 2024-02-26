@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>280</height>
+    <width>478</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -632,6 +632,12 @@
    </item>
    <item>
     <widget class="QGroupBox" name="focusDonut">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to enable Donut Busting functionality. Use on telescopes with a central obstruction that create donut shaped stars when defocused.&lt;/p&gt;&lt;p&gt;This is a currently an experimental feature that should be used with caution.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -653,11 +659,46 @@
         <property name="enabled">
          <bool>true</bool>
         </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>Time Dilation Factor:</string>
+         <string>Time Dilation x:</string>
         </property>
         <property name="buddy">
          <cstring>focusTimeDilation</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="focusScanStartPos">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to scan for a start position. The algorithm will look for a minimum data point using Num Datapoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Scan for Start Position</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="focusScanDatapoints">
+        <property name="toolTip">
+         <string>When Scan for Start Position is checked this is the number of datapoints to use.</string>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="minimum">
+         <number>5</number>
+        </property>
+        <property name="maximum">
+         <number>11</number>
+        </property>
+        <property name="singleStep">
+         <number>2</number>
         </property>
        </widget>
       </item>
@@ -677,6 +718,80 @@
         </property>
         <property name="maximum">
          <double>20.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Num Datapoints:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Outlier Rejection:</string>
+        </property>
+        <property name="buddy">
+         <cstring>focusOutlierRejection</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QDoubleSpinBox" name="focusOutlierRejection">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How aggressively to apply Outlier Rejection. Higher values reject more outliers.&lt;/p&gt;&lt;p&gt;Refine Curve Fit must be set for this option to be active.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="maximum">
+         <double>0.400000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.200000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>When Scan for Start Position is checked, the scan uses a step size = Initial Step Size multiplier by Initial Step Size x.</string>
+        </property>
+        <property name="text">
+         <string>Initial Step Size x:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QDoubleSpinBox" name="focusScanStepSizeFactor">
+        <property name="minimum">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10.000000000000000</double>
         </property>
         <property name="value">
          <double>1.000000000000000</double>

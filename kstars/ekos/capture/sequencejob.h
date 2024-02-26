@@ -93,7 +93,9 @@ class SequenceJob : public QObject
             // QString
             SJ_Signature,
             // Int
-            SJ_DitherPerJobFrequency
+            SJ_DitherPerJobFrequency,
+            // Bool
+            SJ_SkyFlat
         } PropertyID;
 
         typedef enum

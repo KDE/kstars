@@ -74,6 +74,8 @@ class FocusAlgorithmInterface
             Focus::FocusWalk focusWalk;
             // Whether to use donut busting functionality
             bool donutBuster;
+            // The degree of outlier rejection aggressiveness to apply
+            double outlierRejection;
             // Whether we want to minimise or maximise the focus measurement statistic
             CurveFitting::OptimisationDirection optimisationDirection;
             // How to assign weights to focus measurements
@@ -85,7 +87,7 @@ class FocusAlgorithmInterface
                         double _initialOutwardSteps, int _numSteps, Focus::Algorithm _focusAlgorithm, int _backlash,
                         CurveFitting::CurveFit _curveFit, bool _useWeights, Focus::StarMeasure _starMeasure,
                         Focus::StarPSF _starPSF, bool _refineCurveFit, Focus::FocusWalk _focusWalk, bool _donutBuster,
-                        CurveFitting::OptimisationDirection _optimisationDirection,
+                        double _outlierRejection, CurveFitting::OptimisationDirection _optimisationDirection,
                         Mathematics::RobustStatistics::ScaleCalculation _scaleCalculation) :
                 curveFitting(_curveFitting), maxTravel(_maxTravel), initialStepSize(_initialStepSize),
                 startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),
@@ -95,7 +97,8 @@ class FocusAlgorithmInterface
                 focusAlgorithm(_focusAlgorithm), backlash(_backlash), curveFit(_curveFit),
                 useWeights(_useWeights), starMeasure(_starMeasure), starPSF(_starPSF),
                 refineCurveFit(_refineCurveFit), focusWalk(_focusWalk), donutBuster(_donutBuster),
-                optimisationDirection(_optimisationDirection), scaleCalculation(_scaleCalculation) {}
+                outlierRejection(_outlierRejection),  optimisationDirection(_optimisationDirection),
+                scaleCalculation(_scaleCalculation) {}
         };
 
         // Constructor initializes an autofocus algorithm from the input params.

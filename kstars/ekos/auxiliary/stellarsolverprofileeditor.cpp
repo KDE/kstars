@@ -376,8 +376,29 @@ void StellarSolverProfileEditor::loadProfiles()
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
         optionsList = getDefaultProfiles();
-    for(SSolver::Parameters params : optionsList)
-        optionsProfile->addItem(params.listName);
+    if (selectedProfileGroup == FocusProfiles)
+    {
+        bool defaultProfile = false;
+        bool defaultProfileDonut = false;
+        for(SSolver::Parameters params : optionsList)
+        {
+            optionsProfile->addItem(params.listName);
+            if (params.listName == FOCUS_DEFAULT_NAME)
+                defaultProfile = true;
+            else if (params.listName == FOCUS_DEFAULT_DONUT_NAME)
+                defaultProfileDonut = true;
+        }
+        if (!defaultProfile)
+        {
+            optionsList.append(getFocusOptionsProfileDefault());
+            optionsProfile->addItem(FOCUS_DEFAULT_NAME);
+        }
+        if (!defaultProfileDonut)
+        {
+            optionsList.append(getFocusOptionsProfileDefaultDonut());
+            optionsProfile->addItem(FOCUS_DEFAULT_DONUT_NAME);
+        }
+    }
     if(optionsList.count() > 0)
     {
         sendSettingsToUI(optionsList.at(0));
@@ -532,11 +553,15 @@ void StellarSolverProfileEditor::slotApply()
 {
     int index = optionsProfile->currentIndex();
     SSolver::Parameters currentParams = getSettingsFromUI();
-    SSolver::Parameters savedParams = optionsList.at(index);
-    if(!(currentParams == savedParams) || currentParams.description != savedParams.description)
+
+    if (index >= 0 && index < optionsList.count())
     {
-        currentParams.listName = savedParams.listName;
-        optionsList.replace(index, currentParams);
+        SSolver::Parameters savedParams = optionsList.at(index);
+        if(!(currentParams == savedParams) || currentParams.description != savedParams.description)
+        {
+            currentParams.listName = savedParams.listName;
+            optionsList.replace(index, currentParams);
+        }
     }
     optionsAreSaved = true;
 

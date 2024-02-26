@@ -52,7 +52,7 @@
 
 #include <cmath>
 
-#define MAXIMUM_ABS_ITERATIONS   30
+#define MAXIMUM_ABS_ITERATIONS   51
 #define MAXIMUM_RESET_ITERATIONS 3
 #define AUTO_STAR_TIMEOUT        45000
 #define MINIMUM_PULSE_TIMER      32
@@ -244,7 +244,11 @@ void Focus::loadStellarSolverProfiles()
     QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
                                             QStandardPaths::AppLocalDataLocation)).filePath("SavedFocusProfiles.ini");
     if(QFileInfo::exists(savedOptionsProfiles))
+    {
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        addMissingStellarSolverProfile(savedOptionsProfiles, FOCUS_DEFAULT_NAME);
+        addMissingStellarSolverProfile(savedOptionsProfiles, FOCUS_DEFAULT_DONUT_NAME);
+    }
     else
         m_StellarSolverProfiles = getDefaultFocusOptionsProfiles();
     m_OpsFocusProcess->focusSEPProfile->clear();
@@ -253,6 +257,37 @@ void Focus::loadStellarSolverProfiles()
     auto profile = m_Settings["focusSEPProfile"];
     if (profile.isValid())
         m_OpsFocusProcess->focusSEPProfile->setCurrentText(profile.toString());
+}
+
+void Focus::addMissingStellarSolverProfile(const QString profilePath, const QString profile)
+{
+    for(auto params : m_StellarSolverProfiles)
+    {
+        if (params.listName == profile)
+            // Profile already exists so nothing more to do
+            return;
+    }
+
+    QSettings settings(profilePath, QSettings::IniFormat);
+    SSolver::Parameters params;
+    if (profile == FOCUS_DEFAULT_DONUT_NAME)
+        params = getFocusOptionsProfileDefaultDonut();
+    else if (profile == FOCUS_DEFAULT_NAME)
+        params = getFocusOptionsProfileDefault();
+    else
+        return;
+
+    settings.beginGroup(params.listName);
+    QMap<QString, QVariant> map = SSolver::Parameters::convertToMap(params);
+    QMapIterator<QString, QVariant> it(map);
+    while(it.hasNext())
+    {
+        it.next();
+        settings.setValue(it.key(), it.value());
+    }
+    settings.endGroup();
+
+    m_StellarSolverProfiles.append(params);
 }
 
 QStringList Focus::getStellarSolverProfiles()
@@ -1143,7 +1178,8 @@ void Focus::start()
                                << " Kernel size:" << m_OpsFocusProcess->focusGaussianKernelSize->value()
                                << " Tolerance:" << m_OpsFocusProcess->focusTolerance->value()
                                << " Donut Buster:" << ( m_OpsFocusProcess->focusDonut->isChecked() ? "yes" : "no" )
-                               << " Donut Time Dilation:" << m_OpsFocusProcess->focusTimeDilation->value();
+                               << " Donut Time Dilation:" << m_OpsFocusProcess->focusTimeDilation->value()
+                               << " Outlier Rejection:" << m_OpsFocusProcess->focusOutlierRejection->value();
     qCInfo(KSTARS_EKOS_FOCUS)  << "Mechanics Tab."
                                << " Initial Step Size:" << m_OpsFocusMechanics->focusTicks->value()
                                << " Out Step Multiple:" << m_OpsFocusMechanics->focusOutSteps->value()
@@ -1195,20 +1231,10 @@ void Focus::start()
     // Used for all the focuser types.
     if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
     {
-        QString AFfilter = filter();
-        const int position = adaptFocus->adaptStartPosition(currentPosition, AFfilter);
+        m_AFfilter = filter();
+        int position = adaptFocus->adaptStartPosition(currentPosition, m_AFfilter);
 
         curveFitting.reset(new CurveFitting());
-
-        FocusAlgorithmInterface::FocusParams params(curveFitting.get(),
-                m_OpsFocusMechanics->focusMaxTravel->value(), m_OpsFocusMechanics->focusTicks->value(), position, absMotionMin,
-                absMotionMax,
-                MAXIMUM_ABS_ITERATIONS, m_OpsFocusProcess->focusTolerance->value() / 100.0, AFfilter,
-                currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
-                m_OpsFocusMechanics->focusOutSteps->value(), m_OpsFocusMechanics->focusNumSteps->value(),
-                m_FocusAlgorithm, m_OpsFocusMechanics->focusBacklash->value(), m_CurveFit, m_OpsFocusProcess->focusUseWeights->isChecked(),
-                m_StarMeasure, m_StarPSF, m_OpsFocusProcess->focusRefineCurveFit->isChecked(), m_FocusWalk,
-                m_OpsFocusProcess->focusDonut->isChecked(), m_OptDir, m_ScaleCalc);
 
         if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
         {
@@ -1217,13 +1243,12 @@ void Focus::start()
             focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
             focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
             // Donut Buster
-            initDonutProcessing();
+            if (initDonutProcessing())
+                return;
         }
 
-        if (canAbsMove)
-            initialFocuserAbsPosition = position;
-        linearFocuser.reset(MakeLinearFocuser(params));
-        linearRequestedPosition = linearFocuser->initialPosition();
+        // Setup the focuser
+        setupLinearFocuser(position);
         if (!changeFocus(linearRequestedPosition - currentPosition))
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
@@ -1233,11 +1258,43 @@ void Focus::start()
     capture();
 }
 
-// Initialise donut buster
-void Focus::initDonutProcessing()
+void Focus::setupLinearFocuser(int initialPosition)
 {
-    if (m_OpsFocusProcess->focusDonut->isChecked())
-        m_donutOrigExposure = focusExposure->value();
+    FocusAlgorithmInterface::FocusParams params(curveFitting.get(),
+            m_OpsFocusMechanics->focusMaxTravel->value(), m_OpsFocusMechanics->focusTicks->value(), initialPosition, absMotionMin,
+            absMotionMax, MAXIMUM_ABS_ITERATIONS, m_OpsFocusProcess->focusTolerance->value() / 100.0, m_AFfilter,
+            currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
+            m_OpsFocusMechanics->focusOutSteps->value(), m_OpsFocusMechanics->focusNumSteps->value(),
+            m_FocusAlgorithm, m_OpsFocusMechanics->focusBacklash->value(), m_CurveFit, m_OpsFocusProcess->focusUseWeights->isChecked(),
+            m_StarMeasure, m_StarPSF, m_OpsFocusProcess->focusRefineCurveFit->isChecked(), m_FocusWalk,
+            m_OpsFocusProcess->focusDonut->isChecked(), m_OpsFocusProcess->focusOutlierRejection->value(), m_OptDir, m_ScaleCalc);
+
+    if (canAbsMove)
+        initialFocuserAbsPosition = initialPosition;
+    linearFocuser.reset(MakeLinearFocuser(params));
+    linearRequestedPosition = linearFocuser->initialPosition();
+}
+
+// Initialise donut buster
+bool Focus::initDonutProcessing()
+{
+    if (!m_OpsFocusProcess->focusDonut->isChecked())
+        return false;
+
+    m_donutOrigExposure = focusExposure->value();
+
+    if (m_OpsFocusProcess->focusScanStartPos->isChecked())
+    {
+        inScanStartPos = true;
+        m_scanMeasure.clear();
+        m_scanPosition.clear();
+
+        appendLogText(i18n("Starting scan for initial focuser position."));
+        emit setTitle(QString(i18n("Scanning for starting position...")), true);
+        capture();
+        return true;
+    }
+    return false;
 }
 
 // Reset donut buster
@@ -1273,12 +1330,24 @@ void Focus::checkStopFocus(bool abort)
     if (abort)
         resetFocusIteration = MAXIMUM_RESET_ITERATIONS + 1;
 
-    if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
+    if (captureInProgress)
     {
-        captureB->setEnabled(true);
-        stopFocusB->setEnabled(false);
+        if (inAutoFocus == false && inFocusLoop == false)
+        {
+            captureB->setEnabled(true);
+            stopFocusB->setEnabled(false);
 
-        appendLogText(i18n("Capture aborted."));
+            appendLogText(i18n("Capture aborted."));
+        }
+        else if (inAutoFocus)
+        {
+            stopFocusB->setEnabled(false);
+            appendLogText(i18n("Capture in progress, retrying in 1s..."));
+            QTimer::singleShot(1000, this, [ &, abort]()
+            {
+                checkStopFocus(abort);
+            });
+        }
     }
 
     if (hfrInProgress)
@@ -1340,6 +1409,7 @@ void Focus::stop(Ekos::FocusState completionState)
     inAdjustFocus = false;
     adaptFocus->setInAdaptiveFocus(false);
     inBuildOffsets = false;
+    inScanStartPos = false;
     focuserAdditionalMovement = 0;
     focuserAdditionalMovementUpdateDir = true;
     inFocusLoop = false;
@@ -1847,14 +1917,6 @@ void Focus::starDetectionFinished()
             if (hfr < 0)
                 hfr = m_ImageData->getHFR(m_FocusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
         }
-    }
-    // JEE Frig
-    if (0)
-    {
-        if (hfr > 3)
-            hfr = 3 - (hfr - 3);
-        if (hfr < 0.5)
-            hfr = INVALID_STAR_MEASURE;
     }
 
     hfrInProgress = false;
@@ -2390,7 +2452,7 @@ void Focus::setCurrentMeasure()
 
     setHFRComplete();
 
-    if (m_abInsOn)
+    if (m_abInsOn && !inScanStartPos)
         calculateAbInsData();
 }
 
@@ -2407,7 +2469,7 @@ void Focus::saveFocusFrame()
 
         // To help identify focus frames add run number, step and frame (for multiple frames at each step)
         QString detail;
-        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && !inScanStartPos && linearFocuser)
         {
             const int currentStep = linearFocuser->currentStep() + 1;
             detail = QString("_%1_%2_%3").arg(m_AFRun).arg(currentStep).arg(starMeasureFrames.count());
@@ -2767,8 +2829,9 @@ void Focus::setHFRComplete()
         setState(Ekos::FOCUS_PROGRESS);
 
     // Now let's kick in the algorithms
-
-    if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+    if (inScanStartPos)
+        scanStartPos();
+    else if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
         autoFocusLinear();
     else if (canAbsMove || canRelMove)
         // Position-based algorithms
@@ -2844,7 +2907,7 @@ bool Focus::autoFocusChecks()
 {
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
-        appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
+        appendLogText(i18n("Autofocus failed: exceeded max iterations %1", MAXIMUM_ABS_ITERATIONS));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return false;
     }
@@ -3078,6 +3141,74 @@ void Focus::startAberrationInspector()
                                         m_abInsNumStars, m_abInsTileCenterOffset));
     abIns->setAttribute(Qt::WA_DeleteOnClose);
     abIns->show();
+}
+
+// Algorithm to scan for an optimum start position for Autofocus
+void Focus::scanStartPos()
+{
+    // Firstly do we have any stars?
+    if (currentHFR == INVALID_STAR_MEASURE)
+    {
+        if (noStarCount < MAX_RECAPTURE_RETRIES)
+        {
+            noStarCount++;
+            appendLogText(i18n("No stars detected, capturing again..."));
+            capture();
+            return;
+        }
+        else
+        {
+            // Carry on for donut detection
+            appendLogText(i18n("Failed to detect any stars. Aborting..."));
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
+            return;
+        }
+    }
+
+    absIterations++;
+    noStarCount = 0;
+    m_scanPosition.push_back(currentPosition);
+    m_scanMeasure.push_back(currentMeasure);
+
+    int deltaPos;
+    const int step = m_scanPosition.size();
+    const int maxSteps = m_OpsFocusProcess->focusScanDatapoints->value();
+    const int stepSize = m_OpsFocusMechanics->focusTicks->value() * m_OpsFocusProcess->focusScanStepSizeFactor->value();
+    emit newHFRPlotPosition(static_cast<double>(currentPosition), currentMeasure, pow(currentWeight, -0.5), false, stepSize,
+                            true);
+    if (step < maxSteps)
+    {
+        // Collect more data
+        emit setTitle(QString(i18n("Scanning for starting position %1/%2", step, maxSteps)), true);
+        deltaPos = step * stepSize * std::pow(-1, step + 1);
+    }
+    else
+    {
+        // We have enough data
+        auto it = std::min_element(std::begin(m_scanMeasure), std::end(m_scanMeasure));
+        auto min = std::distance(std::begin(m_scanMeasure), it);
+        if (min >= m_OpsFocusProcess->focusScanDatapoints->value() - 2)
+        {
+            // No minimum so we need to move and rerun the scan
+            deltaPos = m_scanPosition[min] - currentPosition;
+            m_scanPosition.clear();
+            m_scanMeasure.clear();
+            emit setTitle(QString(i18n("No scan minimum - widening search...", step, maxSteps)), true);
+        }
+        else
+        {
+            // We have a minimum so kick in Autofocus
+            const int initialPosition = m_scanPosition[min];
+            setupLinearFocuser(initialPosition);
+            inScanStartPos = false;
+            absIterations = 0;
+            deltaPos = linearRequestedPosition - currentPosition;
+            emit setTitle(QString(i18n("Scan Start Position %1 Found", initialPosition)), true);
+            appendLogText(i18n("Scan Start Position %1 found", initialPosition));
+        }
+    }
+    if (!changeFocus(deltaPos))
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
 }
 
 void Focus::autoFocusLinear()
@@ -3677,7 +3808,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 // This routine adjusts capture exposure during Autofocus depending on donut parameter settings
 void Focus::donutTimeDilation()
 {
-    if (m_OpsFocusProcess->focusTimeDilation->value() == 1.0)
+    if (m_OpsFocusProcess->focusTimeDilation->value() == 1.0 || inScanStartPos)
         return;
 
     // Get the max distance from focus to outer points
@@ -3801,7 +3932,7 @@ void Focus::updateProperty(INDI::Property prop)
                 if (focuserAdditionalMovement == 0)
                 {
                     m_RestartState = RESTART_NONE;
-                    inAutoFocus = inAdjustFocus = false;
+                    inAutoFocus = inAdjustFocus = inScanStartPos = false;
                     adaptFocus->setInAdaptiveFocus(false);
                     appendLogText(i18n("Restarting autofocus process..."));
                     start();
@@ -3815,7 +3946,7 @@ void Focus::updateProperty(INDI::Property prop)
                 // processing already done in completeFocusProcedure
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = false;
+                inAutoFocus = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
             }
         }
@@ -3880,7 +4011,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = false;
+                inAutoFocus = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
@@ -3891,7 +4022,7 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = false;
+            inAutoFocus = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
         }
 
@@ -3944,7 +4075,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = false;
+                inAutoFocus = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
@@ -3955,7 +4086,7 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = false;
+            inAutoFocus = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
         }
 
@@ -3980,7 +4111,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = false;
+                inAutoFocus = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
@@ -3991,7 +4122,7 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = false;
+            inAutoFocus = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
         }
 
@@ -4489,6 +4620,7 @@ void Focus::setUseWeights()
 // 1. Donut Buster is only available for algorithm: Linear 1 Pass
 // 2. Donut Buster is available for measures: HFR, HFR Adj and FWHM
 // 3. Donut Buster is available for walks: Fixed and CFZ Shuffle
+// 4. Donut Buster is available for curves fits: Hyperbola and Parabola
 void Focus::setDonutBuster()
 {
     if (m_FocusAlgorithm != FOCUS_LINEAR1PASS)
@@ -4501,7 +4633,8 @@ void Focus::setDonutBuster()
     {
         m_OpsFocusProcess->focusDonut->show();
         if ((m_StarMeasure == FOCUS_STAR_HFR || m_StarMeasure == FOCUS_STAR_HFR_ADJ || m_StarMeasure == FOCUS_STAR_FWHM) &&
-                (m_FocusWalk == FOCUS_WALK_FIXED_STEPS || m_FocusWalk == FOCUS_WALK_CFZ_SHUFFLE))
+                (m_FocusWalk == FOCUS_WALK_FIXED_STEPS || m_FocusWalk == FOCUS_WALK_CFZ_SHUFFLE) &&
+                (m_CurveFit != CurveFitting::FOCUS_QUADRATIC))
             m_OpsFocusProcess->focusDonut->setEnabled(true);
         else
         {
@@ -5062,6 +5195,7 @@ void Focus::syncSettings()
     QDoubleSpinBox *dsb = nullptr;
     QSpinBox *sb = nullptr;
     QCheckBox *cb = nullptr;
+    QGroupBox *gb = nullptr;
     QRadioButton *rb = nullptr;
     QComboBox *cbox = nullptr;
     QSplitter *s = nullptr;
@@ -5084,6 +5218,11 @@ void Focus::syncSettings()
     {
         key = cb->objectName();
         value = cb->isChecked();
+    }
+    else if ( (gb = qobject_cast<QGroupBox*>(sender())))
+    {
+        key = gb->objectName();
+        value = gb->isChecked();
     }
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
@@ -5526,7 +5665,11 @@ void Focus::initConnections()
     });
 
     // Focus Advisor Panel
-    connect(m_AdvisorUI->focusAdvReset, &QPushButton::clicked, this, &Ekos::Focus::focusAdvisorAction);
+    connect(m_AdvisorUI->focusAdvReset, &QPushButton::clicked, this, [this]()
+    {
+        focusAdvisorAction(false);
+    });
+
     connect(m_AdvisorUI->focusAdvHelp, &QPushButton::clicked, this, &Ekos::Focus::focusAdvisorHelp);
     // Update the defaulted step size on the FA panel if the CFZ changes
     connect(m_CFZUI->focusCFZFinal, &QLineEdit::textChanged, this, [this]()
@@ -6437,20 +6580,8 @@ void Focus::focusAdvisorSetup()
                                         .arg(m_ScopeType).arg(m_FocalLength).arg(imageScale, 0, 'f', 2));
 
     // Step Size - Recommend CFZ
+    // JEE can we do better?
     m_AdvisorUI->focusAdvSteps->setValue(m_cfzSteps);
-
-    // Number steps - start with 5
-    m_AdvisorUI->focusAdvOutStepMult->setValue(5);
-    if (centralObstruction)
-        str = "A good figure to start with is 5. You have a scope with a central obstruction that turns stars to donuts when\n"
-              "they are out of focus. When this happens the system will struggle to identify stars correctly. To avoid this reduce\n"
-              "either the step size or the number of steps.\n\n"
-              "To check this situation, start at focus and move away by 'step size' * 'number of steps' steps. Take a focus frame\n"
-              "and zoom in on the fitsviewer to see whether stars appear as stars or donuts.";
-    else
-        str = "A good figure to start with is 5.";
-    m_AdvisorUI->focusAdvOutStepMult->setToolTip(str);
-    m_AdvisorUI->focusAdvOutStepMultLabel->setToolTip(str);
 
     // Camera options: exposure and bining
     str = "Camera & Filter Wheel Parameters:\n";
@@ -6494,6 +6625,9 @@ void Focus::focusAdvisorSetup()
     FADarkFrame = false;
     str.append("Dark Frame=off\n");
 
+    FAFullFrame = true;
+    str.append("Full Frame=on\n");
+
     FAFullFieldInnerRadius = 0.0;
     FAFullFieldOuterRadius = 80.0;
     str.append("Ring Mask 0%-80%\n");
@@ -6513,16 +6647,9 @@ void Focus::focusAdvisorSetup()
     FAFocusDetection = ALGORITHM_SEP;
     str.append("Detection=SEP\n");
 
-    FAFocusSEPProfile = "";
-    for (int i = 0; i < m_OpsFocusProcess->focusSEPProfile->count(); i++)
-    {
-        if (m_OpsFocusProcess->focusSEPProfile->itemText(i) == "1-Focus-Default")
-        {
-            FAFocusSEPProfile = "1-Focus-Default";
-            str.append(QString("SEP Profile=%1\n").arg(FAFocusSEPProfile));
-            break;
-        }
-    }
+    // SEP Profile
+    FAFocusSEPProfile = centralObstruction ? FOCUS_DEFAULT_DONUT_NAME : FOCUS_DEFAULT_NAME;
+    str.append(QString("SEP Profile=%1 (Reset to Default)\n").arg(FAFocusSEPProfile));
 
     FAFocusAlgorithm = FOCUS_LINEAR1PASS;
     str.append("Algorithm=Linear 1 Pass\n");
@@ -6545,15 +6672,35 @@ void Focus::focusAdvisorSetup()
     FAFocusFramesCount = 1;
     str.append("Average Over=1");
 
+    // Donut buster
+    FATimeDilation = 1.0;
+    FAOutlierRejection = 0.2;
+    FAScanForStartPosition = false;
+    if (!centralObstruction)
+    {
+        FADonutBuster = false;
+        str.append("Donut Buster=off\n");
+    }
+    else
+    {
+        FADonutBuster = true;
+        str.append("Donut Buster=on\n");
+        str.append("Time Dilation=1.0 (off)\n");
+        str.append("Outlier Rejection=0.2\n");
+        str.append("Scan for Start Position=off\n");
+    }
     m_AdvisorUI->focusAdvProcessLabel->setToolTip(str);
 
     // Mechanics
     str = "Mechanics Parameters:\n";
-    FAFocusWalk = FOCUS_WALK_CLASSIC;
-    str.append("Walk=Classic\n");
+    FAFocusWalk = FOCUS_WALK_FIXED_STEPS;
+    str.append("Walk=Fixed Steps\n");
 
     FAFocusSettleTime = 1.0;
-    str.append("Focuser Settle=1\n");
+    str.append("Focuser Settle=1.0s\n");
+
+    FAFocusNumSteps = 11;
+    str.append("Number Stepe=11\n");
 
     // Set Max travel to max value - no need to limit it
     FAFocusMaxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
@@ -6570,6 +6717,13 @@ void Focus::focusAdvisorSetup()
     str.append(QString("Motion Timeout=%1").arg(FAFocusMotionTimeout));
 
     m_AdvisorUI->focusAdvMechanicsLabel->setToolTip(str);
+
+    str = "SEP Profile=";
+    if (centralObstruction)
+        str.append(QString("%1 (reset to default)").arg(FOCUS_DEFAULT_DONUT_NAME));
+    else
+        str.append(QString("%1 (reset to default)").arg(FOCUS_DEFAULT_NAME));
+    m_AdvisorUI->focusAdvSEPLabel->setToolTip(str);
 }
 
 // Focus Advisor help popup
@@ -6585,26 +6739,20 @@ void Focus::focusAdvisorHelp()
                        "The first step is to set backlash. Your focuser manual will likely explain how to do "
                        "this. Once you have a value for backlash for your system, set either the Backlash field "
                        "to have the driver perform backlash compensation or the AF Overscan field to have Autofocus "
-                       "perform backlash compensation. Set only one field and set the other to 0.\n\n"
-                       "The second step is to set Step Size. This can be defaulted from the Critical Focus Zone (CFZ) "
-                       "for your equipment - so configure this now in the CFZ tab.\n\n"
-                       "The third step is to set the Out Step Multiple. Start with the suggested default.");
+                       "perform backlash compensation. Set only one field and set the other to 0. If you are "
+                       "unsure which to set, AF Overscan is recommended.\n\n"
+                       "The second step is to set Step Size. If you are aware of an approximate value enter it here "
+                       "otherwise this can be defaulted from the Critical Focus Zone (CFZ) for your equipment - so "
+                       "configure this now in the CFZ tab and restart Focus Advisor.\n\n");
 
-    if (scopeHasObstruction(m_ScopeType))
-        str.append(i18n(" You have a scope with a central obstruction so be careful not to move too far away from "
-                        "focus as stars will appear as donuts and will not be detected properly. Experiment by "
-                        "finding focus and moving Step Size * Out Step Multiple ticks away from focus and take a "
-                        "focus frame. Zoom in to observe star detection. If it is poor then move the focuser back "
-                        "towards focus until star detection is acceptable. Adjust Out Step Multiple to correspond to "
-                        "this range of focuser motion."));
-
-    str.append(i18n("\n\nThe fourth step is to set the remaining focus parameters to sensible values. Focus Advisor "
-                    "will suggest values for 4 categories of parameters. Check the associated Update box to "
+    str.append(i18n("The third step is to set the remaining focus parameters to sensible values. Focus Advisor "
+                    "will suggest values for 5 categories of parameters. Check the associated Update box to "
                     "accept these recommendations when you press Update Params.\n"
                     "1. Camera Properties - Note you need to ensure Gain is set appropriately, e.g. unity gain.\n"
                     "2. Focus Settings (Options Popup): These all have recommendations.\n"
                     "3. Focus Process (Options Popup): These all have recommendations.\n"
-                    "4. Focus Mechanics (Options Popup): Note Step Size and Out Step Multiple are dealt with above.\n\n"
+                    "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
+                    "5. SEP Parameters (Options Popup): Set the appropriate profile to its default values.\n\n"
                     "Now move the focuser to approximate focus and select a broadband filter, e.g. Luminance\n"
                     "You are now ready to start an Autofocus run."));
 
@@ -6612,15 +6760,12 @@ void Focus::focusAdvisorHelp()
 }
 
 // Action the focus params recommendations
-void Focus::focusAdvisorAction()
+void Focus::focusAdvisorAction(bool forceAll)
 {
-    if (m_AdvisorUI->focusAdvStepSize->isChecked())
+    if (forceAll || m_AdvisorUI->focusAdvStepSize->isChecked())
         m_OpsFocusMechanics->focusTicks->setValue(m_AdvisorUI->focusAdvSteps->value());
 
-    if (m_AdvisorUI->focusAdvOutStepMultiple->isChecked())
-        m_OpsFocusMechanics->focusOutSteps->setValue(m_AdvisorUI->focusAdvOutStepMult->value());
-
-    if (m_AdvisorUI->focusAdvCamera->isChecked())
+    if (forceAll || m_AdvisorUI->focusAdvCamera->isChecked())
     {
         focusExposure->setValue(FAExposure);
         if (focusBinning->isEnabled() && FABinning != "")
@@ -6628,11 +6773,11 @@ void Focus::focusAdvisorAction()
             focusBinning->setCurrentText(FABinning);
     }
 
-    if (m_AdvisorUI->focusAdvSettingsTab->isChecked())
+    if (forceAll || m_AdvisorUI->focusAdvSettingsTab->isChecked())
     {
         // Settings
         m_OpsFocusSettings->useFocusDarkFrame->setChecked(FADarkFrame);
-        m_OpsFocusSettings->focusUseFullField->setChecked(true);
+        m_OpsFocusSettings->focusUseFullField->setChecked(FAFullFrame);
         m_OpsFocusSettings->focusAutoStarEnabled->setChecked(FAAutoSelectStar);
         m_OpsFocusSettings->focusFullFieldInnerRadius->setValue(FAFullFieldInnerRadius);
         m_OpsFocusSettings->focusFullFieldOuterRadius->setValue(FAFullFieldOuterRadius);
@@ -6641,12 +6786,10 @@ void Focus::focusAdvisorAction()
         m_OpsFocusSettings->focusAdaptStart->setChecked(FAAdaptStartPos);
     }
 
-    if (m_AdvisorUI->focusAdvProcessTab->isChecked())
+    if (forceAll || m_AdvisorUI->focusAdvProcessTab->isChecked())
     {
         // Process
         m_OpsFocusProcess->focusDetection->setCurrentIndex(FAFocusDetection);
-        if (FAFocusSEPProfile != "")
-            m_OpsFocusProcess->focusSEPProfile->setCurrentText(FAFocusSEPProfile);
         m_OpsFocusProcess->focusAlgorithm->setCurrentIndex(FAFocusAlgorithm);
         m_OpsFocusProcess->focusCurveFit->setCurrentIndex(FACurveFit);
         m_OpsFocusProcess->focusStarMeasure->setCurrentIndex(FAStarMeasure);
@@ -6654,16 +6797,26 @@ void Focus::focusAdvisorAction()
         m_OpsFocusProcess->focusR2Limit->setValue(FAFocusR2Limit);
         m_OpsFocusProcess->focusRefineCurveFit->setChecked(FAFocusRefineCurveFit);
         m_OpsFocusProcess->focusFramesCount->setValue(FAFocusFramesCount);
+        m_OpsFocusProcess->focusDonut->setChecked(FADonutBuster);
+        m_OpsFocusProcess->focusTimeDilation->setValue(FATimeDilation);
+        m_OpsFocusProcess->focusOutlierRejection->setValue(FAOutlierRejection);
+        m_OpsFocusProcess->focusScanStartPos->setChecked(FAScanForStartPosition);
     }
 
-    if (m_AdvisorUI->focusAdvMechanicsTab->isChecked())
+    if (forceAll || m_AdvisorUI->focusAdvMechanicsTab->isChecked())
     {
+        // Mechanics
         m_OpsFocusMechanics->focusWalk->setCurrentIndex(FAFocusWalk);
         m_OpsFocusMechanics->focusSettleTime->setValue(FAFocusSettleTime);
+        m_OpsFocusMechanics->focusNumSteps->setValue(FAFocusNumSteps);
         m_OpsFocusMechanics->focusMaxTravel->setValue(FAFocusMaxTravel);
         m_OpsFocusMechanics->focusCaptureTimeout->setValue(FAFocusCaptureTimeout);
         m_OpsFocusMechanics->focusMotionTimeout->setValue(FAFocusMotionTimeout);
     }
+
+    if (forceAll || m_AdvisorUI->focusAdvSEP->isChecked())
+        // SEP
+        m_OpsFocusProcess->focusSEPProfile->setCurrentText(FAFocusSEPProfile);
 }
 
 // Returns whether or not the passed in scopeType has a central obstruction or not. The scopeTypes
@@ -6725,11 +6878,6 @@ QVariantMap Focus::getAllSettings() const
         if (oneWidget->isCheckable())
             settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
-    // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
-        if (oneWidget->isCheckable())
-            settings.insert(oneWidget->objectName(), oneWidget->isChecked());
-
     // All Splitters
     for (auto &oneWidget : findChildren<QSplitter*>())
         settings.insert(oneWidget->objectName(), QString::fromUtf8(oneWidget->saveState().toBase64()));
@@ -6778,6 +6926,14 @@ void Focus::setAllSettings(const QVariantMap &settings)
         if (checkbox)
         {
             syncControl(settings, name, checkbox);
+            continue;
+        }
+
+        // Checkable Groupboxes
+        auto groupbox = findChild<QGroupBox*>(name);
+        if (groupbox && groupbox->isCheckable())
+        {
+            syncControl(settings, name, groupbox);
             continue;
         }
 
@@ -6991,6 +7147,20 @@ void Focus::refreshOpticalTrain()
         // Update calcs for the CFZ and Focus Advisor based on the new OT
         resetCFZToOT();
         focusAdvisorSetup();
+        if (!settings.isValid())
+        {
+            // First time using this profile so invoke Focus Advisor to optimise paramneters.
+            // As we aren't using the FA GUI force all parameters to be optimised.
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+            {
+                KSMessageBox::Instance()->disconnect(this);
+                focusAdvisorAction(true);
+            });
+
+            KSMessageBox::Instance()->questionYesNo(
+                i18n("First use of Optical Train: %1. Would you like Focus Advisor to optimise parameters?",  name),
+                i18n("Focus"), 10);
+        }
     }
 
     opticalTrainCombo->blockSignals(false);

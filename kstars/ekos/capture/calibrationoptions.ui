@@ -221,6 +221,16 @@
          </layout>
         </item>
         <item>
+         <widget class="QCheckBox" name="skyFlats">
+          <property name="toolTip">
+           <string>When shooting flats on sky that can change intensity. Will use simpler exposure calculation.</string>
+          </property>
+          <property name="text">
+           <string>Sky flats</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>

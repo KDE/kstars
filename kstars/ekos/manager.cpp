@@ -3482,12 +3482,13 @@ void Manager::setDeviceReady()
             return;
     }
 
-    for (auto &device : INDIListener::devices())
-        syncGenericDevice(device);
-
     // If port selector is active, then do not show optical train dialog unless it is dismissed first.
     if (m_DriverDevicesCount <= 0 && (m_CurrentProfile->portSelector == false || !m_PortSelector))
+    {
+        for (auto &device : INDIListener::devices())
+            syncGenericDevice(device);
         OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
+    }
 }
 
 void Manager::createFilterManager(ISD::FilterWheel *device)

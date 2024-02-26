@@ -1828,6 +1828,11 @@
          <whatsthis>Maximum difference between measured and target ADU values to deem the value as acceptable.</whatsthis>
          <default>1000</default>
       </entry>
+      <entry name="CalibrationSkyFlat" type="Bool">
+         <label>Sky Flat</label>
+         <whatsthis>When shooting flats on sky with changing intensity.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="CalibrationPreActionIndex" type="UInt">
          <label>ORed list of calibration pre-actions.</label>
          <default>0</default>
@@ -2003,7 +2008,7 @@
       </entry>
       <entry name="FocusSubFrame" type="Bool">
          <label>Subframe the focus star during the autofocus procedure.</label>
-         <default>true</default>
+         <default>false</default>
       </entry>
       <entry name="FocusBoxSize" type="UInt">
          <label>Default Focuser star selection box size</label>
@@ -2012,7 +2017,7 @@
       </entry>
       <entry name="FocusUseFullField" type="Bool">
          <label>Measure average HFR from all stars combined in a full frame. This method defaults to the Centroid detection, but can use SEP detection too. Its performance decreases as the number of stars increases.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="FocusNoMaskRB" type="Bool">
          <label>No mask is applied.</label>
@@ -2134,7 +2139,23 @@
       </entry>
       <entry name="FocusTimeDilation" type="Double">
          <label>Factor to multiply focus exposure by for out of focus frames when using Donut Buster.</label>
-         <default>4.0</default>
+         <default>1.0</default>
+      </entry>
+      <entry name="focusOutlierRejection" type="Double">
+         <label>Aggressiveness factor to apply to outlier rejection when using Donut Buster.</label>
+         <default>1.0</default>
+      </entry>
+      <entry name="focusScanStartPos" type="Bool">
+         <whatsthis>Check to force a scan for optimum start position at the start of Autofocus.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="focusScanDatapoints" type="UInt">
+         <whatsthis>Number of datapoints to use during scan when focusScanStartPos is checked.</whatsthis>
+         <default>5</default>
+      </entry>
+      <entry name="focusScanStepSizeFactor" type="Double">
+         <label>Factor to apply to Initial Step Size during scan when focusScanStartPos is checked.</label>
+         <default>1.0</default>
       </entry>
       <entry name="FocusGaussianKernelSize" type="Int">
          <label>Gaussian blur kernel size.</label>
@@ -2234,16 +2255,12 @@
          <whatsthis>Focus Advisor recommended step size</whatsthis>
          <default>1</default>
       </entry>
-      <entry name="focusAdvOutStepMult" type="UInt">
+      <entry name="focusAdvNumSteps" type="UInt">
          <whatsthis>Focus Advisor recommended Out Step Multiple</whatsthis>
-         <default>5</default>
+         <default>11</default>
       </entry>
       <entry name="focusAdvStepSize" type="Bool">
          <whatsthis>Whether to accept Focus Advisor recommendation on Step Size.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="focusAdvOutStepMultiple" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on Out Step Multiple.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="focusAdvCamera" type="Bool">
@@ -2260,6 +2277,10 @@
       </entry>
       <entry name="focusAdvMechanicsTab" type="Bool">
          <whatsthis>Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="focusAdvSEP" type="Bool">
+         <whatsthis>Whether to accept Focus Advisor recommendation on SEP Parameters.</whatsthis>
          <default>true</default>
       </entry>
 
