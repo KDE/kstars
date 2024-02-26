@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-25 01:41+0000\n"
-"PO-Revision-Date: 2024-02-24 09:31+0100\n"
+"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"PO-Revision-Date: 2024-02-25 10:02+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -17753,56 +17753,56 @@ msgstr "; erro de posición %1)"
 msgid "Adaptive Focus unable to move focuser"
 msgstr "O enfoque adaptativo non pode mover o focalizador."
 
-#: ekos/focus/adaptivefocus.cpp:363
+#: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Punto de inicio adaptativo, última solución de enfoque adaptativo fóra da "
 "viaxe máxima, ignorarase."
 
-#: ekos/focus/adaptivefocus.cpp:371
+#: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 "Punto de inicio adaptativo, non hai ningunha fonte de temperatura dispoñíbel."
 
-#: ekos/focus/adaptivefocus.cpp:373
+#: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 "Punto de inicio adaptativo, non hai temperatura na última solución do "
 "enfoque adaptativo."
 
-#: ekos/focus/adaptivefocus.cpp:380
+#: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr "Punto de inicio adaptativo, gran diferenza de temperatura, ignorarase."
 
-#: ekos/focus/adaptivefocus.cpp:392
+#: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 "Punto de inicio adaptativo, non hai altitude rexistrada na última solución "
 "do enfoque adaptativo."
 
-#: ekos/focus/adaptivefocus.cpp:394
+#: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "Punto de inicio adaptativo, gran diferenza de altitude, ignorarase."
 
-#: ekos/focus/adaptivefocus.cpp:404
+#: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Punto de inicio adaptativo, a posición de destino está fóra da viaxe máxima, "
 "ignorarase."
 
-#: ekos/focus/adaptivefocus.cpp:412
+#: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Punto de inicio adaptativo [%1] prohibiuse o movemento excesivo"
 
-#: ekos/focus/adaptivefocus.cpp:426
+#: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Adaptando o punto de inicio [%1] de %2 a %3"
@@ -18618,7 +18618,7 @@ msgstr "Non se detectou ningunha estrela; capturando de novo…"
 #: ekos/focus/focus.cpp:2910
 #, fuzzy, kde-format
 #| msgid "Autofocus complete after %1 iterations."
-msgid "Autofocus failed: excceded max iterations %1"
+msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Completouse o enfoque automático tras %1 iteracións."
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
@@ -19295,7 +19295,7 @@ msgstr " s"
 #: ekos/focus/opsfocusmechanics.ui:116
 #, kde-format
 msgid "Out Step Multiple:"
-msgstr ""
+msgstr "Múltiplo de paso de saída:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
 #: ekos/focus/opsfocusmechanics.ui:132
@@ -37244,7 +37244,7 @@ msgstr "Plano escuro"
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
 #, kde-format
-msgid "When shoting flats on sky with changing intensity."
+msgid "When shooting flats on sky with changing intensity."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)

@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1674086 $
+# Version: $Revision: 1674189 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-25 01:41+0000\n"
+"POT-Creation-Date: 2024-02-26 01:36+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -17894,58 +17894,58 @@ msgstr " Błąd: %1"
 msgid "Adaptive Focus unable to move focuser"
 msgstr "Dostosowujące się Ogniskowanie nie może poruszyć układem ogniskującym"
 
-#: ekos/focus/adaptivefocus.cpp:363
+#: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Położenie ostatniego rozwiązania samoogniskowania dostosowującego się punktu "
 "początkowego przekracza graniczny ruch, pomijam"
 
-#: ekos/focus/adaptivefocus.cpp:371
+#: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "Brak źródła temperatury dostosowującego się punktu początkowego"
 
-#: ekos/focus/adaptivefocus.cpp:373
+#: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 "Brak temperatury dla ostatniego rozwiązania samoogniskowania dostosowującego "
 "się punktu początkowego"
 
-#: ekos/focus/adaptivefocus.cpp:380
+#: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 "Bardzo duża delta temperatury dostosowującego się punkt początkowego, pomijam"
 
-#: ekos/focus/adaptivefocus.cpp:392
+#: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 "Nie zapisano alternatywy dla ostatniego rozwiązania samoogniskowania "
 "dostosowującego się punktu początkowego"
 
-#: ekos/focus/adaptivefocus.cpp:394
+#: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 "Bardzo duża delta wysokości dostosowującego się punkt początkowego, pomijam"
 
-#: ekos/focus/adaptivefocus.cpp:404
+#: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Położenie docelowe dostosowującego się punkt początkowego przekracza "
 "graniczny ruch, pomijam"
 
-#: ekos/focus/adaptivefocus.cpp:412
+#: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr ""
 "Nadmierny ruch dostosowującego się punkt początkowego [%1] jest niedozwolony"
 
-#: ekos/focus/adaptivefocus.cpp:426
+#: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Dostosowywanie punktu początkowego [%1] z %2 na %3"
@@ -18733,7 +18733,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:2910
 #, fuzzy, kde-format
 #| msgid "Autofocus complete after %1 iterations."
-msgid "Autofocus failed: excceded max iterations %1"
+msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Ukończono samoogniskowanie po %1 przejściach."
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
@@ -36927,7 +36927,7 @@ msgstr "Ciemny płaski"
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
 #, kde-format
-msgid "When shoting flats on sky with changing intensity."
+msgid "When shooting flats on sky with changing intensity."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)

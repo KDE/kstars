@@ -9,7 +9,7 @@
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # Jure Repinc <jlp@holodeck1.com>, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2024.
 # Andrej Mernik <andrejm@ubuntu.si>, 2012, 2013, 2014, 2015, 2016.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2022, 2023.
+# SPDX-FileCopyrightText: 2020, 2022, 2023, 2024 Matjaž Jeran <matjaz.jeran@amis.net>
 # Martin Srebotnjak <miles@filmsi.net>, 2022.
 #: ekos/focus/adaptivefocus.cpp:180
 #, fuzzy, kde-format
@@ -17,10 +17,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-25 01:41+0000\n"
-"PO-Revision-Date: 2024-02-20 18:21+0100\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"Language-Team: LUGOS\n"
+"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"PO-Revision-Date: 2024-02-25 19:38+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15883,12 +15883,12 @@ msgid ""
 "Properties</span> section. Click <span style=\" font-weight:600;\">Apply</"
 "span> to record the property values.</p></body></html>"
 msgstr ""
-"<p>Izberite lastnosti po meri, ki jih želite nastaviti, ko se opravilo "
-"zaporedja izvrši v paketnem načinu. Ko je želena vrednost lastnosti "
-"nastavljena v nadzorni plošči INDI, jo dodajte v razdelek<span style=\" font-"
-"weight:600;\"> Lastnosti opravila</span>. Kliknite <span style=\" font-"
-"weight:600;\">Uveljavi</span>, če želite zabeleži vrednosti lastnosti.</p></"
-"body></html>"
+"<html><head/><body><p>Izberite lastnosti po meri, ki jih želite nastaviti, "
+"ko se opravilo zaporedja izvrši v paketnem načinu. Ko je želena vrednost "
+"lastnosti nastavljena v nadzorni plošči INDI, jo dodajte v razdelek<span "
+"style=\" font-weight:600;\"> Lastnosti opravila</span>. Kliknite <span style="
+"\" font-weight:600;\">Uveljavi</span>, če želite zabeleži vrednosti "
+"lastnosti.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/customproperties.ui:34
@@ -15918,11 +15918,11 @@ msgid ""
 "text-decoration: underline; color:#007af4;\">Digital Camera Database</span></"
 "a>.</p></body></html>"
 msgstr ""
-"<p>Spodaj izpolnite zahtevane podatke. To je enkratna nastavitev. Te "
-"vrednosti lahko pridobite iz priročnika za kamero ali iz spletnih virov, kot "
-"je <a href=\"https://www.digicamdb.com/\"> <span style=\" text-decoration: "
-"underline; color:#007af4;\">zbirka  podatkov digitalnih kamer</span></a>.</"
-"p></body></html>"
+"<html><head/><body><p>Spodaj izpolnite zahtevane podatke. To je enkratna "
+"nastavitev. Te vrednosti lahko pridobite iz priročnika za kamero ali iz "
+"spletnih virov, kot je <a href=\"https://www.digicamdb.com/\"> <span style="
+"\" text-decoration: underline; color:#007af4;\">zbirka  podatkov digitalnih "
+"kamer</span></a>.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/dslrinfo.ui:58
@@ -16624,12 +16624,12 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<p><span style=\" font-weight:600;\">Pravila zrcaljenja</span> določajo, "
-"kako se vrtilnik odzove na zrcaljenje ali če rezultat reševanja referenčne "
-"slike poroča drugačno stran stebra od dejanske strani stebra nosilca.</"
-"p><p>Pravila zrcaljenja lahko spremenite v <span style=\" font-weight:600;"
-"\">Možnosti poravnave</span><span style=\" font-size:12pt;\"> pod "
-"»Nastavitve rotatorja«.</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Pravila zrcaljenja</"
+"span> določajo, kako se vrtilnik odzove na zrcaljenje ali če rezultat "
+"reševanja referenčne slike poroča drugačno stran stebra od dejanske strani "
+"stebra nosilca.</p><p>Pravila zrcaljenja lahko spremenite v <span style=\" "
+"font-weight:600;\">Možnosti poravnave</span><span style=\" font-size:12pt;"
+"\"> pod »Nastavitve rotatorja«.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
@@ -17589,51 +17589,51 @@ msgstr "; napaka polož. %1)"
 msgid "Adaptive Focus unable to move focuser"
 msgstr "Prilagodljivo ostrenje ne more premakniti ostrilnika"
 
-#: ekos/focus/adaptivefocus.cpp:363
+#: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Prilagodljiva začetna točka, zadnja rešitev PO izven najdaljšega potovanja, "
 "prezrto"
 
-#: ekos/focus/adaptivefocus.cpp:371
+#: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "Prilagodljiva začetna točka, vir temperature ni na voljo"
 
-#: ekos/focus/adaptivefocus.cpp:373
+#: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr "Prilagodljiva začetna točka, brez temperature za zadnjo rešitev PO"
 
-#: ekos/focus/adaptivefocus.cpp:380
+#: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr "Prilagodljiva začetna točka, zelo velika delta temperature, prezrto"
 
-#: ekos/focus/adaptivefocus.cpp:392
+#: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr "Prilagodljiva začetna točka, ni zabeležene višine za zadnjo rešitev PO"
 
-#: ekos/focus/adaptivefocus.cpp:394
+#: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "Prilagodljiva začetna točka, zelo velika višinska delta, prezrto"
 
-#: ekos/focus/adaptivefocus.cpp:404
+#: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Prilagodljiva začetna točka, ciljni položaj je izven najdaljšega potovanja, "
 "prezrto"
 
-#: ekos/focus/adaptivefocus.cpp:412
+#: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Prilagodljiva začetna točka [%1], prevelik premik ni dovoljen"
 
-#: ekos/focus/adaptivefocus.cpp:426
+#: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Prilagajanje začetne točke [%1] iz %2 na %3"
@@ -18406,7 +18406,7 @@ msgstr "Zaznane ni bilo nobene zvezde. Ponovno zajemanje..."
 
 #: ekos/focus/focus.cpp:2910
 #, kde-format
-msgid "Autofocus failed: excceded max iterations %1"
+msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
@@ -36995,7 +36995,7 @@ msgstr "Ploska tema"
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
 #, kde-format
-msgid "When shoting flats on sky with changing intensity."
+msgid "When shooting flats on sky with changing intensity."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)

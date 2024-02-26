@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.9\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-25 01:41+0000\n"
-"PO-Revision-Date: 2024-02-11 13:01+0100\n"
+"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"PO-Revision-Date: 2024-02-24 16:34+0100\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -5909,10 +5909,9 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Taille réelle du champ de vision, en minutes d'arc.</p>"
 
 #: ekos/align/align.cpp:1412
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "Définition de la température à %1 °C…"
+msgstr "Réglage des coordonnées de la cible à AD : %1 et DEC : %2"
 
 #: ekos/align/align.cpp:1431
 #, kde-format
@@ -10180,10 +10179,9 @@ msgid "Could not find image file: %1"
 msgstr "Impossible de trouver le fichier image : %1"
 
 #: ekos/analyze/analyze.cpp:1263
-#, fuzzy, kde-format
-#| msgid "Cannot load to memory: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "Changement en mémoire impossible : %1"
+msgstr "Impossible d'afficher le fichier image temporaire : %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -10441,16 +10439,13 @@ msgstr "Statistiques"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
 #: ekos/analyze/analyze.ui:202
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the input for the plots. This can be the "
-#| "current Ekos session, or it can be read from a file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its previous session "
 "(on its left). Keyboard: control-left.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sélectionner l'entrée pour les tracés. Cela peut être "
-"la session courante Ekos ou être lu à partir d'un fichier.</p></body></html>"
+"<html><head/><body><p>Se déplacer de la session sélectionnée à la session "
+"précédente (à sa gauche). Clavier : Ctrl-gauche.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
@@ -10510,17 +10505,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
 #: ekos/analyze/analyze.ui:276
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Move from the selected session to its next session (on "
 "its right). Keyboard: control-right.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Données courantes concernant les capteurs de météo. "
-"Veuillez cliquer sur le nom d'un capteur pour l'affichage de ses données en "
-"temps réel.</p></body></html>"
+"<html><head/><body><p>Se déplacer de la session sélectionnée vers la session "
+"suivante (à sa droite). Clavier : Ctrl-droite</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
@@ -14597,10 +14588,9 @@ msgstr "Regroupement vertical"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/capture.ui:315
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay in seconds before capturing an image"
-msgstr "Délai en secondes entre images consécutives"
+msgstr "Délai en secondes avant l'acquisition d'une image"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -15798,10 +15788,9 @@ msgid "CCD capture complete"
 msgstr "Acquisition CCD terminée."
 
 #: ekos/capture/captureprocess.cpp:331
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Jusqu'à l'arrêt"
+msgstr "Acquisition arrêtée"
 
 #: ekos/capture/captureprocess.cpp:331 ekos/capture/captureprocess.cpp:336
 #, kde-format
@@ -17878,61 +17867,61 @@ msgstr ""
 "La mise au point adaptative est incapable de déplacer le moteur de mise au "
 "point"
 
-#: ekos/focus/adaptivefocus.cpp:363
+#: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Point de départ de la mise au point adaptative, dernière solution hors du "
 "trajet maximal, ignorée"
 
-#: ekos/focus/adaptivefocus.cpp:371
+#: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 "Point de départ de la mise au point adaptative, aucune source de température "
 "disponible"
 
-#: ekos/focus/adaptivefocus.cpp:373
+#: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 "Point de départ de la mise au point adaptative, aucune température pour la "
 "dernière solution"
 
-#: ekos/focus/adaptivefocus.cpp:380
+#: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 "Point de départ de la mise au point adaptative, delta de température trop "
 "grand, ignoré"
 
-#: ekos/focus/adaptivefocus.cpp:392
+#: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 "Point de départ de la mise au point adaptative, pas d'élévation enregistrée "
 "pour la dernière solution"
 
-#: ekos/focus/adaptivefocus.cpp:394
+#: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 "Point de départ de la mise au point adaptative, delta d'élévation trop "
 "grand, ignoré"
 
-#: ekos/focus/adaptivefocus.cpp:404
+#: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Point de départ de la mise au point adaptative, position de la cible hors du "
 "trajet maximal, ignorée"
 
-#: ekos/focus/adaptivefocus.cpp:412
+#: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Point de départ adaptatif [%1] excessif, déplacement non autorisé"
 
-#: ekos/focus/adaptivefocus.cpp:426
+#: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Point de départ adaptatif [%1] de %2 vers %3"
@@ -18701,7 +18690,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:2910
 #, fuzzy, kde-format
 #| msgid "Autofocus complete after %1 iterations."
-msgid "Autofocus failed: excceded max iterations %1"
+msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Mise au point  automatique terminé après %1 itérations."
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
@@ -20863,10 +20852,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2 : étoile sélectionnée."
 
 #: ekos/guide/externalguide/phd2.cpp:656
-#, fuzzy, kde-format
-#| msgid "Dithering successful"
+#, kde-format
 msgid "PHD2: Dithering successful."
-msgstr "Décalage réussi"
+msgstr "PHD2 : décalage réussi."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -34780,10 +34768,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:810
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Dessiner Mars sur la carte du ciel ?"
+msgstr "Refléter la carte du ciel ?"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:811
@@ -34792,6 +34779,9 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Activer cette option si vous souhaitez que la carte du ciel soit reflétée "
+"selon une symétrie verticale afin de correspondre à la vue dans un prisme "
+"redresseur."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:815
@@ -37171,7 +37161,7 @@ msgstr "Dark Flat"
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
 #, kde-format
-msgid "When shoting flats on sky with changing intensity."
+msgid "When shooting flats on sky with changing intensity."
 msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
@@ -69014,7 +69004,7 @@ msgstr "&Zoomer à la dimension angulaire…"
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Affichage reflété"
 
 #: kstarsinit.cpp:287
 #, kde-format

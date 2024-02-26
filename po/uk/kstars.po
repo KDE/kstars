@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-25 01:41+0000\n"
-"PO-Revision-Date: 2024-02-19 17:34+0200\n"
+"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"PO-Revision-Date: 2024-02-25 09:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -13158,12 +13158,11 @@ msgid "Default focus star-extraction."
 msgstr "Типовий засіб видобування даних зірок для фокусування."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:101
-#, fuzzy, kde-format
-#| msgid "Profile optimized for source extraction of larger stars."
+#, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
 msgstr ""
-"Профіль, який оптимізовано для видобування початкових даних для більших "
-"зірок."
+"Профіль, який оптимізовано для видобування початкових даних для зірок, "
+"зокрема «пончиків»."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:122
 #, kde-format
@@ -14147,13 +14146,14 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"При зніманні зображень плоского поля на небі, коли може змінюватися "
+"інтенсивність. Використовуватиметься простіший спосіб обчислення експозиції."
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "Sky flats"
-msgstr "Карта неба"
+msgstr "Плоскі поля неба"
 
 #: ekos/capture/capture.cpp:133
 #, kde-format
@@ -17807,54 +17807,54 @@ msgstr "; Похибка поз %1)"
 msgid "Adaptive Focus unable to move focuser"
 msgstr "Адаптивному фокусуванню не вдалося пересунути засіб фокусування"
 
-#: ekos/focus/adaptivefocus.cpp:363
+#: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Адаптивна початкова точка, останній розв'язок АФ поза межами максимального "
 "переходу, ігноруємо"
 
-#: ekos/focus/adaptivefocus.cpp:371
+#: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "Адаптивна початкова точка, немає доступного джерела температури"
 
-#: ekos/focus/adaptivefocus.cpp:373
+#: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 "Адаптивна початкова точка, немає температури для останнього розв'язку АФ"
 
-#: ekos/focus/adaptivefocus.cpp:380
+#: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 "Адаптивна початкова точка, дуже великий приріст за температурою, ігноруємо"
 
-#: ekos/focus/adaptivefocus.cpp:392
+#: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 "Адаптивна початкова точка, не записано висоти для останнього розв'язку АФ"
 
-#: ekos/focus/adaptivefocus.cpp:394
+#: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "Адаптивна початкова точка, дуже великий приріст за висотою, ігноруємо"
 
-#: ekos/focus/adaptivefocus.cpp:404
+#: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Адаптивна початкова точка, позиція цілі поза межами максимального переходу, "
 "ігноруємо"
 
-#: ekos/focus/adaptivefocus.cpp:412
+#: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Заборонено надмірний рух адаптивної початкової точки [%1]"
 
-#: ekos/focus/adaptivefocus.cpp:426
+#: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Адаптуємо початкову точку [%1] з %2 до %3"
@@ -17867,10 +17867,9 @@ msgstr "Радник з фокусування"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:59
-#, fuzzy, kde-format
-#| msgid "Settings Parameters"
+#, kde-format
 msgid "Settings Parameters:"
-msgstr "Параметри налаштування"
+msgstr "Параметри налаштування:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvProcessTab)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCamera)
@@ -17902,10 +17901,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:142
-#, fuzzy, kde-format
-#| msgid "Process Parameters"
+#, kde-format
 msgid "Process Parameters:"
-msgstr "Параметри процедури"
+msgstr "Параметри процедури:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/advisor.ui:149
@@ -17921,10 +17919,9 @@ msgstr "Розмір кроку:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:213
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters"
+#, kde-format
 msgid "Mechanics Parameters:"
-msgstr "Параметри механіки"
+msgstr "Параметри механіки:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:226
@@ -17945,10 +17942,9 @@ msgstr "Оновити параметри"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/advisor.ui:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters:"
-msgstr "Параметри камери і барабана з фільтрами"
+msgstr "Параметри камери і барабана з фільтрами:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/advisor.ui:255
@@ -17961,10 +17957,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSEPLabel)
 #: ekos/focus/advisor.ui:271
-#, fuzzy, kde-format
-#| msgid "Process Parameters"
+#, kde-format
 msgid "SEP Parameters:"
-msgstr "Параметри процедури"
+msgstr "Параметри ПДФ"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
@@ -18418,24 +18413,19 @@ msgid "Autofocus operation started"
 msgstr "Розпочато дію з автоматичного фокусування"
 
 #: ekos/focus/focus.cpp:1292
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr ""
-"Спроба автофокусування зазнала невдачі, повертаємося до початкової позиції "
-"фокусування %1."
+msgstr "Починаємо пошуку початкової позиції фокусування."
 
 #: ekos/focus/focus.cpp:1293
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Scanning for starting position..."
-msgstr "Невдале паркування купола. Перезапускаємо дію…"
+msgstr "Шукаємо початкову позицію…"
 
 #: ekos/focus/focus.cpp:1345
-#, fuzzy, kde-format
-#| msgid "Capturing still running, Retrying in %1 seconds..."
+#, kde-format
 msgid "Capture in progress, retrying in 1s..."
-msgstr "Триває захоплення зображення. Повторюємо спробу за %1 секунд…"
+msgstr "Триває захоплення зображення. Повторюємо спробу за 1 секунду…"
 
 #: ekos/focus/focus.cpp:1356
 #, kde-format
@@ -18625,9 +18615,10 @@ msgstr ""
 "Під час перевірки РПП (HFR) не виявлено зірок, повторюємо спробу захоплення…"
 
 #: ekos/focus/focus.cpp:2910
-#, kde-format
-msgid "Autofocus failed: excceded max iterations %1"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Autofocus failed: excceded max iterations %1"
+msgid "Autofocus failed: exceeded max iterations %1"
+msgstr "Помилка автофокусування: перевищено максимальну кількість ітерацій, %1"
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18656,30 +18647,29 @@ msgid "Launching Aberration Inspector run %1..."
 msgstr "Запускаємо прохід %1 Інспектора аберації…"
 
 #: ekos/focus/focus.cpp:3162
-#, fuzzy, kde-format
-#| msgid "Failed to detect any stars at position %1. Continuing..."
+#, kde-format
 msgid "Failed to detect any stars. Aborting..."
-msgstr "Не вдалося виявити жодної зірки у позиції %1. Продовжуємо…"
+msgstr "Не вдалося виявити жодної зірки. Перериваємо обробку…"
 
 #: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Шукаємо початкову позицію, %1 з %2"
 
 #: ekos/focus/focus.cpp:3196
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Не знайдено мінімуму — розширюємо пошук…"
 
 #: ekos/focus/focus.cpp:3206
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Знайдено початкову позицію %1"
 
 #: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Знайдено початкову позицію %1"
 
 #: ekos/focus/focus.cpp:3268
 #, kde-format
@@ -18847,29 +18837,7 @@ msgid "Relative Profile"
 msgstr "Відносний профіль"
 
 #: ekos/focus/focus.cpp:6732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#| "It will not necessarily give you the perfect combination of parameters, "
-#| "you will need to experiment yourself, but it will give you a basic set of "
-#| "parameters to achieve focus.\n"
-#| "\n"
-#| "FA will recommend values for the majority of parameters. A few, however, "
-#| "will need extra work from you to setup. These are identified below along "
-#| "with a basic explanation of how to set them.\n"
-#| "\n"
-#| "The first step is to set backlash. Your focuser manual will likely "
-#| "explain how to do this. Once you have a value for backlash for your "
-#| "system, set either the Backlash field to have the driver perform backlash "
-#| "compensation or the AF Overscan field to have Autofocus perform backlash "
-#| "compensation. Set only one field and set the other to 0.\n"
-#| "\n"
-#| "The second step is to set Step Size. This can be defaulted from the "
-#| "Critical Focus Zone (CFZ) for your equipment - so configure this now in "
-#| "the CFZ tab.\n"
-#| "\n"
-#| "The third step is to set the Out Step Multiple. Start with the suggested "
-#| "default."
+#, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
 "It will not necessarily give you the perfect combination of parameters, you "
@@ -18909,34 +18877,18 @@ msgstr ""
 "матимете значення люфту для вашої системи, вкажіть його або у полі «Люфт», "
 "щоб драйвер виконав компенсацію люфту, або у полі «Пересканування АФ», щоб "
 "компенсацію люфту виконав механізм автофокусування. Вкажіть значення лише в "
-"одному полі, для іншого вкажіть значення 0.\n"
+"одному полі, для іншого вкажіть значення 0. Якщо ви не певні щодо вибору "
+"значення, рекомендуємо вибрати «Пересканування АФ».\n"
 "\n"
-"На другому кроці слід встановити розмір кроку. Типове значення можна взяти з "
-"критичної зони фокусування (КЗФ) для вашого обладнання — вкажіть його на "
-"вкладці КЗФ.\n"
+"На другому кроці слід встановити розмір кроку. Якщо вам відоме добре "
+"приблизне значення, введіть його у це поле. Якщо значення не є відомим, "
+"можна використати розмір критичної зони фокусування (КЗФ) для вашого "
+"обладнання — налаштуйте значення на вкладці КЗФ і перезапустіть радник з "
+"фокусування.\n"
 "\n"
-"На третьому кроці слід вказати множник зовнішнього кроку. Почніть із "
-"запропонованого типового значення."
 
 #: ekos/focus/focus.cpp:6748
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "The fourth step is to set the remaining focus parameters to sensible "
-#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
-#| "Check the associated Update box to accept these recommendations when you "
-#| "press Update Params.\n"
-#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#| "e.g. unity gain.\n"
-#| "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#| "3. Focus Process (Options Popup): These all have recommendations.\n"
-#| "4. Focus Mechanics (Options Popup): Note Step Size and Out Step Multiple "
-#| "are dealt with above.\n"
-#| "\n"
-#| "Now move the focuser to approximate focus and select a broadband filter, "
-#| "e.g. Luminance\n"
-#| "You are now ready to start an Autofocus run."
+#, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
 "Focus Advisor will suggest values for 5 categories of parameters. Check the "
@@ -18954,9 +18906,7 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
-"\n"
-"\n"
-"На четвертому кроці слід встановити притомні значення для решти параметрів "
+"На третьому кроці слід встановити притомні значення для решти параметрів "
 "фокусування. Радник з фокусування запропонує значення для 4 категорій "
 "параметрів. Ознайомтеся із пов'язаним полем оновлення, щоб прийняти "
 "рекомендації, коли ви натискаєте кнопку «Оновити параметри».\n"
@@ -18966,8 +18916,10 @@ msgstr ""
 "рекомендації.\n"
 "3. Параметри процедури (контекстна панель параметрів): тут наведено усі "
 "рекомендації.\n"
-"4. Параметри механіки (контекстна панель параметрів): зауважте, що поради "
-"щодо розміру кроку і коефіцієнта зовнішнього кроку наведено вище.\n"
+"4. Параметри механіки (контекстна панель параметрів): зауважте, що розмір "
+"кроку вже визначено вище.\n"
+"5. Параметри ПДФ (контекстна панель параметрів): встановити для належного "
+"профілю типові значення параметрів.\n"
 "\n"
 "Тепер виконайте приблизне фокусування і виберіть широкосмуговий фільтр, "
 "наприклад «Світність»\n"
@@ -18979,6 +18931,8 @@ msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
 "parameters?"
 msgstr ""
+"Перше використання оптичного тракту: %1. Хочете оптимізувати параметри за "
+"допомогою Радника з фокусування?"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:164
@@ -19684,7 +19638,7 @@ msgstr "Парабола"
 #: ekos/focus/opsfocusprocess.ui:217
 #, kde-format
 msgid "SEP Profile:"
-msgstr "Профіль ПдЕП:"
+msgstr "Профіль ПДФ:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:227
@@ -19940,11 +19894,11 @@ msgid ""
 "span>: a single source detection based on pixel values. Initial or full-"
 "field analysis will use SEP instead of this method.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Способ виявлення зірок:</p><ul style=\"margin-top: "
+"<html><head/><body><p>Спосіб виявлення зірок:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">ПдЕП:</span> видобування початкових даних і "
+"style=\" font-weight:600;\">ПДФ:</span> видобування початкових даних і "
 "фотометрія (Source Extractor and Photometry), ефективний спосіб виявлення "
 "джерела на основі засобу видобування джерела (Bertin і Arnouts 1996; Bertin "
 "2016). Див. <a href=\"https://joss.theoj.org/papers/10.21105/joss.00058.pdf"
@@ -19987,7 +19941,7 @@ msgstr "Поріг"
 #: ekos/focus/opsfocusprocess.ui:366 ekos/guide/opsguide.ui:456
 #, kde-format
 msgid "SEP"
-msgstr "ПдЕП"
+msgstr "ПДФ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:371
@@ -20116,30 +20070,26 @@ msgstr "Пончикове підсилення (УВАГА! Експериме�
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:669
-#, fuzzy, kde-format
-#| msgid "Time Dilation Factor:"
+#, kde-format
 msgid "Time Dilation x:"
 msgstr "Коефіцієнт масштабування часу:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:679
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб програма показала критичну зону "
-"фокусування на графіку.</p></body></html>"
+"<html><head/><body><p>Позначте для пошуку початкової позиції. Алгоритм "
+"шукатиме мінімальну точку даних на основі значення «Кількість точок даних».</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:682
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Scan for Start Position"
-msgstr "Масштаб і позиція"
+msgstr "Шукати початкову позицію"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:689
@@ -20148,6 +20098,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Якщо позначено пункт «Шукати початкову позицію», це кількість точок даних, "
+"яку слід використати."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:711
@@ -20168,14 +20120,13 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:736
 #, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "К-ть точок даних:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:749
-#, fuzzy, kde-format
-#| msgid "Direction:"
+#, kde-format
 msgid "Outlier Rejection:"
-msgstr "Напрямок:"
+msgstr "Відкидання викидів:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:759
@@ -20185,6 +20136,10 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Наскільки агресивно слід застосовувати відкидання "
+"викидів. За більших значень відкидатиметься більше викидів.</p><p>Для "
+"використання цього значення має бути задіяно пункт «Удосконалення "
+"апроксимації кривої».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:781
@@ -20193,13 +20148,15 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Якщо позначено пункт «Шукати початкову позицію», засіб сканування використає "
+"розмір кроку, що дорівнює добутку коефіцієнта розміру початкового кроку на "
+"розмір початкового кроку."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Початковий розмір кроку:"
+msgstr "Розмір початкового кроку:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -36879,16 +36836,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1832
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Темний кадр"
+msgstr "Плоске поле неба"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
-#, kde-format
-msgid "When shoting flats on sky with changing intensity."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "When shoting flats on sky with changing intensity."
+msgid "When shooting flats on sky with changing intensity."
+msgstr "Коли знімати зображення плоского поля неба зі змінною інтенсивністю."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1837
@@ -37484,18 +37441,17 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Коефіцієнт агресивності, який слід застосувати у засобі відкидання викидів "
+"при використанні «пончикового підсилення»."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2149
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to adapt the focuser starting position at the beginning of an "
-#| "Autofocus run."
+#, kde-format
 msgid ""
 "Check to force a scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Визначає, чи слід адаптувати початкову позицію засобу фокусування на початку "
-"циклу автофокусування."
+"Увімкніть для примусового пошуку оптимальної початкової позиції на початку "
+"автоматичного фокусування."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2153
@@ -37503,6 +37459,8 @@ msgstr ""
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
+"Кількість точок даних, якими слід скористатися під час сканування, якщо "
+"увімкнено focusScanStartPos."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2157
@@ -37511,6 +37469,8 @@ msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
+"Коефіцієнт, який слід застосувати до початкового розміру кроку під час "
+"сканування, якщо позначено focusScanStartPos."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2161
@@ -37749,13 +37709,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusAdvSEP), group (Focus)
 #: kstars.kcfg:2283
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
 msgstr ""
 "Визначає, чи слід приймати рекомендації радника з фокусування на вкладці "
-"процесу."
+"параметрів ПДФ."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2288

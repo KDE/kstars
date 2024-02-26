@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-25 01:41+0000\n"
-"PO-Revision-Date: 2024-02-19 10:05+0100\n"
+"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"PO-Revision-Date: 2024-02-25 15:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -13103,10 +13103,11 @@ msgid "Default focus star-extraction."
 msgstr "Standaard focus van ster-extractie."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:101
-#, fuzzy, kde-format
-#| msgid "Profile optimized for source extraction of larger stars."
+#, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
-msgstr "Profiel geoptimaliseerd voor bronextractie van grotere sterren."
+msgstr ""
+"Profiel geoptimaliseerd voor bronextractie van grotere sterren inclusief "
+"donuts."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:122
 #, kde-format
@@ -14079,13 +14080,14 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Bij opnemen van vlakken in de hemel die in intensiteit kunnen wijzigen. "
+"Zullen eenvoudiger belichtingsberekeningen gebruiken."
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "Sky flats"
-msgstr "Hemelkaart"
+msgstr "Luchtvlakken"
 
 #: ekos/capture/capture.cpp:133
 #, kde-format
@@ -17684,52 +17686,52 @@ msgstr "; Pos fout %1)"
 msgid "Adaptive Focus unable to move focuser"
 msgstr "Aanpassend focusseren niet in staat focus aan te passen"
 
-#: ekos/focus/adaptivefocus.cpp:363
+#: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Aanpasbaar startpunt, laatste AF oplossing buiten maximale verplaatsing, "
 "wordt genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:371
+#: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "Aanpasbaar startpunt, geen temperatuurbron beschikbaar"
 
-#: ekos/focus/adaptivefocus.cpp:373
+#: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr "Aanpasbaar startpunt, geen temperatuur voor laatste AF oplossing"
 
-#: ekos/focus/adaptivefocus.cpp:380
+#: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 "Aanpasbaar startpunt, erg groot verschil in temperatuur, wordt genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:392
+#: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr "Aanpasbaar startpunt, geen hoogte opgeslagen voor laatste AF oplossing"
 
-#: ekos/focus/adaptivefocus.cpp:394
+#: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "Aanpasbaar startpunt, erg groot verschil in hoogte, wordt genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:404
+#: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Aanpasbaar startpunt, doelpositie buiten maximale verplaatsing, wordt "
 "genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:412
+#: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Aanpasbaar startpunt [%1] grote verplaatsing niet toegestaan"
 
-#: ekos/focus/adaptivefocus.cpp:426
+#: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Startpunt aanpassen [%1] van %2 tot %3"
@@ -17742,10 +17744,9 @@ msgstr "Focusadviseur"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:59
-#, fuzzy, kde-format
-#| msgid "Settings Parameters"
+#, kde-format
 msgid "Settings Parameters:"
-msgstr "Parameters in Instellingen"
+msgstr "Parameters in Instellingen:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvProcessTab)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCamera)
@@ -17777,10 +17778,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:142
-#, fuzzy, kde-format
-#| msgid "Process Parameters"
+#, kde-format
 msgid "Process Parameters:"
-msgstr "Parameters in Verwerk"
+msgstr "Parameters in Verwerken:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/advisor.ui:149
@@ -17796,10 +17796,9 @@ msgstr "Stapgrootte:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:213
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters"
+#, kde-format
 msgid "Mechanics Parameters:"
-msgstr "Parameters in Mechaniek"
+msgstr "Parameters in Mechaniek:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:226
@@ -17820,10 +17819,9 @@ msgstr "Parameters bijwerken"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/advisor.ui:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters:"
-msgstr "Parameters voor camera & filterwiel"
+msgstr "Parameters voor camera & filterwiel:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/advisor.ui:255
@@ -17836,10 +17834,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSEPLabel)
 #: ekos/focus/advisor.ui:271
-#, fuzzy, kde-format
-#| msgid "Process Parameters"
+#, kde-format
 msgid "SEP Parameters:"
-msgstr "Parameters in Verwerk"
+msgstr "SEP-parameters:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
@@ -18285,22 +18282,19 @@ msgid "Autofocus operation started"
 msgstr "Autofocusproces is gestart"
 
 #: ekos/focus/focus.cpp:1292
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr "Autofocus is mislukt, keert terug naar beginpositie %1 voor focus."
+msgstr "Scan starten voor initiële positie van focuser."
 
 #: ekos/focus/focus.cpp:1293
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Scanning for starting position..."
-msgstr "Parkeren van de koepel is mislukt. Bewerking wordt herstart..."
+msgstr "Scannen voor startpositie..."
 
 #: ekos/focus/focus.cpp:1345
-#, fuzzy, kde-format
-#| msgid "Capturing still running, Retrying in %1 seconds..."
+#, kde-format
 msgid "Capture in progress, retrying in 1s..."
-msgstr "Nog bezig met opnemen, probeer het opnieuw in %1 seconden..."
+msgstr "Nog bezig met opnemen, probeer het opnieuw in 1s..."
 
 #: ekos/focus/focus.cpp:1356
 #, kde-format
@@ -18483,9 +18477,9 @@ msgstr ""
 
 #: ekos/focus/focus.cpp:2910
 #, fuzzy, kde-format
-#| msgid "Autofocus complete after %1 iterations."
-msgid "Autofocus failed: excceded max iterations %1"
-msgstr "Autofocus voltooid na %1 iteraties."
+#| msgid "Autofocus failed: excceded max iterations %1"
+msgid "Autofocus failed: exceeded max iterations %1"
+msgstr "Autofocus is mislukt: maximale iteraties %1 overschreden."
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18514,30 +18508,29 @@ msgid "Launching Aberration Inspector run %1..."
 msgstr "Aberratie-inspecteur uitvoering %1 wordt gestart..."
 
 #: ekos/focus/focus.cpp:3162
-#, fuzzy, kde-format
-#| msgid "Failed to detect any stars at position %1. Continuing..."
+#, kde-format
 msgid "Failed to detect any stars. Aborting..."
-msgstr "Geen sterren gedetecteerd op positie %1. Doorgaan..."
+msgstr "Sterren detecteren is mislukt. Wordt afgebroken..."
 
 #: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Scannen voor startpositie %1/%2"
 
 #: ekos/focus/focus.cpp:3196
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Geen minimum voor scan - zoeken wordt verbreed..."
 
 #: ekos/focus/focus.cpp:3206
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Startpositie  van scan %1 gevonden"
 
 #: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Startpositie van scan %1 gevonden"
 
 #: ekos/focus/focus.cpp:3268
 #, kde-format
@@ -18705,29 +18698,7 @@ msgid "Relative Profile"
 msgstr "Relatief profiel"
 
 #: ekos/focus/focus.cpp:6732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#| "It will not necessarily give you the perfect combination of parameters, "
-#| "you will need to experiment yourself, but it will give you a basic set of "
-#| "parameters to achieve focus.\n"
-#| "\n"
-#| "FA will recommend values for the majority of parameters. A few, however, "
-#| "will need extra work from you to setup. These are identified below along "
-#| "with a basic explanation of how to set them.\n"
-#| "\n"
-#| "The first step is to set backlash. Your focuser manual will likely "
-#| "explain how to do this. Once you have a value for backlash for your "
-#| "system, set either the Backlash field to have the driver perform backlash "
-#| "compensation or the AF Overscan field to have Autofocus perform backlash "
-#| "compensation. Set only one field and set the other to 0.\n"
-#| "\n"
-#| "The second step is to set Step Size. This can be defaulted from the "
-#| "Critical Focus Zone (CFZ) for your equipment - so configure this now in "
-#| "the CFZ tab.\n"
-#| "\n"
-#| "The third step is to set the Out Step Multiple. Start with the suggested "
-#| "default."
+#, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
 "It will not necessarily give you the perfect combination of parameters, you "
@@ -18768,32 +18739,14 @@ msgstr ""
 "Overscan om autofocus de compensatie van de speling te laten doen. Stel "
 "slechts één veld in en stel de ander in op 0.\n"
 "\n"
-"De tweede stap is de Stapgrootte instellen. Deze kan gestandaardiseerd "
-"worden vanuit de Critical Focus Zone (CFZ) voor uw apparatuur - configureer "
-"dit nu dus in het tabblad CFZ.\n"
+"De tweede stap is de Stapgrootte instellen. Als u iets weet voor een "
+"ongeveer waarde voer deze hier in anders kan dit als standaard komen uit de "
+"Critical Focus Zone (CFZ) voor uw apparatuur - configureer dit dus nu in het "
+"CFZ tabblad en start Focusadviseur opnieuw.\n"
 "\n"
-"De derde stap is het instellen van de Out Step Multiple. Start met de "
-"gesuggereerde standaard."
 
 #: ekos/focus/focus.cpp:6748
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "The fourth step is to set the remaining focus parameters to sensible "
-#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
-#| "Check the associated Update box to accept these recommendations when you "
-#| "press Update Params.\n"
-#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#| "e.g. unity gain.\n"
-#| "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#| "3. Focus Process (Options Popup): These all have recommendations.\n"
-#| "4. Focus Mechanics (Options Popup): Note Step Size and Out Step Multiple "
-#| "are dealt with above.\n"
-#| "\n"
-#| "Now move the focuser to approximate focus and select a broadband filter, "
-#| "e.g. Luminance\n"
-#| "You are now ready to start an Autofocus run."
+#, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
 "Focus Advisor will suggest values for 5 categories of parameters. Check the "
@@ -18811,18 +18764,17 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
-"\n"
-"\n"
-"De vierde stap is het zetten van de overgebleven focusparameters op zinvolle "
-"waarden. Focusadviseur zal waarden voor 4 categorieën parameters suggereren. "
+"De derde stap is het zetten van de overgebleven focusparameters op zinvolle "
+"waarden. Focusadviseur zal waarden voor 5 categorieën parameters suggereren. "
 "Activeer het bijbehorende bijwerkvakje om deze aanbevelingen te accepteren "
 "wanneer u drukt op Parameters bijwerken.\n"
 "1. Camera-eigenschappen - merk op dat u moet nagaan dat versterking juist is "
 "ingesteld, bijv. eenheidsversterking.\n"
 "2. Focusinstellingen: deze hebben allemaal aanbevelingen.\n"
 "3. Focusverwerking: deze hebben allemaal aanbevelingen.\n"
-"4. Focusmechanieken: merk op dat Stapgrootte en \"Out Step Multiple\" "
-"bovenstaand zijn besproken.\n"
+"4. Focusmechanieken: merk op dat Stapgrootte bovenstaand is besproken.\n"
+"5. SEP-parameters (Opties verschijnen): stel het toepasselijke profiel in op "
+"zijn standaard waarden.\n"
 "\n"
 "Verplaats de focuser naar ongeveer focus en selecteer een breedbandfilter, "
 "bijv. Luminance\n"
@@ -18834,6 +18786,8 @@ msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
 "parameters?"
 msgstr ""
+"Eerste gebruik van Optische trein: %1. Wilt u dat Focus Advisor parameters "
+"optimaliseert?"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:164
@@ -19959,30 +19913,26 @@ msgstr "Donut Buster (WAARSCHUWING: Experimentele functie)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:669
-#, fuzzy, kde-format
-#| msgid "Time Dilation Factor:"
+#, kde-format
 msgid "Time Dilation x:"
-msgstr "Tijdverwijdingsfactor:"
+msgstr "Tijdverwijding x:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:679
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Activeer om de kritische focuszone op de grafiek te "
-"tonen.</p></body></html>"
+"<html><head/><body><p>Activeer on te scannen op een startpositie. Het "
+"algoritme zal zoeken naar een minimum gegevenspunt met Num gegevenspunten.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:682
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Scan for Start Position"
-msgstr "Schaal & Positie"
+msgstr "Scan voor startpositie"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:689
@@ -19991,6 +19941,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Wanneer Voor startpositie scannen is geactiveerd dan is dit het aantal "
+"gegevenspunten om te gebruiken."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:711
@@ -20011,14 +19963,13 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:736
 #, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "Aantal gegevenspunten:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:749
-#, fuzzy, kde-format
-#| msgid "Direction:"
+#, kde-format
 msgid "Outlier Rejection:"
-msgstr "Richting:"
+msgstr "Afwijzen van uitschieters:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:759
@@ -20028,6 +19979,9 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Hoe agressief Afwijzing van uitschieters toepassen. "
+"Hogere waarden wijzen meer uitschieters af.</p><p>Kromme fitten moet "
+"ingesteld worden o deze optie actief te maken.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:781
@@ -20036,13 +19990,15 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Wanneer Voor startpositie scannen is geactiveerd dan gebruikt de scan een "
+"stapgrootte = Initiële stapgrootte vermenigvuldiger maal Initiële "
+"stapgrootte x."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Initiële stapgrootte:"
+msgstr "Initiële stapgrootte x:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -36588,16 +36544,16 @@ msgstr "Maximaal toelaatbaar verschil tussen gemeten en gewenste ADU-waarden"
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1832
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Dark-flat"
+msgstr "Luchtvlak"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
-#, kde-format
-msgid "When shoting flats on sky with changing intensity."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "When shoting flats on sky with changing intensity."
+msgid "When shooting flats on sky with changing intensity."
+msgstr "Bij opnemen van vlakken in de hemel met wijzigende intensiteit."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1837
@@ -37179,18 +37135,17 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Agressiviteitsfactor toe te passen op afwijzen van buitenliggers bij gebruik "
+"van Donut Buster."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2149
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to adapt the focuser starting position at the beginning of an "
-#| "Autofocus run."
+#, kde-format
 msgid ""
 "Check to force a scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Of de startpositie van de focuser aan te passen bij het begin van een "
-"autofocus run."
+"Activeer om een scan af te dwingen voor een optimale startpositie bij het "
+"starten van autofocus."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2153
@@ -37198,6 +37153,8 @@ msgstr ""
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
+"Aantal te gebruiken gegevenspunten tijdens scan wanneer focusScanStartPos is "
+"geactiveerd."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2157
@@ -37206,6 +37163,8 @@ msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
+"Toe te passen factor op Initiële stapgrootte tijdens scan wanneer "
+"focusScanStartPos is geactiveerd."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2161
@@ -37440,13 +37399,10 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusAdvSEP), group (Focus)
 #: kstars.kcfg:2283
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
 msgstr ""
-"Of aanbevolen stapgrootte van focusadviseur wordt geaccepteerd op parameters "
-"van tabblad Proces."
+"Of aanbevelingen van focusadviseur wordt geaccepteerd op SEP_parameters."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2288
