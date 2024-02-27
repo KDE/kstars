@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-26 01:36+0000\n"
-"PO-Revision-Date: 2024-02-25 09:23+0200\n"
+"PO-Revision-Date: 2024-02-26 15:18+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -18615,8 +18615,7 @@ msgstr ""
 "Під час перевірки РПП (HFR) не виявлено зірок, повторюємо спробу захоплення…"
 
 #: ekos/focus/focus.cpp:2910
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: excceded max iterations %1"
+#, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Помилка автофокусування: перевищено максимальну кількість ітерацій, %1"
 
@@ -36842,8 +36841,7 @@ msgstr "Плоске поле неба"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
-#, fuzzy, kde-format
-#| msgid "When shoting flats on sky with changing intensity."
+#, kde-format
 msgid "When shooting flats on sky with changing intensity."
 msgstr "Коли знімати зображення плоского поля неба зі змінною інтенсивністю."
 
