@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-26 01:36+0000\n"
-"PO-Revision-Date: 2024-02-25 20:09+0100\n"
+"PO-Revision-Date: 2024-02-26 18:40+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18685,8 +18685,7 @@ msgid "No stars detected while testing HFR, capturing again..."
 msgstr "No s'han detectat estrelles en provar l'HFR. Es tornarà a capturar..."
 
 #: ekos/focus/focus.cpp:2910
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: excceded max iterations %1"
+#, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Ha fallat l'enfocament automàtic: ha excedit el nombre màxim d'iteracions %1"
@@ -37067,8 +37066,7 @@ msgstr "Fotograma pla del cel"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
-#, fuzzy, kde-format
-#| msgid "When shoting flats on sky with changing intensity."
+#, kde-format
 msgid "When shooting flats on sky with changing intensity."
 msgstr "En prendre fotogrames plans del cel amb canvi d'intensitat."
 
