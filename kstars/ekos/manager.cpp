@@ -1401,7 +1401,6 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
             Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::processUpdateProperty,
             Qt::UniqueConnection);
-    connect(device.get(), &ISD::GenericDevice::interfaceDefined, this, &Ekos::Manager::syncActiveDevices, Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage, Qt::UniqueConnection);
 
 
@@ -1777,10 +1776,6 @@ void Manager::processUpdateProperty(INDI::Property prop)
 
         return;
     }
-    else if (prop.isNameMatch("ACTIVE_DEVICES"))
-    {
-        syncActiveDevices();
-    }
 }
 
 void Manager::processNewProperty(INDI::Property prop)
@@ -1835,14 +1830,6 @@ void Manager::processNewProperty(INDI::Property prop)
 
             device->sendNewProperty(debugLevel);
         }
-        return;
-    }
-
-    if (prop.isNameMatch("ACTIVE_DEVICES"))
-    {
-        if (device->getDriverInterface() > 0)
-            syncActiveDevices();
-
         return;
     }
 
@@ -3202,41 +3189,6 @@ void Manager::setEkosLiveUser(const QString &username, const QString &password)
 bool Manager::ekosLiveStatus()
 {
     return ekosLiveClient.get()->isConnected();
-}
-
-void Manager::syncActiveDevices()
-{
-    for (auto oneDevice : INDIListener::devices())
-    {
-        // Find out what ACTIVE_DEVICES properties this driver needs
-        // and update it from the existing drivers.
-        auto tvp = oneDevice->getProperty("ACTIVE_DEVICES");
-        if (!tvp)
-            continue;
-
-        // Only applicable to non-train devices
-        for (auto &it : *tvp.getText())
-        {
-            QList<QSharedPointer<ISD::GenericDevice>> devs;
-            if (it.isNameMatch("ACTIVE_DOME"))
-            {
-                devs = INDIListener::devicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
-            }
-            else if (it.isNameMatch("ACTIVE_GPS"))
-            {
-                devs = INDIListener::devicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
-            }
-
-            if (!devs.empty())
-            {
-                if (it.getText() != devs.first()->getDeviceName())
-                {
-                    it.setText(devs.first()->getDeviceName().toLatin1().constData());
-                    oneDevice->sendNewProperty(tvp.getText());
-                }
-            }
-        }
-    }
 }
 
 bool Manager::checkUniqueBinaryDriver(const QSharedPointer<DriverInfo> &primaryDriver,

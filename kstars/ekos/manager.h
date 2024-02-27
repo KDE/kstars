@@ -480,12 +480,6 @@ class Manager : public QDialog, public Ui::Manager
         int addModuleTab(EkosModule module, QWidget *tab, const QIcon &icon);
 
         /**
-         * @brief syncActiveDevices Syncs ACTIVE_DEVICES such as ACTIVE_TELESCOPE and ACTIVE_CCD
-         * to the currently detected devices.
-         */
-        void syncActiveDevices();
-
-        /**
          * @brief isINDIReady Check whether all INDI devices are connected and ready and emit signals accordingly.
          * @return True if all INDI devices are connected and ready.
          */
