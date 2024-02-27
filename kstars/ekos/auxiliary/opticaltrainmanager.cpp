@@ -273,6 +273,16 @@ void OpticalTrainManager::syncActiveDevices()
         if (getGenericDevice(train, LightBox, device))
             syncActiveProperties(oneTrain, device);
     }
+
+    // For non-train specific devices, we only sync them with primary train
+    QSharedPointer<ISD::GenericDevice> device;
+    auto name = m_OpticalTrains[0]["name"].toString();
+    if (getGenericDevice(name, Dome, device))
+        syncActiveProperties(m_OpticalTrains[0], device);
+    if (getGenericDevice(name, Weather, device))
+        syncActiveProperties(m_OpticalTrains[0], device);
+    if (getGenericDevice(name, GPS, device))
+        syncActiveProperties(m_OpticalTrains[0], device);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -865,6 +875,29 @@ bool OpticalTrainManager::getGenericDevice(const QString &train, Role role, QSha
                     return INDIListener::findDevice(oneTrain["focuser"].toString(), generic);
                 case LightBox:
                     return INDIListener::findDevice(oneTrain["lightbox"].toString(), generic);
+                case Dome:
+                {
+                    auto devices = INDIListener::devicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
+                    if (!devices.empty())
+                    {
+                        generic = devices[0];
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                break;
+                case GPS:
+                {
+                    auto devices = INDIListener::devicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
+                    if (!devices.empty())
+                    {
+                        generic = devices[0];
+                        return true;
+                    }
+                    else
+                        return false;
+                }
                 default:
                     break;
             }

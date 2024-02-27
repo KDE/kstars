@@ -48,7 +48,11 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
             FilterWheel,
             Focuser,
             Reducer,
-            LightBox
+            LightBox,
+            // Non-train specific
+            Dome,
+            Weather,
+            GPS
         } Role;
 
         void setProfile(const QSharedPointer<ProfileInfo> &profile);
