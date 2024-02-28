@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"POT-Creation-Date: 2024-02-28 01:33+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -6096,7 +6096,7 @@ msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രി�
 
 #: ekos/align/align.cpp:2594 ekos/analyze/analyze.cpp:3716
 #: ekos/capture/capture.cpp:1760 ekos/focus/focus.cpp:4171
-#: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1935 ekos/mount/mount.cpp:829
+#: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1922 ekos/mount/mount.cpp:829
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, fuzzy, kde-format
@@ -9836,7 +9836,7 @@ msgstr "GStreamer ഫയല്‍ ഔട്ട്പുട്ട് നിര്
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
-#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2066
+#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2053
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:467
@@ -9846,7 +9846,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2080 ekos/manager.cpp:2040
+#: ekos/analyze/analyze.cpp:2080 ekos/manager.cpp:2027
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:395
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:475
 #, fuzzy, kde-format
@@ -9858,7 +9858,7 @@ msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2081 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2225
+#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2212
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:471
 #, kde-format
@@ -9876,7 +9876,7 @@ msgstr "ബേക്കര്‍സ്‌ഫീല്‍ഡ്"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2083 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2150 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2137 ekos/manager.ui:665
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "എണ്ണം"
@@ -11988,7 +11988,7 @@ msgstr "നക്ഷത്രക്കൂട്ടം"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2265
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2252
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -12156,34 +12156,34 @@ msgstr "തനത് ക്രമീകരണം ലോഡ് ചെയ്യു
 msgid "New Train"
 msgstr "ന്യൂ കാലിഡോമിയ"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:439
+#: ekos/auxiliary/opticaltrainmanager.cpp:449
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Carman"
 msgid "Primary"
 msgstr "കാര്‍മന്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:442
+#: ekos/auxiliary/opticaltrainmanager.cpp:452
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "Secondary"
 msgstr "സെക്കന്റുകള്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:445
+#: ekos/auxiliary/opticaltrainmanager.cpp:455
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Virgin Islands"
 msgid "Tertiary"
 msgstr "വിര്‍ജിന്‍ ദ്വീപുകള്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1173
+#: ekos/auxiliary/opticaltrainmanager.cpp:1206
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1180
+#: ekos/auxiliary/opticaltrainmanager.cpp:1213
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -22022,123 +22022,123 @@ msgstr "വെബ്കാം ഡിവൈസ് സ്ട്രിങ് സൂ
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1437
+#: ekos/manager.cpp:1436
 #, fuzzy, kde-format
 msgid "Remote devices established."
 msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 
-#: ekos/manager.cpp:1439
+#: ekos/manager.cpp:1438
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1500
+#: ekos/manager.cpp:1499
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1507
+#: ekos/manager.cpp:1506
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "%1 is disconnected."
 msgstr "വിഛേദിക്കുക"
 
-#: ekos/manager.cpp:1526 ekos/manager.cpp:1535 ekos/manager.cpp:1568
+#: ekos/manager.cpp:1525 ekos/manager.cpp:1534 ekos/manager.cpp:1567
 #: indi/indistd.cpp:689
 #, fuzzy, kde-format
 msgid "%1 is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1543
+#: ekos/manager.cpp:1542
 #, fuzzy, kde-format
 msgid "%1 filter is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1552
+#: ekos/manager.cpp:1551
 #, fuzzy, kde-format
 msgid "%1 focuser is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1559
+#: ekos/manager.cpp:1558
 #, fuzzy, kde-format
 msgid "Rotator %1 is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1575
+#: ekos/manager.cpp:1574
 #, fuzzy, kde-format
 msgid "%1 Weather is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1582
+#: ekos/manager.cpp:1581
 #, fuzzy, kde-format
 msgid "%1 GPS is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1591
+#: ekos/manager.cpp:1590
 #, fuzzy, kde-format
 msgid "%1 Dust cap is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1598
+#: ekos/manager.cpp:1597
 #, fuzzy, kde-format
 msgid "%1 Light box is online."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1736
+#: ekos/manager.cpp:1735
 #, fuzzy, kde-format
 msgid "%1 is offline."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/manager.cpp:1987
+#: ekos/manager.cpp:1974
 #, fuzzy, kde-format
 #| msgid "CCD B"
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD B"
 
-#: ekos/manager.cpp:2282
+#: ekos/manager.cpp:2269
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2471
+#: ekos/manager.cpp:2458
 #, fuzzy, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/manager.cpp:2472
+#: ekos/manager.cpp:2459
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "ശബ്ദ ഫയലിന്റെ യു.ആര്‍.ഐ (URI)"
 
-#: ekos/manager.cpp:2524
+#: ekos/manager.cpp:2511
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2526
+#: ekos/manager.cpp:2513
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2773
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2781
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2809
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2821
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""

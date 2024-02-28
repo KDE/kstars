@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-26 01:36+0000\n"
+"POT-Creation-Date: 2024-02-28 01:33+0000\n"
 "PO-Revision-Date: 2024-02-26 15:18+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -6100,7 +6100,7 @@ msgstr "Розв'язування перервано за %1 секунд."
 
 #: ekos/align/align.cpp:2594 ekos/analyze/analyze.cpp:3716
 #: ekos/capture/capture.cpp:1760 ekos/focus/focus.cpp:4171
-#: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1935 ekos/mount/mount.cpp:829
+#: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1922 ekos/mount/mount.cpp:829
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -10133,7 +10133,7 @@ msgstr "Не вдалося показати тимчасовий файл зо�
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
-#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2066
+#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2053
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:467
@@ -10143,7 +10143,7 @@ msgstr "Фокус"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2080 ekos/manager.cpp:2040
+#: ekos/analyze/analyze.cpp:2080 ekos/manager.cpp:2027
 #: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:395
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:475
 #, kde-format
@@ -10155,7 +10155,7 @@ msgstr "Вирівнювання"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2081 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2225
+#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2212
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:471
 #, kde-format
@@ -10171,7 +10171,7 @@ msgstr "Перехід"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2083 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2150 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2137 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Лафет"
@@ -12411,7 +12411,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2265
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2252
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12578,22 +12578,22 @@ msgstr "Відкрити каталог журналів…"
 msgid "New Train"
 msgstr "Новий тракт"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:439
+#: ekos/auxiliary/opticaltrainmanager.cpp:449
 #, kde-format
 msgid "Primary"
 msgstr "Основний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:442
+#: ekos/auxiliary/opticaltrainmanager.cpp:452
 #, kde-format
 msgid "Secondary"
 msgstr "Вторинний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:445
+#: ekos/auxiliary/opticaltrainmanager.cpp:455
 #, kde-format
 msgid "Tertiary"
 msgstr "Третинний"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1173
+#: ekos/auxiliary/opticaltrainmanager.cpp:1206
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12602,7 +12602,7 @@ msgstr ""
 "Не виявлено деяких пристроїв (%1). Будь ласка, повторно налаштуйте оптичні "
 "тракти, перш ніж переходити до інших дій."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1180
+#: ekos/auxiliary/opticaltrainmanager.cpp:1213
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -23350,19 +23350,19 @@ msgstr "Від'єднуємо пристрої INDI…"
 msgid "INDI services stopped."
 msgstr "Роботу служб INDI завершено."
 
-#: ekos/manager.cpp:1437
+#: ekos/manager.cpp:1436
 #, kde-format
 msgid "Remote devices established."
 msgstr "Роботу з віддаленими пристроями увімкнено."
 
-#: ekos/manager.cpp:1439
+#: ekos/manager.cpp:1438
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 "Роботу з віддаленими пристроями увімкнено. Будь ласка, з'єднайте пристрої з "
 "комп'ютером."
 
-#: ekos/manager.cpp:1500
+#: ekos/manager.cpp:1499
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -23371,105 +23371,105 @@ msgstr ""
 "Не вдалося з'єднатися із %1.\n"
 "Будь ласка, переконайтеся, що пристрій з'єднано із комп'ютером і увімкнено."
 
-#: ekos/manager.cpp:1507
+#: ekos/manager.cpp:1506
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 від'єднано."
 
-#: ekos/manager.cpp:1526 ekos/manager.cpp:1535 ekos/manager.cpp:1568
+#: ekos/manager.cpp:1525 ekos/manager.cpp:1534 ekos/manager.cpp:1567
 #: indi/indistd.cpp:689
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 доступний."
 
-#: ekos/manager.cpp:1543
+#: ekos/manager.cpp:1542
 #, kde-format
 msgid "%1 filter is online."
 msgstr "Засіб фільтрування %1 доступний."
 
-#: ekos/manager.cpp:1552
+#: ekos/manager.cpp:1551
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "Засіб фокусування %1 доступний."
 
-#: ekos/manager.cpp:1559
+#: ekos/manager.cpp:1558
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Засіб обертання %1 є працездатним."
 
-#: ekos/manager.cpp:1575
+#: ekos/manager.cpp:1574
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "Засіб прогнозування погоди %1 активний."
 
-#: ekos/manager.cpp:1582
+#: ekos/manager.cpp:1581
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "GPS %1 є працездатним."
 
-#: ekos/manager.cpp:1591
+#: ekos/manager.cpp:1590
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "Протипиловий ковпак %1 активний."
 
-#: ekos/manager.cpp:1598
+#: ekos/manager.cpp:1597
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "Підсвітка %1 активна."
 
-#: ekos/manager.cpp:1736
+#: ekos/manager.cpp:1735
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 поза мережею."
 
-#: ekos/manager.cpp:1987
+#: ekos/manager.cpp:1974
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "ПЗЗ"
 
-#: ekos/manager.cpp:2282
+#: ekos/manager.cpp:2269
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Порт наведення з %1 готовий до роботи."
 
-#: ekos/manager.cpp:2471
+#: ekos/manager.cpp:2458
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Ви справді хочете вилучити цей профіль?"
 
-#: ekos/manager.cpp:2472
+#: ekos/manager.cpp:2459
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Підтвердження вилучення"
 
-#: ekos/manager.cpp:2524
+#: ekos/manager.cpp:2511
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Оновлено запис місця до значення %1."
 
-#: ekos/manager.cpp:2526
+#: ekos/manager.cpp:2513
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Не вдалося оновити запис місця до значення %1. Такого міста не знайдено."
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2773
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Вмикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2781
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Вимикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2809
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Повторно вмикаємо діагностичний журнал %1…"
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2821
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно вимикаємо діагностичний журнал %1…"
