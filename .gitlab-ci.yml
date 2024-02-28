@@ -17,7 +17,7 @@ stages:
   #- test-unstable
   - deploy
 
-image: tallfurryman/kstars-ci:0.12
+#image: tallfurryman/kstars-ci:0.12
 
 variables:
   CCACHE_BASEDIR: "$CI_PROJECT_DIR"
