@@ -1809,6 +1809,7 @@ bool Mount::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QCheckBox *pCB = nullptr;
     QComboBox *pComboBox = nullptr;
     QTimeEdit *pTimeEdit = nullptr;
+    QRadioButton *pRadioButton = nullptr;
     bool ok = false;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
@@ -1832,7 +1833,15 @@ bool Mount::syncControl(const QVariantMap &settings, const QString &key, QWidget
     else if ((pCB = qobject_cast<QCheckBox *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pCB->setChecked(value);
+        if (value != pCB->isChecked())
+            pCB->click();
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value)
+            pRadioButton->click();
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -1862,6 +1871,7 @@ void Mount::syncSettings()
     QCheckBox *cb = nullptr;
     QComboBox *cbox = nullptr;
     QTimeEdit *timeEdit = nullptr;
+    QRadioButton *rb = nullptr;
 
     QString key;
     QVariant value;
@@ -1881,6 +1891,11 @@ void Mount::syncSettings()
     {
         key = cb->objectName();
         value = cb->isChecked();
+    }
+    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = rb->objectName();
+        value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -1995,6 +2010,10 @@ void Mount::connectSyncSettings()
     for (auto &oneWidget : findChildren<QCheckBox*>())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
 
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+
     // All QDateTimeEdit
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
         connect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
@@ -2019,6 +2038,10 @@ void Mount::disconnectSyncSettings()
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
 
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())

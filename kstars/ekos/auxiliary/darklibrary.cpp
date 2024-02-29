@@ -1909,7 +1909,8 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     else if ((pCB = qobject_cast<QCheckBox *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pCB->setChecked(value);
+        if (value != pCB->isChecked())
+            pCB->click();
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -1922,7 +1923,8 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pRadioButton->setChecked(value);
+        if (value)
+            pRadioButton->click();
         return true;
     }
 
@@ -1967,22 +1969,6 @@ void DarkLibrary::syncSettings()
     else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
     {
         key = cradio->objectName();
-
-        // N.B. Only store CHECKED radios, do not store unchecked ones
-        // as we only have exclusive groups.
-        if (cradio->isChecked() == false)
-        {
-            // Remove from setting if it was added before
-            if (m_Settings.contains(key))
-            {
-                m_Settings.remove(key);
-                emit settingsUpdated(getAllSettings());
-                OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
-                OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);
-            }
-            return;
-        }
-
         value = true;
     }
 

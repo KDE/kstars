@@ -3061,6 +3061,7 @@ bool Guide::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;
     QComboBox *pComboBox = nullptr;
+    QRadioButton *pRadioButton = nullptr;
     bool ok = false;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
@@ -3084,7 +3085,15 @@ bool Guide::syncControl(const QVariantMap &settings, const QString &key, QWidget
     else if ((pCB = qobject_cast<QCheckBox *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pCB->setChecked(value);
+        if (value != pCB->isChecked())
+            pCB->click();
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value)
+            pRadioButton->click();
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -3266,6 +3275,10 @@ void Guide::connectSettings()
     for (auto &oneWidget : findChildren<QCheckBox*>())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
 
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
 }
@@ -3286,6 +3299,10 @@ void Guide::disconnectSettings()
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
 
 }
@@ -3312,6 +3329,7 @@ void Guide::syncSettings()
     QSpinBox *sb = nullptr;
     QCheckBox *cb = nullptr;
     QComboBox *cbox = nullptr;
+    QRadioButton *rb = nullptr;
 
     QString key;
     QVariant value;
@@ -3336,6 +3354,11 @@ void Guide::syncSettings()
     {
         key = cbox->objectName();
         value = cbox->currentText();
+    }
+    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = rb->objectName();
+        value = true;
     }
 
     updateSetting(key, value);
