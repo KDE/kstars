@@ -13212,10 +13212,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "Sky culture"
+#, kde-format
 msgid "Sky flats"
-msgstr "Kulturní schéma souhvězdí"
+msgstr ""
 
 #: ekos/capture/capture.cpp:133
 #, kde-format
@@ -16560,10 +16559,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:59
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Settings Parameters:"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvProcessTab)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCamera)
@@ -16592,10 +16590,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:142
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Process Parameters:"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/advisor.ui:149
@@ -16611,10 +16608,9 @@ msgstr "Velikost kroku:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:213
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Mechanics Parameters:"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:226
@@ -16645,10 +16641,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSEPLabel)
 #: ekos/focus/advisor.ui:271
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "SEP Parameters:"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
@@ -18389,11 +18384,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:669
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulation"
+#, kde-format
 msgid "Time Dilation x:"
-msgstr "Simulace"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:679
@@ -18435,10 +18428,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:749
-#, fuzzy, kde-format
-#| msgid "Direction:"
+#, kde-format
 msgid "Outlier Rejection:"
-msgstr "Směr:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:759
@@ -18459,10 +18451,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Velikost kroku:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -33683,11 +33674,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1832
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Flat"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Ploché"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833

@@ -122,8 +122,8 @@
             <listitem>
                 <para
 >Un <guilabel
->fichier Fits</guilabel
-> facultatif : si vous spécifiez un fichier FITS, le résolveur astrométrique résoudra le fichier et utilisera la position centrale en AD et DEC comme coordonnées cibles. </para>
+>fichier « FITS </guilabel
+> facultatif : si vous spécifiez un fichier « FITS », le résolveur astrométrique résoudra le fichier et utilisera la position centrale en AD et DEC comme coordonnées cibles. </para>
             </listitem>
             <listitem>
                 <para
@@ -213,7 +213,7 @@
         <para
 >Si vous souhaitez alterner les tâches, vous pouvez attribuer chaque tâche au même nom de <guilabel
 >groupe</guilabel
-> et donner aux tâches une des conditions d'achèvement (p. ex. Répéter N fois ou Répéter jusqu'à achèvement). Ainsi configurées, les tâches dans le même groupe laisseront la place aux autres tâches si elles ont terminées plus d'itérations que les autre autres tâches. Ainsi si la tâche 2 du groupe « MonGroupe » termine sa deuxième itération et que la tâche 3 du même groupe n'a terminé que 0 ou 1 itération, quand viendra le moment de programmer la tâche 2, ce sera la tâche 3 qui sera exécutée. </para>
+> et donner aux tâches une des conditions d'achèvement (p. ex. Répéter N fois ou Répéter jusqu'à achèvement). Ainsi configurées, les tâches dans le même groupe laisseront la place aux autres tâches si elles ont terminées plus d'itérations que les autre autres tâches. Ainsi si la tâche 2 du groupe « Mon-Groupe » termine sa deuxième itération et que la tâche 3 du même groupe n'a terminé que 0 ou 1 itération, quand viendra le moment de programmer la tâche 2, ce sera la tâche 3 qui sera exécutée. </para>
         <para
 >Dans la pratique, imaginez que vous une mosaïque à 6 panneaux que vous souhaitez alterner. Vous pouvez mettre chaque tâche dans le même groupe et les faire se répéter par exemple 5 fois. Ensuite, elles s'exécuteront en pas fixe. La cadence de changement sera contrôlée par la longueur du fichier de séquence attribué à chaque tâche. Vous ne voulez pas avoir une cadence trop courte (p. ex. pose de 2 minutes), parce que les changements impliquent plusieurs opérations telles que l'alignement, le guidage et la mise au point. </para>
        </sect3>
@@ -253,7 +253,7 @@
 >Cet outil est très similaire à l'utilisation et dans sa forme à l'onglet d'acquisition, bien qu'il manque tous les boutons pour l'acquisition proprement dit. Les tâches sont modifiées de la même manière que les acquisitions, ainsi que le chargement et l'enregistrement des files de séquences (mais il y a des boutons de chargement et d'enregistrement additionnels). </para>
         <important>
         <para
->Il est important de noter que les séquences d'acquisitions dépendent dans une certaine mesure de la roue à filtre et de l'appareil utilisé (p. ex. les noms de filtre, les valeur d'ISO possible, …). Cet outil, qui n'est pas connecté aux pilotes de périphériques, n'a pas accès à cette information. Au contraire, il utilise les valeurs de la dernière connexion des périphériques à l'onglet d'acquisition. Il ne fait ainsi pas de sens de créer un fichier .esq pour un appareil ou une roue à filtres différents que celui utilisé lors de la dernière connexion. Il faudra attendre que la tâche de la séquence soit terminée et modifier le fichier .esl directement dans l'onglet d'acquisition. </para>
+>Il est important de noter que les séquences d'acquisitions dépendent dans une certaine mesure de la roue à filtre et de l'appareil utilisé (p. ex. les noms de filtre, les valeur d'ISO possible, …). Cet outil, qui n'est pas connecté aux pilotes de périphériques, n'a pas accès à cette information. Au contraire, il utilise les valeurs de la dernière connexion des périphériques à l'onglet d'acquisition. Il ne fait ainsi pas de sens de créer un fichier « .esq » pour un appareil ou une roue à filtres différents que celui utilisé lors de la dernière connexion. Il faudra attendre que la tâche de la séquence soit terminée et modifier le fichier « .esl » directement dans l'onglet d'acquisition. </para>
         <para
 >Il est également recommandé de ne pas écraser les fichiers .esq pendant que les tâches de l'ordonnanceur utilisent ces mêmes fichiers. (C'est OK de le faire pendant que l'ordonnanceur est en cours mais pas si cette tâche particulière est en exécution). En effet, cela désynchroniserait l'ordonnanceur et les modules d'acquisition, puisqu'ils lisent ces fichiers à des moments différents. Vous devriez plutôt enregistrer sous un nom différent et ensuite modifier la tâche pour utiliser ce nouveau fichier .esq. </para>
         </important>
@@ -325,11 +325,11 @@
             </listitem>
             <listitem>
                 <para
->Déparcage du dôme </para>
+>Déparquage du dôme </para>
             </listitem>
             <listitem>
                 <para
->Déparcage de la monture </para>
+>Déparquage de la monture </para>
             </listitem>
             <listitem>
                 <para
@@ -393,7 +393,7 @@
         <para
 >Une fois que la tâche s'est terminée avec succès, l'ordonnanceur choisit la prochaine tâche. Si l'heure programmée de la prochaine tâche n'est pas encore proche, la monture est parquée jusqu'à ce que la prochaine tâche soit prête. De plus si la prochaine tâche programmée n'est pas proche dans une limite de temps configurable par l'utilisateur, l'ordonnanceur réalise une extinction <emphasis
 >anticipée</emphasis
-> pour préserver les resources et réalisera la procédure de démarrage quand la tâche sera prête. </para>
+> pour préserver les ressources et réalisera la procédure de démarrage quand la tâche sera prête. </para>
         <para
 >Si une erreur irrécupérable se produit, l'observatoire initie une procédure d'arrêt. S'il existe un script d'arrêt, celui-ci sera exécuté en dernier. </para>
         <para
@@ -416,7 +416,7 @@
         <title
 >Surveillance de la météo</title>
         <para
->Un autre aspect critique des observatoires robotiques commandés à distance est la surveillance de la météo. Ekos s'appuie sur le pilote météo d'INDI sélectionné pour surveiller en continu les conditions météorologiques. Par souci de simplicité, les conditions météorologiques se résument en trois états : </para>
+>Un autre aspect critique des observatoires robotiques commandés à distance est la surveillance de la météo. Ekos s'appuie sur le pilote météo de INDI sélectionné pour surveiller en continu les conditions météorologiques. Par souci de simplicité, les conditions météorologiques se résument en trois états : </para>
         <orderedlist>
             <listitem>
                 <para
@@ -472,9 +472,9 @@ exit(0)
         <para
 >Les scripts doivent être <emphasis
 >exécutables</emphasis
-> pour qu'Ekos puisse les invoquer (c'est-à-dire utilisez la commande <userinput
+> pour que Ekos puisse les invoquer (c'est-à-dire utilisez la commande <userinput
 >chmod u+x startup_script.py</userinput
-> pour le rendre exécutable). L'ordonnanceur d'Ekos permet d'opérer un observatoire de manière complètement robotisée sans aucune intervention humaine. Il est donc critique que le système puisse se rétablir après des erreurs, et cela à n'importe quelle étape du processus d'observation. L'utilisation des notifications &plasma; permet de configurer des alarmes audibles et l'envoi automatique de courriels pour divers évènements de l'ordonnanceur. </para>
+> pour le rendre exécutable). L'ordonnanceur de Ekos permet d'opérer un observatoire de manière complètement robotisée sans aucune intervention humaine. Il est donc critique que le système puisse se rétablir après des erreurs, et cela à n'importe quelle étape du processus d'observation. L'utilisation des notifications &plasma; permet de configurer des alarmes audibles et l'envoi automatique de courriels pour divers évènements de l'ordonnanceur. </para>
     </sect2>
 
     <sect2 id="ekos-scheduler-mosaic-Planner">
@@ -520,7 +520,7 @@ exit(0)
         <para
 >La seconde étape est gérée par des logiciels de traitement d'images comme <ulink url="https://pixinsight.com"
 >PixInsight</ulink
-> ou autres, mais cela ne sera pas le sujet ici. La première étape peut être accomplie par l'ordonnanceur d'Ekos qui permet l'acquisition d'images appropriée à votre équipement et qui couvre le champ de vision désiré. Ekos crée non seulement les panneaux pour votre cible mais il construit également les tâches nécessaires pour acquérir toutes les images. Cela facilite grandement la logistique d'acquisition d'images de différents filtres et trames de calibration d'une vaste région du ciel. </para>
+> ou autres, mais cela ne sera pas le sujet ici. La première étape peut être accomplie par l'ordonnanceur Ekos qui permet l'acquisition d'images appropriée à votre équipement et qui couvre le champ de vision désiré. Ekos crée non seulement les panneaux pour votre cible mais il construit également les tâches nécessaires pour acquérir toutes les images. Cela facilite grandement la logistique d'acquisition d'images de différents filtres et trames de calibration d'une vaste région du ciel. </para>
         <para
 >Le <guilabel
 >planificateur de mosaïques</guilabel
@@ -570,7 +570,7 @@ exit(0)
             </mediaobject>
         </screenshot>
         <para
->Un grand chevauchement rendra la jointure des trames plus facile durant le traitement mais requiert davantage de panneaux pour couvrir la zone souhaitée. Toutefois, si vous connaissez déjà la quantité minimale de trames qui seront utilisée par l'algorithme de rejet durant la phase de post-traitement, vous pouvez vouloir augmenter le chevauchement pour atteindre cette quantité sur les zones couvertes par de multiples panneaux. Par exemple, une grille de mosaïque 4x4 avec 75% de chevauchement possède 16 sous-trames couvrant l'intersection centrale, ce qui est suffisant pour l'algorithme de rejet Winsorized Sigma. Bien que l'empilement résultant n'ait pas la même hauteur sur toutes les parties de la trame finale, cette méthode vous donne le contrôle sur le rapport signal sur bruit et vous permet de donner du contexte à votre cible tout en devant faire un nombre relativement bas d'acquisitions. </para>
+>Un grand chevauchement rendra la jointure des trames plus facile durant le traitement mais requiert davantage de panneaux pour couvrir la zone souhaitée. Toutefois, si vous connaissez déjà la quantité minimale de trames qui seront utilisée par l'algorithme de rejet durant la phase de post-traitement, vous pouvez vouloir augmenter le chevauchement pour atteindre cette quantité sur les zones couvertes par de multiples panneaux. Par exemple, une grille de mosaïque 4x4 avec 75 % de chevauchement possède 16 sous-trames couvrant l'intersection centrale, ce qui est suffisant pour l'algorithme de rejet « Winsorized Sigma ». Bien que l'empilement résultant n'ait pas la même hauteur sur toutes les parties de la trame finale, cette méthode vous donne le contrôle sur le rapport signal sur bruit et vous permet de donner du contexte à votre cible tout en devant faire un nombre relativement bas d'acquisitions. </para>
         <para
 >Le grand nombre dessiné dans le coin de chaque panneau de la grille représente l'ordre dans lequel chaque panneau sera traité. Le choix par défaut de la forme d'un S (ouest-est puis en alternance haut-bas/bas-haut) assure un mouvement minimal de la monture durant l'observation. Décochez <guilabel
 >Mouvement minimum de la monture</guilabel

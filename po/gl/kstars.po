@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-28 01:33+0000\n"
-"PO-Revision-Date: 2024-02-27 04:57+0100\n"
+"PO-Revision-Date: 2024-02-28 16:27+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -17810,7 +17810,7 @@ msgstr "Adaptando o punto de inicio [%1] de %2 a %3"
 #: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6759
 #, kde-format
 msgid "Focus Advisor"
-msgstr "Asesoramento de enfoque"
+msgstr "Asistente de enfoque"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:59
@@ -17856,7 +17856,7 @@ msgstr "Parámetros de procesamento:"
 #: ekos/focus/advisor.ui:149
 #, kde-format
 msgid "Focus Advisor:"
-msgstr "Asesoramento de enfoque:"
+msgstr "Asistente de enfoque:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -17878,7 +17878,7 @@ msgid ""
 "where the associated Update box is checked.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Actualizar os parámetros de enfoque coas suxestións do "
-"asesoramento de enfoque onde se marcase a caixa de actualizar asociada.</p></"
+"asistente de enfoque onde se marcase a caixa de actualizar asociada.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
@@ -17899,8 +17899,8 @@ msgstr "Parámetros da cámara e da roda de filtro:"
 msgid ""
 "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Iniciar o diálogo do asistente de asesoramento de "
-"enfoque.</p></body></html>"
+"<html><head/><body><p>Iniciar o diálogo do asistente de enfoque.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSEPLabel)
 #: ekos/focus/advisor.ui:271
@@ -18362,12 +18362,12 @@ msgstr "Iniciouse a operación de enfoque automático"
 #: ekos/focus/focus.cpp:1292
 #, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr "Iníciase o exame da posición inicial do focalizador."
+msgstr "Iníciase a busca da posición inicial do focalizador."
 
 #: ekos/focus/focus.cpp:1293
 #, kde-format
 msgid "Scanning for starting position..."
-msgstr "Examinando en busca da posición inicial…"
+msgstr "Buscando a posición inicial…"
 
 #: ekos/focus/focus.cpp:1345
 #, kde-format
@@ -18510,18 +18510,16 @@ msgid "Autofocus operation failed"
 msgstr "A operación de enfoque automático fallou."
 
 #: ekos/focus/focus.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Autofocus complete after %1 iterations."
+#, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
-msgstr[0] "Completouse o enfoque automático tras %1 iteracións."
-msgstr[1] "Completouse o enfoque automático tras %1 iteracións."
+msgstr[0] "Completouse o proceso de enfoque tras %1 iteración."
+msgstr[1] "Completouse o proceso de enfoque tras %1 iteracións."
 
 #: ekos/focus/focus.cpp:2330
-#, fuzzy, kde-format
-#| msgid "Settling..."
+#, kde-format
 msgid "Settling for %1s..."
-msgstr "Asentando…"
+msgstr "Asentando para %1s…"
 
 #: ekos/focus/focus.cpp:2337
 #, kde-format
@@ -18551,16 +18549,14 @@ msgid "Capture complete. Select a star to focus."
 msgstr "Completouse a captura. Escolla unha estrela para enfocala."
 
 #: ekos/focus/focus.cpp:2780
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
-msgstr "Non se detectou ningunha estrela; capturando de novo…"
+msgstr "Non se detectou ningunha estrela ao probar HFR, capturando de novo…"
 
 #: ekos/focus/focus.cpp:2910
-#, fuzzy, kde-format
-#| msgid "Autofocus complete after %1 iterations."
+#, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
-msgstr "Completouse o enfoque automático tras %1 iteracións."
+msgstr "O enfoque automático fallou: superou as iteracións máximas, %1."
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18569,12 +18565,10 @@ msgid "No stars detected, capturing again..."
 msgstr "Non se detectou ningunha estrela; capturando de novo…"
 
 #: ekos/focus/focus.cpp:2927 ekos/focus/focus.cpp:3702
-#, fuzzy, kde-format
-#| msgid "Failed to detect any stars. Reset frame and try again."
+#, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
-"Non se puido detectar ningunha estrela. Restabelecer o fotograma e intentalo "
-"de novo."
+"Non foi posíbel detectar ningunha estrela na posición %1. Continuarase…"
 
 #: ekos/focus/focus.cpp:2933 ekos/focus/focus.cpp:3708
 #, kde-format
@@ -18586,40 +18580,37 @@ msgstr ""
 #: ekos/focus/focus.cpp:3119
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
-msgstr ""
+msgstr "Non foi posíbel iniciar a execución %1 do inspector de aberración…"
 
 #: ekos/focus/focus.cpp:3139
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
-msgstr ""
+msgstr "Iniciando a execución %1 do inspector de aberración…"
 
 #: ekos/focus/focus.cpp:3162
-#, fuzzy, kde-format
-#| msgid "Failed to detect any stars. Reset frame and try again."
+#, kde-format
 msgid "Failed to detect any stars. Aborting..."
-msgstr ""
-"Non se puido detectar ningunha estrela. Restabelecer o fotograma e intentalo "
-"de novo."
+msgstr "Non foi posíbel detectar ningunha estrela. Interrompendo…"
 
 #: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Buscando a posición inicial %1/%2"
 
 #: ekos/focus/focus.cpp:3196
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Non se cumpriu o mínimo de busca, ampliando a busca…"
 
 #: ekos/focus/focus.cpp:3206
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Atopouse a posición inicial de busca %1"
 
 #: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Atopouse a posición inicial de busca %1"
 
 #: ekos/focus/focus.cpp:3268
 #, kde-format
@@ -18815,6 +18806,28 @@ msgid ""
 "restart Focus Advisor.\n"
 "\n"
 msgstr ""
+"O asistente de enfoque (AE) está deseñado para axudarlle cos parámetros de "
+"enfoque.\n"
+"Pode que non lle forneza a combinación perfecta de parámetros, terá que "
+"experimentar pola súa conta, pero forneceralle un conxunto básico de "
+"parámetros para conseguir enfoque.\n"
+"\n"
+"AE recomendará valores para a maioría dos parámetros. Porén, preparar algúns "
+"requirirá traballo pola súa parte. Estes últimos están identificados embaixo "
+"cunha explicación básica de como definilos.\n"
+"\n"
+"O primeiro paso é definir a folgura. O manual do focalizador probablemente "
+"explique como facelo. Cando teña o valor de folgura, pode definir o campo de "
+"folgura para que o controlador a compense, ou definir o campo de sobrebusca "
+"de enfoque automático para a compense o enfoque automático. Defina só un dos "
+"campos, e poña 0 no outro. Se non ten claro cal definir, recoméndase usar a "
+"sobrebusca de enfoque automático.\n"
+"\n"
+"O segundo paso é definir o tamaño de paso. Se sabe o valor aproximado, "
+"introdúzao aquí; senón, pode atoparse un valor predeterminado a partir da "
+"zona crítica de enfoque (CFZ) do seu equipo, así que configúreo la lapela "
+"CFZ e reinicie o asistente de enfoque.\n"
+"\n"
 
 #: ekos/focus/focus.cpp:6748
 #, kde-format
@@ -18835,6 +18848,24 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
+"O terceiro paso é definir o resto de parámetros de enfoque con valores "
+"sensatos. O asistente de enfoque suxeriralle valores para 5 categorías de "
+"parámetros. Prema «Actualizar os parámetros» e revise a caixa de "
+"actualización para aceptar as recomendacións.\n"
+"1. Propiedades da cámara. Asegúrese de definir a ganancia correctamente, p. "
+"ex. a ganancia de unidade.\n"
+"2. Configuración de enfoque (xanela emerxente de opcións). Todos teñen "
+"recomendacións.\n"
+"3. Proceso de enfoque (xanela emerxente de opcións). Todos teñen "
+"recomendacións.\n"
+"4. Mecánica de enfoque (xanela emerxente de opcións). A configuración do "
+"tamaño de paso tratouse previamente.\n"
+"5. Parámetros de SEP (xanela emerxente de opcións). Defina o perfil axeitado "
+"cos seus valores predeterminados.\n"
+"\n"
+"Agora mova o focalizador ao enfoque aproximado e seleccione un filtro de "
+"banda larga, p. ex. Luminancia.\n"
+"Con isto pode iniciar unha execución do enfoque automático."
 
 #: ekos/focus/focus.cpp:7161
 #, kde-format
@@ -19188,10 +19219,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/opsfocusmechanics.ui:37
-#, fuzzy, kde-format
-#| msgid "Driver crash"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Quebra de controlador"
+msgstr "Folgura do controlador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusmechanics.ui:59
@@ -21716,7 +21746,7 @@ msgid ""
 "backlash problems."
 msgstr ""
 "Rexeitouse a calibración. O inicio da deriva é curto de máis. Comprobe se "
-"hai problemas de montura, cable ou barra invertida."
+"hai problemas de montura, cable ou folgura."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:250
 #, fuzzy, kde-format
@@ -21746,19 +21776,17 @@ msgid_plural ""
 "mount or backlash problems..."
 msgstr[0] ""
 "Guía de ascensión recta (α): O alcance non pode chegar ao punto de inicio "
-"despois de %1 repetición. Posibelmente haxa problemas coa montaxe ou de "
-"barra invertida…"
+"despois de %1 repetición. Posibelmente haxa problemas de montura ou de "
+"folgura…"
 msgstr[1] ""
 "Guía de ascensión recta (α): O alcance non pode chegar ao punto de inicio "
-"despois de %1 repeticións. Posibelmente haxa problemas coa montaxe ou de "
-"barra invertida…"
+"despois de %1 repeticións. Posibelmente haxa problemas de montura ou de "
+"folgura…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "DEC backlash..."
-msgstr "Retroceso"
+msgstr "Folgura de δ…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:369
 #: ekos/guide/internalguide/calibrationprocess.cpp:422
@@ -21775,10 +21803,9 @@ msgstr "Non se puido iniciar a calibración."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:408
 #: ekos/guide/internalguide/calibrationprocess.cpp:425
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "Calibrando"
+msgstr "Calibrando a folgura de δ"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:434
 #, fuzzy, kde-format
@@ -21809,10 +21836,10 @@ msgid_plural ""
 "Possible mount or backlash problems..."
 msgstr[0] ""
 "δ de guía: O alcance non pode chegar ao punto de inicio despois de %1 "
-"repetición. Posibelmente haxa problemas coa montaxe ou de barra invertida…"
+"repetición. Posibelmente haxa problemas de montura ou de folgura…"
 msgstr[1] ""
 "δ de guía: O alcance non pode chegar ao punto de inicio despois de %1 "
-"repeticións. Posibelmente haxa problemas coa montaxe ou de barra invertida…"
+"repeticións. Posibelmente haxa problemas de montura ou de folgura…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:513
 #, fuzzy, kde-format
@@ -71186,7 +71213,7 @@ msgstr "a  D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec Anti-backlash"
-msgstr "Anti-retroceso a/δ"
+msgstr "Anti-folgura a/δ"
 
 #: libindi_strings.cpp:27
 #, kde-kuit-format
@@ -71258,7 +71285,7 @@ msgstr "A D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Az/Ra Anti-backlash"
-msgstr "Anti-retroceso A/α"
+msgstr "Anti-folgura A/α"
 
 #: libindi_strings.cpp:39
 #, kde-kuit-format
@@ -71276,7 +71303,7 @@ msgstr "Retroiluminación"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Backlash"
-msgstr "Retroceso"
+msgstr "Folgura"
 
 #: libindi_strings.cpp:42
 #, kde-kuit-format
