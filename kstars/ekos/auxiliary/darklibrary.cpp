@@ -66,7 +66,16 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     });
     connect(openDarksFolderB, &QPushButton::clicked, this, &DarkLibrary::openDarksFolder);
     connect(clearAllB, &QPushButton::clicked, this, &DarkLibrary::clearAll);
-    connect(clearRowB, &QPushButton::clicked, this, &DarkLibrary::clearRow);
+    connect(clearRowB, &QPushButton::clicked, this, [this]()
+    {
+        auto selectionModel = darkTableView->selectionModel();
+        if (selectionModel->hasSelection())
+        {
+            auto index = selectionModel->currentIndex().row();
+            clearRow(index);
+        }
+    });
+
     connect(clearExpiredB, &QPushButton::clicked, this, &DarkLibrary::clearExpired);
     connect(refreshB, &QPushButton::clicked, this, &DarkLibrary::reloadDarksFromDatabase);
 
@@ -658,30 +667,22 @@ void DarkLibrary::clearAll()
             KMessageBox::No)
         return;
 
-    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
-    QSqlTableModel darkframe(nullptr, userdb);
-    darkFramesModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    darkframe.setTable("darkframe");
-    darkframe.setFilter("ccd LIKE \'" + m_Camera->getDeviceName() + "\'");
-    darkFramesModel->select();
-
     // Now remove all the expired files from disk
-    for (int i = 0; i < darkframe.rowCount(); ++i)
+    for (int i = 0; i < darkFramesModel->rowCount(); ++i)
     {
-        QString oneFile = darkframe.record(i).value("filename").toString();
+        QString oneFile = darkFramesModel->record(i).value("filename").toString();
         QFile::remove(oneFile);
-        QString defectMap = darkframe.record(i).value("defectmap").toString();
+        QString defectMap = darkFramesModel->record(i).value("defectmap").toString();
         if (defectMap.isEmpty() == false)
             QFile::remove(defectMap);
+        darkFramesModel->removeRow(i);
 
     }
 
-    darkFramesModel->removeRows(0, darkFramesModel->rowCount());
     darkFramesModel->submitAll();
 
-    Ekos::DarkLibrary::Instance()->refreshFromDB();
-
     // Refesh db entries for other cameras
+    refreshFromDB();
     reloadDarksFromDatabase();
 }
 
@@ -690,9 +691,8 @@ void DarkLibrary::clearAll()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::clearRow(int index)
 {
-    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     if (index < 0)
-        index = darkTableView->currentIndex().row();
+        return;
 
     QSqlRecord record = darkFramesModel->record(index);
     QString filename = record.value("filename").toString();
@@ -701,12 +701,7 @@ void DarkLibrary::clearRow(int index)
     if (!defectMap.isEmpty())
         QFile::remove(defectMap);
 
-    darkFramesModel->removeRow(index);
-    darkFramesModel->submitAll();
-    userdb.close();
-
-    darkTableView->selectionModel()->select(darkFramesModel->index(index - 1, 0), QItemSelectionModel::ClearAndSelect);
-
+    KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
     refreshFromDB();
     reloadDarksFromDatabase();
 }
