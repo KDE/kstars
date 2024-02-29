@@ -544,6 +544,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
     {
         KSNotification::sorry(
             i18n("The selected Index File directory does not exist.  Please either create it or choose another."));
+        return;
     }
 
     if (checkBox)
