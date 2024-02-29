@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-28 01:33+0000\n"
-"PO-Revision-Date: 2024-02-21 14:58+0100\n"
+"PO-Revision-Date: 2024-02-28 10:39+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -13339,11 +13339,11 @@ msgid "Default focus star-extraction."
 msgstr "Extracció d'estreles amb l'enfocament predeterminat."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:101
-#, fuzzy, kde-format
-#| msgid "Profile optimized for source extraction of larger stars."
+#, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
 msgstr ""
-"Perfil optimitzat per a l'extracció de fonts de les estreles més grans."
+"Perfil optimitzat per a l'extracció de fonts de les estreles incloent-hi els "
+"dònuts."
 
 # skip-rule: kct-selectionbox
 #: ekos/auxiliary/stellarsolverprofile.cpp:122
@@ -14361,13 +14361,14 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Quan es prenen plans del cel en els que pot canviar la intensitat. "
+"S'utilitzarà un càlcul més senzill de l'exposició."
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "Sky flats"
-msgstr "Mapa celeste"
+msgstr "Plans del cel"
 
 #: ekos/capture/capture.cpp:133
 #, kde-format
@@ -18163,10 +18164,9 @@ msgstr "Assessor d'enfocament"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:59
-#, fuzzy, kde-format
-#| msgid "Settings Parameters"
+#, kde-format
 msgid "Settings Parameters:"
-msgstr "Paràmetres de configuració"
+msgstr "Paràmetres de la configuració:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvProcessTab)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCamera)
@@ -18198,10 +18198,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:142
-#, fuzzy, kde-format
-#| msgid "Process Parameters"
+#, kde-format
 msgid "Process Parameters:"
-msgstr "Paràmetres de processament"
+msgstr "Paràmetres del processament:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/advisor.ui:149
@@ -18217,10 +18216,9 @@ msgstr "Mida del pas:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:213
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters"
+#, kde-format
 msgid "Mechanics Parameters:"
-msgstr "Paràmetres de la mecànica"
+msgstr "Paràmetres de la mecànica:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:226
@@ -18241,10 +18239,9 @@ msgstr "Actualitza els paràmetres"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/advisor.ui:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters:"
-msgstr "Paràmetres de la càmera i la roda de filtres"
+msgstr "Paràmetres de la càmera i la roda de filtres:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/advisor.ui:255
@@ -18257,10 +18254,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSEPLabel)
 #: ekos/focus/advisor.ui:271
-#, fuzzy, kde-format
-#| msgid "Process Parameters"
+#, kde-format
 msgid "SEP Parameters:"
-msgstr "Paràmetres de processament"
+msgstr "Paràmetres del SEP:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
@@ -18714,25 +18710,19 @@ msgid "Autofocus operation started"
 msgstr "S'ha iniciat l'operació d'enfocament automàtic"
 
 #: ekos/focus/focus.cpp:1292
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr ""
-"No s'ha pogut fer l'enfocament automàtic, s'està retornant a la posició "
-"inicial de l'enfocament %1."
+msgstr "S'està iniciant l'escaneig per a la posició inicial de l'enfocador."
 
 #: ekos/focus/focus.cpp:1293
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Scanning for starting position..."
-msgstr "No s'ha pogut aparcar la cúpula. S'està tornant a iniciar l'operació…"
+msgstr "S'està escanejant per a la posició inicial…"
 
 #: ekos/focus/focus.cpp:1345
-#, fuzzy, kde-format
-#| msgid "Capturing still running, Retrying in %1 seconds..."
+#, kde-format
 msgid "Capture in progress, retrying in 1s..."
-msgstr ""
-"Encara s'està executant la captura. Es tornarà a intentar en %1 segons…"
+msgstr "La captura està en curs, es tornarà a intentar en 1 segon…"
 
 #: ekos/focus/focus.cpp:1356
 #, kde-format
@@ -18923,6 +18913,8 @@ msgstr ""
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
+"No s'ha pogut fer l'enfocament automàtic: s'ha excedit el nombre màxim "
+"d'iteracions %1"
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18953,30 +18945,29 @@ msgid "Launching Aberration Inspector run %1..."
 msgstr "S'està iniciant l'execució %1 de l'inspector de l'aberració…"
 
 #: ekos/focus/focus.cpp:3162
-#, fuzzy, kde-format
-#| msgid "Failed to detect any stars at position %1. Continuing..."
+#, kde-format
 msgid "Failed to detect any stars. Aborting..."
-msgstr "No s'ha pogut detectar cap estrela a la posició %1. S'està continuant…"
+msgstr "No s'ha pogut detectar cap estrela. S'interromp…"
 
 #: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "S'està escanejant per a la posició inicial %1/%2"
 
 #: ekos/focus/focus.cpp:3196
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Sense escaneig mínim: s'amplia la busca…"
 
 #: ekos/focus/focus.cpp:3206
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "S'ha trobat la posició inicial %1 durant l'escaneig"
 
 #: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "S'ha trobat la posició inicial %1 durant l'escaneig"
 
 #: ekos/focus/focus.cpp:3268
 #, kde-format
@@ -19035,7 +19026,7 @@ msgstr ""
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
-"Fluctuacions inestables. Proveu incrementant la mida inicial del pas o el "
+"Fluctuacions inestables. Proveu incrementant la mida del pas inicial o el "
 "temps d'exposició."
 
 #: ekos/focus/focus.cpp:3580
@@ -19147,29 +19138,7 @@ msgid "Relative Profile"
 msgstr "Perfil relatiu"
 
 #: ekos/focus/focus.cpp:6732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#| "It will not necessarily give you the perfect combination of parameters, "
-#| "you will need to experiment yourself, but it will give you a basic set of "
-#| "parameters to achieve focus.\n"
-#| "\n"
-#| "FA will recommend values for the majority of parameters. A few, however, "
-#| "will need extra work from you to setup. These are identified below along "
-#| "with a basic explanation of how to set them.\n"
-#| "\n"
-#| "The first step is to set backlash. Your focuser manual will likely "
-#| "explain how to do this. Once you have a value for backlash for your "
-#| "system, set either the Backlash field to have the driver perform backlash "
-#| "compensation or the AF Overscan field to have Autofocus perform backlash "
-#| "compensation. Set only one field and set the other to 0.\n"
-#| "\n"
-#| "The second step is to set Step Size. This can be defaulted from the "
-#| "Critical Focus Zone (CFZ) for your equipment - so configure this now in "
-#| "the CFZ tab.\n"
-#| "\n"
-#| "The third step is to set the Out Step Multiple. Start with the suggested "
-#| "default."
+#, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
 "It will not necessarily give you the perfect combination of parameters, you "
@@ -19207,34 +19176,17 @@ msgstr ""
 "explicarà com fer-ho. Una vegada es tinga un valor per al rebot del sistema, "
 "establiu el camp de rebot perquè el controlador realitze la compensació o el "
 "camp d'EA excessiu perquè l'enfocament automàtic realitze la compensació. "
-"Establiu només un camp i deixeu l'altre a 0.\n"
+"Establiu només un camp i deixeu l'altre a 0. Si no esteu segur de quin "
+"establir, es recomana l'«EA excessiu:»\n"
 "\n"
-"El segon pas és establir la mida del pas. Açò es pot predeterminar des de la "
-"Zona crítica d'enfocament (ZCE) per al vostre equip, de manera que "
-"configureu-ho ara a la pestanya ZCE.\n"
+"El segon pas és establir la «Mida del pas». Si coneixeu un valor aproximat, "
+"introduïu-lo ací. En cas contrari el podeu predeterminar a partir de la "
+"«Zona crítica d'enfocament (ZCE)» per al vostre equip, de manera que "
+"configureu-ho ara a la pestanya ZCE i reinicieu l'Assessor d'enfocament.\n"
 "\n"
-"El tercer pas és establir «Múltiples passos cap enfora». Comenceu amb el "
-"valor predeterminat suggerit."
 
 #: ekos/focus/focus.cpp:6748
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "The fourth step is to set the remaining focus parameters to sensible "
-#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
-#| "Check the associated Update box to accept these recommendations when you "
-#| "press Update Params.\n"
-#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#| "e.g. unity gain.\n"
-#| "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#| "3. Focus Process (Options Popup): These all have recommendations.\n"
-#| "4. Focus Mechanics (Options Popup): Note Step Size and Out Step Multiple "
-#| "are dealt with above.\n"
-#| "\n"
-#| "Now move the focuser to approximate focus and select a broadband filter, "
-#| "e.g. Luminance\n"
-#| "You are now ready to start an Autofocus run."
+#, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
 "Focus Advisor will suggest values for 5 categories of parameters. Check the "
@@ -19252,10 +19204,8 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
-"\n"
-"\n"
-"El quart pas és establir els paràmetres d'enfocament restants a uns valors "
-"raonables. L'assessor d'enfocament suggerirà valors per a 4 categories de "
+"El tercer pas és establir els paràmetres d'enfocament restants a uns valors "
+"adequats. L'assessor d'enfocament suggerirà valors per a 5 categories de "
 "paràmetres. Seleccioneu la casella «Actualitza» associada per a acceptar "
 "estes recomanacions i premeu «Actualitza els paràmetres».\n"
 "1. Propietats de la càmera: Cal tindre en compte que cal assegurar-se que el "
@@ -19264,8 +19214,10 @@ msgstr ""
 "recomanacions.\n"
 "3. Procés d'enfocament (menú emergent d'opcions): Totes tenen "
 "recomanacions.\n"
-"4. Mecànica de l'enfocament (menú emergent d'opcions): La nota «Mida del "
-"pas» i «Múltiples passos cap enfora:» es tracten a dalt.\n"
+"4. Mecànica de l'enfocament (menú emergent d'opcions): Cal tindre en compte "
+"que la «Mida del pas» es tracta a dalt.\n"
+"5. Paràmetres del SEP (menú emergent d'opcions): Establix el perfil adequat "
+"als seus valors predeterminats.\n"
 "\n"
 "Ara moveu l'enfocador per a aproximar l'enfocament i seleccioneu un filtre "
 "de banda ampla, p. ex., Luminància\n"
@@ -19277,6 +19229,8 @@ msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
 "parameters?"
 msgstr ""
+"Primer ús del Tren òptic: %1. Preferiu que l'Assessor d'enfocament optimitze "
+"els paràmetres?"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
@@ -19616,7 +19570,7 @@ msgstr "Compensació de rebot del controlador:"
 #: ekos/focus/opsfocusmechanics.ui:59
 #, kde-format
 msgid "Initial Step Size:"
-msgstr "Mida inicial del pas:"
+msgstr "Mida del pas inicial:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/opsfocusmechanics.ui:75
@@ -20189,8 +20143,8 @@ msgstr ""
 "indent:0px;\"><span style=\"font-weight:600;\">Lineal</span>: de manera "
 "habitual les mostres s'enfocaran cap endins, utilitzant 2 passos. "
 "L'algorisme pot ser lent, però és més resistent als rebots. Comenceu amb "
-"l'enfocador col·locat prop de l'enfocament bo. Establiu la «Mida inicial del "
-"pas:» i el «Recorregut màx.:» per a l'interval de mostreig desitjat i "
+"l'enfocador col·locat prop de l'enfocament bo. Establiu la «Mida del pas "
+"inicial:» i el «Recorregut màx.:» per a l'interval de mostreig desitjat i "
 "l'interval al voltant de la posició d'enfocament inicial. La tolerància "
 "haurà d'estar al voltant del 5%.</li><li style=\"margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
@@ -20427,30 +20381,26 @@ msgstr "Reductor de dònuts (AVÍS: característica experimental)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:669
-#, fuzzy, kde-format
-#| msgid "Time Dilation Factor:"
+#, kde-format
 msgid "Time Dilation x:"
-msgstr "Factor de dilatació del temps:"
+msgstr "Dilatació x del temps:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:679
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar la zona crítica de "
-"l'enfocament al gràfic.</p></body></html>"
+"<html><head/><body><p>Seleccioneu-la per a escanejar una posició inicial. "
+"L'algorisme buscarà un punt de dades mínim mitjançant el «Nombre de punts de "
+"dades:».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:682
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Scan for Start Position"
-msgstr "Escala i posició"
+msgstr "Escaneja per a la posició inicial"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:689
@@ -20459,6 +20409,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Quan se selecciona «Escaneja per a la posició inicial», este serà el nombre "
+"de punts de dades que s'utilitzarà."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:711
@@ -20479,14 +20431,13 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:736
 #, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "Nombre de punts de dades:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:749
-#, fuzzy, kde-format
-#| msgid "Direction:"
+#, kde-format
 msgid "Outlier Rejection:"
-msgstr "Direcció:"
+msgstr "Rebuig dels valors atípics:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:759
@@ -20496,6 +20447,10 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Amb quina agressivitat s'aplicarà el «Rebuig dels "
+"valors atípics». Els valors més alts rebutgen més valors atípics.</p><p>Per "
+"tal que esta opció estiga activa, s'ha de seleccionar «Refina l'ajust de la "
+"corba».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:781
@@ -20504,13 +20459,15 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Quan se selecciona «Escaneja per a la posició inicial», l'escaneig "
+"utilitzarà una mida de pas = «Mida del pas inicial» multiplicada per «Mida x "
+"del pas inicial»."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Mida inicial del pas:"
+msgstr "Mida x del pas inicial:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -37516,16 +37473,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1832
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Pla fosc"
+msgstr "Pla del cel"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr ""
+msgstr "Quan es prenen plans del cel amb una intensitat canviant."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1837
@@ -38127,7 +38083,7 @@ msgid ""
 "Donut Buster."
 msgstr ""
 "Factor pel qual multiplicar l'exposició de l'enfocament per als fotogrames "
-"que es troben fora de l'enfocament quan s'utilitze la reducció de dònuts."
+"que es troben fora de l'enfocament quan s'empre la reducció de dònuts."
 
 #. i18n: ectx: label, entry (focusOutlierRejection), group (Focus)
 #: kstars.kcfg:2145
@@ -38135,18 +38091,17 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Factor d'agressivitat que s'aplicarà en el rebuig de valors atípics quan "
+"s'empre la reducció de dònuts."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2149
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to adapt the focuser starting position at the beginning of an "
-#| "Autofocus run."
+#, kde-format
 msgid ""
 "Check to force a scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Si s'ha d'adaptar la posició inicial de l'enfocador al començament d'una "
-"execució d'enfocament automàtic."
+"Seleccioneu-la per a forçar un escaneig en una posició d'inici òptima al "
+"començament de l'enfocament automàtic."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2153
@@ -38154,6 +38109,8 @@ msgstr ""
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
+"Nombre de punts de dades que s'utilitzaran durant l'escaneig quan se "
+"seleccione «Escaneja per a la posició inicial»."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2157
@@ -38162,6 +38119,8 @@ msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
+"Factor que s'aplicarà a la «Mida del pas inicial» durant l'escaneig quan se "
+"seleccione «Escaneja per a la posició inicial» de l'enfocament."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2161
@@ -38405,13 +38364,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusAdvSEP), group (Focus)
 #: kstars.kcfg:2283
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
 msgstr ""
 "Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre els "
-"«Paràmetres de la pestanya Processament»."
+"«Paràmetres del SEP»."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2288
@@ -86644,53 +86601,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p>A good figure to start with is 5. An exception is "
-#~ "if you have a scope with a central obstruction that turns stars to donuts "
-#~ "when they are out of focus. When this happens the system will struggle to "
-#~ "identify stars correctly. To avoid this situation reduce either the step "
-#~ "size or the number of steps.</p><p>To check this situation, start at "
-#~ "focus and move away by &quot;step size&quot; * &quot;number of "
-#~ "steps&quot; steps. Take a focus frame and zoom in on the fitsviewer to "
-#~ "see whether stars appear as stars or donuts.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Una bona xifra per a començar és 5. Una excepció és "
-#~ "si teniu un instrument de visió amb una obstrucció central que convertix "
-#~ "les estreles en dònuts quan estan fora de l'enfocament. Quan passa açò, "
-#~ "el sistema tindrà problemes per a identificar correctament les estreles. "
-#~ "Per a evitar esta situació, reduïu la mida del pas o el nombre de passos."
-#~ "</p><p>Per a verificar-ho, comenceu amb l'enfocament i allunyeu-vos tants "
-#~ "passos com la «Mida del pas» * «nombre de passos». Preneu un fotograma "
-#~ "d'enfocament i acosteu el zoom en el visor de FITS per a veure si les "
-#~ "estreles apareixen com estreles o com dònuts.</p></body></html>"
-
-#~ msgid ""
-#~ "Autofocus failed to reach proper focus. Try increasing tolerance value."
-#~ msgstr ""
-#~ "L'enfocament automàtic no ha aconseguit enfocar. Proveu incrementant el "
-#~ "valor de la tolerància."
-
-#~ msgid ""
-#~ " You have a scope with a central obstruction so be careful not to move "
-#~ "too far away from focus as stars will appear as donuts and will not be "
-#~ "detected properly. Experiment by finding focus and moving Step Size * Out "
-#~ "Step Multiple ticks away from focus and take a focus frame. Zoom in to "
-#~ "observe star detection. If it is poor then move the focuser back towards "
-#~ "focus until star detection is acceptable. Adjust Out Step Multiple to "
-#~ "correspond to this range of focuser motion."
-#~ msgstr ""
-#~ "Teniu un instrument de visió amb una obstrucció central, per tant, aneu "
-#~ "amb compte de no allunyar-vos massa de l'enfocament, ja que les estreles "
-#~ "apareixeran com dònuts i no es detectaran correctament. Experimenteu "
-#~ "buscant l'enfocament i movent la «Mida del pas» * «Múltiples passos cap "
-#~ "enfora:» algunes marques lluny de l'enfocament i prenent un fotograma "
-#~ "d'enfocament. Amplieu per a observar la detecció d'estreles. Si és pobre, "
-#~ "llavors moveu l'enfocador de nou cap a l'enfocament fins que la detecció "
-#~ "d'estreles siga acceptable. Ajusteu «Múltiples passos cap enfora:» fins "
-#~ "que es corresponga amb este interval de moviment de l'enfocador."
-
-#~ msgid "Whether to accept Focus Advisor recommendation on Out Step Multiple."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre "
-#~ "«Múltiples passos cap enfora»."

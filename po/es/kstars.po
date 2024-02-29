@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-28 01:33+0000\n"
-"PO-Revision-Date: 2024-02-27 01:35+0100\n"
+"PO-Revision-Date: 2024-02-29 00:43+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18694,10 +18694,9 @@ msgid "Launching Aberration Inspector run %1..."
 msgstr "Lanzando la ejecución de %1 del inspector de aberración..."
 
 #: ekos/focus/focus.cpp:3162
-#, fuzzy, kde-format
-#| msgid "Failed to detect any stars at position %1. Continuing..."
+#, kde-format
 msgid "Failed to detect any stars. Aborting..."
-msgstr "Ha fallado la detección de estrellas en la posición %1. Continuando..."
+msgstr "Ha fallado la detección de estrellas. Interrumpiendo..."
 
 #: ekos/focus/focus.cpp:3182
 #, kde-format
