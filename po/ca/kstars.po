@@ -1,20 +1,21 @@
 # Translation of kstars.po to Catalan
 # Copyright (C) 2003-2024 This_file_is_part_of_KDE
 #
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Ivan Lloro Boada <antispam@wanadoo.es>, 2004.
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
+# Josep M. Ferrer <txemaq@gmail.com>, 2024.
 #: ekos/focus/adaptivefocus.cpp:180
 #, kde-format
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-28 01:33+0000\n"
-"PO-Revision-Date: 2024-02-26 18:40+0100\n"
+"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"PO-Revision-Date: 2024-02-29 21:52+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -3749,7 +3750,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:934
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1054
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1049
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6129,7 +6130,7 @@ msgstr "L'AP actual és %1; l'AP de l'objectiu és %2; dif.: %3"
 msgid "Refresh is complete."
 msgstr "Ha finalitzat l'actualització."
 
-#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1406
 #: ekos/focus/focus.cpp:1340
 #, kde-format
 msgid "Capture aborted."
@@ -6395,12 +6396,12 @@ msgstr "Els punts de la solució s'han desat com: %1"
 msgid "Polar Alignment"
 msgstr "Alineació polar"
 
-#: ekos/align/align.cpp:4529
+#: ekos/align/align.cpp:4515
 #, kde-format
 msgid "Capture timed out."
 msgstr "La captura ha excedit el temps."
 
-#: ekos/align/align.cpp:4538
+#: ekos/align/align.cpp:4524
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -8285,7 +8286,7 @@ msgid "File Write Error"
 msgstr "Error d'escriptura en el fitxer"
 
 #: ekos/align/opsastrometryindexfiles.cpp:494
-#: ekos/align/opsastrometryindexfiles.cpp:632
+#: ekos/align/opsastrometryindexfiles.cpp:633
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Error de permisos en la carpeta d'astrometria"
@@ -8299,7 +8300,7 @@ msgstr ""
 "El directori seleccionat de fitxers d'índex no existeix. Creeu-lo o trieu-ne "
 "un altre."
 
-#: ekos/align/opsastrometryindexfiles.cpp:560
+#: ekos/align/opsastrometryindexfiles.cpp:561
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8308,27 +8309,27 @@ msgstr ""
 "El fitxer %1 ja existeix en un altre directori. Segur que també el voleu "
 "baixar a aquest directori?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:562
+#: ekos/align/opsastrometryindexfiles.cpp:563
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instal·la el/s fitxer/s"
 
-#: ekos/align/opsastrometryindexfiles.cpp:601
+#: ekos/align/opsastrometryindexfiles.cpp:602
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "No s'ha pogut connectar amb el servidor d'índex d'astrometria."
 
-#: ekos/align/opsastrometryindexfiles.cpp:607
+#: ekos/align/opsastrometryindexfiles.cpp:608
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Segur que voleu eliminar aquests fitxers d'índex? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:608
+#: ekos/align/opsastrometryindexfiles.cpp:609
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Suprimeix el/s fitxer/s"
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:623
 #, kde-format
 msgid "File Delete Error"
 msgstr "Error en suprimir un fitxer"
@@ -10186,7 +10187,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
-#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2053
+#: ekos/focus/focus.cpp:7171 ekos/manager.cpp:2053
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:467
@@ -11464,12 +11465,12 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Adaptació de l'enfocament"
 
-#: ekos/auxiliary/darklibrary.cpp:83
+#: ekos/auxiliary/darklibrary.cpp:92
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "Error en carregar %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:295
+#: ekos/auxiliary/darklibrary.cpp:304
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -11478,85 +11479,85 @@ msgstr ""
 "S'usa el fotograma fosc disponible amb %1 segons d'exposició. Preneu un "
 "fotograma fosc amb %1 segons d'exposició per a un resultat més precís."
 
-#: ekos/auxiliary/darklibrary.cpp:305
+#: ekos/auxiliary/darklibrary.cpp:314
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr ""
 "El fotograma fosc %s ha vençut. Si us plau, creeu un fotograma fosc mestre "
 "nou."
 
-#: ekos/auxiliary/darklibrary.cpp:328
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "S'elimina el fitxer del fotograma fosc incorrecte «%1»"
 
-#: ekos/auxiliary/darklibrary.cpp:424
+#: ekos/auxiliary/darklibrary.cpp:433
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "Error en carregar el mapa de defectes %1"
 
-#: ekos/auxiliary/darklibrary.cpp:444
+#: ekos/auxiliary/darklibrary.cpp:453
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "Ha fallat en carregar el fitxer de mapa de defectes %1"
 
-#: ekos/auxiliary/darklibrary.cpp:464
+#: ekos/auxiliary/darklibrary.cpp:473
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Ha fallat en carregar el fitxer de fotograma fosc «%1»"
 
-#: ekos/auxiliary/darklibrary.cpp:524
+#: ekos/auxiliary/darklibrary.cpp:533
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "Ha fallat en processar les dades fosques."
 
-#: ekos/auxiliary/darklibrary.cpp:530
+#: ekos/auxiliary/darklibrary.cpp:539
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Ha fallat en carregar les dades fosques."
 
-#: ekos/auxiliary/darklibrary.cpp:540
+#: ekos/auxiliary/darklibrary.cpp:549
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "S'han rebut %1/%2 imatges."
 
-#: ekos/auxiliary/darklibrary.cpp:657
+#: ekos/auxiliary/darklibrary.cpp:666
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Segur que voleu eliminar totes les imatges i les dades de fotogrames foscos?"
 
-#: ekos/auxiliary/darklibrary.cpp:1213
+#: ekos/auxiliary/darklibrary.cpp:1208
 #, kde-format
 msgid "In progress..."
 msgstr "En curs..."
 
-#: ekos/auxiliary/darklibrary.cpp:1369
+#: ekos/auxiliary/darklibrary.cpp:1364
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Ha fallat en desar el fotograma mestre: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1390
+#: ekos/auxiliary/darklibrary.cpp:1385
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "El fotograma fosc mestre s'ha desat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/auxiliary/darklibrary.cpp:1410
 #, kde-format
 msgid "Capture completed."
 msgstr "Captura completada."
 
-#: ekos/auxiliary/darklibrary.cpp:1442
+#: ekos/auxiliary/darklibrary.cpp:1437
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "El mapa de defectes s'ha desat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1462
+#: ekos/auxiliary/darklibrary.cpp:1457
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Ha fallat en desar el mapa de defectes a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1637
+#: ekos/auxiliary/darklibrary.cpp:1632
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "El tren òptic no existeix per a l'ID %1"
@@ -18999,7 +19000,7 @@ msgstr ""
 "banda ampla, p. ex. Luminància\n"
 "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:7161
+#: ekos/focus/focus.cpp:7170
 #, kde-format
 msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
@@ -20225,7 +20226,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:784
 #, kde-format
 msgid "Initial Step Size x:"
-msgstr ":"
+msgstr "x mida inicial del pas:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -21153,7 +21154,7 @@ msgstr ""
 "cal que el Submarc estigui desmarcat. Desmarqueu-ho ara per a activar les "
 "captures d'imatge. El podreu reactivar abans del guiatge"
 
-#: ekos/guide/guide.cpp:3112
+#: ekos/guide/guide.cpp:3121
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No es pot canviar el tren òptic actual mentre el PHD2 està connectat"

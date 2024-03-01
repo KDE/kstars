@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-28 01:33+0000\n"
-"PO-Revision-Date: 2024-02-28 10:39+0100\n"
+"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"PO-Revision-Date: 2024-02-29 08:27+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3763,7 +3763,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:934
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1054
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1049
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6180,7 +6180,7 @@ msgstr "L'AP actual és %1; l'AP de l'objectiu és %2; dif.: %3"
 msgid "Refresh is complete."
 msgstr "S'ha completat l'actualització."
 
-#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1406
 #: ekos/focus/focus.cpp:1340
 #, kde-format
 msgid "Capture aborted."
@@ -6444,12 +6444,12 @@ msgstr "Els punts de la solució s'han guardat com: %1"
 msgid "Polar Alignment"
 msgstr "Alineació polar"
 
-#: ekos/align/align.cpp:4529
+#: ekos/align/align.cpp:4515
 #, kde-format
 msgid "Capture timed out."
 msgstr "La captura ha excedit el temps."
 
-#: ekos/align/align.cpp:4538
+#: ekos/align/align.cpp:4524
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -8355,7 +8355,7 @@ msgid "File Write Error"
 msgstr "S'ha produït un error d'escriptura en el fitxer"
 
 #: ekos/align/opsastrometryindexfiles.cpp:494
-#: ekos/align/opsastrometryindexfiles.cpp:632
+#: ekos/align/opsastrometryindexfiles.cpp:633
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "S'ha produït un error de permisos en la carpeta de l'astrometria"
@@ -8369,7 +8369,7 @@ msgstr ""
 "El directori seleccionat per als fitxers d'índex de l'astrometria no "
 "existix. Creeu-lo o trieu-ne un altre."
 
-#: ekos/align/opsastrometryindexfiles.cpp:560
+#: ekos/align/opsastrometryindexfiles.cpp:561
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8378,27 +8378,27 @@ msgstr ""
 "El fitxer %1 ja existix en un altre directori. Segur que també el voleu "
 "baixar a este directori?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:562
+#: ekos/align/opsastrometryindexfiles.cpp:563
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instal·la els fitxers"
 
-#: ekos/align/opsastrometryindexfiles.cpp:601
+#: ekos/align/opsastrometryindexfiles.cpp:602
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "No s'ha pogut connectar amb el servidor d'índex de l'astrometria."
 
-#: ekos/align/opsastrometryindexfiles.cpp:607
+#: ekos/align/opsastrometryindexfiles.cpp:608
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Segur que voleu eliminar estos fitxers d'índex? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:608
+#: ekos/align/opsastrometryindexfiles.cpp:609
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Suprimix els fitxers"
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:623
 #, kde-format
 msgid "File Delete Error"
 msgstr "S'ha produït un error en suprimir un fitxer"
@@ -10278,7 +10278,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
-#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2053
+#: ekos/focus/focus.cpp:7171 ekos/manager.cpp:2053
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:467
@@ -11556,12 +11556,12 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Enfocament adaptatiu"
 
-#: ekos/auxiliary/darklibrary.cpp:83
+#: ekos/auxiliary/darklibrary.cpp:92
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "No s'ha pogut carregar %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:295
+#: ekos/auxiliary/darklibrary.cpp:304
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -11570,83 +11570,83 @@ msgstr ""
 "S'utilitza el fotograma fosc disponible amb %1 segons d'exposició. Preneu un "
 "fotograma fosc amb %1 segons d'exposició per a un resultat més precís."
 
-#: ekos/auxiliary/darklibrary.cpp:305
+#: ekos/auxiliary/darklibrary.cpp:314
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr "El fotograma fosc %s ha vençut. Creeu un fotograma fosc mestre nou."
 
-#: ekos/auxiliary/darklibrary.cpp:328
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "S'elimina el fitxer del fotograma fosc incorrecte «%1»"
 
-#: ekos/auxiliary/darklibrary.cpp:424
+#: ekos/auxiliary/darklibrary.cpp:433
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "S'ha produït un error en carregar el mapa de defectes %1"
 
-#: ekos/auxiliary/darklibrary.cpp:444
+#: ekos/auxiliary/darklibrary.cpp:453
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "No s'ha pogut carregar el fitxer de mapa de defectes %1"
 
-#: ekos/auxiliary/darklibrary.cpp:464
+#: ekos/auxiliary/darklibrary.cpp:473
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "No s'ha pogut carregar el fitxer de fotograma fosc «%1»"
 
-#: ekos/auxiliary/darklibrary.cpp:524
+#: ekos/auxiliary/darklibrary.cpp:533
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "No s'han pogut processar les dades fosques."
 
-#: ekos/auxiliary/darklibrary.cpp:530
+#: ekos/auxiliary/darklibrary.cpp:539
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "No s'han pogut carregar les dades fosques."
 
-#: ekos/auxiliary/darklibrary.cpp:540
+#: ekos/auxiliary/darklibrary.cpp:549
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "S'han rebut %1/%2 imatges."
 
-#: ekos/auxiliary/darklibrary.cpp:657
+#: ekos/auxiliary/darklibrary.cpp:666
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Segur que voleu eliminar totes les imatges i les dades de fotogrames foscos?"
 
-#: ekos/auxiliary/darklibrary.cpp:1213
+#: ekos/auxiliary/darklibrary.cpp:1208
 #, kde-format
 msgid "In progress..."
 msgstr "En curs…"
 
-#: ekos/auxiliary/darklibrary.cpp:1369
+#: ekos/auxiliary/darklibrary.cpp:1364
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "No s'ha pogut guardar el fotograma mestre: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1390
+#: ekos/auxiliary/darklibrary.cpp:1385
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "El fotograma fosc mestre s'ha guardat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/auxiliary/darklibrary.cpp:1410
 #, kde-format
 msgid "Capture completed."
 msgstr "S'ha completat la captura."
 
-#: ekos/auxiliary/darklibrary.cpp:1442
+#: ekos/auxiliary/darklibrary.cpp:1437
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "El mapa de defectes s'ha guardat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1462
+#: ekos/auxiliary/darklibrary.cpp:1457
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "No s'ha pogut guardar el mapa de defectes a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1637
+#: ekos/auxiliary/darklibrary.cpp:1632
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "El tren òptic no existix per a l'ID %1"
@@ -14968,8 +14968,8 @@ msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El nombre de dígits emprats per a afegir el número de "
-"seqüència al nom de fitxer.</p></body></html>"
+"<html><head/><body><p>El nombre de dígits emprats per a adjuntar el número "
+"de seqüència al nom de fitxer.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/capture.ui:970
@@ -19223,7 +19223,7 @@ msgstr ""
 "de banda ampla, p. ex., Luminància\n"
 "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:7161
+#: ekos/focus/focus.cpp:7170
 #, kde-format
 msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
@@ -21397,7 +21397,7 @@ msgstr ""
 "activar les captures d'imatge. La podreu tornar a seleccionar abans del "
 "guiatge."
 
-#: ekos/guide/guide.cpp:3112
+#: ekos/guide/guide.cpp:3121
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No es pot canviar el tren òptic actual mentre PHD2 està connectat"
@@ -22551,8 +22551,8 @@ msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Distància màxima permesa per considerar el tramat com "
-"a establit (només PHD2).</p></body></html>"
+"<html><head/><body><p>Distància màxima permesa per a considerar el tramat "
+"com a establit (només PHD2).</p></body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
@@ -22752,9 +22752,9 @@ msgstr ""
 "Temps màxim entre l'emissió de les correccions predictives mentre es "
 "capturen les imatges guia. Este podria ser de l'ordre d'1 segon o menys, amb "
 "l'exposició de guia molt més llarga. Els valors exactes i la relació entre "
-"ells dependrà en gran mesura de la muntura i de les condicions ambientals. "
+"ells dependrà en gran manera de la muntura i de les condicions ambientals. "
 "Però en general, com pitjor siga l'error periòdic de la muntura, més gran "
-"serà la relació entre l'exposició de la guia i l'interval del guiatge fosc."
+"serà la relació entre l'exposició del guiatge i l'interval del guiatge fosc."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsgpg.ui:132
@@ -35362,7 +35362,7 @@ msgstr "Mida de la lletra de l'etiqueta"
 #, kde-format
 msgid "Set this to adjust the font-size of labels placed on the sky map"
 msgstr ""
-"Seleccioneu-la per a ajustar la mida del tipus de lletra de les etiquetes "
+"Establiu-la per a ajustar la mida del tipus de lletra de les etiquetes "
 "situades en el mapa celeste."
 
 #. i18n: ectx: label, entry (MaxRadCometName), group (View)
@@ -66943,7 +66943,7 @@ msgstr "Missions Mariner de la NASA Science"
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Solar System Exploration Page"
-msgstr "Pàgina d'exploració del Sistema solar de la NASA"
+msgstr "Pàgina d'exploració del sistema solar de la NASA"
 
 #: kstars_i18n.cpp:4552
 #, kde-kuit-format
@@ -80408,8 +80408,8 @@ msgstr ""
 "\t\t<p>De tant en tant, els planetes pareixen parar-se, i temporalment "
 "canvien la seua direcció de moviment a través del cel nocturn. Açò s'anomena "
 "moviment retrògrad. El podeu simular en KStars afegint una traça a un "
-"planeta exterior i deixant que el rellotge de la simulació avance ràpid (a 1 "
-"dia sideri o així).\n"
+"planeta exterior i deixant que el rellotge de la simulació avance de pressa "
+"(a 1 dia sideri o així).\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83199,12 +83199,12 @@ msgid_plural ""
 "Planner to add them back using internet search."
 msgstr[0] ""
 "No s'ha pogut trobar %1 objecte en la base de dades, i s'eliminarà de la "
-"llista d'observacions desitjades. Es recomana que copieu els seu nom com una "
-"còpia de seguretat de manera que el pugueu afegir després."
+"llista d'observacions desitjades. Es recomana que copieu el seu nom com a "
+"una còpia de seguretat, de manera que el pugueu afegir després."
 msgstr[1] ""
 "No s'han pogut trobar %1 objectes en la base de dades, i s'eliminarà de la "
 "llista d'observacions desitjades. Es recomana que copieu la llista detallada "
-"com una còpia de seguretat, de manera que després podreu utilitzar la "
+"com a una còpia de seguretat, de manera que després podreu utilitzar la "
 "característica «Afig per lots» al Planificador d'observacions per a tornar-"
 "los a afegir utilitzant una busca d'Internet."
 

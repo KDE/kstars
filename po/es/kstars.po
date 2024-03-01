@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-28 01:33+0000\n"
-"PO-Revision-Date: 2024-02-29 00:43+0100\n"
+"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"PO-Revision-Date: 2024-02-29 22:03+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -3740,7 +3740,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:934
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1054
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1049
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6124,7 +6124,7 @@ msgstr "La AP actual es %1; la AP del objetivo es %2; diferencia: %3"
 msgid "Refresh is complete."
 msgstr "La actualización se ha completado."
 
-#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1406
 #: ekos/focus/focus.cpp:1340
 #, kde-format
 msgid "Capture aborted."
@@ -6384,12 +6384,12 @@ msgstr "Puntos de la solución guardados como: %1"
 msgid "Polar Alignment"
 msgstr "Alineación polar"
 
-#: ekos/align/align.cpp:4529
+#: ekos/align/align.cpp:4515
 #, kde-format
 msgid "Capture timed out."
 msgstr "Se ha agotado el tiempo de la captura."
 
-#: ekos/align/align.cpp:4538
+#: ekos/align/align.cpp:4524
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -8270,7 +8270,7 @@ msgid "File Write Error"
 msgstr "Error de escritura de archivo"
 
 #: ekos/align/opsastrometryindexfiles.cpp:494
-#: ekos/align/opsastrometryindexfiles.cpp:632
+#: ekos/align/opsastrometryindexfiles.cpp:633
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Error en permisos de la carpeta de Astrometry"
@@ -8284,7 +8284,7 @@ msgstr ""
 "El directorio de archivos de índice seleccionado no existe. Créelo o escoja "
 "otro."
 
-#: ekos/align/opsastrometryindexfiles.cpp:560
+#: ekos/align/opsastrometryindexfiles.cpp:561
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8293,27 +8293,27 @@ msgstr ""
 "El archivo %1 existe en otro directorio. ¿Seguro que quiere descargarlo "
 "también en este directorio?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:562
+#: ekos/align/opsastrometryindexfiles.cpp:563
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instalar archivo(s)"
 
-#: ekos/align/opsastrometryindexfiles.cpp:601
+#: ekos/align/opsastrometryindexfiles.cpp:602
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "No se puede contactar con el servidor índice de Astrometry."
 
-#: ekos/align/opsastrometryindexfiles.cpp:607
+#: ekos/align/opsastrometryindexfiles.cpp:608
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "¿Seguro que desea borrar estos archivos de índice? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:608
+#: ekos/align/opsastrometryindexfiles.cpp:609
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Borrar archivos"
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:623
 #, kde-format
 msgid "File Delete Error"
 msgstr "Error de borrado de archivo"
@@ -10170,7 +10170,7 @@ msgstr "No se puede mostrar el archivo de imagen temporal: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
-#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2053
+#: ekos/focus/focus.cpp:7171 ekos/manager.cpp:2053
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:467
@@ -11444,12 +11444,12 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Adaptar enfoque"
 
-#: ekos/auxiliary/darklibrary.cpp:83
+#: ekos/auxiliary/darklibrary.cpp:92
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "No se ha podido cargar %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:295
+#: ekos/auxiliary/darklibrary.cpp:304
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -11459,84 +11459,84 @@ msgstr ""
 "un fotograma oscuro con %1 segundos de exposición para unos resultados más "
 "precisos."
 
-#: ekos/auxiliary/darklibrary.cpp:305
+#: ekos/auxiliary/darklibrary.cpp:314
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr "El fotograma oscuro %s ha expirado. Cree un nuevo patrón oscuro."
 
-#: ekos/auxiliary/darklibrary.cpp:328
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "Eliminando archivo de fotograma oscuro incorrecto %1"
 
-#: ekos/auxiliary/darklibrary.cpp:424
+#: ekos/auxiliary/darklibrary.cpp:433
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "No se ha podido cargar el mapa de defectos %1"
 
-#: ekos/auxiliary/darklibrary.cpp:444
+#: ekos/auxiliary/darklibrary.cpp:453
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "No se ha podido cargar el archivo de mapa de defectos %1"
 
-#: ekos/auxiliary/darklibrary.cpp:464
+#: ekos/auxiliary/darklibrary.cpp:473
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Ha fallado la carga del archivo de fotograma oscuro %1"
 
-#: ekos/auxiliary/darklibrary.cpp:524
+#: ekos/auxiliary/darklibrary.cpp:533
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "El procesamiento de los datos oscuros ha fallado."
 
-#: ekos/auxiliary/darklibrary.cpp:530
+#: ekos/auxiliary/darklibrary.cpp:539
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Ha fallado la carga de datos oscuros."
 
-#: ekos/auxiliary/darklibrary.cpp:540
+#: ekos/auxiliary/darklibrary.cpp:549
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "Recibidas %1/%2 imágenes."
 
-#: ekos/auxiliary/darklibrary.cpp:657
+#: ekos/auxiliary/darklibrary.cpp:666
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "¿Seguro que desea borrar todas las imágenes de fotogramas oscuros y los "
 "datos?"
 
-#: ekos/auxiliary/darklibrary.cpp:1213
+#: ekos/auxiliary/darklibrary.cpp:1208
 #, kde-format
 msgid "In progress..."
 msgstr "En proceso..."
 
-#: ekos/auxiliary/darklibrary.cpp:1369
+#: ekos/auxiliary/darklibrary.cpp:1364
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "No se ha podido guardar el fotograma patrón: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1390
+#: ekos/auxiliary/darklibrary.cpp:1385
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Fotograma oscuro patrón guardado en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/auxiliary/darklibrary.cpp:1410
 #, kde-format
 msgid "Capture completed."
 msgstr "Captura completada."
 
-#: ekos/auxiliary/darklibrary.cpp:1442
+#: ekos/auxiliary/darklibrary.cpp:1437
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Mapa de defectos guardado en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1462
+#: ekos/auxiliary/darklibrary.cpp:1457
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "No se ha podido guardar el mapa de defectos en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1637
+#: ekos/auxiliary/darklibrary.cpp:1632
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "El tren óptico no existe para el identificador %1"
@@ -14185,13 +14185,14 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Al filmar planos del cielo que puedan cambiar de intensidad. Se usará un "
+"cálculo de exposición más sencillo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "Sky flats"
-msgstr "Mapa del cielo"
+msgstr "Planos del cielo"
 
 #: ekos/capture/capture.cpp:133
 #, kde-format
@@ -18664,6 +18665,8 @@ msgstr ""
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
+"El enfoque automático ha fallado: se ha excedido el número máximo de %1 "
+"iteraciones"
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18701,22 +18704,22 @@ msgstr "Ha fallado la detección de estrellas. Interrumpiendo..."
 #: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Buscando posición de inicio %1/%2"
 
 #: ekos/focus/focus.cpp:3196
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Sin exploración mínima: ampliando la búsqueda..."
 
 #: ekos/focus/focus.cpp:3206
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Posición de inicio de exploración %1 encontrada"
 
 #: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Posición de inicio de exploración %1 encontrada"
 
 #: ekos/focus/focus.cpp:3268
 #, kde-format
@@ -18889,29 +18892,7 @@ msgid "Relative Profile"
 msgstr "Perfil relativo"
 
 #: ekos/focus/focus.cpp:6732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#| "It will not necessarily give you the perfect combination of parameters, "
-#| "you will need to experiment yourself, but it will give you a basic set of "
-#| "parameters to achieve focus.\n"
-#| "\n"
-#| "FA will recommend values for the majority of parameters. A few, however, "
-#| "will need extra work from you to setup. These are identified below along "
-#| "with a basic explanation of how to set them.\n"
-#| "\n"
-#| "The first step is to set backlash. Your focuser manual will likely "
-#| "explain how to do this. Once you have a value for backlash for your "
-#| "system, set either the Backlash field to have the driver perform backlash "
-#| "compensation or the AF Overscan field to have Autofocus perform backlash "
-#| "compensation. Set only one field and set the other to 0.\n"
-#| "\n"
-#| "The second step is to set Step Size. This can be defaulted from the "
-#| "Critical Focus Zone (CFZ) for your equipment - so configure this now in "
-#| "the CFZ tab.\n"
-#| "\n"
-#| "The third step is to set the Out Step Multiple. Start with the suggested "
-#| "default."
+#, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
 "It will not necessarily give you the perfect combination of parameters, you "
@@ -18951,34 +18932,18 @@ msgstr ""
 "sistema, defina uno de los campos «Rebote» (para que el controlador realice "
 "la compensación de rebote) o «Sobreexploración de AF» (para que el enfoque "
 "automático realice la compensación de rebote). Defina solo uno de esos "
-"campos y use el valor 0 para el otro.\n"
+"campos y use el valor 0 para el otro. Si tiene dudas sobre cuál de ellos "
+"debe definir, se recomienda «Sobreexploración de AF».\n"
 "\n"
-"El segundo paso es definir el tamaño del paso. Se puede usar el valor "
+"El segundo paso es definir el tamaño del paso. Si conoce un valor "
+"aproximado, introdúzcalo aquí; en caso contrario, se puede usar el valor "
 "predeterminado de la zona de enfoque crítica (CFZ) de su equipo (por lo que "
-"debería configurarla ahora en la pestaña CFZ).\n"
+"debería configurarla ahora en la pestaña CFZ y reiniciar el asesor de "
+"enfoque).\n"
 "\n"
-"El tercer paso es definir el múltiplo de pasos de salida. Empiece con el "
-"valor que se sugiere por omisión."
 
 #: ekos/focus/focus.cpp:6748
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "The fourth step is to set the remaining focus parameters to sensible "
-#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
-#| "Check the associated Update box to accept these recommendations when you "
-#| "press Update Params.\n"
-#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#| "e.g. unity gain.\n"
-#| "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#| "3. Focus Process (Options Popup): These all have recommendations.\n"
-#| "4. Focus Mechanics (Options Popup): Note Step Size and Out Step Multiple "
-#| "are dealt with above.\n"
-#| "\n"
-#| "Now move the focuser to approximate focus and select a broadband filter, "
-#| "e.g. Luminance\n"
-#| "You are now ready to start an Autofocus run."
+#, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
 "Focus Advisor will suggest values for 5 categories of parameters. Check the "
@@ -18996,10 +18961,8 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
-"\n"
-"\n"
-"El cuarto paso es ajustar el resto de parámetros de enfoque a valores "
-"razonables. El asesor de enfoque sugerirá valores para 4 categorías de "
+"El tercer paso es ajustar el resto de parámetros de enfoque a valores "
+"razonables. El asesor de enfoque sugerirá valores para 5 categorías de "
 "parámetros. Marque la casilla «Actualizar» asociada para aceptar dichas "
 "recomendaciones cuando pulse «Actualizar parámetros».\n"
 "1. Propiedades de la cámara (tenga en cuenta que deberá asegurar que "
@@ -19010,19 +18973,22 @@ msgstr ""
 "3. Proceso del enfoque (ventana emergente de opciones): todos sus parámetros "
 "poseen recomendaciones.\n"
 "4. Mecánica del enfoque (ventana emergente de opciones): recuerde que el "
-"«Tamaño del paso» y el «Múltiplo de paso de salida» se tratan como se ha "
-"dicho anteriormente.\n"
+"«Tamaño del paso» se trata como se ha dicho anteriormente.\n"
+"5. Parámetros SEP (ventana emergente de opciones): defina el perfil adecuado "
+"a sus valores predeterminados.\n"
 "\n"
 "Ahora mueva el enfocador a un enfoque aproximado y seleccione un filtro de "
 "banda ancha (por ejemplo, luminancia).\n"
 "Ya está preparado para iniciar una ejecución de enfoque automático."
 
-#: ekos/focus/focus.cpp:7161
+#: ekos/focus/focus.cpp:7170
 #, kde-format
 msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
 "parameters?"
 msgstr ""
+"Primer uso del tren óptico: %1. ¿Le gustaría que el asesor de enfoque "
+"optimizara los parámetros?"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:164
@@ -19349,7 +19315,7 @@ msgstr "Rebote del controlador:"
 #: ekos/focus/opsfocusmechanics.ui:59
 #, kde-format
 msgid "Initial Step Size:"
-msgstr "Tamaño del paso inicial:"
+msgstr "Tamaño de paso inicial:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/opsfocusmechanics.ui:75
@@ -20158,30 +20124,26 @@ msgstr "Reductor de dónut (ADVERTENCIA: función experimental)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:669
-#, fuzzy, kde-format
-#| msgid "Time Dilation Factor:"
+#, kde-format
 msgid "Time Dilation x:"
 msgstr "Factor de dilatación del tiempo:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:679
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar la zona de enfoque crítica en "
-"el gráfico.</p></body></html>"
+"<html><head/><body><p>Marque esta opción para buscar una posición de inicio. "
+"El algoritmo buscará un punto de datos mínimo usando «Número de puntos de "
+"datos».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:682
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Scan for Start Position"
-msgstr "Escala y posición"
+msgstr "Buscar posición de inicio"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:689
@@ -20190,6 +20152,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Cuando se marca «Buscar posición de inicio», este es el número de puntos de "
+"datos que se utilizarán."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:711
@@ -20210,14 +20174,13 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:736
 #, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "Número de puntos de datos:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:749
-#, fuzzy, kde-format
-#| msgid "Direction:"
+#, kde-format
 msgid "Outlier Rejection:"
-msgstr "Dirección:"
+msgstr "Rechazo de valores atípicos:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:759
@@ -20227,6 +20190,10 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Agresividad que se aplicará al rechazo de valores "
+"atípicos. Un valor más alto descartará más valores atípicos.</p><p>Debe "
+"marcar «Refinar ajuste de curva» para que esta opción esté activa.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:781
@@ -20235,13 +20202,14 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Cuando se marca «Buscar posición de inicio», la exploración usa un tamaño de "
+"paso igual al tamaño de paso inicial multiplicado por este factor."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
-#, fuzzy, kde-format
-#| msgid "Initial Step Size:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Tamaño del paso inicial:"
+msgstr "Factor de tamaño de paso inicial:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -21167,7 +21135,7 @@ msgstr ""
 "quitar la marca de selección de «Subfotograma». Quítela ahora para permitir "
 "la captura de imágenes. Puede volver a marcarla antes de realizar un guiado."
 
-#: ekos/guide/guide.cpp:3112
+#: ekos/guide/guide.cpp:3121
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No se puede cambiar el tren óptico activo mientras PHD2 esté conectado"
@@ -36996,16 +36964,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1832
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Plano oscuro"
+msgstr "Plano del cielo"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr ""
+msgstr "Al filmar planos del cielo con intensidad cambiante."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1837
@@ -37612,18 +37579,17 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Factor de agresividad que se aplicará al rechazo de valores atípicos cuando "
+"se usa reductor de dónut."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2149
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to adapt the focuser starting position at the beginning of an "
-#| "Autofocus run."
+#, kde-format
 msgid ""
 "Check to force a scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Si se debe adaptar la posición inicial del enfocador al principio de una "
-"ejecución de enfoque automático."
+"Marque esta opción para forzar una exploración para una posición de inicio "
+"óptima al inicio del enfoque automático."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2153
@@ -37631,6 +37597,8 @@ msgstr ""
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
+"Número de puntos de datos que se usarán durante la exploración cuando se "
+"marca «focusScanStartPos»."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2157
@@ -37639,6 +37607,8 @@ msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
+"Factor que se aplicará al tamaño de paso inicial durante la exploración "
+"cuando se marca «focusScanStartPos»."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2161

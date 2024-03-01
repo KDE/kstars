@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-28 01:33+0000\n"
+"POT-Creation-Date: 2024-03-01 01:58+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -3804,7 +3804,7 @@ msgstr "0,00 Parsec"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:934
-#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1054
+#: ekos/analyze/analyze.ui:74 ekos/auxiliary/darklibrary.cpp:1049
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6170,7 +6170,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "Der Filter %1 ist online."
 
-#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2545 ekos/auxiliary/darklibrary.cpp:1406
 #: ekos/focus/focus.cpp:1340
 #, kde-format
 msgid "Capture aborted."
@@ -6439,12 +6439,12 @@ msgstr "Lösungspunkte gespeichert unter: %1"
 msgid "Polar Alignment"
 msgstr "Polare Ausrichtung"
 
-#: ekos/align/align.cpp:4529
+#: ekos/align/align.cpp:4515
 #, kde-format
 msgid "Capture timed out."
 msgstr "Zeitüberschreitung bei der Aufnahme."
 
-#: ekos/align/align.cpp:4538
+#: ekos/align/align.cpp:4524
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Die Aufnahme läuft noch, erneuter Versuch in %1 Sekunden ..."
@@ -8247,7 +8247,7 @@ msgid "File Write Error"
 msgstr "Fehler beim Schreiben der Datei"
 
 #: ekos/align/opsastrometryindexfiles.cpp:494
-#: ekos/align/opsastrometryindexfiles.cpp:632
+#: ekos/align/opsastrometryindexfiles.cpp:633
 #, fuzzy, kde-format
 #| msgid "Astrometry.net"
 msgid "Astrometry Folder Permissions Error"
@@ -8265,36 +8265,36 @@ msgstr ""
 "Der FITS-Ordner %1 existiert nicht. Bitte aktualisieren Sie den Ordner in "
 "den Einstellungen."
 
-#: ekos/align/opsastrometryindexfiles.cpp:560
+#: ekos/align/opsastrometryindexfiles.cpp:561
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:562
+#: ekos/align/opsastrometryindexfiles.cpp:563
 #, kde-format
 msgid "Install File(s)"
 msgstr "Datei(en) installieren"
 
-#: ekos/align/opsastrometryindexfiles.cpp:601
+#: ekos/align/opsastrometryindexfiles.cpp:602
 #, fuzzy, kde-format
 #| msgid "Could not connect to the server"
 msgid "Could not contact Astrometry Index Server."
 msgstr "Die Verbindung zum Server kann nicht hergestellt werden"
 
-#: ekos/align/opsastrometryindexfiles.cpp:607
+#: ekos/align/opsastrometryindexfiles.cpp:608
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr ""
 "Sind Sie sicher, dass Sie diese Indexdateien wirklich löschen möchten? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:608
+#: ekos/align/opsastrometryindexfiles.cpp:609
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Datei(en) löschen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:623
 #, kde-format
 msgid "File Delete Error"
 msgstr "Fehler beim Löschen der Datei"
@@ -10167,7 +10167,7 @@ msgstr "Datei kann nicht gelöscht werden: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2079 ekos/auxiliary/opslogs.ui:377
-#: ekos/focus/focus.cpp:7162 ekos/manager.cpp:2053
+#: ekos/focus/focus.cpp:7171 ekos/manager.cpp:2053
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:467
@@ -11370,109 +11370,109 @@ msgstr "Zusätzliche Einstellungen für die Lösung"
 msgid "Adapt Focus"
 msgstr "Adaptive Optik"
 
-#: ekos/auxiliary/darklibrary.cpp:83
+#: ekos/auxiliary/darklibrary.cpp:92
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to load %1: %2"
 msgstr "Bild kann nicht geladen werden"
 
-#: ekos/auxiliary/darklibrary.cpp:295
+#: ekos/auxiliary/darklibrary.cpp:304
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %1 seconds exposure for more accurate results."
 msgstr ""
 
-#: ekos/auxiliary/darklibrary.cpp:305
+#: ekos/auxiliary/darklibrary.cpp:314
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr ""
 
-#: ekos/auxiliary/darklibrary.cpp:328
+#: ekos/auxiliary/darklibrary.cpp:337
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Removing bad dark frame file %1"
 msgstr "Bild bei %1 kann nicht geladen werden"
 
-#: ekos/auxiliary/darklibrary.cpp:424
+#: ekos/auxiliary/darklibrary.cpp:433
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load defect map %1"
 msgstr "Bild bei %1 kann nicht geladen werden"
 
-#: ekos/auxiliary/darklibrary.cpp:444
+#: ekos/auxiliary/darklibrary.cpp:453
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load defect map file %1"
 msgstr "Bild bei %1 kann nicht geladen werden"
 
-#: ekos/auxiliary/darklibrary.cpp:464
+#: ekos/auxiliary/darklibrary.cpp:473
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load dark frame file %1"
 msgstr "Bild bei %1 kann nicht geladen werden"
 
-#: ekos/auxiliary/darklibrary.cpp:524
+#: ekos/auxiliary/darklibrary.cpp:533
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Failed to process dark data."
 msgstr "Datum, Zeit und Standort: "
 
-#: ekos/auxiliary/darklibrary.cpp:530
+#: ekos/auxiliary/darklibrary.cpp:539
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load dark data."
 msgstr "Bild bei %1 kann nicht geladen werden"
 
-#: ekos/auxiliary/darklibrary.cpp:540
+#: ekos/auxiliary/darklibrary.cpp:549
 #, fuzzy, kde-format
 #| msgid "Received image %1 out of %2."
 msgid "Received %1/%2 images."
 msgstr "Bild %1 von %2 erhalten."
 
-#: ekos/auxiliary/darklibrary.cpp:657
+#: ekos/auxiliary/darklibrary.cpp:666
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Sind Sie sicher, dass Sie den Client %1 löschen möchten?"
 
-#: ekos/auxiliary/darklibrary.cpp:1213
+#: ekos/auxiliary/darklibrary.cpp:1208
 #, fuzzy, kde-format
 #| msgid "In Progress"
 msgid "In progress..."
 msgstr "In Bearbeitung"
 
-#: ekos/auxiliary/darklibrary.cpp:1369
+#: ekos/auxiliary/darklibrary.cpp:1364
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save master frame: %1"
 msgstr "Die Einstellung des Unterbilds ist fehlgeschlagen."
 
-#: ekos/auxiliary/darklibrary.cpp:1390
+#: ekos/auxiliary/darklibrary.cpp:1385
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "Die Datendatei wurde nach %1 gespeichert"
 
-#: ekos/auxiliary/darklibrary.cpp:1415
+#: ekos/auxiliary/darklibrary.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture completed."
 msgstr "Aufnahme abgebrochen."
 
-#: ekos/auxiliary/darklibrary.cpp:1442
+#: ekos/auxiliary/darklibrary.cpp:1437
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "Die Datendatei wurde nach %1 gespeichert"
 
-#: ekos/auxiliary/darklibrary.cpp:1462
+#: ekos/auxiliary/darklibrary.cpp:1457
 #, fuzzy, kde-format
 #| msgid "Failed to save file to %1"
 msgid "Failed to save defect map to %1"
 msgstr "Fehler beim Speichern der Datei in %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1637
+#: ekos/auxiliary/darklibrary.cpp:1632
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""
@@ -18986,7 +18986,7 @@ msgid ""
 "You are now ready to start an Autofocus run."
 msgstr ""
 
-#: ekos/focus/focus.cpp:7161
+#: ekos/focus/focus.cpp:7170
 #, kde-format
 msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
@@ -21170,7 +21170,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3112
+#: ekos/guide/guide.cpp:3121
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
