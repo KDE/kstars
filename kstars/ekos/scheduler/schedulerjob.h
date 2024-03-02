@@ -349,6 +349,15 @@ class SchedulerJob
         void setLightFramesRequired(bool value);
         /** @} */
 
+        /** @brief Whether this job contains a calibration job that requires mount parking. */
+        /** @{ */
+        bool getCalibrationMountPark() const
+        {
+            return m_CalibrationMountPark;
+        }
+        void setCalibrationMountPark(bool value);
+        /** @} */
+
         /** @brief Number of times this job must be repeated (in terms of capture count). */
         /** @{ */
         uint16_t getRepeatsRequired() const
@@ -591,6 +600,7 @@ private:
         QString dateTimeDisplayFormat;
 
         bool lightFramesRequired { false };
+        bool m_CalibrationMountPark {false};
 
         QMap<QString, uint16_t> capturedFramesMap;
 

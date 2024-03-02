@@ -13,7 +13,8 @@
 #include "kstarsdata.h"
 #include <ekos_scheduler_debug.h>
 
-namespace Ekos {
+namespace Ekos
+{
 
 SchedulerUtils::SchedulerUtils()
 {
@@ -32,7 +33,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
     QDateTime startupTime, completionTime;
     int completionRepeats = 0;
     bool enforceWeather = false, enforceTwilight = false, enforceArtificialHorizon = false,
-            track = false, focus = false, align = false, guide = false;
+         track = false, focus = false, align = false, guide = false;
 
 
     XMLEle *ep, *subEP;
@@ -163,7 +164,11 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
     return job;
 }
 
-void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra, const dms &dec, double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl, StartupCondition startup, const QDateTime &startupTime, CompletionCondition completion, const QDateTime &completionTime, int completionRepeats, double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
+void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra, const dms &dec,
+                              double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl, StartupCondition startup,
+                              const QDateTime &startupTime, CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
+                              double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
+                              bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     /* Configure or reconfigure the observation job */
 
@@ -226,7 +231,9 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QStr
     job.reset();
 }
 
-uint16_t SchedulerUtils::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const CapturedFramesMap &capturedFramesCount, SchedulerJob &schedJob, CapturedFramesMap &capture_map, int &completedIterations)
+uint16_t SchedulerUtils::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
+        const CapturedFramesMap &capturedFramesCount, SchedulerJob &schedJob, CapturedFramesMap &capture_map,
+        int &completedIterations)
 {
     uint16_t totalCompletedCount = 0;
 
@@ -288,7 +295,8 @@ uint16_t SchedulerUtils::fillCapturedFramesMap(const QMap<QString, uint16_t> &ex
     return totalCompletedCount;
 }
 
-void SchedulerUtils::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs, const CapturedFramesMap &framesCount)
+void SchedulerUtils::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs,
+        const CapturedFramesMap &framesCount)
 {
     bool lightFramesRequired = false;
     QMap<QString, uint16_t> expected;
@@ -321,8 +329,13 @@ void SchedulerUtils::updateLightFramesRequired(SchedulerJob *oneJob, const QList
 SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle *root, SchedulerJob *schedJob)
 {
     SequenceJob *job = new SequenceJob(root, schedJob->getName());
-    if (FRAME_LIGHT == job->getFrameType() && nullptr != schedJob)
-        schedJob->setLightFramesRequired(true);
+    if (schedJob)
+    {
+        if (FRAME_LIGHT == job->getFrameType())
+            schedJob->setLightFramesRequired(true);
+        if (job->getCalibrationPreAction() & ACTION_PARK_MOUNT)
+            schedJob->setCalibrationMountPark(true);
+    }
 
     auto placeholderPath = Ekos::PlaceholderPath();
     placeholderPath.processJobInfo(job);
@@ -330,7 +343,8 @@ SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle *root, SchedulerJob *
     return job;
 }
 
-bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs, bool &hasAutoFocus, ModuleLogger *logger)
+bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
+                                       bool &hasAutoFocus, ModuleLogger *logger)
 {
     QFile sFile;
     sFile.setFileName(fileURL);
@@ -338,7 +352,7 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *sch
     if (!sFile.open(QIODevice::ReadOnly))
     {
         if (logger != nullptr) logger->appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
-                return false;
+        return false;
     }
 
     LilXML *xmlParser = newLilXML();
@@ -386,7 +400,8 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *sch
     return true;
 }
 
-bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount, ModuleLogger *logger)
+bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount,
+                                     ModuleLogger *logger)
 {
     static SchedulerJob *jobWarned = nullptr;
 
@@ -408,8 +423,9 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString,
     // Stop spam of log on re-evaluation. If we display the warning once, then that's it.
     if (schedJob != jobWarned && hasAutoFocus && !(schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS))
     {
-        logger->appendLogText(i18n("Warning: Job '%1' has its focus step disabled, periodic and/or HFR procedures currently set in its sequence will not occur.",
-                     schedJob->getName()));
+        logger->appendLogText(
+            i18n("Warning: Job '%1' has its focus step disabled, periodic and/or HFR procedures currently set in its sequence will not occur.",
+                 schedJob->getName()));
         jobWarned = schedJob;
     }
 
@@ -429,7 +445,8 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString,
 
     // fill the captured frames map
     int completedIterations;
-    uint16_t totalCompletedCount = fillCapturedFramesMap(expected, capturedFramesCount, *schedJob, capture_map, completedIterations);
+    uint16_t totalCompletedCount = fillCapturedFramesMap(expected, capturedFramesCount, *schedJob, capture_map,
+                                   completedIterations);
     schedJob->setCompletedIterations(completedIterations);
     // Loop through sequence jobs to calculate the number of required frames and estimate duration.
     foreach (SequenceJob *seqJob, seqJobs)
@@ -693,7 +710,8 @@ int SchedulerUtils::timeHeuristics(const SchedulerJob *schedJob)
 
 }
 
-uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected)
+uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs,
+        QMap<QString, uint16_t> &expected)
 {
     uint16_t capturesPerRepeat = 0;
     for (auto &seqJob : seqJobs)
