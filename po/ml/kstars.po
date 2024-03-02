@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"POT-Creation-Date: 2024-03-02 01:35+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -12156,34 +12156,34 @@ msgstr "തനത് ക്രമീകരണം ലോഡ് ചെയ്യു
 msgid "New Train"
 msgstr "ന്യൂ കാലിഡോമിയ"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:449
+#: ekos/auxiliary/opticaltrainmanager.cpp:452
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Carman"
 msgid "Primary"
 msgstr "കാര്‍മന്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:452
+#: ekos/auxiliary/opticaltrainmanager.cpp:455
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "Secondary"
 msgstr "സെക്കന്റുകള്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:455
+#: ekos/auxiliary/opticaltrainmanager.cpp:458
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Virgin Islands"
 msgid "Tertiary"
 msgstr "വിര്‍ജിന്‍ ദ്വീപുകള്‍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1206
+#: ekos/auxiliary/opticaltrainmanager.cpp:1209
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1213
+#: ekos/auxiliary/opticaltrainmanager.cpp:1216
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "

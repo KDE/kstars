@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"POT-Creation-Date: 2024-03-02 01:35+0000\n"
 "PO-Revision-Date: 2008-08-05 23:45+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -12658,34 +12658,34 @@ msgstr "Connexion"
 msgid "New Train"
 msgstr "Macedònian"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:449
+#: ekos/auxiliary/opticaltrainmanager.cpp:452
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Parma"
 msgid "Primary"
 msgstr "Panama"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:452
+#: ekos/auxiliary/opticaltrainmanager.cpp:455
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "Secondary"
 msgstr "segondas"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:455
+#: ekos/auxiliary/opticaltrainmanager.cpp:458
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Macao"
 msgid "Tertiary"
 msgstr "Kanu"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1206
+#: ekos/auxiliary/opticaltrainmanager.cpp:1209
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1213
+#: ekos/auxiliary/opticaltrainmanager.cpp:1216
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "

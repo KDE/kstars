@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"POT-Creation-Date: 2024-03-02 01:35+0000\n"
 "PO-Revision-Date: 2023-11-10 16:30+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -11812,29 +11812,29 @@ msgstr ""
 msgid "New Train"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:449
+#: ekos/auxiliary/opticaltrainmanager.cpp:452
 #, kde-format
 msgid "Primary"
 msgstr "Primární"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:452
+#: ekos/auxiliary/opticaltrainmanager.cpp:455
 #, kde-format
 msgid "Secondary"
 msgstr "Sekundární"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:455
+#: ekos/auxiliary/opticaltrainmanager.cpp:458
 #, kde-format
 msgid "Tertiary"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1206
+#: ekos/auxiliary/opticaltrainmanager.cpp:1209
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1213
+#: ekos/auxiliary/opticaltrainmanager.cpp:1216
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "

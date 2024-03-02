@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-01 01:58+0000\n"
+"POT-Creation-Date: 2024-03-02 01:35+0000\n"
 "PO-Revision-Date: 2024-02-29 08:27+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -12753,22 +12753,22 @@ msgstr "Obri el directori del registre…"
 msgid "New Train"
 msgstr "Tren nou"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:449
+#: ekos/auxiliary/opticaltrainmanager.cpp:452
 #, kde-format
 msgid "Primary"
 msgstr "Primari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:452
+#: ekos/auxiliary/opticaltrainmanager.cpp:455
 #, kde-format
 msgid "Secondary"
 msgstr "Secundari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:455
+#: ekos/auxiliary/opticaltrainmanager.cpp:458
 #, kde-format
 msgid "Tertiary"
 msgstr "Terciari"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1206
+#: ekos/auxiliary/opticaltrainmanager.cpp:1209
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12777,7 +12777,7 @@ msgstr ""
 "S'ha detectat un dispositiu (%1) que falta. Torneu a configurar els trens "
 "òptics abans de continuar."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1213
+#: ekos/auxiliary/opticaltrainmanager.cpp:1216
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
