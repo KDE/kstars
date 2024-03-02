@@ -1329,6 +1329,7 @@ void Manager::cleanDevices(bool stopDrivers)
     if (mountModule())
         mountModule()->stopTimers();
 
+    ekosLiveClient->message()->clearPendingProperties();
     INDIListener::Instance()->disconnect(this);
     DriverManager::Instance()->disconnect(this);
 
@@ -1719,8 +1720,6 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
     {
         oneManager->removeDevice(device);
     }
-
-    ekosLiveClient->message()->clearPendingProperties();
 
     // Remove from rotator controllers
     for (auto &oneController : m_RotatorControllers)
