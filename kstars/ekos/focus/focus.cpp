@@ -5227,7 +5227,7 @@ void Focus::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
-        value = rb->isChecked();
+        value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -7013,7 +7013,15 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     else if ((pCB = qobject_cast<QCheckBox *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pCB->setChecked(value);
+        if (value != pCB->isChecked())
+            pCB->click();
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value != pRadioButton->isChecked())
+            pRadioButton->click();
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -7032,7 +7040,8 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pRadioButton->setChecked(value);
+        if (value)
+            pRadioButton->click();
         return true;
     }
 

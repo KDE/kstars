@@ -276,13 +276,16 @@ void OpticalTrainManager::syncActiveDevices()
 
     // For non-train specific devices, we only sync them with primary train
     QSharedPointer<ISD::GenericDevice> device;
-    auto name = m_OpticalTrains[0]["name"].toString();
-    if (getGenericDevice(name, Dome, device))
-        syncActiveProperties(m_OpticalTrains[0], device);
-    if (getGenericDevice(name, Weather, device))
-        syncActiveProperties(m_OpticalTrains[0], device);
-    if (getGenericDevice(name, GPS, device))
-        syncActiveProperties(m_OpticalTrains[0], device);
+    if (!m_OpticalTrains.isEmpty())
+    {
+        auto name = m_OpticalTrains[0]["name"].toString();
+        if (getGenericDevice(name, Dome, device))
+            syncActiveProperties(m_OpticalTrains[0], device);
+        if (getGenericDevice(name, Weather, device))
+            syncActiveProperties(m_OpticalTrains[0], device);
+        if (getGenericDevice(name, GPS, device))
+            syncActiveProperties(m_OpticalTrains[0], device);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////

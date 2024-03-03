@@ -3689,6 +3689,29 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
         }
         break;
 
+        // In case we are either focusing, aligning, or guiding
+        // and mount is parked, we need to abort.
+        case SCHEDSTAGE_FOCUSING:
+        case SCHEDSTAGE_ALIGNING:
+        case SCHEDSTAGE_GUIDING:
+            if (status == ISD::Mount::MOUNT_PARKED)
+            {
+                emit newLog(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
+                emit stopScheduler();
+            }
+            break;
+
+        // For capturing, it's more complicated because a mount can be parked by a calibration job.
+        // so we only abort if light frames are required AND no calibration park mount is required
+        case SCHEDSTAGE_CAPTURING:
+            if (status == ISD::Mount::MOUNT_PARKED && activeJob() && activeJob()->getLightFramesRequired()
+                    && activeJob()->getCalibrationMountPark() == false)
+            {
+                emit newLog(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
+                emit stopScheduler();
+            }
+            break;
+
         default:
             break;
     }

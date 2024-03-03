@@ -606,7 +606,7 @@
 >exemples</ulink
 > d'angle de position d'étoiles binaires. </para>
         <para
->Afin de calibrer l'angle de position (AP), prenez une image et resolvez-là dans le <link linkend="ekos-align"
+>Afin de calibrer l'angle de position (AP), prenez une image et résolvez-là dans le <link linkend="ekos-align"
 >module d'alignement</link
 > d'Ekos. Un <emphasis
 >décalage</emphasis
@@ -651,7 +651,7 @@
             </mediaobject>
         </screenshot>
         <para
->Pour les trames de champ uniforme (Flat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames Dark et Bias. Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon antipoussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les Flats, vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul d'ADU (Analog Digital Unit ou pas de quantification). </para>
+>Pour les trames de champ uniforme (Flat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames Dark et Bias. Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon anti-poussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les Flats, vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul d'ADU (Analog Digital Unit ou pas de quantification). </para>
         <orderedlist>
             <listitem>
                 <para
@@ -732,7 +732,7 @@
         <para
 >L'idée principal du calcul est de fournir un temps d'exposition suffisamment long pour que le bruit de lecture de l'appareil soit largement dépassé par le signal provenant de la cible mais pas trop long pour éviter que le bruit de la pollution lumineuse ne dépasse pas le signal de la cible. </para>
         <para
->Cette implémentation ne considère pas la force (magnitude ou flux) de la cible, ni d'autres facteurs qui pourraient inciter l'astrophotographe à choisir une durée d'exposition différente. Ces autres facteurs peuvent inclure : les exigences en terme de stockage et le temps supplémentaire de post-traitement dû au nombre important de trames de faible durée d'exposition, les impacts de facteurs externes qui se produiront pour les très longues expositions tels que les performances de suivi et de guidage, les modifications des conditions météorologiques, les intrusions du traffic aérien ou encore le passage de satellites artificiels. </para>
+>Cette implémentation ne considère pas la force (magnitude ou flux) de la cible, ni d'autres facteurs qui pourraient inciter le photographe d'astronomie à sélectionner une durée d'exposition différente. Ces autres facteurs peuvent inclure : les exigences en terme de stockage et le temps supplémentaire de post-traitement dû au nombre important de trames de faible durée d'exposition, les impacts de facteurs externes qui se produiront pour les très longues expositions tels que les performances de suivi et de guidage, les modifications des conditions météorologiques, les intrusions du trafic aérien ou encore le passage de satellites artificiels. </para>
         <para
 >Les approches à l'imagerie peuvent considérablement varier quant au choix des durées d'exposition et le nombre de trames utilisées pour l'intégration. Une approche largement acceptée pour l'imagerie d'objets du ciel profond implique de longues durées d'exposition qui nécessitent un bon guidage, des conditions de visibilité excellente et emploierait typiquement l'utilisation de filtres pour réduire les effets de la pollution lumineuse. À l'autre extrême, des approches utilisant des techniques rapides (nommées communément « imagerie chanceuse ») en prenant des centaines voir des milliers de trames de durée très courtes dans l'espoir d'éliminer les effets de la pollution lumineuse, ainsi que de mauvaises conditions de visibilité et de guidage. Les choix des valeurs des paramètres du calculateur d'exposition dépendront de l'approche utilisée.</para>
         <orderedlist>

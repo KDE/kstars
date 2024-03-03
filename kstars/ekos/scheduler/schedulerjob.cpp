@@ -412,6 +412,11 @@ void SchedulerJob::setLightFramesRequired(bool value)
     lightFramesRequired = value;
 }
 
+void SchedulerJob::setCalibrationMountPark(bool value)
+{
+    m_CalibrationMountPark = value;
+}
+
 void SchedulerJob::setRepeatsRequired(const uint16_t &value)
 {
     repeatsRequired = value;

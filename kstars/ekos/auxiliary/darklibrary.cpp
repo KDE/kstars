@@ -66,7 +66,16 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     });
     connect(openDarksFolderB, &QPushButton::clicked, this, &DarkLibrary::openDarksFolder);
     connect(clearAllB, &QPushButton::clicked, this, &DarkLibrary::clearAll);
-    connect(clearRowB, &QPushButton::clicked, this, &DarkLibrary::clearRow);
+    connect(clearRowB, &QPushButton::clicked, this, [this]()
+    {
+        auto selectionModel = darkTableView->selectionModel();
+        if (selectionModel->hasSelection())
+        {
+            auto index = selectionModel->currentIndex().row();
+            clearRow(index);
+        }
+    });
+
     connect(clearExpiredB, &QPushButton::clicked, this, &DarkLibrary::clearExpired);
     connect(refreshB, &QPushButton::clicked, this, &DarkLibrary::reloadDarksFromDatabase);
 
@@ -658,30 +667,22 @@ void DarkLibrary::clearAll()
             KMessageBox::No)
         return;
 
-    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
-    QSqlTableModel darkframe(nullptr, userdb);
-    darkFramesModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    darkframe.setTable("darkframe");
-    darkframe.setFilter("ccd LIKE \'" + m_Camera->getDeviceName() + "\'");
-    darkFramesModel->select();
-
     // Now remove all the expired files from disk
-    for (int i = 0; i < darkframe.rowCount(); ++i)
+    for (int i = 0; i < darkFramesModel->rowCount(); ++i)
     {
-        QString oneFile = darkframe.record(i).value("filename").toString();
+        QString oneFile = darkFramesModel->record(i).value("filename").toString();
         QFile::remove(oneFile);
-        QString defectMap = darkframe.record(i).value("defectmap").toString();
+        QString defectMap = darkFramesModel->record(i).value("defectmap").toString();
         if (defectMap.isEmpty() == false)
             QFile::remove(defectMap);
+        darkFramesModel->removeRow(i);
 
     }
 
-    darkFramesModel->removeRows(0, darkFramesModel->rowCount());
     darkFramesModel->submitAll();
 
-    Ekos::DarkLibrary::Instance()->refreshFromDB();
-
     // Refesh db entries for other cameras
+    refreshFromDB();
     reloadDarksFromDatabase();
 }
 
@@ -690,9 +691,8 @@ void DarkLibrary::clearAll()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::clearRow(int index)
 {
-    auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     if (index < 0)
-        index = darkTableView->currentIndex().row();
+        return;
 
     QSqlRecord record = darkFramesModel->record(index);
     QString filename = record.value("filename").toString();
@@ -701,12 +701,7 @@ void DarkLibrary::clearRow(int index)
     if (!defectMap.isEmpty())
         QFile::remove(defectMap);
 
-    darkFramesModel->removeRow(index);
-    darkFramesModel->submitAll();
-    userdb.close();
-
-    darkTableView->selectionModel()->select(darkFramesModel->index(index - 1, 0), QItemSelectionModel::ClearAndSelect);
-
+    KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
     refreshFromDB();
     reloadDarksFromDatabase();
 }
@@ -1914,7 +1909,8 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     else if ((pCB = qobject_cast<QCheckBox *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pCB->setChecked(value);
+        if (value != pCB->isChecked())
+            pCB->click();
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -1927,7 +1923,8 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
-        pRadioButton->setChecked(value);
+        if (value)
+            pRadioButton->click();
         return true;
     }
 
@@ -1972,22 +1969,6 @@ void DarkLibrary::syncSettings()
     else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
     {
         key = cradio->objectName();
-
-        // N.B. Only store CHECKED radios, do not store unchecked ones
-        // as we only have exclusive groups.
-        if (cradio->isChecked() == false)
-        {
-            // Remove from setting if it was added before
-            if (m_Settings.contains(key))
-            {
-                m_Settings.remove(key);
-                emit settingsUpdated(getAllSettings());
-                OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
-                OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);
-            }
-            return;
-        }
-
         value = true;
     }
 
