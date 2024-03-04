@@ -3697,7 +3697,7 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
             if (status == ISD::Mount::MOUNT_PARKED)
             {
                 emit newLog(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
-                emit stopScheduler();
+                stop();
             }
             break;
 
@@ -3708,7 +3708,7 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
                     && activeJob()->getCalibrationMountPark() == false)
             {
                 emit newLog(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
-                emit stopScheduler();
+                stop();
             }
             break;
 
