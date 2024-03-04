@@ -2145,7 +2145,7 @@
   <title
 >Ajustar l'orientació del mapa celeste</title>
   <para
->Podeu ajustar diverses opcions de configuració perquè l'orientació del mapa celeste coincidisca amb la vista a través de l'instrument òptic, sempre que (a partir d'esta versió) l'instrument no reflectisca el camp de visió (com es fa amb prismes utilitzats amb els SCT i els refractors). </para>
+>Podeu ajustar diverses opcions de configuració perquè l'orientació del mapa celeste coincidisca amb la vista a través de l'instrument òptic. </para>
   <para
 >Primer, trieu el sistema de coordenades que coincidisca amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de Coordenades equatorials al menú <guimenu
 >Visualitza</guimenu
@@ -2157,7 +2157,15 @@
 >Canvia a la vista de l'esfera celeste (coordenades equatorials)</guilabel
 >. Açò establirà el sistema de coordenades base utilitzat per a representar el mapa celeste, i també establirà la referència per a l'orientació del mapa celeste: zenit o nord. </para>
   <para
->Per a fer girar lliurement el mapa celeste, podeu mantindre premuda la tecla &Maj; i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostrarà la direcció nord i zenit en el punt, i que mostrarà l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla &Maj; o el botó del ratolí, es pararà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu sobre objectes diferents, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència serà el nord quan s'utilitzen les coordenades equatorials i el zenit quan s'utilitzen les coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions habituals, dret i invertides, el gir es pot establir o restablir utilitzant el submenú <menuchoice
+>Si el vostre instrument utilitza un prisma erecte, el qual s'utilitza habitualment en els telescopis Schmidt-Cassegrain i de tipus refractant, la vista a través de l'ocular es reflectirà horitzontalment. Podeu fer que el mapa del cel coincidisca amb açò marcant l'element de menú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guimenuitem
+>Vista emmirallada</guimenuitem
+></menuchoice
+>. </para>
+  <para
+>A continuació, per a fer girar lliurement el mapa celeste, podeu mantindre premuda la tecla &Maj; i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostrarà la direcció nord i zenit en el punt, i que mostrarà l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla &Maj; o el botó del ratolí, es pararà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu sobre objectes diferents, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència serà el nord quan s'utilitzen les coordenades equatorials i el zenit quan s'utilitzen les coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions habituals, dret i invertides, el gir es pot establir o restablir utilitzant el submenú <menuchoice
 ><guimenu
 >Visualitza</guimenu
 ><guisubmenu
@@ -2195,6 +2203,18 @@
       <listitem
 ><para
 >Ús de prismàtic: la mateixa configuració que amb l'observació a simple vista.</para
+></listitem>
+      <listitem
+><para
+>L'ocular d'un telescopi Schmidt-Cassegrain altazimut amb un prisma erecte: En el menú <guimenu
+>Visualitza</guimenu
+> trieu <guilabel
+>Vista emmirallada</guilabel
+> i al submenú <guisubmenu
+>Orientació del mapa celeste</guisubmenu
+> trieu <guilabel
+>Zenit cap amunt</guilabel
+>. Finalment, ajusteu la rotació manualment perquè coincidisca amb la vista de l'ocular segons l'angle que utilitzeu per al prisma erecte.</para
 ></listitem>
       <listitem
 ><para
