@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-02-26 15:18+0200\n"
+"PO-Revision-Date: 2024-03-03 08:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -28829,12 +28829,12 @@ msgstr "Увага! Не виявлено зміни позиції для за�
 
 #: ekos/scheduler/schedulerprocess.cpp:3699
 #: ekos/scheduler/schedulerprocess.cpp:3710
-#, fuzzy, kde-format
-#| msgid "Caution: do not use Auto Park while scheduler is active."
+#, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
-"Увага! Не використовуйте автоматичне паркування, доки працює планувальник."
+"Увага! Лафет запарковано під час виконання завдання «%1» планувальника. "
+"Перериваємо обробку."
 
 #: ekos/scheduler/schedulerprocess.cpp:3732
 #, kde-format

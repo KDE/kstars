@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-02-29 22:03+0100\n"
+"PO-Revision-Date: 2024-03-03 12:48+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -28915,13 +28915,12 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3699
 #: ekos/scheduler/schedulerprocess.cpp:3710
-#, fuzzy, kde-format
-#| msgid "Caution: do not use Auto Park while scheduler is active."
+#, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
-"Precaución: no use el aparcamiento automático mientras esté activo el "
-"planificador."
+"Advertencia: la montura está aparcada mientras el planificador del trabajo "
+"«%1» está activo. Interrumpiendo..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3732
 #, kde-format

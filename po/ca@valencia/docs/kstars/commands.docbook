@@ -1316,7 +1316,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta la barra d'eines principal. De manera predeterminada, la barra d'eines principal oferix dreceres útils per al control de la vista mapa celeste (&ead;, acosta i allunya) i també per al control del rellotge de &kstars;. Podeu iniciar/parar el rellotge, fer-lo avançar un pas cap arrere/avant en el temps i també podeu ajustar amb facilitat el pas temporal utilitzat pel rellotge de &kstars;. El pas temporal és la velocitat amb la qual fluïx el temps en la simulació. Per a ajustar el pas temporal, podeu utilitzar el botó de selecció de valors utilitzat per a establir les unitats de pas temporal i el botó de selecció de valors utilitzat per a fer augmentar/disminuir el valor del pas temporal. Utilitzant la barra d'eines principal podreu obrir ràpidament la finestra <guilabel
+>Mostra o oculta la barra d'eines principal. De manera predeterminada, la barra d'eines principal oferix dreceres útils per al control de la vista mapa celeste (&ead;, acosta i allunya) i també per al control del rellotge de &kstars;. Podeu iniciar/parar el rellotge, fer-lo avançar un pas cap arrere/avant en el temps i també podeu ajustar amb facilitat el pas temporal utilitzat pel rellotge de &kstars;. El pas temporal és la velocitat amb la qual fluïx el temps en la simulació. Per a ajustar el pas temporal, podeu utilitzar el botó de selecció de valors utilitzat per a establir les unitats de pas temporal i el botó de selecció de valors utilitzat per a fer augmentar o disminuir el valor del pas temporal. Utilitzant la barra d'eines principal podreu obrir ràpidament la finestra <guilabel
 >Busca un objecte</guilabel
 >, <guilabel
 >Establiment del temps</guilabel

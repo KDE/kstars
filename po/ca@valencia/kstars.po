@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-02-29 08:27+0100\n"
+"PO-Revision-Date: 2024-03-03 16:21+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -29236,13 +29236,12 @@ msgstr "Avís: la tasca «%1» no ha trobat cap reposicionament, es reinicia."
 
 #: ekos/scheduler/schedulerprocess.cpp:3699
 #: ekos/scheduler/schedulerprocess.cpp:3710
-#, fuzzy, kde-format
-#| msgid "Caution: do not use Auto Park while scheduler is active."
+#, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
-"Precaució: no podeu utilitzar l'aparcament automàtic mentre el programador "
-"està actiu."
+"Avís: la muntura està aparcada mentre el programador està actiu per a la "
+"tasca «%1». S'interromp."
 
 #: ekos/scheduler/schedulerprocess.cpp:3732
 #, kde-format
