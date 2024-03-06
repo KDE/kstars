@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-02-25 19:38+0100\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2024-03-05 08:50+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -13991,11 +13991,13 @@ msgstr "Toleranca:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:226
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Pri fotografiranju stanovanj na nebu lahko to spremeni intenzivnost. "
+"Uporabil bo enostavnejši izračun izpostavljenosti."
 
 #. i18n: ectx: property (text), widget (QCheckBox, skyFlats)
 #: ekos/capture/calibrationoptions.ui:229
@@ -18408,6 +18410,7 @@ msgstr "Zaznane ni bilo nobene zvezde. Ponovno zajemanje..."
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
+"Samodejno ostrenje je spodletelo: preseženo največje število ponovitev %1"
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18444,24 +18447,24 @@ msgid "Failed to detect any stars. Aborting..."
 msgstr "Ni bilo mogoče zaznati nobene zvezde na položaju %1. Se nadaljuje …"
 
 #: ekos/focus/focus.cpp:3182
-#, kde-format
+#, fuzzy, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Preiskovanje za začetni položaj %1/%2"
 
 #: ekos/focus/focus.cpp:3196
-#, kde-format
+#, fuzzy, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Brez minimuma skeniranja - poteka širijenje iskanja ..."
 
 #: ekos/focus/focus.cpp:3206
-#, kde-format
+#, fuzzy, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Položaj začetka pregledovanja %1 najden"
 
 #: ekos/focus/focus.cpp:3207
-#, kde-format
+#, fuzzy, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Položaj začetka pregledovanja %1 najden"
 
 #: ekos/focus/focus.cpp:3268
 #, fuzzy, kde-format
@@ -18716,11 +18719,13 @@ msgstr ""
 "Zdaj ste pripravljeni za začetek samodejnega ostrenja."
 
 #: ekos/focus/focus.cpp:7170
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
 "parameters?"
 msgstr ""
+"Prva uporaba optičnega vlaka: %1. Želite, da svetovalnik ostrine optimizira "
+"parametre?"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:164
@@ -19904,11 +19909,13 @@ msgstr "Merilo in položaj"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:689
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Ko je potrjena možnost Poišči začetni položaj, je to število podatkovnih "
+"točk, ki jih želite uporabiti."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:711
@@ -19926,9 +19933,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:736
-#, kde-format
+#, fuzzy, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "Številske podatkovne točke:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:749
@@ -19939,20 +19946,27 @@ msgstr "Smer:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:759
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>How aggressively to apply Outlier Rejection. Higher "
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kako agresivno uporabiti zavrnitev osamelcev. Višje "
+"vrednosti zavračajo več osamelcev.</p><p>Če želite, da je ta možnost "
+"dejavna, mora biti nastavljena možnost Izboljšaj prilagajanje krivulje.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:781
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Ko je potrjena možnost Poišči začetni položaj, pregledovanje uporabi "
+"množitelj velikosti koraka = začetna velikost koraka, pomnožena z začetno "
+"velikostjo koraka x ."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
@@ -37005,7 +37019,7 @@ msgstr "Ploska tema"
 #: kstars.kcfg:1833
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr ""
+msgstr "Za fotografiranje ploskev na nebu s spreminjajočo se intenzivnostjo."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1837
@@ -37610,10 +37624,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (focusOutlierRejection), group (Focus)
 #: kstars.kcfg:2145
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Faktor agresivnosti, ki velja za zavrnitev odstopanja pri uporabi "
+"izničevalca krofov."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2149
@@ -37626,18 +37642,22 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2153
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
+"Število podatkovnih točk, ki jih je treba uporabiti med pregledom, ko je "
+"focusScanStartPos potrjen."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2157
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
+"Faktor, ki velja za začetno velikost koraka med pregledom, ko je "
+"focusScanStartPos potrjen."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2161
@@ -86082,53 +86102,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>A good figure to start with is 5. An exception is "
-#~ "if you have a scope with a central obstruction that turns stars to donuts "
-#~ "when they are out of focus. When this happens the system will struggle to "
-#~ "identify stars correctly. To avoid this situation reduce either the step "
-#~ "size or the number of steps.</p><p>To check this situation, start at "
-#~ "focus and move away by &quot;step size&quot; * &quot;number of "
-#~ "steps&quot; steps. Take a focus frame and zoom in on the fitsviewer to "
-#~ "see whether stars appear as stars or donuts.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Dobra številka za začetek je 5. Izjema je, če imate "
-#~ "teleskop z osrednjo oviro, ki zvezde spremeni v krofke, ko niso "
-#~ "izostrene. Kadar se to zgodi, bo sistem težko pravilno prepoznal zvezde. "
-#~ "Da bi se izognili tej situaciji, zmanjšajte velikost koraka ali število "
-#~ "korakov.</p><p>Takšno situacijo preverite tako, da začnete z ostrenjem in "
-#~ "se oddaljujete za &quot;velikost koraka&quot; * &quot;število "
-#~ "korakov&quot; korakov. Vzemite okvir izostritve in povečajte fitsviewer, "
-#~ "da vidite, ali so zvezde videti kot zvezde ali krofi.</p></body></html>"
-
-#~ msgid ""
-#~ "Autofocus failed to reach proper focus. Try increasing tolerance value."
-#~ msgstr ""
-#~ "Samodejno ostrenje ni uspelo. Poskusite povečati vrednost tolerance."
-
-#, fuzzy
-#~ msgid ""
-#~ " You have a scope with a central obstruction so be careful not to move "
-#~ "too far away from focus as stars will appear as donuts and will not be "
-#~ "detected properly. Experiment by finding focus and moving Step Size * Out "
-#~ "Step Multiple ticks away from focus and take a focus frame. Zoom in to "
-#~ "observe star detection. If it is poor then move the focuser back towards "
-#~ "focus until star detection is acceptable. Adjust Out Step Multiple to "
-#~ "correspond to this range of focuser motion."
-#~ msgstr ""
-#~ " Imate daljnogled z osrednjo oviro, zato pazite, da se ne oddaljite "
-#~ "preveč od ostrine, saj bodo zvezde videti kot krofi in ne bodo pravilno "
-#~ "zaznane. Eksperimentirajte tako, da poiščete gorišče in se premaknete "
-#~ "Korak velikosti * Večkratni izhodni korak oznak stran od gorišča in "
-#~ "posnemite kader z ostrino. Povečajte in opazujte zaznavanje zvezd. Če je "
-#~ "slabo, premaknite ostrilnik nazaj proti ostrini, dokler zaznavanje zvezd "
-#~ "ni sprejemljivo. Prilagodite Večkratni izhodni korak, da ustreza temu "
-#~ "območju gibanja ostrilnika."
-
-#, fuzzy
-#~ msgid "Whether to accept Focus Advisor recommendation on Out Step Multiple."
-#~ msgstr ""
-#~ "Ali želite sprejemati priporočila svetovalca ostrine glede večkratnika "
-#~ "koraka izhoda."
