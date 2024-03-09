@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-02 16:58+0100\n"
+"PO-Revision-Date: 2024-03-08 21:37+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -18360,7 +18360,7 @@ msgstr "Neniuj steloj detektitaj dum testado de HFR, kaptado denove..."
 #: ekos/focus/focus.cpp:2910
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
-msgstr ""
+msgstr "Aŭtomata fokusado malsukcesis: transpasis maks iteraciojn %1"
 
 #: ekos/focus/focus.cpp:2921 ekos/focus/focus.cpp:3155
 #: ekos/focus/focus.cpp:3696
@@ -18402,17 +18402,17 @@ msgstr "Skanante por komenca pozicio %1/%2"
 #: ekos/focus/focus.cpp:3196
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Neniu skan-minimumo - ampleksitgante serĉon..."
 
 #: ekos/focus/focus.cpp:3206
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Trovis Skan-Komencpozicion %1"
 
 #: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Trovis Skan-Komencpozicion %1"
 
 #: ekos/focus/focus.cpp:3268
 #, kde-format
@@ -28373,11 +28373,12 @@ msgstr "Averto: tasko '%1' trovita ne repozicianta, rekomencanta."
 
 #: ekos/scheduler/schedulerprocess.cpp:3699
 #: ekos/scheduler/schedulerprocess.cpp:3710
-#, fuzzy, kde-format
-#| msgid "Caution: do not use Auto Park while scheduler is active."
+#, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
-msgstr "Atentu: ne uzu Aŭtomatan parkumadon dum la planilo estas aktiva."
+msgstr ""
+"Averto: Muntaĵo estas parkumita dum planilo por labortasko '%1' estas "
+"aktiva. Ĉesigante."
 
 #: ekos/scheduler/schedulerprocess.cpp:3732
 #, kde-format
@@ -36266,7 +36267,7 @@ msgstr "Ĉiela Ebenaĵo"
 #: kstars.kcfg:1833
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr ""
+msgstr "Pafante ebenaĵojn sur ĉielon kun ŝanĝanta intenseco."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1837

@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-08 00:14+0300\n"
+"PO-Revision-Date: 2024-03-08 20:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6975,22 +6975,19 @@ msgid "Save Ekos Alignment List"
 msgstr "Ekos Hizalama Listesini Kaydet"
 
 #: ekos/align/mountmodel.cpp:384
-#, fuzzy, kde-format
-#| msgid "Failed to save scheduler list"
+#, kde-format
 msgid "Failed to save alignment list"
-msgstr "Zamanlayıcı listesi kaydetme başarısız"
+msgstr "Hizalama listesi kaydedilemedi"
 
 #: ekos/align/mountmodel.cpp:430
-#, fuzzy, kde-format
-#| msgid "Scheduler list saved to %1"
+#, kde-format
 msgid "Alignment List saved to %1"
-msgstr "Zamanlayıcı listesi şuraya kaydedildi, %1"
+msgstr "Hizalama listesi %1 konumuna kaydedildi"
 
 #: ekos/align/mountmodel.cpp:542 ekos/align/mountmodel.cpp:550
-#, fuzzy, kde-format
-#| msgid "Enable mount altitude limits."
+#, kde-format
 msgid "DEC is below the altitude limit"
-msgstr "Yükseklik sınırını etkinleştir."
+msgstr "DEC, yükseklik sınırının altında"
 
 #: ekos/align/mountmodel.cpp:629
 #, kde-format
@@ -6998,17 +6995,14 @@ msgid "Point calculation error."
 msgstr "Nokta hesaplama hatası."
 
 #: ekos/align/mountmodel.cpp:651
-#, fuzzy, kde-format
-#| msgctxt "City in South Dakota USA"
-#| msgid "Elk Point"
+#, kde-format
 msgid "Sky Point"
-msgstr "Elk Point"
+msgstr "Gök Noktası"
 
 #: ekos/align/mountmodel.cpp:859
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to clear all the alignment points?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Tüm hizalama noktalarını temizlemek istediğinizden emin misiniz?"
 
 #: ekos/align/mountmodel.cpp:860
 #, kde-format
@@ -7018,12 +7012,12 @@ msgstr "Hizalama Noktalarını Temizle"
 #: ekos/align/mountmodel.cpp:965
 #, kde-format
 msgid "The Mount Model Tool is Reset."
-msgstr ""
+msgstr "Kaide modeli aracı sıfırlandı."
 
 #: ekos/align/mountmodel.cpp:1002
 #, kde-format
 msgid "Please Check the Alignment Points."
-msgstr ""
+msgstr "Lütfen hizalama noktalarını denetleyin."
 
 #: ekos/align/mountmodel.cpp:1009
 #, kde-format
@@ -7032,33 +7026,37 @@ msgid ""
 "means that the mount model tool will not sync/align your mount but will only "
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
+"Hizalama modülünde çözücü eylemi için ‘Hiçbir şey’ seçili değil. Bu, kaide "
+"modeli aracının kaidenizi eşzamanlamayacağı/hizalamayacağı, yalnızca "
+"işaretleme modeli hatalarını raporlayacağı anlamına gelir. Sürdürmek istiyor "
+"musunuz?"
 
 #: ekos/align/mountmodel.cpp:1012
 #, kde-format
 msgid "Pointing Model Report Only?"
-msgstr ""
+msgstr "Yalnızca işaretleme modeli raporu mu?"
 
 #: ekos/align/mountmodel.cpp:1029
 #, kde-format
 msgid "The Mount Model Tool is Starting."
-msgstr ""
+msgstr "Kaide modeli aracı başlatılıyor."
 
 #: ekos/align/mountmodel.cpp:1038
 #, kde-format
 msgid "The Mount Model Tool is Paused."
-msgstr ""
+msgstr "Kaide modeli aracı duraklatıldı."
 
 #: ekos/align/mountmodel.cpp:1097
 #, kde-format
 msgid "The Mount Model Tool is Finished."
-msgstr ""
+msgstr "Kaide modeli aracı bitti."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
 #: ekos/align/mountmodel.ui:14 ekos/align/opsastrometryindexfiles.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr ""
+msgstr "İletişim Kutusu"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/mountmodel.ui:35
@@ -7071,14 +7069,18 @@ msgid ""
 "by Ekos. If this is not the case, then this tool is not suitable for your "
 "mount.</p>"
 msgstr ""
+"<p>Bu araç, kaideyi gökyüzünde farklı noktalara taşıyarak ve yakalanan "
+"görselleri çözerek kaidenizin daha iyi bir işaretleme modeli oluşturmasına "
+"yardımcı olabilir. Bu, GOTO’larınızın doğruluğunu artırabilir. Olanaklı "
+"kılmak için kaidenizin, Ekos tarafından komut verilen her <b>eşzamanlama</b> "
+"sonrasında içsel işaretleme modelini geliştirebilmesi gerekir. Durum böyle "
+"değilse bu araç, kaideniz için uygun değildir.</p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/mountmodel.ui:48
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Model Wizard"
-msgstr "Mount Mario"
+msgstr "Kaide Modeli Sihirbazı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/align/mountmodel.ui:54
@@ -7108,39 +7110,52 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body><p>Sihirbaz tarafından eklenen nesnelerin/noktaların "
+"türünü seçin.</p><p><span style=\" font-weight:600;\">Not:</span> Sabit DEC "
+"dışındaki tüm seçenekler bir RA/DEC noktaları ızgarasıyla başlar.</p>\n"
+"<ul>\n"
+"<li><b>Herhangi bir yıldız:</b> Sihirbaz, en yakın yıldızı arar.</li>\n"
+"<li><b>Herhangi bir nesne:</b> Sihirbaz en yakın herhangi bir nesneyi arar.</"
+"li>\n"
+"<li><b>Adlı yıldızlar:</b> Sihirbaz, o anda görünür olan yıldız listesindeki "
+"en yakın yıldızı arar. İlk adı verilen yıldızın amaçlanan noktadan oldukça "
+"uzakta olabileceğini ve bazen aynı yıldızın birden fazla noktaya en yakın "
+"yıldız olabileceğini unutmayın.</li>\n"
+"<li><b>Sabit DEC:</b> Sihirbaz tüm noktaları seçili DEC’de oluşturur.</li>\n"
+"<li><b>Sabit ızgara:</b> Sihirbaz, nesnelerle eşleştirmeye çalışmadan "
+"yalnızca özgün ızgarayı kullanır.</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:73
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Any Stars"
-msgstr "Yıldızlar"
+msgstr "Herhangi bir yıldız"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:78
-#, fuzzy, kde-format
-#| msgid "Mark Stars"
+#, kde-format
 msgid "Named Stars"
-msgstr "Yıldızları İşaretle"
+msgstr "Adlı yıldızlar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:83
-#, fuzzy, kde-format
-#| msgid "Find Object"
+#, kde-format
 msgid "Any Object"
-msgstr "Cismi Bul"
+msgstr "Herhangi bir nesne"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:88
 #, kde-format
 msgid "Fixed DEC"
-msgstr ""
+msgstr "Sabit DEC"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:93
 #, kde-format
 msgid "Fixed Grid"
-msgstr ""
+msgstr "Sabit ızgara"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, wizardAlignB)
 #: ekos/align/mountmodel.ui:107
@@ -7149,53 +7164,46 @@ msgid ""
 "Automatically generate the specified number of alignment points in the table "
 "below. They will be generated based on the options selected in this wizard."
 msgstr ""
+"Aşağıdaki tabloda belirtilen sayıda hizalama noktasını kendiliğinden üretin. "
+"Bu, sihirbazda seçilen seçeneklere göre oluşturulur."
 
 #. i18n: ectx: property (text), widget (QPushButton, wizardAlignB)
 #: ekos/align/mountmodel.ui:110
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgid "Generate"
-msgstr "Genel"
+msgstr "Üret"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignDec)
 #: ekos/align/mountmodel.ui:120
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "The Declination of the points that will be generated.  This option only "
 "applies to the Fixed DEC Option."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Oluşturulacak noktaların yükselimi. Bu seçenek yalnızca Sabit DEC Seçeneği "
+"için geçerlidir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/align/mountmodel.ui:133
-#, fuzzy, kde-format
-#| msgid "Minimum Altitude:"
+#, kde-format
 msgid "Minimum Alt:"
-msgstr "Asgari Yükseklik:"
+msgstr "En düşük yükseklik:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, minAltBox)
 #: ekos/align/mountmodel.ui:140
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "This is the minimum altitude above the horizon to use in generating points "
 "with the wizard."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Bu, sihirbazla nokta üretirken kullanılacak ufuk üzerindeki en düşük "
+"yüksekliktir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/mountmodel.ui:153
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Alignment Points:"
-msgstr "Kutupsal Hizalama"
+msgstr "Hizalama noktaları:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
@@ -7214,7 +7222,7 @@ msgstr "Kutupsal Hizalama"
 #: tools/modcalcvlsr.ui:236
 #, kde-format
 msgid "Declination:"
-msgstr "Dik Açıklık:"
+msgstr "Yükselim:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignPtNum)
 #: ekos/align/mountmodel.ui:193
@@ -7225,31 +7233,31 @@ msgid ""
 "distributed over RA and DEC. Note, if Fixed DEC is selected, all of the "
 "points will be at the same DEC."
 msgstr ""
+"Sihirbazın üretmesi gereken puan sayısı. Bu sayı 5’ten küçükse bunları aynı "
+"DEC’te üretecektir. Bundan sonra RA ve DEC’e eşit olarak dağıtılacaklar. "
+"Sabit DEC seçilirse tüm noktaların aynı DEC’te olacağını unutmayın."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:219
 #, kde-format
 msgid "Add Currently Visible Stars"
-msgstr "Şu Anda Görünen Yıldızları Ekle"
+msgstr "Şu Anda Görünür Yıldızları Ekle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/align/mountmodel.ui:237
 #, kde-format
 msgid "Common Names:"
-msgstr "Ortak isimler:"
+msgstr "Ortak adlar:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, starListBox)
 #: ekos/align/mountmodel.ui:250
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "These are the common names for the named stars that are currently up at your "
 "location.  If you select a star, it will be added to the table below."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Bunlar, şu anda bulunduğunuz konumda bulunan yıldızların ortak adlarıdır. "
+"Bir yıldız seçerseniz aşağıdaki tabloya eklenir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/align/mountmodel.ui:270
@@ -7259,23 +7267,19 @@ msgstr "Yunan:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, greekStarListBox)
 #: ekos/align/mountmodel.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "These are the Greek names for the brighter stars that are currently up at "
 "your location.  If you select a star, it will be added to the table below."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Bunlar, şu anda bulunduğunuz konumda bulunan daha parlak yıldızların Yunanca "
+"isimleridir. Bir yıldız seçerseniz aşağıdaki tabloya eklenir."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/mountmodel.ui:293
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Mount Model Alignment Points"
-msgstr "Kutupsal Hizalama"
+msgstr "Kaide Modeli Hizalama Noktaları"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllAlignB)
 #: ekos/align/mountmodel.ui:331
@@ -7286,6 +7290,10 @@ msgid ""
 "just clears the list of points so that if you run the mount model routine "
 "again, these points will not be included."
 msgstr ""
+"Aşağıdaki hizalama noktaları tablosunun tümünü temizleyin. Bunun kaidenizi "
+"hiçbir şekilde etkilemeyeceğini unutmayın. İşaretleme modelinizi "
+"temizlemeyecektir. Sadece noktaların listesini temizler, böylece kaide "
+"modeli rutinini yeniden çalıştırdığınızda bu noktalar içerilmeyecektir."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeAlignB)
 #: ekos/align/mountmodel.ui:353
@@ -7296,6 +7304,10 @@ msgid ""
 "just means that if you run the mount model routine, that point will not be "
 "included in the list.</p>"
 msgstr ""
+"<p>Seçili satırı aşağıdaki hizalama noktası tablosundan kaldırın. Bu "
+"noktanın modelden temizlenmesi için kaidenize <b>komut vermediğini</b> "
+"unutmayın; bu yalnızca, kaide modeli rutinini çalıştırırsanız o noktanın "
+"listeye içerilmeyeceği anlamına gelir.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addAlignB)
 #: ekos/align/mountmodel.ui:375
@@ -7305,9 +7317,9 @@ msgid ""
 "and DE for a position you would like the telescope to slew to when doing the "
 "mount model routine."
 msgstr ""
-"Hizalama listesine boş bir satır ekleyin, böylece kaide modeli yordamını "
-"yaparken teleskopun çevrilmesini istediğiniz bir konum için elle bir RA ve "
-"DE ekleyebilirsiniz."
+"Hizalama listesine boş bir satır ekleyin, böylece kaide modeli rutinini "
+"yaparken teleskopun dönmesini istediğiniz konum için bir RA’yı ve DE’yi elle "
+"ekleyebilirsiniz."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
 #: ekos/align/mountmodel.ui:397
@@ -7317,8 +7329,8 @@ msgid ""
 "and DEC automatically that you would like the telescope to slew to when "
 "doing the mount model routine."
 msgstr ""
-"Kaide modeli yordamını yaparken teleskopun dönmesini istediğiniz bir RA ve "
-"DEC'i otomatik olarak almak üzere bir nesne seçebilmeniz için Nesne Bul "
+"Kaide modeli rutinini yaparken teleskobun dönmesini istediğiniz RA’yı ve "
+"DEC’i kendiliğinden almak üzere bir nesneyi seçebilmeniz için Nesne Bul "
 "iletişim kutusunu açın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
@@ -7328,7 +7340,7 @@ msgid ""
 "Sort the alignment points, starting with the point closest to the current "
 "telescope position, to try to minimize the distance between each slew."
 msgstr ""
-"Her çevrilme arasındaki uzaklığı en aza indirmeye çalışmak için geçerli "
+"Her çevirme arasındaki uzaklığı en aza indirmeye çalışmak için geçerli "
 "teleskop konumuna en yakın noktadan başlayarak hizalama noktalarını "
 "sıralayın."
 
@@ -7346,60 +7358,58 @@ msgid ""
 "alignment points, you can drag the row up or down using the vertical header "
 "for that row on the left."
 msgstr ""
+"Bu, teleskopunuzu hizalarken kaide modeli rutininin kullanmasını istediğiniz "
+"hizalama noktaları tablosudur. Eğer nokta eklemek veya çıkarmak istiyorsanız "
+"yukarıdaki düğmeleri kullanabilirsiniz. Kaide modeli rutinini çalıştırmak, "
+"duraklatmak veya durdurmak istiyorsanız aşağıdaki düğmeleri "
+"kullanabilirsiniz. Belirli bir nokta için RA’yı veya DE’yi doğrudan "
+"hücrelerde düzenleyebilirsiniz. Yalnızca ss:dd:ss biçimini izlediğinizden "
+"emin olun. Nesne adı yalnızca kolaylık sağlamak amacıyla verilmiştir ve "
+"kullanılmaz. Hizalama noktalarının sırasını değiştirmek isterseniz soldaki o "
+"satırın dikey başlığını kullanarak satırı yukarı veya aşağı "
+"sürükleyebilirsiniz."
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:448
-#, fuzzy, kde-format
-#| msgctxt "Right Ascension"
-#| msgid "RA (J2000)"
+#, kde-format
 msgid "RA (J2000)"
 msgstr "RA (J2000)"
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:453
-#, fuzzy, kde-format
-#| msgid "DE (J2000.0):"
+#, kde-format
 msgid "DEC (J2000)"
-msgstr "DE (J2000.0):"
+msgstr "DEC (J2000)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadAlignB)
 #: ekos/align/mountmodel.ui:491
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Load a saved alignment point list so that you can run the same alignment you "
 "ran on a previous occasion."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Kaydedilmiş bir hizalama noktası listesini yükleyin, böylece daha önce "
+"çalıştırdığınız hizalamanın aynısını gerçekleştirebilirsiniz."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveAlignB)
 #: ekos/align/mountmodel.ui:513
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Save the alignment list so that you can run this alignment again in the "
 "future."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Bu hizalamayı gelecekte yeniden çalıştırabilmek için hizalama listesini "
+"kaydedin."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
 #: ekos/align/mountmodel.ui:535
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Display the alignment points on the skymap as flags.  Clicking it again will "
 "remove the flags.  The flags will not be saved."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Hizalama noktalarını gökyüzü haritasında bayraklar olarak görüntüleyin. "
+"Yeniden tıklamak bayrakları kaldıracaktır. Bayraklar kaydedilmeyeceklerdir."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
 #: ekos/align/mountmodel.ui:570

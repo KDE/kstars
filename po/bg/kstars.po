@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-06 10:32+0100\n"
+"PO-Revision-Date: 2024-03-08 10:43+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -37617,7 +37617,7 @@ msgstr "Максимално разстояние на движение на ф�
 #: kstars.kcfg:2193
 #, kde-format
 msgid "Set the maximum travel distance of an absolute focuser."
-msgstr "Задайте максималното разстояние на движение на абсолютен фокусьор."
+msgstr "Задайте максималното разстояние на движение на абсолютен фокусер."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2197
