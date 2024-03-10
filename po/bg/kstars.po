@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-06 10:32+0100\n"
+"PO-Revision-Date: 2024-03-08 14:14+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1729,7 +1729,7 @@ msgstr "&Лента за състоянието"
 #: data/kstarsui.rc:174
 #, kde-format
 msgid "View Toolbar"
-msgstr "Лентата с инструменти за Изглед"
+msgstr "Лента с инструменти за Изглед"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
 #: data/kstarsui.rc:192
@@ -2338,7 +2338,7 @@ msgstr "Второстепенни оси:"
 #: dialogs/addcatalogobject.ui:176
 #, kde-format
 msgid "Misc"
-msgstr "Разни"
+msgstr "Други"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_3)
@@ -25047,7 +25047,7 @@ msgstr "Рестартиране на подравняването при неу
 #: ekos/opsekos.ui:572 options/opsadvanced.ui:924
 #, kde-format
 msgid "Miscellaneous"
-msgstr "Разни"
+msgstr "Други"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/opsekos.ui:598
@@ -37617,7 +37617,7 @@ msgstr "Максимално разстояние на движение на ф�
 #: kstars.kcfg:2193
 #, kde-format
 msgid "Set the maximum travel distance of an absolute focuser."
-msgstr "Задайте максималното разстояние на движение на абсолютен фокусьор."
+msgstr "Задайте максималното разстояние на движение на абсолютен фокусер."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2197
@@ -83340,7 +83340,7 @@ msgstr "Главна лента с инструменти"
 #: tools/scriptbuilder.cpp:442
 #, kde-format
 msgid "Toggle display of view toolbar"
-msgstr "Лента с инструменти за разглеждане"
+msgstr "Превключване на Лента с инструменти за изгледа"
 
 #: tools/scriptbuilder.cpp:450
 #, kde-format
