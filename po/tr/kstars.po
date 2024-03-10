@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-08 20:35+0300\n"
+"PO-Revision-Date: 2024-03-09 19:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7421,10 +7421,10 @@ msgid ""
 "off.  If it was stopped or it had finished it will start the routine over "
 "again."
 msgstr ""
-"Kaide modeli yordamını başlatın veya duraklatın. Hizalama modülündeki "
-"ayarları kullanarak yukarıdaki tablodaki noktalar listesine dönecek ve "
-"astrometrik olarak çözecektir. Yordam daha önce duraklatılmışsa kaldığı "
-"yerden sürecektir. Durdurulduysa veya bittiyse yordamı yeniden başlatır."
+"Kaide modeli rutinini başlatın veya duraklatın. Hizalama modülündeki "
+"ayarları kullanarak yukarıdaki tablodaki noktaların listesine dönecek ve "
+"astrometrik olarak çözecektir. Rutin daha önce duraklatılmışsa kaldığı "
+"yerden sürecektir. Durdurulmuşsa veya bitmişse rutine yeniden başlayacaktır."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopAlignB)
 #: ekos/align/mountmodel.ui:592
@@ -7435,22 +7435,23 @@ msgid ""
 "currently being solved. If you run the mount model again after hitting stop, "
 "it will start the routine over again with the first point.</p>"
 msgstr ""
+"<p>Kaide modeli rutinini durdurun. Teleskopunuzun işaretleme modelinden "
+"herhangi bir noktayı <b>silmeyecektir</b>. Rutini ve şu anda çözülmekte olan "
+"noktaları durduracaktır. Durdur düğmesine bastıktan sonra kaide modelini "
+"yeniden çalıştırırsanız rutin ilk noktadan itibaren yeniden başlayacaktır.</"
+"p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
 #: ekos/align/opsalign.ui:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "StellarSolver Settings"
-msgstr "Benzetici Ayarları"
+msgstr "StellarSolver Ayarları"
 
 #. i18n: ectx: property (text), widget (QLabel, label_73)
 #: ekos/align/opsalign.ui:62
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Saturation Mag"
+#, kde-format
 msgid "Source Extraction Method"
-msgstr "Doygunluk Büyüklüğü"
+msgstr "Kaynak Çıkarma Yöntemi"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:72
@@ -7468,20 +7469,29 @@ msgid ""
 "indent:0px;\">Built In Method uses whatever default Star Extraction process "
 "your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"center\">Yıldız Çıkarma yöntemi için "
+"seçenekler</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">İç SEP, K Yıldızlar’ın içsel bir kitaplığını kullanır.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Dış sekstraktör, bir dış "
+"program gerektirir.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Yerleşik Yöntem, seçtiğiniz Çözüm Yönteminin kullandığı varsayılan Yıldız "
+"Çıkarma işlemini kullanır.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
-#, fuzzy, kde-format
-#| msgid "Interval:"
+#, kde-format
 msgid "Internal SEP"
-msgstr "Aralık:"
+msgstr "İç SEP:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:81
-#, fuzzy, kde-format
-#| msgid "Options passed to the astrometry solver."
+#, kde-format
 msgid "External SExtractor"
-msgstr "Astrometry çözücüsüne geçirilen seçenekler."
+msgstr "Dış SEkstraktör"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:86
@@ -7505,20 +7515,29 @@ msgid ""
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p align=\"center\">StellarSolver Kütüphanesi ile plaka "
+"çözme yöntemini seçer.</p><ul><li>‘İç SEP’ seçeneği, StellarSolver’ın iç "
+"Astrometry.net yapısını kullanır ve bir dış programa gereksinim duymaz.</"
+"li><li>‘Yerel Astrometri’, Linux ve Mac’te Astrometry.net komut satırının "
+"veya Windows’ta ANSVR'nin yerel kurulumunu kullanır.</li><li>‘Yerel ASTAP’, "
+"ASTAP programının yerel kurulumunu kullanır.</li><li>‘Yerel Watney’, Watney "
+"Astrometri Çözücüsü Programının yerel kurulumunu kullanır.</"
+"li><li>‘Çevrimiçi’, internet üzerinden Astrometry.net’i veya yakındaki bir "
+"bilgisayardaki ANSVR’yi kullanır.<span style=\" font-weight:600;\">Not</"
+"span>: Bant genişliği sizin için sorun teşkil ediyorsa ‘Yerleşik Çözücü "
+"Yöntemi’ yerine ‘İç SEP’i kullanmayı düşünün.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:98
-#, fuzzy, kde-format
-#| msgid "INDI Server"
+#, kde-format
 msgid "Internal Solver"
-msgstr "INDI Sunucusu"
+msgstr "İç Çözücü"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:103
-#, fuzzy, kde-format
-#| msgid "Astrometry.net"
+#, kde-format
 msgid "Local Astrometry"
-msgstr "Astrometry.net"
+msgstr "Yerel Astrometri"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:108
@@ -7534,10 +7553,9 @@ msgstr "Yerel Watney"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:118
-#, fuzzy, kde-format
-#| msgid "Astrometry.net"
+#, kde-format
 msgid "Online Astrometry"
-msgstr "Astrometry.net"
+msgstr "Çevrimiçi Astrometri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_72)
 #: ekos/align/opsalign.ui:138
@@ -7547,16 +7565,15 @@ msgstr "Çözme Yöntemi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_71)
 #: ekos/align/opsalign.ui:160
-#, fuzzy, kde-format
-#| msgid "Remove Trail"
+#, kde-format
 msgid "Options Profile:"
-msgstr "Yol Kaldır"
+msgstr "Seçenekler profili:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveOptionsProfile)
 #: ekos/align/opsalign.ui:181
 #, kde-format
 msgid "Selects the Options Profile to use for Plate Solving"
-msgstr ""
+msgstr "Plaka Çözümü için olan seçenekler profilini seçer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
 #: ekos/align/opsalign.ui:197
@@ -7564,13 +7581,14 @@ msgstr ""
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
 msgstr ""
+"Seçenekler profili düzenleyicisinde şu anda seçili olan seçenekler profilini "
+"açar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/opsalign.ui:212
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Alignment Options"
-msgstr "Kutupsal Hizalama"
+msgstr "Hizalama Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:230
@@ -7579,8 +7597,8 @@ msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
 "coordinates in captured CCD images."
 msgstr ""
-"Dünya Koordinat Sistemini (WCS) etkinleştir. WCS, yakalanmış CCD "
-"görüntülerinde RA/DEC koordinatlarını kodlamak için kullanılır."
+"Dünya Koordinat Sistemini (WCS) etkinleştirin. WCS, yakalanmış CCD "
+"görsellerinde RA/DEC koordinatlarını kodlamak için kullanılır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:233
@@ -7593,80 +7611,64 @@ msgstr "WCS"
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
+"Alınan FITS görsellerini gökyüzü haritasında çözücünün görüş alanı "
+"dikdörtgenine göre görüntüle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
 #: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
 #, kde-format
 msgid "Overlay"
-msgstr ""
+msgstr "Kaplama"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PAHAutoPark)
 #: ekos/align/opsalign.ui:250
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically park mount after completing Polar "
 "Alignment Assistant Tools.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kutupsal Hizalama Yardımcısı Araçlarını tamamladıktan "
+"sonra kaideyi kendiliğinden park edin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
 #: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:426
-#, fuzzy, kde-format
-#| msgid "Auto Star"
+#, kde-format
 msgid "Auto Park"
-msgstr "Otomatik Yıldız"
+msgstr "Kendiliğinden park"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
-msgstr "Hareket Kontrolü"
+msgstr "Kendiliğinden ve Elle Döndürücü Denetimi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yükle ve Çevir kullanılırken yay-dakika türünden "
-"döndürücü eşiği. Ölçülen konum açısı ile FITS konum açısı arasındaki fark bu "
-"değerin altındaysa Yükle ve Çevir işlemi başarılı kabul edilir.</p></body></"
-"html>"
+"<html><head/><body><p>[Yükle ve Çevir] kullanılırken yay dakikası türünden "
+"dönüş sapması eşiği. Ölçülen konum açısı ile FITS konum açısı arasındaki "
+"fark bu değerin altında ise [Yükle ve Çevir] işlemi başarılı sayılır.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "Threshold: "
-msgstr "Freehold"
+msgstr "Eşik: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Döndürme açısı sapması eşiği</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
@@ -7677,12 +7679,17 @@ msgid ""
 "reference image reports a different pierside respective to the actual mount "
 "pierside.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Ters Çevirme "
+"Politikası</span>, bir ters çevirme sonrasında döndürücünün nasıl tepki "
+"vereceğini veya çözülmüş bir başvuru görselin sonucunun gerçek iskele "
+"kenarına göre farklı bir iskele tarafı rapor edip etmediğini belirler.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
 #, kde-format
 msgid "Flip Policy: "
-msgstr ""
+msgstr "Ters çevirme politikası: "
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:336
@@ -7694,14 +7701,17 @@ msgid ""
 "astronomic image processing applications can handle &quot;flipped&quot; "
 "images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Döndürücü açısını "
+"koru</span>, döndürücü konumunu koruyacaktır. Döndürücü devre dışı kalır ve "
+"dolayısıyla kamera neredeyse 180° döndürülür.</p><p>Çağdaş astronomik görsel "
+"işleme uygulamalarının çoğu, “ters çevrilmiş” görselleri işleyebilir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion Control"
+#, kde-format
 msgid "Preserve rotator angle"
-msgstr "Hareket Kontrolü"
+msgstr "Döndürücü açısını koru"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:353
@@ -7712,21 +7722,22 @@ msgid ""
 "the camera to the original position angle and hence the image will show "
 "exactly the original star arrangement.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Konum açısını koru</"
+"span>, kamera konum açısını koruyacaktır. Döndürücü, kamerayı her zaman "
+"özgün konum açısına döndürür ve dolayısıyla görsel tam olarak özgün yıldız "
+"yerleşimini gösterecektir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
-#, fuzzy, kde-format
-#| msgid "Position Angle:"
+#, kde-format
 msgid "Preserve position angle"
-msgstr "Konum Açısı:"
+msgstr "Konum açısını koru"
 
 #: ekos/align/opsastap.cpp:41
-#, fuzzy, kde-format
-#| msgctxt "Move the telescope to an object or location"
-#| msgid "Slew Telescope"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select ASTAP executable"
-msgstr "Teleskopu Çevir"
+msgstr "ASTAP Yürütülebilirini Seç"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, Options)
@@ -7738,132 +7749,111 @@ msgstr "Seçenekler"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPDownSampleValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPDownSample)
 #: ekos/align/opsastap.ui:40 ekos/align/opsastap.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Down sample prior to solving. Also called binning. A "
 "zero value will result in auto selection downsampling.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Çözmeden önce örnekleme hızını azaltın. Binning de "
+"denir. Sıfır değeri, kendiliğinden seçimli alt örneklemeyle sonuçlanacaktır."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_ASTAPExecutable)
 #: ekos/align/opsastap.ui:62
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Full path to the ASTAP executable application.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>ASTAP yürütülebiliri dosyasına olan tam yol.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPSearchRadiusValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPSearchRadius)
 #: ekos/align/opsastap.ui:72 ekos/align/opsastap.ui:150
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The program will search in a square spiral around the "
 "start position up to this radius.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Program, başlangıç konumu etrafında bu yarıçapa kadar "
+"kare bir spiral içinde arama yapacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsastap.ui:88
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Executable"
-msgstr "Etkinleştir"
+msgstr "Yürütülebilir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPDownSample)
 #: ekos/align/opsastap.ui:127
-#, fuzzy, kde-format
-#| msgid "Delete all Images"
+#, kde-format
 msgid "Down Sample"
-msgstr "Tüm resimleri Sil"
+msgstr "Örnekleme hızını düşür"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPUpdateFITS)
 #: ekos/align/opsastap.ui:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Update the fits header with the found solution.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>FITS üstbilgisini bulunan çözümle güncelleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPUpdateFITS)
 #: ekos/align/opsastap.ui:140
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update FITS"
-msgstr "GPS'i Güncelle"
+msgstr "FITS’i güncelle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPSearchRadius)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/opsastap.ui:153 ekos/auxiliary/stellarsolverprofileeditor.ui:925
-#, fuzzy, kde-format
-#| msgid "Search satellites"
+#, kde-format
 msgid "Search Radius"
-msgstr "Uyduları ara"
+msgstr "Arama yarıçapı"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
 #: ekos/align/opsastap.ui:163
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Improve solving reliability in some cases. Search "
 "window will be large with overlap but it can slow down solving.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
+"<html><head/><body><p>Bazı durumlardaki çözüm güvenilirliğini artırın. Arama "
+"penceresi çakışma nedeniyle büyük olacaktır; ancak çözümü yavaşlatabilir.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
 #: ekos/align/opsastap.ui:166
 #, kde-format
 msgid "Force Large Search Window"
-msgstr ""
+msgstr "Büyük arama penceresini zorla"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/opsastrometry.ui:32
 #, kde-format
 msgid "Imaging Options"
-msgstr "Görselleme Seçenekleri"
+msgstr "Görüntü Alma Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_41)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_12)
 #: ekos/align/opsastrometry.ui:47 ekos/align/opsastrometry.ui:248
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "The lower end of the imager scale, calculated as a little smaller than the "
 "shorter dimension of the image."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Görüntüleyici ölçeğinin alt ucu, görselin kısa boyutundan biraz daha küçük "
+"olarak hesaplanmıştır."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_41)
 #: ekos/align/opsastrometry.ui:50
 #, kde-format
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseImageScale)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUseScale)
@@ -7871,31 +7861,24 @@ msgstr ""
 #. i18n: ectx: label, entry (AstrometryUseImageScale), group (Align)
 #: ekos/align/opsastrometry.ui:57 fitsviewer/platesolve.ui:57
 #: fitsviewer/platesolve.ui:70 kstars.kcfg:2482
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Set image scale to speed up solver as it does not have to search index files "
 "of different image scales."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Farklı görsel ölçeklerindeki indeks dosyalarını aramak zorunda olmadığından "
+"çözücüyü hızlandırmak için görsel ölçeğini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseImageScale)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverUseScale)
 #: ekos/align/opsastrometry.ui:60 fitsviewer/platesolve.ui:60
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Use Scale"
-msgstr "Doğrusal Ölçek"
+msgstr "Ölçek kullan"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_50)
 #: ekos/align/opsastrometry.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<p>The units of the imager scale bounds above.</p>\n"
 "<ul>\n"
@@ -7903,29 +7886,28 @@ msgid ""
 "<li>aw: arcminute width</li>\n"
 "</ul>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<p>Yukarıdaki görüntüleyici ölçeğinin birimleri sınırları.</p>\n"
+"<ul>\n"
+"<li>dw: derece genişlik</li>\n"
+"<li>aw: yay dakikası genişliği</li>\n"
+"</ul>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_50)
 #: ekos/align/opsastrometry.ui:86
-#, fuzzy, kde-format
-#| msgid "m"
+#, kde-format
 msgid "u"
-msgstr "m"
+msgstr "u"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_13)
 #: ekos/align/opsastrometry.ui:102 ekos/align/opsastrometry.ui:134
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "The high end of the imager scale, calculated as a little bigger than the "
 "longer dimension of the image."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Görüntüleyici ölçeğinin üst ucu, görselin uzun boyutundan biraz daha büyük "
+"olarak hesaplanmıştır."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -7938,23 +7920,19 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:464
 #: ekos/scheduler/framingassistant.ui:551
 #: ekos/scheduler/framingassistant.ui:703
-#, fuzzy, kde-format
-#| msgid "H:"
+#, kde-format
 msgid "H"
-msgstr "H:"
+msgstr "H"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, updateScale)
 #: ekos/align/opsastrometry.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Update Image Scale Bounds from the currently active camera and telescope "
 "combination."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Şu anda etkin olan kamera ve teleskop kombinasyonundan Görsel Ölçeği "
+"Sınırları’nı güncelleyin."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/align/opsastrometry.ui:137

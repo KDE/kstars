@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-02-29 12:57\n"
+"PO-Revision-Date: 2024-03-09 04:49\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -26876,11 +26876,10 @@ msgstr "警告：任务“%1”发现未在移位，正在重启。"
 
 #: ekos/scheduler/schedulerprocess.cpp:3699
 #: ekos/scheduler/schedulerprocess.cpp:3710
-#, fuzzy, kde-format
-#| msgid "Caution: do not use Auto Park while scheduler is active."
+#, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
-msgstr "注意：调度器处于活动状态时请不要使用自动归位。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3732
 #, kde-format
