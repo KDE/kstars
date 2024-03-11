@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-09 11:22+0100\n"
+"PO-Revision-Date: 2024-03-10 11:07+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5422,7 +5422,7 @@ msgstr ""
 #: dialogs/newfov.ui:1114
 #, kde-format
 msgid "Offset X:"
-msgstr "Separación en X:"
+msgstr "Separación ×:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/newfov.ui:1121
@@ -12763,9 +12763,9 @@ msgstr ""
 "directamente á montura. Esta é a opción recomendada.</p><p><span style=\" "
 "font-weight:600;\">ST4</span>: Se usa un cable ST4 entre a cámara de guía e "
 "a montura, seleccione a cámara de guía para a guía.</p><p><span style=\" "
-"font-weight:600;\">Guía dedicada</span>: Se usa un dispositivo de interface "
-"de guía dedicado, (como «Shoestring GPUSB») seleccióneo como guía.</p></"
-"body></html>"
+"font-weight:600;\">Guieiro dedicada</span>: Se usa un dispositivo de "
+"interface de guieiro dedicado, (como «Shoestring GPUSB») seleccióneo como "
+"guía.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:301
@@ -13130,7 +13130,7 @@ msgstr "Extracción de estrela do foco predeterminado"
 #: ekos/auxiliary/stellarsolverprofile.cpp:101
 #, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
-msgstr "Perfil optimizado para a extracción de fontes de estrelas con roscas."
+msgstr "Perfil optimizado para a extracción de fontes de estrelas con aneis."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:122
 #, kde-format
@@ -15734,7 +15734,7 @@ msgstr "Continuouse o guiado automático."
 #: ekos/capture/captureprocess.cpp:821
 #, kde-format
 msgid "Failed to set sub frame."
-msgstr "Non foi posíbel configurar o sub fotograma."
+msgstr "Non foi posíbel configurar o subfotograma."
 
 #: ekos/capture/captureprocess.cpp:826
 #, kde-format
@@ -19947,32 +19947,26 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMultiRowAverage)
 #: ekos/focus/opsfocusprocess.ui:543
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>On Load &amp; Slew, solve the image and slew the "
-#| "mount to the target location and then rotate the camera to match the "
-#| "orientation of the FITS image.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Combine this number of rows in the Bahtinov max "
 "average calculation. Change this value might help to match the Bahtinov "
 "lines on the star pattern more accurate.</p></body></html>"
 msgstr ""
-"<html><head/><body> <p>En «Cargar e mover» resolva a imaxe e mova a montura "
-"ao lugar de destino e a continuación rote a cámara para coincidir coa "
-"orientación da imaxe FITS.</p></body></html>"
+"<html><head/><body><p>Combinar este número de filas no cálculo da media "
+"máxima de Bahtinov: cambiar este valor pode axudar a que as liñas de "
+"Bahtinov no patrón estelar sexan máis precisas.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
 #: ekos/focus/opsfocusprocess.ui:568
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#| "culmination time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
 "image before for instance the Bahtinov edge detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desprazamento en minutos para comezar a tomar imaxes "
-"antes e despois do tempo de culminación.</p></body></html>"
+"<html><head/><body><p> O valor de sigma de desenfoque de Gauss utilízase "
+"para desenfocar a imaxe antes, por exemplo, da detección de bordos de "
+"Bahtinov.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
 #: ekos/focus/opsfocusprocess.ui:612
@@ -19993,39 +19987,39 @@ msgid ""
 "defocused.</p><p>This is a currently an experimental feature that should be "
 "used with caution.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Marque isto para activar a funcionalidade de "
+"destrución de aneis. Úseo en telescopios cunha obstrución central que "
+"provoque estrelas con forma de aneis cando están desenfocadas.</p><p>Esta "
+"funcionalidade é experimental e debería usarse con coidado.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:645
 #, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr ""
+msgstr "Destrutor de aneis (AVISO: funcionalidade experimental)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:669
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Time Factor"
+#, kde-format
 msgid "Time Dilation x:"
-msgstr "Factor temporal"
+msgstr "Dilación de tempo ×:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:679
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marcar para amosar a zona crítica de enfoque (CFZ) no "
-"gráfico.</p></body></html>"
+"<html><head/><body><p>Marque isto para buscar unha posición inicial O "
+"algoritmo buscará un punto de datos mínimo mediante puntos numéricos de "
+"datos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:682
 #, kde-format
 msgid "Scan for Start Position"
-msgstr "Buscar a posición inicial."
+msgstr "Buscar unha posición inicial."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:689
@@ -20034,6 +20028,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Cando se marca «Buscar unha posición inicial», este é o número de puntos de "
+"datos para usar."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:711
@@ -20044,6 +20040,11 @@ msgid ""
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Os puntos de datos máis afastados teñen os seus tempos "
+"de exposición multiplicados por este factor. A exposición de puntos de datos "
+"en enfoque non cambia. Para os puntos intermedios, as exposicións escálanse "
+"de maneira axeitada.</p><p>Use 1 para desactivar esta opción.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:736
@@ -20065,6 +20066,10 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>A agresividade coa que aplicar o rexeitamento de "
+"valores atípicos. A maior valor, máis valores atípicos se rexeitan.</"
+"p><p>Para activar esta opción debe definirse «Refinar o axuste de curvas».</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:781
@@ -20073,13 +20078,15 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Cando se marca «Buscar unha posición inicial», a busca usa un tamaño de paso "
+"equivalente a multiplicar o «tamaño de paso inicial» polo «tamaño de paso "
+"inicial ×»."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:784
-#, fuzzy, kde-format
-#| msgid "Step size:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Tamaño do paso:"
+msgstr "Tamaño de paso inicial ×:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -20089,12 +20096,16 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta opción só está activa cando se selecciona "
+"«subfotograma». Marque isto para permitir que Ekos seleccione unha única "
+"estrela para enfocar. Desmarque isto para permitir que a persoa usuaria "
+"seleccione a estrela para usar en FitsViewer.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:38
 #, kde-format
 msgid "Auto Select Star"
-msgstr "Escoller automaticamente unha estrela"
+msgstr "Seleccionar a estrela automaticamente"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/opsfocussettings.ui:54
@@ -20105,6 +20116,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione «campo completo» para permitir que o "
+"enfoque use varias estrelas (nota: «subfotograma» usa unha única estrela). "
+"Neste modo, Ekos selecciona automaticamente varias estrelas durante o "
+"enfoque automático e, por exemplo, fai a media do HFR de todas as estrelas "
+"detectadas para realizar o enfoque.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/opsfocussettings.ui:57
@@ -20133,14 +20149,9 @@ msgstr "Unidades para amosar:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/opsfocussettings.ui:130
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
-msgstr ""
-"<html><body><p>Tamaño do subfotograma no que constrinxir a captura, en "
-"píxeles.</p></body></html>"
+msgstr "<html><body><p>Tamaño do subfotograma en píxeles.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
@@ -20159,26 +20170,28 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleccione «subfotograma» para facer que o enfoque use "
+"unha única estrela (nota: «Campo completo» usa varias estrelas). Neste modo "
+"actívase a caixa para marcar de «seleccionar a estrela automaticamente» para "
+"permitir ou que Ekos seleccione unha estrela (cando se marca) ou para "
+"permitir á persoa usuaria seleccionar manualmente a estrela en FitsViewer "
+"(cando se desmarca).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:161
 #, kde-format
 msgid "Sub Frame"
-msgstr "Sub fotograma"
+msgstr "Subfotograma"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGuideSettleTime)
 #: ekos/focus/opsfocussettings.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait for this many seconds after moving the focuser "
-#| "before capturing the next image during Auto Focus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Agardar este número de segundos tras mover o "
-"focalizador antes de capturar a seguinte imaxe durante o enfoque automático."
-"</p></body></html>"
+"<html><head/><body><p>Agardar estes segundos tras completarse o enfoque "
+"automático antes de continuar a guía.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/opsfocussettings.ui:196
@@ -20206,12 +20219,10 @@ msgstr "Fotograma escuro"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:222
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>Amosar as unidades para HFR e FWHM.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:226
@@ -20233,16 +20244,15 @@ msgstr "Máscara"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
 "formed with tiles from the center, the corners and the edges.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Este ficheiro de índice non é necesario.</p></body></"
-"html>"
+"<html><head/><body><p>Máscara de estilo do inspector de aberración cun "
+"mosaico de 3×3 formado por teselas do centro, das esquinas e dos bordos.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:260
@@ -20259,6 +20269,11 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Durante o enfoque de «campo completo», isto controla o "
+"tamaño dunha coroa circular centrada no medio do sensor para incluír par ao "
+"procesamento. Defina a porcentaxe interna a cero para incluír o centro do "
+"sensor e defina a porcentaxe externa a cero para incluír os bordos externos "
+"do sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/opsfocussettings.ui:276
@@ -20268,16 +20283,12 @@ msgstr "Máscara de anel:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicSpace)
 #: ekos/focus/opsfocussettings.ui:292
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
 "html>"
 msgstr ""
-"<html><body><p>Tamaño do subfotograma no que constrinxir a captura, en "
-"píxeles.</p></body></html>"
+"<html><head/><body><p>Tamaño do separador entre teselas.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicTileWidth)
 #: ekos/focus/opsfocussettings.ui:317
@@ -20288,6 +20299,11 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>As teselas son cadrados cunha lonxitude de bordos "
+"calculada aplicando a porcentaxe indicada pola anchura da imaxe. A "
+"porcentaxe está limitada de xeito que o tamaño da tesela non supera un terzo "
+"do lado máis curto da imaxe (na meirande parte dos casos, é a altura).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
 #: ekos/focus/opsfocussettings.ui:351
@@ -20298,6 +20314,10 @@ msgid ""
 "percentage of the image diagonal. Set to zero to include the centre of the "
 "sensor.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diámetro do círculo interno para excluír do enfoque "
+"(p. ex. unha galaxia centrada ou un cúmulo estelar). O diámetro indícase "
+"como porcentaxe da diagonal da imaxe. Use cero para incluír o centro do "
+"sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusSpacerLabel)
 #: ekos/focus/opsfocussettings.ui:376
@@ -20325,6 +20345,9 @@ msgid ""
 "focusing. The diameter is given as percentage of the image diagonal. Set to "
 "100% to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Diámetro do círculo externo para excluír do enfoque. O "
+"diámetro indícase como porcentaxe da diagonal da imaxe. Use 100% para "
+"incluír os bordos externos do sensor.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
@@ -20335,12 +20358,13 @@ msgstr "Enfoque adaptativo"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/opsfocussettings.ui:472
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The minimum size of an adaptive focus change that will "
 "be sent to the focuser.</p></body></html>"
-msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
+msgstr ""
+"<html><head/><body><p>O tamaño mínimo de cambio de enfoque adaptativo que se "
+"enviará ao focalizador.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
@@ -20358,24 +20382,30 @@ msgid ""
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>O movemento total máximo do focalizador adaptativo "
+"entre execucións do enfoque automático. Ao chegarse a este valor suspéndese "
+"o enfoque adaptativo. O propósito deste control é manexar o enfoque "
+"adaptativo de fuxida.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/opsfocussettings.ui:522
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
-msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Activar o enfoque adaptativo entre subfotogramas. Isto "
+"é unha funcionalidade experimental.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #: ekos/focus/opsfocussettings.ui:538
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Minimum focuser movement when using Adaptive Focus.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Só avaliar as tarefas.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Movemento mínimo de focalizador ao usar o enfoque "
+"adaptativo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/opsfocussettings.ui:541
@@ -20385,17 +20415,15 @@ msgstr "Movemento mínimo:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/opsfocussettings.ui:560
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set target position angle before capture is started."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Definir o ángulo de posición de destino antes de "
-"iniciar a captura.</p></body></html>"
+"<html><head/><body><p>Adaptar a posición inicial do enfoque automático "
+"baseado no filtro e a configuración do enfoque adaptativo. Isto é unha "
+"funcionalidade experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/opsfocussettings.ui:563
@@ -20906,10 +20934,9 @@ msgid "Dithering completed successfully."
 msgstr "Completouse o tramado."
 
 #: ekos/guide/guide.cpp:1675
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "%1x%1 guide binning is not supported."
-msgstr "Non se admite a densidade de bits %1."
+msgstr "Non se permite a eliminación de ruído con guía de %1×%1."
 
 #: ekos/guide/guide.cpp:1697
 #, kde-format
@@ -20994,18 +21021,15 @@ msgstr "Control"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideAutoStar)
 #: ekos/guide/guide.ui:121
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Optionally</span> "
-#| "set remote device names if they do not exist in Ekos.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically select the calibration star. <br/>Please "
 "note: 'SEP Multi Star' does  <span style=\" font-weight:600;\">always</span> "
 "use 'auto star' detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Definir nomes de dispositivos remotos se non existen "
-"en Ekos (<span style=\" font-weight:600;\">opcional</span> ).</p></body></"
-"html>"
+"<html><head/><body><p>Seleccionar automaticamente a estrela de calibración."
+"<br/>Nota: «SEP de varias estrelas» usa <span style=\" font-weight:600;"
+"\">sempre</span> a detección de «estrela automática».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideAutoStar)
 #: ekos/guide/guide.ui:124
@@ -21044,13 +21068,7 @@ msgstr "Bucle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:276
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subframe the image around the guide star.  Or for "
-#| "PHD2, receive the Guide Star Image instead of the full image frame.  For "
-#| "the Internal Guider, before checking this option, you must <span style=\" "
-#| "font-weight:600;\">first</span> capture an image and select a guide star. "
-#| "Uncheck it to take a full frame again.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
 "receive the Guide Star Image instead of the full image frame. For the "
@@ -21063,8 +21081,9 @@ msgstr ""
 "PHD2, recibir a imaxe de estrela guía en lugar do fotograma completo da "
 "imaxe. Para o guieiro interno, antes de marcar esta opción <span style=\" "
 "font-weight:600;\">primeiro</span> debe capturar unha imaxe e seleccionar "
-"unha estrela guía. Desmárquea para volver a sacar un fotograma completo.</"
-"p></body></html>"
+"unha estrela guía. Desmárquea para volver a sacar un fotograma completo. <br/"
+">Nota: «SEP de varias estrelas» <span style=\" font-weight:600;\">non</"
+"span>pode usar «subfotograma».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:279
@@ -21140,10 +21159,11 @@ msgstr "Direccións:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
 #: ekos/guide/guide.ui:438
-#, fuzzy, kde-format
-#| msgid "Wait for this many seconds after resuming guide."
+#, kde-format
 msgid "Delay next guide exposure this many seconds after a pulse is sent"
-msgstr "Agardar este número de segundos tras retomar a guía."
+msgstr ""
+"Atrasar a seguinte exposición de guía este número de segundos tras enviar un "
+"pulso."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/guide/guide.ui:453
@@ -21412,17 +21432,15 @@ msgstr "RMS"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
 #: ekos/guide/guide.ui:1333
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>Só avaliar as tarefas.</p></body></html>"
+msgstr "<html><head/><body><p>Achegar no eixo X.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
 #: ekos/guide/guide.ui:1361
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>Xa case está…</p></body></html>"
+msgstr "<html><head/><body><p>Afastar no eixo X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1387
@@ -21519,14 +21537,7 @@ msgstr "pulso (ms)"
 
 #: ekos/guide/guidedriftgraph.cpp:224 ekos/guide/guidedriftgraph.cpp:626
 #: ekos/guide/guidedriftgraph.cpp:701
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
-#| "deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms"
-#| msgid ""
-#| "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</"
-#| "td></tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RA Pulse:   </"
-#| "td><td>%4 ms</td></tr><tr><td>DE Pulse:   </td><td>%5 ms</td></tr></table>"
+#, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
 "deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR"
@@ -21536,19 +21547,12 @@ msgid ""
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 msgstr ""
 "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>α:   </td><td>%2 \"</td></"
-"tr><tr><td>δ:   </td><td>%3 \"</td></tr><tr><td>Pulso de α:   </td><td>%4 "
-"ms</td></tr><tr><td>Pulso de δ:   </td><td>%5 ms</td></tr></table>"
+"tr><tr><td>δ:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:243 ekos/guide/guidedriftgraph.cpp:642
 #: ekos/guide/guidedriftgraph.cpp:717
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
-#| "deviation in arcseconds; %4 is RA Pulse in ms; %5 is DE Pulse in ms"
-#| msgid ""
-#| "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</"
-#| "td></tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RA Pulse:   </"
-#| "td><td>%4 ms</td></tr><tr><td>DE Pulse:   </td><td>%5 ms</td></tr></table>"
+#, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
 "deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR; "
@@ -21560,8 +21564,9 @@ msgid ""
 "ms</td></tr><tr><td>DE Pulse:   </td><td>%7 ms</td></tr></table>"
 msgstr ""
 "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>α:   </td><td>%2 \"</td></"
-"tr><tr><td>δ:   </td><td>%3 \"</td></tr><tr><td>Pulso de α:   </td><td>%4 "
-"ms</td></tr><tr><td>Pulso de δ:   </td><td>%5 ms</td></tr></table>"
+"tr><tr><td>δ:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>Pulso de α:   </td><td>%6 "
+"ms</td></tr><tr><td>Pulso de δ:   </td><td>%7 ms</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:282 ekos/guide/guidetargetplot.cpp:200
 #: kstarslite/skyitems/horizonitem.cpp:29
@@ -21629,10 +21634,9 @@ msgid "Guide Star found."
 msgstr "Atopouse a estrela de guía."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:202
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating RA Out"
-msgstr "Calibrando"
+msgstr "Calibrando a saída de α"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:241
 #, kde-format
@@ -21656,10 +21660,9 @@ msgid "Calibration Failed: Drift too short."
 msgstr "A calibración fallou: a deriva quedouse curta."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:279
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating RA In"
-msgstr "Calibrando"
+msgstr "Calibrando a entrada de α"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:336
 #, kde-format
@@ -21707,10 +21710,9 @@ msgid "Calibrating DEC Backlash"
 msgstr "Calibrando a folgura de δ"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:434
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC Out"
-msgstr "Calibrando"
+msgstr "Calibrando a saída de δ"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:470
 #, kde-format
@@ -21740,10 +21742,9 @@ msgstr[1] ""
 "repeticións. Posibelmente haxa problemas de montura ou de folgura…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:513
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC In"
-msgstr "Calibrando"
+msgstr "Calibrando a entrada de δ"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:586
 #, kde-format
@@ -21880,17 +21881,15 @@ msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "RA Offset\":"
-msgstr "Desprazamento en X:"
+msgstr "Desprazamento de α en \":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "DE Offset\":"
-msgstr "Desprazamento en X:"
+msgstr "Desprazamento de δ en \":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -21901,10 +21900,9 @@ msgstr "Tamaño inicial do pulso para a calibración."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_AutoModeIterations)
 #: ekos/guide/opscalibration.ui:67
-#, fuzzy, kde-format
-#| msgid "Maximum number of iterations reached. Solver failed."
+#, kde-format
 msgid "Maximum number of iterations calibration should use per phase."
-msgstr "Acadouse o número máximo de iteracións. O resolvedor fallou."
+msgstr "Número máximo de iteracións de calibración para usar por fase."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:102
@@ -21913,6 +21911,8 @@ msgid ""
 "Maximum number of iterations calibration should use per phase. It may use "
 "fewer (if max move is reached)."
 msgstr ""
+"Número máximo de iteracións de calibración para usar por fase. Pode que use "
+"menos (en caso de chegar ao movemento máximo)."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:105
@@ -21928,6 +21928,9 @@ msgid ""
 "amount, it will finish the calibration phase.  It may move less if  max "
 "iterations is reached."
 msgstr ""
+"Número máximo de píxeles que debería moverse a calibración. Cando supera "
+"esta cantidade, rematará a fase de calibración. Pode que se mova menos se "
+"acada as iteracións máximas."
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:115
@@ -21938,10 +21941,9 @@ msgstr "Movemento máximo (px):"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
 #: ekos/guide/opscalibration.ui:122 kstars.kcfg:2642
-#, fuzzy, kde-format
-#| msgid "Maximum number of iterations reached. Solver failed."
+#, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
-msgstr "Acadouse o número máximo de iteracións. O resolvedor fallou."
+msgstr "Número máximo de píxeles (aproximado) que debería mover a calibración."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TwoAxisEnabled)
 #: ekos/guide/opscalibration.ui:143
@@ -21972,17 +21974,15 @@ msgstr "Retícula"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_26)
 #: ekos/guide/opscalibration.ui:175
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "X position of the guide star"
-msgstr "Posición do panel informativo da hora."
+msgstr "Posición en X da estrela de guía."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_27)
 #: ekos/guide/opscalibration.ui:192
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Y position of the guide star"
-msgstr "Posición do panel informativo da hora."
+msgstr "Posición en Y da estrela de guía."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/guide/opscalibration.ui:223
@@ -22016,21 +22016,19 @@ msgstr "graos (intercambiados)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:366
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Remove the effect of DEC backlash when calibrating "
 "guider.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar todos os datos de guía recentes.</p></body></"
-"html>"
+"<html><head/><body><p>Eliminar o efecto de folgura de δ ao calibrar o "
+"guieiro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:372
 #, kde-format
 msgid "Remove DEC backlash in guide calibration"
-msgstr ""
+msgstr "Eliminar a folgura de δ na calibración de guía."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
@@ -22041,13 +22039,15 @@ msgid ""
 "previously been done and the guide camera has not been rotated or re-"
 "installed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Marque isto para sempre calibrar de novo cando se "
+"inicie a guía. Isto adoita ser innecesario tras unha calibración previa de "
+"boa calidade se a cámara de guía non se rotou nin instalou.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Always Reset Guide Calibration"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr "Restabelecer sempre a calibración da guía"
+msgstr "Restabelecer a calibración da guía tras cada rotación de montura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -22121,16 +22121,13 @@ msgstr "Limiar de tramar de PHD2"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherTimeout)
 #: ekos/guide/opsdither.ui:89
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Viaxe máxima en pasos antes de que se interrompa o "
-"proceso de enfoque automático</p></body></html>"
+"<html><head/><body><p>Distancia máxima permisíbel para que o tramado se "
+"considere asentado (só PHD2).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
@@ -22194,6 +22191,12 @@ msgid ""
 "dither amount is random anyway. It is necessary when 2-D dither is required "
 "but guiding is only done in one axis.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Marque isto para que a cantidade de tramado se xere "
+"automaticamente, se envíen os pulsos, pero a cantidade de píxeles do tramado "
+"resultante non se force e só se envíe un pulso. Isto é máis rápido, e "
+"recoméndase dado que a cantidade de tramado é aleatoria de todos xeitos. É "
+"necesario cando o tramado 2D é necesario pero a guía só se fai nun eixe.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:215
@@ -26365,7 +26368,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:719
 #, kde-format
 msgid " x"
-msgstr " x"
+msgstr " ×"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
 #: ekos/scheduler/framingassistant.ui:656
@@ -72747,7 +72750,7 @@ msgstr "Tamaño do píxel (um)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Pixel size X"
-msgstr "Tamaño do píxel en X"
+msgstr "Tamaño de píxel ×"
 
 #: libindi_strings.cpp:357
 #, kde-kuit-format
@@ -72993,7 +72996,7 @@ msgstr "Restabelecer"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Resolution x"
-msgstr "Resolución en x"
+msgstr "Resolución ×"
 
 #: libindi_strings.cpp:398
 #, kde-kuit-format
