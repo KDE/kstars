@@ -211,10 +211,15 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // 2023-06-27 sterne-jaeger: For simplicity reasons, the repeat option
-    // for all sequences is only active of we do consider the past
+    // for all sequences is only active if we do consider the past
     repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
     executionSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
-    repeatSequenceCB->setChecked(Options::schedulerRepeatSequences());
+
+    // Hy 3/12/24 -- temporarily removed this. The options value used is wrong.
+    // Just setting it to false for now.
+    /////////////repeatSequenceCB->setChecked(Options::schedulerRepeatSequences());
+    repeatSequenceCB->setChecked(false);
+
     executionSequenceLimit->setValue(Options::schedulerExecutionSequencesLimit());
 
     connect(startupB, &QPushButton::clicked, process().data(), &SchedulerProcess::runStartupProcedure);

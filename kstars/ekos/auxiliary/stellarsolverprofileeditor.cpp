@@ -399,6 +399,11 @@ void StellarSolverProfileEditor::loadProfiles()
             optionsProfile->addItem(FOCUS_DEFAULT_DONUT_NAME);
         }
     }
+    else
+    {
+        for(SSolver::Parameters params : optionsList)
+            optionsProfile->addItem(params.listName);
+    }
     if(optionsList.count() > 0)
     {
         sendSettingsToUI(optionsList.at(0));
