@@ -3317,6 +3317,11 @@
           <whatsthis>Toggle whether to display image overlays.</whatsthis>
           <default>false</default>
     </entry>
+    <entry name="ShowImageOverlaysBelowCatalogs" type="Bool">
+          <label>Display Image Overlays below catalogs.</label>
+          <whatsthis>Display Image Overlays below catalogs.</whatsthis>
+          <default>false</default>
+    </entry>
     <entry name="ShowSelectedImageOverlay" type="Bool">
           <label>Center SkyMap over selected image overlay.</label>
           <whatsthis>Center SkyMap over the selected overlay image in the image overlay table (if it's solved).</whatsthis>

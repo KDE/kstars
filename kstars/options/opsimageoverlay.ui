@@ -76,6 +76,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QCheckBox" name="kcfg_ShowImageOverlaysBelowCatalogs">
+          <property name="toolTip">
+           <string>Display Image Overlays below catalogs.</string>
+          </property>
+          <property name="text">
+           <string>Display Image Overlays below catalogs</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="imageOverlayMaxDimensionLayout">
           <property name="spacing">
            <number>3</number>

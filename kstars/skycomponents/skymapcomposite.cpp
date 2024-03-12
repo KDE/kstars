@@ -313,6 +313,10 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     // Draw HIPS after milky way but before everything else
     m_HiPS->draw(skyp);
 
+    if (Options::showImageOverlaysBelowCatalogs())
+        // Draw fits overlay.
+        m_ImageOverlay->draw(skyp);
+
     m_EquatorialCoordinateGrid->draw(skyp);
     m_HorizontalCoordinateGrid->draw(skyp);
     m_LocalMeridianComponent->draw(skyp);
@@ -362,8 +366,9 @@ void SkyMapComposite::draw(SkyPainter *skyp)
         QPen(QColor(data->colorScheme()->colorNamed("StarHopRouteColor")), 1.);
     m_StarHopRouteList->draw(skyp);
 
-    // Draw fits overlay before mosaic and terrain/horizon, but after most things.
-    m_ImageOverlay->draw(skyp);
+    if (!Options::showImageOverlaysBelowCatalogs())
+        // Draw fits overlay before mosaic and terrain/horizon, but after most things.
+        m_ImageOverlay->draw(skyp);
 
 #ifdef HAVE_INDI
     m_Mosaic->draw(skyp);

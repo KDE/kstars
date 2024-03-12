@@ -45,6 +45,10 @@ OpsImageOverlay::OpsImageOverlay() : QFrame(KStars::Instance())
     {
         Options::setShowSelectedImageOverlay(state);
     });
+    connect(kcfg_ShowImageOverlaysBelowCatalogs, &QCheckBox::stateChanged, [](int state)
+    {
+        Options::setShowImageOverlaysBelowCatalogs(state);
+    });
     connect(kcfg_ImageOverlayMaxDimension, QOverload<int>::of(&QSpinBox::valueChanged), [](int value)
     {
         Options::setImageOverlayMaxDimension(value);
