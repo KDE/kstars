@@ -3096,6 +3096,10 @@
          <label>Scheduler is complete once all sequences are complete.</label>
          <default>true</default>
       </entry>
+      <entry name="SchedulerRepeatEverything" type="Bool">
+         <label>Restart all scheduler jobs when all scheduler jobs have completed.</label>
+         <default>false</default>
+      </entry>
       <entry name="SchedulerRepeatSequences" type="Bool">
          <label>Restart sequences as soon as all sequences have been completed.</label>
          <default>false</default>

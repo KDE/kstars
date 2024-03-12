@@ -513,9 +513,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
 
         // This covers the scheduler's "repeat after completion" option,
         // which only applies if rememberJobProgress is false.
-        // Hy 3/12/24 -- temporarily removed the test for repeat all jobs.
-        // The options variable used is the wrong one!!
-        if (!Options::rememberJobProgress() && false) //// Options::schedulerRepeatSequences())
+        if (!Options::rememberJobProgress() && Options::schedulerRepeatEverything())
         {
             int repeats = 0, maxRepeats = 5;
             while (simEnd.isValid() && simEnd.secsTo(simulationLimit) > 0 && ++repeats < maxRepeats)

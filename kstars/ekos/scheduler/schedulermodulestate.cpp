@@ -431,7 +431,7 @@ void SchedulerModuleState::clearLog()
 
 bool SchedulerModuleState::checkRepeatSequence()
 {
-    return (!Options::rememberJobProgress() && Options::schedulerRepeatSequences() &&
+    return (!Options::rememberJobProgress() && Options::schedulerRepeatEverything() &&
             (Options::schedulerExecutionSequencesLimit() == 0
              || sequenceExecutionCounter()) < Options::schedulerExecutionSequencesLimit());
 }

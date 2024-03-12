@@ -212,14 +212,13 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     // 2023-06-27 sterne-jaeger: For simplicity reasons, the repeat option
     // for all sequences is only active if we do consider the past
+    repeatSequenceCB->setChecked(Options::schedulerRepeatEverything());
     repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
+    connect(repeatSequenceCB, &QCheckBox::toggled, this, [this](bool checked)
+    {
+        Options::setSchedulerRepeatEverything(checked);
+    });
     executionSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
-
-    // Hy 3/12/24 -- temporarily removed this. The options value used is wrong.
-    // Just setting it to false for now.
-    /////////////repeatSequenceCB->setChecked(Options::schedulerRepeatSequences());
-    repeatSequenceCB->setChecked(false);
-
     executionSequenceLimit->setValue(Options::schedulerExecutionSequencesLimit());
 
     connect(startupB, &QPushButton::clicked, process().data(), &SchedulerProcess::runStartupProcedure);
