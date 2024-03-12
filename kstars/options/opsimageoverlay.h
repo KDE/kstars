@@ -11,6 +11,10 @@
 #include <kconfigdialog.h>
 
 class KStars;
+namespace Ekos
+{
+class StellarSolverProfileEditor;
+}
 
 /**
  * @class OpsImageOverlay
@@ -35,5 +39,7 @@ class OpsImageOverlay : public QFrame, public Ui::OpsImageOverlay
 
     private:
         KConfigDialog *m_ConfigDialog { nullptr };
+        QSharedPointer<Ekos::StellarSolverProfileEditor> m_ProfileEditor;
+        QSharedPointer<KConfigDialog> m_EditorDialog;
 };
 

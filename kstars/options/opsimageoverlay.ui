@@ -172,13 +172,14 @@
              </size>
             </property>
             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh from the overlay directory. Add overlays that have been added there, and remove overlays that are no longer there.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh from the overlay directory. Add overlays that have been added there, and remove overlays that are no longer there.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="system-reboot"/>
+             <iconset theme="system-reboot">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -266,6 +267,28 @@
           </property>
           <property name="currentIndex">
            <number>-1</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="editAlignProfile">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Opens the currently selected Align Profile in the Options Profile Editor</string>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>

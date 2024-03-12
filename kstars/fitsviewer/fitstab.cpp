@@ -23,8 +23,13 @@
 #include <QtConcurrent>
 #include <QIcon>
 #include "ekos/auxiliary/stellarsolverprofile.h"
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 #include <fits_debug.h>
+
+QPointer<Ekos::StellarSolverProfileEditor> FITSTab::m_ProfileEditor;
+QPointer<KConfigDialog> FITSTab::m_EditorDialog;
+QPointer<KPageWidgetItem> FITSTab::m_ProfileEditorPage;
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
@@ -114,6 +119,30 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
         stat.setupUi(statWidget);
         m_PlateSolveUI.setupUi(m_PlateSolveWidget);
+
+        m_PlateSolveUI.editAlignProfile->setIcon(QIcon::fromTheme("document-edit"));
+        m_PlateSolveUI.editAlignProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+        const QString EditorID = "FITSSolverProfileEditor";
+        if (!m_EditorDialog)
+        {
+            // These are static, shared by all FITS Viewer tabs.
+            m_EditorDialog = new KConfigDialog(nullptr, EditorID, Options::self());
+            m_ProfileEditor = new Ekos::StellarSolverProfileEditor(nullptr, Ekos::AlignProfiles, m_EditorDialog.data());
+            m_ProfileEditorPage = m_EditorDialog->addPage(m_ProfileEditor.data(),
+                                  i18n("FITS Viewer Solver Align Options Profiles Editor"));
+        }
+
+        connect(m_PlateSolveUI.editAlignProfile, &QAbstractButton::clicked, this, [this, EditorID]
+        {
+            m_ProfileEditor->loadProfile(m_PlateSolveUI.kcfg_FitsSolverProfile->currentText());
+            KConfigDialog * d = KConfigDialog::exists(EditorID);
+            if(d)
+            {
+                d->setCurrentPage(m_ProfileEditorPage);
+                d->show();
+            }
+        });
 
         connect(m_PlateSolveUI.SolveButton, &QPushButton::clicked, this, &FITSTab::extractImage);
 

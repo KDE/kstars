@@ -6,6 +6,7 @@
 
 #include "opsimageoverlay.h"
 
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ksfilereader.h"
 #include "kspaths.h"
 #include "kstars.h"
@@ -65,6 +66,24 @@ OpsImageOverlay::OpsImageOverlay() : QFrame(KStars::Instance())
     {
         QDesktopServices::openUrl(QUrl::fromLocalFile(QDir(KSPaths::writableLocation(
                                       QStandardPaths::AppLocalDataLocation)).filePath("imageOverlays")));
+    });
+
+    editAlignProfile->setIcon(QIcon::fromTheme("document-edit"));
+    editAlignProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    KConfigDialog * m_EditorDialog = new KConfigDialog(this, "imageOverlayProfileEditor", Options::self());
+    m_ProfileEditor.reset(new Ekos::StellarSolverProfileEditor(this, Ekos::AlignProfiles, m_EditorDialog));
+    KPageWidgetItem *page = m_EditorDialog->addPage(m_ProfileEditor.get(), i18n("Image Overlay Align Options Profiles Editor"));
+
+    connect(editAlignProfile, &QAbstractButton::clicked, this, [this, page]
+    {
+        m_ProfileEditor->loadProfile(imageOverlaySolverProfile->currentText());
+        KConfigDialog * d = KConfigDialog::exists("imageOverlayProfileEditor");
+        if(d)
+        {
+            d->setCurrentPage(page);
+            d->show();
+        }
     });
 
     syncOptions();
