@@ -696,14 +696,14 @@
         <para
 ><guilabel
 >Usa totes les estrelles per a enfocar</guilabel
->: Seleccioneu aquesta opció si s'han de considerar totes les estrelles del camp per enfocar.</para>
+>: Seleccioneu aquesta opció si s'han de considerar totes les estrelles del camp per a enfocar.</para>
       </listitem>
 	    
       <listitem>
         <para
 ><guilabel
 >Màscara d'anell</guilabel
->: Aquesta opció proporciona dos camps d'entrada que junts defineixen un dònut sobre el CDV de la càmera. Les estrelles que cauen fora del dònut es descompten del processament. Establir un valor interior per sobre del 0% fa que les estrelles del centre del CDV es descartin. Això podria ser útil per evitar l'ús d'estrelles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per sota del 100% fa que les estrelles de les vores del CDV es descartin durant l'enfocament. Això podria ser útil si no teniu cap camp pla a les vores del CDV.</para>
+>: Aquesta opció proporciona dos camps d'entrada que junts defineixen un dònut sobre el CDV de la càmera. Les estrelles que cauen fora del dònut es descompten del processament. Establir un valor interior per sobre del 0% fa que les estrelles del centre del CDV es descartin. Això podria ser útil per a evitar l'ús d'estrelles en l'objectiu de la imatge (per exemple, una galàxia) per al seu enfocament. Establir un valor exterior per sota del 100% fa que les estrelles de les vores del CDV es descartin durant l'enfocament. Això podria ser útil si no teniu cap camp pla a les vores del CDV.</para>
       </listitem>
 
       <listitem>
@@ -1135,7 +1135,7 @@
         <para
 ><guilabel
 >Factor de dilatació del temps</guilabel
->: Aquesta és una característica experimental del Reductor de dònuts i s'ha d'utilitzar amb precaució. Aquesta característica escala el temps d'exposició durant l'enfocament automàtic des del valor de l'exposició introduït al camp Exposició per als punts de dades més allunyats del focus. Els punts de dades propers al focus es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una exposició de 2 s i el Factor de dilatació del temps s'estableix a 4, llavors quan l'enfocament automàtic es mou per prendre el seu primer punt de dades, s'utilitza una exposició de 2 s * 4 = 8 s. En cada punt de dades successiu l'exposició es redueix a 2 s al voltant del punt d'enfocament òptim. A mesura que l'enfocador es mou a través del focus, de manera que l'exposició s'escala cap amunt fins a 8 s per a l'últim punt de dades.</para>
+>: Aquesta és una característica experimental del Reductor de dònuts i s'ha d'utilitzar amb precaució. Aquesta característica escala el temps d'exposició durant l'enfocament automàtic des del valor de l'exposició introduït al camp Exposició per als punts de dades més allunyats del focus. Els punts de dades propers al focus es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una exposició de 2 s i el Factor de dilatació del temps s'estableix a 4, llavors quan l'enfocament automàtic es mou per a prendre el seu primer punt de dades, s'utilitza una exposició de 2 s * 4 = 8 s. En cada punt de dades successiu l'exposició es redueix a 2 s al voltant del punt d'enfocament òptim. A mesura que l'enfocador es mou a través del focus, de manera que l'exposició s'escala cap amunt fins a 8 s per a l'últim punt de dades.</para>
         <para
 >El propòsit d'aquesta característica és augmentar la lluminositat dels punts de dades desenfocats, que seran més foscos que els punts de dades enfocats i, per tant, més difícils de resoldre per la detecció d'estrelles a partir del soroll de fons.</para>
         <para
@@ -1664,7 +1664,7 @@
 >Aquest és el diàleg de l'assessor d'enfocament. És una característica per a ajudar a la gestió dels paràmetres d'enfocament.</para>
 
     <para
->El propòsit de l'assessor d'enfocament és ajudar les persones que malden per utilitzar el mòdul d'enfocament dins de l'Ekos. El mòdul d'enfocament és ric en funcionalitats i té molts paràmetres que necessiten ser establerts de manera coherent per aconseguir bons resultats. L'assessor d'enfocament està dissenyat per a ajudar a la configuració bàsica dels paràmetres que haurien d'aconseguir l'enfocament. No està dissenyat per a aconseguir el millor enfocament possible per al vostre equip; haureu d'experimentar amb la configuració per a aconseguir-ho. Però l'assessor d'enfocament proporciona un lloc per iniciar l'experimentació.</para>
+>El propòsit de l'assessor d'enfocament és ajudar les persones que malden per utilitzar el mòdul d'enfocament dins de l'Ekos. El mòdul d'enfocament és ric en funcionalitats i té molts paràmetres que necessiten ser establerts de manera coherent per a aconseguir bons resultats. L'assessor d'enfocament està dissenyat per a ajudar a la configuració bàsica dels paràmetres que haurien d'aconseguir l'enfocament. No està dissenyat per a aconseguir el millor enfocament possible per al vostre equip; haureu d'experimentar amb la configuració per a aconseguir-ho. Però l'assessor d'enfocament proporciona un lloc per a iniciar l'experimentació.</para>
 
     <para
 >Per tant, l'assessor d'enfocament està dirigit als usuaris menys experimentats.</para>
@@ -1673,7 +1673,7 @@
     <para
 >Quan feu clic a l'assessor d'enfocament, s'elaboren una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant a l'enfocament.</para>
     <para
->A la part superior del diàleg es mostra informació sobre el tren òptic connectat. A continuació, mostra 6 línies relacionades amb diversos conjunts de paràmetres utilitzats en l'enfocament. A cada línia hi ha una casella de selecció per actualitzar els camps associats d'enfocament amb les recomanacions de l'assessor d'enfocament.</para>
+>A la part superior del diàleg es mostra informació sobre el tren òptic connectat. A continuació, mostra 6 línies relacionades amb diversos conjunts de paràmetres utilitzats en l'enfocament. A cada línia hi ha una casella de selecció per a actualitzar els camps associats d'enfocament amb les recomanacions de l'assessor d'enfocament.</para>
     <para
 >Els paràmetres d'enfocament es divideixen en els grups següents:</para>
 
@@ -2035,7 +2035,7 @@
 >Nom. d'execucions d'enfocament</guilabel
 > premeu el botó <guilabel
 >Executa</guilabel
-> per iniciar el procés automàtic. </para>
+> per a iniciar el procés automàtic. </para>
       <para
 >Premeu el botó <guilabel
 >Atura</guilabel
@@ -2789,7 +2789,7 @@
 >Establir un límit R² podria ser útil per a l'observació desatesa si l'execució de l'enfocament produeix un resultat dolent per un motiu puntual. És evident que si el motiu no és transitori, la reactivació no millorarà res.</para>
 
     <para
->Si el límit R² no s'aconsegueix i el procés d'enfocament es torna a executar, i de nou no aconsegueix el límit R², llavors l'execució de l'enfocament es marca com a correcta per evitar que el procés es quedi encallat tornant a executar l'enfocament automàtic per sempre.</para>
+>Si el límit R² no s'aconsegueix i el procés d'enfocament es torna a executar, i de nou no aconsegueix el límit R², llavors l'execució de l'enfocament es marca com a correcta per a evitar que el procés es quedi encallat tornant a executar l'enfocament automàtic per sempre.</para>
 
     <para
 >Aquesta característica es desactiva establint el límit R² a 0.</para>
@@ -2908,7 +2908,7 @@
     <itemizedlist>
       <listitem>
         <para
->Apunteu a una part del cel on l'enfocament automàtic resolgui bé. Normalment, això estaria lluny de qualsevol obstacle del cel. Trieu un lloc amb moltes estrelles com la Via Làctia. La raó per la qual això és més important per a l'Inspector d'aberracions que per a l'enfocament automàtic és que l'anàlisi de focus s'ha de realitzar per a cada tessel·la del mosaic. Per tant, és important que cada tessel·la tingui prou estrelles per realitzar un enfocament automàtic precís.</para>
+>Apunteu a una part del cel on l'enfocament automàtic resolgui bé. Normalment, això estaria lluny de qualsevol obstacle del cel. Trieu un lloc amb moltes estrelles com la Via Làctia. La raó per la qual això és més important per a l'Inspector d'aberracions que per a l'enfocament automàtic és que l'anàlisi de focus s'ha de realitzar per a cada tessel·la del mosaic. Per tant, és important que cada tessel·la tingui prou estrelles per a realitzar un enfocament automàtic precís.</para>
       </listitem>
 
       <listitem>
