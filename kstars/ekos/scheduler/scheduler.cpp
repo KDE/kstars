@@ -212,12 +212,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     // 2023-06-27 sterne-jaeger: For simplicity reasons, the repeat option
     // for all sequences is only active if we do consider the past
-    repeatSequenceCB->setChecked(Options::schedulerRepeatEverything());
-    repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
-    connect(repeatSequenceCB, &QCheckBox::toggled, this, [this](bool checked)
-    {
-        Options::setSchedulerRepeatEverything(checked);
-    });
+    schedulerRepeatEverything->setEnabled(Options::rememberJobProgress() == false);
     executionSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
     executionSequenceLimit->setValue(Options::schedulerExecutionSequencesLimit());
 
@@ -526,7 +521,7 @@ void Scheduler::watchJobChanges(bool enable)
 
 void Scheduler::handleConfigChanged()
 {
-    repeatSequenceCB->setEnabled(Options::rememberJobProgress() == false);
+    schedulerRepeatEverything->setEnabled(Options::rememberJobProgress() == false);
     executionSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
 }
 
@@ -2356,7 +2351,7 @@ void Scheduler::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
-        value = true;
+        value = rb->isChecked();
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
