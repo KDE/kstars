@@ -219,7 +219,6 @@ void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver
     qCDebug(KSTARS_INDI) << "Removing managed driver" << driver->getName();
 
     driver->setClientState(false);
-    m_ManagedDrivers.removeOne(driver);
 
     for (auto &di : driver->getDevices())
     {
@@ -232,6 +231,7 @@ void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver
         // #3 Remove device from Driver Info
         driver->removeDevice(di);
     }
+    m_ManagedDrivers.removeOne(driver);
 }
 
 void ClientManager::serverConnected()
