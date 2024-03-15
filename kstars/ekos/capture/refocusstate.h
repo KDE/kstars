@@ -25,7 +25,8 @@ class RefocusState : public QObject
             REFOCUS_ADAPTIVE,     /* adaptive refocusing (in sequence)                  */
             REFOCUS_TEMPERATURE,  /* refocusing due to temperature change               */
             REFOCUS_TIME_ELAPSED, /* refocusing due to elapsed time since last focusing */
-            REFOCUS_POST_MF       /* refocusing after a completed meridian flip         */
+            REFOCUS_POST_MF,      /* refocusing after a completed meridian flip         */
+            REFOCUS_USER_REQUEST  /* user forced an in sequence Autofocus               */
         } RefocusReason;
 
         explicit RefocusState(QObject *parent = nullptr): QObject{parent} {}

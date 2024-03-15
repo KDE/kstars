@@ -572,7 +572,7 @@ bool FilterManager::executeOperationQueue()
             state = FILTER_AUTOFOCUS;
             qCDebug(KSTARS) << "FilterManager.cpp is triggering autofocus.";
             emit newStatus(state);
-            emit runAutoFocus(false);
+            emit runAutoFocus(AutofocusReason::FOCUS_FILTER, "");
             break;
 
         default:
@@ -818,7 +818,7 @@ void FilterManager::setFocusStatus(Ekos::FocusState focusState)
                     return;
                 }
                 // Restart again
-                emit runAutoFocus(false);
+                emit runAutoFocus(AutofocusReason::FOCUS_FILTER, "");
                 break;
 
             default:
@@ -948,10 +948,10 @@ void FilterManager::buildFilterOffsets()
     BuildFilterOffsets bfo(filterManager);
 }
 
-void FilterManager::signalRunAutoFocus(bool buildFilterOffsets)
+void FilterManager::signalRunAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo)
 {
     // BuildFilterOffsets signalled runAutoFocus so pass signal to Focus
-    emit runAutoFocus(buildFilterOffsets);
+    emit runAutoFocus(autofocusReason, reasonInfo);
 }
 
 void FilterManager::autoFocusComplete(FocusState completionState, int currentPosition, double currentTemperature,

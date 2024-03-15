@@ -914,21 +914,89 @@ double Analyze::processInputLine(const QString &line)
             return 0;
         processCaptureAborted(time, exposureSeconds, true);
     }
-    else if ((list[0] == "AutofocusStarting") && (list.size() == 4))
+    else if ((list[0] == "AutofocusStarting") && (list.size() >= 4))
     {
         QString filter = list[2];
         double temperature = QString(list[3]).toDouble(&ok);
         if (!ok)
             return 0;
-        processAutofocusStarting(time, temperature, filter);
+        AutofocusReason reason;
+        QString reasonInfo;
+        if (list.size() == 4)
+        {
+            reason = AutofocusReason::FOCUS_NONE;
+            reasonInfo = "";
+        }
+        else
+        {
+            reason = static_cast<AutofocusReason>(QString(list[4]).toInt(&ok));
+            if (!ok)
+                return 0;
+            reasonInfo = list[5];
+        }
+        processAutofocusStarting(time, temperature, filter, reason, reasonInfo);
+    }
+    else if ((list[0] == "AutofocusComplete") && (list.size() >= 8))
+    {
+        // Version 2
+        double temperature = QString(list[2]).toDouble(&ok);
+        if (!ok)
+            return 0;
+        QVariant reasonV = QString(list[3]);
+        int reasonInt = reasonV.toInt();
+        if (reasonInt < 0 || reasonInt >= AutofocusReason::FOCUS_MAX_REASONS)
+            return 0;
+        AutofocusReason reason = static_cast<AutofocusReason>(reasonInt);
+        const QString reasonInfo = list[4];
+        const QString filter = list[5];
+        const QString samples = list[6];
+        const bool useWeights = QString(list[7]).toInt(&ok);
+        if (!ok)
+            return 0;
+        const QString curve = list.size() > 8 ? list[8] : "";
+        const QString title = list.size() > 9 ? list[9] : "";
+        processAutofocusCompleteV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, curve, title, true);
     }
     else if ((list[0] == "AutofocusComplete") && (list.size() >= 4))
     {
+        // Version 1
         const QString filter = list[2];
         const QString samples = list[3];
         const QString curve = list.size() > 4 ? list[4] : "";
         const QString title = list.size() > 5 ? list[5] : "";
         processAutofocusComplete(time, filter, samples, curve, title, true);
+    }
+    else if ((list[0] == "AutofocusAborted") && (list.size() >= 9))
+    {
+        double temperature = QString(list[2]).toDouble(&ok);
+        if (!ok)
+            return 0;
+        QVariant reasonV = QString(list[3]);
+        int reasonInt = reasonV.toInt();
+        if (reasonInt < 0 || reasonInt >= AutofocusReason::FOCUS_MAX_REASONS)
+            return 0;
+        AutofocusReason reason = static_cast<AutofocusReason>(reasonInt);
+        QString reasonInfo = list[4];
+        QString filter = list[5];
+        QString samples = list[6];
+        bool useWeights = QString(list[7]).toInt(&ok);
+        if (!ok)
+            return 0;
+        AutofocusFailReason failCode;
+        QVariant failCodeV = QString(list[8]);
+        int failCodeInt = failCodeV.toInt();
+        if (failCodeInt < 0 || failCodeInt >= AutofocusFailReason::FOCUS_FAIL_MAX_REASONS)
+            return 0;
+        failCode = static_cast<AutofocusFailReason>(failCodeInt);
+        if (!ok)
+            return 0;
+        processAutofocusAbortedV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, failCode, true);
+    }
+    else if ((list[0] == "AutofocusAborted") && (list.size() >= 4))
+    {
+        QString filter = list[2];
+        QString samples = list[3];
+        processAutofocusAborted(time, filter, samples, true);
     }
     else if ((list[0] == "AdaptiveFocusComplete") && (list.size() == 12))
     {
@@ -960,12 +1028,6 @@ double Analyze::processInputLine(const QString &line)
         const bool focuserMoved = list.size() < 10 || QString(list[9]).toInt(&ok) != 0;
         processAdaptiveFocusComplete(time, filter, temperature, tempTicks,
                                      altitude, altTicks, 0, 0, totalTicks, position, focuserMoved, true);
-    }
-    else if ((list[0] == "AutofocusAborted") && (list.size() == 4))
-    {
-        QString filter = list[2];
-        QString samples = list[3];
-        processAutofocusAborted(time, filter, samples, true);
     }
     else if ((list[0] == "GuideState") && list.size() == 3)
     {
@@ -1163,6 +1225,46 @@ bool Analyze::Session::isTemporary() const
     return rect != nullptr;
 }
 
+// This is version 2 of FocusSession that includes weights, outliers and reason codes
+// The focus session parses the "pipe-separate-values" list of positions
+// and HFRs given it, eventually to be used to plot the focus v-curve.
+Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
+                                    const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_,
+                                    const bool useWeights_, const QString &curve_, const QString &title_, const AutofocusFailReason failCode_)
+    : Session(start_, end_, FOCUS_Y, rect), success(ok), temperature(temperature_), filter(filter_), reason(reason_),
+      reasonInfo(reasonInfo_), points(points_), useWeights(useWeights_), curve(curve_), title(title_), failCode(failCode_)
+{
+    const QStringList list = points.split(QLatin1Char('|'));
+    const int size = list.size();
+    // Size can be 1 if points_ is an empty string.
+    if (size < 2)
+        return;
+
+    for (int i = 0; i < size; )
+    {
+        bool parsed1, parsed2, parsed3, parsed4;
+        int position = QString(list[i++]).toInt(&parsed1);
+        if (i >= size)
+            break;
+        double hfr = QString(list[i++]).toDouble(&parsed2);
+        double weight = QString(list[i++]).toDouble(&parsed3);
+        bool outlier = QString(list[i++]).toInt(&parsed4);
+        if (!parsed1 || !parsed2 || !parsed3 || !parsed4)
+        {
+            positions.clear();
+            hfrs.clear();
+            weights.clear();
+            outliers.clear();
+            return;
+        }
+        positions.push_back(position);
+        hfrs.push_back(hfr);
+        weights.push_back(weight);
+        outliers.push_back(outlier);
+    }
+}
+
+// This is the original version of FocusSession
 // The focus session parses the "pipe-separate-values" list of positions
 // and HFRs given it, eventually to be used to plot the focus v-curve.
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
@@ -1170,6 +1272,12 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
     : Session(start_, end_, FOCUS_Y, rect), success(ok),
       temperature(temperature_), filter(filter_), points(points_), curve(curve_), title(title_)
 {
+    // Set newer variables, not part of the original message, to default values
+    reason = AutofocusReason::FOCUS_NONE;
+    reasonInfo = "";
+    useWeights = false;
+    failCode = AutofocusFailReason::FOCUS_FAIL_NONE;
+
     const QStringList list = points.split(QLatin1Char('|'));
     const int size = list.size();
     // Size can be 1 if points_ is an empty string.
@@ -1187,10 +1295,14 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
         {
             positions.clear();
             hfrs.clear();
+            weights.clear();
+            outliers.clear();
             return;
         }
         positions.push_back(position);
         hfrs.push_back(hfr);
+        weights.push_back(1.0);
+        outliers.push_back(false);
     }
 }
 
@@ -1322,13 +1434,17 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
         }
         c.addRow("Iterations", QString::number(c.positions.size()));
     }
+    addDetailsRow(detailsTable, "Reason", Qt::yellow, AutofocusReasonStr[c.reason], Qt::white, c.reasonInfo, Qt::white);
+    if (!c.success && !c.isTemporary())
+        c.addRow("Fail Reason", AutofocusFailReasonStr[c.failCode]);
+
     c.addRow("Filter", c.filter);
-    c.addRow("Temperature", QString::number(c.temperature, 'f', 1));
+    c.addRow("Temperature", (c.temperature == INVALID_VALUE) ? "N/A" : QString::number(c.temperature, 'f', 1));
 
     if (c.isTemporary())
         resetGraphicsPlot();
     else
-        displayFocusGraphics(c.positions, c.hfrs, c.curve, c.title, c.success);
+        displayFocusGraphics(c.positions, c.hfrs, c.useWeights, c.weights, c.outliers, c.curve, c.title, c.success);
 }
 
 // When the user clicks on a guide session in the timeline,
@@ -2544,15 +2660,24 @@ void Analyze::initGraphicsPlot()
                                QCPGraph::lsNone, Qt::cyan, "Focus");
     graphicsPlot->graph(FOCUS_GRAPHICS)->setScatterStyle(
         QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::white, 14));
+    errorBars = new QCPErrorBars(graphicsPlot->xAxis, graphicsPlot->yAxis);
+    errorBars->setAntialiased(false);
+    errorBars->setDataPlottable(graphicsPlot->graph(FOCUS_GRAPHICS));
+    errorBars->setPen(QPen(QColor(180, 180, 180)));
+
     FOCUS_GRAPHICS_FINAL = initGraph(graphicsPlot, graphicsPlot->yAxis,
                                      QCPGraph::lsNone, Qt::cyan, "FocusBest");
     graphicsPlot->graph(FOCUS_GRAPHICS_FINAL)->setScatterStyle(
         QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::yellow, Qt::yellow, 14));
+    finalErrorBars = new QCPErrorBars(graphicsPlot->xAxis, graphicsPlot->yAxis);
+    finalErrorBars->setAntialiased(false);
+    finalErrorBars->setDataPlottable(graphicsPlot->graph(FOCUS_GRAPHICS_FINAL));
+    finalErrorBars->setPen(QPen(QColor(180, 180, 180)));
+
     FOCUS_GRAPHICS_CURVE = initGraph(graphicsPlot, graphicsPlot->yAxis,
                                      QCPGraph::lsLine, Qt::white, "FocusCurve");
     graphicsPlot->setInteractions(QCP::iRangeZoom);
     graphicsPlot->setInteraction(QCP::iRangeDrag, true);
-
 
     GUIDER_GRAPHICS = initGraph(graphicsPlot, graphicsPlot->yAxis,
                                 QCPGraph::lsNone, Qt::cyan, "Guide Error");
@@ -2560,20 +2685,36 @@ void Analyze::initGraphicsPlot()
         QCPScatterStyle(QCPScatterStyle::ssStar, Qt::gray, 5));
 }
 
-void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs,
-                                   const QString &curve, const QString &title, bool success)
+void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, const bool useWeights,
+                                   const QVector<double> &weights, const QVector<bool> &outliers, const QString &curve, const QString &title, bool success)
 {
     resetGraphicsPlot();
     auto graph = graphicsPlot->graph(FOCUS_GRAPHICS);
     auto finalGraph = graphicsPlot->graph(FOCUS_GRAPHICS_FINAL);
     double maxHfr = -1e8, maxPosition = -1e8, minHfr = 1e8, minPosition = 1e8;
+    QVector<double> errorData, finalErrorData;
     for (int i = 0; i < positions.size(); ++i)
     {
         // Yellow circle for the final point.
         if (success && i == positions.size() - 1)
+        {
             finalGraph->addData(positions[i], hfrs[i]);
+            if (useWeights)
+            {
+                // Display the error bars in Standard Deviation form = 1 / sqrt(weight)
+                double sd = (weights[i] <= 0.0) ? 0.0 : std::pow(weights[i], -0.5);
+                finalErrorData.push_front(sd);
+            }
+        }
         else
+        {
             graph->addData(positions[i], hfrs[i]);
+            if (useWeights)
+            {
+                double sd = (weights[i] <= 0.0) ? 0.0 : std::pow(weights[i], -0.5);
+                errorData.push_front(sd);
+            }
+        }
         maxHfr = std::max(maxHfr, hfrs[i]);
         minHfr = std::min(minHfr, hfrs[i]);
         maxPosition = std::max(maxPosition, positions[i]);
@@ -2586,13 +2727,32 @@ void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVect
         textLabel->setPositionAlignment(Qt::AlignCenter | Qt::AlignHCenter);
         textLabel->position->setType(QCPItemPosition::ptPlotCoords);
         textLabel->position->setCoords(positions[i], hfrs[i]);
-        textLabel->setText(QString::number(i + 1));
-        textLabel->setFont(QFont(font().family(), 12));
+        if (outliers[i])
+        {
+            textLabel->setText("X");
+            textLabel->setColor(Qt::black);
+            textLabel->setFont(QFont(font().family(), 20));
+        }
+        else
+        {
+            textLabel->setText(QString::number(i + 1));
+            textLabel->setColor(Qt::red);
+            textLabel->setFont(QFont(font().family(), 12));
+        }
         textLabel->setPen(Qt::NoPen);
-        textLabel->setColor(Qt::red);
+    }
+
+    // Error bars on the focus datapoints
+    errorBars->setVisible(useWeights);
+    finalErrorBars->setVisible(useWeights);
+    if (useWeights)
+    {
+        errorBars->setData(errorData);
+        finalErrorBars->setData(finalErrorData);
     }
 
     const double xRange = maxPosition - minPosition;
+    const double xPadding = hfrs.size() > 1 ? xRange / (hfrs.size() - 1.0) : 10;
 
     // Draw the curve, if given.
     if (curve.size() > 0)
@@ -2600,7 +2760,7 @@ void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVect
         CurveFitting curveFitting(curve);
         const double interval = xRange / 20.0;
         auto curveGraph = graphicsPlot->graph(FOCUS_GRAPHICS_CURVE);
-        for (double x = minPosition ; x < maxPosition ; x += interval)
+        for (double x = minPosition - xPadding ; x <= maxPosition + xPadding; x += interval)
             curveGraph->addData(x, curveFitting.f(x));
     }
 
@@ -2616,7 +2776,6 @@ void Analyze::displayFocusGraphics(const QVector<double> &positions, const QVect
     // Set the same axes ranges as are used in focushfrvplot.cpp.
     const double upper = 1.5 * maxHfr;
     const double lower = minHfr - (0.25 * (upper - minHfr));
-    const double xPadding = hfrs.size() > 0 ? xRange / hfrs.size() : 10;
     graphicsPlot->xAxis->setRange(minPosition - xPadding, maxPosition + xPadding);
     graphicsPlot->yAxis->setRange(lower, upper);
     graphicsPlot->replot();
@@ -2627,6 +2786,8 @@ void Analyze::resetGraphicsPlot()
     for (int i = 0; i < graphicsPlot->graphCount(); ++i)
         graphicsPlot->graph(i)->data()->clear();
     graphicsPlot->clearItems();
+    errorBars->data().clear();
+    finalErrorBars->data().clear();
 }
 
 void Analyze::displayFITS(const QString &filename)
@@ -2912,26 +3073,34 @@ void Analyze::resetCaptureState()
     previousCaptureCompletedTime = -1;
 }
 
-void Analyze::autofocusStarting(double temperature, const QString &filter)
+void Analyze::autofocusStarting(double temperature, const QString &filter, const AutofocusReason reason,
+                                const QString &reasonInfo)
 {
     saveMessage("AutofocusStarting",
-                QString("%1,%2")
+                QString("%1,%2,%3,%4")
                 .arg(filter)
-                .arg(QString::number(temperature, 'f', 1)));
-    processAutofocusStarting(logTime(), temperature, filter);
+                .arg(QString::number(temperature, 'f', 1))
+                .arg(QString::number(reason))
+                .arg(reasonInfo));
+    processAutofocusStarting(logTime(), temperature, filter, reason, reasonInfo);
 }
 
-void Analyze::processAutofocusStarting(double time, double temperature, const QString &filter)
+void Analyze::processAutofocusStarting(double time, double temperature, const QString &filter, const AutofocusReason reason,
+                                       const QString &reasonInfo)
 {
     autofocusStartedTime = time;
     autofocusStartedFilter = filter;
     autofocusStartedTemperature = temperature;
+    autofocusStartedReason = reason;
+    autofocusStartedReasonInfo = reasonInfo;
+
     addTemperature(temperature, time);
     updateMaxX(time);
 
     addTemporarySession(&temporaryFocusSession, time, 1, FOCUS_Y, temporaryBrush);
     temporaryFocusSession.temperature = temperature;
     temporaryFocusSession.filter = filter;
+    temporaryFocusSession.reason = reason;
 }
 
 void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
@@ -2967,7 +3136,8 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
     // Add mouse sensitivity on the timeline.
     constexpr int artificialInterval = 10;
     auto session = FocusSession(time - artificialInterval, time + artificialInterval, nullptr,
-                                filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError, totalTicks, position);
+                                filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError, totalTicks,
+                                position);
     focusSessions.add(session);
 
     if (!batchMode)
@@ -2976,23 +3146,67 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
     autofocusStartedTime = -1;
 }
 
-void Analyze::autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &rawTitle)
+void Analyze::autofocusComplete(const double temperature, const QString &filter, const QString &points,
+                                const bool useWeights, const QString &curve, const QString &rawTitle)
 {
     // Remove commas from the title as they're used as separators in the .analyze file.
     QString title = rawTitle;
     title.replace(",", " ");
 
-    if (curve.size() == 0)
+    // Version 1 message structure is now deprecated, leaving code commented out in case old files need debugging
+    /*if (curve.size() == 0)
         saveMessage("AutofocusComplete", QString("%1,%2").arg(filter, points));
     else if (title.size() == 0)
         saveMessage("AutofocusComplete", QString("%1,%2,%3").arg(filter, points, curve));
     else
-        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4").arg(filter, points, curve, title));
+        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4").arg(filter, points, curve, title));*/
+
+    QString temp = QString::number(temperature, 'f', 1);
+    QVariant reasonV = autofocusStartedReason;
+    QString reason = reasonV.toString();
+    QString reasonInfo = autofocusStartedReasonInfo;
+    QString weights = QString::number(useWeights);
+    if (curve.size() == 0)
+        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6").arg(temp, reason, reasonInfo, filter, points, weights));
+    else if (title.size() == 0)
+        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6,%7").arg(temp, reason, reasonInfo, filter, points, weights,
+                    curve));
+    else
+        saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(temp, reason, reasonInfo, filter, points, weights,
+                    curve, title));
 
     if (runtimeDisplay && autofocusStartedTime >= 0)
-        processAutofocusComplete(logTime(), filter, points, curve, title);
+        processAutofocusCompleteV2(logTime(), temperature, filter, autofocusStartedReason, reasonInfo, points, useWeights, curve,
+                                   title);
 }
 
+// Version 2 of processAutofocusComplete to process weights, outliers and reason codes.
+void Analyze::processAutofocusCompleteV2(double time, const double temperature, const QString &filter,
+        const AutofocusReason reason, const QString &reasonInfo,
+        const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode)
+{
+    removeTemporarySession(&temporaryFocusSession);
+    QBrush stripe;
+    if (filterStripeBrush(filter, &stripe))
+        addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
+    else
+        addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
+    // Use the focus complete temperature (rather than focus start temperature) for consistency with Focus
+    auto session = FocusSession(autofocusStartedTime, time, nullptr, true, temperature, filter, reason, reasonInfo, points,
+                                useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE);
+    focusSessions.add(session);
+    addFocusPosition(session.focusPosition(), autofocusStartedTime);
+    updateMaxX(time);
+    if (!batchMode)
+    {
+        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+            focusSessionClicked(session, false);
+        replot();
+    }
+    autofocusStartedTime = -1;
+}
+
+// Older version of processAutofocusComplete to process analyze files created before version 2.
 void Analyze::processAutofocusComplete(double time, const QString &filter, const QString &points,
                                        const QString &curve, const QString &title, bool batchMode)
 {
@@ -3016,13 +3230,51 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
     autofocusStartedTime = -1;
 }
 
-void Analyze::autofocusAborted(const QString &filter, const QString &points)
+void Analyze::autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
+                               const AutofocusFailReason failCode)
 {
-    saveMessage("AutofocusAborted", QString("%1,%2").arg(filter, points));
+    QString temperature = QString::number(autofocusStartedTemperature, 'f', 1);
+    QVariant reasonV = autofocusStartedReason;
+    QString reason = reasonV.toString();
+    QString reasonInfo = autofocusStartedReasonInfo;
+    QString weights = QString::number(useWeights);
+    QVariant failReasonV = static_cast<int>(failCode);
+    QString failReason = failReasonV.toString();
+    saveMessage("AutofocusAborted", QString("%1,%2,%3,%4,%5,%6,%7").arg(temperature, reason, reasonInfo, filter, points,
+                weights,
+                failReason));
     if (runtimeDisplay && autofocusStartedTime >= 0)
-        processAutofocusAborted(logTime(), filter, points);
+        processAutofocusAbortedV2(logTime(), autofocusStartedTemperature, filter, autofocusStartedReason, reasonInfo, points,
+                                  useWeights, failCode);
 }
 
+// Version 2 of processAutofocusAborted added weights, outliers and reason codes.
+void Analyze::processAutofocusAbortedV2(double time, double temperature, const QString &filter,
+                                        const AutofocusReason reason, const QString &reasonInfo, const QString &points, const bool useWeights,
+                                        const AutofocusFailReason failCode, bool batchMode)
+{
+    removeTemporarySession(&temporaryFocusSession);
+    double duration = time - autofocusStartedTime;
+    if (autofocusStartedTime >= 0 && duration < 1000)
+    {
+        // Just in case..
+        addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
+        auto session = FocusSession(autofocusStartedTime, time, nullptr, false, autofocusStartedTemperature, filter, reason,
+                                    reasonInfo, points,
+                                    useWeights, "", "", failCode);
+        focusSessions.add(session);
+        updateMaxX(time);
+        if (!batchMode)
+        {
+            if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+                focusSessionClicked(session, false);
+            replot();
+        }
+        autofocusStartedTime = -1;
+    }
+}
+
+// Older version processAutofocusAborted to support processing analyze files created before V2
 void Analyze::processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
@@ -3050,6 +3302,8 @@ void Analyze::resetAutofocusState()
     autofocusStartedTime = -1;
     autofocusStartedFilter = "";
     autofocusStartedTemperature = 0;
+    autofocusStartedReason = AutofocusReason::FOCUS_NONE;
+    autofocusStartedReasonInfo = "";
 }
 
 namespace

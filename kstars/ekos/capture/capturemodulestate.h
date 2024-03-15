@@ -21,6 +21,8 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
+#include "ekos/capture/refocusstate.h"
+#include "ekos/focus/focusutils.h"
 
 // Wait 3-minutes as maximum beyond exposure
 // value.
@@ -672,6 +674,13 @@ class CaptureModuleState: public QObject
         }
 
         /**
+         * @brief Converts from RefocusReason (used by Capture) to AutofocusReason (used by Focus)
+         * @param reasonInfo for the associated reason code
+         * @return Reason code for the Autofocus
+         */
+        AutofocusReason getAFReason(RefocusState::RefocusReason state, QString &reasonInfo);
+
+        /**
          * @brief Start focusing if necessary (see {@see RefocusState#checkFocusRequired()}).
          * @return TRUE if we need to run focusing, false if not necessary
          */
@@ -972,7 +981,7 @@ class CaptureModuleState: public QObject
         // check focusing is necessary for the given HFR
         void checkFocus(double hfr);
         // run Autofocus
-        void runAutoFocus(bool);
+        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
         // reset the focuser to the last known focus position
         void resetFocus();
         // signal focus module to perform adaptive focus

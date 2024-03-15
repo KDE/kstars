@@ -12,6 +12,7 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
+#include "ekos/focus/focusutils.h"
 #include "indi/indicamera.h"
 #include "indi/indidustcap.h"
 #include "indi/indidome.h"
@@ -948,7 +949,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // communication with other modules
         void checkFocus(double);
-        void runAutoFocus(bool);
+        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
         void resetFocus();
         void abortFocus();
         void adaptiveFocus();

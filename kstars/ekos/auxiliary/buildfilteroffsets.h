@@ -8,6 +8,7 @@
 
 #include "ui_buildfilteroffsets.h"
 #include "filtermanager.h"
+#include "ekos/focus/focusutils.h"
 
 namespace Ekos
 {
@@ -26,7 +27,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
 
     signals:
         // Trigger Autofocus
-        void runAutoFocus(bool buildOffsets);
+        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
         // User has elected to abort Autofocus, pass on signal to FilterManager
         void abortAutoFocus();
         // New Focus offset requested

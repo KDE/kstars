@@ -2006,6 +2006,10 @@
       <entry name="FocusFilter" type="String">
          <label>Default Filter Wheel filter</label>
       </entry>
+      <entry name="FocusForceInSeqAF" type="Bool">
+         <whatsthis>When In Sequence, force an Autofocus at the end of the current subframe.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="UseFocusDarkFrame" type="Bool">
          <label>Take a dark frame and subtract it before running autofocus operation.</label>
          <default>false</default>
@@ -2123,6 +2127,10 @@
       </entry>
       <entry name="focusFramesCount" type="UInt">
          <whatsthis>How many frames to average over at each step in the Autofocus process.</whatsthis>
+         <default>1</default>
+      </entry>
+      <entry name="focusHFRFramesCount" type="UInt">
+         <whatsthis>How many frames to average over when performing in-sequence HFR Check.</whatsthis>
          <default>1</default>
       </entry>
       <entry name="FocusMultiRowAverage" type="Int">

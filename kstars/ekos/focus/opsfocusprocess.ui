@@ -22,31 +22,6 @@
      <property name="spacing">
       <number>3</number>
      </property>
-     <item row="3" column="3">
-      <widget class="QDoubleSpinBox" name="focusR2Limit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a minimum for the acceptable R² when performing an Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is a good start.  If the minimum is not met,  Autofocus will rerun once to try to improve the R². Currently only available for the Linear 1 Pass algorithm when using a Curve Fit of Hyperbola or Parabola. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="minimum">
-        <double>0.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>1.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.010000000000000</double>
-       </property>
-       <property name="value">
-        <double>0.800000000000000</double>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="focusStarMeasureLabel">
        <property name="sizePolicy">
@@ -61,6 +36,70 @@
        <property name="buddy">
         <cstring>focusStarMeasure</cstring>
        </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_22">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Algorithm:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusAlgorithm</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QComboBox" name="focusSEPProfile"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="editFocusProfile">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="focusStarPSFLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>PSF:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusStarPSF</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QComboBox" name="focusStarPSF">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The type of PSF to use when Measure is set to FWHM:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Gaussian&lt;/span&gt;: Uses a 2D Gaussian. This is an experimental feature.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Gaussian</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="0" column="0">
@@ -101,27 +140,8 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="focusR2LimitLabel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>R² Limit:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="buddy">
-        <cstring>focusR2Limit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_22">
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_28">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -132,10 +152,10 @@
         <string/>
        </property>
        <property name="text">
-        <string>Algorithm:</string>
+        <string>SEP Profile:</string>
        </property>
        <property name="buddy">
-        <cstring>focusAlgorithm</cstring>
+        <cstring>focusSEPProfile</cstring>
        </property>
       </widget>
      </item>
@@ -148,7 +168,7 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of frames to capture at the current focuser position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of frames to capture at each focuser position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="suffix">
         <string> frames</string>
@@ -158,22 +178,44 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="focusCurveFitLabel">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
+     <item row="3" column="3">
+      <widget class="QDoubleSpinBox" name="focusR2Limit">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text">
-        <string>Curve Fit:</string>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a minimum for the acceptable R² when performing an Autofocus run.  The value is between 0 (no fit) and 1 (perfect fit).  0.8 is a good start.  If the minimum is not met,  Autofocus will rerun once to try to improve the R². Currently only available for the Linear 1 Pass algorithm when using a Curve Fit of Hyperbola or Parabola. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
-       <property name="buddy">
-        <cstring>focusCurveFit</cstring>
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.800000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QCheckBox" name="focusUseWeights">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to use the standard deviation of the star HFR or FWHM as a weighting to the curve fitting algorithm. If unchecked, all data points are given equal weighting. Currently only available when using Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the Linear 1 Pass algorithm. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Use Weights</string>
        </property>
       </widget>
      </item>
@@ -200,25 +242,6 @@
          <string>Parabola</string>
         </property>
        </item>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_28">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="text">
-        <string>SEP Profile:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusSEPProfile</cstring>
-       </property>
       </widget>
      </item>
      <item row="2" column="1">
@@ -252,85 +275,6 @@
         </property>
        </item>
       </widget>
-     </item>
-     <item row="4" column="0" colspan="2">
-      <widget class="QCheckBox" name="focusRefineCurveFit">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to run an outlier pass when all datapoints have been taken. The pass uses Peirce's Criteria for outlier threshold detection. If there are outliers, these are removed and curve fitting rerun. If the R² is improved by the process then this new dataset is used and outliers highlighted on the v-curve. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Refine Curve Fit</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QCheckBox" name="focusUseWeights">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to use the standard deviation of the star HFR or FWHM as a weighting to the curve fitting algorithm. If unchecked, all data points are given equal weighting. Currently only available when using Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the Linear 1 Pass algorithm. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Use Weights</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="focusAlgorithm">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select focus process algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Iterative&lt;/span&gt;: Moves focuser by discreet steps initially decided by the step size. Once a curve slope is calculated,  further step sizes are calculated to reach optimal solution. The algorithm stops when the measured HFR is within percentage Tolerance of the minimum HFR recorded in the procedure.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Polynomial&lt;/span&gt;: Starts with iterative method.  Upon crossing to the other side of the V-Curve,  polynomial fitting coefficients along with possible minimum solution are calculated. This algorithm can be faster than purely iterative approach given a good data set.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: Samples focus inward in a regular fashion, using 2 passes.  The algorithm can be slow, but it is more resilient to backlash.  Start with the focuser positioned near good focus.  Set Initial Step Size and Max Travel for the desired sampling interval and range around start focus position.  Tolerance should be around 5%.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear 1 Pass&lt;/span&gt;: Starts like &lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt; but after completing the 1st pass, instead of doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use Curve Fit of Hyperbola or Parabola.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="currentIndex">
-        <number>3</number>
-       </property>
-       <item>
-        <property name="text">
-         <string>Iterative</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Polynomial</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Linear</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Linear 1 Pass</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QComboBox" name="focusSEPProfile"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="editFocusProfile">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </item>
      <item row="0" column="1">
       <widget class="QComboBox" name="focusDetection">
@@ -373,8 +317,11 @@
        </item>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="focusStarPSFLabel">
+     <item row="1" column="2">
+      <widget class="QLabel" name="focusCurveFitLabel">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -382,23 +329,102 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>PSF:</string>
+        <string>Curve Fit:</string>
        </property>
        <property name="buddy">
-        <cstring>focusStarPSF</cstring>
+        <cstring>focusCurveFit</cstring>
        </property>
       </widget>
      </item>
-     <item row="2" column="3">
-      <widget class="QComboBox" name="focusStarPSF">
+     <item row="1" column="1">
+      <widget class="QComboBox" name="focusAlgorithm">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The type of PSF to use when Measure is set to FWHM:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Gaussian&lt;/span&gt;: Uses a 2D Gaussian. This is an experimental feature.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select focus process algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Iterative&lt;/span&gt;: Moves focuser by discreet steps initially decided by the step size. Once a curve slope is calculated,  further step sizes are calculated to reach optimal solution. The algorithm stops when the measured HFR is within percentage Tolerance of the minimum HFR recorded in the procedure.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Polynomial&lt;/span&gt;: Starts with iterative method.  Upon crossing to the other side of the V-Curve,  polynomial fitting coefficients along with possible minimum solution are calculated. This algorithm can be faster than purely iterative approach given a good data set.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: Samples focus inward in a regular fashion, using 2 passes.  The algorithm can be slow, but it is more resilient to backlash.  Start with the focuser positioned near good focus.  Set Initial Step Size and Max Travel for the desired sampling interval and range around start focus position.  Tolerance should be around 5%.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear 1 Pass&lt;/span&gt;: Starts like &lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt; but after completing the 1st pass, instead of doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use Curve Fit of Hyperbola or Parabola.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="currentIndex">
+        <number>3</number>
        </property>
        <item>
         <property name="text">
-         <string>Gaussian</string>
+         <string>Iterative</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Polynomial</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Linear</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Linear 1 Pass</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="4" column="0" colspan="2">
+      <widget class="QCheckBox" name="focusRefineCurveFit">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to run an outlier pass when all datapoints have been taken. The pass uses Peirce's Criteria for outlier threshold detection. If there are outliers, these are removed and curve fitting rerun. If the R² is improved by the process then this new dataset is used and outliers highlighted on the v-curve. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Refine Curve Fit</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="focusR2LimitLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>R² Limit:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>focusR2Limit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLabel" name="focusHFRFramesCountLabel">
+       <property name="text">
+        <string>Average HFR Check:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="3">
+      <widget class="QSpinBox" name="focusHFRFramesCount">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Number of frames to capture when running in-sequence HFR Check. If using Linear 1 Pass, the point of optimum focus will also capture this number of frames.</string>
+       </property>
+       <property name="suffix">
+        <string> frames</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
       </widget>
      </item>
     </layout>

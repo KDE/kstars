@@ -14,6 +14,7 @@
 #include "yaxistool.h"
 #include "ui_analyze.h"
 #include "ekos/manager/meridianflipstate.h"
+#include "ekos/focus/focusutils.h"
 
 class FITSViewer;
 class OffsetDateTimeTicker;
@@ -148,11 +149,17 @@ class Analyze : public QWidget, public Ui::Analyze
                 QString filter;
 
                 // Standard focus parameters
+                AutofocusReason reason;
+                QString reasonInfo;
+                AutofocusFailReason failCode;
                 QString points;
+                bool useWeights;
                 QString curve;
                 QString title;
                 QVector<double> positions; // Double to be more friendly to QCustomPlot addData.
                 QVector<double> hfrs;
+                QVector<double> weights;
+                QVector<bool> outliers;
 
                 // Adaptive focus parameters
                 double tempTicks, altitude, altTicks;
@@ -164,6 +171,9 @@ class Analyze : public QWidget, public Ui::Analyze
                 FocusSession() : Session(0, 0, FOCUS_Y, nullptr) {}
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                              const QString &filter_, const QString &points_, const QString &curve_, const QString &title_);
+                FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
+                             const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_, const bool useWeights_,
+                             const QString &curve_, const QString &title_, const AutofocusFailReason failCode_);
                 FocusSession(double start_, double end_, QCPItemRect *rect,
                              const QString &filter_, double temperature_, double tempTicks_, double altitude_,
                              double altTicks_, int prevPosError, int thisPosError, int totalTicks_, int position_);
@@ -195,12 +205,14 @@ class Analyze : public QWidget, public Ui::Analyze
                         double snr, double skyBg, int numStars);
 
         // From Focus
-        void autofocusStarting(double temperature, const QString &filter);
-        void autofocusComplete(const QString &filter, const QString &points, const QString &curve, const QString &title);
+        void autofocusStarting(double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo);
+        void autofocusComplete(const double temperature, const QString &filter, const QString &points, const bool useWeights,
+                               const QString &curve, const QString &title);
         void adaptiveFocusComplete(const QString &filter, double temperature, double tempTicks,
                                    double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
                                    int position, bool focuserMoved);
-        void autofocusAborted(const QString &filter, const QString &points);
+        void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
+                              const AutofocusFailReason failCode);
         void newTemperature(double temperatureDelta, double temperature);
 
         // From Align
@@ -239,13 +251,16 @@ class Analyze : public QWidget, public Ui::Analyze
         void processCaptureComplete(double time, const QString &filename, double exposureSeconds, const QString &filter,
                                     double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
         void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
-        void processAutofocusStarting(double time, double temperature, const QString &filter);
-        void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve,
-                                      const QString &title, bool batchMode = false);
+        void processAutofocusStarting(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo);
+        void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve, const QString &title, bool batchMode);
+        void processAutofocusCompleteV2(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo,
+                                      const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode = false);
+        void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode);
+        void processAutofocusAbortedV2(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo,
+                                     const QString &points, const bool useWeights, const AutofocusFailReason failCode, bool batchMode = false);
         void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
                                           double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
                                           int position, bool focuserMoved, bool batchMode = false);
-        void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode = false);
         void processTemperature(double time, double temperature, bool batchMode = false);
         void processGuideState(double time, const QString &state, bool batchMode = false);
         void processGuideStats(double time, double raError, double decError, int raPulse,
@@ -385,8 +400,8 @@ class Analyze : public QWidget, public Ui::Analyze
         void initInputSelection();
 
         // Displays the focus positions and HFRs on the graphics plot.
-        void displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, const QString &curve,
-                                  const QString &title, bool success);
+        void displayFocusGraphics(const QVector<double> &positions, const QVector<double> &hfrs, const bool useWeights,
+                                  const QVector<double> &weights, const QVector<bool> &outliers, const QString &curve, const QString &title, bool success);
         // Displays the guider ra and dec drift plot, and computes RMS errors.
         void displayGuideGraphics(double start, double end, double *raRMS,
                                   double *decRMS, double *totalRMS, int *numSamples);
@@ -538,6 +553,8 @@ class Analyze : public QWidget, public Ui::Analyze
         double autofocusStartedTime { -1 };
         QString autofocusStartedFilter { "" };
         double autofocusStartedTemperature { 0 };
+        AutofocusReason autofocusStartedReason { AutofocusReason::FOCUS_NONE};
+        QString autofocusStartedReasonInfo { "" };
 
         // GuideState state-machine variables.
         SimpleGuideState lastGuideStateStarted { G_IDLE };
@@ -600,6 +617,10 @@ class Analyze : public QWidget, public Ui::Analyze
         static constexpr int MOUNT_Y = 6;
         static constexpr int SCHEDULER_Y = 7;
         static constexpr int LAST_Y = 8;
+
+        // Error bars used on the Focus graphs
+        QCPErrorBars *errorBars = nullptr;
+        QCPErrorBars *finalErrorBars = nullptr;
 };
 }
 
