@@ -187,6 +187,18 @@ void Capture::onStandAloneShow(QShowEvent* event)
     addToCombo(captureFormatS, standAloneDecode(Options::captureStandAloneFormats()));
 
     cameraTemperatureN->setEnabled(true);
+    cameraTemperatureN->setReadOnly(false);
+    cameraTemperatureN->setSingleStep(1);
+    cameraTemperatureS->setEnabled(true);
+    QStringList temperatureList = standAloneDecode(Options::captureStandAloneTemperature());
+    double minTemp = -50, maxTemp = 50;
+    if (temperatureList.size() > 1)
+    {
+        minTemp = temperatureList[0].toDouble();
+        maxTemp = temperatureList[1].toDouble();
+    }
+    cameraTemperatureN->setMinimum(minTemp);
+    cameraTemperatureN->setMaximum(maxTemp);
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.
@@ -1088,6 +1100,14 @@ void Capture::syncCameraInfo()
             bool isChecked = activeCamera()->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(activeCamera()->getDeviceName()),
                              false).toBool();
             cameraTemperatureS->setChecked(isChecked);
+
+            // Save the camera's temperature parameters for the stand-alone editor.
+            Options::setCaptureStandAloneTemperature(
+                standAloneEncode(
+                    QStringList({QString("%1").arg(min),
+                                 QString("%1").arg(max),
+                                 QString("%1").arg(isChecked ? 1 : 0)})));
+
         }
         else
         {
@@ -1096,6 +1116,13 @@ void Capture::syncCameraInfo()
             cameraTemperatureS->setEnabled(false);
             cameraTemperatureS->setChecked(false);
             temperatureRegulationB->setEnabled(false);
+
+            // Save default camera temperature parameters for the stand-alone editor.
+            Options::setCaptureStandAloneTemperature(
+                standAloneEncode(
+                    QStringList({QString("%1").arg(-50),
+                                 QString("%1").arg(50),
+                                 0})));
         }
 
         double temperature = 0;

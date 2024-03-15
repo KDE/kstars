@@ -1968,6 +1968,10 @@
          <label>Width,Height of sensor size remembered for stand-alone esq editor, and Gain/Offset keywords.</label>
          <default></default>
       </entry>      
+      <entry name="CaptureStandAloneTemperature" type="String">
+         <label>Camera temperature properties for stand-alone esq editor.</label>
+         <default></default>
+      </entry>      
       <entry name="CaptureStandAloneTimestamp" type="String">
          <label>Local time that the CaptureStandAlone options were set.</label>
          <default></default>
