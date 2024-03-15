@@ -293,12 +293,12 @@ void TestEkosCapture::testCaptureDarkFlats()
         if(dialog != nullptr)
         {
             // Set Flat duration to ADU
-            QRadioButton *ADUC = dialog->findChild<QRadioButton *>("ADUC");
+            QRadioButton *ADUC = dialog->findChild<QRadioButton *>("captureCalibrationUseADU");
             QVERIFY(ADUC);
             ADUC->setChecked(true);
 
             // Set ADU to 4000
-            QSpinBox *ADUValue = dialog->findChild<QSpinBox *>("ADUValue");
+            QSpinBox *ADUValue = dialog->findChild<QSpinBox *>("captureCalibrationADUValue");
             QVERIFY(ADUValue);
             ADUValue->setValue(4000);
 
