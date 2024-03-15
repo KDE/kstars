@@ -80,7 +80,7 @@ class Message : public QObject
         void sendGuideSettings(const QVariantMap &settings);
 
         // Focus
-        void sendFocusSettings(const QVariantMap &settings);
+        void sendFocusSettings(const QVariantMap &settings);                
 
         // Mount
         void sendMountSettings(const QVariantMap &settings);
@@ -102,7 +102,7 @@ class Message : public QObject
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
         void sendPreviewLabel(const QString &preview);
-        void sendCaptureSettings(const QJsonObject &settings);
+        void sendCaptureSettings(const QVariantMap &settings);
 
         // Focus
         void autofocusAborted();
@@ -149,8 +149,7 @@ class Message : public QObject
         void sendStates();
 
         // Capture
-        void processCaptureCommands(const QString &command, const QJsonObject &payload);
-        void setCapturePresetSettings(const QJsonObject &settings);
+        void processCaptureCommands(const QString &command, const QJsonObject &payload);        
         void sendTemperature(double value);
 
         // Mount
@@ -254,4 +253,5 @@ class Message : public QObject
         // Throttle interval
         static const uint16_t THROTTLE_INTERVAL = 1000;
 };
+
 }

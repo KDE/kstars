@@ -5347,15 +5347,21 @@ void Focus::syncSettings()
 
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
+    // propagate image mask attributes
+    selectImageMask();
 
+    m_DebounceTimer.start();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::settleSettings()
+{
     emit settingsUpdated(getAllSettings());
-
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
-
-    // propagate image mask attributes
-    selectImageMask();
 }
 
 void Focus::loadGlobalSettings()
@@ -5586,6 +5592,11 @@ void Focus::initConnections()
     waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
     connect(&waitStarSelectTimer, &QTimer::timeout, this, &Ekos::Focus::checkAutoStarTimeout);
     connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Focus::toggleVideo);
+
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &Focus::settleSettings);
 
     // Show FITS Image in a new window
     showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer"));
@@ -7225,7 +7236,11 @@ void Focus::refreshOpticalTrain()
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
         auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
         if (settings.isValid())
-            setAllSettings(settings.toJsonObject().toVariantMap());
+        {
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
         else
             m_Settings = m_GlobalSettings;
 

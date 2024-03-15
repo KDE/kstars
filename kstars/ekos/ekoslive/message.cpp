@@ -396,14 +396,6 @@ void Message::sendTemperature(double value)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Message::setCapturePresetSettings(const QJsonObject &settings)
-{
-    m_Manager->captureModule()->setPresetSettings(settings);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processCaptureCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Capture *capture = m_Manager->captureModule();
@@ -416,7 +408,6 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 
     if (command == commands[CAPTURE_PREVIEW])
     {
-        setCapturePresetSettings(payload);
         capture->capturePreview();
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
@@ -430,32 +421,14 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         capture->stop();
     else if (command == commands[CAPTURE_LOOP])
     {
-        setCapturePresetSettings(payload);
         capture->startFraming();
     }
     else if (command == commands[CAPTURE_GET_SEQUENCES])
     {
         sendCaptureSequence(capture->getSequence());
     }
-    else if(command == commands[CAPTURE_SET_FILE_SETTINGS])
-    {
-        m_Manager->captureModule()->setFileSettings(payload);
-    }
     else if (command == commands[CAPTURE_ADD_SEQUENCE])
     {
-        // Set capture settings first
-        setCapturePresetSettings(payload["preset"].toObject());
-
-        // Then sequence settings
-        capture->setCount(static_cast<uint16_t>(payload["count"].toInt()));
-        capture->setDelay(static_cast<uint16_t>(payload["delay"].toInt()));
-
-        // File Settings
-        m_Manager->captureModule()->setFileSettings(payload["file"].toObject());
-
-        // Calibration Settings
-        m_Manager->captureModule()->setCalibrationSettings(payload["calibration"].toObject());
-
         // Now add job
         capture->createJob();
     }
@@ -467,14 +440,6 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_CLEAR_SEQUENCES])
     {
         capture->clearSequenceQueue();
-    }
-    else if (command == commands[CAPTURE_SET_LIMITS])
-    {
-        capture->setLimitSettings(payload);
-    }
-    else if (command == commands[CAPTURE_GET_LIMITS])
-    {
-        sendResponse(commands[CAPTURE_GET_LIMITS], capture->getLimitSettings());
     }
     else if (command == commands[CAPTURE_SAVE_SEQUENCE_FILE])
     {
@@ -500,13 +465,15 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         if (!path.isEmpty())
             capture->loadSequenceQueue(path);
     }
-    else if (command == commands[CAPTURE_GET_CALIBRATION_SETTINGS])
+    else if (command == commands[CAPTURE_GET_ALL_SETTINGS])
     {
-        sendResponse(commands[CAPTURE_GET_CALIBRATION_SETTINGS], capture->getCalibrationSettings());
+        sendCaptureSettings(capture->getAllSettings());
     }
-    else if (command == commands[CAPTURE_GET_FILE_SETTINGS])
+    else if (command == commands[CAPTURE_SET_ALL_SETTINGS])
     {
-        sendResponse(commands[CAPTURE_GET_FILE_SETTINGS], capture->getFileSettings());
+        auto settings = payload.toVariantMap();
+        capture->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
     }
     else if (command == commands[CAPTURE_GENERATE_DARK_FLATS])
     {
@@ -534,9 +501,10 @@ void Message::sendPreviewLabel(const QString &preview)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Message::sendCaptureSettings(const QJsonObject &settings)
+void Message::sendCaptureSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[CAPTURE_SET_SETTINGS], settings);
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[CAPTURE_GET_ALL_SETTINGS]] = settings;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

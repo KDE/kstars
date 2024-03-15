@@ -528,6 +528,12 @@ class Guide : public QWidget, public Ui::Guide
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
+        /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
         // Operation stack
         void buildOperationStack(GuideState operation);
         bool executeOperationStack();
@@ -589,6 +595,9 @@ class Guide : public QWidget, public Ui::Guide
 
         // Guide timer
         QElapsedTimer guideTimer;
+
+        // Debounce Timer
+        QTimer m_DebounceTimer;
 
         // Capture timeout timer
         QTimer captureTimeout;

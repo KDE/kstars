@@ -122,6 +122,11 @@ Mount::Mount()
     connect(startTimerB, &QPushButton::clicked, this, &Mount::startParkTimer);
     connect(stopTimerB, &QPushButton::clicked, this, &Mount::stopParkTimer);
 
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &Mount::settleSettings);
+
     stopTimerB->setEnabled(false);
 
     if (parkEveryDay->isChecked())
@@ -1687,7 +1692,11 @@ void Mount::refreshOpticalTrain()
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
         auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Mount);
         if (settings.isValid())
-            setAllSettings(settings.toJsonObject().toVariantMap());
+        {
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
         else
             m_Settings = m_GlobalSettings;
     }
@@ -1910,13 +1919,17 @@ void Mount::syncSettings()
 
     // Save immediately
     Options::self()->setProperty(key.toLatin1(), value);
-    Options::self()->save();
-
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::settleSettings()
+{
+    Options::self()->save();
     emit settingsUpdated(getAllSettings());
-
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Mount, m_Settings);

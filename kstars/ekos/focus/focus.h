@@ -653,6 +653,12 @@ class Focus : public QWidget, public Ui::Focus
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
         /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
+        /**
          * @brief prepareGUI Perform once only GUI prep processing
          */
         void prepareGUI();
@@ -1287,6 +1293,8 @@ class Focus : public QWidget, public Ui::Focus
         QVector<QVector<double>> m_abInsWeight;
         QVector<QVector<int>> m_abInsNumStars;
         QVector<QPoint> m_abInsTileCenterOffset;
+
+        QTimer m_DebounceTimer;
 
         // Donut Buster
         double m_donutOrigExposure = 0.0;

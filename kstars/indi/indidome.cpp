@@ -52,6 +52,10 @@ void Dome::registerProperty(INDI::Property prop)
     {
         m_CanAbort = true;
     }
+    else if (prop.isNameMatch("DOME_PARK"))
+    {
+        m_CanPark = true;
+    }
     else if (prop.isNameMatch("DOME_SHUTTER"))
     {
         m_HasShutter = true;
