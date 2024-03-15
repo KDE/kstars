@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-14 01:57+0000\n"
-"PO-Revision-Date: 2024-03-03 16:21+0100\n"
+"PO-Revision-Date: 2024-03-14 21:30+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -246,12 +246,12 @@ msgstr "S'ha produït un error de guiatge en la Dec"
 #: auxiliary/colorscheme.cpp:66 ekos/align/align.cpp:102
 #, kde-format
 msgid "Solver FOV"
-msgstr "Solucionador CDV"
+msgstr "Solucionador de CDV"
 
 #: auxiliary/colorscheme.cpp:67
 #, kde-format
 msgid "Sensor FOV"
-msgstr "Sensor CDV"
+msgstr "Sensor de CDV"
 
 #: auxiliary/colorscheme.cpp:68
 #, kde-format
@@ -1309,8 +1309,8 @@ msgid ""
 "Optimum FOV for the target, FOV parameter not specified.  Note: has no "
 "effect if hovering over object."
 msgstr ""
-"CDV òptim per a l'objectiu, paràmetre CDV sense especificar. Nota: no tindrà "
-"cap efecte si es passa per damunt de l'objecte."
+"CDV òptim per a l'objectiu, paràmetre de CDV sense especificar. Nota: no "
+"tindrà cap efecte si es passa per damunt de l'objecte."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
@@ -4639,7 +4639,7 @@ msgstr "Editeu els símbols de CDV"
 #: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
-msgstr "Afig un símbol de CDV nou."
+msgstr "Afig un símbol nou de CDV."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:57
@@ -5021,8 +5021,8 @@ msgid ""
 msgstr ""
 "Introduïu la distància focal del telescopi, en mil·límetres.\n"
 "\n"
-"Este és un dels camps de dades requerit per a definir un símbol de camp "
-"visual (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
+"Este és un dels camps de dades requerit per a definir un símbol del camp de "
+"visió (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_2)
@@ -5064,8 +5064,8 @@ msgid ""
 msgstr ""
 "Introduïu la distància focal de l'ocular, en mil·límetres.\n"
 "\n"
-"Este és un dels camps de dades requerit per a definir un símbol de camp "
-"visual (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
+"Este és un dels camps de dades requerit per a definir un símbol del camp de "
+"visió (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel8_2)
@@ -5098,8 +5098,8 @@ msgid ""
 msgstr ""
 "Introduïu l'angle del camp de visió per a l'ocular, en minuts d'arc.\n"
 "\n"
-"Este és un dels camps de dades requerit per a definir un símbol de camp "
-"visual (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
+"Este és un dels camps de dades requerit per a definir un símbol del camp de "
+"visió (CDV) que coincidisca amb el camp de visió de l'ocular d'un telescopi."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_2_2)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -5190,8 +5190,8 @@ msgid ""
 msgstr ""
 "Introduïu la distància focal del telescopi, en mil·límetres.\n"
 "\n"
-"Este és un dels camps de dades requerit per a definir un símbol de camp "
-"visual (CDV) que coincidisca amb el camp de visió d'una càmera muntada en un "
+"Este és un dels camps de dades requerit per a definir un símbol del camp de "
+"visió (CDV) que coincidisca amb el camp de visió d'una càmera muntada en un "
 "telescopi."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -5252,8 +5252,8 @@ msgid ""
 msgstr ""
 "Introduïu la mida física del xip CCD o del negatiu del film.\n"
 "\n"
-"Este és un dels camps de dades requerit per a definir un símbol de camp "
-"visual (CDV) que coincidisca amb el camp de visió d'una càmera muntada en un "
+"Este és un dels camps de dades requerit per a definir un símbol del camp de "
+"visió (CDV) que coincidisca amb el camp de visió d'una càmera muntada en un "
 "telescopi."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_3_2)
@@ -6340,7 +6340,7 @@ msgstr "Escala i posició"
 #: ekos/align/align.cpp:3495
 #, kde-format
 msgid "Align Options Profiles Editor"
-msgstr "Editor de perfils d'opcions d'alineació"
+msgstr "Editor dels perfils d'opcions d'alineació"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/align.cpp:3513 ekos/align/opsastrometryindexfiles.ui:329
@@ -7720,7 +7720,7 @@ msgstr ""
 msgid ""
 "Opens the currently selected Options Profile in the Options Profile Editor"
 msgstr ""
-"Obri el perfil d'opcions actualment seleccionat en l'editor de perfil "
+"Obri el perfil d'opcions actualment seleccionat en l'editor dels perfils "
 "d'opcions."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -18598,7 +18598,7 @@ msgstr "Inactiu."
 #: ekos/focus/focus.cpp:129
 #, kde-format
 msgid "Focus Options Profile Editor"
-msgstr "Editor de perfils d'opcions de l'enfocament"
+msgstr "Editor dels perfils d'opcions de l'enfocament"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
@@ -23116,7 +23116,7 @@ msgstr "Nombre de períodes per a estimar els períodes"
 #: ekos/guide/opsguide.cpp:43
 #, kde-format
 msgid "Guide Options Profile Editor"
-msgstr "Editor de perfils d'opcions del sistema de guiatge"
+msgstr "Editor dels perfils d'opcions del sistema de guiatge"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
 #: ekos/guide/opsguide.ui:32
@@ -29868,10 +29868,10 @@ msgstr ""
 "tancar-lo?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Align Options Profiles Editor"
-msgstr "Editor de perfils d'opcions d'alineació"
+msgstr ""
+"Editor dels perfils d'opcions d'alineació del solucionador del visor de FITS"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -30333,7 +30333,7 @@ msgstr "S'està processant %1…"
 #: fitsviewer/opsfits.cpp:101
 #, kde-format
 msgid "HFR Options Profile Editor"
-msgstr "Editor de perfils d'opcions de l'HFR"
+msgstr "Editor dels perfils d'opcions de l'HFR"
 
 #. i18n: ectx: property (title), widget (QGroupBox, FITSViewerGroup)
 #: fitsviewer/opsfits.ui:45
@@ -30787,13 +30787,11 @@ msgstr ""
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: fitsviewer/platesolve.ui:407 options/opsimageoverlay.ui:288
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
 msgstr ""
-"Obri el perfil d'opcions actualment seleccionat en l'editor de perfil "
+"Obri el perfil d'alineació actualment seleccionat en l'editor dels perfils "
 "d'opcions."
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
@@ -35887,7 +35885,7 @@ msgstr "El color per a la regió de l'horitzó artificial."
 #: kstars.kcfg:1089
 #, kde-format
 msgid "Color of telescope symbols"
-msgstr "El color dels símbols de telescopi"
+msgstr "El color dels símbols del telescopi"
 
 #. i18n: ectx: whatsthis, entry (TelescopeTargetColor), group (Colors)
 #: kstars.kcfg:1090
@@ -39710,12 +39708,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerRepeatEverything), group (Scheduler)
 #: kstars.kcfg:3100
-#, fuzzy, kde-format
-#| msgid "Restart sequences as soon as all sequences have been completed."
+#, kde-format
 msgid "Restart all scheduler jobs when all scheduler jobs have completed."
 msgstr ""
-"Reinicia les seqüències tan prompte com s'hagen completat totes les "
-"seqüències."
+"Reinicia totes les tasques del programador tan prompte com s'hagen completat "
+"totes les tasques programades."
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
 #: kstars.kcfg:3104
@@ -40131,10 +40128,9 @@ msgstr "Alterna si es mostren les superposicions d'imatges."
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: kstars.kcfg:3325 kstars.kcfg:3326 options/opsimageoverlay.ui:81
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display Image Overlays below catalogs."
-msgstr "Mostra les superposicions d'imatges."
+msgstr "Mostra les superposicions d'imatges davall dels catàlegs."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3330
@@ -76893,10 +76889,10 @@ msgid "Local meridian"
 msgstr "Meridià local"
 
 #: options/opsimageoverlay.cpp:76
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "Image Overlay Align Options Profiles Editor"
-msgstr "Editor de perfils d'opcions d'alineació"
+msgstr ""
+"Editor dels perfils d'opcions d'alineació de les superposicions d'imatges"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
@@ -76922,10 +76918,9 @@ msgstr "Centra el mapa celeste en la selecció"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display Image Overlays below catalogs"
-msgstr "Mostra les superposicions d'imatges."
+msgstr "Mostra les superposicions d'imatges davall dels catàlegs"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -80262,7 +80257,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Podeu dissenyar-vos els vostres propis símbols de camp de visió "
+"\t\t<p>Podeu dissenyar-vos els vostres propis símbols del camp de visió "
 "(CDV)\n"
 "\t\t\tutilitzant l'editor CDV del menú «Configuració -> Símbols de CDV». "
 "Podeu establir la mida angular,\n"
