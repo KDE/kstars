@@ -735,6 +735,7 @@ void FITSTab::extractorDone(bool timedOut, bool success, const FITSImage::Soluti
             starCenters.append(oneEdge);
         }
         m_View->imageData()->setStarCenters(starCenters);
+        m_View->updateFrame();
 
         // Now run the solver.
         solveImage();
