@@ -156,6 +156,8 @@ enum COMMANDS
     // Scheduler
     SCHEDULER_GET_ALL_SETTINGS,
     SCHEDULER_SET_ALL_SETTINGS,
+    SCHEDULER_SAVE_FILE,
+    SCHEDULER_LOAD_FILE,
     SCHEDULER_GET_JOBS,
     SCHEDULER_ADD_JOBS,
     SCHEDULER_REMOVE_JOBS,
@@ -352,6 +354,8 @@ static QMap<COMMANDS, QString> const commands =
 
     {SCHEDULER_GET_ALL_SETTINGS, "scheduler_get_all_settings"},
     {SCHEDULER_SET_ALL_SETTINGS, "scheduler_set_all_settings"},
+    {SCHEDULER_SAVE_FILE, "scheduler_save_file"},
+    {SCHEDULER_LOAD_FILE, "scheduler_load_file"},
     {SCHEDULER_GET_JOBS, "scheduler_get_jobs"},
     {SCHEDULER_ADD_JOBS, "scheduler_add_jobs"},
     {SCHEDULER_REMOVE_JOBS, "scheduler_remove_jobs"},

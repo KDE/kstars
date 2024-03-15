@@ -178,6 +178,20 @@ public:
             return m_process;
         }
 
+        /**
+         * @brief saveFile Save scheduler jobs to disk
+         * @param path Path to esl file to save jobs to
+         * @return True if successful, false otherwise
+         */
+        bool saveFile(const QUrl &path);
+
+        /**
+         * @brief loadFile Load scheduler jobs from disk
+         * @param path Oath to esl file to load jobs from
+         * @return True if successful, false otherwise
+         */
+        bool loadFile(const QUrl &path);
+
         // Settings
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
@@ -348,7 +362,7 @@ protected slots:
         void handleSetPaused();
 
         void pause();
-        void save();
+        bool save();
         void saveAs();
 
         /**
@@ -356,7 +370,7 @@ protected slots:
          * @param clearQueue Clear the queue before loading, or append ESL contents to queue.
          * @param filename If not empty, this file will be used instead of poping up a dialog.
          */
-        void load(bool clearQueue, const QString &filename = "");
+        bool load(bool clearQueue, const QString &filename = QString());
 
         void resetJobEdit();
 

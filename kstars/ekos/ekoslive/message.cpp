@@ -903,6 +903,30 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
         scheduler->setAllSettings(settings);
         KSUtils::setGlobalSettings(settings);
     }
+    else if (command == commands[SCHEDULER_SAVE_FILE])
+    {
+        if (scheduler->saveFile(QUrl::fromLocalFile(payload["filepath"].toString())))
+            sendResponse(commands[SCHEDULER_SAVE_FILE], QString::fromUtf8(QFile(payload["filepath"].toString()).readAll()));
+    }
+    else if (command == commands[SCHEDULER_LOAD_FILE])
+    {
+        QString path;
+        if (payload.contains("filedata"))
+        {
+            QTemporaryFile file;
+            if (file.open())
+            {
+                path = file.fileName();
+                file.write(payload["filedata"].toString().toUtf8());
+                file.close();
+            }
+        }
+        else
+            path = payload["filepath"].toString();
+
+        if (!path.isEmpty())
+            scheduler->loadFile(QUrl::fromLocalFile(path));
+    }
     else if(command == commands[SCHEDULER_START_JOB])
     {
         scheduler->toggleScheduler();

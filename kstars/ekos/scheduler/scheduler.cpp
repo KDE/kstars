@@ -1674,7 +1674,12 @@ void Scheduler::schedulerStopped()
 }
 
 
-void Scheduler::load(bool clearQueue, const QString &filename)
+bool Scheduler::loadFile(const QUrl &path)
+{
+    return load(true, path.toLocalFile());
+}
+
+bool Scheduler::load(bool clearQueue, const QString &filename)
 {
     QUrl fileURL;
 
@@ -1685,13 +1690,13 @@ void Scheduler::load(bool clearQueue, const QString &filename)
     else fileURL.setUrl(filename);
 
     if (fileURL.isEmpty())
-        return;
+        return false;
 
     if (fileURL.isValid() == false)
     {
         QString message = i18n("Invalid URL: %1", fileURL.toLocalFile());
         KSNotification::sorry(message, i18n("Invalid URL"));
-        return;
+        return false;
     }
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
@@ -1716,7 +1721,11 @@ void Scheduler::load(bool clearQueue, const QString &filename)
 
         /* Run a job idle evaluation after a successful load */
         process()->startJobEvaluation();
+
+        return true;
     }
+
+    return false;
 }
 
 void Scheduler::clearJobTable()
@@ -1734,7 +1743,21 @@ void Scheduler::saveAs()
     save();
 }
 
-void Scheduler::save()
+bool Scheduler::saveFile(const QUrl &path)
+{
+    QUrl backupCurrent = schedulerURL;
+    schedulerURL = path;
+
+    if (save())
+        return true;
+    else
+    {
+        schedulerURL = backupCurrent;
+        return false;
+    }
+}
+
+bool Scheduler::save()
 {
     QUrl backupCurrent = schedulerURL;
 
@@ -1743,7 +1766,7 @@ void Scheduler::save()
 
     // If no changes made, return.
     if (moduleState()->dirty() == false && !schedulerURL.isEmpty())
-        return;
+        return true;
 
     if (schedulerURL.isEmpty())
     {
@@ -1754,7 +1777,7 @@ void Scheduler::save()
         if (schedulerURL.isEmpty())
         {
             schedulerURL = backupCurrent;
-            return;
+            return false;
         }
 
         dirPath = QUrl(schedulerURL.url(QUrl::RemoveFilename));
@@ -1768,7 +1791,7 @@ void Scheduler::save()
         if ((process()->saveScheduler(schedulerURL)) == false)
         {
             KSNotification::error(i18n("Failed to save scheduler list"), i18n("Save"));
-            return;
+            return false;
         }
 
         // update save button tool tip
@@ -1778,7 +1801,10 @@ void Scheduler::save()
     {
         QString message = i18n("Invalid URL: %1", schedulerURL.url());
         KSNotification::sorry(message, i18n("Invalid URL"));
+        return false;
     }
+
+    return true;
 }
 
 void Scheduler::checkJobInputComplete()
