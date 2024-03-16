@@ -2250,6 +2250,10 @@
          <whatsthis>The amount of Autofocus Overscan.</whatsthis>
          <default>100</default>
       </entry>
+      <entry name="FocusOverscanDelay" type="Double">
+         <whatsthis>Delay between outward and inward movements of an AF Overscan. For most focusers set 0s.</whatsthis>
+         <default>0.0</default>
+      </entry>
       <entry name="FocusCaptureTimeout" type="UInt">
          <whatsthis>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</whatsthis>
          <default>30</default>

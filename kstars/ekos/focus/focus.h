@@ -1283,6 +1283,7 @@ class Focus : public QWidget, public Ui::Focus
         double FAFocusMaxTravel = 0;
         int FAFocusCaptureTimeout = 30;
         int FAFocusMotionTimeout = 30;
+        double FAFocusOverscanDelay = 0.0;
 
         // Aberration Inspector
         void calculateAbInsData();

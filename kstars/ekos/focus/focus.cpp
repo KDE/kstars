@@ -1229,6 +1229,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
                                << " Max Step Size:" << m_OpsFocusMechanics->focusMaxSingleStep->value()
                                << " Driver Backlash:" << m_OpsFocusMechanics->focusBacklash->value()
                                << " AF Overscan:" << m_OpsFocusMechanics->focusAFOverscan->value()
+                               << " Overscan Delay:" << m_OpsFocusMechanics->focusOverscanDelay->value()
                                << " Focuser Settle:" << m_OpsFocusMechanics->focusSettleTime->value()
                                << " Walk:" << m_OpsFocusMechanics->focusWalk->currentText()
                                << " Capture Timeout:" << m_OpsFocusMechanics->focusCaptureTimeout->value()
@@ -3875,13 +3876,18 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         {
             int temp = focuserAdditionalMovement;
             focuserAdditionalMovement = 0;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Undoing overscan extension. Moving back in by %1").arg(temp);
 
-            if (!changeFocus(-temp, focuserAdditionalMovementUpdateDir))
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Undoing overscan extension. Moving back in by %1 ticks in %2s")
+                                       .arg(temp).arg(m_OpsFocusMechanics->focusOverscanDelay->value());
+
+            QTimer::singleShot(m_OpsFocusMechanics->focusOverscanDelay->value() * 1000, this, [this, temp]()
             {
-                appendLogText(i18n("Focuser error, check INDI panel."));
-                completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE);
-            }
+                if (!changeFocus(-temp, focuserAdditionalMovementUpdateDir))
+                {
+                    appendLogText(i18n("Focuser error, check INDI panel."));
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE);
+                }
+            });
         }
         else if (inAutoFocus)
         {
@@ -3997,6 +4003,9 @@ void Focus::updateProperty(INDI::Property prop)
                 emit absolutePositionChanged(currentPosition);
             }
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Can't access FOCUS_ABSOLUTE_POSITION. Current state:"
+                                       << pstateStr(currentPositionState) << " New state:" << pstateStr(newState);
 
         if (newState != IPS_OK)
         {
@@ -6834,7 +6843,7 @@ void Focus::focusAdvisorSetup()
     str.append("Focuser Settle=1.0s\n");
 
     FAFocusNumSteps = 11;
-    str.append("Number Stepe=11\n");
+    str.append("Number Steps=11\n");
 
     // Set Max travel to max value - no need to limit it
     FAFocusMaxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
@@ -6843,6 +6852,9 @@ void Focus::focusAdvisorSetup()
     // Driver Backlash and AF Overscan are dealt with separately so inform user to do this
     str.append("Backlash ***Set Manually***\n");
     str.append("AF Overscan ***Set Manually***\n");
+
+    FAFocusOverscanDelay = 0.0;
+    str.append(QString("Overscan Delay=%1\n").arg(FAFocusOverscanDelay));
 
     FAFocusCaptureTimeout = 30;
     str.append(QString("Capture Timeout=%1\n").arg(FAFocusCaptureTimeout));
@@ -6947,6 +6959,7 @@ void Focus::focusAdvisorAction(bool forceAll)
         m_OpsFocusMechanics->focusMaxTravel->setValue(FAFocusMaxTravel);
         m_OpsFocusMechanics->focusCaptureTimeout->setValue(FAFocusCaptureTimeout);
         m_OpsFocusMechanics->focusMotionTimeout->setValue(FAFocusMotionTimeout);
+        m_OpsFocusMechanics->focusOverscanDelay->setValue(FAFocusOverscanDelay);
     }
 
     if (forceAll || m_AdvisorUI->focusAdvSEP->isChecked())
