@@ -157,7 +157,7 @@ StellarSolverProfileEditor::StellarSolverProfileEditor(QWidget *parent, ProfileG
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 }
 
-void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
+void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group, bool warn)
 {
     selectedProfileGroup = group;
     optionsProfileGroup->setCurrentIndex(static_cast<int>(group));
@@ -179,7 +179,7 @@ void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
     }
 
     savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(profileGroupFileName);
-    loadProfiles();
+    loadProfiles(warn);
 }
 
 void StellarSolverProfileEditor::connectOptionsProfileComboBox()

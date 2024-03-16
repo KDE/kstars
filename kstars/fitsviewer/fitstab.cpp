@@ -120,8 +120,8 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         stat.setupUi(statWidget);
         m_PlateSolveUI.setupUi(m_PlateSolveWidget);
 
-        m_PlateSolveUI.editAlignProfile->setIcon(QIcon::fromTheme("document-edit"));
-        m_PlateSolveUI.editAlignProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+        m_PlateSolveUI.editProfile->setIcon(QIcon::fromTheme("document-edit"));
+        m_PlateSolveUI.editProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
         const QString EditorID = "FITSSolverProfileEditor";
         if (!m_EditorDialog)
@@ -130,10 +130,10 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
             m_EditorDialog = new KConfigDialog(nullptr, EditorID, Options::self());
             m_ProfileEditor = new Ekos::StellarSolverProfileEditor(nullptr, Ekos::AlignProfiles, m_EditorDialog.data());
             m_ProfileEditorPage = m_EditorDialog->addPage(m_ProfileEditor.data(),
-                                  i18n("FITS Viewer Solver Align Options Profiles Editor"));
+                                  i18n("FITS Viewer Solver Profiles Editor"));
         }
 
-        connect(m_PlateSolveUI.editAlignProfile, &QAbstractButton::clicked, this, [this, EditorID]
+        connect(m_PlateSolveUI.editProfile, &QAbstractButton::clicked, this, [this, EditorID]
         {
             m_ProfileEditor->loadProfile(m_PlateSolveUI.kcfg_FitsSolverProfile->currentText());
             KConfigDialog * d = KConfigDialog::exists(EditorID);
@@ -575,20 +575,48 @@ void FITSTab::setStretchValues(double shadows, double midtones, double highlight
 
 namespace
 {
-const QList<SSolver::Parameters> getSSolverParametersList()
+const QList<SSolver::Parameters> getSSolverParametersList(Ekos::ProfileGroup module)
 {
-    const QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
-            QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-
-    return QFile(savedOptionsProfiles).exists() ?
-           StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles) :
-           Ekos::getDefaultAlignOptionsProfiles();
+    QString savedProfiles;
+    switch(module)
+    {
+        case Ekos::AlignProfiles:
+        default:
+            savedProfiles = QDir(KSPaths::writableLocation(
+                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
+            return QFile(savedProfiles).exists() ?
+                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
+                   Ekos::getDefaultAlignOptionsProfiles();
+            break;
+        case Ekos::FocusProfiles:
+            savedProfiles = QDir(KSPaths::writableLocation(
+                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedFocusProfiles.ini");
+            return QFile(savedProfiles).exists() ?
+                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
+                   Ekos::getDefaultFocusOptionsProfiles();
+            break;
+        case Ekos::GuideProfiles:
+            savedProfiles = QDir(KSPaths::writableLocation(
+                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedGuideProfiles.ini");
+            return QFile(savedProfiles).exists() ?
+                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
+                   Ekos::getDefaultGuideOptionsProfiles();
+            break;
+        case Ekos::HFRProfiles:
+            savedProfiles = QDir(KSPaths::writableLocation(
+                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedHFRProfiles.ini");
+            return QFile(savedProfiles).exists() ?
+                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
+                   Ekos::getDefaultHFROptionsProfiles();
+            break;
+    }
 }
 } // namespace
 
 void FITSTab::setupSolver(bool extractOnly)
 {
-    auto parameters = getSSolverParametersList().at(m_PlateSolveUI.kcfg_FitsSolverProfile->currentIndex());
+    auto parameters = getSSolverParametersList(static_cast<Ekos::ProfileGroup>(Options::fitsSolverModule())).at(
+                          m_PlateSolveUI.kcfg_FitsSolverProfile->currentIndex());
     parameters.search_radius = m_PlateSolveUI.kcfg_FitsSolverRadius->value();
     if (extractOnly)
     {
@@ -788,16 +816,85 @@ void FITSTab::solverDone(bool timedOut, bool success, const FITSImage::Solution 
     }
 }
 
-void FITSTab::initSolverUI()
+// Each module can default to its own profile index. These two methods retrieves and saves
+// the values in a JSON string using an Options variable.
+int FITSTab::getProfileIndex(int moduleIndex)
 {
-    // Init the profiles combo box.
-    const QList<SSolver::Parameters> optionsList = getSSolverParametersList();
+    if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
+        return 0;
+    const QString moduleName = Ekos::ProfileGroupNames[moduleIndex];
+    const QString str = Options::fitsSolverProfileIndeces();
+    const QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+    if (doc.isNull() || !doc.isObject())
+        return 0;
+    const QJsonObject indeces = doc.object();
+    return indeces[moduleName].toString().toInt();
+}
+
+void FITSTab::setProfileIndex(int moduleIndex, int profileIndex)
+{
+    if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
+        return;
+    QString str = Options::fitsSolverProfileIndeces();
+    QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+    if (doc.isNull() || !doc.isObject())
+    {
+        QJsonObject initialIndeces;
+        for (int i = 0; i < Ekos::ProfileGroupNames.size(); i++)
+        {
+            QString name = Ekos::ProfileGroupNames[i];
+            if (name == "Align")
+                initialIndeces[name] = QString::number(Options::solveOptionsProfile());
+            else if (name == "Guide")
+                initialIndeces[name] = QString::number(Options::guideOptionsProfile());
+            else if (name == "HFR")
+                initialIndeces[name] = QString::number(Options::hFROptionsProfile());
+            else // Focus has a weird setting, just default to 0
+                initialIndeces[name] = "0";
+        }
+        doc = QJsonDocument(initialIndeces);
+    }
+
+    QJsonObject indeces = doc.object();
+    indeces[Ekos::ProfileGroupNames[moduleIndex]] = QString::number(profileIndex);
+    doc = QJsonDocument(indeces);
+    Options::setFitsSolverProfileIndeces(QString(doc.toJson()));
+}
+
+void FITSTab::setupProfiles(int moduleIndex)
+{
+    if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
+        return;
+    Ekos::ProfileGroup profileGroup = static_cast<Ekos::ProfileGroup>(moduleIndex);
+    Options::setFitsSolverModule(moduleIndex);
+
+    // Set up the profiles' menu.
+    const QList<SSolver::Parameters> optionsList = getSSolverParametersList(profileGroup);
     m_PlateSolveUI.kcfg_FitsSolverProfile->clear();
     for(auto &param : optionsList)
         m_PlateSolveUI.kcfg_FitsSolverProfile->addItem(param.listName);
 
+    m_ProfileEditor->setProfileGroup(profileGroup, false);
+
     // Restore the stored options.
-    m_PlateSolveUI.kcfg_FitsSolverProfile->setCurrentIndex(Options::fitsSolverProfile());
+    m_PlateSolveUI.kcfg_FitsSolverProfile->setCurrentIndex(getProfileIndex(Options::fitsSolverModule()));
+
+    m_ProfileEditorPage->setHeader(QString("FITS Viewer Solver %1 Profiles Editor")
+                                   .arg(Ekos::ProfileGroupNames[moduleIndex]));
+}
+
+void FITSTab::initSolverUI()
+{
+    // Init the modules combo box.
+    m_PlateSolveUI.kcfg_FitsSolverModule->clear();
+    for (int i = 0; i < Ekos::ProfileGroupNames.size(); i++)
+        m_PlateSolveUI.kcfg_FitsSolverModule->addItem(Ekos::ProfileGroupNames[i]);
+    m_PlateSolveUI.kcfg_FitsSolverModule->setCurrentIndex(Options::fitsSolverModule());
+
+    setupProfiles(Options::fitsSolverModule());
+
+    // Change the profiles combo box whenever the modules combo changes
+    connect(m_PlateSolveUI.kcfg_FitsSolverModule, QOverload<int>::of(&QComboBox::activated), this, &FITSTab::setupProfiles);
 
     m_PlateSolveUI.kcfg_FitsSolverUseScale->setChecked(Options::fitsSolverUseScale());
     m_PlateSolveUI.kcfg_FitsSolverScale->setValue(Options::fitsSolverScale());
@@ -810,10 +907,11 @@ void FITSTab::initSolverUI()
     m_PlateSolveUI.FitsSolverEstDec->setUnits(dmsBox::DEGREES);
 
     // Save the values of user controls when the user changes them.
-    connect(m_PlateSolveUI.kcfg_FitsSolverProfile, QOverload<int>::of(&QComboBox::activated), [](int index)
+    connect(m_PlateSolveUI.kcfg_FitsSolverProfile, QOverload<int>::of(&QComboBox::activated), [this](int index)
     {
-        Options::setFitsSolverProfile(index);
+        setProfileIndex(m_PlateSolveUI.kcfg_FitsSolverModule->currentIndex(), index);
     });
+
     connect(m_PlateSolveUI.kcfg_FitsSolverUseScale, &QCheckBox::stateChanged, this, [](int state)
     {
         Options::setFitsSolverUseScale(state);

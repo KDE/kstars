@@ -26,7 +26,7 @@ class StellarSolverProfileEditor : public QWidget, public Ui::StellarSolverProfi
         Q_OBJECT
 
     public:
-        void setProfileGroup(ProfileGroup group);
+        void setProfileGroup(ProfileGroup group, bool warn = true);
 
         explicit StellarSolverProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog);
         virtual ~StellarSolverProfileEditor() override = default;

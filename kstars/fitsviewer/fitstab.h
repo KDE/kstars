@@ -193,6 +193,11 @@ class FITSTab : public QWidget
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void initSolverUI();
+        void setupProfiles(int profileIndex);
+        int getProfileIndex(int moduleIndex);
+        void setProfileIndex(int moduleIndex, int profileIndex);
+
+
         QSharedPointer<SolverUtils> m_Solver;
 
         QList<QString> m_BlinkFilenames;

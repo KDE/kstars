@@ -1536,6 +1536,15 @@
       <label>Options Profile for Fitsviewer Solving.</label>
       <default>0</default>
    </entry>
+   <entry name="FitsSolverModule" type="UInt">
+      <label>Module from which profile is taken for Fitsviewer Solving.</label>
+      <default>0</default>
+   </entry>
+   <entry name="FitsSolverProfileIndeces" type="String">
+      <label>JSON storing the assignment of profile indeces to module profiles for the FITS Viewer Solver</label>
+      <default></default>
+   </entry>
+   
    <entry name="FitsSolverUseScale" type="Bool">
       <label>Use scale for Fitsviewer Solving.</label>
       <default>false</default>
