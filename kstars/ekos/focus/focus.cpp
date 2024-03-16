@@ -4874,17 +4874,11 @@ void Focus::showFITSViewer()
 
 void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
 {
+    // Allow focuser adjustments during looping to honour Filter Offsets
     if (inAdjustFocus)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inAdjustFocus in progress. Ignoring...";
         return;
-    }
-
-    if (inFocusLoop)
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inFocusLoop. Ignoring...";
-        return;
-
     }
 
     if (adaptFocus->inAdaptiveFocus())
