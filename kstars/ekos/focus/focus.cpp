@@ -7301,20 +7301,9 @@ void Focus::refreshOpticalTrain()
         // Update calcs for the CFZ and Focus Advisor based on the new OT
         resetCFZToOT();
         focusAdvisorSetup();
+        // JM 2024.03.16 Also use focus advisor on new profiles
         if (!settings.isValid())
-        {
-            // First time using this profile so invoke Focus Advisor to optimise paramneters.
-            // As we aren't using the FA GUI force all parameters to be optimised.
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
-            {
-                KSMessageBox::Instance()->disconnect(this);
-                focusAdvisorAction(true);
-            });
-
-            KSMessageBox::Instance()->questionYesNo(
-                i18n("First use of Optical Train: %1. Would you like Focus Advisor to optimise parameters?",  name),
-                i18n("Focus"), 10);
-        }
+            focusAdvisorAction(true);
     }
 
     opticalTrainCombo->blockSignals(false);
