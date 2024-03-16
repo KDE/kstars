@@ -160,7 +160,11 @@ void Capture::onStandAloneShow(QShowEvent* event)
     addToCombo(FilterPosCombo, standAloneDecode(Options::captureStandAloneFilters()));
 
     if (FilterPosCombo->count() > 0)
+    {
         filterEditB->setEnabled(true);
+        filterManagerB->setEnabled(true);
+    }
+
 
     captureGainN->setEnabled(true);
     captureGainN->setValue(GainSpinSpecialValue);
@@ -1509,6 +1513,7 @@ void Capture::refreshFilterSettings()
         FilterPosLabel->setEnabled(false);
         FilterPosCombo->setEnabled(false);
         filterEditB->setEnabled(false);
+        filterManagerB->setEnabled(false);
 
         devices()->setFilterManager(m_FilterManager);
         return;
@@ -1517,6 +1522,7 @@ void Capture::refreshFilterSettings()
     FilterPosLabel->setEnabled(true);
     FilterPosCombo->setEnabled(true);
     filterEditB->setEnabled(true);
+    filterManagerB->setEnabled(true);
 
     setupFilterManager();
 
@@ -1535,6 +1541,7 @@ void Capture::refreshFilterSettings()
     updateCurrentFilterPosition();
 
     filterEditB->setEnabled(state()->getCurrentFilterPosition() > 0);
+    filterManagerB->setEnabled(state()->getCurrentFilterPosition() > 0);
 
     FilterPosCombo->setCurrentIndex(state()->getCurrentFilterPosition() - 1);
 }
