@@ -946,8 +946,8 @@ class Focus : public QWidget, public Ui::Focus
         StarAlgorithm m_FocusDetection { ALGORITHM_SEP };
         /// Focus Process Algorithm
         Algorithm m_FocusAlgorithm { FOCUS_LINEAR1PASS };
-        /// Curve fit, default to Quadratic
-        CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_QUADRATIC };
+        /// Curve fit
+        CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_HYPERBOLA };
         /// Star measure to use
         StarMeasure m_StarMeasure { FOCUS_STAR_HFR };
         /// PSF to use
@@ -955,7 +955,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Units to use when displaying HFR or FWHM
         StarUnits m_StarUnits { FOCUS_UNITS_PIXEL };
         /// Units to use when displaying HFR or FWHM
-        FocusWalk m_FocusWalk { FOCUS_WALK_CLASSIC };
+        FocusWalk m_FocusWalk { FOCUS_WALK_FIXED_STEPS };
         /// Are we minimising or maximising?
         CurveFitting::OptimisationDirection m_OptDir { CurveFitting::OPTIMISATION_MINIMISE };
         /// The type of statistics to use

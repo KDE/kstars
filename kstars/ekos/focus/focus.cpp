@@ -7309,8 +7309,9 @@ void Focus::refreshOpticalTrain()
         resetCFZToOT();
         focusAdvisorSetup();
         // JM 2024.03.16 Also use focus advisor on new profiles
-        if (!settings.isValid())
-            focusAdvisorAction(true);
+        // JEE Don't involve Focus Advisor for now as it somehow breaks test cases
+        //if (!settings.isValid())
+        //    focusAdvisorAction(true);
     }
 
     opticalTrainCombo->blockSignals(false);
