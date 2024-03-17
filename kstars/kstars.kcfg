@@ -1541,7 +1541,7 @@
       <default>0</default>
    </entry>
    <entry name="FitsSolverProfileIndeces" type="String">
-      <label>JSON storing the assignment of profile indeces to module profiles for the FITS Viewer Solver</label>
+      <label>JSON storing the assignment of profile indices to module profiles for the FITS Viewer Solver</label>
       <default></default>
    </entry>
    
