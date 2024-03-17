@@ -23,8 +23,7 @@
 #include "opsfocusmechanics.h"
 #include "ui_cfz.h"
 #include "ui_advisor.h"
-
-#include <parameters.h>
+#include "focusutils.h"
 
 class FocusProfilePlot;
 class FITSData;
@@ -77,9 +76,7 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_STAR_GAUSSIAN, FOCUS_STAR_MOFFAT } StarPSF;
         typedef enum { FOCUS_UNITS_PIXEL, FOCUS_UNITS_ARCSEC } StarUnits;
         typedef enum { FOCUS_WALK_CLASSIC, FOCUS_WALK_FIXED_STEPS, FOCUS_WALK_CFZ_SHUFFLE } FocusWalk;
-
         typedef enum { FOCUS_MASK_NONE, FOCUS_MASK_RING, FOCUS_MASK_MOSAIC } ImageMaskType;
-        //typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
              * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -295,13 +292,13 @@ class Focus : public QWidget, public Ui::Focus
              */
         Q_SCRIPTABLE Q_NOREPLY void checkFocus(double requiredHFR);
 
-        /**
-             * @brief runAutoFocus Run the autofocus process for the currently selected filter
-             * @param policy is the filter policy to use.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void runAutoFocus(bool buildOffsets);
-
         /** @}*/
+
+        /**
+             * @brief Run the autofocus process for the currently selected filter
+             * @param The reason Autofocus has been called.
+             */
+        void runAutoFocus(const AutofocusReason autofocusReason, const QString &reasonInfo);
 
         /**
              * @brief startFraming Begins continuous capture of the CCD and calculates HFR every frame.
@@ -486,6 +483,7 @@ class Focus : public QWidget, public Ui::Focus
         void starDetectionFinished();
         void setCurrentMeasure();
         void startAbIns();
+        void manualStart();
 
     signals:
         void newLog(const QString &text);
@@ -506,9 +504,11 @@ class Focus : public QWidget, public Ui::Focus
         void settingsUpdated(const QVariantMap &settings);
 
         // Signals for Analyze.
-        void autofocusStarting(double temperature, const QString &filter);
-        void autofocusComplete(const QString &filter, const QString &points, const QString &curve = "", const QString &title = "");
-        void autofocusAborted(const QString &filter, const QString &points);
+        void autofocusStarting(double temperature, const QString &filter, AutofocusReason reason, const QString &reasonInfo);
+        void autofocusComplete(double temperature, const QString &filter, const QString &points, const bool useWeights,
+                               const QString &curve = "", const QString &title = "");
+        void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
+                              const AutofocusFailReason failCode);
 
         /**
          * @brief Signal Analyze that an Adaptive Focus iteration is complete
@@ -653,6 +653,12 @@ class Focus : public QWidget, public Ui::Focus
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
         /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
+        /**
          * @brief prepareGUI Perform once only GUI prep processing
          */
         void prepareGUI();
@@ -717,6 +723,10 @@ class Focus : public QWidget, public Ui::Focus
         /** @brief Sets the plot vectors for Analyze after Autofocus. Used by Linear and Linear1Pass
          */
         void updatePlotPosition();
+
+        /** @brief Build the data string to send to Analyze
+         */
+        QString getAnalyzeData();
 
         /**
          * @brief prepareCapture Set common settings for capture for focus module
@@ -805,15 +815,17 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
-        void completeFocusProcedure(FocusState completionState, bool plot = true);
+        void completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, bool plot = true);
 
         /**
          * @brief activities to be executed after the configured settling time
          * @param completionState state the focuser completed with
          * @param autoFocusUsed is autofocus running?
          * @param buildOffsetsUsed is autofocus running as a result of build offsets
+         * @param failCode is the reason for the Autofocus failure
          */
-        void settle(const FocusState completionState, const bool autoFocusUsed, const bool buildOffsetsUsed);
+        void settle(const FocusState completionState, const bool autoFocusUsed,
+                    const bool buildOffsetsUsed, const AutofocusFailReason failCode);
 
         void setLastFocusTemperature();
         void setLastFocusAlt();
@@ -1051,8 +1063,13 @@ class Focus : public QWidget, public Ui::Focus
         int R2Retries = 0;
         // Counter to retry starting auto focus if the focuser is still active
         int AFStartRetries = 0;
+        // Reason code for the Autofocus run - passed to Analyze
+        AutofocusReason m_AutofocusReason = AutofocusReason::FOCUS_NONE;
+        // Extra information about m_AutofocusReason
+        QString m_AutofocusReasonInfo;
         // Autofocus run number - to help with debugging logs
         int m_AFRun = 0;
+
         /// Autofocus log file info.
         QStringList m_LogText;
         QFile m_FocusLogFile;
@@ -1082,7 +1099,8 @@ class Focus : public QWidget, public Ui::Focus
         /// Plot maximum positions
         double maxPos { 0 };
         /// V curve plot points
-        QVector<double> plot_position, plot_value;
+        QVector<double> plot_position, plot_value, plot_weight;
+        QVector<bool> plot_outlier;
         bool isVShapeSolution = false;
 
         /// State
@@ -1252,6 +1270,7 @@ class Focus : public QWidget, public Ui::Focus
         double FAFocusR2Limit = 0.8;
         bool FAFocusRefineCurveFit = false;
         int FAFocusFramesCount = 1;
+        int FAFocusHFRFramesCount = 1;
         bool FADonutBuster = false;
         double FATimeDilation = 1.0;
         double FAOutlierRejection = 0.2;
@@ -1264,6 +1283,7 @@ class Focus : public QWidget, public Ui::Focus
         double FAFocusMaxTravel = 0;
         int FAFocusCaptureTimeout = 30;
         int FAFocusMotionTimeout = 30;
+        double FAFocusOverscanDelay = 0.0;
 
         // Aberration Inspector
         void calculateAbInsData();
@@ -1274,6 +1294,8 @@ class Focus : public QWidget, public Ui::Focus
         QVector<QVector<double>> m_abInsWeight;
         QVector<QVector<int>> m_abInsNumStars;
         QVector<QPoint> m_abInsTileCenterOffset;
+
+        QTimer m_DebounceTimer;
 
         // Donut Buster
         double m_donutOrigExposure = 0.0;

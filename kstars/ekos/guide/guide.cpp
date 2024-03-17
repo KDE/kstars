@@ -2786,6 +2786,11 @@ void Guide::initConnections()
     captureTimeout.setSingleShot(true);
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Guide::processCaptureTimeout);
 
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &Guide::settleSettings);
+
     // Guiding Box Size
     connect(guideSquareSize, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Guide::updateTrackingBoxSize);
@@ -3189,7 +3194,11 @@ void Guide::refreshOpticalTrain()
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
         auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Guide);
         if (settings.isValid())
-            setAllSettings(settings.toJsonObject().toVariantMap());
+        {
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
         else
             m_Settings = m_GlobalSettings;
     }
@@ -3311,13 +3320,19 @@ void Guide::updateSetting(const QString &key, const QVariant &value)
 {
     // Save immediately
     Options::self()->setProperty(key.toLatin1(), value);
-    Options::self()->save();
-
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
-    emit settingsUpdated(getAllSettings());
+    m_DebounceTimer.start();
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Guide::settleSettings()
+{
+    Options::self()->save();
+    emit settingsUpdated(getAllSettings());
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Guide, m_Settings);

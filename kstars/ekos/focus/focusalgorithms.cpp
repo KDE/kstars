@@ -518,6 +518,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const doubl
     if (focusSolution != -1)
     {
         doneString = i18n("Called newMeasurement after a solution was found.");
+        failCode = Ekos::FOCUS_FAIL_INTERNAL;
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error %1").arg(doneString);
         debugLog();
         return -1;
@@ -802,6 +803,7 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
                 {
                     done = true;
                     doneString = i18n("Failed to fit curve to data.");
+                    failCode = Ekos::FOCUS_FAIL_CURVEFIT;
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearWalk: %1").arg(doneString);
                     debugLog();
                     return -1;
@@ -952,8 +954,10 @@ int LinearFocusAlgorithm::setupSolution(int position, double value, double weigh
 {
     focusSolution = position;
     focusValue = value;
+    focusWeight = weight;
     done = true;
     doneString = i18n("Solution found.");
+    failCode = Ekos::FOCUS_FAIL_NONE;
     if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: solution @ %1 = %2 (best %3)")
                                    .arg(position).arg(value).arg(firstPassBestValue);
@@ -998,6 +1002,7 @@ int LinearFocusAlgorithm::completeIteration(int step, bool foundFit, double minP
         // Fail. Exceeded our alloted number of iterations.
         done = true;
         doneString = i18n("Too many steps.");
+        failCode = Ekos::FOCUS_FAIL_MAX_ITERS;
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error %1").arg(doneString);
         debugLog();
         return -1;
@@ -1027,6 +1032,7 @@ int LinearFocusAlgorithm::completeIteration(int step, bool foundFit, double minP
                 // We can't travel far enough to find a solution so fail as focuser parameters require user attention
                 done = true;
                 doneString = i18n("Solution lies outside max travel.");
+                failCode = Ekos::FOCUS_FAIL_FOCUSER_OOB;
                 qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error %1").arg(doneString);
                 debugLog();
                 return -1;

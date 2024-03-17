@@ -936,6 +936,16 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="forceInSeqAF">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to force an ad-hoc In-Sequence Autofocus at the completion of the current subframe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Force AF</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>538</width>
-    <height>356</height>
+    <height>369</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="2">
-       <widget class="QDoubleSpinBox" name="limitGuideDeviationN">
+       <widget class="QDoubleSpinBox" name="guideDeviation">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -59,7 +59,7 @@
        </widget>
       </item>
       <item row="1" column="4">
-       <widget class="QSpinBox" name="limitGuideDeviationRepsN">
+       <widget class="QSpinBox" name="guideDeviationReps">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -78,7 +78,7 @@
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QSpinBox" name="limitDitherFrequencyN">
+       <widget class="QSpinBox" name="guideDitherPerJobFrequency">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If global dither is enabled, then dither every N number of frames for this job. Set to 0 to use global dither frequency.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -91,7 +91,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QDoubleSpinBox" name="startGuiderDriftN">
+       <widget class="QDoubleSpinBox" name="startGuideDeviation">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -123,7 +123,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QCheckBox" name="limitGuideDeviationS">
+       <widget class="QCheckBox" name="enforceGuideDeviation">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -139,7 +139,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QCheckBox" name="startGuiderDriftS">
+       <widget class="QCheckBox" name="enforceStartGuiderDrift">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -188,7 +188,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="5" column="1">
-       <widget class="QComboBox" name="limitFocusHFRAlgorithm">
+       <widget class="QComboBox" name="hFRCheckAlgorithm">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The HFR Check algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Last Autofocus&lt;/span&gt;: This is the default algorithm and uses the HFR value from the most recent Autofocus run as the reference for the check.&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Fixed&lt;/span&gt;: This algorithm lets the user specify a fixed HFR to use in the check.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Relative Measure&lt;/span&gt;: This algorithm collects datapoints from Autofocus and HFR Checks, maintains the data in a sequenced list and uses the median value as the reference for the next HFR Check.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -213,7 +213,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSpinBox" name="limitRefocusN">
+       <widget class="QSpinBox" name="refocusEveryN">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -229,7 +229,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QDoubleSpinBox" name="limitFocusDeltaTN">
+       <widget class="QDoubleSpinBox" name="maxFocusTemperatureDelta">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -251,7 +251,7 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QCheckBox" name="limitFocusDeltaTS">
+       <widget class="QCheckBox" name="enforceAutofocusOnTemperature">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -264,7 +264,7 @@
        </widget>
       </item>
       <item row="11" column="0" colspan="2">
-       <widget class="QCheckBox" name="meridianRefocusS">
+       <widget class="QCheckBox" name="refocusAfterMeridianFlip">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to force an Autofocus after a Meridian Flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -274,7 +274,7 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QCheckBox" name="limitRefocusS">
+       <widget class="QCheckBox" name="enforceRefocusEveryN">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -287,7 +287,7 @@
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QCheckBox" name="limitFocusHFRS">
+       <widget class="QCheckBox" name="enforceAutofocusHFR">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -313,7 +313,7 @@
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QSpinBox" name="limitFocusHFRCheckFrames">
+       <widget class="QSpinBox" name="inSequenceCheckFrames">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run HFR check after this many sub-frames.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -326,7 +326,7 @@
        </widget>
       </item>
       <item row="5" column="3">
-       <widget class="QDoubleSpinBox" name="limitFocusHFRThresholdPercentage">
+       <widget class="QDoubleSpinBox" name="hFRThresholdPercentage">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify the % to apply to the HFR Check value appropriate to the selected algorithm, to use as the threshold to perform the HFR Check.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -383,7 +383,7 @@
        </widget>
       </item>
       <item row="6" column="3">
-       <widget class="QDoubleSpinBox" name="limitFocusHFRN">
+       <widget class="QDoubleSpinBox" name="hFRDeviation">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -443,22 +443,22 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>startGuiderDriftS</tabstop>
-  <tabstop>startGuiderDriftN</tabstop>
-  <tabstop>limitGuideDeviationS</tabstop>
-  <tabstop>limitGuideDeviationN</tabstop>
-  <tabstop>limitGuideDeviationRepsN</tabstop>
-  <tabstop>limitDitherFrequencyN</tabstop>
-  <tabstop>limitRefocusS</tabstop>
-  <tabstop>limitRefocusN</tabstop>
-  <tabstop>limitFocusDeltaTS</tabstop>
-  <tabstop>limitFocusDeltaTN</tabstop>
-  <tabstop>limitFocusHFRS</tabstop>
-  <tabstop>limitFocusHFRAlgorithm</tabstop>
-  <tabstop>limitFocusHFRThresholdPercentage</tabstop>
-  <tabstop>limitFocusHFRCheckFrames</tabstop>
-  <tabstop>limitFocusHFRN</tabstop>
-  <tabstop>meridianRefocusS</tabstop>
+  <tabstop>enforceStartGuiderDrift</tabstop>
+  <tabstop>startGuideDeviation</tabstop>
+  <tabstop>enforceGuideDeviation</tabstop>
+  <tabstop>guideDeviation</tabstop>
+  <tabstop>guideDeviationReps</tabstop>
+  <tabstop>guideDitherPerJobFrequency</tabstop>
+  <tabstop>enforceRefocusEveryN</tabstop>
+  <tabstop>refocusEveryN</tabstop>
+  <tabstop>enforceAutofocusOnTemperature</tabstop>
+  <tabstop>maxFocusTemperatureDelta</tabstop>
+  <tabstop>enforceAutofocusHFR</tabstop>
+  <tabstop>hFRCheckAlgorithm</tabstop>
+  <tabstop>hFRThresholdPercentage</tabstop>
+  <tabstop>inSequenceCheckFrames</tabstop>
+  <tabstop>hFRDeviation</tabstop>
+  <tabstop>refocusAfterMeridianFlip</tabstop>
  </tabstops>
  <resources/>
  <connections>

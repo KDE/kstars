@@ -1235,7 +1235,7 @@ font-weight:bold;
            </spacer>
           </item>
           <item>
-           <widget class="QCheckBox" name="repeatSequenceCB">
+           <widget class="QCheckBox" name="schedulerRepeatEverything">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat all scheduled jobs as soon as all jobs have been completed. This option is only available if the &lt;span style=&quot; font-weight:700;&quot;&gt;Remember Job Progress&lt;/span&gt; option in Ekos  Scheduler settings is &lt;span style=&quot; font-weight:700;&quot;&gt;not&lt;/span&gt; selected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>

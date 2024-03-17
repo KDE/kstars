@@ -21,6 +21,21 @@
 
 namespace Ekos
 {
+
+void StellarSolverProfileEditor::showEvent(QShowEvent *e)
+{
+    QWidget::showEvent(e);
+    // Since we can have multiple editors (in align, fitsviewer, image overlay)
+    // make sure every time we bring up the editor we have the most recent profiles.
+    // This won't update an editor that's showing if we happen to have 2 being displayed
+    // at the same time, but that's a rare event (that could be fixed with more effort).
+    // The issue with the above, though, is that loading profiles changes the value of the
+    // currently edited profile. So, we cache the value and restore it after loading.
+    QString currentProfile = optionsProfile->currentText();
+    loadProfiles(false);
+    optionsProfile->setCurrentText(currentProfile);
+}
+
 StellarSolverProfileEditor::StellarSolverProfileEditor(QWidget *parent, ProfileGroup group,
         KConfigDialog *dialog) : QWidget(KStars::Instance())
 {
@@ -142,7 +157,7 @@ StellarSolverProfileEditor::StellarSolverProfileEditor(QWidget *parent, ProfileG
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 }
 
-void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
+void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group, bool warn)
 {
     selectedProfileGroup = group;
     optionsProfileGroup->setCurrentIndex(static_cast<int>(group));
@@ -164,7 +179,7 @@ void StellarSolverProfileEditor::setProfileGroup(ProfileGroup group)
     }
 
     savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(profileGroupFileName);
-    loadProfiles();
+    loadProfiles(warn);
 }
 
 void StellarSolverProfileEditor::connectOptionsProfileComboBox()
@@ -359,9 +374,9 @@ void StellarSolverProfileEditor::openSingleProfile()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
-void StellarSolverProfileEditor::loadProfiles()
+void StellarSolverProfileEditor::loadProfiles(bool warn)
 {
-    if( !optionsAreSaved )
+    if(warn && !optionsAreSaved )
     {
         if(QMessageBox::question(this, "Abort?",
                                  "You made unsaved changes in the settings, do you really wish to overwrite them?") == QMessageBox::No)
@@ -398,6 +413,11 @@ void StellarSolverProfileEditor::loadProfiles()
             optionsList.append(getFocusOptionsProfileDefaultDonut());
             optionsProfile->addItem(FOCUS_DEFAULT_DONUT_NAME);
         }
+    }
+    else
+    {
+        for(SSolver::Parameters params : optionsList)
+            optionsProfile->addItem(params.listName);
     }
     if(optionsList.count() > 0)
     {

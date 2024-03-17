@@ -513,7 +513,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
 
         // This covers the scheduler's "repeat after completion" option,
         // which only applies if rememberJobProgress is false.
-        if (!Options::rememberJobProgress() && Options::schedulerRepeatSequences())
+        if (!Options::rememberJobProgress() && Options::schedulerRepeatEverything())
         {
             int repeats = 0, maxRepeats = 5;
             while (simEnd.isValid() && simEnd.secsTo(simulationLimit) > 0 && ++repeats < maxRepeats)
@@ -737,6 +737,13 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             selectedJob->setState(SCHEDJOB_SCHEDULED);
             scheduledJobs.append(selectedJob);
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("  Scheduled: %1 %2 -> %3 %4 work done %5s")
+                       .arg(selectedJob->getName()).arg(selectedJob->getStartupTime().toString("MM/dd hh:mm"))
+                       .arg(selectedJob->getGreedyCompletionTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
+                       .arg(workDone[selectedJob]).toLatin1().data());
+        }
+        else
+        {
+            TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("  Added: %1 %2 -> %3 %4 work done %5s")
                        .arg(selectedJob->getName()).arg(selectedJob->getStartupTime().toString("MM/dd hh:mm"))
                        .arg(selectedJob->getGreedyCompletionTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
                        .arg(workDone[selectedJob]).toLatin1().data());

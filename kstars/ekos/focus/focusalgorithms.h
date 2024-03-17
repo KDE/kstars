@@ -10,6 +10,7 @@
 #include <QList>
 #include "focus.h"
 #include "curvefit.h"
+#include "focusutils.h"
 #include "../../auxiliary/robuststatistics.h"
 #include "../../auxiliary/gslhelpers.h"
 #include <gsl/gsl_sf_erf.h>
@@ -140,10 +141,23 @@ class FocusAlgorithmInterface
             return focusValue;
         }
 
+        // Returns the weight for best solution. Should be called after isDone() returns true.
+        // Returns -1 if there's an error.
+        double solutionWeight() const
+        {
+            return focusWeight;
+        }
+
         // Returns human-readable extra error information about why the algorithm is done.
         QString doneReason() const
         {
             return doneString;
+        }
+
+        // Returns failure code. Call after algorithm fails to get the reason code. Passed to Analyze
+        AutofocusFailReason getFailCode() const
+        {
+            return failCode;
         }
 
         // Returns the params used to construct this object.
@@ -174,7 +188,9 @@ class FocusAlgorithmInterface
         bool done = false;
         int focusSolution = -1;
         double focusValue = -1;
+        double focusWeight = -1;
         QString doneString;
+        AutofocusFailReason failCode = Ekos::FOCUS_FAIL_NONE;
 };
 
 // Creates a LinearFocuser. Caller responsible for the memory.

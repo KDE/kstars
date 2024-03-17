@@ -8,6 +8,7 @@
 
 #include "ui_filtersettings.h"
 #include "ekos/ekos.h"
+#include "ekos/focus/focusutils.h"
 
 #include <indi/indifilterwheel.h>
 #include <indi/indifocuser.h>
@@ -222,7 +223,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Inti filter property after connection
         void refreshFilterProperties();
         // Signal from BuildFilterOffsets to run Autofocus. Pass onto Focus
-        void signalRunAutoFocus(bool buildFilterOffsets);
+        void signalRunAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
         // Signal from BuildFilterOffsets to abort AF run. Pass onto Focus
         void signalAbortAutoFocus();
         // Signal from Focus that Autofocus has completed - used by BuildFilterOffsets utility
@@ -242,7 +243,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Status signal
         void newStatus(Ekos::FilterState state);
         // Run AutoFocus
-        void runAutoFocus(bool buildOffsets);
+        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
         // Abort AutoFocus
         void abortAutoFocus();
         // New Focus offset requested

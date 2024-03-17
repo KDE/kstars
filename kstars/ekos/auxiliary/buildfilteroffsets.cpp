@@ -479,7 +479,7 @@ void BuildFilterOffsets::processQItem(const buildOffsetsQItem currentItem)
         const int run = m_colIdx - getColumn(BFO_AF_RUN_1) + 1;
         const int numRuns = m_BFOModel.item(m_rowIdx, getColumn(BFO_NUM_FOCUS_RUNS))->text().toInt();
         buildOffsetsStatusBar->showMessage(i18n("Running Autofocus on %1 (%2/%3)...", currentItem.color, run, numRuns));
-        emit runAutoFocus(m_inBuildOffsets);
+        emit runAutoFocus(AutofocusReason::FOCUS_FILTER_OFFSETS, "");
     }
 }
 

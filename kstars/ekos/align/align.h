@@ -522,6 +522,12 @@ class Align : public QWidget, public Ui::Align
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
+        /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
         // Trains
         QString opticalTrain() const
         {
@@ -855,6 +861,7 @@ class Align : public QWidget, public Ui::Align
 
         // Timer
         QTimer m_AlignTimer;
+        QTimer m_DebounceTimer;
 
         // Align Frame
         QSharedPointer<AlignView> m_AlignView;

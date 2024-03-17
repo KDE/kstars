@@ -23,12 +23,18 @@
 #include <QPushButton>
 #include <memory>
 #include "ekos/auxiliary/solverutils.h"
+#include <KConfigDialog>
 
 class FITSHistogramEditor;
 class FITSView;
 class FITSViewer;
 class FITSData;
 class FITSStretchUI;
+
+namespace Ekos
+{
+class StellarSolverProfileEditor;
+}
 
 /**
  * @brief The FITSTab class holds information on the current view (drawing area) in addition to the undo/redo stacks
@@ -187,10 +193,21 @@ class FITSTab : public QWidget
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void initSolverUI();
+        void setupProfiles(int profileIndex);
+        int getProfileIndex(int moduleIndex);
+        void setProfileIndex(int moduleIndex, int profileIndex);
+
+
         QSharedPointer<SolverUtils> m_Solver;
 
         QList<QString> m_BlinkFilenames;
         int m_BlinkIndex { 0 };
+
+        // The StellarSolverProfileEditor is shared among all tabs of all FITS Viewers.
+        // They all edit the same (align) profiles.
+        static QPointer<Ekos::StellarSolverProfileEditor> m_ProfileEditor;
+        static QPointer<KConfigDialog> m_EditorDialog;
+        static QPointer<KPageWidgetItem> m_ProfileEditorPage;
 
     signals:
         void debayerToggled(bool);

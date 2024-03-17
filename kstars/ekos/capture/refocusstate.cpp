@@ -23,7 +23,17 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
     setRefocusing(false);
     setInSequenceFocus(isAutoFocusReady() && Options::enforceAutofocusHFR());
 
-    // 1. check if time limit based refocusing is necessary
+    // 1. check if user requested an ad-hoc in-sequence Autofocus
+    if (Options::focusForceInSeqAF())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "User initiated ad-hoc in-sequence Autofocus";
+
+        setRefocusing(true);
+        appendLogText(i18n("User initiated ad-hoc in-sequence Autofocus..."));
+        return REFOCUS_USER_REQUEST;
+    }
+
+    // 2. check if time limit based refocusing is necessary
     if (Options::enforceRefocusEveryN())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() <<
@@ -37,7 +47,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         }
     }
 
-    // 2. check if temperature based refocusing is necessary
+    // 3. check if temperature based refocusing is necessary
     if (!isRefocusing() && Options::enforceAutofocusOnTemperature())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " << getFocusTemperatureDelta() <<
@@ -51,7 +61,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         }
     }
 
-    // 3. check if post meridian flip refocusing is necessary
+    // 4. check if post meridian flip refocusing is necessary
     if (!isRefocusing() && isRefocusAfterMeridianFlip())
     {
         setRefocusing(true);
@@ -59,7 +69,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         return REFOCUS_POST_MF;
     }
 
-    // 4. check if HFR based in sequence focusing is necessary
+    // 5. check if HFR based in sequence focusing is necessary
     if (!isRefocusing() && isInSequenceFocus() && getInSequenceFocusCounter() == 0)
     {
         setRefocusing(true);
@@ -67,7 +77,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
         return REFOCUS_HFR;
     }
 
-    // 5. no full refocus required so check if adaptive focus is necessary - no need to do both
+    // 6. no full refocus required so check if adaptive focus is necessary - no need to do both
     if (!isRefocusing() && Options::focusAdaptive() && !isAdaptiveFocusDone())
     {
         setRefocusing(true);

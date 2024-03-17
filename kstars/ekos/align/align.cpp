@@ -158,6 +158,11 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
 
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &Align::settleSettings);
+
     m_CurrentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(m_CurrentGotoMode)->setChecked(true);
 
@@ -4170,7 +4175,11 @@ void Align::refreshOpticalTrain()
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
         auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Align);
         if (settings.isValid())
-            setAllSettings(settings.toJsonObject().toVariantMap());
+        {
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
         else
             m_Settings = m_GlobalSettings;
 
@@ -4228,9 +4237,15 @@ void Align::syncSettings()
 
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
+    m_DebounceTimer.start();
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Align::settleSettings()
+{
     emit settingsUpdated(getAllSettings());
-
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Align, m_Settings);

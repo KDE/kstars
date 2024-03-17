@@ -18,12 +18,15 @@
 #include "sequencejob.h"
 #include "sequencequeue.h"
 #include "placeholderpath.h"
-#include "ui_calibrationoptions.h"
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/profilesettings.h"
+
+// Optical Trains
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
+
 #include "scriptsmanager.h"
 #include "fitsviewer/fitsdata.h"
 #include "indi/driverinfo.h"
@@ -38,6 +41,7 @@
 #include <basedevice.h>
 
 #include <ekos_capture_debug.h>
+#include <qlineedit.h>
 
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
@@ -156,7 +160,11 @@ void Capture::onStandAloneShow(QShowEvent* event)
     addToCombo(FilterPosCombo, standAloneDecode(Options::captureStandAloneFilters()));
 
     if (FilterPosCombo->count() > 0)
+    {
         filterEditB->setEnabled(true);
+        filterManagerB->setEnabled(true);
+    }
+
 
     captureGainN->setEnabled(true);
     captureGainN->setValue(GainSpinSpecialValue);
@@ -187,6 +195,18 @@ void Capture::onStandAloneShow(QShowEvent* event)
     addToCombo(captureFormatS, standAloneDecode(Options::captureStandAloneFormats()));
 
     cameraTemperatureN->setEnabled(true);
+    cameraTemperatureN->setReadOnly(false);
+    cameraTemperatureN->setSingleStep(1);
+    cameraTemperatureS->setEnabled(true);
+    QStringList temperatureList = standAloneDecode(Options::captureStandAloneTemperature());
+    double minTemp = -50, maxTemp = 50;
+    if (temperatureList.size() > 1)
+    {
+        minTemp = temperatureList[0].toDouble();
+        maxTemp = temperatureList[1].toDouble();
+    }
+    cameraTemperatureN->setMinimum(minTemp);
+    cameraTemperatureN->setMaximum(maxTemp);
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.
@@ -222,6 +242,7 @@ void Capture::onStandAloneShow(QShowEvent* event)
         m_standAloneUseCcdOffset = whList[3] == "CCD_OFFSET";
     }
 
+    // Capture Gain
     connect(captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         if (captureGainN->value() != GainSpinSpecialValue)
@@ -230,6 +251,7 @@ void Capture::onStandAloneShow(QShowEvent* event)
             setGain(-1);
     });
 
+    // Capture Offset
     connect(captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         if (captureOffsetN->value() != OffsetSpinSpecialValue)
@@ -282,6 +304,23 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     m_LimitsDialog = new QDialog(this);
     m_LimitsUI.reset(new Ui::Limits());
     m_LimitsUI->setupUi(m_LimitsDialog);
+
+    m_CalibrationDialog = new QDialog(this);
+    m_CalibrationUI.reset(new Ui::Calibration());
+    m_CalibrationUI->setupUi(m_CalibrationDialog);
+
+    // avoid combination of ACTION_WALL and ACTION_PARK_MOUNT
+    connect(m_CalibrationUI->captureCalibrationWall, &QCheckBox::clicked, [&](bool checked)
+    {
+        if (checked)
+            m_CalibrationUI->captureCalibrationParkMount->setChecked(false);
+    });
+    connect(m_CalibrationUI->captureCalibrationParkMount, &QCheckBox::clicked, [&](bool checked)
+    {
+        if (checked)
+            m_CalibrationUI->captureCalibrationWall->setChecked(false);
+    });
+
     m_scriptsManager = new ScriptsManager(this);
     if (m_standAlone)
     {
@@ -328,10 +367,15 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(clearConfigurationB, &QPushButton::clicked, this, &Capture::clearCameraConfiguration);
 
     darkB->setChecked(Options::autoDark());
-    connect(darkB, &QAbstractButton::toggled, this, [this]()
-    {
-        Options::setAutoDark(darkB->isChecked());
-    });
+    // connect(darkB, &QAbstractButton::toggled, this, [this]()
+    // {
+    //     Options::setAutoDark(darkB->isChecked());
+    // });
+
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &Capture::settleSettings);
 
     connect(restartCameraB, &QPushButton::clicked, this, [this]()
     {
@@ -409,7 +453,7 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Capture::checkFrameType);
     connect(resetFrameB, &QPushButton::clicked, m_captureProcess, &CaptureProcess::resetFrame);
-    connect(calibrationB, &QPushButton::clicked, this, &Capture::openCalibrationDialog);
+    connect(calibrationB, &QPushButton::clicked, m_CalibrationDialog, &QDialog::show);
     // connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
 
     connect(generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
@@ -460,179 +504,30 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     ////////////////////////////////////////////////////////////////////////
     /// Settings
     ////////////////////////////////////////////////////////////////////////
-    syncGUIToGeneralSettings();
-    // Start Guide Deviation Check
-    connect(m_LimitsUI->startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setEnforceStartGuiderDrift(checked);
-    });
-
-    // Start Guide Deviation Value
-    connect(m_LimitsUI->startGuiderDriftN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setStartGuideDeviation(m_LimitsUI->startGuiderDriftN->value());
-    });
-
-    // Abort Guide Deviation Check
-    connect(m_LimitsUI->limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setEnforceGuideDeviation(checked);
-    });
-
-    // Per job dither frequency count
-    connect(m_LimitsUI->limitDitherFrequencyN, QOverload<int>::of(&QSpinBox::valueChanged), [this]()
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setGuideDitherPerJobFrequency(m_LimitsUI->limitDitherFrequencyN->value());
-    });
-
-    // Guide Deviation Value
-    connect(m_LimitsUI->limitGuideDeviationN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
-    });
-
-    connect(m_LimitsUI->limitGuideDeviationRepsN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setGuideDeviationReps(static_cast<uint>(m_LimitsUI->limitGuideDeviationRepsN->value()));
-    });
+    loadGlobalSettings();
+    connectSyncSettings();
 
     // Autofocus HFR Check
-    connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
+    connect(m_LimitsUI->enforceAutofocusHFR, &QCheckBox::toggled, [ = ](bool checked)
     {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setEnforceAutofocusHFR(checked);
         if (checked == false)
             state()->getRefocusState()->setInSequenceFocus(false);
     });
-    m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
-    connect(m_LimitsUI->limitFocusHFRN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
+
+    connect(m_LimitsUI->hFRThresholdPercentage, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
-    });
-    m_LimitsUI->limitFocusHFRThresholdPercentage->setValue(Options::hFRThresholdPercentage());
-    connect(m_LimitsUI->limitFocusHFRThresholdPercentage, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
-    {
-        Options::setHFRThresholdPercentage(m_LimitsUI->limitFocusHFRThresholdPercentage->value());
         Capture::updateHFRCheckAlgo();
     });
-    m_LimitsUI->limitFocusHFRCheckFrames->setValue(Options::inSequenceCheckFrames());
-    connect(m_LimitsUI->limitFocusHFRCheckFrames, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
-    {
-        Options::setInSequenceCheckFrames(m_LimitsUI->limitFocusHFRCheckFrames->value());
-    });
+
     connect(m_captureModuleState.get(), &CaptureModuleState::newLimitFocusHFR, this, [this](double hfr)
     {
-        m_LimitsUI->limitFocusHFRN->setValue(hfr);
+        m_LimitsUI->hFRDeviation->setValue(hfr);
     });
-    m_LimitsUI->limitFocusHFRAlgorithm->setCurrentIndex(Options::hFRCheckAlgorithm());
+
     updateHFRCheckAlgo();
-    connect(m_LimitsUI->limitFocusHFRAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    connect(m_LimitsUI->hFRCheckAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int)
     {
-        Options::setHFRCheckAlgorithm(index);
         Capture::updateHFRCheckAlgo();
-    });
-
-    // Autofocus temperature Check
-    connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, this,  [ = ](bool checked)
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setEnforceAutofocusOnTemperature(checked);
-    });
-
-    // Autofocus temperature Delta
-    connect(m_LimitsUI->limitFocusDeltaTN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
-    });
-
-    // Refocus Every Check
-    connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, this, [ = ](bool checked)
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setEnforceRefocusEveryN(checked);
-    });
-
-    // Refocus Every Value
-    connect(m_LimitsUI->limitRefocusN, QOverload<int>::of(&QSpinBox::valueChanged), this, [this]()
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
-    });
-
-    // Refocus after meridian flip
-    m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
-    connect(m_LimitsUI->meridianRefocusS, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        // We don't want the editor to influence a concurrent live capture session.
-        if (!m_standAlone)
-            Options::setRefocusAfterMeridianFlip(checked);
-    });
-
-    QCheckBox * const checkBoxes[] =
-    {
-        m_LimitsUI->limitGuideDeviationS,
-        m_LimitsUI->startGuiderDriftS,
-        m_LimitsUI->limitRefocusS,
-        m_LimitsUI->limitFocusDeltaTS,
-        m_LimitsUI->limitFocusHFRS,
-        m_LimitsUI->meridianRefocusS,
-    };
-    for (const QCheckBox * control : checkBoxes)
-        connect(control, &QCheckBox::toggled, this, [&]()
-    {
-        state()->setDirty(true);
-    });
-
-    QDoubleSpinBox * const dspinBoxes[]
-    {
-        m_LimitsUI->limitFocusHFRN,
-        m_LimitsUI->limitFocusHFRThresholdPercentage,
-        m_LimitsUI->limitFocusDeltaTN,
-        m_LimitsUI->limitGuideDeviationN,
-        m_LimitsUI->startGuiderDriftN
-    };
-    for (const QDoubleSpinBox * control : dspinBoxes)
-        connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]()
-    {
-        state()->setDirty(true);
-    });
-
-    connect(m_LimitsUI->limitFocusHFRCheckFrames, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
-    {
-        state()->setDirty(true);
-    });
-    connect(m_LimitsUI->limitFocusHFRAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
-    {
-        state()->setDirty(true);
-    });
-
-    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]()
-    {
-        state()->setDirty(true);
-    });
-    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
-    {
-        state()->setDirty(true);
     });
 
     observerB->setIcon(QIcon::fromTheme("im-user"));
@@ -672,12 +567,10 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     else
     {
         fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
-        Options::setCaptureDirectory(fileDirectoryT->text());
     }
 
     connect(fileDirectoryT, &QLineEdit::textChanged, this, [&]()
     {
-        Options::setCaptureDirectory(fileDirectoryT->text());
         generatePreviewFilename();
     });
 
@@ -687,7 +580,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     }
     connect(fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
     {
-        Options::setRemoteCaptureDirectory(fileRemoteDirT->text());
         generatePreviewFilename();
     });
 
@@ -807,7 +699,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     placeholderFormatT->setText(Options::placeholderFormat());
     connect(placeholderFormatT, &QLineEdit::textChanged, this, [this]()
     {
-        Options::setPlaceholderFormat(placeholderFormatT->text());
         generatePreviewFilename();
     });
     connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Capture::generatePreviewFilename);
@@ -833,8 +724,8 @@ Capture::~Capture()
 void Capture::updateHFRCheckAlgo()
 {
     // Threshold % is not relevant for FIXED HFR do disable the field
-    const bool threshold = (m_LimitsUI->limitFocusHFRAlgorithm->currentIndex() != HFR_CHECK_FIXED);
-    m_LimitsUI->limitFocusHFRThresholdPercentage->setEnabled(threshold);
+    const bool threshold = (m_LimitsUI->hFRCheckAlgorithm->currentIndex() != HFR_CHECK_FIXED);
+    m_LimitsUI->hFRThresholdPercentage->setEnabled(threshold);
     m_LimitsUI->limitFocusHFRThresholdLabel->setEnabled(threshold);
     m_LimitsUI->limitFocusHFRPercentLabel->setEnabled(threshold);
     state()->updateHFRThreshold();
@@ -852,9 +743,9 @@ bool Capture::updateCamera()
 
     if (activeCamera() && trainID.isValid())
     {
-        opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(activeCamera()->getDeviceName(), currentScope()["name"].toString()));
-
-        cameraLabel->setText(activeCamera()->getDeviceName());
+        auto name = activeCamera()->getDeviceName();
+        opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
+        cameraLabel->setText(name);
     }
     else
     {
@@ -867,7 +758,7 @@ bool Capture::updateCamera()
 
     process()->checkCamera();
 
-    emit settingsUpdated(getPresetSettings());
+    emit settingsUpdated(getAllSettings());
 
     return true;
 }
@@ -894,7 +785,7 @@ void Capture::setFilterWheel(QString name)
     refreshFilterSettings();
 
     if (devices()->filterWheel())
-        emit settingsUpdated(getPresetSettings());
+        emit settingsUpdated(getAllSettings());
 }
 
 bool Capture::setDome(ISD::Dome *device)
@@ -945,9 +836,9 @@ void Capture::toggleSequence()
 
 void Capture::jobStarting()
 {
-    if (m_LimitsUI->limitFocusHFRS->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
+    if (m_LimitsUI->enforceAutofocusHFR->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
-    if (m_LimitsUI->limitFocusDeltaTS->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
+    if (m_LimitsUI->enforceAutofocusOnTemperature->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
 
     updateStartButtons(true, false);
@@ -1048,8 +939,13 @@ void Capture::updateCaptureFormats()
     // Capture Format
     captureFormatS->blockSignals(true);
     captureFormatS->clear();
-    captureFormatS->addItems(activeCamera()->getCaptureFormats());
-    Options::setCaptureStandAloneFormats(standAloneEncode(activeCamera()->getCaptureFormats()));
+    const auto list = activeCamera()->getCaptureFormats();
+    captureFormatS->addItems(list);
+    if (!m_Settings.contains("formatsList") || m_Settings["formatsList"].toStringList() != list)
+    {
+        m_Settings["formatsList"] = list;
+        m_DebounceTimer.start();
+    }
     captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
     captureFormatS->blockSignals(false);
 
@@ -1088,6 +984,14 @@ void Capture::syncCameraInfo()
             bool isChecked = activeCamera()->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(activeCamera()->getDeviceName()),
                              false).toBool();
             cameraTemperatureS->setChecked(isChecked);
+
+            // Save the camera's temperature parameters for the stand-alone editor.
+            Options::setCaptureStandAloneTemperature(
+                standAloneEncode(
+                    QStringList({QString("%1").arg(min),
+                                 QString("%1").arg(max),
+                                 QString("%1").arg(isChecked ? 1 : 0)})));
+
         }
         else
         {
@@ -1096,6 +1000,13 @@ void Capture::syncCameraInfo()
             cameraTemperatureS->setEnabled(false);
             cameraTemperatureS->setChecked(false);
             temperatureRegulationB->setEnabled(false);
+
+            // Save default camera temperature parameters for the stand-alone editor.
+            Options::setCaptureStandAloneTemperature(
+                standAloneEncode(
+                    QStringList({QString("%1").arg(-50),
+                                 QString("%1").arg(50),
+                                 0})));
         }
 
         double temperature = 0;
@@ -1132,8 +1043,13 @@ void Capture::syncCameraInfo()
         captureISOS->setEnabled(true);
         captureISOS->addItems(isoList);
         captureISOS->setCurrentIndex(devices()->getActiveChip()->getISOIndex());
-        Options::setCaptureStandAloneISOs(standAloneEncode(isoList));
-        Options::setCaptureStandAloneISOIndex(devices()->getActiveChip()->getISOIndex());
+
+        // Save ISO List in train settings if different
+        if (!m_Settings.contains("isoList") || m_Settings["isoList"].toStringList() != isoList)
+        {
+            m_Settings["isoList"] = isoList;
+            m_DebounceTimer.start();
+        }
 
         uint16_t w, h;
         uint8_t bbp {8};
@@ -1421,12 +1337,12 @@ void Capture::updateFrameProperties(int reset)
         cullToDSLRLimits();
 
     // Save the sensor's width and height for the stand-alone editor.
-    Options::setCaptureStandAloneWHGO(
-        standAloneEncode(
-            QStringList({QString("%1").arg(captureFrameWN->value()),
-                         QString("%1").arg(captureFrameHN->value()),
-                         QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_GAIN") ? "CCD_GAIN" : "CCD_CONTROLS"),
-                         QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_OFFSET") ? "CCD_OFFSET" : "CCD_CONTROLS")})));
+    // Options::setCaptureStandAloneWHGO(
+    //     standAloneEncode(
+    //         QStringList({QString("%1").arg(captureFrameWN->value()),
+    //                      QString("%1").arg(captureFrameHN->value()),
+    //                      QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_GAIN") ? "CCD_GAIN" : "CCD_CONTROLS"),
+    //                      QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_OFFSET") ? "CCD_OFFSET" : "CCD_CONTROLS")})));
 
     if (reset == 1 || state()->frameSettings().contains(devices()->getActiveChip()) == false)
     {
@@ -1597,6 +1513,7 @@ void Capture::refreshFilterSettings()
         FilterPosLabel->setEnabled(false);
         FilterPosCombo->setEnabled(false);
         filterEditB->setEnabled(false);
+        filterManagerB->setEnabled(false);
 
         devices()->setFilterManager(m_FilterManager);
         return;
@@ -1605,17 +1522,26 @@ void Capture::refreshFilterSettings()
     FilterPosLabel->setEnabled(true);
     FilterPosCombo->setEnabled(true);
     filterEditB->setEnabled(true);
+    filterManagerB->setEnabled(true);
 
     setupFilterManager();
 
     process()->updateFilterInfo();
 
-    FilterPosCombo->addItems(process()->filterLabels());
-    Options::setCaptureStandAloneFilters(standAloneEncode(process()->filterLabels()));
+    const auto labels = process()->filterLabels();
+    FilterPosCombo->addItems(labels);
+
+    // Save ISO List in train settings if different
+    if (!m_Settings.contains("filtersList") || m_Settings["filtersList"].toStringList() != labels)
+    {
+        m_Settings["filtersList"] = labels;
+        m_DebounceTimer.start();
+    }
 
     updateCurrentFilterPosition();
 
     filterEditB->setEnabled(state()->getCurrentFilterPosition() > 0);
+    filterManagerB->setEnabled(state()->getCurrentFilterPosition() > 0);
 
     FilterPosCombo->setCurrentIndex(state()->getCurrentFilterPosition() - 1);
 }
@@ -2252,7 +2178,6 @@ bool Capture::loadSequenceQueue(const QString &fileURL, QString targetName)
 
     // update general settings
     setObserverName(state()->observerName());
-    syncGUIToGeneralSettings();
 
     // select the first one of the loaded jobs
     if (state()->allJobs().size() > 0)
@@ -2404,7 +2329,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
     placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
     formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
-    m_LimitsUI->limitDitherFrequencyN->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
+    m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
 
     // Temperature Options
     cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
@@ -2412,19 +2337,45 @@ void Capture::syncGUIToJob(SequenceJob * job)
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    m_LimitsUI->startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
+    m_LimitsUI->enforceStartGuiderDrift->setChecked(Options::enforceStartGuiderDrift());
     if (Options::enforceStartGuiderDrift())
-        m_LimitsUI->startGuiderDriftN->setValue(Options::startGuideDeviation());
+        m_LimitsUI->startGuideDeviation->setValue(Options::startGuideDeviation());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
-    state()->setFlatFieldDuration(job->getFlatFieldDuration());
-    state()->setCalibrationPreAction(job->getCalibrationPreAction());
-    state()->setTargetADU(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble());
-    state()->setTargetADUTolerance(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble());
-    state()->setSkyFlat(job->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool());
-    state()->setWallCoord(job->getWallCoord());
+
+    if (job->getFlatFieldDuration() == DURATION_MANUAL)
+        m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
+    else
+        m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
+
+    // Calibration Pre-Action
+    const auto action = job->getCalibrationPreAction();
+    if (action & ACTION_WALL)
+    {
+        m_CalibrationUI->azBox->setText(job->getWallCoord().az().toDMSString());
+        m_CalibrationUI->altBox->setText(job->getWallCoord().alt().toDMSString());
+    }
+    m_CalibrationUI->captureCalibrationWall->setChecked(action & ACTION_WALL);
+    m_CalibrationUI->captureCalibrationParkMount->setChecked(action & ACTION_PARK_MOUNT);
+    m_CalibrationUI->captureCalibrationParkDome->setChecked(action & ACTION_PARK_DOME);
+
+    // Calibration Flat Duration
+    switch (state()->flatFieldDuration())
+    {
+        case DURATION_MANUAL:
+            m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
+            break;
+
+        case DURATION_ADU:
+            m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
+            m_CalibrationUI->captureCalibrationADUValue->setValue(static_cast<int>(std::round(state()->targetADU())));
+            m_CalibrationUI->captureCalibrationADUTolerance->setValue(static_cast<int>(std::round(state()->targetADUTolerance())));
+            m_CalibrationUI->captureCalibrationSkyFlats->setChecked(state()->skyFlat());
+            break;
+    }
+
     m_scriptsManager->setScripts(job->getScripts());
 
     // Custom Properties
@@ -2467,68 +2418,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
         targetDrift->setVisible(false);
         targetDriftUnit->setVisible(false);
     }
-
-    emit settingsUpdated(getPresetSettings());
-}
-
-void Capture::syncGUIToGeneralSettings()
-{
-    m_LimitsUI->startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
-    m_LimitsUI->startGuiderDriftN->setValue(Options::startGuideDeviation());
-    m_LimitsUI->limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
-    m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
-    m_LimitsUI->limitGuideDeviationRepsN->setValue(static_cast<int>(Options::guideDeviationReps()));
-    m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocusHFR());
-    m_LimitsUI->limitFocusHFRThresholdPercentage->setValue(Options::hFRThresholdPercentage());
-    m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
-    m_LimitsUI->limitFocusHFRCheckFrames->setValue(Options::inSequenceCheckFrames());
-    m_LimitsUI->limitFocusHFRAlgorithm->setCurrentIndex(Options::hFRCheckAlgorithm());
-    m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
-    m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
-    m_LimitsUI->limitRefocusS->setChecked(Options::enforceRefocusEveryN());
-    m_LimitsUI->limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
-    m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
-}
-
-QJsonObject Capture::getPresetSettings()
-{
-    QJsonObject settings;
-
-    // Try to get settings value
-    // if not found, fallback to camera value
-    double gain = -1;
-    if (GainSpinSpecialValue > INVALID_VALUE && captureGainN->value() > GainSpinSpecialValue)
-        gain = captureGainN->value();
-    else if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasGain())
-        devices()->getActiveCamera()->getGain(&gain);
-
-    double offset = -1;
-    if (OffsetSpinSpecialValue > INVALID_VALUE && captureOffsetN->value() > OffsetSpinSpecialValue)
-        offset = captureOffsetN->value();
-    else if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasOffset())
-        devices()->getActiveCamera()->getOffset(&offset);
-
-    int iso = -1;
-    if (captureISOS)
-        iso = captureISOS->currentIndex();
-    else if (devices()->getActiveCamera())
-        iso = devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD)->getISOIndex();
-
-    settings.insert("optical_train", opticalTrainCombo->currentText());
-    settings.insert("filter", FilterPosCombo->currentText());
-    settings.insert("dark", darkB->isChecked());
-    settings.insert("exp", captureExposureN->value());
-    settings.insert("bin", captureBinHN->value());
-    settings.insert("iso", iso);
-    settings.insert("frameType", captureTypeS->currentIndex());
-    settings.insert("captureFormat", captureFormatS->currentIndex());
-    settings.insert("transferFormat", captureEncodingS->currentIndex());
-    settings.insert("gain", gain);
-    settings.insert("offset", offset);
-    settings.insert("temperature", cameraTemperatureN->value());
-    settings.insert("ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value());
-
-    return settings;
 }
 
 void Capture::selectedJobChanged(QModelIndex current, QModelIndex previous)
@@ -2597,16 +2486,16 @@ void Capture::resetJobEdit(bool cancelled)
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
 {
-    m_LimitsUI->limitGuideDeviationS->setChecked(enable);
+    m_LimitsUI->enforceGuideDeviation->setChecked(enable);
     if (enable)
-        m_LimitsUI->limitGuideDeviationN->setValue(value);
+        m_LimitsUI->guideDeviation->setValue(value);
 }
 
 void Capture::setInSequenceFocus(bool enable, double HFR)
 {
-    m_LimitsUI->limitFocusHFRS->setChecked(enable);
+    m_LimitsUI->enforceAutofocusHFR->setChecked(enable);
     if (enable)
-        m_LimitsUI->limitFocusHFRN->setValue(HFR);
+        m_LimitsUI->hFRDeviation->setValue(HFR);
 }
 
 void Capture::clearSequenceQueue()
@@ -2645,110 +2534,8 @@ void Capture::clearAutoFocusHFR()
     if (Options::hFRCheckAlgorithm() == HFR_CHECK_FIXED)
         return;
 
-    m_LimitsUI->limitFocusHFRN->setValue(0);
+    m_LimitsUI->hFRDeviation->setValue(0);
     //firstAutoFocus = true;
-}
-
-void Capture::openCalibrationDialog()
-{
-    QDialog calibrationDialog(this);
-
-    Ui_calibrationOptions calibrationOptions;
-    calibrationOptions.setupUi(&calibrationDialog);
-
-    calibrationOptions.parkMountC->setEnabled(devices()->mount() && devices()->mount()->canPark());
-    calibrationOptions.parkDomeC->setEnabled(devices()->dome() && devices()->dome()->canPark());
-
-    calibrationOptions.parkMountC->setChecked(false);
-    calibrationOptions.parkDomeC->setChecked(false);
-    calibrationOptions.gotoWallC->setChecked(false);
-
-    calibrationOptions.parkMountC->setChecked(state()->calibrationPreAction() & ACTION_PARK_MOUNT);
-    calibrationOptions.parkDomeC->setChecked(state()->calibrationPreAction() & ACTION_PARK_DOME);
-    if (state()->calibrationPreAction() & ACTION_WALL)
-    {
-        calibrationOptions.gotoWallC->setChecked(true);
-        calibrationOptions.azBox->setText(state()->wallCoord().az().toDMSString());
-        calibrationOptions.altBox->setText(state()->wallCoord().alt().toDMSString());
-    }
-
-    switch (state()->flatFieldDuration())
-    {
-        case DURATION_MANUAL:
-            calibrationOptions.manualDurationC->setChecked(true);
-            break;
-
-        case DURATION_ADU:
-            calibrationOptions.ADUC->setChecked(true);
-            calibrationOptions.ADUValue->setValue(static_cast<int>(std::round(state()->targetADU())));
-            calibrationOptions.ADUTolerance->setValue(static_cast<int>(std::round(state()->targetADUTolerance())));
-            calibrationOptions.skyFlats->setChecked(state()->skyFlat());
-            break;
-    }
-
-    // avoid combination of ACTION_WALL and ACTION_PARK_MOUNT
-    connect(calibrationOptions.gotoWallC, &QCheckBox::clicked, [&](bool checked)
-    {
-        if (checked)
-            calibrationOptions.parkMountC->setChecked(false);
-    });
-    connect(calibrationOptions.parkMountC, &QCheckBox::clicked, [&](bool checked)
-    {
-        if (checked)
-            calibrationOptions.gotoWallC->setChecked(false);
-    });
-
-    if (calibrationDialog.exec() == QDialog::Accepted)
-    {
-        state()->setCalibrationPreAction(ACTION_NONE);
-        if (calibrationOptions.parkMountC->isChecked())
-            state()->setCalibrationPreAction(state()->calibrationPreAction() | ACTION_PARK_MOUNT);
-        if (calibrationOptions.parkDomeC->isChecked())
-            state()->setCalibrationPreAction(state()->calibrationPreAction() | ACTION_PARK_DOME);
-        if (calibrationOptions.gotoWallC->isChecked())
-        {
-            dms wallAz, wallAlt;
-            bool azOk = false, altOk = false;
-
-            wallAz  = calibrationOptions.azBox->createDms(&azOk);
-            wallAlt = calibrationOptions.altBox->createDms(&altOk);
-
-            if (azOk && altOk)
-            {
-                state()->setCalibrationPreAction((state()->calibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
-                state()->wallCoord().setAz(wallAz);
-                state()->wallCoord().setAlt(wallAlt);
-            }
-            else
-            {
-                calibrationOptions.gotoWallC->setChecked(false);
-                KSNotification::error(i18n("Wall coordinates are invalid."));
-            }
-        }
-
-        if (calibrationOptions.manualDurationC->isChecked())
-            state()->setFlatFieldDuration(DURATION_MANUAL);
-        else
-        {
-            state()->setFlatFieldDuration(DURATION_ADU);
-            state()->setTargetADU(calibrationOptions.ADUValue->value());
-            state()->setTargetADUTolerance(calibrationOptions.ADUTolerance->value());
-            state()->setSkyFlat(calibrationOptions.skyFlats->isChecked());
-        }
-
-        state()->setDirty(true);
-
-        if (!m_standAlone)
-        {
-            Options::setCalibrationPreActionIndex(state()->calibrationPreAction());
-            Options::setCalibrationFlatDurationIndex(state()->flatFieldDuration());
-            Options::setCalibrationWallAz(state()->wallCoord().az().Degrees());
-            Options::setCalibrationWallAlt(state()->wallCoord().alt().Degrees());
-            Options::setCalibrationADUValue(static_cast<uint>(std::round(state()->targetADU())));
-            Options::setCalibrationADUValueTolerance(static_cast<uint>(std::round(state()->targetADUTolerance())));
-            Options::setCalibrationSkyFlat(state()->skyFlat());
-        }
-    }
 }
 
 bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
@@ -3020,196 +2807,6 @@ void Capture::cullToDSLRLimits()
             captureFrameHN->setMaximum((*pos)["Height"].toInt());
         }
     }
-}
-
-void Capture::setPresetSettings(const QJsonObject &settings)
-{
-    auto opticalTrain = settings["optical_train"].toString(opticalTrainCombo->currentText());
-    auto targetFilter = settings["filter"].toString(FilterPosCombo->currentText());
-
-    opticalTrainCombo->setCurrentText(opticalTrain);
-    FilterPosCombo->setCurrentText(targetFilter);
-
-    captureExposureN->setValue(settings["exp"].toDouble(1));
-
-    int bin = settings["bin"].toInt(1);
-    setBinning(bin, bin);
-
-    if (settings["temperature"].isString() && settings["temperature"].toString() == "--")
-        setForceTemperature(false);
-    else
-    {
-        double temperature = settings["temperature"].toDouble(INVALID_VALUE);
-        if (temperature > INVALID_VALUE && devices()->getActiveCamera()
-                && devices()->getActiveCamera()->hasCoolerControl())
-        {
-            setForceTemperature(true);
-            setTargetTemperature(temperature);
-        }
-        else
-            setForceTemperature(false);
-    }
-
-    if (settings["gain"].isString() && settings["gain"].toString() == "--")
-        captureGainN->setValue(GainSpinSpecialValue);
-    else
-    {
-        double gain = settings["gain"].toDouble(GainSpinSpecialValue);
-        if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasGain())
-        {
-            if (gain == GainSpinSpecialValue)
-                captureGainN->setValue(GainSpinSpecialValue);
-            else
-                setGain(gain);
-        }
-    }
-
-    if (settings["offset"].isString() && settings["offset"].toString() == "--")
-        captureOffsetN->setValue(OffsetSpinSpecialValue);
-    else
-    {
-        double offset = settings["offset"].toDouble(OffsetSpinSpecialValue);
-        if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasOffset())
-        {
-            if (offset == OffsetSpinSpecialValue)
-                captureOffsetN->setValue(OffsetSpinSpecialValue);
-            else
-                setOffset(offset);
-        }
-    }
-
-    int transferFormat = settings["transferFormat"].toInt(-1);
-    if (transferFormat >= 0)
-    {
-        captureEncodingS->setCurrentIndex(transferFormat);
-    }
-
-    QString captureFormat = settings["captureFormat"].toString(captureFormatS->currentText());
-    if (captureFormat != captureFormatS->currentText())
-        captureFormatS->setCurrentText(captureFormat);
-
-    captureTypeS->setCurrentIndex(qMax(0, settings["frameType"].toInt(0)));
-
-    // ISO
-    int isoIndex = settings["iso"].toInt(-1);
-    if (isoIndex >= 0)
-        setISO(isoIndex);
-
-    bool dark = settings["dark"].toBool(darkB->isChecked());
-    if (dark != darkB->isChecked())
-        darkB->setChecked(dark);
-
-    int ditherPerJobFrequency = settings["ditherPerJobFrequency"].toInt(0);
-    m_LimitsUI->limitDitherFrequencyN->setValue(ditherPerJobFrequency);
-}
-
-void Capture::setFileSettings(const QJsonObject &settings)
-{
-    const auto prefix = settings["prefix"].toString(targetNameT->text());
-    const auto directory = settings["directory"].toString(fileDirectoryT->text());
-    const auto upload = settings["upload"].toInt(fileUploadModeS->currentIndex());
-    const auto remote = settings["remote"].toString(fileRemoteDirT->text());
-    const auto format = settings["format"].toString(placeholderFormatT->text());
-    const auto suffix = settings["suffix"].toInt(formatSuffixN->value());
-
-    targetNameT->setText(prefix);
-    fileDirectoryT->setText(directory);
-    fileUploadModeS->setCurrentIndex(upload);
-    fileRemoteDirT->setText(remote);
-    placeholderFormatT->setText(format);
-    formatSuffixN->setValue(suffix);
-}
-
-QJsonObject Capture::getFileSettings()
-{
-    QJsonObject settings =
-    {
-        {"prefix", targetNameT->text()},
-        {"directory", fileDirectoryT->text()},
-        {"format", placeholderFormatT->text()},
-        {"suffix", formatSuffixN->value()},
-        {"upload", fileUploadModeS->currentIndex()},
-        {"remote", fileRemoteDirT->text()}
-    };
-
-    return settings;
-}
-
-void Capture::setLimitSettings(const QJsonObject &settings)
-{
-    const bool deviationCheck = settings["deviationCheck"].toBool(Options::enforceGuideDeviation());
-    const double deviationValue = settings["deviationValue"].toDouble(Options::guideDeviation());
-    const bool focusHFRCheck = settings["focusHFRCheck"].toBool(m_LimitsUI->limitFocusHFRS->isChecked());
-    const double focusHFRThresholdPercentage = settings["hFRThresholdPercentage"].toDouble(
-                m_LimitsUI->limitFocusHFRThresholdPercentage->value());
-    const double focusHFRValue = settings["focusHFRValue"].toDouble(m_LimitsUI->limitFocusHFRN->value());
-    const int focusHFRCheckFrames = settings["inSequenceCheckFrames"].toInt(m_LimitsUI->limitFocusHFRCheckFrames->value());
-    const int focusHFRAlgorithm = settings["hFRCheckAlgorithm"].toInt(m_LimitsUI->limitFocusHFRAlgorithm->currentIndex());
-    const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(m_LimitsUI->limitFocusDeltaTS->isChecked());
-    const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(m_LimitsUI->limitFocusDeltaTN->value());
-    const bool refocusNCheck = settings["refocusNCheck"].toBool(m_LimitsUI->limitRefocusS->isChecked());
-    const int refocusNValue = settings["refocusNValue"].toInt(m_LimitsUI->limitRefocusN->value());
-    const int ditherPerJobFrequency = settings["ditherPerJobFrequency"].toInt(m_LimitsUI->limitDitherFrequencyN->value());
-
-    if (deviationCheck)
-    {
-        m_LimitsUI->limitGuideDeviationS->setChecked(true);
-        m_LimitsUI->limitGuideDeviationN->setValue(deviationValue);
-    }
-    else
-        m_LimitsUI->limitGuideDeviationS->setChecked(false);
-
-    if (focusHFRCheck)
-    {
-        m_LimitsUI->limitFocusHFRS->setChecked(true);
-        m_LimitsUI->limitFocusHFRThresholdPercentage->setValue(focusHFRThresholdPercentage);
-        m_LimitsUI->limitFocusHFRN->setValue(focusHFRValue);
-        m_LimitsUI->limitFocusHFRCheckFrames->setValue(focusHFRCheckFrames);
-        m_LimitsUI->limitFocusHFRAlgorithm->setCurrentIndex(focusHFRAlgorithm);
-    }
-    else
-        m_LimitsUI->limitFocusHFRS->setChecked(false);
-
-    if (focusDeltaTCheck)
-    {
-        m_LimitsUI->limitFocusDeltaTS->setChecked(true);
-        m_LimitsUI->limitFocusDeltaTN->setValue(focusDeltaTValue);
-    }
-    else
-        m_LimitsUI->limitFocusDeltaTS->setChecked(false);
-
-    if (refocusNCheck)
-    {
-        m_LimitsUI->limitRefocusS->setChecked(true);
-        m_LimitsUI->limitRefocusN->setValue(refocusNValue);
-    }
-    else
-        m_LimitsUI->limitRefocusS->setChecked(false);
-
-    m_LimitsUI->limitDitherFrequencyN->setValue(ditherPerJobFrequency);
-
-    syncRefocusOptionsFromGUI();
-}
-
-QJsonObject Capture::getLimitSettings()
-{
-    QJsonObject settings =
-    {
-        {"deviationCheck", Options::enforceGuideDeviation()},
-        {"deviationValue", Options::guideDeviation()},
-        {"ditherPerJobFrequency", m_LimitsUI->limitDitherFrequencyN->value()},
-        {"focusHFRCheck", m_LimitsUI->limitFocusHFRS->isChecked()},
-        {"hFRThresholdPercentage", m_LimitsUI->limitFocusHFRThresholdPercentage->value()},
-        {"focusHFRValue", m_LimitsUI->limitFocusHFRN->value()},
-        {"inSequenceCheckFrames", m_LimitsUI->limitFocusHFRCheckFrames->value()},
-        {"hFRCheckAlgorithm", m_LimitsUI->limitFocusHFRAlgorithm->currentIndex()},
-        {"focusDeltaTCheck", m_LimitsUI->limitFocusDeltaTS->isChecked()},
-        {"focusDeltaTValue", m_LimitsUI->limitFocusDeltaTN->value()},
-        {"refocusNCheck", m_LimitsUI->limitRefocusS->isChecked()},
-        {"refocusNValue", m_LimitsUI->limitRefocusN->value()},
-    };
-
-    return settings;
 }
 
 void Capture::clearCameraConfiguration()
@@ -3726,12 +3323,40 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
 
     job->setScripts(m_scriptsManager->getScripts());
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
-    job->setFlatFieldDuration(state()->flatFieldDuration());
-    job->setCalibrationPreAction(state()->calibrationPreAction());
-    job->setWallCoord(state()->wallCoord());
-    job->setCoreProperty(SequenceJob::SJ_TargetADU, state()->targetADU());
-    job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, state()->targetADUTolerance());
-    job->setCoreProperty(SequenceJob::SJ_SkyFlat, state()->skyFlat());
+
+
+    job->setFlatFieldDuration(m_CalibrationUI->captureCalibrationDurationManual->isChecked() ? DURATION_MANUAL : DURATION_ADU);
+
+    int action = ACTION_NONE;
+    if (m_CalibrationUI->captureCalibrationParkMount->isChecked())
+        action |= ACTION_PARK_MOUNT;
+    if (m_CalibrationUI->captureCalibrationParkDome->isChecked())
+        action |= ACTION_PARK_DOME;
+    if (m_CalibrationUI->captureCalibrationWall->isChecked())
+    {
+        bool azOk = false, altOk = false;
+        auto wallAz  = m_CalibrationUI->azBox->createDms(&azOk);
+        auto wallAlt = m_CalibrationUI->altBox->createDms(&altOk);
+
+        if (azOk && altOk)
+        {
+            action = (action & ~ACTION_PARK_MOUNT) | ACTION_WALL;
+            SkyPoint wallSkyPoint;
+            wallSkyPoint.setAz(wallAz);
+            wallSkyPoint.setAlt(wallAlt);
+            job->setWallCoord(wallSkyPoint);
+        }
+    }
+
+    if (m_CalibrationUI->captureCalibrationUseADU->isChecked())
+    {
+        job->setCoreProperty(SequenceJob::SJ_TargetADU, m_CalibrationUI->captureCalibrationADUValue->value());
+        job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, m_CalibrationUI->captureCalibrationADUTolerance->value());
+        job->setCoreProperty(SequenceJob::SJ_SkyFlat, m_CalibrationUI->captureCalibrationSkyFlats->isChecked());
+    }
+
+    job->setCalibrationPreAction(action);
+
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
 
     if (FilterPosCombo->currentIndex() != -1 && (m_standAlone || devices()->filterWheel() != nullptr))
@@ -3757,7 +3382,7 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
     job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
 
-    job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->limitDitherFrequencyN->value());
+    job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->guideDitherPerJobFrequency->value());
 
     auto placeholderPath = PlaceholderPath();
     placeholderPath.updateFullPrefix(job, placeholderFormatT->text());
@@ -3772,20 +3397,6 @@ void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
 {
     state()->setMeridianFlipState(newstate);
     connect(state()->getMeridianFlipState().get(), &MeridianFlipState::newLog, this, &Capture::appendLogText);
-}
-
-void Capture::syncRefocusOptionsFromGUI()
-{
-    Options::setEnforceAutofocusHFR(m_LimitsUI->limitFocusHFRS->isChecked());
-    Options::setHFRThresholdPercentage(m_LimitsUI->limitFocusHFRThresholdPercentage->value());
-    Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
-    Options::setInSequenceCheckFrames(m_LimitsUI->limitFocusHFRCheckFrames->value());
-    Options::setHFRCheckAlgorithm(m_LimitsUI->limitFocusHFRAlgorithm->currentIndex());
-    Options::setEnforceAutofocusOnTemperature(m_LimitsUI->limitFocusDeltaTS->isChecked());
-    Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
-    Options::setEnforceRefocusEveryN(m_LimitsUI->limitRefocusS->isChecked());
-    Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
-    Options::setRefocusAfterMeridianFlip(m_LimitsUI->meridianRefocusS->isChecked());
 }
 
 QJsonObject Capture::currentScope()
@@ -3869,6 +3480,21 @@ void Capture::refreshOpticalTrain()
 
         opticalTrainCombo->setCurrentText(name);
         process()->refreshOpticalTrain(name);
+
+        // Load train settings
+        // This needs to be done near the start of this function as methods further down
+        // cause settings to be updated, which in turn interferes with the persistence and
+        // setup of settings in OpticalTrainSettings
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Capture);
+        if (settings.isValid())
+        {
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
+        else
+            m_Settings = m_GlobalSettings;
     }
 
     opticalTrainCombo->blockSignals(false);
@@ -4068,4 +3694,502 @@ ISD::Camera *Capture::activeCamera()
 {
     return m_captureDeviceAdaptor->getActiveCamera();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+QVariantMap Capture::getAllSettings() const
+{
+    QVariantMap settings;
+
+    // All QLineEdits
+    // N.B. This must be always first since other Widgets can be casted to QLineEdit like QSpinBox but not vice-versa.
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        auto name = oneWidget->objectName();
+        if (name == "qt_spinbox_lineedit")
+            continue;
+        settings.insert(name, oneWidget->text());
+    }
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All Radio Buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    return settings;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+void Capture::setAllSettings(const QVariantMap &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSyncSettings();
+
+    for (auto &name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+
+        // Checkable Groupboxes
+        auto groupbox = findChild<QGroupBox*>(name);
+        if (groupbox && groupbox->isCheckable())
+        {
+            syncControl(settings, name, groupbox);
+            continue;
+        }
+
+        // Radio button
+        auto radioButton = findChild<QRadioButton*>(name);
+        if (radioButton)
+        {
+            syncControl(settings, name, radioButton);
+            continue;
+        }
+
+        // Line Edit
+        auto lineEdit = findChild<QLineEdit*>(name);
+        if (lineEdit)
+        {
+            syncControl(settings, name, lineEdit);
+            continue;
+        }
+    }
+
+    // Sync to options
+    for (auto &key : settings.keys())
+    {
+        auto value = settings[key];
+        // Save immediately
+        Options::self()->setProperty(key.toLatin1(), value);
+
+        m_Settings[key] = value;
+        m_GlobalSettings[key] = value;
+    }
+
+    emit settingsUpdated(getAllSettings());
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
+
+    // Restablish connections
+    connectSyncSettings();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+bool Capture::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    QSplitter *pSplitter = nullptr;
+    QRadioButton *pRadioButton = nullptr;
+    QLineEdit *pLineEdit = nullptr;
+    bool ok = true;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(&ok);
+        if (ok)
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(&ok);
+        if (ok)
+        {
+            pDSB->setValue(value);
+            // Special case for gain
+            if (pDSB == captureGainN)
+            {
+                if (captureGainN->value() != GainSpinSpecialValue)
+                    setGain(captureGainN->value());
+                else
+                    setGain(-1);
+            }
+            else if (pDSB == captureOffsetN)
+            {
+                if (captureOffsetN->value() != OffsetSpinSpecialValue)
+                    setOffset(captureOffsetN->value());
+                else
+                    setOffset(-1);
+            }
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value != pCB->isChecked())
+            pCB->click();
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value != pRadioButton->isChecked())
+            pRadioButton->click();
+        return true;
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pSplitter = qobject_cast<QSplitter *>(widget)))
+    {
+        const auto value = QByteArray::fromBase64(settings[key].toString().toUtf8());
+        pSplitter->restoreState(value);
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value)
+            pRadioButton->click();
+        return true;
+    }
+    else if ((pLineEdit = qobject_cast<QLineEdit *>(widget)))
+    {
+        const auto value = settings[key].toString();
+        pLineEdit->setText(value);
+        // Special case
+        if (pLineEdit == fileRemoteDirT)
+            generatePreviewFilename();
+        return true;
+    }
+
+    return false;
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+void Capture::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QGroupBox *gb = nullptr;
+    QRadioButton *rb = nullptr;
+    QComboBox *cbox = nullptr;
+    QLineEdit *le = nullptr;
+
+    QString key;
+    QVariant value;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        key = dsb->objectName();
+        value = dsb->value();
+
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        key = sb->objectName();
+        value = sb->value();
+    }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        key = cb->objectName();
+        value = cb->isChecked();
+    }
+    else if ( (gb = qobject_cast<QGroupBox*>(sender())))
+    {
+        key = gb->objectName();
+        value = gb->isChecked();
+    }
+    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = rb->objectName();
+        value = true;
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        key = cbox->objectName();
+        value = cbox->currentText();
+    }
+    else if ( (le = qobject_cast<QLineEdit*>(sender())))
+    {
+        key = le->objectName();
+        value = le->text();
+    }
+
+
+    if (!m_standAlone)
+    {
+        m_Settings[key] = value;
+        m_GlobalSettings[key] = value;
+        // Save immediately
+        Options::self()->setProperty(key.toLatin1(), value);
+        m_DebounceTimer.start();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Capture::settleSettings()
+{
+    state()->setDirty(true);
+    emit settingsUpdated(getAllSettings());
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+void Capture::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        if (oneWidget->objectName() == "opticalTrainCombo")
+            continue;
+
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+    }
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+    {
+        if (oneWidget->isCheckable())
+        {
+            key = oneWidget->objectName();
+            value = Options::self()->property(key.toLatin1());
+            if (value.isValid())
+            {
+                oneWidget->setChecked(value.toBool());
+                settings[key] = value;
+            }
+            else
+                qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+        }
+    }
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    // All Line Edits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        if (oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
+            continue;
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setText(value.toString());
+            settings[key] = value;
+        }
+    }
+    m_GlobalSettings = m_Settings = settings;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+void Capture::connectSyncSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        // Don't sync Optical Train combo
+        if (oneWidget != opticalTrainCombo)
+            connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Capture::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Capture::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Capture::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Capture::syncSettings);
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            connect(oneWidget, &QGroupBox::toggled, this, &Ekos::Capture::syncSettings);
+
+    // All Radio Buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Capture::syncSettings);
+
+    // All Line Edits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        if (oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
+            continue;
+        connect(oneWidget, &QLineEdit::textChanged, this, &Ekos::Capture::syncSettings);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+void Capture::disconnectSyncSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Capture::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Capture::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Capture::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Capture::syncSettings);
+
+    // All Checkable Groupboxes
+    for (auto &oneWidget : findChildren<QGroupBox*>())
+        if (oneWidget->isCheckable())
+            disconnect(oneWidget, &QGroupBox::toggled, this, &Ekos::Capture::syncSettings);
+
+    // All Radio Buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Capture::syncSettings);
+
+    // All Line Edits
+    for (auto &oneWidget : findChildren<QLineEdit*>())
+    {
+        if (oneWidget->objectName() == "qt_spinbox_lineedit")
+            continue;
+        disconnect(oneWidget, &QLineEdit::textChanged, this, &Ekos::Capture::syncSettings);
+    }
+}
+
 }

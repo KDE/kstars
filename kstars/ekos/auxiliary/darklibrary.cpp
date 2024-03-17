@@ -55,6 +55,11 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     writableDir.mkpath("darks");
     writableDir.mkpath("defectmaps");
 
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &DarkLibrary::settleSettings);
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Dark Generation Connections
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -574,8 +579,7 @@ void DarkLibrary::closeEvent(QCloseEvent *ev)
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->setPresetSettings(m_PresetSettings);
-        m_CaptureModule->setFileSettings(m_FileSettings);
+        m_CaptureModule->setAllSettings(m_CaptureModuleSettings);
     }
 }
 
@@ -593,8 +597,7 @@ void DarkLibrary::setCompleted()
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->setPresetSettings(m_PresetSettings);
-        m_CaptureModule->setFileSettings(m_FileSettings);
+        m_CaptureModule->setAllSettings(m_CaptureModuleSettings);
     }
 
     m_Camera->disconnect(this);
@@ -939,7 +942,10 @@ bool DarkLibrary::setCamera(ISD::Camera * device)
     {
         darkTabsWidget->setEnabled(true);
         checkCamera();
-        reloadDarksFromDatabase();
+        // JM 2024.03.09: Add a bandaid for a mysteroius crash that sometimes happen
+        // when loading dark frame on Ekos startup. The crash occurs in cfitsio
+        // Hopefully this delay might fix it
+        QTimer::singleShot(1000, this, &DarkLibrary::reloadDarksFromDatabase);
         return true;
     }
     else
@@ -1112,8 +1118,7 @@ void DarkLibrary::generateDarkJobs()
     if (m_JobsGenerated == false)
     {
         m_JobsGenerated = true;
-        m_PresetSettings = m_CaptureModule->getPresetSettings();
-        m_FileSettings = m_CaptureModule->getFileSettings();
+        m_CaptureModuleSettings = m_CaptureModule->getAllSettings();
     }
 
     QList<double> temperatures;
@@ -1162,26 +1167,22 @@ void DarkLibrary::generateDarkJobs()
             for (auto &oneBin : bins)
             {
                 sequence++;
+                QVariantMap settings;
 
-                QJsonObject settings;
-
-                settings["optical_train"] = opticalTrainCombo->currentText();
-                settings["exp"] = oneExposure;
-                settings["bin"] = oneBin;
-                settings["frameType"] = FRAME_DARK;
-                settings["temperature"] = oneTemperature;
+                settings["opticalTrainCombo"] = opticalTrainCombo->currentText();
+                settings["captureExposureN"] = oneExposure;
+                settings["captureBinHN"] = oneBin;
+                settings["captureFormatS"] = "Dark";
+                settings["cameraTemperatureN"] = oneTemperature;
                 if (captureGainN->isEnabled())
-                    settings["gain"] = captureGainN->value();
+                    settings["captureGainN"] = captureGainN->value();
                 if (captureISOS->isEnabled())
-                    settings["iso"] = captureISOS->currentIndex();
+                    settings["captureISOS"] = captureISOS->currentText();
 
-                QString directory = prefix + QString("sequence_%1").arg(sequence);
-                QJsonObject fileSettings;
+                settings["fileDirectoryT"] = QString(prefix + QString("sequence_%1").arg(sequence));
+                settings["captureCountN"] = countSpin->value();
 
-                fileSettings["directory"] = directory;
-                m_CaptureModule->setPresetSettings(settings);
-                m_CaptureModule->setFileSettings(fileSettings);
-                m_CaptureModule->setCount(countSpin->value());
+                m_CaptureModule->setAllSettings(settings);
                 m_CaptureModule->createJob();
             }
         }
@@ -1649,7 +1650,11 @@ void DarkLibrary::refreshOpticalTrain()
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
         auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
         if (settings.isValid())
-            setAllSettings(settings.toJsonObject().toVariantMap());
+        {
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
         else
             m_Settings = m_GlobalSettings;
     }
@@ -1974,13 +1979,19 @@ void DarkLibrary::syncSettings()
 
     // Save immediately
     Options::self()->setProperty(key.toLatin1(), value);
-    Options::self()->save();
-
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
-    emit settingsUpdated(getAllSettings());
+    m_DebounceTimer.start();
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::settleSettings()
+{
+    emit settingsUpdated(getAllSettings());
+    Options::self()->save();
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);

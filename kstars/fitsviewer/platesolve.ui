@@ -66,6 +66,12 @@
       </item>
       <item row="2" column="1">
        <widget class="QDoubleSpinBox" name="kcfg_FitsSolverScale">
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="toolTip">
          <string>Set image scale to speed up solver as it does not have to search index files of different image scales.</string>
         </property>
@@ -83,7 +89,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
+      <item row="2" column="2" colspan="2">
        <widget class="QComboBox" name="kcfg_FitsSolverImageScaleUnits">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -120,7 +126,7 @@
         </item>
        </widget>
       </item>
-      <item row="2" column="3">
+      <item row="2" column="4">
        <spacer name="hSpacer1">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -166,6 +172,9 @@
         <property name="text">
          <string/>
         </property>
+        <property name="icon">
+         <iconset theme="snap-orthogonal"/>
+        </property>
        </widget>
       </item>
       <item row="4" column="1">
@@ -178,7 +187,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
+      <item row="4" column="2" colspan="2">
        <widget class="dmsBox" name="FitsSolverEstRA">
         <property name="enabled">
          <bool>true</bool>
@@ -200,7 +209,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="3">
+      <item row="4" column="4">
        <spacer name="hSpacer2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -223,7 +232,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="2">
+      <item row="5" column="2" colspan="2">
        <widget class="dmsBox" name="FitsSolverEstDec">
         <property name="enabled">
          <bool>true</bool>
@@ -251,7 +260,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="3">
+      <item row="5" column="4">
        <spacer name="hSpacer3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -274,7 +283,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="2">
+      <item row="6" column="2" colspan="2">
        <widget class="QDoubleSpinBox" name="kcfg_FitsSolverRadius">
         <property name="maximumSize">
          <size>
@@ -296,7 +305,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="3">
+      <item row="6" column="4">
        <spacer name="hSpacer4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -319,7 +328,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="2">
+      <item row="7" column="2" colspan="2">
        <widget class="QLabel" name="FitsSolverAngle">
         <property name="maximumSize">
          <size>
@@ -332,7 +341,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="3">
+      <item row="7" column="4">
        <spacer name="hSpacer4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -354,7 +363,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>Selects the Options Profile (from Align) to use for Plate Solving</string>
+         <string>Selects the Options Profile to use for plate solving</string>
         </property>
         <property name="text">
          <string>Profile</string>
@@ -369,15 +378,65 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="toolTip">
-         <string>Selects the Options Profile (from Align) to use for Plate Solving</string>
+         <string>Selects the Options Profile to use for plate solving</string>
         </property>
         <property name="currentIndex">
          <number>-1</number>
         </property>
        </widget>
       </item>
+      <item row="10" column="1" colspan="2">
+       <widget class="QComboBox" name="kcfg_FitsSolverModule">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Selects the module from which Options Profiles are taken to use for plate solving</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
       <item row="9" column="3">
+       <widget class="QPushButton" name="editProfile">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Opens the currently selected Profile in the Options Profile Editor</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="4">
        <spacer name="hSpacer5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

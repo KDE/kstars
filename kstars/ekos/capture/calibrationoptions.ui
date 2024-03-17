@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>calibrationOptions</class>
- <widget class="QDialog" name="calibrationOptions">
+ <class>Calibration</class>
+ <widget class="QDialog" name="Calibration">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>160</height>
+    <height>186</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QCheckBox" name="gotoWallC">
+           <widget class="QCheckBox" name="captureCalibrationWall">
             <property name="toolTip">
              <string>Slew mount to the specified Azimuth/Altitude coordinates before taking flat field images</string>
             </property>
@@ -98,14 +98,14 @@
          </layout>
         </item>
         <item>
-         <widget class="QCheckBox" name="parkMountC">
+         <widget class="QCheckBox" name="captureCalibrationParkMount">
           <property name="text">
            <string>Park Mount</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="parkDomeC">
+         <widget class="QCheckBox" name="captureCalibrationParkDome">
           <property name="text">
            <string>Park Dome</string>
           </property>
@@ -151,7 +151,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
-           <widget class="QRadioButton" name="manualDurationC">
+           <widget class="QRadioButton" name="captureCalibrationDurationManual">
             <property name="toolTip">
              <string>Use the frame exposure value</string>
             </property>
@@ -167,7 +167,7 @@
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QRadioButton" name="ADUC">
+           <widget class="QRadioButton" name="captureCalibrationUseADU">
             <property name="toolTip">
              <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.</string>
             </property>
@@ -180,7 +180,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="ADUValue">
+           <widget class="QSpinBox" name="captureCalibrationADUValue">
             <property name="toolTip">
              <string>Calculate optimal exposure time given the required ADU. If a controllable device is selected, calculate optimal brightness.</string>
             </property>
@@ -203,7 +203,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QSpinBox" name="ADUTolerance">
+           <widget class="QSpinBox" name="captureCalibrationADUTolerance">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Accept ADU values that fall within this range around the desired ADU target. For example, if the ADU value was set to 10000 and the tolerance was set to 100, then frames with ADU values f 9900 and 10100 shall be accepted.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -221,7 +221,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QCheckBox" name="skyFlats">
+         <widget class="QCheckBox" name="captureCalibrationSkyFlats">
           <property name="toolTip">
            <string>When shooting flats on sky that can change intensity. Will use simpler exposure calculation.</string>
           </property>
@@ -269,22 +269,22 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>gotoWallC</tabstop>
+  <tabstop>captureCalibrationWall</tabstop>
   <tabstop>azBox</tabstop>
   <tabstop>altBox</tabstop>
-  <tabstop>parkMountC</tabstop>
-  <tabstop>parkDomeC</tabstop>
-  <tabstop>manualDurationC</tabstop>
-  <tabstop>ADUC</tabstop>
-  <tabstop>ADUValue</tabstop>
-  <tabstop>ADUTolerance</tabstop>
+  <tabstop>captureCalibrationParkMount</tabstop>
+  <tabstop>captureCalibrationParkDome</tabstop>
+  <tabstop>captureCalibrationDurationManual</tabstop>
+  <tabstop>captureCalibrationUseADU</tabstop>
+  <tabstop>captureCalibrationADUValue</tabstop>
+  <tabstop>captureCalibrationADUTolerance</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>calibrationOptions</receiver>
+   <receiver>Calibration</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -300,7 +300,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>calibrationOptions</receiver>
+   <receiver>Calibration</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

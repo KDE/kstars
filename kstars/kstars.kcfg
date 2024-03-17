@@ -1536,6 +1536,15 @@
       <label>Options Profile for Fitsviewer Solving.</label>
       <default>0</default>
    </entry>
+   <entry name="FitsSolverModule" type="UInt">
+      <label>Module from which profile is taken for Fitsviewer Solving.</label>
+      <default>0</default>
+   </entry>
+   <entry name="FitsSolverProfileIndeces" type="String">
+      <label>JSON storing the assignment of profile indices to module profiles for the FITS Viewer Solver</label>
+      <default></default>
+   </entry>
+   
    <entry name="FitsSolverUseScale" type="Bool">
       <label>Use scale for Fitsviewer Solving.</label>
       <default>false</default>
@@ -1939,22 +1948,18 @@
       <entry name="CapturePosition" type="Bool">
          <label>Calculate position after captures.</label>
          <default>false</default>
-      </entry>      
+      </entry>
       <entry name="CaptureStandAloneTypes" type="String">
          <label>Camera frame types when using stand-alone esq editor.</label>
-         <default></default>
       </entry>      
       <entry name="CaptureStandAloneFormats" type="String">
          <label>Camera frame formats when using stand-alone esq editor.</label>
-         <default></default>
       </entry>      
       <entry name="CaptureStandAloneEncodings" type="String">
          <label>Camera frame encodings when using stand-alone esq editor.</label>
-         <default></default>
       </entry>      
       <entry name="CaptureStandAloneISOs" type="String">
          <label>Camera ISOs when using stand-alone esq editor.</label>
-         <default></default>
       </entry>      
       <entry name="CaptureStandAloneISOIndex" type="UInt">
          <label>Camera ISO choice when using stand-alone esq editor.</label>
@@ -1962,16 +1967,48 @@
       </entry>      
       <entry name="CaptureStandAloneFilters" type="String">
          <label>Filter names when using stand-alone esq editor.</label>
-         <default></default>
       </entry>      
       <entry name="CaptureStandAloneWHGO" type="String">
          <label>Width,Height of sensor size remembered for stand-alone esq editor, and Gain/Offset keywords.</label>
-         <default></default>
+      </entry>      
+      <entry name="CaptureStandAloneTemperature" type="String">
+         <label>Camera temperature properties for stand-alone esq editor.</label>
       </entry>      
       <entry name="CaptureStandAloneTimestamp" type="String">
          <label>Local time that the CaptureStandAlone options were set.</label>
-         <default></default>
-      </entry>      
+      </entry>
+      <entry name="CaptureCalibrationWall" type="Bool">
+         <label>Go to specific coordinates on calibration.</label>
+         <default>false</default>
+      </entry>
+      <entry name="CaptureCalibrationParkMount" type="Bool">
+         <label>Park mount on calibration.</label>
+         <default>false</default>
+      </entry>
+      <entry name="CaptureCalibrationParkDome" type="Bool">
+         <label>Park dome on calibration.</label>
+         <default>false</default>
+      </entry>
+      <entry name="CaptureCalibrationUseManual" type="Bool">
+         <label>Capture calibration frames at the specified exposures.</label>
+         <default>false</default>
+      </entry>
+      <entry name="CaptureCalibrationUseADU" type="Bool">
+         <label>Capture calibration frames using ADU threshold.</label>
+         <default>false</default>
+      </entry>
+      <entry name="CaptureCalibrationADUValue" type="Double">
+         <label>Desired flat frame ADU value.</label>
+         <default>0</default>
+      </entry>
+      <entry name="CaptureCalibrationADUTolerance" type="Double">
+         <label>Desired flat frame ADU tolerance.</label>
+         <default>1000</default>
+      </entry>
+      <entry name="CaptureCalibrationSkyFlats" type="Bool">
+         <label>Capture calibration frames using Sky Flats.</label>
+         <default>false</default>
+      </entry>
    </group>
    <group name="Focus">      
       <entry name="AbsTicksSpin" type="UInt">
@@ -2001,6 +2038,10 @@
       </entry>
       <entry name="FocusFilter" type="String">
          <label>Default Filter Wheel filter</label>
+      </entry>
+      <entry name="FocusForceInSeqAF" type="Bool">
+         <whatsthis>When In Sequence, force an Autofocus at the end of the current subframe.</whatsthis>
+         <default>false</default>
       </entry>
       <entry name="UseFocusDarkFrame" type="Bool">
          <label>Take a dark frame and subtract it before running autofocus operation.</label>
@@ -2121,6 +2162,10 @@
          <whatsthis>How many frames to average over at each step in the Autofocus process.</whatsthis>
          <default>1</default>
       </entry>
+      <entry name="focusHFRFramesCount" type="UInt">
+         <whatsthis>How many frames to average over when performing in-sequence HFR Check.</whatsthis>
+         <default>1</default>
+      </entry>
       <entry name="FocusMultiRowAverage" type="Int">
          <label>Number of rows to combine in the Bahtinov average calculation.</label>
          <default>3</default>
@@ -2204,6 +2249,10 @@
       <entry name="FocusAFOverscan" type="UInt">
          <whatsthis>The amount of Autofocus Overscan.</whatsthis>
          <default>100</default>
+      </entry>
+      <entry name="FocusOverscanDelay" type="Double">
+         <whatsthis>Delay between outward and inward movements of an AF Overscan. For most focusers set 0s.</whatsthis>
+         <default>0.0</default>
       </entry>
       <entry name="FocusCaptureTimeout" type="UInt">
          <whatsthis>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</whatsthis>
@@ -3096,6 +3145,10 @@
          <label>Scheduler is complete once all sequences are complete.</label>
          <default>true</default>
       </entry>
+      <entry name="SchedulerRepeatEverything" type="Bool">
+         <label>Restart all scheduler jobs when all scheduler jobs have completed.</label>
+         <default>false</default>
+      </entry>
       <entry name="SchedulerRepeatSequences" type="Bool">
          <label>Restart sequences as soon as all sequences have been completed.</label>
          <default>false</default>
@@ -3315,6 +3368,11 @@
     <entry name="ShowImageOverlays" type="Bool">
           <label>Display Image Overlays.</label>
           <whatsthis>Toggle whether to display image overlays.</whatsthis>
+          <default>false</default>
+    </entry>
+    <entry name="ShowImageOverlaysBelowCatalogs" type="Bool">
+          <label>Display Image Overlays below catalogs.</label>
+          <whatsthis>Display Image Overlays below catalogs.</whatsthis>
           <default>false</default>
     </entry>
     <entry name="ShowSelectedImageOverlay" type="Bool">

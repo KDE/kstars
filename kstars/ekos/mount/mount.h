@@ -556,6 +556,12 @@ class Mount : public QWidget, public Ui::Mount
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
+        /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
         void syncGPS();
         void setScopeStatus(ISD::Mount::Status status);
         /* Meridian flip state handling */
@@ -575,6 +581,9 @@ class Mount : public QWidget, public Ui::Mount
 
         // Auto Park
         QTimer autoParkTimer;
+
+        // Debounce Timer
+        QTimer m_DebounceTimer;
 
         // Limits
         int m_AbortAltDispatch {-1}, m_AbortHADispatch {-1};

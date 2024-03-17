@@ -12,12 +12,14 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
+#include "ekos/focus/focusutils.h"
 #include "indi/indicamera.h"
 #include "indi/indidustcap.h"
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
 #include "ui_limits.h"
+#include "ui_calibrationoptions.h"
 
 #include <QTimer>
 #include <QUrl>
@@ -457,59 +459,7 @@ class Capture : public QWidget, public Ui::Capture
         const QJsonArray &getSequence() const
         {
             return state()->getSequence();
-        }
-
-        /**
-         * @brief setSettings Set capture settings
-         * @param settings list of settings
-         */
-        void setPresetSettings(const QJsonObject &settings);
-
-        /**
-         * @brief getSettings get current capture settings as a JSON Object
-         * @return settings as JSON object
-         */
-        QJsonObject getPresetSettings();
-
-        /**
-         * @brief setFileSettings Set File Settings
-         * @param settings as JSON object
-         */
-        void setFileSettings(const QJsonObject &settings);
-        /**
-         * @brief getFileSettings Compile file setting
-         * @return File settings as JSON object
-         */
-        QJsonObject getFileSettings();
-
-        /**
-         * @brief setCalibrationSettings Set Calibration settings
-         * @param settings as JSON object
-         */
-        void setCalibrationSettings(const QJsonObject &settings)
-        {
-            state()->setCalibrationSettings(settings);
-        }
-
-        /**
-         * @brief getCalibrationSettings Get Calibration settings
-         * @return settings as JSON object
-         */
-        QJsonObject getCalibrationSettings()
-        {
-            return state()->calibrationSettings();
-        }
-
-        /**
-         * @brief setLimitSettings Set limit settings
-         * @param settings as JSON Object
-         */
-        void setLimitSettings(const QJsonObject &settings);
-        /**
-         * @brief getLimitSettings Get Limit Settings
-         * @return settings as JSON Object
-         */
-        QJsonObject getLimitSettings();
+        }        
 
         /**
          * @brief setVideoLimits sets the buffer size and max preview fps for live preview
@@ -536,6 +486,12 @@ class Capture : public QWidget, public Ui::Capture
         void openExposureCalculatorDialog();
 
         void onStandAloneShow(QShowEvent* event);
+
+        // ////////////////////////////////////////////////////////////////////
+        // Settings
+        // ////////////////////////////////////////////////////////////////////
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
 
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
@@ -901,9 +857,6 @@ class Capture : public QWidget, public Ui::Capture
         void editJob(QModelIndex i);
         void resetJobEdit(bool cancelled = false);
 
-        // Flat field
-        void openCalibrationDialog();
-
         // Observer
         void showObserverDialog();
 
@@ -948,7 +901,7 @@ class Capture : public QWidget, public Ui::Capture
 
         // communication with other modules
         void checkFocus(double);
-        void runAutoFocus(bool);
+        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
         void resetFocus();
         void abortFocus();
         void adaptiveFocus();
@@ -959,7 +912,7 @@ class Capture : public QWidget, public Ui::Capture
         void newExposureProgress(SequenceJob *job);
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
-        void settingsUpdated(const QJsonObject &settings);
+        void settingsUpdated(const QVariantMap &settings);        
         void newLocalPreview(const QString &preview);
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
@@ -1086,7 +1039,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief Sync refocus options to the GUI settings
          */
-        void syncRefocusOptionsFromGUI();
+        //void syncRefocusOptionsFromGUI();
 
         /**
          * @brief currentScope Retrieve the scope parameters from the optical train.
@@ -1162,6 +1115,40 @@ class Capture : public QWidget, public Ui::Capture
         void editFilterName();
         bool editFilterNameInternal(const QStringList &labels, QStringList &newLabels);
 
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSyncSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSyncSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
         // ////////////////////////////////////////////////////////////////////
         // device control
         // ////////////////////////////////////////////////////////////////////
@@ -1214,12 +1201,17 @@ class Capture : public QWidget, public Ui::Capture
         double OffsetSpinSpecialValue { INVALID_VALUE };
 
         // sub dialogs
-        std::unique_ptr<Ui::Limits> m_LimitsUI;
+        std::unique_ptr<Ui::Limits> m_LimitsUI;        
         QPointer<QDialog> m_LimitsDialog;
+        std::unique_ptr<Ui::Calibration> m_CalibrationUI;
+        QPointer<QDialog> m_CalibrationDialog;
         QPointer<ScriptsManager> m_scriptsManager;
 
-
         QVariantMap m_Metadata;
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
+
+        QTimer m_DebounceTimer;
 
         QSharedPointer<FilterManager> m_FilterManager;
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;

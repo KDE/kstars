@@ -106,13 +106,13 @@
 ><guilabel
 >Type</guilabel
 > : spécifie le type de trames CCD. Les options sont <guimenuitem
->Light</guimenuitem
+>Clair</guimenuitem
 >, <guimenuitem
->Dark</guimenuitem
+>Sombre</guimenuitem
 >, <guimenuitem
->Bias</guimenuitem
+>Biais</guimenuitem
 > et <guimenuitem
->Flat</guimenuitem
+>A plat</guimenuitem
 >. </para>
             </listitem>
             <listitem>
@@ -166,7 +166,7 @@
             <title
 >Propriétés personnalisables</title>
             <para
->Beaucoup de caméras proposent des propriétés additionnelles qui ne peuvent pas être directement contrôlées dans les réglages de l'acquisition en utilisant les commandes communes. Les commandes d'acquisition décrites ci-dessus représentent les réglages les plus courants qui sont partagés par les différentes caméras mais chaque caméra est unique et peut proposer des propriétés étendues propres. Bien que vous puissiez utiliser le tableau de bord d'INDI pour régler les propriétés du pilote, il est important de pouvoir régler ces propriétés pour chaque tâche de la séquence. Quand vous cliquez sur le bouton <guibutton
+>Beaucoup de caméras proposent des propriétés additionnelles qui ne peuvent pas être directement contrôlées dans les réglages de l'acquisition en utilisant les commandes communes. Les commandes d'acquisition décrites ci-dessus représentent les réglages les plus courants qui sont partagés par les différentes caméras mais chaque caméra est unique et peut proposer des propriétés étendues propres. Bien que vous puissiez utiliser le tableau de bord de INDI pour régler les propriétés du pilote, il est important de pouvoir régler ces propriétés pour chaque tâche de la séquence. Quand vous cliquez sur le bouton <guibutton
 >Propriétés personnalisables</guibutton
 >, une boîte de dialogue apparaît divisée en <guilabel
 >Propriétés disponibles</guilabel
@@ -248,7 +248,7 @@
 >%f</emphasis
 > ou <emphasis role="bold"
 >%filename</emphasis
-> : le nom du fichier de séquence .seq, sans extension. </para>
+> : le nom du fichier de séquence « .seq », sans extension. </para>
                     </listitem>
                     <listitem>
                         <para
@@ -266,7 +266,7 @@
 >%T</emphasis
 > ou <emphasis role="bold"
 >%Type</emphasis
->: le type de trame, par exemple 'Light', 'Bias', 'Dark', 'Flat'… </para>
+>: le type de trame, par exemple « Clair », « Biais », « Sombre », « A plat »,… </para>
                     </listitem>
                     <listitem>
                         <para
@@ -274,7 +274,7 @@
 >%e</emphasis
 > ou <emphasis role="bold"
 >%exposure</emphasis
->: la durée d'exposition en secondes. </para>
+> : la durée d'exposition en secondes. </para>
                     </listitem>
                     <listitem>
                         <para
@@ -282,7 +282,7 @@
 >%F</emphasis
 > ou <emphasis role="bold"
 >%Filter</emphasis
->: le nom du filtre actif. </para>
+> : le nom du filtre actif. </para>
                     </listitem>
                     <listitem>
                         <para
@@ -290,7 +290,7 @@
 >%t</emphasis
 > ou <emphasis role="bold"
 >%target</emphasis
->: le nom de la cible. </para>
+> : le nom de la cible. </para>
                     </listitem>
                     <listitem>
                         <para
@@ -316,7 +316,7 @@
 >Aperçu</guilabel
 > : affiche un aperçu du nom de fichier en fonction du format de chaîne défini et des configurations des autre tâches. </para>
                 <para
->Les étiquettes réservées spécifiées par le fichier de séquence .seq ne peuvent être affichées que lorsque le fichier de séquence a été enregistré. </para>
+>Les étiquettes réservées spécifiées par le fichier de séquence « .seq » ne peuvent être affichées que lorsque le fichier de séquence a été enregistré. </para>
                 <para
 >L'étiquette horaire est affichée avec l'heure système courante et sera remplacée par l'heure d'enregistrement de l'image. </para>
                 <para
@@ -446,7 +446,7 @@
             </mediaobject>
         </screenshot>
         <para
->Vous pouvez ajouter autant de tâches que désirées. Bien que cela ne soit pas strictement nécessaire, il est préférable d'ajouter les tâches d'acquisition de Dark et de Flat après celles de Light. Une fois que vous avez terminé d'ajouter des tâches, cliquez simplement sur le bouton <guibutton
+>Vous pouvez ajouter autant de tâches que désirées. Bien que cela ne soit pas strictement nécessaire, il est préférable d'ajouter les tâches d'acquisition des trames « Sombre » et « A plat » après celles de type « Clair ». Une fois que vous avez terminé d'ajouter des tâches, cliquez simplement sur le bouton <guibutton
 >Démarrer séquence</guibutton
 > <inlinemediaobject
 ><imageobject
@@ -486,15 +486,15 @@
             <para
 ><emphasis role="bold"
 >Progression des tâches</emphasis
-> : Ekos est conçu pour exécuter les séquences sur plusieurs nuits si nécessaire. Ainsi, si l'option <guilabel
+> : la conception de Ekos permet d'exécuter des séquences sur plusieurs nuits si nécessaire. Ainsi, si l'option <guilabel
 >Se rappeler de la progression des tâches</guilabel
 > est activée dans les <link linkend="ekos"
->options d'Ekos</link
+>options de Ekos</link
 >, Ekos fera un scan du système de fichiers pour déterminer le nombre d'images déjà présentes et terminées et reprendra la séquence au point où il s'était arrêté. Si ce n'est pas le comportement désiré, vous pouvez simplement désactiver cette option. </para>
         </important>
 
         <para
->Pour modifier une tâche, il faut double cliquer sur son nom. Remarquez comment le bouton d'ajout <inlinemediaobject
+>Pour modifier une tâche, il faut double cliquer sur son nom. Veuillez noter comment le bouton d'ajout <inlinemediaobject
 ><imageobject
 ><imagedata fileref="list-add.png" format="PNG"/></imageobject
 ></inlinemediaobject
@@ -502,12 +502,12 @@
 ><imageobject
 ><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
 ></inlinemediaobject
->. Faites vos changements dans le panneau gauche du module CCD et ensuite cliquez sur la coche pour appliquer. Pour annuler la modification, cliquez n'importe où dans un espace vide de la table de séquences. </para>
+>. Faites vos changements dans le panneau gauche du module CCD et ensuite cliquez sur la boîte à cocher pour appliquer. Pour annuler la modification, cliquez n'importe où dans un espace vide de la table de séquences. </para>
         <important>
             <para
 ><emphasis role="bold"
 >Modification des tâches actives</emphasis
-> : quand une acquisition est en cours ou quand l'ordonnanceur est actif, vous ne pouvez pas modifier la file de séquences ou un fichier .esq dans l'onglet d'acquisition. Toutefois, il existe un outil dans l'onglet de l'ordonnanceur qui permet de modifier les fichiers .esl ou en créer de nouveaux. </para>
+> : quand une acquisition est en cours ou quand l'ordonnanceur est actif, vous ne pouvez pas modifier la file de séquences ou un fichier « .esq » dans l'onglet d'acquisition. Toutefois, il existe un outil dans l'onglet de l'ordonnanceur qui permet de modifier les fichiers « .esl » ou en créer de nouveaux. </para>
         </important>
         <para
 >Si votre caméra gère les vidéos en direct, vous pouvez cliquer sur le bouton <guilabel
@@ -526,7 +526,7 @@
             </caption>
         </mediaobject>
         <para
->La vue « Live view » fournit un outil de superposition d'images très utile pour la collimation. Le bouton en croix permet de le (dés)activer. </para>
+>La vue « Affichage en direct » fournit un outil de superposition d'images très utile pour la collimation. Le bouton en croix permet de le (dés)activer. </para>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="ekos_live_overlay.png" format="PNG"/>
@@ -651,7 +651,7 @@
             </mediaobject>
         </screenshot>
         <para
->Pour les trames de champ uniforme (Flat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames Dark et Bias. Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon anti-poussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les Flats, vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul d'ADU (Analog Digital Unit ou pas de quantification). </para>
+>Pour les trames de champ uniforme (A Plat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames « Sombre » et « Biais ». Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon anti-poussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les trames « A plat », vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul « ADU » (Analog Digital Unit ou pas de quantification). </para>
         <orderedlist>
             <listitem>
                 <para
@@ -665,20 +665,20 @@
                         <listitem>
                             <para
 ><guilabel
->Bouchon antipoussière avec source de lumière intégrée</guilabel
-> : pour l'utilisation de ce type d'appareil (p. ex. FlipFlat). Pour les trames Dark et Bias, veillez à fermer le bouchon antipoussière avant de commencer. Pour les trames Flat, fermez le bouchon antipoussière et allumez la source de lumière.</para>
+>Bouchon anti-poussière avec source de lumière intégrée</guilabel
+> : pour l'utilisation de ce type d'appareil (p. ex. FlipFlat). Pour les trames « Sombre » et « Biais », veillez à fermer le bouchon anti-poussière avant de commencer. Pour les trames Flat, fermez le bouchon anti-poussière et allumez la source de lumière.</para>
                         </listitem>
                         <listitem>
                             <para
 ><guilabel
->Bouchon antipoussière avec source de lumière externe</guilabel
-> : pour l'utilisation de bouchon antipoussière avec source de lumière externe. Pour les trames Dark et Bias, veuillez à fermer le bouchon antipoussière avant de commencer. Pour les trames Flat, fermez le bouchon antipoussière et allumer la source de lumière. L'emplacement de la source externe de lumière pour les Flats est présumée être la position de parcage.</para>
+>Bouchon anti-poussière avec source de lumière externe</guilabel
+> : pour l'utilisation de bouchon anti-poussière avec source de lumière externe. Pour les trames « Sombre » et « Biais », veuillez à fermer le bouchon anti-poussière avant de commencer. Pour les trames Flat, fermez le bouchon anti-poussière et allumer la source de lumière. L'emplacement de la source externe de lumière pour les trames « A plat » est présumée être la position de parcage.</para>
                         </listitem>
                         <listitem>
                             <para
 ><guilabel
 >Mur</guilabel
-> : la source de lumière est un panneau placé contre un mur. Spécifier les coordonnées d'azimut et d'altitude du panneau et la monture pivotera dans cette direction avant de débuter l'acquisition des trames de Flats. Si le panneau de lumière est contrôlable par INDI, Ekos se chargera de l'allumer et de l'éteindre.</para>
+> : la source de lumière est un panneau placé contre un mur. Spécifier les coordonnées d'azimut et d'altitude du panneau et la monture pivotera dans cette direction avant de débuter l'acquisition des trames « A plat ». Si le panneau de lumière est contrôlable par INDI, Ekos se chargera de l'allumer et de l'éteindre.</para>
                         </listitem>
                         <listitem>
                             <para
@@ -709,7 +709,7 @@
             </listitem>
         </orderedlist>
         <para
->Avant le début de la procédure d'acquisition de la calibration, vous pouvez demander à Ekos de parquer la monture et/ou le dôme. Selon la sélection de la source de Flat ci-dessus, Ekos va utiliser la source de lumière appropriée pour les Flats avant de commencer l'acquisition des trames de Flat. Si une valeur ADU est spécifiée, Ekos commence par prendre une série d'images pour établir la courbe nécessaire pour atteindre la valeur ADU souhaitée. Une fois que cette valeur est calculée, une nouvelle image est prise et l'ADU est recalculée jusqu'à ce que la valeur souhaitée soit atteinte. </para>
+>Avant le début de la procédure d'acquisition de la calibration, vous pouvez demander à Ekos de parquer la monture et/ou le dôme. Selon la sélection de la source de trames « A plat » ci-dessus, Ekos va utiliser la source de lumière appropriée pour ces trames avant de commencer leur acquisition. Si une valeur ADU est spécifiée, Ekos commence par prendre une série d'images pour établir la courbe nécessaire pour atteindre la valeur ADU souhaitée. Une fois que cette valeur est calculée, une nouvelle image est prise et le compteur « ADU » est recalculée jusqu'à ce que la valeur souhaitée soit atteinte. </para>
     </sect2>
     <sect2 id="capture-exposure-calculator">
         <title
@@ -747,8 +747,8 @@
 >sélecteur de qualité du ciel</guimenu
 > règle la mesure de la magnitude par secondes d'arc au carré du fond du ciel.</para>
                             <para
->La plage de valeurs pour la qualité du ciel va de 22 pour les ciels les plus noirs à 16 pour les plus brillants (principalement pollué par la lumière). L'échelle de magnitude est non-linéaire ; c'est une échelle logarithmique basée sur la racine cinquième de 100. Ainsi, 5 pas sur cette échelle représente un changement en magnitude d'un facteur 100. (Une qualité du ciel de 17 est 100 fois plus lumineuse qu'une qualité du ciel de 22. Chaque entier représente un changement d'environ 2.512.). Voir <ulink url="https://en.wikipedia.org/wiki/Sky_brightness"
->Wikipedia Sky Brightness</ulink
+>La plage de valeurs pour la qualité du ciel va de 22 pour les ciels les plus noirs à 16 pour les plus brillants (principalement pollué par la lumière). L'échelle de magnitude est non-linéaire : c'est une échelle logarithmique conçue à partir de la racine cinquième de 100. Ainsi, 5 pas sur cette échelle représente un changement en magnitude d'un facteur 100. (Une qualité du ciel de 17 est 100 fois plus lumineuse qu'une qualité du ciel de 22. Chaque entier représente un changement d'environ 2.512). Veuillez consulter la page <ulink url="https://en.wikipedia.org/wiki/Sky_brightness"
+>Wikipedia sur la luminosité du ciel</ulink
 > et <ulink url="https://fr.wikipedia.org/wiki/Pollution_lumineuse"
 >Pollution lumineuse</ulink
 >.</para>
@@ -782,11 +782,11 @@
                             <para
 >Prenons par exemple deux optiques de même rapport F/D, un réfracteur (sans obstruction) et un réflecteur (avec une obstruction dû au miroir secondaire) ; ces deux optiques seraient traitées de manière équivalentes dans les calculs. On pourrait compenser l'efficacité optique différente en tenant compte du fait qu'un réfracteur a une efficacité d'environ 94% alors que celle d'un réflecteur est d'environ 78%.</para>
 <para
->La compensation sera calculée pour un réfracteur ainsi : (rapport F/D) / 0.94.</para>
+>La compensation sera calculée pour un réfracteur selon la formule = (Rapport F / D) / 0.94.</para>
 <para
->Et pour un réflecteur : (Rapport F/D) / 0.78.</para>
+>La compensation sera calculée pour un réflecteur selon la formule = (Rapport F / D) / 0.78.</para>
 <para
->Ces ajustements augmentent un tout petit peu le rapport F/D et ainsi réduisent un peu l'efficacité de capture de lumière dans les calculs.</para>
+>Ces ajustements augmentent un tout petit peu le rapport « F /D » et ainsi réduisent un peu l'efficacité de capture de lumière dans les calculs.</para>
                         </listitem>
                         <listitem>
                             <para
@@ -806,9 +806,9 @@
                             <para
 ><guilabel
 >Appareil</guilabel
-> : le calcul de la durée d'exposition requiert de connaître la valeur du bruit de lecture de l'appareil. Ce bruit apparaît à la fin d'une exposition et provient du fait que l'appareil mesure des valeurs analogiques de la tension des pixels et les convertit ensuite en valeurs digitales. Ce bruit de lecture n'est pas affecté par la durée d'exposition.</para>
+> : le calcul de la durée d'exposition requiert de connaître la valeur du bruit de lecture de l'appareil. Ce bruit apparaît à la fin d'une exposition et provient du fait que l'appareil mesure des valeurs analogiques de la tension des pixels et les convertit ensuite en valeurs numériques. Ce bruit de lecture n'est pas affecté par la durée d'exposition.</para>
 <para
->Les appareils ont des capteurs de deux types : CCD (Charge Coupled Device) et CMOS (Complementary Metal-Oxide Semiconductor). La différence principale en ce qui concerne le calcul de la durée d'exposition est que les capteurs CCD ne possèdent pas de réglages du gain qui affecte le bruit de lecture ; ainsi, les capteurs CCD n'ont qu'une seule valeur constante pour leur bruit de lecture. Les capteurs CMOS ont un gain variable (ou valeur ISO) et une modification de ce paramètre affecte en général le bruit de lecture.</para>
+>Les appareils ont des capteurs de deux types : CCD (Charge Coupled Device) et CMOS (Complementary Metal-Oxide Semiconductor). La différence principale en ce qui concerne le calcul de la durée d'exposition est que les capteurs CCD ne possèdent pas de réglages du gain qui affecte le bruit de lecture ; ainsi, les capteurs CCD n'ont qu'une seule valeur constante pour leur bruit de lecture. Les capteurs CMOS ont un gain variable (ou valeur « ISO ») et une modification de ce paramètre affecte en général le bruit de lecture.</para>
                             <para
 >Le calculateur d'exposition repose sur la connaissance des données de l'appareil pour pouvoir accéder à une valeur adéquate du bruit de lecture à utiliser dans le calcul. La liste déroulante permet de choisir le fichier approprié à l'appareil. Pour les appareils CCD, le fichier ne contient qu'une seule valeur mais pour les appareils CMOS, le fichier inclut une table (ou plusieurs) de valeurs qui associe le gain ou l'ISO à un bruit de lecture. No soyez pas déconcerté par le « CCD » apparaissant dans le nom de beaucoup d'appareils dédiés à l'astrophotographie car la plupart utilisent des capteurs CMOS. </para>
                             <para
@@ -857,7 +857,7 @@
                 </imageobject>
                 <textobject>
                     <phrase
->Éloignez-vous de telles marches</phrase>
+>Déplacer le gain loin de ces seuils</phrase>
                 </textobject>
             </mediaobject>
 </para>
@@ -924,7 +924,7 @@
 >Cette valeur informe sur l'effet bénéfique d'empiler les images sur l'acquisition du signal de la cible. Le résultat est une courbe indiquant la qualité de l'empilement des images en fonction du nombre d'images, la qualité diminuant avec le nombre d'images. </para>
 <para
 >Idéalement, un rapport signal sur bruit (SNR) devrait être utilisé pour mesurer le niveau de qualité des images, mais le calculateur ne permet pas de reconnaître la force du signal d'une image cible et ne peut ainsi pas calculer ce rapport. Le niveau de qualité dans le calcul d'empilement est la durée d'intégration en secondes divisée par le bruit. Ce rapport « Durée/bruit »
-> peut être considéré comme une analogie grossière du rapport signal sur bruit. Mais l'utilisateur doit garder en tête que le rapport « Durée/bruit » n'est pas une mesure absolue de la qualité de l'empilement des images de toutes les cibles puisque la force du signal (magnitude ou flux) ne fait pas partie du calcul. </para>
+> peut être considéré comme une analogie grossière du rapport signal sur bruit. Mais l'utilisateur doit toujours se rappeler que le rapport « Durée/bruit » n'est pas une mesure absolue de la qualité de l'empilement des images de toutes les cibles puisque la force du signal (magnitude ou flux) ne fait pas partie du calcul. </para>
                     <itemizedlist>
                         <listitem>
                             <para
@@ -940,7 +940,7 @@
                             <para
 ><guimenuitem
 >Graphique</guimenuitem
-> : un graphique interactif permet à l'utilisateur de visualiser les changements relatifs de la qualité potentielle des images empilées en fonction du nombre de trames utilisées pour l'empilement. En faisant varier ce rapport, le nombre de trames sera recalculée pour que l'image empilée atteigne ce rapport « Durée/bruit ».</para>
+> : un graphique interactif permet à l'utilisateur d'afficher les changements relatifs de la qualité potentielle des images empilées en fonction du nombre de trames utilisées pour l'empilement. En faisant varier ce rapport, le nombre de trames sera recalculée pour que l'image empilée atteigne ce rapport « Durée / bruit ».</para>
 
 <para
 >Lors du choix du rapport Durée/Bruit pour le calcul du nombre de trames idéal à empiler, l'utilisateur souhaitera considérer le changement incrémental à la qualité potentielle de l'image d'une trame supplémentaire. Pour l'aider, l'outil inclut un calcul de la pente du point sélectionné sur la courbe de la durée en fonction du bruit (cette valeur est représentée par un symbole delta sur l'interface graphique). Ce delta représente la variation dans la qualité potentielle en ajoutant ou en soustrayant une trame.</para>

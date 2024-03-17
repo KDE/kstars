@@ -8,7 +8,6 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/sequencequeue.h"
-#include "ekos/capture/refocusstate.h"
 #include "fitsviewer/fitsdata.h"
 
 #include "ksnotification.h"
@@ -675,6 +674,32 @@ void CaptureModuleState::updateFocusState(FocusState state)
         m_activeJob->setFocusStatus(state);
 }
 
+AutofocusReason CaptureModuleState::getAFReason(RefocusState::RefocusReason state, QString &reasonInfo)
+{
+    AutofocusReason afReason;
+    reasonInfo = "";
+    switch (state)
+    {
+        case RefocusState::REFOCUS_USER_REQUEST:
+            afReason = AutofocusReason::FOCUS_USER_REQUEST;
+            break;
+        case RefocusState::REFOCUS_TEMPERATURE:
+            afReason = AutofocusReason::FOCUS_TEMPERATURE;
+            reasonInfo = i18n("Limit: %1 °C", QString::number(Options::maxFocusTemperatureDelta(), 'f', 2));
+            break;
+        case RefocusState::REFOCUS_TIME_ELAPSED:
+            afReason = AutofocusReason::FOCUS_TIME;
+            reasonInfo = i18n("Limit: %1 mins", Options::refocusEveryN());
+            break;
+        case RefocusState::REFOCUS_POST_MF:
+            afReason = AutofocusReason::FOCUS_MERIDIAN_FLIP;
+            break;
+        default:
+            afReason = AutofocusReason::FOCUS_NONE;
+    }
+    return afReason;
+}
+
 bool CaptureModuleState::startFocusIfRequired()
 {
     // Do not start focus or adaptive focus if:
@@ -707,12 +732,14 @@ bool CaptureModuleState::startFocusIfRequired()
 
     emit abortFastExposure();
     updateFocusState(FOCUS_PROGRESS);
+    QString reasonInfo;
+    AutofocusReason afReason;
 
     switch (reason)
     {
         case RefocusState::REFOCUS_HFR:
             m_refocusState->resetInSequenceFocusCounter();
-            (Options::hFRDeviation() == 0.0) ? emit runAutoFocus(false) : emit checkFocus(Options::hFRDeviation());
+            emit checkFocus(Options::hFRDeviation());
             qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
             break;
         case RefocusState::REFOCUS_ADAPTIVE:
@@ -720,6 +747,7 @@ bool CaptureModuleState::startFocusIfRequired()
             emit adaptiveFocus();
             qCDebug(KSTARS_EKOS_CAPTURE) << "Adaptive focus started...";
             break;
+        case RefocusState::REFOCUS_USER_REQUEST:
         case RefocusState::REFOCUS_TEMPERATURE:
         case RefocusState::REFOCUS_TIME_ELAPSED:
         case RefocusState::REFOCUS_POST_MF:
@@ -728,7 +756,8 @@ bool CaptureModuleState::startFocusIfRequired()
                 emit resetFocus();
 
             // force refocus
-            emit runAutoFocus(false);
+            afReason = getAFReason(reason, reasonInfo);
+            emit runAutoFocus(afReason, reasonInfo);
             // restart in sequence counting
             m_refocusState->resetInSequenceFocusCounter();
             qCDebug(KSTARS_EKOS_CAPTURE) << "Refocusing started...";

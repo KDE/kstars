@@ -26,7 +26,7 @@ class StellarSolverProfileEditor : public QWidget, public Ui::StellarSolverProfi
         Q_OBJECT
 
     public:
-        void setProfileGroup(ProfileGroup group);
+        void setProfileGroup(ProfileGroup group, bool warn = true);
 
         explicit StellarSolverProfileEditor(QWidget *parent, ProfileGroup group, KConfigDialog *dialog);
         virtual ~StellarSolverProfileEditor() override = default;
@@ -39,7 +39,7 @@ class StellarSolverProfileEditor : public QWidget, public Ui::StellarSolverProfi
         void openSingleProfile();
         void saveSingleProfile();
         void copySingleProfile();
-        void loadProfiles();
+        void loadProfiles(bool warn = true);
         void saveProfiles();
         void loadOptionsProfile();
         void loadOptionsProfileIgnoreOldSettings(int index);
@@ -52,6 +52,8 @@ class StellarSolverProfileEditor : public QWidget, public Ui::StellarSolverProfi
         void disconnectOptionsProfileComboBox();
     public slots:
         void loadProfile(const QString &profile);
+        void showEvent(QShowEvent *e) override;
+
     signals:
         void optionsProfilesUpdated();
     protected:

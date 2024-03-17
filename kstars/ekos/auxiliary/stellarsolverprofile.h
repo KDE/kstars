@@ -8,6 +8,7 @@
 #pragma once
 
 #include <parameters.h>
+#include <KLocalizedString>
 
 namespace Ekos
 {
@@ -20,6 +21,11 @@ typedef enum
     GuideProfiles,
     HFRProfiles
 } ProfileGroup;
+
+static const QList<const char *> ProfileGroupNames =
+{
+    I18N_NOOP("Align"), I18N_NOOP("Focus"), I18N_NOOP("Guide"), I18N_NOOP("HFR")
+};
 
 QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
 QList<SSolver::Parameters> getDefaultGuideOptionsProfiles();

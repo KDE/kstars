@@ -268,6 +268,12 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
+        /**
+         * @brief settleSettings Run this function after timeout from debounce timer to update database
+         * and emit settingsChanged signal. This is required so we don't overload output.
+         */
+        void settleSettings();
+
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Member Variables
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -289,8 +295,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
         bool m_RememberSummaryView {true};
-        bool m_JobsGenerated {false};
-        QJsonObject m_PresetSettings, m_FileSettings;
+        bool m_JobsGenerated {false};        
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;        
         QSharedPointer<DarkView> m_DarkView;
         QPointer<QStatusBar> m_StatusBar;
@@ -302,6 +307,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         // Settings
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
+        QVariantMap m_CaptureModuleSettings;
+
+        QTimer m_DebounceTimer;
 
         // Do not add to cache if system memory falls below 250MB.
         static constexpr uint16_t CACHE_MEMORY_LIMIT {250};
