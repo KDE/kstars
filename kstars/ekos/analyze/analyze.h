@@ -152,6 +152,7 @@ class Analyze : public QWidget, public Ui::Analyze
                 AutofocusReason reason;
                 QString reasonInfo;
                 AutofocusFailReason failCode;
+                QString failCodeInfo;
                 QString points;
                 bool useWeights;
                 QString curve;
@@ -173,7 +174,7 @@ class Analyze : public QWidget, public Ui::Analyze
                              const QString &filter_, const QString &points_, const QString &curve_, const QString &title_);
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                              const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_, const bool useWeights_,
-                             const QString &curve_, const QString &title_, const AutofocusFailReason failCode_);
+                             const QString &curve_, const QString &title_, const AutofocusFailReason failCode_, const QString failCodeInfo_);
                 FocusSession(double start_, double end_, QCPItemRect *rect,
                              const QString &filter_, double temperature_, double tempTicks_, double altitude_,
                              double altTicks_, int prevPosError, int thisPosError, int totalTicks_, int position_);
@@ -212,7 +213,7 @@ class Analyze : public QWidget, public Ui::Analyze
                                    double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
                                    int position, bool focuserMoved);
         void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                              const AutofocusFailReason failCode);
+                              const AutofocusFailReason failCode, const QString failCodeInfo);
         void newTemperature(double temperatureDelta, double temperature);
 
         // From Align
@@ -257,7 +258,7 @@ class Analyze : public QWidget, public Ui::Analyze
                                       const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode);
         void processAutofocusAbortedV2(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo,
-                                     const QString &points, const bool useWeights, const AutofocusFailReason failCode, bool batchMode = false);
+                                     const QString &points, const bool useWeights, const AutofocusFailReason failCode, const QString failCodeInfo, bool batchMode = false);
         void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
                                           double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
                                           int position, bool focuserMoved, bool batchMode = false);

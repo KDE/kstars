@@ -990,7 +990,10 @@ double Analyze::processInputLine(const QString &line)
         failCode = static_cast<AutofocusFailReason>(failCodeInt);
         if (!ok)
             return 0;
-        processAutofocusAbortedV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, failCode, true);
+        QString failCodeInfo;
+        if (list.size() > 9)
+            failCodeInfo = QString(list[9]);
+        processAutofocusAbortedV2(time, temperature, filter, reason, reasonInfo, samples, useWeights, failCode, failCodeInfo, true);
     }
     else if ((list[0] == "AutofocusAborted") && (list.size() >= 4))
     {
@@ -1230,9 +1233,11 @@ bool Analyze::Session::isTemporary() const
 // and HFRs given it, eventually to be used to plot the focus v-curve.
 Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                                     const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_,
-                                    const bool useWeights_, const QString &curve_, const QString &title_, const AutofocusFailReason failCode_)
+                                    const bool useWeights_, const QString &curve_, const QString &title_, const AutofocusFailReason failCode_,
+                                    const QString failCodeInfo_)
     : Session(start_, end_, FOCUS_Y, rect), success(ok), temperature(temperature_), filter(filter_), reason(reason_),
-      reasonInfo(reasonInfo_), points(points_), useWeights(useWeights_), curve(curve_), title(title_), failCode(failCode_)
+      reasonInfo(reasonInfo_), points(points_), useWeights(useWeights_), curve(curve_), title(title_), failCode(failCode_),
+      failCodeInfo(failCodeInfo_)
 {
     const QStringList list = points.split(QLatin1Char('|'));
     const int size = list.size();
@@ -1277,6 +1282,7 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
     reasonInfo = "";
     useWeights = false;
     failCode = AutofocusFailReason::FOCUS_FAIL_NONE;
+    failCodeInfo = "";
 
     const QStringList list = points.split(QLatin1Char('|'));
     const int size = list.size();
@@ -1436,7 +1442,8 @@ void Analyze::focusSessionClicked(FocusSession &c, bool doubleClick)
     }
     addDetailsRow(detailsTable, "Reason", Qt::yellow, AutofocusReasonStr[c.reason], Qt::white, c.reasonInfo, Qt::white);
     if (!c.success && !c.isTemporary())
-        c.addRow("Fail Reason", AutofocusFailReasonStr[c.failCode]);
+        addDetailsRow(detailsTable, "Fail Reason", Qt::yellow, AutofocusFailReasonStr[c.failCode], Qt::white, c.failCodeInfo,
+                      Qt::white);
 
     c.addRow("Filter", c.filter);
     c.addRow("Temperature", (c.temperature == INVALID_VALUE) ? "N/A" : QString::number(c.temperature, 'f', 1));
@@ -3193,7 +3200,7 @@ void Analyze::processAutofocusCompleteV2(double time, const double temperature, 
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
     // Use the focus complete temperature (rather than focus start temperature) for consistency with Focus
     auto session = FocusSession(autofocusStartedTime, time, nullptr, true, temperature, filter, reason, reasonInfo, points,
-                                useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE);
+                                useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE, "");
     focusSessions.add(session);
     addFocusPosition(session.focusPosition(), autofocusStartedTime);
     updateMaxX(time);
@@ -3231,7 +3238,7 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
 }
 
 void Analyze::autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                               const AutofocusFailReason failCode)
+                               const AutofocusFailReason failCode, const QString failCodeInfo)
 {
     QString temperature = QString::number(autofocusStartedTemperature, 'f', 1);
     QVariant reasonV = autofocusStartedReason;
@@ -3240,18 +3247,17 @@ void Analyze::autofocusAborted(const QString &filter, const QString &points, con
     QString weights = QString::number(useWeights);
     QVariant failReasonV = static_cast<int>(failCode);
     QString failReason = failReasonV.toString();
-    saveMessage("AutofocusAborted", QString("%1,%2,%3,%4,%5,%6,%7").arg(temperature, reason, reasonInfo, filter, points,
-                weights,
-                failReason));
+    saveMessage("AutofocusAborted", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(temperature, reason, reasonInfo, filter, points,
+                weights, failReason, failCodeInfo));
     if (runtimeDisplay && autofocusStartedTime >= 0)
         processAutofocusAbortedV2(logTime(), autofocusStartedTemperature, filter, autofocusStartedReason, reasonInfo, points,
-                                  useWeights, failCode);
+                                  useWeights, failCode, failCodeInfo);
 }
 
 // Version 2 of processAutofocusAborted added weights, outliers and reason codes.
 void Analyze::processAutofocusAbortedV2(double time, double temperature, const QString &filter,
                                         const AutofocusReason reason, const QString &reasonInfo, const QString &points, const bool useWeights,
-                                        const AutofocusFailReason failCode, bool batchMode)
+                                        const AutofocusFailReason failCode, const QString failCodeInfo, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
     double duration = time - autofocusStartedTime;
@@ -3260,8 +3266,7 @@ void Analyze::processAutofocusAbortedV2(double time, double temperature, const Q
         // Just in case..
         addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
         auto session = FocusSession(autofocusStartedTime, time, nullptr, false, autofocusStartedTemperature, filter, reason,
-                                    reasonInfo, points,
-                                    useWeights, "", "", failCode);
+                                    reasonInfo, points, useWeights, "", "", failCode, failCodeInfo);
         focusSessions.add(session);
         updateMaxX(time);
         if (!batchMode)
