@@ -1173,6 +1173,10 @@ class Capture : public QWidget, public Ui::Capture
         // Disable all the widgets that aren't used in stand-alone mode.
         void initStandAlone();
 
+        // Utilities for storing stand-alone variables.
+        void storeTrainKey(const QString &key, const QStringList &list);
+        void storeTrainKeyString(const QString &key, const QString &str);
+
         // ////////////////////////////////////////////////////////////////////
         // Attributes
         // ////////////////////////////////////////////////////////////////////

@@ -49,6 +49,19 @@
 // Qt version calming
 #include <qtendl.h>
 
+// These strings are used to store information in the optical train
+// for later use in the stand-alone esq editor.
+#define KEY_FILTERS     "filtersList"
+#define KEY_FORMATS     "formatsList"
+#define KEY_ISOS        "isoList"
+#define KEY_INDEX       "isoIndex"
+#define KEY_H           "captureFrameHN"
+#define KEY_W           "captureFrameWN"
+#define KEY_GAIN_KWD    "ccdGainKeyword"
+#define KEY_OFFSET_KWD  "ccdOffsetKeyword"
+#define KEY_TEMPERATURE "ccdTemperatures"
+#define KEY_TIMESTAMP   "timestamp"
+
 namespace
 {
 
@@ -64,29 +77,6 @@ enum JobTableColumnIndex
     JOBTABLE_COL_ISO,
     JOBTABLE_COL_OFFSET
 };
-
-// Encode and decode for storing stand-alone options which are really QStringLists.
-QString standAloneEncode(const QStringList &list)
-{
-    if (list.size() == 0)
-        return "";
-    QString encoding;
-    encoding.append(list[0]);
-    for (int i = 1; i < list.size(); ++i)
-    {
-        encoding.append(",");
-        encoding.append(list[i]);
-    }
-    return encoding;
-}
-
-QStringList standAloneDecode(const QString &encoding)
-{
-    auto dec = encoding.split(",");
-    if (dec.size() == 1 && dec[0] == "")
-        return QStringList();
-    return dec;
-}
 
 // Adds the items to the QComboBox if they're not there already.
 void addToCombo(QComboBox *combo, const QStringList &items)
@@ -106,6 +96,24 @@ void addToCombo(QComboBox *combo, const QStringList &items)
 
 namespace Ekos
 {
+
+void Capture::storeTrainKey(const QString &key, const QStringList &list)
+{
+    if (!m_Settings.contains(key) || m_Settings[key].toStringList() != list)
+    {
+        m_Settings[key] = list;
+        m_DebounceTimer.start();
+    }
+}
+
+void Capture::storeTrainKeyString(const QString &key, const QString &str)
+{
+    if (!m_Settings.contains(key) || m_Settings[key].toString() != str)
+    {
+        m_Settings[key] = str;
+        m_DebounceTimer.start();
+    }
+}
 
 // There are many widgets that are not used in stand-alone mode and should be made invisible and disabled.
 void Capture::initStandAlone()
@@ -130,17 +138,22 @@ void Capture::initStandAlone()
 // used after startup, it will have set more recent remembered values.
 void Capture::onStandAloneShow(QShowEvent* event)
 {
+    OpticalTrainSettings::Instance()->setOpticalTrainID(Options::captureTrainID());
+    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Capture);
+    m_Settings = settings.toJsonObject().toVariantMap();
+
     Q_UNUSED(event);
     QSharedPointer<FilterManager> fm;
 
-    // Default comment if there is no previously saved Options::CaptureStandAlone... parameters.
+    // Default comment if there is no previously saved stand-alone parameters.
     QString comment = i18n("<b><font color=\"red\">Please run the Capture tab connected to INDI with your desired "
                            "camera/filterbank at least once before using the Sequence Editor. </font></b><p>");
-    if (Options::captureStandAloneTimestamp().size() > 0)
+
+    if (m_Settings.contains(KEY_TIMESTAMP) && m_Settings[KEY_TIMESTAMP].toString().size() > 0)
         comment = i18n("<b>Using camera and filterwheel attributes from Capture session started at %1.</b>"
                        "<p>If you wish to use other cameras/filterbanks, please edit the sequence "
                        "using the Capture tab.<br>It is not recommended to overwrite a sequence file currently running, "
-                       "please rename it instead.</p><p>", Options::captureStandAloneTimestamp());
+                       "please rename it instead.</p><p>", m_Settings[KEY_TIMESTAMP].toString());
     sequenceEditorComment->setVisible(true);
     sequenceEditorComment->setEnabled(true);
     sequenceEditorComment->setStyleSheet("{color: #C0BBFE}");
@@ -152,19 +165,15 @@ void Capture::onStandAloneShow(QShowEvent* event)
     connect(esqSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
     connect(esqLoadB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
 
-    // This currently gets the filters from filter manager #0.
-    // Could try all of them?
-    bool ok = Manager::Instance()->getFilterManager(fm);
-    if (ok)
-        addToCombo(FilterPosCombo, fm->getFilterLabels());
-    addToCombo(FilterPosCombo, standAloneDecode(Options::captureStandAloneFilters()));
+    FilterPosCombo->clear();
+    if (m_Settings.contains(KEY_FILTERS))
+        addToCombo(FilterPosCombo, m_Settings[KEY_FILTERS].toStringList());
 
     if (FilterPosCombo->count() > 0)
     {
         filterEditB->setEnabled(true);
         filterManagerB->setEnabled(true);
     }
-
 
     captureGainN->setEnabled(true);
     captureGainN->setValue(GainSpinSpecialValue);
@@ -179,45 +188,53 @@ void Capture::onStandAloneShow(QShowEvent* event)
     const QStringList frameTypes = {"Light", "Dark", "Bias", "Flat"};
     captureTypeS->clear();
     captureTypeS->addItems(frameTypes);
-    addToCombo(captureTypeS, standAloneDecode(Options::captureStandAloneTypes()));
 
     // Always add these strings to the encodings menu. Might also add other ones
     // that were used in the last capture session.
     const QStringList frameEncodings = {"FITS", "Native", "XISF"};
     captureEncodingS->clear();
     captureEncodingS->addItems(frameEncodings);
-    addToCombo(captureEncodingS, standAloneDecode(Options::captureStandAloneEncodings()));
 
-    const QStringList frameFormats = {};
-    captureFormatS->clear();
-    if (frameFormats.size() > 0)
-        captureFormatS->addItems(frameFormats);
-    addToCombo(captureFormatS, standAloneDecode(Options::captureStandAloneFormats()));
+    if (m_Settings.contains(KEY_FORMATS))
+    {
+        captureFormatS->clear();
+        addToCombo(captureFormatS, m_Settings[KEY_FORMATS].toStringList());
+    }
 
     cameraTemperatureN->setEnabled(true);
     cameraTemperatureN->setReadOnly(false);
     cameraTemperatureN->setSingleStep(1);
     cameraTemperatureS->setEnabled(true);
-    QStringList temperatureList = standAloneDecode(Options::captureStandAloneTemperature());
     double minTemp = -50, maxTemp = 50;
-    if (temperatureList.size() > 1)
+    if (m_Settings.contains(KEY_TEMPERATURE))
     {
-        minTemp = temperatureList[0].toDouble();
-        maxTemp = temperatureList[1].toDouble();
+        QStringList temperatureList = m_Settings[KEY_TEMPERATURE].toStringList();
+        if (temperatureList.size() > 1)
+        {
+            minTemp = temperatureList[0].toDouble();
+            maxTemp = temperatureList[1].toDouble();
+        }
     }
     cameraTemperatureN->setMinimum(minTemp);
     cameraTemperatureN->setMaximum(maxTemp);
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.
-    QStringList isoList = standAloneDecode(Options::captureStandAloneISOs());
-    if (isoList.size() > 0)
+
+    if (m_Settings.contains(KEY_ISOS))
     {
+        QStringList isoList = m_Settings[KEY_ISOS].toStringList();
         captureISOS->clear();
-        captureISOS->addItems(isoList);
-        captureISOS->setCurrentIndex(Options::captureStandAloneISOIndex());
-        captureISOS->blockSignals(false);
-        captureISOS->setEnabled(true);
+        if (isoList.size() > 0)
+        {
+            captureISOS->addItems(isoList);
+            if (m_Settings.contains(KEY_INDEX))
+                captureISOS->setCurrentIndex(m_Settings[KEY_INDEX].toString().toInt());
+            else
+                captureISOS->setCurrentIndex(0);
+            captureISOS->blockSignals(false);
+            captureISOS->setEnabled(true);
+        }
     }
     else
     {
@@ -233,14 +250,20 @@ void Capture::onStandAloneShow(QShowEvent* event)
     captureFrameYN->setMaximum(static_cast<int>(maxFrame));
     captureFrameWN->setMaximum(static_cast<int>(maxFrame));
     captureFrameHN->setMaximum(static_cast<int>(maxFrame));
-    QStringList whList = standAloneDecode(Options::captureStandAloneWHGO());
-    if (whList.size() == 4)
-    {
-        captureFrameWN->setValue(whList[0].toInt());
-        captureFrameHN->setValue(whList[1].toInt());
-        m_standAloneUseCcdGain = whList[2] == "CCD_GAIN";
-        m_standAloneUseCcdOffset = whList[3] == "CCD_OFFSET";
-    }
+
+    if (m_Settings.contains(KEY_H))
+        captureFrameHN->setValue(m_Settings[KEY_H].toUInt());
+
+    if (m_Settings.contains(KEY_W))
+        captureFrameWN->setValue(m_Settings[KEY_W].toUInt());
+
+    m_standAloneUseCcdGain = true;
+    m_standAloneUseCcdOffset = true;
+    if (m_Settings.contains(KEY_GAIN_KWD) && m_Settings[KEY_GAIN_KWD].toString() == "CCD_CONTROLS")
+        m_standAloneUseCcdGain = false;
+    if (m_Settings.contains(KEY_OFFSET_KWD) && m_Settings[KEY_OFFSET_KWD].toString() == "CCD_CONTROLS")
+        m_standAloneUseCcdOffset = false;
+
 
     // Capture Gain
     connect(captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
@@ -932,7 +955,6 @@ void Capture::updateCaptureFormats()
     {
         captureTypeS->setEnabled(true);
         captureTypeS->addItems(frameTypes);
-        Options::setCaptureStandAloneTypes(standAloneEncode(frameTypes));
         captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
     }
 
@@ -941,11 +963,8 @@ void Capture::updateCaptureFormats()
     captureFormatS->clear();
     const auto list = activeCamera()->getCaptureFormats();
     captureFormatS->addItems(list);
-    if (!m_Settings.contains("formatsList") || m_Settings["formatsList"].toStringList() != list)
-    {
-        m_Settings["formatsList"] = list;
-        m_DebounceTimer.start();
-    }
+    storeTrainKey(KEY_FORMATS, list);
+
     captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
     captureFormatS->blockSignals(false);
 
@@ -954,16 +973,16 @@ void Capture::updateCaptureFormats()
     captureEncodingS->clear();
     captureEncodingS->addItems(activeCamera()->getEncodingFormats());
     captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
-    Options::setCaptureStandAloneEncodings(standAloneEncode(activeCamera()->getEncodingFormats()));
     captureEncodingS->blockSignals(false);
-
-    Options::setCaptureStandAloneTimestamp(KStarsData::Instance()->lt().toString("yyyy-MM-dd hh:mm"));
 }
 
 void Capture::syncCameraInfo()
 {
     if (!activeCamera())
         return;
+
+    const QString timestamp = KStarsData::Instance()->lt().toString("yyyy-MM-dd hh:mm");
+    storeTrainKeyString(KEY_TIMESTAMP, timestamp);
 
     if (activeCamera()->hasCooler())
     {
@@ -986,12 +1005,11 @@ void Capture::syncCameraInfo()
             cameraTemperatureS->setChecked(isChecked);
 
             // Save the camera's temperature parameters for the stand-alone editor.
-            Options::setCaptureStandAloneTemperature(
-                standAloneEncode(
-                    QStringList({QString("%1").arg(min),
-                                 QString("%1").arg(max),
-                                 QString("%1").arg(isChecked ? 1 : 0)})));
-
+            const QStringList temperatureList =
+                QStringList( { QString::number(min),
+                               QString::number(max),
+                               isChecked ? "1" : "0" } );
+            storeTrainKey(KEY_TEMPERATURE, temperatureList);
         }
         else
         {
@@ -1002,11 +1020,8 @@ void Capture::syncCameraInfo()
             temperatureRegulationB->setEnabled(false);
 
             // Save default camera temperature parameters for the stand-alone editor.
-            Options::setCaptureStandAloneTemperature(
-                standAloneEncode(
-                    QStringList({QString("%1").arg(-50),
-                                 QString("%1").arg(50),
-                                 0})));
+            const QStringList temperatureList = QStringList( { "-50", "50", "0" } );
+            storeTrainKey(KEY_TEMPERATURE, temperatureList);
         }
 
         double temperature = 0;
@@ -1036,20 +1051,27 @@ void Capture::syncCameraInfo()
     if (isoList.isEmpty())
     {
         captureISOS->setEnabled(false);
-        Options::setCaptureStandAloneISOs("");
+        if (m_Settings.contains(KEY_ISOS))
+        {
+            m_Settings.remove(KEY_ISOS);
+            m_DebounceTimer.start();
+        }
+        if (m_Settings.contains(KEY_INDEX))
+        {
+            m_Settings.remove(KEY_INDEX);
+            m_DebounceTimer.start();
+        }
     }
     else
     {
         captureISOS->setEnabled(true);
         captureISOS->addItems(isoList);
-        captureISOS->setCurrentIndex(devices()->getActiveChip()->getISOIndex());
+        const int isoIndex = devices()->getActiveChip()->getISOIndex();
+        captureISOS->setCurrentIndex(isoIndex);
 
-        // Save ISO List in train settings if different
-        if (!m_Settings.contains("isoList") || m_Settings["isoList"].toStringList() != isoList)
-        {
-            m_Settings["isoList"] = isoList;
-            m_DebounceTimer.start();
-        }
+        // Save ISO List and index in train settings if different
+        storeTrainKey(KEY_ISOS, isoList);
+        storeTrainKeyString(KEY_INDEX, QString("%1").arg(isoIndex));
 
         uint16_t w, h;
         uint8_t bbp {8};
@@ -1336,13 +1358,11 @@ void Capture::updateFrameProperties(int reset)
     if (state()->useGuideHead() == false)
         cullToDSLRLimits();
 
-    // Save the sensor's width and height for the stand-alone editor.
-    // Options::setCaptureStandAloneWHGO(
-    //     standAloneEncode(
-    //         QStringList({QString("%1").arg(captureFrameWN->value()),
-    //                      QString("%1").arg(captureFrameHN->value()),
-    //                      QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_GAIN") ? "CCD_GAIN" : "CCD_CONTROLS"),
-    //                      QString("%1").arg(devices()->getActiveCamera()->getProperty("CCD_OFFSET") ? "CCD_OFFSET" : "CCD_CONTROLS")})));
+    const QString ccdGainKeyword = devices()->getActiveCamera()->getProperty("CCD_GAIN") ? "CCD_GAIN" : "CCD_CONTROLS";
+    storeTrainKeyString(KEY_GAIN_KWD, ccdGainKeyword);
+
+    const QString ccdOffsetKeyword = devices()->getActiveCamera()->getProperty("CCD_OFFSET") ? "CCD_OFFSET" : "CCD_CONTROLS";
+    storeTrainKeyString(KEY_OFFSET_KWD, ccdOffsetKeyword);
 
     if (reset == 1 || state()->frameSettings().contains(devices()->getActiveChip()) == false)
     {
@@ -1532,11 +1552,7 @@ void Capture::refreshFilterSettings()
     FilterPosCombo->addItems(labels);
 
     // Save ISO List in train settings if different
-    if (!m_Settings.contains("filtersList") || m_Settings["filtersList"].toStringList() != labels)
-    {
-        m_Settings["filtersList"] = labels;
-        m_DebounceTimer.start();
-    }
+    storeTrainKey(KEY_FILTERS, labels);
 
     updateCurrentFilterPosition();
 
@@ -3464,10 +3480,10 @@ void Capture::refreshOpticalTrain()
     trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
-
-    if (trainID.isValid())
+    if (m_standAlone || trainID.isValid())
     {
-        auto id = trainID.toUInt();
+        auto id = m_standAlone ? Options::captureTrainID() : trainID.toUInt();
+        Options::setCaptureTrainID(id);
 
         // If train not found, select the first one available.
         if (OpticalTrainManager::Instance()->exists(id) == false)
@@ -3479,7 +3495,8 @@ void Capture::refreshOpticalTrain()
         auto name = OpticalTrainManager::Instance()->name(id);
 
         opticalTrainCombo->setCurrentText(name);
-        process()->refreshOpticalTrain(name);
+        if (!m_standAlone)
+            process()->refreshOpticalTrain(name);
 
         // Load train settings
         // This needs to be done near the start of this function as methods further down
@@ -3822,9 +3839,13 @@ void Capture::setAllSettings(const QVariantMap &settings)
     emit settingsUpdated(getAllSettings());
 
     // Save to optical train specific settings as well
-    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
-    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
-
+    if (!m_standAlone)
+    {
+        const int id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
+        Options::setCaptureTrainID(id);
+    }
     // Restablish connections
     connectSyncSettings();
 }
@@ -3995,8 +4016,10 @@ void Capture::settleSettings()
     state()->setDirty(true);
     emit settingsUpdated(getAllSettings());
     // Save to optical train specific settings as well
-    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    const int id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+    OpticalTrainSettings::Instance()->setOpticalTrainID(id);
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
+    Options::setCaptureTrainID(id);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
