@@ -1100,9 +1100,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         void syncGUIToJob(SequenceJob *job);
         /**
-         * @brief syncGUIToState Update UI to general settings from Options
+         * @brief syncLimitSettings Update Limits UI from Options
          */
-        void syncGUIToGeneralSettings();
+        void syncLimitSettings();
 
         // DSLR Info
         void cullToDSLRLimits();

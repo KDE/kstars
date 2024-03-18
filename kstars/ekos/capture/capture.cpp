@@ -2345,7 +2345,6 @@ void Capture::syncGUIToJob(SequenceJob * job)
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
     placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
     formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
-    m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
 
     // Temperature Options
     cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
@@ -2353,9 +2352,8 @@ void Capture::syncGUIToJob(SequenceJob * job)
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    m_LimitsUI->enforceStartGuiderDrift->setChecked(Options::enforceStartGuiderDrift());
-    if (Options::enforceStartGuiderDrift())
-        m_LimitsUI->startGuideDeviation->setValue(Options::startGuideDeviation());
+    m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
+    syncLimitSettings();
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -4213,6 +4211,28 @@ void Capture::disconnectSyncSettings()
             continue;
         disconnect(oneWidget, &QLineEdit::textChanged, this, &Ekos::Capture::syncSettings);
     }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////////////////////
+void Capture::syncLimitSettings()
+{
+    m_LimitsUI->enforceStartGuiderDrift->setChecked(Options::enforceStartGuiderDrift());
+    m_LimitsUI->startGuideDeviation->setValue(Options::startGuideDeviation());
+    m_LimitsUI->enforceGuideDeviation->setChecked(Options::enforceGuideDeviation());
+    m_LimitsUI->guideDeviation->setValue(Options::guideDeviation());
+    m_LimitsUI->guideDeviationReps->setValue(static_cast<int>(Options::guideDeviationReps()));
+    m_LimitsUI->enforceAutofocusHFR->setChecked(Options::enforceAutofocusHFR());
+    m_LimitsUI->hFRThresholdPercentage->setValue(Options::hFRThresholdPercentage());
+    m_LimitsUI->hFRDeviation->setValue(Options::hFRDeviation());
+    m_LimitsUI->inSequenceCheckFrames->setValue(Options::inSequenceCheckFrames());
+    m_LimitsUI->hFRCheckAlgorithm->setCurrentIndex(Options::hFRCheckAlgorithm());
+    m_LimitsUI->enforceAutofocusOnTemperature->setChecked(Options::enforceAutofocusOnTemperature());
+    m_LimitsUI->maxFocusTemperatureDelta->setValue(Options::maxFocusTemperatureDelta());
+    m_LimitsUI->enforceRefocusEveryN->setChecked(Options::enforceRefocusEveryN());
+    m_LimitsUI->refocusEveryN->setValue(static_cast<int>(Options::refocusEveryN()));
+    m_LimitsUI->refocusAfterMeridianFlip->setChecked(Options::refocusAfterMeridianFlip());
 }
 
 }
