@@ -289,29 +289,28 @@ void TestEkosCapture::testCaptureDarkFlats()
     volatile bool dialogValidated = false;
     QTimer::singleShot(200, [&]
     {
-        QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget());
-        if(dialog != nullptr)
-        {
-            // Set Flat duration to ADU
-            QRadioButton *ADUC = dialog->findChild<QRadioButton *>("captureCalibrationUseADU");
-            QVERIFY(ADUC);
-            ADUC->setChecked(true);
+        QDialog *dialog = nullptr;
+        QTRY_VERIFY_WITH_TIMEOUT(dialog = Ekos::Manager::Instance()->findChild<QDialog *>("Calibration"), 2000);
 
-            // Set ADU to 4000
-            QSpinBox *ADUValue = dialog->findChild<QSpinBox *>("captureCalibrationADUValue");
-            QVERIFY(ADUValue);
-            ADUValue->setValue(4000);
+        // Set Flat duration to ADU
+        QRadioButton *ADUC = dialog->findChild<QRadioButton *>("captureCalibrationUseADU");
+        QVERIFY(ADUC);
+        ADUC->setChecked(true);
+
+        // Set ADU to 4000
+        QSpinBox *ADUValue = dialog->findChild<QSpinBox *>("captureCalibrationADUValue");
+        QVERIFY(ADUValue);
+        ADUValue->setValue(4000);
 
 
-            QTest::mouseClick(dialog->findChild<QDialogButtonBox*>()->button(QDialogButtonBox::Ok), Qt::LeftButton);
-            dialogValidated = true;
-        }
+        QTest::mouseClick(dialog->findChild<QDialogButtonBox*>()->button(QDialogButtonBox::Ok), Qt::LeftButton);
+        dialogValidated = true;
     });
 
     // Toggle flat calibration dialog
     KTRY_CAPTURE_CLICK(calibrationB);
 
-    QTRY_VERIFY_WITH_TIMEOUT(dialogValidated, 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(dialogValidated, 5000);
 
     // Add flats
     KTRY_CAPTURE_ADD_FLAT(1, 2, 0, "Red", destination.path());

@@ -59,7 +59,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
     QVERIFY(prepareTestCase());
 
     Ekos::Manager *manager = Ekos::Manager::Instance();
-    QVERIFY(prepareCapture(0, 1.2));
+    QVERIFY(prepareCapture(0, 0.1));
     QVERIFY(m_CaptureHelper->executeFocusing());
 
     // start capturing
@@ -73,6 +73,8 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
                                      10000 +  1000 * capture->captureExposureN->value());
     // now move the focuser twice to increase the HFR
     KTRY_GADGET(manager->focusModule(), QPushButton, focusOutB);
+    QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
+    KTRY_CLICK(manager->focusModule(), focusOutB);
     QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
     QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
@@ -171,12 +173,7 @@ void TestEkosCaptureWorkflow::testCaptureScriptsExecution()
     m_CaptureHelper->createAllCaptureScripts(destination);
 
     // setup scripts - starts as thread since clicking on capture blocks
-    bool success = false;
-    QTimer::singleShot(1000, capture, [&] {success = m_CaptureHelper->fillScriptManagerDialog(m_CaptureHelper->getScripts());});
-    // open script manager
-    KTRY_CLICK(capture, scriptManagerB);
-    // verify if script configuration succeeded
-    QVERIFY2(success, "Scripts set up failed!");
+    fillCaptureScripts();
 
     // create capture sequences
     KTRY_CAPTURE_CONFIGURE_LIGHT(2.0, count, 0.0, "Luminance", "test", imagepath);
@@ -223,6 +220,16 @@ void TestEkosCaptureWorkflow::testCaptureScriptsExecution()
 
     // check the log file if it holds the expected number
     QVERIFY(m_CaptureHelper->checkScriptRuns(count, 2));
+    // clear the scripts to avoid side effects
+    if (m_CaptureHelper->getScripts().size() > 0)
+    {
+        // cleanup scripts
+        m_CaptureHelper->clearScripts();
+        fillCaptureScripts();
+        // wait for a sync
+        QTest::qWait(5000);
+        qCInfo(KSTARS_EKOS_TEST) << "Scripts cleared.";
+    }
 }
 
 void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
@@ -235,8 +242,8 @@ void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
     // set guide deviation guard to < 2"
-    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, true);
-    KTRY_SET_DOUBLESPINBOX(capture, limitGuideDeviationN, deviation_limit);
+    KTRY_SET_CHECKBOX(capture, enforceGuideDeviation, true);
+    KTRY_SET_DOUBLESPINBOX(capture, guideDeviation, deviation_limit);
 
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = getImageLocation()->path() + "/test";
@@ -294,8 +301,8 @@ void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
     // set guide deviation guard to < 2"
-    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, true);
-    KTRY_SET_DOUBLESPINBOX(capture, limitGuideDeviationN, deviation_limit);
+    KTRY_SET_CHECKBOX(capture, enforceGuideDeviation, true);
+    KTRY_SET_DOUBLESPINBOX(capture, guideDeviation, deviation_limit);
 
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = getImageLocation()->path() + "/test";
@@ -350,8 +357,8 @@ void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
     // set start guide deviation guard to < 2" but disable the other one
-    KTRY_SET_CHECKBOX(capture, startGuiderDriftS, true);
-    KTRY_SET_DOUBLESPINBOX(capture, startGuiderDriftN, deviation_limit);
+    KTRY_SET_CHECKBOX(capture, enforceStartGuiderDrift, true);
+    KTRY_SET_DOUBLESPINBOX(capture, startGuideDeviation, deviation_limit);
     // create sequence with 10 sec delay
     QVERIFY(prepareCapture(0, 0, 0, 10));
     // set Dubhe as target and slew there
@@ -675,12 +682,20 @@ void TestEkosCaptureWorkflow::testDustcapSource()
     // prepare optical trains for testing
     m_CaptureHelper->prepareOpticalTrains();
 
+    // wait for all modules to be configured
+    m_CaptureHelper->checkModuleConfigurationsCompleted();
+
     // receive status updates from all devices
     m_CaptureHelper->connectModules();
 
     // switch to capture module
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // clear calibration settings
+    KTRY_SET_CHECKBOX(capture, captureCalibrationWall, false);
+    KTRY_SET_CHECKBOX(capture, captureCalibrationParkMount, false);
+    KTRY_SET_CHECKBOX(capture, captureCalibrationParkDome, false);
 
     // use a test directory for flats
     QString imagepath = getImageLocation()->path() + "/test";
@@ -739,7 +754,7 @@ void TestEkosCaptureWorkflow::testWallSource()
     // add another sequence to check if wall source may be used twice
     // select another wall position as flat light source (az=0°, alt=0)
     KTRY_SELECT_FLAT_WALL(capture, "0", "0");
-    KTRY_CAPTURE_ADD_FRAME(frametype, 2, 1, 2.0, "Luminance", "test", imagepath);
+    KTRY_CAPTURE_ADD_FRAME(frametype, 2, 2, 2.0, "Luminance", "test", imagepath);
 
     // start the sequence
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
@@ -1003,35 +1018,35 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()
     // initialize the capture settings
     QFETCH(uint, esqVersion);
     QFETCH(QString, observer);
-    QFETCH(bool, guideDeviation);
-    QFETCH(bool, startGuideDeviation);
-    QFETCH(bool, inSequenceFocus);
-    QFETCH(bool, autofocusOnTemperature);
-    QFETCH(bool, refocusEveryN);
-    QFETCH(bool, refocusAfterMeridianFlip);
+    QFETCH(bool, guideDeviationCheck);
+    QFETCH(bool, startGuideDeviationCheck);
+    QFETCH(bool, inSequenceFocusCheck);
+    QFETCH(bool, autofocusOnTemperatureCheck);
+    QFETCH(bool, refocusEveryNTimesCheck);
+    QFETCH(bool, focusAfterMeridianFlipCheck);
     TestEkosCaptureHelper::CaptureSettings settings;
     settings.observer = observer;
-    settings.guideDeviation = {guideDeviation, 2.0};
-    settings.startGuideDeviation = {startGuideDeviation, 1.0};
-    settings.inSequenceFocus = {inSequenceFocus, 1.5};
-    settings.autofocusOnTemperature = {autofocusOnTemperature, 3.3};
-    settings.refocusEveryN = {refocusEveryN, 5};
-    settings.refocusAfterMeridianFlip = refocusAfterMeridianFlip;
+    settings.guideDeviation = {guideDeviationCheck, 2.0};
+    settings.startGuideDeviation = {startGuideDeviationCheck, 1.0};
+    settings.inSequenceFocus = {inSequenceFocusCheck, 1.5};
+    settings.autofocusOnTemperature = {autofocusOnTemperatureCheck, 3.3};
+    settings.refocusEveryN = {refocusEveryNTimesCheck, 5};
+    settings.refocusAfterMeridianFlip = focusAfterMeridianFlipCheck;
 
     // clear current values to ensure that we observe a change
     QString oldObserver("unknown");
     capture->setObserverName(oldObserver);
-    KTRY_SET_DOUBLESPINBOX(capture, limitGuideDeviationN, 0.0);
-    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, !settings.guideDeviation.enabled);
-    KTRY_SET_DOUBLESPINBOX(capture, startGuiderDriftN, 0.0);
-    KTRY_SET_CHECKBOX(capture, startGuiderDriftS, !settings.startGuideDeviation.enabled);
-    KTRY_SET_DOUBLESPINBOX(capture, limitFocusHFRN, 0.1);
-    KTRY_SET_CHECKBOX(capture, limitFocusHFRS, !settings.inSequenceFocus.enabled);
-    KTRY_SET_DOUBLESPINBOX(capture, limitFocusDeltaTN, 0.2);
-    KTRY_SET_CHECKBOX(capture, limitFocusDeltaTS, !settings.autofocusOnTemperature.enabled);
-    KTRY_SET_SPINBOX(capture, limitRefocusN, 100);
-    KTRY_SET_CHECKBOX(capture, limitRefocusS, !settings.refocusEveryN.enabled);
-    KTRY_SET_CHECKBOX(capture, meridianRefocusS, !settings.refocusAfterMeridianFlip);
+    KTRY_SET_DOUBLESPINBOX(capture, guideDeviation, 0.0);
+    KTRY_SET_CHECKBOX(capture, enforceGuideDeviation, !settings.guideDeviation.enabled);
+    KTRY_SET_DOUBLESPINBOX(capture, startGuideDeviation, 0.0);
+    KTRY_SET_CHECKBOX(capture, enforceStartGuiderDrift, !settings.startGuideDeviation.enabled);
+    KTRY_SET_DOUBLESPINBOX(capture, hFRDeviation, 0.1);
+    KTRY_SET_CHECKBOX(capture, enforceAutofocusHFR, !settings.inSequenceFocus.enabled);
+    KTRY_SET_DOUBLESPINBOX(capture, maxFocusTemperatureDelta, 0.2);
+    KTRY_SET_CHECKBOX(capture, enforceAutofocusOnTemperature, !settings.autofocusOnTemperature.enabled);
+    KTRY_SET_SPINBOX(capture, refocusEveryN, 100);
+    KTRY_SET_CHECKBOX(capture, enforceRefocusEveryN, !settings.refocusEveryN.enabled);
+    KTRY_SET_CHECKBOX(capture, refocusAfterMeridianFlip, !settings.refocusAfterMeridianFlip);
 
     // create capture sequence file
     TestEkosCaptureHelper::SimpleCaptureLightsJob job;
@@ -1048,17 +1063,17 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral()
 
     // Verify the results
     QCOMPARE(capture->getObserverName(), settings.observer);
-    QCOMPARE(limitGuideDeviationS->isChecked(), settings.guideDeviation.enabled);
-    QCOMPARE(limitGuideDeviationN->value(), settings.guideDeviation.value);
-    QCOMPARE(startGuiderDriftS->isChecked(), settings.startGuideDeviation.enabled);
-    QCOMPARE(startGuiderDriftN->value(), settings.startGuideDeviation.value);
-    QCOMPARE(limitFocusHFRS->isChecked(), settings.inSequenceFocus.enabled);
-    QCOMPARE(limitFocusHFRN->value(), settings.inSequenceFocus.value);
-    QCOMPARE(limitFocusDeltaTS->isChecked(), settings.autofocusOnTemperature.enabled);
-    QCOMPARE(limitFocusDeltaTN->value(), settings.autofocusOnTemperature.value);
-    QCOMPARE(limitRefocusS->isChecked(), settings.refocusEveryN.enabled);
-    QCOMPARE(limitRefocusN->value(), settings.refocusEveryN.value);
-    QCOMPARE(meridianRefocusS->isChecked(), settings.refocusAfterMeridianFlip);
+    QCOMPARE(enforceGuideDeviation->isChecked(), settings.guideDeviation.enabled);
+    QCOMPARE(guideDeviation->value(), settings.guideDeviation.value);
+    QCOMPARE(enforceStartGuiderDrift->isChecked(), settings.startGuideDeviation.enabled);
+    QCOMPARE(startGuideDeviation->value(), settings.startGuideDeviation.value);
+    QCOMPARE(enforceAutofocusHFR->isChecked(), settings.inSequenceFocus.enabled);
+    QCOMPARE(hFRDeviation->value(), settings.inSequenceFocus.value);
+    QCOMPARE(enforceAutofocusOnTemperature->isChecked(), settings.autofocusOnTemperature.enabled);
+    QCOMPARE(maxFocusTemperatureDelta->value(), settings.autofocusOnTemperature.value);
+    QCOMPARE(enforceRefocusEveryN->isChecked(), settings.refocusEveryN.enabled);
+    QCOMPARE(refocusEveryN->value(), settings.refocusEveryN.value);
+    QCOMPARE(refocusAfterMeridianFlip->isChecked(), settings.refocusAfterMeridianFlip);
 }
 
 void TestEkosCaptureWorkflow::testLoadEsqFileBasicJobSettings()
@@ -1244,7 +1259,7 @@ bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
 {
     bool passed = false;
     QDialog *calibrationDialog = nullptr;
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(calibrationDialog = Ekos::Manager::Instance()->findChild<QDialog *>("calibrationOptions"),
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(calibrationDialog = Ekos::Manager::Instance()->findChild<QDialog *>("Calibration"),
                                  2000);
     // ensure that the cancel button is pressed in any case
     [&]()
@@ -1256,18 +1271,18 @@ bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
         QFETCH(bool, duration_adu);
         QFETCH(int, adu);
         QFETCH(int, tolerance);
-        KTRY_GADGET(calibrationDialog, QCheckBox, gotoWallC);
-        KTRY_GADGET(calibrationDialog, QCheckBox, parkMountC);
-        KTRY_GADGET(calibrationDialog, QCheckBox, parkDomeC);
+        KTRY_GADGET(calibrationDialog, QCheckBox, captureCalibrationWall);
+        KTRY_GADGET(calibrationDialog, QCheckBox, captureCalibrationParkMount);
+        KTRY_GADGET(calibrationDialog, QCheckBox, captureCalibrationParkDome);
         KTRY_GADGET(calibrationDialog, dmsBox, azBox);
         KTRY_GADGET(calibrationDialog, dmsBox, altBox);
-        KTRY_GADGET(calibrationDialog, QRadioButton, manualDurationC);
-        KTRY_GADGET(calibrationDialog, QRadioButton, ADUC);
-        KTRY_GADGET(calibrationDialog, QSpinBox, ADUValue);
-        KTRY_GADGET(calibrationDialog, QSpinBox, ADUTolerance);
-        QTRY_COMPARE(gotoWallC->isChecked(), (pre_action & ACTION_WALL) > 0);
-        QTRY_COMPARE(parkMountC->isChecked(), (pre_action & ACTION_PARK_MOUNT) > 0);
-        QTRY_COMPARE(parkDomeC->isChecked(), (pre_action & ACTION_PARK_DOME) > 0);
+        KTRY_GADGET(calibrationDialog, QRadioButton, captureCalibrationDurationManual);
+        KTRY_GADGET(calibrationDialog, QRadioButton, captureCalibrationUseADU);
+        KTRY_GADGET(calibrationDialog, QSpinBox, captureCalibrationADUValue);
+        KTRY_GADGET(calibrationDialog, QSpinBox, captureCalibrationADUTolerance);
+        QTRY_COMPARE(captureCalibrationWall->isChecked(), (pre_action & ACTION_WALL) > 0);
+        QTRY_COMPARE(captureCalibrationParkMount->isChecked(), (pre_action & ACTION_PARK_MOUNT) > 0);
+        QTRY_COMPARE(captureCalibrationParkDome->isChecked(), (pre_action & ACTION_PARK_DOME) > 0);
 
         if (pre_action & ACTION_WALL)
         {
@@ -1280,12 +1295,12 @@ bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
             QTRY_COMPARE(wallAz.Degrees(), wall_az);
             QTRY_COMPARE(wallAlt.Degrees(), wall_alt);
         }
-        QTRY_COMPARE(manualDurationC->isChecked(), duration_manual);
-        QTRY_COMPARE(ADUC->isChecked(), duration_adu);
+        QTRY_COMPARE(captureCalibrationDurationManual->isChecked(), duration_manual);
+        QTRY_COMPARE(captureCalibrationUseADU->isChecked(), duration_adu);
         if (duration_adu)
         {
-            QTRY_COMPARE(ADUValue->value(), adu);
-            QTRY_COMPARE(ADUTolerance->value(), tolerance);
+            QTRY_COMPARE(captureCalibrationADUValue->value(), adu);
+            QTRY_COMPARE(captureCalibrationADUTolerance->value(), tolerance);
         }
         passed = true;
     }
@@ -1415,19 +1430,20 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature_data()
 
 void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
 {
-    QTest::addColumn<uint>("esqVersion");               /*!< ESQ XML version                         */
-    QTest::addColumn<QString>("observer");              /*!< Set the observer value                  */
-    QTest::addColumn<bool>("guideDeviation");           /*!< Enable guide deviation                  */
-    QTest::addColumn<bool>("startGuideDeviation");      /*!< Enable starting guide deviation         */
-    QTest::addColumn<bool>("inSequenceFocus");          /*!< Enable in sequence focusing (HFR based) */
-    QTest::addColumn<bool>("autofocusOnTemperature");   /*!< Enable temperature based autofocus      */
-    QTest::addColumn<bool>("refocusEveryN");            /*!< Enable focusing after every n capture   */
-    QTest::addColumn<bool>("refocusAfterMeridianFlip"); /*!< Enable refocus after a meridian flip    */
+    QTest::addColumn<uint>("esqVersion");                  /*!< ESQ XML version                         */
+    QTest::addColumn<QString>("observer");                 /*!< Set the observer value                  */
+    QTest::addColumn<bool>("guideDeviationCheck");         /*!< Enable guide deviation                  */
+    QTest::addColumn<bool>("startGuideDeviationCheck");    /*!< Enable starting guide deviation         */
+    QTest::addColumn<bool>("inSequenceFocusCheck");        /*!< Enable in sequence focusing (HFR based) */
+    QTest::addColumn<bool>("autofocusOnTemperatureCheck"); /*!< Enable temperature based autofocus      */
+    QTest::addColumn<bool>("refocusEveryNTimesCheck");     /*!< Enable focusing after every n capture   */
+    QTest::addColumn<bool>("focusAfterMeridianFlipCheck"); /*!< Enable refocus after a meridian flip    */
 
     uint version = TestEkosCaptureHelper::ESQ_VERSION_2_6;
     QTest::newRow(QString("observer v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())
             << version << "KStars Freak" << false << false << false << false << false << false;
-    QTest::newRow(QString("guideDeviation v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
+    QTest::newRow(QString("guideDeviationLimit v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version
+            <<
             "KStars Freak" << true << false << false << false << false << false;
     QTest::newRow(QString("startGuideDeviation v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version
             << "KStars Freak" << false << true << false << false << false << false;
@@ -1537,6 +1553,8 @@ void TestEkosCaptureWorkflow::initTestCase()
     destination = new QTemporaryDir(test_dir.absolutePath());
     QVERIFY(destination->isValid());
     QVERIFY(destination->autoRemove());
+    // wait for all module settings updated
+    m_CaptureHelper->waitForSettingsUpdated = true;
 }
 
 void TestEkosCaptureWorkflow::cleanupTestCase()
@@ -1569,6 +1587,9 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     m_CaptureHelper->prepareCaptureModule();
 
     m_CaptureHelper->init();
+
+    // check if all module settings are updated
+    m_CaptureHelper->checkModuleConfigurationsCompleted();
 
     // clear image directory
     KVERIFY_SUB(m_CaptureHelper->getImageLocation()->removeRecursively());
@@ -1620,9 +1641,7 @@ void TestEkosCaptureWorkflow::cleanup()
     {
         capture->abort();
         capture->clearSequenceQueue();
-        KTRY_SET_CHECKBOX(capture, limitRefocusS, false);
     }
-
     m_CaptureHelper->cleanup();
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
@@ -1630,7 +1649,8 @@ void TestEkosCaptureWorkflow::cleanup()
 }
 
 
-bool TestEkosCaptureWorkflow::prepareCapture(int refocusLimitTime, double refocusHFR, double refocusTemp, int delay)
+bool TestEkosCaptureWorkflow::prepareCapture(int refocusLimitTime, double refocusHFRThreshold, double refocusTemp,
+        int delay)
 {
     QFETCH(double, exptime);
     QFETCH(QString, sequence);
@@ -1646,17 +1666,17 @@ bool TestEkosCaptureWorkflow::prepareCapture(int refocusLimitTime, double refocu
     qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << imagepath;
 
     // set refocusing limits
-    KTRY_SET_CHECKBOX_SUB(capture, limitRefocusS, (refocusLimitTime > 0));
+    KTRY_SET_CHECKBOX_SUB(capture, enforceRefocusEveryN, (refocusLimitTime > 0));
     if (refocusLimitTime > 0)
-        KTRY_SET_SPINBOX_SUB(capture, limitRefocusN, refocusLimitTime);
+        KTRY_SET_SPINBOX_SUB(capture, refocusEveryN, refocusLimitTime);
 
-    KTRY_SET_CHECKBOX_SUB(capture, limitFocusHFRS, (refocusHFR > 0));
-    if (refocusHFR > 0)
-        KTRY_SET_DOUBLESPINBOX_SUB(capture, limitFocusHFRN, refocusHFR);
+    KTRY_SET_CHECKBOX_SUB(capture, enforceAutofocusHFR, (refocusHFRThreshold > 0));
+    if (refocusHFRThreshold > 0)
+        KTRY_SET_DOUBLESPINBOX_SUB(capture, hFRThresholdPercentage, refocusHFRThreshold);
 
-    KTRY_SET_CHECKBOX_SUB(capture, limitFocusDeltaTS, (refocusTemp > 0));
+    KTRY_SET_CHECKBOX_SUB(capture, enforceAutofocusOnTemperature, (refocusTemp > 0));
     if (refocusTemp > 0)
-        KTRY_SET_DOUBLESPINBOX_SUB(capture, limitFocusDeltaTN, refocusTemp);
+        KTRY_SET_DOUBLESPINBOX_SUB(capture, maxFocusTemperatureDelta, refocusTemp);
 
     // create capture sequences
     KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath, delay));
@@ -1686,6 +1706,17 @@ QDir *TestEkosCaptureWorkflow::getImageLocation()
         imageLocation = new QDir(destination->path() + "/images");
 
     return imageLocation;
+}
+
+void TestEkosCaptureWorkflow::fillCaptureScripts()
+{
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    bool success = false;
+    QTimer::singleShot(1000, capture, [&] {success = m_CaptureHelper->fillScriptManagerDialog(m_CaptureHelper->getScripts());});
+    // open script manager
+    KTRY_CLICK(capture, scriptManagerB);
+    // verify if script configuration succeeded
+    QVERIFY2(success, "Scripts set up failed!");
 }
 
 /* *********************************************************************************

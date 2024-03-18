@@ -26,16 +26,16 @@
 #define KTRY_SELECT_FLAT_METHOD(sourceWidget, preMountPark, preDomePark) do { \
 QTimer::singleShot(5000, capture, [&]() { \
     QDialog *calibrationOptions = nullptr; \
-    if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions")) != nullptr);}, 5000)) { \
+    if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration")) != nullptr);}, 5000)) { \
         QFAIL(qPrintable("Calibrations options dialog not found!")); } \
     KTRY_GADGET(calibrationOptions, QAbstractButton, sourceWidget); \
     sourceWidget->setChecked(true); \
-    KTRY_GADGET(calibrationOptions, QCheckBox, parkMountC);  \
-    parkMountC->setChecked(preMountPark); \
-    KTRY_GADGET(calibrationOptions, QCheckBox, parkDomeC);  \
-    parkDomeC->setChecked(preDomePark); \
-    KTRY_GADGET(calibrationOptions, QAbstractButton, manualDurationC);  \
-    manualDurationC->setChecked(true); \
+    KTRY_GADGET(calibrationOptions, QCheckBox, captureCalibrationParkMount);  \
+    captureCalibrationParkMount->setChecked(preMountPark); \
+    KTRY_GADGET(calibrationOptions, QCheckBox, captureCalibrationParkDome);  \
+    captureCalibrationParkDome->setChecked(preDomePark); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationDurationManual);  \
+    captureCalibrationDurationManual->setChecked(true); \
     QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
     QVERIFY(nullptr != buttons); \
     QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
@@ -44,13 +44,15 @@ KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
 
 #define KTRY_SELECT_FLAT_WALL(capture, azimuth, altitude) do { \
 QTimer::singleShot(1000, capture, [&]() { \
-    QDialog *calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions"); \
-    KTRY_GADGET(calibrationOptions, QAbstractButton, gotoWallC); \
-    gotoWallC->setChecked(true); \
+    QDialog *calibrationOptions = nullptr; \
+    if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration")) != nullptr);}, 5000)) { \
+        QFAIL(qPrintable("Calibrations options dialog not found!")); } \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationWall); \
+    captureCalibrationWall->setChecked(true); \
     KTRY_SET_LINEEDIT(calibrationOptions, azBox, azimuth); \
     KTRY_SET_LINEEDIT(calibrationOptions, altBox, altitude); \
-    KTRY_GADGET(calibrationOptions, QAbstractButton, manualDurationC);  \
-    manualDurationC->setChecked(true); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationDurationManual);  \
+    captureCalibrationDurationManual->setChecked(true); \
     QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
     QVERIFY(nullptr != buttons); \
     QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
@@ -65,7 +67,7 @@ class TestEkosCaptureWorkflow : public QObject
         explicit TestEkosCaptureWorkflow(QObject *parent = nullptr);
         explicit TestEkosCaptureWorkflow(QString guider, QObject *parent = nullptr);
 
-    protected:
+protected:
         // destination where images will be located
         QTemporaryDir *destination;
         QDir *imageLocation = nullptr;
@@ -114,6 +116,11 @@ class TestEkosCaptureWorkflow : public QObject
          * @brief verifyCalibrationSettings Verify if the flats calibration settings match the test data.
          */
         bool verifyCalibrationSettings();
+
+        /**
+         * @brief fillScripts Open the scripts dialog and fill its values from {@see #scripts}
+         */
+        void fillCaptureScripts();
 
         // counter for images taken in a single test run
         int image_count;
