@@ -2376,7 +2376,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     m_CalibrationUI->captureCalibrationParkDome->setChecked(action & ACTION_PARK_DOME);
 
     // Calibration Flat Duration
-    switch (state()->flatFieldDuration())
+    switch (job->getFlatFieldDuration())
     {
         case DURATION_MANUAL:
             m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
@@ -2384,9 +2384,10 @@ void Capture::syncGUIToJob(SequenceJob * job)
 
         case DURATION_ADU:
             m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
-            m_CalibrationUI->captureCalibrationADUValue->setValue(static_cast<int>(std::round(state()->targetADU())));
-            m_CalibrationUI->captureCalibrationADUTolerance->setValue(static_cast<int>(std::round(state()->targetADUTolerance())));
-            m_CalibrationUI->captureCalibrationSkyFlats->setChecked(state()->skyFlat());
+            m_CalibrationUI->captureCalibrationADUValue->setValue(job->getCoreProperty(SequenceJob::SJ_TargetADU).toUInt());
+            m_CalibrationUI->captureCalibrationADUTolerance->setValue(job->getCoreProperty(
+                        SequenceJob::SJ_TargetADUTolerance).toUInt());
+            m_CalibrationUI->captureCalibrationSkyFlats->setChecked(job->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool());
             break;
     }
 
