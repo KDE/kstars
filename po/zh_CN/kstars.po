@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-17 01:56+0000\n"
-"PO-Revision-Date: 2024-03-16 20:48\n"
+"POT-Creation-Date: 2024-03-18 01:58+0000\n"
+"PO-Revision-Date: 2024-03-17 20:45\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -18427,10 +18427,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "步长:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -18454,18 +18453,12 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the distance between the plate-solved captured "
-#| "image and the target position in arc-seconds. Must be enabled in "
-#| "scheduler options.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>画出解析后图像与目标位置的距离（角秒）。必须在调度器中"
-"启用。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -27564,10 +27557,9 @@ msgid ""
 msgstr "当前 FITS 文件有未保存的更改。您希望在关闭前保存它吗？"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "HFR Options Profile Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "HFR 选项配置编辑器"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -28428,27 +28420,23 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
-msgstr "请选择用于解析的配置文件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:410
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
-msgstr "请选择用于解析的配置文件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
-msgstr "在配置文件编辑器中打开当前选中的配置文件"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -34096,7 +34084,7 @@ msgstr ""
 #: kstars.kcfg:1544
 #, kde-format
 msgid ""
-"JSON storing the assignment of profile indeces to module profiles for the "
+"JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
 

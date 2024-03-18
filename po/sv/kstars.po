@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-17 01:56+0000\n"
+"POT-Creation-Date: 2024-03-18 01:58+0000\n"
 "PO-Revision-Date: 2024-01-02 21:01+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -36142,7 +36142,7 @@ msgstr "Alternativprofil för lösning med FITS-visning."
 #: kstars.kcfg:1544
 #, kde-format
 msgid ""
-"JSON storing the assignment of profile indeces to module profiles for the "
+"JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
 

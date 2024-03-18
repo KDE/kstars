@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-17 01:56+0000\n"
-"PO-Revision-Date: 2024-03-16 18:28+0100\n"
+"POT-Creation-Date: 2024-03-18 01:58+0000\n"
+"PO-Revision-Date: 2024-03-17 23:17+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -19223,9 +19223,9 @@ msgstr ""
 "El primer pas és establir el rebot. El manual de l'enfocador probablement "
 "explicarà com fer-ho. Una vegada es tinga un valor per al rebot del sistema, "
 "establiu el camp de rebot perquè el controlador realitze la compensació o el "
-"camp d'EA excessiu perquè l'enfocament automàtic realitze la compensació. "
+"camp d'EA excessiva perquè l'enfocament automàtic realitze la compensació. "
 "Establiu només un camp i deixeu l'altre a 0. Si no esteu segur de quin "
-"establir, es recomana l'«EA excessiu:»\n"
+"establir, es recomana l'«EA excessiva:»\n"
 "\n"
 "El segon pas és establir la «Mida del pas». Si coneixeu un valor aproximat, "
 "introduïu-lo ací. En cas contrari el podeu predeterminar a partir de la "
@@ -19638,7 +19638,7 @@ msgstr ""
 "<html><head/><body><p>Per a enfocadors amb compensació del rebot, la "
 "quantitat de rebot que s'aplicarà en invertir la direcció del moviment. "
 "Establiu-lo a 0 per a desactivar-ho.</p><p>Normalment s'establix el «Rebot» "
-"o l'«EA excessiu:» de l'enfocador.</p><p>Este camp establix el rebot de "
+"o l'«EA excessiva:» de l'enfocador.</p><p>Este camp establix el rebot de "
 "l'enfocador d'INDI i es pot establir ací o en el Quadro de control INDI.</"
 "p></body></html>"
 
@@ -19742,7 +19742,7 @@ msgstr ""
 "del dispositiu i establida en el camp «Compensació de rebot del "
 "controlador:». Establiu-lo a 0 per a desactivar.</p><p>Si s'establix, l'«EA "
 "excessiu:» s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul "
-"«Enfocament».</p><p>Normalment s'establix el «Rebot» o l'«EA excessiu:» de "
+"«Enfocament».</p><p>Normalment s'establix el «Rebot» o l'«EA excessiva:» de "
 "l'enfocador.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
@@ -19832,7 +19832,7 @@ msgstr "Compensació de rebot del controlador:"
 #: ekos/focus/opsfocusmechanics.ui:349
 #, kde-format
 msgid "AF Overscan:"
-msgstr "EA excessiu:"
+msgstr "EA excessiva:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:368
@@ -19842,10 +19842,9 @@ msgstr "Múltiples passos cap enfora:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Mida del pas:"
+msgstr "Mida màxima del pas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -19866,24 +19865,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan Delay:"
-msgstr "EA excessiu:"
+msgstr "Retard de l'EA excessiva:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The minimum size of an adaptive focus change that "
-#| "will be sent to the focuser.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>La mida mínima d'un canvi d'enfocament adaptatiu que "
-"s'enviarà a l'enfocador.</p></body></html>"
+"<html><head/><body><p>El retard entre completar el moviment cap enfora d'una "
+"exploració excessiva i l'inici del moviment cap endins. 0 està bé per a la "
+"majoria dels enfocadors.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -29959,11 +29955,9 @@ msgstr ""
 "tancar-lo?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "FITS Viewer Solver Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr ""
-"Editor dels perfils d'opcions d'alineació del solucionador del visor de FITS"
+msgstr "Editor dels perfils del solucionador del visor de FITS"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -30868,8 +30862,7 @@ msgstr "L'angle de posició de la imatge resolta, est del nord (en graus)."
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr ""
 "Selecciona el perfil d'opcions que s'utilitzarà per a la resolució de "
@@ -30878,25 +30871,21 @@ msgstr ""
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:410
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
 msgstr ""
-"Selecciona el perfil d'opcions que s'utilitzarà per a la resolució de "
-"plaques."
+"Selecciona el mòdul des del qual es prendrà el perfil d'opcions que "
+"s'utilitzarà per a la resolució de plaques."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Align Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr ""
-"Obri el perfil d'alineació actualment seleccionat en l'editor dels perfils "
-"d'opcions."
+"Obri el perfil actualment seleccionat en l'editor dels perfils d'opcions."
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -37084,18 +37073,23 @@ msgstr "Perfil d'opcions per a la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1540
-#, fuzzy, kde-format
-#| msgid "Options Profile for Fitsviewer Solving."
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr "Perfil d'opcions per a la resolució del visor de FITS."
+msgstr ""
+"Mòdul des del qual es prendrà el perfil per a la resolució del visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1544
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "JSON storing the assignment of profile indeces to module profiles for the "
+#| "FITS Viewer Solver"
 msgid ""
-"JSON storing the assignment of profile indeces to module profiles for the "
+"JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
+"JSON emmagatzema l'assignació dels índexs de perfil als perfils de mòduls "
+"per a la resolució del visor de FITS"
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1549
@@ -38457,6 +38451,9 @@ msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
+"El retard entre el moviment cap enfora i el moviment cap endins d'una "
+"exploració excessiva de l'EA. Establiu-la a 0 s per a la majoria "
+"d'enfocadors."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2262
@@ -86874,13 +86871,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
-#~ "parameters?"
-#~ msgstr ""
-#~ "Primer ús del Tren òptic: %1. Preferiu que l'Assessor d'enfocament "
-#~ "optimitze els paràmetres?"
-
-#~ msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-#~ msgstr "<html><head/><body><p>Mida màx. del pas:</p></body></html>"

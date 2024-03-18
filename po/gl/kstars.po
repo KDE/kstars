@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-17 01:56+0000\n"
-"PO-Revision-Date: 2024-03-17 00:26+0100\n"
+"POT-Creation-Date: 2024-03-18 01:58+0000\n"
+"PO-Revision-Date: 2024-03-17 14:01+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19471,10 +19471,9 @@ msgstr "Múltiplo de pasos para afastar:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Tamaño do paso:"
+msgstr "Tamaño máximo de paso:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -19495,24 +19494,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Sobrebusca do enfoque automático:"
+msgstr "Atraso da sobrebusca do enfoque automático:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The minimum size of an adaptive focus change that "
-#| "will be sent to the focuser.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>O tamaño mínimo de cambio de enfoque adaptativo que se "
-"enviará ao focalizador.</p></body></html>"
+"<html><head/><body><p>Tempo entre a completación do movemento cara fóra "
+"dunha sobrebusca e o inicio do movemento cara dentro. Para a maior parte dos "
+"focalizadores pode usar 0 s.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -36402,7 +36398,7 @@ msgstr ""
 #: kstars.kcfg:1544
 #, kde-format
 msgid ""
-"JSON storing the assignment of profile indeces to module profiles for the "
+"JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
 

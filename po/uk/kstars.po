@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-17 01:56+0000\n"
-"PO-Revision-Date: 2024-03-16 08:50+0200\n"
+"POT-Creation-Date: 2024-03-18 01:58+0000\n"
+"PO-Revision-Date: 2024-03-17 08:46+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -19533,10 +19533,9 @@ msgstr "Коефіцієнт зовнішніх кроків:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Розмір кроку:"
+msgstr "Макс. розмір кроку:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -19557,24 +19556,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Пересканування АФ:"
+msgstr "Затримка пересканування АФ:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The minimum size of an adaptive focus change that "
-#| "will be sent to the focuser.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Мінімальний розмір зміни адаптивного фокусування, який "
-"буде надіслано засобу фокусування.</p></body></html>"
+"<html><head/><body><p>Затримка між завершенням зовнішнього руху "
+"пересканування і початком внутрішнього руху. Для більшості засобів "
+"фокусування достатньо значення 0 с.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -29542,10 +29538,9 @@ msgstr ""
 "закриттям?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "FITS Viewer Solver Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "Редактор профілів параметрів вирівнювання переглядача FITS"
+msgstr "Редактор профілів переглядача FITS"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -30450,8 +30445,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr ""
 "Визначає профіль параметрів, який буде використано для розв'язування "
@@ -30459,24 +30453,19 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:410
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
 msgstr ""
-"Визначає профіль параметрів, який буде використано для розв'язування "
-"зображення"
+"Вибирає модуль, з якого буде взято профілі параметрів, які буде використано "
+"для розв'язання кадру"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Align Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
-msgstr ""
-"Відкриває поточний вибраний профіль вирівнювання у редакторі профілів "
-"параметрів"
+msgstr "Відкриває поточний вибраний профіль у редакторі профілів параметрів"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -36443,18 +36432,22 @@ msgstr "Профіль параметрів для розв'язування у 
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1540
-#, fuzzy, kde-format
-#| msgid "Options Profile for Fitsviewer Solving."
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr "Профіль параметрів для розв'язування у засобі перегляду FITS."
+msgstr "Модуль, з якого взято профіль для розв'язання у Fitsviewer."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1544
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "JSON storing the assignment of profile indeces to module profiles for the "
+#| "FITS Viewer Solver"
 msgid ""
-"JSON storing the assignment of profile indeces to module profiles for the "
+"JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
+"JSON зберігає зв'язки індексів профілів із профілями модулів для засобу "
+"розв'язання переглядача FITS"
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1549
@@ -37799,6 +37792,8 @@ msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
+"Затримка між зовнішнім і внутрішнім рухами пересканування АФ. Для більшості "
+"засобів фокусування варто встановити 0 с."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2262
