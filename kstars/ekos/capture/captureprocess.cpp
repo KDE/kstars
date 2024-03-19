@@ -1616,19 +1616,20 @@ IPState CaptureProcess::previewImageCompletedAction(QSharedPointer<FITSData> ima
 
 }
 
-IPState CaptureProcess::updateCompletedCaptureCountersAction()
+void CaptureProcess::updateCompletedCaptureCountersAction()
 {
-    // update counters if not in preview mode or calibrating
-    if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW
-            && activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
-    {
-        /* Increase the sequence's current capture count */
-        updatedCaptureCompleted(activeJob()->getCompleted() + 1);
-        /* Decrease the counter for in-sequence focusing */
-        state()->getRefocusState()->decreaseInSequenceFocusCounter();
-        /* Reset adaptive focus flag */
-        state()->getRefocusState()->setAdaptiveFocusDone(false);
-    }
+    // do not update counters if in preview mode or calibrating
+    if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW
+            || activeJob()->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
+        return;
+
+
+    /* Increase the sequence's current capture count */
+    updatedCaptureCompleted(activeJob()->getCompleted() + 1);
+    /* Decrease the counter for in-sequence focusing */
+    state()->getRefocusState()->decreaseInSequenceFocusCounter();
+    /* Reset adaptive focus flag */
+    state()->getRefocusState()->setAdaptiveFocusDone(false);
 
     /* Decrease the dithering counter except for directly after meridian flip                                              */
     /* Hint: this isonly relevant when a meridian flip happened during a paused sequence when pressing "Start" afterwards. */
@@ -1641,8 +1642,6 @@ IPState CaptureProcess::updateCompletedCaptureCountersAction()
     // report that the image has been received
     emit newLog(i18n("Received image %1 out of %2.", activeJob()->getCompleted(),
                      activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
-
-    return IPS_OK;
 }
 
 IPState CaptureProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageData)

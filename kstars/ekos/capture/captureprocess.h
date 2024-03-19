@@ -488,9 +488,8 @@ public:
 
     /**
      * @brief updateCompletedCaptureCounters Update counters if an image has been captured
-     * @return
      */
-    IPState updateCompletedCaptureCountersAction();
+    void updateCompletedCaptureCountersAction();
 
     /**
      * @brief updateImageMetadataAction Update meta data of a captured image
