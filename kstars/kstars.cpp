@@ -166,7 +166,9 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     telescopeGroup->setExclusive(false);
     domeGroup       = new QActionGroup(this);
     domeGroup->setExclusive(false);
+    viewsGroup      = new QActionGroup(this);
     skymapOrientationGroup = new QActionGroup(this);
+    erectObserverCorrectionGroup = new QActionGroup(this);
 
     m_KStarsData = KStarsData::Create();
     Q_ASSERT(m_KStarsData);
@@ -342,8 +344,10 @@ void KStars::applyConfig(bool doApplyFocus)
     actionCollection()->action("show_flags")->setChecked(Options::showFlags());
     actionCollection()->action("show_supernovae")->setChecked(Options::showSupernovae());
     actionCollection()->action("show_satellites")->setChecked(Options::showSatellites());
-    actionCollection()->action("erect_observer_correction")->setChecked(Options::erectObserverCorrection());
-    actionCollection()->action("erect_observer_correction")->setEnabled(Options::useAltAz());
+    erectObserverCorrectionGroup->setEnabled(Options::useAltAz());
+    actionCollection()->action("erect_observer_correction_off")->setChecked(Options::erectObserverCorrection() == 0);
+    actionCollection()->action("erect_observer_correction_left")->setChecked(Options::erectObserverCorrection() == 1);
+    actionCollection()->action("erect_observer_correction_right")->setChecked(Options::erectObserverCorrection() == 2);
     actionCollection()->action("mirror_skymap")->setChecked(Options::mirrorSkyMap());
     statusBar()->setVisible(Options::showStatusBar());
 
@@ -543,6 +547,32 @@ void KStars::selectPreviousFov()
     data()->syncFOV();
     syncFOVActions();
     map()->update();
+}
+
+void KStars::selectNextView()
+{
+    QList<QAction*> actions = viewsGroup->actions();
+    int currentIndex = actions.indexOf(viewsGroup->checkedAction());
+    int newIndex = currentIndex + 1;
+    if (newIndex == actions.count() - 1)
+    {
+        newIndex++; // Skip "Arbitrary"
+    }
+    actions[newIndex % actions.count()]->activate(QAction::Trigger);
+    map()->slotDisplayFadingText(actions[newIndex % actions.count()]->data().toString());
+}
+
+void KStars::selectPreviousView()
+{
+    QList<QAction*> actions = viewsGroup->actions();
+    int currentIndex = actions.indexOf(viewsGroup->checkedAction());
+    int newIndex = currentIndex - 1;
+    if (currentIndex <= 0)
+    {
+        newIndex = actions.count() - 2; // Skip "Arbitrary"
+    }
+    actions[newIndex]->activate(QAction::Trigger);
+    map()->slotDisplayFadingText(actions[newIndex]->data().toString());
 }
 
 //FIXME Port to QML2

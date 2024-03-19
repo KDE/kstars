@@ -20,6 +20,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
+#include "dialogs/viewsdialog.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/timedialog.h"
 #include "dialogs/catalogsdbui.h"
@@ -1705,9 +1706,7 @@ void KStars::slotCoordSys()
         actionCollection()
         ->action("down_orientation")
         ->setText(i18nc("Orientation of the sky map", "North &Down"));
-        actionCollection()
-        ->action("erect_observer_correction")
-        ->setEnabled(false);
+        erectObserverCorrectionGroup->setEnabled(false);
     }
     else
     {
@@ -1726,10 +1725,9 @@ void KStars::slotCoordSys()
         actionCollection()
         ->action("down_orientation")
         ->setText(i18nc("Orientation of the sky map", "Zenith &Down"));
-        actionCollection()
-        ->action("erect_observer_correction")
-        ->setEnabled(true);
+        erectObserverCorrectionGroup->setEnabled(true);
     }
+    actionCollection()->action("view:arbitrary")->setChecked(true);
     map()->forceUpdate();
 }
 
@@ -1743,18 +1741,12 @@ void KStars::slotSkyMapOrientation()
     {
         Options::setSkyRotation(180.0);
     }
-    else if (sender() == actionCollection()->action("mirror_skymap"))
-    {
-        ;
-    }
-    else
-    {
-        Q_ASSERT(false && "Unhandled orientation action");
-        qCWarning(KSTARS) << "Unhandled orientation action";
-    }
 
     Options::setMirrorSkyMap(actionCollection()->action("mirror_skymap")->isChecked());
-    Options::setErectObserverCorrection(actionCollection()->action("erect_observer_correction")->isChecked());
+    Options::setErectObserverCorrection(
+        actionCollection()->action("erect_observer_correction_off")->isChecked() ? 0 : (
+            actionCollection()->action("erect_observer_correction_left")->isChecked() ? 1 : 2));
+    actionCollection()->action("view:arbitrary")->setChecked(true);
     map()->forceUpdate();
 }
 
@@ -1810,6 +1802,60 @@ void KStars::slotTargetSymbol(bool flag)
     map()->forceUpdate();
 }
 
+void KStars::slotApplySkyMapView(const QString &viewName)
+{
+
+    auto view = SkyMapViewManager::viewNamed(viewName);
+    if (!view)
+    {
+        qCWarning(KSTARS) << "View named " << viewName << " not found!";
+        return;
+    }
+
+    // FIXME: Ugly hack to update the menus correctly...
+    // we set the opposite coordinate system setting and call slotCoordSys to toggle
+    Options::setUseAltAz(!view->useAltAz);
+    slotCoordSys();
+
+    Options::setMirrorSkyMap(view->mirror);
+    actionCollection()->action("mirror_skymap")->setChecked(Options::mirrorSkyMap());
+
+    int erectObserverCorrection = 0;
+    double viewAngle = view->viewAngle;
+    if (view->erectObserver && view->useAltAz)
+    {
+        if (viewAngle > 0.)
+        {
+            erectObserverCorrection = 1;
+            viewAngle -= 90.; // FIXME: Check
+        }
+        if (viewAngle < 0.)
+        {
+            erectObserverCorrection = 2;
+            viewAngle += 90.; // FIXME: Check
+        }
+    }
+    if (view->inverted)
+    {
+        viewAngle += 180.; // FIXME: Check
+    }
+
+    Options::setErectObserverCorrection(erectObserverCorrection);
+    Options::setSkyRotation(dms::reduce(viewAngle));
+    if (!std::isnan(view->fov))
+    {
+        Options::setZoomFactor(map()->width() / (3 * view->fov * dms::DegToRad));
+    }
+    repopulateOrientation(); // Update the menus
+    qCDebug(KSTARS) << "Alt/Az: " << Options::useAltAz()
+                    << "Mirror: " << Options::mirrorSkyMap()
+                    << "Rotation: " << Options::skyRotation()
+                    << "Erect Obs: " << Options::erectObserverCorrection()
+                    << "FOV: " << view->fov;
+    actionCollection()->action(QString("view:%1").arg(viewName))->setChecked(true);
+    map()->forceUpdate();
+}
+
 void KStars::slotHIPSSource()
 {
     QAction *selectedAction = qobject_cast<QAction *>(sender());
@@ -1825,6 +1871,17 @@ void KStars::slotHIPSSource()
         HIPSManager::Instance()->setCurrentSource(selectedSource);
 
     map()->forceUpdate();
+}
+
+void KStars::slotEditViews()
+{
+    QPointer<ViewsDialog> viewsDialog = new ViewsDialog(this);
+    if (viewsDialog->exec() == QDialog::Accepted)
+    {
+        SkyMapViewManager::save();
+        repopulateViews();
+    }
+    delete viewsDialog;
 }
 
 void KStars::slotFOVEdit()

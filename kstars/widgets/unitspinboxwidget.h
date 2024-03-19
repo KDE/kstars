@@ -18,28 +18,49 @@
  */
 class UnitSpinBoxWidget : public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit UnitSpinBoxWidget(QWidget *parent = nullptr);
-    ~UnitSpinBoxWidget() override;
+    public:
+        QComboBox *comboBox;
+        QDoubleSpinBox *doubleSpinBox;
 
-    /**
+        explicit UnitSpinBoxWidget(QWidget *parent = nullptr);
+        ~UnitSpinBoxWidget() override;
+
+        /**
          * @brief addUnit Adds a item to the combo box
          * @param unitName The name of the unit to be displayed
          * @param conversionFactor The factor the value of a unit must be multiplied by
          */
-    void addUnit(const QString &unitName, double conversionFactor);
+        void addUnit(const QString &unitName, double conversionFactor);
 
-    /**
-         * @brief value Returns value upon conversion
+        /** @return whether the widget is enabled */
+        inline bool enabled()
+        {
+            Q_ASSERT(comboBox->isEnabled() == doubleSpinBox->isEnabled());
+            return doubleSpinBox->isEnabled();
+        }
+
+        /** @brief value Returns value upon conversion */
+        double value() const;
+
+    public slots:
+        /**
+         * @brief Sets the given value
+         * @param value The value to set
+         * @note Automatically optimizes the display to use the best unit for the given value
          */
-    double value() const;
+        void setValue(const double value);
 
-  private:
-    Ui::UnitSpinBoxWidget *ui;
-    QComboBox *comboBox;
-    QDoubleSpinBox *doubleSpinBox;
+        /** @brief Enables the widget */
+        void setEnabled(bool enabled)
+        {
+            comboBox->setEnabled(enabled);
+            doubleSpinBox->setEnabled(enabled);
+        }
+
+    private:
+        Ui::UnitSpinBoxWidget *ui;
 };
 
 #endif // UNITSPINBOXWIDGET_H

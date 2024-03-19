@@ -34,7 +34,7 @@
         KTRY_ACTION("show_ekos"); \
         QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance() != nullptr, 200); \
         QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->isVisible(), 200); \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->isActiveWindow(), 1000); }} while(false)
+        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->isActiveWindow(), 5000); }} while(false)
 
 #define KTRY_CLOSE_EKOS() do { \
     if (Ekos::Manager::Instance() != nullptr && Ekos::Manager::Instance()->isVisible()) { \

@@ -1100,9 +1100,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         void syncGUIToJob(SequenceJob *job);
         /**
-         * @brief syncGUIToState Update UI to general settings from Options
+         * @brief syncLimitSettings Update Limits UI from Options
          */
-        void syncGUIToGeneralSettings();
+        void syncLimitSettings();
 
         // DSLR Info
         void cullToDSLRLimits();
@@ -1172,6 +1172,10 @@ class Capture : public QWidget, public Ui::Capture
 
         // Disable all the widgets that aren't used in stand-alone mode.
         void initStandAlone();
+
+        // Utilities for storing stand-alone variables.
+        void storeTrainKey(const QString &key, const QStringList &list);
+        void storeTrainKeyString(const QString &key, const QString &str);
 
         // ////////////////////////////////////////////////////////////////////
         // Attributes

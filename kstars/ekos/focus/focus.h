@@ -508,7 +508,7 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusComplete(double temperature, const QString &filter, const QString &points, const bool useWeights,
                                const QString &curve = "", const QString &title = "");
         void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
-                              const AutofocusFailReason failCode);
+                              const AutofocusFailReason failCode, const QString &failCodeInfo);
 
         /**
          * @brief Signal Analyze that an Adaptive Focus iteration is complete
@@ -815,7 +815,7 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
-        void completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, bool plot = true);
+        void completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, QString failCodeInfo = "", bool plot = true);
 
         /**
          * @brief activities to be executed after the configured settling time
@@ -823,9 +823,10 @@ class Focus : public QWidget, public Ui::Focus
          * @param autoFocusUsed is autofocus running?
          * @param buildOffsetsUsed is autofocus running as a result of build offsets
          * @param failCode is the reason for the Autofocus failure
+         * @param failCodeInfo contains extra info about failCode
          */
         void settle(const FocusState completionState, const bool autoFocusUsed,
-                    const bool buildOffsetsUsed, const AutofocusFailReason failCode);
+                    const bool buildOffsetsUsed, const AutofocusFailReason failCode, const QString failCodeInfo);
 
         void setLastFocusTemperature();
         void setLastFocusAlt();
@@ -946,8 +947,8 @@ class Focus : public QWidget, public Ui::Focus
         StarAlgorithm m_FocusDetection { ALGORITHM_SEP };
         /// Focus Process Algorithm
         Algorithm m_FocusAlgorithm { FOCUS_LINEAR1PASS };
-        /// Curve fit, default to Quadratic
-        CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_QUADRATIC };
+        /// Curve fit
+        CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_HYPERBOLA };
         /// Star measure to use
         StarMeasure m_StarMeasure { FOCUS_STAR_HFR };
         /// PSF to use
@@ -955,7 +956,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Units to use when displaying HFR or FWHM
         StarUnits m_StarUnits { FOCUS_UNITS_PIXEL };
         /// Units to use when displaying HFR or FWHM
-        FocusWalk m_FocusWalk { FOCUS_WALK_CLASSIC };
+        FocusWalk m_FocusWalk { FOCUS_WALK_FIXED_STEPS };
         /// Are we minimising or maximising?
         CurveFitting::OptimisationDirection m_OptDir { CurveFitting::OPTIMISATION_MINIMISE };
         /// The type of statistics to use

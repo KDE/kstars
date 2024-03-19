@@ -77,7 +77,7 @@ static const QString AutofocusFailReasonStr[FOCUS_FAIL_MAX_REASONS] =
     "No Stars",
     "Hit Max Iterations",
     "Unable to Move Focuser",
-    "Below Minimum R2",
+    "R2 Check",
     "Delta HFR too small",
     "Focuser Move Out-Of-Bounds",
     "Hit Max Fluctuations",

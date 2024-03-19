@@ -363,13 +363,27 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_PageUp:
         {
-            KStars::Instance()->selectPreviousFov();
+            if (shiftPressed)
+            {
+                KStars::Instance()->selectPreviousView();
+            }
+            else
+            {
+                KStars::Instance()->selectPreviousFov();
+            }
             break;
         }
 
         case Qt::Key_PageDown:
         {
-            KStars::Instance()->selectNextFov();
+            if (shiftPressed)
+            {
+                KStars::Instance()->selectNextView();
+            }
+            else
+            {
+                KStars::Instance()->selectNextFov();
+            }
             break;
         }
 
@@ -409,7 +423,7 @@ bool SkyMap::event(QEvent *event)
     {
         QGestureEvent* gestureEvent = static_cast<QGestureEvent*>(event);
 
-        if (QPinchGesture *pinch = static_cast<QPinchGesture*>(gestureEvent->gesture(Qt::PinchGesture)))
+        if (QPinchGesture *pinch = static_cast<QPinchGesture * >(gestureEvent->gesture(Qt::PinchGesture)))
         {
             QPinchGesture::ChangeFlags changeFlags = pinch->changeFlags();
 
@@ -435,7 +449,7 @@ bool SkyMap::event(QEvent *event)
                 }
             }
         }
-        if (QTapAndHoldGesture *tapAndHold = static_cast<QTapAndHoldGesture*>(gestureEvent->gesture(Qt::TapAndHoldGesture)))
+        if (QTapAndHoldGesture *tapAndHold = static_cast<QTapAndHoldGesture * >(gestureEvent->gesture(Qt::TapAndHoldGesture)))
         {
             m_tapAndHoldMode = true;
             if (tapAndHold->state() == Qt::GestureFinished)

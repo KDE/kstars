@@ -281,7 +281,6 @@ bool KSUserDB::Initialize()
                         "settings TEXT DEFAULT NULL)"))
             qCWarning(KSTARS) << query.lastError();
 
-
         // Add DSLR lenses table
         if (!query.exec("CREATE TABLE dslrlens ( "
                         "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -551,14 +550,12 @@ bool KSUserDB::RebuildDB()
                   " sure to compensate for this effect the flux conserving clip-resampling option.', '9', 'equatorial', '512', 'jpeg fits',"
                   "'http://alaskybis.u-strasbg.fr/Fermi/Color', '1')");
 
-
     tables.append("CREATE TABLE dslr (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "Model TEXT DEFAULT NULL, "
                   "Width INTEGER DEFAULT NULL, "
                   "Height INTEGER DEFAULT NULL, "
                   "PixelW REAL DEFAULT 5.0,"
                   "PixelH REAL DEFAULT 5.0)");
-
 
     tables.append("CREATE TABLE effectivefov ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -854,7 +851,6 @@ bool KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
 
     return true;
 }
-
 
 /* Effective FOV Section */
 
@@ -1239,7 +1235,6 @@ bool KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
 
     return true;
 }
-
 
 /* DSLR Section */
 
@@ -2505,6 +2500,116 @@ bool KSUserDB::GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList)
     return true;
 }
 
+void KSUserDB::CreateSkyMapViewTableIfNecessary()
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    QString command = "CREATE TABLE IF NOT EXISTS SkyMapViews ( "
+                      "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                      "name TEXT NOT NULL UNIQUE, "
+                      "data JSON)";
+    QSqlQuery query(db);
+    if (!query.exec(command))
+    {
+        qCDebug(KSTARS) << query.lastError();
+        qCDebug(KSTARS) << query.executedQuery();
+    }
+}
+
+bool KSUserDB::DeleteAllSkyMapViews()
+{
+    CreateSkyMapViewTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel views(nullptr, db);
+    views.setTable("SkyMapViews");
+    views.setFilter("id >= 1");
+    views.select();
+    views.removeRows(0, views.rowCount());
+    views.submitAll();
+
+    QSqlQuery query(db);
+    QString dropQuery = QString("DROP TABLE SkyMapViews");
+    if (!query.exec(dropQuery))
+        qCWarning(KSTARS) << query.lastError().text();
+
+    return true;
+}
+
+bool KSUserDB::AddSkyMapView(const SkyMapView &view)
+{
+    CreateSkyMapViewTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel views(nullptr, db);
+    views.setTable("SkyMapViews");
+    views.setFilter("name LIKE \'" + view.name + "\'");
+    views.select();
+
+    if (views.rowCount() > 0)
+    {
+        QSqlRecord record = views.record(0);
+        record.setValue("name", view.name);
+        record.setValue("data", QJsonDocument(view.toJson()).toJson(QJsonDocument::Compact));
+        views.setRecord(0, record);
+        views.submitAll();
+    }
+    else
+    {
+        int row = 0;
+        views.insertRows(row, 1);
+
+        views.setData(views.index(row, 1), view.name);  // row,0 is autoincerement ID
+        views.setData(views.index(row, 2), QJsonDocument(view.toJson()).toJson(QJsonDocument::Compact));
+        views.submitAll();
+    }
+    return true;
+}
+
+bool KSUserDB::GetAllSkyMapViews(QList<SkyMapView> &skyMapViewList)
+{
+    CreateSkyMapViewTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    skyMapViewList.clear();
+    QSqlTableModel views(nullptr, db);
+    views.setTable("SkyMapViews");
+    views.select();
+
+    for (int i = 0; i < views.rowCount(); ++i)
+    {
+        QSqlRecord record         = views.record(i);
+
+        const QString name        = record.value("name").toString();
+        const QJsonDocument data  = QJsonDocument::fromJson(record.value("data").toString().toUtf8());
+        Q_ASSERT((!data.isNull()) && data.isObject());
+        if (data.isNull() || !data.isObject())
+        {
+            qCCritical(KSTARS) << "Data associated with sky map view " << name << " is invalid!";
+            continue;
+        }
+        SkyMapView o(name, data.object());
+        skyMapViewList.append(o);
+    }
+
+    views.clear();
+    return true;
+}
+
 int KSUserDB::AddProfile(const QString &name)
 {
     auto db = QSqlDatabase::database(m_ConnectionName);
@@ -2543,8 +2648,6 @@ bool KSUserDB::DeleteProfile(const QSharedPointer<ProfileInfo> &pi)
 
     if (rc == false)
         qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
-
-
 
     return rc;
 }
@@ -2678,7 +2781,6 @@ bool KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
 
     /*if (pi->customDrivers.isEmpty() == false && !query.exec(QString("INSERT INTO custom_driver (drivers, profile) VALUES('%1',%2)").arg(pi->customDrivers).arg(pi->id)))
         qDebug()  << query.lastQuery() << query.lastError().text();*/
-
 
     return true;
 }
@@ -3014,7 +3116,6 @@ void KSUserDB::AddProfileSettings(uint32_t profile, const QByteArray &settings)
     if (!profileSettings.submitAll())
         qCWarning(KSTARS) << profileSettings.lastError();
 
-
 }
 
 void KSUserDB::UpdateProfileSettings(uint32_t profile, const QByteArray &settings)
@@ -3035,7 +3136,6 @@ void KSUserDB::UpdateProfileSettings(uint32_t profile, const QByteArray &setting
     if (!profileSettings.submitAll())
         qCWarning(KSTARS) << profileSettings.lastError();
 }
-
 
 void KSUserDB::DeleteProfileSettings(uint32_t profile)
 {

@@ -196,9 +196,9 @@ endif ()
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
-if (INDI_FOUND AND NOT ANDROID)
+if (NOT ANDROID)
     find_package(StellarSolver REQUIRED 2.2)
-endif(INDI_FOUND AND NOT ANDROID)
+endif(NOT ANDROID)
 MACRO_BOOL_TO_01(StellarSolver_FOUND HAVE_STELLARSOLVER)
 
 find_package(Nova)
@@ -297,7 +297,16 @@ endif ()
 
 # Add security (hardening flags)
 IF (UNIX OR APPLE OR ANDROID)
-    SET(SEC_COMP_FLAGS "-D_FORTIFY_SOURCE=2 -fstack-protector-all -Wcast-align -fPIE")
+    SET(SEC_COMP_FLAGS "${SEC_COMP_FLAGS} -fstack-protector-all -Wcast-align -fPIE")
+    # This is ill-defined, but I searched for a solution for quite a long time to no avail
+    # - FORTIFY_SOURCE generates a warning when there is no code optimization, and warnings will become errors at some point
+    # - Checking the build type in CMakeLists.txt is a bad practice, it is better to use generator expressions when importing targets
+    # - CMake modules do not expand cmake generator expressions when testing for a system/compiler feature
+    # - Testing CMAKE_BUILD_TYPE does not work well with multi-configuration generators, but those do not fill CMAKE_BUILD_TYPE
+    # - The "right" way to write this is "$<$<NOT:$<CONFIG:Debug>>:-D_FORTIFY_SOURCE=2>", but it fails the build configuration
+    IF (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+        SET(SEC_COMP_FLAGS "${SEC_COMP_FLAGS} -D_FORTIFY_SOURCE=2")
+    ENDIF (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     IF (NOT ANDROID AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT APPLE)
         SET(SEC_COMP_FLAGS "${SEC_COMP_FLAGS} -Wa,--noexecstack")
     ENDIF ()

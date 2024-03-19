@@ -811,10 +811,21 @@
          <whatsthis>Enable this if you want the sky map to be mirrored left-right, e.g. to match the view through an erecting prism.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="ErectObserverCorrection" type="Bool">
+      <entry name="ErectObserverCorrection" type="Enum">
          <label>Orients the sky-map to account for an erect observer at the eyepiece</label>
-         <whatsthis>Enable this if you are using your eye at the eyepiece in an altazimuth mounted Newtonian telescope. This accounts for the fact that the observer stands erect as the telescope moves up and down, so that the orientation of the sky map will track what is seen in your eyepiece once it is set up correctly.</whatsthis>
-         <default>false</default>
+         <whatsthis>Enable this if you are using your eye at the eyepiece in an altazimuth mounted Newtonian telescope. This accounts for the fact that the observer stands erect as the telescope moves up and down, so that the orientation of the sky map will track what is seen in your eyepiece once it is set up correctly. Choose the handedness of the correction according which side of the telescope the eyepiece appears when looking from the back of the telescope</whatsthis>
+	 <choices>
+	   <choice name="Off">
+	     <label>Off</label>
+	   </choice>
+	   <choice name="Left">
+	     <label>Left</label>
+	   </choice>
+	   <choice name="Right">
+	     <label>Right</label>
+	   </choice>
+	 </choices>
+         <default>0</default> <!-- Off -->
       </entry>
       <entry name="ZoomScrollFactor" type="Double">
          <label>Zoom scroll sensitivity.</label>
@@ -1949,33 +1960,8 @@
          <label>Calculate position after captures.</label>
          <default>false</default>
       </entry>
-      <entry name="CaptureStandAloneTypes" type="String">
-         <label>Camera frame types when using stand-alone esq editor.</label>
-      </entry>      
-      <entry name="CaptureStandAloneFormats" type="String">
-         <label>Camera frame formats when using stand-alone esq editor.</label>
-      </entry>      
-      <entry name="CaptureStandAloneEncodings" type="String">
-         <label>Camera frame encodings when using stand-alone esq editor.</label>
-      </entry>      
-      <entry name="CaptureStandAloneISOs" type="String">
-         <label>Camera ISOs when using stand-alone esq editor.</label>
-      </entry>      
-      <entry name="CaptureStandAloneISOIndex" type="UInt">
-         <label>Camera ISO choice when using stand-alone esq editor.</label>
-         <default>0</default>
-      </entry>      
-      <entry name="CaptureStandAloneFilters" type="String">
-         <label>Filter names when using stand-alone esq editor.</label>
-      </entry>      
-      <entry name="CaptureStandAloneWHGO" type="String">
-         <label>Width,Height of sensor size remembered for stand-alone esq editor, and Gain/Offset keywords.</label>
-      </entry>      
-      <entry name="CaptureStandAloneTemperature" type="String">
-         <label>Camera temperature properties for stand-alone esq editor.</label>
-      </entry>      
-      <entry name="CaptureStandAloneTimestamp" type="String">
-         <label>Local time that the CaptureStandAlone options were set.</label>
+      <entry name="CaptureTrainID" type="UInt">
+         <label>Optical train ID most recently used in Capture.</label>
       </entry>
       <entry name="CaptureCalibrationWall" type="Bool">
          <label>Go to specific coordinates on calibration.</label>

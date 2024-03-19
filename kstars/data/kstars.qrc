@@ -81,6 +81,7 @@
         <file>noimage.png</file>
         <file>reticle12.png</file>
         <file>reticle24.png</file>
+        <file>observer.png</file>
     </qresource>
     <qresource prefix="/videos">
         <file>sm_animation.gif</file>

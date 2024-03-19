@@ -464,12 +464,12 @@ void TestEkosHelper::prepareCaptureModule()
 {
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     // clear refocusing limits
-    KTRY_SET_CHECKBOX(capture, limitRefocusS, false);
-    KTRY_SET_CHECKBOX(capture, limitFocusHFRS, false);
-    KTRY_SET_CHECKBOX(capture, limitFocusDeltaTS, false);
+    KTRY_SET_CHECKBOX(capture, enforceRefocusEveryN, false);
+    KTRY_SET_CHECKBOX(capture, enforceAutofocusHFR, false);
+    KTRY_SET_CHECKBOX(capture, enforceAutofocusOnTemperature, false);
     // clear the guiding limits
-    KTRY_SET_CHECKBOX(capture, startGuiderDriftS, false);
-    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, false);
+    KTRY_SET_CHECKBOX(capture, enforceStartGuiderDrift, false);
+    KTRY_SET_CHECKBOX(capture, enforceGuideDeviation, false);
 
 }
 
@@ -537,7 +537,7 @@ void TestEkosHelper::prepareGuidingModule()
     Options::setResetGuideCalibration(false);
     // guide calibration captured with fsq-85 as guiding scope, clear if it creates problems
     // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
-    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0024,ph=0.0024,fl=450,ang=268.349,angR=270.023,angD=176.674,ramspas=139.764,decmspas=134.438,swap=0,ra= 27:21:00,dec=00:25:52,side=0,when=2023-02-18 16:46:48,calEnd");
+    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0098,ph=0.0126,fl=450,ang=270,angR=270,angD=180,ramspas=207.777,decmspas=190.816,swap=0,ra= 165:55:58,dec=04:07:00,side=0,when=2024-03-16 18:01:01,calEnd");
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
     // auto star select
@@ -622,6 +622,16 @@ OAL::Scope *TestEkosHelper::getScope(TestEkosHelper::ScopeType type)
     }
     // this should never happen
     return fsq85;
+}
+
+void TestEkosHelper::checkModuleConfigurationsCompleted()
+{
+    if (waitForSettingsUpdated)
+    {
+        qCInfo(KSTARS_EKOS_TEST) << "Waiting for module settings update";
+        QTest::qWait(settingsUpdateDelay);
+        qCInfo(KSTARS_EKOS_TEST) << "Waiting for module settings update (finished)";
+    }
 }
 
 void TestEkosHelper::prepareMountModule(ScopeType primary, ScopeType guiding)

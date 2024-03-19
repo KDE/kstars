@@ -1,54 +1,59 @@
 # This YAML recipe builds KStars with INDI support, then runs all tests
-# Build dependencies are in packaged into image definition 'docker/Dockerfile'
-# As of 202009, two-stage pipeline fails on propagation of artifact from stage build to stage test
-# Probably because the upload uses a webdav REST API, and there are many large files in the list
+# It uses both KDE CI and custom image until tests are stabilised in the KDE CI image
+# Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
+
+include:
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/linux.yml
+      - /gitlab-templates/windows.yml
+      - /gitlab-templates/android.yml
+      # - /gitlab-templates/reuse-lint.yml
+      # - /gitlab-templates/flatpak.yml
+
+# Android CI is not ready yet
+android_qt515:
+  allow_failure: true
 
 stages:
   - build
   - test
   #- test-unstable
 
-image: tallfurryman/kstars-ci:0.12
+# This is the custom build we use until tests are operational in the KDE CI image
+.custom_build:
+  interruptible: true
+  image: tallfurryman/kstars-ci:0.12
+  variables:
+    CCACHE_BASEDIR: "$CI_PROJECT_DIR"
+    QT_TEST_TIMEOUT_FUNCTION: "600"
+    QT_QPA_PLATFORM: "eglfs"
+    CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
+  cache:
+    key: "CCACHE-DB-$CI_PROJECT_ID"
+    paths: [ "${CCACHE_DIR}" ]
+    when: always
+  before_script:
+    - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
+    - add-apt-repository --remove ppa:mutlaqja/indinightly
+    - add-apt-repository ppa:mutlaqja/ppa
+    - apt update
+    - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev
+    - mkdir -p kstars-build
+  after_script:
+    - ccache -s
 
-variables:
-  CCACHE_BASEDIR: "$CI_PROJECT_DIR"
-  QT_TEST_TIMEOUT_FUNCTION: "600"
-  QT_QPA_PLATFORM: "eglfs"
-  # In order to be cached successfully, the ccache folder must reside *inside* $CI_PROJECT_DIR
-  CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
-
-# We cache the ccache folder
-cache:
-  key: "CCACHE-DB-$CI_PROJECT_ID"
-  paths:
-    - "${CCACHE_DIR}"
-  # Unfortunately, cache:when is not available in the KDE version of gitlab
-  # Impact: we need a first build to succeed before the cache is available on the runner for further builds
-  # when:
-  #   - always
-
-.build_recipe: &build_recipe
-  - add-apt-repository --remove ppa:mutlaqja/indinightly
-  - add-apt-repository ppa:mutlaqja/ppa
-  - apt update
-  - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev
-  - mkdir -p kstars-build
-  - cd kstars-build
-  - cmake -GNinja -DCMAKE_BUILD_TYPE=Release .. -DCCACHE_SUPPORT=ON -DBUILD_TESTING=${BUILD_TESTING:-OFF} -DBUILD_DOC=${BUILD_DOC:-OFF}
-  - ninja -j8 all install
-
+# Run the build and keep the ccache folder as a fail-fast
 build:
   stage: build
-  interruptible: true
+  extends: .custom_build
   only:
     - master
     - merge_requests
-  before_script:
-    - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
   script:
-    - *build_recipe
-  after_script:
-    - ccache -s
+    - cd kstars-build
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF ..
+    - ninja -j8 all install
 
 # Run the full validation in one step, stable tests that must not fail
 # The artifacts take far too much time to propagate from one step to the other
@@ -56,21 +61,23 @@ build:
 # Consolidate runner with build packages and build
 build-and-test-stable:
   stage: test
-  interruptible: true
+  extends: .custom_build
+  timeout: 3 hours
   only:
     - merge_requests
   variables:
     BUILD_TESTING: "ON"
-  before_script:
-    - *build_recipe
   script:
+    - cd kstars-build
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_DOC=ON ..
+    - ninja -j8 all install
     - rm -rf Testing
     - mkdir -p /var/run/dbus
     - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
     - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
     - apt install -y --no-install-recommends dbus-x11
     - export $(dbus-launch)
-    - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames 
+    - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
     - xvfb-run ctest -T test -L stable -LE unstable --output-on-failure
   after_script:
     - pwd
@@ -109,7 +116,7 @@ build-and-test-stable:
 #     reports:
 #       junit:
 #         ./junit_result.unstable.xml
-
+#
 # build-appimage:
 #   stage: test
 #   interruptible: true
@@ -131,4 +138,4 @@ build-and-test-stable:
 #     expire_in: 1 week
 #     paths:
 #       - 'kstars-build/*.AppImage*'
-
+#

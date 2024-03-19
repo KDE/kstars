@@ -377,6 +377,14 @@ void KStars::initActions()
     FOVManager::readFOVs();
     repopulateFOV();
 
+    //Add Views menu actions
+    viewsActionMenu = actionCollection()->add<KActionMenu>("views");
+    viewsActionMenu->setText(i18n("&Views"));
+    viewsActionMenu->setDelayed(false);
+    viewsActionMenu->setIcon(QIcon::fromTheme("text_rotation"));
+    SkyMapViewManager::readViews();
+    repopulateViews();
+
     //Add HIPS Sources actions
     hipsActionMenu = actionCollection()->add<KActionMenu>("hipssources");
     hipsActionMenu->setText(i18n("HiPS All Sky Overlay"));
@@ -746,13 +754,64 @@ void KStars::repopulateOrientation()
                          "This mode is selected automatically if you manually rotated the sky map using Shift + Drag mouse action, to inform you that the orientation is arbitrary")));
 
     orientationActionMenu->addSeparator();
-    QAction *erectObserverAction = newToggleAction(
-                                       actionCollection(), "erect_observer_correction",
-                                       i18nc("Orient sky map for an erect observer", "Erect observer correction"),
-                                       this, SLOT(slotSkyMapOrientation()));
-    erectObserverAction << ToolTip(i18nc("Orient sky map for an erect observer",
-                                         "Enable this mode if you are visually using a Newtonian telescope on an altazimuth mount. It will correct the orientation of the sky-map to account for the observer remaining erect as the telescope moves up and down, unlike a camera which would rotate with the telescope. This only makes sense in Horizontal Coordinate mode and is disabled when using Equatorial Coordinates. Typically makes sense to combine this with Zenith Down orientation."));
-    orientationActionMenu->addAction(erectObserverAction);
+
+    orientationActionMenu->addAction(
+        actionCollection()->addAction(
+            "erect_observer_correction_off", this, SLOT(slotSkyMapOrientation()))
+        << i18nc("Do not adjust the orientation of the sky map for an erect observer", "No correction")
+        << AddToGroup(erectObserverCorrectionGroup)
+        << Checked(Options::erectObserverCorrection() == 0)
+        << ToolTip(i18nc("Orientation of the sky map",
+                         "Select this if you are using a camera on the telescope, or have the sky map display mounted on your telescope")));
+
+    orientationActionMenu->addAction(
+        actionCollection()->addAction(
+            "erect_observer_correction_left", this, SLOT(slotSkyMapOrientation()))
+        << i18nc("Adjust the orientation of the sky map for an erect observer, left-handed telescope",
+                 "Erect observer correction, left-handed")
+        << AddToGroup(erectObserverCorrectionGroup)
+        << Checked(Options::erectObserverCorrection() == 1)
+        << ToolTip(i18nc("Orientation of the sky map",
+                         "Select this if you are visually observing using a Dobsonian telescope which has the focuser appearing on the left side when looking up the telescope tube. This feature will correct the orientation of the sky-map to account for the observer remaining erect as the telescope moves up and down, unlike a camera which would rotate with the telescope. Typically makes sense to combine this with Zenith Down orientation.")));
+
+    orientationActionMenu->addAction(
+        actionCollection()->addAction(
+            "erect_observer_correction_right", this, SLOT(slotSkyMapOrientation()))
+        << i18nc("Adjust the orientation of the sky map for an erect observer, left-handed telescope",
+                 "Erect observer correction, right-handed")
+        << AddToGroup(erectObserverCorrectionGroup)
+        << Checked(Options::erectObserverCorrection() == 2)
+        << ToolTip(i18nc("Orientation of the sky map",
+                         "Select this if you are visually observing using a Dobsonian telescope which has the focuser appearing on the right side when looking up the telescope tube. This feature will correct the orientation of the sky-map to account for the observer remaining erect as the telescope moves up and down, unlike a camera which would rotate with the telescope. Typically makes sense to combine this with Zenith Down orientation.")));
+
+}
+
+void KStars::repopulateViews()
+{
+    viewsActionMenu->menu()->clear();
+
+    QList<QAction*> actions = viewsGroup->actions();
+    for (auto &action : actions)
+        viewsGroup->removeAction(action);
+
+    for (const auto &view : SkyMapViewManager::getViews())
+    {
+        QAction* action = actionCollection()->addAction(QString("view:%1").arg(view.name), this, [ = ]()
+        {
+            slotApplySkyMapView(view.name);
+        })
+                << view.name << AddToGroup(viewsGroup) << Checked(false);
+        viewsActionMenu->addAction(action);
+        action->setData(view.name);
+    }
+    viewsActionMenu->addAction(
+        actionCollection()->addAction("view:arbitrary")
+        << i18nc("Arbitrary Sky Map View", "Arbitrary") << AddToGroup(viewsGroup) << Checked(true)); // FIXME
+
+    // Add menu bottom
+    QAction *ka = actionCollection()->addAction("edit_views", this, SLOT(slotEditViews())) << i18n("Edit Views...");
+    viewsActionMenu->addSeparator();
+    viewsActionMenu->addAction(ka);
 }
 
 void KStars::repopulateFOV()

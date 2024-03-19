@@ -398,6 +398,17 @@ class TestEkosHelper : public QObject
         QString const phd2_guider_host = "localhost";
         QString const phd2_guider_port = "4400";
 
+        // flag if init should wait for devices ready
+        bool waitForSettingsUpdated = false;
+        // delay (in ms) to wait for settings updates
+        int settingsUpdateDelay = 5000;
+
+        /**
+         * @brief checkDevicesReady wait until all devices have signaled that they are ready.
+         * This is necessary since all settings are specific for the selected optical train.
+         */
+        void checkModuleConfigurationsCompleted();
+
         // guiding used?
         bool use_guiding = false;
         // did a dithering start?
@@ -677,6 +688,10 @@ class TestEkosHelper : public QObject
         {
             return scripts;
         }
+        void clearScripts()
+        {
+            scripts.clear();
+        }
         /**
          * @brief Connect to read all modules state changes
          */
@@ -779,7 +794,6 @@ private:
          */
         void domeStatusChanged(ISD::Dome::Status status);
 
-    private:
         bool m_astrometry_available;
 
 };

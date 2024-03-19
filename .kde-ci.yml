@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: 2024 Eric Dejouhanet <eric.dejouhanet@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+Dependencies:
+- 'on': ['@all']
+  'require':
+    'frameworks/extra-cmake-modules': '@stable'
+    'frameworks/kconfig': '@stable'
+    'frameworks/kguidaddons': '@stable'
+    'frameworks/ki18n': '@stable'
+    'frameworks/kplotting': '@stable'
+
+- 'on': ['Linux','Windows']
+  'require':
+    'frameworks/breeze-icons': '@stable'
+    'frameworks/kcrash': '@stable'
+    'frameworks/kdoctools': '@stable'
+    'frameworks/kinit': '@stable'
+    'frameworks/knewstuff': '@stable'
+    'frameworks/knotifications': '@stable'
+    'frameworks/knotifyconfig': '@stable'
+    'frameworks/kxmlgui': '@stable'
+
+#- 'on': ['Android']
+#  'require':
+
+Options:
+  in-source-build: False
+  setup-dbus-session: True
+  setup-x-environment: True
+  cmake-options: --trace-expand --debug-find

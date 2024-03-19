@@ -2214,7 +2214,7 @@ bool Focus::appendMeasure(double newMeasure)
 }
 
 void Focus::settle(const FocusState completionState, const bool autoFocusUsed, const bool buildOffsetsUsed,
-                   const AutofocusFailReason failCode)
+                   const AutofocusFailReason failCode, const QString failCodeInfo)
 {
     // TODO: check if the completion state can be emitted in all cases (sterne-jaeger 2023-09-12)
     m_state = completionState;
@@ -2237,7 +2237,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
         {
             KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
                                   KSNotification::Focus, KSNotification::Alert);
-            emit autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode);
+            emit autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode, failCodeInfo);
         }
     }
 
@@ -2289,7 +2289,8 @@ QString Focus::getAnalyzeData()
     return analysis_results;
 }
 
-void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, bool plot)
+void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, QString failCodeInfo,
+                                   bool plot)
 {
     if (inAutoFocus)
     {
@@ -2352,7 +2353,7 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
             // Bypass the rest of the function if we retry - we will fail if we could not move the focuser
             if (retry_focusing)
             {
-                emit autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode);
+                emit autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode, failCodeInfo);
                 return;
             }
             else
@@ -2389,9 +2390,10 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
 
-    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed, inBuildOffsetsUsed, failCode]()
+    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed, inBuildOffsetsUsed, failCode,
+                          failCodeInfo]()
     {
-        settle(completionState, autoFocusUsed, inBuildOffsetsUsed, failCode);
+        settle(completionState, autoFocusUsed, inBuildOffsetsUsed, failCode, failCodeInfo);
 
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
@@ -3325,12 +3327,12 @@ void Focus::autoFocusLinear()
             // R2 check is only available for Linear 1 Pass for Hyperbola and Parabola
             if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
                 // Linear only uses Quadratic so no need to do the R2 check, just complete
-                completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE, false);
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE, "", false);
             else if (R2 >= m_OpsFocusProcess->focusR2Limit->value())
             {
                 qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check passed R2=%1 focusR2Limit=%2").arg(R2).arg(
                                                m_OpsFocusProcess->focusR2Limit->value());
-                completeFocusProcedure(Ekos::FOCUS_COMPLETE, FOCUS_FAIL_NONE, false);
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, FOCUS_FAIL_NONE, "", false);
                 R2Retries = 0;
             }
             else if (R2Retries == 0)
@@ -3338,7 +3340,9 @@ void Focus::autoFocusLinear()
                 // Failed the R2 check for the first time so retry...
                 appendLogText(i18n("Curve Fit check failed R2=%1 focusR2Limit=%2 retrying...", R2,
                                    m_OpsFocusProcess->focusR2Limit->value()));
-                completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_R2, false);
+                QString failCodeInfo = i18n("R2=%1 < Limit=%2", QString::number(R2, 'f', 2),
+                                            QString::number(m_OpsFocusProcess->focusR2Limit->value(), 'f', 2));
+                completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_R2, failCodeInfo, false);
                 R2Retries++;
             }
             else
@@ -3346,7 +3350,7 @@ void Focus::autoFocusLinear()
                 // Retried after an R2 check fail but failed again so... log msg and continue
                 appendLogText(i18n("Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing...", R2,
                                    m_OpsFocusProcess->focusR2Limit->value()));
-                completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE, false);
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE, "", false);
                 R2Retries = 0;
             }
         }
@@ -3355,7 +3359,7 @@ void Focus::autoFocusLinear()
             qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
             AutofocusFailReason failCode = linearFocuser->getFailCode();
             appendLogText(i18n("Linear autofocus algorithm aborted: %1", AutofocusFailReasonStr[failCode]));
-            completeFocusProcedure(Ekos::FOCUS_ABORTED, failCode, false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, failCode, "", false);
         }
         return;
     }
@@ -3364,7 +3368,7 @@ void Focus::autoFocusLinear()
         const int delta = linearRequestedPosition - currentPosition;
 
         if (!changeFocus(delta))
-            completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, "", false);
 
         return;
     }
@@ -7309,8 +7313,9 @@ void Focus::refreshOpticalTrain()
         resetCFZToOT();
         focusAdvisorSetup();
         // JM 2024.03.16 Also use focus advisor on new profiles
-        if (!settings.isValid())
-            focusAdvisorAction(true);
+        // JEE Don't involve Focus Advisor for now as it somehow breaks test cases
+        //if (!settings.isValid())
+        //    focusAdvisorAction(true);
     }
 
     opticalTrainCombo->blockSignals(false);

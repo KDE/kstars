@@ -50,6 +50,8 @@
                 <Action name="coordsys" />
                 <Action name="mirror_skymap" />
                 <Action name="skymap_orientation" />
+                <Action name="views" />
+		<Separator />
                 <Action name="toggle_terrain" />
                 <Action name="toggle_image_overlays" />
                 <Menu name="projection"><text>&amp;Projection</text>
