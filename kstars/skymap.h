@@ -480,6 +480,9 @@ class SkyMap : public QGraphicsView
              */
         void slotRemovePlanetTrail();
 
+        /** @short Render a fading text label on the screen to flash information */
+        void slotDisplayFadingText(const QString &text);
+
         /** Checks whether the timestep exceeds a threshold value.  If so, sets
              * ClockSlewing=true and sets the SimClock to ManualMode.
              */

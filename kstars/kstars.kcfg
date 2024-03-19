@@ -811,10 +811,21 @@
          <whatsthis>Enable this if you want the sky map to be mirrored left-right, e.g. to match the view through an erecting prism.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="ErectObserverCorrection" type="Bool">
+      <entry name="ErectObserverCorrection" type="Enum">
          <label>Orients the sky-map to account for an erect observer at the eyepiece</label>
-         <whatsthis>Enable this if you are using your eye at the eyepiece in an altazimuth mounted Newtonian telescope. This accounts for the fact that the observer stands erect as the telescope moves up and down, so that the orientation of the sky map will track what is seen in your eyepiece once it is set up correctly.</whatsthis>
-         <default>false</default>
+         <whatsthis>Enable this if you are using your eye at the eyepiece in an altazimuth mounted Newtonian telescope. This accounts for the fact that the observer stands erect as the telescope moves up and down, so that the orientation of the sky map will track what is seen in your eyepiece once it is set up correctly. Choose the handedness of the correction according which side of the telescope the eyepiece appears when looking from the back of the telescope</whatsthis>
+	 <choices>
+	   <choice name="Off">
+	     <label>Off</label>
+	   </choice>
+	   <choice name="Left">
+	     <label>Left</label>
+	   </choice>
+	   <choice name="Right">
+	     <label>Right</label>
+	   </choice>
+	 </choices>
+         <default>0</default> <!-- Off -->
       </entry>
       <entry name="ZoomScrollFactor" type="Double">
          <label>Zoom scroll sensitivity.</label>

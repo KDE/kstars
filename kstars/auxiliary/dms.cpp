@@ -251,9 +251,17 @@ int dms::msecond(void) const
 const dms dms::reduce(void) const
 {
     if (std::isnan(D))
-        return dms(0);
+        return dms(0); // FIXME: Why 0 and not NaN? -- asimha
 
     return dms(D - 360.0 * floor(D / 360.0));
+}
+
+double dms::reduce(const double D)
+{
+    if (std::isnan(D))
+        return D;
+
+    return (D - 360.0 * floor(D / 360.0));
 }
 
 const dms dms::deltaAngle(dms angle) const

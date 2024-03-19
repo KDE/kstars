@@ -44,6 +44,7 @@ void HIPSComponent::draw(SkyPainter *skyp)
                         view.height == m_previousViewParams.height &&
                         view.zoomFactor == m_previousViewParams.zoomFactor &&
                         view.rotationAngle == m_previousViewParams.rotationAngle &&
+                        view.mirror == m_previousViewParams.mirror &&
                         view.useAltAz == m_previousViewParams.useAltAz
                     );
     if (sameView && Options::isTracking() && SkyMap::IsFocused())

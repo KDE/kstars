@@ -56,6 +56,9 @@
 #include <QClipboard>
 #include <QInputDialog>
 #include <QDesktopServices>
+#include <QPropertyAnimation>
+#include <QGraphicsOpacityEffect>
+#include <QGraphicsSimpleTextItem>
 
 #include <QProcess>
 #include <QFileDialog>
@@ -722,8 +725,8 @@ void SkyMap::slotEndRulerMode()
                                     ((f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX()));
             }
             fov = nameToFovMap[QInputDialog::getItem(this, i18n("Star Hopper: Choose a field-of-view"),
-                                                           i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
-                                                           false, &ok)];
+                               i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
+                               false, &ok)];
         }
         else
         {
@@ -1206,8 +1209,14 @@ dms SkyMap::determineSkyRotation()
     // orientation of the field. This would not apply to a CCD camera
     // plugged into the same telescope, since the CCD would rotate as
     // seen from the ground when the telescope moves in altitude.
-    return dms(Options::skyRotation() - (
-                   (Options::erectObserverCorrection() && Options::useAltAz()) ? focus()->alt().Degrees() : 0.0));
+
+    double erectObserverCorrection = 0.;
+    if (Options::useAltAz() && Options::erectObserverCorrection() > 0)
+    {
+        erectObserverCorrection = (Options::erectObserverCorrection() == 1) ? focus()->alt().Degrees() : -focus()->alt().Degrees();
+    }
+
+    return dms(Options::skyRotation() + erectObserverCorrection);
 }
 
 void SkyMap::slotSetSkyRotation(double angle)
@@ -1229,6 +1238,7 @@ void SkyMap::slotSetSkyRotation(double angle)
         {
             kstars->actionCollection()->action("arbitrary_orientation")->setChecked(true);
         }
+        kstars->actionCollection()->action("view:arbitrary")->setChecked(true);
     }
     forceUpdate();
 }
@@ -1362,4 +1372,33 @@ void SkyMap::slotStartXplanetViewer()
         new XPlanetImageViewer(clickedObject()->name(), this);
     else
         new XPlanetImageViewer(i18n("Saturn"), this);
+}
+
+void SkyMap::slotDisplayFadingText(const QString &text)
+{
+    QLabel *fadingLabel = new QLabel(this);
+    fadingLabel->setText(text);
+    QFont font = fadingLabel->font();
+    QPalette palette = fadingLabel->palette();
+    font.setPointSize(32);
+    palette.setColor(fadingLabel->foregroundRole(), KStarsData::Instance()->colorScheme()->colorNamed("BoxTextColor"));
+    QColor backgroundColor = KStarsData::Instance()->colorScheme()->colorNamed("BoxBGColor");
+    backgroundColor.setAlpha(192);
+    palette.setColor(fadingLabel->backgroundRole(), backgroundColor);
+    fadingLabel->setFont(font);
+    fadingLabel->setAutoFillBackground(true);
+    fadingLabel->setPalette(palette);
+    fadingLabel->setAlignment(Qt::AlignCenter);
+    fadingLabel->adjustSize();
+    fadingLabel->move(QPoint((width() - fadingLabel->width()) / 2, (0.75 * height() - fadingLabel->height() / 2)));
+    QGraphicsOpacityEffect* fadingEffect = new QGraphicsOpacityEffect(fadingLabel);
+    fadingLabel->setGraphicsEffect(fadingEffect);
+    fadingLabel->show();
+
+    QPropertyAnimation* animation = new QPropertyAnimation(fadingEffect, "opacity", fadingLabel);
+    animation->setDuration(1500);
+    animation->setStartValue(1.0);
+    animation->setEndValue(0.0);
+    connect(animation, &QPropertyAnimation::finished, fadingLabel, &QLabel::deleteLater);
+    animation->start();
 }

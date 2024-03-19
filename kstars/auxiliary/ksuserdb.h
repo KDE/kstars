@@ -7,6 +7,7 @@
 #pragma once
 
 #include "auxiliary/profileinfo.h"
+#include "skymapview.h"
 #ifndef KSTARS_LITE
 #include "oal/oal.h"
 #endif
@@ -79,7 +80,6 @@ class KSUserDB
         bool DeleteDarkFrame(const QString &filename);
         bool GetAllDarkFrames(QList<QVariantMap> &darkFrames);
 
-
         /************************************************************************
          ******************************* Effective FOVs *************************
          ************************************************************************/
@@ -87,7 +87,6 @@ class KSUserDB
         bool AddEffectiveFOV(const QVariantMap &oneFOV);
         bool DeleteEffectiveFOV(const QString &id);
         bool GetAllEffectiveFOVs(QList<QVariantMap> &effectiveFOVs);
-
 
         /************************************************************************
          ******************************* Driver Alias *************************
@@ -169,6 +168,19 @@ class KSUserDB
 
         /** @brief Gets all the image overlay rows from the database **/
         bool GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList);
+
+        /************************************************************************
+         ****************************** Sky Map Views ***************************
+         ************************************************************************/
+
+        /** @brief Deletes all the sky map views stored in the database */
+        bool DeleteAllSkyMapViews();
+
+        /** @brief Adds a new sky map view row in the database */
+        bool AddSkyMapView(const SkyMapView &view);
+
+        /** @brief Gets all the sky map view rows from the database */
+        bool GetAllSkyMapViews(QList<SkyMapView> &skyMapViewList);
 
         /************************************************************************
          ********************************* Flags ********************************
@@ -394,7 +406,6 @@ class KSUserDB
          **/
         bool GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalTrains);
 
-
         /************************************************************************
          ******************************** Profile Settings **********************
          ************************************************************************/
@@ -478,6 +489,9 @@ class KSUserDB
 
         /** @brief creates the image overlay table if it doesn't already exist **/
         void CreateImageOverlayTableIfNecessary();
+
+        /** @brief creates the image overlay table if it doesn't already exist **/
+        void CreateSkyMapViewTableIfNecessary();
 
 #if 0
         /**

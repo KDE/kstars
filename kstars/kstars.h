@@ -192,12 +192,19 @@ class KStars : public KXmlGuiWindow
 
         void selectPreviousFov();
 
+        void selectNextView();
+
+        void selectPreviousView();
+
         void showWISettingsUI();
 
         void showWI(ObsConditions *obs);
 
         /** Load HIPS information and repopulate menu. */
         void repopulateHIPS();
+
+        /** Load Views and repopulate menu. */
+        void repopulateViews();
 
         void repopulateOrientation();
 
@@ -732,8 +739,14 @@ class KStars : public KXmlGuiWindow
         /** Select the Target symbol (a.k.a. field-of-view indicator) */
         void slotTargetSymbol(bool flag);
 
+        /** Apply the provided sky map view */
+        void slotApplySkyMapView(const QString &viewName);
+
         /** Select the HIPS Source catalog. */
         void slotHIPSSource();
+
+        /** Invoke the Views editor window */
+        void slotEditViews();
 
         /** Invoke the Field-of-View symbol editor window */
         void slotFOVEdit();
@@ -855,6 +868,7 @@ class KStars : public KXmlGuiWindow
 
         KActionMenu *colorActionMenu { nullptr };
         KActionMenu *fovActionMenu { nullptr };
+        KActionMenu *viewsActionMenu { nullptr };
         KActionMenu *hipsActionMenu { nullptr };
         KActionMenu *orientationActionMenu { nullptr };
 
@@ -907,6 +921,8 @@ class KStars : public KXmlGuiWindow
         QActionGroup *hipsGroup { nullptr };
         QActionGroup *telescopeGroup { nullptr };
         QActionGroup *domeGroup { nullptr };
+        QActionGroup *erectObserverCorrectionGroup { nullptr };
+        QActionGroup *viewsGroup { nullptr };
 
         bool DialogIsObsolete { false };
         bool StartClockRunning { false };

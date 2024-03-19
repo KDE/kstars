@@ -405,6 +405,9 @@ class dms
          */
     static dms fromString(const QString &s, bool deg);
 
+    /** Reduce an angle in degrees expressed as a double */
+    static double reduce(const double D);
+
     inline dms operator-() { return dms(-D); }
 #ifdef COUNT_DMS_SINCOS_CALLS
     static long unsigned dms_constructor_calls; // counts number of DMS constructor calls

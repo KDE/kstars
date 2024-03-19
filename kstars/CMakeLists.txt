@@ -678,6 +678,7 @@ set(kstars_dialogs_SRCS
     dialogs/finddialog.cpp
     dialogs/focusdialog.cpp
     dialogs/fovdialog.cpp
+    dialogs/viewsdialog.cpp
     dialogs/locationdialog.cpp
     dialogs/timedialog.cpp
     dialogs/exportimagedialog.cpp
@@ -700,12 +701,14 @@ set(kstars_dialogsui_SRCS
     dialogs/finddialog.ui
     dialogs/focusdialog.ui
     dialogs/fovdialog.ui
+    dialogs/viewsdialog.ui
     dialogs/locationdialog.ui
     dialogs/wizwelcome.ui
     dialogs/wizlocation.ui
     dialogs/wizdownload.ui
     dialogs/wizdata.ui
     dialogs/newfov.ui
+    dialogs/newview.ui
     dialogs/exportimagedialog.ui
 )
 
@@ -924,6 +927,7 @@ SET(kstars_extra_kstars_SRCS
     auxiliary/imageviewer.cpp
     auxiliary/xplanetimageviewer.cpp
     auxiliary/fov.cpp
+    auxiliary/skymapview.cpp
     auxiliary/thumbnailpicker.cpp
     auxiliary/thumbnaileditor.cpp
     auxiliary/imageexporter.cpp
