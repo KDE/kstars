@@ -24,7 +24,8 @@
 //    klick OK
 // open the calibration dialog
 #define KTRY_SELECT_FLAT_METHOD(sourceWidget, preMountPark, preDomePark) do { \
-QTimer::singleShot(5000, capture, [&]() { \
+    bool completed = false; \
+    QTimer::singleShot(5000, capture, [&]() { \
     QDialog *calibrationOptions = nullptr; \
     if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration")) != nullptr);}, 5000)) { \
         QFAIL(qPrintable("Calibrations options dialog not found!")); } \
@@ -39,16 +40,19 @@ QTimer::singleShot(5000, capture, [&]() { \
     QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
     QVERIFY(nullptr != buttons); \
     QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
-}); \
-KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
+    }); \
+    KTRY_CAPTURE_CLICK(calibrationB); \
+    QTRY_VERIFY_WITH_TIMEOUT(completed == true, 5000);  } while (false)
 
 #define KTRY_SELECT_FLAT_WALL(capture, azimuth, altitude) do { \
-QTimer::singleShot(1000, capture, [&]() { \
+    bool completed = false; \
+    QTimer::singleShot(1000, capture, [&]() { \
     QDialog *calibrationOptions = nullptr; \
     if (! QTest::qWaitFor([&](){return ((calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("Calibration")) != nullptr);}, 5000)) { \
         QFAIL(qPrintable("Calibrations options dialog not found!")); } \
     KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationWall); \
     captureCalibrationWall->setChecked(true); \
+    QVERIFY(captureCalibrationWall->isChecked()); \
     KTRY_SET_LINEEDIT(calibrationOptions, azBox, azimuth); \
     KTRY_SET_LINEEDIT(calibrationOptions, altBox, altitude); \
     KTRY_GADGET(calibrationOptions, QAbstractButton, captureCalibrationDurationManual);  \
@@ -56,8 +60,10 @@ QTimer::singleShot(1000, capture, [&]() { \
     QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
     QVERIFY(nullptr != buttons); \
     QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
-}); \
-KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), calibrationB);  } while (false)
+    completed = true; \
+    }); \
+    KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), calibrationB); \
+    QTRY_VERIFY_WITH_TIMEOUT(completed == true, 5000); } while (false)
 
 
 class TestEkosCaptureWorkflow : public QObject

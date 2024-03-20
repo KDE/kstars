@@ -2143,7 +2143,9 @@
   <para
 >Ten eerste, kies het coördinatensysteem dat overeenkomt met uw opstelling. Voor een equatoriaal opgesteld instrument, schakel naar de modus Equatoriale coördinaat in het menu <guimenu
 >Beeld</guimenu
->. De optie om het coördinatensysteem om te schakelen zou er uit moeten zien als <guilabel
+> of door <keycap
+>Space</keycap
+> in te drukken. De optie om het coördinatensysteem om te schakelen zou er uit moeten zien als <guilabel
 >Schakel naar horizontaal beeld (Horizontale coördinaten)</guilabel
 > wanneer de huidige modus Equatoriale coördinaten is. Voor een altazimuth opgesteld instrument of zien met blote oog, schakelt naar Horizontale coördinaten, zodat de optie in het menu <guimenu
 >Beeld</guimenu
@@ -2155,27 +2157,35 @@
 >Gespiegelde weergave</guilabel
 > onder het menu <guimenu
 >Beeld</guimenu
-> te activeren. </para>
+> te activeren of de toetsencombinatie <keycombo
+>&Ctrl;&Shift;<keycap
+>M</keycap
+></keycombo
+> te gebruiken. </para>
   <para
->Vervolgens, om de hemelkaart vrij te draaien, kunt u de toets &Shift; indrukken en de muis op de hemelkaart slepen. Een tijdelijke overlay zal verschijnen die de richting noord en zenit aan de punt laat zien, en de hoek toont die ze maken met se verticaal op een linksom manier. De oriëntaties van zenit en noord zullen bijgewerkt worden als u de hemelkaart draait. De toets &Shift; of de muisknop loslaten zal het draaien stoppen. Tijdens het draaien van de hemelkaart of deze focust op andere objecten, zal de draaiing die u instelt behouden worden als een offset vanaf de referentie richting. De referentie richting is noord bij gebruik van Equatoriale coördinaten en  zenith bij gebruik van Horizontale coördinaten. Voor aandacht trekken is de referentie richting vet en helderder in de tijdelijke overlay. Voor de twee algemene oriëntaties van rechtop en geïnverteerd, kan de draaiing ingesteld / gereset worden met het submenu <menuchoice
+>Vervolgens, om de hemelkaart vrij te draaien, kunt u de toets &Shift; indrukken en de muis op de hemelkaart slepen. Een tijdelijke overlay zal verschijnen die de richting noord en zenit aan de punt laat zien, en de hoek toont die ze maken met se verticaal op een linksom manier. De oriëntaties van zenit en noord zullen bijgewerkt worden als u de hemelkaart draait. De toets &Shift; of de muisknop loslaten zal het draaien stoppen. Tijdens het draaien van de hemelkaart of deze focust op andere objecten, zal de draaiing die u instelt behouden worden als een offset vanaf de referentie richting. De referentie richting is noord bij gebruik van Equatoriale coördinaten en  zenith bij gebruik van Horizontale coördinaten. Voor aandacht trekken is de referentie richting vet en helderder in de tijdelijke overlay. De tijdelijke overlay markeert ook de richting Oost, die rechtsom zal gaan vanaf Noord bij gespiegeld en linksom bij niet gespiegeld. Voor de twee algemene oriëntaties van rechtop en geïnverteerd, kan de draaiing ingesteld / gereset worden met het submenu <menuchoice
 ><guimenu
 >Beeld</guimenu
 ><guisubmenu
 >Oriëntatie van hemelkaart</guisubmenu
 ></menuchoice
->. Selecteer "Noord omlaag" of "Zenit omlaag" zoals van toepassing is om een oriëntatie van 180 graden in te stellen. </para>
+>. Selecteer <guilabel
+>Noord omlaag</guilabel
+> of <guilabel
+>Zenit omlaag</guilabel
+> zoals van toepassing is om een oriëntatie van 180 graden in te stellen. </para>
   <para
->Als u op zicht waarneemt door een oogstuk van een instrument, dan moet u misschien enige correctie toepassen. Voor het algemene geval van een grote Dobsonian telescoop (of algemener en Newto-ontwerp opgesteld op een altazimuth opstelling), is een systematische additionele correctie behulpzaam. Deze correctie is van toepassing omdat we rechtop staan bij gebruik van de telescoop onafhankelijk van de hoek die de telescoopbuis maakt met de grond. Dus bij het verplaatsen van de telescoop in hoogte, moet een additionele correctie toegepast worden afhankelijk van de hoogte van het object om de hemelkaart overeen te laten komen met het beeld door het oogstuk. Deze correctie is ingeschakeld door het keuzevakje <guilabel
->Correctie voor rechtop staande waarnemer</guilabel
-> te activeren in het submenu <menuchoice
+>Als u op zicht waarneemt door een oogstuk van een instrument, dan moet u misschien enige correctie toepassen. Voor het algemene geval van een grote Dobsonian telescoop (of algemener en Newto-ontwerp opgesteld op een altazimuth opstelling), is een systematische additionele correctie behulpzaam. Deze correctie is van toepassing omdat we rechtop staan bij gebruik van de telescoop onafhankelijk van de hoek die de telescoopbuis maakt met de grond. Dus bij het verplaatsen van de telescoop in hoogte, moet een additionele correctie toegepast worden afhankelijk van de hoogte van het object om de hemelkaart overeen te laten komen met het beeld door het oculair, waar de waarnemer rechtop staat. Deze correctie is ingeschakeld door het kiezen van de optie "Correctie voor rechtop staande waarnemer" in het submenu <menuchoice
 ><guimenu
 >Beeld</guimenu
 ><guisubmenu
 >Oriëntatie van hemelkaart</guisubmenu
 ></menuchoice
+>. De correctie hangt af van welke kant de focuser van de telescoop is geplaatst door de maker. Indien, bij waarnemen net boven de horizon door het oculair, is de hemel aan de rechterkant van de waarnemer (en de spiegel links), kies dan de optie <guilabel
+>Rechtop staande waarnemer correctie, rechts</guilabel
 >. Deze correctie is zinvol in de modus Horizontale coördinaten en is uitgeschakeld bij gebruik van equatoriale coördinaten. </para>
   <para
->Tenslotte bieden we enige voorbeelden van hoe deze instellingen voor verschillende instrumenten te gebruiken: <itemizedlist>
+>We bieden nu enige voorbeelden van hoe deze instellingen voor verschillende instrumenten te gebruiken: <itemizedlist>
       <listitem
 ><para
 >Observeren met het blote oog: kies Horizontale coördinaten en een oriëntatie <guilabel
@@ -2210,7 +2220,11 @@
 ></listitem>
       <listitem
 ><para
->Bij gebruik van een RACI zoekscoop op een altazimuth opgestelde telescopp: Zelfde instellingen als waarnemen met het blote oog, behalve dat u misschien de oriëntatie eenmalig handmatig moet aanpassen als u het met een hoek hebt opgesteld</para
+>Bij gebruik van een RACI zoekscoop op een altazimuth opgestelde telescoop, er recht inkijkend: zelfde instellingen als waarnemen met het blote oog, behalve dat u misschien de oriëntatie eenmalig handmatig moet aanpassen als u het met een hoek hebt opgesteld</para
+></listitem>
+      <listitem
+><para
+>Een RACI zoekscoop gebruiken op een altazimuth opgestelde telescoop, er door kijkend vanaf de zijkant: naast het eerder genoemde, schakel rechtopstaande waarnemer correctie in voor de van toepassing zijnde kant.</para
 ></listitem>
       <listitem
 ><para
@@ -2226,7 +2240,7 @@
 ></listitem>
       <listitem
 ><para
->Oogstuk van een Dobsonian telescoop: kies Horizontale coördinaten en in het submenu <menuchoice
+>Oculair van een Dobsonian telescoop: kies Horizontale coördinaten en in het submenu <menuchoice
 ><guimenu
 >Beeld</guimenu
 ><guisubmenu
@@ -2234,11 +2248,97 @@
 ></menuchoice
 >, selecteer <guilabel
 >Zenit omlaag</guilabel
-> en activeer de optie <guilabel
->Correctie voor rechtop staande waarnemer</guilabel
->. Pas daarna de oriëntatie eenmalig handmatig aan om het overeen te laten komen met het beeld in uw oogstuk van de telescoop en het zou daarom juist moeten volgen.</para
+> en schakel de optie Correctie voor rechtop staande waarnemer in, met kiezen van de links/rechts handige optie, zoals bij de telescoop hoort. Pas daarna de oriëntatie eenmalig handmatig aan om het overeen te laten komen met het beeld in uw oogstuk van de telescoop en het zou daarom juist moeten volgen.</para
 ></listitem>
     </itemizedlist>
   </para>
+  <para
+>Het is typisch in visuele astronomie om minstens drie verschillende instrumenten te gebruiken: het niet geholpen oog, een zoekscoop en de hoofdtelescoop. De oriëntaties van deze drie zullen verschillende instellingen hebben en zullen frequent wijzigingen nodig hebben van alle eerder genoemde opties. Om het gemakkelijk te maken deze instellingen samen te wijzigen, biedt KStars de functie <guilabel
+>Weergaven</guilabel
+>. Deze functie is toegankelijk via het menu <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Weergaven</guisubmenu
+></menuchoice
+> en de opties daarin. De weergave <guilabel
+>Willekeurig</guilabel
+> is geen echte weergave, maar de option die geselecteerd  wordt wanneer de oriëntatie van de hemelkaart handmatig gewijzigd wordt via de eerder beschreven opties. De rest van de weergaven zijn bonafide weergaven. Nieuwe weergaven kunnen toegevoegd worden of de bestaande weergaven kunnen bewerkt, verwijderd of opnieuw geordend worden met de optie <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Weergaven</guisubmenu
+><guimenuitem
+>Weergaven bewerken...</guimenuitem
+></menuchoice
+>. Dit kiezen brengt een venster om de weergaven te beheren: </para>
+  <screenshot>
+    <screeninfo
+>Dialoog om hemelkaartweergaven te beheren</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="viewmanager.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Hemelkaartweergaven beheren</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+  <para
+>Om een weergave te verwijderen, selecteer eenvoudig de weergave uit de lijst en verwijder deze met de knop <guibutton
+>Verwijderen</guibutton
+>. Om weergaven opnieuw te ordenen, gebruik de muis om de weergave die u wilt verplaatsen te verslepen en laat deze los zijn bestemming tussen twee andere items. Om een weergave te bewerken, selecteer de weergave uit de lijst en klik op <guibutton
+>Bewerken...</guibutton
+>. Om een nieuwe weergave aan te maken, klik op de knop <guibutton
+>Nieuw...</guibutton
+>. De opties <guibutton
+>Bewerken...</guibutton
+> en <guibutton
+>Nieuw...</guibutton
+> laten een interface voor weergave bewerken zien: </para>
+  <screenshot>
+    <screeninfo
+>Dialoog om een nieuwe weergave aan te maken of een bestaande te bewerken</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="newview.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Weergave bewerken / aanmaken</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>Het veld <guilabel
+>Naam</guilabel
+> draagt een unieke naam voor de weergave. Het <guilabel
+>Type opstelling</guilabel
+> bepaalt of de referentie richting gebruikt voor de oriëntatie Noord of zenit zal zijn. Deze wordt typisch ingesteld op het type opstelling gebruikt voor de telescoop. Echter, bij gebruik van refractors en Schmidt-Cassegrain Telescopen (SCTs) met een draaibare diagonaal, zal de waarnemer een tendens hebben om het oculair voor comfort opnieuw in te stellen zodat het oculair op een gefixeerde hoek blijft staan met betrekking tot het zenit. Om deze reden maakt het zin om <guilabel
+>Altazimuth</guilabel
+> opstelling te kiezen zelfs wanneer de telescoop in werkelijkheid op een equatoriale opstelling staat. Kies <guilabel
+>Equatoriale</guilabel
+> opstelling wanneer de focuser niet opnieuw georiënteerd wordt, zoals wanneer een camera wordt gebruikt op een equatoriaal opgestelde telescoop. Voor telescopen van Newton die omdraaien (d.w.z. draaien met 180 graden maar niet het links-of rechtshandig zijn wijzigen) van de weergave, kies de optie <guilabel
+>Geïnverteerd</guilabel
+>. Dit is ook de juiste optie voor rechtdoor gaande refractors en zoekscoops. Bij gebruik van een opgerichte prisma diagonaal, richt het prisma het geïnverteerde beeld op door zijn omhoog-omlaag om te draaien. Dit resulteert over het geheel in een links-rechts gespiegelde afbeelding. Dus voor telescopen die een oprichtend prisma gebruiken, kies <guilabel
+>Gespiegeld</guilabel
+>. Een speciaal soort van prisma genaamd een Amici roof prism not richt niet alleen de afbeelding verticaal omhoog, maar voorkomt ook links-rechts spiegeling van de afbeelding. Zoekscoops die zo'n diagonaal bevatten worden normaal "Right-Angle Correct Image" genoemd of RACI zoekscoops. Zulke diagonalen kunnen ook gebruikt worden op refractors en SCT's. Bij gebruik van zo'n prisma die een juiste afbeelding produceert, kies de optie <guilabel
+>Correct</guilabel
+>. De optie <guilabel
+>Gespiegeld om de verticale as</guilabel
+> wordt niet gezien in typische astronomische instrumenten, maar wordt voor de volledigheid geleverd. Nog twee factoren moeten beschouwd worden : één is de hoek van het oculair met betrekking tot de referentie richting (Noord / zenit), en de ander is de oriëntatie van het hoofd van de waarnemer (and notie van de verticaal) wat we hebben uitgelegd bij het beschrijven van de correctie voor functie van de opgerichte waarnemer. Deze twee aspecten worden geconfigureerd met de enkele schuifregelaar getiteld <guilabel
+>Oculairhoek</guilabel
+>. Twee onder de schuifregelaar aanwezige illustraties tonen de interpretatie van deze instelling; links, zoals gezien van de voorkant wat gemakkelijker is voor Newton telescopen en rechts zoals gezien van de achterkant, gemakkelijker voor refractors en Cassegrains. De waarnemer staat natuurlijk aan de kant die het gemakkelijker maakt om door het oculair te kijken, dus de correctie voor de opgerichte waarnemer wordt automatisch overeenkomstig aangepast. Voor oculairhoeken die minder dan -1 graad op de schuifregelaar wordt de optie <guilabel
+>Correctie voor de opgerichte waarnemer, rechtshandig</guilabel
+> toegepast. Evenzo, voor oculairhoeken die groter zijn dan +1 graad, wordt de optie <guilabel
+>Correctie voor opgerichte waarnemer, linkshandig</guilabel
+> toegepast. Bij 0 graden, wordt geen correctie voor opgerichte waarnemer toegepast. Deze correctie wordt aangegeven door een silhouet van een persoon die staat aan de toepasselijke kant van de telescoop. In onze conventie, de meeste massaal gemaakte Dobsonians schijnen een correctie te hebben rond +45 graden. Af en toe is deze correctie ook nuttig voor zoekscoops met diagonalen. Men zou willen om expliciet de correctie voor opgerichte waarnemer uit te schakelen zelfs wanneer de oculairhoek niet nul is. Dit is nuttig in geval de weergave komt uit een CCD camera die de hoek ten opzichte van het telescooplichaam niet wijzigt (anders dan een hoofd van de waarnemer) of als de display die de hemelkaart van KStars toont is opgesteld op het telescooplichaam zelf. In dat geval kan de optie <guilabel
+>Display gemonteerd op de telescoop</guilabel
+> worden geactiveerd. Voor het tegenovergestelde effect, d.w.z. waar de oculairhoek nul is, maar de waarnemer voorover gebogen is om door het oculair te kijken vanaf een van de twee zijden, stel de oculairhoek in op plus of min 2 graden om de correctie voor de opgerichte waarnemer toe te passen; zal het minieme verschil niet merkbaar zijn. Tenslotte zou men de weergave willen activeren om ook het gezichtsveld (FOV) van de hemelkaart op een waarde in te stellen, bijvoorbeeld om het FOV van een zoekscoop. In dat geval kan het keuzevak <guilabel
+>Ook het gezichtsveld instellen</guilabel
+> worden geactiveerd en een toepasselijk in stellen gezichtsveld aanpassen gespecificeerd kan worden. Als dit niet is ingeschakeld wordt het zoomniveau van de hemelkaart niet gewijzigd wanneer deze weergave wordt toegepast. </para>
+
 </sect1
 >&hips; </chapter>
