@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-19 01:39+0000\n"
-"PO-Revision-Date: 2024-03-18 08:34+0100\n"
+"POT-Creation-Date: 2024-03-20 01:38+0000\n"
+"PO-Revision-Date: 2024-03-19 17:53+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -816,36 +816,28 @@ msgid "Data folder permissions error."
 msgstr "Error de permisos de la carpeta de dades."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Up"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "Zenit cap am&unt"
+msgstr "Zenit cap amunt"
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Down"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "Zenit cap a&vall"
+msgstr "Zenit cap avall"
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Up"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "Nord cap am&unt"
+msgstr "Nord cap amunt"
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Down"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Nord cap a&vall"
+msgstr "Nord cap avall"
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -853,15 +845,14 @@ msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "SCT amb diagonal cap a dalt"
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgid "Dobsonian"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "Dobson"
+msgstr "Dobson típic"
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -5603,23 +5594,21 @@ msgstr "Forma:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, NewView)
 #: dialogs/newview.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add / Edit View"
-msgstr "Afegeix/edita un DSO"
+msgstr "Afegeix/edita una vista"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
 #, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr ""
+msgstr "Cercador RACI 9x50 en un Dobson"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgid "Mount:"
+#, kde-format
 msgid "Mount Type:"
-msgstr "Muntura:"
+msgstr "Tipus de muntura:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
@@ -5630,10 +5619,9 @@ msgstr "Equatorial"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
-msgstr "Azimut"
+msgstr "Altazimutal"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -5642,62 +5630,62 @@ msgid ""
 "**Note:** Choose mount type \"Altazimuth\" when visually observing through "
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
+"**Nota:** Trieu el tipus de muntura «Altazimutal» quan s'observi visualment "
+"a través de SCT/refractors, independentment de la muntura real."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
 #, kde-format
 msgid "Correct (e.g. RACI finder or refractor with Amici roof prism)"
-msgstr ""
+msgstr "Correcta (p. ex. cercador RACI o refractor amb prisma de sostre Amici)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, mirroredViewType)
 #: dialogs/newview.ui:115
 #, kde-format
 msgid "Mirrored (e.g. Cassegrain or refractor with erecting prism)"
-msgstr ""
+msgstr "Emmirallada (p. ex. Cassegrain o refractor amb prisma erector)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedViewType)
 #: dialogs/newview.ui:122
 #, kde-format
 msgid "Inverted (e.g. straight through finder, Newtonian)"
-msgstr ""
+msgstr "Invertida (p. ex. directa del cercador, newtonià)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "Tipus:"
+msgstr "Tipus de vista:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
 #, kde-format
 msgid "Mirrored on the vertical axis (i.e. inverted and mirrored)"
-msgstr ""
+msgstr "Emmirallada en l'eix vertical (és a dir, invertida i emmirallada)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
-#, fuzzy, kde-format
-#| msgid "Eyepiece AFOV:"
+#, kde-format
 msgid "Eyepiece Angle:"
-msgstr "CDVA de l'ocular:"
+msgstr "Angle de l'ocular:"
 
 #. i18n: ectx: property (text), widget (QLabel, viewingAngleLabel)
 #: dialogs/newview.ui:189
 #, kde-format
 msgid "###°"
-msgstr ""
+msgstr "###°"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/newview.ui:203
 #, kde-format
 msgid "Telescopes with the eyepiece at the bottom"
-msgstr ""
+msgstr "Telescopis amb l'ocular a la part inferior"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/newview.ui:213
 #, kde-format
 msgid "Telescopes with the eyepiece at the top"
-msgstr ""
+msgstr "Telescopis amb l'ocular a la part superior"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/newview.ui:223
@@ -5706,18 +5694,20 @@ msgid ""
 "The human silhouette indicates on which side of the telescope the observer "
 "is assumed to stand."
 msgstr ""
+"La silueta humana indica en quin costat del telescopi s'assumeix que està "
+"l'observador."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/newview.ui:259
 #, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
-msgstr ""
+msgstr "(La vista prèvia mostra la vista cap avall d'un tub newtonià)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
 #, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr ""
+msgstr "(La vista prèvia mostra la vista de la part de darrere d'un SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
@@ -5726,13 +5716,14 @@ msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
+"Pantalla muntada en el telescopi (marqueu això també si s'usa una càmera en "
+"lloc de l'observació visual)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Density of stars in the field of view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Densitat d'estrelles en el camp de visió"
+msgstr "Estableix també el camp de visió"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5764,29 +5755,24 @@ msgstr "Ara"
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
-msgstr ""
+msgstr "Gestió de les vistes del mapa celeste"
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "Edició d'enllaç"
+msgstr "Edició de vista"
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "Visualitza"
+msgstr "Vista nova"
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Config Name"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "Nom de la configuració"
+msgstr "Nom conflictiu de vista"
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5794,12 +5780,14 @@ msgid ""
 "There already exists a view with the name you attempted to use. Please "
 "choose a different name for this view."
 msgstr ""
+"Ja existeix una vista amb el nom que heu intentat utilitzar. Trieu un nom "
+"diferent per a aquesta vista."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ViewsDialog)
 #: dialogs/viewsdialog.ui:14
 #, kde-format
 msgid "Edit Sky Map Views"
-msgstr ""
+msgstr "Edició de les vistes del mapa celeste"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -6487,7 +6475,7 @@ msgid "Capture error. Aborting..."
 msgstr "Error en la captura. S'interromp..."
 
 #: ekos/align/align.cpp:3286 ekos/capture/captureprocess.cpp:1501
-#: ekos/capture/captureprocess.cpp:2015
+#: ekos/capture/captureprocess.cpp:2014
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "S'està tornant a iniciar l'intent de captura núm. %1"
@@ -6587,7 +6575,7 @@ msgstr "No es pot escriure al fitxer %1"
 
 #: ekos/align/align.cpp:3956 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2182
-#: ekos/capture/captureprocess.cpp:2338 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2337 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4390
@@ -7243,7 +7231,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Obertura de la llista d'alineació de l'Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2181
-#: ekos/capture/captureprocess.cpp:2337 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2336 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4409
 #, kde-format
@@ -14639,7 +14627,7 @@ msgstr "Ha fallat el desament de la cua de seqüències"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Segur que voleu restablir l'estat de totes les tasques?"
 
-#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2452
+#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2451
 #, kde-format
 msgid "Reset job status"
 msgstr "Restableix l'estat de les tasques"
@@ -16129,7 +16117,7 @@ msgstr "Error: S'ha perdut la connexió amb el CCD."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "No s'han pogut calcular els nivells de la ADU en les imatges no FITS."
 
-#: ekos/capture/captureprocess.cpp:1493 ekos/capture/captureprocess.cpp:2007
+#: ekos/capture/captureprocess.cpp:1493 ekos/capture/captureprocess.cpp:2006
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
@@ -16141,64 +16129,64 @@ msgstr ""
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Temps de baixada: %1 s, Estimació del temps de baixada: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1642
+#: ekos/capture/captureprocess.cpp:1643
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "S'ha rebut la imatge %1 de %2."
 
-#: ekos/capture/captureprocess.cpp:1678
+#: ekos/capture/captureprocess.cpp:1677
 #, kde-format
 msgid "Captured %1"
 msgstr "S'ha capturat %1"
 
-#: ekos/capture/captureprocess.cpp:1684
+#: ekos/capture/captureprocess.cpp:1683
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "AVÍS: Queden %1 variables de substitució o potencialment desconegudes a %2"
 
-#: ekos/capture/captureprocess.cpp:1717
+#: ekos/capture/captureprocess.cpp:1716
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "S'està executant l'script de captura %1"
 
-#: ekos/capture/captureprocess.cpp:1732
+#: ekos/capture/captureprocess.cpp:1731
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "L'script %1 anterior a la captura ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:1740
+#: ekos/capture/captureprocess.cpp:1739
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "L'script %1 posterior a la captura ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:1752
+#: ekos/capture/captureprocess.cpp:1751
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "S'està processant la inversió del meridià..."
 
-#: ekos/capture/captureprocess.cpp:1762
+#: ekos/capture/captureprocess.cpp:1761
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "L'script %1 anterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:1767
+#: ekos/capture/captureprocess.cpp:1766
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:1948 ekos/focus/focus.cpp:5247
+#: ekos/capture/captureprocess.cpp:1947 ekos/focus/focus.cpp:5247
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp..."
 
-#: ekos/capture/captureprocess.cpp:1972 ekos/focus/focus.cpp:5252
+#: ekos/capture/captureprocess.cpp:1971 ekos/focus/focus.cpp:5252
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició..."
 
-#: ekos/capture/captureprocess.cpp:2066
+#: ekos/capture/captureprocess.cpp:2065
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16207,18 +16195,18 @@ msgstr ""
 "El calibratge pla ha fallat. La imatge capturada és de només %1 bits mentre "
 "que la ADU requerida era %2."
 
-#: ekos/capture/captureprocess.cpp:2077
+#: ekos/capture/captureprocess.cpp:2076
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "La imatge actual està saturada (%1). L'exposició següent és %2 segons."
 
-#: ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:2098
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "La ADU actual %1 es troba dins l'interval de tolerància de la ADU objectiu."
 
-#: ekos/capture/captureprocess.cpp:2132
+#: ekos/capture/captureprocess.cpp:2131
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16227,17 +16215,17 @@ msgstr ""
 "No s'ha pogut calcular la configuració òptima per a l'exposició. Si us plau, "
 "captureu manualment els nivells."
 
-#: ekos/capture/captureprocess.cpp:2140
+#: ekos/capture/captureprocess.cpp:2139
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "La ADU actual és %1. L'exposició següent és de %2 segons."
 
-#: ekos/capture/captureprocess.cpp:2401
+#: ekos/capture/captureprocess.cpp:2400
 #, kde-format
 msgid "Sequence paused."
 msgstr "Seqüència en pausa."
 
-#: ekos/capture/captureprocess.cpp:2451
+#: ekos/capture/captureprocess.cpp:2450
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16246,7 +16234,7 @@ msgstr ""
 "S'han completat totes les tasques. Voleu restablir l'estat de totes les "
 "tasques i reprendre la captura?"
 
-#: ekos/capture/captureprocess.cpp:2465
+#: ekos/capture/captureprocess.cpp:2464
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16255,12 +16243,12 @@ msgstr ""
 "Avís: l'opció «Reinicia sempre la seqüència en iniciar» està activa i compta "
 "el reinici de la seqüència."
 
-#: ekos/capture/captureprocess.cpp:2580
+#: ekos/capture/captureprocess.cpp:2579
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Segur que voleu reiniciar el controlador de la càmera %1?"
 
-#: ekos/capture/captureprocess.cpp:2581
+#: ekos/capture/captureprocess.cpp:2580
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicia el controlador"
@@ -19021,10 +19009,9 @@ msgstr ""
 "tornant a intentar..."
 
 #: ekos/focus/focus.cpp:3343
-#, fuzzy, kde-format
-#| msgid "HFR %1 > Limit %2"
+#, kde-format
 msgid "R2=%1 < Limit=%2"
-msgstr "HFR %1 > Límit %2"
+msgstr "R2=%1 < Límit=%2"
 
 #: ekos/focus/focus.cpp:3351
 #, kde-format
@@ -35065,13 +35052,7 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:816
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable this if you are using your eye at the eyepiece in an altazimuth "
-#| "mounted Newtonian telescope. This accounts for the fact that the observer "
-#| "stands erect as the telescope moves up and down, so that the orientation "
-#| "of the sky map will track what is seen in your eyepiece once it is set up "
-#| "correctly."
+#, kde-format
 msgid ""
 "Enable this if you are using your eye at the eyepiece in an altazimuth "
 "mounted Newtonian telescope. This accounts for the fact that the observer "
@@ -35085,22 +35066,20 @@ msgstr ""
 "en altazimut. Això té en compte el fet que l'observador es manté dret a "
 "mesura que el telescopi es mou amunt i avall, de manera que l'orientació del "
 "mapa celeste farà un seguiment de què es veu en l'ocular una vegada estigui "
-"configurat correctament."
+"configurat correctament. Trieu la mà de la correcció segons quin costat del "
+"telescopi apareix l'ocular en mirar des de la part posterior del telescopi"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:822
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
-msgstr "&Esquerra"
+msgstr "Esquerra"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:825
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "Lluminós"
+msgstr "Dreta"
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:831
@@ -37660,7 +37639,7 @@ msgstr "Calcula la posició després de les captures."
 #: kstars.kcfg:1964
 #, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr ""
+msgstr "ID del tren òptic més recentment utilitzat a la captura."
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:1967
@@ -69462,10 +69441,9 @@ msgid "&FOV Symbols"
 msgstr "Símbols del &CDV"
 
 #: kstarsinit.cpp:382
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "&Visualitza"
+msgstr "&Vistes"
 
 #: kstarsinit.cpp:390
 #, kde-format
@@ -69965,12 +69943,10 @@ msgstr ""
 "l'orientació és arbitrària"
 
 #: kstarsinit.cpp:761
-#, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "No projection"
+#, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr "Sense projecció"
+msgstr "Sense correcció"
 
 #: kstarsinit.cpp:765
 #, kde-format
@@ -69979,28 +69955,19 @@ msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
 msgstr ""
+"Seleccioneu això si esteu utilitzant una càmera en el telescopi, o si teniu "
+"muntada la pantalla del mapa celeste al telescopi"
 
 #: kstarsinit.cpp:771
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid "Erect observer correction"
+#, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, left-handed"
-msgstr "Correcció d'observador dret"
+msgstr "Correcció d'observador dret, mà esquerra"
 
 #: kstarsinit.cpp:775
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid ""
-#| "Enable this mode if you are visually using a Newtonian telescope on an "
-#| "altazimuth mount. It will correct the orientation of the sky-map to "
-#| "account for the observer remaining erect as the telescope moves up and "
-#| "down, unlike a camera which would rotate with the telescope. This only "
-#| "makes sense in Horizontal Coordinate mode and is disabled when using "
-#| "Equatorial Coordinates. Typically makes sense to combine this with Zenith "
-#| "Down orientation."
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
 "Select this if you are visually observing using a Dobsonian telescope which "
@@ -70010,35 +69977,24 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Activeu aquest mode si esteu utilitzant visualment un telescopi newtonià en "
-"una muntura altazimutal. Corregirà l'orientació del mapa celeste per a tenir "
-"en compte que l'observador es manté dret a mesura que el telescopi es mou "
-"amunt i avall, a diferència d'una càmera que giraria amb el telescopi. Això "
-"només té sentit en el mode de coordenades horitzontals i està desactivat "
-"quan s'utilitzen coordenades equatorials. Normalment té sentit combinar això "
-"amb l'orientació de zenit cap avall."
+"Seleccioneu això si esteu observant visualment utilitzant un telescopi "
+"Dobson que té l'enfocador que apareix al costat esquerre quan mireu cap "
+"amunt el tub del telescopi. Aquesta característica corregirà l'orientació "
+"del mapa celeste per a tenir en compte que l'observador que roman dret a "
+"mesura que el telescopi es mou cap amunt i cap avall, a diferència d'una "
+"càmera que giraria amb el telescopi. Normalment té sentit combinar això amb "
+"l'orientació zenit cap avall."
 
 #: kstarsinit.cpp:781
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid "Erect observer correction"
+#, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, right-handed"
-msgstr "Correcció d'observador dret"
+msgstr "Correcció d'observador dret, mà dreta"
 
 #: kstarsinit.cpp:785
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid ""
-#| "Enable this mode if you are visually using a Newtonian telescope on an "
-#| "altazimuth mount. It will correct the orientation of the sky-map to "
-#| "account for the observer remaining erect as the telescope moves up and "
-#| "down, unlike a camera which would rotate with the telescope. This only "
-#| "makes sense in Horizontal Coordinate mode and is disabled when using "
-#| "Equatorial Coordinates. Typically makes sense to combine this with Zenith "
-#| "Down orientation."
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
 "Select this if you are visually observing using a Dobsonian telescope which "
@@ -70048,29 +70004,24 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Activeu aquest mode si esteu utilitzant visualment un telescopi newtonià en "
-"una muntura altazimutal. Corregirà l'orientació del mapa celeste per a tenir "
-"en compte que l'observador es manté dret a mesura que el telescopi es mou "
-"amunt i avall, a diferència d'una càmera que giraria amb el telescopi. Això "
-"només té sentit en el mode de coordenades horitzontals i està desactivat "
-"quan s'utilitzen coordenades equatorials. Normalment té sentit combinar això "
-"amb l'orientació de zenit cap avall."
+"Seleccioneu això si esteu observant visualment utilitzant un telescopi "
+"Dobson que té l'enfocador que apareix al costat dret quan mireu cap amunt el "
+"tub del telescopi. Aquesta característica corregirà l'orientació del mapa "
+"celeste per a tenir en compte que l'observador que roman dret a mesura que "
+"el telescopi es mou cap amunt i cap avall, a diferència d'una càmera que "
+"giraria amb el telescopi. Normalment té sentit combinar això amb "
+"l'orientació zenit cap avall."
 
 #: kstarsinit.cpp:809
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Orientation of the sky map is arbitrary as it has been adjusted by the "
-#| "user"
-#| msgid "Arbitrary"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Arbitrària"
 
 #: kstarsinit.cpp:812
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Edita l'enllaç..."
+msgstr "Edita les vistes..."
 
 #: kstarsinit.cpp:839
 #, kde-format

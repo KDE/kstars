@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-19 01:39+0000\n"
-"PO-Revision-Date: 2024-03-08 21:37+0100\n"
+"POT-Creation-Date: 2024-03-20 01:38+0000\n"
+"PO-Revision-Date: 2024-03-19 07:25+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6415,7 +6415,7 @@ msgid "Capture error. Aborting..."
 msgstr "Kapta eraro. Abortante..."
 
 #: ekos/align/align.cpp:3286 ekos/capture/captureprocess.cpp:1501
-#: ekos/capture/captureprocess.cpp:2015
+#: ekos/capture/captureprocess.cpp:2014
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Rekomencante kaptoprovon #%1"
@@ -6515,7 +6515,7 @@ msgstr "Ne eblas skribi al dosiero %1"
 
 #: ekos/align/align.cpp:3956 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2182
-#: ekos/capture/captureprocess.cpp:2338 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2337 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4390
@@ -7154,7 +7154,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Malfermi Ekos-Vicigoliston"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2181
-#: ekos/capture/captureprocess.cpp:2337 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2336 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4409
 #, kde-format
@@ -14414,7 +14414,7 @@ msgstr "Malsukcesis konservi la sekvencan vicon"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ĉu vi certas, ke vi volas restarigi la staton de ĉiuj taskoj?"
 
-#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2452
+#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2451
 #, kde-format
 msgid "Reset job status"
 msgstr "Restarigi taskstatuson"
@@ -15623,10 +15623,9 @@ msgid "Limit: %1 °C"
 msgstr ""
 
 #: ekos/capture/capturemodulestate.cpp:692
-#, fuzzy, kde-format
-#| msgid "Limits"
+#, kde-format
 msgid "Limit: %1 mins"
-msgstr "Limoj"
+msgstr "Limo: %1 min"
 
 #: ekos/capture/capturemodulestate.cpp:830
 #, kde-format
@@ -15876,7 +15875,7 @@ msgstr "Eraro: Perdita konekto al CCD."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Ne povas kalkuli ADU-nivelojn en ne-FITS-bildoj."
 
-#: ekos/capture/captureprocess.cpp:1493 ekos/capture/captureprocess.cpp:2007
+#: ekos/capture/captureprocess.cpp:1493 ekos/capture/captureprocess.cpp:2006
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Kaptado malsukcesis. Kontrolu INDI-Kontrolpanelon por detaloj."
@@ -15886,63 +15885,63 @@ msgstr "Kaptado malsukcesis. Kontrolu INDI-Kontrolpanelon por detaloj."
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Elŝuta Tempo: %1 s, Nova Elŝuta Tempotakso: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1642
+#: ekos/capture/captureprocess.cpp:1643
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Ricevita bildo %1 el %2."
 
-#: ekos/capture/captureprocess.cpp:1678
+#: ekos/capture/captureprocess.cpp:1677
 #, kde-format
 msgid "Captured %1"
 msgstr "Kaptita %1"
 
-#: ekos/capture/captureprocess.cpp:1684
+#: ekos/capture/captureprocess.cpp:1683
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "AVERTO: ceteraj kaj eble nekonataj anstataŭiloj %1 en %2"
 
-#: ekos/capture/captureprocess.cpp:1717
+#: ekos/capture/captureprocess.cpp:1716
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Efektivigante kaptoskripton %1"
 
-#: ekos/capture/captureprocess.cpp:1732
+#: ekos/capture/captureprocess.cpp:1731
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Antaŭkapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1740
+#: ekos/capture/captureprocess.cpp:1739
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Post-kapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1752
+#: ekos/capture/captureprocess.cpp:1751
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Prilaborado de meridiano renverso..."
 
-#: ekos/capture/captureprocess.cpp:1762
+#: ekos/capture/captureprocess.cpp:1761
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Antaŭtaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1767
+#: ekos/capture/captureprocess.cpp:1766
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Posttaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1948 ekos/focus/focus.cpp:5247
+#: ekos/capture/captureprocess.cpp:1947 ekos/focus/focus.cpp:5247
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Eksponiĝotempo. Abortante..."
 
-#: ekos/capture/captureprocess.cpp:1972 ekos/focus/focus.cpp:5252
+#: ekos/capture/captureprocess.cpp:1971 ekos/focus/focus.cpp:5252
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Eksponiĝotempo. Rekomencante ekspozicion..."
 
-#: ekos/capture/captureprocess.cpp:2066
+#: ekos/capture/captureprocess.cpp:2065
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15951,17 +15950,17 @@ msgstr ""
 "Plata calibrado malsukcesis. Kaptita bildo estas nur %1-bita dum petita ADU "
 "estas %2."
 
-#: ekos/capture/captureprocess.cpp:2077
+#: ekos/capture/captureprocess.cpp:2076
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Nuna bildo estas saturita (%1). La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:2098
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Nuna ADU %1 ene de la celita ADU-toleremo intervalo."
 
-#: ekos/capture/captureprocess.cpp:2132
+#: ekos/capture/captureprocess.cpp:2131
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -15970,17 +15969,17 @@ msgstr ""
 "Ne eblas kalkuli optimumajn eksponajn agordojn, bonvolu kapti la ebenaĵojn "
 "permane."
 
-#: ekos/capture/captureprocess.cpp:2140
+#: ekos/capture/captureprocess.cpp:2139
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Nuna ADU estas %1 La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/captureprocess.cpp:2401
+#: ekos/capture/captureprocess.cpp:2400
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekvenco paŭzita."
 
-#: ekos/capture/captureprocess.cpp:2451
+#: ekos/capture/captureprocess.cpp:2450
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15989,7 +15988,7 @@ msgstr ""
 "Ĉiuj taskoj estas kompletaj. Ĉu vi volas restarigi la staton de ĉiuj taskoj "
 "kaj rekomenci kaptado?"
 
-#: ekos/capture/captureprocess.cpp:2465
+#: ekos/capture/captureprocess.cpp:2464
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15998,12 +15997,12 @@ msgstr ""
 "Averto: opcio \"Ĉiam Restarigi Sekvencon Kiam Komencante\" estas ebligita "
 "kaj restarigas la sinsekvon."
 
-#: ekos/capture/captureprocess.cpp:2580
+#: ekos/capture/captureprocess.cpp:2579
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ĉu vi certas, ke vi volas rekomenci %1 fotilpelilon?"
 
-#: ekos/capture/captureprocess.cpp:2581
+#: ekos/capture/captureprocess.cpp:2580
 #, kde-format
 msgid "Driver Restart"
 msgstr "Restarto de Pelilo"
@@ -18615,10 +18614,9 @@ msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Neniuj steloj detektitaj dum testado de HFR, kaptado denove..."
 
 #: ekos/focus/focus.cpp:2862
-#, fuzzy, kde-format
-#| msgid "HFR: %1  "
+#, kde-format
 msgid "HFR %1 > Limit %2"
-msgstr "HFR: %1"
+msgstr "HFR %1 > Limo %2"
 
 #: ekos/focus/focus.cpp:2976
 #, kde-format
@@ -18658,10 +18656,9 @@ msgid "Failed to detect any stars. Aborting..."
 msgstr "Malsukcesis detekti iujn stelojn. Ĉesigante..."
 
 #: ekos/focus/focus.cpp:3237
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
-msgstr "Aŭtomata fokusado malsukcesis: transpasis maks iteraciojn %1"
+msgstr "Skana Komencpozicio: transpasis maks iteraciojn %1"
 
 #: ekos/focus/focus.cpp:3255
 #, kde-format
@@ -19155,22 +19152,19 @@ msgstr "Konsilisto"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, forceInSeqAF)
 #: ekos/focus/focus.ui:942
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an ad-hoc In-Sequence Autofocus at the "
 "completion of the current subframe.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marku por devigi Aŭtomatan fokuson post Meridiano-Flip."
-"</p></body></html>"
+"<html><head/><body><p>Marku por devigi porokazan ensekvencan Aŭtomat-fokuson "
+"je la kompletigo de la aktuala subkadro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
 #: ekos/focus/focus.ui:945
 #, kde-format
 msgid "Force AF"
-msgstr ""
+msgstr "Devigi AF"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:1011
@@ -19533,10 +19527,9 @@ msgstr "Eksterpaŝa Multoblaj:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Paŝa grandeco:"
+msgstr "Maks. Paŝgrandeco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -19556,24 +19549,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan Delay:"
-msgstr "AF Troskanado:"
+msgstr "AF Prokrasto de Troskano:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The minimum size of an adaptive focus change that "
-#| "will be sent to the focuser.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>La minimuma grandeco de sinadapte fokusa ŝanĝo kiu "
-"estossendata al la fokusilo.</p></body></html>"
+"<html><head/><body><p>Prokrasto inter finiĝo de la eksterenmovo de Troskano "
+"kaj komenciĝo de enenmovo. Por plejmultaj fokusiloj 0 s estas taŭga.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -19643,15 +19633,12 @@ msgstr "Profilo de SEP:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/opsfocusprocess.ui:171
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at the current focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of frames to capture at each focuser position.</"
 "p></body></html>"
 msgstr ""
-"<html><body><p>Nombro da kadroj kaptendaj ĉe la aktuala fokusilpozicio.</p></"
+"<html><head/><body><p>Nombro da kadroj kaptendaj ĉe ĉiu fokusilpozicio.</p></"
 "body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
@@ -20041,11 +20028,9 @@ msgstr "R²-Limo:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusHFRFramesCountLabel)
 #: ekos/focus/opsfocusprocess.ui:407
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Average (1 sec.)"
+#, kde-format
 msgid "Average HFR Check:"
-msgstr "Mezumo (1 sek.)"
+msgstr "Mezuma HFR-Kontrolo:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusHFRFramesCount)
 #: ekos/focus/opsfocusprocess.ui:420
@@ -29316,10 +29301,9 @@ msgstr ""
 "ol fermi ĝin?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "Vicigi Opcio-Profilan Redaktilon"
+msgstr "Redaktilo por FITS-Vidilaj Solvil-Profiloj"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -30204,28 +30188,26 @@ msgstr "La solvita bildpozicia angulo, Oriente de Nordo (gradoj)."
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
-msgstr "Elektas la Opcioj-Profilo por uzi por Pleta Solvado"
+msgstr "Elektas la Opcioj-Profilon uzendan por pletsolvado"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:410
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
-msgstr "Elektas la Opcioj-Profilo por uzi por Pleta Solvado"
+msgstr ""
+"Elektas la modulon el kiu Elekteblo-Profiloj estas prenataj por uzo en "
+"pletsolvado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr ""
-"Malfermas la aktuale elektitan Opcio-Profilon en la Opcio-Profilo-Redaktilo"
+"Malfermas la aktuale elektitan Profilon en la Elekteblo-Profilredaktilo"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -36139,10 +36121,9 @@ msgstr "Profilo de Opcioj por Fitsviewer-Solvado."
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1551
-#, fuzzy, kde-format
-#| msgid "Options Profile for Fitsviewer Solving."
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr "Profilo de Opcioj por Fitsviewer-Solvado."
+msgstr "Modulo el kiu profilo estas prenata por Fitsviewer-Solvado."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1555
@@ -36863,24 +36844,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkMount), group (Capture)
 #: kstars.kcfg:1971
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting Calibration."
+#, kde-format
 msgid "Park mount on calibration."
-msgstr "Eksponiĝotempo. Ĉesigi Kalibradon."
+msgstr "Parki muntaĵon je kalibrado."
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkDome), group (Capture)
 #: kstars.kcfg:1975
-#, fuzzy, kde-format
-#| msgid "Park dome to home position"
+#, kde-format
 msgid "Park dome on calibration."
-msgstr "Parkkupolo al hejma pozicio"
+msgstr "Parki kupolon je kalibrado."
 
 #. i18n: ectx: label, entry (CaptureCalibrationUseManual), group (Capture)
 #: kstars.kcfg:1979
-#, fuzzy, kde-format
-#| msgid "Capture flat frames at the same focus position of light frames."
+#, kde-format
 msgid "Capture calibration frames at the specified exposures."
-msgstr "Kapti platajn kadrojn ĉe la sama fokusa pozicio de malpezaj kadroj."
+msgstr "Kapti kalibradajn kadrojn ĉe specifitaj elmetoj."
 
 #. i18n: ectx: label, entry (CaptureCalibrationUseADU), group (Capture)
 #: kstars.kcfg:1983
@@ -36890,17 +36868,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUValue), group (Capture)
 #: kstars.kcfg:1987
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU"
+#, kde-format
 msgid "Desired flat frame ADU value."
-msgstr "Dezirata plata kampo ADU"
+msgstr "Dezirata platkadra ADU-valoro."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUTolerance), group (Capture)
 #: kstars.kcfg:1991
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU"
+#, kde-format
 msgid "Desired flat frame ADU tolerance."
-msgstr "Dezirata plata kampo ADU"
+msgstr "Dezirata platkampa ADU-toleremo."
 
 #. i18n: ectx: label, entry (CaptureCalibrationSkyFlats), group (Capture)
 #: kstars.kcfg:1995
@@ -37200,11 +37176,9 @@ msgstr "Kiom da kadroj mezumigi je ĉiu paŝo en la Aŭtofokusa procezo."
 
 #. i18n: ectx: whatsthis, entry (focusHFRFramesCount), group (Focus)
 #: kstars.kcfg:2152
-#, fuzzy, kde-format
-#| msgid ""
-#| "How many frames to average over at each step in the Autofocus process."
+#, kde-format
 msgid "How many frames to average over when performing in-sequence HFR Check."
-msgstr "Kiom da kadroj mezumigi je ĉiu paŝo en la Aŭtofokusa procezo."
+msgstr "Kiom da kadroj mezumigi je plenumado de ensekvenca HFR-kontrolo."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:2156
@@ -38731,10 +38705,9 @@ msgstr "Planilo kompletiĝis kiam ĉiuj sekvencoj estas kompletaj."
 
 #. i18n: ectx: label, entry (SchedulerRepeatEverything), group (Scheduler)
 #: kstars.kcfg:3135
-#, fuzzy, kde-format
-#| msgid "Restart sequences as soon as all sequences have been completed."
+#, kde-format
 msgid "Restart all scheduler jobs when all scheduler jobs have completed."
-msgstr "Rekomenci sekvencojn tuj post kiam ĉiuj sekvencoj estis plenumitaj."
+msgstr "Rekomenci ĉiujn planiltaskojn kiam ĉiuj planiltaskoj estis plenumitaj."
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
 #: kstars.kcfg:3139
@@ -39125,10 +39098,9 @@ msgstr "Baskuligi ĉu montri bildajn superkovrojn."
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: kstars.kcfg:3360 kstars.kcfg:3361 options/opsimageoverlay.ui:81
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display Image Overlays below catalogs."
-msgstr "Vidigi Bildajn Supermetaĵojn."
+msgstr "Montri Bildajn Supermetaĵojn sub katalogoj."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3365
@@ -75784,10 +75756,9 @@ msgid "Local meridian"
 msgstr "Loka meridiano"
 
 #: options/opsimageoverlay.cpp:76
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "Image Overlay Align Options Profiles Editor"
-msgstr "Vicigi Opcio-Profilan Redaktilon"
+msgstr "Redaktilo por Opcio-Profiloj por Vicigo de Bildaj Supermetoj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
@@ -75813,10 +75784,9 @@ msgstr "Centrigi SkyMap sur elekto"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display Image Overlays below catalogs"
-msgstr "Vidigi Bildajn Supermetaĵojn."
+msgstr "Montri Bildajn Supermetaĵojn sub katalogoj."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -75905,13 +75875,11 @@ msgstr "Elektas la Opcioj-Profilon (el Align) uzendan por Pleta Solvado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
 msgstr ""
-"Malfermas la aktuale elektitan Opcio-Profilon en la Opcio-Profilo-Redaktilo"
+"Malfermas la aktuale elektitan Vicigo-Profilon en la Opcio-Profilredaktilo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -85295,42 +85263,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Camera frame types when using stand-alone esq editor."
-#~ msgstr "Fotilaj kadrospecoj kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgstr "Fotilaj kadroformatoj kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid "Camera frame encodings when using stand-alone esq editor."
-#~ msgstr "Fotilaj kadrokodigoj kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid "Camera ISOs when using stand-alone esq editor."
-#~ msgstr "Fotilaj ISO-oj kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid "Camera ISO choice when using stand-alone esq editor."
-#~ msgstr "Elekto de fotila ISO kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid "Filter names when using stand-alone esq editor."
-#~ msgstr "Filtrilaj nomoj kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid ""
-#~ "Width,Height of sensor size remembered for stand-alone esq editor, and "
-#~ "Gain/Offset keywords."
-#~ msgstr ""
-#~ "Larĝo, Alteco de sensilgrandeco memorita por memstara esq-redaktilo, kaj "
-#~ "ŝlosilvortoj de Gajno/Deŝovo."
-
-#, fuzzy
-#~| msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgid "Camera temperature properties for stand-alone esq editor."
-#~ msgstr "Fotilaj kadroformatoj kiam vi uzas memstaran esq-redaktilon."
-
-#~ msgid "Local time that the CaptureStandAlone options were set."
-#~ msgstr "Loka horo kiam la elektebloj de CaptureStandAlone estis fiksitaj."
-
-#~ msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-#~ msgstr "<html><head/><body><p>Maks. Paŝgrandeco:</p></body></html>"
-
-#~ msgid "Wall coordinates are invalid."
-#~ msgstr "Muraj koordinatoj estas nevalidaj."
