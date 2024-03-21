@@ -482,6 +482,8 @@ void SchedulerJob::reset()
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
     completedIterations = 0;
+    clearProgress();
+
     clearCache();
 }
 
@@ -910,6 +912,94 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
     }
 
     return calculateNextTime(ltStart, false, increment, reason, false, until);
+}
+
+namespace
+{
+
+QString progressLineLabel(CCDFrameType frameType, const QMap<SequenceJob::PropertyID, QVariant> &properties,
+                          bool isDarkFlat)
+{
+    QString jobTargetName = properties[SequenceJob::SJ_TargetName].toString();
+    auto exposure    = properties[SequenceJob::SJ_Exposure].toDouble();
+    QString label;
+
+    int precisionRequired = 0;
+    double fraction = exposure - fabs(exposure);
+    if (fraction > .0001)
+    {
+        precisionRequired = 1;
+        fraction = fraction * 10;
+        fraction = fraction - fabs(fraction);
+        if (fraction > .0001)
+        {
+            precisionRequired = 2;
+            fraction = fraction * 10;
+            fraction = fraction - fabs(fraction);
+            if (fraction > .0001)
+                precisionRequired = 3;
+        }
+    }
+    if (precisionRequired == 0)
+        label += QString("%1s").arg(static_cast<int>(exposure));
+    else
+        label += QString("%1s").arg(exposure, 0, 'f', precisionRequired);
+
+    if (properties.contains(SequenceJob::SJ_Filter))
+    {
+        auto filterType = properties[SequenceJob::SJ_Filter].toString();
+        if (label.size() > 0) label += " ";
+        label += filterType;
+    }
+
+    if (isDarkFlat)
+    {
+        if (label.size() > 0) label += " ";
+        label += i18n("DarkFlat");
+    }
+    else if (frameType != FRAME_LIGHT)
+    {
+        if (label.size() > 0) label += " ";
+        label += frameType;
+    }
+
+    return label;
+}
+
+QString progressLine(const SchedulerJob::JobProgress &progress)
+{
+    QString label = progressLineLabel(progress.type, progress.properties, progress.isDarkFlat).append(":");
+
+    const double seconds = progress.numCompleted * progress.properties[SequenceJob::SJ_Exposure].toDouble();
+    QString timeStr;
+    if (seconds == 0)
+        timeStr = "";
+    else if (seconds < 60)
+        timeStr = QString("%1 %2").arg(static_cast<int>(seconds)).arg(i18n("seconds"));
+    else if (seconds < 60 * 60)
+        timeStr = QString("%1 %2").arg(seconds / 60.0, 0, 'f', 1).arg(i18n("minutes"));
+    else
+        timeStr = QString("%1 %3").arg(seconds / 3600.0, 0, 'f', 1).arg(i18n("hours"));
+
+    // Hacky formatting. I tried html and html tables, but the tooltips got narrow boxes.
+    // Would be nice to redo with proper formatting, or fixed-width font.
+    return QString("%1\t%2 %3 %4")
+           .arg(label, -12, ' ')
+           .arg(progress.numCompleted, 4)
+           .arg(i18n("images"))
+           .arg(timeStr);
+}
+}  // namespace
+
+const QString SchedulerJob::getProgressSummary() const
+{
+    QString summary;
+    for (const auto &p : m_Progress)
+    {
+        summary.append(progressLine(p));
+        summary.append("\n");
+    }
+    return summary;
 }
 
 QJsonObject SchedulerJob::toJson() const

@@ -69,6 +69,9 @@ enum QueueTableColumns
     START_TIME_COLUMN,
     END_TIME_COLUMN,
 };
+
+QString CAPTURE_COUNT_TOOLTIP = i18n("Count of captures stored for the job, based on its sequence job.\n"
+                                     "This is a summary, additional specific frame types may be required to complete the job.");
 }
 
 namespace Ekos
@@ -152,8 +155,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
                                           "You may specify a fixed time to limit duration of looping jobs. "
                                           "A warning symbol indicates the altitude at completion may cause the job to abort before completion.\n"));
     if (captureCountHeader != nullptr)
-        captureCountHeader->setToolTip(i18n("Count of captures stored for the job, based on its sequence job.\n"
-                                            "This is a summary, additional specific frame types may be required to complete the job."));
+        captureCountHeader->setToolTip(CAPTURE_COUNT_TOOLTIP);
 
     /* Set first button mode to add observation job from left-hand fields */
     setJobAddApply(true);
@@ -1448,6 +1450,10 @@ void Scheduler::updateJobTable(SchedulerJob *job)
                 captureCountCell->setText(QString("%L1/%L2").arg(job->getCompletedCount()).arg(job->getSequenceCount()));
                 break;
         }
+
+        QString tooltip = job->getProgressSummary();
+        if (tooltip.size() == 0) tooltip = CAPTURE_COUNT_TOOLTIP;
+        captureCountCell->setToolTip(tooltip);
 
         updateCellStyle(job, captureCountCell);
         if (nullptr != captureCountCell->tableWidget())

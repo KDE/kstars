@@ -8,6 +8,7 @@
 
 #include "skypoint.h"
 #include "schedulertypes.h"
+#include "ekos/capture/sequencejob.h"
 
 #include <QUrl>
 #include <QMap>
@@ -40,6 +41,19 @@ class SchedulerJob
             USE_ALIGN = 1 << 2,
             USE_GUIDE = 1 << 3
         } StepPipeline;
+
+        struct JobProgress
+        {
+            int numCompleted = 0;
+            CCDFrameType type;
+            bool isDarkFlat = false;
+            QMap<SequenceJob::PropertyID, QVariant> properties;
+            JobProgress() {}
+            JobProgress(int numCompleted, const SequenceJob *job)
+                : numCompleted(numCompleted), type(job->getFrameType()),
+                  isDarkFlat(job->jobType() == SequenceJob::JOBTYPE_DARKFLAT),
+                  properties(job->getCoreProperties()) {};
+        };
 
         /** @brief Coordinates of the target of this job. */
         /** @{ */
@@ -376,6 +390,19 @@ class SchedulerJob
         void setRepeatsRemaining(const uint16_t &value);
         /** @} */
 
+        void clearProgress()
+        {
+            m_Progress.clear();
+        }
+        void addProgress(int numCompleted, const SequenceJob *job)
+        {
+            m_Progress.append(JobProgress(numCompleted, job));
+        }
+        /** @brief Human-readable summary of captures completed for this job. */
+        /** @{ */
+        const QString getProgressSummary() const;
+        /** @} */
+
         /** @brief The map of capture counts for this job, keyed by its capture storage signatures. */
         /** @{ */
         const CapturedFramesMap &getCapturedFramesMap() const
@@ -606,6 +633,9 @@ private:
 
         /// Pointer to Moon object
         KSMoon *moon { nullptr };
+
+        // Used to display human-readable job progress.
+        QList<JobProgress> m_Progress;
 
         // This class is used to cache the results computed in getNextPossibleStartTime()
         // which is called repeatedly by the Greedy scheduler.

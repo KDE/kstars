@@ -16,6 +16,7 @@
 #include "sequencejob.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/summaryfitsview.h"
+#include "ekos/scheduler/schedulerjob.h"
 #include "ekos/scheduler/schedulermodulestate.h"
 
 using Ekos::SequenceJob;
