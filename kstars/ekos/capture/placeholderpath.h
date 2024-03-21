@@ -209,7 +209,7 @@ private:
          */
         QString generateReplacement(const QMap<PathProperty, QVariant> &pathPropertyMap, PathProperty property, bool usePattern = false) const;
 
-        QString getFrameType(CCDFrameType frameType) const
+        static QString getFrameType(CCDFrameType frameType)
         {
             if (m_frameTypes.contains(frameType))
                 return m_frameTypes[frameType];
@@ -229,7 +229,7 @@ private:
             pathPropertyMap[prop] = value;
         }
 
-        QMap<CCDFrameType, QString> m_frameTypes;
+        static QMap<CCDFrameType, QString> m_frameTypes;
         QFileInfo m_seqFilename;
 };
 

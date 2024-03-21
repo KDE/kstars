@@ -20,7 +20,7 @@
 
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/auxiliary/filtermanager.h"
-#include "ekos/scheduler/schedulerjob.h"
+#include "ekos/scheduler/schedulertypes.h"
 #include "ekos/capture/refocusstate.h"
 #include "ekos/focus/focusutils.h"
 

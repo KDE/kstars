@@ -19,16 +19,17 @@
 namespace Ekos
 {
 
-PlaceholderPath::PlaceholderPath(const QString &seqFilename):
-    m_frameTypes(
+QMap<CCDFrameType, QString> PlaceholderPath::m_frameTypes =
 {
     {FRAME_LIGHT, "Light"},
     {FRAME_DARK, "Dark"},
     {FRAME_BIAS, "Bias"},
     {FRAME_FLAT, "Flat"},
     {FRAME_NONE, ""},
-}),
-m_seqFilename(seqFilename)
+};
+
+PlaceholderPath::PlaceholderPath(const QString &seqFilename)
+    : m_seqFilename(seqFilename)
 {
 }
 

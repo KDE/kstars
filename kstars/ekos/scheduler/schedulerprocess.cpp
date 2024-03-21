@@ -4513,6 +4513,7 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
             continue;
         }
 
+        oneJob->clearProgress();
         /* Enumerate the SchedulerJob's SequenceJobs to count captures stored for each */
         for (SequenceJob *oneSeqJob : seqjobs)
         {
@@ -4538,7 +4539,9 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
             }
 
             /* Else recount captures already stored */
-            newFramesCount[signature] = PlaceholderPath::getCompletedFiles(signature);
+            const int count = PlaceholderPath::getCompletedFiles(signature);
+            newFramesCount[signature] = count;
+            oneJob->addProgress(count, oneSeqJob);
         }
 
         // determine whether we need to continue capturing, depending on captured frames

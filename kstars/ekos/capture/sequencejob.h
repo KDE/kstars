@@ -237,6 +237,12 @@ class SequenceJob : public QObject
             m_CustomProperties = value;
         }
 
+        // Core Properties
+        const QMap<PropertyID, QVariant> &getCoreProperties() const
+        {
+            return m_CoreProperties;
+        }
+
         // Setter: Set upload mode
         void setUploadMode(ISD::Camera::UploadMode value);
         // Getter: get upload mode

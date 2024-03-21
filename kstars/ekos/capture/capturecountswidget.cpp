@@ -8,6 +8,7 @@
 #include "capturecountswidget.h"
 #include "Options.h"
 #include "ekos/manager.h"
+#include "ekos/scheduler/schedulerjob.h"
 #include "ekos/scheduler/schedulermodulestate.h"
 #include "ekos/capture/capture.h"
 #include "ekos/capture/sequencejob.h"
