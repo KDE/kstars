@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-21 01:37+0000\n"
-"PO-Revision-Date: 2024-03-19 19:03+0200\n"
+"PO-Revision-Date: 2024-03-21 08:01+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -28343,14 +28343,12 @@ msgid "Ekos job failed (%1)"
 msgstr "Помилка у завданні Ekos (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "DarkFlat"
 msgstr "Темний кадр"
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgid "image(s)"
+#, kde-format
 msgid "images"
 msgstr "зображення"
 

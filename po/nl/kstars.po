@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-21 01:37+0000\n"
-"PO-Revision-Date: 2024-03-19 23:01+0100\n"
+"PO-Revision-Date: 2024-03-21 14:43+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -28102,16 +28102,14 @@ msgid "Ekos job failed (%1)"
 msgstr "Ekostaak mislukt (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "DarkFlat"
-msgstr "Dark-flat"
+msgstr "DarkFlat"
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgid "image(s)"
+#, kde-format
 msgid "images"
-msgstr "afbeelding(en)"
+msgstr "afbeeldingen"
 
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
