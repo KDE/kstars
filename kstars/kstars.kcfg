@@ -652,10 +652,18 @@
          <whatsthis>Toggle whether the Sun is drawn in the sky map.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="SunScale" type="Double">
+         <label>Increase the size of the Sun by this factor.</label>
+         <default>1.0</default>
+      </entry>
       <entry name="ShowMoon" type="Bool">
          <label>Draw Moon in the sky map?</label>
          <whatsthis>Toggle whether the Moon is drawn in the sky map.</whatsthis>
          <default>true</default>
+      </entry>
+      <entry name="MoonScale" type="Double">
+         <label>Increase the size of the Moon by this factor.</label>
+         <default>1.0</default>
       </entry>
       <entry name="ShowMercury" type="Bool">
          <label>Draw Mercury in the sky map?</label>

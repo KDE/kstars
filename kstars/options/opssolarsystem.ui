@@ -145,20 +145,50 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QCheckBox" name="kcfg_ShowSun">
-          <property name="toolTip">
-           <string>Draw the Sun?</string>
-          </property>
-          <property name="whatsThis">
-           <string>If checked, the Sun will be drawn on the map.</string>
-          </property>
-          <property name="text">
-           <string>The sun</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">solarButtonGroup</string>
-          </attribute>
-         </widget>
+         <layout class="QHBoxLayout">
+          <item>            
+           <widget class="QCheckBox" name="kcfg_ShowSun">
+            <property name="toolTip">
+             <string>Draw the Sun?</string>
+            </property>
+            <property name="whatsThis">
+             <string>If checked, the Sun will be drawn on the map.</string>
+            </property>
+            <property name="text">
+             <string>Sun</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solarButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="sunLabel">
+            <property name="text">
+             <string>scale:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_SunScale">
+            <property name="toolTip">
+             <string>Scale of sun rendering.</string>
+            </property>
+            <property name="toolTip">
+             <string>Increase the size of the sun by this factor.</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>20</double>
+            </property>
+            <property name="minimum">
+             <double>1</double>
+            </property>
+           </widget>
+          </item>
+         </layout>         
         </item>
         <item row="0" column="1">
          <widget class="QCheckBox" name="kcfg_ShowJupiter">
@@ -177,20 +207,50 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QCheckBox" name="kcfg_ShowMoon">
-          <property name="toolTip">
-           <string>Draw the Moon?</string>
-          </property>
-          <property name="whatsThis">
-           <string>If checked, the Moon will be drawn on the map.</string>
-          </property>
-          <property name="text">
-           <string>The moon</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">solarButtonGroup</string>
-          </attribute>
-         </widget>
+         <layout class="QHBoxLayout">
+          <item>
+          <widget class="QCheckBox" name="kcfg_ShowMoon">
+           <property name="toolTip">
+            <string>Draw the Moon?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, the Moon will be drawn on the map.</string>
+           </property>
+           <property name="text">
+            <string>Moon</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">solarButtonGroup</string>
+           </attribute>
+          </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="moonLabel">
+            <property name="text">
+             <string>scale:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_MoonScale">
+            <property name="toolTip">
+             <string>Scale of moon rendering.</string>
+            </property>
+            <property name="toolTip">
+             <string>Increase the size of the moon by this factor.</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>20</double>
+            </property>
+            <property name="minimum">
+             <double>1</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item row="2" column="0">
          <widget class="QCheckBox" name="kcfg_ShowMercury">
