@@ -679,6 +679,10 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 
     translate(constellationmidpoint);
     rotate(positionangle);
+    if (m_proj->viewParams().mirror)
+    {
+        scale(-1., 1.);
+    }
     setOpacity(0.7);
     drawImage(QRectF(-0.5 * w, -0.5 * h, w, h), obj->image());
     setOpacity(1);
@@ -702,8 +706,9 @@ bool SkyQPainter::drawMosaicPanel(MosaicTiles *obj)
     //double northRotation = m_proj->findNorthPA(obj, tileMid.x(), tileMid.y())
 
     // convert 0 to +180 EAST, and 0 to -180 WEST to 0 to 360 CCW
+    const auto mirror = m_proj->viewParams().mirror;
     auto PA = (obj->positionAngle() < 0) ? obj->positionAngle() + 360 : obj->positionAngle();
-    auto finalPA =  m_proj->findNorthPA(obj, tileMid.x(), tileMid.y()) - PA;
+    auto finalPA =  m_proj->findNorthPA(obj, tileMid.x(), tileMid.y()) - (mirror ? -PA : PA);
 
     save();
     translate(tileMid.toPoint());
@@ -804,13 +809,18 @@ bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, boo
             continue;
 
         const auto PA = (orientation < 0) ? orientation + 360 : orientation;
-        const auto finalPA =  m_proj->findNorthPA(&coord, pos.x(), pos.y()) - PA;
+        const auto mirror = m_proj->viewParams().mirror;
+        const auto finalPA =  m_proj->findNorthPA(&coord, pos.x(), pos.y()) - (mirror ? -PA : PA);
         if (!overlap.intersects(pos, w, h, finalPA))
             continue;
 
         save();
         translate(pos);
         rotate(finalPA);
+        if (mirror)
+        {
+            this->scale(-1., 1.);
+        }
         drawImage(QRectF(-0.5 * w, -0.5 * h, w, h), *(o.m_Img.get()));
         numDrawn++;
         restore();
@@ -858,8 +868,10 @@ bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
 
     float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
 
-    const auto positionAngle =
-        m_proj->findNorthPA(&obj, pos.x(), pos.y()) - obj.pa() + 90;
+    const auto mirror = m_proj->viewParams().mirror;
+    const auto positionAngle = m_proj->findNorthPA(&obj, pos.x(), pos.y())
+        - (mirror ? -obj.pa() : obj.pa()) // FIXME: We seem to have two different conventions for PA sign in KStars!
+        + 90.;
 
     // Draw image
     if (Options::showInlineImages() && Options::zoomFactor() > 5. * MINZOOM &&
