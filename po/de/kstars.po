@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-21 01:37+0000\n"
+"POT-Creation-Date: 2024-03-23 01:36+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -113,7 +113,7 @@ msgid "Ecliptic"
 msgstr "Ekliptik"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
+#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "Horizont"
@@ -4724,13 +4724,13 @@ msgid "Edit FOV Symbols"
 msgstr "STF-Symbole bearbeiten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:54 dialogs/viewsdialog.ui:65
+#: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
 msgstr "Ein neues STF-Symbol hinzufügen"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:57 dialogs/viewsdialog.ui:68
+#: dialogs/fovdialog.ui:57
 #, kde-format
 msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
@@ -4746,13 +4746,13 @@ msgid "New..."
 msgstr "Neu ..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:83 dialogs/viewsdialog.ui:94
+#: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
 msgstr "Bearbeitet das ausgewählte STF-Symbol"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:86 dialogs/viewsdialog.ui:97
+#: dialogs/fovdialog.ui:86
 #, kde-format
 msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
@@ -4762,13 +4762,13 @@ msgstr ""
 "können die Größe, das Aussehen und die Farbe ändern."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:96 dialogs/viewsdialog.ui:107
+#: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
 msgstr "Das ausgewählte STF-Symbol entfernen"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:99 dialogs/viewsdialog.ui:110
+#: dialogs/fovdialog.ui:99
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr "Drücken Sie diesen Knopf, um das ausgewählte STF-Symbol zu entfernen."
@@ -5861,6 +5861,61 @@ msgstr ""
 #, kde-format
 msgid "Edit Sky Map Views"
 msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:65
+#, fuzzy, kde-format
+#| msgid "Update view"
+msgid "Add a new view"
+msgstr "Ansicht aktualisieren"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:68
+#, fuzzy, kde-format
+#| msgid ""
+#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
+#| "size, shape, and color of the new symbol."
+msgid ""
+"Add a new View to the list.  You can define the parity, orientation and "
+"other parameters."
+msgstr ""
+"Ein neues Sichtfeldsymbol (STF) zur Liste hinzufügen. Sie können die Größe, "
+"das Aussehen und die Farbe des neuen Symbols angeben."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:94
+#, fuzzy, kde-format
+#| msgid "Modify the highlighted FOV symbol"
+msgid "Modify the highlighted View"
+msgstr "Bearbeitet das ausgewählte STF-Symbol"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:97
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to modify the highlighted FOV symbol.  You can change "
+#| "its size, shape and color."
+msgid ""
+"Press this button to modify the highlighted View.  You can change its "
+"parameters."
+msgstr ""
+"Drücken Sie diesen Knopf, um das ausgewählte STF-Symbol zu bearbeiten. Sie "
+"können die Größe, das Aussehen und die Farbe ändern."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:107
+#, fuzzy, kde-format
+#| msgid "Remove highlighted FOV symbol"
+msgid "Remove highlighted View"
+msgstr "Das ausgewählte STF-Symbol entfernen"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to remove the highlighted FOV symbol from the list."
+msgid "Press this button to remove the highlighted View from the list."
+msgstr "Drücken Sie diesen Knopf, um das ausgewählte STF-Symbol zu entfernen."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -110813,9 +110868,6 @@ msgstr "Bestimmt die Farbe für den Hintergrund."
 
 #~ msgid "Set the window’s title."
 #~ msgstr "Legt den Fenstertitel fest."
-
-#~ msgid "Update view"
-#~ msgstr "Ansicht aktualisieren"
 
 #~ msgid "If true, update view."
 #~ msgstr "Ist diese Einstellung aktiv, wird die Ansicht aktualisiert."

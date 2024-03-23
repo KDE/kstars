@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-21 01:37+0000\n"
+"POT-Creation-Date: 2024-03-23 01:36+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -106,7 +106,7 @@ msgid "Ecliptic"
 msgstr "क्रांतिमण्डल"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
+#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "क्षितिज"
@@ -4931,13 +4931,13 @@ msgid "Edit FOV Symbols"
 msgstr "एफओभी सङ्केत सम्पादन गर्नुहोस्"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:54 dialogs/viewsdialog.ui:65
+#: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
 msgstr "नयाँ एफओभी सङ्केत थप्नुहोस्"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:57 dialogs/viewsdialog.ui:68
+#: dialogs/fovdialog.ui:57
 #, kde-format
 msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
@@ -4953,13 +4953,13 @@ msgid "New..."
 msgstr "नयाँ..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:83 dialogs/viewsdialog.ui:94
+#: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
 msgstr "हाइलाइट गरिएको एफओभी सङ्केत परिमार्जन गर्नुहोस्"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:86 dialogs/viewsdialog.ui:97
+#: dialogs/fovdialog.ui:86
 #, kde-format
 msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
@@ -4969,13 +4969,13 @@ msgstr ""
 "र रङ परिवर्तन गर्न सक्नुहुन्छ ।"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:96 dialogs/viewsdialog.ui:107
+#: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
 msgstr "हाइलाइट गरिएको एफओभी सङ्केत हटाउनुहोस्"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:99 dialogs/viewsdialog.ui:110
+#: dialogs/fovdialog.ui:99
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr "सूचीबाट हाइलाइट गरिएको एफओभी सङ्केत हटाउन यो बटन थिच्नुहोस् ।"
@@ -6082,6 +6082,61 @@ msgstr ""
 #, kde-format
 msgid "Edit Sky Map Views"
 msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:65
+#, fuzzy, kde-format
+#| msgid "Update"
+msgid "Add a new view"
+msgstr "अद्यावधिक गर्नुहोस्"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:68
+#, fuzzy, kde-format
+#| msgid ""
+#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
+#| "size, shape, and color of the new symbol."
+msgid ""
+"Add a new View to the list.  You can define the parity, orientation and "
+"other parameters."
+msgstr ""
+"सूचीमा नयाँ दृश्य फिल्ड (एफओभी) सङ्केत थप्नुहोस् । तपाईँ नयाँ सङ्केतको साइज, आकार, र रङ "
+"परिभाषित गर्न सक्नुहुन्छ ।"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:94
+#, fuzzy, kde-format
+#| msgid "Modify the highlighted FOV symbol"
+msgid "Modify the highlighted View"
+msgstr "हाइलाइट गरिएको एफओभी सङ्केत परिमार्जन गर्नुहोस्"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:97
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to modify the highlighted FOV symbol.  You can change "
+#| "its size, shape and color."
+msgid ""
+"Press this button to modify the highlighted View.  You can change its "
+"parameters."
+msgstr ""
+"हाइलाइट गरिएको एफओभी सङ्केत परिमार्जन गर्न यो बटन थिच्नुहोस् । तपाईँ यसको साइज, आकार "
+"र रङ परिवर्तन गर्न सक्नुहुन्छ ।"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:107
+#, fuzzy, kde-format
+#| msgid "Remove highlighted FOV symbol"
+msgid "Remove highlighted View"
+msgstr "हाइलाइट गरिएको एफओभी सङ्केत हटाउनुहोस्"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to remove the highlighted FOV symbol from the list."
+msgid "Press this button to remove the highlighted View from the list."
+msgstr "सूचीबाट हाइलाइट गरिएको एफओभी सङ्केत हटाउन यो बटन थिच्नुहोस् ।"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -99559,11 +99614,6 @@ msgstr "आकाश पृष्ठभूमिको लागि रङ ।"
 #~| msgid "No FOV"
 #~ msgid ", FOV: "
 #~ msgstr "FOV छैन"
-
-#, fuzzy
-#~| msgid "Update"
-#~ msgid "Update view"
-#~ msgstr "अद्यावधिक गर्नुहोस्"
 
 #, fuzzy
 #~| msgid "If checked, Jupiter will be drawn on the map."

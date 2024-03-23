@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-21 01:37+0000\n"
+"POT-Creation-Date: 2024-03-23 01:36+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -106,7 +106,7 @@ msgid "Ecliptic"
 msgstr "Ekliptika"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
+#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "Obzor"
@@ -4782,13 +4782,13 @@ msgid "Edit FOV Symbols"
 msgstr "Upraviť symboly ZU"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:54 dialogs/viewsdialog.ui:65
+#: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
 msgstr "Pridať nový symbol ZU"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:57 dialogs/viewsdialog.ui:68
+#: dialogs/fovdialog.ui:57
 #, kde-format
 msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
@@ -4804,13 +4804,13 @@ msgid "New..."
 msgstr "Nový..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:83 dialogs/viewsdialog.ui:94
+#: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
 msgstr "Upraviť zvýraznený symbol ZU"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:86 dialogs/viewsdialog.ui:97
+#: dialogs/fovdialog.ui:86
 #, kde-format
 msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
@@ -4820,13 +4820,13 @@ msgstr ""
 "veľkosť, tvar a farbu."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:96 dialogs/viewsdialog.ui:107
+#: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
 msgstr "Odstrániť zvýraznený symbol ZU"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:99 dialogs/viewsdialog.ui:110
+#: dialogs/fovdialog.ui:99
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr "Stlačením tohto tlačidla odstránite zvýraznený symbol ZU zo zoznamu."
@@ -5920,6 +5920,61 @@ msgstr ""
 #, kde-format
 msgid "Edit Sky Map Views"
 msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:65
+#, fuzzy, kde-format
+#| msgid "Update view"
+msgid "Add a new view"
+msgstr "Aktualizovať pohľad"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:68
+#, fuzzy, kde-format
+#| msgid ""
+#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
+#| "size, shape, and color of the new symbol."
+msgid ""
+"Add a new View to the list.  You can define the parity, orientation and "
+"other parameters."
+msgstr ""
+"Pridať nový symbolov zorného uhla (ZU) do zoznamu. Môžete definovať veľkosť, "
+"tvar a farbu nového symbolu."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:94
+#, fuzzy, kde-format
+#| msgid "Modify the highlighted FOV symbol"
+msgid "Modify the highlighted View"
+msgstr "Upraviť zvýraznený symbol ZU"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:97
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to modify the highlighted FOV symbol.  You can change "
+#| "its size, shape and color."
+msgid ""
+"Press this button to modify the highlighted View.  You can change its "
+"parameters."
+msgstr ""
+"Stlačením tohto tlačidla upravíte zvýraznený symbol ZU. Môžete zmeniť jeho "
+"veľkosť, tvar a farbu."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:107
+#, fuzzy, kde-format
+#| msgid "Remove highlighted FOV symbol"
+msgid "Remove highlighted View"
+msgstr "Odstrániť zvýraznený symbol ZU"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to remove the highlighted FOV symbol from the list."
+msgid "Press this button to remove the highlighted View from the list."
+msgstr "Stlačením tohto tlačidla odstránite zvýraznený symbol ZU zo zoznamu."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -94360,9 +94415,6 @@ msgstr "Nastavte farbu pre pozadie."
 
 #~ msgid "Set the window’s title."
 #~ msgstr "Nastaviť titulok okna."
-
-#~ msgid "Update view"
-#~ msgstr "Aktualizovať pohľad"
 
 #~ msgid "If true, update view."
 #~ msgstr "Ak je pravda, aktualizovať pohľad."

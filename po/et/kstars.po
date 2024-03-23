@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-21 01:37+0000\n"
+"POT-Creation-Date: 2024-03-23 01:36+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -106,7 +106,7 @@ msgid "Ecliptic"
 msgstr "Ekliptika"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
+#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "Horisont"
@@ -4701,13 +4701,13 @@ msgid "Edit FOV Symbols"
 msgstr "Vaatevälja sümbolite muutmine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:54 dialogs/viewsdialog.ui:65
+#: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
 msgstr "Lisa uus vaatevälja sümbol"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:57 dialogs/viewsdialog.ui:68
+#: dialogs/fovdialog.ui:57
 #, kde-format
 msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
@@ -4723,13 +4723,13 @@ msgid "New..."
 msgstr "Uus..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:83 dialogs/viewsdialog.ui:94
+#: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
 msgstr "Muuda esiletõstetud vaatevälja sümbolit"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:86 dialogs/viewsdialog.ui:97
+#: dialogs/fovdialog.ui:86
 #, kde-format
 msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
@@ -4739,13 +4739,13 @@ msgstr ""
 "Muuta saab selle suurust, kuju ja värvi."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:96 dialogs/viewsdialog.ui:107
+#: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
 msgstr "Eemalda esiletõstetud vaatevälja sümbol"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:99 dialogs/viewsdialog.ui:110
+#: dialogs/fovdialog.ui:99
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr ""
@@ -5823,6 +5823,62 @@ msgstr ""
 #, kde-format
 msgid "Edit Sky Map Views"
 msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:65
+#, fuzzy, kde-format
+#| msgid "Update view"
+msgid "Add a new view"
+msgstr "Vaate uuendamine"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:68
+#, fuzzy, kde-format
+#| msgid ""
+#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
+#| "size, shape, and color of the new symbol."
+msgid ""
+"Add a new View to the list.  You can define the parity, orientation and "
+"other parameters."
+msgstr ""
+"Lisab uue vaatevälja sümboli nimekirja. Määrata saab selle suuruse, kuju ja "
+"värvi."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:94
+#, fuzzy, kde-format
+#| msgid "Modify the highlighted FOV symbol"
+msgid "Modify the highlighted View"
+msgstr "Muuda esiletõstetud vaatevälja sümbolit"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:97
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to modify the highlighted FOV symbol.  You can change "
+#| "its size, shape and color."
+msgid ""
+"Press this button to modify the highlighted View.  You can change its "
+"parameters."
+msgstr ""
+"Klõps sellele nupule võimaldab muuta esiletõstetud vaatevälja sümbolit. "
+"Muuta saab selle suurust, kuju ja värvi."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:107
+#, fuzzy, kde-format
+#| msgid "Remove highlighted FOV symbol"
+msgid "Remove highlighted View"
+msgstr "Eemalda esiletõstetud vaatevälja sümbol"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to remove the highlighted FOV symbol from the list."
+msgid "Press this button to remove the highlighted View from the list."
+msgstr ""
+"Klõps sellele nupule eemaldab esiletõstetud vaatevälja sümboli nimekirjast."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -109227,9 +109283,6 @@ msgstr "Värvi määramine taustaks."
 
 #~ msgid "Set the window’s title."
 #~ msgstr "Määrab akna tiilti."
-
-#~ msgid "Update view"
-#~ msgstr "Vaate uuendamine"
 
 #~ msgid "If true, update view."
 #~ msgstr "Märkimisel uuendatakse vaadet."

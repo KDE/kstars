@@ -41,7 +41,7 @@
 >nette</emphasis
 > puisque l'œil humain est très bon à cela, mais <emphasis
 >comment</emphasis
-> est-ce qu'Ekos peut le savoir ? </para>
+> est-ce que Ekos peut le savoir ? </para>
 
     <para
 >La méthode la plus essayée et testée est celle du Half-Flux-Radius (HFR), qui est la mesure en pixels de la largeur depuis le centre de l'étoile jusqu'à l'intensité accumulée dont la valeur est la moitié du flux total de l'étoile. À mesure que l'on se rapproche du point de mise au point optimale, la valeur du HFR diminue et atteint un minimum au point de mise au point avant d'augmenter à mesure que l'on s'éloigne de ce point. Cette méthode a été utilisée sur de multiples équipements et a montré sa robustesse dans beaucoup de situations. </para>
@@ -50,7 +50,7 @@
 >En plus de la méthode HFR, Ekos gère d'autres mesures de mise au point, telles que le HFR ajusté, le FWHM, le nombre d'étoiles et la puissance de Fourier. La recommandation est de débuter avec cette méthode et une fois qu'elle est bien maîtrisée d'en tester d'autres. </para>
 
     <para
->Après qu'Ekos ait traité une image, il sélectionne l'étoile la plus brillante et commence à mesurer son HFR ou il sélectionne en ensemble d'étoiles correspondant aux critères qui ont été réglés et calcule un HFR moyen. Il peut sélectionner une étoile automatiquement ou vous pouvez lui indiquer quelle étoile utiliser. Il est en général recommandé de permettre à Ekos de choisir un ensemble d'étoiles. </para>
+>Après le traitement d'une image par Ekos, il sélectionne l'étoile la plus brillante et commence à mesurer son HFR ou il sélectionne en ensemble d'étoiles correspondant aux critères qui ont été réglés et calcule un HFR moyen. Il peut sélectionner une étoile automatiquement ou vous pouvez lui indiquer quelle étoile utiliser. Il est en général recommandé de permettre à Ekos de choisir un ensemble d'étoiles. </para>
 
     <para
 >Ekos propose 4 algorithmes différents de mise au point : Linéaire 1 passe, Linéaire, Itératif, Polynomial. Linéaire 1 passe est l'algorithme recommandé. </para>
@@ -299,14 +299,14 @@
 ><emphasis role="bold"
 >Champ droite</emphasis
 > : c'est une valeur en entrée que l'opérateur peut modifier pour obtenir une position particulière. Lorsque que le bouton <guibutton
->Goto</guibutton
+>Aller à</guibutton
 > est cliqué, le moteur de mise au point se déplacera depuis la position actuelle jusqu'à la position saisie en entrée. </para>
       </listitem>
     </itemizedlist>
 
     <para
 >Au départ, la valeur du champ de gauche affichera la position actuelle du moteur de mise au point. Le champ droite prendra comme valeur par défaut celle du train optique enregistré dans les réglages. Cela est utile par exemple lorsque vous avez plusieurs trains optiques qui utilisent le même moteur de mise au point mais dont la position de la mise au point est différente. Dans ce cas, la valeur du champ de gauche sera celle de la dernière valeur pour le train optique sélectionné. Ainsi, après avoir changé de matériel et choisi le train optique adéquat, un clic sur le bouton <guibutton
->Goto</guibutton
+>Aller à</guibutton
 > entraînera le moteur de mise au point à une position qui sera un bon point de départ.</para>
 
     <para
@@ -695,7 +695,7 @@
         <para
 ><guilabel
 >Masque annulaire</guilabel
-> : cette option fournit deux champs d'entrée qui définissent une surface en forme de beignet recouvrant le champ de vue (CdV) de l'appareil. Les étoiles en dehors de cette région ne sont pas prise en compte dans le traitement. En réglant la valeur intérieure au dessus de 0 %, les étoiles au centre du CdV sont rejetées. Cela peut être utile pour éviter d'utiliser des étoiles de la cible de l'image (par exemple une galaxie) pour la procédure de mise au point. En réglant la valeur extérieure sous 100 %, les étoiles se trouvant sur les bords du CdV sont rejetées. Cela peut être utile si vous ne disposez pas d'une image flat allant jusqu'aux coins du CdV.</para>
+> : cette option fournit deux champs d'entrée qui définissent une surface en forme de beignet recouvrant le champ de vue (CDV) de l'appareil. Les étoiles en dehors de cette région ne sont pas prise en compte dans le traitement. En réglant la valeur intérieure au dessus de 0 %, les étoiles au centre du CDV sont rejetées. Cela peut être utile pour éviter d'utiliser des étoiles de la cible de l'image (par exemple une galaxie) pour la procédure de mise au point. En réglant la valeur extérieure sous 100 %, les étoiles se trouvant sur les bords du CDV sont rejetées. Cela peut être utile si vous ne disposez pas d'une image à plat allant jusqu'aux coins du CDV.</para>
       </listitem>
 
       <listitem>
@@ -838,7 +838,7 @@
             <para
 ><emphasis role="bold"
 >SEP</emphasis
-> : la bibliothèque intégrée d'extraction de source et de photométrie (Source Extraction and Photometry). C'est la valeur par défaut.</para>
+> : la bibliothèque intégrée d'extraction de source et de photométrie. C'est la valeur par défaut.</para>
           </listitem>
 
           <listitem>
@@ -876,10 +876,10 @@
       <listitem>
         <para
 ><guilabel
->Profile SEP</guilabel
+>Profil « SEP »</guilabel
 > : si l'algorithme de détection d'étoiles est réglé à <emphasis
 >SEP</emphasis
->, il faut ensuite choisir un paramètre de profil pour l'utilisation de l'algorithme. Il est recommandé d'utiliser le profile par défaut 1-Focus-Default comme point de départ.</para>
+>, il faut ensuite choisir un paramètre de profil pour l'utilisation de l'algorithme. Il est recommandé d'utiliser le profile par défaut « 1-Focus-Default » comme point de départ.</para>
       </listitem>
 
       <listitem>
@@ -997,7 +997,7 @@
 > : cette fonctionnalité utilise un calcul ajusté du HFR qui tient compte du fait que le HFR des étoiles plus lumineuses est plus large que pour les étoiles peu lumineuses.</para>
 
             <para
->L'algorithme ajuste la valuer du HFR mesuré, généralement vers le haut, de telle sorte que le HFR obtenu par cette méthode est plus grand que les valeurs HFR mesurées. Cela ne signifie pas que vous obtenez de moins bons résultats avec cette méthode mais simplement que la mesure est différente.</para>
+>L'algorithme ajuste la valeur du HFR mesuré, généralement vers le haut, de telle sorte que le HFR obtenu par cette méthode est plus grand que les valeurs HFR mesurées. Cela ne signifie pas que vous obtenez de moins bons résultats avec cette méthode mais simplement que la mesure est différente.</para>
 
             <para
 >Avec cette mesure, il est courant d'obtenir des barres d'erreur plus petites pour l'ensemble de données quand <guilabel
@@ -1361,7 +1361,7 @@
 >Jeu du pilote</guilabel
 > pour que ce soit le pilote du périphérique qui gère le jeu. Veuillez noter que ce champ n'est modifiable que pour les pilotes gérant le jeu.</para>
         <para
->Ce champ est le même que celui affiché dans le tableau de bord Indi du moteur de mise au point. Il peut être réglé aux deux endroits.</para>
+>Ce champ est le même que celui affiché dans le tableau de bord « INDI » du moteur de mise au point. Il peut être réglé aux deux endroits.</para>
       </listitem>
     </itemizedlist>
   </listitem>
@@ -1476,7 +1476,7 @@
         <para
 ><emphasis role="bold"
 >Classique</emphasis
-> : c'est le réglage recommandé. L'équation utilisée est affichée en haut à droite du panneau et est l'équation la plus utilisée sur l'Internet. Elle provient d'un traitement d'optique linéaire qui utilise un disque d'Airy et est connue pour avoir quelques limitations. Elle inclut pour cette raison un facteur de tolérance qui peut être ajusté par l'opérateur. Par exemple dans l'article souvent cité « In perfect Focus » par Don Goldman et Barry Megdal paru dans Sky &amp; Telescope 2010, ils suggèrent d'utiliser t=1/3.</para>
+> : c'est le réglage recommandé. L'équation utilisée est affichée en haut à droite du panneau et est l'équation la plus utilisée sur Internet. Elle provient d'un traitement d'optique linéaire qui utilise un disque de Airy et est connue pour avoir quelques limitations. Elle inclut pour cette raison un facteur de tolérance qui peut être ajusté par l'opérateur. Par exemple dans l'article souvent cité « In perfect Focus » par Don Goldman et Barry Megdal paru dans Sky &amp; Telescope 2010, ils suggèrent d'utiliser t = 1 / 3.</para>
       </listitem>
 
       <listitem>
@@ -1539,8 +1539,8 @@
     <para
 ><guilabel
 >Tolérance (τ)</guilabel
-> : cette valeur est utilisée pour l'algorithme Gold et est une tolérance de la mise au point exprimée comme un pourcentage de la qualité totale du ciel (seeing). Le site web de Gold suggère une valeur de 3 à 5 % pour un bon moteur de mise au point et 1 à 2 % pour les meilleurs moteurs. Pour davantage d'informations, veuillez consulter le <ulink url="http://www.goldastro.com/goldfocus/ncfz.php"
->site web de Gold Astro</ulink
+> : cette valeur est utilisée pour l'algorithme « Gold » et est une tolérance de la mise au point exprimée comme un pourcentage de la qualité totale du ciel (seeing). Le site Internet de « Gold » suggère une valeur de 3 à 5 % pour un bon moteur de mise au point et 1 à 2 % pour les meilleurs moteurs. Pour davantage d'informations, veuillez consulter le <ulink url="http://www.goldastro.com/goldfocus/ncfz.php"
+>site Internet de Gold Astro</ulink
 >.</para>
   </listitem>
 
@@ -1585,8 +1585,8 @@
     <para
 ><guilabel
 >FWHM (θ)</guilabel
-> : cette valeur est utilisée par l'algorithme Gold et est la qualité totale du ciel (seeing). C'est la contribution combinée de la limite de diffraction de votre télescope et de la qualité astronomique du ciel (seeing). Le <ulink url="http://www.goldastro.com/goldfocus/ncfz.php"
->site web de Gold Astro</ulink
+> : cette valeur est utilisée par l'algorithme « Gold » et est la qualité totale du ciel (seeing). C'est la contribution combinée de la limite de diffraction de votre télescope et de la qualité astronomique du ciel (seeing). Le <ulink url="http://www.goldastro.com/goldfocus/ncfz.php"
+>site Internet de Gold Astro</ulink
 > décrit la manière d'approximer ce total une fois les contributions individuelles obtenues.</para>
   </listitem>
 
@@ -1920,7 +1920,7 @@
           <listitem>
           <para
 ><guilabel
->Acquisition des flats à la même mise au point que les brutes</guilabel
+>Acquisition des à-plats à la même mise au point que les brutes</guilabel
 > : en cochant cette case, les flats seront acquis à la position du moteur de mise au point de la <guilabel
 >Dernière solution de mise au point automatique</guilabel
 >.</para>
@@ -2548,7 +2548,7 @@
 >Il est important de suivre une stratégie claire pour gérer le jeu et pour configurer la mise au point judicieusement. Il est préférable de gérer le jeu à un seul endroit pour éviter les conflits. Bien qu'il soit possible de gérer le jeu à de multiples endroits (cela a déjà été fait avec succès), ce n'est pas recommandé en général parce que cela peut conduire à des conflits entre les composantes du logiciel et le moteur de mise au point.</para>
 
     <para
->Il existe plusieurs manières de mesurer le jeu en pas. Veuillez consulter la documentation de votre moteur de mise au point ou utiliser les ressources d'Internet, le forum d'Indi inclus.</para>
+>Il existe plusieurs manières de mesurer le jeu en pas. Veuillez consulter la documentation de votre moteur de mise au point ou utiliser les ressources d'Internet, le forum de INDI inclus.</para>
 
     <para
 >Il y a plusieurs points à considérer quand il s'agit de gérer le jeu : <itemizedlist>
@@ -2613,7 +2613,7 @@
         <para
 >Tous les mouvements du moteur gérés par le module de mise au point auront le <guilabel
 >Balayage de mise au point</guilabel
-> appliqué, ce qui inclus le mouvement extérieur, la fonction Goto, les processus de mise au point automatique, les mouvements d'adaptation de la position initiale et l'acquisition de flats à la même position que les brutes.</para>
+> appliqué, ce qui inclus le mouvement extérieur, la fonction « Aller à », les processus de mise au point automatique, les mouvements d'adaptation de la position initiale et l'acquisition de à-plats à la même position que les brutes.</para>
       </listitem>
     </itemizedlist>
     </para>
@@ -2679,14 +2679,14 @@
 >Pas / °C</guilabel
 > et/ou <guilabel
 >Pas / °Alt</guilabel
-> de votre équipement. Pour ce faire il existe un utilitaire dans Ekos qui permet d'enregistrer les données de mises au point et les messages liés pour chaque processus de mise au point automatique. Cette information est écrite dans un fichier texte qui se trouve dans un dossier nommé focuslogs au même emplacement que le dossier des fichiers journaux de débogage. Ces fichiers sont nommés autofocus-(datetime).txt. Les données écrites sont la date, l'heure, la position, la température, le filtre, le HFR et l'altitude. Ces données devront être analysées séparément de Ekos afin de déterminer la valeur de <guilabel
+> de votre équipement. Pour ce faire il existe un utilitaire dans Ekos qui permet d'enregistrer les données de mises au point et les messages liés pour chaque processus de mise au point automatique. Cette information est écrite dans un fichier texte qui se trouve dans un dossier nommé « focuslogs » au même emplacement que le dossier des fichiers journaux de débogage. Ces fichiers sont nommés « autofocus-(datetime).txt ». Les données écrites sont la date, l'heure, la position, la température, le filtre, le HFR et l'altitude. Ces données devront être analysées séparément de Ekos afin de déterminer la valeur de <guilabel
 >Pas / °C</guilabel
 > et si requis celle de <guilabel
 >Pas / °Alt</guilabel
 >.</para>
 
     <para
->Voici un exemple d'un fichier autofocus-(datetime).txt : <screenshot>
+>Voici un exemple d'un fichier « autofocus-(datetime).txt » : <screenshot>
       <screeninfo
 >Fichier journal de mise au point automatique </screeninfo>
       <mediaobject
@@ -3204,7 +3204,7 @@
     <para
 >Le graphique 3D affiche le capteur incliné selon les <link linkend="aberration-inspector-results"
 >résultats de l'Inspecteur d'aberration</link
->. Pour faciliter la visualisation de la surface de Petzval (voir <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
+>. Pour faciliter l'affichage de la surface de Petzval (Veuillez consulter la page <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
 >Petzval Field Curvature</ulink
 > pour davantage de détails) de la lumière provenant du télescope sur le capteur, la surface du capteur est également modélisée. Plus l'erreur de backfocus est importante et plus la surface de Petzval sera courbée.</para>
 
