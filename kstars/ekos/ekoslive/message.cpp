@@ -454,6 +454,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
             QTemporaryFile file;
             if (file.open())
             {
+                file.setAutoRemove(false);
                 path = file.fileName();
                 file.write(payload["filedata"].toString().toUtf8());
                 file.close();
@@ -463,7 +464,15 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
             path = payload["filepath"].toString();
 
         if (!path.isEmpty())
-            capture->loadSequenceQueue(path);
+        {
+            auto result = capture->loadSequenceQueue(path);
+            QJsonObject response =
+            {
+                {"result", result},
+                {"path", path}
+            };
+            sendResponse(commands[CAPTURE_LOAD_SEQUENCE_FILE], response);
+        }
     }
     else if (command == commands[CAPTURE_GET_ALL_SETTINGS])
     {
@@ -916,6 +925,7 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
             QTemporaryFile file;
             if (file.open())
             {
+                file.setAutoRemove(false);
                 path = file.fileName();
                 file.write(payload["filedata"].toString().toUtf8());
                 file.close();
@@ -925,7 +935,15 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
             path = payload["filepath"].toString();
 
         if (!path.isEmpty())
-            scheduler->loadFile(QUrl::fromLocalFile(path));
+        {
+            auto result = scheduler->loadFile(QUrl::fromLocalFile(path));
+            QJsonObject response =
+            {
+                {"result", result},
+                {"path", path}
+            };
+            sendResponse(commands[SCHEDULER_LOAD_FILE], response);
+        }
     }
     else if(command == commands[SCHEDULER_START_JOB])
     {
