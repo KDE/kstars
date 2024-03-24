@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-21 01:37+0000\n"
+"POT-Creation-Date: 2024-03-24 01:36+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -112,7 +112,7 @@ msgid "Ecliptic"
 msgstr "الخط الكسوفي"
 
 #: auxiliary/colorscheme.cpp:44 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:309
+#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "الافق"
@@ -4637,13 +4637,13 @@ msgid "Edit FOV Symbols"
 msgstr "حرّر رموز حقل الرؤية"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:54 dialogs/viewsdialog.ui:65
+#: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
 msgstr "اضف رمزاً جديداً لحقل رؤية"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
-#: dialogs/fovdialog.ui:57 dialogs/viewsdialog.ui:68
+#: dialogs/fovdialog.ui:57
 #, kde-format
 msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
@@ -4657,13 +4657,13 @@ msgid "New..."
 msgstr "جديد..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:83 dialogs/viewsdialog.ui:94
+#: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
 msgstr "عدّل رمز حقل الرؤية المحدد"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
-#: dialogs/fovdialog.ui:86 dialogs/viewsdialog.ui:97
+#: dialogs/fovdialog.ui:86
 #, kde-format
 msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
@@ -4672,13 +4672,13 @@ msgstr ""
 "اضغط هذا الزر لتعديل رمز حقل الرؤية المحدد. تستطيع تعديل حجمه وشكله ولونه."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:96 dialogs/viewsdialog.ui:107
+#: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
 msgstr "احذف رمز حقل الرؤية المحدد"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
-#: dialogs/fovdialog.ui:99 dialogs/viewsdialog.ui:110
+#: dialogs/fovdialog.ui:99
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr "اضغط هذا الزر لحذف رمز حقل الرؤية المحدد من القائمة."
@@ -5750,6 +5750,57 @@ msgstr ""
 #, kde-format
 msgid "Edit Sky Map Views"
 msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:65
+#, fuzzy, kde-format
+msgid "Add a new view"
+msgstr "تحديث"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
+#: dialogs/viewsdialog.ui:68
+#, fuzzy, kde-format
+#| msgid ""
+#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
+#| "size, shape, and color of the new symbol."
+msgid ""
+"Add a new View to the list.  You can define the parity, orientation and "
+"other parameters."
+msgstr "اضف رمزاً جديداً لحقل رؤية. باستطاعتك تحديد حجم وشكل ولون الرمز الجديد."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:94
+#, fuzzy, kde-format
+#| msgid "Modify the highlighted FOV symbol"
+msgid "Modify the highlighted View"
+msgstr "عدّل رمز حقل الرؤية المحدد"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
+#: dialogs/viewsdialog.ui:97
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to modify the highlighted FOV symbol.  You can change "
+#| "its size, shape and color."
+msgid ""
+"Press this button to modify the highlighted View.  You can change its "
+"parameters."
+msgstr ""
+"اضغط هذا الزر لتعديل رمز حقل الرؤية المحدد. تستطيع تعديل حجمه وشكله ولونه."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:107
+#, fuzzy, kde-format
+#| msgid "Remove highlighted FOV symbol"
+msgid "Remove highlighted View"
+msgstr "احذف رمز حقل الرؤية المحدد"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
+#: dialogs/viewsdialog.ui:110
+#, fuzzy, kde-format
+#| msgid ""
+#| "Press this button to remove the highlighted FOV symbol from the list."
+msgid "Press this button to remove the highlighted View from the list."
+msgstr "اضغط هذا الزر لحذف رمز حقل الرؤية المحدد من القائمة."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -16902,7 +16953,7 @@ msgstr "متصل"
 msgid "Offline"
 msgstr "غير متّصل"
 
-#: ekos/ekoslive/message.cpp:939
+#: ekos/ekoslive/message.cpp:957
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -88412,10 +88463,6 @@ msgstr "الـ اللّون لـ الخلفية."
 #~| msgid "No FOV"
 #~ msgid ", FOV: "
 #~ msgstr "بدون رمز للرؤية"
-
-#, fuzzy
-#~ msgid "Update view"
-#~ msgstr "تحديث"
 
 #, fuzzy
 #~ msgid "If true, update view."

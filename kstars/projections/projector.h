@@ -215,6 +215,9 @@ class Projector
          * The latter is determined by constructing a test point with the same RA but
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecting the object to its test point.
+         *
+         * @note This method assumes that o->pa() returns a clockwise sense angle
+         * @fixme We seem to use different conventions across KStars
          */
         double findNorthPA(const SkyPoint *o, float x, float y) const;
 

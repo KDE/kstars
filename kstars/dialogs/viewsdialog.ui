@@ -62,10 +62,10 @@
      <item>
       <widget class="QPushButton" name="NewButton">
        <property name="toolTip">
-        <string>Add a new FOV symbol</string>
+        <string>Add a new view</string>
        </property>
        <property name="whatsThis">
-        <string>Add a new field-of-view (FOV) symbol to the list.  You can define the size, shape, and color of the new symbol.</string>
+        <string>Add a new View to the list.  You can define the parity, orientation and other parameters.</string>
        </property>
        <property name="text">
         <string>New...</string>
@@ -91,10 +91,10 @@
      <item>
       <widget class="QPushButton" name="EditButton">
        <property name="toolTip">
-        <string>Modify the highlighted FOV symbol</string>
+        <string>Modify the highlighted View</string>
        </property>
        <property name="whatsThis">
-        <string>Press this button to modify the highlighted FOV symbol.  You can change its size, shape and color.</string>
+        <string>Press this button to modify the highlighted View.  You can change its parameters.</string>
        </property>
        <property name="text">
         <string>Edit...</string>
@@ -104,10 +104,10 @@
      <item>
       <widget class="QPushButton" name="RemoveButton">
        <property name="toolTip">
-        <string>Remove highlighted FOV symbol</string>
+        <string>Remove highlighted View</string>
        </property>
        <property name="whatsThis">
-        <string>Press this button to remove the highlighted FOV symbol from the list.</string>
+        <string>Press this button to remove the highlighted View from the list.</string>
        </property>
        <property name="text">
         <string>Remove</string>

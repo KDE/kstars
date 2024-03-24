@@ -233,12 +233,16 @@ bool Projector::checkVisibility(const SkyPoint *p) const
     return dX < m_xrange;
 }
 
-// FIXME: There should be a MUCH more efficient way to do this (see EyepieceField for example)
 double Projector::findNorthPA(const SkyPoint *o, float x, float y) const
 {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
     //this is 5730/zoomFactor degrees
+
+    // N.B. It is not sufficient to find the angle at the center of
+    // the screen, and the angle of the NCP can vary drastically
+    // across the screen (e.g. when pointed towards the NCP)
+
     KStarsData *data = KStarsData::Instance();
     double newDec    = o->dec().Degrees() + 5730.0 / m_vp.zoomFactor;
     if (newDec > 90.0)
@@ -266,15 +270,19 @@ double Projector::findNorthPA(const SkyPoint *o, float x, float y) const
 
 double Projector::findPA(const SkyObject *o, float x, float y) const
 {
-    return (findNorthPA(o, x, y) + o->pa());
+    return (findNorthPA(o, x, y) + (m_vp.mirror ? -o->pa() : o->pa()));
 }
 
-// FIXME: There should be a MUCH more efficient way to do this (see EyepieceField for example)
 double Projector::findZenithPA(const SkyPoint *o, float x, float y) const
 {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
     //this is 5730/zoomFactor degrees
+
+    // N.B. It is not sufficient to find the angle at the center of
+    // the screen, and the angle of the zenith can vary drastically
+    // across the screen (e.g. when pointed towards the zenith)
+
     KStarsData *data = KStarsData::Instance();
     double newAlt    = o->alt().Degrees() + 5730.0 / m_vp.zoomFactor;
     if (newAlt > 90.0)
