@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-23 01:36+0000\n"
+"POT-Creation-Date: 2024-03-24 01:36+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -16572,7 +16572,7 @@ msgstr "Bereken"
 msgid "Offline"
 msgstr "Bereken"
 
-#: ekos/ekoslive/message.cpp:939
+#: ekos/ekoslive/message.cpp:957
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Stooring van die beeld %1 gevaal!"

@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-23 01:36+0000\n"
-"PO-Revision-Date: 2024-03-20 12:48+0100\n"
+"POT-Creation-Date: 2024-03-24 01:36+0000\n"
+"PO-Revision-Date: 2024-03-23 11:55+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -841,15 +841,14 @@ msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "SCT con diagonal hacia arriba"
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgid "Dobsonian"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "De Dobson"
+msgstr "Típica de Dobson"
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -5588,7 +5587,7 @@ msgstr "Añadir/editar vista"
 #: dialogs/newview.ui:29
 #, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr ""
+msgstr "Buscador RACI 9x50 en Dobson"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
@@ -5616,24 +5615,29 @@ msgid ""
 "**Note:** Choose mount type \"Altazimuth\" when visually observing through "
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
+"**Nota:** Escoja el tipo de montura «Altacimutal» cuando observe "
+"directamente en SCT/refractores, sin tener en cuenta la montura real."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
 #, kde-format
 msgid "Correct (e.g. RACI finder or refractor with Amici roof prism)"
 msgstr ""
+"Corregir (por ejemplo, buscador RACI o refractor con prisma de techo de "
+"Amici)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, mirroredViewType)
 #: dialogs/newview.ui:115
 #, kde-format
 msgid "Mirrored (e.g. Cassegrain or refractor with erecting prism)"
-msgstr ""
+msgstr "Reflejada (por ejemplo, Cassegrain o refractor con prisma erector)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedViewType)
 #: dialogs/newview.ui:122
 #, kde-format
 msgid "Inverted (e.g. straight through finder, Newtonian)"
 msgstr ""
+"Invertida (por ejemplo, directamente a través del buscador, newtoniano)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
@@ -5678,18 +5682,21 @@ msgid ""
 "The human silhouette indicates on which side of the telescope the observer "
 "is assumed to stand."
 msgstr ""
+"La silueta humana indica el lado del telescopio donde se supone que está el "
+"observador."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/newview.ui:259
 #, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
 msgstr ""
+"(La vista previa muestra la vista de la parte inferior de un tubo newtoniano)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
 #, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr ""
+msgstr "(La vista previa muestra la vista de la parte trasera de un SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
@@ -5698,6 +5705,8 @@ msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
+"Visor montado en el telescopio (marque esto también si usa una cámara en "
+"lugar de observar directamente)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
@@ -5771,60 +5780,47 @@ msgstr "Editar vistas del mapa del cielo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Add / Edit View"
+#, kde-format
 msgid "Add a new view"
-msgstr "Añadir/editar vista"
+msgstr "Añadir una nueva vista"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Añadir un nuevo símbolo para el campo visual a la lista. Puede definir el "
-"tamaño, forma, y color del nuevo símbolo."
+"Añadir una nueva vista a la lista. Puede definir la paridad, la orientación "
+"y otros parámetros."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Modificar el símbolo del campo visual resaltado"
+msgstr "Modificar la vista seleccionada"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Pulse este botón para modificar el símbolo de campo visual resaltado. Puede "
-"cambiar su tamaño, forma y color."
+"Pulse este botón para modificar la vista seleccionada. Puede cambiar sus "
+"parámetros."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Eliminar símbolo de campo visual resaltado"
+msgstr "Eliminar la vista seleccionada"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr ""
-"Pulse este botón para eliminar el símbolo de campo visual resaltado de la "
-"lista."
+msgstr "Pulse este botón para eliminar la vista seleccionada de la lista."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -17636,7 +17632,7 @@ msgstr "Con conexión"
 msgid "Offline"
 msgstr "Sin conexión"
 
-#: ekos/ekoslive/message.cpp:939
+#: ekos/ekoslive/message.cpp:957
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."
@@ -19862,10 +19858,9 @@ msgstr "Múltiplo de pasos de salida:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Tamaño del paso:"
+msgstr "Tamaño de paso máximo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -19886,10 +19881,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Sobreexploración de AF:"
+msgstr "Demora de sobreexploración de AF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
@@ -28484,17 +28478,14 @@ msgid "Ekos job failed (%1)"
 msgstr "Trabajo de Ekos fallido (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "DarkFlat"
 msgstr "Plano oscuro"
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Images"
+#, kde-format
 msgid "images"
-msgstr "Imágenes"
+msgstr "imágenes"
 
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
@@ -29920,12 +29911,9 @@ msgstr ""
 "de cerrarlo?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "FITS Viewer Solver Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr ""
-"Editor de perfiles de opciones de alineación del sistema de identificación "
-"del visor FITS"
+msgstr "Editor de perfiles del sistema de identificación del visor FITS"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -30823,8 +30811,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr "Selecciona el perfil de opciones a a usar para resolver placas"
 
@@ -30839,13 +30826,9 @@ msgstr "Selecciona el perfil de opciones a a usar para resolver placas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Align Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
-msgstr ""
-"Abre el perfil de alineación seleccionado en el editor de perfiles de "
-"opciones"
+msgstr "Abre el perfil de seleccionado en el editor de perfiles de opciones"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -35059,13 +35042,7 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:816
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable this if you are using your eye at the eyepiece in an altazimuth "
-#| "mounted Newtonian telescope. This accounts for the fact that the observer "
-#| "stands erect as the telescope moves up and down, so that the orientation "
-#| "of the sky map will track what is seen in your eyepiece once it is set up "
-#| "correctly."
+#, kde-format
 msgid ""
 "Enable this if you are using your eye at the eyepiece in an altazimuth "
 "mounted Newtonian telescope. This accounts for the fact that the observer "
@@ -35079,22 +35056,21 @@ msgstr ""
 "en una montura altacimutal. Esto tiene en cuenta el hecho de que el "
 "observador permanece erguido mientras el telescopio se mueve hacia arriba y "
 "hacia abajo, de modo que la orientación del mapa del cielo seguirá lo que se "
-"ve en el ocular una vez que esté configurado correctamente."
+"ve en el ocular una vez que esté configurado correctamente. Escoja la "
+"lateralidad de la corrección según el lado del telescopio en el que aparece "
+"el ocular cuando se mira desde la parte posterior del telescopio."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:822
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
-msgstr "I&zquierda"
+msgstr "Izquierda"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:825
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "Luz"
+msgstr "Derecha"
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:831
@@ -37627,13 +37603,13 @@ msgstr "Calcular la posición después de las capturas."
 #: kstars.kcfg:1964
 #, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr ""
+msgstr "ID del tren óptico usado más recientemente para capturar."
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:1967
 #, kde-format
 msgid "Go to specific coordinates on calibration."
-msgstr ""
+msgstr "Ir a coordenadas específicas durante la calibración."
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkMount), group (Capture)
 #: kstars.kcfg:1971
@@ -69374,10 +69350,9 @@ msgid "&FOV Symbols"
 msgstr "Símbolos de campos &visuales"
 
 #: kstarsinit.cpp:382
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "&Ver"
+msgstr "&Vistas"
 
 #: kstarsinit.cpp:390
 #, kde-format
@@ -69876,12 +69851,10 @@ msgstr ""
 "la orientación es arbitraria."
 
 #: kstarsinit.cpp:761
-#, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "No projection"
+#, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr "Ninguna proyección"
+msgstr "Sin corrección"
 
 #: kstarsinit.cpp:765
 #, kde-format
@@ -69968,20 +69941,15 @@ msgstr ""
 "Por lo general, tiene sentido combinar esto con la orientación «Cenit abajo»."
 
 #: kstarsinit.cpp:809
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Orientation of the sky map is arbitrary as it has been adjusted by the "
-#| "user"
-#| msgid "Arbitrary"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Arbitraria"
 
 #: kstarsinit.cpp:812
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Editar enlace..."
+msgstr "Editar vistas..."
 
 #: kstarsinit.cpp:839
 #, kde-format

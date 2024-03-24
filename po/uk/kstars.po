@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-23 01:36+0000\n"
-"PO-Revision-Date: 2024-03-21 08:01+0200\n"
+"POT-Creation-Date: 2024-03-24 01:36+0000\n"
+"PO-Revision-Date: 2024-03-23 08:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5752,60 +5752,47 @@ msgstr "Редагування переглядів карти неба"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Add / Edit View"
+#, kde-format
 msgid "Add a new view"
-msgstr "Додати/Редагувати перегляд"
+msgstr "Додати новий перегляд"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Додати нову рамку поля зору до списку. Ви можете визначити розмір, форму та "
-"колір нової рамки."
+"Додати новий перегляд до списку. Ви можете визначити парність, орієнтацію та "
+"інші параметри."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Редагувати підсвічену рамку поля зору"
+msgstr "Редагувати підсвічений перегляд"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Натисніть цю кнопку, щоб змінити підсвічену рамку поля зору. Ви можете "
-"змінити розмір, форму та колір."
+"Натисніть цю кнопку, щоб змінити підсвічений перегляд. Ви можете змінити "
+"його параметри."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Вилучити підсвічену рамку поля зору"
+msgstr "Вилучити підсвічений перегляд"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr ""
-"Натисніть кнопку, щоб вилучити вибрану рамку поля зору (field-of-view, FOV) "
-"зі списку."
+msgstr "Натисніть кнопку, щоб вилучити вибраний перегляд зі списку."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -17600,7 +17587,7 @@ msgstr "Інтернет"
 msgid "Offline"
 msgstr "Локальний"
 
-#: ekos/ekoslive/message.cpp:939
+#: ekos/ekoslive/message.cpp:957
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Не вдалося імпортувати мозаїку."
