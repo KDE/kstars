@@ -114,7 +114,7 @@ void RotatorSettings::initRotator(const QString &train, Ekos::CaptureDeviceAdapt
     // Give getState() a second
     QTimer::singleShot(1000, [ = ]
     {
-        if (m_CaptureDA->getRotatorAngleState() == IPS_OK)
+        if (m_CaptureDA->getRotatorAngleState() < IPS_BUSY)
         {
             double RAngle = m_CaptureDA->getRotatorAngle();
             updateRotator(RAngle);
