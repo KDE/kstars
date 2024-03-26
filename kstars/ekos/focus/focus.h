@@ -766,7 +766,10 @@ class Focus : public QWidget, public Ui::Focus
         void resetCFZToOT();
 
         // Setup the Focus Advisor recommendations
-        void focusAdvisorSetup();
+        void focusAdvisorSetup(const QString OTName);
+
+        // Look at similar Optical Trains to get parameters
+        QVariantMap focusAdvisorOTDefaults(const QString OTName);
 
         // Update parameters based on Focus Advisor recommendations
         void focusAdvisorAction(bool forceAll);
@@ -840,6 +843,13 @@ class Focus : public QWidget, public Ui::Focus
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
+
+        /**
+         * @brief set member valiables for the scope attached to the current Optical Train
+         * @param Optical Train scope parameters
+         * @param Optical Train reducer
+         */
+        void setScopeDetails(const QJsonObject &scope, const double reducer);
 
         /**
          * @brief handleFocusMotionTimeout When focuser is command to go to a target position, we expect to receive a notification
@@ -1243,48 +1253,10 @@ class Focus : public QWidget, public Ui::Focus
         // Focus Advisor popup
         std::unique_ptr<Ui::focusAdvisorDialog> m_AdvisorUI;
         QPointer<QDialog> m_AdvisorDialog;
+        QVariantMap m_AdvisorMap;
 
         // CFZ
         double m_cfzSteps = 0.0f;
-
-        // Focus Advisor
-        // Camera
-        double FAExposure = 0.0f;
-        QString FABinning;
-
-        // Settings tab
-        bool FAAutoSelectStar = true;
-        bool FAFullFrame = true;
-        bool FADarkFrame = false;
-        double FAFullFieldInnerRadius = 0.0;
-        double FAFullFieldOuterRadius = 80.0;
-        bool FAAdaptiveFocus = false;
-        bool FAAdaptStartPos = false;
-
-        // Process tab
-        StarAlgorithm FAFocusDetection = ALGORITHM_SEP;
-        QString FAFocusSEPProfile;
-        Algorithm FAFocusAlgorithm = FOCUS_LINEAR1PASS;
-        CurveFitting::CurveFit FACurveFit = CurveFitting::FOCUS_HYPERBOLA;
-        StarMeasure FAStarMeasure = FOCUS_STAR_HFR;
-        bool FAUseWeights = true;
-        double FAFocusR2Limit = 0.8;
-        bool FAFocusRefineCurveFit = false;
-        int FAFocusFramesCount = 1;
-        int FAFocusHFRFramesCount = 1;
-        bool FADonutBuster = false;
-        double FATimeDilation = 1.0;
-        double FAOutlierRejection = 0.2;
-        bool FAScanForStartPosition = false;
-
-        // Mechanics tab
-        FocusWalk FAFocusWalk = FOCUS_WALK_CLASSIC;
-        double FAFocusSettleTime = 1.0;
-        int FAFocusNumSteps = 11;
-        double FAFocusMaxTravel = 0;
-        int FAFocusCaptureTimeout = 30;
-        int FAFocusMotionTimeout = 30;
-        double FAFocusOverscanDelay = 0.0;
 
         // Aberration Inspector
         void calculateAbInsData();

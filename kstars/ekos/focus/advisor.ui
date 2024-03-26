@@ -175,7 +175,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Step size can be defaulted to the Critical Focus Zone. Make sure you configure the CFZ tab to give an appropriate value for your system.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Step size can be defaulted to the Critical Focus Zone..&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Step Size:</string>

@@ -177,9 +177,9 @@ void AdaptiveFocus::runAdaptiveFocus(const int currentPosition, const QString &f
             QString tempStr = QString("%1").arg(m_ThisAdaptiveFocusTempTicks, 0, 'f', 1);
             QString altStr = QString("%1").arg(m_ThisAdaptiveFocusAltTicks, 0, 'f', 1);
             QString text = i18n("Adaptive Focus: Moving from %1 to %2 (TempΔ %3", currentPosition, proposedPosition, tempStr);
-            text = (!altDimension) ? text + i18n("") : text + i18n("; AltΔ %1", altStr);
-            text = (m_LastAdaptiveFocusPosErrorReversal == 0) ? text + i18n(")") : text + i18n("; Pos Error %1)",
-                    m_LastAdaptiveFocusPosErrorReversal);
+            if (altDimension)
+                text += i18n("; AltΔ %1", altStr);
+            text += (m_LastAdaptiveFocusPosErrorReversal == 0) ? ")" : i18n("; Pos Error %1)", m_LastAdaptiveFocusPosErrorReversal);
             m_focus->appendLogText(text);
 
             // Go ahead and try to move the focuser. Admin tasks will be completed when the focuser move completes

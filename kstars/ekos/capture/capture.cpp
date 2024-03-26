@@ -4044,7 +4044,7 @@ void Capture::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -4058,7 +4058,7 @@ void Capture::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -4072,7 +4072,7 @@ void Capture::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4086,7 +4086,7 @@ void Capture::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
     }
 
     // All Checkable Groupboxes
@@ -4102,7 +4102,7 @@ void Capture::loadGlobalSettings()
                 settings[key] = value;
             }
             else
-                qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
         }
     }
 
