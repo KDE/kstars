@@ -452,6 +452,8 @@ bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
         float sizemin = 1.0;
         if (planet->name() == i18n("Sun") || planet->name() == i18n("Moon"))
             sizemin = 8.0;
+        if (planet->name() == i18n("Sun")) size = size * Options::sunScale();
+        if (planet->name() == i18n("Moon")) size = size * Options::moonScale();
 
         if (size < sizemin)
             size = sizemin;
