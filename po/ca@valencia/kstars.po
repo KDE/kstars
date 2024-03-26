@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-25 01:58+0000\n"
-"PO-Revision-Date: 2024-03-24 03:55+0100\n"
+"POT-Creation-Date: 2024-03-26 01:58+0000\n"
+"PO-Revision-Date: 2024-03-25 22:54+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -32111,7 +32111,7 @@ msgstr "No s'ha pogut escriure la imatge"
 #: indi/indicamera.cpp:759
 #, kde-format
 msgid "%1 file saved to %2"
-msgstr "El fitxer %1 s'ha guardat a %2"
+msgstr "El fitxer %1 s'ha guardat en %2"
 
 #: indi/indicamera.cpp:766
 #, kde-format
@@ -35067,7 +35067,7 @@ msgstr "Establix si es dibuixarà o no el Sol en el mapa celeste."
 #: kstars.kcfg:656
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Augmenta la mida del Sol segons este factor."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:660
@@ -35085,7 +35085,7 @@ msgstr "Establix si es dibuixarà o no la Lluna en el mapa celeste."
 #: kstars.kcfg:665
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Augmenta la mida de la Lluna segons este factor."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:669
@@ -37059,7 +37059,7 @@ msgstr ""
 "correccions de precessió, nutació i aberració) cada vegada que es redibuixe "
 "el mapa. Açò alentix el processat, sobretot quan hi ha moltes estreles que "
 "s'han de manipular, però és més probable que estiga lliure d'errors. Quan "
-"s'evita este recàlcul hi haurà errors coneguts en la presentació de les "
+"s'evita este recàlcul hi haurà errors coneguts en la renderització de les "
 "estreles."
 
 #. i18n: ectx: label, entry (DefaultDSSImageSize), group (General)
@@ -40417,7 +40417,7 @@ msgstr "Títol del catàleg d'origen de HiPS."
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr ""
-"Voleu que s'utilitze interpolació bilineal quan es representen les imatges "
+"Voleu que s'utilitze interpolació bilineal quan es renderitzen les imatges "
 "de HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
@@ -40560,7 +40560,7 @@ msgstr "Píxels suavitzats del terreny."
 #: kstars.kcfg:3357
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
-msgstr "Píxels suavitzats per a una representació més agradable però lenta."
+msgstr "Píxels suavitzats per a una renderització més agradable però lenta."
 
 #. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3363
@@ -76142,7 +76142,7 @@ msgstr ""
 "correccions de precessió, nutació i aberració) cada vegada que es redibuixa "
 "el mapa. Açò alentix el processat, sobretot quan hi ha moltes estreles per a "
 "manipular, però és més probable que estiga lliure d'errors. Hi ha errors "
-"coneguts en la presentació de les estreles quan s'evita este recàlcul."
+"coneguts en la renderització de les estreles quan s'evita este recàlcul."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageryGroupBox)
 #: options/opsadvanced.ui:101
@@ -77781,22 +77781,21 @@ msgstr "Si se selecciona, es dibuixarà el Sol en el mapa."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Utilitza l'escala"
+msgstr "Escala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "L'escala de renderització del Sol."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Augmenta la mida del Sol segons este factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -77826,13 +77825,13 @@ msgstr "Si se selecciona, es dibuixarà la Lluna en el mapa."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "L'escala de renderització de la Lluna."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Augmenta la mida de la Lluna segons este factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
@@ -87198,9 +87197,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "The sun"
-#~ msgstr "El Sol"
-
-#~ msgid "The moon"
-#~ msgstr "La Lluna"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-25 01:58+0000\n"
-"PO-Revision-Date: 2024-03-23 08:43+0200\n"
+"POT-Creation-Date: 2024-03-26 01:58+0000\n"
+"PO-Revision-Date: 2024-03-25 17:50+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -34486,7 +34486,7 @@ msgstr "Перемикач показу Сонця на карті неба."
 #: kstars.kcfg:656
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Збільшити розмір Сонця на цей коефіцієнт."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:660
@@ -34504,7 +34504,7 @@ msgstr "Перемикач показу Місяця на карті неба."
 #: kstars.kcfg:665
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Збільшити розмір Місяця на цей коефіцієнт."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:669
@@ -76922,22 +76922,21 @@ msgstr "Якщо позначено, Сонце буде показано на �
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Масштабування"
+msgstr "масштаб:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Масштаб показу Сонця."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Збільшити розмір Сонця на цей коефіцієнт."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -76967,13 +76966,13 @@ msgstr "Якщо позначено, Місяць буде показано на
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Масштаб показу Місяця."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Збільшити розмір Місяця на цей коефіцієнт."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258

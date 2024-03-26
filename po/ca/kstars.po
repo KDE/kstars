@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-25 01:58+0000\n"
-"PO-Revision-Date: 2024-03-23 11:55+0100\n"
+"POT-Creation-Date: 2024-03-26 01:58+0000\n"
+"PO-Revision-Date: 2024-03-25 10:22+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -34664,7 +34664,7 @@ msgstr "Estableix si es dibuixa o no el Sol en el mapa celeste."
 #: kstars.kcfg:656
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Augmenta la mida del Sol segons aquest factor."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:660
@@ -34682,7 +34682,7 @@ msgstr "Estableix si es dibuixa o no la Lluna en el mapa celeste."
 #: kstars.kcfg:665
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Augmenta la mida de la Lluna segons aquest factor."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:669
@@ -36637,7 +36637,7 @@ msgstr ""
 "correccions de precessió, nutació i aberració) cada vegada que es redibuixa "
 "el mapa. Això alenteix el processat sobretot quan hi ha moltes estrelles a "
 "manipular, però és més probable que estigui lliure d'errors. Hi ha errors "
-"coneguts en la presentació de les estrelles quan s'evita aquest recàlcul."
+"coneguts en la renderització de les estrelles quan s'evita aquest recàlcul."
 
 #. i18n: ectx: label, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1403
@@ -75641,7 +75641,7 @@ msgstr ""
 "correccions de precessió, nutació i aberració) cada vegada que es redibuixa "
 "el mapa. Això alenteix el processat sobretot quan hi ha moltes estrelles a "
 "manipular, però és més probable que estigui lliure d'errors. Hi ha errors "
-"coneguts en la presentació de les estrelles quan s'evita aquest recàlcul."
+"coneguts en la renderització de les estrelles quan s'evita aquest recàlcul."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageryGroupBox)
 #: options/opsadvanced.ui:101
@@ -77245,22 +77245,21 @@ msgstr "Si se selecciona, es dibuixarà el Sol en el mapa."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Usa una escala"
+msgstr "Escala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Escala de representació del Sol."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Augmenta la mida del Sol segons aquest factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -77290,13 +77289,13 @@ msgstr "Si se selecciona, es dibuixarà la Lluna en el mapa."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Escala de representació de la Lluna."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Augmenta la mida de la Lluna segons aquest factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
