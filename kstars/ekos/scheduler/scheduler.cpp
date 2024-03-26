@@ -1693,7 +1693,8 @@ bool Scheduler::load(bool clearQueue, const QString &filename)
         fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Scheduler List"),
                                               dirPath,
                                               "Ekos Scheduler List (*.esl)");
-    else fileURL.setUrl(filename);
+    else
+        fileURL = QUrl::fromLocalFile(filename);
 
     if (fileURL.isEmpty())
         return false;
