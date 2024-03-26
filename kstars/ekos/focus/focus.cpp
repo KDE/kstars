@@ -58,6 +58,8 @@
 #define MAX_RECAPTURE_RETRIES    3
 #define MINIMUM_POLY_SOLUTIONS   2
 
+const QString FOCUSER_SIMULATOR = "Focuser Simulator";
+
 namespace Ekos
 {
 Focus::Focus() : QWidget()
@@ -5335,7 +5337,7 @@ void Focus::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
-        value = true;
+        value = rb->isChecked();
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -5432,7 +5434,7 @@ void Focus::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
-        else
+        else if (key != forceInSeqAF->objectName())
             qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
@@ -5795,11 +5797,6 @@ void Focus::initConnections()
     });
 
     connect(m_AdvisorUI->focusAdvHelp, &QPushButton::clicked, this, &Ekos::Focus::focusAdvisorHelp);
-    // Update the defaulted step size on the FA panel if the CFZ changes
-    connect(m_CFZUI->focusCFZFinal, &QLineEdit::textChanged, this, [this]()
-    {
-        m_AdvisorUI->focusAdvSteps->setValue(m_cfzSteps);
-    });
 }
 
 void Focus::setFocusDetection(StarAlgorithm starAlgorithm)
@@ -6712,8 +6709,12 @@ void Focus::resetCFZToOT()
 }
 
 // Load up the Focus Advisor recommendations
-void Focus::focusAdvisorSetup()
+void Focus::focusAdvisorSetup(const QString OTName)
 {
+    // See if there is another OT that can be used to default parameters
+    m_AdvisorMap = focusAdvisorOTDefaults(OTName);
+    bool noDefaults = m_AdvisorMap.isEmpty();
+
     bool longFL = m_FocalLength > 1500;
     double imageScale = getStarUnits(FOCUS_STAR_HFR, FOCUS_UNITS_ARCSEC);
     QString str;
@@ -6723,157 +6724,428 @@ void Focus::focusAdvisorSetup()
     m_AdvisorUI->focusAdvLabel->setText(QString("Recommendations: %1 FL=%2 ImageScale=%3")
                                         .arg(m_ScopeType).arg(m_FocalLength).arg(imageScale, 0, 'f', 2));
 
-    // Step Size - Recommend CFZ
-    // JEE can we do better?
-    m_AdvisorUI->focusAdvSteps->setValue(m_cfzSteps);
-
-    // Camera options: exposure and bining
-    str = "Camera & Filter Wheel Parameters:\n";
-    if (longFL)
+    bool ok;
+    // Step Size
+    int stepSize = 250;
+    if (noDefaults)
     {
-        FAExposure = 4.0;
-        str.append("Exp=4.0\n");
+        // The Simulator is special so use 5000 whcih works well
+        if (m_Focuser && m_Focuser->getDeviceName() == FOCUSER_SIMULATOR)
+            stepSize = 5000;
+        m_AdvisorMap.insert("focusTicks", stepSize);
     }
     else
     {
-        FAExposure = 2.0;
-        str.append("Exp=2.0\n");
+        stepSize = m_AdvisorMap.value("focusTicks", stepSize).toInt(&ok);
+        if (!ok || stepSize <= 0)
+            stepSize = 250;
     }
+    m_AdvisorUI->focusAdvSteps->setValue(stepSize);
 
-    FABinning = "";
-    if (focusBinning->isEnabled())
+    // Camera options
+    str = "Camera & Filter Wheel Parameters:\n";
+
+    // Exposure
+    double exposure = longFL ? 4.0 : 2.0;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusExposure", exposure);
+    else
     {
-        // Only try and update the binning field if camera supports it (binning field enabled)
-        QString binTarget = (imageScale < 1.0) ? "2x2" : "1x1";
+        exposure = m_AdvisorMap.value("focusExposure", 2.0).toDouble(&ok);
+        if (!ok || exposure <= 0)
+            exposure = 2.0;
+    }
+    str.append(QString("Exp=%1\n").arg(exposure, 0, 'f', 1));
 
-        for (int i = 0; i < focusBinning->count(); i++)
+    // Binning
+    QString binning = "";
+    if (noDefaults)
+    {
+        if (focusBinning->isEnabled())
         {
-            if (focusBinning->itemText(i) == binTarget)
+            // Only try and update binning if camera supports it (binning field enabled)
+            QString binTarget = (imageScale < 1.0) ? "2x2" : "1x1";
+
+            for (int i = 0; i < focusBinning->count(); i++)
             {
-                FABinning = binTarget;
-                str.append(QString("Bin=%1\n").arg(binTarget));
-                break;
+                if (focusBinning->itemText(i) == binTarget)
+                {
+                    binning = binTarget;
+                    m_AdvisorMap.insert("focusBinning", binning);
+                    break;
+                }
             }
         }
     }
+    else
+        binning = m_AdvisorMap.value("focusBinning", "").toString();
+    str.append(QString("Bin=%1\n").arg(binning));
 
+    // Gain - don't know a generic way to set to Unity gain for all cameras
+    // If map has a value we'll use that otherwise we just use the current value
     str.append("Gain ***Set Manually to Unity Gain***\n");
+
+    // Filter
+    // If map has a value we'll use that otherwise we just use the current value
     str.append("Filter ***Set Manually***");
     m_AdvisorUI->focusAdvCameraLabel->setToolTip(str);
 
     // Settings
     str = "Settings Parameters:\n";
-    FAAutoSelectStar = false;
-    str.append("Auto Select Star=off\n");
 
-    FADarkFrame = false;
-    str.append("Dark Frame=off\n");
+    // Auto Select Star
+    bool autoSelectStar = false;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusAutoStarEnabled", autoSelectStar);
+    else
+        autoSelectStar = m_AdvisorMap.value("focusAutoStarEnabled", false).toBool();
+    str.append(QString("Auto Select Star=%1\n").arg(autoSelectStar ? "on" : "off"));
 
-    FAFullFrame = true;
-    str.append("Full Frame=on\n");
+    // Suspend Guiding - leave as default
 
-    FAFullFieldInnerRadius = 0.0;
-    FAFullFieldOuterRadius = 80.0;
-    str.append("Ring Mask 0%-80%\n");
+    // Use Dark Frame
+    bool darkFrame = false;
+    if (noDefaults)
+        m_AdvisorMap.insert("useFocusDarkFrame", darkFrame);
+    else
+        darkFrame = m_AdvisorMap.value("useFocusDarkFrame", false).toBool();
+    str.append(QString("Dark Frame=%1\n").arg(darkFrame ? "on" : "off"));
+
+    // Full Field & Subframe
+    bool fullFrame = true;
+    if (noDefaults)
+    {
+        m_AdvisorMap.insert("focusUseFullField", fullFrame);
+        m_AdvisorMap.insert("focusSubFrame", !fullFrame);
+    }
+    else
+        fullFrame = m_AdvisorMap.value("focusUseFullField", false).toBool();
+    str.append(QString("Full Frame=%1\n").arg(fullFrame ? "on" : "off"));
+
+    // Display Units - leave as default
+    // Guide Settle - leave as default
+
+    // Mask
+    double inner = 0.0;
+    double outer = 80.0;
+    if (noDefaults)
+    {
+        // Set a Ring Mask 0% - 80%
+        m_AdvisorMap.insert("focusNoMaskRB", false);
+        m_AdvisorMap.insert("focusRingMaskRB", true);
+        m_AdvisorMap.insert("focusMosaicMaskRB", false);
+        m_AdvisorMap.insert("focusFullFieldInnerRadius", inner);
+        m_AdvisorMap.insert("focusFullFieldOuterRadius", outer);
+        str.append(QString("Ring Mask %1%-%2%\n").arg(inner, 0, 'f', 1).arg(outer, 0, 'f', 1));
+    }
+    else
+    {
+        bool noMask = m_AdvisorMap.value("focusNoMaskRB", false).toBool();
+        bool ringMask = m_AdvisorMap.value("focusRingMaskRB", false).toBool();
+        bool mosaicMask = m_AdvisorMap.value("focusMosaicMaskRB", false).toBool();
+        if (noMask)
+            str.append(QString("No Mask (use all stars)\n"));
+        else if (ringMask)
+        {
+            inner = m_AdvisorMap.value("focusFullFieldInnerRadius", inner).toDouble(&ok);
+            if (!ok || inner < 0.0 || inner > 100.0)
+                inner = 0.0;
+            outer = m_AdvisorMap.value("focusFullFieldOuterRadius", outer).toDouble(&ok);
+            if (!ok || outer < 0.0 || outer > 100.0)
+                outer = 80.0;
+            str.append(QString("Ring Mask %1%%-%2%%\n").arg(inner, 0, 'f', 1).arg(outer, 0, 'f', 1));
+        }
+        else if (mosaicMask)
+            str.append(QString("Mosaic Mask\n"));
+    }
 
     // Suspend Guilding, Guide Settle and Display Units won't affect Autofocus so don't set
 
-    FAAdaptiveFocus = false;
-    str.append("Adaptive Focus=off\n");
+    // Adaptive Focus
+    bool adaptiveFocus = false;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusAdaptive", adaptiveFocus);
+    else
+        adaptiveFocus = m_AdvisorMap.value("focusAdaptive", false).toBool();
+    str.append(QString("Adaptive Focus=%1\n").arg(adaptiveFocus ? "on" : "off"));
 
-    FAAdaptStartPos = false;
-    str.append("Adapt Start Pos=off");
+    // Adapt Start Pos
+    bool adaptiveStartPos = false;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusAdaptStart", adaptiveStartPos);
+    else
+        adaptiveStartPos = m_AdvisorMap.value("focusAdaptStart", false).toBool();
+    str.append(QString("Adapt Start Pos=%1").arg(adaptiveStartPos ? "on" : "off"));
 
     m_AdvisorUI->focusAdvSettingsLabel->setToolTip(str);
 
     // Process
     str = "Process Parameters:\n";
-    FAFocusDetection = ALGORITHM_SEP;
-    str.append("Detection=SEP\n");
 
-    // SEP Profile
-    FAFocusSEPProfile = centralObstruction ? FOCUS_DEFAULT_DONUT_NAME : FOCUS_DEFAULT_NAME;
-    str.append(QString("SEP Profile=%1 (Reset to Default)\n").arg(FAFocusSEPProfile));
+    // Detection method
+    QString detection = "SEP";
+    if (noDefaults)
+        m_AdvisorMap.insert("focusDetection", detection);
+    else
+        detection = m_AdvisorMap.value("focusDetection", false).toString();
+    str.append(QString("Detection=%1\n").arg(detection));
 
-    FAFocusAlgorithm = FOCUS_LINEAR1PASS;
-    str.append("Algorithm=Linear 1 Pass\n");
+    // SEP Profile - dealt with separately (see below)
 
-    FACurveFit = CurveFitting::FOCUS_HYPERBOLA;
-    str.append("Curve Fit=Hyperbola\n");
+    // Algorithm
+    QString algorithm = "Linear 1 Pass";
+    if (noDefaults)
+        m_AdvisorMap.insert("focusAlgorithm", algorithm);
+    else
+        algorithm = m_AdvisorMap.value("focusAlgorithm", algorithm).toString();
+    str.append(QString("Algorithm=%1\n").arg(algorithm));
 
-    FAStarMeasure = FOCUS_STAR_HFR;
-    str.append("Measure=HFR\n");
+    // Curve Fit
+    QString curveFit = "Hyperbola";
+    if (noDefaults)
+        m_AdvisorMap.insert("focusCurveFit", curveFit);
+    else
+        curveFit = m_AdvisorMap.value("focusCurveFit", curveFit).toString();
+    str.append(QString("Curve Fit=%1\n").arg(curveFit));
 
-    FAUseWeights = true;
-    str.append("Use Weights=on\n");
+    // Measure
+    QString measure = "HFR";
+    if (noDefaults)
+        m_AdvisorMap.insert("focusStarMeasure", measure);
+    else
+        measure = m_AdvisorMap.value("focusStarMeasure", measure).toString();
+    str.append(QString("Measure=%1\n").arg(measure));
 
-    FAFocusR2Limit = 0.8;
-    str.append("R² Limit=0.8\n");
+    // Use Weights
+    bool useWeights = true;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusUseWeights", useWeights);
+    else
+        useWeights = m_AdvisorMap.value("focusUseWeights", useWeights).toBool();
+    str.append(QString("Use Weights=%1\n").arg(useWeights ? "on" : "off"));
 
-    FAFocusRefineCurveFit = true;
-    str.append("Refine Curve Fit=on\n");
-
-    FAFocusFramesCount = 1;
-    str.append("Average Over=1");
-
-    FAFocusHFRFramesCount = 1;
-    str.append("Average HFR Check Over=1");
-
-    // Donut buster
-    FATimeDilation = 1.0;
-    FAOutlierRejection = 0.2;
-    FAScanForStartPosition = false;
-    if (!centralObstruction)
-    {
-        FADonutBuster = false;
-        str.append("Donut Buster=off\n");
-    }
+    // R2 limit
+    double r2 = 0.8;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusR2Limit", r2);
     else
     {
-        FADonutBuster = true;
-        str.append("Donut Buster=on\n");
-        str.append("Time Dilation=1.0 (off)\n");
-        str.append("Outlier Rejection=0.2\n");
-        str.append("Scan for Start Position=off\n");
+        r2 = m_AdvisorMap.value("focusR2Limit", r2).toDouble(&ok);
+        if (!ok || r2 < 0 || r2 > 1.0)
+            r2 = 0.8;
     }
+    str.append(QString("R² Limit=%1\n").arg(r2, 0, 'f', 2));
+
+    // Refine Curve Fit
+    bool refineCurveFit = true;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusRefineCurveFit", refineCurveFit);
+    else
+        refineCurveFit = m_AdvisorMap.value("focusRefineCurveFit", refineCurveFit).toBool();
+    str.append(QString("Refine Curve Fit=%1\n").arg(refineCurveFit ? "on" : "off"));
+
+    // Frames Count
+    int frameCount = 1;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusFramesCount", frameCount);
+    else
+    {
+        frameCount = m_AdvisorMap.value("focusFramesCount", frameCount).toInt(&ok);
+        if (!ok || frameCount < 1)
+            frameCount = 1;
+    }
+    str.append(QString("Average Over=%1\n").arg(frameCount));
+
+    // HFR Frames Count
+    int HFRFrameCount = 1;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusHFRFramesCount", HFRFrameCount);
+    else
+    {
+        HFRFrameCount = m_AdvisorMap.value("focusHFRFramesCount", HFRFrameCount).toInt(&ok);
+        if (!ok || HFRFrameCount < 1)
+            HFRFrameCount = 1;
+    }
+    str.append(QString("Average HFR Check Over=%1\n").arg(HFRFrameCount));
+
+    // Donut buster
+    bool donutBuster = centralObstruction;
+    double timeDilation = 1.0;
+    double outlierRejection = 0.2;
+    bool scanForStartPos = false;
+    if (noDefaults)
+    {
+        m_AdvisorMap.insert("focusDonut", donutBuster);
+        m_AdvisorMap.insert("focusTimeDilation", timeDilation);
+        m_AdvisorMap.insert("focusOutlierRejection", outlierRejection);
+        m_AdvisorMap.insert("focusScanStartPos", scanForStartPos);
+    }
+    else
+        donutBuster = m_AdvisorMap.value("focusDonut", donutBuster).toBool();
+    str.append(QString("Donut Buster=%1").arg(donutBuster ? "on" : "off"));
+
     m_AdvisorUI->focusAdvProcessLabel->setToolTip(str);
 
     // Mechanics
     str = "Mechanics Parameters:\n";
-    FAFocusWalk = FOCUS_WALK_FIXED_STEPS;
-    str.append("Walk=Fixed Steps\n");
 
-    FAFocusSettleTime = 1.0;
-    str.append("Focuser Settle=1.0s\n");
+    // Walk
+    QString walk = "Fixed Steps";
+    if (noDefaults)
+        m_AdvisorMap.insert("focusWalk", walk);
+    else
+        walk = m_AdvisorMap.value("focusWalk", measure).toString();
+    str.append(QString("Walk=%1\n").arg(walk));
 
-    FAFocusNumSteps = 11;
-    str.append("Number Steps=11\n");
+    // Settle Time
+    double settleTime = 1.0;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusSettleTime", settleTime);
+    else
+    {
+        settleTime = m_AdvisorMap.value("focusSettleTime", settleTime).toDouble(&ok);
+        if (!ok || settleTime < 0.0)
+            settleTime = 1.0;
+    }
+    str.append(QString("Focuser Settle=%1\n").arg(settleTime, 0, 'f', 1));
 
-    // Set Max travel to max value - no need to limit it
-    FAFocusMaxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
-    str.append(QString("Max Travel=%1\n").arg(FAFocusMaxTravel));
+    // Number of steps
+    int numSteps = 11;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusNumSteps", numSteps);
+    else
+    {
+        numSteps = m_AdvisorMap.value("focusNumSteps", numSteps).toInt(&ok);
+        if (!ok || numSteps < 5)
+            numSteps = 11;
+    }
+    str.append(QString("Number Steps=%1\n").arg(numSteps));
+
+    // Max Travel
+    int maxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
+    if (noDefaults)
+        m_AdvisorMap.insert("focusMaxTravel", maxTravel);
+    else
+    {
+        maxTravel = m_AdvisorMap.value("focusMaxTravel", maxTravel).toInt(&ok);
+        if (!ok || maxTravel < 0)
+            maxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
+    }
+    str.append(QString("Max Travel=%1\n").arg(maxTravel));
 
     // Driver Backlash and AF Overscan are dealt with separately so inform user to do this
     str.append("Backlash ***Set Manually***\n");
     str.append("AF Overscan ***Set Manually***\n");
 
-    FAFocusOverscanDelay = 0.0;
-    str.append(QString("Overscan Delay=%1\n").arg(FAFocusOverscanDelay));
+    // Overscan Delay
+    double overscanDelay = 0.0;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusOverscanDelay", overscanDelay);
+    else
+    {
+        overscanDelay = m_AdvisorMap.value("focusOverscanDelay", overscanDelay).toDouble(&ok);
+        if (!ok || overscanDelay < 0)
+            overscanDelay = 0.0;
+    }
+    str.append(QString("Overscan Delay=%1\n").arg(overscanDelay, 0, 'f', 1));
 
-    FAFocusCaptureTimeout = 30;
-    str.append(QString("Capture Timeout=%1\n").arg(FAFocusCaptureTimeout));
+    // Capture timeout
+    int captureTimeout = 30;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusCaptureTimeout", captureTimeout);
+    else
+    {
+        captureTimeout = m_AdvisorMap.value("focusCaptureTimeout", captureTimeout).toInt(&ok);
+        if (!ok || captureTimeout < 0)
+            captureTimeout = 30;
+    }
+    str.append(QString("Capture Timeout=%1\n").arg(captureTimeout));
 
-    FAFocusMotionTimeout = 30;
-    str.append(QString("Motion Timeout=%1").arg(FAFocusMotionTimeout));
+    // Capture timeout
+    int motionTimeout = 30;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusMotionTimeout", motionTimeout);
+    else
+    {
+        motionTimeout = m_AdvisorMap.value("focusMotionTimeout", motionTimeout).toInt(&ok);
+        if (!ok || motionTimeout < 0)
+            motionTimeout = 30;
+    }
+    str.append(QString("Motion Timeout=%1").arg(motionTimeout));
 
     m_AdvisorUI->focusAdvMechanicsLabel->setToolTip(str);
 
-    str = "SEP Profile=";
-    if (centralObstruction)
-        str.append(QString("%1 (reset to default)").arg(FOCUS_DEFAULT_DONUT_NAME));
+    // SEP profile
+    QString profile = centralObstruction ? FOCUS_DEFAULT_DONUT_NAME : FOCUS_DEFAULT_NAME;
+    if (noDefaults)
+        m_AdvisorMap.insert("focusSEPProfile", profile);
     else
-        str.append(QString("%1 (reset to default)").arg(FOCUS_DEFAULT_NAME));
+        profile = m_AdvisorMap.value("focusSEPProfile", profile).toString();
+    str = QString("SEP Profile=%1").arg(profile);
     m_AdvisorUI->focusAdvSEPLabel->setToolTip(str);
+}
+
+// Find similar OTs to seed defaults
+QVariantMap Focus::focusAdvisorOTDefaults(const QString OTName)
+{
+    QVariantMap map;
+
+    // If a blank OTName is passed in return an empty map
+    if (OTName == "")
+        return map;
+
+    for (auto tName : OpticalTrainManager::Instance()->getTrainNames())
+    {
+        if (tName == OTName)
+            continue;
+        auto tFocuser = OpticalTrainManager::Instance()->getFocuser(tName);
+        if (tFocuser != m_Focuser)
+            continue;
+        auto tScope = OpticalTrainManager::Instance()->getScope(tName);
+        auto tScopeType = tScope["type"].toString();
+        if (tScopeType != m_ScopeType)
+            continue;
+
+        // We have an OT with the same Focuser and scope type so see if we have any parameters
+        auto tID = OpticalTrainManager::Instance()->id(tName);
+        OpticalTrainSettings::Instance()->setOpticalTrainID(tID);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+        if (settings.isValid())
+        {
+            // We have a set of parameters
+            map = settings.toJsonObject().toVariantMap();
+            // We will adjust the step size here
+            // We will use the CFZ. The CFZ scales with f#^2, so adjust step size in the same way
+            auto tAperture = tScope["aperture"].toDouble(-1);
+            auto tFocalLength = tScope["focal_length"].toDouble(-1);
+            auto tFocalRatio = tScope["focal_ratio"].toDouble(-1);
+            auto tReducer = OpticalTrainManager::Instance()->getReducer(tName);
+            if (tFocalLength > 0.0)
+                tFocalLength *= tReducer;
+
+            // Use the adjusted focal length to calculate an adjusted focal ratio
+            if (tFocalRatio <= 0.0)
+                // For a scope, FL and aperture are specified so calc the F#
+                tFocalRatio = (tAperture > 0.001) ? tFocalLength / tAperture : 0.0f;
+            else if (tAperture < 0.0)
+                // DSLR Lens. FL and F# are specified so calc the aperture
+                tAperture = tFocalLength / tFocalRatio;
+
+            int stepSize = 250;
+            if (m_Focuser && m_Focuser->getDeviceName() == FOCUSER_SIMULATOR)
+                // The Simulator is a special case so use 5000 as that works well
+                stepSize = 5000;
+            else
+                stepSize = map.value("focusTicks", stepSize).toInt() * pow(m_FocalRatio, 2.0) / pow(tFocalRatio, 2.0);
+            // Add the value to map if one doesn't exist or update it if it does
+            map.insert("focusTicks", stepSize);
+            break;
+        }
+    }
+    // Reset Optical Train Manager to the original OT
+    auto id = OpticalTrainManager::Instance()->id(OTName);
+    OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+    return map;
 }
 
 // Focus Advisor help popup
@@ -6912,63 +7184,112 @@ void Focus::focusAdvisorHelp()
 // Action the focus params recommendations
 void Focus::focusAdvisorAction(bool forceAll)
 {
-    if (forceAll || m_AdvisorUI->focusAdvStepSize->isChecked())
+    if (forceAll)
+    {
+        setAllSettings(m_AdvisorMap);
+        return;
+    }
+
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSyncSettings();
+
+    if (m_AdvisorUI->focusAdvStepSize->isChecked())
         m_OpsFocusMechanics->focusTicks->setValue(m_AdvisorUI->focusAdvSteps->value());
 
-    if (forceAll || m_AdvisorUI->focusAdvCamera->isChecked())
+    if (m_AdvisorUI->focusAdvCamera->isChecked())
     {
-        focusExposure->setValue(FAExposure);
-        if (focusBinning->isEnabled() && FABinning != "")
+        syncControl(m_AdvisorMap, "focusExposure", focusExposure);
+        // Update the Filter Manager with the new value as callbacks that normally do this are suspended
+        if (m_FilterManager)
+            m_FilterManager->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
+
+        if (focusBinning->isEnabled())
             // Only try and update the binning field if camera supports it (binning field enabled)
-            focusBinning->setCurrentText(FABinning);
+            syncControl(m_AdvisorMap, "focusBinning", focusBinning);
     }
 
-    if (forceAll || m_AdvisorUI->focusAdvSettingsTab->isChecked())
+    if (m_AdvisorUI->focusAdvSettingsTab->isChecked())
     {
         // Settings
-        m_OpsFocusSettings->useFocusDarkFrame->setChecked(FADarkFrame);
-        m_OpsFocusSettings->focusUseFullField->setChecked(FAFullFrame);
-        m_OpsFocusSettings->focusAutoStarEnabled->setChecked(FAAutoSelectStar);
-        m_OpsFocusSettings->focusFullFieldInnerRadius->setValue(FAFullFieldInnerRadius);
-        m_OpsFocusSettings->focusFullFieldOuterRadius->setValue(FAFullFieldOuterRadius);
-        m_OpsFocusSettings->focusRingMaskRB->setChecked(true);
-        m_OpsFocusSettings->focusAdaptive->setChecked(FAAdaptiveFocus);
-        m_OpsFocusSettings->focusAdaptStart->setChecked(FAAdaptStartPos);
+        syncControl(m_AdvisorMap, "focusAutoStarEnabled", m_OpsFocusSettings->focusAutoStarEnabled);
+        syncControl(m_AdvisorMap, "useFocusDarkFrame", m_OpsFocusSettings->useFocusDarkFrame);
+        syncControl(m_AdvisorMap, "focusUseFullField", m_OpsFocusSettings->focusUseFullField);
+        syncControl(m_AdvisorMap, "focusSubFrame", m_OpsFocusSettings->focusSubFrame);
+        syncControl(m_AdvisorMap, "focusNoMaskRB", m_OpsFocusSettings->focusNoMaskRB);
+        if (m_AdvisorMap.value("focusRingMaskRB", false).toBool())
+        {
+            syncControl(m_AdvisorMap, "focusRingMaskRB", m_OpsFocusSettings->focusRingMaskRB);
+            syncControl(m_AdvisorMap, "focusFullFieldInnerRadius", m_OpsFocusSettings->focusFullFieldInnerRadius);
+            syncControl(m_AdvisorMap, "focusFullFieldOuterRadius", m_OpsFocusSettings->focusFullFieldOuterRadius);
+        }
+        syncControl(m_AdvisorMap, "focusMosaicMaskRB", m_OpsFocusSettings->focusMosaicMaskRB);
+        syncControl(m_AdvisorMap, "focusAdaptive", m_OpsFocusSettings->focusAdaptive);
+        syncControl(m_AdvisorMap, "focusAdaptStart", m_OpsFocusSettings->focusAdaptStart);
     }
 
-    if (forceAll || m_AdvisorUI->focusAdvProcessTab->isChecked())
+    if (m_AdvisorUI->focusAdvProcessTab->isChecked())
     {
         // Process
-        m_OpsFocusProcess->focusDetection->setCurrentIndex(FAFocusDetection);
-        m_OpsFocusProcess->focusAlgorithm->setCurrentIndex(FAFocusAlgorithm);
-        m_OpsFocusProcess->focusCurveFit->setCurrentIndex(FACurveFit);
-        m_OpsFocusProcess->focusStarMeasure->setCurrentIndex(FAStarMeasure);
-        m_OpsFocusProcess->focusUseWeights->setChecked(FAUseWeights);
-        m_OpsFocusProcess->focusR2Limit->setValue(FAFocusR2Limit);
-        m_OpsFocusProcess->focusRefineCurveFit->setChecked(FAFocusRefineCurveFit);
-        m_OpsFocusProcess->focusFramesCount->setValue(FAFocusFramesCount);
-        m_OpsFocusProcess->focusHFRFramesCount->setValue(FAFocusHFRFramesCount);
-        m_OpsFocusProcess->focusDonut->setChecked(FADonutBuster);
-        m_OpsFocusProcess->focusTimeDilation->setValue(FATimeDilation);
-        m_OpsFocusProcess->focusOutlierRejection->setValue(FAOutlierRejection);
-        m_OpsFocusProcess->focusScanStartPos->setChecked(FAScanForStartPosition);
+        syncControl(m_AdvisorMap, "focusDetection", m_OpsFocusProcess->focusDetection);
+        syncControl(m_AdvisorMap, "focusAlgorithm", m_OpsFocusProcess->focusAlgorithm);
+        syncControl(m_AdvisorMap, "focusCurveFit", m_OpsFocusProcess->focusCurveFit);
+        syncControl(m_AdvisorMap, "focusStarMeasure", m_OpsFocusProcess->focusStarMeasure);
+        syncControl(m_AdvisorMap, "focusUseWeights", m_OpsFocusProcess->focusUseWeights);
+        syncControl(m_AdvisorMap, "focusR2Limit", m_OpsFocusProcess->focusR2Limit);
+        syncControl(m_AdvisorMap, "focusRefineCurveFit", m_OpsFocusProcess->focusRefineCurveFit);
+        syncControl(m_AdvisorMap, "focusFramesCount", m_OpsFocusProcess->focusFramesCount);
+        syncControl(m_AdvisorMap, "focusHFRFramesCount", m_OpsFocusProcess->focusHFRFramesCount);
+        syncControl(m_AdvisorMap, "focusDonut", m_OpsFocusProcess->focusDonut);
+        syncControl(m_AdvisorMap, "focusTimeDilation", m_OpsFocusProcess->focusTimeDilation);
+        syncControl(m_AdvisorMap, "focusOutlierRejection", m_OpsFocusProcess->focusOutlierRejection);
+        syncControl(m_AdvisorMap, "focusScanStartPos", m_OpsFocusProcess->focusScanStartPos);
     }
 
-    if (forceAll || m_AdvisorUI->focusAdvMechanicsTab->isChecked())
+    if (m_AdvisorUI->focusAdvMechanicsTab->isChecked())
     {
         // Mechanics
-        m_OpsFocusMechanics->focusWalk->setCurrentIndex(FAFocusWalk);
-        m_OpsFocusMechanics->focusSettleTime->setValue(FAFocusSettleTime);
-        m_OpsFocusMechanics->focusNumSteps->setValue(FAFocusNumSteps);
-        m_OpsFocusMechanics->focusMaxTravel->setValue(FAFocusMaxTravel);
-        m_OpsFocusMechanics->focusCaptureTimeout->setValue(FAFocusCaptureTimeout);
-        m_OpsFocusMechanics->focusMotionTimeout->setValue(FAFocusMotionTimeout);
-        m_OpsFocusMechanics->focusOverscanDelay->setValue(FAFocusOverscanDelay);
+        syncControl(m_AdvisorMap, "focusWalk", m_OpsFocusMechanics->focusWalk);
+        syncControl(m_AdvisorMap, "focusSettleTime", m_OpsFocusMechanics->focusSettleTime);
+        syncControl(m_AdvisorMap, "focusNumSteps", m_OpsFocusMechanics->focusNumSteps);
+        syncControl(m_AdvisorMap, "focusMaxTravel", m_OpsFocusMechanics->focusMaxTravel);
+        syncControl(m_AdvisorMap, "focusOverscanDelay", m_OpsFocusMechanics->focusOverscanDelay);
+        syncControl(m_AdvisorMap, "focusCaptureTimeout", m_OpsFocusMechanics->focusCaptureTimeout);
+        syncControl(m_AdvisorMap, "focusMotionTimeout", m_OpsFocusMechanics->focusMotionTimeout);
     }
 
-    if (forceAll || m_AdvisorUI->focusAdvSEP->isChecked())
+    if (m_AdvisorUI->focusAdvSEP->isChecked())
+    {
         // SEP
-        m_OpsFocusProcess->focusSEPProfile->setCurrentText(FAFocusSEPProfile);
+        // JEE Should we delete and reinstate default profile?
+        syncControl(m_AdvisorMap, "focusSEPProfile", m_OpsFocusProcess->focusSEPProfile);
+    }
+
+    // Sync to options
+    for (auto &key : m_AdvisorMap.keys())
+    {
+        auto value = m_AdvisorMap[key];
+        // Save immediately
+        Options::self()->setProperty(key.toLatin1(), value);
+
+        m_Settings[key] = value;
+        m_GlobalSettings[key] = value;
+    }
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
+
+    // Restablish connections
+    connectSyncSettings();
+
+    // Once settings have been loaded run through routines to set state variables
+    m_CurveFit = static_cast<CurveFitting::CurveFit> (m_OpsFocusProcess->focusCurveFit->currentIndex());
+    setFocusDetection(static_cast<StarAlgorithm> (m_OpsFocusProcess->focusDetection->currentIndex()));
+    setCurveFit(static_cast<CurveFitting::CurveFit>(m_OpsFocusProcess->focusCurveFit->currentIndex()));
+    setStarMeasure(static_cast<StarMeasure>(m_OpsFocusProcess->focusStarMeasure->currentIndex()));
+    setWalk(static_cast<FocusWalk>(m_OpsFocusMechanics->focusWalk->currentIndex()));
+    selectImageMask();
 }
 
 // Returns whether or not the passed in scopeType has a central obstruction or not. The scopeTypes
@@ -7132,6 +7453,7 @@ void Focus::setAllSettings(const QVariantMap &settings)
     setCurveFit(static_cast<CurveFitting::CurveFit>(m_OpsFocusProcess->focusCurveFit->currentIndex()));
     setStarMeasure(static_cast<StarMeasure>(m_OpsFocusProcess->focusStarMeasure->currentIndex()));
     setWalk(static_cast<FocusWalk>(m_OpsFocusMechanics->focusWalk->currentIndex()));
+    selectImageMask();
 }
 
 bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
@@ -7139,6 +7461,7 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QSpinBox *pSB = nullptr;
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;
+    QGroupBox *pGB = nullptr;
     QComboBox *pComboBox = nullptr;
     QSplitter *pSplitter = nullptr;
     QRadioButton *pRadioButton = nullptr;
@@ -7166,14 +7489,21 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
+        return true;
+    }
+    else if ((pGB = qobject_cast<QGroupBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        if (value != pGB->isChecked())
+            pGB->setChecked(value);
         return true;
     }
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
         if (value != pRadioButton->isChecked())
-            pRadioButton->click();
+            pRadioButton->setChecked(value);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -7187,13 +7517,6 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const auto value = QByteArray::fromBase64(settings[key].toString().toUtf8());
         pSplitter->restoreState(value);
-        return true;
-    }
-    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
-    {
-        const bool value = settings[key].toBool();
-        if (value)
-            pRadioButton->click();
         return true;
     }
 
@@ -7218,6 +7541,7 @@ void Focus::setupOpticalTrainManager()
 
 void Focus::refreshOpticalTrain()
 {
+    bool validSettings = false;
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
@@ -7245,39 +7569,22 @@ void Focus::refreshOpticalTrain()
         // cause settings to be updated, which in turn interferes with the persistence and
         // setup of settings in OpticalTrainSettings
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
-        if (settings.isValid())
-        {
-            auto map = settings.toJsonObject().toVariantMap();
-            if (map != m_Settings)
-                setAllSettings(map);
-        }
-        else
-            m_Settings = m_GlobalSettings;
 
         auto focuser = OpticalTrainManager::Instance()->getFocuser(name);
         setFocuser(focuser);
 
         auto scope = OpticalTrainManager::Instance()->getScope(name);
+        double reducer = OpticalTrainManager::Instance()->getReducer(name);
+        setScopeDetails(scope, reducer);
 
-        // CFZ and FA use scope parameters in their calcs - so update...
-        m_Aperture = scope["aperture"].toDouble(-1);
-        m_FocalLength = scope["focal_length"].toDouble(-1);
-        m_FocalRatio = scope["focal_ratio"].toDouble(-1);
-        m_ScopeType = scope["type"].toString();
-        m_Reducer = OpticalTrainManager::Instance()->getReducer(name);
-
-        // Adjust telescope FL and F# for any reducer
-        if (m_Reducer > 0.0)
-            m_FocalLength *= m_Reducer;
-
-        // Use the adjusted focal length to calculate an adjusted focal ratio
-        if (m_FocalRatio <= 0.0)
-            // For a scope, FL and aperture are specified so calc the F#
-            m_FocalRatio = (m_Aperture > 0.001) ? m_FocalLength / m_Aperture : 0.0f;
-        else if (m_Aperture < 0.0)
-            // DSLR Lens. FL and F# are specified so calc the aperture
-            m_Aperture = m_FocalLength / m_FocalRatio;
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+        if (settings.isValid())
+        {
+            validSettings = true;
+            auto map = settings.toJsonObject().toVariantMap();
+            if (map != m_Settings)
+                setAllSettings(map);
+        }
 
         auto camera = OpticalTrainManager::Instance()->getCamera(name);
         if (camera)
@@ -7309,16 +7616,41 @@ void Focus::refreshOpticalTrain()
         auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
         setFilterWheel(filterWheel);
 
-        // Update calcs for the CFZ and Focus Advisor based on the new OT
+        // Update calcs for the CFZ based on the new OT
         resetCFZToOT();
-        focusAdvisorSetup();
+
         // JM 2024.03.16 Also use focus advisor on new profiles
-        // JEE Don't involve Focus Advisor for now as it somehow breaks test cases
-        //if (!settings.isValid())
-        //    focusAdvisorAction(true);
+        if (!validSettings)
+        {
+            focusAdvisorSetup(name);
+            focusAdvisorAction(true);
+        }
+        focusAdvisorSetup("");
     }
 
     opticalTrainCombo->blockSignals(false);
+}
+
+// Function to set member variables based on Optical Train's attached scope
+void Focus::setScopeDetails(const QJsonObject &scope, const double reducer)
+{
+    m_Aperture = scope["aperture"].toDouble(-1);
+    m_FocalLength = scope["focal_length"].toDouble(-1);
+    m_FocalRatio = scope["focal_ratio"].toDouble(-1);
+    m_ScopeType = scope["type"].toString();
+    m_Reducer = reducer;
+
+    // Adjust telescope FL and F# for any reducer
+    if (m_Reducer > 0.0)
+        m_FocalLength *= m_Reducer;
+
+    // Use the adjusted focal length to calculate an adjusted focal ratio
+    if (m_FocalRatio <= 0.0)
+        // For a scope, FL and aperture are specified so calc the F#
+        m_FocalRatio = (m_Aperture > 0.001) ? m_FocalLength / m_Aperture : 0.0f;
+    else if (m_Aperture < 0.0)
+        // DSLR Lens. FL and F# are specified so calc the aperture
+        m_Aperture = m_FocalLength / m_FocalRatio;
 }
 
 }

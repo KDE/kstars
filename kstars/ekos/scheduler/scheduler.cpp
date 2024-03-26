@@ -2256,7 +2256,7 @@ void Scheduler::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -2270,7 +2270,7 @@ void Scheduler::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -2284,7 +2284,7 @@ void Scheduler::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -2298,7 +2298,7 @@ void Scheduler::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Option" << key << "not found!";
     }
 
     // All Line Edits
@@ -2319,7 +2319,7 @@ void Scheduler::loadGlobalSettings()
                 moduleState()->setShutdownScriptURL(QUrl::fromUserInput(value.toString()));
         }
         else
-            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "Option" << key << "not found!";
     }
 
     // All Radio buttons
