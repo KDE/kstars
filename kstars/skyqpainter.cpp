@@ -138,6 +138,12 @@ SkyQPainter::~SkyQPainter()
     delete (m_hipsRender);
 }
 
+void SkyQPainter::setSize(int width, int height)
+{
+    m_size.setWidth(width);
+    m_size.setHeight(height);
+}
+
 void SkyQPainter::begin()
 {
     QPainter::begin(m_pd);
@@ -872,8 +878,8 @@ bool SkyQPainter::drawCatalogObject(const CatalogObject &obj)
 
     const auto mirror = m_proj->viewParams().mirror;
     const auto positionAngle = m_proj->findNorthPA(&obj, pos.x(), pos.y())
-        - (mirror ? -obj.pa() : obj.pa()) // FIXME: We seem to have two different conventions for PA sign in KStars!
-        + 90.;
+                               - (mirror ? -obj.pa() : obj.pa()) // FIXME: We seem to have two different conventions for PA sign in KStars!
+                               + 90.;
 
     // Draw image
     if (Options::showInlineImages() && Options::zoomFactor() > 5. * MINZOOM &&

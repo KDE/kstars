@@ -314,7 +314,9 @@ void TestEkosSchedulerOps::initFiles(QTemporaryDir *dir, const QVector<QString> 
         const QString esqFile = dir->filePath(QString("test%1.esq").arg(i));
 
         QVERIFY(TestEkosSchedulerHelper::writeSimpleSequenceFiles(esls[i], eslFile, esqs[i], esqFile));
-        scheduler->load(i == 0, QString("file://%1").arg(eslFile));
+
+        fprintf(stderr, "Loading\n");
+        scheduler->load(i == 0, QString("%1").arg(eslFile));
         QVERIFY(scheduler->moduleState()->jobs().size() == (i + 1));
         scheduler->moduleState()->jobs()[i]->setSequenceFile(QUrl(QString("file://%1").arg(esqFile)));
         fprintf(stderr, "seq file: %s \"%s\"\n", esqFile.toLatin1().data(), QString("file://%1").arg(esqFile).toLatin1().data());
@@ -1078,7 +1080,7 @@ void TestEkosSchedulerOps::loadGreedySchedule(
 
     // Write the scheduler and sequence files.
     QString f1 = writeFiles(targetName, dir, captureJob, schedulerXML);
-    scheduler->load(first, QString("file://%1").arg(f1));
+    scheduler->load(first, QString("%1").arg(f1));
 }
 
 struct SPlan
@@ -1794,7 +1796,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 0 min altitude.");
     Ekos::SchedulerJob::setHorizon(nullptr);
-    scheduler->load(true, QString("file://%1").arg(esl0Path));
+    scheduler->load(true, QString("%1").arg(esl0Path));
     const QVector<SPlan> scheduleMinAlt0 =
     {
         {"M 39", "2022/03/07 22:28", "2022/03/07 22:39"},
@@ -1841,7 +1843,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 30 min altitude.");
     Ekos::SchedulerJob::setHorizon(nullptr);
-    scheduler->load(true, QString("file://%1").arg(esl30Path));
+    scheduler->load(true, QString("%1").arg(esl30Path));
     const QVector<SPlan> scheduleMinAlt30 =
     {
         {"M 1",  "2022/03/07 22:28", "2022/03/07 22:39"},
@@ -1905,7 +1907,7 @@ void TestEkosSchedulerOps::testGreedyMessier()
 
     qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with large artificial horizon.");
     Ekos::SchedulerJob::setHorizon(&largeHorizon);
-    scheduler->load(true, QString("file://%1").arg(esl30Path));
+    scheduler->load(true, QString("%1").arg(esl30Path));
     const QVector<SPlan> scheduleAHMinAlt30 =
     {
         {"M 35", "2022/03/07 22:28", "2022/03/07 22:39"},
