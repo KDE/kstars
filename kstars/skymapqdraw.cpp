@@ -62,18 +62,20 @@ void SkyMapQDraw::paintEvent(QPaintEvent *event)
 
     m_SkyPixmap->fill(Qt::black);
     m_SkyPainter->setPaintDevice(m_SkyPixmap);
+    m_SkyPainter->setSize(m_SkyPixmap->width(), m_SkyPixmap->height());
 
     //FIXME: we may want to move this into the components.
     m_SkyPainter->begin();
 
     //Draw all sky elements
-    m_SkyPainter->drawSkyBackground();
 
     // Set Clipping
     QPainterPath path;
     path.addPolygon(m_SkyMap->projector()->clipPoly());
     m_SkyPainter->setClipPath(path);
     m_SkyPainter->setClipping(true);
+
+    m_SkyPainter->drawSkyBackground();
 
     m_KStarsData->skyComposite()->draw(m_SkyPainter.data());
     //Finish up

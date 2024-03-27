@@ -112,6 +112,7 @@ class SkyQPainter : public SkyPainter, public QPainter
         bool drawHips(bool useCache = false) override;
         bool drawTerrain(bool useCache = false) override;
         bool drawImageOverlay(const QList<ImageOverlay> *imageOverlays, bool useCache = false) override;
+        void setSize(int width, int height);
 
     private:
         QPaintDevice *m_pd{ nullptr };

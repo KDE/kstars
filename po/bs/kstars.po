@@ -6,13 +6,12 @@
 # Vedran Ljubović <vljubovic@smartnet.ba>, 2003, 2004.
 # Vedran Ljubovic <vljubovic@smartnet.ba>, 2004.
 #
-#: ekos/focus/adaptivefocus.cpp:180
-#, fuzzy, kde-format
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 01:58+0000\n"
+"POT-Creation-Date: 2024-03-27 01:58+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -418,7 +417,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2245
-#: ekos/scheduler/scheduler.cpp:1799
+#: ekos/scheduler/scheduler.cpp:1800
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -2046,8 +2045,8 @@ msgstr "Status"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1319
-#: ekos/scheduler/scheduler.cpp:1970 ekos/scheduler/scheduler.cpp:2208
-#: ekos/scheduler/scheduler.cpp:2216 ekos/scheduler/scheduler.cpp:2226
+#: ekos/scheduler/scheduler.cpp:1971 ekos/scheduler/scheduler.cpp:2209
+#: ekos/scheduler/scheduler.cpp:2217 ekos/scheduler/scheduler.cpp:2227
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
@@ -2403,7 +2402,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1327
-#: ekos/scheduler/scheduler.cpp:1985 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1986 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2655,8 +2654,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3947
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/capture.cpp:2167 ekos/capture/capture.cpp:2254
-#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1704
-#: ekos/scheduler/scheduler.cpp:1809 fitsviewer/fitstab.cpp:530
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1705
+#: ekos/scheduler/scheduler.cpp:1810 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3933,7 +3932,7 @@ msgstr "0.0 pc"
 #: ekos/capture/capture.cpp:180 ekos/capture/capture.cpp:184
 #: ekos/capture/capture.cpp:1109 ekos/capture/capture.cpp:1149
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/focus/focus.cpp:449 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
+#: ekos/focus/focus.cpp:451 ekos/guide/guide.ui:553 ekos/guide/guide.ui:677
 #: indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6353,7 +6352,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Greška: Izgubljena konekcija prema točku filtera."
 
 #: ekos/align/align.cpp:1493 ekos/capture/captureprocess.cpp:191
-#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:5205
+#: ekos/capture/captureprocess.cpp:584 ekos/focus/focus.cpp:5207
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6389,13 +6388,13 @@ msgstr "Automatsko fokusiranje u toku..."
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1625 ekos/focus/focus.cpp:1629
+#: ekos/align/align.cpp:1625 ekos/focus/focus.cpp:1631
 #, kde-format
 msgid "Capturing image..."
 msgstr "Dohvatanje slike..."
 
 #: ekos/align/align.cpp:1715 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2639
+#: ekos/focus/focus.cpp:2641
 #, kde-format
 msgid "Image received."
 msgstr "Slika dohvaćena."
@@ -6535,7 +6534,7 @@ msgid "Refresh is complete."
 msgstr "%1 filter je onlajn."
 
 #: ekos/align/align.cpp:2550 ekos/auxiliary/darklibrary.cpp:1407
-#: ekos/focus/focus.cpp:1380
+#: ekos/focus/focus.cpp:1382
 #, kde-format
 msgid "Capture aborted."
 msgstr "Dohvaćanje prekinuto."
@@ -6548,7 +6547,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Rješavač prekinut nakon %1 sekunde."
 
 #: ekos/align/align.cpp:2599 ekos/analyze/analyze.cpp:3975
-#: ekos/capture/capture.cpp:1702 ekos/focus/focus.cpp:4298
+#: ekos/capture/capture.cpp:1702 ekos/focus/focus.cpp:4300
 #: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1921 ekos/mount/mount.cpp:834
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
@@ -6723,7 +6722,7 @@ msgid "dDE (arcsec)"
 msgstr "arcsecs"
 
 #: ekos/align/align.cpp:3630 ekos/capture/capture.cpp:2741
-#: ekos/focus/focus.cpp:5093
+#: ekos/focus/focus.cpp:5095
 #, fuzzy, kde-format
 msgid "Filter operation failed."
 msgstr "Provjera skripte nije uspjela"
@@ -6762,7 +6761,7 @@ msgstr "Očiti sve orbitalne tragove"
 #: ekos/align/align.cpp:3946 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:2166
 #: ekos/capture/capture.cpp:2253 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:1703 ekos/scheduler/scheduler.cpp:1808
+#: ekos/scheduler/scheduler.cpp:1704 ekos/scheduler/scheduler.cpp:1809
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10413,7 +10412,7 @@ msgid "Parking"
 msgstr "Peking"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1971 indi/indimount.cpp:31
+#: ekos/scheduler/scheduler.cpp:1972 indi/indimount.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Slew"
@@ -10580,7 +10579,7 @@ msgid "Disconnected"
 msgstr "Prekini vezu"
 
 #: ekos/analyze/analyze.cpp:3328 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1984
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1985
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capturing"
@@ -10629,7 +10628,7 @@ msgstr "Kalibriraj"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3344 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1982
+#: ekos/scheduler/scheduler.cpp:1983
 #, kde-format
 msgid "Guiding"
 msgstr "Navođenje"
@@ -16225,13 +16224,13 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1947 ekos/focus/focus.cpp:5247
+#: ekos/capture/captureprocess.cpp:1947 ekos/focus/focus.cpp:5249
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/capture/captureprocess.cpp:1971 ekos/focus/focus.cpp:5252
+#: ekos/capture/captureprocess.cpp:1971 ekos/focus/focus.cpp:5254
 #: ekos/guide/guide.cpp:915
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
@@ -17506,7 +17505,7 @@ msgstr "Približne boje..."
 msgid "Image Received"
 msgstr "Slika dohvaćena."
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1974
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1975
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
@@ -17544,7 +17543,7 @@ msgstr "Postavi temperaturu ciljnog CCD čipa."
 msgid "Setting Rotator"
 msgstr "Izaberi početnu zvijezdu:"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1977
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1978
 #, fuzzy, kde-format
 msgid "Aligning"
 msgstr "Pokretanje..."
@@ -18181,17 +18180,12 @@ msgstr ""
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:180
+#: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
 msgid "; AltΔ %1"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:181
-#, kde-format
-msgid ")"
-msgstr ""
-
-#: ekos/focus/adaptivefocus.cpp:181
+#: ekos/focus/adaptivefocus.cpp:182
 #, fuzzy, kde-format
 #| msgid "Az Error:"
 msgid "; Pos Error %1)"
@@ -18250,7 +18244,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Naziv planeta"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:6909
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7181
 #, fuzzy, kde-format
 #| msgid "Focus Out"
 msgid "Focus Advisor"
@@ -18280,8 +18274,7 @@ msgid "Update"
 msgstr "Nadogradi"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdvSteps)
-#. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
-#: ekos/focus/advisor.ui:120 ekos/focus/advisor.ui:178
+#: ekos/focus/advisor.ui:120
 #, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone. "
@@ -18302,6 +18295,15 @@ msgstr "Svi parametri"
 #| msgid "Focus Out"
 msgid "Focus Advisor:"
 msgstr "Defokusiranje"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
+#: ekos/focus/advisor.ui:178
+#, fuzzy, kde-format
+#| msgid "Additional options to be the solver"
+msgid ""
+"<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
+"</p></body></html>"
+msgstr "Dodatne opcije za rješavača"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -18659,12 +18661,12 @@ msgstr "Dodatne opcije za rješavača"
 msgid " nm"
 msgstr "mm"
 
-#: ekos/focus/focus.cpp:106
+#: ekos/focus/focus.cpp:108
 #, kde-format
 msgid "Idle."
 msgstr "Miran."
 
-#: ekos/focus/focus.cpp:128
+#: ekos/focus/focus.cpp:130
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Focus Options Profile Editor"
@@ -18673,7 +18675,7 @@ msgstr "Uređivač sličica"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:185 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:187 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:103 options/opsimageoverlay.ui:38
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -18682,26 +18684,26 @@ msgid "Settings"
 msgstr "Postavke"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:185 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:187 ekos/focus/opsfocussettings.ui:14
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Focus Settings"
 msgstr "Postavke"
 
-#: ekos/focus/focus.cpp:189
+#: ekos/focus/focus.cpp:191
 #, fuzzy, kde-format
 msgid "Process"
 msgstr "Fokusiranje..."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:189 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:191 ekos/focus/opsfocusprocess.ui:14
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Focus Process"
 msgstr "Arc datoteka"
 
-#: ekos/focus/focus.cpp:193
+#: ekos/focus/focus.cpp:195
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Buchans"
@@ -18709,197 +18711,197 @@ msgid "Mechanics"
 msgstr "Buchans"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:193 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:195 ekos/focus/opsfocusmechanics.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Buchans"
 msgid "Focus Mechanics"
 msgstr "Buchans"
 
-#: ekos/focus/focus.cpp:924
+#: ekos/focus/focus.cpp:926
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focuser Simulator"
 msgid "Finally found temperature source %1"
 msgstr "Simulator Fokusiranja"
 
-#: ekos/focus/focus.cpp:1016
+#: ekos/focus/focus.cpp:1018
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No Focuser connected."
 msgstr "INDI uređaji su stali."
 
-#: ekos/focus/focus.cpp:1023 ekos/focus/focus.cpp:4346
+#: ekos/focus/focus.cpp:1025 ekos/focus/focus.cpp:4348
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No CCD connected."
 msgstr "INDI uređaji su stali."
 
-#: ekos/focus/focus.cpp:1030
+#: ekos/focus/focus.cpp:1032
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1041
+#: ekos/focus/focus.cpp:1043
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1048
+#: ekos/focus/focus.cpp:1050
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1056
+#: ekos/focus/focus.cpp:1058
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1068
+#: ekos/focus/focus.cpp:1070
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1076
+#: ekos/focus/focus.cpp:1078
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1086
+#: ekos/focus/focus.cpp:1088
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1094
+#: ekos/focus/focus.cpp:1096
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1252
+#: ekos/focus/focus.cpp:1254
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/focus/focus.cpp:1254
+#: ekos/focus/focus.cpp:1256
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr "Molimo sačekajte dok se snimanje slike završi..."
 
-#: ekos/focus/focus.cpp:1268
+#: ekos/focus/focus.cpp:1270
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation started"
 msgstr "Opcije automatskog fokusiranja"
 
-#: ekos/focus/focus.cpp:1332
+#: ekos/focus/focus.cpp:1334
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Starting scan for initial focuser position."
 msgstr "Namiještanje nazad na izvornu poziciju..."
 
-#: ekos/focus/focus.cpp:1333
+#: ekos/focus/focus.cpp:1335
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Scanning for starting position..."
 msgstr "Autofokus nije uspio.Obustavljanje izlaganja."
 
-#: ekos/focus/focus.cpp:1385
+#: ekos/focus/focus.cpp:1387
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/focus/focus.cpp:1396
+#: ekos/focus/focus.cpp:1398
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "Dome Creek"
 
-#: ekos/focus/focus.cpp:1430
+#: ekos/focus/focus.cpp:1432
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus aborted."
 msgstr "Automatsko fokusiranje je završeno."
 
-#: ekos/focus/focus.cpp:1521
+#: ekos/focus/focus.cpp:1523
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1528
+#: ekos/focus/focus.cpp:1530
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "Greška: Izgubljena je konekcija za Fokuser."
 
-#: ekos/focus/focus.cpp:1549
+#: ekos/focus/focus.cpp:1551
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1555
+#: ekos/focus/focus.cpp:1557
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to filter wheel."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Greška: Izgubljena konekcija prema točku filtera."
 
-#: ekos/focus/focus.cpp:1673
+#: ekos/focus/focus.cpp:1675
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At minimum focus position %1..."
 msgstr "Rektascenzija pozicije fokusa"
 
-#: ekos/focus/focus.cpp:1684
+#: ekos/focus/focus.cpp:1686
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Moving to minimum focus position %1..."
 msgstr "Namiještanje nazad na izvornu poziciju..."
 
-#: ekos/focus/focus.cpp:1693
+#: ekos/focus/focus.cpp:1695
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At maximum focus position %1..."
 msgstr "Rektascenzija pozicije fokusa"
 
-#: ekos/focus/focus.cpp:1704
+#: ekos/focus/focus.cpp:1706
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "Moving to maximum focus position %1..."
 msgstr "Rektascenzija pozicije fokusa"
 
-#: ekos/focus/focus.cpp:1723
+#: ekos/focus/focus.cpp:1725
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1730
+#: ekos/focus/focus.cpp:1732
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Greška: Izgubljena je konekcija za Fokuser."
 
-#: ekos/focus/focus.cpp:1744
+#: ekos/focus/focus.cpp:1746
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Woodward"
 msgid "outward"
 msgstr "Woodward"
 
-#: ekos/focus/focus.cpp:1744
+#: ekos/focus/focus.cpp:1746
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1761
+#: ekos/focus/focus.cpp:1763
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "Fokusiranje unutra..."
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1769
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 step..."
@@ -18908,65 +18910,65 @@ msgstr[0] "Fokusiranje unutra..."
 msgstr[1] "Fokusiranje unutra..."
 msgstr[2] "Fokusiranje unutra..."
 
-#: ekos/focus/focus.cpp:1773
+#: ekos/focus/focus.cpp:1775
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "Fokusiranje unutra..."
 
-#: ekos/focus/focus.cpp:1808
+#: ekos/focus/focus.cpp:1810
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/focus/focus.cpp:1815
+#: ekos/focus/focus.cpp:1817
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Fokusiranje prema vani..."
 
-#: ekos/focus/focus.cpp:1826
+#: ekos/focus/focus.cpp:1828
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Fokusiranje prema vani..."
 
-#: ekos/focus/focus.cpp:1872
+#: ekos/focus/focus.cpp:1874
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1881
+#: ekos/focus/focus.cpp:1883
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Dohvaćanje prekinuto."
 
-#: ekos/focus/focus.cpp:1930
+#: ekos/focus/focus.cpp:1932
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "završeno"
 
-#: ekos/focus/focus.cpp:2122
+#: ekos/focus/focus.cpp:2124
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Detecting sources..."
 msgstr "Preuzimanje..."
 
-#: ekos/focus/focus.cpp:2225
+#: ekos/focus/focus.cpp:2227
 #, fuzzy, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/focus/focus.cpp:2238
+#: ekos/focus/focus.cpp:2240
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "Opcije automatskog fokusiranja"
 
-#: ekos/focus/focus.cpp:2305
+#: ekos/focus/focus.cpp:2307
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
@@ -18975,66 +18977,66 @@ msgstr[0] "Automatsko fokusiranje je završeno."
 msgstr[1] "Automatsko fokusiranje je završeno."
 msgstr[2] "Automatsko fokusiranje je završeno."
 
-#: ekos/focus/focus.cpp:2391
+#: ekos/focus/focus.cpp:2393
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "Postavke"
 
-#: ekos/focus/focus.cpp:2399
+#: ekos/focus/focus.cpp:2401
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "završeno"
 
-#: ekos/focus/focus.cpp:2412
+#: ekos/focus/focus.cpp:2414
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2449
+#: ekos/focus/focus.cpp:2451
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS je primljen. Nisu detektovane zvijezde."
 
-#: ekos/focus/focus.cpp:2717
+#: ekos/focus/focus.cpp:2719
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "Nije uspjelo automatsko selektovanje zvijezde. Molimo označite zvijezdu "
 "ručno."
 
-#: ekos/focus/focus.cpp:2811
+#: ekos/focus/focus.cpp:2813
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Snimanje gotovo. Označite zvijezdu za fokusiranje."
 
-#: ekos/focus/focus.cpp:2842
+#: ekos/focus/focus.cpp:2844
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Nisu detektovane zvijezde, snima se ponovno..."
 
-#: ekos/focus/focus.cpp:2862
+#: ekos/focus/focus.cpp:2864
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "HFR %1 > Limit %2"
 msgstr "HFR:"
 
-#: ekos/focus/focus.cpp:2976
+#: ekos/focus/focus.cpp:2978
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Automatsko fokusiranje je završeno."
 
-#: ekos/focus/focus.cpp:2987 ekos/focus/focus.cpp:3221
-#: ekos/focus/focus.cpp:3807
+#: ekos/focus/focus.cpp:2989 ekos/focus/focus.cpp:3223
+#: ekos/focus/focus.cpp:3809
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Nisu detektovane zvijezde, snima se ponovno..."
 
-#: ekos/focus/focus.cpp:2993 ekos/focus/focus.cpp:3813
+#: ekos/focus/focus.cpp:2995 ekos/focus/focus.cpp:3815
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
@@ -19043,7 +19045,7 @@ msgstr ""
 "Nije uspjelo automatsko selektovanje zvijezde. Molimo označite zvijezdu "
 "ručno."
 
-#: ekos/focus/focus.cpp:2999 ekos/focus/focus.cpp:3819
+#: ekos/focus/focus.cpp:3001 ekos/focus/focus.cpp:3821
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
@@ -19052,17 +19054,17 @@ msgstr ""
 "Nije uspjelo automatsko selektovanje zvijezde. Molimo označite zvijezdu "
 "ručno."
 
-#: ekos/focus/focus.cpp:3185
+#: ekos/focus/focus.cpp:3187
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3205
+#: ekos/focus/focus.cpp:3207
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3228
+#: ekos/focus/focus.cpp:3230
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
@@ -19071,64 +19073,64 @@ msgstr ""
 "Nije uspjelo automatsko selektovanje zvijezde. Molimo označite zvijezdu "
 "ručno."
 
-#: ekos/focus/focus.cpp:3237
+#: ekos/focus/focus.cpp:3239
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Automatsko fokusiranje je završeno."
 
-#: ekos/focus/focus.cpp:3255
+#: ekos/focus/focus.cpp:3257
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3269
+#: ekos/focus/focus.cpp:3271
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3279
+#: ekos/focus/focus.cpp:3281
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3280
+#: ekos/focus/focus.cpp:3282
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3341
+#: ekos/focus/focus.cpp:3343
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3343
+#: ekos/focus/focus.cpp:3345
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "R2=%1 < Limit=%2"
 msgstr "HFR:"
 
-#: ekos/focus/focus.cpp:3351
+#: ekos/focus/focus.cpp:3353
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3361
+#: ekos/focus/focus.cpp:3363
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3396
+#: ekos/focus/focus.cpp:3398
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS je primljen. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3398
+#: ekos/focus/focus.cpp:3400
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS je primljen. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3459
+#: ekos/focus/focus.cpp:3461
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19137,44 +19139,44 @@ msgstr ""
 "Promjena u HFR je premala. Pokusajte povećati veličinu koraka ili smanjiti "
 "toleranciju."
 
-#: ekos/focus/focus.cpp:3466
+#: ekos/focus/focus.cpp:3468
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3571
+#: ekos/focus/focus.cpp:3573
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3635
+#: ekos/focus/focus.cpp:3637
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3646
+#: ekos/focus/focus.cpp:3648
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3656
+#: ekos/focus/focus.cpp:3658
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Dosegnut je zastoj. Molimo pokusajte ponovno sa drugačijim postavkama."
 
-#: ekos/focus/focus.cpp:3685
+#: ekos/focus/focus.cpp:3687
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3792
+#: ekos/focus/focus.cpp:3794
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS je primljen. HFR %1. Delta (%2%)"
 
-#: ekos/focus/focus.cpp:3796
+#: ekos/focus/focus.cpp:3798
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19182,61 +19184,61 @@ msgstr ""
 "Automatsko fokusiranje nije uspjelo dosegnuti podesan fokus. Pokusajte "
 "prilagoditi vrijednost tolerancije."
 
-#: ekos/focus/focus.cpp:3891 ekos/focus/focus.cpp:3914
-#: ekos/focus/focus.cpp:4078 ekos/focus/focus.cpp:4155
-#: ekos/focus/focus.cpp:4221 ekos/focus/focus.cpp:4290
+#: ekos/focus/focus.cpp:3893 ekos/focus/focus.cpp:3916
+#: ekos/focus/focus.cpp:4080 ekos/focus/focus.cpp:4157
+#: ekos/focus/focus.cpp:4223 ekos/focus/focus.cpp:4292
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Greška fokusera, provjerite INDI ploču."
 
-#: ekos/focus/focus.cpp:3975 ekos/focus/focus.cpp:4094
+#: ekos/focus/focus.cpp:3977 ekos/focus/focus.cpp:4096
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Simulate focuser comms failure..."
 msgstr "Automatsko fokusiranje je završeno."
 
-#: ekos/focus/focus.cpp:4056 ekos/focus/focus.cpp:4137
-#: ekos/focus/focus.cpp:4203 ekos/focus/focus.cpp:4241
+#: ekos/focus/focus.cpp:4058 ekos/focus/focus.cpp:4139
+#: ekos/focus/focus.cpp:4205 ekos/focus/focus.cpp:4243
 #, fuzzy, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/focus/focus.cpp:4362
+#: ekos/focus/focus.cpp:4364
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Započinje kontinuirana izloženost..."
 
-#: ekos/focus/focus.cpp:4651
+#: ekos/focus/focus.cpp:4653
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4656
+#: ekos/focus/focus.cpp:4658
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "%1 zvijezda detektovana."
 
-#: ekos/focus/focus.cpp:4800
+#: ekos/focus/focus.cpp:4802
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Using last known position..."
 msgstr "Nisu detektovane zvijezde, snima se ponovno..."
 
-#: ekos/focus/focus.cpp:4806
+#: ekos/focus/focus.cpp:4808
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Aborting..."
 msgstr "Nisu detektovane zvijezde, snima se ponovno..."
 
-#: ekos/focus/focus.cpp:4817
+#: ekos/focus/focus.cpp:4819
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focuser already at %1..."
 msgstr "Fokusiranje prema vani..."
 
-#: ekos/focus/focus.cpp:4923
+#: ekos/focus/focus.cpp:4925
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -19244,38 +19246,38 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Tajmer fokusiranja"
 
-#: ekos/focus/focus.cpp:5265
+#: ekos/focus/focus.cpp:5267
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing image again..."
 msgstr "Dohvatanje slike..."
 
-#: ekos/focus/focus.cpp:5280
+#: ekos/focus/focus.cpp:5282
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save image. Aborting..."
 msgstr "Postavljanje pod okvira nije uspjelo."
 
-#: ekos/focus/focus.cpp:5290
+#: ekos/focus/focus.cpp:5292
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Postavi ekspoziciju kamere/CCD-a. Trajanje je u sekundama."
 
-#: ekos/focus/focus.cpp:5295
+#: ekos/focus/focus.cpp:5297
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Autofokus nije uspio.Obustavljanje izlaganja."
 
-#: ekos/focus/focus.cpp:5582
+#: ekos/focus/focus.cpp:5584
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Ukloni trag"
 
-#: ekos/focus/focus.cpp:6882
+#: ekos/focus/focus.cpp:7154
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -19301,7 +19303,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ekos/focus/focus.cpp:6898
+#: ekos/focus/focus.cpp:7170
 #, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
@@ -24808,7 +24810,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2134
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Scheduler"
@@ -27275,7 +27277,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:343 ekos/scheduler/scheduler.cpp:1925
+#: ekos/scheduler/scheduler.cpp:343 ekos/scheduler/scheduler.cpp:1926
 #: ekos/scheduler/schedulerprocess.cpp:3249
 #, kde-format
 msgid ""
@@ -27444,104 +27446,104 @@ msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Sekvencijalni red"
 
-#: ekos/scheduler/scheduler.cpp:1780
+#: ekos/scheduler/scheduler.cpp:1781
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Sekvencijalni red"
 
-#: ekos/scheduler/scheduler.cpp:1799
+#: ekos/scheduler/scheduler.cpp:1800
 #, fuzzy, kde-format
 #| msgid "Failed to save sequence queue"
 msgid "Failed to save scheduler list"
 msgstr "Nije moguće snimiti sekvencijalni red"
 
-#: ekos/scheduler/scheduler.cpp:1944
+#: ekos/scheduler/scheduler.cpp:1945
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1946
+#: ekos/scheduler/scheduler.cpp:1947
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1972
+#: ekos/scheduler/scheduler.cpp:1973
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Slew complete"
 msgstr "završeno"
 
-#: ekos/scheduler/scheduler.cpp:1976
+#: ekos/scheduler/scheduler.cpp:1977
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus complete"
 msgstr "Automatsko fokusiranje je završeno."
 
-#: ekos/scheduler/scheduler.cpp:1978
+#: ekos/scheduler/scheduler.cpp:1979
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Align complete"
 msgstr "završeno"
 
-#: ekos/scheduler/scheduler.cpp:1979
+#: ekos/scheduler/scheduler.cpp:1980
 #, fuzzy, kde-format
 #| msgid "Opposition"
 msgid "Repositioning"
 msgstr "Opozicija"
 
-#: ekos/scheduler/scheduler.cpp:1980
+#: ekos/scheduler/scheduler.cpp:1981
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Repositioning complete"
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/scheduler.cpp:1983
+#: ekos/scheduler/scheduler.cpp:1984
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Guiding complete"
 msgstr "završeno"
 
-#: ekos/scheduler/scheduler.cpp:2060
+#: ekos/scheduler/scheduler.cpp:2061
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2064
+#: ekos/scheduler/scheduler.cpp:2065
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2068
+#: ekos/scheduler/scheduler.cpp:2069
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2088
+#: ekos/scheduler/scheduler.cpp:2089
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2097
+#: ekos/scheduler/scheduler.cpp:2098
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2121
+#: ekos/scheduler/scheduler.cpp:2122
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "Datoteka snimljena na %1"
 
-#: ekos/scheduler/scheduler.cpp:2184
+#: ekos/scheduler/scheduler.cpp:2185
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual startup procedure completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/scheduler/scheduler.cpp:2188
+#: ekos/scheduler/scheduler.cpp:2189
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
