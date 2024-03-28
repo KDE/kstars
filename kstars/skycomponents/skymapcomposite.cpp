@@ -572,23 +572,17 @@ SkyObject *SkyMapComposite::findByName(const QString &name, bool exact)
     //looking for a match.  The most important part of this ordering
     //is that stars should be last (because the stars list is so long)
     SkyObject *o = nullptr;
-    o            = m_SolarSystem->findByName(name);
-    if (o)
+    if ((o = m_SolarSystem->findByName(name, exact)))
         return o;
-    o = m_Catalogs->findByName(name, exact);
-    if (o)
+    if ((o = m_Catalogs->findByName(name, exact)))
         return o;
-    o = m_CNames->findByName(name);
-    if (o)
+    if ((o = m_CNames->findByName(name, exact)))
         return o;
-    o = m_Stars->findByName(name);
-    if (o)
+    if ((o = m_Stars->findByName(name, exact)))
         return o;
-    o = m_Supernovae->findByName(name);
-    if (o)
+    if ((o = m_Supernovae->findByName(name, exact)))
         return o;
-    o = m_Satellites->findByName(name);
-    if (o)
+    if ((o = m_Satellites->findByName(name, exact)))
         return o;
 
     return nullptr;
