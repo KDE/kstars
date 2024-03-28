@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-27 10:08+0000\n"
-"PO-Revision-Date: 2024-03-24 09:10+0100\n"
+"PO-Revision-Date: 2024-03-27 16:43+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -17008,6 +17008,7 @@ msgstr "fotogramas.   HFR:"
 #, kde-format
 msgid "User initiated ad-hoc in-sequence Autofocus..."
 msgstr ""
+"Enfoque automático en secuencia iniciado expresamente por el usuario..."
 
 #: ekos/capture/refocusstate.cpp:45
 #, kde-format
@@ -18242,16 +18243,13 @@ msgstr "Asesor de enfoque:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:178
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar la zona de enfoque crítica en "
-"el gráfico.</p></body></html>"
+"<html><head/><body><p>El tamaño del paso se puede establecer de forma "
+"predeterminada a la zona de enfoque crítico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -18715,11 +18713,13 @@ msgstr ""
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
+"Se está realizando una creación de desplazamiento. Se ha rechazado el "
+"enfoque automático."
 
 #: ekos/focus/focus.cpp:1058
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
-msgstr ""
+msgstr "En bucle de enfoque. Se ha rechazado el enfoque automático."
 
 #: ekos/focus/focus.cpp:1070
 #, kde-format
@@ -19008,11 +19008,10 @@ msgid "Failed to detect any stars. Aborting..."
 msgstr "Ha fallado la detección de estrellas. Interrumpiendo..."
 
 #: ekos/focus/focus.cpp:3239
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
-"El enfoque automático ha fallado: se ha excedido el número máximo de %1 "
+"Posición de inicio de exploración: se ha excedido el número máximo de %1 "
 "iteraciones"
 
 #: ekos/focus/focus.cpp:3257
@@ -19485,16 +19484,14 @@ msgstr "Asesor"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, forceInSeqAF)
 #: ekos/focus/focus.ui:942
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an ad-hoc In-Sequence Autofocus at the "
 "completion of the current subframe.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esta opción para forzar un enfoque automático "
-"tras una inversión de meridiano.</p></body></html>"
+"<html><head/><body><p>Marque esta opción para forzar expresamente un enfoque "
+"automático en secuencia cuando se complete el subfotograma actual.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
 #: ekos/focus/focus.ui:945
@@ -19896,17 +19893,15 @@ msgstr "Demora de sobreexploración de AF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The minimum size of an adaptive focus change that "
-#| "will be sent to the focuser.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El tamaño mínimo de un cambio de enfoque adaptativo "
-"que se enviará al enfocador.</p></body></html>"
+"<html><head/><body><p>Retraso entre la terminación del movimiento hacia "
+"afuera de una sobreexploración y el comienzo el movimiento hacia adentro. "
+"Para la mayoría de enfocadores, «0 s» es correcto.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -20392,6 +20387,9 @@ msgid ""
 "Linear 1 Pass, the point of optimum focus will also capture this number of "
 "frames."
 msgstr ""
+"Número de fotogramas que se capturarán al ejecutar una comprobación de HFR "
+"en secuencia. Si se usa «Lineal de 1 paso», el punto de enfoque óptimo "
+"también capturará este número de fotogramas."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/opsfocusprocess.ui:465
@@ -30824,12 +30822,13 @@ msgstr "Selecciona el perfil de opciones a a usar para resolver placas"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:410
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
-msgstr "Selecciona el perfil de opciones a a usar para resolver placas"
+msgstr ""
+"Selecciona el módulo del que se toman los perfiles de opciones que se usarán "
+"durante la resolución de placas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
@@ -34608,7 +34607,7 @@ msgstr "Muestra/oculta el Sol en el mapa del cielo."
 #: kstars.kcfg:656
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Aumentar el tamaño del Sol en este factor."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:660
@@ -34626,7 +34625,7 @@ msgstr "Muestra/oculta la Luna en el mapa del cielo."
 #: kstars.kcfg:665
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Aumentar el tamaño de la Luna en este factor."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:669
@@ -36874,10 +36873,10 @@ msgstr "Perfil de opciones para resolver con el visor FITS."
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1559
-#, fuzzy, kde-format
-#| msgid "Options Profile for Fitsviewer Solving."
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr "Perfil de opciones para resolver con el visor FITS."
+msgstr ""
+"Módulo del que se toma el perfil de opciones para resolver con el visor FITS."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1563
@@ -36886,6 +36885,8 @@ msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
+"JSON que guarda la asignación de índices de perfiles a perfiles de módulos "
+"para la resolución del visor FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1568
@@ -37656,17 +37657,15 @@ msgstr "Capturar fotogramas de calibración usando el umbral de ADU."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUValue), group (Capture)
 #: kstars.kcfg:1995
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU"
+#, kde-format
 msgid "Desired flat frame ADU value."
-msgstr "ADU deseada del campo plano"
+msgstr "Valor de ADU deseado de fotograma plano."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUTolerance), group (Capture)
 #: kstars.kcfg:1999
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU"
+#, kde-format
 msgid "Desired flat frame ADU tolerance."
-msgstr "ADU deseada del campo plano"
+msgstr "Tolerancia de ADU deseada de fotograma plano."
 
 #. i18n: ectx: label, entry (CaptureCalibrationSkyFlats), group (Capture)
 #: kstars.kcfg:2003
@@ -37744,6 +37743,8 @@ msgstr "Filtro predeterminado de la rueda de filtros"
 msgid ""
 "When In Sequence, force an Autofocus at the end of the current subframe."
 msgstr ""
+"En una secuencia, forzar un enfoque automático al final del subfotograma "
+"actual."
 
 #. i18n: ectx: label, entry (UseFocusDarkFrame), group (Focus)
 #: kstars.kcfg:2041
@@ -37981,13 +37982,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusHFRFramesCount), group (Focus)
 #: kstars.kcfg:2160
-#, fuzzy, kde-format
-#| msgid ""
-#| "How many frames to average over at each step in the Autofocus process."
+#, kde-format
 msgid "How many frames to average over when performing in-sequence HFR Check."
 msgstr ""
-"Cuántos fotogramas se deben promediar en cada paso del proceso de enfoque "
-"automático."
+"Cuántos fotogramas se deben promediar al realizar una comprobación de HFR en "
+"secuencia."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:2164
@@ -77068,22 +77067,21 @@ msgstr "Si se selecciona, el Sol se dibujará en el mapa."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Usar escala"
+msgstr "escala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Escala de representación del Sol."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Aumentar el tamaño del Sol en este factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -77113,13 +77111,13 @@ msgstr "Si se selecciona, la Luna se dibujará en el mapa."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Escala de representación de la Luna."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Aumentar el tamaño de la Luna en este factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258

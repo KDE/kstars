@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-27 10:08+0000\n"
-"PO-Revision-Date: 2024-03-22 16:18+0300\n"
+"PO-Revision-Date: 2024-03-27 14:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -13485,7 +13485,7 @@ msgstr "Bağlantı"
 #: ekos/auxiliary/serialportassistant.cpp:206
 #, kde-format
 msgid "Serial #"
-msgstr "Seri #"
+msgstr "Seri №"
 
 #: ekos/auxiliary/serialportassistant.cpp:207
 #, kde-format

@@ -5,21 +5,21 @@
 # Pierre-Marie Pédrot <pedrotpmx@wanadoo.fr>, 2007.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
 # Axel Rousseau <axel584@gmail.com>, 2015. #zanata
-# SPDX-FileCopyrightText: 2023 Oliver Kellogg <okellogg@users.sourceforge.net>
+# SPDX-FileCopyrightText: 2023, 2024 Oliver Kellogg <okellogg@users.sourceforge.net>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-27 10:08+0000\n"
-"PO-Revision-Date: 2024-03-23 10:43+0100\n"
+"PO-Revision-Date: 2024-03-27 12:41+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -14265,6 +14265,8 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Dum fotado de platoj sur ĉielo, tio povas ŝanĝi intensecon. Uzos pli "
+"simplanelmetkalkulon."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
 #: ekos/capture/calibrationoptions.ui:229
@@ -15654,7 +15656,7 @@ msgstr "Aŭtomata fokuso malsukcesis. Ĉesigante malkovron..."
 #: ekos/capture/capturemodulestate.cpp:688
 #, kde-format
 msgid "Limit: %1 °C"
-msgstr ""
+msgstr "Limo: %1 °C"
 
 #: ekos/capture/capturemodulestate.cpp:692
 #, kde-format
@@ -16750,7 +16752,7 @@ msgstr "kadroj.   HFR:"
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
 msgid "User initiated ad-hoc in-sequence Autofocus..."
-msgstr ""
+msgstr "Uzanto iniciatis tujan ensekvencan Aŭtofokuson..."
 
 #: ekos/capture/refocusstate.cpp:45
 #, kde-format
@@ -17953,16 +17955,13 @@ msgstr "Fokus-konsilisto:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:178
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marku por montri la Kritikan Fokus-Zonon sur la grafeo."
-"</p></body></html>"
+"<html><head/><body><p>Paŝgrando povas esti defaŭltigita al la Kritika Fokus-"
+"Zono.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -18420,12 +18419,12 @@ msgstr "Aŭtomata fokuso jam funkcias, forĵetante startpeton."
 #: ekos/focus/focus.cpp:1050
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
-msgstr ""
+msgstr "Konstrui Deŝovon jam estas rulanta, Aŭtofokusado malakceptita."
 
 #: ekos/focus/focus.cpp:1058
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
-msgstr ""
+msgstr "En Fokusbuklo, Aŭtofokusado malakceptita."
 
 #: ekos/focus/focus.cpp:1070
 #, kde-format
@@ -18741,7 +18740,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:3363
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
-msgstr ""
+msgstr "Lineara aŭtofokus-algoritmo ĉesigita: %1"
 
 #: ekos/focus/focus.cpp:3398
 #, kde-format
@@ -18891,29 +18890,7 @@ msgid "Relative Profile"
 msgstr "Relativa Profilo"
 
 #: ekos/focus/focus.cpp:7154
-#, fuzzy, kde-format
-#| msgid ""
-#| "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#| "It will not necessarily give you the perfect combination of parameters, "
-#| "you will need to experiment yourself, but it will give you a basic set of "
-#| "parameters to achieve focus.\n"
-#| "\n"
-#| "FA will recommend values for the majority of parameters. A few, however, "
-#| "will need extra work from you to setup. These are identified below along "
-#| "with a basic explanation of how to set them.\n"
-#| "\n"
-#| "The first step is to set backlash. Your focuser manual will likely "
-#| "explain how to do this. Once you have a value for backlash for your "
-#| "system, set either the Backlash field to have the driver perform backlash "
-#| "compensation or the AF Overscan field to have Autofocus perform backlash "
-#| "compensation. Set only one field and set the other to 0.\n"
-#| "\n"
-#| "The second step is to set Step Size. This can be defaulted from the "
-#| "Critical Focus Zone (CFZ) for your equipment - so configure this now in "
-#| "the CFZ tab.\n"
-#| "\n"
-#| "The third step is to set the Out Step Multiple. Start with the suggested "
-#| "default."
+#, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
 "It will not necessarily give you the perfect combination of parameters, you "
@@ -18950,34 +18927,17 @@ msgstr ""
 "klarigos kiel fari tion. Post kiam vi havas valoron por kontraŭreago por via "
 "sistemo, agordu aŭ la kampon Backlash por ke la pelilo realigu kontraŭreagon "
 "kompenson aŭ la AF Overscan kampon por ke Aŭtomatfokuso realigu "
-"kontraŭreagon kompenson. Agordu nur unu kampon kaj agordu la alian al 0.\n"
+"kontraŭreagan kompenson. Agordu nur unu kampon kaj metu la alian al 0. Se vi "
+"malcertas kiun meti, AF-Overscan estas rekomendita.\n"
 "\n"
-"La dua paŝo estas agordi Paŝograndon. Ĉi tio povas esti defaŭlta de la "
-"Kritika Fokuso-Zono (CFZ) por via ekipaĵo - do agordu ĉi tion nun en la "
-"langeto CFZ.\n"
+"La dua paŝo estas agordi Paŝograndon. Se vi konscias pri proksimuma valoro "
+"enigu ĝin ĉi tie, alikaze ĉi tio povas esti defaŭltigita de la Kritika Fokus-"
+"Zono (CFZ) por via ekipaĵo - do agordu ĉi tion nun en la langeto CFZ kaj "
+"rekomencu Fokus-Konsilanton.\n"
 "\n"
-"La tria paŝo estas agordi la Eksterpaŝan Multoblon. Komencu kun la proponita "
-"defaŭlto."
 
 #: ekos/focus/focus.cpp:7170
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "The fourth step is to set the remaining focus parameters to sensible "
-#| "values. Focus Advisor will suggest values for 4 categories of parameters. "
-#| "Check the associated Update box to accept these recommendations when you "
-#| "press Update Params.\n"
-#| "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#| "e.g. unity gain.\n"
-#| "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#| "3. Focus Process (Options Popup): These all have recommendations.\n"
-#| "4. Focus Mechanics (Options Popup): Note Step Size and Out Step Multiple "
-#| "are dealt with above.\n"
-#| "\n"
-#| "Now move the focuser to approximate focus and select a broadband filter, "
-#| "e.g. Luminance\n"
-#| "You are now ready to start an Autofocus run."
+#, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
 "Focus Advisor will suggest values for 5 categories of parameters. Check the "
@@ -18995,18 +18955,18 @@ msgid ""
 "g. Luminance\n"
 "You are now ready to start an Autofocus run."
 msgstr ""
-"\n"
-"\n"
-"La kvara paŝo estas agordi la ceterajn fokusajn parametrojn al prudentaj "
+"La tria paŝo estas agordi la ceterajn fokusajn parametrojn al prudentaj "
 "valoroj. Focus Advisor sugestos valorojn por 4 kategorioj da parametroj. "
 "Marku la rilatan Ĝisdatigu skatolon por akcepti ĉi tiujn rekomendojn kaj "
 "premu Ĝisdatigi Params.\n"
-"1. Fotilaj Propraĵoj - Rimarku, ke vi devas certigi, ke Gajno estas agordita "
+"1. Fotilaj Proprecoj - Rimarku, ke vi devas certigi, ke Gajno estas agordita "
 "taŭge, ekz. unueca gajno.\n"
 "2. Fokus-Agordoj (Ŝprucfenestro Opcioj): Ĉi tiuj ĉiuj havas rekomendojn.\n"
 "3. Fokusa Procezo (Ŝprucfenestro Opcioj): Ĉi tiuj ĉiuj havas rekomendojn.\n"
-"4. Fokusa Mekaniko (Ŝprucfenestro Opcioj): Rimarku ke Paŝa Grandeco kaj "
-"Eksterpaŝa Multoblo estas traktataj supre.\n"
+"4. Fokusa Mekaniko (Ŝprucfenestro Opcioj): Rimarku ke Paŝa Grandeco estas "
+"traktataj supre.\n"
+"5. SEP-Parametroj (Ŝprucfenestro Opcioj): Meti la respektivan profilon al "
+"ĝiaj defaŭltaj valoroj.\n"
 "\n"
 "Nun movu la fokusilon al proksimuma fokuso kaj elektu larĝbendan filtrilon, "
 "ekz. Lumineco\n"
@@ -20080,6 +20040,9 @@ msgid ""
 "Linear 1 Pass, the point of optimum focus will also capture this number of "
 "frames."
 msgstr ""
+"Nombro da kadroj kaptendaj dum funkciado en ensekvenca HFR-Kontrolo. Se vi "
+"uzas Linearan 1-Paŝon, la punkto de optimuma fokuso ankaŭ kaptos ĉi tiun "
+"nombron da kadroj."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/opsfocusprocess.ui:465
@@ -20200,6 +20163,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Kiam Skanado por Komenca Pozicio estas markita, ĉi tiu estas la nombro da "
+"datumpunktoj uzenda."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:737
@@ -20235,6 +20200,9 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kiel agreseme apliki Outlier Rejection. Pli altaj "
+"valoroj malakceptas pli da eksterordinaroj.</p><p>Rafini Kurbkonvenon devas "
+"esti agordita por ke ĉi elekteblo iĝu aktiva.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:807
@@ -20243,6 +20211,8 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Kiam Skanado por Komenca Pozicio estas markita, la skano uzas paŝgrandon = "
+"Komenc-Paŝgranda multiplikanto oble Komenca Paŝgrando x."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:810
@@ -33953,7 +33923,7 @@ msgstr "Baskuligi ĉu la Suno estas desegnita sur la ĉiela mapo."
 #: kstars.kcfg:656
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Pliigi la grandecon de la Suno per ĉi faktoro."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:660
@@ -33971,7 +33941,7 @@ msgstr "Baskuligi ĉu la Luno estas desegnita sur la ĉielmapo."
 #: kstars.kcfg:665
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Pliigi la grandecon de la Luno per ĉi faktoro."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:669
@@ -36186,6 +36156,8 @@ msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
+"JSON-e konservi la atribuadon de profilindeksoj al modulprofiloj por la "
+"Solvilo de FITS-Viewer."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1568
@@ -36693,7 +36665,7 @@ msgstr "Ĉiela Ebenaĵo"
 #: kstars.kcfg:1861
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr "Pafante ebenaĵojn sur ĉielon kun ŝanĝanta intenseco."
+msgstr "Fotante platojn sur ĉielo kun ŝanĝanta intenseco."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1865
@@ -36888,13 +36860,13 @@ msgstr "Kalkuli pozicion post kaptoj."
 #: kstars.kcfg:1972
 #, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr ""
+msgstr "Identigilo de optika ilĉeno plej lasttempe uzita en Kapti."
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:1975
 #, kde-format
 msgid "Go to specific coordinates on calibration."
-msgstr ""
+msgstr "Iri al specifaj koordinatoj je kalibrado."
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkMount), group (Capture)
 #: kstars.kcfg:1979
@@ -36918,7 +36890,7 @@ msgstr "Kapti kalibradajn kadrojn ĉe specifitaj elmetoj."
 #: kstars.kcfg:1991
 #, kde-format
 msgid "Capture calibration frames using ADU threshold."
-msgstr ""
+msgstr "Kapti kalibradajn kadrojn uzante ADU-sojlon."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUValue), group (Capture)
 #: kstars.kcfg:1995
@@ -36936,7 +36908,7 @@ msgstr "Dezirata platkampa ADU-toleremo."
 #: kstars.kcfg:2003
 #, kde-format
 msgid "Capture calibration frames using Sky Flats."
-msgstr ""
+msgstr "Kapti kalibradajn kadrojn uzante Sky Flats."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:2009
@@ -37005,6 +36977,7 @@ msgstr "Defaŭlta Filtrila Rado-filtrilo"
 msgid ""
 "When In Sequence, force an Autofocus at the end of the current subframe."
 msgstr ""
+"Estante En-Sekvenca, devigi Aŭtofokusadon ĉe la fino de la aktuala subkadro."
 
 #. i18n: ectx: label, entry (UseFocusDarkFrame), group (Focus)
 #: kstars.kcfg:2041
@@ -37278,6 +37251,8 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Faktoro de agresemo aplikenda la malakcepto de eksterordinaraĵoj kiam oni "
+"uzas Benjet-Rompilon."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2188
@@ -37294,6 +37269,7 @@ msgstr ""
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
+"Nombro da datumpunktoj uzenda dum skano kiam focusScanStartPos estas markita."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2196
@@ -37302,6 +37278,8 @@ msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
+"Faktoro aplikenda por Komenca Paŝgrando dum skano kiam focusScanStartPos "
+"estas markita."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2200
@@ -37414,6 +37392,8 @@ msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
+"Prokrasto inter eksteren- kaj enen-movoj de AF-Overscan. Por la plimulto de "
+"fokusiloj metu 0s."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2256
@@ -68997,6 +68977,8 @@ msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
 msgstr ""
+"Elektu ĉi tion se vi uzas fotilon sur la teleskopo, aŭ havas la "
+"ĉielmapanekranon muntita sur via teleskopo"
 
 #: kstarsinit.cpp:771
 #, kde-format
@@ -76139,22 +76121,21 @@ msgstr "Se markite, la Suno estos desegnita sur la mapo."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Uzu Skalon"
+msgstr "skalo:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Sunbildiga skalo."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Pliigi la grandecon de la suno per ĉi faktoro."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -76184,13 +76165,13 @@ msgstr "Se markite, la Luno estos desegnita sur la mapo."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Lunbildiga skalo."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Pliigi la grandecon de la luno per ĉi faktoro."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
