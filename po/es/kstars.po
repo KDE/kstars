@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 01:57+0000\n"
-"PO-Revision-Date: 2024-03-27 16:43+0100\n"
+"PO-Revision-Date: 2024-03-29 03:42+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6952,18 +6952,14 @@ msgstr "Mostrar en el visor FITS..."
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:234
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Restar fotograma oscuro. Si no se dispone de ninún "
-"fotograma oscuro, se debe capturar y guardar un nuevo fotograma oscuro para "
-"futuros usos.</p></body></html>"
+"<html><head/><body><p>Restar fotograma oscuro. Crear fotogramas oscuros o "
+"mapas de defectos en la herramienta de la biblioteca oscura del módulo de "
+"captura.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)

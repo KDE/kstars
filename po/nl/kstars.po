@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 01:57+0000\n"
-"PO-Revision-Date: 2024-03-27 15:25+0100\n"
+"PO-Revision-Date: 2024-03-29 13:53+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6922,18 +6922,14 @@ msgstr "Tonen van FITS-afbeeldingen..."
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:234
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dark-frame aftrekken. Indien er geen is, wordt een "
-"nieuwe dark-frame opgenomen en voor later gebruik opgeslagen.</p></body></"
-"html>"
+"<html><head/><body><p>Dark-frame aftrekken. Dark-frames of kaarten met "
+"defecten aanmaken in het hulpmiddel Donkere bibliotheek in de module voor "
+"opnemen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)

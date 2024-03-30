@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 01:57+0000\n"
-"PO-Revision-Date: 2024-03-27 19:58+0100\n"
+"PO-Revision-Date: 2024-03-29 10:32+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6963,18 +6963,14 @@ msgstr "Mostra en el visualitzador de FITS..."
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:234
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Resta el fotograma fosc. Si no hi ha cap fotograma "
-"fosc adequat, es capturarà un fotograma fosc nou i es desarà per a un ús "
-"futur.</p></body></html>"
+"<html><head/><body><p>Sostreu el fotograma fosc. Crea fotogrames foscos o "
+"mapes de defectes a l'eina Biblioteca fosca en el mòdul de captura.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -10559,7 +10555,7 @@ msgstr "Repetició"
 #: ekos/analyze/analyze.cpp:3332 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
-msgstr "S'està restant"
+msgstr "S'està sostraent"
 
 #: ekos/analyze/analyze.cpp:3334 ekos/ekos.h:27
 #, kde-format

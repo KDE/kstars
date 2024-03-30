@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 01:57+0000\n"
-"PO-Revision-Date: 2024-03-28 08:18+0100\n"
+"PO-Revision-Date: 2024-03-29 18:11+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6880,18 +6880,13 @@ msgstr "Montri en FITS Viewer..."
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:234
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sutrahi malhelan kadron. Se neniu malhela kadro estas "
-"disponebla, nova malhela kadro estos kaptita kaj konservita por estonta uzo."
-"</p></body></html>"
+"<html><head/><body><p>Sutrahi malhelan kadron. Krei malhelajn kadrojn aŭ "
+"difektmapojn en la Dark-Library-ilo de la kaptomodulo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -85277,22 +85272,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "Subtract dark frame. If no suitable dark frame is available, a dark frame "
-#~ "shall be captured."
-#~ msgstr ""
-#~ "Subtrahi malhelan kadron. Se neniu taŭga malhela kadro estas disponebla, "
-#~ "malhela kadro estos kaptita."
-
-#~ msgid "Use dark frames from the library."
-#~ msgstr "Uzi malhelajn kadrojn de la biblioteko."
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "The sun"
-#~ msgstr "Suno"
-
-#~ msgid "The moon"
-#~ msgstr "Luno"
