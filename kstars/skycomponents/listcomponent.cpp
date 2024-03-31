@@ -66,7 +66,7 @@ SkyObject *ListComponent::findByName(const QString &name, bool exact)
     {
         auto object = std::find_if(m_ObjectHash.begin(), m_ObjectHash.end(), [name](const auto & oneObject)
         {
-            return oneObject->name().contains(name, Qt::CaseInsensitive);
+            return oneObject && oneObject->name().contains(name, Qt::CaseInsensitive);
         });
         if (object != m_ObjectHash.end())
             return *object;
