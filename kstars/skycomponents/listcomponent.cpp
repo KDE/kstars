@@ -60,8 +60,19 @@ void ListComponent::update(KSNumbers *num)
 
 SkyObject *ListComponent::findByName(const QString &name, bool exact)
 {
-    Q_UNUSED(exact)
-    return m_ObjectHash[name.toLower()]; // == nullptr if not found.
+    if (exact)
+        return m_ObjectHash[name.toLower()];
+    else
+    {
+        auto object = std::find_if(m_ObjectHash.begin(), m_ObjectHash.end(), [name](const auto & oneObject)
+        {
+            return oneObject && oneObject->name().contains(name, Qt::CaseInsensitive);
+        });
+        if (object != m_ObjectHash.end())
+            return *object;
+    }
+
+    return nullptr;
 }
 
 SkyObject *ListComponent::objectNearest(SkyPoint *p, double &maxrad)

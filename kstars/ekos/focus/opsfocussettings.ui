@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>347</height>
+    <width>451</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -209,7 +209,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>Use dark frames from the library.</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. Create dark frames or defect maps in the Dark Library tool in the capture module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Dark Frame</string>

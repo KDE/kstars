@@ -596,7 +596,7 @@
           <item row="3" column="3" colspan="2">
            <widget class="QCheckBox" name="alignDarkFrame">
             <property name="toolTip">
-             <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. Create dark frames or defect maps in the Dark Library tool in the capture module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Dark</string>
@@ -1138,7 +1138,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverModeButtonGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverModeButtonGroup"/>
  </buttongroups>
 </ui>
