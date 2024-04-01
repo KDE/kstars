@@ -127,6 +127,7 @@ void Media::onTextReceived(const QString &message)
     {
         int level = payload["level"].toInt(5);
         double zoom = payload["zoom"].toInt(20000);
+        bool exact = payload["exact"].toBool(false);
 
         // Object Names
         QVariantList objectNames = payload["names"].toArray().toVariantList();
@@ -134,7 +135,7 @@ void Media::onTextReceived(const QString &message)
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, exact);
             if (oneObject)
             {
                 QImage centerImage(HIPS_TILE_WIDTH, HIPS_TILE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
