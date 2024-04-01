@@ -236,7 +236,7 @@
 
     <para> When a new Optical Train is created, Focus will attempt to default parameters from
     other, similar Optical Trains. The attributes that must match for this are the Focuser and
-    the scope type. If this is the first train for the seclected Focuser and scope type then
+    the scope type. If this is the first train for the selected Focuser and scope type then
     default parameters are created.</para>
 
     <para> It is recommended to use the
@@ -1034,7 +1034,7 @@
 
       <listitem>
         <para> <guilabel>Average HFR check</guilabel>: Similar idea to <guilabel>Average Over</guilabel> but in this case
-        it it the HFR Check datapoint that is averaged over the selected number of frames. In addition, if the
+        it is the HFR Check datapoint that is averaged over the selected number of frames. In addition, if the
         <guilabel>Algorithm</guilabel> is Linear 1 Pass then the last datapoint of an Autofocus run, which is the
         in-focus datapoint, is also averaged over this number of frames. Set a value of 1 to start. This can be increased
         if there are issues with HFR Check Autofocus runs being triggered by outlying datapoints when the HFR Check runs.</para>
