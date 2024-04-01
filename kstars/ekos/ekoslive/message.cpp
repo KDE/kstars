@@ -1925,8 +1925,9 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     else if(command == commands[ASTRO_GET_OBJECT_INFO])
     {
         const auto name = payload["object"].toString();
+        bool exact = payload["exact"].toBool(false);
         QJsonObject info;
-        SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
+        SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, exact);
         if(oneObject)
         {
             info =
@@ -1964,13 +1965,14 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         }
 
         // Object Names
+        bool exact = payload["exact"].toBool(false);
         QVariantList objectNames = payload["names"].toArray().toVariantList();
         QJsonArray objectsArray;
 
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, exact);
             if (oneObject)
             {
                 QJsonObject info =
@@ -2013,6 +2015,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         QVariantList objectNames = payload["names"].toArray().toVariantList();
         QJsonArray objectsArray;
 
+        bool exact = payload["exact"].toBool(false);
         // Data instance
         auto *data = KStarsData::Instance();
         // Geo Location
@@ -2023,7 +2026,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = data->skyComposite()->findByName(name, false);
+            SkyObject *oneObject = data->skyComposite()->findByName(name, exact);
             if (oneObject)
             {
                 oneObject->EquatorialToHorizontal(data->lst(), geo->lat());
@@ -2055,6 +2058,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         QVariantList objectNames = payload["names"].toArray().toVariantList();
         QJsonArray objectsArray;
 
+        bool exact = payload["exact"].toBool(false);
         // Data instance
         auto *data = KStarsData::Instance();
         // Geo Location
@@ -2070,7 +2074,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = data->skyComposite()->findByName(name, false);
+            SkyObject *oneObject = data->skyComposite()->findByName(name, exact);
             if (oneObject)
             {
                 QJsonObject info;
