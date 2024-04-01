@@ -2137,6 +2137,8 @@
   <para
 >Commencez par choisir le système de coordonnées qui correspond à votre monture. Pour une monture équatoriale, passez en mode Coordonnées Équatoriales dans le menu <guimenu
 >Affichage</guimenu
+> ou à l'aide de la touche <keycap
+>Espace</keycap
 >. Cette option est nommée <guilabel
 >Passer en coordonnées horizontales</guilabel
 > quand le mode actif est en coordonnées équatoriales. Pour un instrument monté en alt-azimutale ou une observation à l'œil nu, passez aux coordonnées horizontales dans le menu <guimenu
@@ -2145,10 +2147,14 @@
 >Passez en coordonnées horizontales</guilabel
 >. Cette opération fixe le système de coordonnées de base utilisé pour l'affichage de la carte du ciel ainsi que la référence pour son orientation, soit zénith ou nord. </para>
   <para
->Si votre instrument est équipé d'un redresseur terrestre à prisme, ce qui est typiquement utilisé sur un télescope Schmidt-Cassegrain ou un réfracteur, la vue à travers l'oculaire sera redressée horizontalement. La carte du ciel peut s'adapter à ce montage en cochant l'option <guilabel
+>Si votre instrument est équipé d'un redresseur à prisme, ce qui est typiquement utilisé sur un télescope Schmidt-Cassegrain ou un réfracteur, la vue à travers l'oculaire sera redressée horizontalement. La carte du ciel peut s'adapter à ce montage en cochant l'option <guilabel
 >Vue redressée</guilabel
 > dans le menu <guimenu
 >Affichage</guimenu
+>, ou en utilisant la combinaison de touches <keycombo
+>&Ctrl;&Maj;<keycap
+>M</keycap
+></keycombo
 >. </para>
   <para
 >Vous pouvez effectuer une rotation libre en gardant enfoncée la touche &Maj; et en glissant la souris sur la carte du ciel. Une superposition temporaire apparaîtra montrant la direction du nord et du zénith à ce point et affichera leur angle avec la verticale dans le sens antihoraire. L'orientation du zénith et du nord sera actualisée lorsque vous effectuerez une rotation de la carte du ciel. L'opération se terminera dès que vous relâcherez la touche &Maj;. La rotation fixée sera conservée en tant que décalage par rapport à la direction de référence, même lorsque vous déplacerez la carte du ciel ou zoomer sur différents objets. La direction de référence est le nord lorsque vous utilisez les coordonnées équatoriales et le zénith pour les coordonnées horizontales. Pour rappel, la direction de référence est représentée par un trait plein et de couleur vive dans la superposition temporaire. La rotation peut être réglée pour ces deux orientations communes dans les sous-menu <menuchoice
@@ -2157,9 +2163,13 @@
 ><guisubmenu
 >Orientation de la carte du ciel</guisubmenu
 ></menuchoice
->. Choisissez « Nord en bas » ou « Zénith en bas » en fonction du système de coordonnées utilisé pour régler une orientation de 180 degrés. </para>
+>. Choisissez <guilabel
+>Nord en bas</guilabel
+> ou <guilabel
+>Zénith en bas</guilabel
+> en fonction du système de coordonnées utilisé pour régler une orientation de 180 degrés. </para>
   <para
->Si vous observez à l'œil nu à travers un oculaire d'un instrument, il se peut que vous deviez faire quelques corrections supplémentaires. Pour le cas commun d'un télescope de Dobson (ou plus généralement un Newton monté sur une monture alt-azimutale), une correction supplémentaire systématique est nécessaire. Elle s'applique parce que l'observateur se tient debout lors de l'observation indépendamment de l'angle du tube du télescope par rapport au sol. Ainsi, à mesure que l'on bouge le télescope en élévation, il est nécessaire d'appliquer une correction dépendante de l'altitude de l'objet pour que la carte du ciel corresponde à la vue à travers l'oculaire. Cette correction est activée en cochant la case <guilabel
+>Si vous observez à l'œil nu à travers un oculaire d'un instrument, il se peut que vous deviez faire quelques corrections supplémentaires. Pour le cas commun d'un télescope de Dobson (ou plus généralement un Newton monté sur une monture alt-azimutale), une correction supplémentaire systématique est nécessaire. Elle s'applique parce que l'observateur se tient debout lors de l'observation indépendamment de l'angle du tube du télescope par rapport au sol. Ainsi, à mesure que l'on bouge le télescope en élévation, il est nécessaire d'appliquer une correction dépendante de l'altitude de l'objet pour que la carte du ciel corresponde à la vue à travers l'oculaire. Cette correction dépend de la position du moteur de mise au point décidée par le constructeur. Cette correction est activée en cochant la case <guilabel
 >Correction observateur debout</guilabel
 > dans le sous-menu <menuchoice
 ><guimenu
@@ -2204,7 +2214,11 @@
 ></listitem>
       <listitem
 ><para
->Chercheur redresseur d'image à angle droit sur une monture alt-azimutale : utilisez les mêmes réglages que pour l'observation à l'œil nu, sauf qu'il vous faudra peut-être ajuster l'orientation une fois si elle est montée à un angle.</para
+>Chercheur redresseur d'image à angle droit sur une monture alt-azimutale, en y regardant droit dedans : utilisez les mêmes réglages que pour l'observation à l'œil nu, sauf qu'il vous faudra peut-être ajuster l'orientation une fois si elle est montée à un angle.</para
+></listitem>
+      <listitem
+><para
+>Utilisation d'un chercheur redresseur d'image à angle droit sur une monture alt-azimutale, en y regardant à travers depuis le côté : en plus de ce qui est mentionné ci-dessus, activez la correction du redresseur de l'observateur pour le côté approprié.</para
 ></listitem>
       <listitem
 ><para
@@ -2228,11 +2242,93 @@
 ></menuchoice
 >, choisissez <guilabel
 >Zénith en bas</guilabel
-> et cochez l'option <guilabel
->Correction observateur debout</guilabel
->. Ensuite ajustez l'orientation manuellement une fois pour correspondre la vue de l'oculaire et le suivi devrait fonctionner.</para
+> et activez la correction de l'observateur debout en choisissant l'option gauche/droite appropriée à votre télescope. Ensuite ajustez l'orientation manuellement une fois pour correspondre la vue de l'oculaire et le suivi devrait fonctionner.</para
 ></listitem>
     </itemizedlist>
   </para>
+  <para
+>Il est typique en observation visuelle d'utiliser au moins trois différents instruments : l'œil nu, le chercheur et le télescope principal. Leur orientation sera différente et nécessitera de fréquentes modifications des options déjà mentionnées. Pour faciliter leur réglages, KStars fournit la fonctionnalité de <guilabel
+>Vues</guilabel
+>. Elle est accessible dans le menu <menuchoice
+><guimenu
+>Vue</guimenu
+><guisubmenu
+>Vues</guisubmenu
+></menuchoice
+>, ainsi que les options liées. La vue <guilabel
+>Arbitraire</guilabel
+> n'est pas une vue réelle, mais l'option qui est sélectionnée lorsque l'orientation de la carte du ciel est modifiée manuellement à l'aide des options précédemment décrites. Les autres vues sont réelles. De nouvelles vues peuvent être ajoutées, ou les vues existantes modifiées, supprimées, ainsi que leur ordre modifié grâce à l'option <menuchoice
+><guimenu
+>Vue</guimenu
+><guisubmenu
+>Vues</guisubmenu
+><guimenuitem
+>Modifier Vues…</guimenuitem
+></menuchoice
+>. La sélection de cette option ouvre une nouvelle fenêtre permettant de gérer les vues : </para>
+  <screenshot>
+    <screeninfo
+>Fenêtre de gestion des vues de la carte du ciel</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="viewmanager.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Gérer les vues de la carte du ciel</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+  <para
+>Pour supprimer une vue, sélectionnez simplement la vue depuis la liste et supprimez-là en cliquant sur le bouton <guibutton
+>Supprimer</guibutton
+>. Pour modifier l'ordre des vues, glissez la vue avec la souris à la position souhaitée et relâchez. Pour modifier une vue, choisissez la vue de la liste et cliquez sur <guibutton
+>Modifier…</guibutton
+>. Pour créer une nouvelle vue, cliquez sur le bouton <guibutton
+>Nouveau…</guibutton
+>. Ces deux options ouvrent une fenêtre permettant de modifier les vues : </para>
+  <screenshot>
+    <screeninfo
+>Fenêtre pour créer ou modifier une nouvelle vue</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="newview.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Modifier/Créer une vue</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>Le champ <guilabel
+>Nom</guilabel
+> contient le nom unique de la vue. Celui du <guilabel
+>Type de monture</guilabel
+> détermine si la direction de référence utilisée pour l'orientation est nord ou zénith. Il est typiquement réglé sur le type de monture utilisé avec le télescope. Toutefois, avec l'utilisation de réfracteurs et de télescopes Schmidt-Cassegrin ayant une diagonal rotative, l'observateur aura tendance à réorienter l'oculaire dans une position de confort de telle manière qu'il restera à un angle fixe par rapport au zénith. Pour cette raison, il fait sens de choisir <guilabel
+>Alt-Azimuth</guilabel
+> même si le télescope est monté sur une monture équatoriale. Choisissez <guilabel
+>Équatorial</guilabel
+> quand le moteur de mise au point ne sera pas réorienté, par exemple lors de l'utilisation d'un appareil monté sur une monture équatoriale. Pour les télescopes de Newton qui inverse la vue (rotation de 180° sans modifier la chiralité), choisissez l'option <guilabel
+>Inversé</guilabel
+>. C'est également la bonne option pour les réfracteurs directs et les chercheurs. Pour l'utilisation de prisme redresseur, ce dernier redresse l'image inversée par symétrie horizontale, ce qui induit une image inversée verticalement. Ainsi, pour ces télescopes, choisissez l'option <guilabel
+>Miroir</guilabel
+>. Un type spécial de prisme, le prisme Amici, redresse non seulement l'image verticalement mais empêche également l'inversion horizontale. Les chercheurs incorporant cette fonctionnalité sont appelés RACI (Right-Angle Correct Image). Ils peuvent également être utilisés avec des réfracteurs et des Schmidt-Cassegrin. Pour ces prismes qui produisent des images correctes, choisissez l'option <guilabel
+>Correct</guilabel
+>. L'option <guilabel
+>Miroir axe vertical</guilabel
+> n'est pas trouvée dans des instruments astronomiques typiques mais est fournie à titre d'exhaustivité. Deux autres facteurs doivent être considérés : le premier est l'angle de l'oculaire par rapport à la direction de référence (nord/zénith) et le second est l'orientation de la tête de l'observateur (notion de verticalité) expliquée dans la description du redresseur. Ces deux aspects sont configurés à l'aide du curseur de défilement <guilabel
+>Angle de l'oculaire</guilabel
+>. Deux illustrations sous le curseur illustrent l'interprétation de ce réglage ; sur la gauche, vu depuis devant car plus pratique pour des Newton et sur la droite, vu de derrière car plus pratique pour des réfracteurs et des Schmidt-Cassegrin. L'observateur se tient sur le côté le plus pratique pour observer à travers l'oculaire, et ainsi la correction du redresseur est ajusté en conséquence. Pour des angles inférieurs à 1°, l'option <guilabel
+>Correction redresseur, droite</guilabel
+> est utilisée. Au contraire, pour des angles supérieurs à 1°, c'est l'option <guilabel
+>Correction redresseur, gauche</guilabel
+> qui est utilisée. Pour zéro degré, aucune correction n'est appliquée. La correction est illustrée par la silhouette d'une personne se trouvant sur le côté approprié du télescope. Selon notre convention, la plupart de télescope de Dobson du marché ont une correction de l'ordre de 45°. Cette correction est accessoirement également utile pour les chercheurs avec prisme. Il peut être souhaitable de désactiver la correction même si l'angle n'est pas zéro. Cela peut être utile si la vue provient d'un appareil CCD qui ne modifie pas l'angle par rapport au corps du télescope (contrairement à la tête de l'observateur), ou si l'affichage de la carte du ciel de KStars est monté sur le corps du télescope lui-même. Dans ce cas, l'option <guilabel
+>Affichage monté sur le télescope</guilabel
+> peut être cochée. Pour l'effet opposé, quand l'angle de l'oculaire est zéro mais que l'observateur se penche pour regarder à travers l'oculaire d'un des deux côtés, réglez cette angle à plus ou moins 2 degrés pour activer la correction ; la petite différence sera invisible. Enfin, il peut être souhaitable de régler le champ de vue à une certaine valeur, par exemple pour régler le champ de vue du chercheur. Dans ce cas, l'option <guilabel
+>Régler aussi le CdV</guilabel
+> peut être cochée et une valeur approximative choisie. Si cette option n'est pas activée, le niveau de zoom de la carte du ciel ne sera pas modifié quand la vue sera appliquée. </para>
+
 </sect1
 >&hips; </chapter>
