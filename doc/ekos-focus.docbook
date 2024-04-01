@@ -231,7 +231,17 @@
       </listitem>
     </itemizedlist>
 
-    <para> Focus parameters are saved per Optical Train automatically.</para>
+    <para> Focus parameters are saved per Optical Train automatically and so multiple trains can
+    be setup to manage different configurations with different parameters.</para>
+
+    <para> When a new Optical Train is created, Focus will attempt to default parameters from
+    other, similar Optical Trains. The attributes that must match for this are the Focuser and
+    the scope type. If this is the first train for the seclected Focuser and scope type then
+    default parameters are created.</para>
+
+    <para> It is recommended to use the
+    <link linkend="focus-advisor">Focus Advisor</link> tool on new Optical Trains to set parameters
+    appropriately.</para>
   </sect2>
 
   <sect2 id="focus-focuser-group">
@@ -485,6 +495,12 @@
       <listitem>
         <para> The <guibutton>Advisor</guibutton> button launches the
         <link linkend="focus-advisor">Focus Advisor</link> tool.
+        </para>
+      </listitem>
+      <listitem>
+        <para> The <guilabel>Force AF</guilabel> checkbox can be used when a sequence is active
+        either in Capture or the Scheduler. When checked, an Autofocus will be triggered at
+        the completion of the currently active subframe.
         </para>
       </listitem>
     </itemizedlist>
@@ -798,8 +814,18 @@
       <listitem>
         <para> <guilabel>SEP Profile</guilabel>: If the star detection
         algorithm is set to <emphasis>SEP</emphasis>, then choose a parameter
-        profile to use with the algorithm. It is recommended to use the
-        default 1-Focus-Default profile as a starting point.</para>
+        profile to use with the algorithm. The following are recommended:</para>
+        <itemizedlist>
+          <listitem>
+            <para> <emphasis role="bold">1-Focus-Default:</emphasis> for scopes
+            that do not have a central obstruction such as a refractor.</para>
+          </listitem>
+          <listitem>
+            <para> <emphasis role="bold">1-Focus-Default-Donut:</emphasis> for scopes
+            that have a central obstruction such as a Newtonian, SCT, RASA,
+            Ritchey-Cretien, etc.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1007,27 +1033,62 @@
       </listitem>
 
       <listitem>
-        <warning>
-        <para><guilabel>Donut Buster</guilabel>: This is an experimental feature and should be used with caution. The
-        intention of Donut Buster is to improve focusing for telescopes with central
-        obstructions that create donut shaped stars when defocused. In future it is likely that more functionality
-        will be developed for Donut Buster. In this release the functionality is aimed at data collection in order
-        to research methods of improving focus.</para>
-        </warning>
+        <para> <guilabel>Average HFR check</guilabel>: Similar idea to <guilabel>Average Over</guilabel> but in this case
+        it it the HFR Check datapoint that is averaged over the selected number of frames. In addition, if the
+        <guilabel>Algorithm</guilabel> is Linear 1 Pass then the last datapoint of an Autofocus run, which is the
+        in-focus datapoint, is also averaged over this number of frames. Set a value of 1 to start. This can be increased
+        if there are issues with HFR Check Autofocus runs being triggered by outlying datapoints when the HFR Check runs.</para>
       </listitem>
+
       <listitem>
-        <warning>
-        <para> <guilabel>Time Dilation Factor</guilabel>: This is an experimental feature of Donut Buster and should be
-        used with caution. This feature scales the exposure time during Autofocus from the Exposure value entered in the
-        Exposure field for the furthest datapoints from focus. Datapoints near focus are taken with an unscaled exposure.
-        For example, if Focus is setup with an Exposure of 2s and Time Dilation Factor is set to 4, then when Autofocus
-        moves out to take its first datapoint, an exposure of 2s * 4 = 8s is used. On each successive datapoint the
-        exposure is reduced down to 2s around the point of optimum focus. As the focuser moves through focus, so the
-        exposure is scaled upwards to 8s for the last datapoint.</para>
-        <para> The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than
-        in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
-        <para> This feature assumes Autofocus is run from near to optimum focus.</para>
-        </warning>
+        <para><guilabel>Donut Buster</guilabel>: This is an experimental feature and should be used with caution. The
+        intention of Donut Buster is to improve focusing for telescopes with central obstructions that create donut shaped
+        stars when defocused, e.g. Newtonians, SCTs, RASAs, Ritchey-Cretiens, etc.</para>
+
+        <para> <guilabel>Donut Buster</guilabel> is only available for Linear 1 Pass, walks of Fixed and CFZ Shuffle,
+        curves fits of Hyperbola and Parabola, and focus measures of: HFR, HFR Adj and FWHM.</para>
+
+        <para>When <guilabel>Donut Buster</guilabel> is checked, intermittent curve fitting is suspended and is only activated
+        at the end of the focus sweep. This allows donut buster to better process edge datapoints that may be affected by donuts.</para>
+
+        <para>The following sub-options are available within Donut Buster:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para> <guilabel>Time Dilation x</guilabel>: This feature scales the exposure time during Autofocus from the
+            value entered in the <guilabel>Exposure</guilabel> field for the furthest datapoints from focus. Datapoints near
+            focus are taken with an unscaled exposure. For example, if Focus is setup with an Exposure of 2s and Time Dilation x
+            is set to 4, then when Autofocus moves out to take its first datapoint, an exposure of 2s * 4 = 8s is used. On each
+            successive datapoint the exposure is reduced down to 2s around the point of optimum focus. As the focuser moves
+            through focus, so the exposure is scaled upwards to 8s for the last datapoint.</para>
+
+            <para> The purpose of this feature is to increase the brightness of out of focus datapoints which will be dimmer than
+            in-focus datapoints and therefore harder for star detection to resolve from the background noise.</para>
+          </listitem>
+
+          <listitem>
+            <para> <guilabel>Outlier Rejection</guilabel>: This is a factor to scale the aggressiveness of the outlier rejection
+            algorithm when <guilabel>Refine Curve Fit</guilabel> is checked. The higher the value the more outliers will be
+            excluded from the curve fitting process. The default value is 0.2.</para>
+          </listitem>
+
+          <listitem>
+            <para> <guilabel>Scan for Start Position</guilabel>: Check this option to have Focus scan around the current
+            focuser position to find an approximate optimum focus position. The purpose of this is to ensure that Autofocus starts
+            near to the focus position. The following sub-options are available:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para> <guilabel>Num Datapoints</guilabel>: The number of datapoints to use in each scan. 5 is a good place to start.</para>
+              </listitem>
+
+              <listitem>
+                <para> <guilabel>Initial Step size x</guilabel>: A multiplicative factor to apply to the <guilabel>Initial
+                Step size</guilabel> for use in the Scan for Start Position. Default is 1.0.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1218,6 +1279,11 @@
         <para> Set <guilabel>AF Overscan</guilabel> &gt; 0 to have the Focus module manage Backlash.</para>
       </listitem>
     </itemizedlist>
+  </listitem>
+
+  <listitem>
+    <para> <guilabel>AF Overscan Delay</guilabel>: Delay between the completion of the outward move of an Overscan,
+    and the inward move. Generally most focusers work well with no delay.</para>
   </listitem>
 
   <listitem>
@@ -1428,13 +1494,9 @@
 
     <itemizedlist>
     <listitem>
-    <para> <guilabel>Step Size</guilabel>: This is the suggested focus step size to use. This is a critical parameter. It is
-    defaulted from the Critical Focus Zone (CFZ) dialog. So the first thing to do is set this dialog up and get a reasonable value
-    for the CFZ. Alternatively, if you know a reasonable value for your equipment from other sources you can just enter that.</para>
-    </listitem>
-
-    <listitem>
-    <para> <guilabel>Out Step Multiple</guilabel>: This is the suggested outward step multiple to use.</para>
+    <para> <guilabel>Step Size</guilabel>: This is the suggested focus step size to use. This is a critical parameter. It can
+    be defaulted from the Critical Focus Zone (CFZ) dialog if you know how to set that up. Alternatively, if you know a reasonable
+    value for your equipment from other sources you can just enter that.</para>
     </listitem>
 
     <listitem>
@@ -1458,6 +1520,12 @@
     <listitem>
     <para> <guilabel>Mechanics Parameters</guilabel>: This sets the parameters in
     <link linkend="focus-mechanics">Focus Mechanics</link>. By hovering the mouse over this
+    label you can see in the tooltip what values Focus Advisor is recommending.</para>
+    </listitem>
+
+    <listitem>
+    <para> <guilabel>SEP Parameters</guilabel>: This sets the SEP parameter profile appropriate
+    for the scope type attached in the selected Optical Train. By hovering the mouse over this
     label you can see in the tooltip what values Focus Advisor is recommending.</para>
     </listitem>
 

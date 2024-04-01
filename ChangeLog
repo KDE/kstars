@@ -4,6 +4,96 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.0 (Blink):
+
+4236bcd19 2024-03-28 Jasem Mutlaq         For partial object name search, exact flag should be passed down and a partial search should take place
+405707024 2024-03-28 Jasem Mutlaq         Correct the dark subtraction tooltip
+47ad9418f 2024-03-27 Hy Murveit           Fix sky background color bug
+6571a037f 2024-03-26 Jasem Mutlaq         Fix i18n issue in adaptive focus
+a173256f6 2024-03-26 Jasem Mutlaq         Fix file URL
+000cf2625 2024-03-26 John Evans           Focus Advisor Phase 3
+f201544fa 2024-03-25 Toni Schriber        Expand check for initial rotator angle to IPS_OK & IPS_IDLE
+c1b4d0167 2024-03-22 Hy Murveit           Add options to increase the size that the Sun and Moon are rendered.
+cd12445f3 2024-03-23 Jasem Mutlaq         Fix bugs in loading sequence and scheduler files
+50fb264d3 2024-03-22 Akarsh Simha         Fix a few things in the Views feature
+d8601bf1b 2024-03-21 Hy Murveit           Generate job capture summary
+5f9ce4a30 2024-03-19 Wolfgang Reissenberger Bugfix captured frames counting
+40f1d87fd 2024-03-19 Akarsh Simha         Introduce Views: A way to quickly reorient the sky-map to match the view through an instrument
+8fa465627 2024-03-18 Wolfgang Reissenberger Update test cases after settings refactoring
+20536ddae 2024-03-18 John Evans           Focus Passes R2 Check Fail details to Analyze
+82a81b7e2 2024-03-18 Jasem Mutlaq         Use job instead of state
+80816c8dc 2024-03-18 Jasem Mutlaq         Restore limit settings
+4eccc0784 2024-03-18 Hy Murveit           Move to train-based storage for stand-alone esq editor
+75ba2881d 2024-02-04 Eric Dejouhanet      feat(ci): KDE CI pipelines for linux, android and win32, fix fortify.
+949f050b0 2024-03-17 John Evans           Turn off Focus Advisor Defaulting for New Ops
+6c61d2c3e 2024-03-17 Yuri Chornoivan      Fix minor typo
+ab18ac1c4 2024-03-16 John Evans           Focus Overscan Delay
+c721828bb 2024-03-16 John Evans           Fix Filter Manager Button in Capture
+c5490eb8c 2024-03-16 John Evans           Focus Framing Bug on Filter Change
+18e59ff02 2024-03-16 Jasem Mutlaq         Do not show dialog for focus advisor, use it by default
+47e2ca3a2 2024-03-16 Hy Murveit           Choose profiles from any module in FITS Viewer solver
+30d02bcb6 2024-03-16 Jasem Mutlaq         Add save and load scheduler to ekoslive
+4972b3318 2024-03-16 Jasem Mutlaq         Fix test case
+0251f1c4b 2024-03-15 Jasem Mutlaq         Refactor capture settings. Standalone mode needs to use train data instead of options
+a1e15336e 2024-03-15 John Evans           In Sequence Focus Phase 2
+21e3d359d 2024-03-14 Hy Murveit           Update view after fitsviewer extraction so new stars are displayed
+ddf29a77c 2024-03-15 Hy Murveit           Fix stand-along esq editor temperature control.
+b7963a546 2024-03-14 Hy Murveit           Try to fix driver-restart crash
+f70412234 2024-03-13 Wolfgang Reissenberger Fix scheduler sync options
+263224ce9 2024-03-12 Hy Murveit           Bugfix re confusion between repeat schedulerJob and repeat all scheduler jobs
+6826990c4 2024-03-12 Hy Murveit           Add edit profile button in FITS Viewer Solver and in Image Overlays
+ccc571ee5 2024-03-12 Hy Murveit           Add option to render image overlays below catalogs.
+524595f78 2024-03-12 Hy Murveit           Fix bug loading ssolver profiles.
+83ccf32ac 2024-03-04 Jasem Mutlaq         Use stop to fix compile error in master
+2b21b2f2c 2024-03-03 Jasem Mutlaq         Use emit to fix compile error
+f8c61e1c8 2024-03-02 Jasem Mutlaq         Clear pending property when requesting to stop
+939ae32d3 2024-03-02 Jasem Mutlaq         Add a check for uncommanded mount park that is initiated outside scheduler module. When it happens we need to abort scheduler is active and if the c..
+6958835b2 2024-03-01 Jasem Mutlaq         Check if optical train is not empty
+eb8b0aca1 2024-02-29 Jasem Mutlaq         Only store true value for radio buttons
+19cc38071 2024-02-29 Jasem Mutlaq         Fix issues with removing dark frames from table.
+b29dc5467 2024-02-27 Jasem Mutlaq         Fix Dome, GPS, and other non-train devices not getting ACTIVE_DEVICE synced properly
+c3c1a1844 2024-02-25 Yuri Chornoivan      Fix minor typos
+0ebc6d21d 2024-02-25 Jasem Mutlaq         Add one more check to prevent crash
+b09232cde 2024-02-25 Jasem Mutlaq         Add more checks for filter manager to prevent crashes
+904f22ae2 2024-02-24 John Evans           Donut Buster Phase 2
+26e822d03 2024-02-07 Dušan Poizl          Add option for shoting skyflats
+651941604 2024-02-24 Jasem Mutlaq         Do not create modules when creating a new equipment profile unless all equipment are detected
+bd8c6fbd7 2024-02-24 Jasem Mutlaq         Revert "Draw image overlays just after HiPS, so DSOs / lines etc. are drawn over them"
+442bedc47 2024-02-24 Jasem Mutlaq         Improve save and load sequence to allow setting of file data without specifying path
+b44b00671 2024-02-23 Akarsh Simha         Draw image overlays just after HiPS, so DSOs / lines etc. are drawn over them
+bb0a0e298 2024-02-24 Wolfgang Reissenberger Bug fix for place holder handling of remote files
+34b0573a4 2024-02-20 Josep M. Ferrer      Fix minor typo
+3166a6a45 2024-02-19 Yuri Chornoivan      Fix XML
+af76a2a8b 2024-02-18 Akarsh Simha         New feature: Allow the user to mirror the sky map
+ef51d2720 2024-02-16 Wolfgang Reissenberger State display of Scheduler and Capture optimized
+776240618 2024-02-15 Jasem Mutlaq         Check if we are looping before disconnecting exposure progress since we do not connect this signal again when looping
+7197d9874 2024-02-15 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 9
+fe79d43cf 2024-02-14 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 8
+a468d4f59 2024-02-13 Toni Schriber        Overhaul "differential slewing"
+f563aebe1 2024-02-12 John Evans           Focus Move Bug
+6bb03a2fc 2024-02-12 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 7
+9aea84485 2024-02-11 Wolfgang Reissenberger Adding the delay to the first image in the sequence
+6842beee4 2024-02-11 Jasem Mutlaq         Increase maximum align capture duration to 5 minutes
+87140d566 2024-02-11 Yuri Chornoivan      Fix minor typo
+325ceca95 2024-02-10 Jasem Mutlaq         Use correct state after PHD2 complete dithering
+81461b464 2024-02-10 Wolfgang Reissenberger Deactivating debugging messages filling the log file
+5a3e0a3d8 2024-02-10 Jasem Mutlaq         Check if master dark exists
+3f4f657ff 2024-02-08 Jasem Mutlaq         3.7.0 release cycle
+3604a1d25 2024-02-09 Hy Murveit           Add Analyze/Blink buttons, add Analyze log.
+e8f6efb71 2024-02-09 John Evans           Focus 2 Tick  Bugfix
+9afad7fa6 2024-02-09 Hy Murveit           Analyze blink fixes
+5eadd4b3c 2024-02-08 Hy Murveit           Add blinking capabilities to FITS Viewer and Analyze.
+bb899349b 2024-02-08 Wolfgang Reissenberger Separating Business Logic from UI in Scheduler | step 6
+633e27f0c 2024-02-08 John Evans           Framing bugfix
+d8ea2a054 2024-02-08 Yuri Chornoivan      Fix minor typos
+2f5d84b8f 2024-02-07 John Evans           Focus Docbook Update 3.6.9
+dd9901e3b 2024-02-05 Jasem Mutlaq         Fix crash if sequence file was loaded with filter selection but active train does not have a filter wheel
+9eecfb80d 2024-02-02 Hy Murveit           Fix focus profile index bug
+9232c1d2e 2024-02-02 Jasem Mutlaq         Fix rare crash when opening search dialog due to unused AsyncDBManager in FindDialog
+d741c8f37 2024-02-01 Jasem Mutlaq         Add missing emit message
+fdbf5c5ec 2024-02-01 Jasem Mutlaq         Add initial craft.ini file to build INDI library and KStars
+a703dfc23 2024-01-31 Jasem Mutlaq         Fix satellites loading error thanks to updated list by Own. BUGS: 479796
+
 3.6.9 (Lobi):
 
 e6285e15c 2024-01-30 John Evans           In Sequence HFR Check Bugfix

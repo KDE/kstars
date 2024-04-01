@@ -3193,22 +3193,25 @@ void Analyze::processAutofocusCompleteV2(double time, const double temperature, 
         const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
-    QBrush stripe;
-    if (filterStripeBrush(filter, &stripe))
-        addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
-    else
-        addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
-    // Use the focus complete temperature (rather than focus start temperature) for consistency with Focus
-    auto session = FocusSession(autofocusStartedTime, time, nullptr, true, temperature, filter, reason, reasonInfo, points,
-                                useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE, "");
-    focusSessions.add(session);
-    addFocusPosition(session.focusPosition(), autofocusStartedTime);
     updateMaxX(time);
-    if (!batchMode)
+    if (autofocusStartedTime >= 0)
     {
-        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
-            focusSessionClicked(session, false);
-        replot();
+        QBrush stripe;
+        if (filterStripeBrush(filter, &stripe))
+            addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
+        else
+            addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
+        // Use the focus complete temperature (rather than focus start temperature) for consistency with Focus
+        auto session = FocusSession(autofocusStartedTime, time, nullptr, true, temperature, filter, reason, reasonInfo, points,
+                                    useWeights, curve, title, AutofocusFailReason::FOCUS_FAIL_NONE, "");
+        focusSessions.add(session);
+        addFocusPosition(session.focusPosition(), autofocusStartedTime);
+        if (!batchMode)
+        {
+            if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+                focusSessionClicked(session, false);
+            replot();
+        }
     }
     autofocusStartedTime = -1;
 }
