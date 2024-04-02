@@ -209,7 +209,15 @@
     </itemizedlist>
 
     <para
->Focusparameters worden automatisch opgeslagen per optische trein.</para>
+>Focusparameters worden automatisch opgeslagen per optische trein en dus kunnen meerdere treinen opgezet worden om verschillende configuraties met verschillende parameters te beheren.</para>
+
+    <para
+>Wanneer een nieuwe optische trein wordt aangemaakt zal Focus proberen alvast standaard parameters uit andere, vergelijkbare optische treinen in te vullen. De attributen die hiervoor overeen moeten komen zijn het type Focuser en de scope. Als dit de eerste trein is voor het geselecteerde type Focuser en scope dan worden standaard parameters aangemaakt.</para>
+
+    <para
+>Het wordt aanbevolen het hulpmiddel <link linkend="focus-advisor"
+>Focusadviseur</link
+> te gebruiken bij nieuwe optische treinen om parameters juist op te zetten.</para>
   </sect2>
 
   <sect2 id="focus-focuser-group">
@@ -521,6 +529,12 @@
 > start het hulpmiddel <link linkend="focus-advisor"
 >Focus-adviseur</link
 >. </para>
+      </listitem>
+      <listitem>
+        <para
+>Het keuzevak <guilabel
+>AF afdwingen</guilabel
+> kan gebruikt worden wanneer een sequentie actief is ofwel in Opnemen of de Planner. Bij geactiveerd zal een autofocus gestart worden bij het voltooien van het nu actieve subframe. </para>
       </listitem>
     </itemizedlist>
   </sect2>
@@ -889,7 +903,21 @@
 >SEP-profiel</guilabel
 >: als het algoritme sterdetectie is ingesteld op <emphasis
 >SEP</emphasis
->, kies dan een te gebruiken parameterprofiel met het algoritme. Het is aanbevolen het standaard profiel 1-Focus-Default te gebruiken als een startpunt.</para>
+>, kies dan een te gebruiken parameterprofiel met het algoritme. Het volgende wordt aanbevolen.</para>
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default:</emphasis
+> voor scopes die geen centrale belemmering hebben zoals een refractor.</para>
+          </listitem>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default-Donut:</emphasis
+> voor scopes die een centrale belemmering hebben zoals een Newtonian, SCT, RASA, Ritchey-Cretien, etc.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1123,24 +1151,82 @@
       </listitem>
 
       <listitem>
-        <warning>
+        <para
+><guilabel
+>Gemiddelde HFR controle</guilabel
+>: gelijk idee als <guilabel
+>Gemiddeld over</guilabel
+> maar in dit gevat is het het HFR controlegegevenspunt dat gemiddeld wordt over het geselecteerde aantal frames. Daarnaast, als het <guilabel
+>Algoritme</guilabel
+> Lineaire doorgang 1 is dan het laatste gegevenspunt van een uitvoering van autofocus, wat het in-focus gegevenspunt is, wordt ook gemiddeld over dit aantal frames. Zet een waarde van 1 bij beginnen. Dit kan verhoogt worden als er problemen zijn met uitvoeren van autofocus van HFR controle die gestart wordt door buitenliggende gegevenspunten wanneer de HFR controle wordt uitgevoerd.</para>
+      </listitem>
+
+      <listitem>
         <para
 ><guilabel
 >Donutbuster</guilabel
->: dit is een experimentele mogelijkheid en moet voorzichtig worden gebruikt. De intentie van Donutbuster is het verbeteren van focusseren voor telescopen met centrale obstructies die donutvormige sterren maken bij niet-in-focus. Het is mogelijk dat in de toekomst meer functionaliteit zal worden ontwikkeld voor Donutbuster. In deze uitgave is de functionaliteit gericht op gegevens verzamelen om methoden te onderzoeken voor verbeterde focus.</para>
-        </warning>
-      </listitem>
-      <listitem>
-        <warning>
+>: dit is een experimentele mogelijkheid en moet voorzichtig worden gebruikt. De intentie van Donutbuster is het verbeteren van focusseren voor telescopen met centrale obstructies die donutvormige sterren maken bij niet-in-focus, bijv. Newtonians, SCTs, RASAs, Ritchey-Cretiens, etc.</para>
+
         <para
 ><guilabel
->Tijddilatiefactor</guilabel
->: dit is een experimentele mogelijkheid van Donutbuster en moet voorzichtig worden gebruikt. Deze mogelijkheid schaalt de belichtingstijd tijdens Autofocus uit de waarde van belichtingstijd ingevoerd in het veld Belichting voor de verste gegevenspunten uit focus. Gegevenspunten dichtbij focus worden genomen met een niet-geschaalde belichting. Bijvoorbeeld, als Focus is opgezet met een Belichting van 2s en de Tijddilatiefactor is op 4 gezet, dan zal wanneer Autofocus uit beweegt om zijn eerste gegevenspunt te nemen, een belichting van 2s * 4 = 8s worden gebruikt. Op elk opvolgend gegevenspunt zal de belichting verminderd worden tot 2s rond het punt van optimale focus. Terwijl de focuser door focus beweegt, zal dus de belichting omhoog geschaald worden tot 8s voor het laatste gegevenspunt.</para>
+>Donut-buster</guilabel
+> is alleen beschikbaar voor Lineair doorgang 1, verlopen van vastgezette en CFZ-shuffle, krommen fitten van hyperbolen en parabolen en focus metingen van: HFR, HFR Adj en FWHM.</para>
+
         <para
+>Wanneer <guilabel
+>Donut-buster</guilabel
+> is geactiveerd, wordt tussenliggend fitten van krommen onderbroken en wordt alleen geactiveerd aan het eind van de focusloop. Dit biedt donut-buster om beter de gegevenspunten aan de rand te verwerken die aangetast kunnen zijn door donuts.</para>
+
+        <para
+>De volgende sub-opties zijn beschikbaar binnen donut-buster:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Tijddilatie</guilabel
+>: deze mogelijkheid schaalt de belichtingstijd tijdens Autofocus uit de waarde ingevoerd in het veld <guilabel
+>Belichting</guilabel
+> voor de verste gegevenspunten uit focus. Gegevenspunten dichtbij focus worden genomen met een niet-geschaalde belichting. Bijvoorbeeld, als Focus is opgezet met een Belichting van 2s en de Tijddilatie x is op 4 gezet, dan zal wanneer Autofocus uit beweegt om zijn eerste gegevenspunt te nemen, een belichting van 2s * 4 = 8s worden gebruikt. Op elk opvolgend gegevenspunt zal de belichting verminderd worden tot 2s rond het punt van optimale focus. Terwijl de focuser door focus beweegt, zal dus de belichting omhoog geschaald worden tot 8s voor het laatste gegevenspunt.</para>
+
+            <para
 >Het doel van deze mogelijkheid is het verhogen van de helderheid van datapunten uit-focus die meer gedimd zijn dan in-focus gegevenspunten en daarom moeilijker voor ontdekken van sterren om op te lossen uit de achtergrondruis.</para>
-        <para
->Deze mogelijkheid neemt aan dat Autofocus wordt uitgevoerd vanaf bijna tot optimale focus.</para>
-        </warning>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Afwijzen van buitenliggers</guilabel
+>: dit is een factor om de agressiviteit van het algoritme voor afwijzen van buitenliggers te schalen wanneer <guilabel
+>Fitten van krommen verfijnen</guilabel
+> is geactiveerd. Hoe hoger de waarde hoe meer buitenliggers uitgesloten zullen worden uit het proces van fitten van krommen. De standaard waarde is 0,2.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Scan voor startpositie</guilabel
+>: activeer deze optie om scannen voor focus te laten scannen rond de huidige positie van de focuser om een toepasselijke optimale focuspositie te krijgen. Het doel hiervan is om te verzekeren dat autofocus begint dichtbij de focuspositie. De volgende sub-opties zijn beschikbaar:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para
+><guilabel
+>Aantal gegevenspunten</guilabel
+>: het te gebruiken gegevenspunten in elke scan. 5 is een goede waarde om te beginnen.</para>
+              </listitem>
+
+              <listitem>
+                <para
+><guilabel
+>Initiële stapgrootte x</guilabel
+>: een vermenigvuldigingsfactor om toe te passen op de <guilabel
+>Initiële stapgrootte</guilabel
+> om te gebruiken in het scannen voor de startpositie. Standaard is 1,0.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1401,6 +1487,13 @@
 > &gt; 0 om de focusmodule speling te beheren.</para>
       </listitem>
     </itemizedlist>
+  </listitem>
+
+  <listitem>
+    <para
+><guilabel
+>AF-overscanvertraging</guilabel
+>: vertraging tussen het voltooien van de uitwaartse verplaatsing van een overscan en de inwaartse verplaatsing. In het algemeen werken de meeste focusers goed zonder vertraging.</para>
   </listitem>
 
   <listitem>
@@ -1682,14 +1775,7 @@
     <para
 ><guilabel
 >Stapgrootte</guilabel
->: dit is de gesuggereerde stapgrootte voor de gebruiken focus. Dit is een kritische parameter. De standaard komt uit de dialoog Critical Focus Zone (CFZ). Dus is het eerst ding te doen het opzetten van deze dialoog en een redelijke waarde voor de CFZ te verkrijgen. Als alternatief, als u een redelijke waarde voor uw apparatuur uit andere bronnen weet dan kunt u die invoeren.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Aantal uitwaartse stappen</guilabel
->: dit is het gesuggereerde te gebruiken meervoud van uitwaartse stap.</para>
+>: dit is de gesuggereerde stapgrootte voor de gebruiken focus. Dit is een kritische parameter. De standaard komt uit de dialoog Critical Focus Zone (CFZ) als u weet hoe die op te zetten. Als alternatief, als u een redelijke waarde voor uw apparatuur uit andere bronnen weet dan kunt u die invoeren.</para>
     </listitem>
 
     <listitem>
@@ -1726,6 +1812,13 @@
 >: dit stelt de parameters in <link linkend="focus-mechanics"
 >Focusmechaniek</link
 > in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>SEP-parameters</guilabel
+>: dit stelt het SEP-parameterprofiel in van toepassing op het type scope in de geselecteerde optische trein. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
     </listitem>
 
     <listitem>

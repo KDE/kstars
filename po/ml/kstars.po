@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-29 01:57+0000\n"
+"POT-Creation-Date: 2024-04-02 01:32+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -2028,7 +2028,7 @@ msgstr "നക്ഷത്രങ്ങള്‍"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3320 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3323 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6348,7 +6348,7 @@ msgstr "അവ്യക്ത ചിത്രം"
 msgid "Solver aborted after %1 seconds."
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/align/align.cpp:2599 ekos/analyze/analyze.cpp:3975
+#: ekos/align/align.cpp:2599 ekos/analyze/analyze.cpp:3978
 #: ekos/capture/capture.cpp:1702 ekos/focus/focus.cpp:4300
 #: ekos/guide/guide.cpp:1143 ekos/manager.cpp:1921 ekos/mount/mount.cpp:834
 #: ekos/observatory/observatory.cpp:952
@@ -10162,7 +10162,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3322 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3325 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1325
@@ -10172,61 +10172,61 @@ msgstr ""
 msgid "Aborted"
 msgstr "ആര്‍ബര്‍ഗ്"
 
-#: ekos/analyze/analyze.cpp:3324 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3327 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Connected"
 msgstr "ബന്ധം"
 
-#: ekos/analyze/analyze.cpp:3326 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3329 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "വിഛേദിക്കുക"
 
-#: ekos/analyze/analyze.cpp:3328 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3331 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1985
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/analyze/analyze.cpp:3330 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3333 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3332 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3335 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Subtracting"
 msgstr "കാലിയെന്റെ"
 
-#: ekos/analyze/analyze.cpp:3334 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3337 ekos/ekos.h:27
 #, fuzzy, kde-format
 msgid "Subframing"
 msgstr "ഫയലിന്റെ _പേരു്:"
 
-#: ekos/analyze/analyze.cpp:3336 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3339 ekos/ekos.h:28
 #, fuzzy, kde-format
 msgid "Selecting star"
 msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 
-#: ekos/analyze/analyze.cpp:3338 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3341 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibrating"
 msgstr "കാലിയെന്റെ"
 
-#: ekos/analyze/analyze.cpp:3340 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3343 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration error"
 msgstr "കാലിയെന്റെ"
 
-#: ekos/analyze/analyze.cpp:3342 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3345 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -10234,26 +10234,26 @@ msgid "Calibrated"
 msgstr "കാലിയെന്റെ"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3344 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3347 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1983
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Guiding"
 msgstr "string"
 
-#: ekos/analyze/analyze.cpp:3346 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3349 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Suspended"
 msgstr "string"
 
-#: ekos/analyze/analyze.cpp:3348 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3351 ekos/ekos.h:34
 #, fuzzy, kde-format
 msgid "Reacquiring"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/analyze/analyze.cpp:3350 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3353 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Ashern"
@@ -10261,26 +10261,26 @@ msgid "Dithering"
 msgstr "ആഷേര്‍ണ്‍"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3352 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3355 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Ashern"
 msgid "Manual Dithering"
 msgstr "ആഷേര്‍ണ്‍"
 
-#: ekos/analyze/analyze.cpp:3354 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3357 ekos/ekos.h:37
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dithering error"
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/analyze/analyze.cpp:3356 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3359 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3358 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3361 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Settling"

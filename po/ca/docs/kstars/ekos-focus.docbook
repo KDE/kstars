@@ -207,7 +207,15 @@
     </itemizedlist>
 
     <para
->Els paràmetres d'enfocament es desen automàticament per cada tren òptic.</para>
+>Els paràmetres d'enfocament es desen automàticament per cada tren òptic, de manera que es poden definir diversos trens òptics per a gestionar configuracions diferents amb paràmetres diferents.</para>
+
+    <para
+>When a new Optical Train is created, Focus will attempt to default parameters from other, similar Optical Trains. The attributes that must match for this are the Focuser and the scope type. If this is the first train for the selected Focuser and scope type then default parameters are created.</para>
+
+    <para
+>Es recomana utilitzar l'eina <link linkend="focus-advisor"
+>Assessor d'enfocament</link
+> en els trens òptics nous per establir els paràmetres de manera adequada.</para>
   </sect2>
 
   <sect2 id="focus-focuser-group">
@@ -519,8 +527,14 @@
 >El botó <guibutton
 >Assessor</guibutton
 > llança l'eina de l'<link linkend="focus-advisor"
->Assessor d'enfocament</link
+></link
 >. </para>
+      </listitem>
+      <listitem>
+        <para
+>La casella de selecció <guilabel
+>Força un EA</guilabel
+> es pot utilitzar quan una seqüència està activa a la captura o al programador. Quan està marcada, s'activarà un enfocament automàtic quan es completi el submarc actiu. </para>
       </listitem>
     </itemizedlist>
   </sect2>
@@ -889,7 +903,21 @@
 >Perfil SEP</guilabel
 >: Si l'algorisme de detecció d'estrelles s'estableix a <emphasis
 >SEP</emphasis
->, llavors trieu un perfil de paràmetres a usar amb l'algorisme. Es recomana utilitzar el perfil predeterminat 1-Focus-Default com a punt de partida.</para>
+>, llavors trieu un perfil de paràmetres a usar amb l'algorisme. Es recomanen els següents:</para>
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-predeterminat:</emphasis
+> per a telescopis que no tenen una obstrucció central, com un refractor.</para>
+          </listitem>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-predeterminat-dònut:</emphasis
+> per a telescopis que tenen una obstrucció central, com un newtonià, SCT, RASA, Ritchey-Cretien, etc.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1123,24 +1151,82 @@
       </listitem>
 
       <listitem>
-        <warning>
+        <para
+><guilabel
+>Average HFR check</guilabel
+>: Similar idea to <guilabel
+>Average Over</guilabel
+> but in this case it is the HFR Check datapoint that is averaged over the selected number of frames. In addition, if the <guilabel
+>Algorithm</guilabel
+> is Linear 1 Pass then the last datapoint of an Autofocus run, which is the in-focus datapoint, is also averaged over this number of frames. Set a value of 1 to start. This can be increased if there are issues with HFR Check Autofocus runs being triggered by outlying datapoints when the HFR Check runs.</para>
+      </listitem>
+
+      <listitem>
         <para
 ><guilabel
 >Reductor de dònuts</guilabel
->: Aquesta és una característica experimental i s'ha d'utilitzar amb precaució. La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de donut quan està desenfocat. En el futur és probable que es desenvolupin més funcionalitats per al Reductor de dònuts. En aquest llançament, la funcionalitat està dirigida a la recollida de dades per tal d'investigar mètodes per a millorar l'enfocament.</para>
-        </warning>
-      </listitem>
-      <listitem>
-        <warning>
+>: Aquesta és una característica experimental i s'ha d'utilitzar amb precaució. La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de donut quan està desenfocat, p. ex. un newtonià, SCT, RASA, Ritchey-Cretien, etc.</para>
+
         <para
 ><guilabel
->Factor de dilatació del temps</guilabel
->: Aquesta és una característica experimental del Reductor de dònuts i s'ha d'utilitzar amb precaució. Aquesta característica escala el temps d'exposició durant l'enfocament automàtic des del valor de l'exposició introduït al camp Exposició per als punts de dades més allunyats del focus. Els punts de dades propers al focus es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una exposició de 2 s i el Factor de dilatació del temps s'estableix a 4, llavors quan l'enfocament automàtic es mou per a prendre el seu primer punt de dades, s'utilitza una exposició de 2 s * 4 = 8 s. En cada punt de dades successiu l'exposició es redueix a 2 s al voltant del punt d'enfocament òptim. A mesura que l'enfocador es mou a través del focus, de manera que l'exposició s'escala cap amunt fins a 8 s per a l'últim punt de dades.</para>
+>Reductor de dònuts</guilabel
+> només està disponible per al lineal d'1 pas, rutes de barreja fixa i ZCE, corbes ajustades d'hipèrbola i paràbola, i mesures de focus de: HFR, HFR Adj i FWHM.</para>
+
         <para
+>Quan el <guilabel
+>Reductor de dònuts</guilabel
+> està marcat, l'ajust de la corba intermitent està suspesa i només s'activa al final de l'escombrat d'enfocament. Això permet que el reductor de dònuts processi millor els punts de dades de les vores que poden ser afectats pels donuts.</para>
+
+        <para
+>Hi ha disponibles les subopcions següents del reductor de dònuts:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>x de dilatació del temps</guilabel
+>: Aquesta característica escala el temps d'exposició durant l'enfocament automàtic a partir del valor introduït al camp <guilabel
+>Exposició</guilabel
+> per als punts de dades més allunyats del focus. Els punts de dades propers al focus es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una exposició de 2 s i el x de dilatació del temps s'estableix a 4, llavors quan l'enfocament automàtic es mou per a prendre el seu primer punt de dades, s'utilitza una exposició de 2 s * 4 = 8 s. En cada punt de dades successiu l'exposició es redueix a 2 s al voltant del punt d'enfocament òptim. A mesura que l'enfocador es mou a través del focus, de manera que l'exposició s'escala cap amunt fins a 8 s per a l'últim punt de dades.</para>
+
+            <para
 >El propòsit d'aquesta característica és augmentar la lluminositat dels punts de dades desenfocats, que seran més foscos que els punts de dades enfocats i, per tant, més difícils de resoldre per la detecció d'estrelles a partir del soroll de fons.</para>
-        <para
->Aquesta característica assumeix que l'enfocament automàtic s'executa des d'un enfocament proper a l'òptim.</para>
-        </warning>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Rebuig de valors atípics</guilabel
+>: Aquest és un factor per a escalar l'agressivitat de l'algorisme de rebuig de valors atípics quan <guilabel
+>Refina l'ajust de la corba</guilabel
+> està marcat. Com més alt sigui el valor, més valors atípics s'exclouran del procés d'ajustament de la corba. El valor predeterminat és 0,2.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Escaneja per a la posició d'inici</guilabel
+>: Marqueu aquesta opció per a fer un escaneig de l'enfocament a prop de la posició actual de l'enfocador per a trobar una posició òptima aproximada d'enfocament. El propòsit d'això és assegurar que l'enfocament automàtic comença prop de la posició d'enfocament. Hi ha disponibles les subopcions següents:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para
+><guilabel
+>Nombre de punts de dades</guilabel
+>: El nombre de punts de dades que es faran servir en cada exploració. 5 és un valor bo per a començar.</para>
+              </listitem>
+
+              <listitem>
+                <para
+><guilabel
+>x mida inicial del pas</guilabel
+>: Un factor multiplicatiu per a aplicar a la <guilabel
+>Mida inicial del pas</guilabel
+> per a utilitzar-lo a l'escaneig de la posició d'inici. El valor predeterminat és 1,0.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1401,6 +1487,13 @@
 > &gt; 0 perquè el mòdul d'enfocament gestioni el rebot.</para>
       </listitem>
     </itemizedlist>
+  </listitem>
+
+  <listitem>
+    <para
+><guilabel
+>Retard de la sobreexploració de l'EA</guilabel
+>: Retard entre la compleció del moviment cap a fora d'una sobreexploració, i el moviment cap a dins. Generalment, la majoria dels enfocadors funcionen bé sense retard.</para>
   </listitem>
 
   <listitem>
@@ -1682,14 +1775,7 @@
     <para
 ><guilabel
 >Mida del pas</guilabel
->: Aquesta és la mida suggerida del pas d'enfocament a utilitzar. Aquest és un paràmetre crític. Està predeterminat en el diàleg de la Zona crítica d'enfocament (ZCE). Per tant, el primer que cal fer és establir aquest diàleg i obtenir un valor raonable per a la ZCE. Alternativament, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Multiplicador de pas exterior</guilabel
->: Aquest és el multiplicador suggerit de pas exterior a fer servir.</para>
+>: Aquesta és la mida suggerida del pas d'enfocament a utilitzar. Aquest és un paràmetre crític. Està predeterminat en el diàleg de la Zona crítica d'enfocament (ZCE) si sabeu com definir-ho. Alternativament, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
     </listitem>
 
     <listitem>
@@ -1726,6 +1812,13 @@
 >: Això estableix els paràmetres de <link linkend="focus-mechanics"
 >Mecànica de l'enfocament</link
 >. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>Paràmetres SEP</guilabel
+>: Això estableix el perfil dels paràmetres SEP apropiats per al tipus de telescopi connectat en el tren òptic seleccionat. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
     </listitem>
 
     <listitem>
