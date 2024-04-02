@@ -2,23 +2,67 @@
 # It uses both KDE CI and custom image until tests are stabilised in the KDE CI image
 # Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
 
+stages:
+  - build
+  - test
+  #- test-unstable
+  - deploy
+
 include:
   - project: sysadmin/ci-utilities
     file:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/windows.yml
       - /gitlab-templates/android.yml
+      - /gitlab-templates/craft-appimage.yml
+      - /gitlab-templates/craft-windows-x86-64.yml
+      - /gitlab-templates/craft-macos-x86-64.yml
+      - /gitlab-templates/craft-windows-appx-qt5.yml
       # - /gitlab-templates/reuse-lint.yml
       # - /gitlab-templates/flatpak.yml
 
 # Android CI is not ready yet
 android_qt515:
-  allow_failure: true
+  rules:
+    - when: manual
+      allow_failure: true
 
-stages:
-  - build
-  - test
-  #- test-unstable
+# Craft recipes run as nightly on master
+craft_appimage_qt515_x86_64:
+  needs:
+    - suse_tumbleweed_qt515
+    - build-and-test-stable
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - when: manual
+      allow_failure: true
+
+craft_windows_qt515_x86_64:
+  needs:
+    - windows_qt515
+    - build-and-test-stable
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - when: manual
+      allow_failure: true
+
+craft_macos_x86_64:
+  needs:
+    - build-and-test-stable
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      allow_failure: true # MacOS build is unstable
+      when: always
+    - when: manual
+      allow_failure: true
+
+# Publishing to Windows store is being discussed
+microsoftstore_qt515:
+  rules:
+    - when: manual
+      allow_failure: true
 
 # This is the custom build we use until tests are operational in the KDE CI image
 .custom_build:
@@ -33,6 +77,10 @@ stages:
     key: "CCACHE-DB-$CI_PROJECT_ID"
     paths: [ "${CCACHE_DIR}" ]
     when: always
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - allow_failure: true
+      when: manual
   before_script:
     - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
     - add-apt-repository --remove ppa:mutlaqja/indinightly
@@ -47,9 +95,6 @@ stages:
 build:
   stage: build
   extends: .custom_build
-  only:
-    - master
-    - merge_requests
   script:
     - cd kstars-build
     - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF ..
@@ -62,9 +107,9 @@ build:
 build-and-test-stable:
   stage: test
   extends: .custom_build
+  needs:
+    - build
   timeout: 3 hours
-  only:
-    - merge_requests
   variables:
     BUILD_TESTING: "ON"
   script:
@@ -116,26 +161,4 @@ build-and-test-stable:
 #     reports:
 #       junit:
 #         ./junit_result.unstable.xml
-#
-# build-appimage:
-#   stage: test
-#   interruptible: true
-#   allow_failure: true
-#   only:
-#     - merge_requests
-#   before_script:
-#     - python3 -m pip install appimage-builder
-#     - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
-#     - chmod +x /opt/appimagetool
-#     - pushd /opt/; /opt/appimagetool --appimage-extract
-#     - mv /opt/squashfs-root /opt/appimagetool.AppDir
-#     - ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
-#     - popd
-#   script:
-#     - *build_recipe
-#     - appimage-builder --recipe ../appimage/appimage-builder.yml --skip-test
-#   artifacts:
-#     expire_in: 1 week
-#     paths:
-#       - 'kstars-build/*.AppImage*'
 #
