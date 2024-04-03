@@ -210,7 +210,7 @@
 >Els paràmetres d'enfocament es desen automàticament per cada tren òptic, de manera que es poden definir diversos trens òptics per a gestionar configuracions diferents amb paràmetres diferents.</para>
 
     <para
->When a new Optical Train is created, Focus will attempt to default parameters from other, similar Optical Trains. The attributes that must match for this are the Focuser and the scope type. If this is the first train for the selected Focuser and scope type then default parameters are created.</para>
+>Quan es crea un tren òptic nou, l'enfocament intentarà els paràmetres predeterminats d'altres trens òptics similars. Els atributs que han de coincidir amb això són l'enfocador i el tipus de telescopi. Si aquest és el primer tren per a l'enfocador i tipus de telescopi seleccionat, es crearan els paràmetres predeterminats.</para>
 
     <para
 >Es recomana utilitzar l'eina <link linkend="focus-advisor"
@@ -1153,12 +1153,12 @@
       <listitem>
         <para
 ><guilabel
->Average HFR check</guilabel
->: Similar idea to <guilabel
->Average Over</guilabel
-> but in this case it is the HFR Check datapoint that is averaged over the selected number of frames. In addition, if the <guilabel
->Algorithm</guilabel
-> is Linear 1 Pass then the last datapoint of an Autofocus run, which is the in-focus datapoint, is also averaged over this number of frames. Set a value of 1 to start. This can be increased if there are issues with HFR Check Autofocus runs being triggered by outlying datapoints when the HFR Check runs.</para>
+>Mitjana de comprovació HFR</guilabel
+>: Idea similar a <guilabel
+>Mitjana superior</guilabel
+>però en aquest cas és el punt de comprovació HFR del qual es fa la mitjana sobre el nombre seleccionat de fotogrames. A més, si l'algorisme <guilabel
+></guilabel
+> és lineal d'1 pas, llavors l'últim punt de dades d'una execució d'enfocament automàtic, que és el punt de dades en el focus, també es fa la mitjana sobre aquest nombre de fotogrames. Establiu un valor d'1 per a començar. Això es pot augmentar si hi ha problemes amb l'enfocament automàtic de comprovació HFR que s'executa activant els punts de dades atípics quan s'executa la comprovació HFR.</para>
       </listitem>
 
       <listitem>
