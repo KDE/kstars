@@ -787,34 +787,28 @@ msgid "Data folder permissions error."
 msgstr "Chyba oprávnění složky s daty."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "&Vrchol"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "&Vrchol"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "Sever"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Norton"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -5463,10 +5457,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgid "Mount:"
+#, kde-format
 msgid "Mount Type:"
-msgstr "Připojit:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
@@ -5477,10 +5470,9 @@ msgstr "Ekvatoriální"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
-msgstr "Azimut"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -5510,10 +5502,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "Typ:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
@@ -5523,10 +5514,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
-#, fuzzy, kde-format
-#| msgid "Eyepiece:"
+#, kde-format
 msgid "Eyepiece Angle:"
-msgstr "Okulár:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, viewingAngleLabel)
 #: dialogs/newview.ui:189
@@ -5576,10 +5566,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Choose a field-of-view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Vyberte zorný úhel"
+msgstr ""
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5614,25 +5603,21 @@ msgid "Manage Sky Map Views"
 msgstr ""
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "Upravit odkaz"
+msgstr ""
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "Pohled"
+msgstr ""
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgid "Constellation Names"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "Názvy souhvězdí"
+msgstr ""
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5655,52 +5640,37 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Přidat nový symbol zorného úhlu (ZÚ) do seznamu. Můžete nastavit jeho "
-"velikost, tvar a barvu."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Upravit zvýrazněný symbol ZÚ"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Pro úpravu zvýrazněného symbolu ZÚ stiskněte toto tlačítko. Můžete změnit "
-"velikost, tvar a barvu symbolu."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Odstranit zvýrazněný symbol ZÚ"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
 msgstr ""
-"Pro odstranění zvýrazněného symbolu ZÚ ze seznamu stiskněte toto tlačítko."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -16897,12 +16867,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:178
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
-msgstr "<html><head/><body><p>Přiblížit pro osu X.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -25827,17 +25796,14 @@ msgid "Ekos job failed (%1)"
 msgstr ""
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark"
+#, kde-format
 msgid "DarkFlat"
-msgstr "Tmavé"
+msgstr ""
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Images"
+#, kde-format
 msgid "images"
-msgstr "Obrázky"
+msgstr "obrázky"
 
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
@@ -31975,18 +31941,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:830
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
-msgstr "V&levo"
+msgstr "Vlevo"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:833
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "Světlé"
+msgstr "Vpravo"
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:839
@@ -65736,10 +65699,9 @@ msgid "&FOV Symbols"
 msgstr "Symboly ZÚ"
 
 #: kstarsinit.cpp:382
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "Po&hled"
+msgstr ""
 
 #: kstarsinit.cpp:390
 #, kde-format
@@ -66222,12 +66184,10 @@ msgid ""
 msgstr ""
 
 #: kstarsinit.cpp:761
-#, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "No projection"
+#, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr "Bez promítání"
+msgstr ""
 
 #: kstarsinit.cpp:765
 #, kde-format
@@ -66278,18 +66238,15 @@ msgid ""
 msgstr ""
 
 #: kstarsinit.cpp:809
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
-msgstr "Knihovna"
+msgstr ""
 
 #: kstarsinit.cpp:812
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Upravit odkaz..."
+msgstr ""
 
 #: kstarsinit.cpp:839
 #, kde-format
@@ -81652,12 +81609,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "The sun"
-#~ msgstr "Slunce"
-
-#~ msgid "The moon"
-#~ msgstr "Měsíc"

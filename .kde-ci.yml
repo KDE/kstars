@@ -6,7 +6,7 @@ Dependencies:
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'frameworks/kconfig': '@stable'
-    'frameworks/kguidaddons': '@stable'
+    'frameworks/kguiaddons': '@stable'
     'frameworks/ki18n': '@stable'
     'frameworks/kplotting': '@stable'
 
