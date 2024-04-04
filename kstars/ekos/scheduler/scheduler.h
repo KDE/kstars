@@ -323,6 +323,11 @@ protected slots:
         void clearJobTable();
 
         /**
+         * @brief clearLog Clears log entry
+         */
+        Q_INVOKABLE void clearLog();
+
+        /**
          * @brief Update scheduler parameters to the currently selected scheduler job
          * @param selected table position
          * @param deselected table position
