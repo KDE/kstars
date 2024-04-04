@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-02 01:32+0000\n"
-"PO-Revision-Date: 2024-03-17 20:45\n"
+"PO-Revision-Date: 2024-04-03 19:21\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -790,34 +790,28 @@ msgid "Data folder permissions error."
 msgstr "数据文件夹权限错误。"
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "天顶(&Z)"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "天顶(&Z)"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "北纬"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "诺顿"
+msgstr ""
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -828,12 +822,11 @@ msgid "SCT with upward diagonal"
 msgstr ""
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgid "Dobsonian"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "道布森"
+msgstr ""
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -5473,10 +5466,9 @@ msgstr "形状："
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, NewView)
 #: dialogs/newview.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add / Edit View"
-msgstr "添加/编辑深空天体(DSO)"
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
@@ -5486,10 +5478,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgid "Mount:"
+#, kde-format
 msgid "Mount Type:"
-msgstr "赤道仪："
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
@@ -5500,10 +5491,9 @@ msgstr "赤道"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
-msgstr "方位"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -5533,10 +5523,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "类型："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
@@ -5546,10 +5535,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
-#, fuzzy, kde-format
-#| msgid "Eyepiece AFOV:"
+#, kde-format
 msgid "Eyepiece Angle:"
-msgstr "目镜表观视场："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, viewingAngleLabel)
 #: dialogs/newview.ui:189
@@ -5599,10 +5587,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Density of stars in the field of view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "视场中恒星的密度"
+msgstr ""
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5637,26 +5624,21 @@ msgid "Manage Sky Map Views"
 msgstr ""
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "编辑链接"
+msgstr ""
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "查看  "
+msgstr ""
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Config Name"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "配置名称"
+msgstr ""
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5673,54 +5655,43 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add a new view"
-msgstr "添加/编辑深空天体(DSO)"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
-msgstr "添加视场符号到列表。您可以规定其大小，形状和颜色。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "编辑高亮的视场符号"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
-msgstr "按此按钮更改高亮的视场符号。您可以改变其大小，形状和颜色。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "删除高亮的视场符号"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr "按此按钮从列表中删除高亮的视场符号"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -6783,17 +6754,11 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:234
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/> <body><p>减暗场。如果没有暗场可用，将会拍摄新的暗场，并且保存以"
-"供将来使用。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -17330,13 +17295,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:178
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
-msgstr "<html><head/><body><p>旋转角度偏差阈值</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -26538,17 +26501,14 @@ msgid "Ekos job failed (%1)"
 msgstr "Ekos 作业失败 (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "DarkFlat"
-msgstr "暗平场"
+msgstr ""
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Images"
+#, kde-format
 msgid "images"
-msgstr "图像"
+msgstr ""
 
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
@@ -32727,18 +32687,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:830
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
-msgstr "左边（&L）"
+msgstr ""
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:833
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "光场"
+msgstr ""
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:839
@@ -66521,10 +66478,9 @@ msgid "&FOV Symbols"
 msgstr "视场符号(&F)"
 
 #: kstarsinit.cpp:382
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "视图(&V)"
+msgstr ""
 
 #: kstarsinit.cpp:390
 #, kde-format
@@ -67008,12 +66964,10 @@ msgid ""
 msgstr ""
 
 #: kstarsinit.cpp:761
-#, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "No projection"
+#, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr "不投影"
+msgstr ""
 
 #: kstarsinit.cpp:765
 #, kde-format
@@ -67064,18 +67018,15 @@ msgid ""
 msgstr ""
 
 #: kstarsinit.cpp:809
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
-msgstr "库"
+msgstr ""
 
 #: kstarsinit.cpp:812
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "编辑链接..."
+msgstr ""
 
 #: kstarsinit.cpp:839
 #, kde-format
@@ -74000,10 +73951,9 @@ msgstr "如果选中的话，将会在星图中绘制太阳。"
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "使用缩放"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
@@ -82595,17 +82545,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "Subtract dark frame. If no suitable dark frame is available, a dark frame "
-#~ "shall be captured."
-#~ msgstr "减去暗场。如果没有适用的暗场，则将拍摄暗场。"
-
-#~ msgid "Use dark frames from the library."
-#~ msgstr "使用暗场库里的暗场文件。"
-
-#~ msgid "The sun"
-#~ msgstr "太阳"
-
-#~ msgid "The moon"
-#~ msgstr "月球"
