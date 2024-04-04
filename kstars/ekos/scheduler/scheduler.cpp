@@ -1744,6 +1744,11 @@ void Scheduler::clearJobTable()
         queueTable->removeRow(0);
 }
 
+void Scheduler::clearLog()
+{
+    process()->clearLog();
+}
+
 void Scheduler::saveAs()
 {
     schedulerURL.clear();

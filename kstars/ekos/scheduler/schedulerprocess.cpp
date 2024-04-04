@@ -3346,6 +3346,12 @@ void SchedulerProcess::appendLogText(const QString &logentry)
     emit newLog(logentry);
 }
 
+void SchedulerProcess::clearLog()
+{
+    moduleState()->logText().clear();
+    emit newLog(QString());
+}
+
 void SchedulerProcess::setAlignStatus(AlignState status)
 {
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)

@@ -318,6 +318,11 @@ public:
     void appendLogText(const QString &logentry) override;
 
     /**
+     * @brief clearLog Clear log entry
+     */
+    void clearLog();
+
+    /**
      * @return True if mount is parked
      */
     bool isMountParked();
