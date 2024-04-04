@@ -166,7 +166,7 @@ void Media::onTextReceived(const QString &message)
                     QJsonObject metadata =
                     {
                         {"uuid", uuid},
-                        {"name", name},
+                        {"name", exact ? name : oneObject->name()},
                         {"zoom", zoom},
                         {"resolution", QString("%1x%2").arg(HIPS_TILE_WIDTH).arg(HIPS_TILE_HEIGHT)},
                         {"bin", "1x1"},

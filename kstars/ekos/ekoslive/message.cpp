@@ -1932,7 +1932,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         {
             info =
             {
-                {"name", name},
+                {"name", exact ? name : oneObject->name()},
                 {"designations", QJsonArray::fromStringList(oneObject->longname().split(", "))},
                 {"magnitude", oneObject->mag()},
                 {"ra0", oneObject->ra0().Hours()},
@@ -1977,7 +1977,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             {
                 QJsonObject info =
                 {
-                    {"name", name},
+                    {"name", exact ? name : oneObject->name()},
                     {"designations", QJsonArray::fromStringList(oneObject->longname().split(", "))},
                     {"magnitude", oneObject->mag()},
                     {"ra0", oneObject->ra0().Hours()},
@@ -2033,7 +2033,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dms ha(data->lst()->Degrees() - oneObject->ra().Degrees());
                 QJsonObject info =
                 {
-                    {"name", name},
+                    {"name", exact ? name : oneObject->name()},
                     {"az", oneObject->az().Degrees()},
                     {"alt", oneObject->alt().Degrees()},
                     {"ha",  ha.Hours()},
@@ -2094,7 +2094,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 if (setTime < riseTime)
                     setTime  = oneObject->riseSetTime(ut.addDays(1), geo, false);
 
-                info["name"] = name;
+                info["name"] = exact ? name : oneObject->name();
                 if (riseTime.isValid())
                 {
                     info["rise"] = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
