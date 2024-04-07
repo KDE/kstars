@@ -8,8 +8,6 @@
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
 #include "focusfwhm.h"
-#include "aberrationinspector.h"
-#include "aberrationinspectorutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -48,8 +46,14 @@
 #include <gsl/gsl_min.h>
 
 #include <ekos_focus_debug.h>
+#include <config-kstars.h>
 
 #include <cmath>
+
+#ifdef HAVE_DATAVISUALIZATION
+#include "aberrationinspector.h"
+#include "aberrationinspectorutils.h"
+#endif
 
 #define MAXIMUM_ABS_ITERATIONS   51
 #define MAXIMUM_RESET_ITERATIONS 3
@@ -3178,6 +3182,7 @@ void Focus::plotLinearFinalUpdates()
 
 void Focus::startAberrationInspector()
 {
+#ifdef HAVE_DATAVISUALIZATION
     // Fill in the data structure to be passed to the Aberration Inspector
     AberrationInspector::abInsData data;
 
@@ -3209,6 +3214,7 @@ void Focus::startAberrationInspector()
                                         m_abInsNumStars, m_abInsTileCenterOffset));
     abIns->setAttribute(Qt::WA_DeleteOnClose);
     abIns->show();
+#endif
 }
 
 // Algorithm to scan for an optimum start position for Autofocus

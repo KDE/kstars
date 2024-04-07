@@ -1676,6 +1676,29 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         sendResponse(commands[ASTRO_GET_ALMANC], response);
     }
+    else if (command == commands[ASTRO_GET_NAMES])
+    {
+        auto composite = KStarsData::Instance()->skyComposite();
+        QStringList all;
+        all += composite->objectNames(SkyObject::PLANET);
+        all += composite->objectNames(SkyObject::MOON);
+        all += composite->objectNames(SkyObject::COMET);
+        all += composite->objectNames(SkyObject::ASTEROID);
+        all += composite->objectNames(SkyObject::GASEOUS_NEBULA);
+        all += composite->objectNames(SkyObject::PLANETARY_NEBULA);
+        all += composite->objectNames(SkyObject::OPEN_CLUSTER);
+        all += composite->objectNames(SkyObject::GLOBULAR_CLUSTER);
+        all += composite->objectNames(SkyObject::GALAXY);
+        all += composite->objectNames(SkyObject::SUPERNOVA);
+        all += composite->objectNames(SkyObject::SUPERNOVA_REMNANT);
+        all += composite->objectNames(SkyObject::SATELLITE);
+        all += composite->objectNames(SkyObject::STAR);
+        all += composite->objectNames(SkyObject::CATALOG_STAR);
+
+        all.sort(Qt::CaseInsensitive);
+
+        sendResponse(commands[ASTRO_GET_NAMES], QJsonArray::fromStringList(all));
+    }
     // Get a list of object based on criteria
     else if (command == commands[ASTRO_SEARCH_OBJECTS])
     {
@@ -1932,7 +1955,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         {
             info =
             {
-                {"name", name},
+                {"name", exact ? name : oneObject->name()},
                 {"designations", QJsonArray::fromStringList(oneObject->longname().split(", "))},
                 {"magnitude", oneObject->mag()},
                 {"ra0", oneObject->ra0().Hours()},
@@ -1977,7 +2000,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             {
                 QJsonObject info =
                 {
-                    {"name", name},
+                    {"name", exact ? name : oneObject->name()},
                     {"designations", QJsonArray::fromStringList(oneObject->longname().split(", "))},
                     {"magnitude", oneObject->mag()},
                     {"ra0", oneObject->ra0().Hours()},
@@ -2033,7 +2056,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dms ha(data->lst()->Degrees() - oneObject->ra().Degrees());
                 QJsonObject info =
                 {
-                    {"name", name},
+                    {"name", exact ? name : oneObject->name()},
                     {"az", oneObject->az().Degrees()},
                     {"alt", oneObject->alt().Degrees()},
                     {"ha",  ha.Hours()},
@@ -2094,7 +2117,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 if (setTime < riseTime)
                     setTime  = oneObject->riseSetTime(ut.addDays(1), geo, false);
 
-                info["name"] = name;
+                info["name"] = exact ? name : oneObject->name();
                 if (riseTime.isValid())
                 {
                     info["rise"] = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
