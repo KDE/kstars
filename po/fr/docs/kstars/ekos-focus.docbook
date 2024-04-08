@@ -209,7 +209,15 @@
     </itemizedlist>
 
     <para
->Les paramètres de mise au point de chaque train optique sont automatiquement enregistrés.</para>
+>Les paramètres de mise au point sont enregistrés pour chaque train optique automatiquement, ainsi plusieurs trains peuvent être gérés séparément pour différentes configurations avec différents paramètres.</para>
+
+    <para
+>Lors de la création d'un nouveau train optique, le processus de mise au point va tenter de déterminer les paramètres par défaut en fonction d'autres trains optiques similaires. Les attributs devant correspondre sont le moteur de mise au point et le type de télescope. Si c'est le premier train créé pour le moteur de mise au point et le type de télescope sélectionnés, les paramètres par défaut seront également créés.</para>
+
+    <para
+>Il est recommandé d'utiliser l'outil <link linkend="focus-advisor"
+>Conseiller de mise au point</link
+> pour les nouveaux optiques afin de régler les paramètres correctement.</para>
   </sect2>
 
   <sect2 id="focus-focuser-group">
@@ -519,6 +527,12 @@
 > lance l'outil <link linkend="focus-advisor"
 >Conseiller de mise au point</link
 >. </para>
+      </listitem>
+      <listitem>
+        <para
+>La case <guilabel
+>Forcer la mise au point automatique</guilabel
+> quand une séquence est active durant l'acquisition ou l'ordonnanceur. Quand cette option est activée, une mise au point automatique sera déclenchée dès la fin de la trame. </para>
       </listitem>
     </itemizedlist>
   </sect2>
@@ -879,7 +893,21 @@
 >Profil « SEP »</guilabel
 > : si l'algorithme de détection d'étoiles est réglé à <emphasis
 >SEP</emphasis
->, il faut ensuite choisir un paramètre de profil pour l'utilisation de l'algorithme. Il est recommandé d'utiliser le profile par défaut « 1-Focus-Default » comme point de départ.</para>
+>, il faut ensuite choisir un paramètre de profil pour l'utilisation de l'algorithme. Les paramètres suivants sont recommandés :</para>
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default</emphasis
+> : pour les télescopes n'ayant pas d'obstruction centrale comme les réfracteurs.</para>
+          </listitem>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default-Donut</emphasis
+> : pour les télescopes ayant une obstruction centrale comme les Newton, SCT, RASA, Ritchey-Cretien, etc…</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1113,24 +1141,84 @@
       </listitem>
 
       <listitem>
-        <warning>
+        <para
+><guilabel
+>Vérification HFR moyenne</guilabel
+> : similaire dans l'idée que <guilabel
+>Moyenner sur</guilabel
+> mais dans ce cas, ce sont les points de vérification HFR qui sont moyennés en fonction du nombre de trames. De plus, si l'<guilabel
+>Algorithme</guilabel
+> utilisé est Linéaire à 1 passe, le dernier point d'une passe de mise au point automatique, qui est le point intérieur de mise au point, est également moyenné sur ce nombre de trames. Réglez à 1 pour démarrer. Cette valeur peut être augmentée si vous rencontrez des problèmes avec la mise au point automatique de la vérification HFR déclenchée par des valeur aberrantes lors des vérifications HFR.</para>
+      </listitem>
+
+      <listitem>
         <para
 ><guilabel
 >Donut Buster</guilabel
-> : c'est encore une fonctionnalité expérimentale qui devrait être utilisé avec précaution. L'idée ici est d'améliorer la mise au point pour des télescopes ayant une obstruction centrale qui crée des étoiles en forme de beignet lorsque loin de la position de mise au point. Il est probable que dans le futur il y aura davantage de fonctionnalités développées. Dans cette version, cette fonctionnalité est davantage ciblée vers la récolte de données afin d'améliorer la mise au point.</para>
-        </warning>
-      </listitem>
-      <listitem>
-        <warning>
+> : c'est encore une fonctionnalité expérimentale qui devrait être utilisée avec précaution. L'idée ici est d'améliorer la mise au point pour des télescopes ayant une obstruction centrale qui crée des étoiles en forme de beignet lorsque loin de la position de mise au point, par exemple les Newton, SCT, RASA, Ritchey-Cretien, etc…</para>
+
         <para
 ><guilabel
->Facteur de dilatation du temps</guilabel
-> : cette fonctionnalité de Donut Buster est encore expérimentale et devrait être utilisée avec précaution. Elle règle la durée d'exposition à partir de la valeur de la mise au point automatique saisie dans le champ d'exposition pour les points les plus éloignés de la mise au point. Les points proches de la mise au point ne sont pas impactés. Par exemple, si la mise au point est réglée à 2s et que le facteur de dilatation du temps est réglé à 4, la mise au point automatique se déplace vers l'extérieur pour son premier point et la durée d'exposition sera de 2s * 4 = 8s. Pour les points suivants, la durée d'exposition est réduite à 2s autour de la position de mise au point optimale. À mesure que le moteur de mise au point passe la position optimale, la durée sera augmentée à 8s pour le dernier point.</para>
+>Donut Buster</guilabel
+> n'est disponible que pour l'algorithme Linéaire à 1 passe, les courses Fixes et mélange CFZ, la régression Hyperbole et Parabole, et les mesures de mise au point de HFR, HFR ajusté et FWHM.</para>
+
         <para
+>Quand l'option <guilabel
+>Donut Buster</guilabel
+> est cochée, la régression est suspendue et n'est activée qu'à la fin du balayage de mise au point. Cela permet de mieux traiter les points de bord qui peuvent être concernés par les beignets.</para>
+
+        <para
+>Les sous-options suivantes sont disponibles pour l'option Donut Buster :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Facteur x de dilatation du temps</guilabel
+> : cette fonctionnalité gère la mise à l'échelle de la durée d'exposition durant la mise au point automatique depuis la valeur saisie dans le champ <guilabel
+>Durée d'exposition</guilabel
+> pour les points les plus éloignés de la position de mise au point. Les points proches de la mise au point ne sont pas impactés. Par exemple, si la mise au point est réglée à 2s et que le facteur de dilatation du temps est réglé à 4, la mise au point automatique se déplace vers l'extérieur pour son premier point et la durée d'exposition sera de 2s * 4 = 8s. Pour les points suivants, la durée d'exposition est réduite à 2s autour de la position de mise au point optimale. À mesure que le moteur de mise au point passe la position optimale, la durée sera augmentée à 8s pour le dernier point.</para>
+
+            <para
 >Le but de cette méthode est d'augmenter la luminosité des points loin de la position optimale qui sont par nature moins brillants que les points proches et donc plus difficile à résoudre par rapport au bruit ambiant.</para>
-        <para
->Cette fonctionnalité implique que le processus de mise au point automatique est lancé près de la position optimale de mise au point.</para>
-        </warning>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Rejet des points aberrants</guilabel
+> : ce facteur gère l'agressivité de l'algorithme de rejet des points aberrants quand l'option <guilabel
+>Affiner la régression</guilabel
+> est cochée. Plus cette valeur est élevée et plus de points aberrants seront rejetés. La valeur par défaut est 0.2.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Détermination du point de départ</guilabel
+> : cochez cette option pour que l'algorithme de mise au point cherche une position du moteur de mise au point proche de la position optimale. Le but étant que la mise au point automatique démarre aussi prêt de cette position que possible. Les sous-options suivantes sont disponibles :</para>
+
+            <itemizedlist>
+              <listitem>
+                <para
+><guilabel
+>Nombre de points</guilabel
+> : le nombre de points à utiliser pour chaque recherche. Une bonne valeur de départ est 5.</para>
+              </listitem>
+
+              <listitem>
+                <para
+><guilabel
+>Taille initiale de pas x</guilabel
+> : facteur multiplicateur à appliquer à <guilabel
+>Taille initiale de pas</guilabel
+> lors de l'utilisation de <guilabel
+>Détermination du point de départ</guilabel
+>. La valeur par défaut est 1.0.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1396,6 +1484,13 @@
   <listitem>
     <para
 ><guilabel
+>Délai du balayage de mise au point</guilabel
+> : délai entre la fin d'un déplacement vers l'extérieur et le déplacement intérieur. En général, la plupart des moteurs de mise au point fonctionnent correctement sans délai.</para>
+  </listitem>
+
+  <listitem>
+    <para
+><guilabel
 >Délai d'acquisition</guilabel
 > : spécifie le nombre de secondes à attendre pour qu'une image acquise soit reçue avant de déclarer une expiration du délai. Cela ne devrait être déclenché que s'il y a des problèmes avec l'appareil photo durant le processus de mise au point, ainsi réglez à une valeur suffisamment haute pour éviter que cela n'intervienne durant les opérations normales.</para>
   </listitem>
@@ -1594,7 +1689,7 @@
     <para
 ><guilabel
 >CFZ</guilabel
-> : c'est la CFZ calculée en microns et en pas</para>
+> : c'est la CFZ calculée en microns et en pas.</para>
   </listitem>
 
   <listitem>
@@ -1672,14 +1767,7 @@
     <para
 ><guilabel
 >Taille de pas</guilabel
-> : c'est la taille de pas recommandée, qui est un paramètre critique. La valeur provient de la boîte de dialogue de la zone critique de mise au point (CFZ). Ainsi, la première chose à faire est de configurer ce panneau et y mettre une valeur raisonnable pour la CFZ. Alternativement, si vous avez obtenu une bonne valeur pour votre équipement d'autres sources, vous pouvez simplement la saisir ici.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Multiple de pas extérieur</guilabel
-> : c'est le multiple de pas extérieur à utiliser.</para>
+> : c'est la taille de pas recommandée, qui est un paramètre critique. La valeur provient de la boîte de dialogue de la zone critique de mise au point (CFZ) si vous savez comment régler cela. Alternativement, si vous avez obtenu une bonne valeur pour votre équipement d'autres sources, vous pouvez simplement la saisir ici.</para>
     </listitem>
 
     <listitem>
@@ -1716,6 +1804,13 @@
 > : ce sont les paramètres du panneau de la <link linkend="focus-mechanics"
 >Mécanique de la mise au point</link
 > de l'écran de mise au point. En survolant cette étiquette avec la souris, vous pouvez voir dans l'info-bulle les valeurs recommandées par le conseiller de mise au point.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>Paramètres SEP</guilabel
+> : permet de régler ces paramètres pour le type de télescope du train optique sélectionné. En survolant cette étiquette avec la souris, vous pouvez voir dans l'info-bulle les valeurs recommandées par le conseiller de mise au point.</para>
     </listitem>
 
     <listitem>
