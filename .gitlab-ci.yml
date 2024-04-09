@@ -7,6 +7,7 @@ stages:
   - test
   #- test-unstable
   - deploy
+  - publish
 
 include:
   - project: sysadmin/ci-utilities
