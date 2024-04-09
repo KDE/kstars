@@ -28,11 +28,6 @@ ConcreteDevice::ConcreteDevice(ISD::GenericDevice *parent) : GDInterface(parent)
     });
     connect(parent, &GenericDevice::Disconnected, this, &ConcreteDevice::Disconnected);
 
-    // Signal --> Signal
-    connect(parent, &GenericDevice::propertyDefined, this, &ConcreteDevice::propertyDefined);
-    connect(parent, &GenericDevice::propertyDeleted, this, &ConcreteDevice::propertyDeleted);
-    connect(parent, &GenericDevice::propertyUpdated, this, &ConcreteDevice::propertyUpdated);
-
     // Signal --> Slots
     connect(parent, &GenericDevice::propertyDefined, this, [this](INDI::Property value)
     {
@@ -42,6 +37,13 @@ ConcreteDevice::ConcreteDevice(ISD::GenericDevice *parent) : GDInterface(parent)
     });
     connect(parent, &GenericDevice::propertyDeleted, this, &ConcreteDevice::removeProperty);
     connect(parent, &GenericDevice::propertyUpdated, this, &ConcreteDevice::updateProperty);
+
+    // N.B. JM 2024.04.09: Better move signals to bottom to allow internal update slots above to run first
+    // and update any status variables before informing the outside world.
+    // Signal --> Signal
+    connect(parent, &GenericDevice::propertyDefined, this, &ConcreteDevice::propertyDefined);
+    connect(parent, &GenericDevice::propertyDeleted, this, &ConcreteDevice::propertyDeleted);
+    connect(parent, &GenericDevice::propertyUpdated, this, &ConcreteDevice::propertyUpdated);
 }
 
 void ConcreteDevice::registeProperties()
