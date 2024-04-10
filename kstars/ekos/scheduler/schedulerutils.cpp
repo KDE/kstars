@@ -62,7 +62,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "FITS"))
         {
-            fitsURL.setPath(pcdataXMLEle(ep));
+            fitsURL = QUrl::fromUserInput(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "PositionAngle"))
         {
