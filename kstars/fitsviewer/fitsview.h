@@ -277,6 +277,8 @@ class FITSView : public QScrollArea
             return selectionRectangleRaw;
         }
 
+        void emitZoom();
+
     public slots:
         void wheelEvent(QWheelEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;

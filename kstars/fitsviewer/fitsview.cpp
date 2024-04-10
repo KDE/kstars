@@ -44,7 +44,7 @@
 #include <unistd.h>
 #endif
 
-#define BASE_OFFSET    50
+#define BASE_OFFSET    0
 #define ZOOM_DEFAULT   100.0f
 #define ZOOM_MIN       10
 // ZOOM_MAX is adjusted in the constructor if the amount of physical memory is known.
@@ -645,8 +645,9 @@ bool FITSView::rescale(FITSZoom type)
                 }
 
                 // Find the zoom level which will enclose the current FITS in the current window size
-                double zoomX                  = floor((w / static_cast<double>(currentWidth)) * 100.);
-                double zoomY                  = floor((h / static_cast<double>(currentHeight)) * 100.);
+                double zoomX = (w / static_cast<double>(currentWidth)) * 100.0;
+                double zoomY = (h / static_cast<double>(currentHeight)) * 100.0;
+
                 (zoomX < zoomY) ? currentZoom = zoomX : currentZoom = zoomY;
 
                 currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
@@ -682,8 +683,15 @@ bool FITSView::rescale(FITSZoom type)
     setWidget(m_ImageFrame);
 
     // This is needed by fitstab, even if the zoom doesn't change, to change the stretch UI.
-    emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emitZoom();
     return true;
+}
+
+void FITSView::emitZoom()
+{
+    // Don't need to display full float precision. Limit to 2 decimal places at most.
+    double zoom = std::round(currentZoom * 100.0) / 100.0;
+    emit newStatus(QString("%1%").arg(zoom), FITS_ZOOM);
 }
 
 void FITSView::ZoomIn()
@@ -716,7 +724,7 @@ void FITSView::ZoomIn()
 
     updateFrame(true);
 
-    emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emitZoom();
     emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
@@ -745,7 +753,7 @@ void FITSView::ZoomOut()
 
     updateFrame(true);
 
-    emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emitZoom();
     emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
@@ -1134,7 +1142,7 @@ void FITSView::ZoomDefault()
 
         updateFrame();
 
-        emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+        emitZoom();
 
         update();
     }
