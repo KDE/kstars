@@ -11,9 +11,6 @@
 
 #include "wsmedia.h"
 #include "auxiliary/imageviewer.h"
-#include "fitsviewer/fitsdata.h"
-#include "fitsviewer/fitsviewer.h"
-#include "ekos/capture/placeholderpath.h"
 
 #include <QStringList>
 #include <QPointer>
@@ -112,10 +109,6 @@ class Camera : public ConcreteDevice
         {
             seqPrefix = preFix;
         }
-        void setPlaceholderPath(const Ekos::PlaceholderPath &php)
-        {
-            placeholderPath = php;
-        }
         void setNextSequenceID(int count)
         {
             nextSequenceID = count;
@@ -166,12 +159,6 @@ class Camera : public ConcreteDevice
         {
             return m_EncodingFormats;
         }
-
-        // FITS Viewer Stretch values
-        // TODO: Need to remove all FITSViewer related functions from INDI::Camera
-        Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
-        Q_SCRIPTABLE void setAutoStretch();
-        Q_SCRIPTABLE void toggleHiPSOverlay();
 
         // Capture Format
         const QStringList &getCaptureFormats() const
@@ -230,6 +217,13 @@ class Camera : public ConcreteDevice
             return m_ExposurePresetsMinMax;
         }
 
+        /**
+         * @brief saveCurrentImage save the image that is currently in the image data buffer
+         * @return true if saving succeeded
+         */
+        bool saveCurrentImage(QString &filename);
+
+
     public slots:
         void StreamWindowHidden();
         // Blob manager
@@ -252,20 +246,13 @@ class Camera : public ConcreteDevice
         void newFPS(double instantFPS, double averageFPS);
         void newVideoFrame(const QSharedPointer<QImage> &frame);
         // Data
-        void newImage(const QSharedPointer<FITSData> &data);
+        void newImage(const QSharedPointer<FITSData> &data, const QString &extension = "");
         // View
         void newView(const QSharedPointer<FITSView> &view);
 
     private:
         void processStream(INDI::Property prop);
-        bool generateFilename(bool batch_mode, const QString &extension, QString *filename);
-        // Saves an image to disk on a separate thread.
-        bool writeImageFile(const QString &filename, INDI::Property prop, bool is_fits);
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
-        // Creates or finds the FITSViewer.
-        // TODO: Need to remove all FITSViewer related functions from INDI::Camera
-        QSharedPointer<FITSViewer> getFITSViewer();
-        void handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop, QSharedPointer<FITSData> data);
 
         bool HasGuideHead { false };
         bool HasCooler { false };
@@ -274,7 +261,6 @@ class Camera : public ConcreteDevice
         bool HasVideoStream { false };
         bool m_FastExposureEnabled { false };
         QString seqPrefix;
-        Ekos::PlaceholderPath placeholderPath;
 
         int nextSequenceID { 0 };
         std::unique_ptr<StreamWG> streamWindow;
@@ -305,7 +291,6 @@ class Camera : public ConcreteDevice
         INumber *offsetN { nullptr };
         IPerm offsetPerm { IP_RO };
 
-        QSharedPointer<FITSViewer> m_FITSViewerWindow;
         QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;
@@ -315,6 +300,7 @@ class Camera : public ConcreteDevice
         QPair<double, double> m_ExposurePresetsMinMax;
 
         // Used when writing the image fits file to disk in a separate thread.
+        void updateFileBuffer(INDI::Property prop, bool is_fits);
         char *fileWriteBuffer { nullptr };
         int fileWriteBufferSize { 0 };
         QString fileWriteFilename;

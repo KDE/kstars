@@ -19,6 +19,13 @@
 #include "indi/blobmanager.h"
 #include "indi/indilightbox.h"
 #include "ksmessagebox.h"
+#include "kstars.h"
+
+#ifdef HAVE_CFITSIO
+#include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitstab.h"
+#endif
+#include "fitsviewer/fitsviewer.h"
 
 #include "ksnotification.h"
 #include <ekos_capture_debug.h>
@@ -471,7 +478,7 @@ void CaptureProcess::prepareJob(SequenceJob * job)
         // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
         // Therefore, we know how to number the next file.
         // However, we do not deduce the number of captures to process from this function.
-        state()->checkSeqBoundary(state()->sequenceURL());
+        state()->checkSeqBoundary();
 
         // Captured Frames Map contains a list of signatures:count of _already_ captured files in the file system.
         // This map is set by the Scheduler in order to complete efficiently the required captures.
@@ -921,7 +928,7 @@ IPState CaptureProcess::resumeSequence()
         {
             if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
             {
-                state()->checkSeqBoundary(state()->sequenceURL());
+                state()->checkSeqBoundary();
                 activeCamera()->setNextSequenceID(state()->nextSequenceID());
             }
         }
@@ -968,7 +975,39 @@ IPState CaptureProcess::resumeSequence()
 
 }
 
-void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
+bool Ekos::CaptureProcess::checkSavingReceivedImage(const QSharedPointer<FITSData> &data, const QString &extension,
+        QString &filename)
+{
+    // trigger saving the FITS file for batch jobs that aren't calibrating
+    if (data && activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    {
+        if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW
+                && activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
+        {
+            if (state()->generateFilename(extension, &filename) && activeCamera()->saveCurrentImage(filename))
+            {
+                data->setFilename(filename);
+                KStars::Instance()->statusBar()->showMessage(i18n("file saved to %1", filename), 0);
+                return true;
+            }
+            else
+            {
+                qCWarning(KSTARS_EKOS_CAPTURE) << "Saving current image failed!";
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+                {
+                    KSMessageBox::Instance()->disconnect(this);
+                });
+                KSMessageBox::Instance()->error(i18n("Failed writing image to %1\nPlease check folder, filename & permissions.",
+                                                     filename),
+                                                i18n("Image Write Failed"), 30);
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const QString &extension)
 {
     ISD::CameraChip * tChip = nullptr;
 
@@ -1019,8 +1058,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
 
         if (data)
         {
-            tChip = activeCamera()->getChip(static_cast<ISD::CameraChip::ChipType>
-                                            (data->property("chip").toInt()));
+            tChip = activeCamera()->getChip(static_cast<ISD::CameraChip::ChipType>(data->property("chip").toInt()));
             if (tChip != devices()->getActiveChip())
             {
                 if (state()->getGuideState() == GUIDE_IDLE)
@@ -1043,7 +1081,6 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
         }
 
         // If the FITS is not for our device, simply ignore
-
         if (data && data->property("device").toString() != activeCamera()->getDeviceName())
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as the blob device name does not equal active camera"
@@ -1051,6 +1088,15 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
 
             emit processingFITSfinished(false);
             return;
+        }
+
+        // Check to save and show the new image in the FITS viewer
+        QString filename;
+        if (checkSavingReceivedImage(data, extension, filename))
+        {
+            FITSMode captureMode = tChip->getCaptureMode();
+            FITSScale captureFilter = tChip->getCaptureFilter();
+            updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
         }
 
         // If dark is selected, perform dark substraction.
@@ -1078,21 +1124,6 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data)
     // image has been received and processed successfully.
     state()->setCaptureState(CAPTURE_IMAGE_RECEIVED);
     // processing finished successfully
-    imageCapturingCompleted();
-    // hand over to the capture module
-    emit processingFITSfinished(true);
-}
-
-void CaptureProcess::processNewRemoteFile(QString file)
-{
-    emit newLog(i18n("Remote image saved to %1", file));
-    // call processing steps without image data if the image is stored only remotely
-    if (activeCamera() && activeCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
-        processFITSData(nullptr);
-}
-
-void CaptureProcess::imageCapturingCompleted()
-{
     SequenceJob *thejob = activeJob();
 
     if (thejob == nullptr)
@@ -1106,29 +1137,10 @@ void CaptureProcess::imageCapturingCompleted()
                    &CaptureProcess::setExposureProgress);
         DarkLibrary::Instance()->disconnect(this);
     }
-    // stop timers
-    state()->getCaptureTimeout().stop();
-    state()->setCaptureTimeoutCounter(0);
-
-    state()->downloadProgressTimer().stop();
-
-    // In case we're framing, let's return quickly to continue the process.
-    if (state()->isLooping())
-    {
-        continueFramingAction(state()->imageData());
-        return;
-    }
-
-    // Update download times.
-    updateDownloadTimesAction();
-
-    // If it was initially set as pure preview job and NOT as preview for calibration
-    if (previewImageCompletedAction(state()->imageData()) == IPS_OK)
-        return;
-
     // update counters
     updateCompletedCaptureCountersAction();
 
+    QString filename;
     switch (thejob->getFrameType())
     {
         case FRAME_BIAS:
@@ -1139,13 +1151,24 @@ void CaptureProcess::imageCapturingCompleted()
             /* calibration not completed, adapt exposure time */
             if (thejob->getFlatFieldDuration() == DURATION_ADU
                     && thejob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > 0 &&
-                    checkFlatCalibration(state()->imageData(), state()->exposureRange().min,
-                                         state()->exposureRange().max) == false)
-                return; /* calibration not completed */
-            thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
+                    thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
+            {
+                if (checkFlatCalibration(state()->imageData(), state()->exposureRange().min, state()->exposureRange().max) == false)
+                    return; /* calibration not completed */
+                thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
+                // save current image since the image satisfies the calibration requirements
+                if (checkSavingReceivedImage(data, extension, filename))
+                    /* Increase the sequence's current capture count */
+                    updatedCaptureCompleted(activeJob()->getCompleted() + 1);
+
+            }
+            else
+            {
+                thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
+            }
             break;
         case FRAME_LIGHT:
-            // don nothing, continue
+            // do nothing, continue
             break;
         case FRAME_NONE:
             // this should not happen!
@@ -1160,12 +1183,26 @@ void CaptureProcess::imageCapturingCompleted()
     //if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
     emit newImage(thejob, state()->imageData());
 
-
     // Check if we need to execute post capture script first
     if (runCaptureScript(SCRIPT_POST_CAPTURE) == IPS_BUSY)
         return;
 
     resumeSequence();
+
+    // hand over to the capture module
+    emit processingFITSfinished(true);
+}
+
+void CaptureProcess::processNewRemoteFile(QString file)
+{
+    emit newLog(i18n("Remote image saved to %1", file));
+    // call processing steps without image data if the image is stored only remotely
+    QString nothing("");
+    if (activeCamera() && activeCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+    {
+        QString ext("");
+        processFITSData(nullptr, ext);
+    }
 }
 
 IPState CaptureProcess::processPreCaptureCalibrationStage()
@@ -1388,7 +1425,7 @@ void CaptureProcess::captureImage()
 
     if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
-        state()->checkSeqBoundary(state()->sequenceURL());
+        state()->checkSeqBoundary();
         activeCamera()->setNextSequenceID(state()->nextSequenceID());
     }
 
@@ -1418,14 +1455,13 @@ void CaptureProcess::captureImage()
                                           SequenceJob::SJ_Encoding).toString());
 
     state()->setStartingCapture(true);
-    auto placeholderPath = PlaceholderPath(state()->sequenceURL().toLocalFile());
-    placeholderPath.setGenerateFilenameSettings(*activeJob());
-    activeCamera()->setPlaceholderPath(placeholderPath);
+    state()->placeholderPath().setGenerateFilenameSettings(*activeJob());
 
     // update remote filename and directory filling all placeholders
     if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
     {
-        auto remoteUpload = placeholderPath.generateSequenceFilename(*activeJob(), false, true, 1, "", "",  false, false);
+        auto remoteUpload = state()->placeholderPath().generateSequenceFilename(*activeJob(), false, true, 1, "", "",  false,
+                            false);
 
         auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
         auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
@@ -1618,11 +1654,30 @@ IPState CaptureProcess::previewImageCompletedAction(QSharedPointer<FITSData> ima
 
 void CaptureProcess::updateCompletedCaptureCountersAction()
 {
+    // stop timers
+    state()->getCaptureTimeout().stop();
+    state()->setCaptureTimeoutCounter(0);
+
+    state()->downloadProgressTimer().stop();
+
+    // In case we're framing, let's return quickly to continue the process.
+    if (state()->isLooping())
+    {
+        continueFramingAction(state()->imageData());
+        return;
+    }
+
+    // Update download times.
+    updateDownloadTimesAction();
+
+    // If it was initially set as pure preview job and NOT as preview for calibration
+    if (previewImageCompletedAction(state()->imageData()) == IPS_OK)
+        return;
+
     // do not update counters if in preview mode or calibrating
     if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW
             || activeJob()->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
         return;
-
 
     /* Increase the sequence's current capture count */
     updatedCaptureCompleted(activeJob()->getCompleted() + 1);
@@ -2106,12 +2161,8 @@ bool CaptureProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, do
             // Must update sequence prefix as this step is only done in prepareJob
             // but since the duration has now been updated, we must take care to update signature
             // since it may include a placeholder for duration which would affect it.
-            if (activeCamera()
-                    && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-                state()->setNextSequenceID(1);
-
-            startNextExposure();
-            return false;
+            if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+                state()->checkSeqBoundary();
         }
 
         return true;
@@ -2323,6 +2374,79 @@ void CaptureProcess::updateFilterInfo()
                 }
             }
         }
+    }
+}
+
+void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode,
+                                      const FITSScale &captureFilter, const QString &filename, const QString &deviceName)
+{
+    // do nothing in case of empty data
+    if (data.isNull())
+        return;
+
+    switch (captureMode)
+    {
+        case FITS_NORMAL:
+        case FITS_CALIBRATE:
+        {
+            if (Options::useFITSViewer())
+            {
+                QUrl fileURL = QUrl::fromLocalFile(filename);
+                bool success = false;
+                int tabIndex = -1;
+                int *tabID = &m_fitsvViewerTabIDs.normalTabID;
+                if (*tabID == -1 || Options::singlePreviewFITS() == false)
+                {
+                    // If image is preview and we should display all captured images in a
+                    // single tab called "Preview", then set the title to "Preview",
+                    // Otherwise, the title will be the captured image name
+                    QString previewTitle;
+                    if (Options::singlePreviewFITS())
+                    {
+                        // If we are displaying all images from all cameras in a single FITS
+                        // Viewer window, then we prefix the camera name to the "Preview" string
+                        if (Options::singleWindowCapturedFITS())
+                            previewTitle = i18n("%1 Preview", deviceName);
+                        else
+                            // Otherwise, just use "Preview"
+                            previewTitle = i18n("Preview");
+                    }
+
+                    success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
+
+                    //Setup any necessary connections
+                    auto tabs = getFITSViewer()->tabs();
+                    if (tabIndex < tabs.size() && captureMode == FITS_NORMAL)
+                    {
+                        emit newView(tabs[tabIndex]->getView());
+                        tabs[tabIndex]->disconnect(this);
+                        connect(tabs[tabIndex].get(), &FITSTab::updated, this, [this]
+                        {
+                            auto tab = qobject_cast<FITSTab *>(sender());
+                            emit newView(tab->getView());
+                        });
+                    }
+                }
+                else
+                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
+
+                if (!success)
+                {
+                    // If opening file fails, we treat it the same as exposure failure
+                    // and recapture again if possible
+                    qCCritical(KSTARS_EKOS_CAPTURE()) << "error adding/updating FITS";
+                    return;
+                }
+                *tabID = tabIndex;
+                if (Options::focusFITSOnNewImage())
+                    getFITSViewer()->raise();
+
+                return;
+            }
+        }
+        break;
+        default:
+            break;
     }
 }
 
@@ -2664,6 +2788,42 @@ void CaptureProcess::updateOffset(double value, QMap<QString, QMap<QString, QVar
                 propertyMap.remove("CCD_CONTROLS");
         }
     }
+}
+
+QSharedPointer<FITSViewer> CaptureProcess::getFITSViewer()
+{
+    // if the FITS viewer exists, return it
+    if (!m_FITSViewerWindow.isNull() && ! m_FITSViewerWindow.isNull())
+        return m_FITSViewerWindow;
+
+    // otherwise, create it
+    m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};
+
+    m_FITSViewerWindow = KStars::Instance()->createFITSViewer();
+
+    // Check if ONE tab of the viewer was closed.
+    connect(m_FITSViewerWindow.get(), &FITSViewer::closed, this, [this](int tabIndex)
+    {
+        if (tabIndex == m_fitsvViewerTabIDs.normalTabID)
+            m_fitsvViewerTabIDs.normalTabID = -1;
+        else if (tabIndex == m_fitsvViewerTabIDs.calibrationTabID)
+            m_fitsvViewerTabIDs.calibrationTabID = -1;
+        else if (tabIndex == m_fitsvViewerTabIDs.focusTabID)
+            m_fitsvViewerTabIDs.focusTabID = -1;
+        else if (tabIndex == m_fitsvViewerTabIDs.guideTabID)
+            m_fitsvViewerTabIDs.guideTabID = -1;
+        else if (tabIndex == m_fitsvViewerTabIDs.alignTabID)
+            m_fitsvViewerTabIDs.alignTabID = -1;
+    });
+
+    // If FITS viewer was completed closed. Reset everything
+    connect(m_FITSViewerWindow.get(), &FITSViewer::terminated, this, [this]()
+    {
+        m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};
+        m_FITSViewerWindow.clear();
+    });
+
+    return m_FITSViewerWindow;
 }
 
 ISD::Camera *CaptureProcess::activeCamera()

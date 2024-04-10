@@ -33,6 +33,7 @@
 class QProgressIndicator;
 
 class AlignView;
+class FITSViewer;
 class FOV;
 class StarObject;
 class ProfileInfo;

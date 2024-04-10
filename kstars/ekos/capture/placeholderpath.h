@@ -186,6 +186,11 @@ class PlaceholderPath
             return format.contains("%D");
         }
 
+        void setSeqFilename(const QFileInfo &newSeqFilename)
+        {
+            m_seqFilename = newSeqFilename;
+        }
+
 private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
         QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
