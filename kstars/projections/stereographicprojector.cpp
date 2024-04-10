@@ -18,7 +18,8 @@ Projector::Projection StereographicProjector::type() const
 
 double StereographicProjector::radius() const
 {
-    return 2.;
+    // Allow everything
+    return 2 * M_PI;
 }
 
 double StereographicProjector::projectionK(double x) const
@@ -29,4 +30,10 @@ double StereographicProjector::projectionK(double x) const
 double StereographicProjector::projectionL(double x) const
 {
     return 2.0 * atan2(x, 2.0);
+}
+
+double StereographicProjector::cosMaxFieldAngle() const
+{
+    // Allow everything
+    return -1.0;
 }

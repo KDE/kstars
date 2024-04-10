@@ -263,7 +263,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     // FIXME_FOV: We may want to rejigger this to allow
     // wide-angle views --hdevalence
     float radius = map->projector()->fov();
-    if (radius > 180.0)
+    if (radius > 180.0 && SkyMap::Instance()->projector()->type() != Projector::Stereographic)
         radius = 180.0;
 
     if (m_skyMesh->inDraw())

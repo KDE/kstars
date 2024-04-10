@@ -288,7 +288,7 @@ void CatalogsComponent::updateSkyMesh(SkyMap &map, MeshBufNum_t buf)
 {
     SkyPoint *focus = map.focus();
     float radius    = map.projector()->fov();
-    if (radius > 180.0)
+    if (radius > 180.0 && SkyMap::Instance()->projector()->type() != Projector::Stereographic)
         radius = 180.0;
 
     m_skyMesh->aperture(focus, radius + 1.0, buf);
