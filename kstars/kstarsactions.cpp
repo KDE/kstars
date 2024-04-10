@@ -221,6 +221,14 @@ void KStars::slotViewToolBar()
             opguides->kcfg_ShowGround->setChecked(a->isChecked());
         }
     }
+    else if (a == actionCollection()->action("simulate_daytime"))
+    {
+        Options::setSimulateDaytime(a->isChecked());
+        if (kcd)
+        {
+            opguides->kcfg_SimulateDaytime->setChecked(a->isChecked());
+        }
+    }
     else if (a == actionCollection()->action("show_flags"))
     {
         Options::setShowFlags(a->isChecked());

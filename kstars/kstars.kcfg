@@ -613,6 +613,11 @@
          <whatsthis>Toggle whether flags are drawn in the sky map.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="SimulateDaytime" type="Bool">
+         <label>Simulate daytime?</label>
+         <whatsthis>If checked, sky will be bright during the daytime.</whatsthis>
+         <default>true</default>
+      </entry>
       <entry name="ShowOther" type="Bool">
          <label>Draw extra deep-sky objects in the sky map?</label>
          <whatsthis>Toggle whether extra objects are drawn in the sky map.</whatsthis>
@@ -1093,6 +1098,11 @@
       <entry name="SkyColor" type="String">
          <label>Color of sky</label>
          <whatsthis>The color for the sky background.</whatsthis>
+         <default>#002</default>
+      </entry>
+      <entry name="SkyColorDaytime" type="String">
+         <label>Color of sky during the daytime</label>
+         <whatsthis>The color for the sky background during daytime.</whatsthis>
          <default>#002</default>
       </entry>
       <entry name="ArtificialHorizonColor" type="String">

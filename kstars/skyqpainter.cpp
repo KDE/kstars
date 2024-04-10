@@ -28,6 +28,7 @@
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/kssun.h"
+#include "skyobjects/ksmoon.h"
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
 #include "skyobjects/ksearthshadow.h"
@@ -158,11 +159,108 @@ void SkyQPainter::end()
     QPainter::end();
 }
 
+namespace
+{
+QColor skyColor(double sunAltitude, const QColor &nightColor, const QColor &dayColor)
+{
+    if (sunAltitude <= -18)
+        // Astronomical twilight
+        return nightColor;
+    else if (sunAltitude > 0)
+        return dayColor;
+
+    // Otherwise it's between astronomical twilight and daytime.
+    // Interpolate.
+    const double nightFraction = sunAltitude / -18.0;
+    const double dayFraction = 1 - nightFraction;
+    return QColor(dayFraction * dayColor.red()   + nightFraction * nightColor.red(),
+                  dayFraction * dayColor.green() + nightFraction * nightColor.green(),
+                  dayFraction * dayColor.blue()  + nightFraction * nightColor.blue());
+}
+
+// Circle intersection formula from https://dassencio.org/102
+double circleOverlap(double d, double radius1, double radius2)
+{
+    // r1 is the radius of the larger circle.
+    const double r1 = (radius1 >= radius2) ? radius1 : radius2;
+    // r2 is the radius of the smaller circle.
+    const double r2 = (radius1 >= radius2) ? radius2 : radius1;
+
+    // No overlap.
+    if (d > r1 + r2)
+        return 0.0;
+
+    // The smaller circle (with radius r2) is fully contained in larger circle.
+    if (d == 0 || r2 + d <= r1)
+        return M_PI * r2 * r2;
+
+    // Some bounds checking.
+    if (r1 <= 0 || r2 <= 0 || d < 0)
+        return 0.0;
+
+    // They partially overlap.
+    const double d1 = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+    const double d2 = d - d1;
+    const double intersection =
+        r1 * r1 * acos(d1 / r1) - d1 * sqrt(r1 * r1 - d1 * d1) +
+        r2 * r2 * acos(d2 / r2) - d2 * sqrt(r2 * r2 - d2 * d2);
+
+    return intersection;
+}
+} // namespace
+
 void SkyQPainter::drawSkyBackground()
 {
     //FIXME use projector
-    fillRect(0, 0, m_size.width(), m_size.height(),
-             KStarsData::Instance()->colorScheme()->colorNamed("SkyColor"));
+
+    const QColor nightSky = KStarsData::Instance()->colorScheme()->colorNamed("SkyColor");
+    const QColor daySky = KStarsData::Instance()->colorScheme()->colorNamed("SkyColorDaytime");
+    QColor sky = nightSky;
+    if (Options::simulateDaytime())
+    {
+        KSSun *sun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
+        KStarsData *data = KStarsData::Instance();
+        if (sun && data)
+        {
+            sun->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+            const double sunAltitudeDegrees = sun->alt().Degrees();
+            sky = skyColor(sunAltitudeDegrees, nightSky, daySky);
+
+            // Just for kicks, check if sun is eclipsed!
+            const KSMoon *moon = KStarsData::Instance()->skyComposite()->solarSystemComposite()->moon();
+            if (moon)
+            {
+                const double separation = sun->angularDistanceTo(moon).Degrees();
+                const double sunRadius = sun->angSize() * 0.5 / 60.0;
+                const double moonRadius = moon->angSize() * 0.5 / 60.0;
+                if (separation < sunRadius + moonRadius)
+                {
+                    // Ongoing eclipse!
+
+                    if (moonRadius >= separation + sunRadius)
+                        sky = nightSky;  // Totality!
+                    else
+                    {
+                        // We (arbitrarily) dim the sun when it is more than 95% obscured.
+                        // It is changed linearly from 100% day color at 5% visible, to 100% night color at 0% visible.
+                        const double sunArea = M_PI * sunRadius * sunRadius;
+                        const double overlapArea = circleOverlap(separation, moonRadius, sunRadius);
+                        const double sunFraction = (sunArea - overlapArea) / sunArea;
+                        if (sunFraction <= .05)
+                        {
+                            const double dayFraction = sunFraction / .05;
+                            const double nightFraction = 1 - dayFraction;
+                            sky = QColor(dayFraction * sky.red()   + nightFraction * nightSky.red(),
+                                         dayFraction * sky.green() + nightFraction * nightSky.green(),
+                                         dayFraction * sky.blue()  + nightFraction * nightSky.blue());
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fillRect(0, 0, m_size.width(), m_size.height(), sky);
 }
 
 void SkyQPainter::setPen(const QPen &pen)

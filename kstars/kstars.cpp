@@ -341,6 +341,7 @@ void KStars::applyConfig(bool doApplyFocus)
     actionCollection()->action("show_equatorial_grid")->setChecked(Options::showEquatorialGrid());
     actionCollection()->action("show_horizontal_grid")->setChecked(Options::showHorizontalGrid());
     actionCollection()->action("show_horizon")->setChecked(Options::showGround());
+    actionCollection()->action("simulate_daytime")->setChecked(Options::simulateDaytime());
     actionCollection()->action("show_flags")->setChecked(Options::showFlags());
     actionCollection()->action("show_supernovae")->setChecked(Options::showSupernovae());
     actionCollection()->action("show_satellites")->setChecked(Options::showSatellites());
