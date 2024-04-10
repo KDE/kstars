@@ -49,6 +49,8 @@ class Mount : public QWidget, public Ui::Mount
         Q_PROPERTY(int slewStatus READ slewStatus)
         Q_PROPERTY(bool canPark READ canPark)
         Q_PROPERTY(ISD::Mount::PierSide pierSide READ pierSide NOTIFY pierSideChanged)
+        Q_PROPERTY(QStringList timeSources READ timeSources)
+        Q_PROPERTY(QStringList locationSources READ locationSources)
 
     public:
         Mount();
@@ -64,11 +66,18 @@ class Mount : public QWidget, public Ui::Mount
         bool setMount(ISD::Mount *device);
 
         /**
-             * @brief addGPS Add a new GPS device
-             * @param device pointer to gps device
-             * @return True if added successfully, false if duplicate or failed to add.
-             */
-        bool addGPS(ISD::GPS *device);
+         * @brief addTimeSource Add an INDI driver that can be used for a master time source
+         * @param device INDI driver containing a TIME_UTC property
+         * @return true if adding is successful, false otherwise.
+         */
+        bool addTimeSource(const QSharedPointer<ISD::GenericDevice> &device);
+
+        /**
+         * @brief addLocationSource Add an INDI driver that can be used for a master location source
+         * @param device INDI driver containing a GEOGRAPHIC_COORD property
+         * @return true if adding is successful, false otherwise.
+         */
+        bool addLocationSource(const QSharedPointer<ISD::GenericDevice> &device);
 
         void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
@@ -345,6 +354,15 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
 
+        Q_INVOKABLE QStringList timeSources()
+        {
+            return m_TimeSourcesList;
+        }
+        Q_INVOKABLE QStringList locationSources()
+        {
+            return m_LocationSourcesList;
+        }
+
         QString meridianFlipStatusDescription()
         {
             return meridianFlipStatusWidget->getStatus();
@@ -479,6 +497,16 @@ class Mount : public QWidget, public Ui::Mount
          */
         void stopTimers();
 
+        /**
+         * @brief syncTimeSource When time source changes, update all INDI drivers to this time source
+         */
+        void syncTimeSource();
+
+        /**
+         * @brief syncLocationSource When location source changes, update all INDI drivers to this location source
+         */
+        void syncLocationSource();
+
     private slots:
         void startParkTimer();
         void stopParkTimer();
@@ -562,7 +590,6 @@ class Mount : public QWidget, public Ui::Mount
          */
         void settleSettings();
 
-        void syncGPS();
         void setScopeStatus(ISD::Mount::Status status);
         /* Meridian flip state handling */
         QSharedPointer<MeridianFlipState> mf_state;
@@ -571,8 +598,9 @@ class Mount : public QWidget, public Ui::Mount
         bool hasCaptureInterface { false };
 
         ISD::Mount *m_Mount {nullptr};
-        ISD::GPS *m_GPS {nullptr};
-        QList<ISD::GPS*> m_GPSes;
+        QList<QSharedPointer<ISD::GenericDevice>> m_TimeSources;
+        QList<QSharedPointer<ISD::GenericDevice>> m_LocationSources;
+        QStringList m_TimeSourcesList, m_LocationSourcesList;
 
         QStringList m_LogText;
         SkyPoint telescopeCoord;
@@ -591,9 +619,6 @@ class Mount : public QWidget, public Ui::Mount
         double m_LastAltitude {0};
         bool m_HourAngleLimitEnabled {false};
         double m_LastHourAngle {0};
-
-        // GPS
-        bool GPSInitialized = {false};
 
         ISD::Mount::Status m_Status = ISD::Mount::MOUNT_IDLE;
         ISD::ParkStatus m_ParkStatus = ISD::PARK_UNKNOWN;

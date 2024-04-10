@@ -1626,6 +1626,20 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Mount
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto mount = device->getMount();
+    if (mount)
+    {
+        if (mountProcess)
+        {
+            QSharedPointer<ISD::GenericDevice> generic;
+            if (INDIListener::findDevice(mount->getDeviceName(), generic))
+            {
+                mountModule()->addTimeSource(generic);
+                mountModule()->addLocationSource(generic);
+            }
+        }
+
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Focuser
@@ -1688,16 +1702,16 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     if (gps)
     {
         if (mountProcess)
-            mountModule()->addGPS(gps);
+        {
+            QSharedPointer<ISD::GenericDevice> generic;
+            if (INDIListener::findDevice(gps->getDeviceName(), generic))
+            {
+                mountModule()->addTimeSource(generic);
+                mountModule()->addLocationSource(generic);
+            }
+        }
+
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Dust Cap
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Light Box
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)

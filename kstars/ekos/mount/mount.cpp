@@ -105,6 +105,10 @@ Mount::Mount()
         }
     });
 
+    // If time source changes, sync time source
+    connect(Options::self(), &Options::timeSourceChanged, this, &Mount::syncTimeSource);
+    connect(Options::self(), &Options::locationSourceChanged, this, &Mount::syncLocationSource);
+
     connect(enableAltitudeLimits, &QCheckBox::toggled, this, [this](bool toggled)
     {
         m_AltitudeLimitEnabled = toggled;
@@ -276,9 +280,6 @@ bool Mount::setMount(ISD::Mount *device)
     // forward the new mount to the meridian flip state machine
     mf_state->setMountConnected(device != nullptr);
 
-    if (m_GPS != nullptr)
-        syncGPS();
-
     connect(m_Mount, &ISD::Mount::propertyUpdated, this, &Mount::updateProperty);
     connect(m_Mount, &ISD::Mount::newTarget, this, &Mount::newTarget);
     connect(m_Mount, &ISD::Mount::newTargetName, this, &Mount::newTargetName);
@@ -347,84 +348,87 @@ bool Mount::setMount(ISD::Mount *device)
     return true;
 }
 
-bool Mount::addGPS(ISD::GPS * device)
+bool Mount::addTimeSource(const QSharedPointer<ISD::GenericDevice> &device)
 {
     // No duplicates
-    for (auto &oneGPS : m_GPSes)
+    for (auto &oneSource : m_TimeSources)
     {
-        if (oneGPS->getDeviceName() == device->getDeviceName())
+        if (oneSource->getDeviceName() == device->getDeviceName())
             return false;
     }
 
-    for (auto &oneGPS : m_GPSes)
-        oneGPS->disconnect(this);
+    m_TimeSources.append(device);
 
-    m_GPSes.append(device);
+    timeSource->blockSignals(true);
+    timeSource->clear();
+    timeSource->addItem("KStars");
 
-    auto executeSetGPS = [this, device]()
+    m_TimeSourcesList.clear();
+    m_TimeSourcesList.append("KStars");
+
+    for (auto &oneSource : m_TimeSources)
     {
-        m_GPS = device;
-        connect(m_GPS, &ISD::GPS::propertyUpdated, this, &Ekos::Mount::updateProperty, Qt::UniqueConnection);
-        appendLogText(i18n("GPS driver detected. KStars and mount time and location settings are now synced to the GPS driver."));
-        syncGPS();
-    };
+        auto name = oneSource->getDeviceName();
 
-    if (Options::useGPSSource() == false)
-    {
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeSetGPS]()
+        m_TimeSourcesList.append(name);
+        timeSource->addItem(name);
+
+        if (name == Options::timeSource())
         {
-            KSMessageBox::Instance()->disconnect(this);
-            Options::setUseKStarsSource(false);
-            Options::setUseMountSource(false);
-            Options::setUseGPSSource(true);
-            executeSetGPS();
-        });
-
-        KSMessageBox::Instance()->questionYesNo(i18n("GPS is detected. Do you want to switch time and location source to GPS?"),
-                                                i18n("GPS Settings"), 10);
-    }
-    else
-        executeSetGPS();
-
-    return true;
-}
-
-void Mount::syncGPS()
-{
-    // We only update when location is OK
-    auto location = m_GPS->getNumber("GEOGRAPHIC_COORD");
-    if (!location || location->getState() != IPS_OK)
-        return;
-
-    // Sync name
-    if (m_Mount)
-    {
-        auto activeDevices = m_Mount->getText("ACTIVE_DEVICES");
-        if (activeDevices)
-        {
-            auto activeGPS = activeDevices->findWidgetByName("ACTIVE_GPS");
-            if (activeGPS)
+            // If GPS, then refresh
+            auto refreshGPS = oneSource->getProperty("GPS_REFRESH");
+            if (refreshGPS)
             {
-                if (activeGPS->getText() != m_GPS->getDeviceName())
-                {
-                    activeGPS->setText(m_GPS->getDeviceName().toLatin1().constData());
-                    m_Mount->sendNewProperty(activeDevices);
-                }
+                auto sw = refreshGPS.getSwitch();
+                sw->at(0)->setState(ISS_ON);
+                oneSource->sendNewProperty(refreshGPS);
             }
         }
     }
 
-    // GPS Refresh should only be called once automatically.
-    if (GPSInitialized == false)
+    timeSource->setCurrentText(Options::timeSource());
+    timeSource->blockSignals(false);
+    return true;
+}
+
+bool Mount::addLocationSource(const QSharedPointer<ISD::GenericDevice> &device)
+{
+    // No duplicates
+    for (auto &oneSource : m_LocationSources)
     {
-        auto refreshGPS = m_GPS->getSwitch("GPS_REFRESH");
-        if (refreshGPS)
+        if (oneSource->getDeviceName() == device->getDeviceName())
+            return false;
+    }
+
+    m_LocationSources.append(device);
+    locationSource->blockSignals(true);
+    locationSource->clear();
+    locationSource->addItem("KStars");
+
+    m_LocationSourcesList.clear();
+    m_LocationSourcesList.append("KStars");
+
+    for (auto &oneSource : m_LocationSources)
+    {
+        auto name = oneSource->getDeviceName();
+        locationSource->addItem(name);
+        m_LocationSourcesList.append(name);
+
+        if (name == Options::locationSource())
         {
-            refreshGPS->at(0)->setState(ISS_ON);
-            m_GPS->sendNewProperty(refreshGPS);
-            GPSInitialized = true;
+            auto refreshGPS = oneSource->getProperty("GPS_REFRESH");
+            if (refreshGPS)
+            {
+                auto sw = refreshGPS.getSwitch();
+                sw->at(0)->setState(ISS_ON);
+                oneSource->sendNewProperty(refreshGPS);
+            }
         }
     }
+
+    locationSource->setCurrentText(Options::locationSource());
+    locationSource->blockSignals(false);
+    return true;
 }
 
 void Mount::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
@@ -437,16 +441,15 @@ void Mount::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         m_Mount = nullptr;
     }
 
-    for (auto &oneGPS : m_GPSes)
+    m_TimeSources.erase(std::remove_if(m_TimeSources.begin(), m_TimeSources.end(), [device](const auto & oneSource)
     {
-        if (oneGPS->getDeviceName() == device->getDeviceName())
-        {
-            oneGPS->disconnect(this);
-            m_GPSes.removeOne(oneGPS);
-            m_GPS = nullptr;
-            break;
-        }
-    }
+        return device->getDeviceName() == oneSource->getDeviceName();
+    }), m_TimeSources.end());
+
+    m_LocationSources.erase(std::remove_if(m_LocationSources.begin(), m_LocationSources.end(), [device](const auto & oneSource)
+    {
+        return device->getDeviceName() == oneSource->getDeviceName();
+    }), m_LocationSources.end());
 }
 
 void Mount::syncTelescopeInfo()
@@ -727,14 +730,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
 void Mount::updateProperty(INDI::Property prop)
 {
-    if (prop.isNameMatch("GEOGRAPHIC_COORD") &&
-            m_GPS != nullptr &&
-            (prop.getDeviceName() == m_GPS->getDeviceName()) &&
-            prop.getState() == IPS_OK)
-    {
-        syncGPS();
-    }
-    else if (prop.isNameMatch("EQUATORIAL_EOD_COORD") || prop.isNameMatch("EQUATORIAL_COORD"))
+    if (prop.isNameMatch("EQUATORIAL_EOD_COORD") || prop.isNameMatch("EQUATORIAL_COORD"))
     {
         auto nvp = prop.getNumber();
 
@@ -1921,6 +1917,8 @@ void Mount::syncSettings()
     Options::self()->setProperty(key.toLatin1(), value);
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
+
+    m_DebounceTimer.start();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2098,8 +2096,51 @@ void Mount::disconnectSettings()
     disconnect(mf_state.get(), &MeridianFlipState::slewTelescope, nullptr, nullptr);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 double Mount::initialHA()
 {
     return mf_state->initialPositionHA();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::syncTimeSource()
+{
+    appendLogText(i18n("Updating master time source to %1.", Options::locationSource()));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::syncLocationSource()
+{
+    auto name = Options::locationSource();
+    auto it = std::find_if(m_LocationSources.begin(), m_LocationSources.end(), [name](const auto & oneSource)
+    {
+        return oneSource->getDeviceName() == name;
+    });
+    if (it != m_LocationSources.end())
+    {
+        auto property = (*it)->getProperty("GPS_REFRESH");
+        if (property)
+        {
+            auto sw = property.getSwitch();
+            sw->at(0)->setState(ISS_ON);
+            (*it)->sendNewProperty(property);
+            appendLogText(i18n("Updating master location source to %1. Updating GPS...", name));
+        }
+        else
+        {
+            property = (*it)->getProperty("GEOGRAPHIC_COORD");
+            if (property)
+            {
+                (*it)->processNumber(property);
+                appendLogText(i18n("Updating master location source to %1.", name));
+            }
+        }
+    }
 }
 }

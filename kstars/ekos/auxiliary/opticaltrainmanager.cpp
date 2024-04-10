@@ -9,6 +9,7 @@
 
 #include "ksnotification.h"
 #include "kstarsdata.h"
+#include "Options.h"
 #include "kstars.h"
 #include "indi/indilistener.h"
 #include "ekos/auxiliary/profilesettings.h"
@@ -322,6 +323,16 @@ void OpticalTrainManager::syncActiveProperties(const QVariantMap &train, const Q
         else if (it.isNameMatch("ACTIVE_GPS"))
         {
             devs = INDIListener::devicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
+            // If GPS device is neither the location nor time source, then it should be removed
+            // so that INDI devices are NOT synced to it. We only explicitly sync to GPS if it is specified
+            // as either the location or time source
+            devs.erase(std::remove_if(devs.begin(), devs.end(), [](const auto & oneDevice)
+            {
+                return oneDevice->getDeviceName() != Options::locationSource() && oneDevice->getDeviceName() != Options::timeSource();
+            }), devs.end());
+
+            if (devs.isEmpty())
+                elementText.clear();
         }
         else if (it.isNameMatch("ACTIVE_ROTATOR"))
         {
@@ -881,6 +892,18 @@ bool OpticalTrainManager::getGenericDevice(const QString &train, Role role, QSha
                 case Dome:
                 {
                     auto devices = INDIListener::devicesByInterface(INDI::BaseDevice::DOME_INTERFACE);
+                    if (!devices.empty())
+                    {
+                        generic = devices[0];
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                break;
+                case Weather:
+                {
+                    auto devices = INDIListener::devicesByInterface(INDI::BaseDevice::WEATHER_INTERFACE);
                     if (!devices.empty())
                     {
                         generic = devices[0];

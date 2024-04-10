@@ -18,6 +18,7 @@
 #include "Options.h"
 #include "skymap.h"
 
+#include "indilistener.h"
 #include "indimount.h"
 #include "indicamera.h"
 #include "indiguider.h"
@@ -76,7 +77,7 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent
     // JM 2020-09-05: In case KStars time change, update driver time if applicable.
     connect(KStarsData::Instance()->clock(), &SimClock::timeChanged, this, [this]()
     {
-        if (Options::useTimeUpdate() && Options::useKStarsSource())
+        if (Options::useTimeUpdate() && Options::timeSource() == "KStars")
         {
             if (isConnected())
             {
@@ -247,7 +248,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
 
         if (tvp)
         {
-            if (Options::useKStarsSource() && tvp->getPermission() != IP_RO)
+            if (Options::timeSource() == "KStars" && tvp->getPermission() != IP_RO)
                 updateTime();
             else
                 m_TimeUpdateTimer->start();
@@ -255,7 +256,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
     }
     else if (name == "GEOGRAPHIC_COORD" && Options::useGeographicUpdate())
     {
-        if (Options::useKStarsSource() && prop.getPermission() != IP_RO)
+        if (Options::locationSource() == "KStars" && prop.getPermission() != IP_RO)
             updateLocation();
         else
             m_LocationUpdateTimer->start();
@@ -356,9 +357,7 @@ void GenericDevice::processNumber(INDI::Property prop)
     QString deviceName = getDeviceName();
     auto nvp = prop.getNumber();
 
-    if (prop.isNameMatch("GEOGRAPHIC_COORD") && prop.getState() == IPS_OK &&
-            ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
-              (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
+    if (prop.isNameMatch("GEOGRAPHIC_COORD") && prop.getState() == IPS_OK && Options::locationSource() == deviceName)
     {
         // Update KStars Location once we receive update from INDI, if the source is set to DEVICE
         dms lng, lat;
@@ -390,6 +389,16 @@ void GenericDevice::processNumber(INDI::Property prop)
         np = nvp->findWidgetByName("ELEV");
         if (np)
             elev = np->value;
+
+        // Update all other INDI devices
+        for (auto &oneDevice : INDIListener::devices())
+        {
+            // Skip updating the device itself
+            if (oneDevice->getDeviceName() == getDeviceName())
+                continue;
+
+            oneDevice->updateLocation(lng.Degrees(), lat.Degrees(), elev);
+        }
 
         auto geo = KStars::Instance()->data()->geo();
         std::unique_ptr<GeoLocation> tempGeo;
@@ -471,9 +480,7 @@ void GenericDevice::processText(INDI::Property prop)
 
     }
     // Update KStars time once we receive update from INDI, if the source is set to DEVICE
-    else if (tvp->isNameMatch("TIME_UTC") && tvp->s == IPS_OK &&
-             ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
-               (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
+    else if (tvp->isNameMatch("TIME_UTC") && tvp->s == IPS_OK && Options::timeSource() == getDeviceName())
     {
         int d, m, y, min, sec, hour;
         float utcOffset;
@@ -503,6 +510,16 @@ void GenericDevice::processText(INDI::Property prop)
         }
 
         sscanf(tp->getText(), "%f", &utcOffset);
+
+        // Update all other INDI devices
+        for (auto &oneDevice : INDIListener::devices())
+        {
+            // Skip updating the device itself
+            if (oneDevice->getDeviceName() == getDeviceName())
+                continue;
+
+            oneDevice->updateTime(tvp->tp[0].text, tvp->tp[1].text);
+        }
 
         qCInfo(KSTARS_INDI) << "Setting UTC time from device:" << getDeviceName() << indiDateTime.toString();
 
@@ -694,78 +711,92 @@ void GenericDevice::createDeviceInit()
 /*********************************************************************************/
 /* Update the Driver's Time							 */
 /*********************************************************************************/
-void GenericDevice::updateTime()
+void GenericDevice::updateTime(const QString &iso8601, const QString &utcOffset)
 {
-    QString offset, isoTS;
-
-    offset = QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2);
-
-    //QTime newTime( KStars::Instance()->data()->ut().time());
-    //QDate newDate( KStars::Instance()->data()->ut().date());
-
-    //isoTS = QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month()).arg(newDate.day()).arg(newTime.hour()).arg(newTime.minute()).arg(newTime.second());
-
-    isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove('Z');
-
     /* Update Date/Time */
     auto timeUTC = m_BaseDevice.getText("TIME_UTC");
+    if (!timeUTC)
+        return;
 
-    if (timeUTC)
+    QString offset, isoTS;
+
+    if (iso8601.isEmpty())
     {
-        auto timeEle = timeUTC.findWidgetByName("UTC");
-        if (timeEle)
-            timeEle->setText(isoTS.toLatin1().constData());
+        isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove('Z');
+        offset = QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2);
+    }
+    else
+    {
+        isoTS = iso8601;
+        offset = utcOffset;
+    }
 
-        auto offsetEle = timeUTC.findWidgetByName("OFFSET");
-        if (offsetEle)
-            offsetEle->setText(offset.toLatin1().constData());
+    auto timeEle = timeUTC.findWidgetByName("UTC");
+    if (timeEle)
+        timeEle->setText(isoTS.toLatin1().constData());
 
-        if (timeEle && offsetEle)
-        {
-            qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Time UTC:" << isoTS << "Offset:" << offset;
-            m_ClientManager->sendNewProperty(timeUTC);
-        }
+    auto offsetEle = timeUTC.findWidgetByName("OFFSET");
+    if (offsetEle)
+        offsetEle->setText(offset.toLatin1().constData());
+
+    if (timeEle && offsetEle)
+    {
+        qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Time UTC:" << isoTS << "Offset:" << offset;
+        m_ClientManager->sendNewProperty(timeUTC);
     }
 }
 
 /*********************************************************************************/
 /* Update the Driver's Geographical Location					 */
 /*********************************************************************************/
-void GenericDevice::updateLocation()
+void GenericDevice::updateLocation(double longitude, double latitude, double elevation)
 {
-    GeoLocation *geo = KStars::Instance()->data()->geo();
-    double longNP;
-
-    if (geo->lng()->Degrees() >= 0)
-        longNP = geo->lng()->Degrees();
-    else
-        longNP = dms(geo->lng()->Degrees() + 360.0).Degrees();
-
     auto nvp = m_BaseDevice.getNumber("GEOGRAPHIC_COORD");
 
     if (!nvp)
         return;
+
+    GeoLocation *geo = KStars::Instance()->data()->geo();
+
+    double longitude_degrees, latitude_degrees, elevation_meters;
+
+    if (longitude == -1 && latitude == -1 && elevation == -1)
+    {
+        longitude_degrees = geo->lng()->Degrees();
+        latitude_degrees = geo->lat()->Degrees();
+        elevation_meters = geo->elevation();
+    }
+    else
+    {
+        longitude_degrees = longitude;
+        latitude_degrees = latitude;
+        elevation_meters = elevation;
+    }
+
+    if (longitude_degrees < 0)
+        longitude_degrees = dms(longitude_degrees + 360.0).Degrees();
 
     auto np = nvp.findWidgetByName("LONG");
 
     if (!np)
         return;
 
-    np->setValue(longNP);
+    np->setValue(longitude_degrees);
 
     np = nvp.findWidgetByName("LAT");
     if (!np)
         return;
 
-    np->setValue(geo->lat()->Degrees());
+    np->setValue(latitude_degrees);
 
     np = nvp.findWidgetByName("ELEV");
     if (!np)
         return;
 
-    np->setValue(geo->elevation());
+    np->setValue(elevation_meters);
 
-    qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Location Longitude:" << longNP << "Latitude:" << geo->lat()->Degrees() << "Elevation:" << geo->elevation();
+    qCInfo(KSTARS_INDI) << "Updating" << getDeviceName() << "Location Longitude:" << longitude_degrees << "Latitude:" <<
+                        latitude_degrees << "Elevation:" << elevation_meters;
 
     m_ClientManager->sendNewProperty(nvp);
 }
