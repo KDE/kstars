@@ -45,6 +45,8 @@ class KSSun : public KSPlanet
      */
     bool loadData() override;
 
+    double nightFraction();
+
   protected:
     /**
      * Determine geocentric RA, Dec coordinates for the Epoch given in the argument.
