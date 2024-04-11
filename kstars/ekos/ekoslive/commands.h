@@ -217,6 +217,7 @@ enum COMMANDS
     // Astronomy Library
     ASTRO_GET_ALMANC,
     ASTRO_GET_NAMES,
+    ASTRO_GET_LOCATION,
     ASTRO_SEARCH_OBJECTS,
     ASTRO_GET_OBJECT_INFO,
     ASTRO_GET_OBJECTS_INFO,
@@ -427,6 +428,7 @@ static QMap<COMMANDS, QString> const commands =
 
     {ASTRO_GET_ALMANC, "astro_get_almanac"},
     {ASTRO_GET_NAMES, "astro_get_names"},
+    {ASTRO_GET_LOCATION, "astro_get_location"},
     {ASTRO_SEARCH_OBJECTS, "astro_search_objects"},
     {ASTRO_GET_OBJECT_INFO, "astro_get_object_info"},
     {ASTRO_GET_OBJECTS_INFO, "astro_get_objects_info"},
