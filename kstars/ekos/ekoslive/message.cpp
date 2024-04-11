@@ -1680,23 +1680,27 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     {
         auto composite = KStarsData::Instance()->skyComposite();
         QStringList all;
-        all += composite->objectNames(SkyObject::PLANET);
-        all += composite->objectNames(SkyObject::MOON);
-        all += composite->objectNames(SkyObject::COMET);
-        all += composite->objectNames(SkyObject::ASTEROID);
-        all += composite->objectNames(SkyObject::GASEOUS_NEBULA);
-        all += composite->objectNames(SkyObject::PLANETARY_NEBULA);
-        all += composite->objectNames(SkyObject::OPEN_CLUSTER);
-        all += composite->objectNames(SkyObject::GLOBULAR_CLUSTER);
-        all += composite->objectNames(SkyObject::GALAXY);
-        all += composite->objectNames(SkyObject::SUPERNOVA);
-        all += composite->objectNames(SkyObject::SUPERNOVA_REMNANT);
-        all += composite->objectNames(SkyObject::SATELLITE);
-        all += composite->objectNames(SkyObject::STAR);
-        all += composite->objectNames(SkyObject::CATALOG_STAR);
+        QVector<QPair<QString, const SkyObject *>> allObjects;
+        CatalogsDB::CatalogObjectList dsoObjects;
 
+        allObjects.append(composite->objectLists(SkyObject::STAR));
+        allObjects.append(composite->objectLists(SkyObject::CATALOG_STAR));
+        allObjects.append(composite->objectLists(SkyObject::PLANET));
+        allObjects.append(composite->objectLists(SkyObject::MOON));
+        allObjects.append(composite->objectLists(SkyObject::COMET));
+        allObjects.append(composite->objectLists(SkyObject::ASTEROID));
+        allObjects.append(composite->objectLists(SkyObject::SUPERNOVA));
+        allObjects.append(composite->objectLists(SkyObject::SATELLITE));
+        dsoObjects = m_DSOManager.get_objects_all();
+
+        for (auto &oneObject : allObjects)
+            all << oneObject.second->name() << oneObject.second->longname().split(", ");
+
+        for (auto &oneObject : dsoObjects)
+            all << oneObject.name() << oneObject.longname().split(", ");
+
+        all.removeDuplicates();
         all.sort(Qt::CaseInsensitive);
-
         sendResponse(commands[ASTRO_GET_NAMES], QJsonArray::fromStringList(all));
     }
     // Get a list of object based on criteria
