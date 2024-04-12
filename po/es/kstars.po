@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-11 01:41+0000\n"
-"PO-Revision-Date: 2024-03-29 03:42+0100\n"
+"POT-Creation-Date: 2024-04-12 01:39+0000\n"
+"PO-Revision-Date: 2024-04-11 23:07+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -44,10 +44,9 @@ msgid "Sky"
 msgstr "Cielo"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Sky Flat"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Plano del cielo"
+msgstr "Período diurno del cielo"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -975,8 +974,8 @@ msgstr "Simulador del Sistema Solar XPlanet: %1"
 #: skymapdrawabstract.cpp:249 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:533 skyqpainter.cpp:557
-#: skyqpainter.cpp:559 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
+#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:517 skyqpainter.cpp:541
+#: skyqpainter.cpp:543 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
 #: tools/jmoontool.cpp:106 tools/modcalcdaylength.ui:109
 #: tools/modcalcplanets.cpp:262 tools/modcalcplanets.cpp:388
 #: tools/modcalcplanets.ui:190 tools/modcalcplanets.ui:614
@@ -996,7 +995,7 @@ msgstr "Sol"
 #: skymapdrawabstract.cpp:251 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
+#: skyqpainter.cpp:527 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
 #: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
 #: tools/skycalendar.ui:34
@@ -1050,7 +1049,7 @@ msgstr "Tierra"
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
-#: skyqpainter.cpp:534 skyqpainter.cpp:557 skyqpainter.cpp:560
+#: skyqpainter.cpp:518 skyqpainter.cpp:541 skyqpainter.cpp:544
 #: tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
@@ -1073,7 +1072,7 @@ msgstr "Luna"
 #: skymapdrawabstract.cpp:257 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:539 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
+#: skyqpainter.cpp:523 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
 #: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
 #: tools/skycalendar.ui:48
@@ -1101,7 +1100,7 @@ msgstr "Deimos"
 #: skymapdrawabstract.cpp:259 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
+#: skyqpainter.cpp:527 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
@@ -1139,7 +1138,7 @@ msgstr "Europa"
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
-#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:544
+#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:528
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
 #: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
@@ -16128,10 +16127,9 @@ msgid "Failed to set binning."
 msgstr "Ha ocurrido un error al fijar el binning."
 
 #: ekos/capture/captureprocess.cpp:990
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "Archivo guardado en %1"
+msgstr "archivo guardado en %1"
 
 #: ekos/capture/captureprocess.cpp:1000
 #, kde-format
@@ -24308,21 +24306,19 @@ msgid "Starting auto park..."
 msgstr "Iniciando aparcamiento automático..."
 
 #: ekos/mount/mount.cpp:2112
-#, fuzzy, kde-format
-#| msgid "Updating from directory: %1"
+#, kde-format
 msgid "Updating master time source to %1."
-msgstr "Actualizando desde el directorio: %1"
+msgstr "Actualizando fuente horaria principal a %1."
 
 #: ekos/mount/mount.cpp:2133
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
-msgstr ""
+msgstr "Actualizando fuente de ubicación principal a %1. Actualizando GPS..."
 
 #: ekos/mount/mount.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Site location updated to %1."
+#, kde-format
 msgid "Updating master location source to %1."
-msgstr "Ubicación del lugar actualizada a %1."
+msgstr "Actualizando fuente de ubicación principal a %1."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:120
@@ -24332,10 +24328,9 @@ msgstr "Activar la sincronización horaria tras conectar entre KStars e INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:123
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Time Source:"
-msgstr "Tiempo de expiración:"
+msgstr "Fuente horaria:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:130
@@ -24349,10 +24344,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:133
-#, fuzzy, kde-format
-#| msgid "Location:"
+#, kde-format
 msgid "Location Source:"
-msgstr "Ubicación:"
+msgstr "Fuente de ubicación:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/mount/mount.ui:183
@@ -33428,13 +33422,14 @@ msgstr "Notificaciones de mensajes de INDI"
 #: kstars.kcfg:211
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr ""
+msgstr "Fuente principal para la hora (KStars, montura o dispositivo INDI)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:215
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
 msgstr ""
+"Fuente principal para la ubicación (KStars, montura o dispositivo INDI)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:219
@@ -34410,17 +34405,15 @@ msgstr "Mostrar/ocultar los indicadores en el mapa del cielo."
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "Simular la vista del ocular"
+msgstr "¿Simular el período diurno?"
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Si se selecciona, Marte se dibujará en el mapa."
+msgstr "Si se selecciona, el cielo será brillante durante el período diurno."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
@@ -35702,17 +35695,15 @@ msgstr "El color del fondo del cielo."
 
 #. i18n: ectx: label, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1104
-#, fuzzy, kde-format
-#| msgid "Color of supernovae"
+#, kde-format
 msgid "Color of sky during the daytime"
-msgstr "Color de las supernovas"
+msgstr "Color del cielo durante el período diurno"
 
 #. i18n: ectx: whatsthis, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1105
-#, fuzzy, kde-format
-#| msgid "The color for the sky background."
+#, kde-format
 msgid "The color for the sky background during daytime."
-msgstr "El color del fondo del cielo."
+msgstr "El color del fondo del cielo durante el período diurno."
 
 #. i18n: ectx: label, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1109
@@ -69587,17 +69578,15 @@ msgid "Toggle opaque ground"
 msgstr "Mostrar/ocultar suelo"
 
 #: kstarsinit.cpp:613
-#, fuzzy, kde-format
-#| msgid "Lead time"
+#, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
-msgstr "Tiempo de preparación"
+msgstr "Período diurno"
 
 #: kstarsinit.cpp:615
-#, fuzzy, kde-format
-#| msgid "Toggle Ceiling"
+#, kde-format
 msgid "Toggle daytime simulation"
-msgstr "Conmutar el techo"
+msgstr "Conmutar la simulación del período diurno"
 
 #: kstarsinit.cpp:617
 #, kde-format
@@ -70917,7 +70906,7 @@ msgstr "Figuras artísticas de las constelaciones"
 msgid "Constellation Bounds"
 msgstr "Límites de constelaciones"
 
-#: kstarslite/qml/modules/TopMenu.qml:226 skycomponents/milkyway.cpp:22
+#: kstarslite/qml/modules/TopMenu.qml:226 skycomponents/milkyway.cpp:25
 #, kde-format, kde-kuit-format
 msgid "Milky Way"
 msgstr "Vía Láctea"
@@ -76556,17 +76545,15 @@ msgstr "Si está marcado, los indicadores se dibujarán en el mapa"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Si se selecciona, Marte se dibujará en el mapa."
+msgstr "Si se selecciona, el cielo será brillante durante el período diurno"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "Simular la vista del ocular"
+msgstr "Simular el período diurno"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
@@ -78489,17 +78476,17 @@ msgstr "Componente del meridiano local"
 #. loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
 #. loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
 #. summary();
-#: skycomponents/milkyway.cpp:32
+#: skycomponents/milkyway.cpp:35
 #, kde-format
 msgid "Loading Milky Way"
 msgstr "Cargando Vía Láctea"
 
-#: skycomponents/milkyway.cpp:33
+#: skycomponents/milkyway.cpp:36
 #, kde-format
 msgid "Loading Large Magellanic Clouds"
 msgstr "Cargando Gran Nube de Magallanes"
 
-#: skycomponents/milkyway.cpp:34
+#: skycomponents/milkyway.cpp:37
 #, kde-format
 msgid "Loading Small Magellanic Clouds"
 msgstr "Cargando Pequeña Nube de Magallanes"

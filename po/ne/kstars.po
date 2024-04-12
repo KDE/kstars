@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-11 01:41+0000\n"
+"POT-Creation-Date: 2024-04-12 01:39+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1048,8 +1048,8 @@ msgstr "सौरमण्डल दर्शक"
 #: skymapdrawabstract.cpp:249 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:533 skyqpainter.cpp:557
-#: skyqpainter.cpp:559 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
+#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:517 skyqpainter.cpp:541
+#: skyqpainter.cpp:543 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
 #: tools/jmoontool.cpp:106 tools/modcalcdaylength.ui:109
 #: tools/modcalcplanets.cpp:262 tools/modcalcplanets.cpp:388
 #: tools/modcalcplanets.ui:190 tools/modcalcplanets.ui:614
@@ -1069,7 +1069,7 @@ msgstr "घाम"
 #: skymapdrawabstract.cpp:251 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
+#: skyqpainter.cpp:527 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
 #: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
 #: tools/skycalendar.ui:34
@@ -1123,7 +1123,7 @@ msgstr "पृथ्वी"
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
-#: skyqpainter.cpp:534 skyqpainter.cpp:557 skyqpainter.cpp:560
+#: skyqpainter.cpp:518 skyqpainter.cpp:541 skyqpainter.cpp:544
 #: tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
@@ -1146,7 +1146,7 @@ msgstr "चन्द्रमा"
 #: skymapdrawabstract.cpp:257 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:539 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
+#: skyqpainter.cpp:523 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
 #: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
 #: tools/skycalendar.ui:48
@@ -1176,7 +1176,7 @@ msgstr "मिमोसा"
 #: skymapdrawabstract.cpp:259 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
+#: skyqpainter.cpp:527 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
@@ -1222,7 +1222,7 @@ msgstr "युरोपा"
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
-#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:544
+#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:528
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
 #: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
@@ -78481,7 +78481,7 @@ msgstr "तारामण्डल"
 msgid "Constellation Bounds"
 msgstr "तारामण्डल सीमा"
 
-#: kstarslite/qml/modules/TopMenu.qml:226 skycomponents/milkyway.cpp:22
+#: kstarslite/qml/modules/TopMenu.qml:226 skycomponents/milkyway.cpp:25
 #, kde-format, kde-kuit-format
 msgid "Milky Way"
 msgstr "मिल्की वे"
@@ -86656,20 +86656,20 @@ msgstr ""
 #. loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
 #. loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
 #. summary();
-#: skycomponents/milkyway.cpp:32
+#: skycomponents/milkyway.cpp:35
 #, fuzzy, kde-format
 #| msgid "Loading city data"
 msgid "Loading Milky Way"
 msgstr "सिटी डेटा लोड गर्दै"
 
-#: skycomponents/milkyway.cpp:33
+#: skycomponents/milkyway.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "object name (optional)"
 #| msgid "Small Magellanic Cloud"
 msgid "Loading Large Magellanic Clouds"
 msgstr "सानो म्याजेलानिक क्लाउड"
 
-#: skycomponents/milkyway.cpp:34
+#: skycomponents/milkyway.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "object name (optional)"
 #| msgid "Small Magellanic Cloud"

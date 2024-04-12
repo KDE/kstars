@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-11 01:41+0000\n"
-"PO-Revision-Date: 2024-04-10 19:56\n"
+"POT-Creation-Date: 2024-04-12 01:39+0000\n"
+"PO-Revision-Date: 2024-04-11 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -35,10 +35,9 @@ msgid "Sky"
 msgstr "天空"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Set time"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "落下时间"
+msgstr ""
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -955,8 +954,8 @@ msgstr "XPlanet 太阳系模拟器: %1"
 #: skymapdrawabstract.cpp:249 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:533 skyqpainter.cpp:557
-#: skyqpainter.cpp:559 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
+#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:517 skyqpainter.cpp:541
+#: skyqpainter.cpp:543 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
 #: tools/jmoontool.cpp:106 tools/modcalcdaylength.ui:109
 #: tools/modcalcplanets.cpp:262 tools/modcalcplanets.cpp:388
 #: tools/modcalcplanets.ui:190 tools/modcalcplanets.ui:614
@@ -976,7 +975,7 @@ msgstr "太阳"
 #: skymapdrawabstract.cpp:251 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
+#: skyqpainter.cpp:527 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
 #: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
 #: tools/skycalendar.ui:34
@@ -1030,7 +1029,7 @@ msgstr "地球"
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
-#: skyqpainter.cpp:534 skyqpainter.cpp:557 skyqpainter.cpp:560
+#: skyqpainter.cpp:518 skyqpainter.cpp:541 skyqpainter.cpp:544
 #: tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
@@ -1053,7 +1052,7 @@ msgstr "月球"
 #: skymapdrawabstract.cpp:257 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:539 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
+#: skyqpainter.cpp:523 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
 #: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
 #: tools/skycalendar.ui:48
@@ -1081,7 +1080,7 @@ msgstr "火卫二 (戴摩斯)"
 #: skymapdrawabstract.cpp:259 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
+#: skyqpainter.cpp:527 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
@@ -1119,7 +1118,7 @@ msgstr "木卫二（欧罗巴）"
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
-#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:544
+#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:528
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
 #: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
@@ -15369,10 +15368,9 @@ msgid "Failed to set binning."
 msgstr "设置合并像素失败。"
 
 #: ekos/capture/captureprocess.cpp:990
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "文件保存到 %1"
+msgstr ""
 
 #: ekos/capture/captureprocess.cpp:1000
 #, kde-format
@@ -22655,10 +22653,9 @@ msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
 #: ekos/mount/mount.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Site location updated to %1."
+#, kde-format
 msgid "Updating master location source to %1."
-msgstr "站址更新至 %1。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:120
@@ -22668,10 +22665,9 @@ msgstr "启用 KStars 和 INDI 连接的时间同步"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:123
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Time Source:"
-msgstr "超时："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:130
@@ -22683,10 +22679,9 @@ msgstr "启用 KStars 和 INDI 连接时的地理位置同步"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:133
-#, fuzzy, kde-format
-#| msgid "Location:"
+#, kde-format
 msgid "Location Source:"
-msgstr "位置："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/mount/mount.ui:183
@@ -32096,17 +32091,15 @@ msgstr "切换是否在星图中绘制标记。"
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "模拟目镜视野"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "如果选中的话，将会在星图中绘制火星。"
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
@@ -33277,17 +33270,15 @@ msgstr "天空背景的颜色。"
 
 #. i18n: ectx: label, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1104
-#, fuzzy, kde-format
-#| msgid "Color of supernovae"
+#, kde-format
 msgid "Color of sky during the daytime"
-msgstr "超新星的颜色"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1105
-#, fuzzy, kde-format
-#| msgid "The color for the sky background."
+#, kde-format
 msgid "The color for the sky background during daytime."
-msgstr "天空背景的颜色。"
+msgstr ""
 
 #. i18n: ectx: label, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1109
@@ -66715,18 +66706,15 @@ msgid "Toggle opaque ground"
 msgstr "切换不透明地面显示"
 
 #: kstarsinit.cpp:613
-#, fuzzy, kde-format
-#| msgctxt "City in Ohio USA"
-#| msgid "Dayton"
+#, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
-msgstr "代顿"
+msgstr ""
 
 #: kstarsinit.cpp:615
-#, fuzzy, kde-format
-#| msgid "Toggle display of Sun"
+#, kde-format
 msgid "Toggle daytime simulation"
-msgstr "切换太阳显示"
+msgstr ""
 
 #: kstarsinit.cpp:617
 #, kde-format
@@ -68011,7 +67999,7 @@ msgstr "星座图绘"
 msgid "Constellation Bounds"
 msgstr "星座边界"
 
-#: kstarslite/qml/modules/TopMenu.qml:226 skycomponents/milkyway.cpp:22
+#: kstarslite/qml/modules/TopMenu.qml:226 skycomponents/milkyway.cpp:25
 #, kde-format, kde-kuit-format
 msgid "Milky Way"
 msgstr "银河"
@@ -73510,17 +73498,15 @@ msgstr "如果选中，将会在星图中绘制标记"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "如果选中的话，将会在星图中绘制火星。"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "模拟目镜视野"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
@@ -75312,17 +75298,17 @@ msgstr ""
 #. loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
 #. loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
 #. summary();
-#: skycomponents/milkyway.cpp:32
+#: skycomponents/milkyway.cpp:35
 #, kde-format
 msgid "Loading Milky Way"
 msgstr "正在加载银河"
 
-#: skycomponents/milkyway.cpp:33
+#: skycomponents/milkyway.cpp:36
 #, kde-format
 msgid "Loading Large Magellanic Clouds"
 msgstr "正在加载大麦哲仑星云"
 
-#: skycomponents/milkyway.cpp:34
+#: skycomponents/milkyway.cpp:37
 #, kde-format
 msgid "Loading Small Magellanic Clouds"
 msgstr "正在加载小麦哲仑星云"
@@ -82532,78 +82518,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr "检测到 GPS 设备。KStars 和支架的时间和位置设置现在同步到 GPS 设备。"
-
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr "检测到 GPS 。您想要切换到 GPS 的时间和位置吗？"
-
-#~ msgid "GPS Settings"
-#~ msgstr "GPS设置"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "文件 %1 已保存到 %2"
-
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr "选择 KStars 和 INDI 设备间的时间和位置同步设定"
-
-#~ msgid "Time && Location Updates"
-#~ msgstr "时间与地点更新"
-
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>KStars是时间和位置设置的主要来源。 所有 INDI 设备的"
-#~ "时间和位置设置同步于 KStars。</p></body></html>"
-
-#~ msgid "KStars updates all devices"
-#~ msgstr "Kstars 更新所有设备"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr "自动将 KStars 的日期与时间和更新源同步。"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>支架手柄是时间和位置设置的主要来源。 KStars 时间和位"
-#~ "置设置同步于手柄设置。</p></body></html>"
-
-#~ msgid "Mount updates KStars"
-#~ msgstr "赤道仪更新 Kstars"
-
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr "将 KStars 的地理位置设定与更新源同步。"
-
-#~ msgid "Location"
-#~ msgstr "位置"
-
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>GPS 驱动程序是时间和位置设置的主要来源。 KStars 时间"
-#~ "和位置设置与 GPS 设置同步。</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "GPS 更新 Kstars"
-
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr "使用 KStars 时间和位置进行同步？"
-
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr "使用支架的时间和位置进行同步？"
-
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr "将 GPS 时间和位置用于同步吗？"
