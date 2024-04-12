@@ -63,16 +63,19 @@ void MilkyWay::draw(SkyPainter *skyp)
         return;
 
     QColor color = KStarsData::Instance()->colorScheme()->colorNamed("MWColor");
-    KSSun *sun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
-    if (sun)
+    if (Options::simulateDaytime())
     {
-        // No Milky Way in the daytime. Blends into sky color.
-        QColor mwDayColor = KStarsData::Instance()->colorScheme()->colorNamed("SkyColorDaytime");
-        const double nightFraction = sun->nightFraction();
-        const double dayFraction = 1 - nightFraction;
-        color = QColor(nightFraction * color.red()   + dayFraction * mwDayColor.red(),
-                       nightFraction * color.green() + dayFraction * mwDayColor.green(),
-                       nightFraction * color.blue()  + dayFraction * mwDayColor.blue());
+        KSSun *sun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
+        if (sun)
+        {
+            // No Milky Way in the daytime. Blends into sky color.
+            QColor mwDayColor = KStarsData::Instance()->colorScheme()->colorNamed("SkyColorDaytime");
+            const double nightFraction = sun->nightFraction();
+            const double dayFraction = 1 - nightFraction;
+            color = QColor(nightFraction * color.red()   + dayFraction * mwDayColor.red(),
+                           nightFraction * color.green() + dayFraction * mwDayColor.green(),
+                           nightFraction * color.blue()  + dayFraction * mwDayColor.blue());
+        }
     }
 
     skyp->setPen(QPen(color, 3, Qt::SolidLine));
