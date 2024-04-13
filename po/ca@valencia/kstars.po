@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-12 01:39+0000\n"
-"PO-Revision-Date: 2024-04-02 18:39+0200\n"
+"PO-Revision-Date: 2024-04-12 18:23+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -45,10 +45,9 @@ msgid "Sky"
 msgstr "Cel"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Sky Flat"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Pla del cel"
+msgstr "Cel diürn"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -16339,10 +16338,9 @@ msgid "Failed to set binning."
 msgstr "No s'ha pogut establir l'agrupament."
 
 #: ekos/capture/captureprocess.cpp:990
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "El fitxer s'ha guardat a %1"
+msgstr "el fitxer s'ha guardat a %1"
 
 #: ekos/capture/captureprocess.cpp:1000
 #, kde-format
@@ -24596,21 +24594,21 @@ msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic…"
 
 #: ekos/mount/mount.cpp:2112
-#, fuzzy, kde-format
-#| msgid "Updating from directory: %1"
+#, kde-format
 msgid "Updating master time source to %1."
-msgstr "S'està actualitzant a partir del directori: %1"
+msgstr "S'està actualitzant la font mestre del temps a %1."
 
 #: ekos/mount/mount.cpp:2133
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
+"S'està actualitzant la font mestre de l'emplaçament a %1. S'està "
+"actualitzant el GPS…"
 
 #: ekos/mount/mount.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Site location updated to %1."
+#, kde-format
 msgid "Updating master location source to %1."
-msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
+msgstr "S'està actualitzant la font mestre de l'emplaçament a %1."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
@@ -24622,10 +24620,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:123
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Time Source:"
-msgstr "Temps d'espera:"
+msgstr "Font del temps:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
@@ -24640,10 +24637,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:133
-#, fuzzy, kde-format
-#| msgid "Location:"
+#, kde-format
 msgid "Location Source:"
-msgstr "Emplaçament:"
+msgstr "Font de l'emplaçament:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/mount/mount.ui:183
@@ -30425,7 +30421,7 @@ msgstr "Zoom fins que ajuste"
 #: fitsviewer/fitsview.cpp:2465
 #, kde-format
 msgid "Toggle Stretch"
-msgstr "Alterna l'estirament"
+msgstr "Canvia l'estirament"
 
 #: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
 #, kde-format
@@ -32773,13 +32769,13 @@ msgstr "Restablix el fotograma"
 #: indi/streamform.ui:143
 #, kde-format
 msgid "Toggle Debayer"
-msgstr "Alterna la reconstrucció des de Bayer"
+msgstr "Canvia la reconstrucció des de Bayer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
 #, kde-format
 msgid "Toggle Collimation Overlay"
-msgstr "Mostra o oculta la superposició de la col·limació"
+msgstr "Canvia la superposició de la col·limació"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
@@ -33836,13 +33832,13 @@ msgstr "Notificacions dels missatges INDI"
 #: kstars.kcfg:211
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr ""
+msgstr "Font mestra per al temps (KStars, Mount o dispositiu INDI)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:215
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
-msgstr ""
+msgstr "Font mestra per a l'emplaçament (KStars, Mount o dispositiu INDI)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:219
@@ -34277,7 +34273,7 @@ msgid ""
 "Toggle whether KStars should hide some objects while the display is moving, "
 "for smoother motion."
 msgstr ""
-"Establix si KStars ocultarà alguns objectes mentre es mou el mapa, per tal "
+"Canvia quan ocultarà KStars alguns objectes mentre es mou el mapa, per tal "
 "de tindre un moviment més fluid."
 
 #. i18n: ectx: label, entry (HideCBounds), group (View)
@@ -34296,8 +34292,8 @@ msgid ""
 "Toggle whether constellation boundaries are hidden while the display is in "
 "motion."
 msgstr ""
-"Establix si els límits de les constel·lacions es mostraran o no mentre el "
-"mapa està en moviment."
+"Canvia quan es mostraran els límits de les constel·lacions mentre el mapa "
+"està en moviment."
 
 #. i18n: ectx: label, entry (HideCLines), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideCLines)
@@ -34314,8 +34310,8 @@ msgstr ""
 msgid ""
 "Toggle whether constellation lines are hidden while the display is in motion."
 msgstr ""
-"Establix si les línies de les constel·lacions es mostraran o no mentre el "
-"mapa està en moviment."
+"Canvia quan es mostraran les línies de les constel·lacions mentre el mapa "
+"està en moviment."
 
 #. i18n: ectx: label, entry (SkyCulture), group (View)
 #: kstars.kcfg:422
@@ -34344,8 +34340,8 @@ msgstr ""
 msgid ""
 "Toggle whether constellation names are hidden while the display is in motion."
 msgstr ""
-"Establix si els noms de les constel·lacions es mostraran o no mentre el mapa "
-"està en moviment."
+"Canvia quan es mostraran els noms de les constel·lacions mentre el mapa està "
+"en moviment."
 
 #. i18n: ectx: label, entry (HideGrids), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideGrids)
@@ -34362,8 +34358,8 @@ msgid ""
 "Toggle whether the coordinate grids are hidden while the display is in "
 "motion."
 msgstr ""
-"Establix si les quadrícules de coordenades es mostraran o no mentre el mapa "
-"està en moviment."
+"Canvia quan es mostraran les quadrícules de coordenades mentre el mapa està "
+"en moviment."
 
 #. i18n: ectx: label, entry (HideMilkyWay), group (View)
 #: kstars.kcfg:437
@@ -34379,8 +34375,8 @@ msgid ""
 "Toggle whether the Milky Way contour is hidden while the display is in "
 "motion."
 msgstr ""
-"Establix si es mostrarà o no el contorn de la Via Làctia mentre el mapa està "
-"en moviment."
+"Canvia quan es mostrarà el contorn de la Via Làctia mentre el mapa està en "
+"moviment."
 
 #. i18n: ectx: label, entry (HideOther), group (View)
 #: kstars.kcfg:442
@@ -34393,8 +34389,7 @@ msgstr "Voleu que s'oculten els objectes extres mentre s'està movent el mapa?"
 #, kde-format
 msgid "Toggle whether extra objects are hidden while the display is in motion."
 msgstr ""
-"Establix si els objectes extres s'ocultaran o no mentre el mapa està en "
-"moviment."
+"Canvia quan s'ocultaran els objectes extres mentre el mapa està en moviment."
 
 #. i18n: ectx: label, entry (HidePlanets), group (View)
 #: kstars.kcfg:447
@@ -34411,8 +34406,8 @@ msgid ""
 "Toggle whether solar system objects are hidden while the display is in "
 "motion."
 msgstr ""
-"Establix si els objectes del sistema solar s'ocultaran o no mentre el mapa "
-"està en moviment."
+"Canvia quan s'ocultaran els objectes del sistema solar mentre el mapa està "
+"en moviment."
 
 #. i18n: ectx: label, entry (HideStars), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideStars)
@@ -34427,8 +34422,7 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether faint stars are hidden while the display is in motion."
 msgstr ""
-"Establix si les estreles febles s'ocultaran o no mentre el mapa està en "
-"moviment."
+"Canvia quan s'ocultaran les estreles febles mentre el mapa està en moviment."
 
 #. i18n: ectx: label, entry (HideLabels), group (View)
 #: kstars.kcfg:457
@@ -34443,8 +34437,7 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether name labels are hidden while the display is in motion."
 msgstr ""
-"Establix si les etiquetes de nom s'ocultaran o no mentre el mapa està en "
-"moviment."
+"Canvia quan s'ocultaran les etiquetes de nom mentre el mapa està en moviment."
 
 #. i18n: ectx: label, entry (ShowAsteroids), group (View)
 #: kstars.kcfg:462
@@ -34456,7 +34449,7 @@ msgstr "Voleu que es dibuixen els asteroides en el mapa celeste?"
 #: kstars.kcfg:463
 #, kde-format
 msgid "Toggle whether asteroids are drawn in the sky map."
-msgstr "Establix si es dibuixaran o no els asteroides en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els asteroides en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:467
@@ -34469,8 +34462,8 @@ msgstr "Voleu que es mostren els noms dels asteroides en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether asteroid name labels are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les etiquetes dels noms dels asteroides en el "
-"mapa celeste."
+"Canvia quan es dibuixaran les etiquetes dels noms dels asteroides en el mapa "
+"celeste."
 
 #. i18n: ectx: label, entry (OrbitalElementsAutoUpdate), group (View)
 #: kstars.kcfg:472
@@ -34492,7 +34485,7 @@ msgstr "Voleu que es dibuixen els cometes en el mapa celeste?"
 #: kstars.kcfg:477
 #, kde-format
 msgid "Toggle whether comets are drawn in the sky map."
-msgstr "Establix si es dibuixaran o no els cometes en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els cometes en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCometComas), group (View)
 #: kstars.kcfg:481
@@ -34504,8 +34497,7 @@ msgstr "Voleu que es dibuixen les comes dels cometes en el mapa celeste?"
 #: kstars.kcfg:482
 #, kde-format
 msgid "Toggle whether comet comas are drawn in the sky map."
-msgstr ""
-"Establix si es dibuixaran o no les comes dels cometes en el mapa celeste."
+msgstr "Canvia quan es dibuixaran les comes dels cometes en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCometNames), group (View)
 #: kstars.kcfg:486
@@ -34518,8 +34510,8 @@ msgstr "Voleu que es mostren els noms dels cometes en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether comet name labels are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les etiquetes de nom per als cometes en el "
-"mapa celeste."
+"Canvia quan es dibuixaran les etiquetes de nom per als cometes en el mapa "
+"celeste."
 
 #. i18n: ectx: label, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:491
@@ -34531,7 +34523,7 @@ msgstr "Voleu que es dibuixen les supernoves en el mapa celeste?"
 #: kstars.kcfg:492
 #, kde-format
 msgid "Toggle whether supernovae are drawn in the sky map."
-msgstr "Establix si es dibuixaran o no les supernoves en el mapa celeste."
+msgstr "Canvia quan es dibuixaran les supernoves en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:496
@@ -34544,8 +34536,8 @@ msgstr "Voleu que es mostren els noms de les supernoves en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether supernova name labels are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les etiquetes de nom per a les supernoves en "
-"el mapa celeste."
+"Canvia quan es dibuixaran les etiquetes de nom per a les supernoves en el "
+"mapa celeste."
 
 #. i18n: ectx: label, entry (MagnitudeLimitShowSupernovae), group (View)
 #: kstars.kcfg:501
@@ -34652,7 +34644,7 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether constellation boundaries are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no els límits de les constel·lacions en el mapa "
+"Canvia quan es dibuixaran els límits de les constel·lacions en el mapa "
 "celeste."
 
 # skip-rule: punctuation-period-no
@@ -34671,8 +34663,8 @@ msgid ""
 "Toggle whether constellation boundary containing the central focus point is "
 "highlighted in the sky map."
 msgstr ""
-"Establix si es ressaltarà o no el límit de la constel·lació que conté el "
-"punt d'enfocament en el mapa celeste."
+"Canvia quan es ressaltarà el límit de la constel·lació que conté el punt "
+"d'enfocament en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCLines), group (View)
 #: kstars.kcfg:552
@@ -34686,7 +34678,7 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether constellation lines are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les línies de les constel·lacions en el mapa "
+"Canvia quan es dibuixaran les línies de les constel·lacions en el mapa "
 "celeste."
 
 #. i18n: ectx: label, entry (ShowConstellationArt), group (View)
@@ -34700,8 +34692,7 @@ msgstr "Voleu que es dibuixe l'art de les constel·lacions en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether constellation art drawn in the sky map."
 msgstr ""
-"Establix si es dibuixarà o no l'art de les constel·lacions en el mapa "
-"celeste."
+"Canvia quan es dibuixarà l'art de les constel·lacions en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowCNames), group (View)
 #: kstars.kcfg:562
@@ -34715,8 +34706,8 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether constellation name labels are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les etiquetes de nom per a les "
-"constel·lacions en el mapa celeste."
+"Canvia quan es dibuixaran les etiquetes de nom per a les constel·lacions en "
+"el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowDeepSky), group (View)
 #: kstars.kcfg:567
@@ -34730,8 +34721,7 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether deep-sky objects are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no els objectes del cel profund en el mapa "
-"celeste."
+"Canvia quan es dibuixaran els objectes del cel profund en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:572
@@ -34743,8 +34733,7 @@ msgstr "Voleu que es dibuixe la línia de l'eclíptica en el mapa celeste?"
 #: kstars.kcfg:573
 #, kde-format
 msgid "Toggle whether the ecliptic line is drawn in the sky map."
-msgstr ""
-"Establix si es dibuixarà o no la línia de l'eclíptica en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia de l'eclíptica en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowEquator), group (View)
 #: kstars.kcfg:577
@@ -34756,8 +34745,7 @@ msgstr "Voleu que es dibuixe la línia de l'equador en el mapa celeste?"
 #: kstars.kcfg:578
 #, kde-format
 msgid "Toggle whether the equator line is drawn in the sky map."
-msgstr ""
-"Establix si es dibuixarà o no la línia de l'equador en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia de l'equador en el mapa celeste."
 
 #. i18n: ectx: label, entry (AutoSelectGrid), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoSelectGrid)
@@ -34790,8 +34778,8 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether the equatorial coordinate grid is drawn in the sky map."
 msgstr ""
-"Establix si es dibuixarà o no la quadrícula de coordenades equatorials en el "
-"mapa celeste."
+"Canvia quan es dibuixarà la quadrícula de coordenades equatorials en el mapa "
+"celeste."
 
 #. i18n: ectx: label, entry (ShowHorizontalGrid), group (View)
 #: kstars.kcfg:592
@@ -34806,8 +34794,8 @@ msgstr ""
 #, kde-format
 msgid "Toggle whether the horizontal coordinate grid is drawn in the sky map."
 msgstr ""
-"Establix si es dibuixarà o no la quadrícula de coordenades horitzontals en "
-"el mapa celeste."
+"Canvia quan es dibuixarà la quadrícula de coordenades horitzontals en el "
+"mapa celeste."
 
 #. i18n: ectx: label, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:597
@@ -34820,7 +34808,7 @@ msgstr "Voleu que es dibuixe la línia del meridià local en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether the local meridian line is drawn in the sky map."
 msgstr ""
-"Establix si es dibuixarà o no la línia del meridià local en el mapa celeste."
+"Canvia quan es dibuixarà la línia del meridià local en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowGround), group (View)
 #: kstars.kcfg:602
@@ -34832,7 +34820,7 @@ msgstr "Voleu que es dibuixe el terra opac en el mapa celeste?"
 #: kstars.kcfg:603
 #, kde-format
 msgid "Toggle whether the region below the horizon is opaque."
-msgstr "Establix si la regió davall l'horitzó és opaca o no."
+msgstr "Canvia quan es farà opaca la regió davall l'horitzó."
 
 #. i18n: ectx: label, entry (ShowHorizon), group (View)
 #: kstars.kcfg:607
@@ -34844,8 +34832,7 @@ msgstr "Voleu que es dibuixe la línia de l'horitzó en el mapa celeste?"
 #: kstars.kcfg:608
 #, kde-format
 msgid "Toggle whether the horizon line is drawn in the sky map."
-msgstr ""
-"Establix si es dibuixarà o no la línia de l'horitzó en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la línia de l'horitzó en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowFlags), group (View)
 #: kstars.kcfg:612
@@ -34857,21 +34844,19 @@ msgstr "Voleu que es dibuixen els indicadors en el mapa celeste?"
 #: kstars.kcfg:613
 #, kde-format
 msgid "Toggle whether flags are drawn in the sky map."
-msgstr "Establix si es dibuixaran o no els indicadors en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els indicadors en el mapa celeste."
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "Simula la vista de l'ocular"
+msgstr "Voleu simular les hores diürnes?"
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Si se selecciona, es dibuixarà Mart en el mapa."
+msgstr "Si se selecciona, el cel serà brillant durant les hores diürnes."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
@@ -34884,8 +34869,7 @@ msgstr ""
 #: kstars.kcfg:623
 #, kde-format
 msgid "Toggle whether extra objects are drawn in the sky map."
-msgstr ""
-"Establix si es dibuixaran o no els objectes addicionals en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els objectes addicionals en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowMilkyWay), group (View)
 #: kstars.kcfg:627
@@ -34898,7 +34882,7 @@ msgstr "Voleu que es dibuixe el contorn de la Via Làctia en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether the Milky Way contour is drawn in the sky map."
 msgstr ""
-"Establix si es dibuixarà o no el contorn de la Via Làctia en el mapa celeste."
+"Canvia quan es dibuixarà el contorn de la Via Làctia en el mapa celeste."
 
 #. i18n: ectx: label, entry (FillMilkyWay), group (View)
 #: kstars.kcfg:632
@@ -34915,8 +34899,8 @@ msgid ""
 "Toggle whether the Milky Way contour is filled. When this option is false, "
 "the Milky Way is shown as an outline."
 msgstr ""
-"Establix si s'òmpliga o no el contorn de la Via Làctia. Quan esta opció és "
-"falsa, la Via Làctia es mostra només com un contorn."
+"Canvia quan s'omplirà el contorn de la Via Làctia. Quan esta opció és falsa, "
+"la Via Làctia es mostra només com un contorn."
 
 #. i18n: ectx: label, entry (ShowSolarSystem), group (View)
 #: kstars.kcfg:637
@@ -34947,8 +34931,8 @@ msgid ""
 "Toggle whether major planets (and the Sun and Moon) are rendered as images "
 "in the sky map."
 msgstr ""
-"Establix si els planetes principals (inclosos el Sol i la Lluna) s'han de "
-"renderitzar o no com a imatges en el mapa celeste."
+"Canvia quan s'hauran de renderitzar els planetes principals (inclosos el Sol "
+"i la Lluna) com a imatges en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowPlanetNames), group (View)
 #: kstars.kcfg:647
@@ -34963,8 +34947,8 @@ msgid ""
 "Toggle whether major planets (and the Sun and Moon) are labeled in the sky "
 "map."
 msgstr ""
-"Establix si els planetes principals (inclosos el Sol i la Lluna) s'han "
-"d'etiquetar o no en el mapa celeste."
+"Canvia quan s'hauran d'etiquetar els planetes principals (inclosos el Sol i "
+"la Lluna) en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowSun), group (View)
 #: kstars.kcfg:652
@@ -34976,7 +34960,7 @@ msgstr "Voleu que es dibuixe el Sol en el mapa celeste?"
 #: kstars.kcfg:653
 #, kde-format
 msgid "Toggle whether the Sun is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no el Sol en el mapa celeste."
+msgstr "Canvia quan es dibuixarà el Sol en el mapa celeste."
 
 #. i18n: ectx: label, entry (SunScale), group (View)
 #: kstars.kcfg:657
@@ -34994,7 +34978,7 @@ msgstr "Voleu que es dibuixe la Lluna en el mapa celeste?"
 #: kstars.kcfg:662
 #, kde-format
 msgid "Toggle whether the Moon is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no la Lluna en el mapa celeste."
+msgstr "Canvia quan es dibuixarà la Lluna en el mapa celeste."
 
 #. i18n: ectx: label, entry (MoonScale), group (View)
 #: kstars.kcfg:666
@@ -35012,7 +34996,7 @@ msgstr "Voleu que es dibuixe Mercuri en el mapa celeste?"
 #: kstars.kcfg:671
 #, kde-format
 msgid "Toggle whether Mercury is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Mercuri en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Mercuri en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowVenus), group (View)
 #: kstars.kcfg:675
@@ -35024,7 +35008,7 @@ msgstr "Voleu que es dibuixe Venus en el mapa celeste?"
 #: kstars.kcfg:676
 #, kde-format
 msgid "Toggle whether Venus is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Venus en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Venus en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowMars), group (View)
 #: kstars.kcfg:680
@@ -35036,7 +35020,7 @@ msgstr "Voleu que es dibuixe Mart en el mapa celeste?"
 #: kstars.kcfg:681
 #, kde-format
 msgid "Toggle whether Mars is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Mart en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Mart en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowJupiter), group (View)
 #: kstars.kcfg:685
@@ -35048,7 +35032,7 @@ msgstr "Voleu que es dibuixe Júpiter en el mapa celeste?"
 #: kstars.kcfg:686
 #, kde-format
 msgid "Toggle whether Jupiter is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Júpiter en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Júpiter en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowSaturn), group (View)
 #: kstars.kcfg:690
@@ -35060,7 +35044,7 @@ msgstr "Voleu que es dibuixe Saturn en el mapa celeste?"
 #: kstars.kcfg:691
 #, kde-format
 msgid "Toggle whether Saturn is drawn in the sky map."
-msgstr "Si se selecciona, es dibuixarà Saturn en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Saturn en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowUranus), group (View)
 #: kstars.kcfg:695
@@ -35072,7 +35056,7 @@ msgstr "Voleu que es dibuixe Urà en el mapa celeste?"
 #: kstars.kcfg:696
 #, kde-format
 msgid "Toggle whether Uranus is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Urà en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Urà en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowNeptune), group (View)
 #: kstars.kcfg:700
@@ -35084,7 +35068,7 @@ msgstr "Voleu que es dibuixe Neptú en el mapa celeste?"
 #: kstars.kcfg:701
 #, kde-format
 msgid "Toggle whether Neptune is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Neptú en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Neptú en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowPluto), group (View)
 #: kstars.kcfg:705
@@ -35096,7 +35080,7 @@ msgstr "Voleu que es dibuixe Plutó en el mapa celeste?"
 #: kstars.kcfg:706
 #, kde-format
 msgid "Toggle whether Pluto is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no Plutó en el mapa celeste."
+msgstr "Canvia quan es dibuixarà Plutó en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowStars), group (View)
 #: kstars.kcfg:710
@@ -35108,7 +35092,7 @@ msgstr "Voleu que es dibuixen les estreles en el mapa celeste?"
 #: kstars.kcfg:711
 #, kde-format
 msgid "Toggle whether stars are drawn in the sky map."
-msgstr "Establix si es dibuixaran o no les estreles en el mapa celeste."
+msgstr "Canvia quan es dibuixaran les estreles en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:715
@@ -35122,8 +35106,8 @@ msgstr "Voleu que es mostren les magnituds de les estreles en el mapa celeste?"
 msgid ""
 "Toggle whether star magnitude (brightness) labels are shown in the sky map."
 msgstr ""
-"Establix si es mostraran o no en el mapa celeste les etiquetes de la "
-"magnitud (brillantor) de les estreles."
+"Canvia quan es mostraran en el mapa celeste les etiquetes de la magnitud "
+"(brillantor) de les estreles."
 
 #. i18n: ectx: label, entry (ShowStarNames), group (View)
 #: kstars.kcfg:720
@@ -35136,8 +35120,8 @@ msgstr "Voleu que es mostren els noms de les estreles en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether star name labels are shown in the sky map."
 msgstr ""
-"Establix si es mostraran o no les etiquetes de nom per a les estreles en el "
-"mapa celeste."
+"Canvia quan es mostraran les etiquetes de nom per a les estreles en el mapa "
+"celeste."
 
 #. i18n: ectx: label, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:725
@@ -35154,8 +35138,8 @@ msgid ""
 "Toggle whether deep-sky object magnitude (brightness) labels are shown in "
 "the sky map."
 msgstr ""
-"Establix si es mostraran o no en el mapa celeste les etiquetes de les "
-"magnituds (brillantor) dels objectes del cel profund."
+"Canvia quan es mostraran en el mapa celeste les etiquetes de les magnituds "
+"(brillantor) dels objectes del cel profund."
 
 #. i18n: ectx: label, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:730
@@ -35168,7 +35152,7 @@ msgstr "Voleu que s'etiquetin els objectes del cel profund en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether deep-sky object name labels are shown in the sky map."
 msgstr ""
-"Establix si es mostraran o no les etiquetes de nom per als objectes del cel "
+"Canvia quan es mostraran les etiquetes de nom per als objectes del cel "
 "profund en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
@@ -35181,7 +35165,7 @@ msgstr "Voleu que es dibuixe el quadro del mosaic en el mapa celeste?"
 #: kstars.kcfg:736
 #, kde-format
 msgid "Toggle whether the Mosaic Panel are drawn in the sky map."
-msgstr "Canvia si es dibuixa el quadro del mosaic en el mapa celeste."
+msgstr "Canvia quan es dibuixarà el quadro del mosaic en el mapa celeste."
 
 #. i18n: ectx: label, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:740
@@ -35297,7 +35281,7 @@ msgstr "Voleu que s'etiqueti automàticament l'objecte centrat?"
 msgid ""
 "Toggle whether a centered object automatically gets a name label attached."
 msgstr ""
-"Establix si s'adjunta automàticament o no una etiqueta de nom a l'objecte "
+"Canvia quan s'adjuntarà automàticament una etiqueta de nom a l'objecte "
 "centrat."
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
@@ -35315,8 +35299,8 @@ msgid ""
 "Toggle whether a centered solar system object automatically gets a trail "
 "attached, as long as it remains centered."
 msgstr ""
-"Establix si s'adjunta o no una traça a un objecte del sistema solar centrat "
-"al mapa, mentre romanga centrat."
+"Canvia quan s'adjuntarà una traça a un objecte del sistema solar centrat al "
+"mapa, mentre romanga centrat."
 
 #. i18n: ectx: label, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:785
@@ -35332,7 +35316,7 @@ msgstr ""
 msgid ""
 "Toggle whether the object under the mouse cursor gets a transient name label."
 msgstr ""
-"Establix si l'objecte davall el ratolí rebrà una etiqueta de nom transitòria."
+"Canvia quan rebrà una etiqueta de nom transitòria l'objecte davall el ratolí."
 
 #. i18n: ectx: label, entry (UseRefraction), group (View)
 #: kstars.kcfg:790
@@ -35348,9 +35332,9 @@ msgid ""
 "Toggle whether object positions are corrected for the effects of atmospheric "
 "refraction (only applies when horizontal coordinates are used)."
 msgstr ""
-"Establix si s'apliquen o no les correccions degudes als efectes de la "
-"refracció atmosfèrica a les posicions dels objectes (només aplica si "
-"s'utilitzen coordenades horitzontals)."
+"Canvia quan s'aplicaran les correccions degudes als efectes de la refracció "
+"atmosfèrica a les posicions dels objectes (només s'aplica si s'utilitzen les "
+"coordenades horitzontals)."
 
 #. i18n: ectx: label, entry (UseRelativistic), group (View)
 #: kstars.kcfg:795
@@ -35370,8 +35354,8 @@ msgid ""
 "Toggle whether corrections due to bending of light around the sun are taken "
 "into account"
 msgstr ""
-"Establix si es tindran en compte o no les correccions provocades per la "
-"curvatura de la llum al voltant del Sol."
+"Canvia quan tindran en compte les correccions provocades per la curvatura de "
+"la llum al voltant del Sol."
 
 #. i18n: ectx: label, entry (UseAntialias), group (View)
 #: kstars.kcfg:800
@@ -35386,7 +35370,7 @@ msgid ""
 "Toggle whether the sky is rendered using antialiasing. Lines and shapes are "
 "smoother with antialiasing, but rendering the screen will take more time."
 msgstr ""
-"Establix si el cel es renderitza amb antialiàsing. Les línies i formes són "
+"Canvia quan es renderitzarà amb antialiàsing el cel. Les línies i formes són "
 "més suaus amb antialiàsing, però renderitzar la pantalla tardarà més."
 
 #. i18n: ectx: label, entry (ZoomFactor), group (View)
@@ -36191,17 +36175,15 @@ msgstr "El color de fons del cel."
 
 #. i18n: ectx: label, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1104
-#, fuzzy, kde-format
-#| msgid "Color of supernovae"
+#, kde-format
 msgid "Color of sky during the daytime"
-msgstr "Color de les supernoves"
+msgstr "Color del cel durant les hores diürnes"
 
 #. i18n: ectx: whatsthis, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1105
-#, fuzzy, kde-format
-#| msgid "The color for the sky background."
+#, kde-format
 msgid "The color for the sky background during daytime."
-msgstr "El color de fons del cel."
+msgstr "El color del fons del cel durant les hores diürnes."
 
 #. i18n: ectx: label, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1109
@@ -36904,7 +36886,7 @@ msgstr "Voleu que es dibuixen els satèl·lits en el mapa celeste?"
 #, kde-format
 msgid "Toggle whether satellite tracks are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les traces dels satèl·lits en el mapa celeste."
+"Canvia quan es dibuixaran les traces dels satèl·lits en el mapa celeste."
 
 #. i18n: ectx: label, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1378
@@ -36934,8 +36916,7 @@ msgstr "Voleu que es mostren les etiquetes dels satèl·lits?"
 #, kde-format
 msgid "Toggle whether satellite labels are drawn in the sky map."
 msgstr ""
-"Establix si es dibuixaran o no les etiquetes dels satèl·lits en el mapa "
-"celeste."
+"Canvia quan es dibuixaran les etiquetes dels satèl·lits en el mapa celeste."
 
 #. i18n: ectx: label, entry (SelectedSatellites), group (Satellites)
 #: kstars.kcfg:1393
@@ -40371,7 +40352,7 @@ msgstr "Voleu que es dibuixen els orígens de HiPS en el mapa celeste?"
 #: kstars.kcfg:3309
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
-msgstr "Establix si es dibuixaran o no els orígens de HiPS en el mapa celeste."
+msgstr "Canvia quan es dibuixaran els orígens de HiPS en el mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
 #: kstars.kcfg:3313
@@ -40458,7 +40439,7 @@ msgstr "Dibuixa el terreny"
 #: kstars.kcfg:3348
 #, kde-format
 msgid "Toggle whether the terrain is drawn in the sky map."
-msgstr "Establix si es dibuixarà o no el terreny en el mapa celeste."
+msgstr "Canvia quan es dibuixarà el terreny en el mapa celeste."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
 #: kstars.kcfg:3352
@@ -40501,7 +40482,7 @@ msgstr "Mostra les superposicions d'imatges."
 #: kstars.kcfg:3370
 #, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "Alterna si es mostren les superposicions d'imatges."
+msgstr "Canvia quan es mostraran les superposicions d'imatges."
 
 #. i18n: ectx: label, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
@@ -70216,18 +70197,15 @@ msgid "Toggle opaque ground"
 msgstr "Mostra o oculta el terra opac"
 
 #: kstarsinit.cpp:613
-#, fuzzy, kde-format
-#| msgid " times"
+#, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
-msgstr " vegades"
+msgstr "Hores diürnes"
 
-# skip-rule: punctuation-period-no
 #: kstarsinit.cpp:615
-#, fuzzy, kde-format
-#| msgid "Toggle Ceiling"
+#, kde-format
 msgid "Toggle daytime simulation"
-msgstr "Canvia el sostre."
+msgstr "Canvia la simulació de les hores diürnes"
 
 #: kstarsinit.cpp:617
 #, kde-format
@@ -70271,7 +70249,7 @@ msgstr "Què hi ha d'interessant"
 #: kstarsinit.cpp:631
 #, kde-format
 msgid "Toggle What's Interesting"
-msgstr "Canvia al «Què hi ha d'interessant»"
+msgstr "Mostra o oculta «Què hi ha d'interessant»"
 
 #: kstarsinit.cpp:636
 #, kde-format
@@ -70282,7 +70260,7 @@ msgstr "Ekos"
 #: kstarsinit.cpp:638
 #, kde-format
 msgid "Toggle Ekos"
-msgstr "Alterna Ekos"
+msgstr "Mostra o oculta Ekos"
 
 #: kstarsinit.cpp:640
 #, kde-format
@@ -70293,7 +70271,7 @@ msgstr "Quadro de control INDI"
 #: kstarsinit.cpp:642
 #, kde-format
 msgid "Toggle INDI Control Panel"
-msgstr "Canvia el quadro de control INDI"
+msgstr "Mostra o oculta el quadro de control INDI"
 
 #: kstarsinit.cpp:645
 #, kde-format
@@ -70304,7 +70282,7 @@ msgstr "Visor de FITS"
 #: kstarsinit.cpp:647
 #, kde-format
 msgid "Toggle FITS Viewer"
-msgstr "Canvia el visor de FITS"
+msgstr "Mostra o oculta el visor de FITS"
 
 #: kstarsinit.cpp:651
 #, kde-format
@@ -70315,7 +70293,7 @@ msgstr "Sensor CDV"
 #: kstarsinit.cpp:653
 #, kde-format
 msgid "Toggle Sensor FOV"
-msgstr "Canvia el sensor CDV"
+msgstr "Mostra o oculta el sensor CDV"
 
 #: kstarsinit.cpp:658
 #, kde-format
@@ -70326,7 +70304,7 @@ msgstr "Quadro del mosaic"
 #: kstarsinit.cpp:660
 #, kde-format
 msgid "Toggle Mosaic Panel"
-msgstr "Canvia el quadro del mosaic"
+msgstr "Mostra o oculta el quadro del mosaic"
 
 #: kstarsinit.cpp:665
 #, kde-format
@@ -70337,7 +70315,7 @@ msgstr "Control de la muntura"
 #: kstarsinit.cpp:667
 #, kde-format
 msgid "Toggle Mount Control Panel"
-msgstr "Canvia el quadro de control de la muntura"
+msgstr "Mostra o oculta el quadro de control de la muntura"
 
 #: kstarsinit.cpp:671
 #, kde-format
@@ -77250,20 +77228,19 @@ msgstr "Voleu que es dibuixen els indicadors?"
 msgid "If checked, flags will be drawn on the sky map"
 msgstr "Si se selecciona, es dibuixaran els indicadors en el mapa celeste."
 
+# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Si se selecciona, es dibuixarà Mart en el mapa."
+msgstr "Si se selecciona, el cel serà brillant durant les hores diürnes."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "Simula la vista de l'ocular"
+msgstr "Simula les hores diürnes"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
@@ -85050,8 +85027,7 @@ msgstr "Oculta elements"
 #: tools/scriptbuilder.cpp:596
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
-msgstr ""
-"Establix si els objectes s'ocultaran o no mentre es mostra l'orientació"
+msgstr "Canvia quan s'ocultaran els objectes mentre es mostra l'orientació"
 
 #: tools/scriptbuilder.cpp:599
 #, kde-format
@@ -87155,99 +87131,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr ""
-#~ "S'ha detectat un controlador del GPS. KStars i la configuració del temps "
-#~ "i l'emplaçament de la muntura ara se sincronitzaran amb el controlador "
-#~ "del GPS."
-
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr ""
-#~ "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament "
-#~ "al del GPS?"
-
-#~ msgid "GPS Settings"
-#~ msgstr "Configureu el GPS"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "El fitxer %1 s'ha guardat en %2"
-
-# skip-rule: punctuation-period-no
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr ""
-#~ "Seleccioneu la configuració del temps i l'emplaçament de la "
-#~ "sincronització entre KStars i els dispositius INDI."
-
-#~ msgid "Time && Location Updates"
-#~ msgstr "Actualitzacions del temps i l'emplaçament"
-
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>KStars és la font mestra de la configuració del "
-#~ "temps i l'emplaçament. Tots els dispositius INDI sincronitzaran esta "
-#~ "configuració amb la de KStars.</p></body></html>"
-
-#~ msgid "KStars updates all devices"
-#~ msgstr "KStars actualitza tots els dispositius"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr ""
-#~ "Sincronitza automàticament la data i hora de KStars amb la de la font "
-#~ "d'actualització."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El comandament de la muntura és la font mestra de "
-#~ "la configuració del temps i l'emplaçament. KStars sincronitzarà esta "
-#~ "configuració amb la del controlador.</p></body></html>"
-
-#~ msgid "Mount updates KStars"
-#~ msgstr "La muntura actualitza KStars"
-
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr ""
-#~ "Sincronitza la configuració de l'emplaçament de KStars des de la font "
-#~ "d'actualització."
-
-#~ msgid "Location"
-#~ msgstr "Emplaçament"
-
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El controlador del GPS és la font mestra de la "
-#~ "configuració del temps i l'emplaçament. KStars sincronitzarà esta "
-#~ "configuració amb la del GPS.</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "El GPS actualitza KStars"
-
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr ""
-#~ "Voleu que s'utilitze KStars per a la sincronització del temps i "
-#~ "l'emplaçament?"
-
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr ""
-#~ "Voleu que s'utilitze la muntura per a la sincronització del temps i "
-#~ "l'emplaçament?"
-
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr ""
-#~ "Voleu que s'utilitze el GPS per a la sincronització del temps i "
-#~ "l'emplaçament?"
