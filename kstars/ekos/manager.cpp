@@ -2622,14 +2622,11 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
 
         // Normally FITS Viewer would trigger an upload
         // If off, then rely on summary view or raw data
-        if (Options::useFITSViewer() == false)
-        {
-            if (Options::useSummaryPreview())
-                ekosLiveClient.get()->media()->sendView(m_SummaryView, uuid);
+        if (Options::useSummaryPreview())
+            ekosLiveClient.get()->media()->sendView(m_SummaryView, uuid);
 
-            else
-                ekosLiveClient.get()->media()->sendData(data, uuid);
-        }
+        else
+            ekosLiveClient.get()->media()->sendData(data, uuid);
 
         if (job->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             ekosLiveClient.get()->cloud()->upload(data, uuid);
