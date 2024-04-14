@@ -27,6 +27,7 @@ ColorScheme::ColorScheme() : FileName()
     //Name and Default here.
 
     appendItem("SkyColor", i18n("Sky"), "#000000");
+    appendItem("SkyColorDaytime", i18n("Sky Daytime"), "#7896e6");
     appendItem("DSOColor", i18n("Messier Object"), "#008f00");
     appendItem("HSTColor", i18nc("Object with extra attached URLs", "Object w/ Links"), "#930000");
     appendItem("SNameColor", i18n("Star Name"), "#577d7d");

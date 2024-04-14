@@ -207,17 +207,13 @@
          <whatsthis>Show INDI messages as desktop notifications instead of dialogs.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="useKStarsSource" type="Bool">
-         <label>Use KStars time and location for synchronization?</label>
-         <default>true</default>
+      <entry name="timeSource" type="String">
+         <label>Master source for time (KStars, Mount, or INDI Device)</label>
+         <default>KStars</default>
       </entry>
-      <entry name="useMountSource" type="Bool">
-         <label>Use mount time and location for synchronization?</label>
-         <default>false</default>
-      </entry>
-      <entry name="useGPSSource" type="Bool">
-         <label>Use GPS time and location for synchronization?</label>
-         <default>false</default>
+      <entry name="locationSource" type="String">
+         <label>Master source for location (KStars, Mount, or INDI Device)</label>
+         <default>KStars</default>
       </entry>
       <entry name="useExternalSkyMap" type="Bool">
          <label>Use an external planetarium software to control mount slews and syncs.</label>
@@ -615,6 +611,11 @@
       <entry name="ShowFlags" type="Bool">
          <label>Draw flags in the sky map?</label>
          <whatsthis>Toggle whether flags are drawn in the sky map.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="SimulateDaytime" type="Bool">
+         <label>Simulate daytime?</label>
+         <whatsthis>If checked, sky will be bright during the daytime.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="ShowOther" type="Bool">
@@ -1097,6 +1098,11 @@
       <entry name="SkyColor" type="String">
          <label>Color of sky</label>
          <whatsthis>The color for the sky background.</whatsthis>
+         <default>#002</default>
+      </entry>
+      <entry name="SkyColorDaytime" type="String">
+         <label>Color of sky during the daytime</label>
+         <whatsthis>The color for the sky background during daytime.</whatsthis>
          <default>#002</default>
       </entry>
       <entry name="ArtificialHorizonColor" type="String">

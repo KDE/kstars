@@ -28,6 +28,7 @@
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/kssun.h"
+#include "skyobjects/ksmoon.h"
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
 #include "skyobjects/ksearthshadow.h"
@@ -158,11 +159,92 @@ void SkyQPainter::end()
     QPainter::end();
 }
 
+namespace
+{
+// Circle intersection formula from https://dassencio.org/102
+double circleOverlap(double d, double radius1, double radius2)
+{
+    // r1 is the radius of the larger circle.
+    const double r1 = (radius1 >= radius2) ? radius1 : radius2;
+    // r2 is the radius of the smaller circle.
+    const double r2 = (radius1 >= radius2) ? radius2 : radius1;
+
+    // No overlap.
+    if (d > r1 + r2)
+        return 0.0;
+
+    // The smaller circle (with radius r2) is fully contained in larger circle.
+    if (d == 0 || r2 + d <= r1)
+        return M_PI * r2 * r2;
+
+    // Some bounds checking.
+    if (r1 <= 0 || r2 <= 0 || d < 0)
+        return 0.0;
+
+    // They partially overlap.
+    const double d1 = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+    const double d2 = d - d1;
+    const double intersection =
+        r1 * r1 * acos(d1 / r1) - d1 * sqrt(r1 * r1 - d1 * d1) +
+        r2 * r2 * acos(d2 / r2) - d2 * sqrt(r2 * r2 - d2 * d2);
+
+    return intersection;
+}
+} // namespace
+
 void SkyQPainter::drawSkyBackground()
 {
     //FIXME use projector
-    fillRect(0, 0, m_size.width(), m_size.height(),
-             KStarsData::Instance()->colorScheme()->colorNamed("SkyColor"));
+
+    const QColor nightSky = KStarsData::Instance()->colorScheme()->colorNamed("SkyColor");
+    QColor sky = nightSky;
+    if (Options::simulateDaytime())
+    {
+        KSSun *sun = KStarsData::Instance()->skyComposite()->solarSystemComposite()->sun();
+        if (sun)
+        {
+            const double nightFraction = sun->nightFraction();
+            const double dayFraction = 1 - nightFraction;
+            const QColor daySky = KStarsData::Instance()->colorScheme()->colorNamed("SkyColorDaytime");
+            sky = QColor(nightFraction * nightSky.red()   + dayFraction * daySky.red(),
+                         nightFraction * nightSky.green() + dayFraction * daySky.green(),
+                         nightFraction * nightSky.blue()  + dayFraction * daySky.blue());
+
+            // Just for kicks, check if sun is eclipsed!
+            const KSMoon *moon = KStarsData::Instance()->skyComposite()->solarSystemComposite()->moon();
+            if (moon)
+            {
+                const double separation = sun->angularDistanceTo(moon).Degrees();
+                const double sunRadius = sun->angSize() * 0.5 / 60.0;
+                const double moonRadius = moon->angSize() * 0.5 / 60.0;
+                if (separation < sunRadius + moonRadius)
+                {
+                    // Ongoing eclipse!
+
+                    if (moonRadius >= separation + sunRadius)
+                        sky = nightSky;  // Totality!
+                    else
+                    {
+                        // We (arbitrarily) dim the sun when it is more than 95% obscured.
+                        // It is changed linearly from 100% day color at 5% visible, to 100% night color at 0% visible.
+                        const double sunArea = M_PI * sunRadius * sunRadius;
+                        const double overlapArea = circleOverlap(separation, moonRadius, sunRadius);
+                        const double sunFraction = (sunArea - overlapArea) / sunArea;
+                        if (sunFraction <= .05)
+                        {
+                            const double dayFraction = sunFraction / .05;
+                            const double nightFraction = 1 - dayFraction;
+                            sky = QColor(dayFraction * sky.red()   + nightFraction * nightSky.red(),
+                                         dayFraction * sky.green() + nightFraction * nightSky.green(),
+                                         dayFraction * sky.blue()  + nightFraction * nightSky.blue());
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fillRect(0, 0, m_size.width(), m_size.height(), sky);
 }
 
 void SkyQPainter::setPen(const QPen &pen)
@@ -278,7 +360,7 @@ void SkyQPainter::initStarImages()
         invisibleSatPixmap.reset(new QPixmap(":/icons/kstars_satellites_invisible.svg"));
 }
 
-void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
+void SkyQPainter::drawSkyLine(SkyPoint * a, SkyPoint * b)
 {
     bool aVisible, bVisible;
     QPointF aScreen = m_proj->toScreen(a, true, &aVisible);
@@ -304,8 +386,8 @@ void SkyQPainter::drawSkyLine(SkyPoint *a, SkyPoint *b)
     //    } //FIXME: what if both are offscreen but the line isn't?
 }
 
-void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList,
-                                  LineListLabel *label)
+void SkyQPainter::drawSkyPolyline(LineList * list, SkipHashList * skipList,
+                                  LineListLabel * label)
 {
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
@@ -358,7 +440,7 @@ void SkyQPainter::drawSkyPolyline(LineList *list, SkipHashList *skipList,
     }
 }
 
-void SkyQPainter::drawSkyPolygon(LineList *list, bool forceClip)
+void SkyQPainter::drawSkyPolygon(LineList * list, bool forceClip)
 {
     bool isVisible  = false, isVisibleLast;
     SkyList *points = list->points();
@@ -416,7 +498,7 @@ void SkyQPainter::drawSkyPolygon(LineList *list, bool forceClip)
         drawPolygon(polygon);
 }
 
-bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
+bool SkyQPainter::drawPlanet(KSPlanetBase * planet)
 {
     if (!m_proj->checkVisibility(planet))
         return false;
@@ -487,7 +569,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase *planet)
     return true;
 }
 
-bool SkyQPainter::drawEarthShadow(KSEarthShadow *shadow)
+bool SkyQPainter::drawEarthShadow(KSEarthShadow * shadow)
 {
     if (!m_proj->checkVisibility(shadow))
         return false;
@@ -513,7 +595,7 @@ bool SkyQPainter::drawEarthShadow(KSEarthShadow *shadow)
     return true;
 }
 
-bool SkyQPainter::drawComet(KSComet *com)
+bool SkyQPainter::drawComet(KSComet * com)
 {
     if (!m_proj->checkVisibility(com))
         return false;
@@ -581,7 +663,7 @@ bool SkyQPainter::drawComet(KSComet *com)
     }
 }
 
-bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
+bool SkyQPainter::drawAsteroid(KSAsteroid * ast)
 {
     if (!m_proj->checkVisibility(ast))
     {
@@ -605,7 +687,7 @@ bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
     return false;
 }
 
-bool SkyQPainter::drawPointSource(const SkyPoint *loc, float mag, char sp)
+bool SkyQPainter::drawPointSource(const SkyPoint * loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
     if (!m_proj->checkVisibility(loc))
@@ -661,7 +743,7 @@ void SkyQPainter::drawPointSource(const QPointF &pos, float size, char sp)
     }
 }
 
-bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
+bool SkyQPainter::drawConstellationArtImage(ConstellationsArt * obj)
 {
     double zoom = Options::zoomFactor();
 
@@ -701,7 +783,7 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 }
 
 #ifdef HAVE_INDI
-bool SkyQPainter::drawMosaicPanel(MosaicTiles *obj)
+bool SkyQPainter::drawMosaicPanel(MosaicTiles * obj)
 {
     bool visible = false;
     obj->EquatorialToHorizontal(KStarsData::Instance()->lst(),
@@ -1181,7 +1263,7 @@ void SkyQPainter::drawFlags()
     }
 }
 
-void SkyQPainter::drawHorizon(bool filled, SkyPoint *labelPoint, bool *drawLabel)
+void SkyQPainter::drawHorizon(bool filled, SkyPoint * labelPoint, bool * drawLabel)
 {
     QVector<Eigen::Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
     if (ground.size())
@@ -1199,7 +1281,7 @@ void SkyQPainter::drawHorizon(bool filled, SkyPoint *labelPoint, bool *drawLabel
     }
 }
 
-bool SkyQPainter::drawSatellite(Satellite *sat)
+bool SkyQPainter::drawSatellite(Satellite * sat)
 {
     if (!m_proj->checkVisibility(sat))
         return false;
@@ -1238,7 +1320,7 @@ bool SkyQPainter::drawSatellite(Satellite *sat)
     //data->skyComposite()->satellites()->drawLabel( sat, pos );
 }
 
-bool SkyQPainter::drawSupernova(Supernova *sup)
+bool SkyQPainter::drawSupernova(Supernova * sup)
 {
     KStarsData *data = KStarsData::Instance();
     if (!m_proj->checkVisibility(sup))

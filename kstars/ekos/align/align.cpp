@@ -27,6 +27,7 @@
 
 // FITS
 #include "fitsviewer/fitsdata.h"
+#include "fitsviewer/fitsviewer.h"
 
 // Auxiliary
 #include "auxiliary/QProgressIndicator.h"
@@ -3085,7 +3086,8 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
     m_ImageData.clear();
     QSharedPointer<FITSData> data;
     data.reset(new FITSData(), &QObject::deleteLater);
-    data->loadFromBuffer(image, extension);
+    data->loadFromBuffer(image);
+    data->setExtension(extension);
     m_AlignView->loadData(data);
     startSolving();
     return true;

@@ -229,8 +229,8 @@ class GenericDevice : public GDInterface
 
     protected:
         void createDeviceInit();
-        void updateTime();
-        void updateLocation();
+        void updateTime(const QString &iso8601 = QString(), const QString &utcOffset = QString());
+        void updateLocation(double longitude = -1, double latitude = -1, double elevation = -1);
         /**
          * @brief generateDevices Generate concrete devices based on DRIVER_INTERFACE
          * @return True if at least one device is generated, false otherwise.

@@ -3702,7 +3702,7 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
         case SCHEDSTAGE_GUIDING:
             if (status == ISD::Mount::MOUNT_PARKED)
             {
-                emit newLog(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
+                appendLogText(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
                 stop();
             }
             break;
@@ -3713,7 +3713,7 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
             if (status == ISD::Mount::MOUNT_PARKED && activeJob() && activeJob()->getLightFramesRequired()
                     && activeJob()->getCalibrationMountPark() == false)
             {
-                emit newLog(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
+                appendLogText(i18n("Warning: Mount is parked while scheduler for job '%1' is active. Aborting.", activeJob()->getName()));
                 stop();
             }
             break;

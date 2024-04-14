@@ -187,6 +187,7 @@
         <Action name="show_equatorial_grid" />
         <Action name="show_horizontal_grid" />
         <Action name="show_horizon" />
+        <Action name="simulate_daytime" />
         <Action name="show_whatsinteresting" />
 </ToolBar>
 

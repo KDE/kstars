@@ -28,7 +28,7 @@
 class FocusProfilePlot;
 class FITSData;
 class FITSView;
-class FitsViewer;
+class FITSViewer;
 
 namespace Ekos
 {

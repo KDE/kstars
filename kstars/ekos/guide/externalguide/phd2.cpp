@@ -1090,7 +1090,8 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
     QSharedPointer<FITSData> fdata;
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(fits_buffer), fits_buffer_size);
     fdata.reset(new FITSData(), &QObject::deleteLater);
-    fdata->loadFromBuffer(buffer, "fits");
+    fdata->loadFromBuffer(buffer);
+    fdata->setExtension(QString("fits"));
     free(fits_buffer);
     m_GuideFrame->loadData(fdata);
 

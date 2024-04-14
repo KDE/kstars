@@ -159,10 +159,9 @@ void FITSData::loadCommon(const QString &inFilename)
     m_Filename = inFilename;
 }
 
-bool FITSData::loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename)
+bool FITSData::loadFromBuffer(const QByteArray &buffer)
 {
-    loadCommon(inFilename);
-    m_Extension = extension;
+    loadCommon("");
     qCDebug(KSTARS_FITS) << "Reading file buffer (" << KFormat().formatByteSize(buffer.size()) << ")";
     return privateLoad(buffer);
 }

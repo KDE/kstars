@@ -251,7 +251,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
 
     //FIXME_FOV -- maybe not clamp like that...
     float radius = map->projector()->fov();
-    if (radius > 90.0)
+    if (radius > 90.0 && SkyMap::Instance()->projector()->type() != Projector::Stereographic)
         radius = 90.0;
 
     if (m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw())

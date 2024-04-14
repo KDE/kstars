@@ -233,7 +233,7 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
     // set up the capture sequence
     QVERIFY(prepareCaptureTestcase(20, false, false));
     // refocus every 1min
-    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->captureModule(), limitRefocusN, 1);
+    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->captureModule(), refocusEveryN, 1);
     // add additional 5 degrees for delay to prevent a meridian flip before focusing starts
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->mountModule(), meridianFlipOffsetDegrees, 5.0);
 

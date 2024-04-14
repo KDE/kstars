@@ -609,6 +609,10 @@ void KStars::initActions()
             << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground")
             << QIcon::fromTheme("kstars_horizon")
             << ToolTip(i18n("Toggle opaque ground"));
+    actionCollection()->add<KToggleAction>("simulate_daytime", this, SLOT(slotViewToolBar()))
+            << i18nc("Toggle Daytime Simulation", "Daytime")
+            << QIcon::fromTheme("kstars_sun", QIcon(":/icons/kstars_sun.png"))
+            << ToolTip(i18n("Toggle daytime simulation"));
     actionCollection()->add<KToggleAction>("show_flags", this, SLOT(slotViewToolBar()))
             << i18nc("Toggle flags in the display", "Flags")
             << QIcon::fromTheme("kstars_flag")

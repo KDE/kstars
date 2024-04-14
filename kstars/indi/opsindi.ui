@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>578</width>
-    <height>519</height>
+    <width>455</width>
+    <height>417</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -234,97 +234,6 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QGroupBox" name="autoGroup">
-         <property name="toolTip">
-          <string>Select time and location synchronization settings between KStars and INDI Devices</string>
-         </property>
-         <property name="title">
-          <string>Time &amp;&amp; Location Updates</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="0">
-             <widget class="QRadioButton" name="kcfg_useKStarsSource">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars is the master source for time and location settings. All INDI devices time and locations settings are synchronized to KStars settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>KStars updates all devices</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1" rowspan="2">
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QCheckBox" name="kcfg_useTimeUpdate">
-              <property name="toolTip">
-               <string>Enable time synchronization upon connection between KStars and INDI</string>
-              </property>
-              <property name="whatsThis">
-               <string>Synchronize KStars date and time automatically from the update source.</string>
-              </property>
-              <property name="text">
-               <string>Time</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QRadioButton" name="kcfg_useMountSource">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mount handset is the master source of time and location settings. KStars time and location settings are synchronized with controller settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Mount updates KStars</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QCheckBox" name="kcfg_useGeographicUpdate">
-              <property name="toolTip">
-               <string>Enable geographic location synchronization upon connection between KStars and INDI</string>
-              </property>
-              <property name="whatsThis">
-               <string>Synchronize KStars location settings from the update source.</string>
-              </property>
-              <property name="text">
-               <string>Location</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QRadioButton" name="kcfg_useGPSSource">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GPS driver is the master source of time and location settings. KStars time and location settings are synchronized with GPS settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>GPS updates KStars</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item>
         <widget class="QGroupBox" name="skymapGroup">
          <property name="title">
@@ -596,8 +505,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>kcfg_useTimeUpdate</tabstop>
-  <tabstop>kcfg_useGeographicUpdate</tabstop>
   <tabstop>kcfg_showTargetCrosshair</tabstop>
   <tabstop>kcfg_showINDIMessages</tabstop>
  </tabstops>

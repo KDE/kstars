@@ -18,7 +18,6 @@
 //#include "ekos/manager.h"
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsdata.h"
-#include "fitsviewer/fitstab.h"
 #endif
 
 #include <KNotifications/KNotification>
@@ -544,39 +543,41 @@ void Camera::processStream(INDI::Property prop)
     streamWindow->newFrame(prop);
 }
 
-bool Camera::generateFilename(bool batch_mode, const QString &extension, QString *filename)
+void ISD::Camera::updateFileBuffer(INDI::Property prop, bool is_fits)
 {
-
-    *filename = placeholderPath.generateOutputFilename(true, batch_mode, nextSequenceID, extension, "");
-
-    QDir currentDir = QFileInfo(*filename).dir();
-    if (currentDir.exists() == false)
-        QDir().mkpath(currentDir.path());
-
-    // Check if the file exists. We try not to overwrite capture files.
-    if (QFile::exists(*filename))
+    if (is_fits)
     {
-        QString oldFilename = *filename;
-        *filename = placeholderPath.repairFilename(*filename);
-        if (filename != oldFilename)
-            qCWarning(KSTARS_INDI) << "File over-write detected: changing" << oldFilename << "to" << *filename;
-        else
-            qCWarning(KSTARS_INDI) << "File over-write detected for" << oldFilename << "but could not correct filename";
+        // Check if the last write is still ongoing, and if so wait.
+        // It is using the fileWriteBuffer.
+        if (fileWriteThread.isRunning())
+        {
+            fileWriteThread.waitForFinished();
+        }
     }
 
-    QFile test_file(*filename);
-    if (!test_file.open(QIODevice::WriteOnly))
-        return false;
-    test_file.flush();
-    test_file.close();
-    return true;
+    // Will write blob data in a separate thread, and can't depend on the blob
+    // memory, so copy it first.
+
+    auto bp = prop.getBLOB()->at(0);
+    // Check buffer size.
+    if (fileWriteBufferSize != bp->getBlobLen())
+    {
+        if (fileWriteBuffer != nullptr)
+            delete [] fileWriteBuffer;
+        fileWriteBufferSize = bp->getBlobLen();
+        fileWriteBuffer = new char[fileWriteBufferSize];
+    }
+
+    // Copy memory, and write file on a separate thread.
+    // Probably too late to return an error if the file couldn't write.
+    memcpy(fileWriteBuffer, bp->getBlob(), bp->getBlobLen());
 }
 
-bool Camera::writeImageFile(const QString &filename, INDI::Property prop, bool is_fits)
+bool Camera::saveCurrentImage(QString &filename)
 {
     // TODO: Not yet threading the writes for non-fits files.
     // Would need to deal with the raw conversion, etc.
-    if (is_fits)
+    if (BType == BLOB_FITS)
     {
         // Check if the last write is still ongoing, and if so wait.
         // It is using the fileWriteBuffer.
@@ -586,77 +587,13 @@ bool Camera::writeImageFile(const QString &filename, INDI::Property prop, bool i
         }
 
         // Wait until the file is written before overwritting the filename.
-        fileWriteFilename = filename;
-
-        // Will write blob data in a separate thread, and can't depend on the blob
-        // memory, so copy it first.
-
-        auto bp = prop.getBLOB()->at(0);
-        // Check buffer size.
-        if (fileWriteBufferSize != bp->getBlobLen())
-        {
-            if (fileWriteBuffer != nullptr)
-                delete [] fileWriteBuffer;
-            fileWriteBufferSize = bp->getBlobLen();
-            fileWriteBuffer = new char[fileWriteBufferSize];
-        }
-
-        // Copy memory, and write file on a separate thread.
-        // Probably too late to return an error if the file couldn't write.
-        memcpy(fileWriteBuffer, bp->getBlob(), bp->getBlobLen());
-        fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer,
-                                            bp->getBlobLen());
+        fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, filename, fileWriteBuffer,
+                                            fileWriteBufferSize);
     }
-    else
-    {
-        auto bp = prop.getBLOB()->at(0);
-        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->getBlob()), bp->getBlobLen()))
-            return false;
-    }
+    else if (!WriteImageFileInternal(filename, static_cast<char*>(fileWriteBuffer), fileWriteBufferSize))
+        return false;
+
     return true;
-}
-
-// Get or Create FITSViewer if we are using FITSViewer
-// or if capture mode is calibrate since for now we are forced to open the file in the viewer
-// this should be fixed in the future and should only use FITSData
-QSharedPointer<FITSViewer> Camera::getFITSViewer()
-{
-    // if the FITS viewer exists, return it
-    if (!m_FITSViewerWindow.isNull() && ! m_FITSViewerWindow.isNull())
-        return m_FITSViewerWindow;
-
-    // otherwise, create it
-    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
-
-    m_FITSViewerWindow = KStars::Instance()->createFITSViewer();
-
-    // Check if ONE tab of the viewer was closed.
-    connect(m_FITSViewerWindow.get(), &FITSViewer::closed, this, [this](int tabIndex)
-    {
-        if (tabIndex == normalTabID)
-            normalTabID = -1;
-        else if (tabIndex == calibrationTabID)
-            calibrationTabID = -1;
-        else if (tabIndex == focusTabID)
-            focusTabID = -1;
-        else if (tabIndex == guideTabID)
-            guideTabID = -1;
-        else if (tabIndex == alignTabID)
-            alignTabID = -1;
-    });
-
-    // If FITS viewer was completed closed. Reset everything
-    connect(m_FITSViewerWindow.get(), &FITSViewer::terminated, this, [this]()
-    {
-        normalTabID = -1;
-        calibrationTabID = -1;
-        focusTabID = -1;
-        guideTabID = -1;
-        alignTabID = -1;
-        m_FITSViewerWindow.clear();
-    });
-
-    return m_FITSViewerWindow;
 }
 
 bool Camera::processBLOB(INDI::Property prop)
@@ -696,10 +633,7 @@ bool Camera::processBLOB(INDI::Property prop)
         BType = BLOB_RAW;
 
     if (BType == BLOB_OTHER)
-    {
-        emit newImage(nullptr);
         return false;
-    }
 
     CameraChip *targetChip = nullptr;
 
@@ -715,50 +649,8 @@ bool Camera::processBLOB(INDI::Property prop)
     // Create temporary name if ANY of the following conditions are met:
     // 1. file is preview or batch mode is not enabled
     // 2. file type is not FITS_NORMAL (focus, guide..etc)
-    QString filename;
-#if 0
-
-    if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
-    {
-        if (!writeTempImageFile(format, static_cast<char *>(bp->blob), bp->size, &filename))
-        {
-            emit BLOBUpdated(nullptr);
-            return;
-        }
-        if (BType == BLOB_FITS)
-            addFITSKeywords(filename, filter);
-
-    }
-#endif
-    // Create file name for sequences.
-    if (targetChip->isBatchMode() && targetChip->getCaptureMode() != FITS_CALIBRATE)
-    {
-        // If either generating file name or writing the image file fails
-        // then return
-        if (!generateFilename(targetChip->isBatchMode(), format, &filename) ||
-                !writeImageFile(filename, prop, BType == BLOB_FITS))
-        {
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
-            {
-                KSMessageBox::Instance()->disconnect(this);
-                emit error(ERROR_SAVE);
-            });
-            KSMessageBox::Instance()->error(i18n("Failed writing image to %1\nPlease check folder, filename & permissions.",
-                                                 filename),
-                                            i18n("Image Write Failed"), 30);
-
-            emit propertyUpdated(prop);
-            return true;
-        }
-    }
-    else
-        filename = QDir::tempPath() + QDir::separator() + "image" + format;
-
-    if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
-    {
-        KStars::Instance()->statusBar()->showMessage(i18n("%1 file saved to %2", shortFormat.toUpper(), filename), 0);
-        qCInfo(KSTARS_INDI) << shortFormat.toUpper() << "file saved to" << filename;
-    }
+    // create the file buffer only, saving the image file must be triggered from outside.
+    updateFileBuffer(prop, BType == BLOB_FITS);
 
     // Don't spam, just one notification per 3 seconds
     if (QDateTime::currentDateTime().secsTo(m_LastNotificationTS) <= -3)
@@ -767,83 +659,6 @@ bool Camera::processBLOB(INDI::Property prop)
         m_LastNotificationTS = QDateTime::currentDateTime();
     }
 
-    // Check if we need to process RAW or regular image. Anything but FITS.
-#if 0
-    if (BType == BLOB_IMAGE || BType == BLOB_RAW)
-    {
-        bool useFITSViewer = Options::autoImageToFITS() &&
-                             (Options::useFITSViewer() || (Options::useDSLRImageViewer() == false && targetChip->isBatchMode() == false));
-        bool useDSLRViewer = (Options::useDSLRImageViewer() || targetChip->isBatchMode() == false);
-        // For raw image, we only process them to JPG if we need to open them in the image viewer
-        if (BType == BLOB_RAW && (useFITSViewer || useDSLRViewer))
-        {
-            QString rawFileName  = filename;
-            rawFileName          = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1String("/")));
-
-            QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath(), rawFileName);
-            QTemporaryFile imgPreview(templateName);
-
-            imgPreview.setAutoRemove(false);
-            imgPreview.open();
-            imgPreview.close();
-            QString preview_filename = imgPreview.fileName();
-            QString errorMessage;
-
-            if (KSUtils::RAWToJPEG(filename, preview_filename, errorMessage) == false)
-            {
-                KStars::Instance()->statusBar()->showMessage(errorMessage);
-                emit BLOBUpdated(bp);
-                return;
-            }
-
-            // Remove tempeorary CR2 files
-            if (targetChip->isBatchMode() == false)
-                QFile::remove(filename);
-
-            filename = preview_filename;
-            format = ".jpg";
-            shortFormat = "jpg";
-        }
-
-        // Convert to FITS if checked.
-        QString output;
-        if (useFITSViewer && (FITSData::ImageToFITS(filename, shortFormat, output)))
-        {
-            if (BType == BLOB_RAW || targetChip->isBatchMode() == false)
-                QFile::remove(filename);
-
-            filename = output;
-            BType = BLOB_FITS;
-
-            emit previewFITSGenerated(output);
-
-            FITSData *blob_fits_data = new FITSData(targetChip->getCaptureMode());
-
-            QFuture<bool> fitsloader = blob_fits_data->loadFromFile(filename, false);
-            fitsloader.waitForFinished();
-            if (!fitsloader.result())
-            {
-                // If reading the blob fails, we treat it the same as exposure failure
-                // and recapture again if possible
-                delete (blob_fits_data);
-                qCCritical(KSTARS_INDI) << "failed reading FITS memory buffer";
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                return;
-            }
-            displayFits(targetChip, filename, bp, blob_fits_data);
-            return;
-        }
-        else if (useDSLRViewer)
-        {
-            if (m_ImageViewerWindow.isNull())
-                m_ImageViewerWindow = new ImageViewer(getDeviceName(), KStars::Instance());
-
-            m_ImageViewerWindow->loadImage(filename);
-
-            emit previewJPEGGenerated(filename, m_ImageViewerWindow->metadata());
-        }
-    }
-#endif
 
     // Load FITS if either:
     // #1 FITS Viewer is set to enabled.
@@ -861,111 +676,31 @@ bool Camera::processBLOB(INDI::Property prop)
             targetChip->isBatchMode())
     {
         emit propertyUpdated(prop);
-        emit newImage(nullptr);
         return true;
     }
 
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     QSharedPointer<FITSData> imageData;
     imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
-    if (!imageData->loadFromBuffer(buffer, shortFormat, filename))
+    imageData->setExtension(format);
+    if (!imageData->loadFromBuffer(buffer))
     {
         emit error(ERROR_LOAD);
         return true;
     }
 
-    handleImage(targetChip, filename, prop, imageData);
-    return true;
-}
-
-void Camera::handleImage(CameraChip *targetChip, const QString &filename, INDI::Property prop,
-                         QSharedPointer<FITSData> data)
-{
-    FITSMode captureMode = targetChip->getCaptureMode();
-    auto bp = prop.getBLOB()->at(0);
-
     // Add metadata
-    data->setProperty("device", getDeviceName());
-    data->setProperty("blobVector", prop.getName());
-    data->setProperty("blobElement", bp->getName());
-    data->setProperty("chip", targetChip->getType());
+    imageData->setProperty("device", getDeviceName());
+    imageData->setProperty("blobVector", prop.getName());
+    imageData->setProperty("blobElement", bp->getName());
+    imageData->setProperty("chip", targetChip->getType());
+
     // Retain a copy
-    targetChip->setImageData(data);
-
-    switch (captureMode)
-    {
-        case FITS_NORMAL:
-        case FITS_CALIBRATE:
-        {
-            if (Options::useFITSViewer())
-            {
-                // No need to wait until the image is loaded in the view, but emit AFTER checking
-                // batch mode, since newImage() may change it
-                emit propertyUpdated(prop);
-                emit newImage(data);
-
-                bool success = false;
-                int tabIndex = -1;
-                int *tabID = &normalTabID;
-                QUrl fileURL = QUrl::fromLocalFile(filename);
-                FITSScale captureFilter = targetChip->getCaptureFilter();
-                if (*tabID == -1 || Options::singlePreviewFITS() == false)
-                {
-                    // If image is preview and we should display all captured images in a
-                    // single tab called "Preview", then set the title to "Preview",
-                    // Otherwise, the title will be the captured image name
-                    QString previewTitle;
-                    if (Options::singlePreviewFITS())
-                    {
-                        // If we are displaying all images from all cameras in a single FITS
-                        // Viewer window, then we prefix the camera name to the "Preview" string
-                        if (Options::singleWindowCapturedFITS())
-                            previewTitle = i18n("%1 Preview", getDeviceName());
-                        else
-                            // Otherwise, just use "Preview"
-                            previewTitle = i18n("Preview");
-                    }
-
-                    success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
-
-                    //Setup any necessary connections
-                    auto tabs = getFITSViewer()->tabs();
-                    if (tabIndex < tabs.size() && captureMode == FITS_NORMAL)
-                    {
-                        emit newView(tabs[tabIndex]->getView());
-                        tabs[tabIndex]->disconnect(this);
-                        connect(tabs[tabIndex].get(), &FITSTab::updated, this, [this]
-                        {
-                            auto tab = qobject_cast<FITSTab *>(sender());
-                            emit newView(tab->getView());
-                        });
-                    }
-                }
-                else
-                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
-
-                if (!success)
-                {
-                    // If opening file fails, we treat it the same as exposure failure
-                    // and recapture again if possible
-                    qCCritical(KSTARS_INDI) << "error adding/updating FITS";
-                    emit error(ERROR_VIEWER);
-                    return;
-                }
-                *tabID = tabIndex;
-                if (Options::focusFITSOnNewImage())
-                    getFITSViewer()->raise();
-
-                return;
-            }
-        }
-        break;
-        default:
-            break;
-    }
-
+    targetChip->setImageData(imageData);
     emit propertyUpdated(prop);
-    emit newImage(data);
+    emit newImage(imageData, QString(bp->getFormat()).toLower());
+
+    return true;
 }
 
 void Camera::StreamWindowHidden()
@@ -1842,49 +1577,5 @@ QString Camera::getCaptureFormat() const
         return QLatin1String("NA");
 
     return m_CaptureFormats[m_CaptureFormatIndex];
-}
-
-void Camera::setStretchValues(double shadows, double midtones, double highlights)
-{
-    if (Options::useFITSViewer() == false || normalTabID < 0)
-        return;
-
-    auto tab = getFITSViewer()->tabs().at(normalTabID);
-
-    if (!tab)
-        return;
-
-    tab->setStretchValues(shadows, midtones, highlights);
-}
-
-void Camera::setAutoStretch()
-{
-    if (Options::useFITSViewer() == false || normalTabID < 0)
-        return;
-
-    auto tab = getFITSViewer()->tabs().at(normalTabID);
-
-    if (!tab)
-        return;
-
-    auto view = tab->getView();
-
-    if (!view->getAutoStretch())
-        view->setAutoStretchParams();
-}
-
-void Camera::toggleHiPSOverlay()
-{
-    if (Options::useFITSViewer() == false || normalTabID < 0)
-        return;
-
-    auto tab = getFITSViewer()->tabs().at(normalTabID);
-
-    if (!tab)
-        return;
-
-    auto view = tab->getView();
-
-    view->toggleHiPSOverlay();
 }
 }

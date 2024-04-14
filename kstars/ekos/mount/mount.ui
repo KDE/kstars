@@ -37,37 +37,15 @@
         <number>3</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
+        <layout class="QGridLayout" name="Train">
+         <item row="0" column="0">
           <widget class="QLabel" name="trainLabel">
            <property name="text">
             <string>Train:</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QComboBox" name="opticalTrainCombo">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Optical Train</string>
-           </property>
-          </widget>
-         </item>
-         <item>
+         <item row="0" column="3">
           <widget class="QPushButton" name="trainB">
            <property name="enabled">
             <bool>false</bool>
@@ -88,8 +66,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="document-edit">
-             <normaloff>.</normaloff>.</iconset>
+            <iconset theme="document-edit"/>
            </property>
            <property name="iconSize">
             <size>
@@ -99,7 +76,7 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="4">
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -111,6 +88,51 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="2">
+          <widget class="QComboBox" name="opticalTrainCombo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Optical Train</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QComboBox" name="timeSource"/>
+         </item>
+         <item row="2" column="2">
+          <widget class="QComboBox" name="locationSource"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="useTimeUpdate">
+           <property name="toolTip">
+            <string>Enable time synchronization upon connection between KStars and INDI</string>
+           </property>
+           <property name="text">
+            <string>Time Source:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="useGeographicUpdate">
+           <property name="toolTip">
+            <string>Enable geographic location synchronization upon connection between KStars and INDI</string>
+           </property>
+           <property name="text">
+            <string>Location Source:</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -367,8 +389,7 @@
                <string>Clear Parking</string>
               </property>
               <property name="icon">
-               <iconset theme="xml-attribute-delete">
-                <normaloff>.</normaloff>.</iconset>
+               <iconset theme="xml-attribute-delete"/>
               </property>
               <property name="iconSize">
                <size>
@@ -387,8 +408,7 @@
                <string>Clear  Model</string>
               </property>
               <property name="icon">
-               <iconset theme="edit-clear-all">
-                <normaloff>.</normaloff>.</iconset>
+               <iconset theme="edit-clear-all"/>
               </property>
               <property name="iconSize">
                <size>
@@ -404,8 +424,7 @@
                <string>Purge All Configuration</string>
               </property>
               <property name="icon">
-               <iconset theme="delete">
-                <normaloff>.</normaloff>.</iconset>
+               <iconset theme="delete"/>
               </property>
               <property name="iconSize">
                <size>
@@ -521,8 +540,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="media-playback-start">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="media-playback-start"/>
             </property>
             <property name="iconSize">
              <size>
@@ -550,8 +568,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="media-playback-stop">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="media-playback-stop"/>
             </property>
             <property name="iconSize">
              <size>
@@ -582,8 +599,7 @@
           <string>Mount Control</string>
          </property>
          <property name="icon">
-          <iconset theme="draw-text">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset theme="draw-text"/>
          </property>
          <property name="iconSize">
           <size>

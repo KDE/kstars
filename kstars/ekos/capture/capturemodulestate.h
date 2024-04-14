@@ -23,6 +23,7 @@
 #include "ekos/scheduler/schedulertypes.h"
 #include "ekos/capture/refocusstate.h"
 #include "ekos/focus/focusutils.h"
+#include "placeholderpath.h"
 
 // Wait 3-minutes as maximum beyond exposure
 // value.
@@ -448,6 +449,23 @@ class CaptureModuleState: public QObject
             m_SequenceArray = value;
         }
 
+        PlaceholderPath &placeholderPath()
+        {
+            return m_currentPlaceholderPath;
+        }
+        void initPlaceholderPath()
+        {
+            m_currentPlaceholderPath = PlaceholderPath();
+        }
+
+        /**
+         * @brief generateFilename generate the final file name for storing captured frames locally.
+         * @param extension file name extension (including ".")
+         * @param filename resulting file name
+         * @return
+         */
+        bool generateFilename(const QString &extension, QString *filename);
+
         // ////////////////////////////////////////////////////////////////////
         // counters
         // ////////////////////////////////////////////////////////////////////
@@ -476,13 +494,6 @@ class CaptureModuleState: public QObject
          * set to > 0, this value is used and the general dither counter otherwise.
          */
         void resetDitherCounter();
-
-        /**
-         * @brief checkSeqBoundary Determine the next file number sequence.
-         *        That is, if we have file1.png and file2.png, then the next
-         *        sequence should be file3.png.
-         */
-        void checkSeqBoundary();
 
         int nextSequenceID() const
         {
@@ -748,8 +759,7 @@ class CaptureModuleState: public QObject
          *        That is, if we have file1.png and file2.png, then the next
          *        sequence should be file3.png.
          */
-        void checkSeqBoundary(QUrl sequenceURL);
-
+        void checkSeqBoundary();
         /**
          * @brief isModelinDSLRInfo Check if the DSLR model is already known
          */
@@ -955,7 +965,7 @@ class CaptureModuleState: public QObject
             return m_DSLRInfos;
         }
 
-    signals:
+signals:
         // controls for capture execution
         void captureBusy(bool busy);
         void startCapture();
@@ -1050,6 +1060,8 @@ class CaptureModuleState: public QObject
         double totalDownloadTime {0};
         // number of downloaded frames
         uint downloadsCounter {0};
+        // current placeholder path
+        PlaceholderPath m_currentPlaceholderPath;
         // next capture sequence ID
         int m_nextSequenceID { 0 };
         // how to continue after pausing

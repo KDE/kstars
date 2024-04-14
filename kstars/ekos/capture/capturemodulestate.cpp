@@ -48,6 +48,7 @@ const QUrl &CaptureModuleState::sequenceURL() const
 void CaptureModuleState::setSequenceURL(const QUrl &newSequenceURL)
 {
     m_sequenceQueue->setSequenceURL(newSequenceURL);
+    placeholderPath().setSeqFilename(newSequenceURL.toLocalFile());
 }
 
 void CaptureModuleState::setActiveJob(SequenceJob *value)
@@ -145,10 +146,10 @@ void CaptureModuleState::initCapturePreparation()
     setCaptureState(CAPTURE_PROGRESS);
     setBusy(true);
 
+    initPlaceholderPath();
+
     if (Options::enforceGuideDeviation() && isGuidingOn() == false)
         emit newLog(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
-
-
 }
 
 void CaptureModuleState::setCaptureState(CaptureState value)
@@ -318,6 +319,35 @@ void CaptureModuleState::setBusy(bool busy)
 {
     m_Busy = busy;
     emit captureBusy(busy);
+}
+
+
+
+bool CaptureModuleState::generateFilename(const QString &extension, QString *filename)
+{
+    *filename = placeholderPath().generateOutputFilename(true, true, nextSequenceID(), extension, "");
+
+    QDir currentDir = QFileInfo(*filename).dir();
+    if (currentDir.exists() == false)
+        QDir().mkpath(currentDir.path());
+
+    // Check if the file exists. We try not to overwrite capture files.
+    if (QFile::exists(*filename))
+    {
+        QString oldFilename = *filename;
+        *filename = placeholderPath().repairFilename(*filename);
+        if (filename != oldFilename)
+            qCWarning(KSTARS_EKOS_CAPTURE) << "File over-write detected: changing" << oldFilename << "to" << *filename;
+        else
+            qCWarning(KSTARS_EKOS_CAPTURE) << "File over-write detected for" << oldFilename << "but could not correct filename";
+    }
+
+    QFile test_file(*filename);
+    if (!test_file.open(QIODevice::WriteOnly))
+        return false;
+    test_file.flush();
+    test_file.close();
+    return true;
 }
 
 void CaptureModuleState::decreaseDitherCounter()
@@ -1298,14 +1328,13 @@ bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)
     return false;
 }
 
-void CaptureModuleState::checkSeqBoundary(QUrl sequenceURL)
+void CaptureModuleState::checkSeqBoundary()
 {
     // No updates during meridian flip
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
         return;
 
-    auto placeholderPath = PlaceholderPath(sequenceURL.toLocalFile());
-    setNextSequenceID(placeholderPath.checkSeqBoundary(*getActiveJob()));
+    setNextSequenceID(placeholderPath().checkSeqBoundary(*getActiveJob()));
 }
 
 bool CaptureModuleState::isModelinDSLRInfo(const QString &model)

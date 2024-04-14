@@ -1626,6 +1626,20 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Mount
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto mount = device->getMount();
+    if (mount)
+    {
+        if (mountProcess)
+        {
+            QSharedPointer<ISD::GenericDevice> generic;
+            if (INDIListener::findDevice(mount->getDeviceName(), generic))
+            {
+                mountModule()->addTimeSource(generic);
+                mountModule()->addLocationSource(generic);
+            }
+        }
+
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Focuser
@@ -1688,16 +1702,16 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     if (gps)
     {
         if (mountProcess)
-            mountModule()->addGPS(gps);
+        {
+            QSharedPointer<ISD::GenericDevice> generic;
+            if (INDIListener::findDevice(gps->getDeviceName(), generic))
+            {
+                mountModule()->addTimeSource(generic);
+                mountModule()->addLocationSource(generic);
+            }
+        }
+
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Dust Cap
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Light Box
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
@@ -2608,14 +2622,11 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
 
         // Normally FITS Viewer would trigger an upload
         // If off, then rely on summary view or raw data
-        if (Options::useFITSViewer() == false)
-        {
-            if (Options::useSummaryPreview())
-                ekosLiveClient.get()->media()->sendView(m_SummaryView, uuid);
+        if (Options::useSummaryPreview())
+            ekosLiveClient.get()->media()->sendView(m_SummaryView, uuid);
 
-            else
-                ekosLiveClient.get()->media()->sendData(data, uuid);
-        }
+        else
+            ekosLiveClient.get()->media()->sendData(data, uuid);
 
         if (job->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             ekosLiveClient.get()->cloud()->upload(data, uuid);

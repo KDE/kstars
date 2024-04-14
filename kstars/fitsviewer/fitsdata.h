@@ -116,11 +116,9 @@ class FITSData : public QObject
         /**
          * @brief loadFITSFromMemory Loading FITS from memory buffer.
          * @param buffer The memory buffer containing the fits data.
-         * @param extension file extension (e.g. "jpg", "fits", "cr2"...etc)
-         * @param inFilename Set filename metadata, does not load from file.
          * @return bool indicating success or failure.
          */
-        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename = QString());
+        bool loadFromBuffer(const QByteArray &buffer);
 
         /**
          * @brief parseSolution Parse the WCS solution information from the header into the given struct.
@@ -509,6 +507,10 @@ class FITSData : public QObject
         {
             return m_Filename;
         }
+        void setFilename(QString &filename)
+        {
+            m_Filename = filename;
+        }
         const QString &compressedFilename() const
         {
             return m_compressedFilename;
@@ -521,6 +523,10 @@ class FITSData : public QObject
         const QString &extension() const
         {
             return m_Extension;
+        }
+        void setExtension(const QString &extension)
+        {
+            m_Extension = extension;
         }
 
         // Horizontal flip counter. We keep count to rotate WCS keywords on save

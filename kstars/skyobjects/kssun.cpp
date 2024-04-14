@@ -149,6 +149,22 @@ bool KSSun::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Ear
     return true;
 }
 
+double KSSun::nightFraction()
+{
+    constexpr double FULL_NIGHTTIME_DEGREES = -18.0;
+    KStarsData *data = KStarsData::Instance();
+    if (!data) return 1.0;
+
+    EquatorialToHorizontal(data->lst(), data->geo()->lat());
+    const double sunAltitudeDegrees = alt().Degrees();
+    double nightFraction = 1.0;
+    if (sunAltitudeDegrees > 0)
+        nightFraction = 0.0;
+    else if (sunAltitudeDegrees < 0 && sunAltitudeDegrees > FULL_NIGHTTIME_DEGREES)
+        nightFraction = sunAltitudeDegrees / FULL_NIGHTTIME_DEGREES;
+    return nightFraction;
+}
+
 SkyObject::UID KSSun::getUID() const
 {
     return solarsysUID(UID_SOL_BIGOBJ) | 0;

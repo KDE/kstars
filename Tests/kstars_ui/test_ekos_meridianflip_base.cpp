@@ -246,17 +246,17 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool guideDeviation, bool initi
     refocus_checked = (focus > 0);
 
     // regular refocusing
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitRefocusS, (focus == 1));
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), enforceRefocusEveryN, (focus == 1));
     // HFR based refocusing
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitFocusHFRS, (focus == 2));
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), enforceAutofocusHFR, (focus == 2));
     // focus after flip
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), meridianRefocusS, (focus == 3));
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), refocusAfterMeridianFlip, (focus == 3));
 
     // set guide deviation guard
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, initialGuideDeviation);
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftN, 3.0);
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationN, 3.0);
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), enforceStartGuiderDrift, initialGuideDeviation);
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), enforceGuideDeviation, guideDeviation);
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuideDeviation, 3.0);
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->captureModule(), guideDeviation, 3.0);
 
     // create the capture directory
     QTemporaryDir destination;

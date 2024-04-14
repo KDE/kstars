@@ -48,6 +48,12 @@ void TestEkosCapture::init()
     QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), ekos->captureModule(), 1000);
     // wait 0.5 sec to ensure that the capture module has been initialized
     QTest::qWait(500);
+
+    // ensure that the scope is unparked
+    Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
+    if (mount->parkStatus() == ISD::PARK_PARKED)
+        mount->unpark();
+    QTRY_VERIFY_WITH_TIMEOUT(mount->parkStatus() == ISD::PARK_UNPARKED, 30000);
 }
 
 void TestEkosCapture::cleanup()

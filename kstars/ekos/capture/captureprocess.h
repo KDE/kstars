@@ -13,6 +13,8 @@
 
 #include <QObject>
 
+class FITSViewer;
+
 namespace Ekos
 {
 
@@ -72,6 +74,13 @@ class DarkProcessor;
  *      - if there is another job to be executed, jump to 2., otherwise Capture is completed
  *        by sending a stopCapture(CAPTURE_COMPLETE) event
  *
+ *  ADU based flats calibration
+ *  ===========================
+ *  Capturing ADU based flats begins like capturing other frame types. The difference begins as soon as an
+ *  image has been received (step 6 above) in {@see imageCapturingCompleted()}. Here {@see checkFlatCalibration()}
+ *  is called to check the frame's ADU. If the ADU isn't in the expected range, a new frame is captured with
+ *  modified exposure time ({@see startNextExposure()}.
+ *
  *  Autofocus
  *  =========
  *  Capture has three ways that trigger autofocus during a capturing sequence: HFR based, temperature drift based,
@@ -110,6 +119,17 @@ public:
         ADU_LEAST_SQUARES,
         ADU_POLYNOMIAL
     } ADUAlgorithm;
+
+    typedef struct
+    {
+        int normalTabID { -1 };
+        int calibrationTabID { -1 };
+        int focusTabID { -1 };
+        int guideTabID { -1 };
+        int alignTabID { -1 };
+
+    } FitsvViewerTabIDs;
+
 
     CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState, QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor);
 
@@ -382,46 +402,26 @@ public:
 
     /**
      * @brief newFITS process new FITS data received from camera. Update status of active job and overall sequence.
-     * @param data pointer to blob containing FITS data
-     */
-    void processFITSData(const QSharedPointer<FITSData> &data);
-
-    /**
-     * @brief setNewRemoteFile A new image has been stored as remote file
-     * @param file local file path
-     */
-    void processNewRemoteFile(QString file);
-
-    /**
-     * @brief processCaptureCompleted Manage the capture process after a captured image has been successfully downloaded from the camera.
      *
-     * When a image frame has been captured and downloaded successfully, send the image to the client (if configured)
-     * and execute the book keeping for the captured frame. After this, either processJobCompletion() is executed
-     * in case that the job is completed, and resumeSequence() otherwise.
-     *
-     * Special case for flat capturing: exposure time calibration is executed in this process step as well.
-     *
-     * Book keeping means:
-     * - increase / decrease the counters for focusing and dithering
-     * - increase the frame counter
-     * - update the average download time
-     *
-     * @return IPS_OK if processing has been completed, IPS_BUSY if otherwise.
-     */
-    IPState processCaptureCompleted();
-
-    /**
-     * @brief Manage the capture process after a captured image has been successfully downloaded
-     * from the camera.
-     *
+     * Manage the capture process after a captured image has been successfully downloaded
+     * from the camera:
      * - stop timers for timeout and download progress
      * - update the download time calculation
      * - update captured frames counters ({@see updateCompletedCaptureCountersAction()})
      * - check flat calibration (for flats only)
      * - execute the post capture script (if existing)
      * - resume the sequence ({@see resumeSequence()})
+     *
+     * @param data pointer to blob containing FITS data
+     * @param extension defining the file type
      */
-    void imageCapturingCompleted();
+    void processFITSData(const QSharedPointer<FITSData> &data, const QString &extension);
+
+    /**
+     * @brief setNewRemoteFile A new image has been stored as remote file
+     * @param file local file path
+     */
+    void processNewRemoteFile(QString file);
 
     /**
      * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
@@ -582,6 +582,11 @@ public:
      */
     void updateFilterInfo();
 
+    /**
+     * @brief updateFITSViewer display new image in the configured FITSViewer tab.
+     */
+    void updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode, const FITSScale &captureFilter, const QString &filename, const QString &deviceName);
+
     // ////////////////////////////////////////////////////////////////////
     // XML capture sequence file handling
     // ////////////////////////////////////////////////////////////////////
@@ -712,6 +717,7 @@ signals:
     void rotatorReverseToggled(bool enabled);
     // communication with other modules
     void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+    void newView(const QSharedPointer<FITSView> &view);
     void suspendGuiding();
     void resumeGuiding();
     void abortFocus();
@@ -726,6 +732,8 @@ private:
     QSharedPointer<CaptureModuleState> m_State;
     QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
     QPointer<DarkProcessor> m_DarkProcessor;
+    QSharedPointer<FITSViewer> m_FITSViewerWindow;
+    FitsvViewerTabIDs m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};
 
     // Pre-/post capture script process
     QProcess m_CaptureScript;
@@ -750,6 +758,13 @@ private:
     {
         return m_DeviceAdaptor;
     }
+
+    /**
+     * @brief Get or Create FITSViewer if we are using FITSViewer
+     * or if capture mode is calibrate since for now we are forced to open the file in the viewer
+     * this should be fixed in the future and should only use FITSData.
+     */
+    QSharedPointer<FITSViewer> getFITSViewer();
 
     /**
      * @brief activeJob Shortcut to the active job held in the state machine
@@ -782,5 +797,10 @@ private:
      * for starting to capture after the configured delay.
      */
     IPState captureImageWithDelay();
+    /**
+     * @brief saveReceivedImage Save the received image if the state allows it
+     * @return true iff everything worked as expected
+     */
+    bool checkSavingReceivedImage(const QSharedPointer<FITSData> &data, const QString &extension, QString &filename);
 };
 } // Ekos namespace
