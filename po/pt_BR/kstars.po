@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-12 01:39+0000\n"
+"POT-Creation-Date: 2024-04-14 01:36+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -24141,25 +24141,25 @@ msgstr ""
 "Ocorreu uma falha ao atualizar a localização do site para %1. A cidade não "
 "foi encontrada."
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2783
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Enabling debug logging for %1..."
 msgstr "Focagem após o alinhamento para %1 ..."
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2791
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Disabling debug logging for %1..."
 msgstr "Focagem após o alinhamento para %1 ..."
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2819
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Re-enabling debug logging for %1..."
 msgstr "Focagem após o alinhamento para %1 ..."
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2831
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Re-disabling debug logging for %1..."

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-12 01:39+0000\n"
+"POT-Creation-Date: 2024-04-14 01:36+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -23722,22 +23722,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""

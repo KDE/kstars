@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-12 01:39+0000\n"
+"POT-Creation-Date: 2024-04-14 01:36+0000\n"
 "PO-Revision-Date: 2024-04-11 12:38+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -23903,22 +23903,22 @@ msgstr ""
 "Ha fallat en actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració del %1..."

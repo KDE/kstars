@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-12 01:39+0000\n"
+"POT-Creation-Date: 2024-04-14 01:36+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -23862,25 +23862,25 @@ msgstr "Umiestnenie aktualizované na %1."
 msgid "Failed to update site location to %1. City not found."
 msgstr "Zlyhala aktualizácia umiestnenia na %1. Mesto nenájdené."
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2783
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Enabling debug logging for %1..."
 msgstr "Zaostrenie po zameraní na %1..."
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2791
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Disabling debug logging for %1..."
 msgstr "Zaostrenie po zameraní na %1..."
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2819
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Re-enabling debug logging for %1..."
 msgstr "Zaostrenie po zameraní na %1..."
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2831
 #, fuzzy, kde-format
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Re-disabling debug logging for %1..."

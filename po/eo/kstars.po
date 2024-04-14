@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-12 01:39+0000\n"
-"PO-Revision-Date: 2024-03-29 18:11+0100\n"
+"POT-Creation-Date: 2024-04-14 01:36+0000\n"
+"PO-Revision-Date: 2024-04-13 08:59+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -38,10 +38,9 @@ msgid "Sky"
 msgstr "Ĉielo"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Sky Flat"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Ĉiela Ebenaĵo"
+msgstr "Ĉiela Datotempo"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -15890,10 +15889,9 @@ msgid "Failed to set binning."
 msgstr "Malsukcesis agordi binning."
 
 #: ekos/capture/captureprocess.cpp:990
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "Dosiero konservita al %1"
+msgstr "dosiero konservita al %1"
 
 #: ekos/capture/captureprocess.cpp:1000
 #, kde-format
@@ -23474,22 +23472,22 @@ msgstr "Loko de la retejo ĝisdatigita al %1."
 msgid "Failed to update site location to %1. City not found."
 msgstr "Malsukcesis ĝisdatigi retejon al %1. Urbo ne trovita."
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Ebligante sencimigan protokolon por %1..."
 
-#: ekos/manager.cpp:2794
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Malŝaltante sencimigan protokolon por %1..."
 
-#: ekos/manager.cpp:2822
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Reebligante sencimigan protokolon por %1..."
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Remalŝaltas sencimigan protokolon por %1..."
@@ -23874,21 +23872,19 @@ msgid "Starting auto park..."
 msgstr "Komencante aŭtoparkadon..."
 
 #: ekos/mount/mount.cpp:2112
-#, fuzzy, kde-format
-#| msgid "Updating from directory: %1"
+#, kde-format
 msgid "Updating master time source to %1."
-msgstr "Ĝisdatigante el dosierujo: %1"
+msgstr "Ĝisdatigante mastran tempofonton al %1."
 
 #: ekos/mount/mount.cpp:2133
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
-msgstr ""
+msgstr "Ĝisdatigante mastran lokfonton al %1. Ĝisdatigante GPS..."
 
 #: ekos/mount/mount.cpp:2141
-#, fuzzy, kde-format
-#| msgid "Site location updated to %1."
+#, kde-format
 msgid "Updating master location source to %1."
-msgstr "Loko de la retejo ĝisdatigita al %1."
+msgstr "Ĝisdatigante mastran lokfonton al %1."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:120
@@ -23898,10 +23894,9 @@ msgstr "Ebligi tempan sinkronigon ĉe konekto inter KStars kaj INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:123
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Time Source:"
-msgstr "Tempo elĉerpita:"
+msgstr "Tempofonto:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:130
@@ -23913,10 +23908,9 @@ msgstr "Ebligi geografian loksinkronigon je konekto inter KStars kaj INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:133
-#, fuzzy, kde-format
-#| msgid "Location:"
+#, kde-format
 msgid "Location Source:"
-msgstr "Loko:"
+msgstr "Lokofonto:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/mount/mount.ui:183
@@ -32785,13 +32779,13 @@ msgstr "INDI-mesaĝoj sciigoj"
 #: kstars.kcfg:211
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr ""
+msgstr "Mastra fonto por tempo (KStars, Muntaĵo aŭ INDI-Aparato)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:215
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
-msgstr ""
+msgstr "Mastra fonto por loko (KStars, Muntaĵo aŭ INDI-Aparato)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:219
@@ -33732,17 +33726,15 @@ msgstr "Baskuligi ĉu flagoj estas desegnitaj en la ĉielmapo."
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "Simuli Vidon de Okularo"
+msgstr "Ĉu simuli datotempon?"
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Se markite, Marso estos desegnita sur la mapo."
+msgstr "Se markite, ĉielo estos hela dum tago."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
@@ -34999,17 +34991,15 @@ msgstr "La koloro por la ĉiela fono."
 
 #. i18n: ectx: label, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1104
-#, fuzzy, kde-format
-#| msgid "Color of supernovae"
+#, kde-format
 msgid "Color of sky during the daytime"
-msgstr "Koloro de supernovaoj"
+msgstr "Koloro de ĉielo dum tago"
 
 #. i18n: ectx: whatsthis, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1105
-#, fuzzy, kde-format
-#| msgid "The color for the sky background."
+#, kde-format
 msgid "The color for the sky background during daytime."
-msgstr "La koloro por la ĉiela fono."
+msgstr "La koloro por la ĉielfono dum tago."
 
 #. i18n: ectx: label, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1109
@@ -68687,17 +68677,15 @@ msgid "Toggle opaque ground"
 msgstr "Baskuligi maldiafanan grundon"
 
 #: kstarsinit.cpp:613
-#, fuzzy, kde-format
-#| msgid " times"
+#, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
-msgstr " fojoj"
+msgstr "Tagtempo"
 
 #: kstarsinit.cpp:615
-#, fuzzy, kde-format
-#| msgid "Toggle Ceiling"
+#, kde-format
 msgid "Toggle daytime simulation"
-msgstr "Baskuligi Plafonon"
+msgstr "Baskuligi tagtempan simulon"
 
 #: kstarsinit.cpp:617
 #, kde-format
@@ -75622,17 +75610,15 @@ msgstr "Se markite, flagoj estos desegnitaj sur la ĉielmapo"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Se markite, Marso estos desegnita sur la mapo."
+msgstr "Se markite, ĉielo estos hela dum tago"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "Simuli Vidon de Okularo"
+msgstr "Simuli tagtempon"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
@@ -85253,86 +85239,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr ""
-#~ "GPS-pelilo detektita. KStars kaj muntado-tempo kaj loko-agordoj nun estas "
-#~ "sinkronigitaj kun la GPS-pelilo."
-
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr ""
-#~ "GPS estas detektita. Ĉu vi volas ŝanĝi tempon kaj lokafonton al GPS?"
-
-#~ msgid "GPS Settings"
-#~ msgstr "GPS-agordoj"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "%1 dosiero konservita al %2"
-
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr ""
-#~ "Elekti sinkronigajn agordojn de tempo kaj loko inter KStars kaj INDI-"
-#~ "Aparatoj"
-
-#~ msgid "Time && Location Updates"
-#~ msgstr "Tempaj && Lokaj Ĝisdatigoj"
-
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>KStars estas la ĉefa fonto por agordoj de tempo kaj "
-#~ "loko. Ĉiuj tempo- kaj lokoj-agordoj de la INDI-aparatoj estas "
-#~ "sinkronigitaj kun KStars-agordoj.</p></body></html>"
-
-#~ msgid "KStars updates all devices"
-#~ msgstr "KStars ĝisdatigas ĉiujn aparatojn"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr "Sinkronigi KStars daton kaj horon aŭtomate de la ĝisdatiga fonto."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Muntaĵa manstirilo estas la ĉefa fonto de tempo- "
-#~ "kaj loko-agordoj. KStars horo kaj loko agordoj estas sinkronigitaj kun "
-#~ "regilo agordoj.</p></body></html>"
-
-#~ msgid "Mount updates KStars"
-#~ msgstr "Muntaĵo ĝisdatigas KStars"
-
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr "Sinkronigi lokajn agordojn de KStars el la ĝisdatiga fonto."
-
-#~ msgid "Location"
-#~ msgstr "Loko"
-
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>GPS-pelilo estas la ĉefa fonto de tempo- kaj loko-"
-#~ "agordoj. KStars horo kaj loko agordoj estas sinkronigitaj kun GPS-agordoj."
-#~ "</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "GPS ĝisdatigas KStars"
-
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr "Ĉu uzi la tempon kaj lokon de KStars por sinkronigado?"
-
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr "Ĉu uzi muntan tempon kaj lokon por sinkronigado?"
-
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr "Ĉu uzi GPSan tempon kaj lokon por sinkronigado?"
