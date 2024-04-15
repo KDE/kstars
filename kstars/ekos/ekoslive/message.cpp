@@ -1711,7 +1711,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             {"name", geo->name()},
             {"longitude", geo->lng()->Degrees()},
             {"latitude", geo->lat()->Degrees()},
-            {"elevation", geo->lat()->Degrees()},
+            {"elevation", geo->elevation()},
             {"tz", geo->TZ()},
             {"tz0", geo->TZ0()}
         };
