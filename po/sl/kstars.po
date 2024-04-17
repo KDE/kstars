@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-14 01:36+0000\n"
+"POT-Creation-Date: 2024-04-17 01:43+0000\n"
 "PO-Revision-Date: 2024-04-03 10:06+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2894,7 +2894,7 @@ msgstr "Vrsta preslikave"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:266
-#: ekos/capture/captureprocess.cpp:2412 fitsviewer/fitsviewer.cpp:721
+#: ekos/capture/captureprocess.cpp:2415 fitsviewer/fitsviewer.cpp:721
 #, kde-format
 msgid "Preview"
 msgstr "Predogled"
@@ -6495,8 +6495,8 @@ msgstr "Svetovni koordinatni sistem (WCS) je onemogočen."
 msgid "Capture error. Aborting..."
 msgstr "Napaka zajemanja! Prekinjam…"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1537
-#: ekos/capture/captureprocess.cpp:2069
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1540
+#: ekos/capture/captureprocess.cpp:2072
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Ponovno zaganjanje zajemanja (poskus št. %1)"
@@ -6596,7 +6596,7 @@ msgstr "V datoteko %1 ni mogoče pisati"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2182
-#: ekos/capture/captureprocess.cpp:2461 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2464 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7242,7 +7242,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Odpri seznam razporejevalnika Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2181
-#: ekos/capture/captureprocess.cpp:2460 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2463 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -14512,7 +14512,7 @@ msgstr "Ni bilo mogoče shraniti čakalne vrste zaporedja"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ali zares želite ponastaviti stanje vseh opravil?"
 
-#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2575
+#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2578
 #, kde-format
 msgid "Reset job status"
 msgstr "Ponastavi stanje opravil"
@@ -15970,104 +15970,104 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Zapisovanje slike ni uspelo"
 
-#: ekos/capture/captureprocess.cpp:1198
+#: ekos/capture/captureprocess.cpp:1201
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Oddaljena slika shranjena v %1"
 
-#: ekos/capture/captureprocess.cpp:1224
+#: ekos/capture/captureprocess.cpp:1227
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Samodejno vodenje v pripravljenosti."
 
-#: ekos/capture/captureprocess.cpp:1253
+#: ekos/capture/captureprocess.cpp:1256
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Opozorilo: postopek umerjanja je bil predčasno končan."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1319
+#: ekos/capture/captureprocess.cpp:1322
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Zaporedje zajemov CCD-ja zaključeno"
 
-#: ekos/capture/captureprocess.cpp:1376
+#: ekos/capture/captureprocess.cpp:1379
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Napaka: povezava s CCD-jem izgubljena."
 
-#: ekos/capture/captureprocess.cpp:1404
+#: ekos/capture/captureprocess.cpp:1407
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Ravni ADE ni mogoče izračunati v slikah, ki niso v zapisu FITS."
 
-#: ekos/capture/captureprocess.cpp:1529 ekos/capture/captureprocess.cpp:2061
+#: ekos/capture/captureprocess.cpp:1532 ekos/capture/captureprocess.cpp:2064
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Zajem ni uspel. Če želite podrobnosti, preverite nadzorno ploščo INDI."
 
-#: ekos/capture/captureprocess.cpp:1630
+#: ekos/capture/captureprocess.cpp:1633
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Čas prejemanja: %1 s, ocena novega časa prejemanja: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1698
+#: ekos/capture/captureprocess.cpp:1701
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Prejeta slika %1 od %2."
 
-#: ekos/capture/captureprocess.cpp:1732
+#: ekos/capture/captureprocess.cpp:1735
 #, kde-format
 msgid "Captured %1"
 msgstr "Zajeto %1"
 
-#: ekos/capture/captureprocess.cpp:1738
+#: ekos/capture/captureprocess.cpp:1741
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "OPOZORILO: preostale in morebiti neznane zamenljive oznake %1 v %2"
 
-#: ekos/capture/captureprocess.cpp:1771
+#: ekos/capture/captureprocess.cpp:1774
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Izvajanje skripta zajemanja %1"
 
-#: ekos/capture/captureprocess.cpp:1786
+#: ekos/capture/captureprocess.cpp:1789
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Skript pred zajemanjem se je končal s kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1794
+#: ekos/capture/captureprocess.cpp:1797
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Skript po zajemanju se je končal s kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1806
+#: ekos/capture/captureprocess.cpp:1809
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Obdelovanje obrata čez poldnevnik …"
 
-#: ekos/capture/captureprocess.cpp:1816
+#: ekos/capture/captureprocess.cpp:1819
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Skript pred opravilom se je končal s kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1821
+#: ekos/capture/captureprocess.cpp:1824
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Skript po opravilu se je končal s kodo %1."
 
-#: ekos/capture/captureprocess.cpp:2002 ekos/focus/focus.cpp:5255
+#: ekos/capture/captureprocess.cpp:2005 ekos/focus/focus.cpp:5255
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Čas za osvetlitev je potekel. Prekinjanje …"
 
-#: ekos/capture/captureprocess.cpp:2026 ekos/focus/focus.cpp:5260
+#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5260
 #: ekos/guide/guide.cpp:915
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Čas za osvetlitev je potekel. Ponovno zaganjanje osvetljevanja …"
 
-#: ekos/capture/captureprocess.cpp:2120
+#: ekos/capture/captureprocess.cpp:2123
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16076,18 +16076,18 @@ msgstr ""
 "Plosko umerjanje ni uspelo. Posneta slika je samo %1-bitna, medtem ko je "
 "zahtevani ADE %2."
 
-#: ekos/capture/captureprocess.cpp:2131
+#: ekos/capture/captureprocess.cpp:2134
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "Trenutna fotografija je nasičena (%1). Naslednja osvetlitev je %2 sekund."
 
-#: ekos/capture/captureprocess.cpp:2153
+#: ekos/capture/captureprocess.cpp:2156
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Trenutna ADE %1 je znotraj območja tolerance ciljne ADE."
 
-#: ekos/capture/captureprocess.cpp:2182
+#: ekos/capture/captureprocess.cpp:2185
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16096,22 +16096,22 @@ msgstr ""
 "Ni mogoče izračunati optimalnih nastavitev za osvetlitev. Ročno zajemite "
 "ploske slike."
 
-#: ekos/capture/captureprocess.cpp:2190
+#: ekos/capture/captureprocess.cpp:2193
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Trenutna ADE je %1. Naslednja osvetlitev je %2 sekund."
 
-#: ekos/capture/captureprocess.cpp:2409
+#: ekos/capture/captureprocess.cpp:2412
 #, kde-format
 msgid "%1 Preview"
 msgstr "Predogled %1"
 
-#: ekos/capture/captureprocess.cpp:2524
+#: ekos/capture/captureprocess.cpp:2527
 #, kde-format
 msgid "Sequence paused."
 msgstr "Zaporedje v premoru."
 
-#: ekos/capture/captureprocess.cpp:2574
+#: ekos/capture/captureprocess.cpp:2577
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16120,7 +16120,7 @@ msgstr ""
 "Vsi posli so zaključeni. Ali želite ponastaviti stanje vseh poslov in znova "
 "zagnati zajemanje?"
 
-#: ekos/capture/captureprocess.cpp:2588
+#: ekos/capture/captureprocess.cpp:2591
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16129,12 +16129,12 @@ msgstr ""
 "Opozorilo: možnost »Pri zagonu vedno ponastavi zaporedje« je omogočena in "
 "ponastavi štetje zaporedja."
 
-#: ekos/capture/captureprocess.cpp:2703
+#: ekos/capture/captureprocess.cpp:2706
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ali ste prepričani, da želite znova zagnati gonilnik kamere %1?"
 
-#: ekos/capture/captureprocess.cpp:2704
+#: ekos/capture/captureprocess.cpp:2707
 #, kde-format
 msgid "Driver Restart"
 msgstr "Ponovni zagon gonilnika"
