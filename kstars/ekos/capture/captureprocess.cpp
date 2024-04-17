@@ -1116,9 +1116,6 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
                 qWarning(KSTARS_EKOS_CAPTURE) << "Invalid train ID for darks substraction:" << trainID.toUInt();
 
         }
-
-        // set image metadata
-        updateImageMetadataAction(state()->imageData());
     }
 
     // image has been received and processed successfully.
@@ -1178,6 +1175,12 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
 
     if (thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION_COMPLETE)
         thejob->setCalibrationStage(SequenceJobState::CAL_CAPTURING);
+
+    if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    {
+        // set image metadata and emit captureComplete
+        updateImageMetadataAction(state()->imageData());
+    }
 
     // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
     //if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
