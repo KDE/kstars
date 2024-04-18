@@ -719,7 +719,7 @@ bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl
                 Options::singlePreviewFITS())
             fitsTabWidget->setTabText(tabIndex,
                                       tab->getPreviewText().isEmpty() ? i18n("Preview") : tab->getPreviewText());
-        else
+        else if (tab->getPreviewText() != i18n("Preview") || imageName.fileName().size() > 0)
             fitsTabWidget->setTabText(tabIndex, imageName.fileName());
     }
 
