@@ -456,11 +456,8 @@ bool FITSViewer::addFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &i
     switch (mode)
     {
         case FITS_NORMAL:
-            fitsTabWidget->addTab(tab.get(), previewText.isEmpty() ? imageName.fileName() : previewText);
-            break;
-
         case FITS_CALIBRATE:
-            fitsTabWidget->addTab(tab.get(), i18n("Calibrate"));
+            fitsTabWidget->addTab(tab.get(), previewText.isEmpty() ? imageName.fileName() : previewText);
             break;
 
         case FITS_FOCUS:
@@ -714,7 +711,8 @@ bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl
 
     if (tab->getView()->getMode() == FITS_NORMAL)
     {
-        if ((imageName.path().startsWith(QLatin1String("/tmp")) ||
+        if ((imageName.fileName() == "Preview" ||
+                imageName.path().startsWith(QLatin1String("/tmp")) ||
                 imageName.path().contains("/Temp")) &&
                 Options::singlePreviewFITS())
             fitsTabWidget->setTabText(tabIndex,

@@ -2419,13 +2419,13 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
                 bool success = false;
                 int tabIndex = -1;
                 int *tabID = &m_fitsvViewerTabIDs.normalTabID;
+                const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
                 if (*tabID == -1 || Options::singlePreviewFITS() == false)
                 {
                     // If image is preview and we should display all captured images in a
                     // single tab called "Preview", then set the title to "Preview",
                     // Otherwise, the title will be the captured image name
                     QString previewTitle;
-                    const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
                     if (isPreview && Options::singlePreviewFITS())
                     {
                         // If we are displaying all images from all cameras in a single FITS
@@ -2453,7 +2453,11 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
                     }
                 }
                 else
+                {
+                    if (isPreview)
+                        fileURL = QUrl::fromLocalFile("Preview");
                     success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
+                }
 
                 if (!success)
                 {
