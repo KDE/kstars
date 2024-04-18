@@ -1090,13 +1090,15 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
             return;
         }
 
-        // Check to save and show the new image in the FITS viewer
-        QString filename;
-        if (checkSavingReceivedImage(data, extension, filename))
+        if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         {
-            FITSMode captureMode = tChip->getCaptureMode();
-            FITSScale captureFilter = tChip->getCaptureFilter();
-            updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
+            QString filename;
+            if (checkSavingReceivedImage(data, extension, filename))
+            {
+                FITSMode captureMode = tChip->getCaptureMode();
+                FITSScale captureFilter = tChip->getCaptureFilter();
+                updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
+            }
         }
 
         // If dark is selected, perform dark substraction.
@@ -1115,6 +1117,12 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
             else
                 qWarning(KSTARS_EKOS_CAPTURE) << "Invalid train ID for darks substraction:" << trainID.toUInt();
 
+        }
+        if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
+        {
+            // Set image metadata and emit captureComplete
+            // Need to do this now for previews as the activeJob() will be set to null.
+            updateImageMetadataAction(state()->imageData());
         }
     }
 
@@ -1135,9 +1143,11 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
         DarkLibrary::Instance()->disconnect(this);
     }
     // update counters
+    // This will set activeJob to be a nullptr if it's a preview.
     updateCompletedCaptureCountersAction();
 
     QString filename;
+    bool alreadySaved = false;
     switch (thejob->getFrameType())
     {
         case FRAME_BIAS:
@@ -1155,9 +1165,11 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
                 thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
                 // save current image since the image satisfies the calibration requirements
                 if (checkSavingReceivedImage(data, extension, filename))
+                {
                     /* Increase the sequence's current capture count */
                     updatedCaptureCompleted(activeJob()->getCompleted() + 1);
-
+                    alreadySaved = true;
+                }
             }
             else
             {
@@ -1176,9 +1188,18 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
     if (thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION_COMPLETE)
         thejob->setCalibrationStage(SequenceJobState::CAL_CAPTURING);
 
-    if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    if (activeJob() && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW &&
+            activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
-        // set image metadata and emit captureComplete
+        // Check to save and show the new image in the FITS viewer
+        if (alreadySaved || checkSavingReceivedImage(data, extension, filename))
+        {
+            FITSMode captureMode = tChip->getCaptureMode();
+            FITSScale captureFilter = tChip->getCaptureFilter();
+            updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
+        }
+
+        // Set image metadata and emit captureComplete
         updateImageMetadataAction(state()->imageData());
     }
 
@@ -2404,7 +2425,8 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
                     // single tab called "Preview", then set the title to "Preview",
                     // Otherwise, the title will be the captured image name
                     QString previewTitle;
-                    if (Options::singlePreviewFITS())
+                    const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
+                    if (isPreview && Options::singlePreviewFITS())
                     {
                         // If we are displaying all images from all cameras in a single FITS
                         // Viewer window, then we prefix the camera name to the "Preview" string

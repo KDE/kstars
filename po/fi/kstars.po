@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-17 01:43+0000\n"
+"POT-Creation-Date: 2024-04-18 01:34+0000\n"
 "PO-Revision-Date: 2023-05-15 16:19+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2918,7 +2918,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:266
-#: ekos/capture/captureprocess.cpp:2415 fitsviewer/fitsviewer.cpp:721
+#: ekos/capture/captureprocess.cpp:2437 fitsviewer/fitsviewer.cpp:721
+#: fitsviewer/fitsviewer.cpp:722
 #, kde-format
 msgid "Preview"
 msgstr "Esikatselu"
@@ -6585,8 +6586,8 @@ msgstr "Valitse tulostiedoston kentät"
 msgid "Capture error. Aborting..."
 msgstr "Ota kuva"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1540
-#: ekos/capture/captureprocess.cpp:2072
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
+#: ekos/capture/captureprocess.cpp:2093
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6696,7 +6697,7 @@ msgstr "Tiedostoon %1 ei voitu kirjoittaa"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2182
-#: ekos/capture/captureprocess.cpp:2464 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2486 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7362,7 +7363,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Avaa havaintoluettelo"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2181
-#: ekos/capture/captureprocess.cpp:2463 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2485 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -14493,7 +14494,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Haluatko varmasti nollata kaikkien töiden tilan?"
 
-#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2578
+#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2600
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -15926,152 +15927,152 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Kuvan kirjoittaminen epäonnistui"
 
-#: ekos/capture/captureprocess.cpp:1201
+#: ekos/capture/captureprocess.cpp:1222
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Aineistotiedosto tallennettu kohteeseen %1"
 
-#: ekos/capture/captureprocess.cpp:1227
+#: ekos/capture/captureprocess.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "Ladataan tähtiä"
 
-#: ekos/capture/captureprocess.cpp:1256
+#: ekos/capture/captureprocess.cpp:1277
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1322
+#: ekos/capture/captureprocess.cpp:1343
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "Supernovajäänne"
 
-#: ekos/capture/captureprocess.cpp:1379
+#: ekos/capture/captureprocess.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "Yhteys"
 
-#: ekos/capture/captureprocess.cpp:1407
+#: ekos/capture/captureprocess.cpp:1428
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1532 ekos/capture/captureprocess.cpp:2064
+#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2085
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1633
+#: ekos/capture/captureprocess.cpp:1654
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1701
+#: ekos/capture/captureprocess.cpp:1722
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1735
+#: ekos/capture/captureprocess.cpp:1756
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Kaappaa"
 
-#: ekos/capture/captureprocess.cpp:1741
+#: ekos/capture/captureprocess.cpp:1762
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1774
+#: ekos/capture/captureprocess.cpp:1795
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Suoritetaan komentosarjaa: %1"
 
-#: ekos/capture/captureprocess.cpp:1789
+#: ekos/capture/captureprocess.cpp:1810
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1797
+#: ekos/capture/captureprocess.cpp:1818
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1809
+#: ekos/capture/captureprocess.cpp:1830
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "Näytä FITS automaattisesti valotuksen jälkeen"
 
-#: ekos/capture/captureprocess.cpp:1819
+#: ekos/capture/captureprocess.cpp:1840
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1824
+#: ekos/capture/captureprocess.cpp:1845
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2005 ekos/focus/focus.cpp:5255
+#: ekos/capture/captureprocess.cpp:2026 ekos/focus/focus.cpp:5255
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5260
+#: ekos/capture/captureprocess.cpp:2050 ekos/focus/focus.cpp:5260
 #: ekos/guide/guide.cpp:915
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/captureprocess.cpp:2123
+#: ekos/capture/captureprocess.cpp:2144
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2134
+#: ekos/capture/captureprocess.cpp:2155
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2156
+#: ekos/capture/captureprocess.cpp:2177
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2185
+#: ekos/capture/captureprocess.cpp:2206
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2193
+#: ekos/capture/captureprocess.cpp:2214
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2412
+#: ekos/capture/captureprocess.cpp:2434
 #, kde-format
 msgid "%1 Preview"
 msgstr "Esikatselu – %1"
 
-#: ekos/capture/captureprocess.cpp:2527
+#: ekos/capture/captureprocess.cpp:2549
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Taajuus:"
 
-#: ekos/capture/captureprocess.cpp:2577
+#: ekos/capture/captureprocess.cpp:2599
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -16079,20 +16080,20 @@ msgid ""
 "restart capturing?"
 msgstr "Haluatko varmasti poistaa linkin %1?"
 
-#: ekos/capture/captureprocess.cpp:2591
+#: ekos/capture/captureprocess.cpp:2613
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2706
+#: ekos/capture/captureprocess.cpp:2728
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Haluatko varmasti poistaa asiakkaan %1?"
 
-#: ekos/capture/captureprocess.cpp:2707
+#: ekos/capture/captureprocess.cpp:2729
 #, kde-format
 msgid "Driver Restart"
 msgstr "Ajurin uudelleenkäynnistys"

@@ -115,6 +115,7 @@ class SkyQPainter : public SkyPainter, public QPainter
         void setSize(int width, int height);
 
     private:
+        QColor skyColor() const;
         QPaintDevice *m_pd{ nullptr };
         const Projector *m_proj{ nullptr };
         bool m_vectorStars{ false };
