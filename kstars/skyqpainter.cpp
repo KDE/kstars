@@ -192,10 +192,8 @@ double circleOverlap(double d, double radius1, double radius2)
 }
 } // namespace
 
-void SkyQPainter::drawSkyBackground()
+QColor SkyQPainter::skyColor() const
 {
-    //FIXME use projector
-
     const QColor nightSky = KStarsData::Instance()->colorScheme()->colorNamed("SkyColor");
     QColor sky = nightSky;
     if (Options::simulateDaytime())
@@ -244,7 +242,12 @@ void SkyQPainter::drawSkyBackground()
             }
         }
     }
-    fillRect(0, 0, m_size.width(), m_size.height(), sky);
+    return sky;
+}
+
+void SkyQPainter::drawSkyBackground()
+{
+    fillRect(0, 0, m_size.width(), m_size.height(), skyColor());
 }
 
 void SkyQPainter::setPen(const QPen &pen)
@@ -558,7 +561,26 @@ bool SkyQPainter::drawPlanet(KSPlanetBase * planet)
             save();
             translate(pos);
             rotate(m_proj->findPA(planet, pos.x(), pos.y()));
+
+            QPainter::CompositionMode mode = compositionMode();
+            // Use the Screen composition mode for the Moon to make it look nicer, especially the non-full
+            // phases. When doing this, though, stars would shine through, so need to paint in the skycolor
+            // behind it.
+            if (planet->name() == i18n("Moon"))
+            {
+                auto keepBrush = brush();
+                auto keepPen = pen();
+                setBrush(skyColor());
+                setPen(skyColor());
+                setCompositionMode(QPainter::CompositionMode_SourceOver);
+                drawEllipse(QRectF(-0.5 * size, -0.5 * size, size, size));
+                setBrush(keepBrush);
+                setPen(keepPen);
+                setCompositionMode(QPainter::CompositionMode_Screen);
+            }
             drawImage(QRectF(-0.5 * size, -0.5 * size, size, size), planet->image());
+            setCompositionMode(mode);
+
             restore();
         }
         else //Otherwise, draw a simple circle.
