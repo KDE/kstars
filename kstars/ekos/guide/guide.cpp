@@ -910,6 +910,10 @@ void Guide::setBusy(bool enable)
 
 void Guide::processCaptureTimeout()
 {
+    // Don't restart if we've since been suspended.
+    if (m_State == GUIDE_SUSPENDED)
+        return;
+
     auto restartExposure = [&]()
     {
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
