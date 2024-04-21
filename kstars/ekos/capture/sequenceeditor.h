@@ -33,6 +33,12 @@ class SequenceEditor : public QDialog, public Ui::SequenceEditorUI
 
     private:
         QSharedPointer<Capture> m_capture;
+        QVariantMap m_Settings;
+
+        // Disable all the widgets that aren't used in stand-alone mode.
+        void initStandAlone();
+
+        void onStandAloneShow();
 };
 
 }

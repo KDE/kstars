@@ -12,6 +12,7 @@
 #include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/focus/focusutils.h"
 #include "indi/indicamera.h"
 #include "indi/indidustcap.h"
@@ -596,6 +597,10 @@ class Capture : public QWidget, public Ui::Capture
             return state()->observerName();
         }
 
+        // Sequence Queue
+        void loadSequenceQueue();
+        void saveSequenceQueue();
+        void saveSequenceQueueAs();
 
         /** @}*/
 
@@ -845,11 +850,6 @@ class Capture : public QWidget, public Ui::Capture
         void checkFrameType(int index);
         void updateCaptureCountDown(int deltaMillis);
         void saveFITSDirectory();
-
-        // Sequence Queue
-        void loadSequenceQueue();
-        void saveSequenceQueue();
-        void saveSequenceQueueAs();
 
         // Jobs
         void resetJobs();
@@ -1169,9 +1169,6 @@ class Capture : public QWidget, public Ui::Capture
          * @param nvp pointer to number property.
          */
         void processCCDNumber(INumberVectorProperty *nvp);
-
-        // Disable all the widgets that aren't used in stand-alone mode.
-        void initStandAlone();
 
         // Utilities for storing stand-alone variables.
         void storeTrainKey(const QString &key, const QStringList &list);

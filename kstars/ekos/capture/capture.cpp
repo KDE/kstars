@@ -25,7 +25,6 @@
 
 // Optical Trains
 #include "ekos/auxiliary/opticaltrainmanager.h"
-#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include "scriptsmanager.h"
 #include "fitsviewer/fitsdata.h"
@@ -77,21 +76,6 @@ enum JobTableColumnIndex
     JOBTABLE_COL_ISO,
     JOBTABLE_COL_OFFSET
 };
-
-// Adds the items to the QComboBox if they're not there already.
-void addToCombo(QComboBox *combo, const QStringList &items)
-{
-    if (items.size() == 0)
-        return;
-    QStringList existingItems;
-    for (int index = 0; index < combo->count(); index++)
-        existingItems << combo->itemText(index);
-
-    for (const auto &item : items)
-        if (existingItems.indexOf(item) == -1)
-            combo->addItem(item);
-}
-
 } // namespace
 
 namespace Ekos
@@ -115,24 +99,6 @@ void Capture::storeTrainKeyString(const QString &key, const QString &str)
     }
 }
 
-// There are many widgets that are not used in stand-alone mode and should be made invisible and disabled.
-void Capture::initStandAlone()
-{
-    QList<QWidget*> unusedWidgets =
-    {
-        opticalTrainLabel, opticalTrainCombo, trainB, cameraRowLabel, cameraLabel, restartCameraB,
-        clearConfigurationB, coolerOnB, coolerOffB, setTemperatureB, temperatureRegulationB,
-        previewB, loopB, liveVideoB, startB, pauseB, resetB, processGrid, darkB, darkLibraryB,
-        filterManagerB
-    };
-    for (auto &widget : unusedWidgets)
-    {
-        widget->setEnabled(false);
-        widget->setVisible(false);
-    }
-    CCDFWGroup->setTitle("Settings");
-}
-
 // Gets called when the stand-alone editor gets a show event.
 // Do this initialization here so that if the live capture module was
 // used after startup, it will have set more recent remembered values.
@@ -145,117 +111,8 @@ void Capture::onStandAloneShow(QShowEvent* event)
     Q_UNUSED(event);
     QSharedPointer<FilterManager> fm;
 
-    // Default comment if there is no previously saved stand-alone parameters.
-    QString comment = i18n("<b><font color=\"red\">Please run the Capture tab connected to INDI with your desired "
-                           "camera/filterbank at least once before using the Sequence Editor. </font></b><p>");
-
-    if (m_Settings.contains(KEY_TIMESTAMP) && m_Settings[KEY_TIMESTAMP].toString().size() > 0)
-        comment = i18n("<b>Using camera and filterwheel attributes from Capture session started at %1.</b>"
-                       "<p>If you wish to use other cameras/filterbanks, please edit the sequence "
-                       "using the Capture tab.<br>It is not recommended to overwrite a sequence file currently running, "
-                       "please rename it instead.</p><p>", m_Settings[KEY_TIMESTAMP].toString());
-    sequenceEditorComment->setVisible(true);
-    sequenceEditorComment->setEnabled(true);
-    sequenceEditorComment->setStyleSheet("{color: #C0BBFE}");
-    sequenceEditorComment->setText(comment);
-
-    // Add extra load and save buttons at the bottom of the window.
-    loadSaveBox->setEnabled(true);
-    loadSaveBox->setVisible(true);
-    connect(esqSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
-    connect(esqLoadB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
-
-    FilterPosCombo->clear();
-    if (m_Settings.contains(KEY_FILTERS))
-        addToCombo(FilterPosCombo, m_Settings[KEY_FILTERS].toStringList());
-
-    if (FilterPosCombo->count() > 0)
-    {
-        filterEditB->setEnabled(true);
-        filterManagerB->setEnabled(true);
-    }
-
-    captureGainN->setEnabled(true);
     captureGainN->setValue(GainSpinSpecialValue);
-    captureGainN->setSpecialValueText(i18n("--"));
-
-    captureOffsetN->setEnabled(true);
     captureOffsetN->setValue(OffsetSpinSpecialValue);
-    captureOffsetN->setSpecialValueText(i18n("--"));
-
-    // Always add these strings to the types menu. Might also add other ones
-    // that were used in the last capture session.
-    const QStringList frameTypes = {"Light", "Dark", "Bias", "Flat"};
-    captureTypeS->clear();
-    captureTypeS->addItems(frameTypes);
-
-    // Always add these strings to the encodings menu. Might also add other ones
-    // that were used in the last capture session.
-    const QStringList frameEncodings = {"FITS", "Native", "XISF"};
-    captureEncodingS->clear();
-    captureEncodingS->addItems(frameEncodings);
-
-    if (m_Settings.contains(KEY_FORMATS))
-    {
-        captureFormatS->clear();
-        addToCombo(captureFormatS, m_Settings[KEY_FORMATS].toStringList());
-    }
-
-    cameraTemperatureN->setEnabled(true);
-    cameraTemperatureN->setReadOnly(false);
-    cameraTemperatureN->setSingleStep(1);
-    cameraTemperatureS->setEnabled(true);
-    double minTemp = -50, maxTemp = 50;
-    if (m_Settings.contains(KEY_TEMPERATURE))
-    {
-        QStringList temperatureList = m_Settings[KEY_TEMPERATURE].toStringList();
-        if (temperatureList.size() > 1)
-        {
-            minTemp = temperatureList[0].toDouble();
-            maxTemp = temperatureList[1].toDouble();
-        }
-    }
-    cameraTemperatureN->setMinimum(minTemp);
-    cameraTemperatureN->setMaximum(maxTemp);
-
-    // No pre-configured ISOs are available--would be too much of a guess, but
-    // we will use ISOs from the last live capture session.
-
-    if (m_Settings.contains(KEY_ISOS))
-    {
-        QStringList isoList = m_Settings[KEY_ISOS].toStringList();
-        captureISOS->clear();
-        if (isoList.size() > 0)
-        {
-            captureISOS->addItems(isoList);
-            if (m_Settings.contains(KEY_INDEX))
-                captureISOS->setCurrentIndex(m_Settings[KEY_INDEX].toString().toInt());
-            else
-                captureISOS->setCurrentIndex(0);
-            captureISOS->blockSignals(false);
-            captureISOS->setEnabled(true);
-        }
-    }
-    else
-    {
-        captureISOS->blockSignals(true);
-        captureISOS->clear();
-        captureISOS->setEnabled(false);
-    }
-
-    // Remember the sensor width and height from the last live session.
-    // The user can always edit the input box.
-    constexpr int maxFrame = 20000;
-    captureFrameXN->setMaximum(static_cast<int>(maxFrame));
-    captureFrameYN->setMaximum(static_cast<int>(maxFrame));
-    captureFrameWN->setMaximum(static_cast<int>(maxFrame));
-    captureFrameHN->setMaximum(static_cast<int>(maxFrame));
-
-    if (m_Settings.contains(KEY_H))
-        captureFrameHN->setValue(m_Settings[KEY_H].toUInt());
-
-    if (m_Settings.contains(KEY_W))
-        captureFrameWN->setValue(m_Settings[KEY_W].toUInt());
 
     m_standAloneUseCcdGain = true;
     m_standAloneUseCcdOffset = true;
@@ -299,9 +156,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     m_captureProcess = new CaptureProcess(state(), m_captureDeviceAdaptor);
 
     state()->getSequenceQueue()->loadOptions();
-
-    if (m_standAlone)
-        initStandAlone();
 
     if (!m_standAlone)
     {
@@ -694,16 +548,14 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newFilterWheel, this, &Capture::setFilterWheel);
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::CameraConnected, this, [this](bool connected)
     {
-        CCDFWGroup->setEnabled(connected);
+        CaptureSettingsGroup->setEnabled(connected);
+        fileSettingsGroup->setEnabled(connected);
         sequenceBox->setEnabled(connected);
         for (auto &oneChild : sequenceControlsButtonGroup->buttons())
             oneChild->setEnabled(connected);
 
         if (! connected)
-        {
-            opticalTrainCombo->setEnabled(true);
-            trainLabel->setEnabled(true);
-        }
+            trainLayout->setEnabled(true);
     });
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::FilterWheelConnected, this, [this](bool connected)
     {
@@ -757,7 +609,8 @@ void Capture::updateHFRCheckAlgo()
 bool Capture::updateCamera()
 {
     auto isConnected = activeCamera() && activeCamera()->isConnected();
-    CCDFWGroup->setEnabled(isConnected);
+    CaptureSettingsGroup->setEnabled(isConnected);
+    fileSettingsGroup->setEnabled(isConnected);
     sequenceBox->setEnabled(isConnected);
     for (auto &oneChild : sequenceControlsButtonGroup->buttons())
         oneChild->setEnabled(isConnected);
@@ -768,11 +621,11 @@ bool Capture::updateCamera()
     {
         auto name = activeCamera()->getDeviceName();
         opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
-        cameraLabel->setText(name);
+        cameraTabs->setTabText(cameraTabs->currentIndex(), name);
     }
     else
     {
-        cameraLabel->clear();
+        cameraTabs->setTabText(cameraTabs->currentIndex(), "no camera");
         return false;
     }
 
