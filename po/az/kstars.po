@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-18 01:34+0000\n"
+"POT-Creation-Date: 2024-04-19 01:44+0000\n"
 "PO-Revision-Date: 2022-07-31 23:14+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -964,8 +964,8 @@ msgstr "XPlanet Günəş Sistemi Simulyatoru: %1"
 #: skymapdrawabstract.cpp:249 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:517 skyqpainter.cpp:541
-#: skyqpainter.cpp:543 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
+#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:520 skyqpainter.cpp:544
+#: skyqpainter.cpp:546 tools/conjunctions.cpp:58 tools/conjunctions.cpp:292
 #: tools/jmoontool.cpp:106 tools/modcalcdaylength.ui:109
 #: tools/modcalcplanets.cpp:262 tools/modcalcplanets.cpp:388
 #: tools/modcalcplanets.ui:190 tools/modcalcplanets.ui:614
@@ -985,7 +985,7 @@ msgstr "Günəş"
 #: skymapdrawabstract.cpp:251 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:527 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
+#: skyqpainter.cpp:530 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:145
 #: tools/modcalcplanets.ui:564 tools/pvplotwidget.cpp:102
 #: tools/skycalendar.ui:34
@@ -1039,8 +1039,8 @@ msgstr "Yer"
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
-#: skyqpainter.cpp:518 skyqpainter.cpp:541 skyqpainter.cpp:544
-#: tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
+#: skyqpainter.cpp:521 skyqpainter.cpp:544 skyqpainter.cpp:547
+#: skyqpainter.cpp:569 tools/conjunctions.cpp:59 tools/eclipsetool.cpp:29
 #: tools/eclipsetool/lunareclipsehandler.h:58 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
@@ -1062,7 +1062,7 @@ msgstr "Ay"
 #: skymapdrawabstract.cpp:257 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:523 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
+#: skyqpainter.cpp:526 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:160
 #: tools/modcalcplanets.ui:579 tools/pvplotwidget.cpp:129
 #: tools/skycalendar.ui:48
@@ -1090,7 +1090,7 @@ msgstr "Deymos"
 #: skymapdrawabstract.cpp:259 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
-#: skyqpainter.cpp:527 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
+#: skyqpainter.cpp:530 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
 #: tools/ksconjunct.cpp:64 tools/modcalcplanets.cpp:260
 #: tools/modcalcplanets.ui:165 tools/modcalcplanets.ui:584
 #: tools/pvplotwidget.cpp:138 tools/skycalendar.ui:55
@@ -1128,7 +1128,7 @@ msgstr "Avropa"
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
-#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:528
+#: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:531
 #: tools/conjunctions.cpp:54 tools/ksconjunct.cpp:64 tools/ksconjunct.cpp:65
 #: tools/modcalcplanets.cpp:260 tools/modcalcplanets.ui:170
 #: tools/modcalcplanets.ui:589 tools/pvplotwidget.cpp:147
@@ -2903,8 +2903,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:266
-#: ekos/capture/captureprocess.cpp:2437 fitsviewer/fitsviewer.cpp:721
-#: fitsviewer/fitsviewer.cpp:722
+#: ekos/capture/captureprocess.cpp:2437 fitsviewer/fitsviewer.cpp:719
+#: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
 msgstr ""
@@ -6545,7 +6545,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2182
-#: ekos/capture/captureprocess.cpp:2486 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2490 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7187,7 +7187,7 @@ msgid "Open Ekos Alignment List"
 msgstr ""
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2181
-#: ekos/capture/captureprocess.cpp:2485 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2489 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -10069,7 +10069,7 @@ msgstr "Şəkili %1 serverinə yükləmək mümkün olmadı"
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2066
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:467
+#: fitsviewer/fitsviewer.cpp:464
 #, kde-format
 msgid "Focus"
 msgstr ""
@@ -10079,7 +10079,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:2203 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2040 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
-#: fitsviewer/fitsviewer.cpp:475
+#: fitsviewer/fitsviewer.cpp:472
 #, kde-format
 msgid "Align"
 msgstr ""
@@ -10092,7 +10092,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
 #: ekos/guide/guide.ui:260 ekos/manager.cpp:2225
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:471
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
 #, kde-format
 msgid "Guide"
 msgstr ""
@@ -14063,7 +14063,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2600
+#: ekos/capture/capture.cpp:2288 ekos/capture/captureprocess.cpp:2604
 #, kde-format
 msgid "Reset job status"
 msgstr ""
@@ -15576,31 +15576,31 @@ msgstr ""
 msgid "%1 Preview"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2549
+#: ekos/capture/captureprocess.cpp:2553
 #, kde-format
 msgid "Sequence paused."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2599
+#: ekos/capture/captureprocess.cpp:2603
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2613
+#: ekos/capture/captureprocess.cpp:2617
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2728
+#: ekos/capture/captureprocess.cpp:2732
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2729
+#: ekos/capture/captureprocess.cpp:2733
 #, kde-format
 msgid "Driver Restart"
 msgstr ""
@@ -27705,7 +27705,7 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:463
+#: fitsviewer/fitscommon.h:16
 #, kde-format
 msgid "Calibrate"
 msgstr ""
@@ -28001,8 +28001,8 @@ msgid "Y Offset:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:503
-#: fitsviewer/fitsviewer.cpp:1587
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:500
+#: fitsviewer/fitsviewer.cpp:1585
 #, kde-format
 msgid "Ready."
 msgstr ""
@@ -28348,13 +28348,13 @@ msgid "View Star Profile..."
 msgstr "XPlanet Seçimlərini açmaq"
 
 #: fitsviewer/fitsview.cpp:2498 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1275
+#: fitsviewer/fitsviewer.cpp:1273
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr ""
 
 #: fitsviewer/fitsview.cpp:2504 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1277
+#: fitsviewer/fitsviewer.cpp:1275
 #, kde-format
 msgid "Show Objects in Image"
 msgstr ""
@@ -28441,7 +28441,7 @@ msgstr ""
 msgid "Show Clipping"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1286
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1284
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28487,13 +28487,13 @@ msgstr ""
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1560
+#: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1558
 #, kde-format
 msgid "Mark Stars"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:310 fitsviewer/fitsviewer.cpp:826
-#: fitsviewer/fitsviewer.cpp:1523
+#: fitsviewer/fitsviewer.cpp:310 fitsviewer/fitsviewer.cpp:824
+#: fitsviewer/fitsviewer.cpp:1521
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -28521,127 +28521,127 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "%1 ulduz"
 msgstr[1] "%1 ulduz"
 
-#: fitsviewer/fitsviewer.cpp:676
+#: fitsviewer/fitsviewer.cpp:673
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:808
+#: fitsviewer/fitsviewer.cpp:806
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:809 fitsviewer/fitsviewer.cpp:1431
+#: fitsviewer/fitsviewer.cpp:807 fitsviewer/fitsviewer.cpp:1429
 #, kde-format
 msgid "Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:810 fitsviewer/fitsviewer.cpp:1445
+#: fitsviewer/fitsviewer.cpp:808 fitsviewer/fitsviewer.cpp:1443
 #, kde-format
 msgid "Clipping"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:811 fitsviewer/fitsviewer.cpp:1458
+#: fitsviewer/fitsviewer.cpp:809 fitsviewer/fitsviewer.cpp:1456
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1497
+#: fitsviewer/fitsviewer.cpp:810 fitsviewer/fitsviewer.cpp:1495
 #, kde-format
 msgid "Objects in Image"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:1510
+#: fitsviewer/fitsviewer.cpp:811 fitsviewer/fitsviewer.cpp:1508
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:814 fitsviewer/fitsviewer.cpp:1471
+#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1469
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:866
+#: fitsviewer/fitsviewer.cpp:864
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:994
+#: fitsviewer/fitsviewer.cpp:992
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Şəkli saxlamaq"
 
-#: fitsviewer/fitsviewer.cpp:1252
+#: fitsviewer/fitsviewer.cpp:1250
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1257
+#: fitsviewer/fitsviewer.cpp:1255
 #, kde-format
 msgid "Show %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1281
+#: fitsviewer/fitsviewer.cpp:1279
 #, kde-format
 msgid ""
 "Center Telescope\n"
 "*Ready*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1293
+#: fitsviewer/fitsviewer.cpp:1291
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1295
+#: fitsviewer/fitsviewer.cpp:1293
 #, kde-format
 msgid ""
 "Center Telescope\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1297
+#: fitsviewer/fitsviewer.cpp:1295
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1329 fitsviewer/fitsviewer.cpp:1484
+#: fitsviewer/fitsviewer.cpp:1327 fitsviewer/fitsviewer.cpp:1482
 #, kde-format
 msgid "Selection Rectangle"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1358 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1356 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1366 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1364 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1367 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1365 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1565
+#: fitsviewer/fitsviewer.cpp:1563
 #, kde-format
 msgid "Unmark Stars"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1581
+#: fitsviewer/fitsviewer.cpp:1579
 #, kde-format
 msgid "Processing %1..."
 msgstr ""
