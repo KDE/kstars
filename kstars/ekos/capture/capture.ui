@@ -1234,7 +1234,7 @@ font-weight:bold;
                     </font>
                    </property>
                    <property name="text">
-                    <string>Calibraton</string>
+                    <string>Calibration</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
