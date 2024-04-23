@@ -773,6 +773,7 @@ void DarkLibrary::refreshDefectMastersList(const QString &camera)
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::reloadDarksFromDatabase()
 {
+    if (!m_Camera) return;
     auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
 
     const QString camera = m_Camera->getDeviceName();

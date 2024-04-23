@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>436</width>
-    <height>315</height>
+    <height>380</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,15 @@
   <property name="windowTitle">
    <string>Capture Sequence Editor</string>
   </property>
-  <layout class="QVBoxLayout" name="sequenceEditorLayout" stretch=""/>
+  <layout class="QVBoxLayout" name="sequenceEditorLayout">
+   <item>
+    <widget class="QLabel" name="sequenceEditorComment">
+     <property name="text">
+      <string>&lt;comment&gt;</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

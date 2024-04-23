@@ -2016,7 +2016,7 @@
           <para
 ><guilabel
 >Acquisition des à-plats à la même mise au point que les brutes</guilabel
-> : en cochant cette case, les flats seront acquis à la position du moteur de mise au point de la <guilabel
+> : en cochant cette case, les à-plats seront acquis à la position du moteur de mise au point de la <guilabel
 >Dernière solution de mise au point automatique</guilabel
 >.</para>
           </listitem>
@@ -2941,7 +2941,7 @@
     </screenshot>
 
     <para
->L'inspecteur d'aberration est un outil utilisant la mise au point automatique pour analyser le backfocus et l'inclinaison du capteur du train optique.</para>
+>L'inspecteur d'aberration est un outil utilisant la mise au point automatique pour analyser la focale arrière et l'inclinaison du capteur du train optique.</para>
     <para
 >Pour exécuter l'inspecteur d'aberration, veuillez cliquer sur le bouton de l'<guibutton
 >Inspecteur d'aberration</guibutton
@@ -2993,14 +2993,14 @@
 
       <listitem>
         <para
->Un masque de mosaïque doit être appliqué. Un peu d'expérimentation sera probablement nécessaire pour trouver le réglage optimal pour votre équipement. Le paramètre a ajusté est la taille de la tuile qui est un pourcentage de la largeur du capteur. Ainsi, plus ce pourcentage est grand et plus la tuile sera grande ; par exemple, pour un capteur 4:3 et une tuile de taille 25%, cela signifie que chaque tuile représente 8% de la surface du capteur. Pour 10%, chaque tuile représente 1% de la surface du capteur. Plus la surface est grande et plus grand sera le nombre d'étoile et meilleure sera la résolution. Toutefois, la raison d'être de l'Inspecteur d'aberration est de fournir de l'information sur l'aberration (backfocus et inclinaison) du capteur, et par conséquent l'information pour chaque tuile sera aussi petite que la surface de la tuile.</para>
+>Un masque de mosaïque doit être appliqué. Un peu d'expérimentation sera probablement nécessaire pour trouver le réglage optimal pour votre équipement. Le paramètre a ajusté est la taille de la tuile qui est un pourcentage de la largeur du capteur. Ainsi, plus ce pourcentage est grand et plus la tuile sera grande ; par exemple, pour un capteur 4:3 et une tuile de taille 25%, cela signifie que chaque tuile représente 8% de la surface du capteur. Pour 10%, chaque tuile représente 1% de la surface du capteur. Plus la surface est grande et plus grand sera le nombre d'étoile et meilleure sera la résolution. Toutefois, la raison d'être de l'Inspecteur d'aberration est de fournir de l'information sur l'aberration (focale arrière et inclinaison) du capteur, et par conséquent l'information pour chaque tuile sera aussi petite que la surface de la tuile.</para>
         <para
 >La meilleur taille de tuile est la plus petite possible qui permet une résolution pour chaque tuile.</para>
       </listitem>
     </itemizedlist>
 
     <para
->L'inspecteur d'aberration peut être utilisé conjointement avec un périphérique permettant d'ajuster l'inclinaison et/ou le backfocus. La méthode est itérative comme par exemple la collimation du télescope. Les étapes sont :</para>
+>L'inspecteur d'aberration peut être utilisé conjointement avec un périphérique permettant d'ajuster l'inclinaison et / ou la focale arrière. La méthode est itérative comme par exemple la collimation du télescope. Les étapes sont :</para>
 
     <itemizedlist>
       <listitem>
@@ -3015,12 +3015,12 @@
 
       <listitem>
         <para
->Ajustez l'inclinaison et/ou le backfocus en utilisant votre périphérique, en se référant aux résultats obtenus.</para>
+>Ajustez l'inclinaison et/ou la focale arrière en utilisant votre périphérique, en se référant aux résultats obtenus.</para>
       </listitem>
 
       <listitem>
         <para
->Relancez l'Inspecteur d'aberration. Cela ouvrira une nouvelle fenêtre. Vérifiez les résultats comme précédemment. Si l'inclinaison et/ou le backfocus s'améliorent, cela signifie que les corrections vont dans le bon sens. Dans le cas contraire, inversez le sens et réessayez. Utilisez le retour de l'ajustement précédent pour le prochain ajustement.</para>
+>Relancez l'Inspecteur d'aberration. Cela ouvrira une nouvelle fenêtre. Vérifiez les résultats comme précédemment. Si l'inclinaison et / ou la focale arrière s'améliorent, cela signifie que les corrections vont dans le bon sens. Dans le cas contraire, inversez le sens et réessayez. Utilisez le retour de l'ajustement précédent pour le prochain ajustement.</para>
       </listitem>
     </itemizedlist>
 
@@ -3153,13 +3153,13 @@
         <para
 ><guilabel
 >Tuile</guilabel
-> : le nom de la tuile résumé en 1 ou 2 caractères, par exemple TL = Top Left, C = Centre, etc.</para>
+> : le nom de la tuile résumé en 1 ou 2 caractères, par exemple TL = Supérieur-Gauche (Top-Left), C = Centre, etc.</para>
       </listitem>
       <listitem>
         <para
 ><guilabel
 >Description</guilabel
-> : la description de la tuile, par exemple Top Left, Centre, etc.</para>
+> : la description de la tuile, par exemple Supérieur-Gauche, Centre, etc.</para>
       </listitem>
       <listitem>
         <para
@@ -3237,11 +3237,11 @@
       <listitem>
         <para
 ><guilabel
->Δ du backfocus</guilabel
-> : la valeur du delta du backfocus. Le meilleur backfocus est obtenu pour des deltas petits. Veuillez noter que cette valeur donne une indication sur le positionnement du backfocus en terme d'échelle et de direction, mais n'est en aucun cas une mesure de la quantité à déplacer le capteur. La relation entre ces deux grandeurs dépend de l'équipement et nécessite d'être trouvée par l'utilisateur.</para>
+>Δ de la focale arrière</guilabel
+> : la valeur du delta de la focale arrière. La meilleure focale arrière est obtenue pour des petits deltas. Veuillez noter que cette valeur donne une indication sur le positionnement de la focale arrière en terme d'échelle et de direction, mais n'est en aucun cas une mesure de la quantité à déplacer le capteur. La relation entre ces deux grandeurs dépend de l'équipement et nécessite d'être trouvée par l'utilisateur.</para>
 
         <para
->Le champ donne le sens de mouvement du backfocus nécessaire à l'améliorer ; il faut soit le rapprocher du correcteur de champ du télescope, soit l'en éloigner.</para>
+>Le champ donne le sens de mouvement de la focale arrière nécessaire à l'améliorer ; il faut soit le rapprocher du correcteur de champ du télescope, soit l'en éloigner.</para>
       </listitem>
       <listitem>
         <para
@@ -3264,13 +3264,13 @@
     </itemizedlist>
 
     <para
->À nouveau, plus le delta est petit et plus le capteur est près du backfocus parfait. Si l'aplatisseur de champ n'aplatit pas le champ jusque dans les coins du capteur, il est possible de voir cela en positionnant l'option de « Centre et coins extérieurs » à « Centre et losanges intérieurs ». Si les résultats du backfocus sont cohérents entre ces deux options, cela signifie que l'aplatisseur de champ fait bien son travail jusqu'aux coins du capteur.</para>
+>À nouveau, plus le delta est petit et plus le capteur est près de la focale arrière parfait. Si l'aplatisseur de champ n'aplatit pas le champ jusque dans les coins du capteur, il est possible de voir cela en positionnant l'option de « Centre et coins extérieurs » à « Centre et losanges intérieurs ». Si les résultats de la focale arrière sont cohérents entre ces deux options, cela signifie que l'aplatisseur de champ fait bien son travail jusqu'aux coins du capteur.</para>
 
     <para
->Il y aura toujours un peu de backfocus, et cela est dû au bruit contenu dans les données. La chose importante est qu'en position de mise au point, les étoiles sont circulaires sur toute la surface du capteur.</para>
+>Il y aura toujours un peu de focale arrière et cela est dû au bruit contenu dans les données. La chose importante est qu'en position de mise au point, les étoiles sont circulaires sur toute la surface du capteur.</para>
 
     <para
->Plus le pourcentage d'inclinaison est petit et plus le capteur est parallèle au plan de la lumière provenant de l'aplatisseur et du télescope. Comme pour le delta du backfocus, il y aura toujours un peu de bruit dans les données, ce qui sera présenté comme du bruit. Le point important est la taille des étoiles qui doit être cohérente sur toute la surface du capteur.</para>
+>Plus le pourcentage d'inclinaison est petit et plus le capteur est parallèle au plan de la lumière provenant de l'aplatisseur et du télescope. Comme pour le delta de focale arrière, il y aura toujours un peu de bruit dans les données, ce qui sera présenté comme du bruit. Le point important est la taille des étoiles qui doit être cohérente sur toute la surface du capteur.</para>
 
     <para
 >Comme ces deux grandeurs sont liées dans les calculs, l'une affectera l'autre et il sera ainsi plus judicieux d'ajuster les deux grandeurs en même temps, par petite touche, plutôt que d'essayer d'ajuster parfaitement l'une avant d'ajuster l'autre.</para>
@@ -3299,15 +3299,15 @@
     <para
 >Le graphique 3D affiche le capteur incliné selon les <link linkend="aberration-inspector-results"
 >résultats de l'Inspecteur d'aberration</link
->. Pour faciliter l'affichage de la surface de Petzval (Veuillez consulter la page <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
->Petzval Field Curvature</ulink
-> pour davantage de détails) de la lumière provenant du télescope sur le capteur, la surface du capteur est également modélisée. Plus l'erreur de backfocus est importante et plus la surface de Petzval sera courbée.</para>
+>. Pour faciliter l'affichage de la surface de Petzval (Veuillez consulter la page <ulink url="https://fr.wikipedia.org/wiki/Courbure_de_champ"
+>Courbure de champ de Petzval</ulink
+> pour davantage de détails) de la lumière provenant du télescope sur le capteur, la surface du capteur est également modélisée. Plus l'erreur de focale arrière est importante et plus la surface de Petzval sera courbée.</para>
 
     <para
 >Le graphique peut être zoomé et tourné à l'aide de mouvements. Pour zoomer, il faut pincer et pour tourner, il faut toucher et déplacer.</para>
 
     <para
->Le graphique possède un mode de simulation permettant d'ajuster le backfocus et l'inclinaison à l'aide de curseurs. L'effet de l'inclinaison du capteur et de la surface de Petzval est affiché sur le graphique.</para>
+>Le graphique possède un mode de simulation permettant d'ajuster la focale arrière et l'inclinaison à l'aide de curseurs. L'effet de l'inclinaison du capteur et de la surface de Petzval est affiché sur le graphique.</para>
 
     <para
 >Les options suivantes sont disponibles pour le graphique</para>
@@ -3376,7 +3376,7 @@
         <para
 ><guilabel
 >Mode simulation</guilabel
-> : case à cocher pour (dés)activer le mode simulation. Quand décoché, le graphique affiche le capteur et la surface de Petzval selon les résultats calculés par l'Inspecteur d'aberration. Quand coché, les curseurs du backfocus et des inclinaisons sont activés et peuvent être modifiés par l'utilisateur. Un survol par la souris des curseurs décrit leur fonctionnalité.</para>
+> : case à cocher pour (dés)activer le mode simulation. Quand décoché, le graphique affiche le capteur et la surface de Petzval selon les résultats calculés par l'Inspecteur d'aberration. Quand cette option est sélectionnée, les curseurs de focale arrière et des inclinaisons sont activés et peuvent être modifiés par l'utilisateur. Un survol par la souris des curseurs décrit leur fonctionnalité.</para>
       </listitem>
     </itemizedlist>
 
