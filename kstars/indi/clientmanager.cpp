@@ -53,13 +53,44 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
             DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
+            qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
+                                 "(exact match by label)";
             emit newINDIDevice(devInfo);
             return;
         }
     }
 
-    // Second iteration find partial matches
+    // Next use getName() exact match
+    for (auto &oneDriverInfo : m_ManagedDrivers)
+    {
+        if (oneDriverInfo->getName() == QString(dp.getDeviceName()))
+        {
+            oneDriverInfo->setUniqueLabel(dp.getDeviceName());
+            DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            oneDriverInfo->addDevice(devInfo);
+            qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
+                                 "(exact match by name)";
+            emit newINDIDevice(devInfo);
+            return;
+        }
+    }
 
+    // Next use getName() startsWith() match
+    for (auto &oneDriverInfo : m_ManagedDrivers)
+    {
+        if (QString(dp.getDeviceName()).startsWith(oneDriverInfo->getName()))
+        {
+            oneDriverInfo->setUniqueLabel(dp.getDeviceName());
+            DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            oneDriverInfo->addDevice(devInfo);
+            qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
+                                 "(startsWith match)";
+            emit newINDIDevice(devInfo);
+            return;
+        }
+    }
+
+    // Finally find partial matches
     for (auto &oneDriverInfo : m_ManagedDrivers)
     {
         auto dvName = oneDriverInfo->getName().split(' ').first();
@@ -71,6 +102,8 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
         {
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
             DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
+            qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
+                                 "(heuristic match)";
             oneDriverInfo->addDevice(devInfo);
             emit newINDIDevice(devInfo);
             return;
@@ -222,6 +255,9 @@ void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver
 
     for (auto &di : driver->getDevices())
     {
+        qCDebug(KSTARS_INDI) << "Managed driver" << driver->getName() << "has device" << di->getDeviceName() <<
+                             "that will be removed";
+
         // #1 Remove from GUI Manager
         GUIManager::Instance()->removeDevice(di->getDeviceName());
 

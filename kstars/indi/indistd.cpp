@@ -558,9 +558,9 @@ bool GenericDevice::processBLOB(INDI::Property prop)
     auto bp = bvp->at(0);
 
     // If any concrete device processed the blob then we return
-    for (auto oneConcreteDevice : m_ConcreteDevices)
+    for (auto &oneConcreteDevice : m_ConcreteDevices)
     {
-        if (oneConcreteDevice->processBLOB(prop))
+        if (!oneConcreteDevice.isNull() && oneConcreteDevice->processBLOB(prop))
             return true;
     }
 

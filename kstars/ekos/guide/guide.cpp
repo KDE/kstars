@@ -912,7 +912,10 @@ void Guide::processCaptureTimeout()
 {
     // Don't restart if we've since been suspended.
     if (m_State == GUIDE_SUSPENDED)
+    {
+        appendLogText(i18n("Exposure timeout, but suspended. Ignoring..."));
         return;
+    }
 
     auto restartExposure = [&]()
     {
@@ -949,8 +952,9 @@ void Guide::processCaptureTimeout()
         return;
     }
 
-    if (m_CaptureTimeoutCounter > 1)
+    if (m_CaptureTimeoutCounter > 3)
     {
+        appendLogText(i18n("Exposure timeout. Too many. Restarting driver."));
         QString camera = m_Camera->getDeviceName();
         QString via = m_Guider ? m_Guider->getDeviceName() : "";
         ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
