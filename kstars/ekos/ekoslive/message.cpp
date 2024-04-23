@@ -1703,6 +1703,23 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         all.sort(Qt::CaseInsensitive);
         sendResponse(commands[ASTRO_GET_NAMES], QJsonArray::fromStringList(all));
     }
+    else if (command == commands[ASTRO_GET_DESIGNATIONS])
+    {
+        QJsonArray designations;
+
+        for (auto &oneObject : m_DSOManager.get_objects_all())
+        {
+            QJsonObject oneDesignation =
+            {
+                {"primary", oneObject.name()},
+                {"designations", QJsonArray::fromStringList(oneObject.longname().split(", "))}
+            };
+
+            designations.append(oneDesignation);
+        }
+
+        sendResponse(commands[ASTRO_GET_DESIGNATIONS], designations);
+    }
     else if (command == commands[ASTRO_GET_LOCATION])
     {
         auto geo = KStarsData::Instance()->geo();
