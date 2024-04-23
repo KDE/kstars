@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
-"PO-Revision-Date: 2024-03-27 14:35+0300\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
+"PO-Revision-Date: 2024-04-23 01:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12252,10 +12252,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetMapParametersB)
 #: ekos/auxiliary/darklibrary.ui:979
-#, fuzzy, kde-format
-#| msgid "Reset CCD frame values to default values"
+#, kde-format
 msgid "Reset aggressiveness sliders to default values."
-msgstr "CCD çerçeve değerlerini, varsayılan yap"
+msgstr "Yoğunluk sürgülerini öntanımlı değerlere sıfırlayın."
 
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
@@ -15235,10 +15234,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "Ayarlama"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -18530,36 +18528,22 @@ msgstr "Kip"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Geri odak sürgüsü</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Soldan sağa kaydırma sürgüsü</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Yukarıdan aşağıya kaydırma sürgüsü</p></body></html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
 #, kde-format
@@ -21735,11 +21719,6 @@ msgstr "Donanımı Yapılandır"
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "INDI aygıtlarından bağlantı kesiliyor..."
 
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "Ayarlama"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
 #, kde-format
@@ -22296,16 +22275,13 @@ msgstr "Kılavuz"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
 #: ekos/guide/guide.ui:1069
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to adjust the scale of the Corrections "
 "Graphs relative to the scale of the drift graphs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Düzeltme grafiklerinin ölçeğini sürüklenme "
+"grafiklerinin ölçeğine göre ayarlamak için sürgüyü sürün.</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1116
@@ -22465,6 +22441,10 @@ msgid ""
 "right will set the guide plots to display the latest guide data and "
 "autoscroll the graph.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Her iki grafikte RA ve DEC hata noktalarını "
+"görüntülerken sürgüyü kılavuz geçmişinde kaydırmak için sürün. En sağa "
+"sürüklemek, güncel kılavuz verisini ayarlamak üzere kılavuz noktalarını "
+"ayarlayacak ve grafiği kendiliğinden saracaktır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1406
@@ -31260,9 +31240,9 @@ msgid ""
 "stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be "
 "coarse resolution and fast."
 msgstr ""
-"FITS Görüntüleyicisi'nin streç parametre kaydırıcılarını kaydırırken "
-"gösterilen önizlemenin kabalığını ayarlayın. 1 tam çözünürlüktür; ancak "
-"yavaş olabilir, 4 kaba çözünürlüktür ve hızlı olabilir."
+"FITS Görüntüleyicisi'nin streç parametre sürgülerini kaydırırken gösterilen "
+"önizlemenin kabalığını ayarlayın. 1 tam çözünürlüktür; ancak yavaş olabilir, "
+"4 kaba çözünürlüktür ve hızlı olacaktır."
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
 #: fitsviewer/opsfits.ui:229
@@ -31702,6 +31682,8 @@ msgid ""
 "Automatically scales the sliders for the subFrame.\n"
 "Uncheck to leave them unchanged when you pan around."
 msgstr ""
+"Sürgüleri, subFrame için kendiliğinden ölçekler.\n"
+"Ortalıkta gezinirken onları aynı bırakmak için işaretini kaldırın."
 
 #: fitsviewer/starprofileviewer.cpp:115
 #, kde-format
@@ -31782,7 +31764,7 @@ msgstr "Seçildi"
 #: fitsviewer/starprofileviewer.cpp:196
 #, kde-format
 msgid "Hides and shows the Vertical and Horizontal Selection Sliders"
-msgstr ""
+msgstr "Yatay ve dikey seçim sürgülerini gösterir ve gizler"
 
 #: fitsviewer/starprofileviewer.cpp:219
 #, kde-format
@@ -31807,7 +31789,7 @@ msgstr "Yatay: "
 #: fitsviewer/starprofileviewer.cpp:238
 #, kde-format
 msgid "Zooms automatically as the sliders change"
-msgstr ""
+msgstr "Sürgüler değişirken kendiliğinden yakınlaştırır"
 
 #: fitsviewer/starprofileviewer.cpp:250
 #, fuzzy, kde-format
@@ -87089,6 +87071,11 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "Ayarlama"
 
 #, fuzzy
 #~| msgctxt "string from libindi, used in the config dialog"

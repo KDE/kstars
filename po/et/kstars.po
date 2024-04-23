@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -14958,10 +14958,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Pime- ja tasaväljakaadrite automaatse kalibreerimise valikud"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "Kalibreerimine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -21010,11 +21009,6 @@ msgstr "PHD2: varustuse ühendamine ..."
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: varustuse lahtiühendamine ..."
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "Kalibreerimine"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -85282,6 +85276,11 @@ msgstr "Taustavärv:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Värvi määramine taustaks."
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "Kalibreerimine"
 
 #~ msgid "<b>File Settings</b>"
 #~ msgstr "<b>Failiseadistused</b>"

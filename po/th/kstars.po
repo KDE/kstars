@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -14480,11 +14480,10 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "To file..."
-msgid "Calibraton"
-msgstr "ไปยังแฟ้ม..."
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
 #: ekos/capture/capture.ui:1268
@@ -20206,11 +20205,6 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:1367
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
-msgstr ""
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
@@ -83408,6 +83402,11 @@ msgstr ""
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "To file..."
+#~ msgid "Calibraton"
+#~ msgstr "ไปยังแฟ้ม..."
 
 #, fuzzy
 #~| msgid "Remove Label"

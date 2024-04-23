@@ -17,15 +17,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
-"PO-Revision-Date: 2024-04-11 23:07+0200\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
+"PO-Revision-Date: 2024-04-22 12:15+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -14794,10 +14794,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/capture.ui:254
-#, fuzzy, kde-format
-#| msgid "<b>Capture Settings</b>"
+#, kde-format
 msgid "Capture Settings"
-msgstr "<b>Preferencias de captura</b>"
+msgstr "Preferencias de captura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/capture.ui:275
@@ -14989,8 +14988,7 @@ msgstr "Desplazamiento de la cámara objetivo"
 
 #. i18n: ectx: property (text), widget (QLabel, darksLibraryLabel)
 #: ekos/capture/capture.ui:1027
-#, fuzzy, kde-format
-#| msgid "Dark Library"
+#, kde-format
 msgid "Dark Lib."
 msgstr "Biblioteca oscura"
 
@@ -15005,7 +15003,7 @@ msgstr "Control del rotador"
 #: ekos/capture/capture.ui:1111
 #, kde-format
 msgid "Exp. Calc."
-msgstr ""
+msgstr "Cálculo de exposición"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
 #: ekos/capture/capture.ui:1133
@@ -15026,10 +15024,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Opciones de calibración automática de fotogramas oscuros y planos"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "Calibración"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -15044,10 +15041,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/capture.ui:1293
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Dark Flats"
-msgstr "Plano oscuro"
+msgstr "Planos oscuros"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/capture.ui:1321
@@ -15057,10 +15053,9 @@ msgstr "Gestión de las propiedades de la secuencia INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
 #: ekos/capture/capture.ui:1346
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Val."
-msgstr "Personalizar"
+msgstr "Valor personalizado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/capture.ui:1362
@@ -15131,10 +15126,9 @@ msgstr "Regulación de la temperatura"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/capture.ui:1639
-#, fuzzy, kde-format
-#| msgid "Filter Settings"
+#, kde-format
 msgid "File Settings"
-msgstr "Preferencias de filtros"
+msgstr "Preferencias de archivos"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:1667
@@ -15514,9 +15508,7 @@ msgstr "ISO/Ganancia"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/capture.ui:2294
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Vídeo"
 
@@ -17403,10 +17395,9 @@ msgstr "Editor de secuencia de captura"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceEditorComment)
 #: ekos/capture/sequenceeditorui.ui:26
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "<comment>"
-msgstr "Comentario"
+msgstr "<comentario>"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -21341,11 +21332,6 @@ msgstr "PHD2: Conectando el equipo..."
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Desconectando el equipo..."
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "Calibración"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -86342,6 +86328,10 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "Calibración"
 
 #~ msgid "<b>File Settings</b>"
 #~ msgstr "<b>Preferencias de archivo</b>"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -14887,10 +14887,10 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgid "Client"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "ਕਲਾਂਈਟ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -20888,12 +20888,6 @@ msgstr "ਹਟਾਉਣ ਪੁਸ਼ਟੀ"
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr ""
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgid "Client"
-msgid "Calibration"
-msgstr "ਕਲਾਂਈਟ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -88570,6 +88564,11 @@ msgstr "ਬੈਕਗਰਾਊਂਡ ਰੰਗ:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "ਬੈਕਗਰਾਊਂਡ ਦਾ ਰੰਗ ਦਿਉ।"
+
+#, fuzzy
+#~| msgid "Client"
+#~ msgid "Calibraton"
+#~ msgstr "ਕਲਾਂਈਟ"
 
 #, fuzzy
 #~| msgctxt "string from libindi, used in the config dialog"

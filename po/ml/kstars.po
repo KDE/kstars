@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -14448,11 +14448,11 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "കാലിയെന്റെ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -20135,13 +20135,6 @@ msgstr "_എല്ലാം നീക്കം ചെയ്യുക"
 #, fuzzy, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "വെബ്കാം ഡിവൈസ് സ്ട്രിങ് സൂചകം"
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Caliente"
-msgid "Calibration"
-msgstr "കാലിയെന്റെ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -88260,6 +88253,12 @@ msgstr "ബാരണ്‍"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Caliente"
+#~ msgid "Calibraton"
+#~ msgstr "കാലിയെന്റെ"
 
 #, fuzzy
 #~| msgid "string"

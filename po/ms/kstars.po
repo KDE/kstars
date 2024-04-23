@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -14054,9 +14054,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "Bandar nama"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -19559,11 +19559,6 @@ msgstr "Konfigurasi mengguna _DHCP"
 #, fuzzy, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "Sambung atau Nyahsambung."
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-msgid "Calibration"
-msgstr "Bandar nama"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -81719,6 +81714,10 @@ msgstr "Pudar hingga latar belakang"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Pudar latar belakang?"
+
+#, fuzzy
+#~ msgid "Calibraton"
+#~ msgstr "Bandar nama"
 
 #, fuzzy
 #~ msgid "<b>File Settings</b>"

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -14936,11 +14936,11 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "காலியென்ட்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -20773,13 +20773,6 @@ msgstr "மறைக்கப்பட்ட பொருட்களை வட�
 #| msgid "Configure INDI..."
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "INDI... கட்டமை"
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Caliente"
-msgid "Calibration"
-msgstr "காலியென்ட்"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -91185,6 +91178,12 @@ msgstr "பின்னனி வண்ணத்திற்கான போல�
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "பின்புலனில் அடிச்சுவட்டு வண்ணங்களை போலியாக்கவும்."
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Caliente"
+#~ msgid "Calibraton"
+#~ msgstr "காலியென்ட்"
 
 #, fuzzy
 #~ msgid "<b>File Settings</b>"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -15063,10 +15063,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "Kalibravimas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -21031,11 +21030,6 @@ msgstr "Slėpti objektus"
 #| msgid "Connect or Disconnect an INDI device."
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "Užmezga arba nutraukia ryšį su INDI įrenginiu."
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "Kalibravimas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -90055,6 +90049,11 @@ msgstr "Fono spalva:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Foną spalvinti šia spalva."
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "Kalibravimas"
 
 #, fuzzy
 #~| msgctxt "string from libindi, used in the config dialog"

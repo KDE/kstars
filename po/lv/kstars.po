@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -14940,10 +14940,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "Kalibrēšana"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -20953,11 +20952,6 @@ msgstr "Definēt aprīkojumu"
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr ""
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "Kalibrēšana"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -88968,6 +88962,11 @@ msgstr "Fona krāsa:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "Kalibrēšana"
 
 #, fuzzy
 #~| msgctxt "string from libindi, used in the config dialog"

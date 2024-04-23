@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -15003,11 +15003,11 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "Caliente"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -21026,13 +21026,6 @@ msgstr "장비 정의"
 #| msgid "Connect or Disconnect an INDI device."
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "INDI 기기를 연결하거나 연결을 끊습니다."
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "City in Nevada USA"
-#| msgid "Caliente"
-msgid "Calibration"
-msgstr "Caliente"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -85871,6 +85864,12 @@ msgstr "배경색:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "배경색 설정"
+
+#, fuzzy
+#~| msgctxt "City in Nevada USA"
+#~| msgid "Caliente"
+#~ msgid "Calibraton"
+#~ msgstr "Caliente"
 
 #, fuzzy
 #~| msgid "&Settings"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -14607,11 +14607,11 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "Калиенте"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -20320,13 +20320,6 @@ msgstr "Конфигурирај скриени објекти"
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr ""
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Caliente"
-msgid "Calibration"
-msgstr "Калиенте"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -89637,6 +89630,12 @@ msgstr "Ѕвезден графикон"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Скриј ги објектите додека се движат"
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Caliente"
+#~ msgid "Calibraton"
+#~ msgstr "Калиенте"
 
 #, fuzzy
 #~ msgid "<b>File Settings</b>"

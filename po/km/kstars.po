@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -13989,9 +13989,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -19455,11 +19455,6 @@ msgstr "លុប"
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr ""
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-msgid "Calibration"
-msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -81557,6 +81552,10 @@ msgstr "ផ្ទៃ​ខាងក្រោយ​ប្រអប់​ព័ត
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Calibraton"
+#~ msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
 #, fuzzy
 #~ msgid "<b>File Settings</b>"

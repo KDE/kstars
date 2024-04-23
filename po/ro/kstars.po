@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2022-02-04 15:32+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -15271,11 +15271,11 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "Caliente"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -21315,13 +21315,6 @@ msgstr "Definește echipament"
 #| msgid "Connect or Disconnect an INDI device."
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "Conectează sau deconectează un dispozitiv INDI."
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "City in Nevada USA"
-#| msgid "Caliente"
-msgid "Calibration"
-msgstr "Caliente"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -94092,6 +94085,12 @@ msgstr "Culoare fundal:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Setează culoare fundal."
+
+#, fuzzy
+#~| msgctxt "City in Nevada USA"
+#~| msgid "Caliente"
+#~ msgid "Calibraton"
+#~ msgstr "Caliente"
 
 #, fuzzy
 #~| msgctxt "string from libindi, used in the config dialog"

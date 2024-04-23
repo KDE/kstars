@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -15261,11 +15261,11 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "कालियन्टे"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -21300,13 +21300,6 @@ msgstr "लुकाएको वस्तु कन्फिगर गर्न
 #| msgid "Connect or Disconnect an INDI device."
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "एउटा इन्दी यन्त्र जडान गर्नुहोस् वा विच्छेदन गर्नुहोस् ।"
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Caliente"
-msgid "Calibration"
-msgstr "कालियन्टे"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -94654,6 +94647,12 @@ msgstr "सूचना बाकसहरूको पृष्ठभूमि 
 #| msgid "The color for the sky background."
 msgid "Set the color for the background."
 msgstr "आकाश पृष्ठभूमिको लागि रङ ।"
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Caliente"
+#~ msgid "Calibraton"
+#~ msgstr "कालियन्टे"
 
 #, fuzzy
 #~| msgid "&Settings"

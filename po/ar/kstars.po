@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -14494,10 +14494,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "المعايرة"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -20442,11 +20441,6 @@ msgstr "إعدادات الأجهزة"
 #, fuzzy, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "اتصل أو اقطع الاتصال INDI جهاز."
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "المعايرة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -83712,6 +83706,11 @@ msgstr "لون الخلفية:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "الـ اللّون لـ الخلفية."
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "المعايرة"
 
 #~ msgid "<b>File Settings</b>"
 #~ msgstr "<b>إعدادات الملف</b>"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
-"PO-Revision-Date: 2024-04-11 12:38+0200\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
+"PO-Revision-Date: 2024-04-22 10:37+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -14825,10 +14825,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/capture.ui:254
-#, fuzzy, kde-format
-#| msgid "<b>Capture Settings</b>"
+#, kde-format
 msgid "Capture Settings"
-msgstr "<b>Configuració de la captura</b>"
+msgstr "Configuració de la captura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/capture.ui:275
@@ -15018,12 +15017,12 @@ msgstr "Desplaçament actual de la càmera"
 msgid "Target camera offset"
 msgstr "Desplaçament objectiu de la càmera"
 
+# skip-rule: punctuation-period
 #. i18n: ectx: property (text), widget (QLabel, darksLibraryLabel)
 #: ekos/capture/capture.ui:1027
-#, fuzzy, kde-format
-#| msgid "Dark Library"
+#, kde-format
 msgid "Dark Lib."
-msgstr "Biblioteca fosca"
+msgstr "Bibl. fosca"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
@@ -15036,7 +15035,7 @@ msgstr "Control del rotor"
 #: ekos/capture/capture.ui:1111
 #, kde-format
 msgid "Exp. Calc."
-msgstr ""
+msgstr "Calc. exp."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
 #: ekos/capture/capture.ui:1133
@@ -15057,10 +15056,9 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Opcions de calibratge automàtic dels fotogrames foscos i plans"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibraton"
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
+#, kde-format
+msgid "Calibration"
 msgstr "Calibratge"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -15075,10 +15073,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/capture.ui:1293
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Dark Flats"
-msgstr "Pla fosc"
+msgstr "Plans foscos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/capture.ui:1321
@@ -15086,12 +15083,12 @@ msgstr "Pla fosc"
 msgid "Manage INDI sequence properties"
 msgstr "Gestiona les propietats de la seqüència de l'INDI"
 
+# skip-rule: punctuation-period
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
 #: ekos/capture/capture.ui:1346
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Val."
-msgstr "Personalitzat"
+msgstr "Val. personalitzada"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/capture.ui:1362
@@ -15162,10 +15159,9 @@ msgstr "Regulació de temperatura"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/capture.ui:1639
-#, fuzzy, kde-format
-#| msgid "Filter Settings"
+#, kde-format
 msgid "File Settings"
-msgstr "Configuració del filtre"
+msgstr "Configuració dels fitxers"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/capture.ui:1667
@@ -15532,9 +15528,7 @@ msgstr "ISO/Guany"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/capture.ui:2294
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Vídeo"
 
@@ -17411,10 +17405,9 @@ msgstr "Editor de seqüències de captura"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceEditorComment)
 #: ekos/capture/sequenceeditorui.ui:26
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "<comment>"
-msgstr "Comentari"
+msgstr "<comentari>"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -21351,11 +21344,6 @@ msgstr "PHD2: S'està connectant amb l'equip..."
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: L'equip s'està desconnectant..."
-
-#: ekos/guide/guide.cpp:69
-#, kde-format
-msgid "Calibration"
-msgstr "Calibratge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -86552,6 +86540,10 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
+
+#~| msgid "Calibration"
+#~ msgid "Calibraton"
+#~ msgstr "Calibratge"
 
 #~ msgid "<b>File Settings</b>"
 #~ msgstr "<b>Configuració del fitxer</b>"

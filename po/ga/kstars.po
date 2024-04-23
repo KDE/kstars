@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 01:52+0000\n"
+"POT-Creation-Date: 2024-04-23 01:52+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -15022,10 +15022,10 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/capture.ui:1237
+#: ekos/capture/capture.ui:1237 ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgid "Configuration"
-msgid "Calibraton"
+msgid "Calibration"
 msgstr "Cumraíocht"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
@@ -21016,12 +21016,6 @@ msgstr "Gléasra:"
 #| msgid "Disconnecting INDI devices..."
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "Gléasanna INDI á ndícheangal..."
-
-#: ekos/guide/guide.cpp:69
-#, fuzzy, kde-format
-#| msgid "Configuration"
-msgid "Calibration"
-msgstr "Cumraíocht"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/guide.cpp:73 ekos/guide/opsdither.ui:102
@@ -92234,6 +92228,11 @@ msgstr "Dath an chúlra:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Configuration"
+#~ msgid "Calibraton"
+#~ msgstr "Cumraíocht"
 
 #, fuzzy
 #~| msgctxt "string from libindi, used in the config dialog"
