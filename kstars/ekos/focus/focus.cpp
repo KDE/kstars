@@ -1738,8 +1738,16 @@ bool Focus::changeFocus(int amount, bool updateDir)
     // Allow 1 step of tolerance--Have seen stalls with amount==1.
     if (inAutoFocus && abs(amount) <= 1)
     {
-        capture(m_OpsFocusMechanics->focusSettleTime->value());
-        return true;
+        if (m_RestartState == RESTART_NOW)
+            // Restart in progress which is normally triggered by the completion of the focuser
+            // reset to its starting position but in this case the focuser is already at its starting
+            // position... so create a small movement. As above comment amount=1 can cause a stall, so use 2.
+            amount = -2;
+        else
+        {
+            capture(m_OpsFocusMechanics->focusSettleTime->value());
+            return true;
+        }
     }
 
     if (m_Focuser == nullptr)
