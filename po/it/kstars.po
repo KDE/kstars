@@ -10,7 +10,7 @@
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Luigi Toscano <luigi.toscano@tiscali.it>, 2012, 2013.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2019, 2020, 2022.
-# Valter Mura <valtermura@gmail.com>, 2022.
+# SPDX-FileCopyrightText: 2022, 2024 Valter Mura <valtermura@gmail.com>
 # Paolo Zamponi <feus73@gmail.com>, 2023.
 #
 # Mini-glossary:
@@ -20,16 +20,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-23 01:52+0000\n"
-"PO-Revision-Date: 2024-01-20 16:54+0100\n"
-"Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
+"POT-Creation-Date: 2024-04-24 01:53+0000\n"
+"PO-Revision-Date: 2024-04-21 00:33+0200\n"
+"Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -48,10 +48,9 @@ msgid "Sky"
 msgstr "Cielo"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Dark Flat"
+msgstr "Cielo diurno"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -819,36 +818,28 @@ msgid "Data folder permissions error."
 msgstr "Errore nei permessi della cartella dati."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Up"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "Zenit s&u"
+msgstr "Zenit su"
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Down"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "Zenit &giù"
+msgstr "Zenit giù"
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Up"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "Nord s&u"
+msgstr "Nord su"
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Down"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Nor&d giù"
+msgstr "Nord giù"
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -856,16 +847,14 @@ msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "SCT con diagonale verso l'alto"
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "Estonia"
+msgstr "Dobsoniano tipico"
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -2923,7 +2912,7 @@ msgstr "Mappatura dei tipi"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capture.ui:2309
 #: ekos/capture/capturecountswidget.cpp:266
-#: ekos/capture/captureprocess.cpp:2437 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2448 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
@@ -5611,38 +5600,34 @@ msgstr "Forma:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, NewView)
 #: dialogs/newview.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add / Edit View"
-msgstr "Aggiungi/Modifica DSO"
+msgstr "Aggiungi / modifica vista"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
 #, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr ""
+msgstr "Cercatore RACI 9x50 su Dob"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Mount Forest"
+#, kde-format
 msgid "Mount Type:"
-msgstr "Mount Forest"
+msgstr "Tipo di montatura:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
 #: dialogs/newview.ui:58 tools/modcalcplanets.ui:793
 #, kde-format
 msgid "Equatorial"
-msgstr "Equatoriali"
+msgstr "Equatoriale"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
-msgstr "Azimut"
+msgstr "Altazimutale"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -5651,62 +5636,63 @@ msgid ""
 "**Note:** Choose mount type \"Altazimuth\" when visually observing through "
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
+"**Nota:** scegli il tipo di montatura «altazimutale» quando stai osservando "
+"visivamente attraverso SCT / rifrattori, indipendentemente da la montatura "
+"reale."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
 #, kde-format
 msgid "Correct (e.g. RACI finder or refractor with Amici roof prism)"
-msgstr ""
+msgstr "Corretto (es. cercatore RACI o rifrattore con prisma a tetto di Amici)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, mirroredViewType)
 #: dialogs/newview.ui:115
 #, kde-format
 msgid "Mirrored (e.g. Cassegrain or refractor with erecting prism)"
-msgstr ""
+msgstr "Rispecchiato (es. Cassegrain o rifrattore con prima di raddrizzamento)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedViewType)
 #: dialogs/newview.ui:122
 #, kde-format
 msgid "Inverted (e.g. straight through finder, Newtonian)"
-msgstr ""
+msgstr "Invertito (es. dritto attraverso il cercatore, newtoniano)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "Tipo:"
+msgstr "Tipo di vista:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
 #, kde-format
 msgid "Mirrored on the vertical axis (i.e. inverted and mirrored)"
-msgstr ""
+msgstr "Rispecchiato sull'asse verticale (ossia invertito e rispecchiato)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
-#, fuzzy, kde-format
-#| msgid "Eyepiece AFOV:"
+#, kde-format
 msgid "Eyepiece Angle:"
-msgstr "CDVA oculare:"
+msgstr "Angolo dell'oculare:"
 
 #. i18n: ectx: property (text), widget (QLabel, viewingAngleLabel)
 #: dialogs/newview.ui:189
 #, kde-format
 msgid "###°"
-msgstr ""
+msgstr "###°"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/newview.ui:203
 #, kde-format
 msgid "Telescopes with the eyepiece at the bottom"
-msgstr ""
+msgstr "Telescopi con oculare in basso"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/newview.ui:213
 #, kde-format
 msgid "Telescopes with the eyepiece at the top"
-msgstr ""
+msgstr "Telescopi con oculare in alto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/newview.ui:223
@@ -5715,18 +5701,20 @@ msgid ""
 "The human silhouette indicates on which side of the telescope the observer "
 "is assumed to stand."
 msgstr ""
+"La sagoma umana indica su quale lato del telescopio l'osservatore è presunto "
+"trovarsi in piedi."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/newview.ui:259
 #, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
-msgstr ""
+msgstr "(l'anteprima mostra la vista giù lungo a un tubo di Newton)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
 #, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr ""
+msgstr "(l'anteprima mostra la vista del retro di un SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
@@ -5738,10 +5726,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Density of stars in the field of view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Densità delle stelle nel campo di vista"
+msgstr "Imposta anche il campo di vista"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5773,29 +5760,24 @@ msgstr "Adesso"
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
-msgstr ""
+msgstr "Gestisci viste della mappa celeste"
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "Modifica collegamento"
+msgstr "Modifica vista"
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "Visualizza"
+msgstr "Nuova vista"
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Config Name"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "Nome configurazione"
+msgstr "Conflitto tra nomi"
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5803,68 +5785,58 @@ msgid ""
 "There already exists a view with the name you attempted to use. Please "
 "choose a different name for this view."
 msgstr ""
+"Esiste già una vista col nome che stai cercando di usare. Scegli un nome "
+"diverso per questa vista."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ViewsDialog)
 #: dialogs/viewsdialog.ui:14
 #, kde-format
 msgid "Edit Sky Map Views"
-msgstr ""
+msgstr "Modifica viste della mappa celeste"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Update view"
+#, kde-format
 msgid "Add a new view"
-msgstr "Aggiorna vista"
+msgstr "Aggiungi una nuova vista"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Aggiungi un nuovo simbolo di campo di vista (CDV) alla lista.  Puoi definire "
-"la forma, la dimensione e il colore del nuovo simbolo."
+"Aggiungi una nuova vista all'elenco. Puoi definire la parità, l'orientazione "
+"e altri parametri."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Modifica il simbolo CDV evidenziato"
+msgstr "Modifica la vista selezionata"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Premi il pulsante per modificare il simbolo di CDV selezionato.  Puoi "
-"cambiarne la forma, la dimensione e il colore."
+"Premi il pulsante per modificare la vista selezionata. Puoi cambiarne i "
+"parametri."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Rimuovi simbolo CDV selezionato"
+msgstr "Rimuovi la vista selezionata"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr ""
-"Premi questo pulsante per rimuovere dalla lista il simbolo CDV selezionato."
+msgstr "Premi questo pulsante per rimuovere la vista selezionata dall'elenco."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -6185,10 +6157,9 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Dimensioni effettive del campo di vista in arcominuti.</p>"
 
 #: ekos/align/align.cpp:1418
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "Impostazione della temperatura a %1 °C..."
+msgstr "Impostazione obiettivo a AR:%1 DEC:%2"
 
 #: ekos/align/align.cpp:1437
 #, kde-format
@@ -6252,19 +6223,17 @@ msgstr ""
 "tra %1 secondi..."
 
 #: ekos/align/align.cpp:1539
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"Impossibile acquisire se il rotatore è occupato. Nuovo tentativo tra %1 "
-"secondi..."
+"Impossibile acquisire se il rotatore è occupato: la stima del ritardo è "
+"iniziata..."
 
 #: ekos/align/align.cpp:1553
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
-"Impossibile acquisire se il rotatore è occupato. Nuovo tentativo tra %1 "
+"Impossibile acquisire se il rotatore è occupato: nuovo tentativo tra %1 "
 "secondi..."
 
 #: ekos/align/align.cpp:1572 ekos/align/align.cpp:3059
@@ -6339,16 +6308,13 @@ msgstr ""
 "un WCS valido."
 
 #: ekos/align/align.cpp:2176
-#, fuzzy, kde-format
-#| msgid ""
-#| "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
-#| "(%4)"
+#, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 "Coordinate della soluzione: AR (%1) DEC (%2) Coordinate del telescopio: AR "
-"(%3) DEC (%4)"
+"(%3) DEC (%4) Coordinate del bersaglio: AR (%5) DEC (%6)"
 
 #: ekos/align/align.cpp:2187
 #, kde-format
@@ -6374,29 +6340,24 @@ msgstr ""
 "avuto successo."
 
 #: ekos/align/align.cpp:2305
-#, fuzzy, kde-format
-#| msgid "Target is within acceptable range. Astrometric solver is successful."
+#, kde-format
 msgid "Target is within acceptable range."
-msgstr ""
-"Il bersaglio è in un intervallo accettabile. Il risolutore astrometrico ha "
-"avuto successo."
+msgstr "Il bersaglio è in un intervallo accettabile."
 
 #: ekos/align/align.cpp:2367
-#, fuzzy, kde-format
-#| msgid "Saved image to %1"
+#, kde-format
 msgid "Saving failed solver image to %1"
-msgstr "Salva l'immagine su %1"
+msgstr "Salvataggio dell'immagine del risolutore in %1 non riuscito"
 
 #: ekos/align/align.cpp:2376
-#, fuzzy, kde-format
-#| msgid "Solver failed. Try again."
+#, kde-format
 msgid "Solver failed. Retrying without scale constraint."
-msgstr "Soluzione non riuscita. Riprova."
+msgstr "Soluzione non riuscita. Sto ritentando senza limiti di scala."
 
 #: ekos/align/align.cpp:2386
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
-msgstr ""
+msgstr "Soluzione non riuscita. Sto ritentando senza limiti di posizione."
 
 #: ekos/align/align.cpp:2394
 #, kde-format
@@ -6448,7 +6409,7 @@ msgstr "Risolutore interrotto dopo %1 secondi."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:3978
 #: ekos/capture/capture.cpp:1555 ekos/focus/focus.cpp:4306
-#: ekos/guide/guide.cpp:1147 ekos/manager.cpp:1935 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1151 ekos/manager.cpp:1935 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -6525,16 +6486,16 @@ msgstr "Sincronizzazione ad AR (%1) DEC (%2)."
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr ""
-"Rotazione del telescopio alle coordinate dell'obiettivo: AR(%1) DEC(%2)."
+"Rotazione del telescopio alle coordinate dell'obiettivo: AR (%1) DEC (%2)."
 
 #: ekos/align/align.cpp:2960
-#, fuzzy, kde-format
-#| msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
+#, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr ""
-"Rotazione del telescopio alle coordinate dell'obiettivo: AR(%1) DEC(%2)."
+"Rotazione del telescopio alle coordinate dell'obiettivo: AR (%1) DEC (%2) è "
+"rifiutata (vedi la notifica)."
 
 #: ekos/align/align.cpp:2979
 #, kde-format
@@ -6563,7 +6524,7 @@ msgid "Capture error. Aborting..."
 msgstr "Errore di acquisizione. Interruzione..."
 
 #: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
-#: ekos/capture/captureprocess.cpp:2093
+#: ekos/capture/captureprocess.cpp:2104
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Riavvio del tentativo di acquisizione n. %1"
@@ -6663,7 +6624,7 @@ msgstr "Impossibile scrivere il file %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2035
-#: ekos/capture/captureprocess.cpp:2490 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -6927,20 +6888,15 @@ msgstr "LF:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:476
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope supplied (effective) focal length "
-#| "in millimeters. Update telescope focal length to match the effective "
-#| "focal length to speed up plate solving.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal length in "
 "millimeters. The effective focal length is measured from plate-solving.</p></"
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Lunghezza focale (effettiva) in millimetri fornita dal "
-"telescopio attivo. Aggiorna la lunghezza focale del telescopio in modo che "
-"corrisponda alla lunghezza focale effettiva per accelerare la risoluzione "
-"delle lastre (plate solving).</p></body></html>"
+"telescopio calcolato. La lunghezza focale effettiva viene misurata dalla "
+"risoluzione delle lastre (plate solving).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/align.ui:486
@@ -6950,18 +6906,14 @@ msgstr "F/:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
 #: ekos/align/align.ui:493
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Active telescope calculated (effective) focal "
-#| "ratio. The effective focal ratio is measured from astrometry.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Calculated telescope (effective) focal ratio. The "
 "effective focal ratio is measured from astrometry.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Rapporto focale calcolato (effettivo) del telescopio "
-"attivo. Il rapporto focale effettivo viene misurato dall'astrometria.</p></"
-"body></html>"
+"calcolato. Il rapporto focale effettivo viene misurato dall'astrometria.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/align.ui:516
@@ -6971,11 +6923,9 @@ msgstr "R:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #: ekos/align/align.ui:523
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Devices Port Selector</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Selettore porta dei dispositivi</p></body></html>"
+msgstr "<html><head/><body><p>Riduttore o fattore Barlow.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
 #: ekos/align/align.ui:533
@@ -7106,6 +7056,10 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se attivata, per l'allineamento verrà utilizzato il "
+"filtro attualmente selezionato. </p><p>Se vuoi utilizzare un determinato "
+"filtro (fisso) per l'allineamento, non spuntare l'opzione e seleziona "
+"manualmente il filtro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:744
@@ -7324,7 +7278,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Apri lista di allineamento di Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2034
-#: ekos/capture/captureprocess.cpp:2489 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2500 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -8052,29 +8006,24 @@ msgstr "Parcheggio automatico"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:275
-#, fuzzy, kde-format
-#| msgid "Automatic && Manual Rotator Control"
+#, kde-format
 msgid "Automatic and Manual Rotator Control"
 msgstr "Controllo del rotatore manuale e automatico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/align/opsalign.ui:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Rotator threshold in arc-minutes when using Load "
-#| "&amp; Slew. If the difference between measured position angle and FITS "
-#| "position angle is below this value, the Load &amp; Slew operation is "
-#| "considered successful.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation deviation threshold in arc-minutes when using "
 "[Load &amp; Slew]. If the difference between measured position angle and "
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Soglia del rotatore in arcominuti quando si utilizza "
-"Carica &amp; punta. Se la differenza tra l'angolo di posizione misurato e "
-"l'angolo di posizione FITS è sotto questo valore, l'operazione Carica &amp; "
-"punta viene considerata riuscita.</p></body></html>"
+"<html><head/><body><p>Soglia della deviazione della rotazione in arcominuti "
+"quando si utilizza [Carica &amp; punta]. Se la differenza tra l'angolo di "
+"posizione misurato e l'angolo di posizione FITS è sotto questo valore, "
+"l'operazione [Carica &amp; punta] viene considerata riuscita.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsalign.ui:287
@@ -8084,11 +8033,12 @@ msgstr "Soglia: "
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AstrometryRotatorThreshold)
 #: ekos/align/opsalign.ui:306
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Rotation angle deviation threshold</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Soglia di deviazione dell'angolo di rotazione</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
@@ -14726,7 +14676,7 @@ msgstr "Impossibile salvare la coda della sequenza"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Vuoi davvero azzerare lo stato di tutti i lavori?"
 
-#: ekos/capture/capture.cpp:2141 ekos/capture/captureprocess.cpp:2604
+#: ekos/capture/capture.cpp:2141 ekos/capture/captureprocess.cpp:2615
 #, kde-format
 msgid "Reset job status"
 msgstr "Azzera lo stato del lavoro"
@@ -15900,10 +15850,9 @@ msgstr ""
 "Errore di calibrazione dopo l'inversione del meridiano. Interruzione..."
 
 #: ekos/capture/capturemodulestate.cpp:652
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Messa a fuoco completata."
+msgstr "Messa a fuoco flessibile completata."
 
 #: ekos/capture/capturemodulestate.cpp:676
 #, kde-format
@@ -15913,14 +15862,12 @@ msgstr "Messa a fuoco automatica non riuscita. Esposizione interrotta..."
 #: ekos/capture/capturemodulestate.cpp:718
 #, kde-format
 msgid "Limit: %1 °C"
-msgstr ""
+msgstr "Limite: %1 °C"
 
 #: ekos/capture/capturemodulestate.cpp:722
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "Limit: %1 mins"
-msgstr "Impostazioni del simulatore"
+msgstr "Limite: %1 min."
 
 #: ekos/capture/capturemodulestate.cpp:860
 #, kde-format
@@ -16153,10 +16100,9 @@ msgid "Failed to set binning."
 msgstr "Impossibile impostare il binning."
 
 #: ekos/capture/captureprocess.cpp:990
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "File salvato in %1"
+msgstr "file salvato in %1"
 
 #: ekos/capture/captureprocess.cpp:1000
 #, kde-format
@@ -16204,7 +16150,7 @@ msgstr "Errore: connessione con il CCD persa."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Impossibile calcolare i livelli ADU nelle immagini non FITS."
 
-#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2085
+#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2096
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
@@ -16225,7 +16171,7 @@ msgstr "Ricevuta immagine %1 di %2."
 #: ekos/capture/captureprocess.cpp:1756
 #, kde-format
 msgid "Captured %1"
-msgstr "Catturato %1"
+msgstr "Acquisito %1"
 
 #: ekos/capture/captureprocess.cpp:1762
 #, kde-format
@@ -16233,10 +16179,9 @@ msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "ATTENZIONE: segnaposto restanti e potenzialmente sconosciuti %1 in %2"
 
 #: ekos/capture/captureprocess.cpp:1795
-#, fuzzy, kde-format
-#| msgid "Executing pre capture script %1"
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "Esecuzione dello script %1 di pre-cattura"
+msgstr "Esecuzione dello script %1 di acquisizione"
 
 #: ekos/capture/captureprocess.cpp:1810
 #, kde-format
@@ -16268,13 +16213,24 @@ msgstr "Script di post-processo terminato con codice %1."
 msgid "Exposure timeout. Aborting..."
 msgstr "Tempo scaduto per l'esposizione. Interruzione..."
 
-#: ekos/capture/captureprocess.cpp:2050 ekos/focus/focus.cpp:5260
-#: ekos/guide/guide.cpp:919
+#: ekos/capture/captureprocess.cpp:2033
+#, kde-format
+msgid "Exposure timeout. More than 3 have been detected, will restart driver."
+msgstr ""
+
+#: ekos/capture/captureprocess.cpp:2051 ekos/focus/focus.cpp:5260
+#: ekos/guide/guide.cpp:922
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Tempo scaduto per l'esposizione. Riavvio dell'esposizione..."
 
-#: ekos/capture/captureprocess.cpp:2144
+#: ekos/capture/captureprocess.cpp:2077
+#, fuzzy, kde-format
+#| msgid "Exposure timeout. Aborting..."
+msgid "Exposure timeout. Too many. Aborting..."
+msgstr "Tempo scaduto per l'esposizione. Interruzione..."
+
+#: ekos/capture/captureprocess.cpp:2155
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16283,20 +16239,20 @@ msgstr ""
 "Calibrazione del flat non riuscita. L'immagine catturata è solo %1 bit "
 "mentre l'ADU richiesto è %2."
 
-#: ekos/capture/captureprocess.cpp:2155
+#: ekos/capture/captureprocess.cpp:2166
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "L'immagine attuale è saturata (%1). La prossima esposizione è di %2 secondi."
 
-#: ekos/capture/captureprocess.cpp:2177
+#: ekos/capture/captureprocess.cpp:2188
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "ADU %1 attuale all'interno dell'intervallo di tolleranza dell'ADU obiettivo."
 
 # how do I translate flat?
-#: ekos/capture/captureprocess.cpp:2206
+#: ekos/capture/captureprocess.cpp:2217
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16305,22 +16261,22 @@ msgstr ""
 "Impossibile calcolare le impostazioni per l'esposizione ottimale, scatta "
 "manualmente i flat."
 
-#: ekos/capture/captureprocess.cpp:2214
+#: ekos/capture/captureprocess.cpp:2225
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "L'ADU attuale è %1. La prossima esposizione è di %2 secondi."
 
-#: ekos/capture/captureprocess.cpp:2434
+#: ekos/capture/captureprocess.cpp:2445
 #, kde-format
 msgid "%1 Preview"
 msgstr "Anteprima %1"
 
-#: ekos/capture/captureprocess.cpp:2553
+#: ekos/capture/captureprocess.cpp:2564
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sequenza in pausa."
 
-#: ekos/capture/captureprocess.cpp:2603
+#: ekos/capture/captureprocess.cpp:2614
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16329,7 +16285,7 @@ msgstr ""
 "Tutti i lavori sono completati. Vuoi ripristinare lo stato dei lavori e "
 "ricominciare ad acquisire immagini?"
 
-#: ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/captureprocess.cpp:2628
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16338,12 +16294,12 @@ msgstr ""
 "Attenzione: l'opzione «Azzera sempre la sequenza all'avvio» è abilitata e "
 "azzera il conto della sequenza."
 
-#: ekos/capture/captureprocess.cpp:2732
+#: ekos/capture/captureprocess.cpp:2743
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Vuoi davvero riavviare il driver della fotocamera %1?"
 
-#: ekos/capture/captureprocess.cpp:2733
+#: ekos/capture/captureprocess.cpp:2744
 #, kde-format
 msgid "Driver Restart"
 msgstr "Riavvio driver"
@@ -16534,10 +16490,9 @@ msgstr "Valori non validi. Impostare tutti i valori."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
-#, fuzzy, kde-format
-#| msgid "Time Calculators"
+#, kde-format
 msgid "Exposure Calculator"
-msgstr "Calcolatrici di tempo"
+msgstr "Calcolatore di esposizione"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:92
@@ -16583,18 +16538,15 @@ msgstr "Guadagno"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
-#, fuzzy, kde-format
-#| msgid "Camera Gain"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "Guadagno (gain) della camera"
+msgstr "Seleziona guadagno sensore della fotocamera"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:271
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select FITS Image"
+#, kde-format
 msgid "Select DSLR ISO Value"
-msgstr "Seleziona immagine FITS"
+msgstr "Seleziona valore ISO DSLR"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:290
@@ -16751,10 +16703,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:876
-#, fuzzy, kde-format
-#| msgid "Exposure"
+#, kde-format
 msgid "Exposures"
-msgstr "Esposizione"
+msgstr "Esposizioni"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:895
@@ -16782,7 +16733,7 @@ msgstr "Riduzione del rumore"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:968
 #, kde-format
 msgid "dy ="
-msgstr ""
+msgstr "dy ="
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:981
@@ -16987,10 +16938,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusOnTemperature)
 #: ekos/capture/limits.ui:262
-#, fuzzy, kde-format
-#| msgid "Autofocus if ΔT°  >"
+#, kde-format
 msgid "Refocus if ΔT°  >:"
-msgstr "Messa a fuoco automatica se ΔT°  >"
+msgstr "Rimessa a fuoco se ΔT°  >:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:269
@@ -17047,7 +16997,7 @@ msgstr ""
 #: ekos/capture/limits.ui:298
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
-msgstr ""
+msgstr "Rimessa a fuoco su ΔHFR.  Usa:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:305
@@ -17114,10 +17064,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "frames.   HFR:"
-msgstr "fotogrammi"
+msgstr "fotogrammi.   HFR:"
 
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
@@ -17142,10 +17091,9 @@ msgid "In sequence HFR based refocus starting..."
 msgstr "File salvato in %1"
 
 #: ekos/capture/refocusstate.cpp:84
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Ottiche adattative"
+msgstr "Avvio del fuoco adattivo..."
 
 #: ekos/capture/refocusstate.cpp:103
 #, kde-format
@@ -18111,76 +18059,64 @@ msgstr "<html><head/><body><p>Elimina frame corrente</p></body></html>"
 msgid "Qt"
 msgstr "Qt"
 
-# XXX Credo che voglia dire punta... verificare
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
-#, fuzzy, kde-format
-#| msgid "Primary Scope"
+#, kde-format
 msgid "Primary Colors"
-msgstr "Telescopio principale"
+msgstr "Colori primari"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
 #, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Muschio"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Blue"
+#, kde-format
 msgid "Army Blue"
-msgstr "Blu"
+msgstr "Blu militare"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
-#, fuzzy, kde-format
-#| msgid "Retry"
+#, kde-format
 msgid "Retro"
-msgstr "Riprova"
+msgstr "Retrò"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Ebano"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Isabella"
+#, kde-format
 msgid "Isabelle"
-msgstr "Isabella"
+msgstr "Isabelle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Rispetta il valore della temperatura prima di "
-"catturare un'immagine</p></body></html>"
+"<html><head/><body><p>Attiva per visualizzare le etichette del sensore delle "
+"tessere del mosaico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cancella la cronologia dei dati del sensore</p></"
-"body></html>"
+"<html><head/><body><p>Attiva per visualizzare il sensore.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
@@ -18303,7 +18239,7 @@ msgstr ""
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
 msgid "; AltΔ %1"
-msgstr ""
+msgstr "; AltΔ %1"
 
 #: ekos/focus/adaptivefocus.cpp:182
 #, fuzzy, kde-format
@@ -18817,7 +18753,7 @@ msgstr ""
 #: ekos/focus/cfz.ui:576
 #, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/cfz.ui:592
@@ -19675,7 +19611,7 @@ msgstr ""
 #: ekos/focus/focus.ui:945
 #, kde-format
 msgid "Force AF"
-msgstr ""
+msgstr "Forza AF"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:1011
@@ -20081,7 +20017,7 @@ msgstr "Misura:"
 #: ekos/focus/opsfocusprocess.ui:86
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/opsfocusprocess.ui:96
@@ -21466,136 +21402,148 @@ msgstr "La connessione al CCD guida è stata persa."
 msgid "Error: lost connection to CCD."
 msgstr "Errore: connessione con il CCD persa."
 
-#: ekos/guide/guide.cpp:941
+#: ekos/guide/guide.cpp:916
+#, fuzzy, kde-format
+#| msgid "Exposure timeout. Aborting..."
+msgid "Exposure timeout, but suspended. Ignoring..."
+msgstr "Tempo scaduto per l'esposizione. Interruzione..."
+
+#: ekos/guide/guide.cpp:944
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Tempo scaduto per l'esposizione. Interruzione guida automatica."
 
-#: ekos/guide/guide.cpp:943
+#: ekos/guide/guide.cpp:946
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Tempo scaduto per l'esposizione. Interruzione dithering."
 
-#: ekos/guide/guide.cpp:945
+#: ekos/guide/guide.cpp:948
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Tempo scaduto per l'esposizione. Interruzione calibrazione."
 
-#: ekos/guide/guide.cpp:1301
+#: ekos/guide/guide.cpp:957
+#, fuzzy, kde-format
+#| msgid "Exposure timeout. Restarting exposure..."
+msgid "Exposure timeout. Too many. Restarting driver."
+msgstr "Tempo scaduto per l'esposizione. Riavvio dell'esposizione..."
+
+#: ekos/guide/guide.cpp:1305
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La montatura è parcheggiata. Sparcheggiala per iniziare la guida."
 
-#: ekos/guide/guide.cpp:1404
+#: ekos/guide/guide.cpp:1408
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Rilevata modifica dello stato di puntamento. Cancellazione della "
 "calibrazione."
 
-#: ekos/guide/guide.cpp:1418
+#: ekos/guide/guide.cpp:1422
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La montatura si sta spostando. Ripristino calibrazione..."
 
-#: ekos/guide/guide.cpp:1434
+#: ekos/guide/guide.cpp:1438
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "La montatura si sta parcheggiando. Interruzione della guida..."
 
-#: ekos/guide/guide.cpp:1436
+#: ekos/guide/guide.cpp:1440
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "La montatura sta ruotando. Guida interrotta..."
 
-#: ekos/guide/guide.cpp:1499
+#: ekos/guide/guide.cpp:1503
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "La calibrazione è stata cancellata."
 
-#: ekos/guide/guide.cpp:1520
+#: ekos/guide/guide.cpp:1524
 #, kde-format
 msgid "External guider connected."
 msgstr "Guida esterna connessa."
 
-#: ekos/guide/guide.cpp:1538
+#: ekos/guide/guide.cpp:1542
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Guida esterna disconnessa."
 
-#: ekos/guide/guide.cpp:1555
+#: ekos/guide/guide.cpp:1559
 #, kde-format
 msgid "Calibration completed."
 msgstr "Calibrazione completata."
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1577
 #, kde-format
 msgid "Calibration started."
 msgstr "Calibrazione iniziata."
 
-#: ekos/guide/guide.cpp:1580
+#: ekos/guide/guide.cpp:1584
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Guida automatica ripresa."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1587
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Guida automatica avviata."
 
-#: ekos/guide/guide.cpp:1595
+#: ekos/guide/guide.cpp:1599
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Guida automatica interrotta."
 
-#: ekos/guide/guide.cpp:1600
+#: ekos/guide/guide.cpp:1604
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Guida sospesa."
 
-#: ekos/guide/guide.cpp:1609
+#: ekos/guide/guide.cpp:1613
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Dithering manuale in corso."
 
-#: ekos/guide/guide.cpp:1613
+#: ekos/guide/guide.cpp:1617
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Dithering in corso."
 
-#: ekos/guide/guide.cpp:1617
+#: ekos/guide/guide.cpp:1621
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Stabilizzazione post-dither per 1 secondo..."
 msgstr[1] "Stabilizzazione post-dither per %1 secondi..."
 
-#: ekos/guide/guide.cpp:1622
+#: ekos/guide/guide.cpp:1626
 #, kde-format
 msgid "Dithering failed."
 msgstr "Dithering non riuscito."
 
-#: ekos/guide/guide.cpp:1633
+#: ekos/guide/guide.cpp:1637
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Dithering completato correttamente."
 
-#: ekos/guide/guide.cpp:1679
+#: ekos/guide/guide.cpp:1683
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Il binning di guida %1x%1 non è supportato."
 
-#: ekos/guide/guide.cpp:1701
+#: ekos/guide/guide.cpp:1705
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Esposizione non riuscita. Riavvio dell'esposizione..."
 
-#: ekos/guide/guide.cpp:1827
+#: ekos/guide/guide.cpp:1831
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Impossibile cambiare il tipo di telescopio guida mentre è attivo."
 
-#: ekos/guide/guide.cpp:1918
+#: ekos/guide/guide.cpp:1922
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -21604,37 +21552,37 @@ msgstr ""
 "Attenzione: Ripristina la calibrazione della guida è abilitato. È "
 "raccomandato disattivare questa opzione per PHD2."
 
-#: ekos/guide/guide.cpp:2302
+#: ekos/guide/guide.cpp:2306
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "La calibrazione non si è avviata."
 
-#: ekos/guide/guide.cpp:2453
+#: ekos/guide/guide.cpp:2457
 #, kde-format
 msgid "Auto star selected."
 msgstr "Stella automatica selezionata."
 
-#: ekos/guide/guide.cpp:2457
+#: ekos/guide/guide.cpp:2461
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Selezione di una stella automatica non riuscita."
 
-#: ekos/guide/guide.cpp:2466
+#: ekos/guide/guide.cpp:2470
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleziona una stella guida per calibrare."
 
-#: ekos/guide/guide.cpp:2716
+#: ekos/guide/guide.cpp:2720
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (pixel)"
 
-#: ekos/guide/guide.cpp:2717
+#: ekos/guide/guide.cpp:2721
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (pixel)"
 
-#: ekos/guide/guide.cpp:2833 ekos/guide/guide.cpp:2959
+#: ekos/guide/guide.cpp:2837 ekos/guide/guide.cpp:2963
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -21644,7 +21592,7 @@ msgstr ""
 "immagini catturate; vedrai però l'immagine della stella guida durante la "
 "guida."
 
-#: ekos/guide/guide.cpp:2837 ekos/guide/guide.cpp:2963
+#: ekos/guide/guide.cpp:2841 ekos/guide/guide.cpp:2967
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -21652,7 +21600,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3130
+#: ekos/guide/guide.cpp:3134
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Impossibile cambiare il gruppo ottico attivo mentre PHD2 è connesso"
@@ -31292,12 +31240,12 @@ msgstr "Mostra HiPS durante il movimento"
 msgid "Linear interpolation"
 msgstr "Interpolazione lineare"
 
-#: indi/clientmanager.cpp:287
+#: indi/clientmanager.cpp:323
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Impossibile connettersi al server INDI %1:%2"
 
-#: indi/clientmanager.cpp:292
+#: indi/clientmanager.cpp:328
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
