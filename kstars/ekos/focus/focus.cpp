@@ -1370,13 +1370,21 @@ int Focus::adjustLinearPosition(int position, int newPosition, int overscan, boo
     return newPosition;
 }
 
+// This function checks whether capture is in progress or HFR processing is in progress. If so, it waits until complete before
+// stopping processing and signalling to Capture and Scheduler. This prevents Capture / Scheduler from starting the next action
+// before Focus is done.
 void Focus::checkStopFocus(bool abort)
 {
+    m_abortInProgress = true;
     // if abort, avoid try to restart
     if (abort)
         resetFocusIteration = MAXIMUM_RESET_ITERATIONS + 1;
 
-    if (captureInProgress)
+    if (captureTimer.isActive())
+        // Capture is waiting for the settling period before starting, so just kill the timer which will prevent capture starting
+        captureTimer.stop();
+
+    if (m_captureInProgress)
     {
         if (inAutoFocus == false && inFocusLoop == false)
         {
@@ -1393,22 +1401,22 @@ void Focus::checkStopFocus(bool abort)
             {
                 checkStopFocus(abort);
             });
+            return;
         }
     }
 
-    if (hfrInProgress)
+    if (m_starDetectInProgress)
     {
         stopFocusB->setEnabled(false);
-        appendLogText(i18n("Detection in progress, please wait."));
+        appendLogText(i18n("Star detection in progress, retrying in 1s..."));
         QTimer::singleShot(1000, this, [ &, abort]()
         {
             checkStopFocus(abort);
         });
+        return;
     }
-    else
-    {
-        completeFocusProcedure(abort ? Ekos::FOCUS_ABORTED : Ekos::FOCUS_FAILED, Ekos::FOCUS_FAIL_ABORT);
-    }
+
+    completeFocusProcedure(abort ? Ekos::FOCUS_ABORTED : Ekos::FOCUS_FAILED, Ekos::FOCUS_FAIL_ABORT);
 }
 
 void Focus::meridianFlipStarted()
@@ -1461,7 +1469,9 @@ void Focus::stop(Ekos::FocusState completionState)
     focuserAdditionalMovement = 0;
     focuserAdditionalMovementUpdateDir = true;
     inFocusLoop = false;
-    captureInProgress = false;
+    m_captureInProgress = false;
+    m_abortInProgress = false;
+    m_starDetectInProgress = false;
     isVShapeSolution = false;
     captureFailureCounter = 0;
     minimumRequiredHFR = INVALID_STAR_MEASURE;
@@ -1508,15 +1518,23 @@ void Focus::stop(Ekos::FocusState completionState)
 
 void Focus::capture(double settleTime)
 {
+    if (m_abortInProgress)
+    {
+        // We are trying to abort Autofocus so do no further processing
+        m_captureInProgress = false;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding capture request.";
+        return;
+    }
+
     // If capturing should be delayed by a given settling time, we start the capture timer.
     // This is intentionally designed re-entrant, i.e. multiple calls with settle time > 0 takes the last delay
-    if (settleTime > 0 && captureInProgress == false)
+    if (settleTime > 0 && m_captureInProgress == false)
     {
         captureTimer.start(static_cast<int>(settleTime * 1000));
         return;
     }
 
-    if (captureInProgress)
+    if (m_captureInProgress)
     {
         qCWarning(KSTARS_EKOS_FOCUS) << "Capture called while already in progress. Capture is ignored.";
         return;
@@ -1619,7 +1637,7 @@ void Focus::capture(double settleTime)
         frameSettings[targetChip] = settings;
     }
 
-    captureInProgress = true;
+    m_captureInProgress = true;
     if (state() != FOCUS_PROGRESS)
         setState(FOCUS_PROGRESS);
 
@@ -1933,6 +1951,14 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
 
 void Focus::starDetectionFinished()
 {
+    m_starDetectInProgress = false;
+    if (m_abortInProgress)
+    {
+        // We are trying to abort Autofocus so do no further processing
+        qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding results from " << __FUNCTION__;
+        return;
+    }
+
     appendLogText(i18n("Detection complete."));
 
     // Beware as this HFR value is then treated specifically by the graph renderer
@@ -1967,7 +1993,6 @@ void Focus::starDetectionFinished()
         }
     }
 
-    hfrInProgress = false;
     currentHFR = hfr;
     currentNumStars = m_ImageData->getDetectedStars();
 
@@ -2126,7 +2151,7 @@ double Focus::calculateStarWeight(const bool useWeights, const std::vector<doubl
 void Focus::analyzeSources()
 {
     appendLogText(i18n("Detecting sources..."));
-    hfrInProgress = true;
+    m_starDetectInProgress = true;
 
     QVariantMap extractionSettings;
     extractionSettings["optionsProfileIndex"] = m_OpsFocusProcess->focusSEPProfile->currentIndex();
@@ -2644,7 +2669,7 @@ void Focus::setCaptureComplete()
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
 
-    if (captureInProgress && inFocusLoop == false && inAutoFocus == false)
+    if (m_captureInProgress && inFocusLoop == false && inAutoFocus == false)
         m_Camera->setUploadMode(rememberUploadMode);
 
     if (m_RememberCameraFastExposure && inFocusLoop == false && inAutoFocus == false)
@@ -2653,7 +2678,15 @@ void Focus::setCaptureComplete()
         m_Camera->setFastExposureEnabled(true);
     }
 
-    captureInProgress = false;
+    m_captureInProgress = false;
+    if (m_abortInProgress)
+    {
+        // We are trying to abort autofocus so do no further processing.
+        // Note this will cover both the original capture and any dark frame processing
+        qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding frame results in " << __FUNCTION__;
+        return;
+    }
+
     // update the limits from the real values
     checkMosaicMaskLimits();
 
@@ -3924,8 +3957,8 @@ void Focus::autoFocusProcessPositionChange(IPState state)
     }
     else
         qCDebug(KSTARS_EKOS_FOCUS) <<
-                                   QString("autoFocusProcessPositionChange called with state %1 (%2), focuserAdditionalMovement=%3, inAutoFocus=%4, captureInProgress=%5, currentPosition=%6")
-                                   .arg(state).arg(pstateStr(state)).arg(focuserAdditionalMovement).arg(inAutoFocus).arg(captureInProgress)
+                                   QString("autoFocusProcessPositionChange called with state %1 (%2), focuserAdditionalMovement=%3, inAutoFocus=%4, m_captureInProgress=%5, currentPosition=%6")
+                                   .arg(state).arg(pstateStr(state)).arg(focuserAdditionalMovement).arg(inAutoFocus).arg(m_captureInProgress)
                                    .arg(currentPosition);
 }
 
@@ -4435,7 +4468,7 @@ void Focus::resetButtons()
         disabledWidgets[i]->setEnabled(true);
     disabledWidgets.clear();
 
-    auto enableCaptureButtons = (captureInProgress == false && hfrInProgress == false);
+    auto enableCaptureButtons = (m_captureInProgress == false && m_starDetectInProgress == false);
 
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
@@ -5246,6 +5279,14 @@ void Focus::setVideoStreamEnabled(bool enabled)
 
 void Focus::processCaptureTimeout()
 {
+    if (m_abortInProgress)
+    {
+        // Timeout occured whilst trying to abort AF. So do no further processing - stop function will call abortExposure()
+        m_captureInProgress = false;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding frame in " << __FUNCTION__;
+        return;
+    }
+
     captureTimeoutCounter++;
 
     if (captureTimeoutCounter >= 3)
@@ -5283,6 +5324,13 @@ void Focus::processCaptureTimeout()
 
 void Focus::processCaptureError(ISD::Camera::ErrorType type)
 {
+    if (m_abortInProgress)
+    {
+        m_captureInProgress = false;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding frame in " << __FUNCTION__;
+        return;
+    }
+
     if (type == ISD::Camera::ERROR_SAVE)
     {
         appendLogText(i18n("Failed to save image. Aborting..."));

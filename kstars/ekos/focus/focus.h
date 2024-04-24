@@ -1024,10 +1024,12 @@ class Focus : public QWidget, public Ui::Focus
          * Misc. variables
          ****************************/
 
+        /// Are we tring to abort Autofocus?
+        bool m_abortInProgress { false };
         /// Are we in the process of capturing an image?
-        bool captureInProgress { false };
-        /// Are we in the process of calculating HFR?
-        bool hfrInProgress { false };
+        bool m_captureInProgress { false };
+        /// Are we in the process of star detection?
+        bool m_starDetectInProgress { false };
         // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
         //bool frameModified;
         /// Was the modified frame subFramed?
