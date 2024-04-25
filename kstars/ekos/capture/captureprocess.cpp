@@ -2028,8 +2028,9 @@ void CaptureProcess::processCaptureTimeout()
         return;
     }
 
-    if (state()->captureTimeoutCounter() > 1 && activeCamera())
+    if (state()->captureTimeoutCounter() > 3 && activeCamera())
     {
+        emit newLog(i18n("Exposure timeout. More than 3 have been detected, will restart driver."));
         QString camera = activeCamera()->getDeviceName();
         QString fw = (devices()->filterWheel() != nullptr) ?
                      devices()->filterWheel()->getDeviceName() : "";
@@ -2062,10 +2063,20 @@ void CaptureProcess::processCaptureTimeout()
             targetChip->capture(exptime);
             state()->getCaptureTimeout().start(static_cast<int>((exptime) * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
         }
-        else
+        // Don't allow this to happen all night. We will repeat checking (most likely for activeCamera()
+        // another 200s = 40 * 5s, but after that abort capture.
+        else if (state()->captureTimeoutCounter() < 40)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Unable to restart exposure as camera is missing, trying again in 5 seconds...";
             QTimer::singleShot(5000, this, &CaptureProcess::processCaptureTimeout);
+        }
+        else
+        {
+            state()->setCaptureTimeoutCounter(0);
+            state()->setDeviceRestartCounter(0);
+            emit newLog(i18n("Exposure timeout. Too many. Aborting..."));
+            emit stopCapture(CAPTURE_ABORTED);
+            return;
         }
     }
 
