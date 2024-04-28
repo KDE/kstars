@@ -76,7 +76,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="document-edit"/>
+            <iconset theme="document-edit">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -190,7 +191,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset theme="edit-delete"/>
+               <iconset theme="edit-delete">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -218,7 +220,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset theme="path-simplify"/>
+               <iconset theme="path-simplify">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -356,10 +359,10 @@
             <item row="2" column="0">
              <widget class="QLabel" name="label_5">
               <property name="toolTip">
-               <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+               <string>Camera Gain</string>
               </property>
               <property name="text">
-               <string>Box:</string>
+               <string>Gain:</string>
               </property>
              </widget>
             </item>
@@ -466,8 +469,44 @@
               </item>
              </layout>
             </item>
+            <item row="4" column="3">
+             <widget class="QPushButton" name="manualPulseB">
+              <property name="toolTip">
+               <string>Manual Pulse...</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset theme="go-jump">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="guideGain">
+              <property name="decimals">
+               <number>2</number>
+              </property>
+              <property name="maximum">
+               <double>10000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
              <widget class="QComboBox" name="guideSquareSize">
+              <property name="toolTip">
+               <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+              </property>
               <item>
                <property name="text">
                 <string>8</string>
@@ -493,25 +532,6 @@
                 <string>128</string>
                </property>
               </item>
-             </widget>
-            </item>
-            <item row="4" column="3">
-             <widget class="QPushButton" name="manualPulseB">
-              <property name="toolTip">
-               <string>Manual Pulse...</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset theme="go-jump"/>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
              </widget>
             </item>
            </layout>
@@ -1550,25 +1570,27 @@
   <tabstop>manualDitherB</tabstop>
   <tabstop>guideExposure</tabstop>
   <tabstop>guideDelay</tabstop>
-  <tabstop>guideSquareSize</tabstop>
+  <tabstop>guideGain</tabstop>
   <tabstop>guideBinning</tabstop>
   <tabstop>rAGuideEnabled</tabstop>
   <tabstop>dECGuideEnabled</tabstop>
+  <tabstop>manualPulseB</tabstop>
+  <tabstop>guideSquareSize</tabstop>
   <tabstop>eastRAGuideEnabled</tabstop>
   <tabstop>westRAGuideEnabled</tabstop>
   <tabstop>northDECGuideEnabled</tabstop>
   <tabstop>southDECGuideEnabled</tabstop>
   <tabstop>externalConnectB</tabstop>
   <tabstop>externalDisconnectB</tabstop>
-  <tabstop>rACorrDisplayedOnGuideGraph</tabstop>
-  <tabstop>dEDisplayedOnGuideGraph</tabstop>
   <tabstop>rADisplayedOnGuideGraph</tabstop>
+  <tabstop>dEDisplayedOnGuideGraph</tabstop>
   <tabstop>sNRDisplayedOnGuideGraph</tabstop>
   <tabstop>guideZoomInXB</tabstop>
-  <tabstop>guideZoomOutXB</tabstop>
+  <tabstop>rACorrDisplayedOnGuideGraph</tabstop>
   <tabstop>dECorrDisplayedOnGuideGraph</tabstop>
   <tabstop>rMSDisplayedOnGuideGraph</tabstop>
   <tabstop>guideSlider</tabstop>
+  <tabstop>guideZoomOutXB</tabstop>
   <tabstop>latestCheck</tabstop>
   <tabstop>guideAutoScaleGraphB</tabstop>
   <tabstop>guideSaveDataB</tabstop>

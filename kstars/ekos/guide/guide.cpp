@@ -682,6 +682,41 @@ void Guide::updateGuideParams()
 
         l_FOV->setText(QString("%1' x %2'").arg(QString::number(fov_w, 'f', 1), QString::number(fov_h, 'f', 1)));
     }
+
+    // Gain Check
+    if (m_Camera->hasGain())
+    {
+        double min, max, step, value;
+        m_Camera->getGainMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no gain value at all.
+        guideGainSpecialValue = min - step;
+        guideGain->setRange(guideGainSpecialValue, max);
+        guideGain->setSpecialValueText(i18n("--"));
+        guideGain->setEnabled(true);
+        guideGain->setSingleStep(step);
+        m_Camera->getGain(&value);
+
+        auto gain = m_Settings["guideGain"];
+        // Set the custom gain if we have one
+        // otherwise it will not have an effect.
+        if (gain.isValid())
+            TargetCustomGainValue = gain.toDouble();
+        if (TargetCustomGainValue > 0)
+            guideGain->setValue(TargetCustomGainValue);
+        else
+            guideGain->setValue(guideGainSpecialValue);
+
+        guideGain->setReadOnly(m_Camera->getGainPermission() == IP_RO);
+
+        connect(guideGain, &QDoubleSpinBox::editingFinished, this, [this]()
+        {
+            if (guideGain->value() > guideGainSpecialValue)
+                TargetCustomGainValue = guideGain->value();
+        });
+    }
+    else
+        guideGain->setEnabled(false);
 }
 
 bool Guide::setGuider(ISD::Guider * device)
@@ -798,6 +833,10 @@ void Guide::prepareCapture(ISD::CameraChip * targetChip)
     targetChip->setFrameType(FRAME_LIGHT);
     targetChip->setCaptureFilter(FITS_NONE);
     m_Camera->setEncodingFormat("FITS");
+
+    // Set gain if applicable
+    if (m_Camera->hasGain() && guideGain->isEnabled() && guideGain->value() > guideGainSpecialValue)
+        m_Camera->setGain(guideGain->value());
 }
 
 void Guide::abortExposure()

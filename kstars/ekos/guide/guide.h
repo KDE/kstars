@@ -631,6 +631,10 @@ class Guide : public QWidget, public Ui::Guide
         // Was the modified frame subFramed?
         bool subFramed { false };
 
+        // Controls
+        double guideGainSpecialValue {INVALID_VALUE};
+        double TargetCustomGainValue {-1};
+
         // CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;
 
