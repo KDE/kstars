@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 01:38+0000\n"
-"PO-Revision-Date: 2024-04-23 21:12+0100\n"
+"PO-Revision-Date: 2024-04-27 22:28+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15997,24 +15997,23 @@ msgstr "Posttaska skripto finiĝis kun kodo %1."
 #: ekos/capture/captureprocess.cpp:2026 ekos/focus/focus.cpp:5304
 #, kde-format
 msgid "Exposure timeout. Aborting..."
-msgstr "Eksponiĝotempo. Abortante..."
+msgstr "Templimo de elmeto. Abortante..."
 
 #: ekos/capture/captureprocess.cpp:2033
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
-msgstr ""
+msgstr "Templimo de elmeto. Pli ol 3 estis detektitaj, restartigos pelilon."
 
 #: ekos/capture/captureprocess.cpp:2051 ekos/focus/focus.cpp:5309
 #: ekos/guide/guide.cpp:922
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
-msgstr "Eksponiĝotempo. Rekomencante ekspozicion..."
+msgstr "Templimo de elmeto. Rekomencante ekspozicion..."
 
 #: ekos/capture/captureprocess.cpp:2077
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting..."
+#, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
-msgstr "Eksponiĝotempo. Abortante..."
+msgstr "Templimo de elmeto. Tro da. Ĉesigante..."
 
 #: ekos/capture/captureprocess.cpp:2155
 #, kde-format
@@ -18553,10 +18552,9 @@ msgid "Capture in progress, retrying in 1s..."
 msgstr "Kaptado progresadas, reprovonte post 1s..."
 
 #: ekos/focus/focus.cpp:1411
-#, fuzzy, kde-format
-#| msgid "Capture in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Kaptado progresadas, reprovonte post 1s..."
+msgstr "Steldetekto progresadas, reprovonte post 1s..."
 
 #: ekos/focus/focus.cpp:1444
 #, kde-format
@@ -21024,31 +21022,29 @@ msgid "Error: lost connection to CCD."
 msgstr "Eraro: perdita konekto al CCD."
 
 #: ekos/guide/guide.cpp:916
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting..."
+#, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
-msgstr "Eksponiĝotempo. Abortante..."
+msgstr "Templimo de elmeto, sed suspendite. Ignorante..."
 
 #: ekos/guide/guide.cpp:944
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
-msgstr "Eksponiĝotempo. Ĉesigo de Aŭtogvidilo."
+msgstr "Templimo de elmeto. Ĉesigo de Aŭtogvidilo."
 
 #: ekos/guide/guide.cpp:946
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
-msgstr "Eksponiĝotempo. Ĉesigi Dithering."
+msgstr "Templimo de elmeto. Ĉesigi Dithering."
 
 #: ekos/guide/guide.cpp:948
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
-msgstr "Eksponiĝotempo. Ĉesigi Kalibradon."
+msgstr "Templimo de elmeto. Ĉesigi Kalibradon."
 
 #: ekos/guide/guide.cpp:957
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Restarting exposure..."
+#, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
-msgstr "Eksponiĝotempo. Rekomencante ekspozicion..."
+msgstr "Templimo de elmeto. Tro multaj. Restartigante pelilon..."
 
 #: ekos/guide/guide.cpp:1305
 #, kde-format
@@ -85289,6 +85285,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Detection in progress, please wait."
-#~ msgstr "Detekto en progreso, bonvolu atendi."

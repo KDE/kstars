@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 01:38+0000\n"
-"PO-Revision-Date: 2024-04-25 21:36+0200\n"
+"PO-Revision-Date: 2024-04-27 11:23+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -18745,10 +18745,9 @@ msgid "Capture in progress, retrying in 1s..."
 msgstr "Hai unha captura en progreso, reintentarase en 1 s…"
 
 #: ekos/focus/focus.cpp:1411
-#, fuzzy, kde-format
-#| msgid "Capture in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Hai unha captura en progreso, reintentarase en 1 s…"
+msgstr "Hai unha detección de estrelas en progreso, reintentarase en 1 s…"
 
 #: ekos/focus/focus.cpp:1444
 #, kde-format
@@ -28111,6 +28110,22 @@ msgid ""
 "30 minutes and will thus prevent a job from starting just before that moment."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Amencer e anoitecer astronómicos para o traballo "
+"seleccionado do planificador, ou hoxe se non hai ningún traballo "
+"seleccionado.</p><p>- O primeiro valor é o <span style=\" font-weight:600;"
+"\">anoitecer</span>, especificamente a seguinte hora local á que se pon o "
+"sol por debaixo dunha altitude de -18° tras o inicio do traballo.</p><p>- O "
+"segundo valor é o <span style=\" font-weight:600;\">amencer</span>, "
+"especificamente a seguinte hora local á que sae o sol por riba dunha "
+"altitude de -18° tras o inicio do traballo.</p><p>Un símbolo de aviso indica "
+"que o sol non atravesará o limiar de anoitecer astronómico tras o inicio do "
+"traballo, e que as horas de amencer e anoitecer se calculan a partir da súa "
+"altitude mínima. Nesa situación, a restrición do crepúsculo evita a "
+"execución do traballo a menos que as opcións «Desprazamento do amencer» e "
+"«Desprazamento do anoitecer» de Ekos estean correctamente configuradas.</"
+"p><p>Teña en conta que a opción «Desprazamento pre-amencer» de Ekos avanza "
+"virtualmente o amencer 30 minutos de maneira predeterminada, e polo tanto "
+"impide que un traballo se inicie antes dese momento.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:1782
@@ -28342,17 +28357,14 @@ msgid "Ekos job failed (%1)"
 msgstr "O traballo de Ekos fallou (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "DarkFlat"
 msgstr "Plano escuro"
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Images"
+#, kde-format
 msgid "images"
-msgstr "Imaxes"
+msgstr "imaxes"
 
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
@@ -28529,22 +28541,22 @@ msgid "Job '%1' is focusing."
 msgstr "O traballo «%1» está enfocando."
 
 #: ekos/scheduler/schedulerprocess.cpp:861
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
-msgstr "Aviso: o aliñamento do traballo «%1» fallou."
+msgstr "Aviso: o ficheiro FITS de destino do traballo «%1» non existe."
 
 #: ekos/scheduler/schedulerprocess.cpp:873
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
-msgstr "Erro de DBUS de captureAndSolve: %1"
+msgstr ""
+"Aviso: a solicitude «loadAndSlew» (cargar e mover) do traballo «%1» recibiu "
+"un erro de DBUS: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:884
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
-msgstr "Aviso: o aliñamento do traballo «%1» fallou."
+msgstr ""
+"Aviso: a solicitude «loadAndSlew» (cargar e mover) do traballo «%1» fallou."
 
 #: ekos/scheduler/schedulerprocess.cpp:890
 #, kde-format
@@ -28552,29 +28564,33 @@ msgid "Job '%1' is plate solving %2."
 msgstr "O traballo «%1» está resolvendo placas de %2."
 
 #: ekos/scheduler/schedulerprocess.cpp:904
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
-msgstr "Erro de DBUS de captureAndSolve: %1"
+msgstr ""
+"Aviso: a solicitude «setTargetCoords» (definir as coordenadas de destino) do "
+"traballo «%1» recibiu un erro de DBUS: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:920
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
-msgstr "Erro de DBUS de captureAndSolve: %1"
+msgstr ""
+"Aviso: a solicitude «setTargetPositionAngle» (definir o ángulo de posición "
+"de destino) do traballo «%1» recibiu un erro de DBUS: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:933
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
-msgstr "Erro de DBUS de captureAndSolve: %1"
+msgstr ""
+"Aviso: a solicitude «captureAndSolve» (capturar e resolver) do traballo «%1» "
+"recibiu un erro de DBUS: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:944
-#, fuzzy, kde-format
-#| msgid "captureAndSolve DBUS error: %1"
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
-msgstr "Erro de DBUS de captureAndSolve: %1"
+msgstr ""
+"Aviso: a solicitude «captureAndSolve» (capturar e resolver) do traballo «%1» "
+"fallou."
 
 #: ekos/scheduler/schedulerprocess.cpp:950
 #, kde-format
@@ -28694,7 +28710,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1320
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr ""
+msgstr "Fai falla desestacionar a bóveda pero non está preparada."
 
 #: ekos/scheduler/schedulerprocess.cpp:1330
 #, kde-format
@@ -28922,10 +28938,9 @@ msgid "No jobs scheduled."
 msgstr "Non hai traballos planificados."
 
 #: ekos/scheduler/schedulerprocess.cpp:2409
-#, fuzzy, kde-format
-#| msgid "Solver iteration #%1"
+#, kde-format
 msgid "Starting job sequence iteration #%1"
-msgstr "Iteración %1 do resolvedor"
+msgstr "Iniciando a iteración de secuencia de traballos n.° %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:2491
 #, kde-format
@@ -28998,21 +29013,20 @@ msgid "Scheduler list saved to %1"
 msgstr "A lista do planificador gardouse en %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:3150
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "Esgotouse o tempo límite do resolvedor."
+msgstr "O resolvedor esgotou o tempo límite: %1 s %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3152
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Solver failed: %1s %2"
-msgstr "Campo de visión do resolvedor"
+msgstr "O resolvedor fallou: %1 s %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3187
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
+"O fotograma capturado está a %1 minutos de arco do destino, aliñando de novo…"
 
 #: ekos/scheduler/schedulerprocess.cpp:3375
 #, kde-format
@@ -29148,13 +29162,12 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3705
 #: ekos/scheduler/schedulerprocess.cpp:3716
-#, fuzzy, kde-format
-#| msgid "Caution: do not use Auto Park while scheduler is active."
+#, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
-"Coidado: non use o estacionamento automático mentres o planificador está "
-"activo."
+"Aviso: a montura está estacionada e o planificador do traballo «%1» está "
+"activo. Interrompendo."
 
 #: ekos/scheduler/schedulerprocess.cpp:3738
 #, kde-format
@@ -29177,6 +29190,8 @@ msgstr "O procedemento de apagamento manual terminou por mor de erros."
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
+"Solicitouse o estacionamento da cuberta anti po, pero non se detectou "
+"ningunha."
 
 #: ekos/scheduler/schedulerprocess.cpp:3807
 #, kde-format
@@ -29192,6 +29207,8 @@ msgstr "A cuberta xa está estacionada."
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
+"Solicitouse o desestacionamento da cuberta anti po, pero non se detectou "
+"ningunha."
 
 #: ekos/scheduler/schedulerprocess.cpp:3844
 #, kde-format
@@ -29207,6 +29224,7 @@ msgstr "A cuberta xa está desestacionada."
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
+"Solicitouse o estacionamento da montura, pero non se detectou ningunha."
 
 #: ekos/scheduler/schedulerprocess.cpp:3917
 #, kde-format
@@ -29217,6 +29235,7 @@ msgstr "Estacionando a montaxe…"
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
+"Solicitouse o desestacionamento da montura, pero non se detectou ningunha."
 
 #: ekos/scheduler/schedulerprocess.cpp:3957
 #, kde-format
@@ -29226,7 +29245,7 @@ msgstr "A montaxe xa está desestacionada."
 #: ekos/scheduler/schedulerprocess.cpp:4055
 #, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr ""
+msgstr "Solicitouse o estacionamento da bóveda, pero non se detectou ningunha."
 
 #: ekos/scheduler/schedulerprocess.cpp:4078
 #, kde-format
@@ -29242,6 +29261,7 @@ msgstr "A bóveda xa está estacionada."
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
+"Solicitouse o desestacionamento da bóveda, pero non se detectou ningunha."
 
 #: ekos/scheduler/schedulerprocess.cpp:4114
 #, kde-format
@@ -29360,10 +29380,9 @@ msgid "Error reading image: %1"
 msgstr "Produciuse un erro ao ler a imaxe: %1"
 
 #: fitsviewer/fitsdata.cpp:486
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "File contain no images"
-msgstr "Non se puido cargar a imaxe"
+msgstr "O ficheiro non contén imaxes."
 
 #: fitsviewer/fitsdata.cpp:515
 #, kde-format
@@ -29385,6 +29404,8 @@ msgstr "Produciuse un erro ao gardar a imaxe XISF"
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
+"FITSData: Non hai memoria dabondo para a canle «image_buffer». "
+"Solicitáronse: %1 bytes "
 
 #: fitsviewer/fitsdata.cpp:746
 #, kde-format
@@ -29402,10 +29423,9 @@ msgid "Cannot unpack_thumb: %1"
 msgstr "Non é posíbel desestacionar a miniatura: %1"
 
 #: fitsviewer/fitsdata.cpp:777
-#, fuzzy, kde-format
-#| msgid "Cannot write %s %1: %2"
+#, kde-format
 msgid "Cannot dcraw_process: %1"
-msgstr "Non se pode escribir %s %1: %2"
+msgstr "dcraw_process non é posíbel: %1"
 
 #: fitsviewer/fitsdata.cpp:785
 #, kde-format
@@ -29471,10 +29491,9 @@ msgid "Unsupported bayer pattern %1."
 msgstr "Padrón de Bayer incompatíbel %1."
 
 #: fitsviewer/fitsdata.cpp:3707
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer pattern %1."
+#, kde-format
 msgid "Unsupported bayer offsets %1 %2."
-msgstr "Padrón de Bayer incompatíbel %1."
+msgstr "Desprazamentos bayer non permitidos %1 %2."
 
 #: fitsviewer/fitsdata.cpp:3775 fitsviewer/fitsdata.cpp:3822
 #: fitsviewer/fitsdata.cpp:3867 fitsviewer/fitsdata.cpp:3914
@@ -29705,14 +29724,14 @@ msgstr "KStars non atopou ningunha montura activa."
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr ""
+msgstr "Estirar a imaxe (ou desactivar o estiramento)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
 #: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
 #, kde-format
 msgid "Set shadows value for the image stretch."
-msgstr ""
+msgstr "Definir o valor de sombras para o estiramento da imaxe."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
@@ -29725,7 +29744,7 @@ msgstr "Sombras"
 #: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
 #, kde-format
 msgid "Set midtones value for the image stretch."
-msgstr ""
+msgstr "Definir o valor de tons medios para o estiramento da imaxe."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
@@ -29738,7 +29757,7 @@ msgstr "Tons medios"
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr ""
+msgstr "Definir o valor de luces altas para o estiramento da imaxe."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
@@ -29748,17 +29767,15 @@ msgstr "Realces"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
-#, fuzzy, kde-format
-#| msgid "Enable or Disable the Max Value Cutoff"
+#, kde-format
 msgid "Enable or disable the histogram display."
-msgstr "Activar ou desactivar o recorte de valor máximo"
+msgstr "Activar ou desactivar a visualización do histograma."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically start the park timer on startup"
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Iniciar automaticamente o temporizador de estacionamento no inicio"
+msgstr "Atopar automaticamente o parámetro de estiramento."
 
 #: fitsviewer/fitstab.cpp:61
 #, kde-format
@@ -29774,17 +29791,15 @@ msgstr ""
 "O ficheiro de FITS ten cambios sen gardar. Quere gardalo antes de pechalo?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "Editor de perfís de opcións de aliñamento"
+msgstr "Editor de perfís de resolvedor de visor de FITS"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
-#, fuzzy, kde-format
-#| msgid "Online Sol&ver"
+#, kde-format
 msgid "Plate Solving"
-msgstr "Resol&vedor de internet"
+msgstr "Resolución de placas"
 
 #: fitsviewer/fitstab.cpp:175
 #, kde-format
@@ -29834,10 +29849,9 @@ msgid "Extractor timed out: %1s"
 msgstr "O extractor esgotou o tempo límite: %1 s."
 
 #: fitsviewer/fitstab.cpp:726
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Extractor failed: %1s"
-msgstr "Campo de visión do resolvedor"
+msgstr "O extractor fallou: %1 s"
 
 #: fitsviewer/fitstab.cpp:735
 #, kde-format
@@ -29858,11 +29872,12 @@ msgstr "O resolvedor fallou: %1 s."
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
+"Aviso! Esta ferramenta só permite o resolvedor interno de StellarSolver."
 
 #: fitsviewer/fitstab.cpp:949
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
-msgstr ""
+msgstr "Cambiar a iso no menú de opcións de aliñamento de Ekos."
 
 #: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
 #, kde-format
@@ -29913,10 +29928,9 @@ msgid "Zoom to Fit"
 msgstr "Axustar á vista"
 
 #: fitsviewer/fitsview.cpp:2465
-#, fuzzy, kde-format
-#| msgid "Auto Stretch"
+#, kde-format
 msgid "Toggle Stretch"
-msgstr "Estirón automático"
+msgstr "Conmutar o estiramento"
 
 #: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
 #, kde-format
@@ -29956,10 +29970,9 @@ msgid "Center Telescope"
 msgstr "Centrar o telescopio"
 
 #: fitsviewer/fitsview.cpp:2516 fitsviewer/fitsviewer.cpp:253
-#, fuzzy, kde-format
-#| msgid "Show HiPS Grid"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Mostrar a grade de HiPS"
+msgstr "Amosar a sobreposición de HiPS."
 
 #: fitsviewer/fitsviewer.cpp:41
 #, kde-format
@@ -30013,10 +30026,9 @@ msgid "Flip Vertical"
 msgstr "Inverter na vertical"
 
 #: fitsviewer/fitsviewer.cpp:132 kstarsinit.cpp:159
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory..."
+#, kde-format
 msgid "Open/Blink Directory"
-msgstr "Abrir o cartafol de rexistro…"
+msgstr "Cartafol de abrir ou chisco"
 
 #: fitsviewer/fitsviewer.cpp:151
 #, kde-format
@@ -30024,16 +30036,14 @@ msgid "Debayer..."
 msgstr "Aplicar debayer…"
 
 #: fitsviewer/fitsviewer.cpp:186
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgid "&Selection Statistics"
-msgstr "Estatísticas"
+msgstr "Estatísticas da &selección"
 
 #: fitsviewer/fitsviewer.cpp:227
-#, fuzzy, kde-format
-#| msgid "Show print dialog"
+#, kde-format
 msgid "Show Clipping"
-msgstr "Mostrar o diálogo de impresión"
+msgstr "Amosar o recorte."
 
 #: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1284
 #, kde-format
@@ -30060,28 +30070,24 @@ msgid "Previous Tab"
 msgstr "Lapela anterior"
 
 #: fitsviewer/fitsviewer.cpp:282
-#, fuzzy, kde-format
-#| msgid "Objects in Image"
+#, kde-format
 msgid "Next Blink Image"
-msgstr "Obxectos na imaxe"
+msgstr "Seguinte imaxe de chisco"
 
 #: fitsviewer/fitsviewer.cpp:287
-#, fuzzy, kde-format
-#| msgid "Preview image"
+#, kde-format
 msgid "Previous Blink Image"
-msgstr "Vista previa da imaxe"
+msgstr "Imaxe de chisco anterior"
 
 #: fitsviewer/fitsviewer.cpp:292
-#, fuzzy, kde-format
-#| msgid "Zoom in"
+#, kde-format
 msgid "Zoom all tabs in"
-msgstr "Achegar"
+msgstr "Achegar todas as lapelas"
 
 #: fitsviewer/fitsviewer.cpp:297
-#, fuzzy, kde-format
-#| msgid "Zoom out"
+#, kde-format
 msgid "Zoom all tabs out"
-msgstr "Afastar"
+msgstr "Afastar todas as lapelas"
 
 #: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1558
 #, kde-format
@@ -30101,31 +30107,29 @@ msgid "KStars FITS Viewer"
 msgstr "Visor de FITS de KStars"
 
 #: fitsviewer/fitsviewer.cpp:408
-#, fuzzy, kde-format
-#| msgid "%1 star"
+#, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
-msgstr[0] "%1 estrela"
-msgstr[1] "%1 estrela"
+msgstr[0] "HFR: %2. Ecc: %3. %1 estrela."
+msgstr[1] "HFR: %2. Ecc: %3. %1 estrelas."
 
 #: fitsviewer/fitsviewer.cpp:414
-#, fuzzy, kde-format
-#| msgid "%1 star"
+#, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
-msgstr[0] "%1 estrela"
-msgstr[1] "%1 estrela"
+msgstr[0] "HFR: %2. %1 estrela."
+msgstr[1] "HFR: %2. %1 estrelas."
 
 #: fitsviewer/fitsviewer.cpp:673
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
+"Non é posíbel atopar unha lapela con identificador único %1 no visor de FITS."
 
 #: fitsviewer/fitsviewer.cpp:806
-#, fuzzy, kde-format
-#| msgid "View 3D Graph"
+#, kde-format
 msgid "currentView 3D Graph"
-msgstr "Ver o gráfico en 3D"
+msgstr "Gráfico en 3D da vista actual"
 
 #: fitsviewer/fitsviewer.cpp:807 fitsviewer/fitsviewer.cpp:1429
 #, kde-format
@@ -30159,11 +30163,10 @@ msgid "HiPS Overlay"
 msgstr "Sobreposición de HiPS"
 
 #: fitsviewer/fitsviewer.cpp:864
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
-msgstr "Abrir o directorio dos rexistros"
+msgstr "Cartafol superior de chisco"
 
 #: fitsviewer/fitsviewer.cpp:992
 #, kde-format
@@ -30363,16 +30366,13 @@ msgstr "Redución da taxa de mostras"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:216
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do you want to select additional services?</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically down sample images based on available "
 "resources.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Quere seleccionar servizos adicionais?</p></body></"
-"html>"
+"<html><head/><body><p>Reducir automaticamente a taxa de mostras das imaxes "
+"en liña cos recursos dispoñíbeis.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:219
@@ -30390,13 +30390,15 @@ msgid ""
 "stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be "
 "coarse resolution and fast."
 msgstr ""
+"Definir a rudeza da vista previa que se amosa ao mover os controis "
+"esvaradíos de parámetros de estiramento do visor de FITS. 1 é a resolución "
+"completa, pero pode ser lento, e 4 é unha resolución ruda e rápida."
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
 #: fitsviewer/opsfits.ui:229
-#, fuzzy, kde-format
-#| msgid "Print preview"
+#, kde-format
 msgid "Stretch preview:"
-msgstr "Vista previa"
+msgstr "Vista previa do estiramento:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:255
@@ -30454,10 +30456,9 @@ msgstr "Aplicar sempre o estirón automático no visor de FITS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:357
-#, fuzzy, kde-format
-#| msgid "Auto Stretch"
+#, kde-format
 msgid "Auto stretch"
-msgstr "Estirón automático"
+msgstr "Estirar automaticamente"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:364
@@ -30555,13 +30556,13 @@ msgstr "Cubo 3D"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_NonLinearHistogram)
 #: fitsviewer/opsfits.ui:410
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Use astrometry.net solver.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display histogram for the stretched non-linear image.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Usar o resolvedor astrometry.net.</p></body></html>"
+"<html><head/><body><p>Amosar o histograma da imaxe non liñar estirada.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_NonLinearHistogram)
 #: fitsviewer/opsfits.ui:413
@@ -30573,14 +30574,13 @@ msgstr "Histograma non linear."
 #: fitsviewer/opsfits.ui:420
 #, kde-format
 msgid "Compute the HFR of images loaded into fitsviewer."
-msgstr ""
+msgstr "Calcular o HFR de imaxes cargadas no visor de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:423
-#, fuzzy, kde-format
-#| msgid "Compute FOV"
+#, kde-format
 msgid "Auto compute HFR"
-msgstr "Calcular o FOV"
+msgstr "Calcular automaticamente o HFR."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:433
@@ -30588,25 +30588,27 @@ msgstr "Calcular o FOV"
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
 msgstr ""
+"Ao calcular o HFR, executalo rapidamente considerando só un 25% da imaxe."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:436
 #, kde-format
 msgid "Quick HFR"
-msgstr ""
+msgstr "HFR rápido."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:451
 #, kde-format
 msgid "Set the StellarSolver SEP profile for Capture-image HFR calculations."
 msgstr ""
+"Definir o perfil de SEP de StellarSolver para os cálculos de HFR de captura "
+"de imaxe."
 
 #. i18n: ectx: property (text), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:454
-#, fuzzy, kde-format
-#| msgid "Profile:"
+#, kde-format
 msgid "HFR SEP profile:"
-msgstr "Perfil:"
+msgstr "Perfil de SEP de HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StellarSolverPartition)
 #. i18n: ectx: label, entry (StellarSolverPartition), group (FITSViewer)
@@ -30617,59 +30619,54 @@ msgid ""
 "speed up detecting stars. This may significantly speed up source extraction "
 "but may result in unstable operation."
 msgstr ""
+"Activar a partición de StellarSolver. Divide a imaxe en varios fíos para "
+"acelerar a detección de estrelas. Isto pode acelerar de maneira "
+"significativa a extracción de fontes, pero pode desestabilizar a operación."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StellarSolverPartition)
 #: fitsviewer/opsfits.ui:482
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "StellarSolver partitioning"
-msgstr "Configuración do simulador"
+msgstr "Partición de StellarSolver."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SolveButton)
 #: fitsviewer/platesolve.ui:47
 #, kde-format
 msgid "Plate solve the image using the parameters below."
-msgstr ""
+msgstr "Resolver con placas a imaxe usando os parámetros de embaixo."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:107
 #, kde-format
 msgid "<p>The units of the imager scale bounds."
-msgstr ""
+msgstr "<p>As unidades dos límites de escala do xerador de imaxes."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:114
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width º"
-msgstr "Anchura da imaxe:"
+msgstr "° da anchura da imaxe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:119
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width '"
-msgstr "Anchura da imaxe:"
+msgstr "' da anchura da imaxe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:124
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "arcsec/pixel"
-msgstr "segundos de arco"
+msgstr "segundos de arco por píxel"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set estimated position to speed up astrometry solver as it does not have "
-#| "to search in other areas of the sky."
+#, kde-format
 msgid ""
 "Use the given position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"Definir a posición estimada para acelerar o resolvedor de astrometría xa que "
+"Usar a posición indicada para acelerar o resolvedor de astrometría xa que "
 "non ten que buscar noutras partes do ceo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpdatePosition)
@@ -77677,6 +77674,8 @@ msgid ""
 "Set the coarseness of the terrain image rendered. 1 is full resolution, but "
 "can be slow, 6 or more would be coarse resolution and fast."
 msgstr ""
+"Definir a rudeza da imaxe de terreo renderizada. 1 é a resolución completa, "
+"pero pode ser lento, e 6 ou máis é unha resolución ruda e rápida."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainDownsamplingLabel)
 #: options/opsterrain.ui:231
