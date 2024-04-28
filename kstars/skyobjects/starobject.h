@@ -9,11 +9,11 @@
 //#define PROFILE_UPDATECOORDS
 
 #include "skyobject.h"
+#include "ksnumbers.h"
 
 #include <QString>
 
 struct DeepStarData;
-class KSNumbers;
 class KSPopupMenu;
 struct StarData;
 
@@ -183,8 +183,14 @@ class StarObject : public SkyObject
      * @return true if we changed the coordinates, false otherwise
      * NOTE: ra and dec both in degrees.
      */
-    bool getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms &dec);
-    bool getIndexCoords(const KSNumbers *num, double *ra, double *dec);
+    bool getIndexCoords(const double julianMillenia, CachingDms &ra, CachingDms &dec) const;
+    bool getIndexCoords(const double julianMillenia, double *ra, double *dec) const;
+    inline bool getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms &dec) const {
+        return getIndexCoords(num->julianMillenia(), ra, dec);
+    }
+    inline bool getIndexCoords(const KSNumbers *num, double *ra, double *dec) const {
+        return getIndexCoords(num->julianMillenia(), ra, dec);
+    }
 
     /** @short added for JIT updates from both StarComponent and ConstellationLines */
     void JITupdate();

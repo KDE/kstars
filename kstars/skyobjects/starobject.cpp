@@ -287,7 +287,7 @@ void StarObject::updateCoords(const KSNumbers *num, bool, const CachingDms *, co
 #endif
 }
 
-bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms &dec)
+bool StarObject::getIndexCoords(const double julianMillenia, CachingDms &ra, CachingDms &dec) const
 {
     static double pmms;
 
@@ -314,13 +314,13 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
     // Old, Incorrect Proper motion Computation.  We retain this in a
     // comment because we might want to use it to come up with a
     // linear approximation that's faster.
-    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
-    //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+    //    double dra = pmRA() * julianMillenia / ( cos( dec0().radians() ) * 3600.0 );
+    //    double ddec = pmDec() * julianMillenia / 3600.0;
 
 
     pmms = pmMagnitudeSquared();
 
-    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < .01)
+    if (std::isnan(pmms) || pmms * julianMillenia * julianMillenia < .01)
     {
         // Ignore corrections
         ra  = ra0();
@@ -335,7 +335,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
     // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
     // PM times the number of Julian millenia since J2000.0
 
-    double pm = pmMagnitude() * num->julianMillenia(); // Proper Motion in arcseconds
+    double pm = pmMagnitude() * julianMillenia; // Proper Motion in arcseconds
 
     double dir0 = ((pm > 0) ? atan2(pmRA(), pmDec()) : atan2(-pmRA(), -pmDec())); // Bearing, in radian
 
@@ -379,7 +379,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
     // pmRa / cos(δ)
 
     double cosDec, sinDec, cosRa, sinRa;
-    double scale = num->julianMillenia() * (M_PI / (180.0 * 3600.0));
+    double scale = julianMillenia * (M_PI / (180.0 * 3600.0));
     dec0().SinCos(sinDec, cosDec);
     ra0().SinCos(sinRa, cosRa);
 
@@ -406,7 +406,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
     return true;
 }
 
-bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
+bool StarObject::getIndexCoords(const double julianMillenia, double *ra, double *dec) const
 {
     static double pmms;
 
@@ -432,8 +432,8 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
     // Old, Incorrect Proper motion Computation.  We retain this in a
     // comment because we might want to use it to come up with a
     // linear approximation that's faster.
-    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
-    //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+    //    double dra = pmRA() * julianMillenia / ( cos( dec0().radians() ) * 3600.0 );
+    //    double ddec = pmDec() * julianMillenia / 3600.0;
 
     // Proper Motion Correction should be implemented as motion along a great
     // circle passing through the given (ra0, dec0) in a direction of
@@ -442,7 +442,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
 
     pmms = pmMagnitudeSquared();
 
-    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < .01)
+    if (std::isnan(pmms) || pmms * julianMillenia * julianMillenia < .01)
     {
         // Ignore corrections
         *ra  = ra0().Degrees();
@@ -451,7 +451,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
     }
 
     /*
-    double pm = pmMagnitude() * num->julianMillenia(); // Proper Motion in arcseconds
+    double pm = pmMagnitude() * julianMillenia; // Proper Motion in arcseconds
 
     double dir0 = ((pm > 0) ? atan2(pmRA(), pmDec()) : atan2(-pmRA(), -pmDec())); // Bearing, in radian
 
@@ -493,7 +493,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
     // implementation here.
 
     double cosDec, sinDec, cosRa, sinRa;
-    double scale = num->julianMillenia() * (M_PI / (180.0 * 3600.0));
+    double scale = julianMillenia * (M_PI / (180.0 * 3600.0));
     dec0().SinCos(sinDec, cosDec);
     ra0().SinCos(sinRa, cosRa);
 
