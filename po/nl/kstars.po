@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 01:38+0000\n"
-"PO-Revision-Date: 2024-04-24 11:21+0200\n"
+"PO-Revision-Date: 2024-04-25 10:33+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -18668,10 +18668,9 @@ msgid "Capture in progress, retrying in 1s..."
 msgstr "Nog bezig met opnemen, probeer het opnieuw in 1s..."
 
 #: ekos/focus/focus.cpp:1411
-#, fuzzy, kde-format
-#| msgid "Capture in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Nog bezig met opnemen, probeer het opnieuw in 1s..."
+msgstr "Detectie van ster is gaande, wordt opnieuw geprobeerd na 1s..."
 
 #: ekos/focus/focus.cpp:1444
 #, kde-format
