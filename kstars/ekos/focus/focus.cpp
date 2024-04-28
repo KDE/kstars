@@ -856,6 +856,8 @@ bool Focus::setCamera(ISD::Camera *device)
         return false;
     }
 
+    m_captureInProgress = false;
+
     if (m_Camera)
         m_Camera->disconnect(this);
 
@@ -1624,8 +1626,8 @@ void Focus::capture(double settleTime)
     m_FocusView->setProperty("suspended", m_OpsFocusSettings->useFocusDarkFrame->isChecked());
     prepareCapture(targetChip);
 
-    connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Focus::processData);
-    connect(m_Camera, &ISD::Camera::error, this, &Ekos::Focus::processCaptureError);
+    connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Focus::processData, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::error, this, &Ekos::Focus::processCaptureError, Qt::UniqueConnection);
 
     if (frameSettings.contains(targetChip))
     {
@@ -1937,6 +1939,7 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
 
     captureTimeout.stop();
     captureTimeoutCounter = 0;
+    m_MissingCameraCounter = 0;
 
     ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Focus::processData);
@@ -5287,10 +5290,11 @@ void Focus::setVideoStreamEnabled(bool enabled)
 
 void Focus::processCaptureTimeout()
 {
+    m_captureInProgress = false;
+
     if (m_abortInProgress)
     {
         // Timeout occured whilst trying to abort AF. So do no further processing - stop function will call abortExposure()
-        m_captureInProgress = false;
         qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding frame in " << __FUNCTION__;
         return;
     }
@@ -5300,41 +5304,50 @@ void Focus::processCaptureTimeout()
     if (captureTimeoutCounter >= 3)
     {
         captureTimeoutCounter = 0;
+        m_MissingCameraCounter = 0;
         captureTimeout.stop();
         appendLogText(i18n("Exposure timeout. Aborting..."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_TIMEOUT);
     }
-    else
+    else if (m_Camera)
     {
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
         ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
         targetChip->abortExposure();
 
-        prepareCapture(targetChip);
-
-        if (targetChip->capture(focusExposure->value()))
-        {
-            // Timeout is exposure duration + timeout threshold in seconds
-            //long const timeout = lround(ceil(focusExposure->value() * 1000)) + FOCUS_TIMEOUT_THRESHOLD;
-            captureTimeout.start( (focusExposure->value() + m_OpsFocusMechanics->focusCaptureTimeout->value()) * 1000);
-
-            if (inFocusLoop == false)
-                appendLogText(i18n("Capturing image again..."));
-
-            resetButtons();
-        }
-        else if (inAutoFocus)
-        {
-            completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_TIMEOUT);
-        }
+        capture(focusExposure->value());
     }
+    // Don't allow this to happen all night. We will repeat checking (most likely for activeCamera()
+    // another 200s = 40 * 5s, but after that abort capture.
+    else if (m_MissingCameraCounter < 40)
+    {
+        m_MissingCameraCounter++;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Unable to restart focus exposure as camera is missing, trying again in 5 seconds...";
+        QTimer::singleShot(5000, this, &Focus::processCaptureTimeout);
+    }
+    else
+    {
+        m_MissingCameraCounter = 0;
+        captureTimeoutCounter = 0;
+        captureTimeout.stop();
+        appendLogText(i18n("Exposure timeout. Aborting..."));
+        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_TIMEOUT);
+    }
+
+}
+
+void Focus::processCaptureErrorDefault()
+{
+    processCaptureError(ISD::Camera::ERROR_CAPTURE);
 }
 
 void Focus::processCaptureError(ISD::Camera::ErrorType type)
 {
+    m_captureInProgress = false;
+    captureTimeout.stop();
+
     if (m_abortInProgress)
     {
-        m_captureInProgress = false;
         qCDebug(KSTARS_EKOS_FOCUS) << "Abort AF: discarding frame in " << __FUNCTION__;
         return;
     }
@@ -5346,20 +5359,44 @@ void Focus::processCaptureError(ISD::Camera::ErrorType type)
         return;
     }
 
-    captureFailureCounter++;
 
-    if (captureFailureCounter >= 3)
+    if (m_Camera)
     {
+        captureFailureCounter++;
+
+        if (captureFailureCounter >= 3)
+        {
+            captureFailureCounter = 0;
+            captureTimeoutCounter = 0;
+            m_MissingCameraCounter = 0;
+            appendLogText(i18n("Exposure failure. Aborting..."));
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_FAILED);
+            return;
+        }
+
+        ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+        targetChip->abortExposure();
+        capture(focusExposure->value());
+    }
+    // Don't allow this to happen all night. We will repeat checking (most likely for activeCamera()
+    // another 200s = 40 * 5s, but after that abort capture.
+    else if (m_MissingCameraCounter < 40)
+    {
+        m_MissingCameraCounter++;
+        qCDebug(KSTARS_EKOS_FOCUS) << "Unable to restart focus exposure as camera is missing, trying again in 5 seconds...";
+        // We already know type is not ERROR_SAVE, so the value of type isn't used
+        // and we can let it default to ERROR_CAPTURE.
+        QTimer::singleShot(5000, this, &Focus::processCaptureErrorDefault);
+    }
+    else
+    {
+        m_MissingCameraCounter = 0;
         captureFailureCounter = 0;
+        captureTimeoutCounter = 0;
+        captureTimeout.stop();
         appendLogText(i18n("Exposure failure. Aborting..."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_FAILED);
-        return;
     }
-
-    appendLogText(i18n("Exposure failure. Restarting exposure..."));
-    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
-    targetChip->abortExposure();
-    targetChip->capture(focusExposure->value());
 }
 
 void Focus::syncSettings()

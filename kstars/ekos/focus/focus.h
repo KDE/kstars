@@ -470,6 +470,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void processCaptureTimeout();
 
+        void processCaptureErrorDefault();
         void processCaptureError(ISD::Camera::ErrorType type);
 
         void setCaptureComplete();
@@ -1171,6 +1172,7 @@ class Focus : public QWidget, public Ui::Focus
         QTimer captureTimer;
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
+        uint8_t m_MissingCameraCounter { 0 };
         uint8_t captureFailureCounter { 0 };
 
         // Gain Control
