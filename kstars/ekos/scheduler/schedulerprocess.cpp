@@ -4505,6 +4505,10 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
     /* Enumerate SchedulerJobs to count captures that are already stored */
     for (SchedulerJob *oneJob : moduleState()->jobs())
     {
+        // This is like newFramesCount, but reset on every job.
+        // It is useful for properly calling addProgress().
+        CapturedFramesMap newJobFramesCount;
+
         QList<SequenceJob*> seqjobs;
         bool hasAutoFocus = false;
 
@@ -4533,20 +4537,30 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
 
             /* If signature was processed during this run, keep it */
             if (newFramesCount.constEnd() != newFramesCount.constFind(signature))
-                continue;
-
-            /* If signature was processed during an earlier run, use the earlier count */
-            QMap<QString, uint16_t>::const_iterator const earlierRunIterator = moduleState()->capturedFramesCount().constFind(
-                        signature);
-            if (moduleState()->capturedFramesCount().constEnd() != earlierRunIterator)
             {
-                newFramesCount[signature] = earlierRunIterator.value();
+                if (newJobFramesCount.constEnd() == newJobFramesCount.constFind(signature))
+                {
+                    // Even though we've seen this before, we haven't seen it for this SchedulerJob.
+                    const int count = newFramesCount.constFind(signature).value();
+                    newJobFramesCount[signature] = count;
+                    oneJob->addProgress(count, oneSeqJob);
+                }
                 continue;
             }
+            int count = 0;
 
-            /* Else recount captures already stored */
-            const int count = PlaceholderPath::getCompletedFiles(signature);
+            QMap<QString, uint16_t>::const_iterator const earlierRunIterator =
+              moduleState()->capturedFramesCount().constFind(signature);
+            
+            if (moduleState()->capturedFramesCount().constEnd() != earlierRunIterator)
+              // If signature was processed during an earlier run, use the earlier count.
+              count = earlierRunIterator.value();
+            else
+              // else recount captures already stored
+              count =  PlaceholderPath::getCompletedFiles(signature);
+
             newFramesCount[signature] = count;
+            newJobFramesCount[signature] = count;
             oneJob->addProgress(count, oneSeqJob);
         }
 
