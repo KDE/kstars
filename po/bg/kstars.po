@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-29 01:41+0000\n"
-"PO-Revision-Date: 2024-04-22 09:38+0200\n"
+"PO-Revision-Date: 2024-04-29 09:47+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -16184,6 +16184,8 @@ msgstr "Изчакване на експозицията. Прекъсване..
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
+"Изчакване на експозицията. Засечени са повече от три опита. Драйверът се "
+"рестартира..."
 
 #: ekos/capture/captureprocess.cpp:2051 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:961
@@ -16192,10 +16194,9 @@ msgid "Exposure timeout. Restarting exposure..."
 msgstr "Изчакване на експозицията. Експозицията се рестартира..."
 
 #: ekos/capture/captureprocess.cpp:2077
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting..."
+#, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
-msgstr "Изчакване на експозицията. Прекъсване..."
+msgstr "Времето на изчакване на експозицията изтече. Прекъсване..."
 
 #: ekos/capture/captureprocess.cpp:2155
 #, kde-format
@@ -18779,10 +18780,9 @@ msgid "Capture in progress, retrying in 1s..."
 msgstr "Извършва се заснемане, повторен опит след 1секунди..."
 
 #: ekos/focus/focus.cpp:1413
-#, fuzzy, kde-format
-#| msgid "Capture in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Извършва се заснемане, повторен опит след 1секунди..."
+msgstr "Извършва се разпознаване на звезди, повторен опит след 1секунда..."
 
 #: ekos/focus/focus.cpp:1446
 #, kde-format
@@ -21288,10 +21288,11 @@ msgid "Error: lost connection to CCD."
 msgstr "Грешка: загубена връзка с CCD."
 
 #: ekos/guide/guide.cpp:955
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting..."
+#, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
-msgstr "Изчакване на експозицията. Прекъсване..."
+msgstr ""
+"Времето на изчакване на експозицията изтече, но е преустановено. "
+"Игнориране..."
 
 #: ekos/guide/guide.cpp:983
 #, kde-format
@@ -21309,10 +21310,9 @@ msgid "Exposure timeout. Aborting Calibration."
 msgstr "Изчакване на експозицията. Прекъсване на калибрирането."
 
 #: ekos/guide/guide.cpp:996
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Restarting exposure..."
+#, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
-msgstr "Изчакване на експозицията. Експозицията се рестартира..."
+msgstr "Изчакване на експозицията. Драйверът се рестартира..."
 
 #: ekos/guide/guide.cpp:1344
 #, kde-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-29 01:41+0000\n"
-"PO-Revision-Date: 2024-04-28 09:29+0200\n"
+"PO-Revision-Date: 2024-04-29 09:06+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -31307,7 +31307,7 @@ msgstr ""
 #: indi/collimationOptions.ui:459
 #, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr ""
+msgstr "Se hai máis dunha aparición definir o ángulo de rotación da base."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
@@ -31315,12 +31315,14 @@ msgstr ""
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
+"Definir o diámetro do círculo primitivo (PCD) onde hai varias aparicións "
+"(conta > 1)."
 
 #. i18n: ectx: property (text), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:490
 #, kde-format
 msgid "PCD:"
-msgstr ""
+msgstr "PCD:"
 
 #: indi/customdrivers.cpp:106
 #, kde-format
@@ -31346,17 +31348,15 @@ msgstr "Controlador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: indi/customdrivers.ui:75
-#, fuzzy, kde-format
-#| msgid "Family"
+#, kde-format
 msgid "Family:"
-msgstr "Familia"
+msgstr "Familia:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: indi/customdrivers.ui:85
-#, fuzzy, kde-format
-#| msgid "Executable"
+#, kde-format
 msgid "Executable:"
-msgstr "Executábel"
+msgstr "Executábel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -31373,10 +31373,9 @@ msgstr "*"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/customdrivers.ui:132
-#, fuzzy, kde-format
-#| msgid "Manufacturer"
+#, kde-format
 msgid "Manufacturer:"
-msgstr "Fabricante"
+msgstr "Fabricante:"
 
 #. i18n: ectx: property (text), widget (QPushButton, addDriverB)
 #. i18n: ectx: property (text), widget (QPushButton, NewEyepiece)
@@ -31414,8 +31413,7 @@ msgstr ""
 "xurdan efecto.</p></body></html>"
 
 #: indi/drivermanager.cpp:106
-#, fuzzy, kde-format
-#| msgid "Device Manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Device Manager"
 msgstr "Xestor de dispositivos"
@@ -31431,10 +31429,9 @@ msgid "Cannot start INDI server: port error."
 msgstr "Non é posíbel iniciar o servidor de INDI: hai un erro no porto."
 
 #: indi/drivermanager.cpp:365
-#, fuzzy, kde-format
-#| msgid "Failed to connect to remote INDI server."
+#, kde-format
 msgid "Failed to create local INDI server"
-msgstr "Non se puido conectar co servidor remoto de INDI."
+msgstr "Non foi posíbel crear un servidor local de INDI."
 
 #: indi/drivermanager.cpp:621 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
@@ -31447,16 +31444,13 @@ msgid "Connected to INDI server"
 msgstr "Conectado a un servidor de INDI"
 
 #: indi/drivermanager.cpp:1009 indi/indidriver.cpp:487
-#, fuzzy, kde-format, kde-kuit-format
-#| msgid ""
-#| "Unable to find INDI Drivers directory: %1\n"
-#| "Please make sure to set the correct path in KStars configuration"
+#, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
-"Non se pode atopar o directorio de controladores de INDI: %1\n"
-"Asegúrate de configurar a ruta correcta na configuración de KStars"
+"Non é posíbel atopar o cartafol de controladores de INDI: %1\n"
+"Asegúrese de configurar a ruta correcta na configuración de KStars."
 
 #: indi/drivermanager.cpp:1040 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
@@ -31464,8 +31458,7 @@ msgid "Failed to open INDI Driver file: %1"
 msgstr "Non foi posíbel abrir o ficheiro do controlador do INDI: %1"
 
 #: indi/drivermanager.cpp:1406
-#, fuzzy, kde-format
-#| msgid "Add Host"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Engadir un servidor"
@@ -31481,8 +31474,7 @@ msgid "Host: %1 Port: %2 already exists."
 msgstr "Xa existe Servidor: %1 Porto: %2."
 
 #: indi/drivermanager.cpp:1458
-#, fuzzy, kde-format
-#| msgid "Modify Host"
+#, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Modificar o servidor"
@@ -31575,10 +31567,9 @@ msgstr "Servidores"
 
 #. i18n: ectx: property (text), widget (QPushButton, addB)
 #: indi/drivermanager.ui:297
-#, fuzzy, kde-format
-#| msgid "Find..."
+#, kde-format
 msgid "Add..."
-msgstr "Atopar…"
+msgstr "Engadir…"
 
 #. i18n: ectx: property (text), widget (QPushButton, modifyB)
 #: indi/drivermanager.ui:304
@@ -31593,8 +31584,7 @@ msgid "Connection"
 msgstr "Conexión"
 
 #: indi/guimanager.cpp:72
-#, fuzzy, kde-format
-#| msgid "INDI Control Panel"
+#, kde-format
 msgctxt "@title:window"
 msgid "INDI Control Panel"
 msgstr "Panel de control de INDI"
@@ -31854,26 +31844,22 @@ msgid "You need to restart KStars for this change to take effect."
 msgstr "Ten que reiniciar KStars para que o cambio xurda efecto."
 
 #: indi/opsindi.cpp:89
-#, fuzzy, kde-format
-#| msgid "FITS Default Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "FITS Default Directory"
-msgstr "Directorio predeterminado de FITS"
+msgstr "Cartafol predeterminado de FITS"
 
 #: indi/opsindi.cpp:97
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "INDI Drivers Directory"
-msgstr "Directorio de controladores de INDI"
+msgstr "Cartafol de controladores de INDI"
 
 #: indi/opsindi.cpp:109
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select INDIHub Agent"
-msgstr "Configuración"
+msgstr "Seleccionar o axente de INDIHub"
 
 #: indi/opsindi.cpp:134
 #, kde-format
@@ -31884,7 +31870,7 @@ msgstr "%1 non é un binario de servidor de INDI válido."
 #: indi/opsindi.ui:55
 #, kde-format
 msgid "INDI Server binary is internal to the application bundle"
-msgstr ""
+msgstr "O executábel do servidor de INDI está dentro do paquete da aplicación."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_2)
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_3)
@@ -31895,45 +31881,39 @@ msgstr "Porto predeterminado de vídeo INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_2)
 #: indi/opsindi.ui:68
-#, fuzzy, kde-format
-#| msgid "INDI Server:"
+#, kde-format
 msgid "INDI server:"
 msgstr "Servidor de INDI:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiServer)
 #: indi/opsindi.ui:75
-#, fuzzy, kde-format
-#| msgid "PATH to indiserver binary"
+#, kde-format
 msgid "Path to the indiserver binary"
-msgstr "RUTA ao programa do indiserver"
+msgstr "Ruta do executábel de indiserver."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiDriversAreInternal)
 #: indi/opsindi.ui:92
 #, kde-format
 msgid "INDI Drivers are internal to the application bundle"
-msgstr ""
+msgstr "Os controladores de INDI están dentro do paquete da aplicación."
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:105
-#, fuzzy, kde-format
-#| msgid "INDI Drivers XML Directory:"
+#, kde-format
 msgid "INDI drivers XML directory:"
 msgstr "Directorio XML de controladores de INDI:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiDriversDir)
 #: indi/opsindi.ui:112
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory"
+#, kde-format
 msgid "Path to the INDI drivers XML directory"
-msgstr "Directorio de controladores de INDI"
+msgstr "Ruta do directorio XML de controladores de INDI."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/opsindi.ui:154
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Settings"
+#, kde-format
 msgid "INDIHub agent:"
-msgstr "Configuración"
+msgstr "Axente de INDIHub:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:193
@@ -31959,7 +31939,7 @@ msgstr "Mapa celeste"
 #: indi/opsindi.ui:258
 #, kde-format
 msgid "External Sky Map (experimental)"
-msgstr ""
+msgstr "Mapa celeste externo (experimental)."
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:281
@@ -31973,25 +31953,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: indi/opsindi.ui:307
-#, fuzzy, kde-format
-#| msgid "INDI Server Start Port"
+#, kde-format
 msgid "Transfer buffer (MB):"
-msgstr "Porto inicial do servidor INDI"
+msgstr "Búfer de transferencia (MB):"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/opsindi.ui:314
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Port Huron"
+#, kde-format
 msgid "Port from:"
-msgstr "Port Huron"
+msgstr "Porto de orixe:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/opsindi.ui:321
-#, fuzzy, kde-format
-#| msgid "Port:"
+#, kde-format
 msgid "Port to:"
-msgstr "Porto:"
+msgstr "Porto de destino:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showTargetCrosshair)
 #: indi/opsindi.ui:412
@@ -32020,14 +31996,13 @@ msgstr "Cruceiro do &telescopio"
 #: indi/opsindi.ui:450
 #, kde-format
 msgid "Open INDI window on EKOS startup"
-msgstr ""
+msgstr "Abrir a xanela de INDI ao iniciar EKOS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:453
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "INDI window on startup"
-msgstr "Anchura da xanela de INDI"
+msgstr "Abrir a xanela de INDI ao iniciar."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_messageNotificationINDI)
 #. i18n: ectx: whatsthis, entry (messageNotificationINDI), group (indi)
@@ -32046,10 +32021,9 @@ msgstr "Notificacións de mensaxes"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: indi/opsindi.ui:496
-#, fuzzy, kde-format
-#| msgid "Show INDI Logs"
+#, kde-format
 msgid "Show INDI Logs..."
-msgstr "Mostrar o historial de INDI"
+msgstr "Amosar o historial de INDI…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, recordingOptions)
 #: indi/recordingoptions.ui:14
@@ -32066,10 +32040,9 @@ msgstr "Gravar a transmisión durante o número indicado de segundos"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
 #: indi/recordingoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Duración"
+msgstr "Duración:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/recordingoptions.ui:65
@@ -32165,8 +32138,7 @@ msgstr "Gravar a emisión ata que se deteña manualmente"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:194
-#, fuzzy, kde-format
-#| msgid "Until Stopped"
+#, kde-format
 msgid "Until stopped"
 msgstr "Ata que se deteña"
 
@@ -32178,10 +32150,9 @@ msgid "File name:"
 msgstr "Nome do ficheiro:"
 
 #: indi/servermanager.cpp:97
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to create INDI FIFO file %1"
-msgstr "Non se pode escribir no ficheiro %1."
+msgstr "Non é posíbel crear o ficheiro FIFO de INDI %1."
 
 #: indi/servermanager.cpp:125
 #, kde-format
@@ -32189,10 +32160,11 @@ msgid "INDI server failed to start: %1"
 msgstr "O servidor de INDI non puido iniciarse: %1"
 
 #: indi/servermanager.cpp:203
-#, fuzzy, kde-format
-#| msgid "Post capture script finished with code %1."
+#, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
-msgstr "O script post-captura rematou co código %1."
+msgstr ""
+"O guión para executar antes do inicio do controlador fallou co código de "
+"saída: %1."
 
 #: indi/servermanager.cpp:227
 #, kde-format
@@ -32204,16 +32176,16 @@ msgstr ""
 "fornece o executábel «%1» estea instalado."
 
 #: indi/servermanager.cpp:273
-#, fuzzy, kde-format
-#| msgid "Post capture script finished with code %1."
+#, kde-format
 msgid "Post driver startup script failed with exit code: %1"
-msgstr "O script post-captura rematou co código %1."
+msgstr ""
+"O guión para executar despois do inicio do controlador fallou co código de "
+"saída: %1."
 
 #: indi/servermanager.cpp:433
-#, fuzzy, kde-format
-#| msgid "Connection to INDI server at host %1 with port %2 failed."
+#, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
-msgstr "Fallou a conexión ao servidor de INDI de %1 polo porto %2."
+msgstr "Finalizouse a conexión ao servidor de INDI %1:%2: %3."
 
 #: indi/servermanager.cpp:479
 #, kde-format
@@ -32233,45 +32205,39 @@ msgstr "Transmisión de vídeo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:58
-#, fuzzy, kde-format
-#| msgid "Start recording"
+#, kde-format
 msgid "Start Recording"
 msgstr "Iniciar a gravación"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: indi/streamform.ui:86
-#, fuzzy, kde-format
-#| msgid "Recording Options"
+#, kde-format
 msgid "Recording Options..."
-msgstr "Opcións de gravación"
+msgstr "Opcións de gravación…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
-#, fuzzy, kde-format
-#| msgid "Reset frame"
+#, kde-format
 msgid "Reset Frame"
 msgstr "Restabelecer o fotograma"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
-#, fuzzy, kde-format
-#| msgid "Toggle debayer"
+#, kde-format
 msgid "Toggle Debayer"
-msgstr "Conmutar o debayer"
+msgstr "Conmutar o Debayer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
-#| msgid "Toggle constellation lines"
+#, kde-format
 msgid "Toggle Collimation Overlay"
-msgstr "Conmutar as liñas das constelacións"
+msgstr "Conmutar a sobreposición de colimación"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options..."
-msgstr "Opcións do nome das constelacións"
+msgstr "Opcións de superposición de colimación…"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:215
@@ -32312,10 +32278,9 @@ msgstr "Duración do fotograma de vídeo en segundos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:329
-#, fuzzy, kde-format
-#| msgid "Frame (s)"
+#, kde-format
 msgid "Frame(s):"
-msgstr "Fotograma (s)"
+msgstr "Fotogramas:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:370
@@ -32336,15 +32301,13 @@ msgid "Average FPS"
 msgstr "FPS medios"
 
 #: indi/streamwg.cpp:60
-#, fuzzy, kde-format
-#| msgid "SER Record Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "SER Record Directory"
-msgstr "Directorio de rexistros SER"
+msgstr "Cartafol de rexistros SER"
 
 #: indi/streamwg.cpp:105
-#, fuzzy, kde-format
-#| msgid "%1 Live Video"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "Vídeo en directo de %1"
@@ -32666,7 +32629,7 @@ msgstr "Salto estelar desde aquí a…            "
 #: kspopupmenu.cpp:300
 #, kde-format
 msgid "Copy TLE to Clipboard"
-msgstr ""
+msgstr "Copiar os TLE ao portapapeis"
 
 #: kspopupmenu.cpp:305 kspopupmenu.cpp:402
 #, kde-format
@@ -32720,8 +32683,7 @@ msgid "Add Trail"
 msgstr "Engadir un rastro"
 
 #: kspopupmenu.cpp:432
-#, fuzzy, kde-format
-#| msgid "Simulate eyepiece view"
+#, kde-format
 msgid "Simulate Eyepiece View"
 msgstr "Simular unha vista ocular"
 
@@ -32736,32 +32698,27 @@ msgid "View in What's Interesting"
 msgstr "Ver en «Que hai de interesante»"
 
 #: kspopupmenu.cpp:459
-#, fuzzy, kde-format
-#| msgid "Add flag..."
+#, kde-format
 msgid "Add Flag..."
 msgstr "Engadir unha bandeira…"
 
 #: kspopupmenu.cpp:466
-#, fuzzy, kde-format
-#| msgid "Edit flag"
+#, kde-format
 msgid "Edit Flag"
-msgstr "Editar a bandeira…"
+msgstr "Editar a bandeira"
 
 #: kspopupmenu.cpp:468
-#, fuzzy, kde-format
-#| msgid "Delete flag"
+#, kde-format
 msgid "Delete Flag"
 msgstr "Eliminar a bandeira"
 
 #: kspopupmenu.cpp:477
-#, fuzzy, kde-format
-#| msgid "Edit flag..."
+#, kde-format
 msgid "Edit Flag..."
 msgstr "Editar a bandeira…"
 
 #: kspopupmenu.cpp:479
-#, fuzzy, kde-format
-#| msgid "Delete flag..."
+#, kde-format
 msgid "Delete Flag..."
 msgstr "Eliminar a bandeira…"
 
@@ -32771,10 +32728,9 @@ msgid "Image Resources"
 msgstr "Recursos de imaxes"
 
 #: kspopupmenu.cpp:539
-#, fuzzy, kde-format
-#| msgid "Links"
+#, kde-format
 msgid "Web Links"
-msgstr "Ligazóns"
+msgstr "Ligazóns web"
 
 #: kspopupmenu.cpp:581
 #, kde-format
@@ -32794,10 +32750,9 @@ msgid "Sync"
 msgstr "Sincronizar"
 
 #: kspopupmenu.cpp:674
-#, fuzzy, kde-format
-#| msgid "Search satellites"
+#, kde-format
 msgid "Track satellite"
-msgstr "Buscar satélites"
+msgstr "Seguir o satélite"
 
 #: kspopupmenu.cpp:688
 #, kde-format
@@ -32810,8 +32765,7 @@ msgid "Find Telescope"
 msgstr "Atopar o telescopio"
 
 #: kstars.cpp:61
-#, fuzzy, kde-format
-#| msgid "KStars"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
@@ -32822,16 +32776,14 @@ msgid "Stop &Tracking"
 msgstr "&Parar de seguir"
 
 #: kstars.cpp:323 kstarsactions.cpp:1729 kstarsinit.cpp:267
-#, fuzzy, kde-format
-#| msgid "Switch to star globe view (Equatorial &Coordinates)"
+#, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
-msgstr "Pasar á vista da esfera celeste (&Coordenadas ecuatoriais)"
+msgstr "Pasar á vista da esfera celeste (&coordenadas ecuatoriais)"
 
 #: kstars.cpp:324 kstarsactions.cpp:1710 kstarsinit.cpp:268
-#, fuzzy, kde-format
-#| msgid "Switch to horizonal view (Horizontal &Coordinates)"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
-msgstr "Pasar á vista horizontal (&Coordenadas horizontais)"
+msgstr "Pasar á vista horizontal (&coordenadas horizontais)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:10
@@ -33186,6 +33138,7 @@ msgstr ""
 #, kde-format
 msgid "Minimum zoom level to render DeepSkyObjects."
 msgstr ""
+"Nivel de ampliación mínimo para renderizar obxectos do espazo profundo."
 
 #. i18n: ectx: label, entry (DSOCatalogFilename), group (Catalogs)
 #: kstars.kcfg:157
@@ -33265,14 +33218,13 @@ msgstr "Conmutar o amosar as mensaxes do INDI na barra de estado de KStars."
 #: kstars.kcfg:197
 #, kde-format
 msgid "Show the INDI window on startup?"
-msgstr ""
+msgstr "Amosar a xanela de INDI ao iniciar?"
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "Show the INDI window when starting EKOS."
-msgstr "Anchura da xanela de INDI"
+msgstr "Amosar a xanela de INDI ao iniciar EKOS."
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
@@ -33290,19 +33242,22 @@ msgstr "Notificacións de mensaxes de INDI"
 #: kstars.kcfg:211
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr ""
+msgstr "Fonte mestra do tempo (KStars, montura, ou dispositivo de INDI)."
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:215
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
 msgstr ""
+"Fonte mestra da localización (KStars, montura, ou dispositivo de INDI)."
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:219
 #, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
+"Usar un programa de planetario externo para controlar os movementos e "
+"sincronizacións da montura."
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:223
@@ -33319,16 +33274,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:228
-#, fuzzy, kde-format
-#| msgid "INDI Server Start Port"
+#, kde-format
 msgid "INDI Server Transfer Buffer"
-msgstr "Porto inicial do servidor INDI"
+msgstr "Búfer de transferencia do servidor de INDI"
 
 #. i18n: ectx: whatsthis, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:229
 #, kde-format
 msgid "Allows drivers to queue buffers not exceeding this size in MB"
 msgstr ""
+"Permite aos controladores encolar búferes que non superan este tamaño en MB."
 
 #. i18n: ectx: label, entry (serverPortStart), group (indi)
 #: kstars.kcfg:233
@@ -33364,10 +33319,9 @@ msgstr "RUTA ao programa do indiserver"
 #. i18n: ectx: label, entry (INDIHubAgent), group (indi)
 #. i18n: ectx: whatsthis, entry (INDIHubAgent), group (indi)
 #: kstars.kcfg:248 kstars.kcfg:249
-#, fuzzy, kde-format
-#| msgid "PATH to indiserver binary"
+#, kde-format
 msgid "PATH to indihub-agent binary"
-msgstr "RUTA ao programa do indiserver"
+msgstr "Ruta do executábel «indihub-agent»."
 
 #. i18n: ectx: label, entry (indiServerIsInternal), group (indi)
 #: kstars.kcfg:253
@@ -33991,52 +33945,51 @@ msgstr ""
 #: kstars.kcfg:506 kstars.kcfg:511
 #, kde-format
 msgid "Maximum days passed since detection"
-msgstr ""
+msgstr "Número máximo de días transcorridos desde a detección."
 
 #. i18n: ectx: whatsthis, entry (SupernovaDetectionAge), group (View)
 #. i18n: ectx: whatsthis, entry (SupernovaDownloadUrl), group (View)
 #: kstars.kcfg:507 kstars.kcfg:512
 #, kde-format
 msgid "Maximum days passed since detection."
-msgstr ""
+msgstr "Número máximo de días transcorridos desde a detección."
 
 #. i18n: ectx: label, entry (LimitSupernovaeByZoom), group (View)
 #: kstars.kcfg:517
 #, kde-format
 msgid "Limit Supernovae by zoom limit"
-msgstr ""
+msgstr "Limitar as supernovas polo límite da ampliación."
 
 #. i18n: ectx: whatsthis, entry (LimitSupernovaeByZoom), group (View)
 #: kstars.kcfg:518
 #, kde-format
 msgid "Limit Supernovae by zoom limit."
-msgstr ""
+msgstr "Limitar as supernovas polo límite da ampliación."
 
 #. i18n: ectx: label, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:522
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only supernovae with host"
-msgstr "Mostrar as supernovas"
+msgstr "Amosar só as supernovas da galaxia."
 
 #. i18n: ectx: whatsthis, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:523
 #, kde-format
 msgid "Show only supernovae for which a host galaxy is given."
-msgstr ""
+msgstr "Amosar só as supernovas da galaxia indicada."
 
 #. i18n: ectx: label, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:527
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified supernovae?"
-msgstr "Mostrar as supernovas"
+msgstr "Amosar só as supernovas clasificadas?"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:528
 #, kde-format
 msgid "Show only classified supernovae where the supernova type is given."
 msgstr ""
+"Amosar só as supernovas clasificadas, para as que se indicou o seu tipo."
 
 #. i18n: ectx: label, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:532
@@ -34258,17 +34211,15 @@ msgstr "Indica se se deben amosar as bandeiras no mapa celeste."
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate eyepiece view"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "Simular unha vista ocular"
+msgstr "Simulación diúrna?"
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Marque esta opción para que Marte se debuxe no mapa."
+msgstr "Marque esta opción para que o ceo estea claro de día."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
@@ -34375,7 +34326,7 @@ msgstr "Indica se debe amosarse o Sol no mapa."
 #: kstars.kcfg:657
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Aumentar o tamaño do Sol usando este factor."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:661
@@ -34393,7 +34344,7 @@ msgstr "Indica se debe amosarse a Lúa no mapa celeste."
 #: kstars.kcfg:666
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Aumentar o tamaño da Lúa usando este factor."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:670
@@ -34561,17 +34512,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:735
-#, fuzzy, kde-format
-#| msgid "Draw Moon in the sky map?"
+#, kde-format
 msgid "Draw Mosaic Panel in the sky map?"
-msgstr "Mostrar a Lúa no mapa celeste?"
+msgstr "Amosar un panel de mosaico no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:736
-#, fuzzy, kde-format
-#| msgid "Toggle whether the Moon is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether the Mosaic Panel are drawn in the sky map."
-msgstr "Indica se debe mostrarse a Lúa no mapa celeste."
+msgstr "Indica se debe amosarse o panel de mosaico no mapa celeste."
 
 #. i18n: ectx: label, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:740
@@ -34785,7 +34734,7 @@ msgstr "O nivel de ampliación, medido en píxeles por radián."
 #: kstars.kcfg:812
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr ""
+msgstr "Ángulo de rotación do mapa celeste."
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:813
@@ -34795,6 +34744,9 @@ msgid ""
 "(north up if using equatorial coordinates, zenith up if using horizontal "
 "coordinates)."
 msgstr ""
+"Ángulo de rotación do mapa celeste con respecto á súa orientación estándar "
+"(o norte arriba se se usan coordenadas ecuatoriais, o cénit arriba se se "
+"usan coordenadas horizontais)."
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:819
