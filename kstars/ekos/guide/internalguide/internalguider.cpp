@@ -509,9 +509,11 @@ bool InternalGuider::onePulseDither(double pixels)
 
     qCDebug(KSTARS_EKOS_GUIDE) << "OnePulseDither RA: " << raPulse << "ms" << raDirString << " DEC: " << decPulse << "ms " <<
                                decDirString;
-    emit newMultiPulse(raDir, raPulse, decDir, decPulse, StartCaptureAfterPulses);
 
-    double totalMSecs = 1000.0 * Options::ditherSettle() + std::max(raPulse, decPulse);
+    // Don't capture because the single shot timer below will trigger a capture.
+    emit newMultiPulse(raDir, raPulse, decDir, decPulse, DontCaptureAfterPulses);
+
+    double totalMSecs = 1000.0 * Options::ditherSettle() + std::max(raPulse, decPulse) + 100;
 
     state = GUIDE_DITHERING_SETTLE;
     guideLog.settleStartedInfo();
