@@ -111,8 +111,8 @@ void Capture::onStandAloneShow(QShowEvent* event)
     Q_UNUSED(event);
     QSharedPointer<FilterManager> fm;
 
-    captureGainN->setValue(GainSpinSpecialValue);
-    captureOffsetN->setValue(OffsetSpinSpecialValue);
+    cameraUI->captureGainN->setValue(GainSpinSpecialValue);
+    cameraUI->captureOffsetN->setValue(OffsetSpinSpecialValue);
 
     m_standAloneUseCcdGain = true;
     m_standAloneUseCcdOffset = true;
@@ -123,19 +123,19 @@ void Capture::onStandAloneShow(QShowEvent* event)
 
 
     // Capture Gain
-    connect(captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(cameraUI->captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
-        if (captureGainN->value() != GainSpinSpecialValue)
-            setGain(captureGainN->value());
+        if (cameraUI->captureGainN->value() != GainSpinSpecialValue)
+            setGain(cameraUI->captureGainN->value());
         else
             setGain(-1);
     });
 
     // Capture Offset
-    connect(captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(cameraUI->captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
     {
-        if (captureOffsetN->value() != OffsetSpinSpecialValue)
-            setOffset(captureOffsetN->value());
+        if (cameraUI->captureOffsetN->value() != OffsetSpinSpecialValue)
+            setOffset(cameraUI->captureOffsetN->value());
         else
             setOffset(-1);
     });
@@ -213,37 +213,38 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     //isAutoGuiding   = false;
 
     // hide avg. download time and target drift initially
-    targetDriftLabel->setVisible(false);
-    targetDrift->setVisible(false);
-    targetDriftUnit->setVisible(false);
-    avgDownloadTime->setVisible(false);
-    avgDownloadLabel->setVisible(false);
-    secLabel->setVisible(false);
+    cameraUI->targetDriftLabel->setVisible(false);
+    cameraUI->targetDrift->setVisible(false);
+    cameraUI->targetDriftUnit->setVisible(false);
+    cameraUI->avgDownloadTime->setVisible(false);
+    cameraUI->avgDownloadLabel->setVisible(false);
+    cameraUI->secLabel->setVisible(false);
 
     state()->getCaptureDelayTimer().setSingleShot(true);
     connect(&state()->getCaptureDelayTimer(), &QTimer::timeout, m_captureProcess, &CaptureProcess::captureImage);
 
-    connect(startB, &QPushButton::clicked, this, &Capture::toggleSequence);
-    connect(pauseB, &QPushButton::clicked, this, &Capture::pause);
-    connect(darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
-    connect(limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
-    connect(temperatureRegulationB, &QPushButton::clicked, this, &Capture::showTemperatureRegulation);
+    connect(cameraUI->startB, &QPushButton::clicked, this, &Capture::toggleSequence);
+    connect(cameraUI->pauseB, &QPushButton::clicked, this, &Capture::pause);
+    connect(cameraUI->darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
+    connect(cameraUI->limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
+    connect(cameraUI->temperatureRegulationB, &QPushButton::clicked, this, &Capture::showTemperatureRegulation);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start"));
-    startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
-    pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->startB->setIcon(QIcon::fromTheme("media-playback-start"));
+    cameraUI->startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
+    cameraUI->pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    filterManagerB->setIcon(QIcon::fromTheme("view-filter"));
-    filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->filterManagerB->setIcon(QIcon::fromTheme("view-filter"));
+    cameraUI->filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    connect(captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), captureBinVN, &QSpinBox::setValue);
+    connect(cameraUI->captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), cameraUI->captureBinVN,
+            &QSpinBox::setValue);
 
-    connect(liveVideoB, &QPushButton::clicked, this, &Capture::toggleVideo);
+    connect(cameraUI->liveVideoB, &QPushButton::clicked, this, &Capture::toggleVideo);
 
-    connect(clearConfigurationB, &QPushButton::clicked, this, &Capture::clearCameraConfiguration);
+    connect(cameraUI->clearConfigurationB, &QPushButton::clicked, this, &Capture::clearCameraConfiguration);
 
-    darkB->setChecked(Options::autoDark());
+    cameraUI->darkB->setChecked(Options::autoDark());
     // connect(darkB, &QAbstractButton::toggled, this, [this]()
     // {
     //     Options::setAutoDark(darkB->isChecked());
@@ -254,13 +255,13 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     m_DebounceTimer.setSingleShot(true);
     connect(&m_DebounceTimer, &QTimer::timeout, this, &Capture::settleSettings);
 
-    connect(restartCameraB, &QPushButton::clicked, this, [this]()
+    connect(cameraUI->restartCameraB, &QPushButton::clicked, this, [this]()
     {
         if (activeCamera())
             restartCamera(activeCamera()->getDeviceName());
     });
 
-    connect(cameraTemperatureS, &QCheckBox::toggled, this, [this](bool toggled)
+    connect(cameraUI->cameraTemperatureS, &QCheckBox::toggled, this, [this](bool toggled)
     {
         if (devices()->getActiveCamera())
         {
@@ -270,105 +271,108 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
         }
     });
 
-    connect(filterEditB, &QPushButton::clicked, this, &Capture::editFilterName);
+    connect(cameraUI->filterEditB, &QPushButton::clicked, this, &Capture::editFilterName);
 
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
+    connect(cameraUI->FilterPosCombo,
+            static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             [ = ]()
     {
         state()->updateHFRThreshold();
         generatePreviewFilename();
     });
-    connect(previewB, &QPushButton::clicked, this, &Capture::capturePreview);
-    connect(loopB, &QPushButton::clicked, this, &Capture::startFraming);
+    connect(cameraUI->previewB, &QPushButton::clicked, this, &Capture::capturePreview);
+    connect(cameraUI->loopB, &QPushButton::clicked, this, &Capture::startFraming);
 
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Capture::checkSeqFile(QString)));
 
-    connect(addToQueueB, &QPushButton::clicked, this, [this]()
+    connect(cameraUI->addToQueueB, &QPushButton::clicked, this, [this]()
     {
         if (m_JobUnderEdit)
             editJobFinished();
         else
             createJob();
     });
-    connect(queueUpB, &QPushButton::clicked, [this]()
+    connect(cameraUI->queueUpB, &QPushButton::clicked, [this]()
     {
         moveJob(true);
     });
-    connect(queueDownB, &QPushButton::clicked, [this]()
+    connect(cameraUI->queueDownB, &QPushButton::clicked, [this]()
     {
         moveJob(false);
     });
-    connect(removeFromQueueB, &QPushButton::clicked, this, &Capture::removeJobFromQueue);
-    connect(selectFileDirectoryB, &QPushButton::clicked, this, &Capture::saveFITSDirectory);
-    connect(queueSaveB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::saveSequenceQueue));
-    connect(queueSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
-    connect(queueLoadB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
-    connect(resetB, &QPushButton::clicked, this, &Capture::resetJobs);
-    connect(queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &Capture::selectedJobChanged);
-    connect(queueTable, &QAbstractItemView::doubleClicked, this, &Capture::editJob);
-    connect(queueTable, &QTableWidget::itemSelectionChanged, this, [&]()
+    connect(cameraUI->removeFromQueueB, &QPushButton::clicked, this, &Capture::removeJobFromQueue);
+    connect(cameraUI->selectFileDirectoryB, &QPushButton::clicked, this, &Capture::saveFITSDirectory);
+    connect(cameraUI->queueSaveB, &QPushButton::clicked, this,
+            static_cast<void(Capture::*)()>(&Capture::saveSequenceQueue));
+    connect(cameraUI->queueSaveAsB, &QPushButton::clicked, this, &Capture::saveSequenceQueueAs);
+    connect(cameraUI->queueLoadB, &QPushButton::clicked, this, static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
+    connect(cameraUI->resetB, &QPushButton::clicked, this, &Capture::resetJobs);
+    connect(cameraUI->queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this,
+            &Capture::selectedJobChanged);
+    connect(cameraUI->queueTable, &QAbstractItemView::doubleClicked, this, &Capture::editJob);
+    connect(cameraUI->queueTable, &QTableWidget::itemSelectionChanged, this, [&]()
     {
         resetJobEdit(m_JobUnderEdit);
     });
-    connect(setTemperatureB, &QPushButton::clicked, this, [&]()
+    connect(cameraUI->setTemperatureB, &QPushButton::clicked, this, [&]()
     {
         if (devices()->getActiveCamera())
-            devices()->getActiveCamera()->setTemperature(cameraTemperatureN->value());
+            devices()->getActiveCamera()->setTemperature(cameraUI->cameraTemperatureN->value());
     });
-    connect(coolerOnB, &QPushButton::clicked, this, [&]()
+    connect(cameraUI->coolerOnB, &QPushButton::clicked, this, [&]()
     {
         if (devices()->getActiveCamera())
             devices()->getActiveCamera()->setCoolerControl(true);
     });
-    connect(coolerOffB, &QPushButton::clicked, this, [&]()
+    connect(cameraUI->coolerOffB, &QPushButton::clicked, this, [&]()
     {
         if (devices()->getActiveCamera())
             devices()->getActiveCamera()->setCoolerControl(false);
     });
-    connect(cameraTemperatureN, &QDoubleSpinBox::editingFinished, setTemperatureB,
+    connect(cameraUI->cameraTemperatureN, &QDoubleSpinBox::editingFinished, cameraUI->setTemperatureB,
             static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
-    connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+    connect(cameraUI->captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Capture::checkFrameType);
-    connect(resetFrameB, &QPushButton::clicked, m_captureProcess, &CaptureProcess::resetFrame);
-    connect(calibrationB, &QPushButton::clicked, m_CalibrationDialog, &QDialog::show);
-    // connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
+    connect(cameraUI->resetFrameB, &QPushButton::clicked, m_captureProcess, &CaptureProcess::resetFrame);
+    connect(cameraUI->calibrationB, &QPushButton::clicked, m_CalibrationDialog, &QDialog::show);
+    // connect(cameraUI->rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
 
-    connect(generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
-    connect(scriptManagerB, &QPushButton::clicked, this, &Capture::handleScriptsManager);
-    connect(resetFormatB, &QPushButton::clicked, this, [this]()
+    connect(cameraUI->generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
+    connect(cameraUI->scriptManagerB, &QPushButton::clicked, this, &Capture::handleScriptsManager);
+    connect(cameraUI->resetFormatB, &QPushButton::clicked, this, [this]()
     {
-        placeholderFormatT->setText(KSUtils::getDefaultPath("PlaceholderFormat"));
+        cameraUI->placeholderFormatT->setText(KSUtils::getDefaultPath("PlaceholderFormat"));
     });
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
-    removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueUpB->setIcon(QIcon::fromTheme("go-up"));
-    queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueDownB->setIcon(QIcon::fromTheme("go-down"));
-    queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectFileDirectoryB->setIcon(QIcon::fromTheme("document-open-folder"));
-    selectFileDirectoryB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
-    queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
-    queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
-    queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetB->setIcon(QIcon::fromTheme("system-reboot"));
-    resetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
-    resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    calibrationB->setIcon(QIcon::fromTheme("run-build"));
-    calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    generateDarkFlatsB->setIcon(QIcon::fromTheme("tools-wizard"));
-    generateDarkFlatsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    // rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
-    rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+    cameraUI->addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
+    cameraUI->removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->queueUpB->setIcon(QIcon::fromTheme("go-up"));
+    cameraUI->queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->queueDownB->setIcon(QIcon::fromTheme("go-down"));
+    cameraUI->queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->selectFileDirectoryB->setIcon(QIcon::fromTheme("document-open-folder"));
+    cameraUI->selectFileDirectoryB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->queueLoadB->setIcon(QIcon::fromTheme("document-open"));
+    cameraUI->queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->queueSaveB->setIcon(QIcon::fromTheme("document-save"));
+    cameraUI->queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
+    cameraUI->queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->resetB->setIcon(QIcon::fromTheme("system-reboot"));
+    cameraUI->resetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
+    cameraUI->resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->calibrationB->setIcon(QIcon::fromTheme("run-build"));
+    cameraUI->calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    cameraUI->generateDarkFlatsB->setIcon(QIcon::fromTheme("tools-wizard"));
+    cameraUI->generateDarkFlatsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    // cameraUI->rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
+    cameraUI->rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    addToQueueB->setToolTip(i18n("Add job to sequence queue"));
-    removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
+    cameraUI->addToQueueB->setToolTip(i18n("Add job to sequence queue"));
+    cameraUI->removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 
     ////////////////////////////////////////////////////////////////////////
     /// Device Adaptor
@@ -407,9 +411,9 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
         Capture::updateHFRCheckAlgo();
     });
 
-    observerB->setIcon(QIcon::fromTheme("im-user"));
-    observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    connect(observerB, &QPushButton::clicked, this, &Capture::showObserverDialog);
+    cameraUI->observerB->setIcon(QIcon::fromTheme("im-user"));
+    cameraUI->observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(cameraUI->observerB, &QPushButton::clicked, this, &Capture::showObserverDialog);
 
     // Exposure Timeout
     state()->getCaptureTimeout().setSingleShot(true);
@@ -417,14 +421,14 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
             &CaptureProcess::processCaptureTimeout);
 
     // Remote directory
-    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+    connect(cameraUI->fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             [&](int index)
     {
-        fileRemoteDirT->setEnabled(index != 0);
+        cameraUI->fileRemoteDirT->setEnabled(index != 0);
     });
 
     customPropertiesDialog.reset(new CustomProperties());
-    connect(customValuesB, &QPushButton::clicked, this, [&]()
+    connect(cameraUI->customValuesB, &QPushButton::clicked, this, [&]()
     {
         customPropertiesDialog.get()->show();
         customPropertiesDialog.get()->raise();
@@ -432,30 +436,30 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, this, [&]()
     {
         const double newGain = getGain();
-        if (captureGainN && newGain >= 0)
-            captureGainN->setValue(newGain);
+        if (cameraUI->captureGainN && newGain >= 0)
+            cameraUI->captureGainN->setValue(newGain);
         const int newOffset = getOffset();
         if (newOffset >= 0)
-            captureOffsetN->setValue(newOffset);
+            cameraUI->captureOffsetN->setValue(newOffset);
     });
 
     if(!Options::captureDirectory().isEmpty())
-        fileDirectoryT->setText(Options::captureDirectory());
+        cameraUI->fileDirectoryT->setText(Options::captureDirectory());
     else
     {
-        fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
+        cameraUI->fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
     }
 
-    connect(fileDirectoryT, &QLineEdit::textChanged, this, [&]()
+    connect(cameraUI->fileDirectoryT, &QLineEdit::textChanged, this, [&]()
     {
         generatePreviewFilename();
     });
 
     if (Options::remoteCaptureDirectory().isEmpty() == false)
     {
-        fileRemoteDirT->setText(Options::remoteCaptureDirectory());
+        cameraUI->fileRemoteDirT->setText(Options::remoteCaptureDirectory());
     }
-    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
+    connect(cameraUI->fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
     {
         generatePreviewFilename();
     });
@@ -469,7 +473,7 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     DarkLibrary::Instance()->setCaptureModule(this);
 
     // display the capture status in the UI
-    connect(this, &Capture::newStatus, captureStatusWidget, &LedStatusWidget::setCaptureState);
+    connect(this, &Capture::newStatus, cameraUI->captureStatusWidget, &LedStatusWidget::setCaptureState);
 
     // react upon state changes
     connect(m_captureModuleState.data(), &CaptureModuleState::captureBusy, this, &Capture::setBusy);
@@ -522,7 +526,7 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(m_captureProcess.data(), &CaptureProcess::captureTarget, this, &Capture::setTargetName);
     connect(m_captureProcess.data(), &CaptureProcess::downloadingFrame, this, [this]()
     {
-        captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
+        cameraUI->captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
     });
     connect(m_captureProcess.data(), &CaptureProcess::captureAborted, this, &Capture::captureAborted);
     connect(m_captureProcess.data(), &CaptureProcess::captureStopped, this, &Capture::captureStopped);
@@ -548,20 +552,20 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newFilterWheel, this, &Capture::setFilterWheel);
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::CameraConnected, this, [this](bool connected)
     {
-        CaptureSettingsGroup->setEnabled(connected);
-        fileSettingsGroup->setEnabled(connected);
-        sequenceBox->setEnabled(connected);
-        for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+        cameraUI->CaptureSettingsGroup->setEnabled(connected);
+        cameraUI->fileSettingsGroup->setEnabled(connected);
+        cameraUI->sequenceBox->setEnabled(connected);
+        for (auto &oneChild : cameraUI->sequenceControlsButtonGroup->buttons())
             oneChild->setEnabled(connected);
 
         if (! connected)
-            trainLayout->setEnabled(true);
+            cameraUI->trainLayout->setEnabled(true);
     });
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::FilterWheelConnected, this, [this](bool connected)
     {
-        FilterPosLabel->setEnabled(connected);
-        FilterPosCombo->setEnabled(connected);
-        filterManagerB->setEnabled(connected);
+        cameraUI->FilterPosLabel->setEnabled(connected);
+        cameraUI->FilterPosCombo->setEnabled(connected);
+        cameraUI->filterManagerB->setEnabled(connected);
     });
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newRotator, this, &Capture::setRotator);
 
@@ -571,22 +575,22 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     getMeridianFlipState();
 
     //Update the filename preview
-    placeholderFormatT->setText(Options::placeholderFormat());
-    connect(placeholderFormatT, &QLineEdit::textChanged, this, [this]()
+    cameraUI->placeholderFormatT->setText(Options::placeholderFormat());
+    connect(cameraUI->placeholderFormatT, &QLineEdit::textChanged, this, [this]()
     {
         generatePreviewFilename();
     });
-    connect(formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Capture::generatePreviewFilename);
-    connect(captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+    connect(cameraUI->formatSuffixN, QOverload<int>::of(&QSpinBox::valueChanged), this, &Capture::generatePreviewFilename);
+    connect(cameraUI->captureExposureN, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             &Capture::generatePreviewFilename);
-    connect(targetNameT, &QLineEdit::textEdited, this, [ = ]()
+    connect(cameraUI->targetNameT, &QLineEdit::textEdited, this, [ = ]()
     {
         generatePreviewFilename();
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << targetNameT->text() << "because of user edit";
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << cameraUI->targetNameT->text() << "because of user edit";
     });
-    connect(captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
+    connect(cameraUI->captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
-    connect(exposureCalcB, &QPushButton::clicked, this, &Capture::openExposureCalculatorDialog);
+    connect(cameraUI->exposureCalcB, &QPushButton::clicked, this, &Capture::openExposureCalculatorDialog);
 
 }
 
@@ -609,10 +613,10 @@ void Capture::updateHFRCheckAlgo()
 bool Capture::updateCamera()
 {
     auto isConnected = activeCamera() && activeCamera()->isConnected();
-    CaptureSettingsGroup->setEnabled(isConnected);
-    fileSettingsGroup->setEnabled(isConnected);
-    sequenceBox->setEnabled(isConnected);
-    for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+    cameraUI->CaptureSettingsGroup->setEnabled(isConnected);
+    cameraUI->fileSettingsGroup->setEnabled(isConnected);
+    cameraUI->sequenceBox->setEnabled(isConnected);
+    for (auto &oneChild : cameraUI->sequenceControlsButtonGroup->buttons())
         oneChild->setEnabled(isConnected);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
@@ -620,7 +624,7 @@ bool Capture::updateCamera()
     if (activeCamera() && trainID.isValid())
     {
         auto name = activeCamera()->getDeviceName();
-        opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
+        cameraUI->opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
         cameraTabs->setTabText(cameraTabs->currentIndex(), name);
     }
     else
@@ -654,9 +658,9 @@ void Capture::setFilterWheel(QString name)
     }
 
     auto isConnected = devices()->filterWheel() && devices()->filterWheel()->isConnected();
-    FilterPosLabel->setEnabled(isConnected);
-    FilterPosCombo->setEnabled(isConnected);
-    filterManagerB->setEnabled(isConnected);
+    cameraUI->FilterPosLabel->setEnabled(isConnected);
+    cameraUI->FilterPosCombo->setEnabled(isConnected);
+    cameraUI->filterManagerB->setEnabled(isConnected);
 
     refreshFilterSettings();
 
@@ -673,7 +677,7 @@ void Capture::setRotator(QString name)
 {
     ISD::Rotator *Rotator = devices()->rotator();
     // clear old rotator
-    rotatorB->setEnabled(false);
+    cameraUI->rotatorB->setEnabled(false);
     if (Rotator && !m_RotatorControlPanel.isNull())
         m_RotatorControlPanel->close();
 
@@ -681,17 +685,17 @@ void Capture::setRotator(QString name)
     if (!name.isEmpty())  // start real rotator
     {
         Manager::Instance()->getRotatorController(name, m_RotatorControlPanel);
-        m_RotatorControlPanel->initRotator(opticalTrainCombo->currentText(), m_captureDeviceAdaptor.data(), Rotator);
-        connect(rotatorB, &QPushButton::clicked, this, [this]()
+        m_RotatorControlPanel->initRotator(cameraUI->opticalTrainCombo->currentText(), m_captureDeviceAdaptor.data(), Rotator);
+        connect(cameraUI->rotatorB, &QPushButton::clicked, this, [this]()
         {
             m_RotatorControlPanel->show();
             m_RotatorControlPanel->raise();
         });
-        rotatorB->setEnabled(true);
+        cameraUI->rotatorB->setEnabled(true);
     }
     else if (Options::astrometryUseRotator()) // start at least rotatorutils for "manual rotator"
     {
-        RotatorUtils::Instance()->initRotatorUtils(opticalTrainCombo->currentText());
+        RotatorUtils::Instance()->initRotatorUtils(cameraUI->opticalTrainCombo->currentText());
     }
 }
 
@@ -756,17 +760,17 @@ void Capture::refreshCameraSettings()
 
     if (camera->hasCoolerControl())
     {
-        coolerOnB->setEnabled(true);
-        coolerOffB->setEnabled(true);
-        coolerOnB->setChecked(camera->isCoolerOn());
-        coolerOffB->setChecked(!camera->isCoolerOn());
+        cameraUI->coolerOnB->setEnabled(true);
+        cameraUI->coolerOffB->setEnabled(true);
+        cameraUI->coolerOnB->setChecked(camera->isCoolerOn());
+        cameraUI->coolerOffB->setChecked(!camera->isCoolerOn());
     }
     else
     {
-        coolerOnB->setEnabled(false);
-        coolerOnB->setChecked(false);
-        coolerOffB->setEnabled(false);
-        coolerOffB->setChecked(false);
+        cameraUI->coolerOnB->setEnabled(false);
+        cameraUI->coolerOnB->setChecked(false);
+        cameraUI->coolerOffB->setEnabled(false);
+        cameraUI->coolerOffB->setChecked(false);
     }
 
     updateFrameProperties();
@@ -775,11 +779,11 @@ void Capture::refreshCameraSettings()
 
     customPropertiesDialog->setCCD(camera);
 
-    liveVideoB->setEnabled(camera->hasVideoStream());
+    cameraUI->liveVideoB->setEnabled(camera->hasVideoStream());
     if (camera->hasVideoStream())
         setVideoStreamEnabled(camera->isStreamingEnabled());
     else
-        liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
+        cameraUI->liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
     connect(camera, &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
@@ -800,33 +804,33 @@ void Capture::updateCaptureFormats()
 {
     QStringList frameTypes = process()->frameTypes();
 
-    captureTypeS->clear();
+    cameraUI->captureTypeS->clear();
 
     if (frameTypes.isEmpty())
-        captureTypeS->setEnabled(false);
+        cameraUI->captureTypeS->setEnabled(false);
     else
     {
-        captureTypeS->setEnabled(true);
-        captureTypeS->addItems(frameTypes);
-        captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
+        cameraUI->captureTypeS->setEnabled(true);
+        cameraUI->captureTypeS->addItems(frameTypes);
+        cameraUI->captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
     }
 
     // Capture Format
-    captureFormatS->blockSignals(true);
-    captureFormatS->clear();
+    cameraUI->captureFormatS->blockSignals(true);
+    cameraUI->captureFormatS->clear();
     const auto list = activeCamera()->getCaptureFormats();
-    captureFormatS->addItems(list);
+    cameraUI->captureFormatS->addItems(list);
     storeTrainKey(KEY_FORMATS, list);
 
-    captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
-    captureFormatS->blockSignals(false);
+    cameraUI->captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
+    cameraUI->captureFormatS->blockSignals(false);
 
     // Encoding format
-    captureEncodingS->blockSignals(true);
-    captureEncodingS->clear();
-    captureEncodingS->addItems(activeCamera()->getEncodingFormats());
-    captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
-    captureEncodingS->blockSignals(false);
+    cameraUI->captureEncodingS->blockSignals(true);
+    cameraUI->captureEncodingS->clear();
+    cameraUI->captureEncodingS->addItems(activeCamera()->getEncodingFormats());
+    cameraUI->captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
+    cameraUI->captureEncodingS->blockSignals(false);
 }
 
 void Capture::syncCameraInfo()
@@ -839,23 +843,23 @@ void Capture::syncCameraInfo()
 
     if (activeCamera()->hasCooler())
     {
-        cameraTemperatureS->setEnabled(true);
-        cameraTemperatureN->setEnabled(true);
+        cameraUI->cameraTemperatureS->setEnabled(true);
+        cameraUI->cameraTemperatureN->setEnabled(true);
 
         if (activeCamera()->getPermission("CCD_TEMPERATURE") != IP_RO)
         {
             double min, max, step;
-            setTemperatureB->setEnabled(true);
-            cameraTemperatureN->setReadOnly(false);
-            cameraTemperatureS->setEnabled(true);
-            temperatureRegulationB->setEnabled(true);
+            cameraUI->setTemperatureB->setEnabled(true);
+            cameraUI->cameraTemperatureN->setReadOnly(false);
+            cameraUI->cameraTemperatureS->setEnabled(true);
+            cameraUI->temperatureRegulationB->setEnabled(true);
             activeCamera()->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
-            cameraTemperatureN->setMinimum(min);
-            cameraTemperatureN->setMaximum(max);
-            cameraTemperatureN->setSingleStep(1);
+            cameraUI->cameraTemperatureN->setMinimum(min);
+            cameraUI->cameraTemperatureN->setMaximum(max);
+            cameraUI->cameraTemperatureN->setSingleStep(1);
             bool isChecked = activeCamera()->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(activeCamera()->getDeviceName()),
                              false).toBool();
-            cameraTemperatureS->setChecked(isChecked);
+            cameraUI->cameraTemperatureS->setChecked(isChecked);
 
             // Save the camera's temperature parameters for the stand-alone editor.
             const QStringList temperatureList =
@@ -866,11 +870,11 @@ void Capture::syncCameraInfo()
         }
         else
         {
-            setTemperatureB->setEnabled(false);
-            cameraTemperatureN->setReadOnly(true);
-            cameraTemperatureS->setEnabled(false);
-            cameraTemperatureS->setChecked(false);
-            temperatureRegulationB->setEnabled(false);
+            cameraUI->setTemperatureB->setEnabled(false);
+            cameraUI->cameraTemperatureN->setReadOnly(true);
+            cameraUI->cameraTemperatureS->setEnabled(false);
+            cameraUI->cameraTemperatureS->setChecked(false);
+            cameraUI->temperatureRegulationB->setEnabled(false);
 
             // Save default camera temperature parameters for the stand-alone editor.
             const QStringList temperatureList = QStringList( { "-50", "50", "0" } );
@@ -880,30 +884,30 @@ void Capture::syncCameraInfo()
         double temperature = 0;
         if (activeCamera()->getTemperature(&temperature))
         {
-            temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
-            if (cameraTemperatureN->cleanText().isEmpty())
-                cameraTemperatureN->setValue(temperature);
+            cameraUI->temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
+            if (cameraUI->cameraTemperatureN->cleanText().isEmpty())
+                cameraUI->cameraTemperatureN->setValue(temperature);
         }
     }
     else
     {
-        cameraTemperatureS->setEnabled(false);
-        cameraTemperatureN->setEnabled(false);
-        temperatureRegulationB->setEnabled(false);
-        cameraTemperatureN->clear();
-        temperatureOUT->clear();
-        setTemperatureB->setEnabled(false);
+        cameraUI->cameraTemperatureS->setEnabled(false);
+        cameraUI->cameraTemperatureN->setEnabled(false);
+        cameraUI->temperatureRegulationB->setEnabled(false);
+        cameraUI->cameraTemperatureN->clear();
+        cameraUI->temperatureOUT->clear();
+        cameraUI->setTemperatureB->setEnabled(false);
     }
 
     auto isoList = devices()->getActiveChip()->getISOList();
-    captureISOS->blockSignals(true);
-    captureISOS->setEnabled(false);
-    captureISOS->clear();
+    cameraUI->captureISOS->blockSignals(true);
+    cameraUI->captureISOS->setEnabled(false);
+    cameraUI->captureISOS->clear();
 
     // No ISO range available
     if (isoList.isEmpty())
     {
-        captureISOS->setEnabled(false);
+        cameraUI->captureISOS->setEnabled(false);
         if (m_Settings.contains(KEY_ISOS))
         {
             m_Settings.remove(KEY_ISOS);
@@ -917,10 +921,10 @@ void Capture::syncCameraInfo()
     }
     else
     {
-        captureISOS->setEnabled(true);
-        captureISOS->addItems(isoList);
+        cameraUI->captureISOS->setEnabled(true);
+        cameraUI->captureISOS->addItems(isoList);
         const int isoIndex = devices()->getActiveChip()->getISOIndex();
-        captureISOS->setCurrentIndex(isoIndex);
+        cameraUI->captureISOS->setCurrentIndex(isoIndex);
 
         // Save ISO List and index in train settings if different
         storeTrainKey(KEY_ISOS, isoList);
@@ -948,7 +952,7 @@ void Capture::syncCameraInfo()
             }
         }
     }
-    captureISOS->blockSignals(false);
+    cameraUI->captureISOS->blockSignals(false);
 
     // Gain Check
     if (activeCamera()->hasGain())
@@ -958,36 +962,36 @@ void Capture::syncCameraInfo()
 
         // Allow the possibility of no gain value at all.
         GainSpinSpecialValue = min - step;
-        captureGainN->setRange(GainSpinSpecialValue, max);
-        captureGainN->setSpecialValueText(i18n("--"));
-        captureGainN->setEnabled(true);
-        captureGainN->setSingleStep(step);
+        cameraUI->captureGainN->setRange(GainSpinSpecialValue, max);
+        cameraUI->captureGainN->setSpecialValueText(i18n("--"));
+        cameraUI->captureGainN->setEnabled(true);
+        cameraUI->captureGainN->setSingleStep(step);
         activeCamera()->getGain(&value);
-        currentGainLabel->setText(QString::number(value, 'f', 0));
+        cameraUI->currentGainLabel->setText(QString::number(value, 'f', 0));
 
         targetCustomGain = getGain();
 
         // Set the custom gain if we have one
         // otherwise it will not have an effect.
         if (targetCustomGain > 0)
-            captureGainN->setValue(targetCustomGain);
+            cameraUI->captureGainN->setValue(targetCustomGain);
         else
-            captureGainN->setValue(GainSpinSpecialValue);
+            cameraUI->captureGainN->setValue(GainSpinSpecialValue);
 
-        captureGainN->setReadOnly(activeCamera()->getGainPermission() == IP_RO);
+        cameraUI->captureGainN->setReadOnly(activeCamera()->getGainPermission() == IP_RO);
 
-        connect(captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
+        connect(cameraUI->captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
         {
-            if (captureGainN->value() != GainSpinSpecialValue)
-                setGain(captureGainN->value());
+            if (cameraUI->captureGainN->value() != GainSpinSpecialValue)
+                setGain(cameraUI->captureGainN->value());
             else
                 setGain(-1);
         });
     }
     else
     {
-        captureGainN->setEnabled(false);
-        currentGainLabel->clear();
+        cameraUI->captureGainN->setEnabled(false);
+        cameraUI->currentGainLabel->clear();
     }
 
     // Offset checks
@@ -998,36 +1002,36 @@ void Capture::syncCameraInfo()
 
         // Allow the possibility of no Offset value at all.
         OffsetSpinSpecialValue = min - step;
-        captureOffsetN->setRange(OffsetSpinSpecialValue, max);
-        captureOffsetN->setSpecialValueText(i18n("--"));
-        captureOffsetN->setEnabled(true);
-        captureOffsetN->setSingleStep(step);
+        cameraUI->captureOffsetN->setRange(OffsetSpinSpecialValue, max);
+        cameraUI->captureOffsetN->setSpecialValueText(i18n("--"));
+        cameraUI->captureOffsetN->setEnabled(true);
+        cameraUI->captureOffsetN->setSingleStep(step);
         activeCamera()->getOffset(&value);
-        currentOffsetLabel->setText(QString::number(value, 'f', 0));
+        cameraUI->currentOffsetLabel->setText(QString::number(value, 'f', 0));
 
         targetCustomOffset = getOffset();
 
         // Set the custom Offset if we have one
         // otherwise it will not have an effect.
         if (targetCustomOffset > 0)
-            captureOffsetN->setValue(targetCustomOffset);
+            cameraUI->captureOffsetN->setValue(targetCustomOffset);
         else
-            captureOffsetN->setValue(OffsetSpinSpecialValue);
+            cameraUI->captureOffsetN->setValue(OffsetSpinSpecialValue);
 
-        captureOffsetN->setReadOnly(activeCamera()->getOffsetPermission() == IP_RO);
+        cameraUI->captureOffsetN->setReadOnly(activeCamera()->getOffsetPermission() == IP_RO);
 
-        connect(captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
+        connect(cameraUI->captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
         {
-            if (captureOffsetN->value() != OffsetSpinSpecialValue)
-                setOffset(captureOffsetN->value());
+            if (cameraUI->captureOffsetN->value() != OffsetSpinSpecialValue)
+                setOffset(cameraUI->captureOffsetN->value());
             else
                 setOffset(-1);
         });
     }
     else
     {
-        captureOffsetN->setEnabled(false);
-        currentOffsetLabel->clear();
+        cameraUI->captureOffsetN->setEnabled(false);
+        cameraUI->currentOffsetLabel->clear();
     }
 }
 
@@ -1049,21 +1053,21 @@ void Capture::setGuideChip(ISD::CameraChip * guideChip)
 
 void Capture::resetFrameToZero()
 {
-    captureFrameXN->setMinimum(0);
-    captureFrameXN->setMaximum(0);
-    captureFrameXN->setValue(0);
+    cameraUI->captureFrameXN->setMinimum(0);
+    cameraUI->captureFrameXN->setMaximum(0);
+    cameraUI->captureFrameXN->setValue(0);
 
-    captureFrameYN->setMinimum(0);
-    captureFrameYN->setMaximum(0);
-    captureFrameYN->setValue(0);
+    cameraUI->captureFrameYN->setMinimum(0);
+    cameraUI->captureFrameYN->setMaximum(0);
+    cameraUI->captureFrameYN->setValue(0);
 
-    captureFrameWN->setMinimum(0);
-    captureFrameWN->setMaximum(0);
-    captureFrameWN->setValue(0);
+    cameraUI->captureFrameWN->setMinimum(0);
+    cameraUI->captureFrameWN->setMaximum(0);
+    cameraUI->captureFrameWN->setValue(0);
 
-    captureFrameHN->setMinimum(0);
-    captureFrameHN->setMaximum(0);
-    captureFrameHN->setValue(0);
+    cameraUI->captureFrameHN->setMinimum(0);
+    cameraUI->captureFrameHN->setMaximum(0);
+    cameraUI->captureFrameHN->setValue(0);
 }
 
 void Capture::updateFrameProperties(int reset)
@@ -1084,13 +1088,13 @@ void Capture::updateFrameProperties(int reset)
                                  ISD::CameraChip::GUIDE_CCD) :
                              devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD));
 
-    captureFrameWN->setEnabled(devices()->getActiveChip()->canSubframe());
-    captureFrameHN->setEnabled(devices()->getActiveChip()->canSubframe());
-    captureFrameXN->setEnabled(devices()->getActiveChip()->canSubframe());
-    captureFrameYN->setEnabled(devices()->getActiveChip()->canSubframe());
+    cameraUI->captureFrameWN->setEnabled(devices()->getActiveChip()->canSubframe());
+    cameraUI->captureFrameHN->setEnabled(devices()->getActiveChip()->canSubframe());
+    cameraUI->captureFrameXN->setEnabled(devices()->getActiveChip()->canSubframe());
+    cameraUI->captureFrameYN->setEnabled(devices()->getActiveChip()->canSubframe());
 
-    captureBinHN->setEnabled(devices()->getActiveChip()->canBin());
-    captureBinVN->setEnabled(devices()->getActiveChip()->canBin());
+    cameraUI->captureBinHN->setEnabled(devices()->getActiveChip()->canBin());
+    cameraUI->captureBinVN->setEnabled(devices()->getActiveChip()->canBin());
 
     QList<double> exposureValues;
     exposureValues << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.25 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 5 << 6 << 7 << 8 << 9 <<
@@ -1099,9 +1103,9 @@ void Capture::updateFrameProperties(int reset)
     if (devices()->getActiveCamera()->getMinMaxStep(exposureProp, exposureElem, &min, &max, &step))
     {
         if (min < 0.001)
-            captureExposureN->setDecimals(6);
+            cameraUI->captureExposureN->setDecimals(6);
         else
-            captureExposureN->setDecimals(3);
+            cameraUI->captureExposureN->setDecimals(3);
         for(int i = 0; i < exposureValues.count(); i++)
         {
             double value = exposureValues.at(i);
@@ -1116,7 +1120,7 @@ void Capture::updateFrameProperties(int reset)
         exposureValues.append(max);
     }
 
-    captureExposureN->setRecommendedValues(exposureValues);
+    cameraUI->captureExposureN->setRecommendedValues(exposureValues);
     state()->setExposureRange(exposureValues.first(), exposureValues.last());
 
     if (devices()->getActiveCamera()->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
@@ -1134,9 +1138,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            captureFrameWN->setMinimum(static_cast<int>(min));
-            captureFrameWN->setMaximum(static_cast<int>(max));
-            captureFrameWN->setSingleStep(xstep);
+            cameraUI->captureFrameWN->setMinimum(static_cast<int>(min));
+            cameraUI->captureFrameWN->setMaximum(static_cast<int>(max));
+            cameraUI->captureFrameWN->setSingleStep(xstep);
         }
     }
     else
@@ -1157,9 +1161,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            captureFrameHN->setMinimum(static_cast<int>(min));
-            captureFrameHN->setMaximum(static_cast<int>(max));
-            captureFrameHN->setSingleStep(ystep);
+            cameraUI->captureFrameHN->setMinimum(static_cast<int>(min));
+            cameraUI->captureFrameHN->setMaximum(static_cast<int>(max));
+            cameraUI->captureFrameHN->setSingleStep(ystep);
         }
     }
     else
@@ -1178,9 +1182,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            captureFrameXN->setMinimum(static_cast<int>(min));
-            captureFrameXN->setMaximum(static_cast<int>(max));
-            captureFrameXN->setSingleStep(static_cast<int>(step));
+            cameraUI->captureFrameXN->setMinimum(static_cast<int>(min));
+            cameraUI->captureFrameXN->setMaximum(static_cast<int>(max));
+            cameraUI->captureFrameXN->setSingleStep(static_cast<int>(step));
         }
     }
     else
@@ -1199,9 +1203,9 @@ void Capture::updateFrameProperties(int reset)
 
         if (min >= 0 && max > 0)
         {
-            captureFrameYN->setMinimum(static_cast<int>(min));
-            captureFrameYN->setMaximum(static_cast<int>(max));
-            captureFrameYN->setSingleStep(static_cast<int>(step));
+            cameraUI->captureFrameYN->setMinimum(static_cast<int>(min));
+            cameraUI->captureFrameYN->setMaximum(static_cast<int>(max));
+            cameraUI->captureFrameYN->setSingleStep(static_cast<int>(step));
         }
     }
     else
@@ -1223,10 +1227,10 @@ void Capture::updateFrameProperties(int reset)
 
         settings["x"]    = 0;
         settings["y"]    = 0;
-        settings["w"]    = captureFrameWN->maximum();
-        settings["h"]    = captureFrameHN->maximum();
-        settings["binx"] = captureBinHN->value();
-        settings["biny"] = captureBinVN->value();
+        settings["w"]    = cameraUI->captureFrameWN->maximum();
+        settings["h"]    = cameraUI->captureFrameHN->maximum();
+        settings["binx"] = cameraUI->captureBinHN->value();
+        settings["biny"] = cameraUI->captureBinVN->value();
 
         state()->frameSettings()[devices()->getActiveChip()] = settings;
     }
@@ -1241,17 +1245,17 @@ void Capture::updateFrameProperties(int reset)
         h = settings["h"].toInt();
 
         // Bound them
-        x = qBound(captureFrameXN->minimum(), x, captureFrameXN->maximum() - 1);
-        y = qBound(captureFrameYN->minimum(), y, captureFrameYN->maximum() - 1);
-        w = qBound(captureFrameWN->minimum(), w, captureFrameWN->maximum());
-        h = qBound(captureFrameHN->minimum(), h, captureFrameHN->maximum());
+        x = qBound(cameraUI->captureFrameXN->minimum(), x, cameraUI->captureFrameXN->maximum() - 1);
+        y = qBound(cameraUI->captureFrameYN->minimum(), y, cameraUI->captureFrameYN->maximum() - 1);
+        w = qBound(cameraUI->captureFrameWN->minimum(), w, cameraUI->captureFrameWN->maximum());
+        h = qBound(cameraUI->captureFrameHN->minimum(), h, cameraUI->captureFrameHN->maximum());
 
         settings["x"] = x;
         settings["y"] = y;
         settings["w"] = w;
         settings["h"] = h;
-        settings["binx"] = captureBinHN->value();
-        settings["biny"] = captureBinVN->value();
+        settings["binx"] = cameraUI->captureBinHN->value();
+        settings["biny"] = cameraUI->captureBinVN->value();
 
         state()->frameSettings()[devices()->getActiveChip()] = settings;
     }
@@ -1267,26 +1271,26 @@ void Capture::updateFrameProperties(int reset)
         if (devices()->getActiveChip()->canBin())
         {
             devices()->getActiveChip()->getMaxBin(&binx, &biny);
-            captureBinHN->setMaximum(binx);
-            captureBinVN->setMaximum(biny);
+            cameraUI->captureBinHN->setMaximum(binx);
+            cameraUI->captureBinVN->setMaximum(biny);
 
-            captureBinHN->setValue(settings["binx"].toInt());
-            captureBinVN->setValue(settings["biny"].toInt());
+            cameraUI->captureBinHN->setValue(settings["binx"].toInt());
+            cameraUI->captureBinVN->setValue(settings["biny"].toInt());
         }
         else
         {
-            captureBinHN->setValue(1);
-            captureBinVN->setValue(1);
+            cameraUI->captureBinHN->setValue(1);
+            cameraUI->captureBinVN->setValue(1);
         }
 
         if (x >= 0)
-            captureFrameXN->setValue(x);
+            cameraUI->captureFrameXN->setValue(x);
         if (y >= 0)
-            captureFrameYN->setValue(y);
+            cameraUI->captureFrameYN->setValue(y);
         if (w > 0)
-            captureFrameWN->setValue(w);
+            cameraUI->captureFrameWN->setValue(w);
         if (h > 0)
-            captureFrameHN->setValue(h);
+            cameraUI->captureFrameHN->setValue(h);
     }
 }
 
@@ -1308,20 +1312,20 @@ void Capture::processCameraNumber(INDI::Property prop)
         auto nvp = prop.getNumber();
         auto gain = nvp->findWidgetByName("Gain");
         if (gain)
-            currentGainLabel->setText(QString::number(gain->value, 'f', 0));
+            cameraUI->currentGainLabel->setText(QString::number(gain->value, 'f', 0));
         auto offset = nvp->findWidgetByName("Offset");
         if (offset)
-            currentOffsetLabel->setText(QString::number(offset->value, 'f', 0));
+            cameraUI->currentOffsetLabel->setText(QString::number(offset->value, 'f', 0));
     }
     else if (prop.isNameMatch("CCD_GAIN"))
     {
         auto nvp = prop.getNumber();
-        currentGainLabel->setText(QString::number(nvp->at(0)->getValue(), 'f', 0));
+        cameraUI->currentGainLabel->setText(QString::number(nvp->at(0)->getValue(), 'f', 0));
     }
     else if (prop.isNameMatch("CCD_OFFSET"))
     {
         auto nvp = prop.getNumber();
-        currentOffsetLabel->setText(QString::number(nvp->at(0)->getValue(), 'f', 0));
+        cameraUI->currentOffsetLabel->setText(QString::number(nvp->at(0)->getValue(), 'f', 0));
     }
 }
 
@@ -1332,16 +1336,16 @@ void Capture::syncFrameType(const QString &name)
 
     QStringList frameTypes = process()->frameTypes();
 
-    captureTypeS->clear();
+    cameraUI->captureTypeS->clear();
 
     if (frameTypes.isEmpty())
-        captureTypeS->setEnabled(false);
+        cameraUI->captureTypeS->setEnabled(false);
     else
     {
-        captureTypeS->setEnabled(true);
-        captureTypeS->addItems(frameTypes);
+        cameraUI->captureTypeS->setEnabled(true);
+        cameraUI->captureTypeS->addItems(frameTypes);
         ISD::CameraChip *tChip = devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
-        captureTypeS->setCurrentIndex(tChip->getFrameType());
+        cameraUI->captureTypeS->setCurrentIndex(tChip->getFrameType());
     }
 }
 
@@ -1357,7 +1361,7 @@ bool Capture::setFilter(const QString &filter)
 {
     if (devices()->filterWheel())
     {
-        FilterPosCombo->setCurrentText(filter);
+        cameraUI->FilterPosCombo->setCurrentText(filter);
         return true;
     }
 
@@ -1366,12 +1370,12 @@ bool Capture::setFilter(const QString &filter)
 
 QString Capture::filter()
 {
-    return FilterPosCombo->currentText();
+    return cameraUI->FilterPosCombo->currentText();
 }
 
 void Capture::updateCurrentFilterPosition()
 {
-    const QString currentFilterText = FilterPosCombo->itemText(m_FilterManager->getFilterPosition() - 1);
+    const QString currentFilterText = cameraUI->FilterPosCombo->itemText(m_FilterManager->getFilterPosition() - 1);
     state()->setCurrentFilterPosition(m_FilterManager->getFilterPosition(),
                                       currentFilterText,
                                       m_FilterManager->getFilterLock(currentFilterText));
@@ -1379,40 +1383,40 @@ void Capture::updateCurrentFilterPosition()
 
 void Capture::refreshFilterSettings()
 {
-    FilterPosCombo->clear();
+    cameraUI->FilterPosCombo->clear();
 
     if (!devices()->filterWheel())
     {
-        FilterPosLabel->setEnabled(false);
-        FilterPosCombo->setEnabled(false);
-        filterEditB->setEnabled(false);
-        filterManagerB->setEnabled(false);
+        cameraUI->FilterPosLabel->setEnabled(false);
+        cameraUI->FilterPosCombo->setEnabled(false);
+        cameraUI->filterEditB->setEnabled(false);
+        cameraUI->filterManagerB->setEnabled(false);
 
         devices()->setFilterManager(m_FilterManager);
         return;
     }
 
-    FilterPosLabel->setEnabled(true);
-    FilterPosCombo->setEnabled(true);
-    filterEditB->setEnabled(true);
-    filterManagerB->setEnabled(true);
+    cameraUI->FilterPosLabel->setEnabled(true);
+    cameraUI->FilterPosCombo->setEnabled(true);
+    cameraUI->filterEditB->setEnabled(true);
+    cameraUI->filterManagerB->setEnabled(true);
 
     setupFilterManager();
 
     process()->updateFilterInfo();
 
     const auto labels = process()->filterLabels();
-    FilterPosCombo->addItems(labels);
+    cameraUI->FilterPosCombo->addItems(labels);
 
     // Save ISO List in train settings if different
     storeTrainKey(KEY_FILTERS, labels);
 
     updateCurrentFilterPosition();
 
-    filterEditB->setEnabled(state()->getCurrentFilterPosition() > 0);
-    filterManagerB->setEnabled(state()->getCurrentFilterPosition() > 0);
+    cameraUI->filterEditB->setEnabled(state()->getCurrentFilterPosition() > 0);
+    cameraUI->filterManagerB->setEnabled(state()->getCurrentFilterPosition() > 0);
 
-    FilterPosCombo->setCurrentIndex(state()->getCurrentFilterPosition() - 1);
+    cameraUI->FilterPosCombo->setCurrentIndex(state()->getCurrentFilterPosition() - 1);
 }
 
 void Capture::processingFITSfinished(bool success)
@@ -1424,7 +1428,7 @@ void Capture::processingFITSfinished(bool success)
     // If this is a preview job, make sure to enable preview button after
     if (devices()->getActiveCamera()
             && devices()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-        previewB->setEnabled(true);
+        cameraUI->previewB->setEnabled(true);
 
     imageCapturingCompleted();
 }
@@ -1439,7 +1443,7 @@ void Capture::imageCapturingCompleted()
     // In case we're framing, let's return quickly to continue the process.
     if (state()->isLooping())
     {
-        captureStatusWidget->setStatus(i18n("Framing..."), Qt::darkGreen);
+        cameraUI->captureStatusWidget->setStatus(i18n("Framing..."), Qt::darkGreen);
         return;
     }
 
@@ -1458,17 +1462,17 @@ void Capture::imageCapturingCompleted()
         return;
 
     /* The image progress has now one more capture */
-    imgProgress->setValue(thejob->getCompleted());
+    cameraUI->imgProgress->setValue(thejob->getCompleted());
 }
 
 void Capture::captureStopped()
 {
-    imgProgress->reset();
-    imgProgress->setEnabled(false);
+    cameraUI->imgProgress->reset();
+    cameraUI->imgProgress->setEnabled(false);
 
-    frameRemainingTime->setText("--:--:--");
-    jobRemainingTime->setText("--:--:--");
-    frameInfoLabel->setText(i18n("Expose (-/-):"));
+    cameraUI->frameRemainingTime->setText("--:--:--");
+    cameraUI->jobRemainingTime->setText("--:--:--");
+    cameraUI->frameInfoLabel->setText(i18n("Expose (-/-):"));
 
     // stopping to CAPTURE_IDLE means that capturing will continue automatically
     auto captureState = state()->getCaptureState();
@@ -1479,11 +1483,11 @@ void Capture::captureStopped()
 void Capture::updateTargetDistance(double targetDiff)
 {
     // ensure that the drift is visible
-    targetDriftLabel->setVisible(true);
-    targetDrift->setVisible(true);
-    targetDriftUnit->setVisible(true);
+    cameraUI->targetDriftLabel->setVisible(true);
+    cameraUI->targetDrift->setVisible(true);
+    cameraUI->targetDriftUnit->setVisible(true);
     // update the drift value
-    targetDrift->setText(QString("%L1").arg(targetDiff, 0, 'd', 1));
+    cameraUI->targetDrift->setText(QString("%L1").arg(targetDiff, 0, 'd', 1));
 }
 
 void Capture::captureImageStarted()
@@ -1498,7 +1502,7 @@ void Capture::captureImageStarted()
 
     // necessary since the status widget doesn't store the calibration stage
     if (activeJob()->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
-        captureStatusWidget->setStatus(i18n("Calibrating..."), Qt::yellow);
+        cameraUI->captureStatusWidget->setStatus(i18n("Calibrating..."), Qt::yellow);
 }
 
 namespace
@@ -1532,16 +1536,16 @@ void Capture::captureRunning()
 {
     emit captureStarting(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                          activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString());
-    frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob()->getFrameType(),
-                            activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
-                            .arg(activeJob()->getCompleted()).arg(activeJob()->getCoreProperty(
-                                        SequenceJob::SJ_Count).toInt()));
+    cameraUI->frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob()->getFrameType(),
+                                      activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
+                                      .arg(activeJob()->getCompleted()).arg(activeJob()->getCoreProperty(
+                                              SequenceJob::SJ_Count).toInt()));
     // ensure that the download time label is visible
-    avgDownloadTime->setVisible(true);
-    avgDownloadLabel->setVisible(true);
-    secLabel->setVisible(true);
+    cameraUI->avgDownloadTime->setVisible(true);
+    cameraUI->avgDownloadLabel->setVisible(true);
+    cameraUI->secLabel->setVisible(true);
     // show estimated download time
-    avgDownloadTime->setText(QString("%L1").arg(state()->averageDownloadTime(), 0, 'd', 2));
+    cameraUI->avgDownloadTime->setText(QString("%L1").arg(state()->averageDownloadTime(), 0, 'd', 2));
 
     // avoid logging that we captured a temporary file
     if (state()->isLooping() == false && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
@@ -1568,7 +1572,7 @@ void Capture::clearLog()
 
 void Capture::updateDownloadProgress(double downloadTimeLeft)
 {
-    frameRemainingTime->setText(state()->imageCountDown().toString("hh:mm:ss"));
+    cameraUI->frameRemainingTime->setText(state()->imageCountDown().toString("hh:mm:ss"));
     emit newDownloadProgress(downloadTimeLeft);
 }
 
@@ -1576,22 +1580,22 @@ void Capture::updateCaptureCountDown(int deltaMillis)
 {
     state()->imageCountDownAddMSecs(deltaMillis);
     state()->sequenceCountDownAddMSecs(deltaMillis);
-    frameRemainingTime->setText(state()->imageCountDown().toString("hh:mm:ss"));
-    jobRemainingTime->setText(state()->sequenceCountDown().toString("hh:mm:ss"));
+    cameraUI->frameRemainingTime->setText(state()->imageCountDown().toString("hh:mm:ss"));
+    cameraUI->jobRemainingTime->setText(state()->sequenceCountDown().toString("hh:mm:ss"));
 }
 
 void Capture::updateCCDTemperature(double value)
 {
-    if (cameraTemperatureS->isEnabled() == false && devices()->getActiveCamera())
+    if (cameraUI->cameraTemperatureS->isEnabled() == false && devices()->getActiveCamera())
     {
         if (devices()->getActiveCamera()->getPermission("CCD_TEMPERATURE") != IP_RO)
             process()->checkCamera();
     }
 
-    temperatureOUT->setText(QString("%L1").arg(value, 0, 'f', 2));
+    cameraUI->temperatureOUT->setText(QString("%L1").arg(value, 0, 'f', 2));
 
-    if (cameraTemperatureN->cleanText().isEmpty())
-        cameraTemperatureN->setValue(value);
+    if (cameraUI->cameraTemperatureN->cleanText().isEmpty())
+        cameraUI->cameraTemperatureN->setValue(value);
 }
 
 void Capture::updateRotatorAngle(double value)
@@ -1634,8 +1638,8 @@ SequenceJob *Capture::createJob(SequenceJob::SequenceJobType jobtype, FilenamePr
 
 void Ekos::Capture::createNewJobTableRow(SequenceJob *job)
 {
-    int currentRow = queueTable->rowCount();
-    queueTable->insertRow(currentRow);
+    int currentRow = cameraUI->queueTable->rowCount();
+    cameraUI->queueTable->insertRow(currentRow);
 
     // create job table widgets
     QTableWidgetItem *status = new QTableWidgetItem();
@@ -1671,14 +1675,14 @@ void Ekos::Capture::createNewJobTableRow(SequenceJob *job)
     offset->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     // add the widgets to the table
-    queueTable->setItem(currentRow, JOBTABLE_COL_STATUS, status);
-    queueTable->setItem(currentRow, JOBTABLE_COL_FILTER, filter);
-    queueTable->setItem(currentRow, JOBTABLE_COL_COUNTS, count);
-    queueTable->setItem(currentRow, JOBTABLE_COL_EXP, exp);
-    queueTable->setItem(currentRow, JOBTABLE_COL_TYPE, type);
-    queueTable->setItem(currentRow, JOBTABLE_COL_BINNING, bin);
-    queueTable->setItem(currentRow, JOBTABLE_COL_ISO, iso);
-    queueTable->setItem(currentRow, JOBTABLE_COL_OFFSET, offset);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_STATUS, status);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_FILTER, filter);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_COUNTS, count);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_EXP, exp);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_TYPE, type);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_BINNING, bin);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_ISO, iso);
+    cameraUI->queueTable->setItem(currentRow, JOBTABLE_COL_OFFSET, offset);
 
     // full update to the job table row
     updateJobTable(job, true);
@@ -1688,16 +1692,16 @@ void Ekos::Capture::createNewJobTableRow(SequenceJob *job)
     state()->getSequence().append(jsonJob);
     emit sequenceChanged(state()->getSequence());
 
-    removeFromQueueB->setEnabled(true);
+    cameraUI->removeFromQueueB->setEnabled(true);
 }
 
 
 void Capture::editJobFinished()
 {
-    if (queueTable->currentRow() < 0)
+    if (cameraUI->queueTable->currentRow() < 0)
         qCWarning(KSTARS_EKOS_CAPTURE()) << "Editing finished, but no row selected!";
 
-    int currentRow = queueTable->currentRow();
+    int currentRow = cameraUI->queueTable->currentRow();
     SequenceJob *job = state()->allJobs().at(currentRow);
     updateJobFromUI(job);
 
@@ -1715,21 +1719,21 @@ void Capture::editJobFinished()
 
 void Capture::removeJobFromQueue()
 {
-    int currentRow = queueTable->currentRow();
+    int currentRow = cameraUI->queueTable->currentRow();
 
     if (currentRow < 0)
-        currentRow = queueTable->rowCount() - 1;
+        currentRow = cameraUI->queueTable->rowCount() - 1;
 
     removeJob(currentRow);
 
     // update selection
-    if (queueTable->rowCount() == 0)
+    if (cameraUI->queueTable->rowCount() == 0)
         return;
 
-    if (currentRow > queueTable->rowCount())
-        queueTable->selectRow(queueTable->rowCount() - 1);
+    if (currentRow > cameraUI->queueTable->rowCount())
+        cameraUI->queueTable->selectRow(cameraUI->queueTable->rowCount() - 1);
     else
-        queueTable->selectRow(currentRow);
+        cameraUI->queueTable->selectRow(currentRow);
 }
 
 bool Capture::removeJob(int index)
@@ -1747,7 +1751,7 @@ bool Capture::removeJob(int index)
     if (index < 0 || index >= state()->allJobs().count())
         return false;
 
-    queueTable->removeRow(index);
+    cameraUI->queueTable->removeRow(index);
     QJsonArray seqArray = state()->getSequence();
     seqArray.removeAt(index);
     state()->setSequence(seqArray);
@@ -1766,25 +1770,25 @@ bool Capture::removeJob(int index)
 
     delete job;
 
-    if (queueTable->rowCount() == 0)
-        removeFromQueueB->setEnabled(false);
+    if (cameraUI->queueTable->rowCount() == 0)
+        cameraUI->removeFromQueueB->setEnabled(false);
 
-    if (queueTable->rowCount() == 1)
+    if (cameraUI->queueTable->rowCount() == 1)
     {
-        queueUpB->setEnabled(false);
-        queueDownB->setEnabled(false);
+        cameraUI->queueUpB->setEnabled(false);
+        cameraUI->queueDownB->setEnabled(false);
     }
 
-    if (index < queueTable->rowCount())
-        queueTable->selectRow(index);
-    else if (queueTable->rowCount() > 0)
-        queueTable->selectRow(queueTable->rowCount() - 1);
+    if (index < cameraUI->queueTable->rowCount())
+        cameraUI->queueTable->selectRow(index);
+    else if (cameraUI->queueTable->rowCount() > 0)
+        cameraUI->queueTable->selectRow(cameraUI->queueTable->rowCount() - 1);
 
-    if (queueTable->rowCount() == 0)
+    if (cameraUI->queueTable->rowCount() == 0)
     {
-        queueSaveAsB->setEnabled(false);
-        queueSaveB->setEnabled(false);
-        resetB->setEnabled(false);
+        cameraUI->queueSaveAsB->setEnabled(false);
+        cameraUI->queueSaveB->setEnabled(false);
+        cameraUI->resetB->setEnabled(false);
     }
 
     state()->setDirty(true);
@@ -1794,21 +1798,21 @@ bool Capture::removeJob(int index)
 
 void Capture::moveJob(bool up)
 {
-    int currentRow = queueTable->currentRow();
+    int currentRow = cameraUI->queueTable->currentRow();
     int destinationRow = up ? currentRow - 1 : currentRow + 1;
 
-    int columnCount = queueTable->columnCount();
+    int columnCount = cameraUI->queueTable->columnCount();
 
-    if (currentRow < 0 || destinationRow < 0 || destinationRow >= queueTable->rowCount())
+    if (currentRow < 0 || destinationRow < 0 || destinationRow >= cameraUI->queueTable->rowCount())
         return;
 
     for (int i = 0; i < columnCount; i++)
     {
-        QTableWidgetItem * selectedLine = queueTable->takeItem(currentRow, i);
-        QTableWidgetItem * counterpart  = queueTable->takeItem(destinationRow, i);
+        QTableWidgetItem * selectedLine = cameraUI->queueTable->takeItem(currentRow, i);
+        QTableWidgetItem * counterpart  = cameraUI->queueTable->takeItem(destinationRow, i);
 
-        queueTable->setItem(destinationRow, i, selectedLine);
-        queueTable->setItem(currentRow, i, counterpart);
+        cameraUI->queueTable->setItem(destinationRow, i, selectedLine);
+        cameraUI->queueTable->setItem(currentRow, i, counterpart);
     }
 
     SequenceJob * job = state()->allJobs().takeAt(currentRow);
@@ -1822,25 +1826,25 @@ void Capture::moveJob(bool up)
     seqArray.replace(destinationRow, currentJob);
     emit sequenceChanged(seqArray);
 
-    queueTable->selectRow(destinationRow);
+    cameraUI->queueTable->selectRow(destinationRow);
 
     state()->setDirty(true);
 }
 
 void Capture::newTargetName(const QString &name)
 {
-    targetNameT->setText(name);
+    cameraUI->targetNameT->setText(name);
     generatePreviewFilename();
 }
 
 void Capture::setBusy(bool enable)
 {
-    previewB->setEnabled(!enable);
-    loopB->setEnabled(!enable);
-    opticalTrainCombo->setEnabled(!enable);
-    trainB->setEnabled(!enable);
+    cameraUI->previewB->setEnabled(!enable);
+    cameraUI->loopB->setEnabled(!enable);
+    cameraUI->opticalTrainCombo->setEnabled(!enable);
+    cameraUI->trainB->setEnabled(!enable);
 
-    foreach (QAbstractButton * button, queueEditButtonGroup->buttons())
+    foreach (QAbstractButton * button, cameraUI->queueEditButtonGroup->buttons())
         button->setEnabled(!enable);
 }
 
@@ -1849,14 +1853,14 @@ void Capture::jobPrepared(SequenceJob * job)
 
     int index = state()->allJobs().indexOf(job);
     if (index >= 0)
-        queueTable->selectRow(index);
+        cameraUI->queueTable->selectRow(index);
 
     if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
     {
         // set the progress info
-        imgProgress->setEnabled(true);
-        imgProgress->setMaximum(activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt());
-        imgProgress->setValue(activeJob()->getCompleted());
+        cameraUI->imgProgress->setEnabled(true);
+        cameraUI->imgProgress->setMaximum(activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt());
+        cameraUI->imgProgress->setValue(activeJob()->getCompleted());
     }
 }
 
@@ -1887,18 +1891,18 @@ void Capture::updatePrepareState(CaptureState prepareState)
     {
         case CAPTURE_SETTING_TEMPERATURE:
             appendLogText(i18n("Setting temperature to %1 °C...", activeJob()->getTargetTemperature()));
-            captureStatusWidget->setStatus(i18n("Set Temp to %1 °C...", activeJob()->getTargetTemperature()),
-                                           Qt::yellow);
+            cameraUI->captureStatusWidget->setStatus(i18n("Set Temp to %1 °C...", activeJob()->getTargetTemperature()),
+                    Qt::yellow);
             break;
         case CAPTURE_GUIDER_DRIFT:
             appendLogText(i18n("Waiting for guide drift below %1\"...", Options::startGuideDeviation()));
-            captureStatusWidget->setStatus(i18n("Wait for Guider < %1\"...", Options::startGuideDeviation()), Qt::yellow);
+            cameraUI->captureStatusWidget->setStatus(i18n("Wait for Guider < %1\"...", Options::startGuideDeviation()), Qt::yellow);
             break;
 
         case CAPTURE_SETTING_ROTATOR:
             appendLogText(i18n("Setting camera to %1 degrees E of N...", activeJob()->getTargetRotation()));
-            captureStatusWidget->setStatus(i18n("Set Camera to %1 deg...", activeJob()->getTargetRotation()),
-                                           Qt::yellow);
+            cameraUI->captureStatusWidget->setStatus(i18n("Set Camera to %1 deg...", activeJob()->getTargetRotation()),
+                    Qt::yellow);
             break;
 
         default:
@@ -1941,11 +1945,11 @@ void Capture::updateFocusStatus(FocusState newstate)
         {
             case FOCUS_COMPLETE:
                 appendLogText(i18n("Focus complete."));
-                captureStatusWidget->setStatus(i18n("Focus complete."), Qt::yellow);
+                cameraUI->captureStatusWidget->setStatus(i18n("Focus complete."), Qt::yellow);
                 break;
             case FOCUS_FAILED:
             case FOCUS_ABORTED:
-                captureStatusWidget->setStatus(i18n("Autofocus failed."), Qt::darkRed);
+                cameraUI->captureStatusWidget->setStatus(i18n("Autofocus failed."), Qt::darkRed);
                 break;
             default:
                 // otherwise do nothing
@@ -1967,17 +1971,17 @@ void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
                 if (state()->getCaptureState() == CAPTURE_PAUSED)
                 {
                     // paused after meridian flip requested
-                    captureStatusWidget->setStatus(i18n("Paused..."), Qt::yellow);
+                    cameraUI->captureStatusWidget->setStatus(i18n("Paused..."), Qt::yellow);
                 }
                 break;
 
             case MeridianFlipState::MF_INITIATED:
-                captureStatusWidget->setStatus(i18n("Meridian Flip..."), Qt::yellow);
+                cameraUI->captureStatusWidget->setStatus(i18n("Meridian Flip..."), Qt::yellow);
                 KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::Capture);
                 break;
 
             case MeridianFlipState::MF_COMPLETED:
-                captureStatusWidget->setStatus(i18n("Flip complete."), Qt::yellow);
+                cameraUI->captureStatusWidget->setStatus(i18n("Flip complete."), Qt::yellow);
                 break;
 
             default:
@@ -2003,7 +2007,7 @@ void Capture::saveFITSDirectory()
     if (dir.isEmpty())
         return;
 
-    fileDirectoryT->setText(QDir::toNativeSeparators(dir));
+    cameraUI->fileDirectoryT->setText(QDir::toNativeSeparators(dir));
 }
 
 void Capture::loadSequenceQueue()
@@ -2053,7 +2057,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, QString targetName)
         syncGUIToJob(state()->allJobs().first());
 
     // update save button tool tip
-    queueSaveB->setToolTip("Save to " + sFile.fileName());
+    cameraUI->queueSaveB->setToolTip("Save to " + sFile.fileName());
 
     return true;
 }
@@ -2128,7 +2132,7 @@ void Capture::resetJobs()
     // If a job is selected for edit, reset only that job
     if (m_JobUnderEdit == true)
     {
-        SequenceJob * job = state()->allJobs().at(queueTable->currentRow());
+        SequenceJob * job = state()->allJobs().at(cameraUI->queueTable->currentRow());
         if (nullptr != job)
         {
             job->resetStatus();
@@ -2158,7 +2162,7 @@ void Capture::resetJobs()
     state()->setIgnoreJobProgress(Options::alwaysResetSequenceWhenStarting());
 
     // enable start button
-    startB->setEnabled(true);
+    cameraUI->startB->setEnabled(true);
 }
 
 void Capture::ignoreSequenceHistory()
@@ -2178,39 +2182,39 @@ void Capture::syncGUIToJob(SequenceJob * job)
 
     const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
-    captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
-    captureEncodingS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Encoding).toString());
-    captureExposureN->setValue(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
-    captureBinHN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x());
-    captureBinVN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y());
-    captureFrameXN->setValue(roi.x());
-    captureFrameYN->setValue(roi.y());
-    captureFrameWN->setValue(roi.width());
-    captureFrameHN->setValue(roi.height());
-    FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
-    captureTypeS->setCurrentIndex(job->getFrameType());
-    captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
-    captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
-    targetNameT->setText(job->getCoreProperty(SequenceJob::SJ_TargetName).toString());
-    fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
-    fileUploadModeS->setCurrentIndex(job->getUploadMode());
-    fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
-    fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
-    placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
-    formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
+    cameraUI->captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
+    cameraUI->captureEncodingS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Encoding).toString());
+    cameraUI->captureExposureN->setValue(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
+    cameraUI->captureBinHN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x());
+    cameraUI->captureBinVN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y());
+    cameraUI->captureFrameXN->setValue(roi.x());
+    cameraUI->captureFrameYN->setValue(roi.y());
+    cameraUI->captureFrameWN->setValue(roi.width());
+    cameraUI->captureFrameHN->setValue(roi.height());
+    cameraUI->FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
+    cameraUI->captureTypeS->setCurrentIndex(job->getFrameType());
+    cameraUI->captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
+    cameraUI->captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
+    cameraUI->targetNameT->setText(job->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+    cameraUI->fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
+    cameraUI->fileUploadModeS->setCurrentIndex(job->getUploadMode());
+    cameraUI->fileRemoteDirT->setEnabled(cameraUI->fileUploadModeS->currentIndex() != 0);
+    cameraUI->fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
+    cameraUI->placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
+    cameraUI->formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
 
     // Temperature Options
-    cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
+    cameraUI->cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
     if (job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
-        cameraTemperatureN->setValue(job->getTargetTemperature());
+        cameraUI->cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
     m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
     syncLimitSettings();
 
     // Flat field options
-    calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
-    generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
+    cameraUI->calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
+    cameraUI->generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
 
     if (job->getFlatFieldDuration() == DURATION_MANUAL)
         m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
@@ -2249,20 +2253,20 @@ void Capture::syncGUIToJob(SequenceJob * job)
     // Custom Properties
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
 
-    if (captureISOS)
-        captureISOS->setCurrentIndex(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt());
+    if (cameraUI->captureISOS)
+        cameraUI->captureISOS->setCurrentIndex(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt());
 
     double gain = getGain();
     if (gain >= 0)
-        captureGainN->setValue(gain);
+        cameraUI->captureGainN->setValue(gain);
     else
-        captureGainN->setValue(GainSpinSpecialValue);
+        cameraUI->captureGainN->setValue(GainSpinSpecialValue);
 
     double offset = getOffset();
     if (offset >= 0)
-        captureOffsetN->setValue(offset);
+        cameraUI->captureOffsetN->setValue(offset);
     else
-        captureOffsetN->setValue(OffsetSpinSpecialValue);
+        cameraUI->captureOffsetN->setValue(OffsetSpinSpecialValue);
 
     // update place holder typ
     generatePreviewFilename();
@@ -2282,9 +2286,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
     // hide target drift if align check frequency is == 0
     if (Options::alignCheckFrequency() == 0)
     {
-        targetDriftLabel->setVisible(false);
-        targetDrift->setVisible(false);
-        targetDriftUnit->setVisible(false);
+        cameraUI->targetDriftLabel->setVisible(false);
+        cameraUI->targetDrift->setVisible(false);
+        cameraUI->targetDriftUnit->setVisible(false);
     }
 }
 
@@ -2311,8 +2315,8 @@ bool Capture::selectJob(QModelIndex i)
 
     if (state()->allJobs().size() >= 2)
     {
-        queueUpB->setEnabled(i.row() > 0);
-        queueDownB->setEnabled(i.row() + 1 < state()->allJobs().size());
+        cameraUI->queueUpB->setEnabled(i.row() > 0);
+        cameraUI->queueDownB->setEnabled(i.row() + 1 < state()->allJobs().size());
     }
 
     return true;
@@ -2326,13 +2330,13 @@ void Capture::editJob(QModelIndex i)
 
     appendLogText(i18n("Editing job #%1...", i.row() + 1));
 
-    addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
-    addToQueueB->setToolTip(i18n("Apply job changes."));
-    removeFromQueueB->setToolTip(i18n("Cancel job changes."));
+    cameraUI->addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+    cameraUI->addToQueueB->setToolTip(i18n("Apply job changes."));
+    cameraUI->removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
     // Make it sure if user presses enter, the job is validated.
-    previewB->setDefault(false);
-    addToQueueB->setDefault(true);
+    cameraUI->previewB->setDefault(false);
+    cameraUI->addToQueueB->setDefault(true);
 
     m_JobUnderEdit = true;
 }
@@ -2343,13 +2347,13 @@ void Capture::resetJobEdit(bool cancelled)
         appendLogText(i18n("Editing job canceled."));
 
     m_JobUnderEdit = false;
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+    cameraUI->addToQueueB->setIcon(QIcon::fromTheme("list-add"));
 
-    addToQueueB->setToolTip(i18n("Add job to sequence queue"));
-    removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
+    cameraUI->addToQueueB->setToolTip(i18n("Add job to sequence queue"));
+    cameraUI->removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 
-    addToQueueB->setDefault(false);
-    previewB->setDefault(true);
+    cameraUI->addToQueueB->setDefault(false);
+    cameraUI->previewB->setDefault(true);
 }
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
@@ -2369,8 +2373,8 @@ void Capture::setInSequenceFocus(bool enable, double HFR)
 void Capture::clearSequenceQueue()
 {
     state()->setActiveJob(nullptr);
-    while (queueTable->rowCount() > 0)
-        queueTable->removeRow(0);
+    while (cameraUI->queueTable->rowCount() > 0)
+        cameraUI->queueTable->removeRow(0);
     qDeleteAll(state()->allJobs());
     state()->allJobs().clear();
 
@@ -2393,8 +2397,8 @@ void Capture::setGuideStatus(GuideState newstate)
 
 void Capture::checkFrameType(int index)
 {
-    calibrationB->setEnabled(index != FRAME_LIGHT);
-    generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
+    cameraUI->calibrationB->setEnabled(index != FRAME_LIGHT);
+    cameraUI->generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
 }
 
 void Capture::clearAutoFocusHFR()
@@ -2418,13 +2422,13 @@ void Capture::setVideoStreamEnabled(bool enabled)
 {
     if (enabled)
     {
-        liveVideoB->setChecked(true);
-        liveVideoB->setIcon(QIcon::fromTheme("camera-on"));
+        cameraUI->liveVideoB->setChecked(true);
+        cameraUI->liveVideoB->setIcon(QIcon::fromTheme("camera-on"));
     }
     else
     {
-        liveVideoB->setChecked(false);
-        liveVideoB->setIcon(QIcon::fromTheme("camera-ready"));
+        cameraUI->liveVideoB->setChecked(false);
+        cameraUI->liveVideoB->setIcon(QIcon::fromTheme("camera-ready"));
     }
 }
 
@@ -2435,22 +2439,22 @@ void Capture::setMountStatus(ISD::Mount::Status newState)
         case ISD::Mount::MOUNT_PARKING:
         case ISD::Mount::MOUNT_SLEWING:
         case ISD::Mount::MOUNT_MOVING:
-            previewB->setEnabled(false);
-            liveVideoB->setEnabled(false);
+            cameraUI->previewB->setEnabled(false);
+            cameraUI->liveVideoB->setEnabled(false);
             // Only disable when button is "Start", and not "Stopped"
             // If mount is in motion, Stopped button should always be enabled to terminate
             // the sequence
             if (state()->isBusy() == false)
-                startB->setEnabled(false);
+                cameraUI->startB->setEnabled(false);
             break;
 
         default:
             if (state()->isBusy() == false)
             {
-                previewB->setEnabled(true);
+                cameraUI->previewB->setEnabled(true);
                 if (devices()->getActiveCamera())
-                    liveVideoB->setEnabled(devices()->getActiveCamera()->hasVideoStream());
-                startB->setEnabled(true);
+                    cameraUI->liveVideoB->setEnabled(devices()->getActiveCamera()->hasVideoStream());
+                cameraUI->startB->setEnabled(true);
             }
 
             break;
@@ -2533,7 +2537,7 @@ void Capture::setFilterStatus(FilterState filterState)
 
             case FILTER_CHANGE:
                 appendLogText(i18n("Changing filter to %1...",
-                                   FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
+                                   cameraUI->FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
                 break;
 
             case FILTER_AUTOFOCUS:
@@ -2545,7 +2549,7 @@ void Capture::setFilterStatus(FilterState filterState)
                 if (state()->getFilterManagerState() == FILTER_CHANGE)
                 {
                     appendLogText(i18n("Filter set to %1.",
-                                       FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
+                                       cameraUI->FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
                 }
                 break;
 
@@ -2578,7 +2582,7 @@ void Capture::setupFilterManager()
     // display capture status changes
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterStatus);
 
-    connect(filterManagerB, &QPushButton::clicked, this, [this]()
+    connect(cameraUI->filterManagerB, &QPushButton::clicked, this, [this]()
     {
         m_FilterManager->refreshFilterModel();
         m_FilterManager->show();
@@ -2600,19 +2604,19 @@ void Capture::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::setFilterStatus);
 
     // display capture status changes
-    connect(m_FilterManager.get(), &FilterManager::newStatus, captureStatusWidget, &LedStatusWidget::setFilterState);
+    connect(m_FilterManager.get(), &FilterManager::newStatus, cameraUI->captureStatusWidget, &LedStatusWidget::setFilterState);
 
     connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, [this]()
     {
-        FilterPosCombo->clear();
-        FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
-        FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
+        cameraUI->FilterPosCombo->clear();
+        cameraUI->FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
+        cameraUI->FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
         updateCurrentFilterPosition();
     });
 
     connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
     {
-        FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
+        cameraUI->FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
         updateCurrentFilterPosition();
     });
 }
@@ -2663,16 +2667,16 @@ void Capture::cullToDSLRLimits()
 
     if (pos != state()->DSLRInfos().end())
     {
-        if (captureFrameWN->maximum() == 0 || captureFrameWN->maximum() > (*pos)["Width"].toInt())
+        if (cameraUI->captureFrameWN->maximum() == 0 || cameraUI->captureFrameWN->maximum() > (*pos)["Width"].toInt())
         {
-            captureFrameWN->setValue((*pos)["Width"].toInt());
-            captureFrameWN->setMaximum((*pos)["Width"].toInt());
+            cameraUI->captureFrameWN->setValue((*pos)["Width"].toInt());
+            cameraUI->captureFrameWN->setMaximum((*pos)["Width"].toInt());
         }
 
-        if (captureFrameHN->maximum() == 0 || captureFrameHN->maximum() > (*pos)["Height"].toInt())
+        if (cameraUI->captureFrameHN->maximum() == 0 || cameraUI->captureFrameHN->maximum() > (*pos)["Height"].toInt())
         {
-            captureFrameHN->setValue((*pos)["Height"].toInt());
-            captureFrameHN->setMaximum((*pos)["Height"].toInt());
+            cameraUI->captureFrameHN->setValue((*pos)["Height"].toInt());
+            cameraUI->captureFrameHN->setMaximum((*pos)["Height"].toInt());
         }
     }
 }
@@ -2702,7 +2706,7 @@ void Capture::clearCameraConfiguration()
         }
 
         // For DSLRs, immediately ask them to enter the values again.
-        if (captureISOS && captureISOS->count() > 0)
+        if (cameraUI->captureISOS && cameraUI->captureISOS->count() > 0)
         {
             createDSLRDialog();
         }
@@ -2725,11 +2729,11 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
     {
         // find the job's row
         int row = state()->allJobs().indexOf(job);
-        if (row >= 0 && row < queueTable->rowCount())
+        if (row >= 0 && row < cameraUI->queueTable->rowCount())
         {
             updateRowStyle(job);
-            QTableWidgetItem *status = queueTable->item(row, JOBTABLE_COL_STATUS);
-            QTableWidgetItem *count  = queueTable->item(row, JOBTABLE_COL_COUNTS);
+            QTableWidgetItem *status = cameraUI->queueTable->item(row, JOBTABLE_COL_STATUS);
+            QTableWidgetItem *count  = cameraUI->queueTable->item(row, JOBTABLE_COL_COUNTS);
             status->setText(job->getStatusString());
             updateJobTableCountCell(job, count);
 
@@ -2737,33 +2741,34 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
             {
                 bool isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
 
-                QTableWidgetItem *filter = queueTable->item(row, JOBTABLE_COL_FILTER);
-                if (FilterPosCombo->findText(job->getCoreProperty(SequenceJob::SJ_Filter).toString()) >= 0 &&
-                        (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT || isDarkFlat) )
+                QTableWidgetItem *filter = cameraUI->queueTable->item(row, JOBTABLE_COL_FILTER);
+                if (cameraUI->FilterPosCombo->findText(job->getCoreProperty(SequenceJob::SJ_Filter).toString()) >= 0 &&
+                        (cameraUI->captureTypeS->currentIndex() == FRAME_LIGHT || cameraUI->captureTypeS->currentIndex() == FRAME_FLAT
+                         || isDarkFlat) )
                     filter->setText(job->getCoreProperty(SequenceJob::SJ_Filter).toString());
                 else
                     filter->setText("--");
 
-                QTableWidgetItem *exp = queueTable->item(row, JOBTABLE_COL_EXP);
+                QTableWidgetItem *exp = cameraUI->queueTable->item(row, JOBTABLE_COL_EXP);
                 exp->setText(QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f',
-                                                captureExposureN->decimals()));
+                                                cameraUI->captureExposureN->decimals()));
 
-                QTableWidgetItem *type = queueTable->item(row, JOBTABLE_COL_TYPE);
+                QTableWidgetItem *type = cameraUI->queueTable->item(row, JOBTABLE_COL_TYPE);
                 type->setText(isDarkFlat ? i18n("Dark Flat") : CCDFrameTypeNames[job->getFrameType()]);
 
-                QTableWidgetItem *bin = queueTable->item(row, JOBTABLE_COL_BINNING);
+                QTableWidgetItem *bin = cameraUI->queueTable->item(row, JOBTABLE_COL_BINNING);
                 QPoint binning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
                 bin->setText(QString("%1x%2").arg(binning.x()).arg(binning.y()));
 
-                QTableWidgetItem *iso = queueTable->item(row, JOBTABLE_COL_ISO);
+                QTableWidgetItem *iso = cameraUI->queueTable->item(row, JOBTABLE_COL_ISO);
                 if (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt() != -1)
-                    iso->setText(captureISOS->itemText(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()));
+                    iso->setText(cameraUI->captureISOS->itemText(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()));
                 else if (job->getCoreProperty(SequenceJob::SJ_Gain).toDouble() >= 0)
                     iso->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Gain).toDouble(), 'f', 1));
                 else
                     iso->setText("--");
 
-                QTableWidgetItem *offset = queueTable->item(row, JOBTABLE_COL_OFFSET);
+                QTableWidgetItem *offset = cameraUI->queueTable->item(row, JOBTABLE_COL_OFFSET);
                 if (job->getCoreProperty(SequenceJob::SJ_Offset).toDouble() >= 0)
                     offset->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Offset).toDouble(), 'f', 1));
                 else
@@ -2771,18 +2776,18 @@ void Capture::updateJobTable(SequenceJob *job, bool full)
             }
 
             // update button enablement
-            if (queueTable->rowCount() > 0)
+            if (cameraUI->queueTable->rowCount() > 0)
             {
-                queueSaveAsB->setEnabled(true);
-                queueSaveB->setEnabled(true);
-                resetB->setEnabled(true);
+                cameraUI->queueSaveAsB->setEnabled(true);
+                cameraUI->queueSaveB->setEnabled(true);
+                cameraUI->resetB->setEnabled(true);
                 state()->setDirty(true);
             }
 
-            if (queueTable->rowCount() > 1)
+            if (cameraUI->queueTable->rowCount() > 1)
             {
-                queueUpB->setEnabled(true);
-                queueDownB->setEnabled(true);
+                cameraUI->queueUpB->setEnabled(true);
+                cameraUI->queueDownB->setEnabled(true);
             }
         }
     }
@@ -2795,16 +2800,16 @@ void Capture::updateRowStyle(SequenceJob *job)
 
     // find the job's row
     int row = state()->allJobs().indexOf(job);
-    if (row >= 0 && row < queueTable->rowCount())
+    if (row >= 0 && row < cameraUI->queueTable->rowCount())
     {
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_STATUS), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_FILTER), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_COUNTS), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_EXP), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_TYPE), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_BINNING), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_ISO), job->getStatus() == JOB_BUSY);
-        updateCellStyle(queueTable->item(row, JOBTABLE_COL_OFFSET), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_STATUS), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_FILTER), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_COUNTS), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_EXP), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_TYPE), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_BINNING), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_ISO), job->getStatus() == JOB_BUSY);
+        updateCellStyle(cameraUI->queueTable->item(row, JOBTABLE_COL_OFFSET), job->getStatus() == JOB_BUSY);
     }
 }
 
@@ -2830,13 +2835,13 @@ bool Capture::checkUploadPaths(FilenamePreviewType filenamePreview)
     if (filenamePreview != NOT_PREVIEW)
         return true;
 
-    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
+    if (cameraUI->fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && cameraUI->fileRemoteDirT->text().isEmpty())
     {
         KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
         return false;
     }
 
-    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
+    if (cameraUI->fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && cameraUI->fileDirectoryT->text().isEmpty())
     {
         KSNotification::error(i18n("You must set local directory for Client & Both modes."));
         return false;
@@ -2852,28 +2857,28 @@ QJsonObject Capture::createJsonJob(SequenceJob *job, int currentRow)
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
     bool isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
-    jsonJob.insert("Filter", FilterPosCombo->currentText());
-    jsonJob.insert("Count", queueTable->item(currentRow, JOBTABLE_COL_COUNTS)->text());
-    jsonJob.insert("Exp", queueTable->item(currentRow, JOBTABLE_COL_EXP)->text());
-    jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : queueTable->item(currentRow, JOBTABLE_COL_TYPE)->text());
-    jsonJob.insert("Bin", queueTable->item(currentRow, JOBTABLE_COL_BINNING)->text());
-    jsonJob.insert("ISO/Gain", queueTable->item(currentRow, JOBTABLE_COL_ISO)->text());
-    jsonJob.insert("Offset", queueTable->item(currentRow, JOBTABLE_COL_OFFSET)->text());
+    jsonJob.insert("Filter", cameraUI->FilterPosCombo->currentText());
+    jsonJob.insert("Count", cameraUI->queueTable->item(currentRow, JOBTABLE_COL_COUNTS)->text());
+    jsonJob.insert("Exp", cameraUI->queueTable->item(currentRow, JOBTABLE_COL_EXP)->text());
+    jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : cameraUI->queueTable->item(currentRow, JOBTABLE_COL_TYPE)->text());
+    jsonJob.insert("Bin", cameraUI->queueTable->item(currentRow, JOBTABLE_COL_BINNING)->text());
+    jsonJob.insert("ISO/Gain", cameraUI->queueTable->item(currentRow, JOBTABLE_COL_ISO)->text());
+    jsonJob.insert("Offset", cameraUI->queueTable->item(currentRow, JOBTABLE_COL_OFFSET)->text());
 
     return jsonJob;
 }
 
 void Capture::setCoolerToggled(bool enabled)
 {
-    auto isToggled = (!enabled && coolerOnB->isChecked()) || (enabled && coolerOffB->isChecked());
+    auto isToggled = (!enabled && cameraUI->coolerOnB->isChecked()) || (enabled && cameraUI->coolerOffB->isChecked());
 
-    coolerOnB->blockSignals(true);
-    coolerOnB->setChecked(enabled);
-    coolerOnB->blockSignals(false);
+    cameraUI->coolerOnB->blockSignals(true);
+    cameraUI->coolerOnB->setChecked(enabled);
+    cameraUI->coolerOnB->blockSignals(false);
 
-    coolerOffB->blockSignals(true);
-    coolerOffB->setChecked(!enabled);
-    coolerOffB->blockSignals(false);
+    cameraUI->coolerOffB->blockSignals(true);
+    cameraUI->coolerOffB->setChecked(!enabled);
+    cameraUI->coolerOffB->blockSignals(false);
 
     if (isToggled)
         appendLogText(enabled ? i18n("Cooler is on") : i18n("Cooler is off"));
@@ -3009,13 +3014,13 @@ void Capture::editFilterName()
     if (m_standAlone)
     {
         QStringList labels;
-        for (int index = 0; index < FilterPosCombo->count(); index++)
-            labels << FilterPosCombo->itemText(index);
+        for (int index = 0; index < cameraUI->FilterPosCombo->count(); index++)
+            labels << cameraUI->FilterPosCombo->itemText(index);
         QStringList newLabels;
         if (editFilterNameInternal(labels, newLabels))
         {
-            FilterPosCombo->clear();
-            FilterPosCombo->addItems(newLabels);
+            cameraUI->FilterPosCombo->clear();
+            cameraUI->FilterPosCombo->addItems(newLabels);
         }
     }
     else
@@ -3136,16 +3141,16 @@ void Capture::updateStartButtons(bool start, bool pause)
     if (start)
     {
         // start capturing, therefore next possible action is stopping
-        startB->setIcon(QIcon::fromTheme("media-playback-stop"));
-        startB->setToolTip(i18n("Stop Sequence"));
+        cameraUI->startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+        cameraUI->startB->setToolTip(i18n("Stop Sequence"));
     }
     else
     {
         // stop capturing, therefore next possible action is starting
-        startB->setIcon(QIcon::fromTheme("media-playback-start"));
-        startB->setToolTip(i18n(pause ? "Resume Sequence" : "Start Sequence"));
+        cameraUI->startB->setIcon(QIcon::fromTheme("media-playback-start"));
+        cameraUI->startB->setToolTip(i18n(pause ? "Resume Sequence" : "Start Sequence"));
     }
-    pauseB->setEnabled(start && !pause);
+    cameraUI->pauseB->setEnabled(start && !pause);
 
 }
 
@@ -3161,7 +3166,7 @@ void Capture::generateDarkFlats()
 
         syncGUIToJob(state()->allJobs().at(i));
 
-        captureTypeS->setCurrentIndex(FRAME_DARK);
+        cameraUI->captureTypeS->setCurrentIndex(FRAME_DARK);
         createJob(SequenceJob::JOBTYPE_DARKFLAT);
         jobsAdded++;
     }
@@ -3174,23 +3179,23 @@ void Capture::generateDarkFlats()
 
 void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePreview)
 {
-    job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
-    job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
+    job->setCoreProperty(SequenceJob::SJ_Format, cameraUI->captureFormatS->currentText());
+    job->setCoreProperty(SequenceJob::SJ_Encoding, cameraUI->captureEncodingS->currentText());
 
-    if (captureISOS)
-        job->setISO(captureISOS->currentIndex());
+    if (cameraUI->captureISOS)
+        job->setISO(cameraUI->captureISOS->currentIndex());
 
     job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
     job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
-    if (cameraTemperatureN->isEnabled())
+    if (cameraUI->cameraTemperatureN->isEnabled())
     {
-        job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
-        job->setTargetTemperature(cameraTemperatureN->value());
+        job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraUI->cameraTemperatureS->isChecked());
+        job->setTargetTemperature(cameraUI->cameraTemperatureN->value());
     }
 
     job->setScripts(m_scriptsManager->getScripts());
-    job->setUploadMode(static_cast<ISD::Camera::UploadMode>(fileUploadModeS->currentIndex()));
+    job->setUploadMode(static_cast<ISD::Camera::UploadMode>(cameraUI->fileUploadModeS->currentIndex()));
 
 
     job->setFlatFieldDuration(m_CalibrationUI->captureCalibrationDurationManual->isChecked() ? DURATION_MANUAL : DURATION_ADU);
@@ -3225,35 +3230,36 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
 
     job->setCalibrationPreAction(action);
 
-    job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
+    job->setFrameType(static_cast<CCDFrameType>(qMax(0, cameraUI->captureTypeS->currentIndex())));
 
-    if (FilterPosCombo->currentIndex() != -1 && (m_standAlone || devices()->filterWheel() != nullptr))
-        job->setTargetFilter(FilterPosCombo->currentIndex() + 1, FilterPosCombo->currentText());
+    if (cameraUI->FilterPosCombo->currentIndex() != -1 && (m_standAlone || devices()->filterWheel() != nullptr))
+        job->setTargetFilter(cameraUI->FilterPosCombo->currentIndex() + 1, cameraUI->FilterPosCombo->currentText());
 
-    job->setCoreProperty(SequenceJob::SJ_Exposure, captureExposureN->value());
+    job->setCoreProperty(SequenceJob::SJ_Exposure, cameraUI->captureExposureN->value());
 
-    job->setCoreProperty(SequenceJob::SJ_Count, captureCountN->value());
+    job->setCoreProperty(SequenceJob::SJ_Count, cameraUI->captureCountN->value());
 
-    job->setCoreProperty(SequenceJob::SJ_Binning, QPoint(captureBinHN->value(), captureBinVN->value()));
+    job->setCoreProperty(SequenceJob::SJ_Binning, QPoint(cameraUI->captureBinHN->value(), cameraUI->captureBinVN->value()));
 
     /* in ms */
-    job->setCoreProperty(SequenceJob::SJ_Delay, captureDelayN->value() * 1000);
+    job->setCoreProperty(SequenceJob::SJ_Delay, cameraUI->captureDelayN->value() * 1000);
 
     // Custom Properties
     job->setCustomProperties(customPropertiesDialog->getCustomProperties());
 
-    job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
-                         captureFrameHN->value()));
-    job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
-    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectoryT->text());
-    job->setCoreProperty(SequenceJob::SJ_TargetName, targetNameT->text());
-    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
-    job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
+    job->setCoreProperty(SequenceJob::SJ_ROI, QRect(cameraUI->captureFrameXN->value(), cameraUI->captureFrameYN->value(),
+                         cameraUI->captureFrameWN->value(),
+                         cameraUI->captureFrameHN->value()));
+    job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, cameraUI->fileRemoteDirT->text());
+    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, cameraUI->fileDirectoryT->text());
+    job->setCoreProperty(SequenceJob::SJ_TargetName, cameraUI->targetNameT->text());
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, cameraUI->placeholderFormatT->text());
+    job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, cameraUI->formatSuffixN->value());
 
     job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->guideDitherPerJobFrequency->value());
 
     auto placeholderPath = PlaceholderPath();
-    placeholderPath.updateFullPrefix(job, placeholderFormatT->text());
+    placeholderPath.updateFullPrefix(job, cameraUI->placeholderFormatT->text());
 
     QString signature = placeholderPath.generateSequenceFilename(*job,
                         filenamePreview != REMOTE_PREVIEW, true, 1,
@@ -3311,14 +3317,14 @@ double Capture::currentAperture()
 void Capture::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Capture::refreshOpticalTrain);
-    connect(trainB, &QPushButton::clicked, this, [this]()
+    connect(cameraUI->trainB, &QPushButton::clicked, this, [this]()
     {
-        OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
+        OpticalTrainManager::Instance()->openEditor(cameraUI->opticalTrainCombo->currentText());
     });
-    connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    connect(cameraUI->opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain,
-                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
+                OpticalTrainManager::Instance()->id(cameraUI->opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
         emit trainChanged();
     });
@@ -3326,10 +3332,10 @@ void Capture::setupOpticalTrainManager()
 
 void Capture::refreshOpticalTrain()
 {
-    opticalTrainCombo->blockSignals(true);
-    opticalTrainCombo->clear();
-    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
-    trainB->setEnabled(true);
+    cameraUI->opticalTrainCombo->blockSignals(true);
+    cameraUI->opticalTrainCombo->clear();
+    cameraUI->opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+    cameraUI->trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
     if (m_standAlone || trainID.isValid())
@@ -3341,12 +3347,12 @@ void Capture::refreshOpticalTrain()
         if (OpticalTrainManager::Instance()->exists(id) == false)
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << "Optical train doesn't exist for id" << id;
-            id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
+            id = OpticalTrainManager::Instance()->id(cameraUI->opticalTrainCombo->itemText(0));
         }
 
         auto name = OpticalTrainManager::Instance()->name(id);
 
-        opticalTrainCombo->setCurrentText(name);
+        cameraUI->opticalTrainCombo->setCurrentText(name);
         if (!m_standAlone)
             process()->refreshOpticalTrain(name);
 
@@ -3366,18 +3372,18 @@ void Capture::refreshOpticalTrain()
             m_Settings = m_GlobalSettings;
     }
 
-    opticalTrainCombo->blockSignals(false);
+    cameraUI->opticalTrainCombo->blockSignals(false);
 }
 
 void Capture::generatePreviewFilename()
 {
     if (state()->isCaptureRunning() == false)
     {
-        placeholderFormatT->setToolTip(previewFilename( LOCAL_PREVIEW ));
-        emit newLocalPreview(placeholderFormatT->toolTip());
+        cameraUI->placeholderFormatT->setToolTip(previewFilename( LOCAL_PREVIEW ));
+        emit newLocalPreview(cameraUI->placeholderFormatT->toolTip());
 
-        if (fileUploadModeS->currentIndex() != 0)
-            fileRemoteDirT->setToolTip(previewFilename( REMOTE_PREVIEW ));
+        if (cameraUI->fileUploadModeS->currentIndex() != 0)
+            cameraUI->fileRemoteDirT->setToolTip(previewFilename( REMOTE_PREVIEW ));
     }
 }
 
@@ -3389,12 +3395,13 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
 
     if (previewType == LOCAL_PREVIEW)
     {
-        if(!fileDirectoryT->text().endsWith(separator) && !placeholderFormatT->text().startsWith(separator))
-            placeholderFormatT->setText(separator + placeholderFormatT->text());
-        m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() + formatSuffixN->cleanText();
+        if(!cameraUI->fileDirectoryT->text().endsWith(separator) && !cameraUI->placeholderFormatT->text().startsWith(separator))
+            cameraUI->placeholderFormatT->setText(separator + cameraUI->placeholderFormatT->text());
+        m_format = cameraUI->fileDirectoryT->text() + cameraUI->placeholderFormatT->text() + cameraUI->formatSuffixN->prefix() +
+                   cameraUI->formatSuffixN->cleanText();
     }
     else if (previewType == REMOTE_PREVIEW)
-        m_format = fileRemoteDirT->text();
+        m_format = cameraUI->fileRemoteDirT->text();
 
     //Guard against an empty format to avoid the empty directory warning pop-up in addjob
     if (m_format.isEmpty())
@@ -3422,9 +3429,9 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
         auto m_placeholderPath = PlaceholderPath(previewSeq);
 
         QString extension;
-        if (captureEncodingS->currentText() == "FITS")
+        if (cameraUI->captureEncodingS->currentText() == "FITS")
             extension = ".fits";
-        else if (captureEncodingS->currentText() == "XISF")
+        else if (cameraUI->captureEncodingS->currentText() == "XISF")
             extension = ".xisf";
         else
             extension = ".[NATIVE]";
@@ -3506,8 +3513,8 @@ void Capture::setTargetName(const QString &newTargetName)
     if (activeJob() == nullptr)
     {
         // set the target name in the currently selected job
-        targetNameT->setText(newTargetName);
-        auto rows = queueTable->selectionModel()->selectedRows();
+        cameraUI->targetNameT->setText(newTargetName);
+        auto rows = cameraUI->queueTable->selectionModel()->selectedRows();
         if(rows.count() > 0)
         {
             // take the first one, since we are in single selection mode
@@ -3693,7 +3700,7 @@ void Capture::setAllSettings(const QVariantMap &settings)
     // Save to optical train specific settings as well
     if (!m_standAlone)
     {
-        const int id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+        const int id = OpticalTrainManager::Instance()->id(cameraUI->opticalTrainCombo->currentText());
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
         OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
         Options::setCaptureTrainID(id);
@@ -3732,17 +3739,17 @@ bool Capture::syncControl(const QVariantMap &settings, const QString &key, QWidg
         {
             pDSB->setValue(value);
             // Special case for gain
-            if (pDSB == captureGainN)
+            if (pDSB == cameraUI->captureGainN)
             {
-                if (captureGainN->value() != GainSpinSpecialValue)
-                    setGain(captureGainN->value());
+                if (cameraUI->captureGainN->value() != GainSpinSpecialValue)
+                    setGain(cameraUI->captureGainN->value());
                 else
                     setGain(-1);
             }
-            else if (pDSB == captureOffsetN)
+            else if (pDSB == cameraUI->captureOffsetN)
             {
-                if (captureOffsetN->value() != OffsetSpinSpecialValue)
-                    setOffset(captureOffsetN->value());
+                if (cameraUI->captureOffsetN->value() != OffsetSpinSpecialValue)
+                    setOffset(cameraUI->captureOffsetN->value());
                 else
                     setOffset(-1);
             }
@@ -3788,7 +3795,7 @@ bool Capture::syncControl(const QVariantMap &settings, const QString &key, QWidg
         const auto value = settings[key].toString();
         pLineEdit->setText(value);
         // Special case
-        if (pLineEdit == fileRemoteDirT)
+        if (pLineEdit == cameraUI->fileRemoteDirT)
             generatePreviewFilename();
         return true;
     }
@@ -3868,7 +3875,7 @@ void Capture::settleSettings()
     state()->setDirty(true);
     emit settingsUpdated(getAllSettings());
     // Save to optical train specific settings as well
-    const int id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+    const int id = OpticalTrainManager::Instance()->id(cameraUI->opticalTrainCombo->currentText());
     OpticalTrainSettings::Instance()->setOpticalTrainID(id);
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
     Options::setCaptureTrainID(id);
@@ -3995,7 +4002,7 @@ void Capture::connectSyncSettings()
     // All Combo Boxes
     for (auto &oneWidget : findChildren<QComboBox*>())
         // Don't sync Optical Train combo
-        if (oneWidget != opticalTrainCombo)
+        if (oneWidget != cameraUI->opticalTrainCombo)
             connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Capture::syncSettings);
 
     // All Double Spin Boxes

@@ -49,7 +49,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusDelay()
     KTRY_CLICK(capture, startB);
     // focusing must have started 60 secs + exposure time + 10 secs delay
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
-                                     60000 + 10000 + 1000 * capture->captureExposureN->value());
+                                     60000 + 10000 + 1000 * capture->cameraUI->captureExposureN->value());
 }
 
 void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
@@ -70,7 +70,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
     KTRY_CLICK(capture, startB);
     // wait for one frame has been captured:   exposure time + 10 secs delay
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
-                                     10000 +  1000 * capture->captureExposureN->value());
+                                     10000 +  1000 * capture->cameraUI->captureExposureN->value());
     // now move the focuser twice to increase the HFR
     KTRY_GADGET(manager->focusModule(), QPushButton, focusOutB);
     QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
@@ -81,7 +81,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
     KTRY_CLICK(manager->focusModule(), focusOutB);
     // check if focusing has started, latest after two more frames
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
-                                     10000 + 2 * 1000 * capture->captureExposureN->value());
+                                     10000 + 2 * 1000 * capture->cameraUI->captureExposureN->value());
 }
 
 
@@ -110,7 +110,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusTemperature()
     KTRY_CLICK(capture, startB);
     // wait for one frame has been captured:   exposure time + 10 secs delay
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
-                                     10000 +  1000 * capture->captureExposureN->value());
+                                     10000 +  1000 * capture->cameraUI->captureExposureN->value());
     // now change the temperature on the focuser
     SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_FocuserDevice, "FOCUS_TEMPERATURE", "TEMPERATURE", -2 * deltaT);
 
@@ -121,7 +121,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusTemperature()
     KTRY_CLICK(manager->focusModule(), focusOutB);
     // check if focusing has started, latest after two more frames
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
-                                     10000 + 2 * 1000 * capture->captureExposureN->value());
+                                     10000 + 2 * 1000 * capture->cameraUI->captureExposureN->value());
 
 }
 
@@ -144,7 +144,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
     KTRY_CLICK(capture, startB);
     // focusing must have started 60 secs + exposure time + 10 secs delay
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
-                                     60000 + 10000 + 1000 * capture->captureExposureN->value());
+                                     60000 + 10000 + 1000 * capture->cameraUI->captureExposureN->value());
     // the capture module must change to focusing subsequently
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 5000);
     // now abort capturing
@@ -426,7 +426,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
 
     // initialize the CCD temperature and wait until it is reached
     SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_CCDDevice, "CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", initTemp);
-    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(), 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->cameraUI->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(),
+                             60000);
 
     // set target temperature
     KTRY_SET_DOUBLESPINBOX(capture, cameraTemperatureN, targetTemp);
@@ -442,8 +443,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
     // check if the temperature is at the expected level
-    QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(
+    QTRY_VERIFY2(std::abs(capture->cameraUI->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->cameraUI->temperatureOUT->text()).arg(
                      targetTemp).toLocal8Bit());
 
     // stop capturing
@@ -458,8 +459,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 20000);
     // check if the temperature is at the expected level
-    QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(
+    QTRY_VERIFY2(std::abs(capture->cameraUI->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->cameraUI->temperatureOUT->text()).arg(
                      targetTemp).toLocal8Bit());
 
     // stop capturing
@@ -470,7 +471,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
 
     // change temperature back to initial value
     SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_CCDDevice, "CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", initTemp);
-    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(), 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->cameraUI->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(),
+                             60000);
 
     // start capturing for a second time
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
@@ -478,8 +480,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
     // check if the temperature is at the expected level
-    QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(
+    QTRY_VERIFY2(std::abs(capture->cameraUI->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->cameraUI->temperatureOUT->text()).arg(
                      targetTemp).toLocal8Bit());
 
 }

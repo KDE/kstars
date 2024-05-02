@@ -127,6 +127,7 @@ if (INDI_FOUND)
             ekos/scheduler/framingassistant.ui
             # Capture
             ekos/capture/capture.ui
+            ekos/capture/camera.ui
             ekos/capture/calibrationoptions.ui
             ekos/capture/capturepreviewwidget.ui
             ekos/capture/capturecountswidget.ui
@@ -230,6 +231,7 @@ if (INDI_FOUND)
             ekos/capture/captureprocess.cpp
             ekos/capture/capturemodulestate.cpp
             ekos/capture/capturedeviceadaptor.cpp
+            ekos/capture/camera.cpp
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
             ekos/capture/captureprocessoverlay.cpp
