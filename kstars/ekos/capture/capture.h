@@ -414,11 +414,11 @@ class Capture : public QWidget, public Ui::Capture
 
         QString opticalTrain() const
         {
-            return opticalTrainCombo->currentText();
+            return cameraUI->opticalTrainCombo->currentText();
         }
         void setOpticalTrain(const QString &value)
         {
-            opticalTrainCombo->setCurrentText(value);
+            cameraUI->opticalTrainCombo->setCurrentText(value);
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -672,7 +672,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setCount(uint16_t count)
         {
-            captureCountN->setValue(count);
+            cameraUI->captureCountN->setValue(count);
         }
 
         /**
@@ -681,7 +681,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setDelay(uint16_t delay)
         {
-            captureDelayN->setValue(delay);
+            cameraUI->captureDelayN->setValue(delay);
         }
 
         /**
@@ -735,12 +735,12 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setTargetTemperature(double temperature)
         {
-            cameraTemperatureN->setValue(temperature);
+            cameraUI->cameraTemperatureN->setValue(temperature);
         }
 
         void setForceTemperature(bool enabled)
         {
-            cameraTemperatureS->setChecked(enabled);
+            cameraUI->cameraTemperatureS->setChecked(enabled);
         }
 
         /**
@@ -1067,8 +1067,8 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setBinning(int horBin, int verBin)
         {
-            captureBinHN->setValue(horBin);
-            captureBinVN->setValue(verBin);
+            cameraUI->captureBinHN->setValue(horBin);
+            cameraUI->captureBinVN->setValue(verBin);
         }
 
         /**
@@ -1077,7 +1077,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setISO(int index)
         {
-            captureISOS->setCurrentIndex(index);
+            cameraUI->captureISOS->setCurrentIndex(index);
         }
 
         // reset = 0 --> Do not reset
