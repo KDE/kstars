@@ -260,6 +260,59 @@ void FOV::draw(QPainter &p, float zoomFactor)
 
     QPointF center(0, 0);
 
+    auto setNameFont = [&]() -> bool
+    {
+        int fontSize = pixelSizeX / 15;
+        fontSize *= 14.0 / name().count();
+
+        // Don't let the font size get larger than the vertical space allotted.
+        const int maxYPixelSize = (14.0 / 15.0) * (pixelSizeY / 8);
+        fontSize = std::min(maxYPixelSize, fontSize);
+
+        if (fontSize <= 4)
+            return false;
+
+        QFont font = p.font();
+        font.setPixelSize(fontSize);
+        p.setFont(font);
+        return true;
+    };
+
+    auto setSizeFont = [&](const QString & fovString)
+    {
+        int fontSize = pixelSizeX / 15;
+        fontSize *= 14.0 / name().count();
+        // Maybe make the font size smaller for the field-of-view dimensions.
+        const int maxYPixelSize = (14.0 / 15.0) * (pixelSizeY / 8);
+        int fovFontSize = (pixelSizeX / 15) * (14.0 / fovString.count());
+        fovFontSize = std::min(maxYPixelSize, fovFontSize);
+        fontSize = std::min(fovFontSize, fontSize);
+        QFont font = p.font();
+        font.setPixelSize(fontSize);
+        p.setFont(font);
+    };
+
+    auto drawNameForCircularFov = [&]()
+    {
+        if (name().count() > 0)
+        {
+            if (!setNameFont())   // Too small
+            {
+                return;
+            }
+            QRect nameRect(center.x() - pixelSizeX / 2., center.y() + pixelSizeY / 2. + 1.05 * pixelSizeX / 10, pixelSizeY / 2,
+                           pixelSizeX / 10);
+            p.drawText(nameRect, Qt::AlignCenter, name());
+
+            QString fovString = QString("%1'").arg(QString::number(m_sizeX, 'f', 1));
+            setSizeFont(fovString);
+
+            QRect sizeRect(center.x(), center.y() + pixelSizeY / 2. + 1.05 * pixelSizeX / 10, pixelSizeY / 2,
+                           pixelSizeX / 10);
+            p.drawText(sizeRect, Qt::AlignCenter, fovString);
+        }
+    };
+
     switch (shape())
     {
         case SQUARE:
@@ -279,31 +332,13 @@ void FOV::draw(QPainter &p, float zoomFactor)
 
             if (name().count() > 0)
             {
-                int fontSize = pixelSizeX / 15;
-                fontSize *= 14.0 / name().count();
-
-                // Don't let the font size get larger than the vertical space allotted.
-                const int maxYPixelSize = (14.0 / 15.0) * (pixelSizeY / 8);
-                fontSize = std::min(maxYPixelSize, fontSize);
-
-                if (fontSize <= 4)
-                    break;
-
-                QFont font = p.font();
-                font.setPixelSize(fontSize);
-                p.setFont(font);
-
+                setNameFont();
                 QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
                                pixelSizeX / 10);
                 p.drawText(nameRect, Qt::AlignCenter, name());
 
-                // Maybe make the font size smaller for the field-of-view dimensions.
                 QString fovString = QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1), QString::number(m_sizeY, 'f', 1));
-                int fovFontSize = (pixelSizeX / 15) * (14.0 / fovString.count());
-                fovFontSize = std::min(maxYPixelSize, fovFontSize);
-                fontSize = std::min(fovFontSize, fontSize);
-                font.setPixelSize(fontSize);
-                p.setFont(font);
+                setSizeFont(fovString);
 
                 QRect sizeRect(targetRect.center().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
                                pixelSizeX / 10);
@@ -314,6 +349,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
         break;
         case CIRCLE:
             p.drawEllipse(center, pixelSizeX / 2, pixelSizeY / 2);
+            drawNameForCircularFov();
             break;
         case CROSSHAIRS:
             //Draw radial lines
@@ -324,11 +360,13 @@ void FOV::draw(QPainter &p, float zoomFactor)
             //Draw circles at 0.5 & 1 degrees
             p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
             p.drawEllipse(center, pixelSizeX, pixelSizeY);
+            drawNameForCircularFov();
             break;
         case BULLSEYE:
             p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
             p.drawEllipse(center, 2.0 * pixelSizeX, 2.0 * pixelSizeY);
             p.drawEllipse(center, 4.0 * pixelSizeX, 4.0 * pixelSizeY);
+            drawNameForCircularFov();
             break;
         case SOLIDCIRCLE:
         {
@@ -337,6 +375,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
             p.setBrush(QBrush(colorAlpha));
             p.drawEllipse(center, pixelSizeX / 2, pixelSizeY / 2);
             p.setBrush(Qt::NoBrush);
+            drawNameForCircularFov();
             break;
         }
         default:

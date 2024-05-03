@@ -65,6 +65,7 @@ class FOV : public QObject
     void setShape(FOV::Shape s) { m_shape = s; }
     //void setShape(int s);
 
+    /** Sizes are in arcminutes */
     inline float sizeX() const { return m_sizeX; }
     inline float sizeY() const { return m_sizeY; }
     void setSize(float s) { m_sizeX = m_sizeY = s; }
