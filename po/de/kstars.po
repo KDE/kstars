@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -22393,38 +22393,38 @@ msgstr ""
 msgid "Calibration Successful"
 msgstr "Kalibrierung erfolgreich"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Warning: Manual Dithering failed."
 msgstr "Dithering ..."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Informationen zu %1 fehlen. Bitte stellen Sie die Werte im INDI-Kontrollfeld "
 "ein. "
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, kde-format
 msgid "Missing Information"
 msgstr "Fehlende Information"
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Guiding calibration restored"
 msgstr "Automatische Kalibrierung ist fehlgeschlagen."
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -22433,25 +22433,25 @@ msgstr ""
 "Verfolgung des Nachführungssterns wurde verloren. Versuchen Sie die Größe "
 "des Quadrats zu vergrößern und überprüfen Sie die Montierung."
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, fuzzy, kde-format
 #| msgid "Guider"
 msgid "Guide Star lost."
 msgstr "Nachführung"
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Guiding calibration failed"
 msgstr "Automatische Kalibrierung ist fehlgeschlagen."
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Guiding calibration completed successfully"
 msgstr "Der Teleskop-Assistent wurde erfolgreich abgeschlossen."
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Lost track of the guide star. Searching for guide stars..."
@@ -22459,7 +22459,7 @@ msgstr ""
 "Verfolgung des Nachführungssterns wurde verloren. Die Nachführung wird "
 "abgebrochen ..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
@@ -22467,7 +22467,7 @@ msgstr ""
 "Verfolgung des Nachführungssterns wurde verloren. Die Nachführung wird "
 "abgebrochen ..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to find any suitable guide stars. Aborting..."

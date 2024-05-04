@@ -16,24 +16,24 @@
 </sect1info>
 
 <title
->Courbes de luminosité de l'AAVSO</title>
+>Courbes de luminosité de AAVSO</title>
 <indexterm
 ><primary
 >Outils</primary>
 <secondary
->Générateur de courbes de luminosité de l'AAVSO</secondary>
+>Générateur de courbes de luminosité de AAVSO</secondary>
 </indexterm>
 
 <screenshot>
 <screeninfo
->L'outil de courbes de luminosité de l'AAVSO </screeninfo>
+>L'outil de courbes de luminosité de AAVSO </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="aavso.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Courbes de luminosité de l'AAVSO</phrase>
+>Courbes de luminosité de AAVSO</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -46,7 +46,7 @@
 >American Association of Variable Star Observers</ulink
 > (<abbrev
 >AAVSO</abbrev
->). Ce programme surveille plus de 6 000 étoiles variables et consiste en 10 millions d'observations qui remontent à presque un siècle. &kstars; télécharge les toutes dernières données directement de la base de données de l'<abbrev
+>). Ce programme surveille plus de 6 000 étoiles variables et consiste en 10 millions d'observations qui remontent à presque un siècle. &kstars; télécharge les toutes dernières données directement de la base de données de <abbrev
 >AAVSO</abbrev
 > par l'Internet, une connexion au réseau est donc nécessaire. </para>
 <para
@@ -54,7 +54,7 @@
 >désignation</firstterm
 >, soit par son nom dans le panneau de gauche, et déterminez les dates de début et de fin à tracer. Dans le panneau de droite, sélectionnez le type de données qui doit être tracé (voir ci-dessous). Quand vous avez fait vos sélections, actionnez le bouton <guibutton
 >Extraire la courbe</guibutton
->. &kstars; se connectera automatiquement au serveur de l'AAVSO, qui générera une courbe de luminosité et l'enverra à votre ordinateur pour affichage. Un exemple de courbe de luminosité est affiché ci-dessous. </para>
+>. &kstars; se connectera automatiquement au serveur de AAVSO, qui générera une courbe de luminosité et l'enverra à votre ordinateur pour affichage. Un exemple de courbe de luminosité est affiché ci-dessous. </para>
 
 <screenshot>
 <screeninfo
@@ -216,7 +216,7 @@
 > et téléchargera la dernière liste. </para>
 <note>
 <para
->Le flux de données personnalisées fournies par l'AAVSO a été introduit dans &kstars; par Aaron Price, à qui l'on doit un grand merci. </para>
+>Le flux de données personnalisées fournies par AAVSO a été introduit dans &kstars; par Aaron Price, à qui l'on doit un grand merci. </para>
 </note>
 </sect2>
 </sect1>

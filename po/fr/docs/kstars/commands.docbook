@@ -653,7 +653,7 @@
   <listitem
 ><para
 >Passe l'affichage de la carte du ciel à la projection <ulink url="https://fr.wikipedia.org/wiki/Projection_cylindrique_%C3%A9quidistante"
->équi-rectangulaire </ulink
+>équirectangulaire </ulink
 > (appelée encore cylindrique équidistante).</para
 ></listitem>
   </varlistentry>
@@ -2620,7 +2620,7 @@
 <listitem
 ><para
 >Passe l'affichage de la carte du ciel à la projection <ulink url="https://fr.wikipedia.org/wiki/Projection_cylindrique_%C3%A9quidistante"
->équi-rectangulaire </ulink
+>équirectangulaire </ulink
 > (appelée encore cylindrique équidistante). </para
 ></listitem>
 </varlistentry>

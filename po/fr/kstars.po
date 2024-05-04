@@ -21,12 +21,12 @@
 # Steve <stax@ik.me>, 2022, 2023, 2024.
 msgid ""
 msgstr ""
-"Project-Id-Version: kstars_3.6.9\n"
+"Project-Id-Version: kstars_3.7.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
-"PO-Revision-Date: 2024-03-17 17:22+0100\n"
-"Last-Translator: Steve <stax@ik.me>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
+"PO-Revision-Date: 2024-05-02 16:19+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -112,7 +112,7 @@ msgstr "Limite de la constellation"
 #, kde-format
 msgctxt "Highlighted Constellation Boundary"
 msgid "Constell. Boundary Highlight"
-msgstr "Limite const. en surbrillance"
+msgstr "Limite constellation en surbrillance"
 
 #: auxiliary/colorscheme.cpp:41
 #, kde-format
@@ -828,36 +828,28 @@ msgid "Data folder permissions error."
 msgstr "Erreur permissions dossier de données."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Up"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "Zénith en ha&ut"
+msgstr "Zénith en haut"
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Down"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "Zénith en &bas"
+msgstr "Zénith en bas"
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Up"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "Nord en ha&ut"
+msgstr "Nord en haut"
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Down"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Nord en &bas"
+msgstr "Nord en bas"
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -865,15 +857,14 @@ msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "SCT avec diagonale montante"
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgid "Dobsonian"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "Dobsonien"
+msgstr "Dobsonien typique"
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -1832,7 +1823,7 @@ msgstr "Barre d'outils Télescope"
 #: data/kstarsui.rc:216
 #, kde-format
 msgid "Dome Toolbar"
-msgstr "Barre d'outils Dome"
+msgstr "Barre d'outils Dôme"
 
 #: data/qml/mount/mountbox.qml:428
 #, kde-kuit-format
@@ -5623,38 +5614,34 @@ msgstr "Forme"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, NewView)
 #: dialogs/newview.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add / Edit View"
-msgstr "Ajouter/Modifier un objet du CP"
+msgstr "Ajouter/Modifier vue"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
 #, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr ""
+msgstr "Chercheur RACI 9x50 du Dobson"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Mount Forest"
+#, kde-format
 msgid "Mount Type:"
-msgstr "Mount Forest"
+msgstr "Type de monture"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
 #: dialogs/newview.ui:58 tools/modcalcplanets.ui:793
 #, kde-format
 msgid "Equatorial"
-msgstr "Équatoriales"
+msgstr "Équatoriale"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
-msgstr "Azimut"
+msgstr "Alt-Azimut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -5663,62 +5650,65 @@ msgid ""
 "**Note:** Choose mount type \"Altazimuth\" when visually observing through "
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
+"Remarque : Choisissez le type « Alt-Azimut » pour l'observation visuelle à "
+"travers un SCT ou un réfracteur, quelque soit le type de monture."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
 #, kde-format
 msgid "Correct (e.g. RACI finder or refractor with Amici roof prism)"
 msgstr ""
+"Correct (par exemple pour un chercheur RACI ou un réfracteur avec un prisme "
+"Amici)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, mirroredViewType)
 #: dialogs/newview.ui:115
 #, kde-format
 msgid "Mirrored (e.g. Cassegrain or refractor with erecting prism)"
 msgstr ""
+"Miroir (par exemple un Cassegrin ou un réfracteur avec un prisme droit)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedViewType)
 #: dialogs/newview.ui:122
 #, kde-format
 msgid "Inverted (e.g. straight through finder, Newtonian)"
-msgstr ""
+msgstr "Inversé (par exemple vue directe à travers un chercheur, Newtown)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "Type"
+msgstr "Type de vue"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
 #, kde-format
 msgid "Mirrored on the vertical axis (i.e. inverted and mirrored)"
-msgstr ""
+msgstr "Miroir sur l'axe vertical (i.e inversé et miroir)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
-#, fuzzy, kde-format
-#| msgid "Eyepiece AFOV:"
+#, kde-format
 msgid "Eyepiece Angle:"
-msgstr "Champ de vision apparent de l'oculaire"
+msgstr "Angle de l'oculaire"
 
 #. i18n: ectx: property (text), widget (QLabel, viewingAngleLabel)
 #: dialogs/newview.ui:189
 #, kde-format
 msgid "###°"
-msgstr ""
+msgstr "###°"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/newview.ui:203
 #, kde-format
 msgid "Telescopes with the eyepiece at the bottom"
-msgstr ""
+msgstr "Télescope avec oculaire en bas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/newview.ui:213
 #, kde-format
 msgid "Telescopes with the eyepiece at the top"
-msgstr ""
+msgstr "Télescope avec oculaire en haut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/newview.ui:223
@@ -5727,18 +5717,20 @@ msgid ""
 "The human silhouette indicates on which side of the telescope the observer "
 "is assumed to stand."
 msgstr ""
+"La silhouette humaine indique de quel côté du télescope se trouve "
+"l'observateur."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/newview.ui:259
 #, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
-msgstr ""
+msgstr "(L'aperçu montre la vue à travers un télescope de Newton)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
 #, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr ""
+msgstr "(L'aperçu montre la vue à l'arrière d'un SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
@@ -5747,13 +5739,14 @@ msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
+"Affichage monté sur le télescope (vérifiez cela également si vous utilisez "
+"un appareil plutôt que l'observation visuelle)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Density of stars in the field of view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Densité des étoiles dans le champ de vision"
+msgstr "Réglez également le champ de vision"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5785,29 +5778,24 @@ msgstr "Maintenant"
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
-msgstr ""
+msgstr "Gérer les vues de la carte du ciel"
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "Modifier un lien"
+msgstr "Modifier l'affichage"
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "Affichage"
+msgstr "Nouvel affichage"
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Config Name"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "Nom de configuration"
+msgstr "Conflit de nom d'affichage"
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5815,69 +5803,59 @@ msgid ""
 "There already exists a view with the name you attempted to use. Please "
 "choose a different name for this view."
 msgstr ""
+"Il existe déjà un affichage avec le nom que vous tentez d'utiliser. Veuillez "
+"choisir un nom différent pour cet affichage."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ViewsDialog)
 #: dialogs/viewsdialog.ui:14
 #, kde-format
 msgid "Edit Sky Map Views"
-msgstr ""
+msgstr "Modifier les affichages de la carte du ciel"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Update view"
+#, kde-format
 msgid "Add a new view"
-msgstr "Actualiser la vue"
+msgstr "Ajouter un nouvel affichage"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Ajoutez un nouvel indicateur de champ de vision (CdV) à la liste. Vous "
-"pouvez définir la taille, la forme et la couleur du nouvel indicateur."
+"Ajoutez un nouvel affichage à la liste. Vous pouvez définir la parité, "
+"l'orientation et d'autres paramètres."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Modifier l'indicateur de champ de vision en surbrillance"
+msgstr "Modifier l'affichage en surbrillance"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Cliquez sur ce bouton pour modifier l'indicateur de champ de vision en "
-"surbrillance. Vous pouvez changer sa taille, sa forme et sa couleur."
+"Cliquez sur ce bouton pour modifier l'affichage en surbrillance. Vous pouvez "
+"modifier ses paramètres."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Supprimer l'indicateur de champ de vision en surbrillance"
+msgstr "Supprimer l'affichage en surbrillance"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
 msgstr ""
-"Cliquez sur ce bouton pour supprimer de la liste l'indicateur de champ de "
-"vision (CdV) en surbrillance."
+"Cliquez sur ce bouton pour supprimer de la liste l'affichage en surbrillance."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -7007,17 +6985,14 @@ msgstr "Afficher dans l'afficheur FITS…"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Soustraire le dark. Si aucun dark n'est disponible, un "
-"nouveau sera acquis et enregistré pour un usage ultérieur.</p></body></html>"
+"<html><head/><body><p>Soustraire le dark. Créez les darks ou la carte des "
+"défauts dans l'outil Bibliothèque de Darks dans le module d'acquisition.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -18373,16 +18348,13 @@ msgstr "Conseiller de mise au point"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:178
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cochez pour afficher la zone critique de mise au point "
-"(CFZ) sur le graphique.</p></body></html>"
+"<html><head/><body><p>La taille de pas peut par défaut être la zone critique "
+"de mise au point (CFZ)…</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -19179,10 +19151,9 @@ msgstr ""
 "Échec de la régression de la courbe R2=%1 focusR2Limit=%2, nouvel essai…"
 
 #: ekos/focus/focus.cpp:3395
-#, fuzzy, kde-format
-#| msgid "HFR: %1  "
+#, kde-format
 msgid "R2=%1 < Limit=%2"
-msgstr "HFR : %1"
+msgstr "R²=%1 < Limite=%2"
 
 #: ekos/focus/focus.cpp:3403
 #, kde-format
@@ -20001,10 +19972,9 @@ msgstr "Multiple du pas extérieur"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Taille de pas"
+msgstr "Taille de pas max"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
@@ -20025,24 +19995,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Surbalayage de la mise au point automatique"
+msgstr "Délai du balayage de la mise au point automatique"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The minimum size of an adaptive focus change that "
-#| "will be sent to the focuser.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>La taille minimale d'un changement de la mise au point "
-"adaptative qui sera envoyé au moteur de mise au point.</p></body></html>"
+"<html><head/><body><p>Délai entre la fin du mouvement extérieur du balayage "
+"et le début du mouvement intérieur. Pour la plupart des moteurs de mise au "
+"point, la valeur 0 est correcte.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
@@ -22381,7 +22348,7 @@ msgstr "Échange DEC désactivé."
 msgid "Calibration Successful"
 msgstr "Calibration réussie"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -22390,29 +22357,29 @@ msgstr ""
 "Attention : le décalage a échoué. Le guidage automatique doit continuer "
 "comme défini dans les options en cas d'échec du décalage."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Avertissement : échec du décalage manuel."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Les informations pour %1 sont manquantes. Veuillez définir les valeurs dans "
 "le tableau de bord INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, kde-format
 msgid "Missing Information"
 msgstr "Information manquante"
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Calibration du guidage restaurée."
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -22421,35 +22388,35 @@ msgstr ""
 "Perte de la trace de l'étoile guide. Essayez d'augmenter la taille du carré "
 "ou réduisez la durée d'impulsion."
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Perte de l'étoile de guidage."
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Échec de la calibration du guidage"
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Calibration du guidage terminée avec succès"
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 "Perte de la trace de l'étoile de guidage. En recherche d'étoiles de guidage…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "La valeur de seuil pour le delta RMS est dépassée. À la recherche d'étoiles "
 "pour le guidage…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr ""
@@ -28408,8 +28375,9 @@ msgstr ""
 "minimale. Dans cette situation, la restriction crépusculaire empêche "
 "l'exécution du travail, à moins que les options Ekos Dawn Offset et Dusk "
 "Offset soient configurées de manière appropriée.</p><p>Notez que l'option de "
-"décalage de préaube avance virtuellement l'aube par défaut de 30 minutes and "
-"évitera donc qu'une tâche ne démarre juste avant ce moment.</p></body></html>"
+"décalage de pré-aube avance virtuellement l'aube par défaut de 30 minutes "
+"and évitera donc qu'une tâche ne démarre juste avant ce moment.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:1782
@@ -28510,13 +28478,13 @@ msgstr ""
 "travail en cas d'erreur ou d'annulation.</li><li style=\" margin-top:0px ; "
 "margin-bottom:0px ; margin-left:0px ; margin-right:0px ; -qt-block-"
 "indent:0 ; text-indent:0px ;\"><span style=\" font-weight:600 ;\">Mettre en "
-"file</span> : si une tâche est abandonnée, l'ordonnanceur ne la replanifie "
+"file</span> : si une tâche est abandonnée, l'ordonnanceur ne la re-planifie "
 "que si toutes les tâches sont terminées ou abandonnées. Dans ce cas, "
-"l'ordonnanceur replanifie tous les travaux annulés et s'endort pendant le "
+"l'ordonnanceur re-planifie tous les travaux annulés et s'endort pendant le "
 "délai donné.</li><li style=\" margin-top:0px ; margin-bottom:12px ; margin-"
 "left:0px ; margin-right:0px ; -qt-block-indent:0 ; text-indent:0px ;\"><span "
 "style=\" font-weight:600 ;\">Immédiat</span> : dès qu'une tâche est "
-"abandonnée, l'ordonnanceur la replanifie et attend le délai donné.</li></"
+"abandonnée, l'ordonnanceur la re-planifie et attend le délai donné.</li></"
 "ul><p>Si l'option de replanification des erreurs est sélectionnée, les "
 "erreurs sont traitées comme des annulations. Sinon, les travaux qui font "
 "face à une erreur ne sont jamais réordonnancés.</p></body></html>"
@@ -28531,7 +28499,7 @@ msgstr "Procédures des tâches annulées"
 #: ekos/scheduler/scheduler.ui:2005
 #, kde-format
 msgid "Do not re-schedule aborted jobs."
-msgstr "Ne pas replanifier les tâches annulées."
+msgstr "Ne pas re-planifier les tâches annulées."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
 #: ekos/scheduler/scheduler.ui:2008
@@ -28546,7 +28514,7 @@ msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
 "or aborted."
 msgstr ""
-"Replanifier les tâches annulées, dès que toutes les tâches exécutables sont "
+"Re-planifier les tâches annulées, dès que toutes les tâches exécutables sont "
 "soit terminées soit annulées."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
@@ -28559,7 +28527,7 @@ msgstr "&Mettre en file"
 #: ekos/scheduler/scheduler.ui:2043
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
-msgstr "Replanifier immédiatement une tâche annulée."
+msgstr "Re-planifier immédiatement une tâche annulée."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
 #: ekos/scheduler/scheduler.ui:2046
@@ -28642,15 +28610,12 @@ msgid "Ekos job failed (%1)"
 msgstr "Échec de la tâche Ekos (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:958
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "DarkFlat"
 msgstr "Dark Flat"
 
 #: ekos/scheduler/schedulerjob.cpp:989
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Images"
+#, kde-format
 msgid "images"
 msgstr "Images"
 
@@ -29117,7 +29082,7 @@ msgstr "Dôme en sécurité."
 #: ekos/scheduler/schedulerprocess.cpp:1752
 #, kde-format
 msgid "Dome unparked."
-msgstr "Dome débloqué."
+msgstr "Dôme débloqué."
 
 #: ekos/scheduler/schedulerprocess.cpp:1779
 #, kde-format
@@ -29551,7 +29516,7 @@ msgstr "Le déblocage du dôme est en cours…"
 #: ekos/scheduler/schedulerprocess.cpp:4120
 #, kde-format
 msgid "Dome already unparked."
-msgstr "Dome déjà débloqué."
+msgstr "Dôme déjà débloqué."
 
 #: ekos/scheduler/schedulerprocess.cpp:4177
 #, kde-format
@@ -30977,8 +30942,7 @@ msgstr "L'angle de position de l'image résolue, à l'est du nord (en degrés)"
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr "Sélectionne les options du profil pour utilisation du résolveur"
 
@@ -30992,12 +30956,11 @@ msgstr "Sélectionne les options du profil pour utilisation du résolveur"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr ""
-"Ouvre les options du profil courant dans l'éditeur des options de profil"
+"Ouvre les options du profil courant d'alignement dans l'éditeur des options "
+"de profil"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -31966,7 +31929,7 @@ msgstr "Dôme bloqué"
 #: indi/indidome.cpp:164
 #, kde-format
 msgid "Dome unparked"
-msgstr "Dome débloqué"
+msgstr "Dôme débloqué"
 
 #: indi/indidome.cpp:241
 #, kde-format
@@ -34704,7 +34667,7 @@ msgstr "Indique si le Soleil doit ou non être dessiné sur la carte du ciel."
 #: kstars.kcfg:657
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Augmentez la taille du Soleil de ce facteur"
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:661
@@ -34722,7 +34685,7 @@ msgstr "Indique si la Lune doit ou non être dessinée sur la carte du ciel."
 #: kstars.kcfg:666
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Augmentez la taille de la Lune de ce facteur."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:670
@@ -35162,13 +35125,7 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:825
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable this if you are using your eye at the eyepiece in an altazimuth "
-#| "mounted Newtonian telescope. This accounts for the fact that the observer "
-#| "stands erect as the telescope moves up and down, so that the orientation "
-#| "of the sky map will track what is seen in your eyepiece once it is set up "
-#| "correctly."
+#, kde-format
 msgid ""
 "Enable this if you are using your eye at the eyepiece in an altazimuth "
 "mounted Newtonian telescope. This accounts for the fact that the observer "
@@ -35182,22 +35139,20 @@ msgstr ""
 "Newton monté en alt-azimutale. Cela permet à l'observateur de rester debout "
 "quand le télescope monte et descend de telle manière que l'orientation de la "
 "carte du ciel suivra ce qui est vu dans l'oculaire une fois réglé "
-"correctement."
+"correctement. Choisissez le côté de la correction en accord avec le côté du "
+"télescope ayant l'oculaire en regardant depuis l'arrière du télescope."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:831
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
-msgstr "&Gauche"
+msgstr "Gauche"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:834
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "Clair"
+msgstr "Droite"
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:840
@@ -37041,10 +36996,10 @@ msgstr "Options du profil pour le résolveur d'afficheur Fits."
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1565
-#, fuzzy, kde-format
-#| msgid "Options Profile for Fitsviewer Solving."
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr "Options du profil pour le résolveur d'afficheur Fits."
+msgstr ""
+"Module duquel est pris le profile pour la résolution dans l'afficheur FITS."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1569
@@ -37053,6 +37008,8 @@ msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
+"JSON storing the assignment of profile indices to module profiles for the "
+"FITS Viewer Solver"
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1574
@@ -37792,7 +37749,7 @@ msgstr "Calculer une position après les acquisitions."
 #: kstars.kcfg:1978
 #, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr ""
+msgstr "ID du train optique utilisé en dernier dans le module d'acquisition"
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:1981
@@ -38359,6 +38316,8 @@ msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
+"Délai entre les mouvements intérieurs et extérieur d'un balayage de mise au "
+"point automatique. La plupart des moteurs de mise au point utilise 0s."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2262
@@ -39654,7 +39613,7 @@ msgstr ""
 #: kstars.kcfg:3055
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
-msgstr "Replanifier des tâches ayant rencontré des erreurs."
+msgstr "Re-planifier des tâches ayant rencontré des erreurs."
 
 #. i18n: ectx: label, entry (SchedulerParkDome), group (Scheduler)
 #: kstars.kcfg:3067
@@ -48777,7 +48736,7 @@ msgstr "Dolbeau"
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "Dome Creek"
-msgstr "Dome Creek"
+msgstr "Dôme Creek"
 
 #: kstars_i18n.cpp:1512
 #, kde-kuit-format
@@ -69583,10 +69542,9 @@ msgid "&FOV Symbols"
 msgstr "Indicateurs de c&hamp de vision"
 
 #: kstarsinit.cpp:382
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "&Affichage"
+msgstr "&Affichages"
 
 #: kstarsinit.cpp:390
 #, kde-format
@@ -70098,12 +70056,10 @@ msgstr ""
 "Maj enfoncée, afin de vous informer que l'orientation est arbitraire."
 
 #: kstarsinit.cpp:765
-#, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "No projection"
+#, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr "Pas de projection"
+msgstr "Pas de correction"
 
 #: kstarsinit.cpp:769
 #, kde-format
@@ -70112,28 +70068,19 @@ msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
 msgstr ""
+"Choisissez ceci si vous utilisez un appareil sur le télescope, ou si "
+"l'affichage de la carte du ciel est montée sur votre télescope."
 
 #: kstarsinit.cpp:775
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid "Erect observer correction"
+#, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, left-handed"
-msgstr "Correction pour l'observateur debout"
+msgstr "Correction pour l'observateur debout, à gauche."
 
 #: kstarsinit.cpp:779
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid ""
-#| "Enable this mode if you are visually using a Newtonian telescope on an "
-#| "altazimuth mount. It will correct the orientation of the sky-map to "
-#| "account for the observer remaining erect as the telescope moves up and "
-#| "down, unlike a camera which would rotate with the telescope. This only "
-#| "makes sense in Horizontal Coordinate mode and is disabled when using "
-#| "Equatorial Coordinates. Typically makes sense to combine this with Zenith "
-#| "Down orientation."
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
 "Select this if you are visually observing using a Dobsonian telescope which "
@@ -70143,35 +70090,24 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Activez ce mode si vous observez à l'œil nu avec un télescope de Newton sur "
-"une monture alt-azimutale. Cela corrigera l'orientation de la carte du ciel "
-"pour prendre en compte que l'observateur se tient debout pendant que le "
-"télescope monte et descend, au contraire d'un appareil qui pivote avec le "
-"télescope. Cela ne fait sens qu'en coordonnées horizontales et est désactivé "
-"pour les coordonnées équatoriales. Cela fait typiquement sens de combiner "
-"ceci avec une orientation ayant le zénith en bas."
+"Sélectionnez cette option si vous allez observer visuellement avec un Dobson "
+"qui a le moteur de mise au point sur le côté gauche en regardant vers "
+"l'ouverture du télescope. Cette fonctionnalité permet de corriger "
+"l'orientation de la carte du ciel pour un observateur se tenant debout "
+"lorsque le télescope se déplace du haut vers le bas, au contraire d'un "
+"appareil qui tourne avec le télescope. Cela fait typiquement sens de "
+"combiner ceci avec une orientation ayant le zénith en bas."
 
 #: kstarsinit.cpp:785
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid "Erect observer correction"
+#, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, right-handed"
-msgstr "Correction pour l'observateur debout"
+msgstr "Correction pour l'observateur debout, à droite"
 
 #: kstarsinit.cpp:789
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid ""
-#| "Enable this mode if you are visually using a Newtonian telescope on an "
-#| "altazimuth mount. It will correct the orientation of the sky-map to "
-#| "account for the observer remaining erect as the telescope moves up and "
-#| "down, unlike a camera which would rotate with the telescope. This only "
-#| "makes sense in Horizontal Coordinate mode and is disabled when using "
-#| "Equatorial Coordinates. Typically makes sense to combine this with Zenith "
-#| "Down orientation."
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
 "Select this if you are visually observing using a Dobsonian telescope which "
@@ -70181,29 +70117,24 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Activez ce mode si vous observez à l'œil nu avec un télescope de Newton sur "
-"une monture alt-azimutale. Cela corrigera l'orientation de la carte du ciel "
-"pour prendre en compte que l'observateur se tient debout pendant que le "
-"télescope monte et descend, au contraire d'un appareil qui pivote avec le "
-"télescope. Cela ne fait sens qu'en coordonnées horizontales et est désactivé "
-"pour les coordonnées équatoriales. Cela fait typiquement sens de combiner "
-"ceci avec une orientation ayant le zénith en bas."
+"Sélectionnez cette option si vous allez observer visuellement avec un Dobson "
+"qui a le moteur de mise au point sur le côté droite en regardant vers "
+"l'ouverture du télescope. Cette fonctionnalité permet de corriger "
+"l'orientation de la carte du ciel pour un observateur se tenant debout "
+"lorsque le télescope se déplace du haut vers le bas, au contraire d'un "
+"appareil qui tourne avec le télescope. Cela fait typiquement sens de "
+"combiner ceci avec une orientation ayant le zénith en bas."
 
 #: kstarsinit.cpp:813
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Orientation of the sky map is arbitrary as it has been adjusted by the "
-#| "user"
-#| msgid "Arbitrary"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Arbitraire"
 
 #: kstarsinit.cpp:816
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Modifier un lien…"
+msgstr "Modifier les affichages…"
 
 #: kstarsinit.cpp:843
 #, kde-format
@@ -77123,9 +77054,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
 msgstr ""
@@ -77369,22 +77298,21 @@ msgstr "Si cette case est cochée, le Soleil sera dessiné sur la carte."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Utiliser une taille"
+msgstr "échelle"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Échelle du rendu du Soleil"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Augmentez la taille du Soleil de ce facteur."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -77414,13 +77342,13 @@ msgstr "Si cette case est cochée, la Lune sera dessinée sur la carte."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Échelle de rendu de la Lune"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Augmentez la taille de la Lune de ce facteur"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258

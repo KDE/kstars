@@ -26,7 +26,7 @@
 > </indexterm>
 
 <para
->Les étoiles apparaissent être exclusivement blanches au premier coup d'œil. Mais si nous regardons attentivement, nous pouvons noter une plage de couleurs : bleu, blanc, rouge et même doré. Dans la constellation d'hiver d'Orion, un beau contraste se voit entre la rouge Betelgeuse au coude d'Orion et la bleue Bellatrix à l'épaule. Ce qui fait que les étoiles montrent différentes couleurs resta longtemps un mystère jusqu'à il y a deux siècles, quand les physiciens eurent suffisamment de compréhension de la nature de la lumière et des propriétés de la matière aux très hautes températures. </para>
+>Les étoiles apparaissent être exclusivement blanches au premier coup d'œil. Mais si nous regardons attentivement, nous pouvons noter une plage de couleurs : bleu, blanc, rouge et même doré. Dans la constellation d'hiver d'Orion, un beau contraste se voit entre la rouge Bételgeuse au coude d'Orion et la bleue Bellatrix à l'épaule. Ce qui fait que les étoiles montrent différentes couleurs resta longtemps un mystère jusqu'à il y a deux siècles, quand les physiciens eurent suffisamment de compréhension de la nature de la lumière et des propriétés de la matière aux très hautes températures. </para>
 
 <para
 >Spécifiquement, c'était la physique du <link linkend="ai-blackbody"
@@ -86,7 +86,7 @@
 >Par exemple, l'étoile Bellatrix dans Orion a un Fb/Fv = 1,22 qui indique qu'elle est plus brillante à travers le filtre B qu'à travers le filtre V. Par ailleurs, son rapport Fu/Fb est 2,22 et donc elle est plus brillante à travers le filtre U. Cela indique que l'étoile doit être très chaude, car la position de son pic spectral doit être quelque part entre la plage du filtre U ou une longueur d'onde encore plus courte. La température de surface de Bellatrix (ainsi déterminée grâce à la comparaison de son spectre avec des modèles détailles expliquant les lignes d'absorption) est d'environ 25 000 degrés Kelvin. </para>
 
 <para
->Nous pouvons répéter cette analyse pour l'étoile Betelgeuse. Ses rapports Fb/Fv et Fu/Fb sont respectivement 0,15 et 0,18 et ainsi elle est plus lumineuse en V et plus sombre en U. Son pic spectral doit donc être quelque part dans la zone du filtre V, ou même à une longueur d'onde plus grande. La température de surface de Betelgeuse est seulement 2 400 degrés Kelvin. </para>
+>Nous pouvons répéter cette analyse pour l'étoile Bételgeuse. Ses rapports Fb / Fv et Fu / Fb sont respectivement 0,15 et 0,18 et ainsi elle est plus lumineuse en V et plus sombre en U. Son pic spectral doit donc être quelque part dans la zone du filtre V, ou même à une longueur d'onde plus grande. La température de surface de Bételgeuse est seulement 2 400 degrés Kelvin. </para>
 
 <para
 >Les astronomes préfèrent exprimer la couleur des étoiles en termes de différence de <link linkend="ai-magnitude"
@@ -99,7 +99,7 @@
 >B - V = -2.5 log (Fb/Fv) = -2.5 log (1.22) = -0.22 </para>
 
 <para
->De même, l'indice de couleur pour la rouge Betelgeuse est </para>
+>De même, l'indice de couleur pour la rouge Bételgeuse est </para>
 
 <para
 >B - V = -2.5 log (Fb/Fv) = -2.5 log (0.18) = 1.85 </para>

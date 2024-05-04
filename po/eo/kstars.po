@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
 "PO-Revision-Date: 2024-04-27 22:28+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -21938,7 +21938,7 @@ msgstr "DEC-interŝanĝo malŝaltita."
 msgid "Calibration Successful"
 msgstr "Kalibrado Sukcesa"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -21947,27 +21947,27 @@ msgstr ""
 "Averto: Dithering malsukcesis. Aŭtogvidado daŭros kiel fiksite en la opcioj "
 "en kazo de malsukceso de dither."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Averto: Mana Dithering malsukcesis."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "%1 informoj mankas. Bonvolu agordi la valorojn en INDI Kontrolpanelo."
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, kde-format
 msgid "Missing Information"
 msgstr "Mankas Informoj"
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Gvida kalibrado restarigita"
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -21976,32 +21976,32 @@ msgstr ""
 "Perdita spuro de la gvida stelo. Provu pliigi la kvadratan grandecon aŭ "
 "redukti la pulsan daŭron."
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Gvida Stelo perdita."
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Gvida kalibrado malsukcesis"
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Gvida kalibrado kompletigita sukcese"
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Perdita spuro de la gvida stelo. Serĉante gvidstelojn..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Delta RMS-sojlovaloro superita. Serĉante gvidstelojn..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Malsukcesis trovi taŭgajn gvidstelojn. Abortante..."

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -21754,75 +21754,75 @@ msgstr ""
 msgid "Calibration Successful"
 msgstr "காலியென்ட்"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "வேறு"
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, fuzzy, kde-format
 msgid "Missing Information"
 msgstr "தகவல் சேரிடங்களை ஏற்றுகிறது."
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Guiding calibration restored"
 msgstr "காலியென்ட்"
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "வழிகாட்டிகள்"
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Guiding calibration failed"
 msgstr "காலியென்ட்"
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Guiding calibration completed successfully"
 msgstr "காலியென்ட்"
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"

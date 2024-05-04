@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -20857,66 +20857,66 @@ msgstr "赤纬交换禁止。"
 msgid "Calibration Successful"
 msgstr "校准成功"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr "警告：抖动失败。如果抖动失败，自动导星应将按设定继续。"
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "警告: 手动抖动失败。"
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "%1 信息丢失。请在 INDI 控制面板内设置相应的值。"
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, kde-format
 msgid "Missing Information"
 msgstr "缺少的信息"
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "已复用导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr "失去被导星的踪迹。请尝试增大方框尺寸或减小脉冲宽度。"
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, kde-format
 msgid "Guide Star lost."
 msgstr "被导星已丢失。"
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "导星校准失败"
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "已成功完成导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "丢失被导星。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Delta RMS 超出阈值。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "找不到合适的导星目标。正在中止..."

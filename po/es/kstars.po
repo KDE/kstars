@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
 "PO-Revision-Date: 2024-04-26 00:54+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -22320,7 +22320,7 @@ msgstr "Intercambio de DEC desactivado."
 msgid "Calibration Successful"
 msgstr "Calibración terminada con éxito"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -22329,29 +22329,29 @@ msgstr ""
 "Advertencia: el desvío ha fallado. El guiado automático continuará según se "
 "haya indicado en las opciones en caso de que falle el desvío."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Advertencia: El desvío manual ha fallado."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Se ha perdido la información de %1. Fije los valores en el Panel de control "
 "de INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, kde-format
 msgid "Missing Information"
 msgstr "Falta información"
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "La calibración de guiado se ha restaurado"
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -22360,34 +22360,34 @@ msgstr ""
 "Se ha perdido el rastro de la estrella guía. Pruebe a aumentar el tamaño del "
 "cuadrado o a reducir la duración del pulso."
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Se ha perdido la estrella guía."
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "La calibración de guiado ha fallado"
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "La calibración de guiado se ha completado con éxito"
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 "Se ha perdido el rastro de la estrella guía. Buscando estrellas guías..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Se ha excedido el valor de umbral RMS delta. Buscando estrellas guías..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "No se ha encontrado ninguna estrella guía adecuada. Interrumpiendo..."

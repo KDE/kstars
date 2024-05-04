@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 01:41+0000\n"
-"PO-Revision-Date: 2024-01-02 21:01+0100\n"
+"POT-Creation-Date: 2024-05-04 01:53+0000\n"
+"PO-Revision-Date: 2024-05-03 21:46+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -35,10 +35,9 @@ msgid "Sky"
 msgstr "Himmel"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Mörk plan bild"
+msgstr "Himmelsdagtid"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -803,36 +802,28 @@ msgid "Data folder permissions error."
 msgstr "Åtkomstskyddsfel för datakatalog."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Up"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "Zenit &uppåt"
+msgstr "Zenit uppåt"
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "Zenith &Down"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "Zenith &neråt"
+msgstr "Zenith neråt"
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Up"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "Norr &uppåt"
+msgstr "Norr uppåt"
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "Orientation of the sky map"
-#| msgid "North &Down"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Norr &neråt"
+msgstr "Norr neråt"
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -843,12 +834,11 @@ msgid "SCT with upward diagonal"
 msgstr ""
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgid "Dobsonian"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "Dobsonteleskop"
+msgstr "Typiskt Dobsonteleskop"
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -5560,10 +5550,9 @@ msgstr "Form:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, NewView)
 #: dialogs/newview.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add / Edit View"
-msgstr "Lägg till eller redigera avlägsna himmelsobjekt"
+msgstr "Lägg till eller redigera visning"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
@@ -5573,10 +5562,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgid "Mount port:"
+#, kde-format
 msgid "Mount Type:"
-msgstr "Stativport:"
+msgstr "Stativtyp:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
@@ -5587,8 +5575,7 @@ msgstr "Ekvatoriellt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
 msgstr "Azimut"
 
@@ -5620,10 +5607,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "Typ:"
+msgstr "Visningstyp:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
@@ -5633,16 +5619,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
-#, fuzzy, kde-format
-#| msgid "Eyepiece AFOV:"
+#, kde-format
 msgid "Eyepiece Angle:"
-msgstr "Okularets skenbara synfält:"
+msgstr "Okularets vinkel:"
 
 #. i18n: ectx: property (text), widget (QLabel, viewingAngleLabel)
 #: dialogs/newview.ui:189
 #, kde-format
 msgid "###°"
-msgstr ""
+msgstr "###°"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/newview.ui:203
@@ -5686,10 +5671,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Density of stars in the field of view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Stjärnornas täthet i synfältet"
+msgstr "Ställ också in synfältet"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5724,26 +5708,21 @@ msgid "Manage Sky Map Views"
 msgstr ""
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "Redigera länk"
+msgstr "Redigera visning"
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "Visa"
+msgstr "Ny visning"
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Config Name"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "Inställningsnamn"
+msgstr "Konflikt för visningsnamn"
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5760,58 +5739,47 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Update view"
+#, kde-format
 msgid "Add a new view"
-msgstr "Uppdatera vy"
+msgstr "Lägg till ny visning"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Lägg till en ny synfältssymbol i listan. Du kan definiera storlek, form och "
-"färg för den nya symbolen."
+"Lägg till en ny visning i listan. Du kan definiera paritet, orientering och "
+"andra parametrar."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Ändra den markerade synfältssymbolen"
+msgstr "Ändra den markerade visningen"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Tryck på knappen för att ändra den markerade synfältssymbolen. Du kan ändra "
-"dess storlek, form och färg."
+"Tryck på knappen för att ändra den markerade visningen. Du kan ändra dess "
+"parametrar."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Ta bort markerad synfältssymbol"
+msgstr "Ta bort markerad visning"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr "Tryck på knappen för att ta bort markerad synfältssymbol från listan."
+msgstr "Tryck på knappen för att ta bort markerad visning från listan."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -6128,10 +6096,9 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Effektiv synfältsstorlek i bågminuter.</p>"
 
 #: ekos/align/align.cpp:1418
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 °C..."
+#, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
-msgstr "Ställer in temperaturen till %1 °C ..."
+msgstr "Ställer in målet till RA: %1 DEK: %2"
 
 #: ekos/align/align.cpp:1437
 #, kde-format
@@ -6192,15 +6159,14 @@ msgstr ""
 "Kan inte ta bild medan CCD-exponering pågår. Försöker igen om %1 sekunder..."
 
 #: ekos/align/align.cpp:1539
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
-"Kan inte ta bild medan rotatören är upptagen. Försöker igen om %1 sekunder..."
+"Kan inte ta bild medan rotatören är upptagen. Uppskattning av "
+"tidsfördröjning startad..."
 
 #: ekos/align/align.cpp:1553
-#, fuzzy, kde-format
-#| msgid "Cannot capture while rotator is busy. Retrying in %1 seconds..."
+#, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
 "Kan inte ta bild medan rotatören är upptagen. Försöker igen om %1 sekunder..."
@@ -6774,10 +6740,9 @@ msgstr "Dämpning:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:337
-#, fuzzy, kde-format
-#| msgid "Accuracy"
+#, kde-format
 msgid "Accuracy:"
-msgstr "Noggrannhet"
+msgstr "Noggrannhet:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:347
@@ -6911,28 +6876,20 @@ msgstr "Del:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
 #: ekos/align/align.ui:583 ekos/focus/focus.ui:673 ekos/guide/guide.ui:166
-#, fuzzy, kde-format
-#| msgid "Show in FITS Viewer"
+#, kde-format
 msgid "Show in FITS Viewer..."
-msgstr "Visa i FITS-visning"
+msgstr "Visa i FITS-visning..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:212
 #: ekos/guide/guide.ui:237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Subtract dark frame. If no dark frame is available, "
-#| "a new dark frame shall be captured and saved for future use.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Subtrahera mörk bild. Om ingen mörk bild är "
-"tillgänglig, tas en ny mörk bild som sparas för framtida användning.</p></"
-"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -7025,8 +6982,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:744
-#, fuzzy, kde-format
-#| msgid "use current"
+#, kde-format
 msgid "Use current"
 msgstr "Använd nuvarande"
 
@@ -10354,10 +10310,9 @@ msgid "Could not find image file: %1"
 msgstr "Kunde inte hitta bildfil: %1"
 
 #: ekos/analyze/analyze.cpp:1381
-#, fuzzy, kde-format
-#| msgid "Cannot load to memory: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "Kan inte läsa in i minne: %1"
+msgstr "Kan inte visa temporär bildfil: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -10719,8 +10674,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #: ekos/analyze/analyze.ui:370
-#, fuzzy, kde-format
-#| msgid "Guide: "
+#, kde-format
 msgid "Guide:"
 msgstr "Guidning:"
 
@@ -10735,10 +10689,9 @@ msgstr "Stativ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/analyze/analyze.ui:406
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture:"
-msgstr "Ta bild"
+msgstr "Ta bild:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raCB)
 #: ekos/analyze/analyze.ui:419
@@ -11781,8 +11734,7 @@ msgstr "Indelning:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/darklibrary.ui:213
-#, fuzzy, kde-format
-#| msgid "Exp. Range:"
+#, kde-format
 msgid "Exp. range:"
 msgstr "Exp. intervall:"
 
@@ -11795,8 +11747,7 @@ msgstr "Steg:"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureLabel)
 #: ekos/auxiliary/darklibrary.ui:256
-#, fuzzy, kde-format
-#| msgid "T. Range:"
+#, kde-format
 msgid "T. range:"
 msgstr "T. intervall:"
 
@@ -11851,8 +11802,7 @@ msgstr "Stegstorlek i sekunder"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/darklibrary.ui:382
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total time:"
 msgstr "Total tid:"
 
@@ -11889,8 +11839,7 @@ msgstr "Maximal exponeringstid i sekunder."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/darklibrary.ui:464
-#, fuzzy, kde-format
-#| msgid "Total Images:"
+#, kde-format
 msgid "Total images:"
 msgstr "Totalt antal bilder:"
 
@@ -11952,8 +11901,7 @@ msgstr "Median:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/auxiliary/darklibrary.ui:783
-#, fuzzy, kde-format
-#| msgid "Std. Deviation:"
+#, kde-format
 msgid "Std. deviation:"
 msgstr "Standardavvikelse:"
 
@@ -11965,10 +11913,9 @@ msgstr "Felaktiga bildpunkter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/darklibrary.ui:827
-#, fuzzy, kde-format
-#| msgid "Hot Pixels"
+#, kde-format
 msgid "Hot pixels:"
-msgstr "Heta bildpunkter"
+msgstr "Heta bildpunkter:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, coldPixelsCount)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hotPixelsCount)
@@ -11979,10 +11926,9 @@ msgstr "Detekterade bildpunkter efter aggressivitetsfilter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/auxiliary/darklibrary.ui:847
-#, fuzzy, kde-format
-#| msgid "Cold Pixels"
+#, kde-format
 msgid "Cold pixels:"
-msgstr "Kalla bildpunkter"
+msgstr "Kalla bildpunkter:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, coldPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:854
@@ -12485,10 +12431,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/opslogs.ui:133
-#, fuzzy, kde-format
-#| msgid "Ekos"
+#, kde-format
 msgid "Ekos:"
-msgstr "Ekos"
+msgstr "Ekos:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_RegularLogging)
 #: ekos/auxiliary/opslogs.ui:140 options/opsadvanced.ui:238
@@ -12606,10 +12551,9 @@ msgstr "Logga aktivitet för Ekos-tagningsmodul"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/auxiliary/opslogs.ui:295
-#, fuzzy, kde-format
-#| msgid "Astrometry"
+#, kde-format
 msgid "Astrometry:"
-msgstr "Astrometri"
+msgstr "Astrometri:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIGPSLogging)
 #: ekos/auxiliary/opslogs.ui:302
@@ -12649,10 +12593,9 @@ msgstr "Observatorium"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:338
-#, fuzzy, kde-format
-#| msgid "Enable verbose debug output"
+#, kde-format
 msgid "Enable verbose debug output level"
-msgstr "Logga detaljerad felsökningsutmatning"
+msgstr "Aktivera detaljerad utmatningsnivå för felsökning"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:341 options/opsadvanced.ui:307
@@ -12711,10 +12654,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:410
-#, fuzzy, kde-format
-#| msgid "Drivers"
+#, kde-format
 msgid "Drivers:"
-msgstr "Drivrutiner"
+msgstr "Drivrutiner:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_MountLogging)
 #: ekos/auxiliary/opslogs.ui:417
@@ -12802,10 +12744,9 @@ msgstr "INDI-meddelanden i status&raden"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: ekos/auxiliary/opslogs.ui:529
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory"
+#, kde-format
 msgid "Open Logs Directory..."
-msgstr "Öppna loggkatalog"
+msgstr "Öppna loggkatalog..."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:140
 #, kde-format
@@ -12936,10 +12877,9 @@ msgstr "Välj ett mekaniskt dammskydd, om det finns något (t.ex. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:209
-#, fuzzy, kde-format
-#| msgid "Dust Cap:"
+#, kde-format
 msgid "Dust cap:"
-msgstr "Dammskydd"
+msgstr "Dammskydd:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:229
@@ -12973,8 +12913,7 @@ msgstr "Välj en planfälts ljuslåda, om någon finns (t.ex. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, lightBoxLabel)
 #: ekos/auxiliary/opticaltrains.ui:265
-#, fuzzy, kde-format
-#| msgid "Light Box:"
+#, kde-format
 msgid "Light box:"
 msgstr "Ljuslåda:"
 
@@ -12990,8 +12929,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:278
-#, fuzzy, kde-format
-#| msgid "Filter Wheel:"
+#, kde-format
 msgid "Filter wheel:"
 msgstr "Filterhjul:"
 
@@ -13023,8 +12961,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:301
-#, fuzzy, kde-format
-#| msgid "Guide Via:"
+#, kde-format
 msgid "Guide via:"
 msgstr "Guidning via:"
 
@@ -14396,10 +14333,9 @@ msgstr "Återställ CCD ram- och storleksvärden till normalvärden"
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/camera.ui:247
-#, fuzzy, kde-format
-#| msgid "<b>Capture Settings</b>"
+#, kde-format
 msgid "Capture Settings"
-msgstr "<b>Tagningsinställningar</b>"
+msgstr "Tagningsinställningar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/camera.ui:268
@@ -14488,10 +14424,9 @@ msgstr "Av"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/camera.ui:600
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay in seconds before capturing an image"
-msgstr "Fördröjning i sekunder mellan på varandra följande bilder"
+msgstr "Fördröjning i sekunder innan en bild tas"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -15046,10 +14981,9 @@ msgstr "Återställ status för alla jobb"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/camera.ui:2088
-#, fuzzy, kde-format
-#| msgid "Select Observer"
+#, kde-format
 msgid "Select Observer..."
-msgstr "Välj observatör"
+msgstr "Välj observatör..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/capture/camera.ui:2129
@@ -15060,15 +14994,13 @@ msgstr "Läs in tagningssekvens från fil"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/capture/camera.ui:2163
-#, fuzzy, kde-format
-#| msgid "Save capture sequence as ..."
+#, kde-format
 msgid "Save Capture Sequence..."
-msgstr "Spara tagningssekvens som..."
+msgstr "Spara tagningssekvens..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/capture/camera.ui:2197
-#, fuzzy, kde-format
-#| msgid "Save capture sequence as ..."
+#, kde-format
 msgid "Save Capture Sequence As..."
 msgstr "Spara tagningssekvens som..."
 
@@ -15109,9 +15041,7 @@ msgstr "ISO/förstärkning"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/camera.ui:2287
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Video"
 
@@ -15144,10 +15074,9 @@ msgstr "Direktsänd video"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
 #: ekos/capture/camera.ui:2478
-#, fuzzy, kde-format
-#| msgid "Capture a preview"
+#, kde-format
 msgid "Capture a Preview..."
-msgstr "Tag en förhandsgranskning"
+msgstr "Ta en förhandsgranskning..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
 #: ekos/capture/camera.ui:2525
@@ -15168,10 +15097,9 @@ msgstr "Pausa sekvens"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/camera.ui:2599
-#, fuzzy, kde-format
-#| msgid "total remaining:"
+#, kde-format
 msgid "Total remaining:"
-msgstr "totalt återstående:"
+msgstr "Totalt återstående:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
 #: ekos/capture/camera.ui:2612 ekos/capture/capture.cpp:1475
@@ -15780,10 +15708,9 @@ msgid "Limit: %1 °C"
 msgstr ""
 
 #: ekos/capture/capturemodulestate.cpp:722
-#, fuzzy, kde-format
-#| msgid "Limit Settings"
+#, kde-format
 msgid "Limit: %1 mins"
-msgstr "Begränsningsinställningar"
+msgstr "Begränsning: %1 minuter"
 
 #: ekos/capture/capturemodulestate.cpp:860
 #, kde-format
@@ -17665,7 +17592,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Exclude"
-msgstr ""
+msgstr "Undanta"
 
 #: ekos/focus/aberrationinspector.cpp:100
 #, kde-format
@@ -17881,13 +17808,13 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
 #, kde-format
 msgid "Primary Colors"
-msgstr ""
+msgstr "Grundfärger"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
@@ -20477,7 +20404,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:762
 #, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "Antal datapunkter:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:775
@@ -22163,7 +22090,7 @@ msgstr "Dek-byte inaktiverat."
 msgid "Calibration Successful"
 msgstr "Kalibrering lyckades"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -22172,27 +22099,27 @@ msgstr ""
 "Varning: Gitter misslyckades. Automatisk guidning kommer att fortsätta "
 "enligt inställningen i händelse av misslyckat gitter."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Varning: Manuellt gitter misslyckades."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "Information om %1 saknas. Ange värdena i INDI-inställningsrutan."
 
-#: ekos/guide/internalguide/internalguider.cpp:658
+#: ekos/guide/internalguide/internalguider.cpp:660
 #, kde-format
 msgid "Missing Information"
 msgstr "Saknad information"
 
-#: ekos/guide/internalguide/internalguider.cpp:683
+#: ekos/guide/internalguide/internalguider.cpp:685
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Guidningskalibrering återställd"
 
-#: ekos/guide/internalguide/internalguider.cpp:735
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -22201,34 +22128,34 @@ msgstr ""
 "Förlorade guidestjärnan. Försök att öka kvadratstorlek eller minska "
 "pulslängden."
 
-#: ekos/guide/internalguide/internalguider.cpp:738
+#: ekos/guide/internalguide/internalguider.cpp:740
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Guidestjärna förlorad."
 
-#: ekos/guide/internalguide/internalguider.cpp:770
+#: ekos/guide/internalguide/internalguider.cpp:772
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Guidningskalibrering misslyckades"
 
-#: ekos/guide/internalguide/internalguider.cpp:777
+#: ekos/guide/internalguide/internalguider.cpp:779
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Guidningskalibrering avslutades med lyckat resultat"
 
-#: ekos/guide/internalguide/internalguider.cpp:1101
+#: ekos/guide/internalguide/internalguider.cpp:1103
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Förlorade guidestjärnan. Söker efter guidestjärnor..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1105
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Delta kvadratiska medelvärdesfel tröskelvärde överskridet. Söker efter "
 "guidestjärnor..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1287
+#: ekos/guide/internalguide/internalguider.cpp:1289
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Misslyckades hitta lämpliga guidestjärnor. Avbryter..."
@@ -24205,7 +24132,7 @@ msgstr "DEK:"
 #: ekos/mount/mount.ui:220
 #, kde-format
 msgid "ALT:"
-msgstr ""
+msgstr "ELEV:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/mount/mount.ui:234
@@ -27966,7 +27893,7 @@ msgstr "starta jobbet vid angivet datum och tid"
 #: ekos/scheduler/scheduler.ui:1524
 #, kde-format
 msgid "O&n:"
-msgstr ""
+msgstr "&På:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
 #: ekos/scheduler/scheduler.ui:1540
@@ -28353,7 +28280,7 @@ msgstr ""
 #: ekos/scheduler/schedulermodulestate.cpp:150
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
-msgstr ""
+msgstr "Kan inte ta bort jobb. Schemaläggningens tillstånd: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:85
 #, kde-format
@@ -31153,7 +31080,7 @@ msgstr ""
 #: indi/collimationOptions.ui:164
 #, kde-format
 msgid "Select whether this Element is enabled or not"
-msgstr ""
+msgstr "Välj om elementet är aktiverat eller inte"
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
@@ -31198,13 +31125,13 @@ msgstr ""
 #: indi/collimationOptions.ui:310
 #, kde-format
 msgid "Set the line thickness used to draw the element."
-msgstr ""
+msgstr "Ange linjebredden som används för att rita elementet."
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
 #, kde-format
 msgid "Thickness:"
-msgstr ""
+msgstr "Bredd:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
@@ -31218,13 +31145,13 @@ msgstr ""
 #: indi/collimationOptions.ui:339
 #, kde-format
 msgid "Set the size of the Element"
-msgstr ""
+msgstr "Ange elementets storlek"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
 #: indi/collimationOptions.ui:389
 #, kde-format
 msgid "Link X & Y sizes"
-msgstr ""
+msgstr "Länka X- och Y-storlekar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, typeLabel)
 #: indi/collimationOptions.ui:424
@@ -31926,7 +31853,7 @@ msgstr "&Teleskopets hårkors"
 #: indi/opsindi.ui:450
 #, kde-format
 msgid "Open INDI window on EKOS startup"
-msgstr ""
+msgstr "Öppna INDI-fönstret när EKOS startar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:453
@@ -33142,7 +33069,7 @@ msgstr "Visa eller dölj INDI-meddelanden i Kstars statusrad."
 #: kstars.kcfg:197
 #, kde-format
 msgid "Show the INDI window on startup?"
-msgstr ""
+msgstr "Visa INDI-fönstret vid start?"
 
 #. i18n: ectx: whatsthis, entry (showINDIwindowInitially), group (indi)
 #: kstars.kcfg:198
@@ -34223,7 +34150,7 @@ msgstr "Välj om solen ritas på himmelskartan eller inte."
 #: kstars.kcfg:657
 #, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Öka solens storlek med den här faktorn."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:661
@@ -34241,7 +34168,7 @@ msgstr "Välj om månen ritas på himmelskartan eller inte."
 #: kstars.kcfg:666
 #, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Öka månens storlek med den här faktorn."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:670
@@ -68728,7 +68655,7 @@ msgstr "&Zooma till vinkelstorlek..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Speglad visning"
 
 #: kstarsinit.cpp:287
 #, kde-format
@@ -69419,16 +69346,7 @@ msgid "Erect observer correction, right-handed"
 msgstr "Upprätt observatörskorrigering"
 
 #: kstarsinit.cpp:789
-#, fuzzy, kde-format
-#| msgctxt "Orient sky map for an erect observer"
-#| msgid ""
-#| "Enable this mode if you are visually using a Newtonian telescope on an "
-#| "altazimuth mount. It will correct the orientation of the sky-map to "
-#| "account for the observer remaining erect as the telescope moves up and "
-#| "down, unlike a camera which would rotate with the telescope. This only "
-#| "makes sense in Horizontal Coordinate mode and is disabled when using "
-#| "Equatorial Coordinates. Typically makes sense to combine this with Zenith "
-#| "Down orientation."
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
 "Select this if you are visually observing using a Dobsonian telescope which "
@@ -69438,28 +69356,17 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Aktivera om du använder ett Newton-teleskop på ett elevation-azimut stativ. "
-"Det korrigerar himmelskartans orientering för att ta hänsyn till att "
-"observatören förblir upprätt medan teleskopet flyttas uppåt och neråt, i "
-"motsats till en kamera som skulle rotera med teleskopet. Det är bara vettigt "
-"med horisontella koordinater och är inaktiverat när ekvatoriella koordinater "
-"används. Ofta är det rimligt att kombinera det med zenit neråt."
 
 #: kstarsinit.cpp:813
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Orientation of the sky map is arbitrary as it has been adjusted by the "
-#| "user"
-#| msgid "Arbitrary"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Godtycklig"
 
 #: kstarsinit.cpp:816
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Redigera länk..."
+msgstr "Redigera visningar..."
 
 #: kstarsinit.cpp:843
 #, kde-format
@@ -76078,17 +75985,15 @@ msgstr "Om markerad, ritas flaggor på himmelskartan"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Om markerad, ritas Mars på himmelskartan."
+msgstr "Om markerad, är himlen ljus under dagtid"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "Simulera okularets synfält"
+msgstr "Simulera dagtid"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
@@ -76183,10 +76088,9 @@ msgid "Local meridian"
 msgstr "Lokal meridian"
 
 #: options/opsimageoverlay.cpp:76
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "Image Overlay Align Options Profiles Editor"
-msgstr "Editor av justeringsalternativprofiler"
+msgstr "Bildöverlagring för editor av inriktningsalternativprofiler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
@@ -76212,10 +76116,9 @@ msgstr "Centrera himmelskartan på markering"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display Image Overlays below catalogs"
-msgstr "Visa överlagrade bilder."
+msgstr "Visa överlagrade bilder under kataloger"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -76228,10 +76131,9 @@ msgstr "Maximal dimension för en överlagrad bild (större bilder skalas ner)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:105
-#, fuzzy, kde-format
-#| msgid "Maximum image dimension"
+#, kde-format
 msgid "Maximum image dimension:"
-msgstr "Maximal bilddimension"
+msgstr "Maximal bilddimension:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:150
@@ -76245,10 +76147,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:156
-#, fuzzy, kde-format
-#| msgid "Overlay Directory"
+#, kde-format
 msgid "Overlay Directory..."
-msgstr "Överlagringskatalog"
+msgstr "Överlagringskatalog..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:175
@@ -76306,13 +76207,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
 msgstr ""
-"Öppnar den för närvarande valda alternativprofilen i editorn av "
+"Öppnar den för närvarande valda inriktningsprofilen i editorn av "
 "alternativprofiler"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
@@ -76328,10 +76227,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:307
-#, fuzzy, kde-format
-#| msgid "Default a-s/px"
+#, kde-format
 msgid "Default a-s/px:"
-msgstr "Förvald b-s/bildpunkt"
+msgstr "Förvald b-s/bildpunkt:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -76342,8 +76240,7 @@ msgstr "Tidsgräns för lösning av astrobilder av överlagrad bild (sekunder)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:348
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout:"
 msgstr "Tidsgräns:"
 
@@ -76551,22 +76448,21 @@ msgstr "Om markerad, ritas solen på himmelskartan."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Använd skalning"
+msgstr "skala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Skala för solens återgivning."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Öka solens storlek med den här faktorn."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -76596,13 +76492,13 @@ msgstr "Om markerad, ritas månen på himmelskartan."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Skala för månens återgivning."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Öka månens storlek med den här faktorn."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
@@ -76892,17 +76788,15 @@ msgstr "Ange magnitudgräns för att larma om supernovor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download URL"
+#, kde-format
 msgid "Download URL:"
-msgstr "Nerladdningswebbadress"
+msgstr "Nerladdningswebbadress:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
-#, fuzzy, kde-format
-#| msgid "Age (days)"
+#, kde-format
 msgid "Age (days):"
-msgstr "Ålder (dagar)"
+msgstr "Ålder (dagar):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeHostOnly)
 #: options/opssupernovae.ui:137
@@ -83841,10 +83735,7 @@ msgstr "Testa skript"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
-#, fuzzy, kde-format
-#| msgid ""
-#| "Executes the script in the KStars main window.  You may want to "
-#| "reposition the Script Builder tool so that the Sky map is visible.  "
+#, kde-format
 msgid ""
 "Executes the script in the KStars main window. You may want to reposition "
 "the Script Builder tool so that the Sky map is visible."
@@ -83860,12 +83751,7 @@ msgstr "Aktuellt skript"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ScriptListBox)
 #: tools/scriptbuilder.ui:279
-#, fuzzy, kde-format
-#| msgid ""
-#| "This shows the list of commands present in the current working script.  "
-#| "Highlighting any command will present a widget where you can specify its "
-#| "arguments below.  Use the action buttons at right to copy, remove, or "
-#| "change the position of the selected command.  "
+#, kde-format
 msgid ""
 "This shows the list of commands present in the current working script. "
 "Highlighting any command will present a widget where you can specify its "
@@ -83874,8 +83760,8 @@ msgid ""
 msgstr ""
 "Det här visar listan av kommandon som finns i det aktuella arbetsskriptet. "
 "Markeras något kommando visas en grafisk komponent nedanför, där du kan ange "
-"dess argument. Använd åtgärdsknapparna till höger för att kopiera, ta bort "
-"eller ändra position för det markerade kommandot."
+"dess argument nedanför. Använd åtgärdsknapparna till höger för att kopiera, "
+"ta bort eller ändra position för det markerade kommandot."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
@@ -85438,10 +85324,9 @@ msgstr "Om markerad, visa en beteckning i övre högra hörnet."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:784
-#, fuzzy, kde-format
-#| msgid "Show label"
+#, kde-format
 msgid "Show label:"
-msgstr "Visa beteckning"
+msgstr "Visa beteckning:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: xplanet/opsxplanet.ui:796
@@ -85491,10 +85376,9 @@ msgstr "Skriv markörgränser i:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetLatLong)
 #: xplanet/opsxplanet.ui:884
-#, fuzzy, kde-format
-#| msgid "Place the observer above latitude "
+#, kde-format
 msgid "Place the observer above latitude: "
-msgstr "Placera observatören ovanför latitud "
+msgstr "Placera observatören ovanför latitud: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLatitude)
 #: xplanet/opsxplanet.ui:897
@@ -85508,10 +85392,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetLongitude)
 #: xplanet/opsxplanet.ui:910
-#, fuzzy, kde-format
-#| msgid " and longitude "
+#, kde-format
 msgid " and longitude: "
-msgstr " och longitud "
+msgstr " och longitud: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLongitude)
 #: xplanet/opsxplanet.ui:920

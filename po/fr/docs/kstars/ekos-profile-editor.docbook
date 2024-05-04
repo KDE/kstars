@@ -60,9 +60,9 @@
                         <para
 ><guilabel
 >Informations sur la position</guilabel
-> : sélectionnez cette option si vous souhaitez qu'Ekos charge les données de position et de fuseau horaire <emphasis role="bold"
+> : sélectionnez cette option si vous souhaitez que Ekos charge les données de position et de fuseau horaire <emphasis role="bold"
 >courantes</emphasis
-> au démarrage avec ce profil. Cela peut être utile lorsque vous vous connectez à un emplacement géographiquement distant et pour qu'Ekos puisse se synchroniser. </para>
+> au démarrage avec ce profil. Cela peut être utile lorsque vous vous connectez à un emplacement géographiquement distant et pour que Ekos puisse se synchroniser. </para>
                     </listitem>
                     <listitem>
                         <para
@@ -82,7 +82,7 @@
 >Sélection de périphériques</guilabel
 > : sélection de périphériques par catégories. Veuillez noter que si vous possédez un CCD avec un guide, vous pouvez laisser <emphasis
 >vide</emphasis
-> la liste déroulante du guide puisqu'Ekos détectera automatiquement le guide depuis le CCD. De même, si votre CCD intègre une roue à filtres, vous ne devez <emphasis
+> la liste déroulante du guide puisque Ekos détectera automatiquement le guide depuis le CCD. De même, si votre CCD intègre une roue à filtres, vous ne devez <emphasis
 >pas</emphasis
 > spécifier de périphérique de roue à filtres dans le menu de la liste déroulante. </para>
                     </listitem>
@@ -124,7 +124,7 @@
 >Démarrer &amp; Arrêter INDI</term>
             <listitem>
                 <para
->Démarrer et arrêter les services INDI. Le tableau de bord d'INDI sera affiché dès que le serveur INDI aura démarré. Vous pouvez modifier ici quelques options des pilotes comme les ports de connexion &etc; </para>
+>Démarrer et arrêter les services de INDI. Le tableau de bord de INDI sera affiché dès que le serveur INDI aura démarré. Vous pouvez modifier ici quelques options des pilotes comme les ports de connexion &etc; </para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -132,7 +132,7 @@
 >Connecter &amp; Déconnecter les périphériques</term>
             <listitem>
                 <para
->Connexion au serveur INDI. Selon les périphériques connectés, les modules EKOS (CCD, Mise au point, Guidage, &etc;) seront démarrés et prêt à être utilisés. </para>
+>Connexion au serveur INDI. Selon les périphériques connectés, les modules de Ekos (CCD, Mise au point, Guidage, &etc;) seront démarrés et prêt à être utilisés. </para>
                 <para
 >Dès que vous êtes prêt, vous pouvez cliquer sur <guibutton
 >Démarrer INDI</guibutton
