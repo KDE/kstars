@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-04 01:53+0000\n"
-"PO-Revision-Date: 2024-05-02 08:39+0200\n"
+"PO-Revision-Date: 2024-05-04 11:22+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -37798,11 +37798,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:2216
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
 msgstr ""
-"Toma un subfotograma da estrela para enfocar durante a autofocalización."
+"O tipo de camiño que o focalizador seguirá durante unha execución do enfoque "
+"automático."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2220
@@ -37838,6 +37838,8 @@ msgstr ""
 #, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
 msgstr ""
+"O número de pasos para mover cara fóra para unha execución do enfoque "
+"automático clásico."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2233
@@ -37845,6 +37847,8 @@ msgstr ""
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
+"O número total de pasos para unha execución do enfoque automático con pasos "
+"fixos ou con cambio de CFZ."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2237
@@ -37860,22 +37864,21 @@ msgstr "Define a distancia máxima viaxada por un focalizador absoluto."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2242
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid "The maximum size of a single step."
-msgstr "A distancia máxima ao sol para debuxar os cometas."
+msgstr "O tamaño máximo dun paso."
 
 #. i18n: ectx: whatsthis, entry (FocusBacklash), group (Focus)
 #: kstars.kcfg:2246
 #, kde-format
 msgid "The amount of driver backlash."
-msgstr ""
+msgstr "A cantidade de folgura do controlador."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2250
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr ""
+msgstr "A cantidade de sobrebusca do enfoque automático."
 
 #. i18n: ectx: whatsthis, entry (FocusOverscanDelay), group (Focus)
 #: kstars.kcfg:2254
@@ -37884,6 +37887,8 @@ msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
+"Atraso entre movementos cara fóra e cara dentro nunha sobrebusca do enfoque "
+"automático. Para a maioría dos focalizadores defina «0 s»."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2262
@@ -37892,24 +37897,29 @@ msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
 "before declaring a timeout."
 msgstr ""
+"Tempo máximo en segundos para agardar a que un focalizador se mova á "
+"posición desexada antes de declarar que se superou o tempo límite."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAlgorithm), group (Focus)
 #: kstars.kcfg:2267
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "O tipo de algoritmo de CFZ que usar."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2271
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
+"A tolerancia definida pola persoa usuaria para o uso dos algoritmos clásico "
+"e de fronte de onda."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2275
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
 msgstr ""
+"A tolerancia definida pola persoa usuaria para o uso do algoritmo dourado."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2279

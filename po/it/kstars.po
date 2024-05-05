@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-04 01:53+0000\n"
-"PO-Revision-Date: 2024-04-21 00:33+0200\n"
+"PO-Revision-Date: 2024-05-02 14:04+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6276,15 +6276,14 @@ msgid "Solving with blind image position..."
 msgstr "Rotazione verso la posizione originale..."
 
 #: ekos/align/align.cpp:1945
-#, fuzzy, kde-format
-#| msgid "Failed to save telescope information."
+#, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr "Impossibile salvare le informazioni del telescopio."
+msgstr "L'immagine caricata non contiene informazioni sul pierside"
 
 #: ekos/align/align.cpp:1950
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr ""
+msgstr "L'immagine caricata è stata scattata sul pierside %1"
 
 #: ekos/align/align.cpp:2075
 #, kde-format
@@ -11680,11 +11679,9 @@ msgstr "(ΔT =%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:612
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "(%1 ticks)"
-msgstr "Tic"
+msgstr "(%1 tic)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
@@ -12357,11 +12354,9 @@ msgid ""
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:139
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks / °C"
-msgstr "Tic"
+msgstr "Tic / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
@@ -12373,7 +12368,7 @@ msgstr ""
 #: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr ""
+msgstr "Tic / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
@@ -17762,11 +17757,9 @@ msgid "Solution"
 msgstr "Soluzione"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Delta (ticks)"
-msgstr "Tic"
+msgstr "Delta (tic)"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
@@ -20941,11 +20934,9 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/opsfocussettings.ui:475 ekos/focus/opsfocussettings.ui:500
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid " ticks"
-msgstr "Tic"
+msgstr " tic"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/opsfocussettings.ui:497
@@ -38007,10 +37998,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2299
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "The size of a focuser tick in micrometers."
-msgstr "Dimensione della larghezza dei pixel della fotocamera in micrometri."
+msgstr "La dimensione del tic di un focheggiatore in micrometri."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSteps), group (Focus)
 #: kstars.kcfg:2304
@@ -72555,11 +72545,10 @@ msgid "Max. travel"
 msgstr "Corsa max."
 
 #: libindi_strings.cpp:293
-#, fuzzy, kde-kuit-format
-#| msgid "Maximum pulse"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Maximum Tick"
-msgstr "Impulso massimo"
+msgstr "Tic massimo"
 
 #: libindi_strings.cpp:294
 #, kde-kuit-format
@@ -72586,11 +72575,10 @@ msgid "Messier"
 msgstr "Messier"
 
 #: libindi_strings.cpp:298
-#, fuzzy, kde-kuit-format
-#| msgid "Minimum pulse"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Minimum Tick"
-msgstr "Impulso minimo"
+msgstr "Tic minimo"
 
 #: libindi_strings.cpp:299
 #, kde-kuit-format
@@ -72641,12 +72629,10 @@ msgid "Motor Steps"
 msgstr "Passi del motore"
 
 #: libindi_strings.cpp:307
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motor Steps"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motor steps per tick"
-msgstr "Passi del motore"
+msgstr "Passi del motore per tic"
 
 #: libindi_strings.cpp:308
 #, kde-kuit-format
@@ -74811,19 +74797,15 @@ msgstr "Fuori fuoco"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1101
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks per C:"
-msgstr "Tic"
+msgstr "Tic per C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1118
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Ticks per Alt:"
-msgstr "Tic"
+msgstr "Tic per Alt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1142
@@ -76575,10 +76557,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:307
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px:"
-msgstr "Predefinito"
+msgstr "A-s/px predefinito:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -76800,22 +76781,21 @@ msgstr "Se spuntato, il Sole sarà disegnato sulla mappa."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Usa scala"
+msgstr "scala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Resa della scala del Sole."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Aumenta la dimensione del Sole per questo fattore."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -76845,13 +76825,13 @@ msgstr "Se spuntato, la Luna sarà disegnata sulla mappa."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Resa della scala della Luna."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Aumenta la dimensione della Luna per questo fattore."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
@@ -77118,7 +77098,7 @@ msgstr "Opzioni per le supernove"
 #: options/opssupernovae.ui:27
 #, kde-format
 msgid "https://indilib.org/jdownloads/kstars/tns-daily.csv"
-msgstr ""
+msgstr "https://indilib.org/jdownloads/kstars/tns-daily.csv"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opssupernovae.ui:47
@@ -77130,7 +77110,7 @@ msgstr "Imposta la magnitudine limite per disegnare le supernove:"
 #: options/opssupernovae.ui:57
 #, kde-format
 msgid "Limit supernovae by zoom limit"
-msgstr ""
+msgstr "Limita supernove per limite di ingrandimento"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSupernovae)
 #: options/opssupernovae.ui:83
@@ -77160,7 +77140,7 @@ msgstr "Età (giorni):"
 #: options/opssupernovae.ui:137
 #, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr ""
+msgstr "Mostra solo le SN con galassia ospite specificata"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
@@ -77689,7 +77669,7 @@ msgstr "Tipo di diagramma:"
 #: printing/pwizfovmanual.ui:71
 #, kde-format
 msgid "Manually Capture Field of View Snapshots"
-msgstr "Cattura manuale delle istantanee del campo di vista"
+msgstr "Acquisizione manuale delle istantanee del campo di vista"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovmanual.ui:96
@@ -77704,13 +77684,13 @@ msgid ""
 "p>\n"
 "<p>Press <b>Next</b> when done.</p>"
 msgstr ""
-"<p>Nel metodo di cattura manuale del campo di vista l'utente centra la mappa "
-"del cielo su un punto di interesse, quindi cattura delle istantanee di "
-"frammenti di cielo all'interno del simbolo del CDV attivo.</p>\n"
-"<p>Quando sei nella modalità di cattura del campo di vista premi <b>Pagina "
-"su</b> e <b>Pagina giù</b> per cambiare i simboli del CDV. Le schermate "
-"vengono catturate premendo il tasto <b>K</b>. Quando hai fatto premi il "
-"tasto <b>Esc</b> per tornare alla procedura guidata di stampa.</p>\n"
+"<p>Nel metodo di acquisizione manuale del campo di vista l'utente centra la "
+"mappa del cielo su un punto di interesse, quindi acquisisce delle istantanee "
+"di frammenti di cielo all'interno del simbolo del CDV attivo.</p>\n"
+"<p>Quando sei nella modalità di acquisizione del campo di vista premi "
+"<b>Pagina su</b> e <b>Pagina giù</b> per cambiare i simboli del CDV. Le "
+"schermate vengono acquisite premendo il tasto <b>K</b>. Quando hai fatto "
+"premi il tasto <b>Esc</b> per tornare alla procedura guidata di stampa.</p>\n"
 "<p>Premi<b>Successivo</b> quando hai fatto.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton)
@@ -77718,7 +77698,7 @@ msgstr ""
 #: printing/pwizfovmanual.ui:137 printing/pwizfovsh.ui:308
 #, kde-format
 msgid "Begin capture"
-msgstr "Inizia cattura"
+msgstr "Inizia acquisizione"
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizfovsh.ui:77
@@ -77733,6 +77713,9 @@ msgid ""
 "Configure star hopper FOV capture: select object at which star hopping will "
 "begin, select FOV symbol and magnitude limit."
 msgstr ""
+"Configura l'acquisizione CDV dello star hop: seleziona l'oggetto a cui lo "
+"star hopping deve iniziare, selezione il simbolo CDV e il limite di "
+"magnitudine."
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: printing/pwizfovsh.ui:116
@@ -77775,7 +77758,7 @@ msgstr "Magnitudine limite per hop:"
 #: printing/pwizfovtypeselection.ui:71
 #, kde-format
 msgid "Choose Field of View Capture Method"
-msgstr "Scegli metodo di cattura del campo di vista"
+msgstr "Scegli metodo di acquisizione del campo di vista"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovtypeselection.ui:97
@@ -77790,16 +77773,16 @@ msgid ""
 "<p>Once you have selected field of view capture method, press <b>Next</b>.</"
 "p>"
 msgstr ""
-"<p>Seleziona il metodo di cattura del campo di vista. Esistono due metodi: "
-"quello manuale e quello basato sullo star-hop.</p>\n"
+"<p>Seleziona il metodo di acquisizione del campo di vista. Esistono due "
+"metodi: quello manuale e quello basato sullo star-hop.</p>\n"
 "<p>Nel <b>metodo manuale</b> navighi nella mappa celeste per cercare "
-"l'oggetto che ti interessa, quindi catturi più rappresentazioni del campo di "
-"vista.</p>\n"
-"<p><b>Il metodo basato sullo star-hop</b> cattura invece automaticamente le "
-"schermate del CDV usando lo star-hop. Questa è una funzionalità sperimentale."
-"</p>\n"
-"<p>Quando hai selezionato il metodo di cattura del campo di vista, premi "
-"<b>Successivo</b>.</p>"
+"l'oggetto che ti interessa, quindi acquisisci più rappresentazioni del campo "
+"di vista.</p>\n"
+"<p><b>Il metodo basato sullo star-hop</b> acquisisce invece automaticamente "
+"le schermate del CDV usando lo star-hop. Questa è una funzionalità "
+"sperimentale.</p>\n"
+"<p>Quando hai selezionato il metodo di acquisizione del campo di vista, "
+"premi <b>Successivo</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, typeLabel)
 #: printing/pwizfovtypeselection.ui:129
@@ -77811,13 +77794,13 @@ msgstr "Metodo di definizione del campo di vista:"
 #: printing/pwizfovtypeselection.ui:136
 #, kde-format
 msgid "Manually capture field of view snapshots"
-msgstr "Cattura manuale delle istantanee del campo di vista"
+msgstr "Acquisizione manuale delle istantanee del campo di vista"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hopperRadio)
 #: printing/pwizfovtypeselection.ui:152
 #, kde-format
 msgid "Star hopper-based fields of view capture (experimental)"
-msgstr "Cattura basata sullo star-hop dei campi di vista (sperimentale)"
+msgstr "Acquisizione basata sullo star-hop dei campi di vista (sperimentale)"
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizobjectselection.ui:71
@@ -77967,10 +77950,9 @@ msgstr "Errore durante lo scaricamento dei dati sugli asteroidi: %1"
 #: skycomponents/catalogscomponent.cpp:151
 #: skycomponents/catalogscomponent.cpp:364
 #: skycomponents/catalogscomponent.cpp:406
-#, fuzzy, kde-format
-#| msgid "Could not download the file."
+#, kde-format
 msgid "Could not load catalog objects in trixel: %1"
-msgstr "Impossibile scaricare il file."
+msgstr "Impossibile caricare gli oggetti del catalogo in trixel: %1"
 
 #: skycomponents/catalogscomponent.cpp:436
 #, kde-format
@@ -77991,8 +77973,8 @@ msgstr "Impossibile importare gli oggetti."
 #, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
-msgstr[0] "%1 oggetto aggiunto con successo al catalogo utente."
-msgstr[1] "%1 oggetti aggiunti con successo al catalogo utente."
+msgstr[0] "Un oggetto aggiunto correttamente al catalogo utente."
+msgstr[1] "%1 oggetti aggiunti correttamente al catalogo utente."
 
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
@@ -78055,7 +78037,7 @@ msgstr "Angolo"
 #: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, fuzzy, kde-format
@@ -78067,51 +78049,65 @@ msgstr "Ruota a destra"
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
+"Stringa AR non corretta inserita per %1. Ripristino al valore originale."
 
 #: skycomponents/imageoverlaycomponent.cpp:179
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
+"Stringa DEC non corretta inserita per %1. Ripristino al valore originale."
 
 #: skycomponents/imageoverlaycomponent.cpp:192
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Stringa angolo di orientazione non corretta inserita per %1. Ripristino al "
+"valore originale."
 
 #: skycomponents/imageoverlaycomponent.cpp:203
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Stringa angolo di scala non corretta inserita per %1. Ripristino al valore "
+"originale."
 
 #: skycomponents/imageoverlaycomponent.cpp:233
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Impossibile impostare lo stato di OK. È richiesto il valore ammesso AR "
+"diverso da 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:244
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Impossibile impostare lo stato di OK. È richiesto il valore ammesso DEC "
+"diverso da 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:255
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"Impossibile impostare lo stato di OK. È richiesto il valore ammesso di "
+"orientazione."
 
 #: skycomponents/imageoverlaycomponent.cpp:266
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Impossibile impostare lo stato di OK. È richiesto il valore ammesso a-s/px "
+"diverso da 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:296
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Memorizzato lo stato OK per %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:390
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Aggiornamento dalla cartella: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:439
 #, kde-format
@@ -78146,10 +78142,9 @@ msgid "Bad File"
 msgstr "File danneggiato"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "Soluzione non riuscita."
+msgstr "Risoluzione non riuscita"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
 #, kde-format
@@ -78179,12 +78174,12 @@ msgstr "Risoluzione: %1."
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Impossibile mostrare %1. Lastra non risolta."
 
 #: skycomponents/imageoverlaycomponent.cpp:673
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Impossibile mostrare %1. Immagine non caricata."
 
 #: skycomponents/imageoverlaycomponent.cpp:706
 #, kde-format
@@ -78194,12 +78189,12 @@ msgstr "Risoluzione interrotta."
 #: skycomponents/imageoverlaycomponent.cpp:741
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Salto del già risolto: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:760
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 già risolto. Saltato."
 
 #: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
@@ -78208,27 +78203,24 @@ msgstr ""
 "Ricaricamento. Sovrapposizioni sulle immagini temporaneamente disabilitate."
 
 #: skycomponents/imageoverlaycomponent.cpp:797
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s %2"
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Tempo scaduto per il risolutore: %1s %2"
+msgstr "Risolutore scaduto in %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:803
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "CDV del risolutore"
+msgstr "Risolutore non riuscito in %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:816
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Risolutore terminato in %1s: AR %2 DEC %3 Scala %4 Angolo %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:848
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "Nessuna informazione sull'immagine."
+msgstr "Risoluzione eseguita. %1 disponibile."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
@@ -78568,23 +78560,22 @@ msgstr "Successo"
 #: skyobjects/satellite.cpp:1241
 #, kde-format
 msgid "Eccentricity >= 1.0 or < -0.001"
-msgstr "Eccentricità >= 1.0 o < -0.001"
+msgstr "Eccentricità >= 1,0 o < -0,001"
 
 #: skyobjects/satellite.cpp:1244
 #, kde-format
 msgid "Mean motion less than 0.0"
-msgstr ""
+msgstr "Movimento medio inferiore a 0,0"
 
 #: skyobjects/satellite.cpp:1247
 #, kde-format
 msgid "Semi-latus rectum < 0.0"
-msgstr ""
+msgstr "Semilato retto < 0,0"
 
 #: skyobjects/satellite.cpp:1250
-#, fuzzy, kde-format
-#| msgid "Satellite name"
+#, kde-format
 msgid "Satellite has decayed"
-msgstr "Nome del satellite"
+msgstr "Il satellite è guasto"
 
 #: skyobjects/satellite.cpp:1253
 #, kde-format
@@ -80690,20 +80681,7 @@ msgstr ""
 "stagioni</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "<QT>Section with algorithms for the conversion of different astronomical "
-#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
-#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
-#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
-#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
-#| "Computation of azimuth and elevation for a given source, time, and "
-#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
-#| "angular distance between two objects whose positions are given in "
-#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
-#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
-#| "heliocentric, geocentric and topocentric radial velocity of a source from "
-#| "its LSR velocity</LI></UL></QT>"
+#, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -80724,8 +80702,9 @@ msgstr ""
 "coordinate equatoriali attuali a partire da una data epoca</"
 "LI><LI><B>Eclittiche:</B> conversione da coordinate eclittiche a "
 "equatoriali</LI><LI><B>Orizzontali:</B> calcolo di azimut e altezza dati la "
-"sorgente, l'istante e la posizione sulla Terra</LI><LI><B>Distanza angolare:"
-"</B> calcolo della distanza angolare tra due oggetti le cui posizioni sono "
+"sorgente, l'istante e la posizione sulla Terra</LI><LI><B>Semplice:</B> "
+"conversione tra angoli in ore e gradi.</LI><LI><B>Distanza angolare:</B> "
+"calcolo della distanza angolare tra due oggetti le cui posizioni sono "
 "espresse in coordinate equatoriali</LI><LI><B>Coord. Geodetiche:</B> "
 "Conversione coordinate geodetiche/XYZ</LI><LI><B>Velocità SRL:</B> calcolo "
 "della velocità radiale eliocentrica, geocentrica e topocentrica di una "
@@ -81101,7 +81080,7 @@ msgstr "Esporta vista dall'oculare"
 #: tools/exporteyepieceview.cpp:55
 #, kde-format
 msgid "Overlay orientation vs. time ticks: "
-msgstr ""
+msgstr "Orientazione di sovrapposizione vs. tic del tempo: "
 
 #: tools/exporteyepieceview.cpp:58
 #, kde-format
@@ -81119,6 +81098,8 @@ msgid ""
 "Note: This overlay makes sense only if the view was generated in alt/az mode "
 "with a preset such as Refractor or Vanilla"
 msgstr ""
+"Nota: questa sovrapposizione ha senso solo se la vista è stata generata in "
+"modalità alt/az con una preimpostazione di tipo rifrattore o vanilla"
 
 #: tools/exporteyepieceview.cpp:93
 #, kde-format
@@ -81126,6 +81107,8 @@ msgid ""
 "Note: This overlay  makes sense only if the view was generated in alt/az "
 "mode with a preset such as Dobsonian"
 msgstr ""
+"Nota: questa sovrapposizione ha senso solo se la vista è stata generata in "
+"modalità alt/az con una preimpostazione di tipo dobsoniano"
 
 #: tools/exporteyepieceview.cpp:174
 #, kde-format
@@ -81176,11 +81159,9 @@ msgid "Flipped"
 msgstr "Ribaltato"
 
 #: tools/eyepiecefield.cpp:106
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
+#, kde-format
 msgid "Dobsonian"
-msgstr "Estonia"
+msgstr "Dobsoniano"
 
 #: tools/eyepiecefield.cpp:108
 #, kde-format
@@ -82235,10 +82216,9 @@ msgstr "Angolo (hh:mm:ss)"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "Risultati"
+msgstr "Risultato angolo"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
@@ -82481,7 +82461,7 @@ msgstr "Non sorto"
 #, kde-format
 msgctxt "Object is in the Dobsonian hole"
 msgid "In hole"
-msgstr ""
+msgstr "Nel buco"
 
 #: tools/observinglist.cpp:262
 #, kde-format
@@ -82563,14 +82543,18 @@ msgid ""
 "settings, to the CDS Sesame resolver. Objects that are internet resolved "
 "will be added to the database."
 msgstr ""
+"Specifica un elenco di oggetti con un oggetto su ciascuna riga da "
+"aggiungere. I nomi devono essere capiti in KStars, o se il risolutore in "
+"rete è abilitato nelle impostazioni, devono essere capiti dal risolutore CDS "
+"Sesame. Gli oggetti che sono risolti in rete saranno aggiunti alla banca "
+"dati."
 
 #: tools/observinglist.cpp:808
-#, fuzzy, kde-format
-#| msgid "Object named %1 not found"
+#, kde-format
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
-msgstr[0] "Nessun oggetto chiamato %1 è stato trovato"
-msgstr[1] "Nessun oggetto chiamato %1 è stato trovato"
+msgstr[0] "Aggiunta in serie: %1 oggetto non trovato"
+msgstr[1] "Aggiunta in serie: %1 oggetti non trovati"
 
 #: tools/observinglist.cpp:809
 #, kde-format
@@ -82581,7 +82565,11 @@ msgid_plural ""
 "%1 objects could not be found in the database or resolved, and hence could "
 "not be added. See the details for more."
 msgstr[0] ""
+"Non è stato possibile trovare 1 oggetto o risolverlo, dunque non è stato "
+"possibile aggiungerlo. Vedi i dettagli per ulteriori informazioni."
 msgstr[1] ""
+"Non è stato possibile trovare %1 oggetti o risolverli, dunque non è stato "
+"possibile aggiungerli. Vedi i dettagli per ulteriori informazioni."
 
 #: tools/observinglist.cpp:883
 #, kde-format
@@ -82595,6 +82583,8 @@ msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
+"Il file specificato non è valido. Ci si attende un file XML basato sullo "
+"schema OpenAstronomyLog."
 
 #: tools/observinglist.cpp:954
 #, kde-format
@@ -82691,7 +82681,15 @@ msgid_plural ""
 "backup, whereby you can later use the Batch Add feature in the Observation "
 "Planner to add them back using internet search."
 msgstr[0] ""
+"Impossibile trovare un oggetto nella banca dati, verrà eliminato dalla lista "
+"degli oggetti da osservare. Consigliamo di copiare il suo nome in modo da "
+"poterlo aggiungere in un secondo tempo."
 msgstr[1] ""
+"Impossibile trovare %1 oggetti nella banca dati, verranno eliminati dalla "
+"lista degli oggetti da osservare. Consigliamo fare una copia di sicurezza "
+"della lista dettagliata, in modo da poterla usare, in un secondo momento, "
+"con l'opzione Aggiunta in serie nel Pianificatore delle osservazioni e "
+"aggiungerli poi in una ricerca internet."
 
 #: tools/observinglist.cpp:1163
 #, kde-format
@@ -83300,10 +83298,9 @@ msgstr "AR centro (in ore):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Raggio (gradi):"
+msgstr "Dec centro (in gradi):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -84523,7 +84520,7 @@ msgstr "triangolo isoscele"
 #: tools/starhopper.cpp:325
 #, kde-format
 msgid "straight line of 3 stars"
-msgstr "Linea dritta di 3 stelle"
+msgstr "linea dritta di 3 stelle"
 
 #: tools/starhopper.cpp:333
 #, kde-format
@@ -84541,6 +84538,8 @@ msgid ""
 "Star-hopper algorithm failed. If you're trying a large star hop, try using a "
 "smaller FOV or changing the source point"
 msgstr ""
+"L'algoritmo dello star hop non ha funzionato. Se stai provando uno star hop "
+"grande, prova a usare un CDV più piccolo o cambia il punto sorgente"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, StarHopperDialog)
 #: tools/starhopperdialog.ui:14
@@ -85607,6 +85606,13 @@ msgid ""
 "save the hard disk from excessive reads/writes and may offer a performance "
 "enhancement.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se attivata, XPlanet userà un file FIFO nella "
+"cartella /tmp per salvare temporaneamente l'immagine XPlanet per KStars per "
+"caricarle e aggiornare la vista.  Se non attivata, XPlanet salverà in realtà "
+"i file all'interno della cartella XPlanet, nella cartella dei dati di "
+"KStars. L'uso di un file FIFO dovrebbe preservare il disco da eccessive "
+"letture/scritture e potrebbe offrire un miglioramento delle prestazioni.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:222
