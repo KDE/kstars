@@ -1043,6 +1043,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
         return;
     }
 
+    const SequenceJob::SequenceJobType currentJobType = activeJob()->jobType();
     // If image is client or both, let's process it.
     if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
@@ -1090,7 +1091,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
             return;
         }
 
-        if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
+        if (currentJobType == SequenceJob::JOBTYPE_PREVIEW)
         {
             QString filename;
             if (checkSavingReceivedImage(data, extension, filename))
@@ -1118,7 +1119,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
                 qWarning(KSTARS_EKOS_CAPTURE) << "Invalid train ID for darks substraction:" << trainID.toUInt();
 
         }
-        if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
+        if (currentJobType == SequenceJob::JOBTYPE_PREVIEW)
         {
             // Set image metadata and emit captureComplete
             // Need to do this now for previews as the activeJob() will be set to null.
@@ -1188,7 +1189,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
     if (thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION_COMPLETE)
         thejob->setCalibrationStage(SequenceJobState::CAL_CAPTURING);
 
-    if (activeJob() && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW &&
+    if (activeJob() && currentJobType != SequenceJob::JOBTYPE_PREVIEW &&
             activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
         // Check to save and show the new image in the FITS viewer
@@ -1211,7 +1212,9 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
     if (runCaptureScript(SCRIPT_POST_CAPTURE) == IPS_BUSY)
         return;
 
-    resumeSequence();
+    // don't resume for preview jobs
+    if (currentJobType != SequenceJob::JOBTYPE_PREVIEW)
+        resumeSequence();
 
     // hand over to the capture module
     emit processingFITSfinished(true);
