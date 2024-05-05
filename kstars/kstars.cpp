@@ -513,6 +513,8 @@ void KStars::selectNextFov()
     Options::setFOVNames(nextFovName);
     data()->syncFOV();
     syncFOVActions();
+    currentFov = data()->getVisibleFOVs().first();
+    zoom(map()->width() / (3 * std::max(currentFov->sizeX(), currentFov->sizeY()) * dms::DegToRad / 60.0));
     map()->update();
 }
 
@@ -547,6 +549,9 @@ void KStars::selectPreviousFov()
     Options::setFOVNames(prevFovName);
     data()->syncFOV();
     syncFOVActions();
+
+    currentFov = data()->getVisibleFOVs().first();
+    zoom(map()->width() / (3 * std::max(currentFov->sizeX(), currentFov->sizeY()) * dms::DegToRad / 60.0));
     map()->update();
 }
 

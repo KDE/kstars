@@ -9,7 +9,7 @@
 </indexterm>
 
 <para
->Les applications &kstars; peuvent être pilotées de l'extérieur par un autre programme, depuis une invite de console ou depuis un script shell en utilisant le protocole de communication interprocessus (&DBus;). &kstars; utilise cette fonction pour permettre à des comportements plutôt complexes d'être traités par scripts et rejoués à n'importe quel moment. Ceci peut être utilisé par exemple pour créer une démonstration en salle de classe pour illustrer un concept astronomique. </para>
+>Les applications &kstars; peuvent être pilotées de l'extérieur par un autre programme, depuis une invite de console ou depuis un script shell en utilisant le protocole de communication inter-processus (&DBus;). &kstars; utilise cette fonction pour permettre à des comportements plutôt complexes d'être traités par scripts et rejoués à n'importe quel moment. Ceci peut être utilisé par exemple pour créer une démonstration en salle de classe pour illustrer un concept astronomique. </para>
 <para
 >Le problème avec les scripts &DBus; est que leur écriture ressemble à de la programmation et peut sembler difficile à ceux qui n'ont pas l'expérience de la programmation. L'outil de génération de scripts fournit une interface graphique de type pointer-cliquer pour construire des scripts &DBus; pour &kstars;, rendant très facile l'écriture de scripts complexes. </para>
 
@@ -111,7 +111,7 @@
 >En fait, tout n'est pas fini. Nous devons probablement nous assurer que l'affichage utilise les coordonnées équatoriales avant que le script ne suive la Lune avec le pas accéléré. Sinon, si l'affichage utilise les coordonnées horizontales, il tournera très vite sur de grands angles au lever et au coucher de la Lune. Cela peut être troublant, et on l'évite en réglant l'option d'affichage <firstterm
 >UseAltAz</firstterm
 > sur <quote
->false</quote
+>False</quote
 >. Pour changer une option d'affichage, utilisez la fonction <firstterm
 >changeViewOption</firstterm
 >. Ajoutez cette fonction au script et examinez le panneau des paramètres de fonctions. Il y a une liste combinée qui contient la liste de toutes les options d'affichage qui peuvent être ajustées par changeViewOption. Comme nous savons que nous voulons l'option UseAltAz, nous pouvons simplement la sélectionner dans la liste combinée. Cependant, la liste est assez longue, et il n'y a pas d'explication sur l'utilisation de chaque élément. Pour cela, il peut être plus facile d'actionner le bouton <guibutton
@@ -121,12 +121,12 @@
 >. Surlignez simplement cet élément et actionnez <guibutton
 >Ok</guibutton
 > et elle sera sélectionnée dans la liste combinée du panneau des paramètres de fonctions. Enfin, rendez sa valeur <quote
->false</quote
+>False</quote
 > ou <quote
 >0</quote
 >. </para
 ><para
->Une dernière étape : le changement d'UseALtAz à la fin du script n'est pas bon ; nous avons besoin de le changer avant que quelque chose d'autre n'arrive. Ainsi, assurez-vous que cette fonction est surlignée dans la zone de script courant et actionnez le bouton <guibutton
+>Une dernière étape : le changement « UseAltAz » à la fin du script n'est pas bon ; nous avons besoin de le changer avant que quelque chose d'autre n'arrive. Ainsi, assurez-vous que cette fonction est surlignée dans la zone de script courant et actionnez le bouton <guibutton
 >Monter</guibutton
 > jusqu'à ce que ce soit la première fonction. </para
 ><para

@@ -687,6 +687,8 @@ void Manager::start()
     if (jsonError.error == QJsonParseError::NoError)
         profileScripts = doc.array();
 
+    ekosLiveClient->message()->setPendingPropertiesEnabled(true);
+
     // For locally running INDI server
     if (m_LocalMode)
     {
@@ -1333,7 +1335,7 @@ void Manager::cleanDevices(bool stopDrivers)
     if (mountModule())
         mountModule()->stopTimers();
 
-    ekosLiveClient->message()->clearPendingProperties();
+    ekosLiveClient->message()->setPendingPropertiesEnabled(false);
     INDIListener::Instance()->disconnect(this);
     DriverManager::Instance()->disconnect(this);
 
