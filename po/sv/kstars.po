@@ -1,15 +1,15 @@
 # translation of kstars.po to Swedish
 #
-# SPDX-FileCopyrightText: 2002, 2023, 2024 Stefan Asserhäll <stefan.asserhall@bredband.net>
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2002, 2023, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
+# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+# Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-04 01:53+0000\n"
-"PO-Revision-Date: 2024-05-04 19:29+0200\n"
+"POT-Creation-Date: 2024-05-06 01:43+0000\n"
+"PO-Revision-Date: 2024-05-05 09:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -2874,7 +2874,7 @@ msgstr "Typavbildning"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
 #: ekos/capture/capturecountswidget.cpp:266
-#: ekos/capture/captureprocess.cpp:2448 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
@@ -6457,8 +6457,8 @@ msgstr "Världskoordinatsystem (WCS) är inaktiverat."
 msgid "Capture error. Aborting..."
 msgstr "Tagningsfel. Avbryter..."
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
-#: ekos/capture/captureprocess.cpp:2104
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
+#: ekos/capture/captureprocess.cpp:2107
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Startar om tagningsförsök nr. %1"
@@ -6558,7 +6558,7 @@ msgstr "Kan inte skriva till filen %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2039
-#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7209,7 +7209,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Öppna Ekos inriktningslista"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2038
-#: ekos/capture/captureprocess.cpp:2500 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -13322,7 +13322,7 @@ msgstr "Extrahering av förvald fokuseringsstjärna."
 #: ekos/auxiliary/stellarsolverprofile.cpp:101
 #, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
-msgstr ""
+msgstr "Profil optimerad för källextrahering för stjärnor inklusive ringar."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:122
 #, kde-format
@@ -14298,12 +14298,14 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"När planbilder tas för himmel som kan ändra intensitet. Använder enklare "
+"exponeringsberäkning."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
 #: ekos/capture/calibrationoptions.ui:229
 #, kde-format
 msgid "Sky flats"
-msgstr ""
+msgstr "Plana himmelsbilder"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/camera.ui:146
@@ -15314,7 +15316,7 @@ msgstr "Misslyckades spara sekvenskö"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Är du säker på att du vill återställa status för alla jobb?"
 
-#: ekos/capture/capture.cpp:2145 ekos/capture/captureprocess.cpp:2615
+#: ekos/capture/capture.cpp:2145 ekos/capture/captureprocess.cpp:2618
 #, kde-format
 msgid "Reset job status"
 msgstr "Återställ jobbstatus"
@@ -15931,119 +15933,119 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Bildskrivning misslyckades"
 
-#: ekos/capture/captureprocess.cpp:1222
+#: ekos/capture/captureprocess.cpp:1225
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Fjärrbild sparad till %1"
 
-#: ekos/capture/captureprocess.cpp:1248
+#: ekos/capture/captureprocess.cpp:1251
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Automatisk guidning stoppad."
 
-#: ekos/capture/captureprocess.cpp:1277
+#: ekos/capture/captureprocess.cpp:1280
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Varning: Kalibreringsprocessen avbröts i förtid."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1343
+#: ekos/capture/captureprocess.cpp:1346
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD-tagningssekvens färdig"
 
-#: ekos/capture/captureprocess.cpp:1400
+#: ekos/capture/captureprocess.cpp:1403
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Fel: Förlorade anslutning till CCD."
 
-#: ekos/capture/captureprocess.cpp:1428
+#: ekos/capture/captureprocess.cpp:1431
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Kan inte beräkna ADU-nivåer i andra bilder än FITS-bilder."
 
-#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2096
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "Tagning misslyckades. Se INDI-inställningsrutan för mer detaljerad "
 "information."
 
-#: ekos/capture/captureprocess.cpp:1654
+#: ekos/capture/captureprocess.cpp:1657
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Nerladdningstid: %1 s, ny uppskattning av nerladdningstid: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1722
+#: ekos/capture/captureprocess.cpp:1725
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Tog emot bild %1 av %2."
 
-#: ekos/capture/captureprocess.cpp:1756
+#: ekos/capture/captureprocess.cpp:1759
 #, kde-format
 msgid "Captured %1"
 msgstr "Tog %1"
 
-#: ekos/capture/captureprocess.cpp:1762
+#: ekos/capture/captureprocess.cpp:1765
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "Varning: Kvarvarande och potentiellt okända platsmarkörer %1 i %2"
 
-#: ekos/capture/captureprocess.cpp:1795
+#: ekos/capture/captureprocess.cpp:1798
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Kör tagningsskript %1"
 
-#: ekos/capture/captureprocess.cpp:1810
+#: ekos/capture/captureprocess.cpp:1813
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Förtagningsskript avslutades med kod %1."
 
-#: ekos/capture/captureprocess.cpp:1818
+#: ekos/capture/captureprocess.cpp:1821
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Eftertagningsskript avslutades med kod %1."
 
-#: ekos/capture/captureprocess.cpp:1830
+#: ekos/capture/captureprocess.cpp:1833
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Behandlar meridianvändning..."
 
-#: ekos/capture/captureprocess.cpp:1840
+#: ekos/capture/captureprocess.cpp:1843
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Förjobbskript avslutades med kod %1."
 
-#: ekos/capture/captureprocess.cpp:1845
+#: ekos/capture/captureprocess.cpp:1848
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Efterjobbskript avslutades med kod %1."
 
-#: ekos/capture/captureprocess.cpp:2026 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tidsgräns för exponering överskriden. Avbryter..."
 
-#: ekos/capture/captureprocess.cpp:2033
+#: ekos/capture/captureprocess.cpp:2036
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Tidsgräns för exponering överskriden. Mer än tre har detekteras, startar om "
 "drivrutin."
 
-#: ekos/capture/captureprocess.cpp:2051 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:961
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Tidsgräns för exponering överskriden. Startar om exponering..."
 
-#: ekos/capture/captureprocess.cpp:2077
+#: ekos/capture/captureprocess.cpp:2080
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Tidsgräns för exponering överskriden. För många. Avbryter..."
 
-#: ekos/capture/captureprocess.cpp:2155
+#: ekos/capture/captureprocess.cpp:2158
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16052,17 +16054,17 @@ msgstr ""
 "Plankalibrering misslyckades. Tagen bild är bara %1-bit medan begärd ADU är "
 "%2."
 
-#: ekos/capture/captureprocess.cpp:2166
+#: ekos/capture/captureprocess.cpp:2169
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Aktuell bild är mättad (%1). Nästa exponering är %2 sekunder."
 
-#: ekos/capture/captureprocess.cpp:2188
+#: ekos/capture/captureprocess.cpp:2191
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Aktuell ADU är %1 från målets ADU-toleransintervall."
 
-#: ekos/capture/captureprocess.cpp:2217
+#: ekos/capture/captureprocess.cpp:2220
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16071,22 +16073,22 @@ msgstr ""
 "Kan inte beräkna optimala exponeringsinställningar, ta de plana bilderna "
 "manuellt."
 
-#: ekos/capture/captureprocess.cpp:2225
+#: ekos/capture/captureprocess.cpp:2228
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Aktuell ADU är %1. Nästa exponering är %2 sekunder."
 
-#: ekos/capture/captureprocess.cpp:2445
+#: ekos/capture/captureprocess.cpp:2448
 #, kde-format
 msgid "%1 Preview"
 msgstr "Förhandsgranskning av %1"
 
-#: ekos/capture/captureprocess.cpp:2564
+#: ekos/capture/captureprocess.cpp:2567
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekvens pausad."
 
-#: ekos/capture/captureprocess.cpp:2614
+#: ekos/capture/captureprocess.cpp:2617
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16095,7 +16097,7 @@ msgstr ""
 "Alla jobb är färdiga. Är du säker på att du vill återställa status för alla "
 "jobb och starta om tagning?"
 
-#: ekos/capture/captureprocess.cpp:2628
+#: ekos/capture/captureprocess.cpp:2631
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16104,12 +16106,12 @@ msgstr ""
 "Varning: Alternativet \"Nollställ alltid sekvens vid start\" är aktiverat "
 "och nollställer sekvensräknarna."
 
-#: ekos/capture/captureprocess.cpp:2743
+#: ekos/capture/captureprocess.cpp:2746
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Är du säker på att du vill starta om kamerans drivrutin %1?"
 
-#: ekos/capture/captureprocess.cpp:2744
+#: ekos/capture/captureprocess.cpp:2747
 #, kde-format
 msgid "Driver Restart"
 msgstr "Starta om drivrutin"
@@ -17146,6 +17148,9 @@ msgid ""
 "your desired camera/filterbank at least once before using the Sequence "
 "Editor. </font></b><p>"
 msgstr ""
+"<b><font color=\"red\">Använd tagningsfliken ansluten till INDI med önskad "
+"kamera/filterbank minst en gång innan du använder sekvenseditorn. </font></"
+"b><p>"
 
 #: ekos/capture/sequenceeditor.cpp:103
 #, kde-format
@@ -17155,6 +17160,11 @@ msgid ""
 "sequence using the Capture tab.<br>It is not recommended to overwrite a "
 "sequence file currently running, please rename it instead.</p><p>"
 msgstr ""
+"<b>Användning av egenskaper för kamera och filterhjul från tagningssessionen "
+"började %1.</b><p>Om du vill använda andra kameror/filterbanker, redigera "
+"sekvensen med hjälp av tagningsfliken.<br>Det är inte rekommenderat att "
+"skriva över en sekvensfil som för närvarande används, byt namn på den "
+"istället.</p><p>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SequenceEditorUI)
 #: ekos/capture/sequenceeditorui.ui:20
@@ -17489,7 +17499,7 @@ msgstr "Aberrationsinspektion: Körning %1"
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
 msgid "Tile"
-msgstr "Ruta"
+msgstr "Platta"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
@@ -17540,22 +17550,23 @@ msgstr "Fokuseringslösning"
 #: ekos/focus/aberrationinspector.cpp:101
 #, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Delta från central ruta i tick"
+msgstr "Delta från centrumplatta i tick"
 
 #: ekos/focus/aberrationinspector.cpp:102
 #, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr ""
+msgstr "Delta från centrumplatta i mikrometer"
 
 #: ekos/focus/aberrationinspector.cpp:103
 #, kde-format
 msgid "Min / max number of stars detected in the focus run"
 msgstr ""
+"Minimalt och maximalt antal detekterade stjärnor i fokuseringskörningen"
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr ""
+msgstr "Markera för att undanta rad från beräkningar"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
@@ -17563,17 +17574,17 @@ msgstr ""
 #: ekos/focus/aberrationinspector.cpp:584
 #, kde-format
 msgid "N/A"
-msgstr ""
+msgstr "Inte tillgänglig"
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Flytta sensorn närmare korrektorn"
 
 #: ekos/focus/aberrationinspector.cpp:572
 #, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Flytta sensorn längre från korrektorn"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
@@ -17588,6 +17599,8 @@ msgstr "Aberrationsinspektion"
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att visa beteckningar på diagrammet.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -17602,7 +17615,7 @@ msgstr "Beteckningar"
 #: ekos/focus/aberrationinspector.ui:64
 #, kde-format
 msgid "Tiles:"
-msgstr ""
+msgstr "Plattor:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:74
@@ -17612,6 +17625,9 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj kombinationen av mosaikplattor som ska användas "
+"för analys:</p><p>- Alla visar alla 9 plattor.</p><p>- Centrum och yttre "
+"hörn.</p><p>- Centrum och inre romb.<br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
@@ -17624,13 +17640,13 @@ msgstr "Alla"
 #: ekos/focus/aberrationinspector.ui:86
 #, kde-format
 msgid "Centre and outer corners"
-msgstr ""
+msgstr "Centrum och yttre hörn"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:91
 #, kde-format
 msgid "Centre and inner diamond"
-msgstr ""
+msgstr "Centrum och inre romb"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowCFZ)
 #: ekos/focus/aberrationinspector.ui:105
@@ -17639,6 +17655,8 @@ msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att visa den kritiska fokuseringszonen på "
+"diagrammet.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: property (text), widget (QPushButton, cfzB)
@@ -17651,19 +17669,19 @@ msgstr "KFZ"
 #: ekos/focus/aberrationinspector.ui:118
 #, kde-format
 msgid "Optimise Tile Centres"
-msgstr ""
+msgstr "Optimera plattornas centrum"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
 #, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr ""
+msgstr "Topp till bottenlutning"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:241
 #, kde-format
 msgid "Total Tilt:"
-msgstr ""
+msgstr "Total lutning:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:255
@@ -17673,18 +17691,20 @@ msgid ""
 "between the sensor centre and the average of the centre corners.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Bakåtfokus delta är skillnaden i fokuseringsposition "
+"mellan sensorns centrum och medelvärdet av centrumhörnen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
 #, kde-format
 msgid "Backfocus Δ:"
-msgstr ""
+msgstr "Bakåtfokus Δ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
 #, kde-format
 msgid "Left-Right Tilt:"
-msgstr ""
+msgstr "Vänster till högerlutning"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
@@ -17715,6 +17735,24 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
 "slice through the graphic.</p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
+"size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Markeringsmetod för den "
+"tredimensionella grafiken:</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Ingen.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Objekt markerar den "
+"närmaste datapunkten.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Plan producerar en "
+"tvådimensionellt plan genom grafiken.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:127
@@ -17726,7 +17764,7 @@ msgstr "Objekt"
 #: ekos/focus/aberrationinspector.ui:350
 #, kde-format
 msgid "Slice"
-msgstr ""
+msgstr "Plan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
@@ -17741,6 +17779,8 @@ msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Välj den tredimensionella grafikens färgtema.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
@@ -17758,37 +17798,37 @@ msgstr "Grundfärger"
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
 #, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Stenmossa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
 #, kde-format
 msgid "Army Blue"
-msgstr ""
+msgstr "Arméblå"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
 #, kde-format
 msgid "Retro"
-msgstr ""
+msgstr "Retro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Elfenben"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
 #, kde-format
 msgid "Isabelle"
-msgstr ""
+msgstr "Isabelle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
@@ -17797,12 +17837,14 @@ msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att visa mosaikplattornas "
+"sensorbeteckningar.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
 #, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Markera för att visa sensorn.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
@@ -17817,12 +17859,14 @@ msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Markera för att visa Petzval-ytans nätverk.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
 #, kde-format
 msgid "Petzval Wire"
-msgstr ""
+msgstr "Petzval-linje"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
@@ -17830,12 +17874,13 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att visa Petzval-ytan.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
 #, kde-format
 msgid "Petzval Surface"
-msgstr ""
+msgstr "Petzval-yta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
@@ -17844,30 +17889,36 @@ msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Markera för att ställa in den tredimensionella "
+"grafiken till simuleringsläge</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
 #, kde-format
 msgid "Sim Mode"
-msgstr ""
+msgstr "Simuleringsläge"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
 #, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Skjutreglage för bakåtfokus</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
 #: ekos/focus/aberrationinspector.ui:502
 #, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Skjutreglage för vänster till högerlutning</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:521
 #, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Skjutreglage för topp till bottenlutning</p></body></"
+"html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
 #, kde-format
@@ -17879,6 +17930,9 @@ msgid ""
 "color='%1'><table><tr><td>Tile: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
+"<style>table { background-color: white;}</style><font "
+"color='%1'><table><tr><td>Platta: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
+"td><td>%4</td></tr><tr><td>Värde:  </td><td>%5</td></tr></table></font>"
 
 #: ekos/focus/adaptivefocus.cpp:152
 #, kde-format
@@ -17907,12 +17961,12 @@ msgstr "Adaptiv fokusering: Förflyttar från %1 till %2 (temperatur Δ %3)"
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
 msgid "; AltΔ %1"
-msgstr ""
+msgstr "; Elev Δ %1"
 
 #: ekos/focus/adaptivefocus.cpp:182
 #, kde-format
 msgid "; Pos Error %1)"
-msgstr ""
+msgstr "; Pos. fel %1)"
 
 #: ekos/focus/adaptivefocus.cpp:197
 #, kde-format
@@ -18023,6 +18077,8 @@ msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Stegstorlek kan ställas in till standardvärdet kritisk "
+"fokuseringszon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
@@ -18072,13 +18128,13 @@ msgstr ""
 #: ekos/focus/advisor.ui:271
 #, kde-format
 msgid "SEP Parameters:"
-msgstr ""
+msgstr "SEP-parametrar:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
 #, kde-format
 msgid "Focus CFZ"
-msgstr ""
+msgstr "Fokus KFZ"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/cfz.ui:87
@@ -18112,7 +18168,7 @@ msgstr ""
 #: ekos/focus/cfz.ui:141
 #, kde-format
 msgid "Display:"
-msgstr ""
+msgstr "Visa:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/cfz.ui:160
@@ -18481,17 +18537,19 @@ msgstr "Automatisk fokusering kör redan, bortser från begäran att starta."
 #: ekos/focus/focus.cpp:1056
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
-msgstr ""
+msgstr "Bygg positioner pågår redan. Automatisk fokusering avvisad."
 
 #: ekos/focus/focus.cpp:1064
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
-msgstr ""
+msgstr "I fokuseringsupprepning. Automatisk fokusering avvisad."
 
 #: ekos/focus/focus.cpp:1076
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
+"Begäran om start av automatisk fokusering: Väntar 10 s på att "
+"fokuseringsinriktning ska bli färdig."
 
 #: ekos/focus/focus.cpp:1084
 #, kde-format
@@ -18504,6 +18562,8 @@ msgstr ""
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
+"Begäran om start av automatisk fokusering: Väntar 10 s på att adaptiv "
+"fokusering ska bli färdig."
 
 #: ekos/focus/focus.cpp:1102
 #, kde-format
@@ -18530,12 +18590,12 @@ msgstr "Automatisk fokuseringsåtgärd startad"
 #: ekos/focus/focus.cpp:1340
 #, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr ""
+msgstr "Startar sökning efter initial fokuseringsposition."
 
 #: ekos/focus/focus.cpp:1341
 #, kde-format
 msgid "Scanning for starting position..."
-msgstr ""
+msgstr "Söker efter startposition..."
 
 #: ekos/focus/focus.cpp:1401
 #, kde-format
@@ -18575,22 +18635,22 @@ msgstr "Fel: Förlorade anslutning till filterhjulet."
 #: ekos/focus/focus.cpp:1699
 #, kde-format
 msgid "At minimum focus position %1..."
-msgstr ""
+msgstr "Vid minimal fokuseringsposition %1..."
 
 #: ekos/focus/focus.cpp:1710
 #, kde-format
 msgid "Moving to minimum focus position %1..."
-msgstr ""
+msgstr "Går till minimal fokuseringsposition %1..."
 
 #: ekos/focus/focus.cpp:1719
 #, kde-format
 msgid "At maximum focus position %1..."
-msgstr ""
+msgstr "Vid maximal fokuseringsposition %1..."
 
 #: ekos/focus/focus.cpp:1730
 #, kde-format
 msgid "Moving to maximum focus position %1..."
-msgstr ""
+msgstr "Går till maximal fokuseringsposition %1..."
 
 #: ekos/focus/focus.cpp:1757
 #, kde-format
@@ -18769,27 +18829,27 @@ msgstr "Misslyckades detektera några stjärnor. Avbryter..."
 #: ekos/focus/focus.cpp:3289
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
-msgstr ""
+msgstr "Sök startposition: överskred maximalt antal iterationer %1"
 
 #: ekos/focus/focus.cpp:3307
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Söker efter startposition %1/%2"
 
 #: ekos/focus/focus.cpp:3321
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Inget sökminimum: breddar sökning..."
 
 #: ekos/focus/focus.cpp:3331
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Sök startposition %1 funnen"
 
 #: ekos/focus/focus.cpp:3332
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Sök startposition %1 funnen"
 
 #: ekos/focus/focus.cpp:3393
 #, kde-format
@@ -18858,7 +18918,7 @@ msgstr ""
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
-"Instabila fluktuationer. Försök att öka ursprunglig stegstorlek eller "
+"Instabila fluktuationer. Försök att öka initial stegstorlek eller "
 "exponeringstid."
 
 #: ekos/focus/focus.cpp:3708
@@ -19029,7 +19089,7 @@ msgstr ""
 "är riktigt inställd, t.ex. enhetsförstärkning.\n"
 "2. Fokuseringsinställningar (alternativruta): Alla har rekommendationer.\n"
 "3. Fokuseringsprocess (alternativruta): Alla har rekommendationer.\n"
-"4. Fokuseirngsmekanik (alternativruta): Observera att stegstorlek och "
+"4. Fokuseringsmekanik (alternativruta): Observera att stegstorlek och "
 "multipel för utåtsteg hanteras ovan.\n"
 "5. SEP-parametrar (alternativruta): Ställ in lämplig profil till dess "
 "standardvärden.\n"
@@ -19051,6 +19111,8 @@ msgid ""
 "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Fokusera utåt. </p><p>För SCT:er är det oftast medurs."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:225
@@ -19110,6 +19172,8 @@ msgid ""
 "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Fokusera inåt. </p><p>För SCT:er är det oftast moturs."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:468
@@ -19213,6 +19277,10 @@ msgid ""
 "collect data).</p><p>Note: Mosaic Mask must be set to activate this button.</"
 "p><p>This is an experimental feature.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kör aberrationsinspektion (automatisk fokusering "
+"utförs först för att samla in data).</p><p>Observera: Mosaikmask måste vara "
+"inställd för att aktivera knappen.</p><p>Detta är en experimentell funktion."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, advisorB)
 #: ekos/focus/focus.ui:935
@@ -19227,12 +19295,14 @@ msgid ""
 "<html><head/><body><p>Check to force an ad-hoc In-Sequence Autofocus at the "
 "completion of the current subframe.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att utföra en ad-hoc automatisk fokusering "
+"när den nuvarande delbilden är färdig.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
 #: ekos/focus/focus.ui:945
 #, kde-format
 msgid "Force AF"
-msgstr ""
+msgstr "Tvinga automatisk fokusering"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:1011
@@ -20101,7 +20171,7 @@ msgstr "R²-gräns:"
 #: ekos/focus/opsfocusprocess.ui:407
 #, kde-format
 msgid "Average HFR Check:"
-msgstr ""
+msgstr "HFR-medelvärdeskontroll:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusHFRFramesCount)
 #: ekos/focus/opsfocusprocess.ui:420
@@ -20111,6 +20181,8 @@ msgid ""
 "Linear 1 Pass, the point of optimum focus will also capture this number of "
 "frames."
 msgstr ""
+"Antal bilder att ta när en HFR-kontroll i sekvens utförs. Om Engångslinjär "
+"används, tar också den optimala fokuseringspunkten så här många bilder."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/opsfocusprocess.ui:465
@@ -20192,18 +20264,23 @@ msgid ""
 "defocused.</p><p>This is a currently an experimental feature that should be "
 "used with caution.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att aktivera funktion för borttagning av "
+"ringar. Använd den för teleskop med en central obstruktion som skapar "
+"ringformade stjärnor när det inte är i fokus.</p><p>Detta är för närvarande "
+"en experimentell funktion som bör användas med försiktighet.</p></body></"
+"html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
 #, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr ""
+msgstr "Borttagning av ringar (VARNING: experimentell funktion)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
 #, kde-format
 msgid "Time Dilation x:"
-msgstr ""
+msgstr "Tidsdilatation x:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:705
@@ -20212,6 +20289,9 @@ msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Markera för att söka efter en startposition. "
+"Algoritmen letar efter en minimal datapunkt genom att använda Antal "
+"datapunkter.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:708
@@ -20226,6 +20306,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"När Sök efter startposition är markerat, är det här antalet datapunkter att "
+"använda."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:737
@@ -20236,6 +20318,10 @@ msgid ""
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>De yttersta datapunkterna har sina exponeringstider "
+"ökade med denna faktor. Datapunktsexponeringen i fokus ökas inte. "
+"Mellanpunkterna har sina exponeringar skalade på lämpligt sätt.</p><p>Ställ "
+"in till 1 för att inaktivera alternativet.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:762
@@ -20257,6 +20343,10 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Hur aggressivt exkludering av extremvärden ska "
+"utföras. Störe värden avvisar fler extremvärden.</p><p>Förfina "
+"kurvanpassning måste vara valt för att det här alternativet ska vara aktivt."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:807
@@ -20265,6 +20355,8 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"När Sök efter startposition är markerat, använder sökningen en stegstorlek "
+"lika med Initial stegstorlek multiplicerad med Initial stegstorlek x."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:810
@@ -20417,7 +20509,7 @@ msgstr "Bågsekunder"
 #: ekos/focus/opsfocussettings.ui:242
 #, kde-format
 msgid "Mask"
-msgstr ""
+msgstr "Mask"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:257
@@ -20835,7 +20927,7 @@ msgstr "PHD2: Stjärna vald."
 #: ekos/guide/externalguide/phd2.cpp:656
 #, kde-format
 msgid "PHD2: Dithering successful."
-msgstr ""
+msgstr "PHD2: Gitter lyckades."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -23592,7 +23684,7 @@ msgstr "Ekos-alternativ..."
 #: ekos/manager.ui:505
 #, kde-format
 msgid "Logs to diagnose issues with Ekos and INDI."
-msgstr ""
+msgstr "Loggar för att diagnosticera problem med Ekos och INDI."
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:508
@@ -23720,7 +23812,7 @@ msgstr "Medianvändning om %1"
 #: ekos/manager/meridianflipstate.cpp:253
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
-msgstr ""
+msgstr "Antar att meridianvändning är slutförd, men pirsidan är okänd."
 
 #: ekos/manager/meridianflipstate.cpp:277
 #, kde-format
@@ -23901,7 +23993,7 @@ msgstr "Uppdaterar referenstidskälla till %1."
 #: ekos/mount/mount.cpp:2133
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
-msgstr ""
+msgstr "Uppdaterar referensplatskälla till %1. Uppdaterar GPS..."
 
 #: ekos/mount/mount.cpp:2141
 #, kde-format
@@ -23964,7 +24056,7 @@ msgstr "Lokal siderisk tid"
 #: ekos/mount/mount.ui:254
 #, kde-format
 msgid "LST:"
-msgstr ""
+msgstr "LST:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:297
@@ -25169,12 +25261,16 @@ msgid ""
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Minimal tid för en meridianvändning i sekunder. Öka "
+"värdet om Ekos rapporterar att en meridianvändning har misslyckats på grund "
+"av att pirsidan inte ändrades. En bra uppskattning för värdet är minst 50 % "
+"av den typiska tiden för en meridianvändning.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
 #, kde-format
 msgid "Minimal meridian flip duration: "
-msgstr ""
+msgstr "Minimal tid för meridianvändning: "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:730
@@ -27217,7 +27313,7 @@ msgstr "%1 %2 %3"
 #: ekos/scheduler/scheduler.cpp:1140
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
-msgstr ""
+msgstr "Sluta redigera jobb nr. %1, återställ till ursprungliga värden."
 
 #: ekos/scheduler/scheduler.cpp:1158
 #, kde-format
@@ -28042,7 +28138,7 @@ msgstr "bilder"
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
-msgstr ""
+msgstr "Kan inte ta bort jobbet '%1' som för närvarande kör."
 
 #: ekos/scheduler/schedulermodulestate.cpp:150
 #, kde-format
@@ -29643,7 +29739,7 @@ msgstr "Vänd vertikalt"
 #: fitsviewer/fitsviewer.cpp:132 kstarsinit.cpp:159
 #, kde-format
 msgid "Open/Blink Directory"
-msgstr ""
+msgstr "Öppna/blinkningskatalog"
 
 #: fitsviewer/fitsviewer.cpp:151
 #, kde-format
@@ -29687,12 +29783,12 @@ msgstr "Föregående flik"
 #: fitsviewer/fitsviewer.cpp:282
 #, kde-format
 msgid "Next Blink Image"
-msgstr ""
+msgstr "Nästa blinkningsbild"
 
 #: fitsviewer/fitsviewer.cpp:287
 #, kde-format
 msgid "Previous Blink Image"
-msgstr ""
+msgstr "Föregående blinkningsbild"
 
 #: fitsviewer/fitsviewer.cpp:292
 #, kde-format
@@ -29779,7 +29875,7 @@ msgstr "HiPS-överlagring"
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
-msgstr ""
+msgstr "Blinkningstoppkatalog"
 
 #: fitsviewer/fitsviewer.cpp:992
 #, kde-format
@@ -36643,13 +36739,13 @@ msgstr ""
 #: kstars.kcfg:1866
 #, kde-format
 msgid "Sky Flat"
-msgstr ""
+msgstr "Plan himmelsbild"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1867
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr ""
+msgstr "När planbilder tas för himmel med intensitet som ändras."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1871
@@ -36892,7 +36988,7 @@ msgstr "Önskad tolerans för ADU-planfält."
 #: kstars.kcfg:2009
 #, kde-format
 msgid "Capture calibration frames using Sky Flats."
-msgstr ""
+msgstr "Ta kalibreringsbilder med användning av plana himmelsbilder."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:2015
@@ -37228,6 +37324,8 @@ msgstr ""
 #, kde-format
 msgid "Whether to use Donut Busting functionality during Autofocus."
 msgstr ""
+"Om funktionen för borttagning av ringar ska användas under automatisk "
+"fokusering."
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
 #: kstars.kcfg:2186
@@ -37236,6 +37334,8 @@ msgid ""
 "Factor to multiply focus exposure by for out of focus frames when using "
 "Donut Buster."
 msgstr ""
+"Faktor att multiplicera fokuseringsexponeringen för bilder ur fokus när "
+"borttagning av ringar används."
 
 #. i18n: ectx: label, entry (focusOutlierRejection), group (Focus)
 #: kstars.kcfg:2190
@@ -37243,6 +37343,8 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
+"Aggressivitetsfaktor att använda för exkludering av extremvärden när "
+"borttagning av ringar används."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2194
@@ -37538,7 +37640,7 @@ msgstr "Om adaptivt fokus ska användas i verktyget bygg filterpositioner."
 #: kstars.kcfg:2348
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
-msgstr "Vilken uppsättning rutor att använda i aberrationsinspektion."
+msgstr "Vilken uppsättning plattor att använda i aberrationsinspektion."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2352
@@ -37556,7 +37658,8 @@ msgstr "Visa kritisk fokuseringszon på aberrationsinspektionsdiagrammet."
 #: kstars.kcfg:2360
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
-msgstr "Om rutornas centrum ska optimeras i aberrationsinspektionsberäkningar."
+msgstr ""
+"Om plattornas centrum ska optimeras i aberrationsinspektionsberäkningar."
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2364
@@ -37598,7 +37701,8 @@ msgstr "Aberrationsinspektion tredimensionell grafisk sensorvisning."
 #: kstars.kcfg:2386
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr "Aberrationsinspektion tredimensionell grafisk visning av Petzval-axel."
+msgstr ""
+"Aberrationsinspektion tredimensionell grafisk visning av Petzval-linje."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2390
@@ -113882,9 +113986,9 @@ msgstr "Ange bakgrundens färg."
 
 # translation of kstars.po to Swedish
 #
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2002.
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015.
+# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2002.
+# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+# Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015.
 # Arve Eriksson <031299870@telia.com>, 2011.
 #~ msgctxt "Province name (optional, rarely needs a translation)"
 #~ msgid ""
@@ -113893,7 +113997,7 @@ msgstr "Ange bakgrundens färg."
 #~ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
 #~ "POT-Creation-Date: 2015-01-29 08:01+0000\n"
 #~ "PO-Revision-Date: 2015-01-29 20:44+0100\n"
-#~ "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+#~ "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 #~ "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 #~ "Language: sv\n"
 #~ "MIME-Version: 1.0\n"
