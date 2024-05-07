@@ -190,9 +190,9 @@ if (INDI_FOUND)
             ekos/indihub.ui
         )
         # Aberration Inspector
-        if (Qt5DataVisualization_FOUND)
+        if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
             set(ekosui_SRCS ${ekosui_SRCS} ekos/focus/aberrationinspector.ui)
-        endif(Qt5DataVisualization_FOUND)
+        endif()
 
         set(ekos_SRCS
             ekos/ekos.cpp
@@ -359,12 +359,12 @@ if (INDI_FOUND)
             ekos/ekoslive/nodemanager.cpp
         )
         # Aberration Inspector
-        if (Qt5DataVisualization_FOUND)
+        if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspector.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspectorplot.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/sensorgraphic.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/abinstablewidget.cpp)
-        endif(Qt5DataVisualization_FOUND)
+        endif()
 
     endif(CFITSIO_FOUND)
 
@@ -402,7 +402,7 @@ if (CFITSIO_FOUND)
         fitsviewer/opsfits.cpp
         )
 
-    if (Qt5DataVisualization_FOUND)
+    if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
         set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
     endif()
 
@@ -548,7 +548,7 @@ set(libkstarstools_SRCS
     tools/import_skycomp.cpp
 )
 
-if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+if(${KFX_VERSION} VERSION_EQUAL 5.18.0 OR ${KFX_VERSION} VERSION_GREATER 5.18.0)
     set(libkstarstools_SRCS
         ${libkstarstools_SRCS}
         tools/whatsinteresting/skyobjlistmodel.cpp
@@ -610,7 +610,7 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/polarishourangle.ui
 )
 
-if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+if (${KFX_VERSION} VERSION_EQUAL 5.18.0 OR ${KFX_VERSION} VERSION_GREATER 5.18.0)
     ki18n_wrap_ui(libkstarstools_ui_SRCS
         tools/whatsinteresting/wilpsettings.ui
         tools/whatsinteresting/wiequipsettings.ui
@@ -1191,7 +1191,7 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER catalogsdb_debug.h IDENTIFIER
 set( kstars_KCFG_SRCS Options.kcfgc )
 
 # We cannot generate property up until KF5 Config v5.78.0 or later
-if (${KF5_VERSION} VERSION_GREATER_EQUAL "5.78.0")
+if (${KFX_VERSION} VERSION_GREATER_EQUAL "5.78.0")
     set(KF5_CONFIG_OK true)
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/Options.kcfgc.cmake
@@ -1223,27 +1223,51 @@ set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${hough_SR
 IF (NOT ANDROID)
     # GSL
     find_package(GSL REQUIRED)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
-    qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.FOV.xml fov.h FOV)
-
+    IF(BUILD_QT5)
+       qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+       qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+       qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.FOV.xml fov.h FOV)
+    ELSE()
+       qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
+       qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
+       qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.FOV.xml fov.h FOV)
+    ENDIF()
     IF (INDI_FOUND)
-        # INDI
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.GenericDevice.xml indi/indistd.h ISD::GenericDevice)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Dome.xml indi/indidome.h ISD::Dome)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Weather.xml indi/indiweather.h ISD::Weather)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.DustCap.xml indi/indidustcap.h ISD::DustCap)
-        # Ekos
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/manager.h Ekos::Manager)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/schedulerprocess.h Ekos::SchedulerProcess)
-        # TODO enable back observatory
-        #qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
+        IF(BUILD_QT5)
+            # INDI
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.GenericDevice.xml indi/indistd.h ISD::GenericDevice)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Dome.xml indi/indidome.h ISD::Dome)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Weather.xml indi/indiweather.h ISD::Weather)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.DustCap.xml indi/indidustcap.h ISD::DustCap)
+            # Ekos
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/manager.h Ekos::Manager)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/schedulerprocess.h Ekos::SchedulerProcess)
+            # TODO enable back observatory
+            #qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
+        ELSE()
+            # INDI
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.GenericDevice.xml indi/indistd.h ISD::GenericDevice)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Dome.xml indi/indidome.h ISD::Dome)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Weather.xml indi/indiweather.h ISD::Weather)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.DustCap.xml indi/indidustcap.h ISD::DustCap)
+            # Ekos
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/manager.h Ekos::Manager)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/schedulerprocess.h Ekos::SchedulerProcess)
+            # TODO enable back observatory
+            #qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
+	ENDIF()
     ENDIF ()
 
     ki18n_wrap_ui(kstars_SRCS
@@ -1277,8 +1301,24 @@ IF (NOT ANDROID)
     generate_export_header(KStarsLib)
 
     target_link_libraries(KStarsLib
-        LibKSDataHandlers
-        htmesh
+    LibKSDataHandlers
+    htmesh
+    Qt::Gui
+    Qt::PrintSupport
+    Qt::Sql
+    Qt::Svg
+    Qt::Qml
+    Qt::Quick
+    Qt::Network
+    #Qt::Positioning
+    Qt::Concurrent
+    Qt::WebSockets
+    ${ZLIB_LIBRARIES}
+    Eigen3::Eigen
+    GSL::gsl
+    )
+    if (BUILD_QT5)
+        target_link_libraries(KStarsLib
         KF5::Crash
         KF5::I18n
         KF5::NewStuff
@@ -1286,33 +1326,34 @@ IF (NOT ANDROID)
         KF5::WidgetsAddons
         KF5::Plotting
         KF5::Notifications
-        Qt5::Gui
-        Qt5::PrintSupport
-        Qt5::Sql
-        Qt5::Svg
-        Qt5::Qml
-        Qt5::Quick
-        Qt5::Network
-        #Qt5::Positioning
-        Qt5::Concurrent
-        Qt5::WebSockets
-        ${ZLIB_LIBRARIES}
-        Eigen3::Eigen
-        GSL::gsl
         )
+    else()
+        target_link_libraries(KStarsLib
+        KF6::Crash
+        KF6::I18n
+	KF6::XmlGui
+        # KF6::NewStuff
+        KF6::KIOFileWidgets
+        KF6::WidgetsAddons
+        KF6::Plotting
+        KF6::Notifications
+        )
+    endif()
 
-    if (Qt5Keychain_FOUND)
+    if (Qt5Keychain_FOUND OR Qt6Keychain_FOUND)
         target_include_directories(KStarsLib PUBLIC ${QTKEYCHAIN_INCLUDE_DIRS})
         target_link_libraries(KStarsLib ${QTKEYCHAIN_LIBRARIES})
-    endif(Qt5Keychain_FOUND)
+    endif()
 
-    if (Qt5DataVisualization_FOUND)
-        target_link_libraries(KStarsLib Qt5::DataVisualization)
-    endif(Qt5DataVisualization_FOUND)
+    if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
+        target_link_libraries(KStarsLib Qt::DataVisualization)
+    endif()
 
     if (KF5NotifyConfig_FOUND)
         target_link_libraries(KStarsLib KF5::NotifyConfig)
-    endif(KF5NotifyConfig_FOUND)
+    elseif(KF6NotifyConfig_FOUND)
+        target_link_libraries(KStarsLib KF6::NotifyConfig)
+    endif()
 
     if (StellarSolver_FOUND)
 	target_link_libraries(KStarsLib StellarSolver::stellarsolver)
@@ -1439,7 +1480,11 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
 )
 
-qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
+if (BUILD_QT5)
+    qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
+else()
+    qt6_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
+endif()
 
 if (ANDROID)
     add_library(kstars SHARED ${KSTARS_APP_SRCS})
@@ -1592,7 +1637,7 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if(NOT APPLE) # The desktop file is not needed on MacOS and the other two are bundled above
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+install(FILES kstars.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 endif(NOT APPLE)
 
 if(INDI_FOUND)
