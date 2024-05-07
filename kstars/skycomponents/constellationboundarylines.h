@@ -25,7 +25,7 @@ typedef QVector<std::shared_ptr<PolyListList>> PolyIndex;
  * @author Jason Harris
  * @version 0.1
  */
-class ConstellationBoundaryLines : public NoPrecessIndex
+class ConstellationBoundaryLines : public LineListIndex
 {
   public:
     /**

@@ -19,11 +19,12 @@
 #include "skypainter.h"
 #include "htmesh/MeshIterator.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skyobjects/starobject.h"
 
 #include <QHash>
 
 ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
-    : NoPrecessIndex(parent, i18n("Constellation Boundaries"))
+    : LineListIndex(parent, i18n("Constellation Boundaries"))
 {
     m_skyMesh      = SkyMesh::Instance();
     m_polyIndexCnt = 0;
@@ -207,7 +208,6 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(const SkyPoint *p) const
 
     //printf("\n");
 
-    // the boundaries don't precess so we use index() not aperture()
     m_skyMesh->index(p, 1.0, IN_CONSTELL_BUF);
     MeshIterator region(m_skyMesh, IN_CONSTELL_BUF);
     while (region.hasNext())
@@ -231,9 +231,27 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(const SkyPoint *p) const
     if (polyHash.size() == 1)
         return iter.key();
 
-    QPointF point(p->ra().Hours(), p->dec().Degrees());
-    QPointF wrapPoint(p->ra().Hours() - 24.0, p->dec().Degrees());
-    bool wrapRA = p->ra().Hours() > 12.0;
+    // Note: We special case StarObject, because we should really
+    // include the proper motion (i.e. epoch = JNow, equinox = J2000)
+    // when determining the constellation containing the star. This
+    // ensures that rho Aquilae will be reported in Delphinus after
+    // accounting for proper motion.  See
+    // https://en.wikipedia.org/wiki/Rho_Aquilae
+    //
+    // However, this way of doing it isn't great, in case the
+    // StarObject got type-sliced down to SkyPoint somewhere along
+    // --asimha
+    double RAH = p->ra0().Hours(), DED = p->dec0().Degrees();
+    const StarObject *star = dynamic_cast<const StarObject*>(p);
+    if (star) {
+        StarObject copy = *star;
+        double RAD = 0;
+        copy.getIndexCoords((star->getLastPrecessJD() - J2000)/365250., &RAD, &DED);
+        RAH = RAD / 15.;
+    }
+    QPointF point(RAH, DED);
+    QPointF wrapPoint(RAH - 24.0, DED);
+    bool wrapRA = RAH > 12.0;
 
     while (iter != polyHash.constEnd())
     {

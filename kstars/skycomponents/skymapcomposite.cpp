@@ -278,7 +278,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 
     // create the no-precess aperture if needed
     if (Options::showEquatorialGrid() || Options::showHorizontalGrid() ||
-            Options::showCBounds() || Options::showEquator())
+            Options::showEquator())
     {
         m_skyMesh->index(focus, radius + 1.0, NO_PRECESS_BUF, false);
     }
