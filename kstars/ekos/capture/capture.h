@@ -206,6 +206,14 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /** DBUS interface function.
+             * @return Returns true if an ongoing capture is a preview capture.
+             */
+        Q_SCRIPTABLE bool isActiveJobPreview()
+        {
+            return state() && state()->isActiveJobPreview();
+        }
+
+        /** DBUS interface function.
              * @return Returns the number of jobs in the sequence queue.
              */
         Q_SCRIPTABLE int getJobCount()

@@ -80,7 +80,7 @@ public slots:
      * @brief update display when the capture status changes
      * @param status current capture status
      */
-    void updateCaptureStatus(Ekos::CaptureState status);
+    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview);
 
     /**
      * @brief Slot receiving the update of the current target distance.

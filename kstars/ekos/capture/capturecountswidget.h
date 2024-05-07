@@ -58,7 +58,7 @@ private:
      * @brief update display when the capture status changes
      * @param status current capture status
      */
-    void updateCaptureStatus(Ekos::CaptureState status);
+    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview);
 
     /**
      * @brief display information about the currently running job
