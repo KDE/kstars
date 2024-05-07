@@ -207,7 +207,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, BufNum 
     }
 
     if (len < edge10)
-        return intersect(ra1, len, bufNum);
+        return intersect(ra1, dec1, len, bufNum); // Use circular aperture
 
     // Cartesian cross product => perpendicular!.  Ugh.
     double cx = y1 * z2 - z1 * y2;
@@ -217,7 +217,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, BufNum 
     if (htmDebug > 0)
         printf("cp  = (%f, %f, %f)\n", cx, cy, cz);
 
-    double norm = edge10 / (fabs(cx) + fabs(cy) + fabs(cz));
+    double norm = edge10 / std::sqrt(cx * cx + cy * cy + cz * cz);
 
     // give it length edge/10
     cx *= norm;
@@ -236,9 +236,8 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, BufNum 
         printf("cpf  = (%f, %f, %f)\n", cx, cy, cz);
 
     // back to spherical
-    norm        = sqrt(cx * cx + cy * cy + cz * cz);
     double ra0  = atan2(cy, cx) / degree2Rad;
-    double dec0 = asin(cz / norm) / degree2Rad;
+    double dec0 = atan2(cz, sqrt(cx * cx + cy * cy)) / degree2Rad;
 
     if (htmDebug > 0)
         printf("new ra, dec = (%f, %f)\n", ra0, dec0);
