@@ -828,6 +828,11 @@ class CaptureModuleState: public QObject
         double progressPercentage();
 
         /**
+         * @return Returns true if there's an active job and it is a preview job.
+         */
+        bool isActiveJobPreview();
+
+        /**
          * @return Returns time left in seconds until active job is estimated to be complete.
          */
         int activeJobRemainingTime();

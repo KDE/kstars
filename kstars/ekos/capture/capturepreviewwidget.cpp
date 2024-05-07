@@ -243,11 +243,11 @@ void CapturePreviewWidget::reset()
     captureCountsWidget->reset();
 }
 
-void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status)
+void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview)
 {
     // forward to sub widgets
     captureStatusWidget->setCaptureState(status);
-    captureCountsWidget->updateCaptureStatus(status);
+    captureCountsWidget->updateCaptureStatus(status, isPreview);
 }
 
 void CapturePreviewWidget::updateTargetDistance(double targetDiff)

@@ -92,9 +92,18 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
         overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
     }
-    jobRemainingTime->setText(jobCountDown.toString("hh:mm:ss"));
-    sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
-    gr_sequenceRemainingTime->setText(sequenceRemainingTime->text());
+    if (!m_captureProcess->isActiveJobPreview())
+    {
+        jobRemainingTime->setText(jobCountDown.toString("hh:mm:ss"));
+        sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
+        gr_sequenceRemainingTime->setText(sequenceRemainingTime->text());
+    }
+    else
+    {
+        jobRemainingTime->setText("--:--:--");
+        sequenceRemainingTime->setText("--:--:--");
+        gr_sequenceRemainingTime->setText("--:--:--");
+    }
 }
 
 void CaptureCountsWidget::reset()
@@ -170,7 +179,7 @@ void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString fi
     }
 }
 
-void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
+void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview)
 {
     overallCountDown.setHMS(0, 0, 0);
     bool infinite_loop = false;
@@ -234,10 +243,13 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
             }
 
             // display overall remainings
-            overallLabel->setText(QString("%1 (%2/%3)")
-                                  .arg(total_label)
-                                  .arg(total_completed)
-                                  .arg(infinite_loop ? QString("-") : QString::number(total_count)));
+            if (isPreview)
+                overallLabel->setText(QString("%1").arg(total_label));
+            else
+                overallLabel->setText(QString("%1 (%2/%3)")
+                                      .arg(total_label)
+                                      .arg(total_completed)
+                                      .arg(infinite_loop ? QString("-") : QString::number(total_count)));
             gr_overallLabel->setText(overallLabel->text());
 
             // update job remaining time if run from the scheduler
@@ -274,10 +286,14 @@ void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
     // display sequence progress in the graphical view
     gr_sequenceProgressBar->setRange(0, job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     gr_sequenceProgressBar->setValue(job->getCompleted());
-    sequenceLabel->setText(QString("%1 (%3/%4)")
-                           .arg(frameLabel(CCDFrameTypeNames[job->getFrameType()],
-                                           job->getCoreProperty(SequenceJob::SJ_Filter).toString()))
-                           .arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+    if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW)
+        sequenceLabel->setText(QString("%1").arg(frameLabel(CCDFrameTypeNames[job->getFrameType()],
+                               job->getCoreProperty(SequenceJob::SJ_Filter).toString())));
+    else
+        sequenceLabel->setText(QString("%1 (%3/%4)")
+                               .arg(frameLabel(CCDFrameTypeNames[job->getFrameType()],
+                                               job->getCoreProperty(SequenceJob::SJ_Filter).toString()))
+                               .arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
     gr_sequenceLabel->setText(sequenceLabel->text());
 }
 

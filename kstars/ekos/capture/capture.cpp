@@ -884,7 +884,7 @@ void Capture::syncCameraInfo()
         double temperature = 0;
         if (activeCamera()->getTemperature(&temperature))
         {
-            cameraUI->temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
+            cameraUI->temperatureOUT->setText(QString("%L1º").arg(temperature, 0, 'f', 1));
             if (cameraUI->cameraTemperatureN->cleanText().isEmpty())
                 cameraUI->cameraTemperatureN->setValue(temperature);
         }
@@ -1536,10 +1536,14 @@ void Capture::captureRunning()
 {
     emit captureStarting(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                          activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString());
-    cameraUI->frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob()->getFrameType(),
-                                      activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
-                                      .arg(activeJob()->getCompleted()).arg(activeJob()->getCoreProperty(
-                                              SequenceJob::SJ_Count).toInt()));
+    if (isActiveJobPreview())
+        cameraUI->frameInfoLabel->setText("Expose (-/-):");
+    else
+        cameraUI->frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob()->getFrameType(),
+                                          activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
+                                          .arg(activeJob()->getCompleted()).arg(activeJob()->getCoreProperty(
+                                                  SequenceJob::SJ_Count).toInt()));
+
     // ensure that the download time label is visible
     cameraUI->avgDownloadTime->setVisible(true);
     cameraUI->avgDownloadLabel->setVisible(true);
@@ -1581,7 +1585,10 @@ void Capture::updateCaptureCountDown(int deltaMillis)
     state()->imageCountDownAddMSecs(deltaMillis);
     state()->sequenceCountDownAddMSecs(deltaMillis);
     cameraUI->frameRemainingTime->setText(state()->imageCountDown().toString("hh:mm:ss"));
-    cameraUI->jobRemainingTime->setText(state()->sequenceCountDown().toString("hh:mm:ss"));
+    if (!isActiveJobPreview())
+        cameraUI->jobRemainingTime->setText(state()->sequenceCountDown().toString("hh:mm:ss"));
+    else
+        cameraUI->jobRemainingTime->setText("--:--:--");
 }
 
 void Capture::updateCCDTemperature(double value)
@@ -1592,7 +1599,7 @@ void Capture::updateCCDTemperature(double value)
             process()->checkCamera();
     }
 
-    cameraUI->temperatureOUT->setText(QString("%L1").arg(value, 0, 'f', 2));
+    cameraUI->temperatureOUT->setText(QString("%L1º").arg(value, 0, 'f', 1));
 
     if (cameraUI->cameraTemperatureN->cleanText().isEmpty())
         cameraUI->cameraTemperatureN->setValue(value);

@@ -2574,7 +2574,7 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pi
 
 void Manager::updateCaptureStatus(Ekos::CaptureState status)
 {
-    capturePreview->updateCaptureStatus(status);
+    capturePreview->updateCaptureStatus(status, captureModule()->isActiveJobPreview());
 
     switch (status)
     {

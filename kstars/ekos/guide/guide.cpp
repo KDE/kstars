@@ -1169,7 +1169,7 @@ void Guide::setCaptureComplete()
         case GUIDE_DITHERING_SETTLE:
             if (Options::ditherNoGuiding())
                 return;
-            capture();
+            // Do nothing
             break;
 
         case GUIDE_SUSPENDED:

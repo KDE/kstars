@@ -1181,6 +1181,11 @@ double CaptureModuleState::progressPercentage()
         return -1;
 }
 
+bool CaptureModuleState::isActiveJobPreview()
+{
+    return m_activeJob && m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW;
+}
+
 int CaptureModuleState::activeJobRemainingTime()
 {
     if (m_activeJob == nullptr)

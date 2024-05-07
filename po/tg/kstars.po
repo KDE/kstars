@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-04 01:53+0000\n"
+"POT-Creation-Date: 2024-05-07 01:42+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -448,7 +448,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2102
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/capture.cpp:2109
 #: ekos/scheduler/scheduler.cpp:1805
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2007,7 +2007,7 @@ msgstr "RA:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#: data/qml/mount/mountbox.qml:668 ekos/capture/camera.ui:1748
+#: data/qml/mount/mountbox.qml:668 ekos/capture/camera.ui:1751
 #: ekos/scheduler/scheduler.ui:160
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -2711,7 +2711,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/capture.cpp:2024 ekos/capture/capture.cpp:2111
+#: ekos/capture/capture.cpp:2031 ekos/capture/capture.cpp:2118
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1705
 #: ekos/scheduler/scheduler.cpp:1815 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2914,7 +2914,7 @@ msgstr "&Ғарб"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:93
+#: ekos/capture/camera.ui:2254 tools/observinglist.cpp:93
 #: tools/observinglist.cpp:97 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
@@ -3016,9 +3016,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
-#: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/capturecountswidget.cpp:266
-#: ekos/capture/captureprocess.cpp:2448 fitsviewer/fitsviewer.cpp:719
+#: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
+#: ekos/capture/capturecountswidget.cpp:278
+#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, fuzzy, kde-format
 msgid "Preview"
@@ -4111,7 +4111,7 @@ msgstr "Албирео"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/camera.ui:2737
+#: dialogs/details_data_comet.ui:218 ekos/capture/camera.ui:2740
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -6628,7 +6628,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:3978
-#: ekos/capture/capture.cpp:1559 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:1563 ekos/focus/focus.cpp:4350
 #: ekos/guide/guide.cpp:1190 ekos/manager.cpp:1937 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
@@ -6740,8 +6740,8 @@ msgstr "Заминаро дар Файли Вуруди интихобед"
 msgid "Capture error. Aborting..."
 msgstr "Гирифтани расм"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
-#: ekos/capture/captureprocess.cpp:2104
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
+#: ekos/capture/captureprocess.cpp:2107
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6792,7 +6792,7 @@ msgstr "<i>arcmin</i>"
 msgid "dDE (arcsec)"
 msgstr "Парсон"
 
-#: ekos/align/align.cpp:3632 ekos/capture/capture.cpp:2598
+#: ekos/align/align.cpp:3632 ekos/capture/capture.cpp:2605
 #: ekos/focus/focus.cpp:5145
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6800,18 +6800,18 @@ msgstr "Парсон"
 msgid "Filter operation failed."
 msgstr "Калиент"
 
-#: ekos/align/align.cpp:3644 ekos/capture/capture.cpp:2534
+#: ekos/align/align.cpp:3644 ekos/capture/capture.cpp:2541
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3651 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/capture.cpp:2539
+#: ekos/capture/capture.cpp:2546
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3656 ekos/capture/capture.cpp:2544
+#: ekos/align/align.cpp:3656 ekos/capture/capture.cpp:2551
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -6831,8 +6831,8 @@ msgid "Export Solution Points"
 msgstr "Пок кардани ҳамаи аломатҳои мадор"
 
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:2023
-#: ekos/capture/capture.cpp:2110 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/capture.cpp:2030
+#: ekos/capture/capture.cpp:2117 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1704 ekos/scheduler/scheduler.cpp:1814
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6850,8 +6850,8 @@ msgid "Unable to write to file %1"
 msgstr "Наметавонам маълумотҳоро аз файли FITS-ро %1 хонам.\n"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2039
-#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:33
+#: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:2046
+#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7198,7 +7198,7 @@ msgstr "Ҷустуҷӯи объект"
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:602 ekos/capture/camera.ui:2528 ekos/guide/guide.ui:240
+#: ekos/align/align.ui:602 ekos/capture/camera.ui:2531 ekos/guide/guide.ui:240
 #, kde-format
 msgid "Dark"
 msgstr ""
@@ -7508,8 +7508,8 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Дохил кардан ба рӯйхат"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2038
-#: ekos/capture/captureprocess.cpp:2500 ekos/capture/sequencequeue.cpp:32
+#: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:2045
+#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, fuzzy, kde-format
@@ -11453,7 +11453,7 @@ msgstr "Шумо ҳақиқатан мехоҳед истинодро ҳузф �
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:109 ekos/capture/camera.ui:2236
+#: ekos/auxiliary/filtermanager.cpp:109 ekos/capture/camera.ui:2239
 #: oal/equipmentwriter.ui:918
 #, fuzzy, kde-format
 msgid "Filter"
@@ -11461,7 +11461,7 @@ msgstr "Филтри тасвир"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:115 ekos/capture/camera.ui:2266
+#: ekos/auxiliary/filtermanager.cpp:115 ekos/capture/camera.ui:2269
 #, fuzzy, kde-format
 msgid "Offset"
 msgstr "ОмезишиUT:"
@@ -12172,7 +12172,7 @@ msgid "Filter exposure time during focus"
 msgstr "Як лаҳза дер мондан"
 
 #: ekos/auxiliary/filtermanager.cpp:112
-#: ekos/capture/capturecountswidget.cpp:162
+#: ekos/capture/capturecountswidget.cpp:171
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Exposure"
@@ -14398,7 +14398,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
-#: ekos/capture/camera.ui:312 ekos/capture/camera.ui:1800
+#: ekos/capture/camera.ui:312 ekos/capture/camera.ui:1803
 #, fuzzy, kde-format
 #| msgid "Valid date formats: "
 msgid "Format:"
@@ -14692,7 +14692,7 @@ msgid "Desired CCD temperature"
 msgstr "Ҳамаи параметрҳо"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/camera.ui:1535
+#: ekos/capture/camera.ui:1538
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
@@ -14700,51 +14700,51 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/camera.ui:1538
+#: ekos/capture/camera.ui:1541
 #, kde-format
 msgid "Tº"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
-#: ekos/capture/camera.ui:1569
+#: ekos/capture/camera.ui:1572
 #, fuzzy, kde-format
 msgid "Set CCD temperature"
 msgstr "Ҳамаи параметрҳо"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
-#: ekos/capture/camera.ui:1607
+#: ekos/capture/camera.ui:1610
 #, fuzzy, kde-format
 msgid "Temperature regulation"
 msgstr "Ҳамаи параметрҳо"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
-#: ekos/capture/camera.ui:1632
+#: ekos/capture/camera.ui:1635
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "File Settings"
 msgstr "Танзимоти рангҳои ҷорӣ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/camera.ui:1660
+#: ekos/capture/camera.ui:1663
 #, fuzzy, kde-format
 #| msgid "Local"
 msgid "Locally"
 msgstr "Маҳалли"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/camera.ui:1665
+#: ekos/capture/camera.ui:1668
 #, fuzzy, kde-format
 msgid "Remotely"
 msgstr "Ҳузфи истинодот"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/camera.ui:1670
+#: ekos/capture/camera.ui:1673
 #, kde-format
 msgid "Both"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#: ekos/capture/camera.ui:1681
+#: ekos/capture/camera.ui:1684
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
@@ -14752,27 +14752,27 @@ msgid "Target"
 msgstr "Саргент"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/capture/camera.ui:1691
+#: ekos/capture/camera.ui:1694
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr "Ҷустуҷӯи объект"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/camera.ui:1697 indi/recordingoptions.ui:94
+#: ekos/capture/camera.ui:1700 indi/recordingoptions.ui:94
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Directory:"
 msgstr "Каталоги FITS нобаён:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
-#: ekos/capture/camera.ui:1722
+#: ekos/capture/camera.ui:1725
 #, kde-format
 msgid "Reset placeholder format to default"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
-#: ekos/capture/camera.ui:1742
+#: ekos/capture/camera.ui:1745
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
@@ -14781,13 +14781,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
-#: ekos/capture/camera.ui:1758
+#: ekos/capture/camera.ui:1761
 #, kde-format
 msgid "/home/pi"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/capture/camera.ui:1765
+#: ekos/capture/camera.ui:1768
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select how captured images are uploaded:</p><ol style="
@@ -14811,13 +14811,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/camera.ui:1768
+#: ekos/capture/camera.ui:1771
 #, fuzzy, kde-format
 msgid "Save:"
 msgstr "Хидматгори номнависӣ"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/camera.ui:1778
+#: ekos/capture/camera.ui:1781
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
@@ -14825,13 +14825,13 @@ msgid ""
 msgstr "Ҷустуҷӯи объект"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/camera.ui:1781
+#: ekos/capture/camera.ui:1784
 #, no-c-format, kde-format
 msgid "_%s"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
-#: ekos/capture/camera.ui:1797
+#: ekos/capture/camera.ui:1800
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
@@ -14910,7 +14910,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
-#: ekos/capture/camera.ui:1832
+#: ekos/capture/camera.ui:1835
 #, kde-format
 msgid ""
 "When storing images on remote devices, specify the directory where captured "
@@ -14919,46 +14919,46 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/camera.ui:1835 ekos/profileeditor.ui:480
+#: ekos/capture/camera.ui:1838 ekos/profileeditor.ui:480
 #, fuzzy, kde-format
 msgid "Remote:"
 msgstr "Ҳузфи истинодот"
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
-#: ekos/capture/camera.ui:1879
+#: ekos/capture/camera.ui:1882
 #, kde-format
 msgid "Sequence Queue"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/capture/camera.ui:2063
+#: ekos/capture/camera.ui:2066
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
-#: ekos/capture/camera.ui:2088
+#: ekos/capture/camera.ui:2091
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Select Observer..."
 msgstr "Хидматгор"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/capture/camera.ui:2129
+#: ekos/capture/camera.ui:2132
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Load Capture Sequence from File..."
 msgstr "upernova Remnant"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/capture/camera.ui:2163
+#: ekos/capture/camera.ui:2166
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Save Capture Sequence..."
 msgstr "upernova Remnant"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/capture/camera.ui:2197
+#: ekos/capture/camera.ui:2200
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Save Capture Sequence As..."
@@ -14968,7 +14968,7 @@ msgstr "upernova Remnant"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/capture/camera.ui:2231 ekos/ekoslive/ekoslivedialog.ui:119
+#: ekos/capture/camera.ui:2234 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1092 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
@@ -14976,32 +14976,32 @@ msgid "Status"
 msgstr "Вазъият"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2241
+#: ekos/capture/camera.ui:2244
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Count"
 msgstr "Ҳисоб кардан:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2246
+#: ekos/capture/camera.ui:2249
 #, fuzzy, kde-format
 msgid "Exp"
 msgstr "Кастор"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2256
+#: ekos/capture/camera.ui:2259
 #, fuzzy, kde-format
 msgid "Bin"
 msgstr "Камтар кардан:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2261
+#: ekos/capture/camera.ui:2264
 #, kde-format
 msgid "ISO/Gain"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
-#: ekos/capture/camera.ui:2287
+#: ekos/capture/camera.ui:2290
 #, fuzzy, kde-format
 #| msgid "Video port:"
 msgid "Video"
@@ -15009,13 +15009,13 @@ msgstr "Даргоҳи видео:"
 
 #. i18n: ectx: property (text), widget (QLabel, loopLabel)
 #. i18n: ectx: property (text), widget (QPushButton, loopB)
-#: ekos/capture/camera.ui:2317 ekos/guide/guide.ui:247
+#: ekos/capture/camera.ui:2320 ekos/guide/guide.ui:247
 #, kde-format
 msgid "Loop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
-#: ekos/capture/camera.ui:2339
+#: ekos/capture/camera.ui:2342
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -15023,28 +15023,28 @@ msgid "Start Framing (Looping)..."
 msgstr "Фармингтон"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/camera.ui:2380
+#: ekos/capture/camera.ui:2383
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Start Sequence"
 msgstr "Шиддат:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/camera.ui:2408 ekos/focus/focus.ui:698
+#: ekos/capture/camera.ui:2411 ekos/focus/focus.ui:698
 #, fuzzy, kde-format
 #| msgid "Video port:"
 msgid "Live Video..."
 msgstr "Даргоҳи видео:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/capture/camera.ui:2478
+#: ekos/capture/camera.ui:2481
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Capture a Preview..."
 msgstr "Ҷамкунии пайдарҳами тасвир"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
-#: ekos/capture/camera.ui:2525
+#: ekos/capture/camera.ui:2528
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Automatically apply dark subtraction on preview images "
@@ -15052,21 +15052,21 @@ msgid ""
 msgstr "Ҷустуҷӯи объект"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/capture/camera.ui:2556
+#: ekos/capture/camera.ui:2559
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Pause Sequence"
 msgstr "Шиддат:"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/capture/camera.ui:2599
+#: ekos/capture/camera.ui:2602
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "Total remaining:"
 msgstr "Пурборкунии тасвирҳои бадарғашуда"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.ui:2612 ekos/capture/capture.cpp:1475
+#: ekos/capture/camera.ui:2615 ekos/capture/capture.cpp:1475
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
@@ -15079,7 +15079,7 @@ msgstr "Тасвир кардан:"
 #. i18n: ectx: property (text), widget (QLabel, gr_overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/camera.ui:2644 ekos/capture/camera.ui:2683
+#: ekos/capture/camera.ui:2647 ekos/capture/camera.ui:2686
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15092,21 +15092,21 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/camera.ui:2664
+#: ekos/capture/camera.ui:2667
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "<b>Бандар:</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/camera.ui:2693
+#: ekos/capture/camera.ui:2696
 #, fuzzy, kde-format
 #| msgid "&Download Data..."
 msgid "Avg. Download:"
 msgstr "&Пурборкунии маълумот..."
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/camera.ui:2703
+#: ekos/capture/camera.ui:2706
 #, fuzzy, kde-format
 msgid "sec"
 msgstr ""
@@ -15114,7 +15114,7 @@ msgstr ""
 "дм"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/camera.ui:2727
+#: ekos/capture/camera.ui:2730
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
@@ -15125,35 +15125,35 @@ msgstr "Саргент"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/camera.ui:2747 ekos/capture/limits.ui:121
+#: ekos/capture/camera.ui:2750 ekos/capture/limits.ui:121
 #: ekos/capture/limits.ui:157 ekos/focus/cfz.ui:422
 #, kde-format
 msgid "\""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
-#: ekos/capture/camera.ui:2794
+#: ekos/capture/camera.ui:2797
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Load a new sequence file"
 msgstr "upernova Remnant"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
-#: ekos/capture/camera.ui:2797
+#: ekos/capture/camera.ui:2800
 #, fuzzy, kde-format
 #| msgid "&Download Data..."
 msgid "Load..."
 msgstr "&Пурборкунии маълумот..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
-#: ekos/capture/camera.ui:2816
+#: ekos/capture/camera.ui:2819
 #, fuzzy, kde-format
 msgid "Save to a new sequence file"
 msgstr "Наметавонам файлро боз кунам"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #. i18n: ectx: property (text), widget (QPushButton, AddPreset)
-#: ekos/capture/camera.ui:2819 options/opscolors.ui:217
+#: ekos/capture/camera.ui:2822 options/opscolors.ui:217
 #, fuzzy, kde-format
 #| msgid "Save Script As..."
 msgid "Save As..."
@@ -15164,13 +15164,13 @@ msgstr "Нигоҳ доштани сценария ҳам чун..."
 msgid "Capture Sequence Editor: %1"
 msgstr ""
 
-#: ekos/capture/capture.cpp:374 ekos/capture/capture.cpp:2352
+#: ekos/capture/capture.cpp:374 ekos/capture/capture.cpp:2359
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "Истилои тасвири пайдарпайӣ..."
 
-#: ekos/capture/capture.cpp:375 ekos/capture/capture.cpp:2353
+#: ekos/capture/capture.cpp:375 ekos/capture/capture.cpp:2360
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
@@ -15209,210 +15209,210 @@ msgstr "Фремингем"
 msgid "Captured image received"
 msgstr "Ҷамкунии пайдарҳами тасвир"
 
-#: ekos/capture/capture.cpp:1552
+#: ekos/capture/capture.cpp:1556
 #, fuzzy, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Пурборкунии FITS..."
 
-#: ekos/capture/capture.cpp:1717
+#: ekos/capture/capture.cpp:1724
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1893
+#: ekos/capture/capture.cpp:1900
 #, fuzzy, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Ҳамаи параметрҳо"
 
-#: ekos/capture/capture.cpp:1894
+#: ekos/capture/capture.cpp:1901
 #, fuzzy, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Ҳамаи параметрҳо"
 
-#: ekos/capture/capture.cpp:1898
+#: ekos/capture/capture.cpp:1905
 #, fuzzy, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/capture/capture.cpp:1899
+#: ekos/capture/capture.cpp:1906
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1903
+#: ekos/capture/capture.cpp:1910
 #, fuzzy, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Ҳамаи параметрҳо"
 
-#: ekos/capture/capture.cpp:1904
+#: ekos/capture/capture.cpp:1911
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "Маконро танзим кунед..."
 
-#: ekos/capture/capture.cpp:1947 ekos/capture/capture.cpp:1948
+#: ekos/capture/capture.cpp:1954 ekos/capture/capture.cpp:1955
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete."
 msgstr "Комил"
 
-#: ekos/capture/capture.cpp:1952
+#: ekos/capture/capture.cpp:1959
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed."
 msgstr "Комил"
 
-#: ekos/capture/capture.cpp:1974
+#: ekos/capture/capture.cpp:1981
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1979
+#: ekos/capture/capture.cpp:1986
 #, fuzzy, kde-format
 #| msgid "Automatic Device Updates"
 msgid "Meridian Flip..."
 msgstr "Дасгоҳи навигарии автоматики"
 
-#: ekos/capture/capture.cpp:1980
+#: ekos/capture/capture.cpp:1987
 #, fuzzy, kde-format
 #| msgid "Automatic Device Updates"
 msgid "Meridian flip started"
 msgstr "Дасгоҳи навигарии автоматики"
 
-#: ekos/capture/capture.cpp:1984
+#: ekos/capture/capture.cpp:1991
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "Комил"
 
-#: ekos/capture/capture.cpp:2005 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:2012 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Каталоги FITS нобаён:"
 
-#: ekos/capture/capture.cpp:2015
+#: ekos/capture/capture.cpp:2022
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Дохил кардан ба рӯйхат"
 
-#: ekos/capture/capture.cpp:2080
+#: ekos/capture/capture.cpp:2087
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Истилои тасвири пайдарпайӣ..."
 
-#: ekos/capture/capture.cpp:2102
+#: ekos/capture/capture.cpp:2109
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2145
+#: ekos/capture/capture.cpp:2152
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Шумо ҳақиқатан мехоҳед истинодро ҳузф кунед %1?"
 
-#: ekos/capture/capture.cpp:2145 ekos/capture/captureprocess.cpp:2615
+#: ekos/capture/capture.cpp:2152 ekos/capture/captureprocess.cpp:2618
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "&Нуқта"
 
-#: ekos/capture/capture.cpp:2331
+#: ekos/capture/capture.cpp:2338
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Муҳариркунонии истинодот..."
 
-#: ekos/capture/capture.cpp:2334 ekos/scheduler/scheduler.cpp:1164
+#: ekos/capture/capture.cpp:2341 ekos/scheduler/scheduler.cpp:1164
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2335
+#: ekos/capture/capture.cpp:2342
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "Таъғиротро дар FITS нигоҳ дорам?"
 
-#: ekos/capture/capture.cpp:2347
+#: ekos/capture/capture.cpp:2354
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "Муҳариркунонии истинодот..."
 
-#: ekos/capture/capture.cpp:2473
+#: ekos/capture/capture.cpp:2480
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Хидматгор"
 
-#: ekos/capture/capture.cpp:2475
+#: ekos/capture/capture.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "Хидматгор"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:2486 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:2493 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "Хидматгор"
 
-#: ekos/capture/capture.cpp:2551
+#: ekos/capture/capture.cpp:2558
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
 
-#: ekos/capture/capture.cpp:2715
+#: ekos/capture/capture.cpp:2722
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2717
+#: ekos/capture/capture.cpp:2724
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "Тасдиқи ҳузфкунӣ "
 
-#: ekos/capture/capture.cpp:2757 ekos/capture/capture.cpp:2863
+#: ekos/capture/capture.cpp:2764 ekos/capture/capture.cpp:2870
 #, fuzzy, kde-format
 #| msgid "Dark Frames"
 msgid "Dark Flat"
 msgstr "Чорчӯбаҳои торик"
 
-#: ekos/capture/capture.cpp:2840
+#: ekos/capture/capture.cpp:2847
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2846
+#: ekos/capture/capture.cpp:2853
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2884
+#: ekos/capture/capture.cpp:2891
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2884
+#: ekos/capture/capture.cpp:2891
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3097
+#: ekos/capture/capture.cpp:3104
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3103
+#: ekos/capture/capture.cpp:3110
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -15420,7 +15420,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3108
+#: ekos/capture/capture.cpp:3115
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -15428,7 +15428,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Фрихолд"
 
-#: ekos/capture/capture.cpp:3114
+#: ekos/capture/capture.cpp:3121
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -15436,25 +15436,25 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3127
+#: ekos/capture/capture.cpp:3134
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Ҳамаи параметрҳо"
 
-#: ekos/capture/capture.cpp:3145
+#: ekos/capture/capture.cpp:3152
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "Шиддат:"
 
-#: ekos/capture/capture.cpp:3151
+#: ekos/capture/capture.cpp:3158
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Шиддат:"
 
-#: ekos/capture/capture.cpp:3176
+#: ekos/capture/capture.cpp:3183
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15463,7 +15463,7 @@ msgstr[1] ""
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:107
+#: ekos/capture/capturecountswidget.cpp:116
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, fuzzy, kde-format
@@ -15472,7 +15472,7 @@ msgid "Sequence"
 msgstr "Шиддат:"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:110
+#: ekos/capture/capturecountswidget.cpp:119
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -15761,17 +15761,17 @@ msgstr ""
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1439
+#: ekos/capture/capturemodulestate.cpp:1444
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1458
+#: ekos/capture/capturemodulestate.cpp:1463
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1463
+#: ekos/capture/capturemodulestate.cpp:1468
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Телескопро танзим кунед"
@@ -15939,163 +15939,163 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Сохтани тасвири майдашуда..."
 
-#: ekos/capture/captureprocess.cpp:1222
+#: ekos/capture/captureprocess.cpp:1225
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Файли маълумотҳо нигоҳ дошта шуд дар %1"
 
-#: ekos/capture/captureprocess.cpp:1248
+#: ekos/capture/captureprocess.cpp:1251
 #, fuzzy, kde-format
 msgid "Autoguiding suspended."
 msgstr "Ҷустуҷӯи объект"
 
-#: ekos/capture/captureprocess.cpp:1277
+#: ekos/capture/captureprocess.cpp:1280
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1343
+#: ekos/capture/captureprocess.cpp:1346
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "upernova Remnant"
 
-#: ekos/capture/captureprocess.cpp:1400
+#: ekos/capture/captureprocess.cpp:1403
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "Пайвастшавӣ"
 
-#: ekos/capture/captureprocess.cpp:1428
+#: ekos/capture/captureprocess.cpp:1431
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2096
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1654
+#: ekos/capture/captureprocess.cpp:1657
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1722
+#: ekos/capture/captureprocess.cpp:1725
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1756
+#: ekos/capture/captureprocess.cpp:1759
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured %1"
 msgstr "Гирифтани расм"
 
-#: ekos/capture/captureprocess.cpp:1762
+#: ekos/capture/captureprocess.cpp:1765
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1795
+#: ekos/capture/captureprocess.cpp:1798
 #, fuzzy, kde-format
 msgid "Executing capture script %1"
 msgstr "Вақти баромад: %1"
 
-#: ekos/capture/captureprocess.cpp:1810
+#: ekos/capture/captureprocess.cpp:1813
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1818
+#: ekos/capture/captureprocess.cpp:1821
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1830
+#: ekos/capture/captureprocess.cpp:1833
 #, fuzzy, kde-format
 #| msgid "Automatic Device Updates"
 msgid "Processing meridian flip..."
 msgstr "Дасгоҳи навигарии автоматики"
 
-#: ekos/capture/captureprocess.cpp:1840
+#: ekos/capture/captureprocess.cpp:1843
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1845
+#: ekos/capture/captureprocess.cpp:1848
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2026 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting..."
 msgstr "Як лаҳза дер мондан"
 
-#: ekos/capture/captureprocess.cpp:2033
+#: ekos/capture/captureprocess.cpp:2036
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2051 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:961
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Як лаҳза дер мондан"
 
-#: ekos/capture/captureprocess.cpp:2077
+#: ekos/capture/captureprocess.cpp:2080
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Як лаҳза дер мондан"
 
-#: ekos/capture/captureprocess.cpp:2155
+#: ekos/capture/captureprocess.cpp:2158
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2166
+#: ekos/capture/captureprocess.cpp:2169
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2188
+#: ekos/capture/captureprocess.cpp:2191
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2217
+#: ekos/capture/captureprocess.cpp:2220
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2225
+#: ekos/capture/captureprocess.cpp:2228
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2445
+#: ekos/capture/captureprocess.cpp:2448
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "Каталоги Ситора"
 
-#: ekos/capture/captureprocess.cpp:2564
+#: ekos/capture/captureprocess.cpp:2567
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Шиддат:"
 
-#: ekos/capture/captureprocess.cpp:2614
+#: ekos/capture/captureprocess.cpp:2617
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -16103,20 +16103,20 @@ msgid ""
 "restart capturing?"
 msgstr "Шумо ҳақиқатан мехоҳед истинодро ҳузф кунед %1?"
 
-#: ekos/capture/captureprocess.cpp:2628
+#: ekos/capture/captureprocess.cpp:2631
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2743
+#: ekos/capture/captureprocess.cpp:2746
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Шумо ҳақиқатан мехоҳед %1-ро ҳузф кунед?"
 
-#: ekos/capture/captureprocess.cpp:2744
+#: ekos/capture/captureprocess.cpp:2747
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
