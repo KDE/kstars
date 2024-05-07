@@ -291,7 +291,7 @@ class SkyPoint
         dms altRefracted() const;
 
         /** @return the JD for the precessed coordinates */
-        inline double getLastPrecessJD() const
+        inline long double getLastPrecessJD() const
         {
             return lastPrecessJD;
         }
@@ -792,7 +792,7 @@ class SkyPoint
 #define B1950L          2433282.4235L // Julian date for Jan 0.9235, 1950
 
     protected:
-        double lastPrecessJD { 0 }; // JD at which the last coordinate  (see updateCoords) for this SkyPoint was done
+        long double lastPrecessJD { 0 }; // JD at which the last coordinate  (see updateCoords) for this SkyPoint was done
 };
 
 #ifndef KSTARS_LITE

@@ -601,7 +601,7 @@ dms EyepieceField::findNorthAngle(const SkyPoint *sp, const dms *lat)
     const double equinoxPrecessionPerYear =
         (50.35 /
          3600.0); // Equinox precession in ecliptic longitude per year in degrees (ref: http://star-www.st-and.ac.uk/~fv/webnotes/chapt16.htm)
-    dms netEquinoxPrecession(((sp->getLastPrecessJD() - J2000) / 365.25) * equinoxPrecessionPerYear);
+    dms netEquinoxPrecession(double((sp->getLastPrecessJD() - J2000) / 365.25) * equinoxPrecessionPerYear);
     double cosNorthAngle1 =
         (netEquinoxPrecession.cos() - sp->dec0().sin() * sp->dec().sin()) / (sp->dec0().cos() * sp->dec().cos());
     double northAngle1 = acos(cosNorthAngle1);
@@ -616,10 +616,5 @@ dms EyepieceField::findNorthAngle(const SkyPoint *sp, const dms *lat)
     if (sp->az().reduce().Degrees() < 180.0)      // if on the eastern hemisphere, flip sign
         northAngle2 = -northAngle2;
     double northAngle = northAngle1 + northAngle2;
-    qCDebug(KSTARS) << "Data: alt = " << sp->alt().toDMSString() << "; az = " << sp->az().toDMSString() << "; ra, dec ("
-                    << sp->getLastPrecessJD() / 365.25 << ") = " << sp->ra().toHMSString() << "," << sp->dec().toDMSString()
-                    << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
-    qCDebug(KSTARS) << "PA corrections: precession cosine = " << cosNorthAngle1 << "; angle = " << northAngle1
-                    << "; horizontal = " << cosNorthAngle2 << "; angle = " << northAngle2;
     return dms(northAngle * 180 / M_PI);
 }
