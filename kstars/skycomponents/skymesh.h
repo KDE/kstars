@@ -184,8 +184,9 @@ class SkyMesh : public HTMesh
 
     /** @short finds the indices of the trixels covering the circle specified
          * by center and radius.
+         * @param useJ2000 if set to false, the method uses ra() and dec() instead
          */
-    void index(const SkyPoint *center, double radius, MeshBufNum_t bufNum = DRAW_BUF);
+    void index(const SkyPoint *center, double radius, MeshBufNum_t bufNum = DRAW_BUF, const bool useJ2000 = true);
 
     /** @short finds the indices of the trixels covering the line segment
          * connecting p1 and p2.

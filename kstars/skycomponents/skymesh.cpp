@@ -91,9 +91,9 @@ void SkyMesh::indexStar(StarObject *star1, StarObject *star2)
     HTMesh::intersect(ra1, dec1, ra2, dec2);
 }
 
-void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum)
+void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum, const bool useJ2000)
 {
-    HTMesh::intersect(p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum)bufNum);
+    HTMesh::intersect(useJ2000 ? p->ra0().Degrees() : p->ra().Degrees(), useJ2000 ? p->dec0().Degrees() : p->dec().Degrees(), radius, (BufNum)bufNum);
 }
 
 void SkyMesh::index(const SkyPoint *p1, const SkyPoint *p2)
