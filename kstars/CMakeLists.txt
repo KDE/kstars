@@ -1637,7 +1637,11 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if(NOT APPLE) # The desktop file is not needed on MacOS and the other two are bundled above
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-install(FILES kstars.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+IF(BUILD_QT5)
+  install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+else()
+  install(FILES kstars.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+endif(BUILD_QT5)
 endif(NOT APPLE)
 
 if(INDI_FOUND)
