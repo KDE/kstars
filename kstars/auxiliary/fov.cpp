@@ -287,9 +287,13 @@ void FOV::draw(QPainter &p, float zoomFactor)
         int fovFontSize = (pixelSizeX / 15) * (14.0 / fovString.count());
         fovFontSize = std::min(maxYPixelSize, fovFontSize);
         fontSize = std::min(fovFontSize, fontSize);
-        QFont font = p.font();
-        font.setPixelSize(fontSize);
-        p.setFont(font);
+
+        if (fontSize > 4)
+        {
+            QFont font = p.font();
+            font.setPixelSize(fontSize);
+            p.setFont(font);
+        }
     };
 
     auto drawNameForCircularFov = [&]()

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-07 01:42+0000\n"
-"PO-Revision-Date: 2024-05-04 11:22+0200\n"
+"PO-Revision-Date: 2024-05-07 09:06+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -37925,19 +37925,19 @@ msgstr ""
 #: kstars.kcfg:2279
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
-msgstr ""
+msgstr "Se amosar o CFZ na curva v tras unha execución do enfoque automático."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2283
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "A lonxitude de onda en nm para usar no algoritmo dourado."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2287
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Apertura do telescopio en mm para usar nos cálculos de CFZ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2291
@@ -37949,32 +37949,32 @@ msgstr "A relación focal para usar no algoritmo de zona crítica do foco (CFZ).
 #: kstars.kcfg:2295
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
-msgstr ""
+msgstr "O total visíbel en segundos de arco para usar no algoritmo de CFZ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2299
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "The size of a focuser tick in micrometers."
-msgstr "Anchura dun píxel da cámara en micrómetros."
+msgstr "O tamaño dunha marca de focalizador en micrómetros."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSteps), group (Focus)
 #: kstars.kcfg:2304
 #, kde-format
 msgid "Focus Advisor recommended step size"
-msgstr ""
+msgstr "Tamaño de paso que recomenda o asistente de enfoque."
 
 #. i18n: ectx: whatsthis, entry (focusAdvNumSteps), group (Focus)
 #: kstars.kcfg:2308
 #, kde-format
 msgid "Focus Advisor recommended Out Step Multiple"
-msgstr ""
+msgstr "Múltiplo de pasos para afastar que recomenda o asistente de enfoque."
 
 #. i18n: ectx: whatsthis, entry (focusAdvStepSize), group (Focus)
 #: kstars.kcfg:2312
 #, kde-format
 msgid "Whether to accept Focus Advisor recommendation on Step Size."
 msgstr ""
+"Se aceptar a recomendación do asistente de enfoque sobre o tamaño de paso."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCamera), group (Focus)
 #: kstars.kcfg:2316
@@ -37983,6 +37983,8 @@ msgid ""
 "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
 "Parameters."
 msgstr ""
+"Se aceptar a recomendación do asistente de enfoque sobre os parámetros de "
+"roda da cámara e do filtro."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSettingsTab), group (Focus)
 #: kstars.kcfg:2320
@@ -37990,6 +37992,8 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
 msgstr ""
+"Se aceptar a recomendación do asistente de enfoque sobre os parámetros da "
+"lapela de configuración."
 
 #. i18n: ectx: whatsthis, entry (focusAdvProcessTab), group (Focus)
 #: kstars.kcfg:2324
@@ -37997,6 +38001,8 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
 msgstr ""
+"Se aceptar a recomendación do asistente de enfoque sobre os parámetros da "
+"lapela do proceso."
 
 #. i18n: ectx: whatsthis, entry (focusAdvMechanicsTab), group (Focus)
 #: kstars.kcfg:2328
@@ -38004,104 +38010,113 @@ msgstr ""
 msgid ""
 "Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters."
 msgstr ""
+"Se aceptar a recomendación do asistente de enfoque sobre os parámetros da "
+"lapela da mecánica."
 
 #. i18n: ectx: whatsthis, entry (focusAdvSEP), group (Focus)
 #: kstars.kcfg:2332
 #, kde-format
 msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
 msgstr ""
+"Se aceptar a recomendación do asistente de enfoque sobre os parámetros de "
+"SEP."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2337
-#, fuzzy, kde-format
-#| msgid "Position angle multiplier"
+#, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Multiplicador do ángulo de posición"
+msgstr "Posición de FocusSplitter (divisor do enfoque)."
 
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2340
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Position of rightLayout."
-msgstr "Posición do panel informativo da hora."
+msgstr "Posición de rightLayout (disposición dereita)."
 
 #. i18n: ectx: whatsthis, entry (adaptFocusBFO), group (Focus)
 #: kstars.kcfg:2343
 #, kde-format
 msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
 msgstr ""
+"Se usar o enfoque adaptativo na ferramenta de desprazamentos do filtros de "
+"construción."
 
 #. i18n: ectx: whatsthis, entry (abInsTileSelection), group (Focus)
 #: kstars.kcfg:2348
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
-msgstr ""
+msgstr "Que conxunto de teselas usar no inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2352
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
 msgstr ""
+"Amosar as etiquetas de máximo e mínimo no gráfico do inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2356
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
 msgstr ""
+"Amosar a zona crítica de foco (CFZ) no gráfico do inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2360
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
+"Se optimizar os centros das teselas que se usan nos cálculos do inspector de "
+"aberración."
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2364
 #, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Posición do HSplitter (divisor horizontal) no inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2367
 #, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Posición do VSplitter (divisor vertical) no inspector de aberración."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2370
 #, kde-format
 msgid "Aberration Inspector 3D graphic selection mode."
-msgstr ""
+msgstr "Modo de selección do gráfico en 3D do inspector de aberración."
 
 #. i18n: ectx: whatsthis, entry (abInsTheme), group (Focus)
 #: kstars.kcfg:2374
 #, kde-format
 msgid "Aberration Inspector 3D graphic theme."
-msgstr ""
+msgstr "Tema do gráfico en 3D do inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsLabels), group (Focus)
 #: kstars.kcfg:2378
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
-msgstr ""
+msgstr "Amosar etiquetas no gráfico en 3D do inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2382
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr ""
+msgstr "Amosar sensores no gráfico en 3D do inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2386
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr ""
+msgstr "Amosar o cable de Petzval no gráfico en 3D do inspector de aberración."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2390
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
 msgstr ""
+"Amosar a superficie de Petzval no gráfico en 3D do inspector de aberración."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2396
