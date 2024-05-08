@@ -17828,10 +17828,9 @@ msgid "Capture in progress, retrying in 1s..."
 msgstr ""
 
 #: ekos/focus/focus.cpp:1413
-#, fuzzy, kde-format
-#| msgid "Detection in progress, please wait."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "正在进行检测，请稍候。"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1446
 #, kde-format
@@ -82557,9 +82556,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Capturing image again..."
-#~ msgstr "再次拍摄图像..."
-
-#~ msgid "Exposure failure. Restarting exposure..."
-#~ msgstr "曝光失败。重启曝光…"
