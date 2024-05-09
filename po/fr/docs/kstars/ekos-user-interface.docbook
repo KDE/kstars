@@ -71,7 +71,7 @@
 >Module Configuration et résumé</term>
             <listitem>
                 <para
->Ainsi que suggéré par son nom, c'est ici que vous allez créer et gérer le profil de votre matériel et vous connecter aux périphériques. Il fournit aussi une vue résumant la procédure d'acquisition, de mise au point et de guidage dans un format compact afin de transmettre les informations les plus importantes à l'utilisateur. </para>
+>Ainsi que suggéré par son nom, c'est ici que vous allez créer et gérer le profil de votre matériel et vous connecter aux périphériques. Il fournit aussi une vue résumant la procédure d'acquisition, de mise au point et de guidage dans un format synthétique afin de transmettre les informations les plus importantes à l'utilisateur. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

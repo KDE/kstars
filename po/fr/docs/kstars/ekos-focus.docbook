@@ -905,7 +905,7 @@
             <para
 ><emphasis role="bold"
 >1-Focus-Default-Donut</emphasis
-> : pour les télescopes ayant une obstruction centrale comme les Newton, SCT, RASA, Ritchey-Cretien, etc…</para>
+> : pour les télescopes ayant une obstruction centrale comme les Newton, SCT, RASA, Ritchey-Cretien, etc.</para>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -1155,7 +1155,7 @@
         <para
 ><guilabel
 >Donut Buster</guilabel
-> : c'est encore une fonctionnalité expérimentale qui devrait être utilisée avec précaution. L'idée ici est d'améliorer la mise au point pour des télescopes ayant une obstruction centrale qui crée des étoiles en forme de beignet lorsque loin de la position de mise au point, par exemple les Newton, SCT, RASA, Ritchey-Cretien, etc…</para>
+> : c'est encore une fonctionnalité expérimentale qui devrait être utilisée avec précaution. L'idée ici est d'améliorer la mise au point pour des télescopes ayant une obstruction centrale qui crée des étoiles en forme de beignet lorsque loin de la position de mise au point, par exemple les Newton, SCT, RASA, Ritchey-Cretien, etc.</para>
 
         <para
 ><guilabel
@@ -1696,7 +1696,7 @@
     <para
 ><guilabel
 >Taille de pas</guilabel
-> : cette valeur doit être indiquée par l'opérateur (puisqu'elle ne peut pas être calculée par Ekos). Elle mesure la distance d'un pas en microns dans le plan focal. </para>
+> : cette valeur doit être indiquée par l'opérateur (Puisqu'il est impossible à Ekos de la calculer). Elle mesure la distance d'un pas en microns dans le plan focal. </para>
     <para
 >Pour un réfracteur, c'est la distance de déplacement du tube quand le moteur de mise au point se déplace d'un pas. Vous pouvez peut-être obtenir cette valeur des spécifications de votre moteur de mise au point (le nombre de pas pour un tour complet du moteur) et du pas de filetage de votre télescope ainsi que de tout autre engrenage impliqué dans le mouvement.</para>
     <para
@@ -1955,7 +1955,7 @@
 >Filtre verrouillé</guilabel
 > : indique quel filtre devrait être choisi et <emphasis
 >verrouillé</emphasis
-> lors d'une mise au point automatique. "--" indique qu'aucun filtre n'est verrouillé. Il n'est pas autorisé de verrouiller plus d'un filtre et un filtre ne peut pas être verrouillé à lui-même.</para>
+> lors d'une mise au point automatique. « -- » indique qu'aucun filtre n'est verrouillé. Il est impossible de verrouiller plus d'un filtre et un filtre ne peut pas être verrouillé à lui-même.</para>
           </listitem>
           <listitem>
               <para
@@ -2023,7 +2023,7 @@
       </itemizedlist>
 
       <para
->Prenons un exemple. Si nous avons une séquence d'acquisition débutant avec Lum -> Rouge -> Vert -> Bleu -> Sii -> Ha ->  Oiii qui utilise les réglages de la boîte de dialogue des réglages de filtres :</para>
+>Prenons un exemple. Si nous avons une séquence d'acquisition débutant avec Lum /  Rouge / Vert / Bleu / Sii / Ha / Oiii qui utilise les réglages de la boîte de dialogue des réglages de filtres :</para>
       <itemizedlist>
           <listitem>
               <para
@@ -2179,7 +2179,7 @@
             </listitem>
             <listitem>
               <para
->Supprimer cette 2e passe en mettant la valeur à 0 (voir ci-dessous). Dans ce cas, la moyenne et le nouveau décalage pour le filtre Oiii seront recalculées basées sur les passes 1, 3, 4 et 5, ce qui est affiché dans l'exemple ci-dessous.</para>
+>Supprimer cette deuxième passe en mettant la valeur à 0 (Voir ci-dessous). Dans ce cas, la moyenne et le nouveau décalage pour le filtre « Oiii » seront recalculées à partir des passes 1, 3, 4 et 5, ce qui est affiché dans l'exemple ci-dessous.</para>
             </listitem>
           </itemizedlist>
       <screenshot>
@@ -2244,7 +2244,7 @@
 
             <listitem
 ><para
->Assurez-vous que votre matériel se trouve en état d'équilibre thermique avant de commencer. Estimez le temps nécessaire à l'outil (qui est le nombre total de passes multiplié par la durée d'une seule passe), et assurez-vous que les conditions resteront aussi stables que possible durant cette période, c'est à dire qu'il reste assez de temps avant l'aurore, que la Lune n'affectera pas plus la mise au point sur certaines étoiles que sur d'autres, que la cible ne descendra pas sous votre horizon durant le processus, etc.</para
+>Assurez-vous que votre matériel se trouve en état d'équilibre thermique avant de commencer. Estimez le temps nécessaire à l'outil (qui est le nombre total de passes multiplié par la durée d'une seule passe), et assurez-vous que les conditions resteront aussi stables que possible durant cette période, c'est-à-dire qu'il reste assez de temps avant l'aurore, que la Lune n'affectera pas plus la mise au point sur certaines étoiles que sur d'autres, que la cible ne descendra pas sous votre horizon durant le processus, etc.</para
 ></listitem>
 
             <listitem

@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: kstars_3.7.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-07 01:42+0000\n"
-"PO-Revision-Date: 2024-05-02 16:19+0200\n"
+"PO-Revision-Date: 2024-05-07 12:17+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1193,7 +1193,7 @@ msgstr "Rhea"
 #: auxiliary/xplanetimageviewer.cpp:211
 #, kde-format
 msgid "Hyperion"
-msgstr "Hyperion"
+msgstr "Hypérion"
 
 #: auxiliary/xplanetimageviewer.cpp:211
 #, kde-format
@@ -4095,7 +4095,7 @@ msgstr "DEC (J2000.0)"
 #: printing/detailstable.cpp:541 tools/modcalcaltaz.ui:313
 #, kde-format
 msgid "Azimuth:"
-msgstr "Azimut"
+msgstr "Azimut :"
 
 #. i18n: ectx: property (text), widget (QLabel, AirmassLabel)
 #: dialogs/details_position.ui:371 printing/detailstable.cpp:559
@@ -4175,7 +4175,7 @@ msgstr "00:00"
 #: dialogs/details_position.ui:774 printing/detailstable.cpp:672
 #, kde-format
 msgid "Azimuth at set:"
-msgstr "Azimut au coucher"
+msgstr "Azimut au coucher :"
 
 #. i18n: ectx: property (text), widget (QLabel, AltTransitLabel)
 #: dialogs/details_position.ui:790 printing/detailstable.cpp:668
@@ -4187,7 +4187,7 @@ msgstr "Altitude au transit"
 #: dialogs/details_position.ui:806 printing/detailstable.cpp:664
 #, kde-format
 msgid "Azimuth at rise:"
-msgstr "Azimut au lever"
+msgstr "Azimut au lever :"
 
 #: dialogs/exportimagedialog.cpp:48
 #, kde-format
@@ -7047,7 +7047,7 @@ msgstr "Filtre"
 #: ekos/capture/camera.ui:859
 #, kde-format
 msgid "Camera ISO"
-msgstr "ISO de l'APN"
+msgstr "ISO de l'appareil photo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -12357,7 +12357,7 @@ msgstr ""
 #: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
 msgid "Ticks / °C"
-msgstr "Pas / °C"
+msgstr "Pas / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
@@ -12748,8 +12748,8 @@ msgstr "Alignement"
 msgid ""
 "<html><head/><body><p>Log Ekos Observatory module activity</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistre les activités du module Observatoire "
-"d'Ekos</p></body></html>"
+"<html><head/><body><p>Enregistre les activités du module Observatoire de "
+"Ekos</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
@@ -12794,7 +12794,7 @@ msgstr "AO"
 #: ekos/auxiliary/opslogs.ui:374
 #, kde-format
 msgid "Log Ekos Focus module activity"
-msgstr "Enregistrer l'activité du module de mise au point d'Ekos"
+msgstr "Enregistrer l'activité du module de mise au point de Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, focuserGroup)
@@ -12830,7 +12830,7 @@ msgstr "Pilotes"
 #: ekos/auxiliary/opslogs.ui:417
 #, kde-format
 msgid "Log Ekos Mount module activity"
-msgstr "Enregistrer l'activité du module Monture d'Ekos"
+msgstr "Enregistrer l'activité du module « Monture » de Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_LoggerLevel)
 #: ekos/auxiliary/opslogs.ui:430
@@ -13807,11 +13807,11 @@ msgstr ""
 "modifier le FWHM. Le filtre par défaut est le plus rapide mais ne modifie "
 "PAS le réglage de FWHM et est par conséquent le meilleur pour les petites "
 "étoiles. Le filtre gaussien est très performant pour détecter des objets "
-"très faibles. Le filtre Mexican Hat est bon pour les champs d'étoiles très "
-"chargés ou à proximité de nébuleuses. Le filtre Top Hat est bon pour les "
-"objets étendus et de faible luminosité. Remarque : le filtre personnalisé "
-"n'est utilisé que pour des tests et ne devrait être utilisé que par des "
-"développeurs."
+"très faibles. Le filtre « Mexican Hat » est bon pour les champs d'étoiles "
+"très chargés ou à proximité de nébuleuses. Le filtre Top Hat est bon pour "
+"les objets étendus et de faible luminosité. Remarque : le filtre "
+"personnalisé n'est utilisé que pour des tests et ne devrait être utilisé que "
+"par des développeurs."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:446
@@ -14401,7 +14401,7 @@ msgid ""
 "Slew mount to the specified Azimuth/Altitude coordinates before taking flat "
 "field images"
 msgstr ""
-"Pointer la monture vers les coordonnées d'azimut/hauteur avant de prendre "
+"Pointer la monture vers les coordonnées d'azimut / hauteur avant de prendre "
 "des images flat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationWall)
@@ -16599,7 +16599,7 @@ msgstr "Sélectionnez le gain de la caméra"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:271
 #, kde-format
 msgid "Select DSLR ISO Value"
-msgstr "Sélectionnez l'ISO de l'APN"
+msgstr "Sélectionnez la valeur « ISO » du DSLR"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:290
@@ -17419,10 +17419,10 @@ msgid ""
 "sequence file currently running, please rename it instead.</p><p>"
 msgstr ""
 "<b>Utilisation des attributs de l'appareil et de la roue à filtres d'une "
-"session d'acquisition débutée à %1.<br><p>Si vous souaiatez utiliser "
+"session d'acquisition débutée à %1.<br><p>Si vous souhaitez utiliser "
 "d'autres appareils et banques de filtres, veuillez modifier la séquence en "
 "utilisant l'onglet d'acquisition.</br>Il n'est pas recommandé de modifier un "
-"fichier de séquences en cours d'utilisaion, veuillez plustôt le renommer.<p>"
+"fichier de séquences en cours d'utilisation, veuillez plutôt le renommer.<p>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SequenceEditorUI)
 #: ekos/capture/sequenceeditorui.ui:20
@@ -18589,8 +18589,8 @@ msgstr ""
 "de mise au point. Pour calculer cela, déplacez le du début jusqu'à la fin de "
 "sa course en faisant attention de ne pas le forcer au-delà de ses limites. "
 "Mesurez cette distance le plus précisément possible et convertissez-la en "
-"microns. Notez également le nombre de pas. La taille de pas vaut "
-"distance_en_microns/nombre_pas.</p></body></html>"
+"microns. Notez également le nombre de pas. La taille de pas vaut distance-en-"
+"microns / nombre-pas.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/cfz.ui:394
@@ -18669,7 +18669,7 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Front d'ondes :</span>utilise la formule CFZ = 4 "
 "t λ f<span style=\" vertical-align:super;\">2</span>.  Formule dérivée de la "
-"théorie de l'aberation du front d'onde. Certains suggèrent t=1/3 ou même "
+"théorie de l'aberration du front d'onde. Certains suggèrent t=1/3 ou même "
 "t=1/10.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
 "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
@@ -19347,7 +19347,7 @@ msgstr ""
 "La première étape est de régler le jeu. Le manuel de votre moteur de mise au "
 "point fournira probablement comment faire. Une fois que vous avez obtenu une "
 "valeur de ce paramètre pour votre système, il est temps de renseigner le "
-"champ de jeu du pilote ou celui du surbalayage de mise au point. Ne réglez "
+"champ de jeu du pilote ou celui du sur-balayage de mise au point. Ne réglez "
 "qu'un seul champ et mettez zéro pour l'autre.\n"
 "\n"
 "La deuxième étape est le réglage de la taille de pas. Si vous connaissez une "
@@ -19762,7 +19762,7 @@ msgstr ""
 "<html><head/><body><p>Pour les moteurs de mise au point gérant le jeu, cette "
 "valeur représente la quantité de jeu à appliquer lors d'un changement de "
 "direction. Mettre à zéro pour désactiver.</p><p>Typiquement, soit le jeu du "
-"moteur de mise au point soit le surbalayage de la mise au point automatique "
+"moteur de mise au point soit le sur-balayage de la mise au point automatique "
 "est activé.</p><p>Ce champ fixe le champ de jeu du moteur de mise au point "
 "d'Indi et peut être réglé ici ou dans le panneau de contrôle d'Indi.</p></"
 "body></html>"
@@ -19807,23 +19807,23 @@ msgstr ""
 "<html><head/><body><p>Choisissez le type de course pour le moteur de mise au "
 "point pour l'algorithme <span style=\"font-weight:600;\">Linéaire 1 passe</"
 "span>. Pour <span style=\"font-weight:600;\">Linéaire</span>, seul <span "
-"style=\"font-wight:600;\">Classique</span> est disponible.</p><p><span style="
-"\"font-wight:600;\">Classique</span> : aucun extérieur &quot; Multiple de "
-"pas extérieur&quot;, prend une trame et ensuite se déplace vers l'intérieur "
-"à un taux constant de taille de pas en prenant une trame et en l'analysant à "
-"chaque étape. Le point exact d'arrêt de la passe dépend des données, ainsi "
-"cette méthode tolère un point de départ plus éloigné de la position de mise "
-"au point, mais au prix de davantage d'étapes.</p><p><span style=\"font-"
-"wight:600;\">Étapes fixes</span> : le moteur se déplace de la moitié de "
-"&quot;Nombre de pas&quot;, prend une trame et ensuite se déplace "
-"d'exactement &quot;Nombre de pas&quot;. Cette méthode nécessite de débuter "
+"style=\"font-weight:600;\">Classique</span> est disponible.</p><p><span "
+"style=\"font-weight:600;\">Classique</span> : aucun extérieur &quot; "
+"Multiple de pas extérieur &quot;, prend une trame et ensuite se déplace vers "
+"l'intérieur à un taux constant de taille de pas en prenant une trame et en "
+"l'analysant à chaque étape. Le point exact d'arrêt de la passe dépend des "
+"données, ainsi cette méthode tolère un point de départ plus éloigné de la "
+"position de mise au point, mais au prix de davantage d'étapes.</p><p><span "
+"style=\"font-weight:600;\">Étapes fixes</span> : le moteur se déplace de la "
+"moitié de &quot;Nombre de pas &quot;, prend une trame et ensuite se déplace "
+"d'exactement &quot;Nombre de pas &quot;. Cette méthode nécessite de débuter "
 "près de la position de mise au point pour être efficace mais au bénéfice "
 "d'être prévisible en nombre d'étapes. Cette méthode est encore expérimentale."
-"</p><p><span style=\"font-wight:600;\">Mélange CFZ</span> : cette méthode "
-"est similaire à <span style=\"font-wight:600;\">Étapes fixes</span> sauf "
+"</p><p><span style=\"font-weight:600;\">Mélange CFZ</span> : cette méthode "
+"est similaire à <span style=\"font-weight:600;\">Étapes fixes</span> sauf "
 "qu'elle prend la moitié d'étapes près de la position de mise au point pour "
 "essayer de donner plus de poids pour les points proches de la position de "
-"mise au point. Comme pour la méthode <span style=\"font-wight:600;\">Étapes "
+"mise au point. Comme pour la méthode <span style=\"font-weight:600;\">Étapes "
 "Fixes</span>, il faut débuter près de la position de mise au point pour "
 "qu'elle soit efficace mais elle est également prévisible en ce qui concerne "
 "le nombre d'étapes. Cette méthode est encore expérimentale.</p><p><br/></p></"
@@ -19865,13 +19865,13 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Fournit un surbalayage de jeu pour les mouvements vers "
-"l'extérieur durant la mise au point automatique. Cela est en plus du jeu "
-"fournit par le pilote du périphérique réglé dans le champ de jeu du pilote. "
-"Mettre zéro pour désactiver.</p><p>Si réglé, le surbalayage est appliqué à "
-"tous les mouvements du moteur de mise au point initié par le module de mise "
-"au point.</p><p>Typiquement, soit le jeu du moteur de mise au point soit le "
-"surbalayage est appliqué.</p></body></html>"
+"<html><head/><body><p>Fournit un sur-balayage de jeu pour les mouvements "
+"vers l'extérieur durant la mise au point automatique. Cela est en plus du "
+"jeu fournit par le pilote du périphérique réglé dans le champ de jeu du "
+"pilote. Mettre zéro pour désactiver.</p><p>Si réglé, le sur-balayage est "
+"appliqué à tous les mouvements du moteur de mise au point initié par le "
+"module de mise au point.</p><p>Typiquement, soit le jeu du moteur de mise au "
+"point soit le sur-balayage est appliqué.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/opsfocusmechanics.ui:185
@@ -19962,7 +19962,7 @@ msgstr "Jeu du pilote"
 #: ekos/focus/opsfocusmechanics.ui:349
 #, kde-format
 msgid "AF Overscan:"
-msgstr "Surbalayage de la mise au point automatique"
+msgstr "Sur-balayage de la mise au point automatique"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:368
@@ -20589,7 +20589,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:671
 #, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr "Donut Buster (ATTENTION : fonctionnalité expériementale)"
+msgstr "Donut Buster (ATTENTION : fonctionnalité expérimentale)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
@@ -21437,7 +21437,7 @@ msgstr "Durée d'exposition écoulée. Redémarrage de l'exposition…"
 #: ekos/guide/guide.cpp:1344
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
-msgstr "La monture est parquée. Déparquer pour démarrer le guidage."
+msgstr "La monture est parquée. Dé-parquer pour démarrer le guidage."
 
 #: ekos/guide/guide.cpp:1447
 #, kde-format
@@ -21669,7 +21669,7 @@ msgstr ""
 "cocher cette option, vous devez <span style=\" font-weight:600;\">d'abord</"
 "span> acquérir une image et sélectionner une étoile de guidage. Décochez "
 "cette option pour recevoir une trame complète à nouveau.<br/>Veuillez noter "
-"que SEP Multi Star ne peut <span style=\"font-wight:600;\">pas</span> "
+"que SEP Multi Star ne peut <span style=\"font-weight:600;\">pas</span> "
 "utiliser de sous-trames.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
@@ -23213,7 +23213,7 @@ msgstr ""
 "ou le traffic,</li><li style=\" margin-top:12px;\n"
 "          margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">ou encore des câbles qui flottent ou qui "
-"trainent.</li></ul></body></html>"
+"traînent.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas4a)
 #: ekos/guide/opsgpg.ui:510
@@ -23541,7 +23541,7 @@ msgstr "Algorithme"
 #, kde-format
 msgid "Minimum number of stars detected for SEP MultiStar to initialize."
 msgstr ""
-"Nombre minimal d'étoiles détectées HFR (half-flux radius) pour le guidage "
+"Nombre minimal d'étoiles détectées HFR (Half-Flux Radius) pour le guidage "
 "SEP multi-étoiles pour lancer l'initialisation."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
@@ -23620,7 +23620,7 @@ msgid ""
 "scientific purposes."
 msgstr ""
 "Utiliser votre équipement sans ouvrir un accès distant. Cependant, "
-"l'équipement reste connecté au réseau « INDIHUB » et toutes les images "
+"l'équipement reste connecté au réseau « IndiHub » et toutes les images "
 "prises sont disponibles pour des besoins scientifiques."
 
 #. i18n: ectx: property (text), widget (QRadioButton, solorR)
@@ -23638,7 +23638,7 @@ msgid ""
 "guests.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ouvrir un accès distant vers votre équipement grâce au "
-"réseau « INDIHUB ». Ainsi, vous pouvez mettre à disposition des sessions "
+"réseau « IndiHub ». Ainsi, vous pouvez mettre à disposition des sessions "
 "d'imagerie à distance pour vos invités.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, shareR)
@@ -23656,7 +23656,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Ouvrir un accès distant vers votre équipement devant "
 "être contrôlé par l'ordonnanceur s'exécutant dans le nuage "
-"« INDIHUB » (expérimental).</p></body></html>"
+"« IndiHub » (expérimental).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, roboticR)
 #: ekos/indihub.ui:123
@@ -24595,7 +24595,7 @@ msgstr "Parquer"
 #: kspopupmenu.cpp:659
 #, kde-format
 msgid "UnPark"
-msgstr "Déparquer"
+msgstr "Dé-parquer"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
 #: ekos/mount/mount.ui:804
@@ -24739,7 +24739,7 @@ msgstr "Ouverture"
 #: ekos/observatory/observatory.cpp:266 ekos/observatory/observatory.cpp:314
 #, kde-format
 msgid "Unparking"
-msgstr "Déparquage en cours"
+msgstr "Dé-parcage en cours"
 
 #: ekos/observatory/observatory.cpp:267
 #, kde-format
@@ -24761,7 +24761,7 @@ msgstr "Fermeture en cours"
 #: ekos/observatory/observatory.cpp:357
 #, kde-format
 msgid "Unpark"
-msgstr "Déparquer"
+msgstr "Dé-parquer"
 
 #: ekos/observatory/observatory.cpp:284
 #, kde-format
@@ -24786,7 +24786,7 @@ msgstr "Parcage de %1 en cours…"
 #: ekos/observatory/observatory.cpp:325
 #, kde-format
 msgid "%1 is unparking..."
-msgstr "Déparcage de %1 en cours…"
+msgstr "Dé-parcage de %1 en cours…"
 
 #: ekos/observatory/observatory.cpp:332
 #, kde-format
@@ -24796,7 +24796,7 @@ msgstr "%1 est en cours de suivi."
 #: ekos/observatory/observatory.cpp:344
 #, kde-format
 msgid "Unparked"
-msgstr "Déparqué"
+msgstr "Dé-parqué"
 
 #: ekos/observatory/observatory.cpp:363 ekos/observatory/observatory.cpp:392
 #, kde-format
@@ -24969,8 +24969,8 @@ msgid ""
 "<html><head/><body><p>Unpark the dome. For advanced control of the dome "
 "please use the INDI tab.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Déparquer le dôme. Pour des contrôles avancés du dôme, "
-"veuillez utiliser l'onglet INDI.</p></body></html>"
+"<html><head/><body><p>Dé-parquer le dôme. Pour des contrôles avancés du "
+"dôme, veuillez utiliser l'onglet INDI.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:539
@@ -25028,8 +25028,7 @@ msgid ""
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si cette option est sélectionnée, le dôme doit être "
-"débloqué pour que l'état d'observation soit &quot;PRÊT&quot;.</p></body></"
-"html>"
+"débloqué pour que l'état d'observation soit « PRÊT ».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useShutterCB)
 #: ekos/observatory/observatory.ui:729
@@ -25039,8 +25038,7 @@ msgid ""
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si cette option est sélectionnée, l'obturateur doit "
-"être ouvert pour que l'état d'observation soit &quot;PRÊT&quot;.</p></body></"
-"html>"
+"être ouvert pour que l'état d'observation soit « ; PRÊT ».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useWeatherCB)
 #: ekos/observatory/observatory.ui:739
@@ -25050,7 +25048,7 @@ msgid ""
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si cette option est sélectionnée, la météo doit être "
-"bonne pour que l'état d'observation soit &quot;PRÊT&quot;.</p></body></html>"
+"bonne pour que l'état d'observation soit « PRÊT ».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, statusReadyButton)
 #: ekos/observatory/observatory.ui:770
@@ -25187,7 +25185,7 @@ msgstr "En cours de parcage de %1…"
 #: ekos/observatory/observatorydomemodel.cpp:67
 #, kde-format
 msgid "Unparking %1..."
-msgstr "En cours de déparcage de %1…"
+msgstr "En cours de dé-parcage de %1…"
 
 #: ekos/observatory/observatorydomemodel.cpp:94
 #, kde-format
@@ -25781,25 +25779,25 @@ msgstr "Forcer les préréglages APN"
 #: ekos/opsekos.ui:818
 #, kde-format
 msgid "Display received DSLR images in the Image Viewer"
-msgstr "Afficher les images de l'APN reçues dans l'afficheur d'images"
+msgstr "Afficher les images DSLR reçues dans l'afficheur d'images"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/opsekos.ui:821
 #, kde-format
 msgid "DSLR image viewer"
-msgstr "Afficheur d'images de l'APN"
+msgstr "Afficheur d'images du DSLR"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
 #: ekos/opsekos.ui:828
 #, kde-format
 msgid "Clear saved DSLR sizes"
-msgstr "Effacer les tailles pour l'APN enregistrées"
+msgstr "Effacer les tailles enregistrées du DSLR"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDSLRInfoB)
 #: ekos/opsekos.ui:831
 #, kde-format
 msgid "Clear DSLR Info"
-msgstr "Effacer les informations de l'APN"
+msgstr "Effacer les informations du DSLR"
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -25910,7 +25908,7 @@ msgid ""
 msgstr ""
 "<html><head/><body>\n"
 "<p>Envoyez les paramètres actuels du site géographique de KStars vers les "
-"pilotes de périphériques, une fois qu'Ekos est en ligne.</p>\n"
+"pilotes de périphériques, une fois que Ekos est en ligne.</p>\n"
 "<p>Cette option ne doit être utilisée que lors de la connexion à un site "
 "géographique distant.</p>\n"
 "</body></html>"
@@ -25952,7 +25950,7 @@ msgstr ""
 "<html><head/><body>\n"
 "<p>Mode connexion pour le serveur INDI</p>\n"
 "<p><span style=\"font-weight:600\">Local</span><br/>Connexion à un serveur "
-"INDI local, créé lors du démarrage d'Ekos.</p>\n"
+"« INDI » local, créé lors du démarrage de Ekos.</p>\n"
 "<p><span style=\"font-weight:600\">Distant</span><br/>Connexion à un serveur "
 "INDI distant déjà actif.</p>\n"
 "</body></html>"
@@ -26196,8 +26194,8 @@ msgstr ""
 "liste de noms de pilotes, de noms d'hôtes/adresses, le port facultatif, "
 "séparée par des virgules :</p><p><span style=\" font-weight:600;\">&quot;ZWO "
 "ASI120MC&quot;@192.168.1.50:8000</span><br/>Connecte la caméra à l'adresse "
-"192.168.1.50, le port 8000,</p><p><span style=\" font-weight:600;\">&quot;"
-"Monture EQMod&quot;@192.168.1.50</span><br/>Connecte la monture nommée, à "
+"192.168.1.50, le port 8000,</p><p><span style=\" font-weight:600;\"> "
+"« Monture EQMod » @192.168.1.50</span><br/>Connecte la monture nommée, à "
 "l'adresse 192.168.1.50, le port 7624,</p><p><span style=\" font-weight:600;"
 "\">@192.168.1.50:8000</span><br/>Connecte tous les pilotes trouvés sur "
 "l'adresse 192.168.1.50, port 7624</p><p>Sinon, les hôtes par défaut sur "
@@ -26361,7 +26359,7 @@ msgid ""
 "style=\" font-weight:600;\">next</span> to continue. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Bienvenue dans l'<span style=\" font-weight:600;"
-"\">assistant de profil d'Ekos.</span></p><p>Ekos est une plate-forme "
+"\">assistant de profil de Ekos.</span></p><p>Ekos est une plate-forme "
 "permettant de contrôler et d'automatiser un observatoire. Avec Ekos, vous "
 "pouvez procéder à l'acquisition d'images et de données scientifiques "
 "aisément. Cet assistant vous aidera à créer votre profil de matériel. Vous "
@@ -26636,7 +26634,7 @@ msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Astuce</span> : "
 "l'assistant de guidage interne est recommandé. L'utilisation d'applications "
 "externes pour l'assistance au guidage nécessite une configuration spécifique "
-"qui est en dehors du périmètre d'Ekos.</p></body></html>"
+"qui est en dehors du périmètre de Ekos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/profilewizard.ui:1031
@@ -26675,8 +26673,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Si l'ordinateur distant est équipé d'un accès à "
 "« astrometry.net », il est possible d'exécuter le pilote d'astrométrie à "
-"distance et l'utiliser pour résoudre les images dans le module Alignement "
-"d'Ekos.</p></body></html>"
+"distance et l'utiliser pour résoudre les images dans le module Alignement de "
+"Ekos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useRemoteAstrometryCheck)
 #: ekos/profilewizard.ui:1061
@@ -26702,7 +26700,7 @@ msgstr ""
 #: ekos/profilewizard.ui:1074
 #, kde-format
 msgid "Watch Dog"
-msgstr "WatchDog"
+msgstr "Délai de garde"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useSkySafariCheck)
 #: ekos/profilewizard.ui:1081
@@ -27458,7 +27456,7 @@ msgstr ""
 "d'achèvement <span style=\"font-style:italic;\">>Répéter pour N (N=2 ou "
 "plus)</span> ou <span style=\"font-style:italic;\">Répéter jusqu'à "
 "achèvement</span>. Sinon, laissez vide. Ne s'applique que pour l'algorithme "
-"Greedy.</p></body></html>"
+"de Greedy.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
 #: ekos/scheduler/framingassistant.ui:1563
@@ -27776,7 +27774,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:908
 #, kde-format
 msgid "Skipped checking for duplicates."
-msgstr "Recherch de de doublons ignorée."
+msgstr "Recherche de de doublons ignorée."
 
 #: ekos/scheduler/scheduler.cpp:1071
 #, kde-format
@@ -28163,7 +28161,7 @@ msgstr ""
 "<html><head/><body><p>Répéter toutes les tâches planifiées dès que toutes "
 "les tâches sont terminées. Cette option n'est disponible que si l'option "
 "<span style=\"font-weight:700;\">Se rappeler de la progression de la tâche</"
-"span> dans le planificateur d'Ekos n'est <span style=\" font-weight:700;"
+"span> dans le planificateur de Ekos n'est <span style=\" font-weight:700;"
 "\">pas</span> sélectionnée.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerRepeatEverything)
@@ -28342,7 +28340,7 @@ msgid ""
 msgstr ""
 "<html><body><p>La restriction à l'horizon artificiel contraint l'altitude de "
 "la cible à être supérieure à celui-ci, s'il a été défini et activé. Voir le "
-"paragraphe « Horizon artificiel » dans le menu de configuration de kStars.</"
+"paragraphe « Horizon artificiel » dans le menu de configuration de KStars.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
@@ -28485,7 +28483,7 @@ msgstr ""
 "left:0px ; margin-right:0px ; -qt-block-indent:0 ; text-indent:0px ;\"><span "
 "style=\" font-weight:600 ;\">Immédiat</span> : dès qu'une tâche est "
 "abandonnée, l'ordonnanceur la re-planifie et attend le délai donné.</li></"
-"ul><p>Si l'option de replanification des erreurs est sélectionnée, les "
+"ul><p>Si l'option de re-planification des erreurs est sélectionnée, les "
 "erreurs sont traitées comme des annulations. Sinon, les travaux qui font "
 "face à une erreur ne sont jamais réordonnancés.</p></body></html>"
 
@@ -28545,7 +28543,7 @@ msgstr "Traiter les erreurs comme des annulations."
 #: ekos/scheduler/scheduler.ui:2072
 #, kde-format
 msgid "Re-schedule errors:"
-msgstr "Erreurs de replanification"
+msgstr "Erreurs de re-planification"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingStrategyDelay)
 #: ekos/scheduler/scheduler.ui:2085
@@ -28584,13 +28582,13 @@ msgstr "Procédure de démarrage de l'observation"
 #: ekos/scheduler/scheduler.ui:2147
 #, kde-format
 msgid "UnPark Dome"
-msgstr "Déparquer le dôme"
+msgstr "Dé-parquer le dôme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkMount)
 #: ekos/scheduler/scheduler.ui:2169
 #, kde-format
 msgid "UnPark Mount"
-msgstr "Déparquer la monture"
+msgstr "Dé-parquer la monture"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2185
@@ -28877,34 +28875,34 @@ msgstr "Exécution du script %1…"
 #: ekos/scheduler/schedulerprocess.cpp:1172
 #, kde-format
 msgid "Ekos started."
-msgstr "Démarrage d'Ekos"
+msgstr "Démarrage de Ekos"
 
 # unreviewed-context
 #: ekos/scheduler/schedulerprocess.cpp:1181
 #, kde-format
 msgid "Starting Ekos failed. Retrying..."
-msgstr "Le démarrage d'Ekos a échoué. Nouvelle tentative…"
+msgstr "Le démarrage de Ekos a échoué. Nouvelle tentative…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1186
 #, kde-format
 msgid "Starting Ekos failed."
-msgstr "Le démarrage d'Ekos a échoué."
+msgstr "Le démarrage de Ekos a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:1197
 #, kde-format
 msgid "Starting Ekos timed out. Retrying..."
 msgstr ""
-"Le démarrage d'Ekos dans le temps imparti a échoué. Nouvelle tentative…"
+"Le démarrage de Ekos dans le temps imparti a échoué. Nouvelle tentative…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1207
 #, kde-format
 msgid "Starting Ekos timed out."
-msgstr "Le démarrage d'Ekos dans le temps imparti a échoué."
+msgstr "Le démarrage de Ekos dans le temps imparti a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:1218
 #, kde-format
 msgid "Ekos stopped."
-msgstr "Arrêt d'Ekos."
+msgstr "Arrêt de Ekos."
 
 #: ekos/scheduler/schedulerprocess.cpp:1261
 #, kde-format
@@ -28957,7 +28955,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1320
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr "Le dé-parcage du dôme est requis mais le dôme n'est pas encore prêt."
 
 #: ekos/scheduler/schedulerprocess.cpp:1330
 #, kde-format
@@ -29018,7 +29016,7 @@ msgstr "Monture parquée."
 #: ekos/scheduler/schedulerprocess.cpp:1610
 #, kde-format
 msgid "Mount unparked."
-msgstr "Monture déparquée."
+msgstr "Monture dé-parquée."
 
 #: ekos/scheduler/schedulerprocess.cpp:1622
 #, kde-format
@@ -29481,12 +29479,12 @@ msgstr "Parcage de la monture en cours…"
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
-"Le déparcage de la monture est demandé mais aucune monture n'est détectée."
+"Le dé-parcage de la monture est demandé mais aucune monture n'est détectée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3957
 #, kde-format
 msgid "Mount already unparked."
-msgstr "Monture déjà déparquée."
+msgstr "Monture déjà dé-parquée."
 
 #: ekos/scheduler/schedulerprocess.cpp:4055
 #, kde-format
@@ -29506,7 +29504,7 @@ msgstr "Dôme déjà en sécurité."
 #: ekos/scheduler/schedulerprocess.cpp:4094
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
-msgstr "Le déparcage du dôme est demandé mais aucun dôme n'est détecté."
+msgstr "Le dé-parcage du dôme est demandé mais aucun dôme n'est détecté."
 
 #: ekos/scheduler/schedulerprocess.cpp:4114
 #, kde-format
@@ -30123,7 +30121,7 @@ msgstr "Attention ! Cet outil ne gère que le résolveur interne StellarSolver.
 #: fitsviewer/fitstab.cpp:949
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
-msgstr "Modifiez cela dans le menu des options d'alignement d'Ekos"
+msgstr "Modifiez cela dans le menu des options d'alignement de Ekos"
 
 #: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
 #, kde-format
@@ -30735,7 +30733,7 @@ msgstr ""
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Auto debayer</span>: les images bayérisées ne "
+"style=\"font-weight:600;\">Auto-débayer</span>: les images bayérisées ne "
 "seront pas débayérisées. Seules les images en niveau de gris sont affichées."
 "</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
@@ -32009,7 +32007,7 @@ msgstr "Parcage monture en cours."
 #: indi/indimount.cpp:471
 #, kde-format
 msgid "Mount unparking is in progress"
-msgstr "Déparcage monture en cours"
+msgstr "Dé-parcage monture en cours"
 
 #: indi/indimount.cpp:478
 #, kde-format
@@ -32019,7 +32017,7 @@ msgstr "Monture parquée"
 #: indi/indimount.cpp:496
 #, kde-format
 msgid "Mount unparked"
-msgstr "Monture déparquée"
+msgstr "Monture dé-parquée"
 
 #: indi/indimount.cpp:823
 #, kde-format
@@ -32271,7 +32269,7 @@ msgstr "Réticule du &télescope"
 #: indi/opsindi.ui:450
 #, kde-format
 msgid "Open INDI window on EKOS startup"
-msgstr "Ouvrir la fenêtre INDI au démarrage d'Ekos"
+msgstr "Ouvrir la fenêtre INDI au démarrage de Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:453
@@ -32347,13 +32345,14 @@ msgstr ""
 "<html><head/><body>\n"
 "<p>Nom du dossier des vidéos SER <b>distante</b>. Si le serveur INDI est "
 "actif localement, alors un dossier local peut être sélectionné. Cependant, "
-"si vous êtes connecté à un serveur INDI distant, alors le dossier doit être "
-"un dossier valable sur le système de fichiers distant ou il sera sauvé.</p>\n"
+"si vous êtes connecté à un serveur « INDI » distant, alors le dossier doit "
+"être un dossier valable sur le système de fichiers distant ou il sera sauvé."
+"</p>\n"
 "<p>Les dossiers d'enregistrement peuvent contenir des token pour les rendre "
 "dynamiques :</p>\n"
 "<ul>\n"
-"<li><b>_D_</b> pour la date YYYY-MM-DD.</li>\n"
-"<li><b>_H_</b> pour le temps HH:MM:SS.</li>\n"
+"<li><b>_D_</b> pour la date « AAAA-MM-JJ.</li>\n"
+"<li><b>_H_</b> pour l'heure « HH:MM:SS ».</li>\n"
 "<li><b>_T_</b> pour l'horodatage ISO8601.</li>\n"
 "<li><b>_F_</b> pour le nom du filtre, si besoin.</li>\n"
 "</ul>\n"
@@ -32385,8 +32384,8 @@ msgstr ""
 "<p>Nom des fichiers vidéos SER. Les fichiers enregistrées peuvent contenir "
 "des tokens pour les rendre dynamiques :</p>\n"
 "<ul>\n"
-"<li><b>_D_</b> pour la date YYYY-MM-DD.</li>\n"
-"<li><b>_H_</b> pour l'heure HH:MM:SS.</li>\n"
+"<li><b>_D_</b> pour la date « AAAA-MM-JJ ».</li>\n"
+"<li><b>_H_</b> pour l'heure « HH:MM:SS ».</li>\n"
 "<li><b>_T_</b> pour l'horodatage ISO8601.</li>\n"
 "<li><b>_F_</b> pour le nom de filtre, si besoin.</li>\n"
 "</ul>\n"
@@ -33517,7 +33516,7 @@ msgstr "Faut-il afficher la fenêtre INDI au démarrage ?"
 #: kstars.kcfg:198
 #, kde-format
 msgid "Show the INDI window when starting EKOS."
-msgstr "Afficher la fenêtre INDI au démarrage d'Ekos"
+msgstr "Afficher la fenêtre INDI au démarrage de Ekos"
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
@@ -33613,7 +33612,7 @@ msgstr "Emplacement de l'exécutable de indiserver"
 #: kstars.kcfg:248 kstars.kcfg:249
 #, kde-format
 msgid "PATH to indihub-agent binary"
-msgstr "Emplacement de l'exécutable de indihub-agent"
+msgstr "Emplacement de l'exécutable de « indihub-agent »"
 
 #. i18n: ectx: label, entry (indiServerIsInternal), group (indi)
 #: kstars.kcfg:253
@@ -36800,13 +36799,13 @@ msgstr "Enregistrer l'activité des périphériques INDI."
 #: kstars.kcfg:1452
 #, kde-format
 msgid "Log Ekos Capture Module activity."
-msgstr "Enregistrer l'activité du module d'acquisition d'Ekos."
+msgstr "Enregistrer l'activité du module d'acquisition de Ekos."
 
 #. i18n: ectx: whatsthis, entry (FocusLogging), group (General)
 #: kstars.kcfg:1456
 #, kde-format
 msgid "Log Ekos Focus Module activity."
-msgstr "Enregistrer l'activité du module de mise au point d'Ekos."
+msgstr "Enregistrer l'activité du module de mise au point de Ekos."
 
 #. i18n: ectx: label, entry (SaveGuideImages), group (General)
 #: kstars.kcfg:1460
@@ -36830,25 +36829,25 @@ msgstr "Faut-il enregistrer les images d'alignement échouées sur le disque ?"
 #: kstars.kcfg:1472
 #, kde-format
 msgid "Log Ekos Guide Module activity."
-msgstr "Enregistrer l'activité du module de guidage d'Ekos ."
+msgstr "Enregistrer l'activité du module de guidage de Ekos ."
 
 #. i18n: ectx: whatsthis, entry (AlignmentLogging), group (General)
 #: kstars.kcfg:1476
 #, kde-format
 msgid "Log Ekos Alignment Module activity."
-msgstr "Enregistrer l'activité du module d'alignement d'Ekos."
+msgstr "Enregistrer l'activité du module d'alignement de Ekos."
 
 #. i18n: ectx: whatsthis, entry (MountLogging), group (General)
 #: kstars.kcfg:1480
 #, kde-format
 msgid "Log Ekos Mount Module activity."
-msgstr "Enregistrer l'activité du module de monture d'Ekos."
+msgstr "Enregistrer l'activité du module de monture de Ekos."
 
 #. i18n: ectx: whatsthis, entry (ObservatoryLogging), group (General)
 #: kstars.kcfg:1484
 #, kde-format
 msgid "Log Ekos Observatory Module activity."
-msgstr "Enregistrer l'activité du module d'observation d'Ekos."
+msgstr "Enregistrer l'activité du module d'observation de Ekos."
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1490
@@ -36967,8 +36966,9 @@ msgid ""
 "Create histogram from non-linear auto-stretched image rather than linear raw "
 "image data."
 msgstr ""
-"Créer un histogramme à partir d'une image non-linéaire auto-dimensionnable, "
-"plutôt qu'à partir de données linéaires et brutes d'une image."
+"Créer un histogramme à partir d'une image non-linéaire dimensionnable "
+"automatiquement, plutôt qu'à partir de données linéaires et brutes d'une "
+"image."
 
 #. i18n: ectx: label, entry (HIPSOpacity), group (FITSViewer)
 #: kstars.kcfg:1549
@@ -37003,7 +37003,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1569
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "JSON storing the assignment of profile indices to module profiles for the "
+#| "FITS Viewer Solver"
 msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
@@ -37137,13 +37140,13 @@ msgstr ""
 #: kstars.kcfg:1660
 #, kde-format
 msgid "Remember Ekos Live credentials."
-msgstr "Se souvenir des identifiants de la version en ligne d'Ekos"
+msgstr "Se souvenir des identifiants de la version en ligne de Ekos"
 
 #. i18n: ectx: label, entry (AutoStartEkosLive), group (EkosLive)
 #: kstars.kcfg:1664
 #, kde-format
 msgid "Start Ekos Live on KStars startup."
-msgstr "Lancer la version en ligne d'Ekos au démarrage de KStars."
+msgstr "Lancer la version en ligne de Ekos au démarrage de KStars."
 
 #. i18n: ectx: label, entry (EkosLiveUsername), group (EkosLive)
 #: kstars.kcfg:1668
@@ -37558,7 +37561,7 @@ msgstr "Index de l'option de durée du flat."
 #: kstars.kcfg:1879
 #, kde-format
 msgid "Azimuth of calibration wall location."
-msgstr "Azimuth de l'emplacement du mur de calibration."
+msgstr "Azimut de l'emplacement du mur de calibration."
 
 #. i18n: ectx: label, entry (CalibrationWallAlt), group (Capture)
 #: kstars.kcfg:1883
@@ -37688,13 +37691,13 @@ msgid ""
 "preview window."
 msgstr ""
 "Afficher chaque image de la séquence dans la fenêtre d'aperçu de l'écran de "
-"résumé d'Ekos."
+"résumé de Ekos."
 
 #. i18n: ectx: label, entry (useDSLRImageViewer), group (Capture)
 #: kstars.kcfg:1948
 #, kde-format
 msgid "Display every captured DSLR image in the Image Viewer window."
-msgstr "Afficher chaque image de l'APN dans la fenêtre d'affichage des images."
+msgstr "Afficher chaque image du DSLR dans la fenêtre d'affichage des images."
 
 #. i18n: ectx: label, entry (ForceDSLRPresets), group (Capture)
 #: kstars.kcfg:1952
@@ -38307,7 +38310,7 @@ msgstr "La quantité de jeu du pilote."
 #: kstars.kcfg:2250
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr "La quantité de surbalayage de la mise au point automatique."
+msgstr "La quantité de sur-balayage de la mise au point automatique."
 
 #. i18n: ectx: whatsthis, entry (FocusOverscanDelay), group (Focus)
 #: kstars.kcfg:2254
@@ -38875,7 +38878,7 @@ msgstr "Facteur de sous-échantillonnage"
 #: kstars.kcfg:2557
 #, kde-format
 msgid "Automatically downsample based on image size."
-msgstr "Sous-échantillonage automatique selon la taille de l'image."
+msgstr "Sous-échantillonnage automatique selon la taille de l'image."
 
 #. i18n: ectx: label, entry (AstrometryPositionRA), group (Align)
 #: kstars.kcfg:2565
@@ -39652,7 +39655,7 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for unparking dome on startup."
 msgstr ""
-"Case à cocher par défaut de l'ordonnanceur pour le déparcage du dôme au "
+"Case à cocher par défaut de l'ordonnanceur pour le dé-parcage du dôme au "
 "démarrage."
 
 #. i18n: ectx: label, entry (SchedulerUnparkMount), group (Scheduler)
@@ -39660,7 +39663,7 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for unparking mount on startup."
 msgstr ""
-"Case à cocher par défaut de l'ordonnanceur pour le déparcage de la monture "
+"Case à cocher par défaut de l'ordonnanceur pour le dé-parcage de la monture "
 "au démarrage."
 
 #. i18n: ectx: label, entry (SchedulerOpenDustCover), group (Scheduler)
@@ -39972,7 +39975,8 @@ msgstr ""
 #: kstars.kcfg:3254
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
-msgstr "Afficher l'azimut sur le tracé des statistiques de l'onglet Analyse."
+msgstr ""
+"Afficher l'azimut sur le tracé des statistiques de l'onglet « Analyse »."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
 #: kstars.kcfg:3258
@@ -41434,7 +41438,7 @@ msgstr "Porte de l'Est"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FARMLAND"
-msgstr "Terrain de cultivation"
+msgstr "TERRES AGRICOLES"
 
 #: kstars_i18n.cpp:176
 #, kde-kuit-format
@@ -42310,7 +42314,7 @@ msgstr "Arsenal"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SOUTHERN GATE OF EMPERATOR"
-msgstr "Porte sud de l'Imperator"
+msgstr "Porte sud de l'Empereur"
 
 #: kstars_i18n.cpp:329
 #, kde-kuit-format
@@ -42334,7 +42338,7 @@ msgstr "Architecte"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "EMPERATOR"
-msgstr "Imperator"
+msgstr "EMPEREUR"
 
 #: kstars_i18n.cpp:333
 #, kde-kuit-format
@@ -43498,7 +43502,7 @@ msgstr "Homem Velho (Tuivae)"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "ANTA DO NORTE (TAPI'I)"
-msgstr "Anta do Norte (Tapi I)"
+msgstr "ANTA DO NORTE (TAPI'I)"
 
 #: kstars_i18n.cpp:546
 #, kde-kuit-format
@@ -43630,13 +43634,13 @@ msgstr "DIAMANT DE VIRGO"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SUMMER TRIANGLE"
-msgstr "TRIANGLE DE L'ETE"
+msgstr "TRIANGLE DE L'ÉTÉ"
 
 #: kstars_i18n.cpp:655
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "GREAT SQUARE OF PEGASUS"
-msgstr "GRAND CARRE DE PEGASE"
+msgstr "GRAND CARRÉ DE PÉGASE"
 
 #: kstars_i18n.cpp:656
 #, kde-kuit-format
@@ -43660,7 +43664,7 @@ msgstr "CEINTURE D'ORION"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "TEAPOT"
-msgstr "LA THEIERE"
+msgstr "LA THÉIÈRE"
 
 #: kstars_i18n.cpp:660
 #, kde-kuit-format
@@ -43678,7 +43682,7 @@ msgstr "LA PETITE CASSEROLE"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CASSIOPEIA W"
-msgstr "CASSIOPEE W"
+msgstr "CASSIOPÉE W"
 
 #: kstars_i18n.cpp:663
 #, kde-kuit-format
@@ -44008,7 +44012,7 @@ msgstr "Addis-Abeba"
 #, kde-kuit-format
 msgctxt "City in South Australia Australia"
 msgid "Adelaide"
-msgstr "Adelaïde"
+msgstr "Adélaïde"
 
 #: kstars_i18n.cpp:724
 #, kde-kuit-format
@@ -44860,13 +44864,13 @@ msgstr "Athènes"
 #, kde-kuit-format
 msgctxt "City in Georgia USA"
 msgid "Athens"
-msgstr "Athens"
+msgstr "Athènes"
 
 #: kstars_i18n.cpp:866
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Athens"
-msgstr "Athens"
+msgstr "Athènes"
 
 #: kstars_i18n.cpp:867
 #, kde-kuit-format
@@ -45616,7 +45620,7 @@ msgstr "Bellows Falls"
 #, kde-kuit-format
 msgctxt "City in Morocco"
 msgid "Ben Guerir"
-msgstr "Ben Guerir"
+msgstr "Ben Guerir"
 
 #: kstars_i18n.cpp:992
 #, kde-kuit-format
@@ -46342,7 +46346,7 @@ msgstr "Bridgetown"
 #, kde-kuit-format
 msgctxt "City in Ohio USA"
 msgid "Brilliant"
-msgstr "Brilliant"
+msgstr "Brillant"
 
 #: kstars_i18n.cpp:1113
 #, kde-kuit-format
@@ -46990,7 +46994,7 @@ msgstr "Carson City"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Cartagena"
-msgstr "Cartagène"
+msgstr "Carthagène"
 
 #: kstars_i18n.cpp:1221
 #, kde-kuit-format
@@ -47152,7 +47156,7 @@ msgstr "Chagrin Falls"
 #, kde-kuit-format
 msgctxt "City in Illinois USA"
 msgid "Champaign"
-msgstr "Champaign"
+msgstr "Champagne"
 
 #: kstars_i18n.cpp:1248
 #, kde-kuit-format
@@ -49630,7 +49634,7 @@ msgstr "Exeter"
 #, kde-kuit-format
 msgctxt "City in Mauritania"
 msgid "F'Dérik"
-msgstr "Fdérik"
+msgstr "F'dérik"
 
 #: kstars_i18n.cpp:1661
 #, kde-kuit-format
@@ -50440,7 +50444,7 @@ msgstr "Gaya"
 #, kde-kuit-format
 msgctxt "City in Poland"
 msgid "Gdansk"
-msgstr "Gdańsk"
+msgstr "Gdansk"
 
 #: kstars_i18n.cpp:1796
 #, kde-kuit-format
@@ -53896,19 +53900,19 @@ msgstr "Leavenworth"
 #, kde-kuit-format
 msgctxt "City in Kentucky USA"
 msgid "Lebanon"
-msgstr "Lebanon"
+msgstr "Liban"
 
 #: kstars_i18n.cpp:2372
 #, kde-kuit-format
 msgctxt "City in Missouri USA"
 msgid "Lebanon"
-msgstr "Lebanon"
+msgstr "Liban"
 
 #: kstars_i18n.cpp:2373
 #, kde-kuit-format
 msgctxt "City in New Hampshire USA"
 msgid "Lebanon"
-msgstr "Lebanon"
+msgstr "Liban"
 
 #: kstars_i18n.cpp:2374
 #, kde-kuit-format
@@ -54178,7 +54182,7 @@ msgstr "Lisbonne"
 #, kde-kuit-format
 msgctxt "City in North Dakota USA"
 msgid "Lisbon"
-msgstr "Lisbon"
+msgstr "Lisbonne"
 
 #: kstars_i18n.cpp:2419
 #, kde-kuit-format
@@ -55210,7 +55214,7 @@ msgstr "McAllen"
 #, kde-kuit-format
 msgctxt "City in British Columbia Canada"
 msgid "McBride"
-msgstr "McBride"
+msgstr "Mac Bride"
 
 #: kstars_i18n.cpp:2591
 #, kde-kuit-format
@@ -56500,7 +56504,7 @@ msgstr "Münster"
 #, kde-kuit-format
 msgctxt "City in Chad"
 msgid "N'djamina"
-msgstr "N'djamena"
+msgstr "N'Djamena"
 
 #: kstars_i18n.cpp:2806
 #, kde-kuit-format
@@ -59758,7 +59762,7 @@ msgstr "Rouen"
 #, kde-kuit-format
 msgctxt "City in Montana USA"
 msgid "Roundup"
-msgstr "Roundup"
+msgstr "Récapitulatif"
 
 #: kstars_i18n.cpp:3349
 #, kde-kuit-format
@@ -60502,7 +60506,7 @@ msgstr "Seaford"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Seal Beach"
-msgstr "Seal Beach"
+msgstr "Seal Beach"
 
 #: kstars_i18n.cpp:3473
 #, kde-kuit-format
@@ -61294,7 +61298,7 @@ msgstr "St. Albans"
 #, kde-kuit-format
 msgctxt "City in Newfoundland Canada"
 msgid "St. Bride's"
-msgstr "St. Bride's"
+msgstr "St. Bride"
 
 #: kstars_i18n.cpp:3605
 #, kde-kuit-format
@@ -62488,7 +62492,7 @@ msgstr "Truro"
 #, kde-kuit-format
 msgctxt "City in New Mexico USA"
 msgid "Truth or Consequences"
-msgstr "Truth or Consequences"
+msgstr "Vérité ou conséquences"
 
 #: kstars_i18n.cpp:3804
 #, kde-kuit-format
@@ -67660,7 +67664,7 @@ msgstr "Tarazed"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Yed Prior"
-msgstr "Yed Prior"
+msgstr "Yed Prior"
 
 #: kstars_i18n.cpp:4666
 #, kde-kuit-format
@@ -68752,7 +68756,7 @@ msgstr "Catalogues multi-longueur d'onde"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Extragalactic Database (NED)"
-msgstr "NED (NASA Extragalactic Database)"
+msgstr "NED (NASA Extragalactic Data Base)"
 
 #: kstars_i18n.cpp:4848
 #, kde-kuit-format
@@ -73075,7 +73079,7 @@ msgstr "Messier"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Minimum Tick"
-msgstr "Tick minimal"
+msgstr "Pas minimal"
 
 #: libindi_strings.cpp:299
 #, kde-kuit-format
@@ -74191,7 +74195,7 @@ msgstr "Theta J:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ticks"
-msgstr "Ticks"
+msgstr "Pas"
 
 #: libindi_strings.cpp:485
 #, kde-kuit-format
@@ -75212,8 +75216,8 @@ msgstr ""
 #, kde-format
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistrer les information de l'objectif de l'APN</"
-"p></body></html>"
+"<html><head/><body><p>Enregistrer les information de l'objectif du DSLR</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
 #: oal/equipmentwriter.ui:732
@@ -75222,14 +75226,14 @@ msgid ""
 "<html><head/><body><p>Clear data and add a new DSLR lens</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Effacer les données et ajouter un nouvel objectif pour "
-"l'APN</p></body></html>"
+"le DSLR</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
 #: oal/equipmentwriter.ui:752
 #, kde-format
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Supprimez l'objectif actuel de l'APN</p></body></html>"
+"<html><head/><body><p>Supprimez l'objectif actuel du DSLR</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
 #: oal/equipmentwriter.ui:777
@@ -79297,7 +79301,7 @@ msgstr "eta"
 #: skyobjects/starobject.cpp:586
 #, kde-format
 msgid "theta"
-msgstr "theta"
+msgstr "thêta"
 
 #: skyobjects/starobject.cpp:587
 #, kde-format

@@ -1588,23 +1588,23 @@
 >imagesOverlays</literal
 >. En vous rendant sur la page de configuration de la <guilabel
 >Superposition d'image</guilabel
->, vous devriez voir les nouveaux fichiers dans la table. Leur statut sera <guilabel
+>, vous devriez voir les nouveaux fichiers dans la table. Leur état sera positionné à <guilabel
 >Non traité</guilabel
->. Seules les images de statut <guilabel
+>. Seules les images en état  <guilabel
 >Ok</guilabel
-> sont affichées sur la carte du ciel. La raison en est que &kstars; a besoin de connaître la position du ciel, la taille et l'orientation de ces images pour pouvoir les afficher. Pour modifier le statut en <guilabel
+> sont affichées sur la carte du ciel. La raison en est que &kstars; a besoin de connaître la position du ciel, la taille et l'orientation de ces images pour pouvoir les afficher. Pour modifier l'état à <guilabel
 >Ok</guilabel
 >, il faut effectuer une résolution astrométrique ou ajouter manuellement l'information requise, voir ci-dessous. </para>
 <para
->La préparation des images pour l'affichage implique de les résoudre (une seule fois). Pour cela, choisissez une image dans la table, cliquez sur nom et cliquez sur le bouton <guibutton
+>La préparation des images pour l'affichage implique de les résoudre (une seule fois). Pour cela, veuillez sélectionner une image dans la table, cliquez sur nom et cliquez sur le bouton <guibutton
 >Résoudre</guibutton
 > sous la table. L'étiquette de ce bouton changera en <guibutton
 >Annuler</guibutton
-> durant la résolution, et en cas de succès, les paramètres de résolution seront affichées dans la table et le statut passe à <guilabel
+> durant la résolution, et en cas de succès, les paramètres de résolution seront affichées dans la table et l'état passe à <guilabel
 >Ok</guilabel
 >. Cette information est enregistrée dans la base de données de l'utilisateur afin de ne pas devoir répéter la résolution. Les images résolues apparaîtront dès lors à leur correcte position sur la carte du ciel. Vous pouvez résoudre plusieurs images en une seule opération en cliquant sur le nom de la première image puis en cliquant sur d'autres nom de fichier en maintenant la touche « Maj » enfoncée. Toutes les images entre ces deux devraient être sélectionnées. Puis en cliquant sur le bouton <guibutton
 >Résoudre</guibutton
->, toutes les images tenteront d'être résolues. Toutefois &kstars; ignorera les images de statut <guilabel
+>, toutes les images tenteront d'être résolues. Toutefois &kstars; ignorera les images en état <guilabel
 >Ok</guilabel
 >. (Si vous souhaitez les résoudre à nouveau, modifiez vous-même leur état en <guilabel
 >Non traité</guilabel
@@ -1624,7 +1624,7 @@
 >Alignement</guilabel
 > d'Ekos). Enfin, vous pouvez le délai d'attente du résolveur en secondes. </para>
 <para
->Si vous avez quelques images problématiques que vous n'arrivez pas à résoudre, vous pouvez quand même les afficher en saisissant vous-même les valeurs dans la table. Ces valeurs sont les paramètres « AD » et « DEC » en secondes d'arc par pixel, l'angle d'orientation et les réglages par rapport à l'est ou à l'ouest. Une fois fait, modifiez le statut à <guilabel
+>Si vous avez quelques images problématiques que vous n'arrivez pas à résoudre, vous pouvez quand même les afficher en saisissant vous-même les valeurs dans la table. Ces valeurs sont les paramètres « AD » et « DEC » en secondes d'arc par pixel, l'angle d'orientation et les réglages par rapport à l'est ou à l'ouest. Une fois fait, modifiez l'état à <guilabel
 >Ok</guilabel
 > et &kstars; enregistrera ces valeurs dans la base de données de l'utilisateur comme si elles avaient été résolues automatiquement. </para>
 <para
@@ -1642,7 +1642,7 @@
 <para
 >La boîte à cocher <guilabel
 >Center la carte du ciel à la sélection</guilabel
-> permet de naviguer facilement vers les images de superposition sans devoir manipuler la carte du ciel. Lorsque que cette option est activée, il suffit de sélectionner une ligne dans la table de superposition (c'est à dire en cliquant sur le champ de nom de fichier) et la carte du ciel est déplacée vers cette image si son statut est <guilabel
+> permet de naviguer facilement vers les images de superposition sans devoir manipuler la carte du ciel. Lorsque que cette option est activée, il suffit de sélectionner une ligne dans la table de superposition (C'est-à-dire en cliquant sur le champ de nom de fichier) et la carte du ciel est déplacée vers cette image si son état est <guilabel
 >Ok</guilabel
 >. Vous pouvez ensuite passer d'une image à l'autre à l'aide des flèches « Vers le haut » et « Vers le bas » du clavier. </para>
 </sect1>

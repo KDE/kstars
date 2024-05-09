@@ -38,7 +38,7 @@
                         <para
 ><guilabel
 >Mode de connexion</guilabel
-> : Ekos peut être démarré soit en local soit à distance. Le mode en local est quand Ekos tourne sur la même machine que le serveur INDI, c'est-à-dire tous les périphériques sont connectés directement (physiquement) à la machine. Si vous exécutez le serveur INDI sur une machine distante (par exemple sur un Raspberry PI), vous devez configurer l'adresse de l'hôte du serveur INDI ainsi que son port d'écoute. </para>
+> : le démarrage de Ekos peut réalisé, soit en local, soit à distance. Le mode en local est quand Ekos s'exécute sur la même machine que le serveur INDI, c'est-à-dire tous les périphériques sont connectés directement (physiquement) à la machine. Si vous exécutez le serveur INDI sur une machine distante (Par exemple sur un Raspberry PI), vous devez configurer l'adresse de l'hôte du serveur INDI ainsi que son port d'écoute. </para>
                     </listitem>
                     <listitem>
                         <para

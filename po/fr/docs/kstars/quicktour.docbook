@@ -193,7 +193,7 @@
 <secondary
 >Survol</secondary
 ></indexterm
->&kstars; affiche des milliers d'objets célestes : étoiles, planètes, comètes, astéroïdes, amas, nébuleuses et galaxies. Vous pouvez interagir avec les objets affichés et réaliser des actions sur eux ou obtenir plus d'informations à leur propos. En cliquant sur un objet, il s'identifie dans la barre d'état, et simplement en le survolant avec la souris, un libellé s'affichera temporairement sur la carte. En double-cliquant, l'affichage se recentrera sur l'objet et commencera un suivi (de telle manière qu'il restera centré quand le temps s'écoulera). Un clic du bouton <mousebutton
+>&kstars; affiche des milliers d'objets célestes : étoiles, planètes, comètes, astéroïdes, amas, nébuleuses et galaxies. Vous pouvez interagir avec les objets affichés et réaliser des actions sur eux ou obtenir plus d'informations à leur propos. En cliquant sur un objet, il s'identifie dans la barre d'état, et simplement en le survolant avec le pointeur de souris, un libellé s'affichera temporairement sur la carte. En double-cliquant, l'affichage se recentrera sur l'objet et commencera un suivi (de telle manière qu'il restera centré quand le temps s'écoulera). Un clic du bouton <mousebutton
 >droit</mousebutton
 > sur un objet fera apparaître un menu contextuel qui proposera d'autres options. </para>
 
@@ -319,7 +319,7 @@
 >Chercher <replaceable
 >ObjectName</replaceable
 > sur Internet</guibutton
->. Une fois l'objet trouvé, vous pouvez l'utiliser de la même manière que n'importe quel autre objet déjà chargé dans &kstars; (c'est-à-dire l'ajouter dans votre liste de souhaits). Si l'objet n'a pas été trouvé dans les bases de données en ligne, un message d'avertissement apparaîtra. Une fois qu'un objet a été trouvé par cette méthode, il sera ajouté à la base de données de &kstars; pour pouvoir être utilisé ultérieurement. </para>
+>. Une fois l'objet trouvé, vous pouvez l'utiliser de la même manière que n'importe quel autre objet déjà chargé dans &kstars; (c'est-à-dire l'ajouter dans votre liste de souhaits). S'il est impossible de trouver l'objet dans les bases de données en ligne, un message d'avertissement apparaîtra. Une fois qu'un objet a été trouvé par cette méthode, il sera ajouté à la base de données de &kstars; pour pouvoir être utilisé ultérieurement. </para>
 
 <para
 >Vous pouvez choisir d'activer ou de désactiver cette fonctionnalité en cochant ou en décochant la case à cocher <guibutton

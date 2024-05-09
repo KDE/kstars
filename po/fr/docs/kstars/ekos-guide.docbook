@@ -169,7 +169,7 @@
 >Guider</guibutton
 >. Veuillez noter que si une calibration réussie existe déjà, que vous n'avez pas effacé les données de calibration et que vous la réutiliser, alors le processus de guidage automatique démarrera immédiatement, sinon c'est le processus de calibration qui démarrera. </para>
         <para
->Ekos débute la procédure de calibration en envoyant des impulsions à la monture pour la déplacer en AD et en DEC. D'abord à l'extérieur de l'axe AD, puis vers l'intérieur. Ensuite, il fait pareil en DEC pour compenser un éventuel jeu. Cela peut être visualisé graphiquement en cliquant sur « Afficher calibration » de la page principal de guidage. </para>
+>Ekos débute la procédure de calibration en envoyant des impulsions à la monture pour la déplacer en AD et en DEC. D'abord à l'extérieur de l'axe AD, puis vers l'intérieur. Ensuite, il fait pareil en DEC pour compenser un éventuel jeu. Cela peut être affiché graphiquement en cliquant sur « Afficher calibration » de la page principal de guidage. </para>
         <sect3 id="guide-calibration-failures">
         <title
 >Échecs de la calibration</title>
@@ -451,8 +451,8 @@
         <para
 >Ekos enregistre les données de guidage dans un fichier CSV au format PHD2 qui peut être utile pour analyser les performances de la monture. Sous Linux, elles sont enregistrées sous (<filename
 >~/.local/share/kstars/guide_log.txt</filename
->). Ce fichier journal n'est disponible que pour le guidage interne et devrait être compatible avec l'utilitaire de <ulink url="https://openphdguiding.org/phd2-log-viewer/"
->visualisation des fichiers journaux de guidage de PHD2</ulink
+>). Ce fichier journal n'est disponible que pour le guidage interne et devrait être compatible avec l'utilitaire <ulink url="https://openphdguiding.org/phd2-log-viewer/"
+>d'afficheur des fichiers journaux de guidage de PHD2</ulink
 >. </para>
     </sect2>
 </sect1>

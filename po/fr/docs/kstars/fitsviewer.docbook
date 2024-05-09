@@ -9,10 +9,10 @@
 ></indexterm>
 
 <para
->FITS (Flexible Image Transport System) est le format standard pour représenter les images et les données en astronomie. L'afficheur FITS de &kstars; permet de visualiser ces images. Il n'est pas conçu pour modifier les images FITS.</para>
+>FITS (Flexible Image Transport System) est le format standard pour représenter les images et les données en astronomie. L'afficheur « FITS » de &kstars; permet l'affichage de ces images. Il n'est pas conçu pour modifier les images « FITS ».</para>
 
 <para
->L'outil d'affichage FITS peut s'utiliser automatiquement pour visualiser les images reçues de l'appareil. Il peut aussi être lancé directement depuis le menu principal de &kstars;. Pour ouvrir un fichier FITS, sélectionnez depuis le menu <menuchoice
+>L'outil d'affichage « FITS » peut s'utiliser automatiquement pour afficher les images reçues de l'appareil. Il peut aussi être lancé directement depuis le menu principal de &kstars;. Pour ouvrir un fichier « FITS », sélectionnez depuis le menu <menuchoice
 ><guimenu
 >Fichier</guimenu
 > <guimenuitem
@@ -262,7 +262,7 @@
 ></listitem>
                 <listitem
 ><para
->En-tête FITS : affiche un tableau des en-tête FITS avec les mots-clés, les valeurs et les commentaires.</para
+>En-tête « FITS » : affiche un tableau des en-tête « FITS » avec les mots clé, les valeurs et les commentaires.</para
 ></listitem>
                 <listitem
 ><para
@@ -430,7 +430,7 @@
 ></listitem>
                 <listitem
 ><para
->Étoiles coupées : si l'option Afficher coupage est activée dans la barre d'outils principale, le nombre de pixels possiblement coupés est affiché. Clip : 403 ci-dessus.</para
+>Étoiles coupées : si l'option « Afficher le coupage » est activée dans la barre principale d'outils, le nombre de pixels possiblement coupés est affiché. Séquence : 403 ci-dessus.</para
 ></listitem>
             </itemizedlist
 >                  
@@ -439,7 +439,7 @@
 <para
 >Outre l'affichage de l'image, l'afficheur peut traiter l'éventuelle en-tête WCS (World Coordinate System) qui fournit des informations précieuses concernant les objets présents dans l'image, la superposition de la grille équatoriales, un menu contextuel et la possibilité de pivoter le télescope vers n'importe quel point de l'image. </para>
 <para
->Plusieurs filtres peuvent être appliqués pour améliorer l'image en incluant l'auto-étirement et le haut contraste. Ces opérations peuvent prendre quelques secondes selon la taille de l'image. La barre d'état du bas affiche la valeur du pixel survolé ainsi que les coordonnées X et Y. Enfin, elle inclut le niveau de zoom actuel et la résolution de l'image. </para>
+>Plusieurs filtres peuvent être appliqués pour améliorer l'image en incluant l'auto-étirement et le haut contraste. Ces opérations peuvent prendre quelques secondes selon la taille de l'image. La barre d'état du bas affiche la valeur du pixel survolé ainsi que les coordonnées X et Y du pointeur de souris. Enfin, elle inclut le niveau de zoom actuel et la résolution de l'image. </para>
 <para
 >Quand une image bayerisé est chargée, l'afficheur peur automatiquement la débayériser si le réglage FITS <quote
 >Auto débayerisation</quote
@@ -500,7 +500,7 @@
 >En-tête FITS</term>
             <listitem>
                 <para
->Affiche les valeurs et les mots-clés FITS dans une table en lecture seule. </para>
+>Affiche les valeurs et les mots clé « FITS » dans une table en lecture seule. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -580,7 +580,7 @@
             <itemizedlist>
               <listitem
 ><para
->La case à cocher KStars -> Réglages -> Développeur - <link linkend="developer"
+>La case à cocher KStars / Réglages / Développeur - <link linkend="developer"
 >Enregistrer les images d'alignement en échec</link
 >.</para
 ></listitem>
@@ -596,7 +596,7 @@
 ></listitem>
               <listitem
 ><para
->En cliquant sur Résoudre dans cet outil montrera le nombre d'étoiles détectées et l'utilisateur pourra ensuite décider si le problème se situe au niveau de la détection et essayer avec d'autres paramètres. </para
+>Un clic sur le bouton sur « Résoudre » dans cet outil affichera le nombre d'étoiles détectées. L'utilisateur pourra ensuite décider si le problème se situe au niveau de la détection et essayer avec d'autres paramètres. </para
 ></listitem>
               <listitem
 ><para
