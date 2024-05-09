@@ -316,7 +316,7 @@
 
 <abstract>
 <para
->&kstars; est une application astronomique gratuite, libre et multiplatforme. Elle fournit la carte du ciel de &kstars;, un planétarium digital avec des outils de superposition et de simulation, la suite d'astrophotographie qui agit comme un client pour les pilotes de périphériques INDI et un afficheur FITS pour afficher les images du ciel. </para>
+>&kstars; est une application astronomique gratuite, libre et multi-plate-forme. Elle fournit la carte du ciel de &kstars;, un planétarium numérique avec des outils de superposition et de simulation, la suite d'astrophotographie qui agit comme un client pour les pilotes de périphériques INDI et un afficheur FITS pour afficher les images du ciel. </para>
 
 <para>
 <itemizedlist>

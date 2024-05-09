@@ -95,11 +95,11 @@
 >. </para>
 
   <para
->Dans la fenêtre du planificateur d'observations vous verrez le tracé <quote
+>Dans la fenêtre du planificateur d'observations vous verrez le composant graphique <quote
 >Altitude selon l'heure</quote
-> qui montre comment l'altitude d'un objet varie avec le temps. </para>
+> montrant comment l'altitude d'un objet varie avec le temps. </para>
   <para
->Vous pouvez ajouter des notes d'observations sous cette fenêtre dans la boîte de texte. </para>
+>Sous le composant graphique « AltvsTime », il y a une zone de texte dans laquelle vous pouvez ajouter des notes d'observations pour un objet courant du ciel. </para>
   <para
 >Veuillez noter que la liste de souhaits n'est pas le plan de session. Dans la liste des souhaits, vous pouvez ajouter des objets que vous souhaitez observer à un certain moment. De là, vous pouvez les ajouter dans le plan de session. </para>
   <para

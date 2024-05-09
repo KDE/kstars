@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-07 01:42+0000\n"
-"PO-Revision-Date: 2024-05-06 22:28+0300\n"
+"PO-Revision-Date: 2024-05-08 22:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -44,10 +44,9 @@ msgid "Sky"
 msgstr "Gökyüzü"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Gündüz Gökyüzü"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -10075,17 +10074,15 @@ msgstr "Plaka Çözme"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
 #: ekos/align/polaralignmentassistant.ui:423
-#, fuzzy, kde-format
-#| msgid "Auto Star"
+#, kde-format
 msgid "Move Star"
-msgstr "Otomatik Yıldız"
+msgstr "Yıldızı Taşı"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
 #: ekos/align/polaralignmentassistant.ui:428
-#, fuzzy, kde-format
-#| msgid "Measure Alt Error"
+#, kde-format
 msgid "Move Star & Calc Error"
-msgstr "Alt Ölçü Hatası"
+msgstr "Yıldızı Taşı ve Hesapla Hatası"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorTotal)
@@ -10096,13 +10093,14 @@ msgid ""
 "Polar Alignment total error measured by the 3 exposures at the start of the "
 "polar-alignment procedure."
 msgstr ""
+"Kutupsal hizalama prosedürünün başlangıcında 3 pozlamayla ölçülen kutup "
+"hizalaması toplam hatası."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
 #: ekos/align/polaralignmentassistant.ui:504
-#, fuzzy, kde-format
-#| msgid "Measure Az Error"
+#, kde-format
 msgid "Measured Err:"
-msgstr "Az Hatasını Ölç"
+msgstr "Ölçülen hata:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAlt)
@@ -10113,6 +10111,8 @@ msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
+"Kutupsal hizalama prosedürünün başlangıcında 3 pozlamayla ölçülen kutup "
+"hizalaması yükseklik hatası."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -10134,6 +10134,8 @@ msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
+"Kutupsal hizalama prosedürünün başlangıcında 3 pozlamayla ölçülen kutup "
+"hizalaması azimut hatası."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
@@ -10141,14 +10143,13 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:671
 #, kde-format
 msgid "Polar Alignment total error estimated after recent adjustments."
-msgstr ""
+msgstr "Son ayarlamalardan sonra tahmin edilen kutup hizalaması toplam hatası."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
 #: ekos/align/polaralignmentassistant.ui:649
-#, fuzzy, kde-format
-#| msgid "Update TLEs"
+#, kde-format
 msgid "Updated Err:"
-msgstr "TLE 'leri güncelle"
+msgstr "Güncellenen hata:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
@@ -10157,6 +10158,7 @@ msgstr "TLE 'leri güncelle"
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
 msgstr ""
+"Son ayarlamalardan sonra tahmin edilen kutup hizalaması yükseklik hatası."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
@@ -10164,7 +10166,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:759
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
-msgstr ""
+msgstr "Son ayarlamalardan sonra tahmin edilen kutup hizalaması azimut hatası."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStartB)
@@ -10205,10 +10207,9 @@ msgstr "Yakala"
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
 #: skycomponents/imageoverlaycomponent.cpp:787
-#, fuzzy, kde-format
-#| msgid "solver:"
+#, kde-format
 msgid "Solve"
-msgstr "çözücü:"
+msgstr "Çöz"
 
 #. i18n: ectx: property (text), widget (QLabel, PAs1)
 #. i18n: ectx: property (text), widget (QLabel, PAs2)
@@ -10223,13 +10224,13 @@ msgstr "Çevir"
 #: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:330
 #, kde-format
 msgid "Setup"
-msgstr "Kurulum"
+msgstr "Ayarla"
 
 #. i18n: ectx: property (text), widget (QLabel, PAadjust)
 #: ekos/align/polaralignwidget.ui:397
 #, kde-format
 msgid "Adjust"
-msgstr ""
+msgstr "İnce Ayar Yap"
 
 #: ekos/align/remoteastrometryparser.cpp:32
 #, kde-format
@@ -10237,124 +10238,110 @@ msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
 "astrometry Auxiliary driver."
 msgstr ""
+"Çözücü uzak konuma ayarlanamıyor. Ekos ekipman profili astrometri ikincil "
+"sürücüsünü içermelidir."
 
 #: ekos/align/remoteastrometryparser.cpp:50
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1 for reading"
+#, kde-format
 msgid "Cannot open file %1 for reading."
-msgstr "%1 dosyası okumak için açılamadı"
+msgstr "%1 dosyası okumak için açılamadı."
 
 #: ekos/align/remoteastrometryparser.cpp:60
-#, fuzzy, kde-format
-#| msgid "Failed to set binning."
+#, kde-format
 msgid "Failed to find solver properties."
-msgstr "Katlama ayarlama başarısız."
+msgstr "Çözücü özellikleri bulunamadı."
 
 #: ekos/align/remoteastrometryparser.cpp:85
-#, fuzzy, kde-format
-#| msgid "Not enough memory to load %1"
+#, kde-format
 msgid "Not enough memory for file %1."
-msgstr "%1 ögesini yüklemek için yeterli bellek yok"
+msgstr "%1 dosyası için bellek yetersiz."
 
 #: ekos/align/remoteastrometryparser.cpp:102
-#, fuzzy, kde-format
-#| msgid "Starting solver..."
+#, kde-format
 msgid "Starting remote solver..."
-msgstr "Çözücü başlatılıyor..."
+msgstr "Uzak çözücü başlatılıyor..."
 
 #: ekos/align/remoteastrometryparser.cpp:112
-#, fuzzy, kde-format
-#| msgid "Failed to set binning."
+#, kde-format
 msgid "Failed to find solver settings."
-msgstr "Katlama ayarlama başarısız."
+msgstr "Çözücü ayarları bulunamadı."
 
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
 #: ekos/observatory/observatory.cpp:356 indi/indidome.cpp:21
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "City in Australia"
-#| msgid "Parkes"
+#, kde-format
 msgid "Parked"
-msgstr "Parkes"
+msgstr "Park edili"
 
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:150
 #: ekos/observatory/observatory.cpp:283 ekos/observatory/observatory.cpp:299
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:17 indi/indimount.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "City in China"
-#| msgid "Peking"
+#, kde-format
 msgid "Parking"
-msgstr "Peking"
+msgstr "Park ediliyor"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
 #: ekos/scheduler/scheduler.cpp:1977 indi/indimount.cpp:31
 #, kde-format
 msgid "Slewing"
-msgstr "Çevirmek"
+msgstr "Çevriliyor"
 
 #: ekos/analyze/analyze.cpp:135 ekos/analyze/analyze.cpp:154
 #: indi/indimount.cpp:31
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Moving"
-msgstr "%1 yükleniyor"
+msgstr "Hareket ettiriliyor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, trackingGroup)
 #: ekos/analyze/analyze.cpp:137 ekos/analyze/analyze.cpp:156
 #: ekos/mount/mount.ui:627 indi/indidome.cpp:21 indi/indimount.cpp:32
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "Tracking"
-msgstr "Yörünge"
+msgstr "İzleniyor"
 
 #: ekos/analyze/analyze.cpp:514 ekos/analyze/analyze.cpp:526
 #, kde-format
 msgid "Current Session"
-msgstr "Current Session"
+msgstr "Geçerli Oturum"
 
 #: ekos/analyze/analyze.cpp:515
-#, fuzzy, kde-format
-#| msgid "Read from input file"
+#, kde-format
 msgid "Read from File"
-msgstr "Girdi dosyasından oku"
+msgstr "Dosyadan Oku"
 
 #: ekos/analyze/analyze.cpp:516
 #, kde-format
 msgid "Set alternative image-file base directory"
-msgstr ""
+msgstr "Alternatif dosya-görsel taban dizinini ayarla"
 
 #. i18n call below is broken up (and the word "analyze" is protected from it) because i18n
 #. translates "analyze" to "analyse" for the English UK locale, but we need to keep it ".analyze"
 #. because that's what how the files are named.
 #: ekos/analyze/analyze.cpp:540
-#, fuzzy, kde-format
-#| msgid "Select Fields in Input File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select input file"
-msgstr "Girdi dosyasında alanları seç"
+msgstr "Girdi Dosyası Seç"
 
 #: ekos/analyze/analyze.cpp:541
-#, fuzzy, kde-format
-#| msgid "Select Filenames"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Dosya İsimlerini Seç"
+msgstr "Tüm dosyalar (*)"
 
 #: ekos/analyze/analyze.cpp:561
 #, kde-format
 msgid "Set an alternate base directory for your captured images"
-msgstr ""
+msgstr "Yakalanan görselleri için alternatif taban dizin ayarla"
 
 #: ekos/analyze/analyze.cpp:1378
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not find image file: %1"
-msgstr "%1 dosyası silinemedi"
+msgstr "Görsel dosyası bulunamadı: %1"
 
 #: ekos/analyze/analyze.cpp:1381
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Cannot display temporary image file: %1"
-msgstr "%1 dosyası silinemedi"
+msgstr "Geçici görsel dosyası görüntülenemiyor: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FocusLogging)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -10404,13 +10391,13 @@ msgstr "Çevir"
 #: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2152 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
-msgstr "Montaj"
+msgstr "Kaide"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/analyze/analyze.cpp:2207 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
-msgstr ""
+msgstr "İş"
 
 #: ekos/analyze/analyze.cpp:2465
 #, kde-format
@@ -10419,6 +10406,9 @@ msgid ""
 "You won't get HFR values without it. Once you set it, newly captured images "
 "will have their HFRs computed."
 msgstr ""
+"K Yıldızlar FITS seçenekleri menüsündeki \"HFR'yi Kendiliğinden Hesapla\" "
+"seçeneği ayarlı değil. Bu olmadan HFR değerlerini alamazsınız. Bunu "
+"ayarladığınızda, yeni çekilen görsellerin HFR'leri hesaplanır."
 
 #: ekos/analyze/analyze.cpp:2481
 #, kde-format
@@ -10427,6 +10417,10 @@ msgid ""
 "You won't get # stars in capture image values without it. Once you set it, "
 "newly captured images will have their stars detected."
 msgstr ""
+"K Yıldızlar FITS seçenekleri menüsündeki \"HFR'yi Kendiliğinden Hesapla\" "
+"seçeneği ayarlı değil. Bu olmadan, görüntü yakalama değerlerinde # yıldız "
+"alamazsınız. Bunu ayarladıktan sonra, yeni çekilen görsellerin yıldızları "
+"algılanacaktır."
 
 #: ekos/analyze/analyze.cpp:3325 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
@@ -10450,136 +10444,117 @@ msgstr "Bağlantı kesildi"
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1990
 #, kde-format
 msgid "Capturing"
-msgstr "Yakalama"
+msgstr "Yakalanıyor"
 
 #: ekos/analyze/analyze.cpp:3333 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
-msgstr ""
+msgstr "Döngüleniyor"
 
 #: ekos/analyze/analyze.cpp:3335 ekos/ekos.h:26
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Subtracting"
-msgstr "Ayarlanıyor"
+msgstr "Çıkarılıyor"
 
 #: ekos/analyze/analyze.cpp:3337 ekos/ekos.h:27
-#, fuzzy, kde-format
-#| msgid "Subframe"
+#, kde-format
 msgid "Subframing"
-msgstr "Alt Kare"
+msgstr "Altkareleniyor"
 
 #: ekos/analyze/analyze.cpp:3339 ekos/ekos.h:28
-#, fuzzy, kde-format
-#| msgid "Select begin star:"
+#, kde-format
 msgid "Selecting star"
-msgstr "Başlangıç yıldızı seç:"
+msgstr "Yıldız seçiliyor"
 
 #: ekos/analyze/analyze.cpp:3341 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
-msgstr "Ayarlanıyor"
+msgstr "Kalibre ediliyor"
 
 #: ekos/analyze/analyze.cpp:3343 ekos/ekos.h:30
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Calibration error"
-msgstr "Ayarlama"
+msgstr "Kalibrasyon hatası"
 
 #: ekos/analyze/analyze.cpp:3345 ekos/ekos.h:31
-#, fuzzy, kde-format
-#| msgid "Calibrate"
+#, kde-format
 msgid "Calibrated"
-msgstr "Kalibrasyon"
+msgstr "Kalibre edildi"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3347 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1988
 #, kde-format
 msgid "Guiding"
-msgstr "Kılavuzluk"
+msgstr "Kılavuzluk yapılıyor"
 
 #: ekos/analyze/analyze.cpp:3349 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
-msgstr "Durduruldu"
+msgstr "Askıya alındı"
 
 #: ekos/analyze/analyze.cpp:3351 ekos/ekos.h:34
-#, fuzzy, kde-format
-#| msgid "Capturing"
+#, kde-format
 msgid "Reacquiring"
-msgstr "Yakalama"
+msgstr "Yeniden elde ediliyor"
 
 #: ekos/analyze/analyze.cpp:3353 ekos/ekos.h:35 ekos/ekos.h:73
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Dithering"
-msgstr "Kıpırdatılıyor..."
+msgstr "Kıpırdatılıyor"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
 #: ekos/analyze/analyze.cpp:3355 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Manual Dithering"
-msgstr "Kıpırdatılıyor..."
+msgstr "Elle Kıpırdatma"
 
 #: ekos/analyze/analyze.cpp:3357 ekos/ekos.h:37
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dithering error"
-msgstr "Dome Creek"
+msgstr "Kıpırdatma hatası"
 
 #: ekos/analyze/analyze.cpp:3359 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
-msgstr ""
+msgstr "Kıpırdatma başarılı"
 
 #: ekos/analyze/analyze.cpp:3361 ekos/ekos.h:39
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Settling"
-msgstr "Ayarlar"
+msgstr "Yerleşiliyor"
 
 #. i18n: ectx: property (text), widget (QLabel, timelineLabel)
 #: ekos/analyze/analyze.ui:38
 #, kde-format
 msgid "Timeline"
-msgstr "Zaman Çizelgesi"
+msgstr "Zaman akışı"
 
 #. i18n: ectx: property (text), widget (QLabel, inputLabel)
 #: ekos/analyze/analyze.ui:61
-#, fuzzy, kde-format
-#| msgid "Input File:"
+#, kde-format
 msgid "Input:"
-msgstr "Girdi Dosyası:"
+msgstr "Girdi:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, inputCombo)
 #: ekos/analyze/analyze.ui:71
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the input for the plots. This can be the "
 "current Ekos session, or it can be read from a file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Çizimler için girdiyi seçin. Bu, var olan Ekos oturumu "
+"olabilir veya bir dosyadan okunabilir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fullWidthCB)
 #: ekos/analyze/analyze.ui:91
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Keep the plot at the full input width.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>Çizimi tam girdi genişliğinde tutun.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fullWidthCB)
 #: ekos/analyze/analyze.ui:94
@@ -10595,6 +10570,9 @@ msgid ""
 "the most recent actions performed by Ekos are shown on the right side of the "
 "plot.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Canlı kayıt yaparken çizimi güncel tutun. Yani Ekos'un "
+"en son gerçekleştirdiği eylemler grafiğin sağ tarafında gösterilir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keepCurrentCB)
 #: ekos/analyze/analyze.ui:104
@@ -31362,10 +31340,9 @@ msgstr "FITS Görüntüleyicisi'ne yüklenen görsellerin HFR'sini hesaplayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:423
-#, fuzzy, kde-format
-#| msgid "Compute FOV"
+#, kde-format
 msgid "Auto compute HFR"
-msgstr "FOV'yi hesapla"
+msgstr "HFR'yi kendiliğinden hesapla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:433

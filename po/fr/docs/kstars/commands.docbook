@@ -1940,7 +1940,7 @@
 ><para
 >Fenêtre <guimenuitem
 >Ajouter drapeau</guimenuitem
-> : Ouvrir le <quote
+> : ouvrir le <quote
 >Gestionnaire de drapeaux</quote
 >. Vous pouvez gérer ici vos drapeaux et utiliser quelques fonctionnalités de &kstars;. Quand la fenêtre de <quote
 >Gestionnaire de drapeaux</quote
@@ -1958,13 +1958,13 @@
 >icône</guilabel
 >. Pour ajouter des icônes personnalisées, il suffit d'ajouter des images dans le dossier <filename class="directory"
 >`qtpaths --paths GenericDataLocation`/kstars</filename
->. Les noms de fichier doivent commencer par le mot-clé <quote
+>. Les noms de fichier doivent commencer par le mot clé <quote
 >flag</quote
 >. Par exemple, le fichier <quote
 >flagSmall_red_cross.gif</quote
 > sera affiché comme « Small red cross » dans la boîte. Après avoir spécifié l'information du nouveau drapeau, vous pouvez l'ajouter à la liste de drapeaux en utilisant le bouton <guibutton
 >Ajouter</guibutton
->. Vous pouvez aussi modifier les détails du drapeau (c'est-à-dire AD/DEC, l'étiquette ou l'icône) et ensuite les enregistrer avec le bouton <guibutton
+>. Vous pouvez aussi modifier les détails du drapeau (c'est-à-dire AD / DEC, l'étiquette ou l'icône) et ensuite les enregistrer avec le bouton <guibutton
 >Enregistrer les changements</guibutton
 >. Avec le gestionnaire de drapeaux, vous pouvez facilement centrer un objet dans la carte ou dans le télescope en cliquant sut le bouton <guibutton
 >Centrer sur la carte</guibutton
@@ -2063,7 +2063,7 @@
 ><para
 ><guimenuitem
 >Ajouter une trace</guimenuitem
-> : ajoute une trace à l'objet courant du système solaire. Une trace d'étoile est le chemin continu créé par l'étoile dans le ciel de la nuit dû à la rotation de la Terre. Si un objet a déjà une trace, cet élément deviendra <guilabel
+> : ajoute une trace à l'objet courant du système solaire. Une trace d'étoile est le tracé continu créé par l'étoile dans le ciel de la nuit dû à la rotation de la Terre. Si un objet a déjà une trace, cet élément deviendra <guilabel
 >Supprimer Trace</guilabel
 >. </para
 ></listitem>
