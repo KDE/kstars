@@ -636,6 +636,9 @@ void Manager::stop()
 
 void Manager::start()
 {
+    if (analyzeProcess && Options::analyzeRestartWithEkos())
+        analyzeProcess->restart();
+
     // Don't start if it is already started before
     if (m_ekosStatus == Ekos::Pending || m_ekosStatus == Ekos::Success)
     {

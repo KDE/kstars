@@ -213,14 +213,16 @@ bool filterStripeBrush(const QString &filter, QBrush *brush)
 }
 
 // Used when searching for FITS files to display.
-// If filename isn't found as is, it tries alterateDirectory in several ways
-// e.g. if filename = /1/2/3/4/name is not found, then try alternateDirectory/name,
-// then alternateDirectory/4/name, then alternateDirectory/3/4/name,
-// then alternateDirectory/2/3/4/name, and so on.
+// If filename isn't found as is, it tries Options::analyzeAlternativeImageDirectory() in several ways
+// e.g. if filename = /1/2/3/4/name is not found, then try $dir/name,
+// then $dir/4/name, then $dir/3/4/name,
+// then $dir/2/3/4/name, and so on.
 // If it cannot find the FITS file, it returns an empty string, otherwise it returns
 // the full path where the file was found.
-QString findFilename(const QString &filename, const QString &alternateDirectory)
+QString findFilename(const QString &filename)
 {
+    const QString &alternateDirectory = Options::analyzeAlternativeImageDirectory();
+
     // Try the origial full path.
     QFileInfo info(filename);
     if (info.exists() && info.isFile())
@@ -415,8 +417,6 @@ Analyze::Analyze() : m_YAxisTool(this)
     captureRms.reset(new RmsFilter);
     guiderRms.reset(new RmsFilter);
 
-    alternateFolder = QDir::homePath();
-
     initInputSelection();
     initTimelinePlot();
 
@@ -504,8 +504,122 @@ void Analyze::keepCurrent(int state)
     }
 }
 
-// Implements the input selection UI. User can either choose the current Ekos
-// session, or a file read from disk, or set the alternateDirectory variable.
+// Get the following or previous .analyze file from the directory currently being displayed.
+QString Analyze::getNextFile(bool after)
+{
+    QDir dir;
+    QString filename;
+    QString dirString;
+    if (runtimeDisplay)
+    {
+        // Use the directory and file we're currently writing to.
+        dirString = QUrl::fromLocalFile(QDir(KSPaths::writableLocation(
+                QStandardPaths::AppLocalDataLocation)).filePath("analyze")).toLocalFile();
+        filename = QFileInfo(logFilename).fileName();
+    }
+    else
+    {
+        // Use the directory and file we're currently displaying.
+        dirString = dirPath.toLocalFile();
+        filename = QFileInfo(displayedSession.toLocalFile()).fileName();
+    }
+
+    // Set the sorting by name and filter by a .analyze suffix and get the file list.
+    dir.setPath(dirString);
+    QStringList filters;
+    filters << "*.analyze";
+    dir.setNameFilters(filters);
+    dir.setSorting(QDir::Name);
+    QStringList fileList = dir.entryList();
+
+    if (fileList.size() == 0)
+        return "";
+
+    // This would be the case on startup in 'Current Session' mode, but it hasn't started up yet.
+    if (filename.isEmpty() && fileList.size() > 0 && !after)
+        return QFileInfo(dirString, fileList.last()).absoluteFilePath();
+
+    // Go through all the files in this directory and find the file currently being displayed.
+    int index = -1;
+    for (int i = fileList.size() - 1; i >= 0; --i)
+    {
+        if (fileList[i] == filename)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    // Make sure we can go before or after.
+    if (index < 0)
+        return "";
+    else if (!after && index <= 0)
+        return "";
+    else if (after && index >= fileList.size() - 1)
+        return "";
+
+    return QFileInfo(dirString, after ? fileList[index + 1] : fileList[index - 1]).absoluteFilePath();
+}
+
+void Analyze::nextFile()
+{
+    QString filename = getNextFile(true);
+    if (filename.isEmpty())
+        displayFile(QUrl(), true);
+    else
+        displayFile(QUrl::fromLocalFile(filename));
+
+}
+
+void Analyze::prevFile()
+{
+    QString filename = getNextFile(false);
+    if (filename.isEmpty())
+        return;
+    displayFile(QUrl::fromLocalFile(filename));
+}
+
+// Do what's necessary to display the .analyze file passed in.
+void Analyze::displayFile(const QUrl &url, bool forceCurrentSession)
+{
+    if (forceCurrentSession || (logFilename.size() > 0 && url.toLocalFile() == logFilename))
+    {
+        // Input from current session
+        inputCombo->setCurrentIndex(0);
+        inputValue->setText("");
+        if (!runtimeDisplay)
+        {
+            reset();
+            maxXValue = readDataFromFile(logFilename);
+        }
+        runtimeDisplay = true;
+        fullWidthCB->setChecked(true);
+        fullWidthCB->setVisible(true);
+        fullWidthCB->setDisabled(false);
+        displayedSession = QUrl();
+        replot();
+        return;
+    }
+
+    inputCombo->setCurrentIndex(1);
+    displayedSession = url;
+    dirPath = QUrl(url.url(QUrl::RemoveFilename));
+
+    reset();
+    inputValue->setText(url.fileName());
+
+    // If we do this after the readData call below, it would animate the sequence.
+    runtimeDisplay = false;
+
+    maxXValue = readDataFromFile(url.toLocalFile());
+    checkForMissingSchedulerJobEnd(maxXValue);
+    plotStart = 0;
+    plotWidth = maxXValue + 5;
+    replot();
+}
+
+// Implements the input selection UI.
+// User can either choose the current Ekos session, or a file read from disk.
 void Analyze::initInputSelection()
 {
     // Setup the input combo box.
@@ -513,24 +627,13 @@ void Analyze::initInputSelection()
 
     inputCombo->addItem(i18n("Current Session"));
     inputCombo->addItem(i18n("Read from File"));
-    inputCombo->addItem(i18n("Set alternative image-file base directory"));
     inputValue->setText("");
+    inputCombo->setCurrentIndex(0);
     connect(inputCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
         if (index == 0)
         {
-            // Input from current session
-            if (!runtimeDisplay)
-            {
-                reset();
-                inputValue->setText(i18n("Current Session"));
-                maxXValue = readDataFromFile(logFilename);
-                runtimeDisplay = true;
-            }
-            fullWidthCB->setChecked(true);
-            fullWidthCB->setVisible(true);
-            fullWidthCB->setDisabled(false);
-            replot();
+            displayFile(QUrl::fromLocalFile(logFilename), true);
         }
         else if (index == 1)
         {
@@ -541,38 +644,11 @@ void Analyze::initInputSelection()
                             QString("Analyze %1 (*.analyze);;%2").arg(i18n("Log")).arg(i18n("All Files (*)")));
             if (inputURL.isEmpty())
                 return;
-            dirPath = QUrl(inputURL.url(QUrl::RemoveFilename));
-
-            reset();
-            inputValue->setText(inputURL.fileName());
-
-            // If we do this after the readData call below, it would animate the sequence.
-            runtimeDisplay = false;
-
-            maxXValue = readDataFromFile(inputURL.toLocalFile());
-            checkForMissingSchedulerJobEnd(maxXValue);
-            plotStart = 0;
-            plotWidth = maxXValue + 5;
-            replot();
-        }
-        else if (index == 2)
-        {
-            QString dir = QFileDialog::getExistingDirectory(
-                              this, i18n("Set an alternate base directory for your captured images"),
-                              QDir::homePath(),
-                              QFileDialog::ShowDirsOnly);
-            if (dir.size() > 0)
-            {
-                // TODO: replace with an option.
-                alternateFolder = dir;
-            }
-            // This is not a destiation, reset to one of the above.
-            if (runtimeDisplay)
-                inputCombo->setCurrentIndex(0);
-            else
-                inputCombo->setCurrentIndex(1);
+            displayFile(inputURL);
         }
     });
+    connect(nextFileB, &QPushButton::clicked, this, &Analyze::nextFile);
+    connect(prevFileB, &QPushButton::clicked, this, &Analyze::prevFile);
 }
 
 void Analyze::setupKeyboardShortcuts(QWidget *plot)
@@ -1371,7 +1447,7 @@ void Analyze::captureSessionClicked(CaptureSession &c, bool doubleClick)
     // Don't try to display images from temporary sessions (they aren't done yet).
     if (doubleClick && !c.isTemporary())
     {
-        QString filename = findFilename(c.filename, alternateFolder);
+        QString filename = findFilename(c.filename);
         // Don't display temporary files from completed sessions either.
         bool tempImage = isTemporaryFile(c.filename);
         if (!tempImage && filename.size() == 0)
@@ -2861,6 +2937,26 @@ void Analyze::saveMessage(const QString &type, const QString &message)
     appendToLog(line);
 }
 
+// Start writing a new .analyze file and reset the graphics to start from "now".
+void Analyze::restart()
+{
+    qCDebug(KSTARS_EKOS_ANALYZE) << "(Re)starting Analyze";
+
+    // Setup the new .analyze file
+    startLog();
+
+    // Reset the graphics so that it ignore any old data.
+    reset();
+    inputCombo->setCurrentIndex(0);
+    inputValue->setText("");
+    maxXValue = readDataFromFile(logFilename);
+    runtimeDisplay = true;
+    fullWidthCB->setChecked(true);
+    fullWidthCB->setVisible(true);
+    fullWidthCB->setDisabled(false);
+    replot();
+}
+
 // Start writing a .analyze file.
 void Analyze::startLog()
 {
@@ -2868,14 +2964,14 @@ void Analyze::startLog()
     startTimeInitialized = true;
     if (runtimeDisplay)
         displayStartTime = analyzeStartTime;
-    if (logInitialized)
-        return;
+
     QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/analyze");
     dir.mkpath(".");
 
+    logFile.reset(new QFile);
     logFilename = dir.filePath("ekos-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".analyze");
-    logFile.setFileName(logFilename);
-    logFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    logFile->setFileName(logFilename);
+    logFile->open(QIODevice::WriteOnly | QIODevice::Text);
 
     // This must happen before the below appendToLog() call.
     logInitialized = true;
@@ -2890,7 +2986,7 @@ void Analyze::appendToLog(const QString &lines)
 {
     if (!logInitialized)
         startLog();
-    QTextStream out(&logFile);
+    QTextStream out(logFile.data());
     out << lines;
     out.flush();
 }
@@ -2931,6 +3027,7 @@ void Analyze::removeTemporarySessions()
 void Analyze::addTemporarySession(Session * session, double time, double duration,
                                   int y_offset, const QBrush &brush)
 {
+    if (time < 0) return;
     removeTemporarySession(session);
     session->rect = addSession(time, time + duration, y_offset, brush);
     session->start = time;
@@ -3015,6 +3112,9 @@ void Analyze::processCaptureComplete(double time, const QString &filename,
 {
     removeTemporarySession(&temporaryCaptureSession);
     QBrush stripe;
+    if (captureStartedTime < 0)
+        return;
+
     if (filterStripeBrush(filter, &stripe))
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, &stripe);
     else
@@ -3221,6 +3321,9 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
                                        const QString &curve, const QString &title, bool batchMode)
 {
     removeTemporarySession(&temporaryFocusSession);
+    if (autofocusStartedTime < 0)
+        return;
+
     QBrush stripe;
     if (filterStripeBrush(filter, &stripe))
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
@@ -3262,6 +3365,7 @@ void Analyze::processAutofocusAbortedV2(double time, double temperature, const Q
                                         const AutofocusReason reason, const QString &reasonInfo, const QString &points, const bool useWeights,
                                         const AutofocusFailReason failCode, const QString failCodeInfo, bool batchMode)
 {
+    Q_UNUSED(temperature);
     removeTemporarySession(&temporaryFocusSession);
     double duration = time - autofocusStartedTime;
     if (autofocusStartedTime >= 0 && duration < 1000)
