@@ -768,6 +768,15 @@ QString Guide::guider()
 
 bool Guide::capture()
 {
+    // Should only capture if we're not already capturing...
+    // Really a hack, guider wasn't designed with the dither/capture concurrency in mind :(
+    if (guiderType == GUIDE_INTERNAL && captureTimeout.isActive() && captureTimeout.remainingTime() > 0)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Internal guider skipping capture, already running with remaining seconds =" <<
+                                   captureTimeout.remainingTime() / 1000.0;
+        return false;
+    }
+
     buildOperationStack(GUIDE_CAPTURE);
 
     return executeOperationStack();
@@ -1059,6 +1068,9 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
         return;
     }
 
+    captureTimeout.stop();
+    m_CaptureTimeoutCounter = 0;
+
     if (data)
     {
         m_GuideView->loadData(data);
@@ -1069,9 +1081,6 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
 
     if (guiderType == GUIDE_INTERNAL)
         internalGuider->setImageData(m_ImageData);
-
-    captureTimeout.stop();
-    m_CaptureTimeoutCounter = 0;
 
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Guide::processData);
 
