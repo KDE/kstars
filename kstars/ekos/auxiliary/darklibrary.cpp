@@ -532,11 +532,10 @@ void DarkLibrary::updateProperty(INDI::Property prop)
         return;
 
     auto bp = prop.getBLOB()->at(0);
+    m_CurrentDarkFrame->setExtension(QString(bp->getFormat()));
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     if (!m_CurrentDarkFrame->loadFromBuffer(buffer))
     {
-        QString ext(QString(bp->getFormat()));
-        m_CurrentDarkFrame->setExtension(ext);
         m_FileLabel->setText(i18n("Failed to process dark data."));
         return;
     }
