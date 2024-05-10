@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-07 01:42+0000\n"
+"POT-Creation-Date: 2024-05-10 01:42+0000\n"
 "PO-Revision-Date: 2024-04-25 12:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -971,7 +971,7 @@ msgstr "Simulador del sistema solar Xplanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -31968,12 +31968,12 @@ msgstr "El desaparcament de la muntura es troba en curs"
 msgid "Mount parked"
 msgstr "La muntura està aparcada"
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:497
 #, kde-format
 msgid "Mount unparked"
 msgstr "La muntura està desaparcada"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:824
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -31982,12 +31982,12 @@ msgstr ""
 "Avís! Mirar el Sol sense una protecció adequada pot provocar danys oculars "
 "irreversibles!"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:825
 #, kde-format
 msgid "Sun Warning"
 msgstr "Avís del Sol"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:843
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
@@ -31995,7 +31995,7 @@ msgid ""
 msgstr ""
 "L'altitud requerida %1 està fora dels límits d'altitud especificats (%2, %3)."
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:877
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -32003,7 +32003,7 @@ msgstr ""
 "L'altitud requerida es troba per sota de l'horitzó. Segur que voleu "
 "continuar?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:878
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Moviment del telescopi"

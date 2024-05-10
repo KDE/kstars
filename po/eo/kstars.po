@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-07 01:42+0000\n"
+"POT-Creation-Date: 2024-05-10 01:42+0000\n"
 "PO-Revision-Date: 2024-04-27 22:28+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -957,7 +957,7 @@ msgstr "Simulilo de Sunsistemo XPlanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -31341,12 +31341,12 @@ msgstr "Muntaĵo-malparkado estas en progreso"
 msgid "Mount parked"
 msgstr "Muntaĵo parkumita"
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:497
 #, kde-format
 msgid "Mount unparked"
 msgstr "Muntaĵo neparkigita"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:824
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -31355,26 +31355,26 @@ msgstr ""
 "Averto! Rigardi la Sunon sen taŭga protekto povas konduki al nemaligebla "
 "okulo-damaĝo!"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:825
 #, kde-format
 msgid "Sun Warning"
 msgstr "Suna Averto"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:843
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "La petita alteco %1 estas ekster la specifita altlimo (%2,%3)."
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:877
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
 "Petita alteco estas sub la horizonto. Ĉu vi certas, ke vi volas daŭrigi?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:878
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Teleskopa Movo"

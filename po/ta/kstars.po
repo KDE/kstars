@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-07 01:42+0000\n"
+"POT-Creation-Date: 2024-05-10 01:42+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1049,7 +1049,7 @@ msgstr "சூரிய அமைப்பு காட்சியாளன்"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -31064,35 +31064,35 @@ msgstr "தொலை நோக்கி"
 msgid "Mount parked"
 msgstr "மௌண்ட் இகார்"
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:497
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount unparked"
 msgstr "மௌண்ட் இகார்"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:824
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:825
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Corning"
 msgid "Sun Warning"
 msgstr "கார்னிங்"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:843
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:877
 #, fuzzy, kde-format
 #| msgid ""
 #| "The requested position is below the horizon.\n"
@@ -31103,7 +31103,7 @@ msgstr ""
 "இடைநிலை-யின் கீழ் - கேட்கப்பட்ட நிலை.\n"
 " எப்படியும் செல்ல விரும்புகிறீர்களா?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:878
 #, fuzzy, kde-format
 msgid "Telescope Motion"
 msgstr "தொலை நோக்கி துறை:"

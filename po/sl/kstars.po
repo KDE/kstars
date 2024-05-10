@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-07 01:42+0000\n"
+"POT-Creation-Date: 2024-05-10 01:42+0000\n"
 "PO-Revision-Date: 2024-05-05 22:39+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -976,7 +976,7 @@ msgstr "Simulator sončnega sistema XPlanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -32063,13 +32063,13 @@ msgstr "Poteka premikanje stojala s parkirišča …"
 msgid "Mount parked"
 msgstr "Stojalo parkirano."
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:497
 #, fuzzy, kde-format
 #| msgid "Mount unparked."
 msgid "Mount unparked"
 msgstr "Stojalo ni več parkirano."
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:824
 #, fuzzy, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -32078,27 +32078,27 @@ msgstr ""
 "Opozorilo! Pogled na Sonce brez ustrezne zaščite lahko povzroči "
 "nepopravljive poškodbe oči!"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:825
 #, fuzzy, kde-format
 #| msgid "Warning"
 msgid "Sun Warning"
 msgstr "Opozorilo"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:843
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "Zahtevana višina %1 je zunaj navedene omejitve višine (%2,%3)."
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:877
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
 "Zahtevana višina je pod obzorjem. Ali ste prepričani, da želite nadaljevati?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:878
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Premikanje daljnogleda"

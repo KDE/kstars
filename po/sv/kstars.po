@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-07 01:42+0000\n"
+"POT-Creation-Date: 2024-05-10 01:42+0000\n"
 "PO-Revision-Date: 2024-05-05 09:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -953,7 +953,7 @@ msgstr "XPlanet solsystemsimulator: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -31456,12 +31456,12 @@ msgstr "Håller på att frigöra stativ"
 msgid "Mount parked"
 msgstr "Stativ parkerat"
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:497
 #, kde-format
 msgid "Mount unparked"
 msgstr "Stativ frigjort"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:824
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -31470,19 +31470,19 @@ msgstr ""
 "Varning: Att titta på solen utan ordentligt skydd kan leda till irreversibla "
 "ögonskador!"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:825
 #, kde-format
 msgid "Sun Warning"
 msgstr "Solvarning"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:843
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "Begärd elevation %1 är utanför den angivna elevationsgränsen (%2, %3)."
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:877
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -31490,7 +31490,7 @@ msgstr ""
 "Den begärda elevationen är under horisonten. Är du säker på att du vill "
 "fortsätta?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:878
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Teleskoprörelse"

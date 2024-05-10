@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-07 01:42+0000\n"
+"POT-Creation-Date: 2024-05-10 01:42+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -946,7 +946,7 @@ msgstr "XPlanet 太阳系模拟器: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -29795,31 +29795,31 @@ msgstr "正在启动赤道仪"
 msgid "Mount parked"
 msgstr "赤道仪归位完毕"
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:497
 #, kde-format
 msgid "Mount unparked"
 msgstr "赤道仪启动完毕"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:824
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr "警告！没有适当保护的情况下看太阳会不可逆转地伤害眼睛！"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:825
 #, kde-format
 msgid "Sun Warning"
 msgstr "太阳警告"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:843
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "请求的高度角 %1 超出了指定的高度角限制 (%2,%3)。"
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:877
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -29827,7 +29827,7 @@ msgstr ""
 "请求的位置低于地平线。\n"
 "您仍然要前往该地点吗？"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:878
 #, kde-format
 msgid "Telescope Motion"
 msgstr "望远镜动作"
