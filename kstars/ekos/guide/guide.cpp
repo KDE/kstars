@@ -3253,7 +3253,10 @@ void Guide::refreshOpticalTrain()
         {
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_Settings)
+            {
+                m_Settings.clear();
                 setAllSettings(map);
+            }
         }
         else
             m_Settings = m_GlobalSettings;
@@ -3429,6 +3432,11 @@ void Guide::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
+        if (rb->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
         value = true;
     }
 

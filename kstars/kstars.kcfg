@@ -2490,11 +2490,7 @@
       <entry name="AstrometryFlipRotationAllowed" type="Bool">
          <whatsthis>PA 180° rotation for rotator is accepted after mount flip.</whatsthis>
          <default>true</default>
-      </entry>
-      <entry name="SolverGotoOption" type="UInt">
-         <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
-         <default>1</default>
-      </entry>
+      </entry>      
       <entry name="AstrometrySolverWCS" type="Bool">
          <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
          <default>true</default>

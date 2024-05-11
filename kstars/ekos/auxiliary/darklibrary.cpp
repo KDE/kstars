@@ -1655,7 +1655,10 @@ void DarkLibrary::refreshOpticalTrain()
         {
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_Settings)
+            {
+                m_Settings.clear();
                 setAllSettings(map);
+            }
         }
         else
             m_Settings = m_GlobalSettings;
@@ -1976,6 +1979,12 @@ void DarkLibrary::syncSettings()
     else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
     {
         key = cradio->objectName();
+        // Discard false requests
+        if (cradio->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
         value = true;
     }
 

@@ -2777,7 +2777,10 @@ void Capture::refreshOpticalTrain()
         {
             auto map = settings.toJsonObject().toVariantMap();
             if (map != cameraUI->settings())
+            {
+                cameraUI->settings().clear();
                 setAllSettings(map);
+            }
         }
         else
             cameraUI->setSettings(m_GlobalSettings);
@@ -3167,6 +3170,12 @@ void Capture::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
+        // Discard false requests
+        if (rb->isChecked() == false)
+        {
+            cameraUI->settings().remove(key);
+            return;
+        }
         value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))

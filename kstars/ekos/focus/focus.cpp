@@ -5436,7 +5436,13 @@ void Focus::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
-        value = rb->isChecked();
+        // Discard false requests
+        if (rb->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
+        value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -7682,7 +7688,10 @@ void Focus::refreshOpticalTrain()
             validSettings = true;
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_Settings)
+            {
+                m_Settings.clear();
                 setAllSettings(map);
+            }
         }
 
         auto camera = OpticalTrainManager::Instance()->getCamera(name);
