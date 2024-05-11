@@ -1120,7 +1120,7 @@ void DarkLibrary::generateDarkJobs()
     if (m_JobsGenerated == false)
     {
         m_JobsGenerated = true;
-        m_CaptureModuleSettings = m_CaptureModule->getAllSettings();
+        m_CaptureModuleSettings = m_CaptureModule->cameraUI->getAllSettings();
     }
 
     QList<double> temperatures;
@@ -1133,12 +1133,12 @@ void DarkLibrary::generateDarkJobs()
         }
 
         // Enforce temperature set
-        m_CaptureModule->setForceTemperature(true);
+        m_CaptureModule->cameraUI->setForceTemperature(true);
     }
     else
     {
         // Disable temperature set
-        m_CaptureModule->setForceTemperature(false);
+        m_CaptureModule->cameraUI->setForceTemperature(false);
         temperatures << INVALID_VALUE;
     }
 
