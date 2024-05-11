@@ -3175,8 +3175,8 @@
        <default>true</default>
     </entry>
     <entry name="AnalyzeAlternativeImageDirectory" type="String">
-       <label>If Analyze is running and Ekos is disconnected then reconnected, a new .analyze file will be created and written to, and the graphs in Analyze will only show the new session.</label>
-       <default>true</default>
+       <label>Alternative directory to use for searching for analyze image files.</label>
+       <default></default>
     </entry>
     <entry name="AnalyzeHFR" type="Bool">
       <whatsthis>Display HFR on the Analyze Statistics Plot.</whatsthis>
