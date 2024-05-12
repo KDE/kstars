@@ -768,8 +768,19 @@ QString Guide::guider()
 
 bool Guide::capture()
 {
-    // Should only capture if we're not already capturing...
-    // Really a hack, guider wasn't designed with the dither/capture concurrency in mind :(
+    // Only capture if we're not already capturing.
+    //
+    // The situation I'm seeting this fire is with the internal guider, using GPG,
+    // set to suspend guiding during focus, when focus has been completed and guiding moves
+    // back from suspended to guiding. Here's why:
+    // During focus, even though guiding is suspended and not sending guide pulses, it still
+    // captures images and compute guide offsets and send those offset values to gpg
+    // (see setCaptureComple() case GUIDE_SUSPENDED). When focus completes, guiding moves from
+    // suspended back to guiding--resume() gets called (from the focuser connected through the
+    // manager) which calls InternalGuider::resume() which emits frameCaptureRequested() which
+    // calls Guide::capture().  So, there would likely be a call to capture() while the previous
+    // gpg-induced capture is still running (above setCaptureComplete case GUIDE_SUSPENDED).
+    // I'm leaving this behavior in the code, as this seems like an ok solution.
     if (guiderType == GUIDE_INTERNAL && captureTimeout.isActive() && captureTimeout.remainingTime() > 0)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Internal guider skipping capture, already running with remaining seconds =" <<

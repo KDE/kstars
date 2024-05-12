@@ -23,6 +23,12 @@
 
         <listitem>
             <para>
+                Analyze Module
+            </para>
+        </listitem>
+        
+        <listitem>
+            <para>
                 Capture Module
             </para>
         </listitem>
@@ -80,6 +86,14 @@
             <listitem>
                 <para>
                     After mastering Ekos, users are encouraged to learn how to use the Scheduler module since it facilitates the complete observation process greatly. It enables you to select multiple targets, specify which conditions and requirements to be met, and what frames are required for capture. Afterwards the scheduler intelligently calculates the best observation time for each object and then proceed to control the complete observatory from startup to shutdown.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>Analyze Module</term>
+            <listitem>
+                <para>
+                    Analyze displays a high-level summary of what happened during an imaging session. It shows plots and graphs describing the many captures takes during a night, the focus sessions, the guiding, mount movement, meridian flips, etc. Use it to get a feel of "what happened last night" or to see the current state of the system.
                 </para>
             </listitem>
         </varlistentry>
