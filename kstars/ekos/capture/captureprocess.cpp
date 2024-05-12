@@ -1659,12 +1659,10 @@ IPState CaptureProcess::updateDownloadTimesAction()
     return IPS_OK;
 }
 
-IPState CaptureProcess::previewImageCompletedAction(QSharedPointer<FITSData> imageData)
+IPState CaptureProcess::previewImageCompletedAction()
 {
     if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
-        //sendNewImage(blobFilename, blobChip);
-        emit newImage(activeJob(), imageData);
         // Reset upload mode if it was changed by preview
         activeCamera()->setUploadMode(activeJob()->getUploadMode());
         // Reset active job pointer
@@ -1698,7 +1696,7 @@ void CaptureProcess::updateCompletedCaptureCountersAction()
     updateDownloadTimesAction();
 
     // If it was initially set as pure preview job and NOT as preview for calibration
-    if (previewImageCompletedAction(state()->imageData()) == IPS_OK)
+    if (previewImageCompletedAction() == IPS_OK)
         return;
 
     // do not update counters if in preview mode or calibrating

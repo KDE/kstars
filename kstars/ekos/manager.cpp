@@ -2618,24 +2618,15 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
 
-    //const QString filename = ;
-    //if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
     if (data && job->getStatus() == JOB_BUSY)
     {
-        QString uuid = QUuid::createUuid().toString();
-        uuid = uuid.remove(QRegularExpression("[-{}]"));
-
         // Normally FITS Viewer would trigger an upload
         // If off, then rely on summary view or raw data
-        if (Options::useSummaryPreview())
-            ekosLiveClient.get()->media()->sendView(m_SummaryView, uuid);
-
-        else
-            ekosLiveClient.get()->media()->sendData(data, uuid);
+        if (Options::useFITSViewer() == false)
+            ekosLiveClient.get()->media()->sendData(data, data->objectName());
 
         if (job->jobType() != SequenceJob::JOBTYPE_PREVIEW)
-            ekosLiveClient.get()->cloud()->upload(data, uuid);
-
+            ekosLiveClient.get()->cloud()->upload(data, data->objectName());
     }
 }
 

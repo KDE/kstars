@@ -27,6 +27,8 @@
 #include "ksalmanac.h"
 #include "skymapcomposite.h"
 #include "catalogobject.h"
+#include "fitsviewer/fitsviewer.h"
+#include "fitsviewer/fitstab.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "skymap.h"
 #include "Options.h"
@@ -2655,6 +2657,17 @@ QObject *Message::findObject(const QString &name)
     object = INDIListener::Instance()->findChild<QObject *>(name);
     if (object)
         return object;
+    // FITS Viewer. Search for any matching imageData
+    // TODO Migrate to DBus
+    for (auto &viewer : KStars::Instance()->getFITSViewers())
+    {
+        for (auto &tab : viewer->tabs())
+        {
+            if (tab->getView()->objectName() == name)
+                return tab->getView().get();
+        }
+    }
+
     // Finally KStars
     // N.B. This does not include indepdent objects with their parent set to null (e.g. FITSViewer)
     object = KStars::Instance()->findChild<QObject *>(name);

@@ -161,6 +161,13 @@ void FITSView::setAutoStretchParams()
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent), m_ZoomFactor(1.2)
 {
+    static const QRegularExpression re("[-{}]");
+
+    // Set UUID for each view
+    QString uuid = QUuid::createUuid().toString();
+    uuid = uuid.remove(re);
+    setObjectName(uuid);
+
     // stretchImage is whether to stretch or not--the stretch may or may not use automatically generated parameters.
     // The user may enter his/her own.
     stretchImage = Options::autoStretch();
@@ -2601,3 +2608,20 @@ void FITSView::setStarsHFREnabled(bool enable)
 {
     showStarsHFR = enable;
 }
+
+void FITSView::setStretchValues(double shadows, double midtones, double highlights)
+{
+    StretchParams params = getStretchParams();
+    params.grey_red.shadows = shadows;
+    params.grey_red.midtones = midtones;
+    params.grey_red.highlights = highlights;
+    //setPreviewSampling(0);
+    setStretchParams(params);
+}
+
+void FITSView::setAutoStretch()
+{
+    if (!getAutoStretch())
+        setAutoStretchParams();
+}
+

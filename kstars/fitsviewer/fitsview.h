@@ -85,6 +85,9 @@ class FITSView : public QScrollArea
             return m_ImageData;
         }
 
+        Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
+        Q_SCRIPTABLE void setAutoStretch();
+
         double getCurrentZoom() const
         {
             return currentZoom;

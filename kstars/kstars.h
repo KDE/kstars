@@ -158,6 +158,10 @@ class KStars : public KXmlGuiWindow
         const QSharedPointer<FITSViewer> &genericFITSViewer();
         const QSharedPointer<FITSViewer> &createFITSViewer();
         void clearAllViewers();
+        const QList<QSharedPointer<FITSViewer>> &getFITSViewers() const
+        {
+            return m_FITSViewers;
+        }
 #endif
 
         /** Add an item to the color-scheme action manu

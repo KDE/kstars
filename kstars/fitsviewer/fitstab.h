@@ -119,6 +119,7 @@ class FITSTab : public QWidget
         void statFITS();
 
         Q_SCRIPTABLE void setStretchValues(double shadows, double midtones, double highlights);
+        Q_SCRIPTABLE void setAutoStretch();
 
         void setUID(int newID)
         {
