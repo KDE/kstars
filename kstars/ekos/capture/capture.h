@@ -10,7 +10,6 @@
 
 #include "sequencejob.h"
 #include "ekos/manager/meridianflipstate.h"
-#include "customproperties.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/focus/focusutils.h"
@@ -19,8 +18,6 @@
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
-#include "ui_limits.h"
-#include "ui_calibrationoptions.h"
 
 #include <QTimer>
 #include <QUrl>
@@ -29,10 +26,7 @@
 #include <memory>
 
 class DSLRInfo;
-class QProgressIndicator;
 class QTableWidgetItem;
-class KDirWatch;
-class RotatorSettings;
 
 /**
  * @namespace Ekos
@@ -383,12 +377,6 @@ class Capture : public QWidget, public Ui::Capture
         void setFilterWheel(QString name);
 
         /**
-         * @brief Add new Rotator
-         * @param name name of the new rotator
-        */
-        void setRotator(QString name);
-
-        /**
          * @brief setDome Set dome device
          * @param device pointer to dome device
          * @return true if successfull, false otherewise.
@@ -430,32 +418,14 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         // ////////////////////////////////////////////////////////////////////
-        // Rotator
-        // ////////////////////////////////////////////////////////////////////
-        const QSharedPointer<RotatorSettings> &RotatorControl() const
-        {
-            return m_RotatorControlPanel;
-        }
-
-        // ////////////////////////////////////////////////////////////////////
         // Filter Manager and filters
         // ////////////////////////////////////////////////////////////////////
         void setupFilterManager();
-
-        const QSharedPointer<FilterManager> &filterManager() const
-        {
-            return m_FilterManager;
-        }
 
         /**
          * @brief checkFilter Refreshes the filter wheel information in the capture module.
          */
         void refreshFilterSettings();
-
-        /**
-         * @brief shortcut for updating the current filter information for the state machine
-         */
-        void updateCurrentFilterPosition();
 
         // ////////////////////////////////////////////////////////////////////
         // Read and write access for EkosLive
@@ -492,14 +462,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
 
-        void openExposureCalculatorDialog();
-
-        void onStandAloneShow(QShowEvent* event);
-
         // ////////////////////////////////////////////////////////////////////
         // Settings
         // ////////////////////////////////////////////////////////////////////
-        QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
@@ -615,7 +580,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief process shortcut for the process engine
          */
-        QPointer<CaptureProcess> process() const
+        QSharedPointer<CaptureProcess> process() const
         {
             return m_captureProcess;
         }
@@ -739,34 +704,9 @@ class Capture : public QWidget, public Ui::Capture
         void moveJob(bool up);
 
         /**
-         * @brief setTemperature Set the target CCD temperature in the GUI settings.
-         */
-        void setTargetTemperature(double temperature)
-        {
-            cameraUI->cameraTemperatureN->setValue(temperature);
-        }
-
-        void setForceTemperature(bool enabled)
-        {
-            cameraUI->cameraTemperatureS->setChecked(enabled);
-        }
-
-        /**
          * @brief updateTargetName React upon a new capture target name
          */
         void newTargetName(const QString &name);
-
-        /**
-         * @brief showTemperatureRegulation Toggle temperature regulation dialog which sets temperature ramp and threshold
-         */
-        void showTemperatureRegulation();
-
-        /**
-         * @brief updateStartButtons Update the start and the pause button to new states of capturing
-         * @param start start capturing
-         * @param pause pause capturing
-         */
-        void updateStartButtons(bool start, bool pause = false);
 
         // Clear Camera Configuration
         void clearCameraConfiguration();
@@ -790,12 +730,6 @@ class Capture : public QWidget, public Ui::Capture
         void setGuideDeviation(double delta_ra, double delta_dec);
 
         void setGuideChip(ISD::CameraChip *guideChip);
-
-        /**
-             * @brief updateCCDTemperature Update CCD temperature in capture module.
-             * @param value Temperature in celcius.
-             */
-        void updateCCDTemperature(double value);
 
         // Auto Focus
         /**
@@ -855,7 +789,6 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // UI controls
         // ////////////////////////////////////////////////////////////////////
-        void checkFrameType(int index);
         void updateCaptureCountDown(int deltaMillis);
         void saveFITSDirectory();
 
@@ -868,27 +801,15 @@ class Capture : public QWidget, public Ui::Capture
         // Observer
         void showObserverDialog();
 
-        // Cooler
-        void setCoolerToggled(bool enabled);
-
         // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
-
-        // Script Manager
-        void handleScriptsManager();
-
-        void setVideoStreamEnabled(bool enabled);
 
         /**
          * @brief Listen to device property changes (temperature, rotator) that are triggered by
          *        SequenceJob.
          */
         void updatePrepareState(CaptureState prepareState);
-
-        // Rotator
-        void updateRotatorAngle(double value);
-        void setRotatorReversed(bool toggled);
 
         /**
          * @brief setDownloadProgress update the Capture Module and Summary
@@ -1031,7 +952,10 @@ class Capture : public QWidget, public Ui::Capture
             return state()->getActiveJob();
         }
         // Shortcut to the active camera held in the device adaptor
-        ISD::Camera *activeCamera();
+        ISD::Camera *activeCamera()
+        {
+            return cameraUI->activeCamera();
+        }
 
         // Filename preview
         void generatePreviewFilename();
@@ -1049,44 +973,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         //void syncRefocusOptionsFromGUI();
 
-        /**
-         * @brief currentScope Retrieve the scope parameters from the optical train.
-         */
-        QJsonObject currentScope();
-
-        /**
-         * @brief currentReducer Retrieve the reducer parameters from the optical train.
-         */
-        double currentReducer();
-
-        /**
-         * @brief currentAperture Determine the current aperture
-         * @return
-         */
-        double currentAperture();
-
         // ////////////////////////////////////////////////////////////////////
         // UI controls
         // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief setBinning Set binning
-         * @param horBin Horizontal binning
-         * @param verBin Vertical binning
-         */
-        void setBinning(int horBin, int verBin)
-        {
-            cameraUI->captureBinHN->setValue(horBin);
-            cameraUI->captureBinVN->setValue(verBin);
-        }
-
-        /**
-         * @brief setISO Set index of ISO list.
-         * @param index index of ISO list.
-         */
-        void setISO(int index)
-        {
-            cameraUI->captureISOS->setCurrentIndex(index);
-        }
 
         // reset = 0 --> Do not reset
         // reset = 1 --> Full reset
@@ -1107,10 +996,6 @@ class Capture : public QWidget, public Ui::Capture
          * @brief syncGUIToJob Update UI to job settings
          */
         void syncGUIToJob(SequenceJob *job);
-        /**
-         * @brief syncLimitSettings Update Limits UI from Options
-         */
-        void syncLimitSettings();
 
         // DSLR Info
         void cullToDSLRLimits();
@@ -1151,36 +1036,15 @@ class Capture : public QWidget, public Ui::Capture
          */
         void loadGlobalSettings();
 
-        /**
-         * @brief settleSettings Run this function after timeout from debounce timer to update database
-         * and emit settingsChanged signal. This is required so we don't overload output.
-         */
-        void settleSettings();
-
         // ////////////////////////////////////////////////////////////////////
         // device control
         // ////////////////////////////////////////////////////////////////////
-        // Gain
-        // This sets and gets the custom properties target gain
-        // it does not access the ccd gain property
-        void setGain(double value);
-        double getGain();
-
-        void setOffset(double value);
-        double getOffset();
-
-        void setStandAloneGain(double value);
-        void setStandAloneOffset(double value);
 
         /**
          * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
          * @param nvp pointer to number property.
          */
         void processCCDNumber(INumberVectorProperty *nvp);
-
-        // Utilities for storing stand-alone variables.
-        void storeTrainKey(const QString &key, const QStringList &list);
-        void storeTrainKeyString(const QString &key, const QString &str);
 
         // ////////////////////////////////////////////////////////////////////
         // Attributes
@@ -1189,7 +1053,7 @@ class Capture : public QWidget, public Ui::Capture
         int seqTotalCount;
         int seqCurrentCount { 0 };
 
-        QPointer<CaptureProcess> m_captureProcess;
+        QSharedPointer<CaptureProcess> m_captureProcess;
         QSharedPointer<CaptureModuleState> m_captureModuleState;
 
         QPointer<QDBusInterface> mountInterface;
@@ -1202,32 +1066,14 @@ class Capture : public QWidget, public Ui::Capture
 
         QUrl dirPath;
 
-        std::unique_ptr<CustomProperties> customPropertiesDialog;
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
         double OffsetSpinSpecialValue { INVALID_VALUE };
 
-        // sub dialogs
-        std::unique_ptr<Ui::Limits> m_LimitsUI;        
-        QPointer<QDialog> m_LimitsDialog;
-        std::unique_ptr<Ui::Calibration> m_CalibrationUI;
-        QPointer<QDialog> m_CalibrationDialog;
-        QPointer<ScriptsManager> m_scriptsManager;
-
         QVariantMap m_Metadata;
-        QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
-
-        QTimer m_DebounceTimer;
-
-        QSharedPointer<FilterManager> m_FilterManager;
-        QSharedPointer<RotatorSettings> m_RotatorControlPanel;
-
-        bool m_standAlone {false};
-        bool m_standAloneUseCcdGain { true};
-        bool m_standAloneUseCcdOffset { true};
 };
 
 }

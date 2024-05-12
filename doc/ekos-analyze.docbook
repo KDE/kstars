@@ -24,7 +24,10 @@
             The Analyze Module records and displays what happened in an imaging session. That is, it does not control any if your imaging, but rather reviews what occurred. Sessions are stored in an <filename class="directory">analyze</filename> folder, a sister folder to the main logging folder. The <literal role="extension">.analyze</literal> files written there can be loaded into the <guilabel>Analyze</guilabel> tab to be viewed. <guilabel>Analyze</guilabel> also can display data from the current imaging session.
         </para>
         <para>
-            There are two main graphs, <guilabel>Timeline</guilabel> and <guilabel>Stats</guilabel>. They are coordinated&mdash;they always display the same time interval from the Ekos session, though the x-axis of the <guilabel>Timeline</guilabel> shows seconds elapsed from the start of the log, and <guilabel>Stats</guilabel> shows clock time. The x-axis can be zoomed in and out with the <guibutton>+/-</guibutton> buttons, as well as with standard keyboard shortcuts (&eg; zoom-in == <keycombo>&Ctrl;<keycap>+</keycap></keycombo>) The x-axis can be panned with the scroll bar as well as with the left and right arrow keys. You can view your current imaging session, or review old sessions by loading <literal role="extension">.analyze</literal> files using the <guilabel>Input</guilabel> dropdown. Checking <guilabel>Full Width</guilabel> displays all the data, and <guilabel>Latest</guilabel> displays the most recent data (you can control the width by zooming).
+          When a new session begins (e.g. Ekos is disconnected at dawn, then reconnected at sunset) the system will start writing a new .analyze file. (This behavior can be controlled from the Analyze settings reached by clicking the options button on the lower right.)
+        </para>        
+        <para>
+            There are two main graphs, <guilabel>Timeline</guilabel> and <guilabel>Stats</guilabel>. They are coordinated&mdash;they always display the same time interval from the Ekos session, though the x-axis of the <guilabel>Timeline</guilabel> shows seconds elapsed from the start of the log, and <guilabel>Stats</guilabel> shows clock time. The x-axis can be zoomed in and out with the <guibutton>+/-</guibutton> buttons, as well as with standard keyboard shortcuts (&eg; zoom-in == <keycombo>&Ctrl;<keycap>+</keycap></keycombo>) The x-axis can be panned with the scroll bar as well as with the left and right arrow keys. You can view your current imaging session, or review old sessions by loading <literal role="extension">.analyze</literal> files using the <guilabel>Input</guilabel> dropdown. Using the &lt;&lt; and &gt;&gt; buttons allows you to display the previous or following .analyze files chronologically. Checking <guilabel>Full Width</guilabel> displays all the data, and <guilabel>Latest</guilabel> displays the most recent data (you can control the width by zooming).
         </para>
         <para>
             The three main displays can be hidden to make more room for the other displays. There are checkboxes to the left of the section titles (Timeline, Statistics, and Details) that enable and hide the displays.
@@ -37,7 +40,7 @@
         </para>
         <note>
             <para>
-                If you have moved your captured images, you can set <guilabel>alternate directory</guilabel> in the input menu to a directory which is the base of part of the original file path.
+                If you have moved your captured images, you can set an <guilabel>alternate directory</guilabel> in the analyze settings page you can reach from the Options button in the lower right. This alternate directory would be prepended to the base of part of the original file path and would be checked if the image file is not in its original location.
             </para>
         </note>
         <para>

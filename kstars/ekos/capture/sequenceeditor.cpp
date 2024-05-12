@@ -60,7 +60,7 @@ void SequenceEditor::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
     onStandAloneShow();
-    m_capture->onStandAloneShow(event);
+    m_capture->cameraUI->onStandAloneShow(event);
 }
 
 void SequenceEditor::initStandAlone()

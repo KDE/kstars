@@ -488,6 +488,7 @@ void Mount::updateParkStatus()
                 unParkAction->setEnabled(true);
 
             emit newTarget(currentCoords);
+            emit newTargetName(QString());
         }
         else if ( (svp->getState() == IPS_OK || svp->getState() == IPS_IDLE) && sp->getState() == ISS_OFF
                   && m_ParkStatus != PARK_UNPARKED)

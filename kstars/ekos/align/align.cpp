@@ -164,7 +164,7 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     m_DebounceTimer.setSingleShot(true);
     connect(&m_DebounceTimer, &QTimer::timeout, this, &Align::settleSettings);
 
-    m_CurrentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
+    m_CurrentGotoMode = GOTO_SLEW;
     gotoModeButtonGroup->button(m_CurrentGotoMode)->setChecked(true);
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -3086,8 +3086,8 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
     m_ImageData.clear();
     QSharedPointer<FITSData> data;
     data.reset(new FITSData(), &QObject::deleteLater);
-    data->loadFromBuffer(image);
     data->setExtension(extension);
+    data->loadFromBuffer(image);
     m_AlignView->loadData(data);
     startSolving();
     return true;
@@ -4180,7 +4180,10 @@ void Align::refreshOpticalTrain()
         {
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_Settings)
+            {
+                m_Settings.clear();
                 setAllSettings(map);
+            }
         }
         else
             m_Settings = m_GlobalSettings;
@@ -4231,6 +4234,12 @@ void Align::syncSettings()
     else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
     {
         key = cradio->objectName();
+        // Discard false requests
+        if (cradio->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
         value = true;
     }
 

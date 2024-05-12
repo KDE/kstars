@@ -636,6 +636,9 @@ void Manager::stop()
 
 void Manager::start()
 {
+    if (analyzeProcess && Options::analyzeRestartWithEkos())
+        analyzeProcess->restart();
+
     // Don't start if it is already started before
     if (m_ekosStatus == Ekos::Pending || m_ekosStatus == Ekos::Success)
     {
@@ -2726,13 +2729,17 @@ void Manager::showEkosOptions()
         return;
     }
 
-    if ((captureModule() && captureModule() == currentWidget) ||
-            (schedulerModule() && schedulerModule() == currentWidget))
+    const bool isCapture = (captureModule() && captureModule() == currentWidget);
+    const bool isScheduler = (schedulerModule() && schedulerModule() == currentWidget);
+    const bool isAnalyze = (analyzeProcess.get() && analyzeProcess.get() == currentWidget);
+    if (isCapture || isScheduler || isAnalyze)
     {
         if (opsEkos)
         {
-            // Scheduler is tab 1, Capture is tab 2.
-            const int index = schedulerModule() == currentWidget ? 1 : 2;
+            int index = 0;
+            if (isScheduler)    index = 1;
+            else if (isCapture) index = 2;
+            else if (isAnalyze) index = 3;
             opsEkos->setCurrentIndex(index);
         }
         KConfigDialog * cDialog = KConfigDialog::exists("settings");

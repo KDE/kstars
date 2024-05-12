@@ -532,11 +532,10 @@ void DarkLibrary::updateProperty(INDI::Property prop)
         return;
 
     auto bp = prop.getBLOB()->at(0);
+    m_CurrentDarkFrame->setExtension(QString(bp->getFormat()));
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     if (!m_CurrentDarkFrame->loadFromBuffer(buffer))
     {
-        QString ext(QString(bp->getFormat()));
-        m_CurrentDarkFrame->setExtension(ext);
         m_FileLabel->setText(i18n("Failed to process dark data."));
         return;
     }
@@ -1121,7 +1120,7 @@ void DarkLibrary::generateDarkJobs()
     if (m_JobsGenerated == false)
     {
         m_JobsGenerated = true;
-        m_CaptureModuleSettings = m_CaptureModule->getAllSettings();
+        m_CaptureModuleSettings = m_CaptureModule->cameraUI->getAllSettings();
     }
 
     QList<double> temperatures;
@@ -1134,12 +1133,12 @@ void DarkLibrary::generateDarkJobs()
         }
 
         // Enforce temperature set
-        m_CaptureModule->setForceTemperature(true);
+        m_CaptureModule->cameraUI->setForceTemperature(true);
     }
     else
     {
         // Disable temperature set
-        m_CaptureModule->setForceTemperature(false);
+        m_CaptureModule->cameraUI->setForceTemperature(false);
         temperatures << INVALID_VALUE;
     }
 
@@ -1656,7 +1655,10 @@ void DarkLibrary::refreshOpticalTrain()
         {
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_Settings)
+            {
+                m_Settings.clear();
                 setAllSettings(map);
+            }
         }
         else
             m_Settings = m_GlobalSettings;
@@ -1977,6 +1979,12 @@ void DarkLibrary::syncSettings()
     else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
     {
         key = cradio->objectName();
+        // Discard false requests
+        if (cradio->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
         value = true;
     }
 

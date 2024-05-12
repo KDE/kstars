@@ -2389,7 +2389,12 @@ void Scheduler::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
-        value = rb->isChecked();
+        if (rb->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
+        value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {

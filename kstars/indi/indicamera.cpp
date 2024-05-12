@@ -659,26 +659,6 @@ bool Camera::processBLOB(INDI::Property prop)
         m_LastNotificationTS = QDateTime::currentDateTime();
     }
 
-
-    // Load FITS if either:
-    // #1 FITS Viewer is set to enabled.
-    // #2 This is a preview, so we MUST open FITS Viewer even if disabled.
-    //    if (BType == BLOB_FITS)
-    //    {
-    // Don't display image if the following conditions are met:
-    // 1. Mode is NORMAL or CALIBRATE; and
-    // 2. FITS Viewer is disabled; and
-    // 3. Batch mode is enabled.
-    // 4. Summary view is false.
-    if (targetChip->getCaptureMode() == FITS_NORMAL &&
-            Options::useFITSViewer() == false &&
-            Options::useSummaryPreview() == false &&
-            targetChip->isBatchMode())
-    {
-        emit propertyUpdated(prop);
-        return true;
-    }
-
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     QSharedPointer<FITSData> imageData;
     imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);

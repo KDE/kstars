@@ -768,6 +768,26 @@ QString Guide::guider()
 
 bool Guide::capture()
 {
+    // Only capture if we're not already capturing.
+    //
+    // The situation I'm seeting this fire is with the internal guider, using GPG,
+    // set to suspend guiding during focus, when focus has been completed and guiding moves
+    // back from suspended to guiding. Here's why:
+    // During focus, even though guiding is suspended and not sending guide pulses, it still
+    // captures images and compute guide offsets and send those offset values to gpg
+    // (see setCaptureComple() case GUIDE_SUSPENDED). When focus completes, guiding moves from
+    // suspended back to guiding--resume() gets called (from the focuser connected through the
+    // manager) which calls InternalGuider::resume() which emits frameCaptureRequested() which
+    // calls Guide::capture().  So, there would likely be a call to capture() while the previous
+    // gpg-induced capture is still running (above setCaptureComplete case GUIDE_SUSPENDED).
+    // I'm leaving this behavior in the code, as this seems like an ok solution.
+    if (guiderType == GUIDE_INTERNAL && captureTimeout.isActive() && captureTimeout.remainingTime() > 0)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Internal guider skipping capture, already running with remaining seconds =" <<
+                                   captureTimeout.remainingTime() / 1000.0;
+        return false;
+    }
+
     buildOperationStack(GUIDE_CAPTURE);
 
     return executeOperationStack();
@@ -1059,6 +1079,9 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
         return;
     }
 
+    captureTimeout.stop();
+    m_CaptureTimeoutCounter = 0;
+
     if (data)
     {
         m_GuideView->loadData(data);
@@ -1069,9 +1092,6 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
 
     if (guiderType == GUIDE_INTERNAL)
         internalGuider->setImageData(m_ImageData);
-
-    captureTimeout.stop();
-    m_CaptureTimeoutCounter = 0;
 
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Guide::processData);
 
@@ -3244,7 +3264,10 @@ void Guide::refreshOpticalTrain()
         {
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_Settings)
+            {
+                m_Settings.clear();
                 setAllSettings(map);
+            }
         }
         else
             m_Settings = m_GlobalSettings;
@@ -3420,6 +3443,11 @@ void Guide::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
+        if (rb->isChecked() == false)
+        {
+            m_Settings.remove(key);
+            return;
+        }
         value = true;
     }
 

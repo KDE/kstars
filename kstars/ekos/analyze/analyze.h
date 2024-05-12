@@ -151,12 +151,12 @@ class Analyze : public QWidget, public Ui::Analyze
                 // Standard focus parameters
                 AutofocusReason reason;
                 QString reasonInfo;
-                AutofocusFailReason failCode;
-                QString failCodeInfo;
                 QString points;
                 bool useWeights;
                 QString curve;
                 QString title;
+                AutofocusFailReason failCode;
+                QString failCodeInfo;
                 QVector<double> positions; // Double to be more friendly to QCustomPlot addData.
                 QVector<double> hfrs;
                 QVector<double> weights;
@@ -180,6 +180,11 @@ class Analyze : public QWidget, public Ui::Analyze
                              double altTicks_, int prevPosError, int thisPosError, int totalTicks_, int position_);
                 double focusPosition();
         };
+
+        // This will cause the .analyze file to reset -- that is, stop appending to any
+        // .analyze file that's already open and start writing a new .analyze file.
+        // All graphics will be reset such that the session begins "now".
+        void restart();
 
         void clearLog();
         QStringList logText()
@@ -480,7 +485,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // The .analyze log file being written.
         QString logFilename { "" };
-        QFile logFile;
+        QSharedPointer<QFile> logFile;
         bool logInitialized { false };
 
         // These define the view for the timeline and stats plots.
@@ -518,9 +523,6 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // FITS Viewer to display FITS images.
         QSharedPointer<FITSViewer> fitsViewer;
-        // When trying to load a FITS file, if the original file path doesn't
-        // work, Analyze tries to find the file under the alternate folder.
-        QString alternateFolder;
 
         // The vertical line in the stats plot.
         QCPItemLine *statsCursor { nullptr };
@@ -529,6 +531,14 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // Keeps the directory from the last time the user loaded a .analyze file.
         QUrl dirPath;
+        // This is the .analyze file we're displaying, if we're not displaying the currently active session.
+        QUrl displayedSession;
+        QString getNextFile(bool after);
+
+        // Display other .analyze files.
+        void nextFile();
+        void prevFile();
+        void displayFile(const QUrl &url, bool forceCurrentSession = false);
 
         // True if Analyze is displaying data as it comes in from the other modules.
         // False if Analyze is displaying data read from a file.

@@ -476,7 +476,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_GET_ALL_SETTINGS])
     {
-        sendCaptureSettings(capture->getAllSettings());
+        sendCaptureSettings(capture->cameraUI->getAllSettings());
     }
     else if (command == commands[CAPTURE_SET_ALL_SETTINGS])
     {
@@ -1448,7 +1448,7 @@ void Message::processFilterManagerCommands(const QString &command, const QJsonOb
 {
     QSharedPointer<Ekos::FilterManager> manager;
     if (m_Manager->captureModule())
-        manager = m_Manager->captureModule()->filterManager();
+        manager = m_Manager->captureModule()->cameraUI->filterManager();
 
     if (manager.isNull())
         return;

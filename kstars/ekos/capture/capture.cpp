@@ -14,7 +14,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
-#include "rotatorsettings.h"
 #include "sequencejob.h"
 #include "sequencequeue.h"
 #include "placeholderpath.h"
@@ -34,9 +33,7 @@
 #include "indi/indirotator.h"
 #include "oal/observeradd.h"
 #include "ekos/guide/guide.h"
-#include "exposurecalculator/exposurecalculatordialog.h"
 #include "dslrinfodialog.h"
-#include "ekos/auxiliary/rotatorutils.h"
 #include <basedevice.h>
 
 #include <ekos_capture_debug.h>
@@ -54,8 +51,6 @@
 #define KEY_FORMATS     "formatsList"
 #define KEY_ISOS        "isoList"
 #define KEY_INDEX       "isoIndex"
-#define KEY_H           "captureFrameHN"
-#define KEY_W           "captureFrameWN"
 #define KEY_GAIN_KWD    "ccdGainKeyword"
 #define KEY_OFFSET_KWD  "ccdOffsetKeyword"
 #define KEY_TEMPERATURE "ccdTemperatures"
@@ -81,71 +76,12 @@ enum JobTableColumnIndex
 namespace Ekos
 {
 
-void Capture::storeTrainKey(const QString &key, const QStringList &list)
-{
-    if (!m_Settings.contains(key) || m_Settings[key].toStringList() != list)
-    {
-        m_Settings[key] = list;
-        m_DebounceTimer.start();
-    }
-}
-
-void Capture::storeTrainKeyString(const QString &key, const QString &str)
-{
-    if (!m_Settings.contains(key) || m_Settings[key].toString() != str)
-    {
-        m_Settings[key] = str;
-        m_DebounceTimer.start();
-    }
-}
-
-// Gets called when the stand-alone editor gets a show event.
-// Do this initialization here so that if the live capture module was
-// used after startup, it will have set more recent remembered values.
-void Capture::onStandAloneShow(QShowEvent* event)
-{
-    OpticalTrainSettings::Instance()->setOpticalTrainID(Options::captureTrainID());
-    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Capture);
-    m_Settings = settings.toJsonObject().toVariantMap();
-
-    Q_UNUSED(event);
-    QSharedPointer<FilterManager> fm;
-
-    cameraUI->captureGainN->setValue(GainSpinSpecialValue);
-    cameraUI->captureOffsetN->setValue(OffsetSpinSpecialValue);
-
-    m_standAloneUseCcdGain = true;
-    m_standAloneUseCcdOffset = true;
-    if (m_Settings.contains(KEY_GAIN_KWD) && m_Settings[KEY_GAIN_KWD].toString() == "CCD_CONTROLS")
-        m_standAloneUseCcdGain = false;
-    if (m_Settings.contains(KEY_OFFSET_KWD) && m_Settings[KEY_OFFSET_KWD].toString() == "CCD_CONTROLS")
-        m_standAloneUseCcdOffset = false;
-
-
-    // Capture Gain
-    connect(cameraUI->captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
-    {
-        if (cameraUI->captureGainN->value() != GainSpinSpecialValue)
-            setGain(cameraUI->captureGainN->value());
-        else
-            setGain(-1);
-    });
-
-    // Capture Offset
-    connect(cameraUI->captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
-    {
-        if (cameraUI->captureOffsetN->value() != OffsetSpinSpecialValue)
-            setOffset(cameraUI->captureOffsetN->value());
-        else
-            setOffset(-1);
-    });
-}
-
-Capture::Capture(bool standAlone) : m_standAlone(standAlone)
+Capture::Capture(bool standAlone)
 {
     setupUi(this);
+    cameraUI->m_standAlone = standAlone;
 
-    if (!m_standAlone)
+    if (!cameraUI->m_standAlone)
     {
         qRegisterMetaType<CaptureState>("CaptureState");
         qDBusRegisterMetaType<CaptureState>();
@@ -153,11 +89,16 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     new CaptureAdaptor(this);
     m_captureModuleState.reset(new CaptureModuleState());
     m_captureDeviceAdaptor.reset(new CaptureDeviceAdaptor());
-    m_captureProcess = new CaptureProcess(state(), m_captureDeviceAdaptor);
+    m_captureProcess.reset(new CaptureProcess(state(), m_captureDeviceAdaptor));
+
+    cameraUI->setDeviceAdaptor(m_captureDeviceAdaptor);
+    cameraUI->setCaptureProcess(m_captureProcess);
+    cameraUI->setCaptureModuleState(m_captureModuleState);
+    cameraUI->initCamera();
 
     state()->getSequenceQueue()->loadOptions();
 
-    if (!m_standAlone)
+    if (!cameraUI->m_standAlone)
     {
         QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
         QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
@@ -177,98 +118,29 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
         qCDebug(KSTARS_EKOS_CAPTURE) << "DSLR Cameras Info:";
         qCDebug(KSTARS_EKOS_CAPTURE) << state()->DSLRInfos();
     }
-
-    m_LimitsDialog = new QDialog(this);
-    m_LimitsUI.reset(new Ui::Limits());
-    m_LimitsUI->setupUi(m_LimitsDialog);
-
-    m_CalibrationDialog = new QDialog(this);
-    m_CalibrationUI.reset(new Ui::Calibration());
-    m_CalibrationUI->setupUi(m_CalibrationDialog);
-
-    // avoid combination of ACTION_WALL and ACTION_PARK_MOUNT
-    connect(m_CalibrationUI->captureCalibrationWall, &QCheckBox::clicked, [&](bool checked)
-    {
-        if (checked)
-            m_CalibrationUI->captureCalibrationParkMount->setChecked(false);
-    });
-    connect(m_CalibrationUI->captureCalibrationParkMount, &QCheckBox::clicked, [&](bool checked)
-    {
-        if (checked)
-            m_CalibrationUI->captureCalibrationWall->setChecked(false);
-    });
-
-    m_scriptsManager = new ScriptsManager(this);
-    if (m_standAlone)
-    {
-        // Prepend "Capture Sequence Editor" to the two pop-up window titles, to differentiate them
-        // from similar windows in the Capture tab.
-        auto title = i18n("Capture Sequence Editor: %1", m_LimitsDialog->windowTitle());
-        m_LimitsDialog->setWindowTitle(title);
-        title = i18n("Capture Sequence Editor: %1", m_scriptsManager->windowTitle());
-        m_scriptsManager->setWindowTitle(title);
-    }
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     //isAutoGuiding   = false;
 
-    // hide avg. download time and target drift initially
-    cameraUI->targetDriftLabel->setVisible(false);
-    cameraUI->targetDrift->setVisible(false);
-    cameraUI->targetDriftUnit->setVisible(false);
-    cameraUI->avgDownloadTime->setVisible(false);
-    cameraUI->avgDownloadLabel->setVisible(false);
-    cameraUI->secLabel->setVisible(false);
-
-    state()->getCaptureDelayTimer().setSingleShot(true);
-    connect(&state()->getCaptureDelayTimer(), &QTimer::timeout, m_captureProcess, &CaptureProcess::captureImage);
 
     connect(cameraUI->startB, &QPushButton::clicked, this, &Capture::toggleSequence);
     connect(cameraUI->pauseB, &QPushButton::clicked, this, &Capture::pause);
-    connect(cameraUI->darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
-    connect(cameraUI->limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
-    connect(cameraUI->temperatureRegulationB, &QPushButton::clicked, this, &Capture::showTemperatureRegulation);
-
-    cameraUI->startB->setIcon(QIcon::fromTheme("media-playback-start"));
-    cameraUI->startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
-    cameraUI->pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    cameraUI->filterManagerB->setIcon(QIcon::fromTheme("view-filter"));
-    cameraUI->filterManagerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(cameraUI, &Camera::settingsUpdated, this, &Capture::settingsUpdated);
 
     connect(cameraUI->captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), cameraUI->captureBinVN,
             &QSpinBox::setValue);
-
     connect(cameraUI->liveVideoB, &QPushButton::clicked, this, &Capture::toggleVideo);
-
     connect(cameraUI->clearConfigurationB, &QPushButton::clicked, this, &Capture::clearCameraConfiguration);
 
-    cameraUI->darkB->setChecked(Options::autoDark());
     // connect(darkB, &QAbstractButton::toggled, this, [this]()
     // {
     //     Options::setAutoDark(darkB->isChecked());
     // });
 
-    // Setup Debounce timer to limit over-activation of settings changes
-    m_DebounceTimer.setInterval(500);
-    m_DebounceTimer.setSingleShot(true);
-    connect(&m_DebounceTimer, &QTimer::timeout, this, &Capture::settleSettings);
-
     connect(cameraUI->restartCameraB, &QPushButton::clicked, this, [this]()
     {
         if (activeCamera())
             restartCamera(activeCamera()->getDeviceName());
-    });
-
-    connect(cameraUI->cameraTemperatureS, &QCheckBox::toggled, this, [this](bool toggled)
-    {
-        if (devices()->getActiveCamera())
-        {
-            QVariantMap auxInfo = devices()->getActiveCamera()->getDriverInfo()->getAuxInfo();
-            auxInfo[QString("%1_TC").arg(devices()->getActiveCamera()->getDeviceName())] = toggled;
-            devices()->getActiveCamera()->getDriverInfo()->setAuxInfo(auxInfo);
-        }
     });
 
     connect(cameraUI->filterEditB, &QPushButton::clicked, this, &Capture::editFilterName);
@@ -314,73 +186,16 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     {
         resetJobEdit(m_JobUnderEdit);
     });
-    connect(cameraUI->setTemperatureB, &QPushButton::clicked, this, [&]()
-    {
-        if (devices()->getActiveCamera())
-            devices()->getActiveCamera()->setTemperature(cameraUI->cameraTemperatureN->value());
-    });
-    connect(cameraUI->coolerOnB, &QPushButton::clicked, this, [&]()
-    {
-        if (devices()->getActiveCamera())
-            devices()->getActiveCamera()->setCoolerControl(true);
-    });
-    connect(cameraUI->coolerOffB, &QPushButton::clicked, this, [&]()
-    {
-        if (devices()->getActiveCamera())
-            devices()->getActiveCamera()->setCoolerControl(false);
-    });
-    connect(cameraUI->cameraTemperatureN, &QDoubleSpinBox::editingFinished, cameraUI->setTemperatureB,
-            static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
-    connect(cameraUI->captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &Capture::checkFrameType);
-    connect(cameraUI->resetFrameB, &QPushButton::clicked, m_captureProcess, &CaptureProcess::resetFrame);
-    connect(cameraUI->calibrationB, &QPushButton::clicked, m_CalibrationDialog, &QDialog::show);
-    // connect(cameraUI->rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Capture::show);
+    connect(cameraUI->resetFrameB, &QPushButton::clicked, m_captureProcess.get(), &CaptureProcess::resetFrame);
+    connect(cameraUI->calibrationB, &QPushButton::clicked, cameraUI->m_CalibrationDialog, &QDialog::show);
+    // connect(cameraUI->rotatorB, &QPushButton::clicked, cameraUI->m_RotatorControlPanel.get(), &Capture::show);
 
     connect(cameraUI->generateDarkFlatsB, &QPushButton::clicked, this, &Capture::generateDarkFlats);
-    connect(cameraUI->scriptManagerB, &QPushButton::clicked, this, &Capture::handleScriptsManager);
-    connect(cameraUI->resetFormatB, &QPushButton::clicked, this, [this]()
-    {
-        cameraUI->placeholderFormatT->setText(KSUtils::getDefaultPath("PlaceholderFormat"));
-    });
-
-    cameraUI->addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    cameraUI->addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
-    cameraUI->removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->queueUpB->setIcon(QIcon::fromTheme("go-up"));
-    cameraUI->queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->queueDownB->setIcon(QIcon::fromTheme("go-down"));
-    cameraUI->queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->selectFileDirectoryB->setIcon(QIcon::fromTheme("document-open-folder"));
-    cameraUI->selectFileDirectoryB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->queueLoadB->setIcon(QIcon::fromTheme("document-open"));
-    cameraUI->queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->queueSaveB->setIcon(QIcon::fromTheme("document-save"));
-    cameraUI->queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
-    cameraUI->queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->resetB->setIcon(QIcon::fromTheme("system-reboot"));
-    cameraUI->resetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
-    cameraUI->resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->calibrationB->setIcon(QIcon::fromTheme("run-build"));
-    cameraUI->calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    cameraUI->generateDarkFlatsB->setIcon(QIcon::fromTheme("tools-wizard"));
-    cameraUI->generateDarkFlatsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    // cameraUI->rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
-    cameraUI->rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    cameraUI->addToQueueB->setToolTip(i18n("Add job to sequence queue"));
-    cameraUI->removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
 
     ////////////////////////////////////////////////////////////////////////
-    /// Device Adaptor
+    /// Camera
     ////////////////////////////////////////////////////////////////////////
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newCCDTemperatureValue, this,
-            &Capture::updateCCDTemperature, Qt::UniqueConnection);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newRotatorAngle, this,
-            &Capture::updateRotatorAngle, Qt::UniqueConnection);
+    connect(cameraUI, &Camera::newLog, this, &Capture::appendLogText);
 
     ////////////////////////////////////////////////////////////////////////
     /// Settings
@@ -388,87 +203,28 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     loadGlobalSettings();
     connectSyncSettings();
 
-    // Autofocus HFR Check
-    connect(m_LimitsUI->enforceAutofocusHFR, &QCheckBox::toggled, [ = ](bool checked)
-    {
-        if (checked == false)
-            state()->getRefocusState()->setInSequenceFocus(false);
-    });
-
-    connect(m_LimitsUI->hFRThresholdPercentage, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
+    connect(cameraUI->m_LimitsUI->hFRThresholdPercentage, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this]()
     {
         Capture::updateHFRCheckAlgo();
-    });
-
-    connect(m_captureModuleState.get(), &CaptureModuleState::newLimitFocusHFR, this, [this](double hfr)
-    {
-        m_LimitsUI->hFRDeviation->setValue(hfr);
     });
 
     updateHFRCheckAlgo();
-    connect(m_LimitsUI->hFRCheckAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int)
+    connect(cameraUI->m_LimitsUI->hFRCheckAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int)
     {
         Capture::updateHFRCheckAlgo();
     });
 
-    cameraUI->observerB->setIcon(QIcon::fromTheme("im-user"));
-    cameraUI->observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(cameraUI->observerB, &QPushButton::clicked, this, &Capture::showObserverDialog);
-
-    // Exposure Timeout
-    state()->getCaptureTimeout().setSingleShot(true);
-    connect(&state()->getCaptureTimeout(), &QTimer::timeout, m_captureProcess,
-            &CaptureProcess::processCaptureTimeout);
-
-    // Remote directory
-    connect(cameraUI->fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [&](int index)
-    {
-        cameraUI->fileRemoteDirT->setEnabled(index != 0);
-    });
-
-    customPropertiesDialog.reset(new CustomProperties());
-    connect(cameraUI->customValuesB, &QPushButton::clicked, this, [&]()
-    {
-        customPropertiesDialog.get()->show();
-        customPropertiesDialog.get()->raise();
-    });
-    connect(customPropertiesDialog.get(), &CustomProperties::valueChanged, this, [&]()
-    {
-        const double newGain = getGain();
-        if (cameraUI->captureGainN && newGain >= 0)
-            cameraUI->captureGainN->setValue(newGain);
-        const int newOffset = getOffset();
-        if (newOffset >= 0)
-            cameraUI->captureOffsetN->setValue(newOffset);
-    });
-
-    if(!Options::captureDirectory().isEmpty())
-        cameraUI->fileDirectoryT->setText(Options::captureDirectory());
-    else
-    {
-        cameraUI->fileDirectoryT->setText(QDir::homePath() + QDir::separator() + "Pictures");
-    }
 
     connect(cameraUI->fileDirectoryT, &QLineEdit::textChanged, this, [&]()
     {
         generatePreviewFilename();
     });
 
-    if (Options::remoteCaptureDirectory().isEmpty() == false)
-    {
-        cameraUI->fileRemoteDirT->setText(Options::remoteCaptureDirectory());
-    }
     connect(cameraUI->fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
     {
         generatePreviewFilename();
     });
-
-    //Note:  This is to prevent a button from being called the default button
-    //and then executing when the user hits the enter key such as when on a Text Box
-    QList<QPushButton *> qButtons = findChildren<QPushButton *>();
-    for (auto &button : qButtons)
-        button->setAutoDefault(false);
 
     DarkLibrary::Instance()->setCaptureModule(this);
 
@@ -541,7 +297,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(m_captureProcess.data(), &CaptureProcess::suspendGuiding, this, &Capture::suspendGuiding);
     connect(m_captureProcess.data(), &CaptureProcess::resumeGuiding, this, &Capture::resumeGuiding);
     connect(m_captureProcess.data(), &CaptureProcess::driverTimedout, this, &Capture::driverTimedout);
-    connect(m_captureProcess.data(), &CaptureProcess::rotatorReverseToggled, this, &Capture::setRotatorReversed);
     // connections between state machine and device adaptor
     connect(m_captureModuleState.data(), &CaptureModuleState::newFilterPosition,
             m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::setFilterPosition);
@@ -550,24 +305,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::pierSideChanged,
             m_captureModuleState.data(), &CaptureModuleState::setPierSide);
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newFilterWheel, this, &Capture::setFilterWheel);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::CameraConnected, this, [this](bool connected)
-    {
-        cameraUI->CaptureSettingsGroup->setEnabled(connected);
-        cameraUI->fileSettingsGroup->setEnabled(connected);
-        cameraUI->sequenceBox->setEnabled(connected);
-        for (auto &oneChild : cameraUI->sequenceControlsButtonGroup->buttons())
-            oneChild->setEnabled(connected);
-
-        if (! connected)
-            cameraUI->trainLayout->setEnabled(true);
-    });
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::FilterWheelConnected, this, [this](bool connected)
-    {
-        cameraUI->FilterPosLabel->setEnabled(connected);
-        cameraUI->FilterPosCombo->setEnabled(connected);
-        cameraUI->filterManagerB->setEnabled(connected);
-    });
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::newRotator, this, &Capture::setRotator);
 
     setupOpticalTrainManager();
 
@@ -590,8 +327,6 @@ Capture::Capture(bool standAlone) : m_standAlone(standAlone)
     });
     connect(cameraUI->captureTypeS, &QComboBox::currentTextChanged, this, &Capture::generatePreviewFilename);
 
-    connect(cameraUI->exposureCalcB, &QPushButton::clicked, this, &Capture::openExposureCalculatorDialog);
-
 }
 
 Capture::~Capture()
@@ -603,10 +338,10 @@ Capture::~Capture()
 void Capture::updateHFRCheckAlgo()
 {
     // Threshold % is not relevant for FIXED HFR do disable the field
-    const bool threshold = (m_LimitsUI->hFRCheckAlgorithm->currentIndex() != HFR_CHECK_FIXED);
-    m_LimitsUI->hFRThresholdPercentage->setEnabled(threshold);
-    m_LimitsUI->limitFocusHFRThresholdLabel->setEnabled(threshold);
-    m_LimitsUI->limitFocusHFRPercentLabel->setEnabled(threshold);
+    const bool threshold = (cameraUI->m_LimitsUI->hFRCheckAlgorithm->currentIndex() != HFR_CHECK_FIXED);
+    cameraUI->m_LimitsUI->hFRThresholdPercentage->setEnabled(threshold);
+    cameraUI->m_LimitsUI->limitFocusHFRThresholdLabel->setEnabled(threshold);
+    cameraUI->m_LimitsUI->limitFocusHFRPercentLabel->setEnabled(threshold);
     state()->updateHFRThreshold();
 }
 
@@ -624,7 +359,7 @@ bool Capture::updateCamera()
     if (activeCamera() && trainID.isValid())
     {
         auto name = activeCamera()->getDeviceName();
-        cameraUI->opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
+        cameraUI->opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, cameraUI->currentScope()["name"].toString()));
         cameraTabs->setTabText(cameraTabs->currentIndex(), name);
     }
     else
@@ -638,7 +373,7 @@ bool Capture::updateCamera()
 
     process()->checkCamera();
 
-    emit settingsUpdated(getAllSettings());
+    emit settingsUpdated(cameraUI->getAllSettings());
 
     return true;
 }
@@ -648,7 +383,7 @@ bool Capture::updateCamera()
 void Capture::setFilterWheel(QString name)
 {
     // Should not happen
-    if (m_standAlone)
+    if (cameraUI->m_standAlone)
         return;
 
     if (devices()->filterWheel() && devices()->filterWheel()->getDeviceName() == name)
@@ -665,7 +400,7 @@ void Capture::setFilterWheel(QString name)
     refreshFilterSettings();
 
     if (devices()->filterWheel())
-        emit settingsUpdated(getAllSettings());
+        emit settingsUpdated(cameraUI->getAllSettings());
 }
 
 bool Capture::setDome(ISD::Dome *device)
@@ -673,67 +408,41 @@ bool Capture::setDome(ISD::Dome *device)
     return m_captureProcess->setDome(device);
 }
 
-void Capture::setRotator(QString name)
-{
-    ISD::Rotator *Rotator = devices()->rotator();
-    // clear old rotator
-    cameraUI->rotatorB->setEnabled(false);
-    if (Rotator && !m_RotatorControlPanel.isNull())
-        m_RotatorControlPanel->close();
-
-    // set new rotator
-    if (!name.isEmpty())  // start real rotator
-    {
-        Manager::Instance()->getRotatorController(name, m_RotatorControlPanel);
-        m_RotatorControlPanel->initRotator(cameraUI->opticalTrainCombo->currentText(), m_captureDeviceAdaptor.data(), Rotator);
-        connect(cameraUI->rotatorB, &QPushButton::clicked, this, [this]()
-        {
-            m_RotatorControlPanel->show();
-            m_RotatorControlPanel->raise();
-        });
-        cameraUI->rotatorB->setEnabled(true);
-    }
-    else if (Options::astrometryUseRotator()) // start at least rotatorutils for "manual rotator"
-    {
-        RotatorUtils::Instance()->initRotatorUtils(cameraUI->opticalTrainCombo->currentText());
-    }
-}
-
 void Capture::pause()
 {
     process()->pauseCapturing();
-    updateStartButtons(false, true);
+    cameraUI->updateStartButtons(false, true);
 }
 
 void Capture::toggleSequence()
 {
     const CaptureState capturestate = state()->getCaptureState();
     if (capturestate == CAPTURE_PAUSE_PLANNED || capturestate == CAPTURE_PAUSED)
-        updateStartButtons(true, false);
+        cameraUI->updateStartButtons(true, false);
 
     process()->toggleSequence();
 }
 
 void Capture::jobStarting()
 {
-    if (m_LimitsUI->enforceAutofocusHFR->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
+    if (cameraUI->m_LimitsUI->enforceAutofocusHFR->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
-    if (m_LimitsUI->enforceAutofocusOnTemperature->isChecked() && state()->getRefocusState()->isAutoFocusReady() == false)
+    if (cameraUI->m_LimitsUI->enforceAutofocusOnTemperature->isChecked()
+            && state()->getRefocusState()->isAutoFocusReady() == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
 
-    updateStartButtons(true, false);
+    cameraUI->updateStartButtons(true, false);
 }
 
 void Capture::registerNewModule(const QString &name)
 {
-    if (m_standAlone)
+    if (cameraUI->m_standAlone)
         return;
     if (name == "Mount" && mountInterface == nullptr)
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Registering new Module (" << name << ")";
         mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount",
                                             "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
-
     }
 }
 
@@ -752,7 +461,7 @@ void Capture::refreshCameraSettings()
     auto camera = activeCamera();
     auto targetChip = devices()->getActiveChip();
     // If camera is restarted, try again in one second
-    if (!m_standAlone && (!camera || !targetChip || !targetChip->getCCD() || targetChip->isCapturing()))
+    if (!cameraUI->m_standAlone && (!camera || !targetChip || !targetChip->getCCD() || targetChip->isCapturing()))
     {
         QTimer::singleShot(1000, this, &Capture::refreshCameraSettings);
         return;
@@ -777,17 +486,17 @@ void Capture::refreshCameraSettings()
 
     updateCaptureFormats();
 
-    customPropertiesDialog->setCCD(camera);
+    cameraUI->customPropertiesDialog()->setCCD(camera);
 
     cameraUI->liveVideoB->setEnabled(camera->hasVideoStream());
     if (camera->hasVideoStream())
-        setVideoStreamEnabled(camera->isStreamingEnabled());
+        cameraUI->setVideoStreamEnabled(camera->isStreamingEnabled());
     else
         cameraUI->liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
     connect(camera, &ISD::Camera::propertyUpdated, this, &Capture::processCameraNumber, Qt::UniqueConnection);
-    connect(camera, &ISD::Camera::coolerToggled, this, &Capture::setCoolerToggled, Qt::UniqueConnection);
-    connect(camera, &ISD::Camera::videoStreamToggled, this, &Capture::setVideoStreamEnabled, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::coolerToggled, cameraUI, &Camera::setCoolerToggled, Qt::UniqueConnection);
+    connect(camera, &ISD::Camera::videoStreamToggled, cameraUI, &Camera::setVideoStreamEnabled, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::ready, this, &Capture::ready, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
             Qt::UniqueConnection);
@@ -820,7 +529,7 @@ void Capture::updateCaptureFormats()
     cameraUI->captureFormatS->clear();
     const auto list = activeCamera()->getCaptureFormats();
     cameraUI->captureFormatS->addItems(list);
-    storeTrainKey(KEY_FORMATS, list);
+    cameraUI->storeTrainKey(KEY_FORMATS, list);
 
     cameraUI->captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
     cameraUI->captureFormatS->blockSignals(false);
@@ -839,7 +548,7 @@ void Capture::syncCameraInfo()
         return;
 
     const QString timestamp = KStarsData::Instance()->lt().toString("yyyy-MM-dd hh:mm");
-    storeTrainKeyString(KEY_TIMESTAMP, timestamp);
+    cameraUI->storeTrainKeyString(KEY_TIMESTAMP, timestamp);
 
     if (activeCamera()->hasCooler())
     {
@@ -866,7 +575,7 @@ void Capture::syncCameraInfo()
                 QStringList( { QString::number(min),
                                QString::number(max),
                                isChecked ? "1" : "0" } );
-            storeTrainKey(KEY_TEMPERATURE, temperatureList);
+            cameraUI->storeTrainKey(KEY_TEMPERATURE, temperatureList);
         }
         else
         {
@@ -878,7 +587,7 @@ void Capture::syncCameraInfo()
 
             // Save default camera temperature parameters for the stand-alone editor.
             const QStringList temperatureList = QStringList( { "-50", "50", "0" } );
-            storeTrainKey(KEY_TEMPERATURE, temperatureList);
+            cameraUI->storeTrainKey(KEY_TEMPERATURE, temperatureList);
         }
 
         double temperature = 0;
@@ -908,15 +617,15 @@ void Capture::syncCameraInfo()
     if (isoList.isEmpty())
     {
         cameraUI->captureISOS->setEnabled(false);
-        if (m_Settings.contains(KEY_ISOS))
+        if (cameraUI->settings().contains(KEY_ISOS))
         {
-            m_Settings.remove(KEY_ISOS);
-            m_DebounceTimer.start();
+            cameraUI->settings().remove(KEY_ISOS);
+            cameraUI->m_DebounceTimer.start();
         }
-        if (m_Settings.contains(KEY_INDEX))
+        if (cameraUI->settings().contains(KEY_INDEX))
         {
-            m_Settings.remove(KEY_INDEX);
-            m_DebounceTimer.start();
+            cameraUI->settings().remove(KEY_INDEX);
+            cameraUI->m_DebounceTimer.start();
         }
     }
     else
@@ -927,8 +636,8 @@ void Capture::syncCameraInfo()
         cameraUI->captureISOS->setCurrentIndex(isoIndex);
 
         // Save ISO List and index in train settings if different
-        storeTrainKey(KEY_ISOS, isoList);
-        storeTrainKeyString(KEY_INDEX, QString("%1").arg(isoIndex));
+        cameraUI->storeTrainKey(KEY_ISOS, isoList);
+        cameraUI->storeTrainKeyString(KEY_INDEX, QString("%1").arg(isoIndex));
 
         uint16_t w, h;
         uint8_t bbp {8};
@@ -969,7 +678,7 @@ void Capture::syncCameraInfo()
         activeCamera()->getGain(&value);
         cameraUI->currentGainLabel->setText(QString::number(value, 'f', 0));
 
-        targetCustomGain = getGain();
+        targetCustomGain = cameraUI->getGain();
 
         // Set the custom gain if we have one
         // otherwise it will not have an effect.
@@ -983,9 +692,9 @@ void Capture::syncCameraInfo()
         connect(cameraUI->captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
         {
             if (cameraUI->captureGainN->value() != GainSpinSpecialValue)
-                setGain(cameraUI->captureGainN->value());
+                cameraUI->setGain(cameraUI->captureGainN->value());
             else
-                setGain(-1);
+                cameraUI->setGain(-1);
         });
     }
     else
@@ -1009,7 +718,7 @@ void Capture::syncCameraInfo()
         activeCamera()->getOffset(&value);
         cameraUI->currentOffsetLabel->setText(QString::number(value, 'f', 0));
 
-        targetCustomOffset = getOffset();
+        targetCustomOffset = cameraUI->getOffset();
 
         // Set the custom Offset if we have one
         // otherwise it will not have an effect.
@@ -1023,9 +732,9 @@ void Capture::syncCameraInfo()
         connect(cameraUI->captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
         {
             if (cameraUI->captureOffsetN->value() != OffsetSpinSpecialValue)
-                setOffset(cameraUI->captureOffsetN->value());
+                cameraUI->setOffset(cameraUI->captureOffsetN->value());
             else
-                setOffset(-1);
+                cameraUI->setOffset(-1);
         });
     }
     else
@@ -1216,10 +925,10 @@ void Capture::updateFrameProperties(int reset)
         cullToDSLRLimits();
 
     const QString ccdGainKeyword = devices()->getActiveCamera()->getProperty("CCD_GAIN") ? "CCD_GAIN" : "CCD_CONTROLS";
-    storeTrainKeyString(KEY_GAIN_KWD, ccdGainKeyword);
+    cameraUI->storeTrainKeyString(KEY_GAIN_KWD, ccdGainKeyword);
 
     const QString ccdOffsetKeyword = devices()->getActiveCamera()->getProperty("CCD_OFFSET") ? "CCD_OFFSET" : "CCD_CONTROLS";
-    storeTrainKeyString(KEY_OFFSET_KWD, ccdOffsetKeyword);
+    cameraUI->storeTrainKeyString(KEY_OFFSET_KWD, ccdOffsetKeyword);
 
     if (reset == 1 || state()->frameSettings().contains(devices()->getActiveChip()) == false)
     {
@@ -1373,14 +1082,6 @@ QString Capture::filter()
     return cameraUI->FilterPosCombo->currentText();
 }
 
-void Capture::updateCurrentFilterPosition()
-{
-    const QString currentFilterText = cameraUI->FilterPosCombo->itemText(m_FilterManager->getFilterPosition() - 1);
-    state()->setCurrentFilterPosition(m_FilterManager->getFilterPosition(),
-                                      currentFilterText,
-                                      m_FilterManager->getFilterLock(currentFilterText));
-}
-
 void Capture::refreshFilterSettings()
 {
     cameraUI->FilterPosCombo->clear();
@@ -1392,7 +1093,7 @@ void Capture::refreshFilterSettings()
         cameraUI->filterEditB->setEnabled(false);
         cameraUI->filterManagerB->setEnabled(false);
 
-        devices()->setFilterManager(m_FilterManager);
+        devices()->setFilterManager(cameraUI->filterManager());
         return;
     }
 
@@ -1409,9 +1110,9 @@ void Capture::refreshFilterSettings()
     cameraUI->FilterPosCombo->addItems(labels);
 
     // Save ISO List in train settings if different
-    storeTrainKey(KEY_FILTERS, labels);
+    cameraUI->storeTrainKey(KEY_FILTERS, labels);
 
-    updateCurrentFilterPosition();
+    cameraUI->updateCurrentFilterPosition();
 
     cameraUI->filterEditB->setEnabled(state()->getCurrentFilterPosition() > 0);
     cameraUI->filterManagerB->setEnabled(state()->getCurrentFilterPosition() > 0);
@@ -1477,7 +1178,7 @@ void Capture::captureStopped()
     // stopping to CAPTURE_IDLE means that capturing will continue automatically
     auto captureState = state()->getCaptureState();
     if (captureState == CAPTURE_ABORTED || captureState == CAPTURE_SUSPENDED || captureState == CAPTURE_COMPLETE)
-        updateStartButtons(false, false);
+        cameraUI->updateStartButtons(false, false);
 }
 
 void Capture::updateTargetDistance(double targetDiff)
@@ -1497,7 +1198,7 @@ void Capture::captureImageStarted()
         // JM 2021.08.23 Call filter info to set the active filter wheel in the camera driver
         // so that it may snoop on the active filter
         process()->updateFilterInfo();
-        updateCurrentFilterPosition();
+        cameraUI->updateCurrentFilterPosition();
     }
 
     // necessary since the status widget doesn't store the calibration stage
@@ -1589,29 +1290,6 @@ void Capture::updateCaptureCountDown(int deltaMillis)
         cameraUI->jobRemainingTime->setText(state()->sequenceCountDown().toString("hh:mm:ss"));
     else
         cameraUI->jobRemainingTime->setText("--:--:--");
-}
-
-void Capture::updateCCDTemperature(double value)
-{
-    if (cameraUI->cameraTemperatureS->isEnabled() == false && devices()->getActiveCamera())
-    {
-        if (devices()->getActiveCamera()->getPermission("CCD_TEMPERATURE") != IP_RO)
-            process()->checkCamera();
-    }
-
-    cameraUI->temperatureOUT->setText(QString("%L1º").arg(value, 0, 'f', 1));
-
-    if (cameraUI->cameraTemperatureN->cleanText().isEmpty())
-        cameraUI->cameraTemperatureN->setValue(value);
-}
-
-void Capture::updateRotatorAngle(double value)
-{
-    IPState RState = devices()->rotator()->absoluteAngleState();
-    if (RState == IPS_OK)
-        m_RotatorControlPanel->updateRotator(value);
-    else
-        m_RotatorControlPanel->updateGauge(value);
 }
 
 void Capture::addJob(SequenceJob *job)
@@ -1880,7 +1558,7 @@ void Capture::jobExecutionPreparationStarted()
         return;
     }
     if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
-        updateStartButtons(true, false);
+        cameraUI->updateStartButtons(true, false);
 }
 
 void Capture::updatePrepareState(CaptureState prepareState)
@@ -1997,15 +1675,6 @@ void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
     }
 }
 
-void Capture::setRotatorReversed(bool toggled)
-{
-    m_RotatorControlPanel->reverseDirection->setEnabled(true);
-
-    m_RotatorControlPanel->reverseDirection->blockSignals(true);
-    m_RotatorControlPanel->reverseDirection->setChecked(toggled);
-    m_RotatorControlPanel->reverseDirection->blockSignals(false);
-}
-
 void Capture::saveFITSDirectory()
 {
     QString dir =
@@ -2051,7 +1720,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, QString targetName)
     clearSequenceQueue();
 
     // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
-    const bool result = process()->loadSequenceQueue(fileURL, targetName, !m_standAlone);
+    const bool result = process()->loadSequenceQueue(fileURL, targetName, !cameraUI->m_standAlone);
     // cancel if loading fails
     if (result == false)
         return result;
@@ -2104,7 +1773,7 @@ void Capture::saveSequenceQueue()
     if (state()->sequenceURL().isValid())
     {
         // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
-        if ((process()->saveSequenceQueue(state()->sequenceURL().toLocalFile(), !m_standAlone)) == false)
+        if ((process()->saveSequenceQueue(state()->sequenceURL().toLocalFile(), !cameraUI->m_standAlone)) == false)
         {
             KSNotification::error(i18n("Failed to save sequence queue"), i18n("Save"));
             return;
@@ -2216,60 +1885,61 @@ void Capture::syncGUIToJob(SequenceJob * job)
         cameraUI->cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
-    syncLimitSettings();
+    cameraUI->m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(
+                SequenceJob::SJ_DitherPerJobFrequency).toInt());
+    cameraUI->syncLimitSettings();
 
     // Flat field options
     cameraUI->calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     cameraUI->generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
 
     if (job->getFlatFieldDuration() == DURATION_MANUAL)
-        m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
+        cameraUI->m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
     else
-        m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
+        cameraUI->m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
 
     // Calibration Pre-Action
     const auto action = job->getCalibrationPreAction();
     if (action & ACTION_WALL)
     {
-        m_CalibrationUI->azBox->setText(job->getWallCoord().az().toDMSString());
-        m_CalibrationUI->altBox->setText(job->getWallCoord().alt().toDMSString());
+        cameraUI->m_CalibrationUI->azBox->setText(job->getWallCoord().az().toDMSString());
+        cameraUI->m_CalibrationUI->altBox->setText(job->getWallCoord().alt().toDMSString());
     }
-    m_CalibrationUI->captureCalibrationWall->setChecked(action & ACTION_WALL);
-    m_CalibrationUI->captureCalibrationParkMount->setChecked(action & ACTION_PARK_MOUNT);
-    m_CalibrationUI->captureCalibrationParkDome->setChecked(action & ACTION_PARK_DOME);
+    cameraUI->m_CalibrationUI->captureCalibrationWall->setChecked(action & ACTION_WALL);
+    cameraUI->m_CalibrationUI->captureCalibrationParkMount->setChecked(action & ACTION_PARK_MOUNT);
+    cameraUI->m_CalibrationUI->captureCalibrationParkDome->setChecked(action & ACTION_PARK_DOME);
 
     // Calibration Flat Duration
     switch (job->getFlatFieldDuration())
     {
         case DURATION_MANUAL:
-            m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
+            cameraUI->m_CalibrationUI->captureCalibrationDurationManual->setChecked(true);
             break;
 
         case DURATION_ADU:
-            m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
-            m_CalibrationUI->captureCalibrationADUValue->setValue(job->getCoreProperty(SequenceJob::SJ_TargetADU).toUInt());
-            m_CalibrationUI->captureCalibrationADUTolerance->setValue(job->getCoreProperty(
+            cameraUI->m_CalibrationUI->captureCalibrationUseADU->setChecked(true);
+            cameraUI->m_CalibrationUI->captureCalibrationADUValue->setValue(job->getCoreProperty(SequenceJob::SJ_TargetADU).toUInt());
+            cameraUI->m_CalibrationUI->captureCalibrationADUTolerance->setValue(job->getCoreProperty(
                         SequenceJob::SJ_TargetADUTolerance).toUInt());
-            m_CalibrationUI->captureCalibrationSkyFlats->setChecked(job->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool());
+            cameraUI->m_CalibrationUI->captureCalibrationSkyFlats->setChecked(job->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool());
             break;
     }
 
-    m_scriptsManager->setScripts(job->getScripts());
+    cameraUI->m_scriptsManager->setScripts(job->getScripts());
 
     // Custom Properties
-    customPropertiesDialog->setCustomProperties(job->getCustomProperties());
+    cameraUI->customPropertiesDialog()->setCustomProperties(job->getCustomProperties());
 
     if (cameraUI->captureISOS)
         cameraUI->captureISOS->setCurrentIndex(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt());
 
-    double gain = getGain();
+    double gain = cameraUI->getGain();
     if (gain >= 0)
         cameraUI->captureGainN->setValue(gain);
     else
         cameraUI->captureGainN->setValue(GainSpinSpecialValue);
 
-    double offset = getOffset();
+    double offset = cameraUI->getOffset();
     if (offset >= 0)
         cameraUI->captureOffsetN->setValue(offset);
     else
@@ -2278,16 +1948,16 @@ void Capture::syncGUIToJob(SequenceJob * job)
     // update place holder typ
     generatePreviewFilename();
 
-    if (m_RotatorControlPanel) // only if rotator is registered
+    if (cameraUI->m_RotatorControlPanel) // only if rotator is registered
     {
         if (job->getTargetRotation() != Ekos::INVALID_VALUE)
         {
-            // remove enforceJobPA m_RotatorControlPanel->setRotationEnforced(true);
-            m_RotatorControlPanel->setCameraPA(job->getTargetRotation());
+            // remove enforceJobPA cameraUI->m_RotatorControlPanel->setRotationEnforced(true);
+            cameraUI->m_RotatorControlPanel->setCameraPA(job->getTargetRotation());
         }
         // remove enforceJobPA
         // else
-        //    m_RotatorControlPanel->setRotationEnforced(false);
+        //    cameraUI->m_RotatorControlPanel->setRotationEnforced(false);
     }
 
     // hide target drift if align check frequency is == 0
@@ -2365,16 +2035,16 @@ void Capture::resetJobEdit(bool cancelled)
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
 {
-    m_LimitsUI->enforceGuideDeviation->setChecked(enable);
+    cameraUI->m_LimitsUI->enforceGuideDeviation->setChecked(enable);
     if (enable)
-        m_LimitsUI->guideDeviation->setValue(value);
+        cameraUI->m_LimitsUI->guideDeviation->setValue(value);
 }
 
 void Capture::setInSequenceFocus(bool enable, double HFR)
 {
-    m_LimitsUI->enforceAutofocusHFR->setChecked(enable);
+    cameraUI->m_LimitsUI->enforceAutofocusHFR->setChecked(enable);
     if (enable)
-        m_LimitsUI->hFRDeviation->setValue(HFR);
+        cameraUI->m_LimitsUI->hFRDeviation->setValue(HFR);
 }
 
 void Capture::clearSequenceQueue()
@@ -2402,18 +2072,12 @@ void Capture::setGuideStatus(GuideState newstate)
     state()->setGuideState(newstate);
 }
 
-void Capture::checkFrameType(int index)
-{
-    cameraUI->calibrationB->setEnabled(index != FRAME_LIGHT);
-    cameraUI->generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
-}
-
 void Capture::clearAutoFocusHFR()
 {
     if (Options::hFRCheckAlgorithm() == HFR_CHECK_FIXED)
         return;
 
-    m_LimitsUI->hFRDeviation->setValue(0);
+    cameraUI->m_LimitsUI->hFRDeviation->setValue(0);
     //firstAutoFocus = true;
 }
 
@@ -2423,20 +2087,6 @@ bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
         return false;
 
     return devices()->getActiveCamera()->setStreamLimits(maxBufferSize, maxPreviewFPS);
-}
-
-void Capture::setVideoStreamEnabled(bool enabled)
-{
-    if (enabled)
-    {
-        cameraUI->liveVideoB->setChecked(true);
-        cameraUI->liveVideoB->setIcon(QIcon::fromTheme("camera-on"));
-    }
-    else
-    {
-        cameraUI->liveVideoB->setChecked(false);
-        cameraUI->liveVideoB->setIcon(QIcon::fromTheme("camera-ready"));
-    }
 }
 
 void Capture::setMountStatus(ISD::Mount::Status newState)
@@ -2524,8 +2174,8 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
     Q_UNUSED(ra)
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
-    if (devices()->rotator() && m_RotatorControlPanel)
-        m_RotatorControlPanel->refresh(solverPA);
+    if (devices()->rotator() && cameraUI->m_RotatorControlPanel)
+        cameraUI->m_RotatorControlPanel->refresh(solverPA);
 }
 
 void Capture::setFilterStatus(FilterState filterState)
@@ -2539,12 +2189,12 @@ void Capture::setFilterStatus(FilterState filterState)
         {
             case FILTER_OFFSET:
                 appendLogText(i18n("Changing focus offset by %1 steps...",
-                                   m_FilterManager->getTargetFilterOffset()));
+                                   cameraUI->filterManager()->getTargetFilterOffset()));
                 break;
 
             case FILTER_CHANGE:
                 appendLogText(i18n("Changing filter to %1...",
-                                   cameraUI->FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
+                                   cameraUI->FilterPosCombo->itemText(cameraUI->filterManager()->getTargetFilterPosition() - 1)));
                 break;
 
             case FILTER_AUTOFOCUS:
@@ -2556,7 +2206,7 @@ void Capture::setFilterStatus(FilterState filterState)
                 if (state()->getFilterManagerState() == FILTER_CHANGE)
                 {
                     appendLogText(i18n("Filter set to %1.",
-                                       cameraUI->FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
+                                       cameraUI->FilterPosCombo->itemText(cameraUI->filterManager()->getTargetFilterPosition() - 1)));
                 }
                 break;
 
@@ -2570,35 +2220,33 @@ void Capture::setFilterStatus(FilterState filterState)
 void Capture::setupFilterManager()
 {
     // Do we have an existing filter manager?
-    if (m_FilterManager)
-        m_FilterManager->disconnect(this);
+    if (cameraUI->filterManager())
+        cameraUI->filterManager()->disconnect(this);
 
     // Create new or refresh device
     Manager::Instance()->createFilterManager(devices()->filterWheel());
 
     // Return global filter manager for this filter wheel.
-    Manager::Instance()->getFilterManager(devices()->filterWheel()->getDeviceName(), m_FilterManager);
+    Manager::Instance()->getFilterManager(devices()->filterWheel()->getDeviceName(), cameraUI->filterManager());
 
-    devices()->setFilterManager(m_FilterManager);
+    devices()->setFilterManager(cameraUI->filterManager());
 
-    connect(m_FilterManager.get(), &FilterManager::updated, this, [this]()
+    connect(cameraUI->filterManager().get(), &FilterManager::updated, this, [this]()
     {
         emit filterManagerUpdated(devices()->filterWheel());
     });
 
     // display capture status changes
-    connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterStatus);
+    connect(cameraUI->filterManager().get(), &FilterManager::newStatus, this, &Capture::newFilterStatus);
 
     connect(cameraUI->filterManagerB, &QPushButton::clicked, this, [this]()
     {
-        m_FilterManager->refreshFilterModel();
-        m_FilterManager->show();
-        m_FilterManager->raise();
+        cameraUI->filterManager()->refreshFilterModel();
+        cameraUI->filterManager()->show();
+        cameraUI->filterManager()->raise();
     });
 
-    connect(m_FilterManager.get(), &FilterManager::ready, this, &Capture::updateCurrentFilterPosition);
-
-    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
+    connect(cameraUI->filterManager().get(), &FilterManager::failed, this, [this]()
     {
         if (activeJob())
         {
@@ -2608,23 +2256,24 @@ void Capture::setupFilterManager()
     });
 
     // filter changes
-    connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::setFilterStatus);
+    connect(cameraUI->filterManager().get(), &FilterManager::newStatus, this, &Capture::setFilterStatus);
 
     // display capture status changes
-    connect(m_FilterManager.get(), &FilterManager::newStatus, cameraUI->captureStatusWidget, &LedStatusWidget::setFilterState);
+    connect(cameraUI->filterManager().get(), &FilterManager::newStatus, cameraUI->captureStatusWidget,
+            &LedStatusWidget::setFilterState);
 
-    connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, [this]()
+    connect(cameraUI->filterManager().get(), &FilterManager::labelsChanged, this, [this]()
     {
         cameraUI->FilterPosCombo->clear();
-        cameraUI->FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
-        cameraUI->FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
-        updateCurrentFilterPosition();
+        cameraUI->FilterPosCombo->addItems(cameraUI->filterManager()->getFilterLabels());
+        cameraUI->FilterPosCombo->setCurrentIndex(cameraUI->filterManager()->getFilterPosition() - 1);
+        cameraUI->updateCurrentFilterPosition();
     });
 
-    connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
+    connect(cameraUI->filterManager().get(), &FilterManager::positionChanged, this, [this]()
     {
-        cameraUI->FilterPosCombo->setCurrentIndex(m_FilterManager->getFilterPosition() - 1);
-        updateCurrentFilterPosition();
+        cameraUI->FilterPosCombo->setCurrentIndex(cameraUI->filterManager()->getFilterPosition() - 1);
+        cameraUI->updateCurrentFilterPosition();
     });
 }
 
@@ -2875,22 +2524,6 @@ QJsonObject Capture::createJsonJob(SequenceJob *job, int currentRow)
     return jsonJob;
 }
 
-void Capture::setCoolerToggled(bool enabled)
-{
-    auto isToggled = (!enabled && cameraUI->coolerOnB->isChecked()) || (enabled && cameraUI->coolerOffB->isChecked());
-
-    cameraUI->coolerOnB->blockSignals(true);
-    cameraUI->coolerOnB->setChecked(enabled);
-    cameraUI->coolerOnB->blockSignals(false);
-
-    cameraUI->coolerOffB->blockSignals(true);
-    cameraUI->coolerOffB->setChecked(!enabled);
-    cameraUI->coolerOffB->blockSignals(false);
-
-    if (isToggled)
-        appendLogText(enabled ? i18n("Cooler is on") : i18n("Cooler is off"));
-}
-
 void Capture::createDSLRDialog()
 {
     dslrInfoDialog.reset(new DSLRInfo(this, devices()->getActiveCamera()));
@@ -2910,115 +2543,9 @@ void Capture::createDSLRDialog()
     emit dslrInfoRequested(devices()->getActiveCamera()->getDeviceName());
 }
 
-void Capture::setStandAloneGain(double value)
-{
-    QMap<QString, QMap<QString, QVariant> > propertyMap = customPropertiesDialog->getCustomProperties();
-
-    if (m_standAloneUseCcdGain)
-    {
-        if (value >= 0)
-        {
-            QMap<QString, QVariant> ccdGain;
-            ccdGain["GAIN"] = value;
-            propertyMap["CCD_GAIN"] = ccdGain;
-        }
-        else
-        {
-            propertyMap["CCD_GAIN"].remove("GAIN");
-            if (propertyMap["CCD_GAIN"].size() == 0)
-                propertyMap.remove("CCD_GAIN");
-        }
-    }
-    else
-    {
-        if (value >= 0)
-        {
-            QMap<QString, QVariant> ccdGain = propertyMap["CCD_CONTROLS"];
-            ccdGain["Gain"] = value;
-            propertyMap["CCD_CONTROLS"] = ccdGain;
-        }
-        else
-        {
-            propertyMap["CCD_CONTROLS"].remove("Gain");
-            if (propertyMap["CCD_CONTROLS"].size() == 0)
-                propertyMap.remove("CCD_CONTROLS");
-        }
-    }
-
-    customPropertiesDialog->setCustomProperties(propertyMap);
-}
-
-void Capture::setStandAloneOffset(double value)
-{
-    QMap<QString, QMap<QString, QVariant> > propertyMap = customPropertiesDialog->getCustomProperties();
-
-    if (m_standAloneUseCcdOffset)
-    {
-        if (value >= 0)
-        {
-            QMap<QString, QVariant> ccdOffset;
-            ccdOffset["OFFSET"] = value;
-            propertyMap["CCD_OFFSET"] = ccdOffset;
-        }
-        else
-        {
-            propertyMap["CCD_OFFSET"].remove("OFFSET");
-            if (propertyMap["CCD_OFFSET"].size() == 0)
-                propertyMap.remove("CCD_OFFSET");
-        }
-    }
-    else
-    {
-        if (value >= 0)
-        {
-            QMap<QString, QVariant> ccdOffset = propertyMap["CCD_CONTROLS"];
-            ccdOffset["Offset"] = value;
-            propertyMap["CCD_CONTROLS"] = ccdOffset;
-        }
-        else
-        {
-            propertyMap["CCD_CONTROLS"].remove("Offset");
-            if (propertyMap["CCD_CONTROLS"].size() == 0)
-                propertyMap.remove("CCD_CONTROLS");
-        }
-    }
-
-    customPropertiesDialog->setCustomProperties(propertyMap);
-}
-void Capture::setGain(double value)
-{
-    if (m_standAlone)
-    {
-        setStandAloneGain(value);
-        return;
-    }
-    if (!devices()->getActiveCamera())
-        return;
-
-    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
-    process()->updateGain(value, customProps);
-    customPropertiesDialog->setCustomProperties(customProps);
-}
-
-void Capture::setOffset(double value)
-{
-    if (m_standAlone)
-    {
-        setStandAloneOffset(value);
-        return;
-    }
-    if (!devices()->getActiveCamera())
-        return;
-
-    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
-
-    process()->updateOffset(value, customProps);
-    customPropertiesDialog->setCustomProperties(customProps);
-}
-
 void Capture::editFilterName()
 {
-    if (m_standAlone)
+    if (cameraUI->m_standAlone)
     {
         QStringList labels;
         for (int index = 0; index < cameraUI->FilterPosCombo->count(); index++)
@@ -3035,10 +2562,10 @@ void Capture::editFilterName()
         if (devices()->filterWheel() == nullptr || state()->getCurrentFilterPosition() < 1)
             return;
 
-        QStringList labels = m_FilterManager->getFilterLabels();
+        QStringList labels = cameraUI->filterManager()->getFilterLabels();
         QStringList newLabels;
         if (editFilterNameInternal(labels, newLabels))
-            m_FilterManager->setFilterNames(newLabels);
+            cameraUI->filterManager()->setFilterNames(newLabels);
     }
 }
 
@@ -3057,7 +2584,7 @@ bool Capture::editFilterNameInternal(const QStringList &labels, QStringList &new
         formLayout->addRow(existingLabel, newLabel);
     }
 
-    QString title = m_standAlone ?
+    QString title = cameraUI->m_standAlone ?
                     "Edit Filter Names" : devices()->filterWheel()->getDeviceName();
     filterDialog.setWindowTitle(title);
     filterDialog.setLayout(formLayout);
@@ -3075,90 +2602,6 @@ bool Capture::editFilterNameInternal(const QStringList &labels, QStringList &new
         return true;
     }
     return false;
-}
-
-void Capture::handleScriptsManager()
-{
-    QMap<ScriptTypes, QString> old_scripts = m_scriptsManager->getScripts();
-
-    if (m_scriptsManager->exec() != QDialog::Accepted)
-        // reset to old value
-        m_scriptsManager->setScripts(old_scripts);
-}
-
-void Capture::showTemperatureRegulation()
-{
-    if (!devices()->getActiveCamera())
-        return;
-
-    double currentRamp, currentThreshold;
-    if (!devices()->getActiveCamera()->getTemperatureRegulation(currentRamp, currentThreshold))
-        return;
-
-
-    double rMin, rMax, rStep, tMin, tMax, tStep;
-
-    devices()->getActiveCamera()->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_SLOPE", &rMin, &rMax, &rStep);
-    devices()->getActiveCamera()->getMinMaxStep("CCD_TEMP_RAMP", "RAMP_THRESHOLD", &tMin, &tMax, &tStep);
-
-    QLabel rampLabel(i18nc("Maximum temperature variation over time when regulating.", "Ramp (°C/min):"));
-    QDoubleSpinBox rampSpin;
-    rampSpin.setMinimum(rMin);
-    rampSpin.setMaximum(rMax);
-    rampSpin.setSingleStep(rStep);
-    rampSpin.setValue(currentRamp);
-    rampSpin.setToolTip(i18n("<html><body>"
-                             "<p>Maximum temperature change per minute when cooling or warming the camera. Set zero to disable."
-                             "<p>This setting is read from and stored in the INDI camera driver configuration."
-                             "</body></html>"));
-
-    QLabel thresholdLabel(i18nc("Temperature threshold above which regulation triggers.", "Threshold (°C):"));
-    QDoubleSpinBox thresholdSpin;
-    thresholdSpin.setMinimum(tMin);
-    thresholdSpin.setMaximum(tMax);
-    thresholdSpin.setSingleStep(tStep);
-    thresholdSpin.setValue(currentThreshold);
-    thresholdSpin.setToolTip(i18n("<html><body>"
-                                  "<p>Maximum difference between camera and target temperatures triggering regulation."
-                                  "<p>This setting is read from and stored in the INDI camera driver configuration."
-                                  "</body></html>"));
-
-    QFormLayout layout;
-    layout.addRow(&rampLabel, &rampSpin);
-    layout.addRow(&thresholdLabel, &thresholdSpin);
-
-    QPointer<QDialog> dialog = new QDialog(this);
-    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, dialog);
-    connect(&buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
-    connect(&buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
-    dialog->setWindowTitle(i18nc("@title:window", "Set Temperature Regulation"));
-    layout.addWidget(&buttonBox);
-    dialog->setLayout(&layout);
-    dialog->setMinimumWidth(300);
-
-    if (dialog->exec() == QDialog::Accepted)
-    {
-        if (devices()->getActiveCamera())
-            devices()->getActiveCamera()->setTemperatureRegulation(rampSpin.value(), thresholdSpin.value());
-    }
-}
-
-void Capture::updateStartButtons(bool start, bool pause)
-{
-    if (start)
-    {
-        // start capturing, therefore next possible action is stopping
-        cameraUI->startB->setIcon(QIcon::fromTheme("media-playback-stop"));
-        cameraUI->startB->setToolTip(i18n("Stop Sequence"));
-    }
-    else
-    {
-        // stop capturing, therefore next possible action is starting
-        cameraUI->startB->setIcon(QIcon::fromTheme("media-playback-start"));
-        cameraUI->startB->setToolTip(i18n(pause ? "Resume Sequence" : "Start Sequence"));
-    }
-    cameraUI->pauseB->setEnabled(start && !pause);
-
 }
 
 void Capture::generateDarkFlats()
@@ -3192,8 +2635,8 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
     if (cameraUI->captureISOS)
         job->setISO(cameraUI->captureISOS->currentIndex());
 
-    job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
-    job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
+    job->setCoreProperty(SequenceJob::SJ_Gain, cameraUI->getGain());
+    job->setCoreProperty(SequenceJob::SJ_Offset, cameraUI->getOffset());
 
     if (cameraUI->cameraTemperatureN->isEnabled())
     {
@@ -3201,22 +2644,23 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
         job->setTargetTemperature(cameraUI->cameraTemperatureN->value());
     }
 
-    job->setScripts(m_scriptsManager->getScripts());
+    job->setScripts(cameraUI->m_scriptsManager->getScripts());
     job->setUploadMode(static_cast<ISD::Camera::UploadMode>(cameraUI->fileUploadModeS->currentIndex()));
 
 
-    job->setFlatFieldDuration(m_CalibrationUI->captureCalibrationDurationManual->isChecked() ? DURATION_MANUAL : DURATION_ADU);
+    job->setFlatFieldDuration(cameraUI->m_CalibrationUI->captureCalibrationDurationManual->isChecked() ? DURATION_MANUAL :
+                              DURATION_ADU);
 
     int action = ACTION_NONE;
-    if (m_CalibrationUI->captureCalibrationParkMount->isChecked())
+    if (cameraUI->m_CalibrationUI->captureCalibrationParkMount->isChecked())
         action |= ACTION_PARK_MOUNT;
-    if (m_CalibrationUI->captureCalibrationParkDome->isChecked())
+    if (cameraUI->m_CalibrationUI->captureCalibrationParkDome->isChecked())
         action |= ACTION_PARK_DOME;
-    if (m_CalibrationUI->captureCalibrationWall->isChecked())
+    if (cameraUI->m_CalibrationUI->captureCalibrationWall->isChecked())
     {
         bool azOk = false, altOk = false;
-        auto wallAz  = m_CalibrationUI->azBox->createDms(&azOk);
-        auto wallAlt = m_CalibrationUI->altBox->createDms(&altOk);
+        auto wallAz  = cameraUI->m_CalibrationUI->azBox->createDms(&azOk);
+        auto wallAlt = cameraUI->m_CalibrationUI->altBox->createDms(&altOk);
 
         if (azOk && altOk)
         {
@@ -3228,18 +2672,19 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
         }
     }
 
-    if (m_CalibrationUI->captureCalibrationUseADU->isChecked())
+    if (cameraUI->m_CalibrationUI->captureCalibrationUseADU->isChecked())
     {
-        job->setCoreProperty(SequenceJob::SJ_TargetADU, m_CalibrationUI->captureCalibrationADUValue->value());
-        job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, m_CalibrationUI->captureCalibrationADUTolerance->value());
-        job->setCoreProperty(SequenceJob::SJ_SkyFlat, m_CalibrationUI->captureCalibrationSkyFlats->isChecked());
+        job->setCoreProperty(SequenceJob::SJ_TargetADU, cameraUI->m_CalibrationUI->captureCalibrationADUValue->value());
+        job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance,
+                             cameraUI->m_CalibrationUI->captureCalibrationADUTolerance->value());
+        job->setCoreProperty(SequenceJob::SJ_SkyFlat, cameraUI->m_CalibrationUI->captureCalibrationSkyFlats->isChecked());
     }
 
     job->setCalibrationPreAction(action);
 
     job->setFrameType(static_cast<CCDFrameType>(qMax(0, cameraUI->captureTypeS->currentIndex())));
 
-    if (cameraUI->FilterPosCombo->currentIndex() != -1 && (m_standAlone || devices()->filterWheel() != nullptr))
+    if (cameraUI->FilterPosCombo->currentIndex() != -1 && (cameraUI->m_standAlone || devices()->filterWheel() != nullptr))
         job->setTargetFilter(cameraUI->FilterPosCombo->currentIndex() + 1, cameraUI->FilterPosCombo->currentText());
 
     job->setCoreProperty(SequenceJob::SJ_Exposure, cameraUI->captureExposureN->value());
@@ -3252,7 +2697,7 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
     job->setCoreProperty(SequenceJob::SJ_Delay, cameraUI->captureDelayN->value() * 1000);
 
     // Custom Properties
-    job->setCustomProperties(customPropertiesDialog->getCustomProperties());
+    job->setCustomProperties(cameraUI->customPropertiesDialog()->getCustomProperties());
 
     job->setCoreProperty(SequenceJob::SJ_ROI, QRect(cameraUI->captureFrameXN->value(), cameraUI->captureFrameYN->value(),
                          cameraUI->captureFrameWN->value(),
@@ -3263,7 +2708,7 @@ void Capture::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePre
     job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, cameraUI->placeholderFormatT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, cameraUI->formatSuffixN->value());
 
-    job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->guideDitherPerJobFrequency->value());
+    job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, cameraUI->m_LimitsUI->guideDitherPerJobFrequency->value());
 
     auto placeholderPath = PlaceholderPath();
     placeholderPath.updateFullPrefix(job, cameraUI->placeholderFormatT->text());
@@ -3278,47 +2723,6 @@ void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
 {
     state()->setMeridianFlipState(newstate);
     connect(state()->getMeridianFlipState().get(), &MeridianFlipState::newLog, this, &Capture::appendLogText);
-}
-
-QJsonObject Capture::currentScope()
-{
-    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
-    if (activeCamera() && trainID.isValid())
-    {
-        auto id = trainID.toUInt();
-        auto name = OpticalTrainManager::Instance()->name(id);
-        return OpticalTrainManager::Instance()->getScope(name);
-    }
-    // return empty JSON object
-    return QJsonObject();
-}
-
-double Capture::currentReducer()
-{
-    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
-    if (activeCamera() && trainID.isValid())
-    {
-        auto id = trainID.toUInt();
-        auto name = OpticalTrainManager::Instance()->name(id);
-        return OpticalTrainManager::Instance()->getReducer(name);
-    }
-    // no reducer available
-    return 1.0;
-}
-
-double Capture::currentAperture()
-{
-    auto scope = currentScope();
-
-    double focalLength = scope["focal_length"].toDouble(-1);
-    double aperture = scope["aperture"].toDouble(-1);
-    double focalRatio = scope["focal_ratio"].toDouble(-1);
-
-    // DSLR Lens Aperture
-    if (aperture < 0 && focalRatio > 0)
-        aperture = focalLength * focalRatio;
-
-    return aperture;
 }
 
 void Capture::setupOpticalTrainManager()
@@ -3345,9 +2749,9 @@ void Capture::refreshOpticalTrain()
     cameraUI->trainB->setEnabled(true);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
-    if (m_standAlone || trainID.isValid())
+    if (cameraUI->m_standAlone || trainID.isValid())
     {
-        auto id = m_standAlone ? Options::captureTrainID() : trainID.toUInt();
+        auto id = cameraUI->m_standAlone ? Options::captureTrainID() : trainID.toUInt();
         Options::setCaptureTrainID(id);
 
         // If train not found, select the first one available.
@@ -3360,7 +2764,7 @@ void Capture::refreshOpticalTrain()
         auto name = OpticalTrainManager::Instance()->name(id);
 
         cameraUI->opticalTrainCombo->setCurrentText(name);
-        if (!m_standAlone)
+        if (!cameraUI->m_standAlone)
             process()->refreshOpticalTrain(name);
 
         // Load train settings
@@ -3372,11 +2776,14 @@ void Capture::refreshOpticalTrain()
         if (settings.isValid())
         {
             auto map = settings.toJsonObject().toVariantMap();
-            if (map != m_Settings)
+            if (map != cameraUI->settings())
+            {
+                cameraUI->settings().clear();
                 setAllSettings(map);
+            }
         }
         else
-            m_Settings = m_GlobalSettings;
+            cameraUI->setSettings(m_GlobalSettings);
     }
 
     cameraUI->opticalTrainCombo->blockSignals(false);
@@ -3456,33 +2863,6 @@ QString Capture::previewFilename(FilenamePreviewType previewType)
     return previewText;
 }
 
-void Capture::openExposureCalculatorDialog()
-{
-    qCInfo(KSTARS_EKOS_CAPTURE) << "Instantiating an Exposure Calculator";
-
-    // Learn how to read these from indi
-    double preferredSkyQuality = 20.5;
-
-    auto scope = currentScope();
-    double focalRatio = scope["focal_ratio"].toDouble(-1);
-
-    auto reducedFocalLength = currentReducer() * scope["focal_length"].toDouble(-1);
-    auto aperture = currentAperture();
-    auto reducedFocalRatio = (focalRatio > 0 || aperture == 0) ? focalRatio : reducedFocalLength / aperture;
-
-    if (devices()->getActiveCamera() != nullptr)
-    {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "set ExposureCalculator preferred camera to active camera id: "
-                                    << devices()->getActiveCamera()->getDeviceName();
-    }
-
-    QPointer<ExposureCalculatorDialog> anExposureCalculatorDialog(new ExposureCalculatorDialog(KStars::Instance(),
-            preferredSkyQuality,
-            reducedFocalRatio,
-            devices()->getActiveCamera()->getDeviceName()));
-    anExposureCalculatorDialog->setAttribute(Qt::WA_DeleteOnClose);
-    anExposureCalculatorDialog->show();
-}
 
 bool Capture::hasCoolerControl()
 {
@@ -3558,69 +2938,9 @@ void Capture::startFraming()
     process()->capturePreview(true);
 }
 
-double Capture::getGain()
-{
-    return devices()->cameraGain(customPropertiesDialog->getCustomProperties());
-}
-
-double Capture::getOffset()
-{
-    return devices()->cameraOffset(customPropertiesDialog->getCustomProperties());
-}
-
 void Capture::setHFR(double newHFR, int, bool inAutofocus)
 {
     state()->getRefocusState()->setFocusHFR(newHFR, inAutofocus);
-}
-
-ISD::Camera *Capture::activeCamera()
-{
-    return m_captureDeviceAdaptor->getActiveCamera();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////////////////////////////////////////////
-QVariantMap Capture::getAllSettings() const
-{
-    QVariantMap settings;
-
-    // All QLineEdits
-    // N.B. This must be always first since other Widgets can be casted to QLineEdit like QSpinBox but not vice-versa.
-    for (auto &oneWidget : findChildren<QLineEdit*>())
-    {
-        auto name = oneWidget->objectName();
-        if (name == "qt_spinbox_lineedit")
-            continue;
-        settings.insert(name, oneWidget->text());
-    }
-
-    // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
-        settings.insert(oneWidget->objectName(), oneWidget->currentText());
-
-    // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
-        settings.insert(oneWidget->objectName(), oneWidget->value());
-
-    // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
-        settings.insert(oneWidget->objectName(), oneWidget->value());
-
-    // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
-        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
-
-    // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
-        if (oneWidget->isCheckable())
-            settings.insert(oneWidget->objectName(), oneWidget->isChecked());
-
-    // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
-        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
-
-    return settings;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -3698,18 +3018,18 @@ void Capture::setAllSettings(const QVariantMap &settings)
         // Save immediately
         Options::self()->setProperty(key.toLatin1(), value);
 
-        m_Settings[key] = value;
+        cameraUI->settings()[key] = value;
         m_GlobalSettings[key] = value;
     }
 
-    emit settingsUpdated(getAllSettings());
+    emit settingsUpdated(cameraUI->getAllSettings());
 
     // Save to optical train specific settings as well
-    if (!m_standAlone)
+    if (!cameraUI->m_standAlone)
     {
         const int id = OpticalTrainManager::Instance()->id(cameraUI->opticalTrainCombo->currentText());
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-        OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
+        OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, cameraUI->settings());
         Options::setCaptureTrainID(id);
     }
     // Restablish connections
@@ -3749,16 +3069,16 @@ bool Capture::syncControl(const QVariantMap &settings, const QString &key, QWidg
             if (pDSB == cameraUI->captureGainN)
             {
                 if (cameraUI->captureGainN->value() != GainSpinSpecialValue)
-                    setGain(cameraUI->captureGainN->value());
+                    cameraUI->setGain(cameraUI->captureGainN->value());
                 else
-                    setGain(-1);
+                    cameraUI->setGain(-1);
             }
             else if (pDSB == cameraUI->captureOffsetN)
             {
                 if (cameraUI->captureOffsetN->value() != OffsetSpinSpecialValue)
-                    setOffset(cameraUI->captureOffsetN->value());
+                    cameraUI->setOffset(cameraUI->captureOffsetN->value());
                 else
-                    setOffset(-1);
+                    cameraUI->setOffset(-1);
             }
             return true;
         }
@@ -3850,6 +3170,12 @@ void Capture::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
+        // Discard false requests
+        if (rb->isChecked() == false)
+        {
+            cameraUI->settings().remove(key);
+            return;
+        }
         value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
@@ -3864,28 +3190,14 @@ void Capture::syncSettings()
     }
 
 
-    if (!m_standAlone)
+    if (!cameraUI->m_standAlone)
     {
-        m_Settings[key] = value;
+        cameraUI->settings()[key] = value;
         m_GlobalSettings[key] = value;
         // Save immediately
         Options::self()->setProperty(key.toLatin1(), value);
-        m_DebounceTimer.start();
+        cameraUI->m_DebounceTimer.start();
     }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Capture::settleSettings()
-{
-    state()->setDirty(true);
-    emit settingsUpdated(getAllSettings());
-    // Save to optical train specific settings as well
-    const int id = OpticalTrainManager::Instance()->id(cameraUI->opticalTrainCombo->currentText());
-    OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Capture, m_Settings);
-    Options::setCaptureTrainID(id);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -3998,7 +3310,8 @@ void Capture::loadGlobalSettings()
             settings[key] = value;
         }
     }
-    m_GlobalSettings = m_Settings = settings;
+    m_GlobalSettings = settings;
+    cameraUI->setSettings(settings);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -4079,28 +3392,6 @@ void Capture::disconnectSyncSettings()
             continue;
         disconnect(oneWidget, &QLineEdit::textChanged, this, &Ekos::Capture::syncSettings);
     }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////////////////////////////////////////////
-void Capture::syncLimitSettings()
-{
-    m_LimitsUI->enforceStartGuiderDrift->setChecked(Options::enforceStartGuiderDrift());
-    m_LimitsUI->startGuideDeviation->setValue(Options::startGuideDeviation());
-    m_LimitsUI->enforceGuideDeviation->setChecked(Options::enforceGuideDeviation());
-    m_LimitsUI->guideDeviation->setValue(Options::guideDeviation());
-    m_LimitsUI->guideDeviationReps->setValue(static_cast<int>(Options::guideDeviationReps()));
-    m_LimitsUI->enforceAutofocusHFR->setChecked(Options::enforceAutofocusHFR());
-    m_LimitsUI->hFRThresholdPercentage->setValue(Options::hFRThresholdPercentage());
-    m_LimitsUI->hFRDeviation->setValue(Options::hFRDeviation());
-    m_LimitsUI->inSequenceCheckFrames->setValue(Options::inSequenceCheckFrames());
-    m_LimitsUI->hFRCheckAlgorithm->setCurrentIndex(Options::hFRCheckAlgorithm());
-    m_LimitsUI->enforceAutofocusOnTemperature->setChecked(Options::enforceAutofocusOnTemperature());
-    m_LimitsUI->maxFocusTemperatureDelta->setValue(Options::maxFocusTemperatureDelta());
-    m_LimitsUI->enforceRefocusEveryN->setChecked(Options::enforceRefocusEveryN());
-    m_LimitsUI->refocusEveryN->setValue(static_cast<int>(Options::refocusEveryN()));
-    m_LimitsUI->refocusAfterMeridianFlip->setChecked(Options::refocusAfterMeridianFlip());
 }
 
 }
