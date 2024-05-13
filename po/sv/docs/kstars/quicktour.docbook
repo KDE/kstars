@@ -1,9 +1,9 @@
 <chapter id="using-kstars">
 <title
->En snabbtur genom &kstars;</title>
+>En snabbtur av &kstars; himmelskarta</title>
 
 <para
->Det här kapitlet introducerar många av de viktiga funktionerna i &kstars;, med en guidad tur. </para>
+>Det här kapitlet presenterar en guidad tur av &kstars; himmelskarta, och introducerar många av dess viktigaste funktioner. </para>
 
 <screenshot>
 <screeninfo
@@ -492,7 +492,7 @@
 <title
 >Turens slut</title>
 <para
->Det här avslutar turen genom &kstars;, även om vi bara har skrapat på ytan av tillgängliga funktioner. &kstars; innehåller många användbara <link linkend="tools"
+>Det här avslutar turen av &kstars; himmelskarta, även om vi bara har skrapat på ytan av tillgängliga funktioner. &kstars; innehåller många användbara <link linkend="tools"
 >astronomiverktyg</link
 >, det kan direkt <link linkend="indi"
 >styra ditt teleskop</link

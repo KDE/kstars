@@ -1,4 +1,4 @@
-<sect2 id="ekos-scheduler">
+<sect1 id="ekos-scheduler">
     <title
 >Schemaläggning</title>
     <indexterm>
@@ -22,13 +22,13 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="ekos-scheduler-introduction">
+    <sect2 id="ekos-scheduler-introduction">
       <title
 >Inledning</title>
         <para
 >Ekos schemaläggare är en viktig komponent i arbetsflödet för bildtagning. Den ansluter till INDI, startar och stoppar alla andra Ekos-moduler, schemalägger jobb enligt deras begränsningar och prioriteringar, övervakar dessa jobb när de körs och stänger sedan av systemet på ett säkert sätt när jobben är klara eller före gryningen. Oavsett om du kör flerdagars bildtagningssessioner för flera mål, eller bara försöker avbilda ett enda mål under några timmar, är det klokt att låta schemaläggaren styra dina bildsessioner. </para>
-    </sect3>
-    <sect3 id="scheduler-table">
+    </sect2>
+    <sect2 id="scheduler-table">
         <title
 >Schemaläggningstabell</title>
         <para
@@ -68,8 +68,8 @@
             </listitem>
         </itemizedlist>
 
-    </sect3>
-    <sect3 id="scheduling-algorithm">
+    </sect2>
+    <sect2 id="scheduling-algorithm">
         <title
 >Schemaläggningsalgoritm</title>
         <para
@@ -86,14 +86,14 @@
 >Det finns ett alternativ med kryssruta i schemaläggningens alternativmeny som heter <guilabel 
 >Använd girig schemaläggning</guilabel 
 > som normalt är markerad. Systemet fungerar enligt beskrivningen ovan när det är markerat. När det är avmarkerad förhindras schemaläggningen från att schemalägga jobb med lägre prioritet när ofullbordade jobb med högre prioritet inte kan köras. Det resulterar i mindre effektiv användning av systemet, men kan ge mer kontroll över schemaläggningen. </para>
-    </sect3>
-    <sect3 id="scheduler-files">
+    </sect2>
+    <sect2 id="scheduler-files">
         <title
->Schemaläggningsfiler (.esq)</title>
+>Schemaläggningsfiler (.esl)</title>
         <para
->Schemaläggningstabellen med dess lista över jobb och egenskaper kan sparas på disk och läsas in igen. Den skrivs i en .esq-fil. Knappar för att skriva den aktuella schemaläggningstabellen till disk och läsa tillbaka andra .esq-filer finns ovanför tabellen till höger. </para>
-    </sect3>
-    <sect3 id="ekos-scheduler-settings">
+>Schemaläggningstabellen med dess lista över jobb och egenskaper kan sparas på disk och läsas in igen. Den skrivs i en .esl-fil. Knappar för att skriva den aktuella schemaläggningstabellen till disk och läsa tillbaka andra .esl-filer finns ovanför tabellen till höger. </para>
+    </sect2>
+    <sect2 id="ekos-scheduler-settings">
       <title
 >Inställningar</title>
         <para
@@ -174,8 +174,8 @@
 >: Villkor som leder till att schemaläggningsjobbet blir färdigt. Standardvalet är att helt enkelt markera schemaläggningsjobbet som färdigt när sekvensprocessen är färdig. Ytterligare villkor gör det möjligt för användaren att upprepa sekvensprocessen ett visst antal gånger eller obegränsat, eller till en viss tidpunkt. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
-    <sect3 id="other-options">
+    </sect2>
+    <sect2 id="other-options">
         <title
 >Andra alternativ</title>
         <para
@@ -193,7 +193,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-       <sect4 id="remember-job-progress">
+       <sect3 id="remember-job-progress">
         <title
 >Kom ihåg jobbtillstånd</title>
         <para
@@ -208,8 +208,8 @@
 >En möjligen förvirrande bieffekt av <guilabel 
 >Kom ihåg jobbtillstånd</guilabel 
 > är att om du har utfört ett jobb med (standard) villkoret för slutförande av sekvensen, och det har tagit alla sina bilder, och du nu vill utföra jobbet igen, schemalägger inte schemaläggningen jobbet eftersom den tror att alla bilder redan har tagits. Du måste antingen flytta bilderna någon annanstans på disken, eller ändra slutförhållandet till Upprepa N gånger eller Upprepa till avslutat. </para>
-       </sect4>
-       <sect4 id="group-repeats">
+       </sect3>
+       <sect3 id="group-repeats">
         <title
 >Gruppupprepningar</title>
         <para
@@ -224,15 +224,51 @@
 > och ge jobben ett av de upprepade slutvillkoren (t.ex. Upprepa N gånger, eller Upprepa till avslutat). Med den inställningen kommer jobb i samma grupp att avstå till varandra om de har slutfört fler 'upprepningar' än det andra jobbet. Så om Jobb 2 med gruppen "min grupp" slutför sin 2:a upprepning och Jobb 3 med samma gruppnamn bara har genomfört 0 eller 1 upprepning när det är dags att schemalägga Jobb 2 kommer Jobb 3 att utföras istället. </para>
         <para
 >Föreställ dig i praktiken att du hade en mosaik med 6 rutor som du vill byta mellan. Du kan ge alla jobben samma gruppnamn, ställa in alla till t.ex. "Upprepa 5 gånger". Sedan skulle de utföras i samma takt. Kadensen för byte av jobb skulle styras av längden på sekvensfilen som tilldelas vart och ett av jobben. Man vill inte låta kadensen vara för kort (t.ex. ta en tvåminutersbild), eftersom det finns extratid vid byte av jobb. Till exempel kan det vara fråga om att börja jobbet med inriktning, börja guidning och till och med fokusera. </para>
-       </sect4>
-       <sect4 id="repeat-all-jobs">
+       </sect3>
+       <sect3 id="repeat-all-jobs">
         <title
 >Upprepa alla jobb</title>
         <para
 >Det finns en kryssruta och nummerinmatning precis under tabellen schemaläggningsjobb som låter dig upprepa hela schemat N gånger. Det kan användas för att alternera några jobb. Du kan bara lista jobben i schemaläggningen, ställa in den på att upprepa N gånger, så kommer jobben att upprepas. Ändring är dock inte kompatibel med 'Kom ihåg jobbtillstånd (ovan) och inte tillgänglig om Kom ihåg jobbtillstånd är markerat. (Observera: Kom ihåg jobbtillstånd är rekommenderat.) </para>
-       </sect4>
-    </sect3>
-    <sect3 id="workflow">
+       </sect3>
+    </sect2>
+    <sect2 id="editing-running-jobs">
+        <title
+>Redigera pågående jobb</title>
+        <para
+>Det är möjligt att redigera schemaläggarens jobbtabell och egenskaper hos enskilda jobb medan schemaläggaren körs. Som alltid dubbelklickar man på ett jobb, ändrar önskade egenskaper och klickar på kryssrutan för att slutföra ändringen. Om det pågående jobbet redigeras, startas det om (dvs. startstegen (förflyttning, fokusering, inriktning, guidning) görs om. Det går också att flytta jobb upp och ner i prioritet, lägga till nya jobb eller radera befintliga. Det går inte att ta bort det pågående jobbet. </para>
+        <para
+>En viktig egenskap hos schemaläggningsjobb är deras sekvensfil (.esq) som styr tagningsmodulen medan jobbet körs. Till exempel ställer den in antalet tagningar, filter som används, förstärkning/ISO, etc. En .esq skapas och redigeras normalt under tagningsfliken, men det kan inte göras medan schemaläggning pågår. Om du vill göra ändringar i en .esq-fil medan schemaläggning pågår, eller skapa en ny, tillhandahåller schemaläggaren ett verktyg som kallas tagningssekvenseditorn. </para>
+       <sect3 id="capture-sequence-editor">
+        <title
+>Tagningssekvenseditor</title>
+        <para
+>Tagningssekvenseditorn är ett verktyg för att skapa och redigera sekvensfiler (.esq), som kan startas genom att klicka på redigeringsikonen (pennan) precis ovanför schemaläggningstabellen. En skärmbild visas nedan. </para>
+      <screenshot>
+            <screeninfo
+>Tagningssekvenseditor </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_capture_sequence_editor.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Tagningssekvenseditor</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Editorn är mycket lik tagningsfliken när det gäller användning och layout, även om den saknar alla möjligheter att faktiskt ta en bild. Du redigerar jobb på samma sätt som du gör under tagning, och läser in eller sparar sekvensköer på samma sätt (även om det finns ytterligare knappar Ladda och Spara till i editorn). </para>
+        <important>
+        <para
+>Det är viktigt att förstå att tagningssekvenser till viss del beror på filterhjulet och kameran som används (t.ex. filternamnen, möjliga ISO-värden, ...). Tagningssekvenseditorn, som inte är ansluten till enhetsdrivrutinerna, har inte direkt åtkomst till den informationen. Istället använder editorn värdena från senaste gången tagningsfliken kopplades till sina enheter. Därför kanske det inte är meningsfullt att försöka skapa en .esq-fil för en annan kamera eller filterhjul än den senast anslutna. Du kan behöva vänta tills ditt schemaläggningsjobb är klart och redigera den .esq-filen direkt under tagningsfliken. </para>
+        <para
+>Det rekommenderas också att du inte skriver över .esq-filer när schemaläggningsjobb för närvarande använder samma filer. (Det är ok om schemaläggningen pågår, men inte använder det jobbet.) Det kan göra att schemaläggningen och tagningsmoduler blir osynkroniserade, eftersom de läser filerna vid olika tidpunkter. Istället kan du spara med ett annat filnamn och sedan redigera schemaläggningsjobbet för att använda det nya .esq-filnamnet. </para>
+        </important>
+     </sect3
+>          
+    </sect2>
+    <sect2 id="workflow">
         <title
 >Arbetsflöde</title>
 
@@ -267,9 +303,9 @@
 >Avstängning </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-procedure">
+    <sect2 id="ekos-scheduler-startup-procedure">
         <title
 >Startprocedur</title>
         <para
@@ -314,9 +350,9 @@
 > är 5 minuter innan <emphasis
 >starttiden</emphasis
 >). När väl startproceduren har slutförts med lyckat resultat, väljer schemaläggningen schemaläggningsjobbets mål och startar sekvensprocessen. Om ett startskript anges, ska det köras först. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-data-acquisition">
+    <sect2 id="ekos-scheduler-data-acquisition">
         <title
 >Datainsamling</title>
         <para
@@ -357,9 +393,9 @@
 >Observera: En del av interaktionerna mellan moduler initieras av modulerna själva, men övervakas av schemaläggningen. De inkluderar meridianvändningar, automatisk fokusering initierad av temperaturförändringar eller tidsgränsens utgång och minimikrav på guidningsavvikelser vid tagning. </para>
             </listitem>
         </itemizedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-shutdown">
+    <sect2 id="ekos-scheduler-shutdown">
         <title
 >Avstängning</title>
         <para
@@ -382,9 +418,9 @@
                 </para>
             </caption>
         </mediaobject>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-weather-monitoring">
+    <sect2 id="ekos-scheduler-weather-monitoring">
         <title
 >Väderövervakning</title>
         <para
@@ -409,9 +445,9 @@
 >: Väderförhållandet är skadligt för observatoriets säkerhet och avstängning måste inledas så snart som möjligt. </para>
             </listitem>
         </orderedlist>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+    <sect2 id="ekos-scheduler-startup-and-shutdown-scripts">
         <title
 >Start- och avslutningsskript</title>
         <para
@@ -447,9 +483,9 @@ exit(0)
 > för att Ekos ska anropa dem (använd exempelvis <userinput
 >chmod +x startskript.py</userinput
 > för att markera skriptet som körbart). Ekos schemaläggning möjliggör verkligt enkel automatisk operation utan behov av något mänskligt ingripande i något steg av processen. Utan mänsklig närvaro blir det alltmer kritiskt att återhämta sig från fel under alla observationskörningens stadier på ett snyggt sätt. Genom att använda underrättelser i &plasma; kan användaren ställa in hörbara larm och e-postunderrättelser för de diverse händelserna i schemaläggaren. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-scheduler-mosaic-Planner">
+    <sect2 id="ekos-scheduler-mosaic-Planner">
         <title
 >Mosaikplanering</title>
         <screenshot>
@@ -611,5 +647,5 @@ exit(0)
 >Klicka på <guibutton
 >Skapa jobb</guibutton
 > för att skapa mosaikschemaläggningsjobb och lägga till dem i schemaläggningskön. Du kan redigera jobben ytterligare individuellt, som du skulle gjort med vanliga schemaläggningsjobb. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

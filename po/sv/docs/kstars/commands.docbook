@@ -34,7 +34,7 @@
 ></term>
 <listitem
 ><para
->Visar en bild i FITS-visningsverktyget. </para
+>Visa en bild i FITS-visningen. </para
 ></listitem>
 </varlistentry>
 
@@ -1027,7 +1027,7 @@
 ></term>
 <listitem>
 <para
->Visar <link linkend="tool-ekos"
+>Öppnar <link linkend="ekos"
 >Ekos</link
 >, ett fullständigt och kraftfullt verktyg för astrofotografering. Med Ekos kan man rikta in och styra teleskop, fokusera CCD:er och ta bilder med ett enkelt intuitivt gränssnitt. </para>
 </listitem>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 01:54+0000\n"
+"POT-Creation-Date: 2024-05-13 01:46+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -536,7 +536,7 @@ msgstr "继续"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:681 fitsviewer/fitstab.cpp:700
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2828,7 +2828,7 @@ msgstr "类型映射"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
@@ -6339,7 +6339,7 @@ msgid "Capture error. Aborting..."
 msgstr "拍摄失败。中止..."
 
 #: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
-#: ekos/capture/captureprocess.cpp:2107
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "尝试重新启动拍摄 #%1"
@@ -6439,7 +6439,7 @@ msgstr "无法写入到文件 %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1715
-#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7068,7 +7068,7 @@ msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1714
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -9917,7 +9917,7 @@ msgstr "拍摄"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:730
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -10239,34 +10239,28 @@ msgstr "输入："
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
-msgstr "<html><head/><body><p>绘制赤道仪的时角</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
-#, fuzzy, kde-format
-#| msgid "<"
+#, kde-format
 msgid "<<"
-msgstr "<"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
-msgstr "<html><head/><body><p>绘制赤道仪的时角</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
-#, fuzzy, kde-format
-#| msgid ">"
+#, kde-format
 msgid ">>"
-msgstr ">"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, inputCombo)
 #: ekos/analyze/analyze.ui:161
@@ -14886,7 +14880,7 @@ msgstr "保存序列队列失败"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2618
+#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2616
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
@@ -15448,7 +15442,7 @@ msgstr "错误：与 CCD 的连接中断。"
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "非 FITS 图像无法计算 ADU 强度。"
 
-#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2097
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
@@ -15458,132 +15452,132 @@ msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "下载时间: %1 s, 新下载时间预估: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1725
+#: ekos/capture/captureprocess.cpp:1723
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "接收到图像 %2 张中的 %1 张。"
 
-#: ekos/capture/captureprocess.cpp:1759
+#: ekos/capture/captureprocess.cpp:1757
 #, kde-format
 msgid "Captured %1"
 msgstr "已拍摄 %1"
 
-#: ekos/capture/captureprocess.cpp:1765
+#: ekos/capture/captureprocess.cpp:1763
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "警告：遗留着可能在 %2 的未知占位符  %1 "
 
-#: ekos/capture/captureprocess.cpp:1798
+#: ekos/capture/captureprocess.cpp:1796
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "正在执行拍摄脚本 %1"
 
-#: ekos/capture/captureprocess.cpp:1813
+#: ekos/capture/captureprocess.cpp:1811
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "预拍摄脚本以代码 %1 完成"
 
-#: ekos/capture/captureprocess.cpp:1821
+#: ekos/capture/captureprocess.cpp:1819
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "后拍摄脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1833
+#: ekos/capture/captureprocess.cpp:1831
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "正在中天翻转..."
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "预作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:1848
+#: ekos/capture/captureprocess.cpp:1846
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "后作业脚本以代码 %1 完成。"
 
-#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2027 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
-#: ekos/capture/captureprocess.cpp:2036
+#: ekos/capture/captureprocess.cpp:2034
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:981
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
 
-#: ekos/capture/captureprocess.cpp:2080
+#: ekos/capture/captureprocess.cpp:2078
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2158
+#: ekos/capture/captureprocess.cpp:2156
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
 
-#: ekos/capture/captureprocess.cpp:2169
+#: ekos/capture/captureprocess.cpp:2167
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2191
+#: ekos/capture/captureprocess.cpp:2189
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
 
-#: ekos/capture/captureprocess.cpp:2220
+#: ekos/capture/captureprocess.cpp:2218
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
 
-#: ekos/capture/captureprocess.cpp:2228
+#: ekos/capture/captureprocess.cpp:2226
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
 
-#: ekos/capture/captureprocess.cpp:2448
+#: ekos/capture/captureprocess.cpp:2446
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 的预览"
 
-#: ekos/capture/captureprocess.cpp:2567
+#: ekos/capture/captureprocess.cpp:2565
 #, kde-format
 msgid "Sequence paused."
 msgstr "序列已暂停。"
 
-#: ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/captureprocess.cpp:2615
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
 
-#: ekos/capture/captureprocess.cpp:2631
+#: ekos/capture/captureprocess.cpp:2629
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2744
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "您确定要重新启动相机 %1 驱动吗？"
 
-#: ekos/capture/captureprocess.cpp:2747
+#: ekos/capture/captureprocess.cpp:2745
 #, kde-format
 msgid "Driver Restart"
 msgstr "重启设备"
@@ -16845,7 +16839,7 @@ msgstr "在线"
 msgid "Offline"
 msgstr "离线"
 
-#: ekos/ekoslive/message.cpp:957
+#: ekos/ekoslive/message.cpp:959
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mosaic 导入失败。"
@@ -22315,22 +22309,22 @@ msgstr "站址更新至 %1。"
 msgid "Failed to update site location to %1. City not found."
 msgstr "更新站址至 %1 失败。未能找到城市。"
 
-#: ekos/manager.cpp:2792
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "为%1启用调试日志记录"
 
-#: ekos/manager.cpp:2800
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "为%1禁用调试日志"
 
-#: ekos/manager.cpp:2828
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "为%1重新启用调试日志"
 
-#: ekos/manager.cpp:2840
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "为%1重新禁用调试日志"
@@ -23476,8 +23470,8 @@ msgstr "已激活从动模式。"
 msgid "Slaving deactivated."
 msgstr "已取消激活从动模式。"
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:677
-#: fitsviewer/fitstab.cpp:696
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
+#: fitsviewer/fitstab.cpp:702
 #, kde-format
 msgid "Aborting..."
 msgstr "正在中止..."
@@ -23530,10 +23524,9 @@ msgid "You must restart KStars for this change to take effect."
 msgstr "要让更改生效，您必须重新启动 Kstars。"
 
 #: ekos/opsekos.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set an alternate base directory for your captured images"
+#, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "为你拍的图设置另外的目录"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
 #: ekos/opsekos.ui:14
@@ -24057,17 +24050,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:947
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Alternative Image Directory: "
-msgstr "设置另外的图像文件目录"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:966
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "设置另外的图像文件目录"
+msgstr ""
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -28000,141 +27991,141 @@ msgstr "保存图像"
 msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
-#: fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:692
 #, kde-format
 msgid "Extracting..."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:704
+#: fitsviewer/fitstab.cpp:710
 #, kde-format
 msgid "Solving..."
 msgstr "解析中..."
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:723
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:726
+#: fitsviewer/fitstab.cpp:732
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:735
+#: fitsviewer/fitstab.cpp:741
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:783
+#: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "解析器超时：%1s"
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:794
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "解析器失败： %1s"
 
-#: fitsviewer/fitstab.cpp:948
+#: fitsviewer/fitstab.cpp:954
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:949
+#: fitsviewer/fitstab.cpp:955
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
+#: fitsviewer/fitsview.cpp:510 fitsviewer/fitsview.cpp:520
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "缩放图像失败。"
 
-#: fitsviewer/fitsview.cpp:704
+#: fitsviewer/fitsview.cpp:711
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "已启用资源限制模式，无法进一步放大。"
 
-#: fitsviewer/fitsview.cpp:1740
+#: fitsviewer/fitsview.cpp:1747
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1757
+#: fitsviewer/fitsview.cpp:1764
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2212
+#: fitsviewer/fitsview.cpp:2219
 #, kde-format
 msgid "Finding stars..."
 msgstr "查找星点..."
 
-#: fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2460
 #, kde-format
 msgid "Zoom In"
 msgstr "放大"
 
-#: fitsviewer/fitsview.cpp:2456
+#: fitsviewer/fitsview.cpp:2463
 #, kde-format
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: fitsviewer/fitsview.cpp:2459
+#: fitsviewer/fitsview.cpp:2466
 #, kde-format
 msgid "Default Zoom"
 msgstr "默认缩放"
 
-#: fitsviewer/fitsview.cpp:2462
+#: fitsviewer/fitsview.cpp:2469
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "缩放以适应"
 
-#: fitsviewer/fitsview.cpp:2465
+#: fitsviewer/fitsview.cpp:2472
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "切换图像拉伸"
 
-#: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "显示十字线"
 
-#: fitsviewer/fitsview.cpp:2477 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "显示像素网格线"
 
-#: fitsviewer/fitsview.cpp:2482 fitsviewer/fitsview.cpp:2591
+#: fitsviewer/fitsview.cpp:2489 fitsviewer/fitsview.cpp:2598
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "检测图像中的星点"
 
-#: fitsviewer/fitsview.cpp:2488
+#: fitsviewer/fitsview.cpp:2495
 #, kde-format
 msgid "View Star Profile..."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2498 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
 #: fitsviewer/fitsviewer.cpp:1273
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "显示赤道网格线"
 
-#: fitsviewer/fitsview.cpp:2504 fitsviewer/fitsviewer.cpp:246
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
 #: fitsviewer/fitsviewer.cpp:1275
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "使用图像来显示对象"
 
-#: fitsviewer/fitsview.cpp:2510
+#: fitsviewer/fitsview.cpp:2517
 #, kde-format
 msgid "Center Telescope"
 msgstr "居中望远镜"
 
-#: fitsviewer/fitsview.cpp:2516 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr ""
@@ -82623,7 +82614,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "Action to take if solver if successful (Sync, Slew to Target, or None)"
-#~ msgstr "解析成功后的操作 (同步，转动至目标，或者无操作)"

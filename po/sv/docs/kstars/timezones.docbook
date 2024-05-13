@@ -20,11 +20,11 @@
 >skymning</emphasis
 > på platsen). Alltså, vid ett givet ögonblick, ser olika platser på jorden olika delar av dagen. Soltid definieras därför lokalt, så att klockan på vilken plats som helst beskriver tiden på dagen på ett konsekvent sätt. </para
 ><para
->Den här lokaliseringen av tid åstadkoms genom att dela globen i 24 vertikala skivor som kallas <firstterm
->tidzoner</firstterm
+>Den här lokaliseringen av tid åstadkoms genom att dela globen i 24 vertikala områden som kallas <firstterm
+>tidszoner</firstterm
 >. Den lokala tiden är samma i en given zon, men tiden i varje zon är en timme <emphasis
 >tidigare</emphasis
-> än tiden i den angränsande zonen österut. I själva verket är detta en idealiserad förenkling. Verkliga tidzonegränser är inte raka vertikala linjer, eftersom de ofta följer nationsgränser och andra politiska hänsyn. </para
+> än tiden i den angränsande zonen österut. I själva verket är detta en idealiserad förenkling. Verkliga tidszongränser är inte raka vertikala linjer, eftersom de ofta följer nationsgränser och andra politiska hänsyn. </para
 ><para
 >Observera att eftersom den lokala tiden alltid ökar med en timme när man förflyttar sig mellan zoner österut, när man väl flyttat sig genom alla 24 tidzonerna, är man en hel dag tidigare än där man började. Vi hanterar den här paradoxen genom att definiera den <firstterm
 >internationella datumlinjen</firstterm

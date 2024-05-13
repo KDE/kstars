@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 01:54+0000\n"
-"PO-Revision-Date: 2024-04-25 10:33+0200\n"
+"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"PO-Revision-Date: 2024-05-12 15:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -547,7 +547,7 @@ msgstr "Voortzetten"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:681 fitsviewer/fitstab.cpp:700
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2894,7 +2894,7 @@ msgstr "Type van mapping"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
@@ -6498,7 +6498,7 @@ msgid "Capture error. Aborting..."
 msgstr "Fout bij opname! Wordt afgebroken..."
 
 #: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
-#: ekos/capture/captureprocess.cpp:2107
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Volgende poging tot opnemen #%1"
@@ -6598,7 +6598,7 @@ msgstr "Kon niet schrijven naar bestand %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1715
-#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7249,7 +7249,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Uitlijnlijst Ekos openen"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1714
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -10227,7 +10227,7 @@ msgstr "Opnemen"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:730
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -10555,38 +10555,30 @@ msgstr "Invoer:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>De uurhoek plotten van de opstelling.</p></body></html>"
+"<html><head/><body><p>Het vorige bestand .analyse tonen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
-#, fuzzy, kde-format
-#| msgid "<"
+#, kde-format
 msgid "<<"
-msgstr "<"
+msgstr "<<"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the Petzval surface.</p></body></"
-#| "html>"
+#, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit activeren om het Petzval oppervlak te tonen</p></"
-"body></html>"
+"<html><head/><body><p>Volgende bestand .analyse tonen</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
-#, fuzzy, kde-format
-#| msgid ">"
+#, kde-format
 msgid ">>"
-msgstr ">"
+msgstr ">>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, inputCombo)
 #: ekos/analyze/analyze.ui:161
@@ -15464,7 +15456,7 @@ msgstr "Wachtrij kon niet worden opgeslagen"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Wilt u status van alle jobs werkelijk terugzetten?"
 
-#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2618
+#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2616
 #, kde-format
 msgid "Reset job status"
 msgstr "Jobstatus terugzetten"
@@ -16051,7 +16043,7 @@ msgstr "Fout: Verbinding met CCD verbroken."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Kan ADU-niveaus niet berekenen in niet-FITS afbeeldingen."
 
-#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2097
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Opnemen mislukt. Zie INDI-besturingspaneel voor details."
@@ -16061,77 +16053,77 @@ msgstr "Opnemen mislukt. Zie INDI-besturingspaneel voor details."
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Downloadtijd: %1 s, schatting nieuwe downloadtijd: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1725
+#: ekos/capture/captureprocess.cpp:1723
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Afbeelding %1 uit %2 ontvangen."
 
-#: ekos/capture/captureprocess.cpp:1759
+#: ekos/capture/captureprocess.cpp:1757
 #, kde-format
 msgid "Captured %1"
 msgstr "Opgenomen %1"
 
-#: ekos/capture/captureprocess.cpp:1765
+#: ekos/capture/captureprocess.cpp:1763
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "WAARSCHUWING: overblijvende en potentieel onbekende plaatshouders %1 in %2"
 
-#: ekos/capture/captureprocess.cpp:1798
+#: ekos/capture/captureprocess.cpp:1796
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Script %1 voor het opnemen wordt uitgevoerd"
 
-#: ekos/capture/captureprocess.cpp:1813
+#: ekos/capture/captureprocess.cpp:1811
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Pre-opnamescript beëindigd met code %1."
 
-#: ekos/capture/captureprocess.cpp:1821
+#: ekos/capture/captureprocess.cpp:1819
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Post opnamescript beëindigd met code %1."
 
-#: ekos/capture/captureprocess.cpp:1833
+#: ekos/capture/captureprocess.cpp:1831
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Meridiaanflip wordt uitgevoerd..."
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Pre-jobscript beëindigd met code %1."
 
-#: ekos/capture/captureprocess.cpp:1848
+#: ekos/capture/captureprocess.cpp:1846
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Post-jobscript beëindigd met code %1."
 
-#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2027 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Belichtingstijd verlopen. Wordt afgebroken..."
 
-#: ekos/capture/captureprocess.cpp:2036
+#: ekos/capture/captureprocess.cpp:2034
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Belichtingstijd verlopen. Meer dan 3 zijn gedetecteerd, het stuurprogramma "
 "zal opnieuw gestart worden."
 
-#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:981
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Belichtingstijd verlopen. Belichten wordt herstart..."
 
-#: ekos/capture/captureprocess.cpp:2080
+#: ekos/capture/captureprocess.cpp:2078
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Belichtingstijd verlopen. Te veel. Wordt afgebroken..."
 
-#: ekos/capture/captureprocess.cpp:2158
+#: ekos/capture/captureprocess.cpp:2156
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16140,18 +16132,18 @@ msgstr ""
 "Calibratie flat is mislukt. Opgenomen afbeelding is slechts %1-bit, de "
 "gewenste ADU is %2."
 
-#: ekos/capture/captureprocess.cpp:2169
+#: ekos/capture/captureprocess.cpp:2167
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "Huidige afbeelding is verzadigd (%1).  Volgende belichting is %2 seconden."
 
-#: ekos/capture/captureprocess.cpp:2191
+#: ekos/capture/captureprocess.cpp:2189
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Huidige ADU %1 is binnen  tolerantiebereik doel ADU."
 
-#: ekos/capture/captureprocess.cpp:2220
+#: ekos/capture/captureprocess.cpp:2218
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16160,24 +16152,24 @@ msgstr ""
 "Kan de optimale belichtingsinstellingen niet berekenen, neem aub. de flats "
 "handmatig op."
 
-#: ekos/capture/captureprocess.cpp:2228
+#: ekos/capture/captureprocess.cpp:2226
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 "Huidige ADU (Analoog-naar-Digitale eenheid) is %1 Volgende belichting is %2 "
 "seconden."
 
-#: ekos/capture/captureprocess.cpp:2448
+#: ekos/capture/captureprocess.cpp:2446
 #, kde-format
 msgid "%1 Preview"
 msgstr "Voorbeeld %1"
 
-#: ekos/capture/captureprocess.cpp:2567
+#: ekos/capture/captureprocess.cpp:2565
 #, kde-format
 msgid "Sequence paused."
 msgstr "Serie tijdelijk gestopt"
 
-#: ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/captureprocess.cpp:2615
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16186,7 +16178,7 @@ msgstr ""
 "Alle jobs zijn gedaan. Wilt u de status van alle jobs terugzetten en opnames "
 "herstarten?"
 
-#: ekos/capture/captureprocess.cpp:2631
+#: ekos/capture/captureprocess.cpp:2629
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16195,12 +16187,12 @@ msgstr ""
 "Waarschuwing: \"Eerst altijd rij op nul stellen\" is aangezet, en dit stelt "
 "alle rij-tellingen op 0."
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2744
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Wilt u echt cameradriver %1 herstarten?"
 
-#: ekos/capture/captureprocess.cpp:2747
+#: ekos/capture/captureprocess.cpp:2745
 #, kde-format
 msgid "Driver Restart"
 msgstr "Driver herstarten"
@@ -17567,7 +17559,7 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:957
+#: ekos/ekoslive/message.cpp:959
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaïek importeren is mislukt."
@@ -23708,22 +23700,22 @@ msgstr "Locatie bijgewerkt naar %1"
 msgid "Failed to update site location to %1. City not found."
 msgstr "Bijwerken locatie naar %1 mislukt. Locatie niet gevonden."
 
-#: ekos/manager.cpp:2792
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Debugs loggen activeren van %1 ..."
 
-#: ekos/manager.cpp:2800
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Debugs loggen afsluiten van %1 ..."
 
-#: ekos/manager.cpp:2828
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Debugs loggen opnieuw activeren van %1 ..."
 
-#: ekos/manager.cpp:2840
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Debugs loggen opnieuw afsluiten van %1 ..."
@@ -24892,8 +24884,8 @@ msgstr "Slaving is aan."
 msgid "Slaving deactivated."
 msgstr "Slaving uitgezet."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:677
-#: fitsviewer/fitstab.cpp:696
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
+#: fitsviewer/fitstab.cpp:702
 #, kde-format
 msgid "Aborting..."
 msgstr "Afbreken..."
@@ -24946,10 +24938,10 @@ msgid "You must restart KStars for this change to take effect."
 msgstr "KStars moet worden herstart voordat wijziging effect heeft."
 
 #: ekos/opsekos.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set an alternate base directory for your captured images"
+#, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "Stel een alternatieve basismap in voor de opnames"
+msgstr ""
+"Stel een alternatieve basismap in voor opgenomen afbeeldingen van Analyse in"
 
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
 #: ekos/opsekos.ui:14
@@ -25501,26 +25493,28 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Als Analyze actief is en Ekos is niet verbonden, "
+"verbind dan opnieuw, een nieuw bestand .analyze zal aangemaakt en beschreven "
+"worden en de grafieken in Analyse zullen alleen de nieuwe sessie tonen.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:923
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr ""
+msgstr "Analyse opnieuw starten wanneer Ekos opnieuw start"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:947
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Alternative Image Directory: "
-msgstr "Stel een alternatieve basismap in voor afbeeldingsbestanden"
+msgstr "Alternatieve afbeeldingsmap:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:966
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "Stel een alternatieve basismap in voor afbeeldingsbestanden"
+msgstr "Stel een alternatieve map in voor Analyse"
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -29713,143 +29707,143 @@ msgstr "Afbeelding opslaan"
 msgid "File saved to %1"
 msgstr "Bestand opgeslagen in %1"
 
-#: fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:692
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraheren..."
 
-#: fitsviewer/fitstab.cpp:704
+#: fitsviewer/fitstab.cpp:710
 #, kde-format
 msgid "Solving..."
 msgstr "Oplossen..."
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:723
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Tijd voor extraheren is verlopen: %1s"
 
-#: fitsviewer/fitstab.cpp:726
+#: fitsviewer/fitstab.cpp:732
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Extraheren is mislukt: %1s"
 
-#: fitsviewer/fitstab.cpp:735
+#: fitsviewer/fitstab.cpp:741
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "%1 sterren geëxtraheerd (%2 ongefilterd) in %3s"
 
-#: fitsviewer/fitstab.cpp:783
+#: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Tijd voor oplossen is verlopen: %1s"
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:794
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Oplossen is mislukt: %1s"
 
-#: fitsviewer/fitstab.cpp:948
+#: fitsviewer/fitstab.cpp:954
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Waarschuwing! Dit hulpmiddel ondersteunt alleen de interne oplosser "
 "StellarSolver."
 
-#: fitsviewer/fitstab.cpp:949
+#: fitsviewer/fitstab.cpp:955
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Wijzig daarnaar in de het optiemenu Ekos uitlijnen."
 
-#: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
+#: fitsviewer/fitsview.cpp:510 fitsviewer/fitsview.cpp:520
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "Opnieuw schalen afbeelding is mislukt."
 
-#: fitsviewer/fitsview.cpp:704
+#: fitsviewer/fitsview.cpp:711
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "Kan niet verder inzoomen wegens actieve modus beperkte bronnen."
 
-#: fitsviewer/fitsview.cpp:1740
+#: fitsviewer/fitsview.cpp:1747
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1757
+#: fitsviewer/fitsview.cpp:1764
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2212
+#: fitsviewer/fitsview.cpp:2219
 #, kde-format
 msgid "Finding stars..."
 msgstr "Sterren zoeken..."
 
-#: fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2460
 #, kde-format
 msgid "Zoom In"
 msgstr "Inzoomen"
 
-#: fitsviewer/fitsview.cpp:2456
+#: fitsviewer/fitsview.cpp:2463
 #, kde-format
 msgid "Zoom Out"
 msgstr "Uitzoomen"
 
-#: fitsviewer/fitsview.cpp:2459
+#: fitsviewer/fitsview.cpp:2466
 #, kde-format
 msgid "Default Zoom"
 msgstr "Standaard zoom"
 
-#: fitsviewer/fitsview.cpp:2462
+#: fitsviewer/fitsview.cpp:2469
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Passend zoomen"
 
-#: fitsviewer/fitsview.cpp:2465
+#: fitsviewer/fitsview.cpp:2472
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Uitrekken aan/uit"
 
-#: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Draadkruis tonen"
 
-#: fitsviewer/fitsview.cpp:2477 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Pixel roosterlijnen tonen"
 
-#: fitsviewer/fitsview.cpp:2482 fitsviewer/fitsview.cpp:2591
+#: fitsviewer/fitsview.cpp:2489 fitsviewer/fitsview.cpp:2598
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Sterren in afbeelding detecteren"
 
-#: fitsviewer/fitsview.cpp:2488
+#: fitsviewer/fitsview.cpp:2495
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Profiel van ster bekijken..."
 
-#: fitsviewer/fitsview.cpp:2498 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
 #: fitsviewer/fitsviewer.cpp:1273
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Equatoriale roosterlijnen tonen"
 
-#: fitsviewer/fitsview.cpp:2504 fitsviewer/fitsviewer.cpp:246
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
 #: fitsviewer/fitsviewer.cpp:1275
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Objecten in afbeelding tonen"
 
-#: fitsviewer/fitsview.cpp:2510
+#: fitsviewer/fitsview.cpp:2517
 #, kde-format
 msgid "Center Telescope"
 msgstr "Telescoop centreren"
 
-#: fitsviewer/fitsview.cpp:2516 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "HiPS-overlegvel tonen"
@@ -39186,12 +39180,17 @@ msgid ""
 "analyze file will be created and written to, and the graphs in Analyze will "
 "only show the new session."
 msgstr ""
+"Als Analyse actief is en Ekos is niet verbonden, verbind dan opnieuw, een "
+"nieuw bestand .analyze zal aangemaakt en beschreven worden en de grafieken "
+"in Analyse zullen alleen de nieuwe sessie tonen."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeImageDirectory), group (Analyze)
 #: kstars.kcfg:3174
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
+"Alternatieve te gebruiken map voor zoeken naar afbeeldingsbestanden voor "
+"analyse."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3178

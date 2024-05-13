@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect2 id="ekos-focus">
+<sect1 id="ekos-focus">
   <title
 >Fokusering</title>
 
@@ -14,7 +14,7 @@
 >Fokusering</tertiary>
   </indexterm>
 
-  <sect3 id="focus-theory">
+  <sect2 id="focus-theory">
     <title
 >Operationsteori</title>
 
@@ -166,9 +166,9 @@
         </itemizedlist>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="optical-train-group">
+  <sect2 id="optical-train-group">
     <title
 >Optikgrupp</title>
 
@@ -209,10 +209,18 @@
     </itemizedlist>
 
     <para
->Fokuseringsparametrar sparas automatiskt per optik.</para>
-  </sect3>
+>Fokuseringsparametrar sparas automatiskt per optik så att flera optiker kan ställas in för att hantera olika inställningar med olika parametrar.</para>
 
-  <sect3 id="focus-focuser-group">
+    <para
+>När en ny optik skapas, försöker fokuseringen ställa in värden från andra liknande optiker. Egenskaperna som måste matcha för det är fokuseringsenheten och teleskoptypen. Om det är den första optiken för den valda fokuseringsenheten och teleskoptypen skapas förvalda värden.</para>
+
+    <para
+>Det rekommenderas att använda verktyget <link linkend="focus-advisor"
+>Fokuseringsrådgivare</link
+> för att ställa in parametrarna på lämpligt sätt.</para>
+  </sect2>
+
+  <sect2 id="focus-focuser-group">
     <title
 >Fokuseringsgrupp</title>
 
@@ -354,9 +362,9 @@
 
     <para
 >Om du är helt ny inom astronomi är det alltid en bra idé att bekanta dig med din utrustning i dagsljus. Det inkluderar att få ungefärlig fokuseringsposition på ett avlägset objekt. Det ger ett bra utgångsläge för att fokusera på stjärnor när natten kommer.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-ccd-filter-wheel">
+  <sect2 id="focus-ccd-filter-wheel">
     <title
 >Kamera- och filterhjulsgruppen</title>
 
@@ -377,7 +385,7 @@
     </screenshot>
 
     <para
->Den här sektionen med parametrar hanterar kamera- och filterinställningar att använda vid fokusering.</para>
+>Det här avsnittet med parametrar hanterar kamera- och filterinställningar att använda vid fokusering.</para>
 
     <para
 >Den övre raden gör det möjligt att ställa in CCD-parametrar.</para>
@@ -460,7 +468,7 @@
 ><imageobject
 ><imagedata fileref="view-filter.png" format="PNG"/></imageobject
 ></inlinemediaobject
-> för att öppna rutan <link linkend="focus-filter-settings" 
+> för att öppna rutan <link linkend="focus-filter-settings"
 >Filterinställningar</link
 >. Det gör att ett antal parametrar kan ställas in per filter som ska användas under en automatisk fokuseringskörning.</para>
       </listitem>
@@ -472,7 +480,115 @@
 > återställer fokuseringens delbild till fullskärm.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
+
+  <sect2 id="focus-tools">
+    <title
+>Verktygsgrupp</title>
+
+    <screenshot>
+      <screeninfo
+>Fokuseringsverktygsgrupp </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_tools_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Fokuseringsverktygsgrupp</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Det här avsnittet beskriver fokuseringsverktygen som för närvarande är tillgängliga.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Knappen <guibutton
+>Aberrationsinspektion</guibutton
+> startar en körning av <link linkend="focus-aberration-inspector"
+>aberrationsinspektion</link
+>. Knappen <guibutton
+>Stoppa</guibutton
+> kan användas för att stoppa körningen. </para>
+      </listitem>
+      <listitem>
+        <para
+>Knappen <guibutton
+>KFZ</guibutton
+> startar verktyget <link linkend="focus-cfz"
+>Kritisk fokuseringszon</link
+>. </para>
+      </listitem>
+      <listitem>
+        <para
+>Knappen <guibutton
+>Rådgivare</guibutton
+> startar verktyget <link linkend="focus-advisor"
+>Fokuseringsrådgivare</link
+>. </para>
+      </listitem>
+      <listitem>
+        <para
+>Kryssrutan <guilabel
+>Tvinga AF</guilabel
+> kan användas när en sekvens är aktiv antingen i tagning- eller schemaläggning. När den markeras, startas en automatisk fokusering när den för närvarande aktiva delbilden är slutförd. </para>
+      </listitem>
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="focus-options">
+  <title
+>Fokuseringsinställningar</title>
+
+  <screenshot>
+    <screeninfo
+>Fokuseringsinställningar </screeninfo>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="focus_options.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Fokuseringsinställningar</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>Parametrar för att ställa in fokusering går att komma åt genom att klicka på knappen <guibutton
+>Alternativ...</guibutton
+>. Det startar alternativdialogrutan med tre rutor:</para>
+
+  <itemizedlist>
+    <listitem>
+      <para
+><link linkend="focus-settings"
+>Inställningar</link
+>: De är allmänna fokuseringsinställningar.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-process"
+>Process</link
+>: Parametrar som hör ihop med den automatiska fokuseringsprocessen.</para>
+    </listitem>
+    <listitem>
+      <para
+><link linkend="focus-mechanics"
+>Mekanik</link
+>: Parametrar som hör ihop med fokuseringsenhetens mekanik.</para>
+    </listitem>
+  </itemizedlist>
+
+  <para
+>Parametrarna lagras för varje optik. Det gör att olika inställningar kan lagras för olika utrustning. Parametrar lagras när de ändras, så vid start läses den senast använda inställningen för den valda optiken in.</para>
 
   <sect3 id="focus-settings">
     <title
@@ -495,8 +611,7 @@
     </screenshot>
 
     <para
->Därefter följer fem flikar med parametrar. Parametrarna förblir kvar mellan sessioner. Först ut är fönstret Inställningar.</para>
-
+>Allmänna parametrar:</para>
     <itemizedlist>
       <listitem>
         <para
@@ -538,7 +653,7 @@
 >: Välj för att använda hela fältet för kameran. Med läget väljer fokuseringen automatiskt flera stjärnor för användning i en automatisk fokuseringskörning. Alternativet till det är <guilabel
 >Delbild</guilabel
 >.</para>
-        </listitem>
+      </listitem>
 
       <listitem>
         <para
@@ -579,73 +694,80 @@
 >Stoppa guidning</guilabel
 >. Det låter eventuella vibrationer i optiken minska genom att vänta så här många sekunder efter att den automatiska fokuseringsprocessen har slutförts, innan guidningen startas om.</para>
       </listitem>
+    </itemizedlist>
 
-      <listitem>
-        <para
->Nästa uppsättning alternativknappar är relaterade till <emphasis role="bold"
+    <para
+>Maskparametrar:</para>
+
+    <para
+>Kontrollerna gäller <emphasis role="bold"
 >Maskningsalternativ</emphasis
-> som används med <guilabel
+> som ska användas i läget <guilabel
 >Hela fältet</guilabel
->.</para>
-        <para
->Effekten av maskningsalternativ kan ses i <link linkend="focus-display"
+>. Effekten av maskningsalternativ kan ses i <link linkend="focus-display"
 >FITS-visningen</link
 >.</para>
-	  <itemizedlist>
-	    <listitem>
-	      <para
+    <itemizedlist>
+      <listitem>
+        <para
 ><guilabel
 >Använd alla stjärnor för fokusering</guilabel
 >: Välj alternativet om alla stjärnor i fältet ska beaktas vid fokusering.</para>
-	    </listitem>
+      </listitem>
 	    
-	    <listitem>
-              <para
+      <listitem>
+        <para
 ><guilabel
 >Ringformad mask:</guilabel
 >: Alternativ tillhandahåller två inmatningsfält som tillsammans definierar en ring över kamerans synfält. Stjärnor som faller utanför ringen bortses från vid bearbetning. Inställning av ett inre värde över 0 % gör att stjärnor i mitten av synfältet bortses från. Det kan vara användbart för att undvika att använda stjärnor från bildens mål (till exempel en galax) i fokuseringssyfte. Inställning av ett yttre värde under 100 % gör att stjärnor i kanterna av synfältet bortses ifrån under fokuseringen. Det kan vara användbart om du inte har ett plant fält ut till kanterna på synfältet.</para>
-	    </listitem>
-
-	    <listitem>
-	      <para
-><guilabel
->Mosaikmask</guilabel
->: En 3 x 3 mosaik består av rutor från bildens centrum, hörn och kanter. Alternativet är användbart om du vill inspektera optikens prestanda: Du kanske känner till det från skriptet PixInsight Aberration Inspector. Rutornas storlek kan ställas in i procent av bildrutans bredd, med mellanrumsvärdet som anger utrymmet mellan rutorna.</para>
-                <para
->Det finns tre användningsfall för Mosaikmask: <itemizedlist>
-                  <listitem>
-                    <para
->Kontrollerar fokus i alla delar av sensorn: Masken möjliggör en enkel visuell inspektion och jämförelse av stjärnor i centrum, hörnen och kanterna på sensorn. Det är särskilt användbart för optik som visar aberration om fokus inte uppnås till 100 %.</para>
-                  </listitem>
-                  <listitem>
-		    <para
->Korrigering av bildlutning: Speciellt stora sensorer är mycket känsliga för felaktigt avstånd och lutning av sensorn. I sådana fall visar bilden aberration, särskilt i bildhörnen. Om alla hörn visar samma effekt behöver avståndet korrigeras. Om aberrationerna i hörnen skiljer sig är det vanligtvis resultatet av en lutad sensor.</para>
-                  </listitem>
-                  <listitem>
-                    <para
->Kollimerande Newtonteleskop: Inspektion av bildrutor i oskarpt tillstånd används vanligtvis för att kollimering av Newtonteleskop. Se till exempel Tommy Nawratils <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
-> The Photonewton Collimation Primer</ulink
-> för mer information.</para>
-                  </listitem>
-                </itemizedlist
-></para>
-	    </listitem
->	    
-	  </itemizedlist>
       </listitem>
 
       <listitem>
         <para
+><guilabel
+>Mosaikmask</guilabel
+>: En 3 x 3 mosaik består av rutor från bildens centrum, hörn och kanter. Alternativet är användbart om du vill inspektera optikens prestanda: Du kanske känner till det från skriptet PixInsight Aberration Inspector. Rutornas storlek kan ställas in i procent av bildrutans bredd, med mellanrumsvärdet som anger utrymmet mellan rutorna.</para>
+        <para
+>Det finns fyra användningsfall för Mosaikmask: <itemizedlist>
+            <listitem>
+                <para
+>Kontrollerar fokus i alla delar av sensorn: Masken möjliggör en enkel visuell inspektion och jämförelse av stjärnor i centrum, hörnen och kanterna på sensorn. Det är särskilt användbart för optik som visar aberration om fokus inte uppnås till 100 %.</para>
+            </listitem>
+            <listitem>
+                <para
+>Korrigering av bildlutning: Speciellt stora sensorer är mycket känsliga för felaktigt avstånd och lutning av sensorn. I sådana fall visar bilden aberration, särskilt i bildhörnen. Om alla hörn visar samma effekt behöver avståndet korrigeras. Om aberrationerna i hörnen skiljer sig är det vanligtvis resultatet av en lutad sensor.</para>
+            </listitem>
+            <listitem>
+                <para
+>Kollimerande Newtonteleskop: Inspektion av bildrutor i oskarpt tillstånd används vanligtvis för att kollimering av Newtonteleskop. Se till exempel Tommy Nawratils <ulink url="https://teleskop-austria.at/information/pdf/JUS_Photonewton_Collimation_Primer_EN.pdf"
+> The Photonewton Collimation Primer</ulink
+> för mer information.</para>
+            </listitem>
+            <listitem>
+                <para
+>Köra verktyget <link linkend="focus-aberration-inspector"
+>Aberrationsinspektion</link
+>.</para>
+            </listitem>
+          </itemizedlist
+></para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Adaptiva fokuseringsparametrar:</para>
+
+    <para
 >Nästa uppsättning komponenter är relaterade till <emphasis role="bold"
 >Adaptiv fokusering</emphasis
->. Det är en experimentell funktion i Ekos. Tanken här är att hålla teleskopet fokuserat genom att anpassa fokuseringspositionen baserat på förändringar i miljöförhållandena utan att behöva utföra en fullständig automatisk fokuseringskörning. Se avsnittet <link linkend="focus-adaptive"
+>. Tanken här är att hålla teleskopet fokuserat genom att anpassa fokuseringspositionen baserat på förändringar i miljöförhållandena utan att behöva utföra en fullständig automatisk fokuseringskörning. Se avsnittet <link linkend="focus-adaptive"
 >Adaptiv fokusering</link
 > för mer information.</para>
 
-        <para
+    <para
 >Till exempel när temperaturen ändras under en bildbehandlingssession ändras fokuseringspunkten. Genom att sampla temperaturen mellan delbilder är det möjligt att först beräkna temperaturförändringen och sedan omvandla den till ett antal tick av fokuseringsrörelser att utföra mellan delbilder.</para>
 
-        <para
+    <para
 >För att kunna använda <emphasis role="bold"
 >Adaptiv fokusering</emphasis
 > är det nödvändigt att ställa in viss information om systemet. I synnerhet måste du tala om för Ekos hur många tick (och i vilken riktning) som ska fokuseringsenheten ska flyttas när miljöförhållandena ändras. Det beskrivs i fönstret <link linkend="focus-filter-settings"
@@ -656,7 +778,7 @@
 ></inlinemediaobject
 >.</para>
 
-        <para
+    <para
 >Följande komponenter är tillgängliga: <itemizedlist>
             <listitem>
               <para
@@ -703,10 +825,8 @@
 >Adaptiv fokusering</guilabel
 > avmarkerat tills den kontrolleras manuellt av användaren.</para>
             </listitem>
-          </itemizedlist>
-        </para>
-      </listitem>
-    </itemizedlist>
+        </itemizedlist>
+    </para>
   </sect3>
 
   <sect3 id="focus-process">
@@ -730,7 +850,7 @@
     </screenshot>
 
     <para
->Det här är parameterrutan för fokuseringsprocessen. Komponenter visas bara om de är relevanta för de val som gjorts.</para>
+>Fokuseringsprocessens parametrar:</para>
 
     <itemizedlist>
       <listitem>
@@ -785,7 +905,21 @@
 >SEP-profil</guilabel
 >: Om stjärndetekteringsalgoritmen är inställd till <emphasis
 >SEP</emphasis
->, välj då en parameterprofil att använda med algoritmen. Det rekommenderas att använda standardprofilen 1-Focus-Default som utgångspunkt.</para>
+>, välj då en parameterprofil att använda med algoritmen. Följande rekommenderas:</para>
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default:</emphasis
+> för teleskop som  inte har en central obstruktion, såsom en refraktor.</para>
+          </listitem>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default-Donut:</emphasis
+> för teleskop som har en central obstruktion såsom ett Newton-, SCT-, RASA-, Ritchey-Cretien-teleskop, etc.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -794,7 +928,7 @@
 >Algoritm</guilabel
 >: Välj den automatiska fokuseringsprocessens algoritm: </para>
 
-        <itemizedlist>
+      <itemizedlist>
         <listitem>
           <para
 ><emphasis role="bold"
@@ -838,174 +972,177 @@
 >: Startar med den iterativa metoden. Vid överkorsning till v-kurvans andra sidan, beräknas polynomiska anpassningskoefficienter tillsammans med en möjlig minimal lösning. Algoritmen kan vara snabbare än ett rent iterativ tillvägagångssätt givet en bra datamängd.</para>
         </listitem>
       </itemizedlist>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Kurvanpassning</guilabel
 >: Typ av kurva att anpassa till datapunkterna. </para>
-      <itemizedlist>
-        <listitem>
-          <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Hyperbel</emphasis
 >: Anpassar en hyperbel som använder en icke-linjär minsta kvadratalgoritm som tillhandahålls av GSL (GNU Science Library). Se <link linkend="Levenberg-Marquardt"
 >Levenberg-Marquardt lösningsverktyg</link
 > för mer information.</para>
 
-          <para
+            <para
 >Det är det rekommenderade alternativet.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Parabel</emphasis
 >: Anpassar en parabel med hjälp av en icke-linjär minsta kvadratalgoritm som tillhandahålls av GSL (GNU Science Library). Se <link linkend="Levenberg-Marquardt"
 >Levenberg-Marquardt lösningsverktyg</link
 > för mer information.</para>
-        </listitem>
+          </listitem>
 
-        <listitem>
-          <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Kvadratisk</emphasis
 >: Använder en andragradsekvation med en linjär minsta kvadratalgoritm som tillhandahålls av GSL (GNU Science Library). Det är i själva verket en parabolisk kurva.</para>
 
-          <para
+            <para
 >Det rekommenderas inte längre att använda kurvan.</para>
-        </listitem>
-      </itemizedlist>
-    </listitem>
+          </listitem>
+        </itemizedlist>
+      </listitem>
 
-    <listitem>
-    <para
+      <listitem>
+        <para
 ><guilabel
 >Mått</guilabel
 >: Välj mått att använda i fokuseringsprocessen. Följande är tillgängliga:</para>
 
-    <itemizedlist>
-      <listitem>
-        <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >HFR</emphasis
 >: Halvflödesradie (HFR) är det rekommenderade måttet. När en stjärna detekteras beräknar Ekos HFR för stjärnan. Det är radien för en tänkt cirkel, centrerad i stjärnans mitt, som omsluter halva stjärnans totala flöde.</para>
 
-        <para
+            <para
 >Den bästa fokuseringspunkten motsvarar minimal HFR.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Justerad HFR</emphasis
->: Det är en experimentell funktion som använder en HFR-beräkning justerad enligt ljusstyrka för att ta hänsyn till det faktum att HFR för ljusstarkare stjärnor är större än för mindre stjärnor.</para>
+>: Funktionen använder en HFR-beräkning justerad enligt ljusstyrka för att ta hänsyn till det faktum att HFR för ljusstarkare stjärnor är större än för mindre stjärnor.</para>
 
-        <para
+            <para
 >Algoritmen justerar värdet på uppmätt HFR, vanligtvis uppåt, så att HFR som erhålls med den justerade HFR metoden blir högre än de uppmätta HFR-värdena. Det betyder inte att du får sämre resultat genom att använda justerad HFR, bara att måttet är annorlunda.</para>
 
-        <para
+            <para
 >När måttet används är det vanligt att få mindre felstaplar för datapunkterna när <guilabel
 >Använd viktning</guilabel
 > är valt.</para>
 
-        <para
+            <para
 >Den bästa fokuseringspunkten motsvarar minimal justerad HFR.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >FWHM</emphasis
->: Det är en experimentell funktion som anpassar en Gaussisk yta till varje stjärna och använder den för att beräkna stjärnans fulla bredd och halva maximum (FWHM). FWHM är bredden på en cirkel (eller ellips) centrerad på stjärnans mitt som når stjärnans kant med halva dess maximala intensitet.</para>
+>: Funktionen anpassar en Gaussisk yta till varje stjärna och använder den för att beräkna stjärnans fulla bredd och halva maximum (FWHM). FWHM är bredden på en cirkel (eller ellips) centrerad på stjärnans mitt som når stjärnans kant med halva dess maximala intensitet.</para>
 
-        <para
+            <para
 >Den bästa fokuseringspunkten motsvarar minimal FWHM.</para>
 
-        <para
+            <para
 >Förvänta dig att FWHM är ungefär dubbelt så stort som en stjärnas HFR.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Antal stjärnor</emphasis
->: Det är en experimentell funktion som beräknar antalet stjärnor på bilden och använder värdet som fokuseringsmått. Tanken är att när du flyttar dig närmare fokus så blir fler stjärnor detekterbara.</para>
+>: Funktionen beräknar antalet stjärnor på bilden och använder värdet som fokuseringsmått. Tanken är att när du flyttar dig närmare fokus så blir fler stjärnor detekterbara.</para>
 
-        <para
+            <para
 >Fördelen med åtgärden är att den är väldigt enkel och inte kräver algoritmer för att beräkna HFR eller FWHM.</para>
 
-        <para
+            <para
 >Den bästa fokuseringspunkten motsvarar maximalt antal stjärnor.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Fourier</emphasis
 >: Fourier gör en Fouriertransform av bilden och beräknar bildens effekt i frekvensrymden. Antagandet är att för en astronomisk bild av stjärnor och bakgrund kommer stjärnorna att vara Gaussiska. Under en Fouriertransform övergår en Gaussisk funktion till en annan Gaussisk funktion, men bredare stjärnor förvandlas till smalare Gaussiska funktioner i frekvensrymden och vice versa. Så att summeras frekvensrymdens innehåll i  i fokus, vilket i själva verket är ett mått på effekt, är ett maximum.</para>
 
-        <para
+            <para
 >Det följer huvudidén som Tan och Schulz föreslog i sin artikel: <ulink url="https://arxiv.org/pdf/2201.12466.pdf"
 >A Fourier method for the determination of focus for telescopes with stars</ulink
 > . Observera att dokumentet ger andra bearbetningsförslag utöver idén om att använda Fouriertransformer som inte ingår i Ekos</para>
 
-        <para
+            <para
 >Det är en relativt ny metod i astronomivärlden och kräver ingen stjärndetektering. Tan och Schulz rapporterar goda resultat med både amatörteleskop och professionella teleskop.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
-    </itemizedlist>
-    </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >PSF</guilabel
 >: Om <guilabel
 >Mått</guilabel
 > är inställt till FWHM, kan PSF-komponent väljas för att använda vid anpassning av en yta till stjärnan. För närvarande stöds bara Gaussiskt.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Använd viktning</guilabel
 >: Det är endast tillgängligt med den engångslinjära fokuseringsalgoritmen och kurvanpassningar av hyperbel och parabel. Det kräver att hela fältet är valt. Alternativet beräknar standardavvikelsen för stjärnmått och använder kvadraten på denna (matematiskt variansen) som en viktning i kurvanpassningsprocessen. Fördelen med det är att datapunkter med mindre tillförlitliga data och därför större HFR-standardavvikelser kommer att tillmätas mindre viktning än mer tillförlitliga datapunkter. Om alternativet är avmarkerat, och för all annan kurvanpassning där alternativet inte är tillåtet, ges alla datapunkter samma viktning i kurvanpassningsprocessen.</para>
 
-      <para
+        <para
 >Standardavvikelsen återges som en felstapel på V-kurvan för varje datapunkt.</para>
 
-      <para
+        <para
 >Det rekommenderas att alternativet markeras.</para>
 
-      <para
+        <para
 >Se <link linkend="Levenberg-Marquardt"
 >Levenberg-Marquardt lösningsverktyg</link
 > för mer information.</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >R²-gräns</guilabel
 >: Den är endast tillgängligt med den engångslinjära fokuseringsalgoritmen och kurvanpassningar för hyperbel och parabel. Som en del av den engångslinjära algoritmen beräknas hur mycket kurvan passar datapunkterna, eller <link linkend="Coefficient_of_Determination"
 >determinationskoefficienten, R²</link
 >. Alternativet tillåter att ett minsta acceptabelt värde på R² definieras som jämförs med värdet som erhålls från kurvanpassningsprocessen. Om minimivärdet inte har uppnåtts körs den automatiska fokuseringen igen. Endast en omkörning görs och även om minimivärdet R² inte har uppfyllts andra gången, anses den automatiska fokuseringskörningen ändå vara lyckad.</para>
 
-      <para
+        <para
 >Experimentera för att finna ett lämpligt värde men en bra utgångspunkt kan vara 0,8 eller 0,9</para>
-    </listitem>
+      </listitem>
 
-    <listitem>
-      <para
+      <listitem>
+        <para
 ><guilabel
 >Förfina kurvanpassning</guilabel
->: Det är ett experimentellt alternativ endast tillgängligt med den engångslinjära fokuseringsalgoritmen och kurvanpassningar för hyperbel och parabel. Om alternativet är markerat så anpassar Ekos en kurva i slutet av svepet av datapunkter och mäter R². Sedan används Peirces kriterium baserat på Goulds metodik för identifiering av extremvärden. Se <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
+>: Alternativet är endast tillgängligt med den engångslinjära fokuseringsalgoritmen och kurvanpassningar för hyperbel och parabel. Om alternativet är markerat så anpassar Ekos en kurva i slutet av svepet av datapunkter och mäter R². Sedan används Peirces kriterium baserat på Goulds metodik för identifiering av extremvärden. Se <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 >Peirce's criterion</ulink
 > för mer information, inklusive Peirces originalartikel och Goulds artikel som båda hänvisas till i anmärkningarna. Om Peirces kriterium upptäcker ett eller flera extremvärden, görs ytterligare ett försök till kurvanpassning med extremvärdena borttagna. Återigen beräknas R² och jämförs med den ursprungliga kurvanpassningens R². Om R² är bättre används den senaste körningen, om inte används den ursprungliga kurvanpassningen (med avvikelserna inkluderade).</para>
 
-      <para
+        <para
 >Extremvärden är tydligt markerade på V-kurvan med ett X genom datapunkten.</para>
+
+        <para
+>Det rekommenderas att alternativet markeras.</para>
       </listitem>
 
       <listitem>
@@ -1013,6 +1150,85 @@
 ><guilabel
 >Medelvärde över</guilabel
 >: Antal bildrutor att ta för varje datapunkt. Det är vanligtvis klokt att börja med en, men en ökning av värdet resulterar i en medelvärdesprocess för den stjärna som valts.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>HFR-medelvärdeskontroll</guilabel
+>: Liknande idé som <guilabel
+>Medelvärde över</guilabel
+> men i det här fallet är det HFR-kontrollen som medelvärdesbildas över det valda antalet bildrutor. Dessutom, om <guilabel
+>Algoritm</guilabel
+> är engångslinjär, medelvärdesbildas också den sista datapunkten i en automatisk fokuseringskörning, som är datapunkten i fokus, över det antalet bildrutor. Ange värdet 1 till att börja med. Det kan ökas om det är problem med att HFR-kontrollerade automatiska fokuseringskörningar utlöses av extremvärden av datapunkter när HFR-kontrollen körs.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Borttagning av ringar</guilabel
+>: Det är en experimentell funktion och bör användas med försiktighet. Syftet med borttagning av ringar är att förbättra fokusering för teleskop med en central obstruktion som skapar ringformade stjärnor när de är ur fokus, t.ex. Newton-, SCT-, RASA-, Ritchey-Cretiens-teleskop, etc.</para>
+
+        <para
+><guilabel
+>Borttagning av ringar</guilabel
+> är bara tillgängligt för engångslinjär, fasta steganta och KFZ-gång, kurvanpassning av hyperbel och parabel, och fokuseringsmätningar av HFR, justerad HFR och FBHM.</para>
+
+        <para
+>När <guilabel
+>Borttagning av ringar</guilabel
+> är markerat, är intermittent kurvanpassning stoppad och aktiveras bara i slutet av fokuseringssvepet. Det låter Borttagning av ringar behandla datapunkter längs kanten som kan påverkas av ringar bättre.</para>
+
+        <para
+>Följande delalternativ är tillgänglig inom Borttagning av ringar:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Tidsdilatation x</guilabel
+>: Funktion skalar exponeringstiden under automatisk fokusering från värdet som anges i fältet <guilabel
+>Exponering</guilabel
+> för de datapunkter som ligger längst bort från fokus. Datapunkter nära fokus tas med en icke skalad exponering. Till exempel, om fokus ställs in med en exponering på 2 s och Tidsdilatation x är inställd på 4, då används en exponering på 2 s * 4 = 8 s när autofokus flyttas ut för att ta sin första datapunkt. För varje efterföljande datapunkt reduceras exponeringen ner till 2 s nära punkten för optimalt fokus. När fokuseringsområdet rör sig förbi fokus, så skalas exponeringen uppåt till 8 s för den sista datapunkten.</para>
+
+            <para
+>Funktionens syfte är att öka ljusstyrkan för datapunkter ur fokus, som är svagare än datapunkter i fokus och därför svårare för stjärndetekteringen att lösa upp från bakgrundsbrus.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Exkludering av extremvärden</guilabel
+>: Det är en faktor för att skala hur aggressiv algoritmen för exkludering av extremvärden är när <guilabel
+>Förfina kurvanpassning</guilabel
+> är markerat. Ju större värdet är desto fler extremvärden exkluderas från kurvanpassningsprocessen. Förvalt värde är 0,2.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Sök efter startposition</guilabel
+>: Markera alternativet för att få en fokuseringsökning omkring fokuseringsenhetens nuvarande position för att hitta en ungefärlig optimal fokuseringsposition. Syftet med det är att säkerställa att automatisk fokusering startar nära fokuseringspositionen. Följande delalternativ är tillgängliga:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para
+><guilabel
+>Antal datapunkter</guilabel
+>: Antal datapunkter att använda i varje sökning. Ett bra värde att börja med är 5.</para>
+              </listitem>
+
+              <listitem>
+                <para
+><guilabel
+>Initial stegstorlek x</guilabel
+>: En multiplikativ faktor att använda för <guilabel
+>Initial stegstorlek</guilabel
+> för användning i Sök efter startposition. Förval är 1,0.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1104,7 +1320,7 @@
     </screenshot>
 
     <para
->Det här är fokuseringens ruta med mekanikparametrar.</para>
+>Fokuseringsmekanikparametrar:</para>
 
   <itemizedlist>
   <listitem>
@@ -1134,7 +1350,7 @@
         <para
 ><emphasis role="bold"
 >Fasta steg</emphasis
->: Det här experimentella alternativet är tillgängligt med engångslinjär <guilabel
+>: Funktionen är tillgänglig med engångslinjär <guilabel
 >Algoritm</guilabel
 >. Det är ganska likt Klassisk men <guilabel
 >Fasta steg</guilabel
@@ -1165,7 +1381,7 @@
         <para
 ><emphasis role="bold"
 >KFZ-gång</emphasis
->: Det här experimentella alternativet är tillgängligt med engångslinjär <guilabel
+>: Funktionen är tillgänglig med engångslinjär <guilabel
 >Algoritm</guilabel
 >. Det är en variant av Fasta steg så kommentarerna om dess gångsätt är tillämpliga här också.</para>
 
@@ -1278,6 +1494,13 @@
   <listitem>
     <para
 ><guilabel
+>AF-översvepsfördröjning:</guilabel
+>: Fördröjning efter den utåtgående rörelsen slutförs vid översvep och den inåtgående rörelsen. I allmänhet fungerar de flesta fokuseringsenheter utan fördröjning.</para>
+  </listitem>
+
+  <listitem>
+    <para
+><guilabel
 >Tidsgräns för tagning</guilabel
 >: Tiden i sekunder för att vänta på att en tagen bild tas emot innan en överskriden tidsgräns deklareras. Det ska bara hända om det finns problem med kameran under fokuseringsprocessen, så ställ in det till ett tillräckligt högt värde för att det inte ska inträffa under normal drift.</para>
   </listitem>
@@ -1290,8 +1513,9 @@
   </listitem>
   </itemizedlist>
   </sect3>
+  </sect2>
 
-  <sect3 id="focus-cfz">
+  <sect2 id="focus-cfz">
     <title
 >Fokuseringens kritiska fokuseringszon (KFZ)</title>
 
@@ -1312,7 +1536,7 @@
     </screenshot>
 
     <para
->Det här är fokuseringens ruta med KFZ-parametrar.</para>
+>Fokuseringens KFZ-parametrar:</para>
 
   <itemizedlist>
   <listitem>
@@ -1325,7 +1549,7 @@
 >Det krävs viss kunskap för att ställa in den korrekt. Det finns mycket information tillgänglig på internet.</para>
 
     <para
->Tanken med fliken KFZ är att den börjar med data om optiken som används från fliken Fokusering och använder den för att beräkna KFZ. Användaren kan justera parametrar för att undersöka olika scenarier och se hur de påverkar KFZ. Genom att klicka på knappen <guilabel
+>Tanken med dialogrutan KFZ är att den börjar med data om optiken som används från fliken Fokusering och använder den för att beräkna KFZ. Användaren kan justera parametrar för att undersöka olika scenarier och se hur de påverkar KFZ. Genom att klicka på knappen <guilabel
 >Återställ till optik</guilabel
 > återställs alla justerade parametrar till optikens värden.</para>
 
@@ -1337,7 +1561,7 @@
 >Fokuseringsmekanik </screeninfo>
       <mediaobject
 > <imageobject
-> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="75%"/>
+> <imagedata fileref="focus_cfz_moustache.png" format="PNG" width="50%"/>
         </imageobject
 ><textobject
 ><phrase
@@ -1349,7 +1573,7 @@
     <para
 >Det är nödvändigt att ange parametern <guilabel
 >Stegstorlek</guilabel
-> som specificerar hur långt ett tick flyttar fokuseringsenheten i mikrometer.</para>
+> som specificerar i mikrometer hur långt ett tick flyttar fokalplanet. För refraktorer finns det vanligtvis ett 1-till-1-förhållande mellan att flytta fokuseringsenheten som flyttar teleskopets mekanism och fokalplanets rörelse. För andra typer av teleskop är förhållandet sannolikt mer komplext. Se detaljer om teleskopet eller tillverkaren för denna information.</para>
 
     <para
 >Följande algoritmer är tillgängliga: <itemizedlist>
@@ -1357,14 +1581,14 @@
         <para
 ><emphasis role="bold"
 >Klassisk</emphasis
->: Det är den rekommenderade inställningen. Ekvationen som används visas uppe till höger i panelen och är den ekvation som oftast ses på Internet. Ekvationen kommer från linjär optikbehandling med diffraktionsringar och har kända begränsningar. Av den anledningen inkluderar den en "toleransfaktor" som kan justeras av användaren. I den ofta citerade artikeln "In Perfect Focus" av Don Goldman och Barry Megdal i Sky &amp; Telescope 2010, föreslår de exempelvis inställningen t = 1/3.</para>
+>: Det är den rekommenderade inställningen. Ekvationen som används visas uppe till höger i dialogrutan och är den ekvation som oftast ses på Internet. Ekvationen kommer från linjär optikbehandling med diffraktionsringar och har kända begränsningar. Av den anledningen inkluderar den en "toleransfaktor" som kan justeras av användaren. I den ofta citerade artikeln "In Perfect Focus" av Don Goldman och Barry Megdal i Sky &amp; Telescope 2010, föreslår de exempelvis inställningen t = 1/3.</para>
       </listitem>
 
       <listitem>
         <para
 ><emphasis role="bold"
 >Vågfront</emphasis
->: Ekvationen som används visas längst upp till höger i panelen. Ekvationen kommer från en vågfrontsmetod för KFZ. Återigen har den begränsningar och återigen, av den anledningen inkluderar den en "toleransfaktor" som kan justeras av användaren. <screenshot>
+>: Ekvationen som används visas längst upp till höger i dialogrutan. Ekvationen kommer från en vågfrontsmetod för KFZ. Återigen har den begränsningar och återigen, av den anledningen inkluderar den en "toleransfaktor" som kan justeras av användaren. <screenshot>
           <screeninfo
 >Fokuseringsmekanik </screeninfo>
           <mediaobject
@@ -1508,10 +1732,10 @@
   </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="focus-advisor">
+  <sect2 id="focus-advisor">
     <title
 >Fokuseringsrådgivare</title>
 
@@ -1521,7 +1745,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_advisor.png" format="PNG" width="50%"/>
+          <imagedata fileref="focus_advisor.png" format="PNG" width="33%"/>
         </imageobject>
 
         <textobject>
@@ -1532,7 +1756,7 @@
     </screenshot>
 
     <para
->Det här är fokuseringsrådgivarens ruta. Det är en experimentell funktion för att hjälpa till med hantering av fokuseringsparametrar.</para>
+>Det här är fokuseringsrådgivarens dialogruta. Det är funktion för att hjälpa till med hantering av fokuseringsparametrar.</para>
 
     <para
 >Syftet med fokuseringsrådgivaren är att hjälpa personer som kämpar med att använda fokuseringsmodulen i Ekos. Fokuseringsmodulen är funktionsrik och innehåller en hel del parametrar som måste ställas in självständigt för att uppnå bra resultat. Fokuseringsrådgivaren är utformad för att hjälpa till med grundläggande parameterinställning för att uppnå fokus. Den är inte utformad för att uppnå bästa möjliga fokus för utrustningen. Du måste experimentera med inställningarna för att uppnå det. Men fokuseringsrådgivaren ger en grund att börja experimentera med.</para>
@@ -1544,7 +1768,7 @@
     <para
 >När du klickar på fokuseringsrådgivarens ruta utarbetar den en serie parameterrekommendationer baserat på optiken du använder för fokusering.</para>
     <para
->Överst i rutan visas information om den anslutna optiken. Sedan visas sex rader relaterade till olika uppsättningar av parametrar som används inom fokusering. Vid varje rad finns en kryssruta för att uppdatera de tillhörande fokuseringsfälten med fokuseringsrådgivarens rekommendationer.</para>
+>Överst i dialogrutan visas information om den anslutna optiken. Sedan visas sex rader relaterade till olika uppsättningar av parametrar som används inom fokusering. Vid varje rad finns en kryssruta för att uppdatera de tillhörande fokuseringsfälten med fokuseringsrådgivarens rekommendationer.</para>
     <para
 >Fokuseringsparametrarna är uppdelade i följande grupperingar:</para>
 
@@ -1553,14 +1777,7 @@
     <para
 ><guilabel
 >Stegstorlek</guilabel
->: Det är föreslagen storleken på fokuseringssteget som ska användas. Det är en kritisk parameter. Den är förinställd från rutan Kritisk fokuseringszon (KFZ). Så det första du ska göra är att ställa in den panelen och få ett rimligt värde för KFZ. Alternativt, om du vet ett rimligt värde för din utrustning från andra källor kan du bara ange det.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Multipel för utåtsteg</guilabel
->: Det är den föreslagna multipeln för utåtsteg att använda.</para>
+>: Det är föreslagen storleken på fokuseringssteget som ska användas. Det är en kritisk parameter. Den kan förinställas från dialogrutan Kritisk fokuseringszon (KFZ) om du vet hur man ställer in den. Alternativt, om du vet ett rimligt värde för din utrustning från andra källor kan du bara ange det.</para>
     </listitem>
 
     <listitem>
@@ -1578,7 +1795,7 @@
 >Inställningsflikens parametrar</guilabel
 >: Det ställer in parametrarna för rutan <link linkend="focus-settings"
 >Fokuseringsinställningar</link
-> på fokuseringsskärmen. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
+>. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
     </listitem>
 
     <listitem>
@@ -1587,7 +1804,7 @@
 >Processflikens parametrar</guilabel
 >: Det ställer in parametrarna för rutan <link linkend="focus-process"
 >Fokuseringsprocess</link
-> på fokuseringsskärmen. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
+>. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
     </listitem>
 
     <listitem>
@@ -1596,7 +1813,14 @@
 >Mekanikflikens parametrar</guilabel
 >: Det ställer in parametrarna för rutan <link linkend="focus-mechanics"
 >Fokuseringsmekanik</link
-> på fokuseringsskärmen. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
+>. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>SEP-parametrar</guilabel
+>: Ställer in lämplig SEP-parameterprofil för teleskoptypen som är ansluten i vald optik. Genom att hålla musen över beteckningen kan du se vilka värden som fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
     </listitem>
 
     <listitem>
@@ -1616,9 +1840,9 @@
     </listitem>
 
   </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-filter-settings">
+  <sect2 id="focus-filter-settings">
       <title
 >Filterinställningar</title>
 
@@ -1842,10 +2066,10 @@
 >Oiii: Oiii-filtret är inställt för automatisk fokusering, är låst till Lum och har position -100. Så när Oiii-sekvensen startar körs en automatisk fokusering för Lum och den relativa positionen mellan Lum och Oiii är -100 - 0 = -100, så fokuseringsenheten går till lösningen för automatisk fokusering av Lum, och sedan in med 100.</para>
           </listitem>
       </itemizedlist>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="build-filter-offsets">
+  <sect2 id="build-filter-offsets">
       <title
 >Bygg positioner</title>
 
@@ -2032,7 +2256,7 @@
 
             <listitem
 ><para
->Se till att din utrustning är i termisk jämvikt innan du startar. Beräkna ungefär hur lång tid verktyget kommer att ta, vilket är det totala antalet AF-körningar * tid för en enda AF-körning. Försök att se till att förhållandena förblir så konsekventa som möjligt under denna tid, t.ex. att det finns tillräckligt med tid innan gryningen, att månen inte påverka fokuseringen av vissa bilder mer än andra, att målet kommer inte att hamna under horisonten under processen, etc.</para
+>Se till att din utrustning är i termisk jämvikt innan du startar. Beräkna ungefär hur lång tid verktyget kommer att ta, vilket är det totala antalet AF-körningar * tid för en enda AF-körning. Försök att se till att förhållandena förblir så likvärdiga som möjligt under denna tid, t.ex. att det finns tillräckligt med tid innan gryningen, att månen inte påverka fokuseringen av vissa bilder mer än andra, att målet kommer inte att hamna under horisonten under processen, etc.</para
 ></listitem>
 
             <listitem
@@ -2051,9 +2275,9 @@
 ></listitem>
             </itemizedlist>
       </para>
-</sect3>
+</sect2>
 
-  <sect3 id="focus-display">
+  <sect2 id="focus-display">
     <title
 >Fokuseringsvisning</title>
 
@@ -2152,9 +2376,9 @@
 >: Öppnar dialogrutan Visa stjärnprofil.</para>
       </listitem>
     </itemizedlist>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-v-curve">
+  <sect2 id="focus-v-curve">
     <title
 >V-kurva</title>
 
@@ -2325,9 +2549,9 @@
         </textobject>
       </mediaobject>
     </screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-relative-profile">
+  <sect2 id="focus-relative-profile">
     <title
 >Relativ profil</title>
 
@@ -2350,9 +2574,9 @@
 
     <para
 >Den relativa profilen är ett diagram som visar de relative HFR-värdena uppritade mot varandra Lägre HFR-värden motsvaras av smalare former och vice versa. Den heldragna röda kurvan är profilen för aktuellt HFR-värde, medan den punktformade gröna kurvan är föregående HFR-värde. Slutligen anger den lila kurvan det första uppmätta HFR-värdet. Det gör det möjligt att bedöma hur mycket den automatiska fokuseringsprocessen har förbättrat den relativa fokuseringskvaliteten. </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+  <sect2 id="How_to_Setup_for_an_Auto_Focus_Run">
     <title
 >Hur man ställer in en automatisk fokuseringskörning</title>
 
@@ -2418,9 +2642,9 @@
 ></textobject
 ></mediaobject
 ></screenshot>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-backlash">
+  <sect2 id="focus-backlash">
     <title
 >Fokuseringsenhetens spel</title>
 
@@ -2508,9 +2732,9 @@
       </listitem>
     </itemizedlist>
     </para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="focus-adaptive">
+  <sect2 id="focus-adaptive">
     <title
 >Adaptiv fokusering</title>
 
@@ -2520,7 +2744,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="75%"/>
+          <imagedata fileref="focus_adaptive_focus.png" format="PNG" width="50%"/>
         </imageobject>
 
         <textobject>
@@ -2537,7 +2761,7 @@
 >Tanken med AF är att justera fokus när miljöfaktorer ändras för att försöka ta varje delbild så nära optimalt fokus som möjligt. Idealt sett är effekten av Adaptiv fokusering som att utföra en automatisk fokuseringskörning före varje delbild men utan att behöva göra körningen.</para>
 
     <para
->AF fungerar som ett komplement till de olika utlösarna för automatisk fokusering som finns i Ekos nu. Så det är inte nödvändigt att ändra utlösare för automatisk fokusering när du börjar använda AF. Faktum är att i början, med tanke på att AF är en experimentell funktion, rekommenderas inte att reducera villkoren för automatisk fokusering när AF används. Men med tiden, när förtroendet för AF växer, kan det vara möjligt att utföra färre automatiska fokuseringar (och därmed fler bildtagningar). Men i vilket fall som helst, varje delbild bör vara i bättre fokus när AF används, förutsatt att det är korrekt inställt. </para>
+>AF fungerar som ett komplement till de olika utlösarna för automatisk fokusering som finns i Ekos nu. Så det är inte nödvändigt att ändra utlösare för automatisk fokusering när du börjar använda AF. Faktum är att i början, rekommenderas inte att reducera villkoren för automatisk fokusering när AF används. Men med tiden, när förtroendet för AF växer, kan det vara möjligt att utföra färre automatiska fokuseringar (och därmed fler bildtagningar). Men i vilket fall som helst, varje delbild bör vara i bättre fokus när AF används, förutsatt att det är korrekt inställt. </para>
 
     <para
 >Så hur vet du om AF skulle vara användbart för din installation eller inte? Det enklaste sättet är kanske att undersöka delbilder strax efter en automatisk fokusering och jämföra dem med delbilder strax före nästa automatiska fokusering. Kan du se skillnad i fokus? Om du har en inställning där fokuseringspunkten är tolerant mot miljöförändringar mellan körningar av automatisk fokusering, kanske AF inte lägger till något till dina bilder. Om du däremot har en inställning som är känslig för miljöförändringar och frekvensen av automatiska fokuseringskörningar är en kompromiss mellan kvalitet och bildtagningstid så borde AF förbättra kvaliteten på dina delbilder.</para>
@@ -2639,10 +2863,10 @@
 >Det adaptiva fokuseringskonceptet är inbyggt i verktyget <link linkend="build-filter-offsets"
 >Bygg positioner</link
 >.</para>
-  </sect3>
+  </sect2>
 
 
-  <sect3 id="Coefficient_of_Determination">
+  <sect2 id="Coefficient_of_Determination">
     <title
 >Bestämningskoefficient, R²</title>
 
@@ -2652,7 +2876,9 @@
 >. Funktionen är tillgänglig för den engångslinjära fokuseringsalgoritmen. I slutändan ger R² ett värde mellan 0 och 1, där 1 betyder en perfekt passform där alla datapunkter är på kurvan, och 0 betyder att det inte finns någon korrelation mellan datapunkterna och kurvan. Användaren bör experimentera med utrustningen för att se vilka värden de kan erhålla, men som en vägledning fungerar ett värde över cirka 0,9 bra.</para>
 
     <para
->Det finns möjlighet att ställa in alternativet "R²-gräns" under fliken Inställningar i fokuseringsfönstret, som sedan jämförs med beräknad R² efter den automatiska fokuseringskörningen har slutförts. Om gränsvärdet inte uppnås, körs automatisk fokusering igen.</para>
+>Det finns möjlighet att ställa in alternativet "R²-gräns" under fliken <link linkend="focus-settings"
+>Fokuseringsinställningar</link
+>, som sedan jämförs med beräknad R² efter den automatiska fokuseringskörningen har slutförts. Om gränsvärdet inte uppnås, körs automatisk fokusering igen.</para>
 
     <para
 >Att ställa in en R²-gräns kan vara användbart för obevakad observation om fokuseringskörningen av någon anledning ger ett dåligt resultat. Men om orsaken inte är övergående förbättrar en omkörning uppenbarligen inte någonting.</para>
@@ -2662,9 +2888,9 @@
 
     <para
 >Funktionen är avstängd genom att ställa in R² gränsen till 0.</para>
-  </sect3>
+  </sect2>
 
-  <sect3 id="Levenberg-Marquardt">
+  <sect2 id="Levenberg-Marquardt">
     <title
 >Levenberg–Marquardt lösningsverktyg</title>
 
@@ -2712,5 +2938,474 @@
 
     <para
 >För närvarande används lösningsverktyget för att antingen anpassa en parabolisk eller hyperbolisk kurva.</para>
-  </sect3>
-</sect2>
+  </sect2>
+
+  <sect2 id="focus-aberration-inspector">
+    <title
+>Aberrationsinspektion</title>
+
+    <screenshot>
+      <screeninfo
+>Aberrationsinspektion </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="aberration_inspector.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Aberrationsinspektion</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Aberrationsinspektion är ett verktyg som utnyttjar automatisk fokusering för att analysera bakåtfokus och sensorlutning i den anslutna optiken.</para>
+    <para
+>För att köra Aberrationsinspektion klicka på knappen <guibutton
+>Aberrationsinspektion</guibutton
+>. Se <link linkend="focus-tools"
+>Fokuseringsverktyg</link
+> för mer information. Följande villkor måste vara uppfyllda för att knappen ska vara aktiv och verktyget fungera.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Fokuseringsenheten måste vara en absolut fokuseringsenhet.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Fokuseringsalgoritmen måste vara engångslinjär.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>En mosaikmask måste användas.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Fokuseringsenhetens stegstorlek måste ställas in. Det är antal mikrometer som fokalplanet flyttas för ett fokuseringstick. Inställningen finns i KFZ-dialogrutan. Se <link linkend="focus-cfz"
+>KFZ-avsnittet</link
+> för mer information.</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <para
+>När inspektionsknappen klickas, utförs automatisk fokusering, men dessutom lagras extra information för varje datapunkt för senare användning av aberrationsinspektionen. När automatisk fokusering väl är klar, visas aberrationsinspektionens dialogruta.</para>
+
+    <para
+>För att ställa in användning av verktyget från början rekommenderas att göra följande:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Peka på en del av himlen där automatisk fokusering löses bra. Oftast är det högt på himlen borta från eventuella hinder. Välj någonstans med många stjärnor, såsom vintergatan. Orsaken det är viktigare för aberrationsinspektion än automatisk fokusering är att fokuseringsanalys måste utföras för varje platta i mosaiken. Det är därför viktigt att varje platta har tillräckligt med stjärnor för att utföra noggrann automatisk fokusering.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Utför automatisk fokusering några gånger för att säkerställa att lösningen är riktig och att det finns en bra mängd stjärnor i varje mosaikplatta. Även om de flesta fokuseringsparametrar kan användas, rekommenderas att använda parametrarna som fungerar bäst för automatisk fokusering med din utrustning. Orsaken är att aberrationsinspektion måste lösa fokuseringen för varje mosaikplatta och inte bara använda sensorn i sin helhet.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>En mosaikmask måste användas. Visst experimenterade krävs för att ställa in det optimalt för din utrustning. Inställningsparametern som ska justeras är plattstorleken, som är plattans storleken i procent av sensorbredden. Ju högre procentsats, desto större är varje platta, t.ex. för en 4:3-sensor med en plattstorlek på 25 % betyder det att varje platta är 8 % av sensorns yta. Att använda en plattstorlek på 10 % betyder att varje platta är 1 % av sensorns yta. Ju större yta desto fler stjärnor finns och desto bättre blir fokuseringsalgoritmens lösning. Syftet med aberrationsinspektion är dock att tillhandahålla information om aberrationer (bakåtfokus och lutning) över sensorn, så helst ska informationen för varje platta gälla ett så litet område som möjligt.</para>
+        <para
+>Bästa möjliga plattstorlek är ett så litet värde som möjligt som ändå innehåller tillräckligt med stjärnor för en bra lösning i varje platta.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Aberrationsinspektion kan användas tillsammans med en enhet för att justera lutning och/eller bakåtfokus. Metoden för att göra det är ett iterativt tillvägagångssätt, som till exempel att kollimera ett teleskop. Stegen är:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Kör aberrationsinspektion och erhåll resultat.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Inspektera resultaten och se till att de är bra, t.ex. antalet stjärnor på varje platta är tillräckligt och R² är acceptabelt för alla relevanta plattor.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Justera lutning och/eller bakåtfokus med användning av din enhet baserat på aberrationsinspektionens resultat.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Kör aberrationsinspektion igen. Det visar en annan dialogruta. Kontrollera resultatet som tidigare. Om lutning och/eller bakåtfokus blir bättre så gjordes justeringen på ett riktigt sätt. Om inte, byt riktning och försök igen. Använd återmatningen från föregående justering för nästa justering.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Upprepa processen ovan tills utrustningens känslighetsgräns är uppnådd.</para>
+
+    <para
+>Notera storleken på justeringen, t.ex. hur långt skruvar ska vridas och riktningen, medurs eller moturs, varierar beroende på utrustningen och måste bestämmas av användaren genom försök och misstag. Följ alltid rekommendationerna från tillverkaren av lutnings- och bakåtfokusenheten.</para>
+
+    <para
+>Varje gång aberrationsinspektion körs visar den en ny dialogruta med körnumret bifogat i titeln. På så sätt kan flera körningar utföras och resultaten jämföras. Observera dock att dialogrutan innehåller mycket data (ungefär 10 gånger mängden av en vanlig automatisk fokuseringskörning). Systemresurserna som är kopplade till det frigörs när dialogrutan stängs. Av den anledning rekommenderas det att stänga alla aberrationsinspektionens dialogrutor på datorer med lägre prestanda innan bildtagning, när verktyget har använts.</para>
+
+    <para
+>Följande avsnitt beskriver delarna av aberrationsinspektionens dialogruta.</para>
+
+    <sect3 id="aberration-inspector-vcurve">
+      <title
+>Aberrationsinspektionens v-kurva</title>
+
+      <screenshot>
+        <screeninfo
+>Aberrationsinspektionens v-kurva </screeninfo>
+
+        <mediaobject>
+          <imageobject>
+          <imagedata fileref="aberration_inspector_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Aberrationsinspektionens v-kurva</phrase>
+        </textobject>
+        </mediaobject>
+      </screenshot>
+
+    <para
+>Längst upp i dialogrutan finns några kontroller, följda av v-kurvan. Kontrollerna är:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Plattor</guilabel
+>: Tre alternativ är tillgängliga:</para>
+        <itemizedlist>
+          <listitem>
+            <para
+>Alla: Alla nio plattor visas.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centrum och yttre hörn: Centrum och fyra hörnplattor visas.</para>
+          </listitem>
+          <listitem>
+            <para
+>Centrum och inre romb: Centrum och fyra inre plattor i en romb visas.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Beteckningar</guilabel
+>: Kryssruta som visar eller döljer beteckningar för fokuseringspunkten på v-kurvan.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>KFZ</guilabel
+>: Kryssrutan ändrar om KFZ-mustaschen visas på v-kurvan.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Optimera plattornas centrum</guilabel
+>: Om omarkerat används plattans geometriska centrum. Om markerad, beräknas mitten av plattan som ett genomsnitt av stjärnpositionerna inom plattan. Även om det är teoretiskt mer korrekt att markera alternativet, har det sannolikt endast en betydande inverkan om antal stjärnor är litet.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Stäng</guilabel
+>: Stänger aberrationsinspektionens dialogruta.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>V-kurvan liknar v-kurvan på den huvudsakliga fokuseringsfliken, förutom att varje platta representeras av en egen kurva. Antalet kurvor bestäms av inställningen i kombinationsrutan <guilabel
+>Plattor</guilabel
+>. X-axeln visar fokuseringspositionen och y-axeln det mått (t.ex. HFR) som används av automatisk fokusering. Varje kurva har sin egen färg och identifierare med två tecken som visas i förklaringen.</para>
+
+    <para
+>Håll musen över en kurvas minimum för att se mer information om den kurvan.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-table">
+    <title
+>Aberrationsinspektionstabell</title>
+
+    <screenshot>
+      <screeninfo
+>Aberrationsinspektionstabell </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_table.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Aberrationsinspektionstabell</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Tabellen visar information som är relevant för varje platta enligt inställningen <guilabel
+>Plattor</guilabel
+>.</para>
+
+    <para
+>Ett grafiskt verktygstips visas när musen hålls över någon av de två kolumnerna längst till vänster. Grafiken visar en bild av sensorn skalad till sensorns dimensioner. Plattorna som valts av inställningen <guilabel
+>Plattor</guilabel
+> är överlagrade på sensorn. Plattorna skalas på lämpligt sätt enligt plattinställningarna. Varje platta är märkt med plattnamnet och plattan som motsvarar raden som musen hålls över är markerad i den plattans färg.</para>
+
+    <para
+>Följande kolumner visas:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Platta</guilabel
+>: Namnet på plattan med ett eller två tecken, t.ex. TL = överst till vänster, C = centrum, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Beskrivning</guilabel
+>: Plattbeskrivningen, t.ex. Överst till vänster, Centrum, etc.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Lösning</guilabel
+>: Fokuseringslösningen. Den motsvarar lösningen på v-kurvan.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (tick)</guilabel
+>: Delta för lösningen i den aktuella tabellraden från lösningen för centrumplattan. Centrumradens delta är naturligtvis noll.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Delta (μm)</guilabel
+>: Delta (tick) konverterat till mikrometer genom att använda stegstorleken i mikrometer som anges under fokuseringsfliken KFZ.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Antal stjärnor</guilabel
+>: Visar minimalt eller maximalt antal stjärnor som upptäckts under den automatiska fokuseringskörningen. Vanligtvis gäller det minimala antalet en datapunkt som är långt ur fokus och det maximala antalet datapunkten som är i fokus.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>R²</guilabel
+>: R-kvadrat av kurvanpassningen för plattan. Se <link linkend="Coefficient_of_Determination"
+>Bestämningskoefficient</link
+> för mer information.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Undanta</guilabel
+>: Kryssruta för att inkludera eller undanta plattan i beräkningarna. Normalt inkluderas en platta om den har kurvanpassats. Om en platta inte har kurvanpassats undantas den. Dessutom kan användaren besluta att en viss platta innehåller data av dålig kvalitet, till exempel att R² eller antalet stjärnor är lågt. Om det är fallet kan Undanta markeras så undantas raden från beräkningarna. Observera att genom att undanta vissa rader kanske vissa beräkningar inte kan utföras. Om centrumplattan undantas kan inga beräkningar utföras.</para>
+
+        <para
+>Observera att även om det är möjligt att utesluta plattor och ändå få beräknade värden, om data är av dålig kvalitet så rekommenderas att köra aberrationsinspektion igen istället för att fortsätta med data av dålig kvalitet.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Det rekommenderade tillvägagångssättet är att kontrollera i tabellen om data har hög kvalitet och när det uppnåtts, gå vidare till att analysera <link linkend="aberration-inspector-results"
+>Aberrationsinspektionens-resultat</link
+>.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-results">
+    <title
+>Aberrationsinspektionsresultat</title>
+
+    <screenshot>
+      <screeninfo
+>Aberrationsinspektionsresultat </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_results.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Aberrationsinspektionsresultat</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Beräkningsresultaten visas i den här rutan, baserat på data visad i tabellen.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Bakåtfokus Δ</guilabel
+>: Värdet på delta för bakåtfokus. Ju närmare perfekt bakåtfokus, desto lägre är delta för bakåtfokus. Observera att delta för bakåtfokus ger en ledtråd om hur långt ut bakåtfokus är, i termer av skala och riktning, men det är inte det avstånd som sensorn behöver flyttas. Förhållandet mellan delta för bakåtfokus och hur långt sensorn ska flyttas varierar med utrustningen som används och måste räknas ut av användaren.</para>
+
+        <para
+>Fältet ger rörelseriktning som krävs för att förbättra bakåtfokus: antingen flytta sensorn närmare korrektorn (teleskopet) eller flytta den längre bort.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Vänster till högerlutning</guilabel
+>: Ger vänster till högerlutning i mikrometer och som ett procentvärde.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Topp till bottenlutning</guilabel
+>: Ger topp till bottenlutningen i mikrometer och som ett procentvärde.</para>
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Total lutning</guilabel
+>: Den diagonala lutningen i mikrometer och som ett procentvärde.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Ju mindre delta fär bakåtfokus desto närmare är sensorn perfekt bakåtfokus. Om korrektorn inte plattar ut fältet hela vägen till kanterna på sensorn så syns det genom att byta alternativet Plattor mellan "Centrum och yttre hörn" och "Centrum och inre romb". Om delta för bakåtfokus är likvärdigt när alternativet Plattor ändras, indikerar det att fältkorrektionen fungerar till sensorns hörn.</para>
+
+    <para
+>Det finns alltid något delta i bakåtfokus, åtminstone på grund av brus i observationsdata. Det viktiga är att stjärnorna är cirkulära på alla delar av sensorn när de är i fokus.</para>
+
+    <para
+>Ju mindre lutningsprocenten är, desto närmare är sensorn plan i förhållande till planljuset från korrektorn (teleskopet). Liksom med delta för bakåtfokus finns det alltid ett visst brus i data, vilket presenteras som lutning. Det viktiga är att när de är i fokus är stjärnstorlekarna likformiga över sensorns alla delar.</para>
+
+    <para
+>På grund av beräkningarna av delta för bakåtfokus och lutning påverkar det ena det andra, så det förmodligen är bättre att försöka justera båda tillsammans i små steg, snarare än att försöka göra det ena perfekt i isolation, innan det andra justeras.</para>
+    </sect3>
+
+    <sect3 id="aberration-inspector-3dgraphic">
+    <title
+>Aberrationsinspektion tredimensionell grafik</title>
+
+    <screenshot>
+      <screeninfo
+>Aberrationsinspektion tredimensionell grafik </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+        <imagedata fileref="aberration_inspector_3dgraphic.png" format="PNG" width="50%"/>
+      </imageobject>
+
+      <textobject>
+        <phrase
+>Aberrationsinspektion tredimensionell grafik</phrase>
+      </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Den tredimensionella grafiken visar sensorn lutad enligt <link linkend="aberration-inspector-results"
+>aberrationsinspektionens resultat</link
+>. För att hjälpa till att visualisera Petzval-ytan (se <ulink url="https://en.wikipedia.org/wiki/Petzval_field_curvature"
+>Petzval-fältkrökning</ulink
+> för mer information) modelleras också ljus från teleskopet som träffar sensorns yta. Ju större fel i bakåtfokus, desto mer böjd är Petzval-ytan.</para>
+
+    <para
+>Grafiken kan zoomas och roteras med gester. Använd knipning för att zooma. Använd rör och flytta för att rotera.</para>
+
+    <para
+>Grafiken har ett simuleringsläge som gör att bakåtfokus och lutning kan justeras med reglagen. Effekten på sensorns lutning och Petzval-yta visas i grafiken.</para>
+
+    <para
+>Följande alternativ är tillgängliga för grafiken:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Markering</guilabel
+>: Följande alternativ är tillgängliga:</para>
+
+        <itemizedlist>
+          <listitem>
+          <para
+>Ingen: Inget val är möjligt.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Objekt: En datapunkt kan väljas och datavärden visas.</para>
+          </listitem>
+
+          <listitem>
+          <para
+>Plan: En tvådimensionell skiva genom den tredimensionella grafiken visas.</para>
+          </listitem>
+        </itemizedlist>
+
+      </listitem>
+      <listitem>
+        <para
+><guilabel
+>Tema</guilabel
+>: Ett antal färgteman är tillgängliga.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Beteckningar</guilabel
+>: Kryssruta för att visa eller dölja beteckningar i grafiken.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sensor</guilabel
+>: Kryssruta för att visa eller dölja sensorn.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Petzval-linje</guilabel
+>: Kryssruta för att visa eller dölja Petzval-ytan som en grafisk linje.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Petzval-yta</guilabel
+>: Kryssruta för att visa eller dölja Petzval-ytan.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Simuleringsläge</guilabel
+>: Kryssruta för att sätta på eller stänga av simuleringsläge. När det är avstängt visar grafiken sensorn och Petzval-ytan baserat på de beräknade resultaten från aberrationsinspektionens körning. När det är på, aktiveras reglagen för bakåtfokus, vänster till högerlutning och topp till bottenlutning, som kan flyttas av användaren för att justera grafiken. Håll musen över varje reglage för att se verktygstipsen som beskriver vad varje reglage gör.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Den tredimensionella grafiken är inte nödvändig för att använda aberrationsinspektion. All relevant information visas under <link linkend="aberration-inspector-table"
+>Tabell</link
+> och <link linkend="aberration-inspector-results"
+>Resultat</link
+> i dialogrutan. Syftet är att hjälpa användaren att förstå aberrationsinspektion och att orientera sig med den information som verktyget ger.</para>
+    </sect3>
+  </sect2>
+</sect1>

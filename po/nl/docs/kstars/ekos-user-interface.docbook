@@ -26,6 +26,11 @@
 
         <listitem>
             <para
+>Analysemodule </para>
+        </listitem>
+        
+        <listitem>
+            <para
 >Opnamemodule </para>
         </listitem>
 
@@ -80,6 +85,14 @@
             <listitem>
                 <para
 >Als u Ekos eenmaal beheerst, wordt u aangemoedigd te leren hoe u de Planningsmodule kunt gebruiken, omdat dit sterk het complete waarneemproces vereenvoudigt. U kunt hierin meerdere doelen selecteren, condities en eisen opgeven, en welke frames moeten worden opgenomen. Daarna berekent de planner op een slimme manier de  beste waarneemtijd voor elk object, waarna die het hele waarneemstation bestuurt vanaf het opstarten tot aan het afsluiten. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>Analysemodule</term>
+            <listitem>
+                <para
+>Analyse toont een hoog-niveau samenvatting van wat er gebeurt tijdens een opnamesessie. Het toont plots en grafieken die de vele opnamen beschrijven die zijn genomen gedurende een nacht, de focussessies, het volgen, beweging van de opstelling, meridiaan flips, etc. Gebruik het om gevoel te krijgen van "wat er is gebeurt in de laatste nacht" of om te zien wat de huidige staat van het systeem is. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

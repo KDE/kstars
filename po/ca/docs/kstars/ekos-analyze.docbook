@@ -36,6 +36,9 @@
 >Analitza</guilabel
 > també pot mostrar dades de la sessió de pressa d'imatges actual. </para>
         <para
+>Quan comença una sessió nova (p. ex., l'Ekos es desconnecta a l'alba i després es torna a connectar a la posta de sol) el sistema començarà a escriure un fitxer «.analyze» nou. (Aquest comportament es pot controlar des de la configuració d'Analitza on s'arriba fent clic al botó d'opcions a la part inferior dreta.) </para
+>        
+        <para
 >Hi ha dos gràfics principals, <guilabel
 >Línia de temps</guilabel
 > i <guilabel
@@ -54,7 +57,7 @@
 >.analyze</literal
 >, utilitzant la llista desplegable <guilabel
 >Entrada</guilabel
->. Si marqueu <guilabel
+>. Fer servir els botons &lt;&lt; i &gt;&gt; permet visualitzar els fitxers «.analyze» anteriors o següents cronològicament. Si marqueu <guilabel
 >Amplada total</guilabel
 >, es mostraran totes les dades i <guilabel
 >Darrer</guilabel
@@ -73,7 +76,7 @@
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel
 >Directori alternatiu</guilabel
-> al menú d'entrada a un directori que serà la base d'una part del camí del fitxer original. </para>
+> a la pàgina de configuració de l'Analitza que podreu arribar-hi des del botó d'opcions de la part inferior dreta. Aquest directori alternatiu es preposarà a la base de la part del camí del fitxer original i es verificarà si el fitxer d'imatge no està en la seva ubicació original. </para>
         </note>
         <para
 >En fer clic sobre un segment a <guilabel

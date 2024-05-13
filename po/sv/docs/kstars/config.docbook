@@ -354,7 +354,7 @@
 <para
 >För en detaljerad förklaring av <guilabel
 >Ekos</guilabel
-> astrofotograferingssvit, se <link linkend="tool-ekos"
+> astrofotograferingssvit, se <link linkend="ekos"
 >avsnittet om Ekos i den här handboken</link
 >. </para>
 
@@ -1756,7 +1756,7 @@
 >Resursbegränsningsläge</guilabel
 > är till för att aktivera resursbegränsning för att stänga av alla resurskrävande åtgärder, närmare bestämt <guilabel
 >Automatisk Bayer-borttagning</guilabel
-> (Borttagning av Bayer utförs inte, bara gråskalebilder visas), <guilabel
+> (Bayer-borttagning utförs inte, bara gråskalebilder visas), <guilabel
 >Automatiskt världskoordinatsystem</guilabel
 > (Världskoordinatdata behandlas inte. Himmelskoordinater avbildas på bildkoordinater. Ekvatoriella linjer, objektidentifiering och teleskopförflyttning inom en bild är inaktiverade), och <guilabel
 >Tredimensionell kub</guilabel
@@ -1787,7 +1787,7 @@
 >. </para>
 </sect1>
 
-<sect1 id="ekos">
+<sect1 id="ekos-window">
 <title
 >Ekos</title>
 <screenshot>
@@ -1804,9 +1804,9 @@
 </mediaobject>
 </screenshot>
 <para
->Ekos är en astrofotograferingssvit, en fullständig lösning för astrofotografering som kan kontrollera alla INDI-enheter inklusive ett stort antal av teleskop, CCD:er, digitala spegelreflexkameror, fokuseringsutrustning, filter med mera. Ekos stöder följning med hög noggrannhet genom att använda astrometrilösare på nätet eller lokalt, möjlighet till autofokus och automatisk guidning, samt tagning av enstaka eller flera bilder med den kraftfulla, inbyggda, sekvenshanteraren. För en detaljerad förklaring av <guilabel
+>Ekos är en astrofotograferingssvit, en fullständig lösning för astrofotografering som kan kontrollera alla INDI-enheter inklusive ett stort antal av teleskop, CCD:er, digitala spegelreflexkameror, fokuseringsutrustningar, filter med mera. Ekos stöder följning med hög noggrannhet genom att använda astrometrilösare på nätet eller lokalt, har möjlighet till autofokus och automatisk guidning, samt tagning av enstaka eller flera bilder med den kraftfulla, inbyggda, sekvenshanteraren. För en detaljerad förklaring av <guilabel
 >Ekos</guilabel
->, se <link linkend="tool-ekos"
+>, se <link linkend="ekos"
 >avsnittet om Ekos i den här handboken</link
 >. </para>
 </sect1>
@@ -2131,11 +2131,11 @@
   <title
 >Justera himmelskartans orientering</title>
   <para
->Du kan justera olika inställningar för att göra så att himmelskartans orientering motsvarar vad som syns i det optiska instrumentet, under förutsättning att (i den här versionen) instrumentet inte speglar synfältet (vilket görs av prismor använda med Schmidt-Cassegrain teleskop och refraktorer). </para>
+>Du kan justera olika inställningar för att göra så att himmelskartans orientering motsvarar vad som syns i det optiska instrumentet. </para>
   <para
 >Välj först det koordinatsystem som motsvarar stativet. För ett ekvatorialt monterat instrument, byt till Ekvatoriella koordinater i menyn <guimenu 
 >Visa</guimenu 
->. Alternativet för att byta mellan koordinatsystemet bör vara <guilabel 
+> eller genom att trycka på mellanslagstangenten. Alternativet för att byta mellan koordinatsystemet ska vara <guilabel 
 >Byt till horisontell vy (horisontella koordinater)</guilabel 
 > när det aktuella värdet är ekvatoriella koordinater. För ett altazimut-monterat instrument eller användning av blotta ögat, byt till horisontella koordinater, så att alternativet i menyn <guimenu 
 >Visa</guimenu 
@@ -2143,7 +2143,17 @@
 >Byt till stjärnglob (ekvatoriella koordinater)</guilabel 
 >. Det ställer in baskoordinatsystemet som används för att återge himmelskartan, och ställer även in referensen för himmelskartans orientering: zenit eller norr. </para>
   <para
->För att rotera himmelskartan fritt kan du hålla ner &Shift;-tangenten och dra musen på himmelskartan. En tillfällig överlagring visas som anger riktningen för norr och zenit vid punkten, och anger vinkeln de har mot vertikalt i motsols riktning. Orienteringarna för zenit och norr uppdateras när du roterar himmelskartan. Att släppa &Shift; eller musknappen stoppar rotationen. När du panorerar himmelskartan eller fokuserar den på olika objekt, behålls rotationen du ställer in som en förskjutning från referensriktningen. Referensriktningen är norr när man använder ekvatoriella koordinater och zenit när man använder horisontella koordinater. Som en påminnelse är referensriktningen solid och ljusare i den tillfälliga överlagringen. För de två vanliga orienteringarna upprätt och inverterad kan rotationen ställas in eller återställas med hjälp av undermenyn <menuchoice
+>Om instrumentet använder ett rättvändande prisma, som vanligtvis används på Schmidt-Cassegrain-teleskop och teleskop av refraktortyp, speglas visningen genom okularet horisontellt. Du kan få himmelskartan att matcha det genom att markera alternativet <guilabel 
+>Speglad visning</guilabel 
+> under menyn <guimenu 
+>Visa</guimenu 
+> eller använda tangentkombinationen <keycombo
+>&Ctrl;&Shift;<keycap
+>M</keycap
+></keycombo
+>. </para>
+  <para
+>Därefter, för att rotera himmelskartan fritt kan du hålla ner &Shift;-tangenten och dra musen på himmelskartan. En tillfällig överlagring visas som anger riktningen för norr och zenit vid punkten, och anger vinkeln de har mot vertikalt i motsols riktning. Orienteringarna för zenit och norr uppdateras när du roterar himmelskartan. Att släppa &Shift; eller musknappen stoppar rotationen. När du panorerar himmelskartan eller fokuserar den på olika objekt, behålls rotationen du ställer in som en avvikelse från referensriktningen. Referensriktningen är norr när man använder ekvatoriella koordinater och zenit när man använder horisontella koordinater. Som en påminnelse är referensriktningen solid och ljusare i den tillfälliga överlagringen. Den tillfälliga överlagringen markerar också den östliga riktningen, vilken är medurs från norr om den är speglad eller moturs om den inte är speglad. För de två vanliga orienteringarna upprätt och inverterad kan rotationen ställas in eller återställas med hjälp av undermenyn <menuchoice
 ><guimenu
 >Visa</guimenu
 ><guisubmenu
@@ -2151,14 +2161,16 @@
 ></menuchoice
 >. Välj "Norr ner" eller "Zenit ner" som är tillämpligt för att ställa in orienteringen till 180 grader. </para>
   <para
->Om du observerar visuellt genom ett okular på ett instrument kan du behöva göra några fler korrigeringar. För det vanliga fallet med ett stort Dobsonteleskop (eller mer allmänt en Newtonsk konstruktion monterad på ett altazimutstativ), är en systematisk tilläggskorrigering till hjälp. Korrigeringen gäller eftersom vi står upprätt när vi använder teleskopet oavsett vinkeln teleskopröret gör mot marken. Så när vi flyttar teleskopet i höjd, måste ytterligare en korrigering, beroende på objektets höjd, göras för att få himmelskartan att motsvara  genom okularet. Den här korrigeringen aktiveras genom att markera kryssrutan <guilabel 
->Rediga observatörskorrigering</guilabel 
-> i undermenyn <menuchoice 
+>Om du observerar visuellt genom ett okular på ett instrument kan du behöva göra några fler korrigeringar. För det vanliga fallet med ett stort Dobsonteleskop (eller mer allmänt ett Newtonbaserat instrument monterad på ett altazimutstativ), är en systematisk tilläggskorrigering till hjälp. Korrigeringen gäller eftersom vi står upprätt när vi använder teleskopet oavsett vinkeln teleskopröret har mot marken. Så när vi flyttar teleskopet i höjd, måste ytterligare en korrigering, beroende på objektets höjd, göras för att få himmelskartan att motsvara  genom okularet. Korrigeringen aktiveras genom att välja lämplig "Upprätt observatörskorrigering" i undermenyn <menuchoice 
 ><guimenu 
 >Visa</guimenu 
 ><guisubmenu 
 >Himmelskartans orientering</guisubmenu 
 ></menuchoice 
+>. Korrigeringen beror på vilken sida teleskopets fokuseringsenhet är placerad av tillverkaren. När du observerar precis ovanför horisonten genom okularet, om himlen är på observatörens högra sida (och spegeln till vänster), välj alternativet <guilabel 
+>Upprätt observatörskorrigering, högerhänt</guilabel 
+>. På motsvarande sätt, om himlen är till vänster om observatören, välj alternativet <guilabel
+>Upprätt observatörskorrigering, vänsterhänt</guilabel
 >. Korrigeringen är bara meningsfull med metoden Horisontell koordinat och är inaktiverad när ekvatorialkoordinater används. </para>
   <para
 >Slutligen ger vi några exempel på hur man använder inställningarna för olika instrument: <itemizedlist>
@@ -2184,7 +2196,23 @@
 ></listitem>
       <listitem
 ><para
->Användning av ett RACI sökarteleskop på ett altazimutmonterat teleskop: Samma inställningar som för att observera med blotta ögat, förutom att du kan behöva justera orienteringen manuellt en gång om du har den monterad i vinkel.</para
+>Okular på ett altazimuth Schmidt-Cassegrain-teleskop med ett rättvändande prisma: Under menyn <guimenu 
+>Visa</guimenu 
+>, välj <guilabel 
+>Speglad visning</guilabel 
+> och <guisubmenu 
+>Himmelskartans orientering</guisubmenu 
+> i undermenyn, välj <guilabel 
+>Zenit upp</guilabel 
+>. Slutligen, justera rotationen manuellt för att matcha visningen i okularet enligt vinkeln du använder för det rättvändande prismat.</para
+></listitem>
+      <listitem
+><para
+>Användning av ett RACI sökarteleskop på ett altazimutmonterat teleskop, när man tittar rakt ner i det: Samma inställningar som för att observera med blotta ögat, förutom att du kan behöva justera orienteringen manuellt en gång om du har den monterad i vinkel.</para
+></listitem>
+      <listitem
+><para
+>Med användning av ett RACI-sökarkikare på ett altazimuth-monterat teleskop, titta genom det från sidan: Utöver det ovannämnda, aktivera upprätt observatörskorrigering för lämplig sida.</para
 ></listitem>
       <listitem
 ><para
@@ -2208,11 +2236,97 @@
 ></menuchoice 
 > väljer du <guilabel 
 >Zenit ner</guilabel 
-> och markerar alternativet <guilabel 
->Upprätt observatörskorrigering</guilabel
->. Justera sedan orienteringen manuellt en gång för att motsvara teleskopets okular, så bör det hädanefter följas korrekt.</para
+>, aktiverar upprätt observatörskorrigering och väljer lämpligt vänster- eller högerhänt alternativ för teleskopet. Justera sedan orienteringen manuellt en gång för att motsvara teleskopets okular, så bör det hädanefter följas korrekt.</para
 ></listitem>
     </itemizedlist>
   </para>
+  <para
+>Det är typiskt  att använda minst tre olika instrument för astronomisk observation: det blotta ögat, en sökarkikare och ett huvudteleskop. Orienteringen för de tre har olika inställningar och leder ofta till att alla ovannämnda alternativ måste ändras. För att göra det enkelt att justera inställningarna tillsammans tillhandahåller Kstars funktionen <guilabel
+>Visningar</guilabel
+>. Funktionen är tillgänglig via menyn <menuchoice
+><guimenu 
+>Visa</guimenu
+><guisubmenu
+>Visningar</guisubmenu
+></menuchoice
+> och de alternativ som finns där. Visningen <guilabel
+>Godycklig</guilabel
+> är inte en riktig visning, utan alternativet som väljs när himmelskartans orientering ändras manuellt med de tidigare beskrivna alternativen. Resten av visningarna är verkliga visningar. Nya visningar kan läggas till, eller så kan de befintliga visningarna redigeras, tas bort eller ordnas om med  alternativet <menuchoice
+><guimenu
+>Visa</guimenu
+><guisubmenu
+>Visningar</guisubmenu
+><guimenuitem
+>Redigera visningar...</guimenuitem
+></menuchoice
+>. Om du väljer det öppnas ett fönster för att hantera visningarna: </para>
+  <screenshot>
+    <screeninfo
+>Dialogruta för att hantera himmelskartans visning</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="viewmanager.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Hantera himmelskartans visning</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+  <para
+>För att ta bort en visning, välj helt enkelt visningen i listan och radera den med knappen <guibutton
+>Ta bort</guibutton
+>. För att ändra ordning på visningarna, använd musen för att dra visningen du vill flytta och släp den på dess plats mellan två andra poster. För att redigera en visning, välj visningen i listan och klicka på <guibutton
+>Redigera...</guibutton
+>. För att skapa en ny visning, klicka på knappen <guibutton 
+>Ny...</guibutton
+>. Alternativen <guibutton
+>Redigera...</guibutton
+> och <guibutton
+>Ny...</guibutton
+> visar ett gränssnitt för visningsredigering: </para>
+  <screenshot>
+    <screeninfo
+>Dialogruta för att skapa en ny visning eller redigera en befintlig</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="newview.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Redigera eller skapa visning</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>Fältet <guilabel 
+>Namn</guilabel 
+> utgör ett unikt namn på visningen. <guilabel 
+>Stativtyp</guilabel 
+> bestämmer om referensriktningen som används för orientering kommer att vara norr eller zenit. Vanligtvis ställer man in det baserat på den typ av stativ som används för teleskopet. Men när man använder refraktorer och Schmidt-Cassegrain-teleskop (SCT) med en roterbar diagonal, har observatören en tendens att ändra om okularet för komfort så att det förblir i en fast vinkel i förhållande till zenit. Av den anledningen är det lämpligt att välja <guilabel 
+>Altazimuth</guilabel 
+> även när teleskopet faktiskt använder ett ekvatorialstativ. Välj <guilabel 
+>Ekvatoriellt</guilabel 
+> när fokuseringsenhetens orientering inte ändras, till exempel när du använder en kamera på ett ekvatorialt monterat teleskop. För Newton-teleskop som inverterar (dvs. roterar 180 grader men inte ändrar riktning) visningen, välj alternativet <guilabel 
+>Inverterat</guilabel 
+>. Det är också det korrekta alternativet för raka refraktorer och sökarkikare. När du använder ett rättvändande prisma, rättar prismat den inverterade bilden genom att vända den upp och ner. Det resulterar totalt sett i en vänster-höger spegelbild. Så för teleskop som använder ett rättvändande prisma, välj <guilabel 
+>Speglat</guilabel 
+>. En speciell sorts prisma som kallas Amici-takprisma vänder inte bara bilden vertikalt utan förhindrar även vänster-höger-spegling av bilden. Sökarkikare som innehåller ett sådant prisma kallas normalt "Right-Angle Correct Image" eller RACI-sökarkikare. Sådana prismor kan också användas för en refraktor och ett SCT. När du använder ett sådant prisma som ger en korrekt bild, välj alternativet <guilabel 
+>Korrekt</guilabel 
+>. Alternativet <guilabel 
+>Speglad längs den vertikala axeln</guilabel 
+> påträffas inte i typiska astronomiska instrument, men tillhandahålls för fullständighetens skull. Ytterligare två faktorer måste beaktas: den ena är okularets vinkel i förhållande till referensriktningen (nord / zenit), och den andra är orienteringen av betraktarens huvud (och uppfattningen om vertikalriktningen) som vi förklarade när vi beskrev funktionen för upprätt observatörskorrigering. De två aspekterna ställs in med hjälp av det enda skjutreglaget vid namn <guilabel 
+>Okularets vinkel</guilabel 
+>. Två illustrationer under skjutreglaget visar tolkningen av inställningen. Till vänster, sett framifrån som är bekvämare för Newton-teleskop, och till höger sett bakifrån, bekvämare för refraktorer och Cassegrain-teleskop. Observatören står naturligtvis på den sida som gör det bekvämare att titta genom okularet, så den upprättstående observatörskorrigeringen justeras automatiskt därefter. För okularvinklar som är mindre än -1 grad på skjutreglaget, används alternativet <guilabel 
+>Upprätt observatörskorrigering, högerhänt</guilabel 
+>. På liknande sätt, för okularvinklar som är större än +1 grad, används <guilabel 
+>Upprätt observatörskorrigering, vänsterhänt</guilabel 
+>. Vid 0 grader används ingen upprätt observatörskorrigering. Korrigeringen indikeras med en siluett av en person som står på rätt sida om teleskopet. Med vår konvention verkar de flesta masstillverkade Dobson-teleskop ha en korrigering på omkring +45 grader. Korrigeringen är för övrigt användbar även för sökarkikare med prismor. Man kan uttryckligen vilja inaktivera den upprättstående observatörskorrigeringen även när okularets vinkel inte är noll. Det är användbart om visningen kommer från en CCD-kamera som inte ändrar vinkel i förhållande till teleskopkroppen (till skillnad från en observatörs huvud), eller om bildskärmen som visar Kstars himmelskarta är monterad på själva teleskopkroppen. I det fallet kan alternativet <guilabel 
+>Skärm monterad på teleskopet</guilabel 
+> markeras. För den motsatta effekten, dvs. där okularets vinkel är noll, men observatören lutar sig för att se genom det från ena eller andra sidan, ställ in okularets vinkel till plus eller minus 2 grader för att möjliggöra den upprättstående observatörskorrigeringen; den mindre skillnaden märks inte. Slutligen kan man vilja trigga visningen att också ställa in synfältet för himmelskartan till något värde, till exempel för att ställa in synfältet för en sökkikare. I det fallet kan kryssrutan <guilabel 
+>Ställ också in synfältet</guilabel 
+> vara markeras, och ett ungefärligt synfält att justera kan anges. Om det inte är aktiverat ändras inte himmelskartans zoomnivå när visningen används. </para>
+
 </sect1
 >&hips; </chapter>

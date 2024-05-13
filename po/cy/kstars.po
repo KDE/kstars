@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 01:54+0000\n"
+"POT-Creation-Date: 2024-05-13 01:46+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -600,7 +600,7 @@ msgstr " Aalborg"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:681 fitsviewer/fitstab.cpp:700
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -3029,7 +3029,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, fuzzy, kde-format
 msgid "Preview"
@@ -6644,7 +6644,7 @@ msgid "Capture error. Aborting..."
 msgstr "llinell"
 
 #: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
-#: ekos/capture/captureprocess.cpp:2107
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6758,7 +6758,7 @@ msgstr "Methu cadw'r ddelwedd : %1 "
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1715
-#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7422,7 +7422,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Cadw Lliwiau Cyfredol..."
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1714
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, fuzzy, kde-format
@@ -10241,7 +10241,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:730
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -15342,7 +15342,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "A ydych yn sicr eich bod am waredu %1?"
 
-#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2618
+#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2616
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "Lleoliad"
@@ -15941,7 +15941,7 @@ msgstr "Cysylltiad"
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2097
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
@@ -15951,118 +15951,118 @@ msgstr ""
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1725
+#: ekos/capture/captureprocess.cpp:1723
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1759
+#: ekos/capture/captureprocess.cpp:1757
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Captured %1"
 msgstr "llinell"
 
-#: ekos/capture/captureprocess.cpp:1765
+#: ekos/capture/captureprocess.cpp:1763
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1798
+#: ekos/capture/captureprocess.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing capture script %1"
 msgstr "Machlud Haul: %1"
 
-#: ekos/capture/captureprocess.cpp:1813
+#: ekos/capture/captureprocess.cpp:1811
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1821
+#: ekos/capture/captureprocess.cpp:1819
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1833
+#: ekos/capture/captureprocess.cpp:1831
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "Toggle display of star name labels"
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1848
+#: ekos/capture/captureprocess.cpp:1846
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2027 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure timeout. Aborting..."
 msgstr "llinell"
 
-#: ekos/capture/captureprocess.cpp:2036
+#: ekos/capture/captureprocess.cpp:2034
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:981
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2080
+#: ekos/capture/captureprocess.cpp:2078
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "llinell"
 
-#: ekos/capture/captureprocess.cpp:2158
+#: ekos/capture/captureprocess.cpp:2156
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2169
+#: ekos/capture/captureprocess.cpp:2167
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2191
+#: ekos/capture/captureprocess.cpp:2189
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2220
+#: ekos/capture/captureprocess.cpp:2218
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2228
+#: ekos/capture/captureprocess.cpp:2226
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2448
+#: ekos/capture/captureprocess.cpp:2446
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "Delwedd"
 
-#: ekos/capture/captureprocess.cpp:2567
+#: ekos/capture/captureprocess.cpp:2565
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Amlder :"
 
-#: ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/captureprocess.cpp:2615
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove %1?"
 msgid ""
@@ -16070,20 +16070,20 @@ msgid ""
 "restart capturing?"
 msgstr "A ydych yn sicr eich bod am waredu %1?"
 
-#: ekos/capture/captureprocess.cpp:2631
+#: ekos/capture/captureprocess.cpp:2629
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2744
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove %1?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "A ydych yn sicr eich bod am waredu %1?"
 
-#: ekos/capture/captureprocess.cpp:2747
+#: ekos/capture/captureprocess.cpp:2745
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
@@ -17449,7 +17449,7 @@ msgstr "Moline"
 msgid "Offline"
 msgstr "Moline"
 
-#: ekos/ekoslive/message.cpp:957
+#: ekos/ekoslive/message.cpp:959
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Show SEDS Image"
@@ -23155,22 +23155,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2792
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2800
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2828
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2840
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -24369,8 +24369,8 @@ msgstr "Arall"
 msgid "Slaving deactivated."
 msgstr "Arall"
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:677
-#: fitsviewer/fitstab.cpp:696
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
+#: fitsviewer/fitstab.cpp:702
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -29057,138 +29057,138 @@ msgstr "Cysylltiad"
 msgid "File saved to %1"
 msgstr "Cadwyd y ffeil."
 
-#: fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:692
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Extracting..."
 msgstr "Arall"
 
-#: fitsviewer/fitstab.cpp:704
+#: fitsviewer/fitstab.cpp:710
 #, fuzzy, kde-format
 msgid "Solving..."
 msgstr "Kettering"
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:723
 #, fuzzy, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Ychwanegu Catalog"
 
-#: fitsviewer/fitstab.cpp:726
+#: fitsviewer/fitstab.cpp:732
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Rock Hill"
 msgid "Extractor failed: %1s"
 msgstr "Rock Hill"
 
-#: fitsviewer/fitstab.cpp:735
+#: fitsviewer/fitstab.cpp:741
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:783
+#: fitsviewer/fitstab.cpp:789
 #, fuzzy, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Ychwanegu Catalog"
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:794
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Rock Hill"
 msgid "Solver failed: %1s"
 msgstr "Rock Hill"
 
-#: fitsviewer/fitstab.cpp:948
+#: fitsviewer/fitstab.cpp:954
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:949
+#: fitsviewer/fitstab.cpp:955
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
+#: fitsviewer/fitsview.cpp:510 fitsviewer/fitsview.cpp:520
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Show SEDS Image"
 msgid "Rescaling image failed."
 msgstr "Dangos Delwedd SEDS"
 
-#: fitsviewer/fitsview.cpp:704
+#: fitsviewer/fitsview.cpp:711
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1740
+#: fitsviewer/fitsview.cpp:1747
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1757
+#: fitsviewer/fitsview.cpp:1764
 #, fuzzy, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "Nawr"
 
-#: fitsviewer/fitsview.cpp:2212
+#: fitsviewer/fitsview.cpp:2219
 #, fuzzy, kde-format
 msgid "Finding stars..."
 msgstr "Ychwanegu Catalog"
 
-#: fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2460
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2456
+#: fitsviewer/fitsview.cpp:2463
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2459
+#: fitsviewer/fitsview.cpp:2466
 #, fuzzy, kde-format
 #| msgid "default"
 msgid "Default Zoom"
 msgstr "rhagosodiad"
 
-#: fitsviewer/fitsview.cpp:2462
+#: fitsviewer/fitsview.cpp:2469
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2465
+#: fitsviewer/fitsview.cpp:2472
 #, fuzzy, kde-format
 msgid "Toggle Stretch"
 msgstr "Toggle display of star name labels"
 
-#: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2477 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
 msgstr "Dangos llinellau cyfseriadau?"
 
-#: fitsviewer/fitsview.cpp:2482 fitsviewer/fitsview.cpp:2591
+#: fitsviewer/fitsview.cpp:2489 fitsviewer/fitsview.cpp:2598
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Daily Solar Images"
 msgid "Detect Stars in Image"
 msgstr "Delweddau Heulol Dyddiol"
 
-#: fitsviewer/fitsview.cpp:2488
+#: fitsviewer/fitsview.cpp:2495
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arrecife"
 msgid "View Star Profile..."
 msgstr "Arrecife"
 
-#: fitsviewer/fitsview.cpp:2498 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
 #: fitsviewer/fitsviewer.cpp:1273
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
@@ -29196,19 +29196,19 @@ msgstr "Arrecife"
 msgid "Show Equatorial Gridlines"
 msgstr "Gini'r Cyhydedd"
 
-#: fitsviewer/fitsview.cpp:2504 fitsviewer/fitsviewer.cpp:246
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
 #: fitsviewer/fitsviewer.cpp:1275
 #, fuzzy, kde-format
 #| msgid "Show &name"
 msgid "Show Objects in Image"
 msgstr "Dango&s enw"
 
-#: fitsviewer/fitsview.cpp:2510
+#: fitsviewer/fitsview.cpp:2517
 #, fuzzy, kde-format
 msgid "Center Telescope"
 msgstr "Gwrthrych"
 
-#: fitsviewer/fitsview.cpp:2516 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show HiPS Overlay"

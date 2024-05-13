@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 01:54+0000\n"
-"PO-Revision-Date: 2024-04-27 22:28+0100\n"
+"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"PO-Revision-Date: 2024-05-12 23:22+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -298,7 +298,7 @@ msgstr ""
 #: auxiliary/filedownloader.cpp:94
 #, kde-format
 msgid "Data verification failed"
-msgstr "Kontrolo de datumoj malsukcesis"
+msgstr "Konfirmo de datumoj malsukcesis"
 
 #: auxiliary/filedownloader.cpp:105
 #, kde-format
@@ -541,7 +541,7 @@ msgstr "Daŭrigi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:681 fitsviewer/fitstab.cpp:700
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -1360,7 +1360,7 @@ msgstr "Restarigi vidorotacion al 0"
 #: auxiliary/xplanetimageviewer.cpp:379
 #, kde-format
 msgid "Bring up XPlanet Options"
-msgstr "Alporti XPlanet-Opciojn"
+msgstr "Alporti XPlanet-Elekteblojn"
 
 #: auxiliary/xplanetimageviewer.cpp:405
 #, kde-format
@@ -2874,7 +2874,7 @@ msgstr "Tipomapado"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
@@ -6039,8 +6039,8 @@ msgid ""
 "<p>This wizard will help you set up some basic options, such as your "
 "location on Earth.</p><p>To get started, press the <b>Next</b> button.</p>"
 msgstr ""
-"<p>Ĉi tiu asistanto helpos vin agordi kelkajn bazajn opciojn, kiel via loko "
-"sur la Tero.</p><p>Por komenci, premu la butonon <b>Sekva</b>.</p>"
+"<p>Ĉi tiu asistanto helpos vin agordi kelkajn bazajn elekteblojn, kiel via "
+"loko sur la Tero.</p><p>Por komenci, premu la butonon <b>Sekva</b>.</p>"
 
 #: ekos/align/align.cpp:344
 #, kde-format
@@ -6458,7 +6458,7 @@ msgid "Capture error. Aborting..."
 msgstr "Kapta eraro. Abortante..."
 
 #: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
-#: ekos/capture/captureprocess.cpp:2107
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Rekomencante kaptoprovon #%1"
@@ -6472,7 +6472,7 @@ msgstr "Vicigi Kadron"
 #: ekos/align/align.cpp:3489
 #, kde-format
 msgid "StellarSolver Options"
-msgstr "StellarSolver-Opcioj"
+msgstr "StellarSolver-Elektebloj"
 
 #: ekos/align/align.cpp:3494
 #, kde-format
@@ -6487,7 +6487,7 @@ msgstr "Skalo kaj Pozicio"
 #: ekos/align/align.cpp:3502
 #, kde-format
 msgid "Align Options Profiles Editor"
-msgstr "Vicigi Opcio-Profilan Redaktilon"
+msgstr "Redaktilo por Vicig-Opciaj Profiloj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/align.cpp:3520 ekos/align/opsastrometryindexfiles.ui:329
@@ -6558,7 +6558,7 @@ msgstr "Ne eblas skribi al dosiero %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1715
-#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -6859,7 +6859,7 @@ msgstr "<html><head/><body><p>Reduktila aŭ Barlowa faktoro.</p></body></html>"
 #: ekos/align/align.ui:533
 #, kde-format
 msgid "Plate Solve Capture Options"
-msgstr "Kaptaj Opcioj de Pletsolvado"
+msgstr "Kaptaj Elektebloj de Pletsolvado"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_21)
@@ -7202,7 +7202,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Malfermi Ekos-Vicigoliston"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1714
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -7430,8 +7430,8 @@ msgid ""
 "The Declination of the points that will be generated.  This option only "
 "applies to the Fixed DEC Option."
 msgstr ""
-"La Deklinacio de la punktoj kiuj estos generitaj. Ĉi tiu opcio validas nur "
-"por la Fiksa DEC Opcio."
+"La Deklinacio de la punktoj kiuj estos generitaj. Ĉi tiu elekteblo validas "
+"nur por la Fiksa DEC-Opcio."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/align/mountmodel.ui:133
@@ -7716,7 +7716,7 @@ msgid ""
 "indent:0px;\">Built In Method uses whatever default Star Extraction process "
 "your selected Solving Method uses.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"center\">Opcioj por la metodo de "
+"<html><head/><body><p align=\"center\">Elektebloj por la metodo de "
 "Stelekstraktado</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
 "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
 "top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
@@ -7814,13 +7814,13 @@ msgstr "Solva Metodo"
 #: ekos/align/opsalign.ui:160
 #, kde-format
 msgid "Options Profile:"
-msgstr "Opcioj Profilo:"
+msgstr "Profilo de Elektebloj:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SolveOptionsProfile)
 #: ekos/align/opsalign.ui:181
 #, kde-format
 msgid "Selects the Options Profile to use for Plate Solving"
-msgstr "Elektas la Opcioj-Profilo por uzi por Pleta Solvado"
+msgstr "Elektas la Opcioj-Profilon uzendan por Pleta Solvado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
 #: ekos/align/opsalign.ui:197
@@ -7834,7 +7834,7 @@ msgstr ""
 #: ekos/align/opsalign.ui:212
 #, kde-format
 msgid "Alignment Options"
-msgstr "Opcioj de Paraleligo"
+msgstr "Elektebloj de Paraleligo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:230
@@ -7987,7 +7987,7 @@ msgstr "Elekti plenumeblan ASTAP"
 #: ekos/align/opsastap.ui:34 ekos/capture/rotatorsettings.ui:536
 #, kde-format
 msgid "Options"
-msgstr "Opcioj"
+msgstr "Elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPDownSampleValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPDownSample)
@@ -8079,7 +8079,7 @@ msgstr "Devigi Grandan Serĉfenestron"
 #: ekos/align/opsastrometry.ui:32
 #, kde-format
 msgid "Imaging Options"
-msgstr "Bildaj Opcioj"
+msgstr "Bildaj Elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_41)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_12)
@@ -8259,7 +8259,7 @@ msgstr "app"
 #: ekos/align/opsastrometry.ui:316
 #, kde-format
 msgid "Position Options"
-msgstr "Poziciaj Opcioj"
+msgstr "Poziciaj Elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUsePosition)
 #. i18n: ectx: label, entry (AstrometryUsePosition), group (Align)
@@ -10159,7 +10159,7 @@ msgstr "Kapto"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:730
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -10353,7 +10353,7 @@ msgid ""
 "You won't get HFR values without it. Once you set it, newly captured images "
 "will have their HFRs computed."
 msgstr ""
-"La opcio \"Auto Compute HFR\" en la opciomenuo de KStars FITS ne estas "
+"La elekteblo \"Auto Compute HFR\" en la opciomenuo de KStars FITS ne estas "
 "agordita. Vi ne ricevos HFR-valorojn sen ĝi. Post kiam vi fiksas ĝin, "
 "lastatempe kaptitaj bildoj havos siajn HFRojn komputitaj."
 
@@ -10364,7 +10364,7 @@ msgid ""
 "You won't get # stars in capture image values without it. Once you set it, "
 "newly captured images will have their stars detected."
 msgstr ""
-"La opcio \"Auto Compute HFR\" en la opciomenuo de KStars FITS ne estas "
+"La elekteblo \"Auto Compute HFR\" en la opciomenuo de KStars FITS ne estas "
 "agordita. Vi ne ricevos # stelojn en kaptaj bildaj valoroj sen ĝi. Post kiam "
 "vi fiksas ĝin, lastatempe kaptitaj bildoj havos siajn stelojn detektitaj."
 
@@ -10485,38 +10485,30 @@ msgstr "Enigo:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la horan angulan valoron de la muntaĵo.</p></"
-"body></html>"
+"<html><head/><body><p>Montri la antaŭan .analyze-dosieron.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
-#, fuzzy, kde-format
-#| msgid "<"
+#, kde-format
 msgid "<<"
-msgstr "<"
+msgstr "<<"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the Petzval surface.</p></body></"
-#| "html>"
+#, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marku por montri la Petzval-surfacon.</p></body></html>"
+"<html><head/><body><p>Montri la sekvan .analyze-dosieron.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
-#, fuzzy, kde-format
-#| msgid ">"
+#, kde-format
 msgid ">>"
-msgstr ">"
+msgstr ">>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, inputCombo)
 #: ekos/analyze/analyze.ui:161
@@ -11285,7 +11277,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Desegni la distancon inter la pleto-solvita kaptita "
 "bildo kaj la celpozicio en arksekundoj. Devas esti ebligita en planigaj "
-"opcioj.</p></body></html>"
+"elektebloj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, targetDistanceCB)
 #: ekos/analyze/analyze.ui:1496
@@ -12716,8 +12708,8 @@ msgid ""
 "Option to log astrometry messages to a separate file.  If you select LOG_ALL "
 "you REALLY want to check this box."
 msgstr ""
-"Opcio por registri astrometriajn mesaĝojn al aparta dosiero. Se vi elektas "
-"LOG_ALL vi VERE volas marki ĉi tiun skatolon."
+"Elekteblo por registri astrometriajn mesaĝojn al aparta dosiero. Se vi "
+"elektas LOG_ALL vi VERE volas marki ĉi tiun skatolon."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryLogToFile)
 #: ekos/auxiliary/opslogs.ui:468
@@ -12965,7 +12957,7 @@ msgstr ""
 "pulsojn. Ĉi tio povas esti unu el la sekvaj aparatoj:</p><p><span style=\" "
 "font-weight:600;\">Muntaĵo</span>: Se la Muntaĵo povas ricevi gvidajn "
 "korektajn pulsojn, tiam estas plej bone. elekti ĝin tiel ke la pulsoj estas "
-"rekte senditaj al la muntaĵo. Ĉi tiu estas la rekomendinda opcio.</"
+"rekte senditaj al la muntaĵo. Ĉi tiu estas la rekomendinda elekteblo.</"
 "p><p><span style=\" font-weight:600;\">ST4</span>: Se vi uzas ST4-kablon "
 "inter la gvidfotilo kaj monturo, vi elektu la Gvidfotilo kiel la Gvidilo.</"
 "p><p><span style=\" font-weight:600;\">Dediĉita Gvidilo</span>: Se vi uzas "
@@ -13389,7 +13381,7 @@ msgstr "HFR"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:32
 #, kde-format
 msgid "Options Profiles"
-msgstr "Opcioj Profiloj"
+msgstr "Opciaj Profiloj"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:64
@@ -14186,7 +14178,7 @@ msgstr "Ŝargi ĉiujn Indeksojn en Memoro"
 #: ekos/capture/calibrationoptions.ui:14
 #, kde-format
 msgid "Calibration Options"
-msgstr "Kalibraj Opcioj"
+msgstr "Kalibraj Elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:37
@@ -14634,7 +14626,7 @@ msgstr "<html><head/><body><p>Kalkulilo por elmeto</p></body></html>"
 #: ekos/capture/camera.ui:1205
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
-msgstr "Mallumaj kaj Plataj kadroj aŭtomataj kalibraj opcioj"
+msgstr "Mallumaj kaj Plataj kadroj aŭtomataj kalibraj elektebloj"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #: ekos/capture/camera.ui:1230 ekos/guide/guide.cpp:69
@@ -15384,7 +15376,7 @@ msgstr "Malsukcesis konservi la sekvencan vicon"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ĉu vi certas, ke vi volas restarigi la staton de ĉiuj taskoj?"
 
-#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2618
+#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2616
 #, kde-format
 msgid "Reset job status"
 msgstr "Restarigi taskstatuson"
@@ -15966,7 +15958,7 @@ msgstr "Eraro: Perdita konekto al CCD."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Ne povas kalkuli ADU-nivelojn en ne-FITS-bildoj."
 
-#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2097
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Kaptado malsukcesis. Kontrolu INDI-Kontrolpanelon por detaloj."
@@ -15976,74 +15968,74 @@ msgstr "Kaptado malsukcesis. Kontrolu INDI-Kontrolpanelon por detaloj."
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Elŝuta Tempo: %1 s, Nova Elŝuta Tempotakso: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1725
+#: ekos/capture/captureprocess.cpp:1723
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Ricevita bildo %1 el %2."
 
-#: ekos/capture/captureprocess.cpp:1759
+#: ekos/capture/captureprocess.cpp:1757
 #, kde-format
 msgid "Captured %1"
 msgstr "Kaptita %1"
 
-#: ekos/capture/captureprocess.cpp:1765
+#: ekos/capture/captureprocess.cpp:1763
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "AVERTO: ceteraj kaj eble nekonataj anstataŭiloj %1 en %2"
 
-#: ekos/capture/captureprocess.cpp:1798
+#: ekos/capture/captureprocess.cpp:1796
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Efektivigante kaptoskripton %1"
 
-#: ekos/capture/captureprocess.cpp:1813
+#: ekos/capture/captureprocess.cpp:1811
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Antaŭkapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1821
+#: ekos/capture/captureprocess.cpp:1819
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Post-kapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1833
+#: ekos/capture/captureprocess.cpp:1831
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Prilaborado de meridiano renverso..."
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Antaŭtaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:1848
+#: ekos/capture/captureprocess.cpp:1846
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Posttaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2027 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Templimo de elmeto. Abortante..."
 
-#: ekos/capture/captureprocess.cpp:2036
+#: ekos/capture/captureprocess.cpp:2034
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr "Templimo de elmeto. Pli ol 3 estis detektitaj, restartigos pelilon."
 
-#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:981
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Templimo de elmeto. Rekomencante ekspozicion..."
 
-#: ekos/capture/captureprocess.cpp:2080
+#: ekos/capture/captureprocess.cpp:2078
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Templimo de elmeto. Tro da. Ĉesigante..."
 
-#: ekos/capture/captureprocess.cpp:2158
+#: ekos/capture/captureprocess.cpp:2156
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16052,17 +16044,17 @@ msgstr ""
 "Plata calibrado malsukcesis. Kaptita bildo estas nur %1-bita dum petita ADU "
 "estas %2."
 
-#: ekos/capture/captureprocess.cpp:2169
+#: ekos/capture/captureprocess.cpp:2167
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Nuna bildo estas saturita (%1). La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/captureprocess.cpp:2191
+#: ekos/capture/captureprocess.cpp:2189
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Nuna ADU %1 ene de la celita ADU-toleremo intervalo."
 
-#: ekos/capture/captureprocess.cpp:2220
+#: ekos/capture/captureprocess.cpp:2218
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16071,22 +16063,22 @@ msgstr ""
 "Ne eblas kalkuli optimumajn eksponajn agordojn, bonvolu kapti la ebenaĵojn "
 "permane."
 
-#: ekos/capture/captureprocess.cpp:2228
+#: ekos/capture/captureprocess.cpp:2226
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Nuna ADU estas %1 La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/captureprocess.cpp:2448
+#: ekos/capture/captureprocess.cpp:2446
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Antaŭrigardo"
 
-#: ekos/capture/captureprocess.cpp:2567
+#: ekos/capture/captureprocess.cpp:2565
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekvenco paŭzita."
 
-#: ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/captureprocess.cpp:2615
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16095,21 +16087,21 @@ msgstr ""
 "Ĉiuj taskoj estas kompletaj. Ĉu vi volas restarigi la staton de ĉiuj taskoj "
 "kaj rekomenci kaptado?"
 
-#: ekos/capture/captureprocess.cpp:2631
+#: ekos/capture/captureprocess.cpp:2629
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
-"Averto: opcio \"Ĉiam Restarigi Sekvencon Kiam Komencante\" estas ebligita "
-"kaj restarigas la sinsekvon."
+"Averto: elekteblo \"Ĉiam Restarigi Sekvencon Kiam Komencante\" estas "
+"ebligita kaj restarigas la sinsekvon."
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2744
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ĉu vi certas, ke vi volas rekomenci %1 fotilpelilon?"
 
-#: ekos/capture/captureprocess.cpp:2747
+#: ekos/capture/captureprocess.cpp:2745
 #, kde-format
 msgid "Driver Restart"
 msgstr "Restarto de Pelilo"
@@ -16973,7 +16965,7 @@ msgstr ""
 "span> determinas kiel la rotatoro reagas post renverso aŭ se la rezulto de "
 "solvita referencbildo raportas malsaman kajoflankon respektive al la fakta "
 "kajoflanko de la muntaĵo</p><p>Renversa Politiko povas esti ŝanĝata en <span "
-"style=\" font-weight:600;\">Vicigaj Opcioj</span><span style=\" font-"
+"style=\" font-weight:600;\">Vicigaj Elektebloj</span><span style=\" font-"
 "size:12pt;\"> sub &quot;Agordoj de Rotaciilo&quot;.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -17064,7 +17056,7 @@ msgstr "Inversigi Direkton de Rotaciilo"
 #: ekos/capture/rotatorsettings.ui:570
 #, kde-format
 msgid "Align Options"
-msgstr "Vicigaj Opcioj"
+msgstr "Vicigaj Elektebloj"
 
 #: ekos/capture/scriptsmanager.cpp:42
 #, kde-format
@@ -17469,7 +17461,7 @@ msgstr "Rete"
 msgid "Offline"
 msgstr "Senrete"
 
-#: ekos/ekoslive/message.cpp:957
+#: ekos/ekoslive/message.cpp:959
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaikimporto malsukcesis."
@@ -18450,7 +18442,7 @@ msgstr "Senlabore."
 #: ekos/focus/focus.cpp:134
 #, kde-format
 msgid "Focus Options Profile Editor"
-msgstr "Profilredaktilo por Fokusaj Opcioj"
+msgstr "Profilredaktilo por Fokusaj Elektebloj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
@@ -19817,7 +19809,7 @@ msgstr ""
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Kvadratika</span>: Uzas "
 "polinoman kongruon de grado 2. Ĉi tio estas nuntempe la defaŭlta opcio kaj "
-"nuntempe la sola opcio por ĉiuj Algoritmoj krom Lineara 1 Paso.</li><li "
+"nuntempe la sola elekteblo por ĉiuj Algoritmoj krom Lineara 1 Paso.</li><li "
 "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">Hiperbolo</span>: Konformas hiperbolon al la datumpunktoj. Ĉi "
@@ -19965,19 +19957,19 @@ msgstr ""
 "efika fonto-detekta metodo bazita sur Fonta Eltilo (Bertin kaj Arnouts 1996; "
 "Bertin 2016). Vidu <a href=\"https://joss.theoj.org/papers/10.21105/"
 "joss.00058.pdf\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">SEP : Fonta Ekstraktilo kiel biblioteko</span></a> en la Ĵurnalo de "
-"Malferma Fonta Programaro.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Centroid</span>: "
-"fontodetekto bazita sur taksi stelmason ĉirkaŭ signalpintoj.</li><li style="
-"\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Gradiento</span>: unufonta detekto bazita sur la Sobel-filtrilo. Komenca "
-"aŭ plenkampa analizo uzos SEP anstataŭ ĉi tiun metodon.</li><li style=\" "
-"margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt -"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Sojlo</"
-"span>: ununura fonta detekto bazita sur rastrumeraj valoroj. Komenca aŭ "
-"plenkampa analizo uzos SEP anstataŭ ĉi tiu metodo.</li></ul></body></html>"
+"\">SEP : Fonta Ekstraktilo kiel biblioteko</span></a> en la Jounral of Open "
+"Source Software.</li><li style=\" margin-top:12px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Centroid</span>: fontodetekto bazita "
+"sur taksi stelmason ĉirkaŭ signalpintoj.</li><li style=\" margin-top:12px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Gradiento</span>: "
+"unufonta detekto bazita sur la Sobel-filtrilo. Komenca aŭ plenkampa analizo "
+"uzos SEP anstataŭ ĉi tiun metodon.</li><li style=\" margin-top:12px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt -block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Sojlo</span>: ununura fonta "
+"detekto bazita sur rastrumeraj valoroj. Komenca aŭ plenkampa analizo uzos "
+"SEP anstataŭ ĉi tiu metodo.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:295
@@ -20282,7 +20274,7 @@ msgstr ""
 "<html><head/><body><p>La plej foraj datumpunktoj havas siajn elmetotempojn "
 "pliigitaj je ĉi tiu faktoro. La enfokusa datenpunkt-elmeto ne estas pliigita."
 "Mezaj punktoj havas siajn elmetojn taŭge skalitaj.</p><p>Agordu al 1 por "
-"malŝalti ĉi tiun opcion.</p></body></html>"
+"malŝalti ĉi tiun elekteblon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:762
@@ -20332,7 +20324,7 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ĉi tiu opcio estas aktiva nur kiam Subkadro estas "
+"<html><head/><body><p>Ĉi tiu elekteblo estas aktiva nur kiam Subkadro estas "
 "elektita. Marku por permesi al Ekos elekti ununuran stelon por fokuso; "
 "malmarku por permesi al la uzanto elekti la stelon por uzi en FitsViewer.</"
 "p></body></html>"
@@ -20673,7 +20665,7 @@ msgid ""
 "Guide options."
 msgstr ""
 "La gastiganto ne estis trovita. Bonvolu kontroli la gastigan nomon kaj "
-"konektejajn agordojn en Gvid-opcioj."
+"konektejajn agordojn en Gvid-elektebloj."
 
 #: ekos/guide/externalguide/linguider.cpp:74
 #, kde-format
@@ -21183,7 +21175,7 @@ msgid ""
 "this option off for PHD2."
 msgstr ""
 "Averto: Restarigi Gvidan Kalibradon estas ebligita. Oni rekomendas malŝalti "
-"ĉi tiun opcion por PHD2."
+"ĉi tiun elekteblon por PHD2."
 
 #: ekos/guide/guide.cpp:2365
 #, kde-format
@@ -21289,7 +21281,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Subkadrigu la bildon ĉirkaŭ la gvidstelo. Aŭ por PHD2, "
 "ricevu la Gvidstelan Bildon anstataŭ la plenan bildkadron. Por la Interna "
-"Gvidisto, antaŭ ol kontroli ĉi tiun opcion, vi devas <span style=\" font-"
+"Gvidisto, antaŭ ol kontroli ĉi tiun elekteblon, vi devas <span style=\" font-"
 "weight:600;\">unue</span> kapti bildon kaj elekti gvidstelon. Malmarku ĝin "
 "por preni plenan kadron denove. <br/>Bonvolu noti: 'SEP Multi Star' <span "
 "style=\" font-weight:600;\">ne povas</span> uzi subkadron.</p></body></html>"
@@ -21970,8 +21962,8 @@ msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
-"Averto: Dithering malsukcesis. Aŭtogvidado daŭros kiel fiksite en la opcioj "
-"en kazo de malsukceso de dither."
+"Averto: Dithering malsukcesis. Aŭtogvidado daŭros kiel fiksite en la "
+"elektebloj en kazo de malsukceso de dither."
 
 #: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
@@ -22261,8 +22253,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Konservi kaj provi reuzi kalibradojn. Ĉi tio funkcias "
 "nur ĉe kontraŭaj flankoj de la meridiano se la moleo-flanko povas esti "
-"aŭtomate determinita de via muntaĵo. La supra opcio \"Restarigi Gvidilon pri "
-"Slew\" devas esti malmarkita por ke tio estu provita.</p></body></html>"
+"aŭtomate determinita de via muntaĵo. La supra elekteblo \"Restarigi Gvidilon "
+"pri Slew\" devas esti malmarkita por ke tio estu provita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
@@ -22867,13 +22859,13 @@ msgstr "Nombraj Periodoj por Perioda Takso"
 #: ekos/guide/opsguide.cpp:43
 #, kde-format
 msgid "Guide Options Profile Editor"
-msgstr "Gvidaj Opcioj Profila Redaktoro"
+msgstr "Redaktilo por Gvidil-Opcia Profilo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
 #: ekos/guide/opsguide.ui:32
 #, kde-format
 msgid "Control Parameters"
-msgstr "Kontrolaj Parametroj"
+msgstr "Stiraj Parametroj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:70
@@ -23142,7 +23134,7 @@ msgstr ""
 "<html><head/><body><p>Se la fotilo uzata por gvidado havas dediĉitan "
 "gvidpeceton, vi povas decidi, kiu el la fotilaj blatoj estu uzataj por "
 "gvidado: la primara blato aŭ la gvidpeto.</p><p>Por fotiloj kiuj havas nur "
-"unu blaton, ĉi tiu opcio estas ignorita.</p></body></html>"
+"unu blaton, ĉi tiu elekteblo estas ignorita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseGuideHead)
 #: ekos/guide/opsguide.ui:605
@@ -23543,22 +23535,22 @@ msgstr "Loko de la retejo ĝisdatigita al %1."
 msgid "Failed to update site location to %1. City not found."
 msgstr "Malsukcesis ĝisdatigi retejon al %1. Urbo ne trovita."
 
-#: ekos/manager.cpp:2792
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Ebligante sencimigan protokolon por %1..."
 
-#: ekos/manager.cpp:2800
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Malŝaltante sencimigan protokolon por %1..."
 
-#: ekos/manager.cpp:2828
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Reebligante sencimigan protokolon por %1..."
 
-#: ekos/manager.cpp:2840
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Remalŝaltas sencimigan protokolon por %1..."
@@ -23685,7 +23677,7 @@ msgstr "Altnivelaj Ekos-Ebloj"
 #: ekos/manager.ui:950
 #, kde-format
 msgid "Options..."
-msgstr "Opcioj..."
+msgstr "Elektebloj..."
 
 #. i18n: ectx: property (toolTip), widget (FocusProfilePlot, profilePlot)
 #: ekos/manager/focusmanager.ui:275
@@ -24557,7 +24549,7 @@ msgid ""
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Se elektite, la kupolo devas esti malparkigita por ke "
-"la observatoriostato estu \"PRETA\".</p></body></html>"
+"la observatoriostato estu &quot;PRETA&quot;.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useShutterCB)
 #: ekos/observatory/observatory.ui:729
@@ -24567,7 +24559,7 @@ msgid ""
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Se elektata, la obturatoro devas esti malfermita por "
-"ke la observatoriostato estu \"PRETA\".</p></body></html>"
+"ke la observatoriostato estu &quot;PRETA&quot;.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useWeatherCB)
 #: ekos/observatory/observatory.ui:739
@@ -24577,7 +24569,7 @@ msgid ""
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Se estas elektita, la vetero devas esti bona por ke la "
-"observatoriostato estas \"PRETA\".</p></body></html>"
+"observatoriostato estas &quot;PRETA&quot;.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, statusReadyButton)
 #: ekos/observatory/observatory.ui:770
@@ -24725,8 +24717,8 @@ msgstr "Sklavo aktivigita."
 msgid "Slaving deactivated."
 msgstr "Sklavo malaktivigita."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:677
-#: fitsviewer/fitstab.cpp:696
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
+#: fitsviewer/fitstab.cpp:702
 #, kde-format
 msgid "Aborting..."
 msgstr "Abortante..."
@@ -24779,10 +24771,9 @@ msgid "You must restart KStars for this change to take effect."
 msgstr "Vi devas rekomenci KStars por ke ĉi tiu ŝanĝo ekvalidu."
 
 #: ekos/opsekos.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set an alternate base directory for your captured images"
+#, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "Meti alternativan bazdosierujon por viaj kaptitaj bildoj"
+msgstr "Meti alternativan bazdosierujon por bildoj kaptitaj de Analyze"
 
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
 #: ekos/opsekos.ui:14
@@ -25016,7 +25007,8 @@ msgid ""
 "this option so that no disconnection errors are generated.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Se la malŝalta skripto finas INDI-servilon, ebligu ĉi "
-"tiun opcion por ke neniuj malkonekt-eraroj estu generitaj.</p></body></html>"
+"tiun elekteblon por ke neniuj malkonekt-eraroj estu generitaj.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/opsekos.ui:368
@@ -25243,7 +25235,7 @@ msgid ""
 "progress is enabled.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Kiam oni komencas prilabori sinsekvon, restarigi ĉiujn "
-"kaptkalkulojn al nulo. Planilo anstataŭas ĉi tiun opcion kiam Memori "
+"kaptkalkulojn al nulo. Planilo anstataŭas ĉi tiun elekteblon kiam Memori "
 "Taskoprogreson estas ebligita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
@@ -25332,26 +25324,27 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se Analyze estas rulanta kaj Ekos estas malkonektita "
+"kaj rekonektita, nova .analyze-dosiero estos kreita kaj skribita, kaj la "
+"grafeoj en Analyze nur montros la novan seancon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:923
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr ""
+msgstr "Rekomenci Analyze kiam Ekos Restartas"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:947
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Alternative Image Directory: "
-msgstr "Meti alternativan bilddosieran bazdosierujon"
+msgstr "Alternativa Bilddosierujo:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:966
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "Meti alternativan bilddosieran bazdosierujon"
+msgstr "Meti la alternativan bilddosierujon por Analyze"
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -25458,10 +25451,10 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body>\n"
-"<p>Sendu nunajn agordojn de geografia retejo de KStars al peliloj post kiam "
+"<p>Sendi nunajn agordojn de geografia retejo de KStars al peliloj post kiam "
 "Ekos estas enreta.</p>\n"
-"<p>Ĉi tiu opcio devas esti uzata nur kiam vi konektas al fora geografia "
-"retejo. .</p>\n"
+"<p>Ĉi tiu elekteblo devas esti uzata nur kiam vi konektas al fora geografia "
+"retejo.</p>\n"
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, loadSiteCheck)
@@ -25741,10 +25734,10 @@ msgstr ""
 "<html><head/><body><p>Aldoni malproksimajn INDI-pelilojn por ĉeni kun la "
 "loka INDI-servilo agordita de ĉi tiu profilo. Formatu ĉi tiun kampon kiel "
 "komo-disigita listo de citita pelilnomo, gastiga nomo/adreso kaj laŭvola "
-"konektejo:</p><p><span style=\" font-weight:600;\">\"ZWO ASI120MC"
-"\"@192.168 .1.50:8000</span><br/>Konektu al la nomita fotilo ĉe "
-"192.168.1.50, konektejo 8000.</p><p><span style=\" font-weight:600;\">"
-"\"EQMod Mount \"@192.168.1.50</span><br/>Konektu al la nomita muntaĵo ĉe "
+"konektejo:</p><p><span style=\" font-weight:600;\">&quot;ZWO ASI120MC&quot;"
+"@192.168 .1.50:8000</span><br/>Konektu al la nomita fotilo ĉe 192.168.1.50, "
+"konektejo 8000.</p><p><span style=\" font-weight:600;\">&quot;EQMod "
+"Mount&quot;@192.168.1.50</span><br/>Konektu al la nomita muntaĵo ĉe "
 "192.168.1.50, konektejo 7624.</p><p><span style=\" font-weight:600;"
 "\">@192.168 .1.50:8000</span><br/>Konektiĝu al ĉiuj peliloj trovitaj ĉe "
 "192.168.1.50, konektejo 8000.</p><p><span style=\" font-weight:600;"
@@ -27284,8 +27277,8 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 "Averto: taskoj '%1' ĉe vico %2 kaj %3 verŝajne postulas malsaman ripetan "
-"nombradon ĉar nuntempe ili finiĝos samtempe post %4 aroj (aŭ malŝalti opcion "
-"'Memori taskoprogreson')"
+"nombradon ĉar nuntempe ili finiĝos samtempe post %4 aroj (aŭ malŝalti "
+"elekteblon 'Memori taskoprogreson')"
 
 #: ekos/scheduler/scheduler.cpp:908
 #, kde-format
@@ -27662,9 +27655,9 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Ripeti ĉiujn planitajn taskojn tuj post kiam ĉiuj "
-"taskoj estis kompletigitaj. Tiu opcio nur estas havebla se la <span style=\" "
-"font-weight:700;\">Memori Taskoprogreson</span> opcio en Ekos Scheduler ne "
-"estas elektita.</p></body></html>"
+"taskoj estis kompletigitaj. Tiu elekteblo nur estas havebla se la <span "
+"style=\" font-weight:700;\">Memori Taskoprogreson</span> elekteblo en Ekos "
+"Scheduler ne estas elektita.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerRepeatEverything)
 #: ekos/scheduler/scheduler.ui:1243
@@ -27820,7 +27813,7 @@ msgid ""
 "options to adjust the interval.</p></body></html>"
 msgstr ""
 "<html><body><p>La krepuska limigo limigas taskojn por plenumi en astronomia "
-"mallumo. Uzi la krepusko- kaj tagiĝo-kompensojn en la opcioj de Ekos "
+"mallumo. Uzi la krepusko- kaj tagiĝo-kompensojn en la elektebloj de Ekos "
 "Scheduler por ĝustigi la intervalon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
@@ -27872,10 +27865,10 @@ msgstr ""
 "indikas ke la Suno ne vojaĝos sub la astronomia krepuska limo post kiam la "
 "tasko komenciĝas, kaj ke tagiĝo kaj krepusko tempoj estas kalkulitaj de ĝia "
 "minimuma alteco. En tiu situacio, la limigo de Krepusko malhelpas la "
-"plenumadon de tasko krom se la opcioj de Ekos Dawn Offset kaj Dusk Offset "
-"estas taŭge agorditaj.</p><p>Rimarku, ke la opcio de Ekos Pre-Dawn Offset "
-"preskaŭ antaŭas tagiĝo defaŭlte de 30 minutoj kaj faros tiel malebligas ke "
-"tasko komenciĝu ĝuste antaŭ tiu momento.</p></body></html>"
+"plenumadon de tasko krom se la elektebloj de Ekos Dawn Offset kaj Dusk "
+"Offset estas taŭge agorditaj.</p><p>Rimarku, ke la elekteblo de Ekos Pre-"
+"Dawn Offset preskaŭ antaŭas tagiĝo defaŭlte de 30 minutoj kaj faros tiel "
+"malebligas ke tasko komenciĝu ĝuste antaŭ tiu momento.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:1782
@@ -27980,7 +27973,7 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Reprogramu tuj</span>: Tuj kiam tasko estas "
 "nuligita, la planisto reprogramas ĝin kaj atendos la donitan prokraston.</"
-"li></ul><p>Se la opcio por reprogramado de eraroj estas elektita, eraroj "
+"li></ul><p>Se la elekteblo por reprogramado de eraroj estas elektita, eraroj "
 "estas traktataj kiel abortoj. Alie, taskoj kiuj paŝas en eraron neniam estas "
 "replanitaj.</p></body></html>"
 
@@ -29500,141 +29493,141 @@ msgstr "Konservi bildon"
 msgid "File saved to %1"
 msgstr "Dosiero konservita al %1"
 
-#: fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:692
 #, kde-format
 msgid "Extracting..."
 msgstr "Ĉerpante..."
 
-#: fitsviewer/fitstab.cpp:704
+#: fitsviewer/fitstab.cpp:710
 #, kde-format
 msgid "Solving..."
 msgstr "Solvante..."
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:723
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Ekstraktilo eltempiĝis: %1s"
 
-#: fitsviewer/fitstab.cpp:726
+#: fitsviewer/fitstab.cpp:732
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Ekstraktilo malsukcesis: %1s"
 
-#: fitsviewer/fitstab.cpp:735
+#: fitsviewer/fitstab.cpp:741
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Ĉerpis %1 stelojn (%2 nefiltritaj) en %3s"
 
-#: fitsviewer/fitstab.cpp:783
+#: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Solvanto eltempiĝis: %1s"
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:794
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Solvanto malsukcesis: %1s"
 
-#: fitsviewer/fitstab.cpp:948
+#: fitsviewer/fitstab.cpp:954
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "Averto! Ĉi tiu ilo nur subtenas la internan StellarSolver-solvilon."
 
-#: fitsviewer/fitstab.cpp:949
+#: fitsviewer/fitstab.cpp:955
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
-msgstr "Ŝanĝi al tiu en la Ekos-Align opciomenuo."
+msgstr "Ŝanĝi al tiu en la Ekos-Align elekteblomenuo."
 
-#: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
+#: fitsviewer/fitsview.cpp:510 fitsviewer/fitsview.cpp:520
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "Reskalado de bildo malsukcesis."
 
-#: fitsviewer/fitsview.cpp:704
+#: fitsviewer/fitsview.cpp:711
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "Ne povas pligrandigi pro aktiva reĝimo kun limigitaj rimedoj."
 
-#: fitsviewer/fitsview.cpp:1740
+#: fitsviewer/fitsview.cpp:1747
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1757
+#: fitsviewer/fitsview.cpp:1764
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2212
+#: fitsviewer/fitsview.cpp:2219
 #, kde-format
 msgid "Finding stars..."
 msgstr "Trovante stelojn..."
 
-#: fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2460
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom En"
 
-#: fitsviewer/fitsview.cpp:2456
+#: fitsviewer/fitsview.cpp:2463
 #, kde-format
 msgid "Zoom Out"
 msgstr "Malzomi"
 
-#: fitsviewer/fitsview.cpp:2459
+#: fitsviewer/fitsview.cpp:2466
 #, kde-format
 msgid "Default Zoom"
 msgstr "Defaŭlta Zoom"
 
-#: fitsviewer/fitsview.cpp:2462
+#: fitsviewer/fitsview.cpp:2469
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Zomi al Konveni"
 
-#: fitsviewer/fitsview.cpp:2465
+#: fitsviewer/fitsview.cpp:2472
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Baskuligi Streĉigon"
 
-#: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Montri Kruchalon"
 
-#: fitsviewer/fitsview.cpp:2477 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Montri Rastrumerajn Kradliniojn"
 
-#: fitsviewer/fitsview.cpp:2482 fitsviewer/fitsview.cpp:2591
+#: fitsviewer/fitsview.cpp:2489 fitsviewer/fitsview.cpp:2598
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detekti Stelojn en Bildo"
 
-#: fitsviewer/fitsview.cpp:2488
+#: fitsviewer/fitsview.cpp:2495
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Rigardi Stelan Profilon..."
 
-#: fitsviewer/fitsview.cpp:2498 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
 #: fitsviewer/fitsviewer.cpp:1273
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Montri Ekvatorajn Kradliniojn"
 
-#: fitsviewer/fitsview.cpp:2504 fitsviewer/fitsviewer.cpp:246
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
 #: fitsviewer/fitsviewer.cpp:1275
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Montri Objektojn en Bildo"
 
-#: fitsviewer/fitsview.cpp:2510
+#: fitsviewer/fitsview.cpp:2517
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centra Teleskopo"
 
-#: fitsviewer/fitsview.cpp:2516 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Montri HiPS-supermeton"
@@ -30190,7 +30183,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Aŭtomate ŝargi datumojn pri Monda-Koordinata-Sistemo "
 "(WCS) dum malfermado de FITS-dosiero.</p><p><span style=\" font-weight:600;"
-"\">Averto: Ebligu ĉi tiun opcion nur ĉe tre rapidaj maŝinoj ĉar ĝi povas "
+"\">Averto: Ebligu ĉi tiun elekteblon nur ĉe tre rapidaj maŝinoj ĉar ĝi povas "
 "konduki al neantaŭvidebla konduto rezultiganta paneojn sur pli malrapidaj "
 "maŝinoj.</span></p></body></html>"
 
@@ -30394,7 +30387,7 @@ msgstr "Solvi Bildon"
 #: fitsviewer/solveInfo.ui:106
 #, kde-format
 msgid "Solve Options"
-msgstr "Opcioj de Solvado"
+msgstr "Elektebloj de Solvado"
 
 #. i18n: ectx: property (text), widget (QPushButton, logB)
 #: fitsviewer/solveInfo.ui:113
@@ -30844,7 +30837,7 @@ msgstr ""
 #: indi/collimationOptions.ui:20
 #, kde-format
 msgid "Collimation Overlay Options"
-msgstr "Opcioj por la Kolimata Superkovro"
+msgstr "Elektebloj por la Kolimata Superkovro"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: indi/collimationOptions.ui:55
@@ -31681,7 +31674,7 @@ msgstr "Montri INDI-protokolojn..."
 #: indi/recordingoptions.ui:14
 #, kde-format
 msgid "Recording Options"
-msgstr "Registradaj Opcioj"
+msgstr "Registradaj Elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
@@ -31861,7 +31854,7 @@ msgstr "Komenci Registradon"
 #: indi/streamform.ui:86
 #, kde-format
 msgid "Recording Options..."
-msgstr "Registradaj Opcioj..."
+msgstr "Registradaj Elektebloj..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
@@ -31885,7 +31878,7 @@ msgstr "Baskuligi Kolimadon"
 #: indi/streamform.ui:193
 #, kde-format
 msgid "Collimation Overlay Options..."
-msgstr "Kolimaciaj Supermetaj Opcioj..."
+msgstr "Kolimaciaj Supermetaj Elektebloj..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:215
@@ -32514,7 +32507,7 @@ msgstr ""
 #: kstars.kcfg:40
 #, kde-format
 msgid "Meta-option to toggle display of all InfoBoxes"
-msgstr "Meta-opcio por ŝanĝi la montradon de ĉiuj Informkestoj"
+msgstr "Meta-elekteblo por ŝanĝi la montradon de ĉiuj Informkestoj"
 
 #. i18n: ectx: whatsthis, entry (ShowInfoBoxes), group (GUI)
 #: kstars.kcfg:41
@@ -32752,8 +32745,8 @@ msgid ""
 "such resolved objects on the sky map."
 msgstr ""
 "Nomoj de objektoj enigitaj en la trovi dialogon estas solvitaj per "
-"interretaj servoj kaj konservitaj en la datumbazo. Ĉi tiu opcio ankaŭ ŝanĝas "
-"la montradon de tiaj solvitaj objektoj sur la ĉielmapo."
+"interretaj servoj kaj konservitaj en la datumbazo. Ĉi tiu elekteblo ankaŭ "
+"ŝanĝas la montradon de tiaj solvitaj objektoj sur la ĉielmapo."
 
 #. i18n: ectx: label, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:141
@@ -33873,14 +33866,14 @@ msgid ""
 "Toggle whether the Milky Way contour is filled. When this option is false, "
 "the Milky Way is shown as an outline."
 msgstr ""
-"Baskuligi ĉu la konturo de Lakta Vojo estas plenigita. Kiam ĉi tiu opcio "
+"Baskuligi ĉu la konturo de Lakta Vojo estas plenigita. Kiam ĉi tiu elekteblo "
 "estas falsa, la Lakta Vojo estas montrita kiel skizo."
 
 #. i18n: ectx: label, entry (ShowSolarSystem), group (View)
 #: kstars.kcfg:637
 #, kde-format
 msgid "Meta-option for all planets in the sky map."
-msgstr "Meta-opcio por ĉiuj planedoj en la ĉiela mapo."
+msgstr "Meta-elekteblo por ĉiuj planedoj en la ĉiela mapo."
 
 #. i18n: ectx: whatsthis, entry (ShowSolarSystem), group (View)
 #: kstars.kcfg:638
@@ -33889,8 +33882,8 @@ msgid ""
 "Meta-option to control whether all major planets (and the Sun and Moon) are "
 "drawn in the sky map."
 msgstr ""
-"Meta-opcio por kontroli ĉu ĉiuj ĉefaj planedoj (kaj la Suno kaj Luno) estas "
-"desegnitaj en la ĉielmapo."
+"Meta-elekteblo por kontroli ĉu ĉiuj ĉefaj planedoj (kaj la Suno kaj Luno) "
+"estas desegnitaj en la ĉielmapo."
 
 #. i18n: ectx: label, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:642
@@ -35262,7 +35255,7 @@ msgstr "Uzi FIFO-dosieron"
 #: kstars.kcfg:1176
 #, kde-format
 msgid "Option to use a FIFO file instead of saving to the hard disk"
-msgstr "Opcio uzi FIFO-dosieron anstataŭ konservi al la malmola disko"
+msgstr "Elekteblo uzi FIFO-dosieron anstataŭ konservi al la malmola disko"
 
 #. i18n: ectx: label, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1180
@@ -35518,7 +35511,7 @@ msgid ""
 "option is specified, although shadows will still be drawn."
 msgstr ""
 "La defaŭlta estas neniu projekcio. Multoblaj korpoj ne estos montritaj se ĉi "
-"tiu opcio estas specifita, kvankam ombroj ankoraŭ estos desegnitaj."
+"tiu elekteblo estas specifita, kvankam ombroj ankoraŭ estos desegnitaj."
 
 #. i18n: ectx: label, entry (XplanetBackground), group (Xplanet)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetBackground)
@@ -35535,8 +35528,9 @@ msgid ""
 "it. This option is only meaningful with the -projection option. A color may "
 "also be supplied."
 msgstr ""
-"Uzi dosieron kiel fonbildon, kun la planedo supermetita al ĝi. Ĉi tiu opcio "
-"estas signifa nur kun la opcio -projekcio. Koloro ankaŭ povas esti provizita."
+"Uzi dosieron kiel fonbildon, kun la planedo supermetita al ĝi. Ĉi tiu "
+"elekteblo estas signifa nur kun la elekteblo -projection. Koloro ankaŭ povas "
+"esti provizita."
 
 #. i18n: ectx: label, entry (XplanetBackgroundImage), group (Xplanet)
 #: kstars.kcfg:1286
@@ -35763,7 +35757,7 @@ msgid ""
 "This option is only used when creating JPEG images. The quality can range "
 "from 0 to 100. The default value is 80."
 msgstr ""
-"Ĉi tiu opcio estas uzata nur dum kreado de JPEG-bildoj. La kvalito povas "
+"Ĉi tiu elekteblo estas uzata nur dum kreado de JPEG-bildoj. La kvalito povas "
 "varii de 0 ĝis 100. La defaŭlta valoro estas 80."
 
 #. i18n: ectx: label, entry (ShowSatellites), group (Satellites)
@@ -35854,9 +35848,9 @@ msgid ""
 "free. There are known bugs in the rendering of stars when this recomputation "
 "is avoided."
 msgstr ""
-"Kontroli ĉi tiun opcion kaŭzas rekomputadon de nunaj ekvatoraj koordinatoj "
-"de katalogokoordinatoj (t.e. apliko de precesio, nutacio kaj aberaciaj "
-"korektoj) por ĉiu redesegnaĵo de la mapo. Ĉi tio malrapidigas la "
+"Kontroli ĉi tiun elekteblon kaŭzas rekomputadon de nunaj ekvatoraj "
+"koordinatoj de katalogokoordinatoj (t.e. apliko de precesio, nutacio kaj "
+"aberaciaj korektoj) por ĉiu redesegnaĵo de la mapo. Ĉi tio malrapidigas la "
 "prilaboradon kiam estas multaj steloj por manipuli, sed pli verŝajne estos "
 "senerara. Estas konataj cimoj en la bildigo de steloj kiam ĉi tiu rekalkulo "
 "estas evitita."
@@ -35888,7 +35882,7 @@ msgid ""
 "padding added to either dimension of the field."
 msgstr ""
 "Por inkluzivi partojn de la stelkampo, ni aldonas iom da ekstra kompletigo "
-"ĉirkaŭ DSS-bildoj de profundaĉielaj objektoj. Ĉi tiu opcio agordas la "
+"ĉirkaŭ DSS-bildoj de profundaĉielaj objektoj. Ĉi tiu elekteblo agordas la "
 "totalan (ambaŭ flankojn) kompletigo aldonitan al ĉiu dimensio de la kampo."
 
 #. i18n: ectx: label, entry (VerboseLogging), group (General)
@@ -35904,7 +35898,7 @@ msgid ""
 "Checking this option causes KStars to generate verbose debug information for "
 "diagnostic purposes. This may cause slowdown of KStars."
 msgstr ""
-"Kontrolante ĉi tiun opcion igas KStars generi multvortajn sencimigajn "
+"Kontrolante ĉi tiun elekteblon igas KStars generi multvortajn sencimigajn "
 "informojn por diagnozaj celoj. Ĉi tio povas kaŭzi malrapidiĝon de KStars."
 
 #. i18n: ectx: label, entry (RegularLogging), group (General)
@@ -35919,7 +35913,8 @@ msgstr "Ebligi Regulan Registradon"
 msgid ""
 "Checking this option causes KStars to generate regular debug information."
 msgstr ""
-"Kontrolante ĉi tiun opcion igas KStars generi regulajn sencimigajn informojn."
+"Markante ĉi tiun elekteblon igas KStars generi regulajn sencimigajn "
+"informojn."
 
 #. i18n: ectx: label, entry (DisableLogging), group (General)
 #: kstars.kcfg:1429
@@ -35933,7 +35928,7 @@ msgstr "Malebligi Vorteman Registradon"
 msgid ""
 "Checking this option causes KStars to stop generating ANY debug information."
 msgstr ""
-"Kontrolante ĉi tiun opcion igas KStars ĉesi generi AJN ajn sencimigan "
+"Markante ĉi tiun elekteblon igas KStars ĉesi generi AJN ajn sencimigan "
 "informon."
 
 #. i18n: ectx: label, entry (LogToDefault), group (General)
@@ -35949,7 +35944,7 @@ msgid ""
 "Checking this option causes KStars log debug messages to the default output "
 "used by the platform (e.g. Standard Error)."
 msgstr ""
-"Kontroli ĉi tiun opcion kaŭzas ke KStars protokolis sencimigajn mesaĝojn al "
+"Marki ĉi tiun elekteblon kaŭzas ke KStars protokolis sencimigajn mesaĝojn al "
 "la defaŭlta eligo uzata de la platformo (ekz. Norma Eraro)."
 
 #. i18n: ectx: label, entry (LogToFile), group (General)
@@ -35965,7 +35960,7 @@ msgid ""
 "Checking this option causes KStars log debug messages to a log file as "
 "specified."
 msgstr ""
-"Kontrolante ĉi tiun opcion kaŭzas KStars protokoli elcimigi mesaĝojn al "
+"Markante ĉi tiun elekteblon kaŭzas KStars protokoli elcimigi mesaĝojn al "
 "protokoldosiero kiel specifita."
 
 #. i18n: ectx: whatsthis, entry (FITSLogging), group (General)
@@ -36762,7 +36757,7 @@ msgid ""
 "Progress is enabled.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Kiam oni komencas prilabori sinsekvon, restarigi ĉiujn "
-"kaptkalkulojn al nulo. Planilo superas ĉi tiun opcion kiam Memori "
+"kaptkalkulojn al nulo. Planilo superas ĉi tiun elekteblon kiam Memori "
 "Taskoprogreson estas ebligita.</p></body></html>"
 
 #. i18n: ectx: label, entry (FlatSyncFocus), group (Capture)
@@ -37855,7 +37850,7 @@ msgid ""
 "Do not sanitize FITS. This option should only be checked if astrometry.net "
 "version is 0.67 or earlier. Uncheck for any versions greater than 0.67."
 msgstr ""
-"Ne sanigi FITS. Ĉi tiu opcio devus esti kontrolita nur se astrometry.net-"
+"Ne sanigi FITS. Ĉi tiu elekteblo devus esti kontrolita nur se astrometry.net-"
 "versio estas 0.67 aŭ pli frua. Malmarku por iuj versioj pli grandaj ol 0.67."
 
 #. i18n: ectx: label, entry (AstrometryUseResort), group (Align)
@@ -37865,8 +37860,8 @@ msgid ""
 "Check this option if your image does not have much nebulosity. If it does "
 "have strong nebulosity, uncheck it."
 msgstr ""
-"Marku ĉi tiun opcion se via bildo ne havas multe da nebuleco. Se ĝi havas "
-"fortan nebulecon, malmarku ĝin."
+"Marku ĉi tiun elekteblon se via bildo ne havas multe da nebuleco. Se ĝi "
+"havas fortan nebulecon, malmarku ĝin."
 
 #. i18n: ectx: label, entry (AstrometryUseNoVerify), group (Align)
 #: kstars.kcfg:2523
@@ -37962,7 +37957,7 @@ msgstr "Detekti egalecon kaj reuzi ĝin por akceli solvilon."
 #: kstars.kcfg:2579
 #, kde-format
 msgid "Additional optional astrometry.net options"
-msgstr "Pliaj laŭvolaj opcioj de astrometry.net"
+msgstr "Pliaj laŭvolaj elektebloj de astrometry.net"
 
 #. i18n: ectx: label, entry (AstrometrySolverBinary), group (Align)
 #: kstars.kcfg:2582
@@ -72276,7 +72271,7 @@ msgstr "On"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Options"
-msgstr "Opcioj"
+msgstr "Elektebloj"
 
 #: libindi_strings.cpp:341
 #, kde-kuit-format
@@ -72312,7 +72307,7 @@ msgstr "PE W/E"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Park Options"
-msgstr "Parkaj Opcioj"
+msgstr "Parkaj Elektebloj"
 
 #: libindi_strings.cpp:347
 #, kde-kuit-format
@@ -72576,7 +72571,7 @@ msgstr "Registrado Ŝaltita"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record Options"
-msgstr "Registraj Opcioj"
+msgstr "Registraj Elektebloj"
 
 #: libindi_strings.cpp:391
 #, kde-kuit-format
@@ -74591,7 +74586,7 @@ msgid ""
 "free. There are known bugs in the rendering of stars when this recomputation "
 "is avoided."
 msgstr ""
-"Kontroli ĉi tiun opcion kaŭzas rekomputadon de nunaj ekvatoraj koordinatoj "
+"Marki ĉi tiun elekteblon kaŭzas rekomputadon de nunaj ekvatoraj koordinatoj "
 "de katalogokoordinatoj (t.e. apliko de precesio, nutacio kaj aberaciaj "
 "korektoj) por ĉiu redesegnaĵo de la mapo. Ĉi tio malrapidigas la "
 "prilaboradon kiam estas multaj steloj por manipuli, sed pli verŝajne estos "
@@ -75324,9 +75319,9 @@ msgid ""
 "saturation level of the star's colors.  A higher value means more intense "
 "colors."
 msgstr ""
-"Kiam vi uzas la reĝimon de stelo de realismaj koloroj, ĉi tiu opcio agordos "
-"la saturan nivelon de la koloroj de la stelo. Pli alta valoro signifas pli "
-"intensajn kolorojn."
+"Kiam vi uzas la reĝimon de stelo de realismaj koloroj, ĉi tiu elekteblo "
+"agordos la saturan nivelon de la koloroj de la stelo. Pli alta valoro "
+"signifas pli intensajn kolorojn."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opscolors.ui:186
@@ -75367,7 +75362,7 @@ msgid ""
 msgstr ""
 "Post ŝanĝi la kolorojn al skemo, kiun vi ŝatas, premu ĉi tiun butonon por "
 "krei novan skemon uzante tiujn kolorojn. Via skemo aperos ĉi tie en la listo "
-"de antaŭdiroj, kaj ankaŭ estos disponebla en la menuo \"Agordoj\" de la ĉefa "
+"de antaŭmetoj, kaj ankaŭ estos disponebla en la menuo \"Agordoj\" de la ĉefa "
 "fenestro."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemovePreset)
@@ -75396,7 +75391,7 @@ msgstr "Aplikaj Etosoj"
 #: options/opsdeveloper.ui:34
 #, kde-format
 msgid "Developer Options"
-msgstr "Opcioj por programistoj"
+msgstr "Elektebloj por programistoj"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:40
@@ -75546,7 +75541,7 @@ msgstr "Konstelaciaj &nomoj"
 #: options/opsguides.ui:106
 #, kde-format
 msgid "Constellation Name Options"
-msgstr "Konstelaciaj Nom-Opcioj"
+msgstr "Konstelaciaj Nom-Elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:127
@@ -75991,7 +75986,7 @@ msgstr "%1 eraro pri kalkulo de pozicio: %2."
 #: options/opssatellites.ui:19
 #, kde-format
 msgid "View Options"
-msgstr "Vidi Opciojn"
+msgstr "Elektebloj de Vido"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSatellites)
 #: options/opssatellites.ui:30
@@ -76492,7 +76487,7 @@ msgstr "Teraj satelitaj spuroj"
 #: options/opssupernovae.ui:19
 #, kde-format
 msgid "Supernovae Options"
-msgstr "Supernovae Opcioj"
+msgstr "Elektebloj de Supernovae"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_SupernovaDownloadUrl)
 #: options/opssupernovae.ui:27
@@ -76563,7 +76558,7 @@ msgstr "PNG-dosieroj (*.png)"
 #: options/opsterrain.ui:23
 #, kde-format
 msgid "Source Options"
-msgstr "Fontaj Opcioj"
+msgstr "Fontaj Elektebloj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowTerrain)
 #: options/opsterrain.ui:31
@@ -76618,7 +76613,7 @@ msgstr "Rotacii terenon en altgradoj tiel norde estas fakte norda"
 #: options/opsterrain.ui:214
 #, kde-format
 msgid "Speedup options"
-msgstr "Akcelopcioj"
+msgstr "Akcel-elektebloj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainDownsamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainDownsampling)
@@ -77095,7 +77090,7 @@ msgstr "Komenci kapton"
 #: printing/pwizfovsh.ui:77
 #, kde-format
 msgid "Set Star Hopper FOV Capture Options"
-msgstr "Agordi Star Hopper FOV Kapto-Opciojn"
+msgstr "Agordi Star Hopper FOV Kapto-Elekteblojn"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovsh.ui:100
@@ -78966,7 +78961,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Defaŭlte, KStars sendas kun la katalogoj de objektoj de profunda "
-"ĉielo NGC kaj IC. Vi povas elŝuti multajn pliajn katalogojn de la opcio "
+"ĉielo NGC kaj IC. Vi povas elŝuti multajn pliajn katalogojn de la elekteblo "
 "Dosiero->Elŝuti Novajn Datumojn. Vi ankaŭ povas fari viajn proprajn proprajn "
 "katalogojn kaj aldoni ilin.\n"
 "\t\t</p>\n"
@@ -78985,7 +78980,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Defaŭlte, KStars sendas katalogon de steloj ĝis proksimume magnitudo "
 "8. Vi povas elŝuti pliajn stelkatalogojn (Tycho-2 kaj USNO NOMAD) por montri "
-"ĝis 100 milionojn da steloj ĝis proksimume magnitudo 16 uzante la opcio "
+"ĝis 100 milionojn da steloj ĝis proksimume magnitudo 16 uzante la elekteblo "
 "Dosiero->Elŝutu Novajn Datumojn.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -79016,7 +79011,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Vi povas alĝustigi dekojn da montraj opcioj alklakante la butonon\n"
+"\t\t<p>Vi povas alĝustigi dekojn da montraj elektebloj alklakante la "
+"butonon\n"
 "\t\t\t\"agordi\" Ilobreton, aŭ elektante la \"Agordoj->Agordu KStars...\"\n"
 "\t\t\tmenuero.\n"
 "\t\t</p>\n"
@@ -79405,7 +79401,7 @@ msgstr ""
 "\t\t<p>La bildoj de la Kosmoteleskopo Hubble estas kutime en falsaj koloroj. "
 "La koloroj estas elektitaj por indiki la ĉeeston de la elementoj Hidrogeno, "
 "Oksigeno kaj Sulfuro. Por realkoloraj bildoj, provu la aliajn bildajn "
-"opciojn.\n"
+"elekteblojn.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79648,7 +79644,7 @@ msgstr "Lat.:"
 #: tools/argchangeviewoption.ui:30
 #, kde-format
 msgid "List of adjustable options"
-msgstr "Listo de alĝustigeblaj opcioj"
+msgstr "Listo de alĝustigeblaj elektebloj"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, OptionName)
 #: tools/argchangeviewoption.ui:33
@@ -79670,7 +79666,7 @@ msgstr "Valoro:"
 #: tools/argchangeviewoption.ui:63
 #, kde-format
 msgid "Show Tree View of options"
-msgstr "Montri Arban Vidon de opcioj"
+msgstr "Montri Arban Vidon de elektebloj"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, TreeButton)
 #: tools/argchangeviewoption.ui:66
@@ -79708,15 +79704,15 @@ msgid ""
 msgstr ""
 "Agordu la valoron por la elektita vido-opcio ĉi tie. Certigu, ke la valoro, "
 "kiun vi enigas, kongruas kun la datumtipo atendita de la opcio. Ekzemple, la "
-"opcio \"UseAltAz\" atendas bulean valoron, do vi devus enigi \"vera\", "
+"elekteblo \"UseAltAz\" atendas bulean valoron, do vi devus enigi \"vera\", "
 "\"falsa\", \"1\", aŭ \"0\". Se vi ne certas, kia datumtipo estas atendata, "
-"ekzamenu la Arban Vidon de opcioj uzante la butonon \"Frumu Arbon...\"."
+"ekzamenu la Arban Vidon de elektebloj uzante la butonon \"Frumu Arbon...\"."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argchangeviewoption.ui:102
 #, kde-format
 msgid "Option:"
-msgstr "Opcio:"
+msgstr "Elekteblo:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: tools/argexportimage.ui:107
@@ -80448,7 +80444,7 @@ msgid ""
 "with a preset such as Refractor or Vanilla"
 msgstr ""
 "Noto: Ĉi tiu supermetaĵo havas sencon nur se la vido estis generita en alt/"
-"az-reĝimo kun antaŭdiro kiel ekzemple Refraktoro aŭ Vanilo"
+"az-reĝimo kun antaŭmeto kiel ekzemple Refraktoro aŭ Vanilo"
 
 #: tools/exporteyepieceview.cpp:93
 #, kde-format
@@ -80457,7 +80453,7 @@ msgid ""
 "mode with a preset such as Dobsonian"
 msgstr ""
 "Noto: Ĉi tiu supermetaĵo havas sencon nur se la vido estis generita en alt/"
-"az-reĝimo kun antaŭdiro kiel Dobsonian"
+"az-reĝimo kun antaŭmeto kiel Dobsonian"
 
 #: tools/exporteyepieceview.cpp:174
 #, kde-format
@@ -82804,7 +82800,7 @@ msgstr "Ĝisdatigita Nombro"
 #: tools/optionstreeview.ui:23
 #, kde-format
 msgid "Option Name"
-msgstr "Opcio Nomo"
+msgstr "Nomo de Elekteblo"
 
 #: tools/planetviewer.cpp:50
 #, kde-format
@@ -82880,7 +82876,7 @@ msgstr "24 Horoj"
 #, kde-format
 msgctxt "@title:window"
 msgid "Options"
-msgstr "Opcioj"
+msgstr "Elektebloj"
 
 #: tools/scriptbuilder.cpp:124
 #, kde-format
@@ -82988,7 +82984,7 @@ msgstr "Agordi ĉu la ekrano sekvas la aktualan lokon."
 #: tools/scriptbuilder.cpp:215
 #, kde-format
 msgid "Change view option named %1 to value %2."
-msgstr "Ŝanĝi vidoopcion nomitan %1 al valoro %2."
+msgstr "Ŝanĝi vid-elekteblon nomitan %1 al valoro %2."
 
 #: tools/scriptbuilder.cpp:218
 #, kde-format
@@ -83366,7 +83362,7 @@ msgstr "Ĉu kaŝi koordinatan kradon dum svingo?"
 #: tools/scriptbuilder.cpp:634
 #, kde-format
 msgid "Skymap Options"
-msgstr "Skymap Opcioj"
+msgstr "Skymap-Elektebloj"
 
 #: tools/scriptbuilder.cpp:635
 #, kde-format
@@ -85299,7 +85295,7 @@ msgid ""
 "option is specified, although shadows will still be drawn."
 msgstr ""
 "La defaŭlta estas neniu projekcio. Multoblaj korpoj ne estos montritaj se ĉi "
-"tiu opcio estas specifita, kvankam ombroj ankoraŭ estos desegnitaj."
+"tiu elekteblo estas specifita, kvankam ombroj ankoraŭ estos desegnitaj."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxBackground)
 #: xplanet/opsxplanet.ui:1010
@@ -85348,13 +85344,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "Action to take if solver if successful (Sync, Slew to Target, or None)"
-#~ msgstr "Ago fari se solvanto se sukcesa (Sync, Slew to Target, aŭ Neniu)"
-
-#~ msgid "Capturing image again..."
-#~ msgstr "Kaptante bildon denove..."
-
-#~ msgid "Exposure failure. Restarting exposure..."
-#~ msgstr "Malsukceso de malkovro. Rekomencante ekspozicion..."

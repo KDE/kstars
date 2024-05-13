@@ -1,4 +1,4 @@
-<sect2 id="ekos-tutorials">
+<sect1 id="ekos-tutorials">
     <title
 >Ekos handledningar</title>
 <indexterm>
@@ -9,7 +9,7 @@
     <tertiary
 >Handledningar</tertiary>
 </indexterm>
-<sect3 id="ekos-tutorials-viewer">
+<sect2 id="ekos-tutorials-viewer">
     <title
 >Visning</title>
     <para
@@ -34,5 +34,5 @@
 > och förvalt lösenord är <userinput
 >smate</userinput
 >. </para>
-</sect3>
 </sect2>
+</sect1>

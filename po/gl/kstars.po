@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 01:54+0000\n"
-"PO-Revision-Date: 2024-05-11 09:01+0200\n"
+"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"PO-Revision-Date: 2024-05-12 07:36+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -543,7 +543,7 @@ msgstr "Continuar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:681 fitsviewer/fitstab.cpp:700
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2888,7 +2888,7 @@ msgstr "Asociación de tipos"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2451 fitsviewer/fitsviewer.cpp:719
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
 #: fitsviewer/fitsviewer.cpp:720
 #, kde-format
 msgid "Preview"
@@ -6490,7 +6490,7 @@ msgid "Capture error. Aborting..."
 msgstr "Erro de captura. Interrompendo…"
 
 #: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1564
-#: ekos/capture/captureprocess.cpp:2107
+#: ekos/capture/captureprocess.cpp:2105
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando o intento de captura número %1."
@@ -6590,7 +6590,7 @@ msgstr "Non é posíbel escribir no ficheiro %1."
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/capture.cpp:1715
-#: ekos/capture/captureprocess.cpp:2504 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2893
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4396
@@ -7243,7 +7243,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Abrir a lista de aliñamento de Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/capture.cpp:1714
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2501 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3205
 #: ekos/scheduler/schedulerprocess.cpp:4415
 #, kde-format
@@ -10235,7 +10235,7 @@ msgstr "Capturar"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:730
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -15504,7 +15504,7 @@ msgstr "Non foi posíbel gardar a fila da secuencia."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Seguro que quere restabelecer o estado de todas as tarefas?"
 
-#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2618
+#: ekos/capture/capture.cpp:1821 ekos/capture/captureprocess.cpp:2616
 #, kde-format
 msgid "Reset job status"
 msgstr "Reiniciar o estado das tarefas"
@@ -16103,7 +16103,7 @@ msgstr "Erro: Perdeuse a conexión ao dispositivo de carga acoplada (CCD)."
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Non é posíbel calcular os niveis de ADU en imaxes non FITS."
 
-#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2099
+#: ekos/capture/captureprocess.cpp:1556 ekos/capture/captureprocess.cpp:2097
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
@@ -16114,78 +16114,78 @@ msgstr ""
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Tempo de descarga: %1 s. Nova estimación do tempo de descarga: %2 s."
 
-#: ekos/capture/captureprocess.cpp:1725
+#: ekos/capture/captureprocess.cpp:1723
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Recibiuse a imaxe %1 de %2."
 
-#: ekos/capture/captureprocess.cpp:1759
+#: ekos/capture/captureprocess.cpp:1757
 #, kde-format
 msgid "Captured %1"
 msgstr "Capturouse %1"
 
-#: ekos/capture/captureprocess.cpp:1765
+#: ekos/capture/captureprocess.cpp:1763
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "AVISO: marcadores de posición restantes e potencialmente descoñecidos %1 en "
 "%2."
 
-#: ekos/capture/captureprocess.cpp:1798
+#: ekos/capture/captureprocess.cpp:1796
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Executando o guión de captura %1"
 
-#: ekos/capture/captureprocess.cpp:1813
+#: ekos/capture/captureprocess.cpp:1811
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "O guión pre-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1821
+#: ekos/capture/captureprocess.cpp:1819
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "O guión post-captura rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1833
+#: ekos/capture/captureprocess.cpp:1831
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Procesando a volta do meridiano…"
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "O guión pre-tarefa rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:1848
+#: ekos/capture/captureprocess.cpp:1846
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "O guión post-tarefa rematou co código %1."
 
-#: ekos/capture/captureprocess.cpp:2029 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2027 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tempo límite de exposición. Interrompendo…"
 
-#: ekos/capture/captureprocess.cpp:2036
+#: ekos/capture/captureprocess.cpp:2034
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Tempo límite de exposición. Detectáronse máis de 3, reiniciarase o "
 "controlador."
 
-#: ekos/capture/captureprocess.cpp:2054 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:981
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "A exposición fallou. Reiniciándoa…"
 
-#: ekos/capture/captureprocess.cpp:2080
+#: ekos/capture/captureprocess.cpp:2078
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Tempo límite de exposición. Demasiadas. Interrompendo…"
 
-#: ekos/capture/captureprocess.cpp:2158
+#: ekos/capture/captureprocess.cpp:2156
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16194,20 +16194,20 @@ msgstr ""
 "A calibración plana fallou. A imaxe capturada é de só %1 bits, mentres que a "
 "ADU solicitada é de %2."
 
-#: ekos/capture/captureprocess.cpp:2169
+#: ekos/capture/captureprocess.cpp:2167
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "A imaxe actual está saturada (%1). A seguinte exposición dura %2 segundos."
 
-#: ekos/capture/captureprocess.cpp:2191
+#: ekos/capture/captureprocess.cpp:2189
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "A conversión de analóxico a dixital (ADU) é %1, que está dentro do intervalo "
 "de tolerancia de destino."
 
-#: ekos/capture/captureprocess.cpp:2220
+#: ekos/capture/captureprocess.cpp:2218
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16216,24 +16216,24 @@ msgstr ""
 "Non é posíbel calcular unha configuración de exposición óptima. Proceda "
 "manualmente."
 
-#: ekos/capture/captureprocess.cpp:2228
+#: ekos/capture/captureprocess.cpp:2226
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 "A conversión de analóxico a dixital (ADU) actual está ao %1. A seguinte "
 "exposición será en %2 segundos."
 
-#: ekos/capture/captureprocess.cpp:2448
+#: ekos/capture/captureprocess.cpp:2446
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista previa de %1"
 
-#: ekos/capture/captureprocess.cpp:2567
+#: ekos/capture/captureprocess.cpp:2565
 #, kde-format
 msgid "Sequence paused."
 msgstr "Púxose en pausa a secuencia."
 
-#: ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/captureprocess.cpp:2615
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16242,7 +16242,7 @@ msgstr ""
 "Completáronse todas as tarefas. Quere restablecer o estado das tarefas e "
 "reiniciar a captura?"
 
-#: ekos/capture/captureprocess.cpp:2631
+#: ekos/capture/captureprocess.cpp:2629
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16251,12 +16251,12 @@ msgstr ""
 "Aviso: a opción «Restabelecer sempre a secuencia ao iniciar» está activada e "
 "restabelece as contas das secuencias."
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2744
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Seguro que quere reiniciar o controlador de cámara %1?"
 
-#: ekos/capture/captureprocess.cpp:2747
+#: ekos/capture/captureprocess.cpp:2745
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicio de controlador"
@@ -17631,7 +17631,7 @@ msgstr "En liña"
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ekos/ekoslive/message.cpp:957
+#: ekos/ekoslive/message.cpp:959
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "A importación do mosaico fallou."
@@ -23799,22 +23799,22 @@ msgstr ""
 "Non foi posíbel actualizar a localización do sitio a %1. Non se atopou a "
 "cidade."
 
-#: ekos/manager.cpp:2792
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Activando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2800
+#: ekos/manager.cpp:2791
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Desactivando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2828
+#: ekos/manager.cpp:2819
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Activando de novo o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2840
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Desactivando de novo o sistema de rexistro de depuración para %1…"
@@ -24996,8 +24996,8 @@ msgstr "Activouse a imitación."
 msgid "Slaving deactivated."
 msgstr "Desactivouse a imitación."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:677
-#: fitsviewer/fitstab.cpp:696
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
+#: fitsviewer/fitstab.cpp:702
 #, kde-format
 msgid "Aborting..."
 msgstr "Interrompendo…"
@@ -29888,143 +29888,143 @@ msgstr "Garda de imaxe"
 msgid "File saved to %1"
 msgstr "O ficheiro gardouse en %1."
 
-#: fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:692
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraendo…"
 
-#: fitsviewer/fitstab.cpp:704
+#: fitsviewer/fitstab.cpp:710
 #, kde-format
 msgid "Solving..."
 msgstr "Resolvendo…"
 
-#: fitsviewer/fitstab.cpp:717
+#: fitsviewer/fitstab.cpp:723
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "O extractor esgotou o tempo límite: %1 s."
 
-#: fitsviewer/fitstab.cpp:726
+#: fitsviewer/fitstab.cpp:732
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "O extractor fallou: %1 s"
 
-#: fitsviewer/fitstab.cpp:735
+#: fitsviewer/fitstab.cpp:741
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Extraéronse %1 estrelas (%2 sen filtrar) en %3 s."
 
-#: fitsviewer/fitstab.cpp:783
+#: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "A actualización do resolvedor esgotou o tempo límite: %1 s."
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:794
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "O resolvedor fallou: %1 s."
 
-#: fitsviewer/fitstab.cpp:948
+#: fitsviewer/fitstab.cpp:954
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Aviso! Esta ferramenta só permite o resolvedor interno de StellarSolver."
 
-#: fitsviewer/fitstab.cpp:949
+#: fitsviewer/fitstab.cpp:955
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Cambiar a iso no menú de opcións de aliñamento de Ekos."
 
-#: fitsviewer/fitsview.cpp:503 fitsviewer/fitsview.cpp:513
+#: fitsviewer/fitsview.cpp:510 fitsviewer/fitsview.cpp:520
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "O cambio de escala da imaxe fallou."
 
-#: fitsviewer/fitsview.cpp:704
+#: fitsviewer/fitsview.cpp:711
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Non é posíbel achegar máis porque o modo de recursos limitados está activo."
 
-#: fitsviewer/fitsview.cpp:1740
+#: fitsviewer/fitsview.cpp:1747
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PCN"
 
-#: fitsviewer/fitsview.cpp:1757
+#: fitsviewer/fitsview.cpp:1764
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PCS"
 
-#: fitsviewer/fitsview.cpp:2212
+#: fitsviewer/fitsview.cpp:2219
 #, kde-format
 msgid "Finding stars..."
 msgstr "Atopando estrelas…"
 
-#: fitsviewer/fitsview.cpp:2453
+#: fitsviewer/fitsview.cpp:2460
 #, kde-format
 msgid "Zoom In"
 msgstr "Achegar"
 
-#: fitsviewer/fitsview.cpp:2456
+#: fitsviewer/fitsview.cpp:2463
 #, kde-format
 msgid "Zoom Out"
 msgstr "Afastar"
 
-#: fitsviewer/fitsview.cpp:2459
+#: fitsviewer/fitsview.cpp:2466
 #, kde-format
 msgid "Default Zoom"
 msgstr "Ampliación predeterminada"
 
-#: fitsviewer/fitsview.cpp:2462
+#: fitsviewer/fitsview.cpp:2469
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Axustar á vista"
 
-#: fitsviewer/fitsview.cpp:2465
+#: fitsviewer/fitsview.cpp:2472
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Conmutar o estiramento"
 
-#: fitsviewer/fitsview.cpp:2473 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Amosar as miras"
 
-#: fitsviewer/fitsview.cpp:2477 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostras as liñas de grade de píxel"
 
-#: fitsviewer/fitsview.cpp:2482 fitsviewer/fitsview.cpp:2591
+#: fitsviewer/fitsview.cpp:2489 fitsviewer/fitsview.cpp:2598
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detectar estrelas na imaxe"
 
-#: fitsviewer/fitsview.cpp:2488
+#: fitsviewer/fitsview.cpp:2495
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Ver o perfil da estrela…"
 
-#: fitsviewer/fitsview.cpp:2498 fitsviewer/fitsviewer.cpp:239
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
 #: fitsviewer/fitsviewer.cpp:1273
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostras as liñas da grade ecuatorial"
 
-#: fitsviewer/fitsview.cpp:2504 fitsviewer/fitsviewer.cpp:246
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
 #: fitsviewer/fitsviewer.cpp:1275
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Amosar os obxectos na imaxe"
 
-#: fitsviewer/fitsview.cpp:2510
+#: fitsviewer/fitsview.cpp:2517
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centrar o telescopio"
 
-#: fitsviewer/fitsview.cpp:2516 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Amosar a sobreposición de HiPS."
@@ -76593,26 +76593,37 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Resolver por placas as imaxes sobrepostas "
+"seleccionadas.</p><p>Usa o perfil de aliñamento seleccionado na dereita, "
+"pero non a escala ou a posición de aliñamento. Usará a escala predeterminada "
+"da dereita (a-s/px) se non se indica ningunha na fila da táboa e columna de "
+"escala (0 elimina o límite de escala). Non usará a posición a menos que "
+"introduza α e δ na fila da táboa. Usa o límite de tempo de enriba. Pode "
+"seleccionar moitas filas (con clic e Maiús + clic) e intentará resolvelas "
+"todas.</p><p>Resolver por placas pode ser difícil. Quizais non poida "
+"resolver por placas todas as imaxes. Pode intentar fornecer escalas e "
+"posicións, e intentar distintos perfís. Se non o consegue, pero quere amosar "
+"unha imaxe de todas formas, pode introducir os valores de α, δ, escala e "
+"orientación nas columnas correspondentes da fila que queira, e definir "
+"manualmente o estado da columna como bo.</p><p>Non pode volver a resolver "
+"por placas unha fila en bo estado, pero pode cambiar manualmente o estado "
+"para permitir a resolución por placas.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:266
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#| "culmination time.</p></body></html>"
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
 msgstr ""
-"<html><head/><body><p>Desprazamento en minutos para comezar a tomar imaxes "
-"antes e despois do tempo de culminación.</p></body></html>"
+"Selecciona o perfil de opcións (de aliñamento) para usar para resolver "
+"placas."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
-msgstr "Abre o perfil de opcións seleccionado no editor de perfís de opcións."
+msgstr ""
+"Abre o perfil de opcións seleccionado no editor de perfís de aliñamento."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -76622,13 +76633,14 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Escala predeterminada de arcsec/px que usar para resolver. 0 é ningunha. Se "
+"hai un valor na táboa, usarase."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:307
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px:"
-msgstr "Predeterminado"
+msgstr "A-s/px predeterminados:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -76636,17 +76648,17 @@ msgstr "Predeterminado"
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
 msgstr ""
+"Límite de tempo en segundos para a resolución de placas dunha imaxe "
+"sobreposta."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:348
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout:"
 msgstr "Tempo límite:"
 
 #: options/opssatellites.cpp:100
-#, fuzzy, kde-format
-#| msgid "Satellite name"
+#, kde-format
 msgid "Satellite Name"
 msgstr "Nome do satélite"
 
@@ -76657,8 +76669,7 @@ msgstr "Erro de cálculo da posición de %1: %2."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opssatellites.ui:19
-#, fuzzy, kde-format
-#| msgid "View options"
+#, kde-format
 msgid "View Options"
 msgstr "Ver as opcións"
 
@@ -76688,8 +76699,7 @@ msgstr "Amosar os satélites como estrelas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: options/opssatellites.ui:79
-#, fuzzy, kde-format
-#| msgid "List of satellites"
+#, kde-format
 msgid "List of Satellites"
 msgstr "Lista de satélites"
 
@@ -76854,22 +76864,21 @@ msgstr "Marque esta opción para que o Sol se debuxe no mapa."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Usar a escala"
+msgstr "escala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Escala de renderización do Sol."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Aumentar o tamaño do Sol usando este factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -76899,13 +76908,13 @@ msgstr "Marque esta opción para que a Lúa se debuxe no mapa."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Escala de renderización da Lúa."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Aumentar o tamaño da Lúa usando este factor."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
@@ -76951,10 +76960,9 @@ msgstr "Planetas menores"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssolarsystem.ui:351
-#, fuzzy, kde-format
-#| msgid "Download asteroids brighter than"
+#, kde-format
 msgid "Download asteroids brighter than:"
-msgstr "Descargar os asteroides máis brillantes que"
+msgstr "Descargar os asteroides máis brillantes que:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAsteroids)
 #: options/opssolarsystem.ui:358
@@ -76989,10 +76997,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: options/opssolarsystem.ui:419
-#, fuzzy, kde-format
-#| msgid "Show asteroids brighter than"
+#, kde-format
 msgid "Show asteroids brighter than:"
-msgstr "Mostrar os asteroides máis brillantes que"
+msgstr "Amosar os asteroides máis brillantes que:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:426
@@ -77014,10 +77021,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:432
-#, fuzzy, kde-format
-#| msgid "Show names of comets within"
+#, kde-format
 msgid "Show names of comets within:"
-msgstr "Mostrar os nomes dos cometas dentro de"
+msgstr "Amosar os nomes dos cometas dentro de:"
 
 #. i18n: ectx: property (whatsThis), widget (MagnitudeSpinBox, kcfg_MagLimitAsteroid)
 #: options/opssolarsystem.ui:450
@@ -77069,10 +77075,9 @@ msgstr "Amosar os nomes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometComas)
 #: options/opssolarsystem.ui:566
-#, fuzzy, kde-format
-#| msgid "Show Comet Comas"
+#, kde-format
 msgid "Show comet comas"
-msgstr "Mostrar os comas dos cometas"
+msgstr "Amosar os comas dos cometas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_OrbitalElementsAutoUpdate)
 #: options/opssolarsystem.ui:573
@@ -77082,8 +77087,7 @@ msgstr "Actualizar o elemento orbital de fontes de Internet no inicio."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_OrbitalElementsAutoUpdate)
 #: options/opssolarsystem.ui:576
-#, fuzzy, kde-format
-#| msgid "Auto Online Update"
+#, kde-format
 msgid "Auto online update"
 msgstr "Actualización automática por Internet"
 
@@ -77167,8 +77171,7 @@ msgstr "Traxectos dos satélites da terra"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opssupernovae.ui:19
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "Supernovae Options"
 msgstr "Opcións das supernovas"
 
@@ -77176,20 +77179,19 @@ msgstr "Opcións das supernovas"
 #: options/opssupernovae.ui:27
 #, kde-format
 msgid "https://indilib.org/jdownloads/kstars/tns-daily.csv"
-msgstr ""
+msgstr "https://indilib.org/jdownloads/kstars/tns-daily.csv"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opssupernovae.ui:47
-#, fuzzy, kde-format
-#| msgid "Set the magnitude limit for supernova to show"
+#, kde-format
 msgid "Set the magnitude limit for supernova to show:"
-msgstr "Configurar o límite de magnitude mínima para mostrar as supernovas"
+msgstr "Configurar o límite de magnitude mínima para amosar as supernovas:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LimitSupernovaeByZoom)
 #: options/opssupernovae.ui:57
 #, kde-format
 msgid "Limit supernovae by zoom limit"
-msgstr ""
+msgstr "Limitar as supernovas polo límite da ampliación."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSupernovae)
 #: options/opssupernovae.ui:83
@@ -77199,118 +77201,108 @@ msgstr "Amosar as supernovas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opssupernovae.ui:106
-#, fuzzy, kde-format
-#| msgid "Set the magnitude limit for supernova alerts"
+#, kde-format
 msgid "Set the magnitude limit for supernova alerts:"
 msgstr ""
-"Configurar o límite de magnitude mínima para mostrar as alertas de supernovas"
+"Configurar o límite de magnitude mínima para amosar as alertas de supernovas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Download URL:"
-msgstr "Descargar"
+msgstr "URL de descarga:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "Age (days):"
-msgstr "días"
+msgstr "Antigüidade (en días):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeHostOnly)
 #: options/opssupernovae.ui:137
 #, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr ""
+msgstr "Amosar só as supernovas da galaxia indicada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified Supernovae"
-msgstr "Mostrar as supernovas"
+msgstr "Amosar só as supernovas clasificadas."
 
 #: options/opsterrain.cpp:53
-#, fuzzy, kde-format
-#| msgid "Invalid Filename"
+#, kde-format
 msgctxt "@title:window"
 msgid "Terrain Image Filename"
-msgstr "O nome de ficheiro non é válido"
+msgstr "Nome de ficheiro da imaxe de terreo"
 
 #: options/opsterrain.cpp:54
-#, fuzzy, kde-format
-#| msgid "CSV Files (*.csv)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Ficheiros CSV (*.csv)"
+msgstr "Ficheiros PNG (*.png)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainBox)
 #: options/opsterrain.ui:23
-#, fuzzy, kde-format
-#| msgid "Solver Action"
+#, kde-format
 msgid "Source Options"
-msgstr "Acción do resolvedor"
+msgstr "Opcións da fonte"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowTerrain)
 #: options/opsterrain.ui:31
-#, fuzzy, kde-format
-#| msgid "Show Other"
+#, kde-format
 msgid "Show terrain"
-msgstr "Mostrar os outros"
+msgstr "Amosar o terreo."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, terrainFileLabel)
 #: options/opsterrain.ui:46
-#, fuzzy, kde-format
-#| msgid "Specify the point size."
+#, kde-format
 msgid "Specify the terrain file to use."
-msgstr "Especifique o tamaño en puntos."
+msgstr "Indique o ficheiro de terreo para usar."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainFileLabel)
 #: options/opsterrain.ui:49
-#, fuzzy, kde-format
-#| msgid "Arc file:"
+#, kde-format
 msgid "Terrain file:"
-msgstr "Ficheiro arc:"
+msgstr "Ficheiro de terreo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAzLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAz)
 #: options/opsterrain.ui:101 options/opsterrain.ui:117
 #, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
-msgstr ""
+msgstr "Rotar o terreo en graos do acimut para que o norte estea no norte."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
 #: options/opsterrain.ui:104
 #, kde-format
 msgid "Terrain image azimuth correction degrees:"
-msgstr ""
+msgstr "Graos de corrección de acimut de imaxe de terreo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:159
 #, kde-format
 msgid "Rotate terrain in altitude degrees so horizon is at 0 degrees altitude"
 msgstr ""
+"Rotar o terreo en graos de altitude para que o horizonte estea a 0 graos de "
+"altitude."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:162
-#, fuzzy, kde-format
-#| msgid "Rotation magnitude in degrees"
+#, kde-format
 msgid "Terrain image altitude correction degrees:"
-msgstr "Magnitude de rotación en graos"
+msgstr "Graos de corrección de altitude de imaxe de terreo:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAlt)
 #: options/opsterrain.ui:175
 #, kde-format
 msgid "Rotate terrain in altitude degrees so north is actually north"
-msgstr ""
+msgstr "Rotar o terreo en graos da altitude para que o norte estea no norte."
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainSpeedupGroupBox_2)
 #: options/opsterrain.ui:214
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "Speedup options"
-msgstr "Opcións das supernovas"
+msgstr "Opcións de aceleración"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainDownsamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainDownsampling)
@@ -77325,50 +77317,46 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, terrainDownsamplingLabel)
 #: options/opsterrain.ui:231
-#, fuzzy, kde-format
-#| msgid "Down Sample"
+#, kde-format
 msgid "Terrain downsampling:"
-msgstr "Reducir a taxa de mostras"
+msgstr "Redución de taxa de mostras de terreo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainPanning)
 #: options/opsterrain.ui:272
-#, fuzzy, kde-format
-#| msgid "Show HiPS While Panning"
+#, kde-format
 msgid "Show terrain while panning"
-msgstr "Mostrar HiPS durante o desprazamento"
+msgstr "Amosar o terreo durante o desprazamento."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainSmoothPixels)
 #: options/opsterrain.ui:279
 #, kde-format
 msgid "Creates a smoother image at the cost of some extra computation."
-msgstr ""
+msgstr "Crear unha imaxe máis suave a costa de computación adicional."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainSmoothPixels)
 #: options/opsterrain.ui:282
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Smooth pixels"
-msgstr "píxeles"
+msgstr "Píxeles suaves."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainSkipSpeedup)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainTransparencySpeedup)
 #: options/opsterrain.ui:289 options/opsterrain.ui:299
 #, kde-format
 msgid "A speedup with minor image quality cost."
-msgstr ""
+msgstr "Unha aceleración cunha pequena redución da calidade da imaxe."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainSkipSpeedup)
 #: options/opsterrain.ui:292
 #, kde-format
 msgid "Skip pixels speedup"
-msgstr ""
+msgstr "Omitir a aceleración de píxeles."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainTransparencySpeedup)
 #: options/opsterrain.ui:302
-#, fuzzy, kde-format
-#| msgid "Transparent"
+#, kde-format
 msgid "Transparency speedup"
-msgstr "Transparente"
+msgstr "Aceleración de transparencia."
 
 #: printing/detailstable.cpp:314
 #, kde-format
@@ -77391,8 +77379,7 @@ msgid "Date, time and location: "
 msgstr "Data, hora e lugar: "
 
 #: printing/foveditordialog.cpp:28
-#, fuzzy, kde-format
-#| msgid "Field of View Snapshot Browser"
+#, kde-format
 msgctxt "@title:window"
 msgid "Field of View Snapshot Browser"
 msgstr "Navegador de instantáneas de campo de visión"
@@ -77536,8 +77523,7 @@ msgid "Star hopper failed to find path"
 msgstr "O saltador de estrelas non puido atopar a ruta"
 
 #: printing/printingwizard.cpp:403
-#, fuzzy, kde-format
-#| msgid "Printing Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Printing Wizard"
 msgstr "Asistente de impresión"
@@ -77927,8 +77913,7 @@ msgid "Selected object:"
 msgstr "Obxecto escollido:"
 
 #: printing/pwizprint.cpp:65
-#, fuzzy, kde-format
-#| msgid "Export"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export"
 msgstr "Exportar"
@@ -77975,10 +77960,9 @@ msgstr "Imprimir"
 
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
 #: printing/pwizprint.ui:216
-#, fuzzy, kde-format
-#| msgid "Export to file"
+#, kde-format
 msgid "Export to File..."
-msgstr "Exportar a un ficheiro"
+msgstr "Exportar a un ficheiro…"
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizwelcome.ui:83
@@ -78046,10 +78030,9 @@ msgstr "Erro ao descargar os datos de asteroides: %1"
 #: skycomponents/catalogscomponent.cpp:151
 #: skycomponents/catalogscomponent.cpp:364
 #: skycomponents/catalogscomponent.cpp:406
-#, fuzzy, kde-format
-#| msgid "Could not download the file."
+#, kde-format
 msgid "Could not load catalog objects in trixel: %1"
-msgstr "Non foi posíbel obter o ficheiro."
+msgstr "Non foi posíbel cargar os obxectos do catálogo no trixel: %1"
 
 #: skycomponents/catalogscomponent.cpp:436
 #, kde-format
@@ -78119,207 +78102,203 @@ msgid "Creating horizon"
 msgstr "Creando o horizonte"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
-msgstr "Nome de ficheiro"
+msgstr "Nome do ficheiro"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: skycomponents/imageoverlaycomponent.cpp:64 tools/modcalcsimple.ui:93
 #: tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Ángulo"
 
 #: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-s/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:65
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Rotar á dereita"
+msgstr "LesteDereita"
 
 #: skycomponents/imageoverlaycomponent.cpp:165
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
+"Inseriu unha cadea de α incorrecta para %1. Restabelecer ao valor orixinal."
 
 #: skycomponents/imageoverlaycomponent.cpp:179
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
+"Inseriu unha cadea de δ incorrecta para %1. Restabelecer ao valor orixinal."
 
 #: skycomponents/imageoverlaycomponent.cpp:192
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Inseriu unha cadea de ángulo de orientación incorrecta para %1. Restabelecer "
+"ao valor orixinal."
 
 #: skycomponents/imageoverlaycomponent.cpp:203
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Inseriu unha cadea de ángulo de escala incorrecta para %1. Restabelecer ao "
+"valor orixinal."
 
 #: skycomponents/imageoverlaycomponent.cpp:233
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Non é posíbel definir o estado como «bo». Necesítase un valor de α válido e "
+"distinto de 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:244
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Non é posíbel definir o estado como «bo». Necesítase un valor de δ válido e "
+"distinto de 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:255
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"Non é posíbel definir o estado como «bo». Necesítase un valor de orientación "
+"válido."
 
 #: skycomponents/imageoverlaycomponent.cpp:266
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Non é posíbel definir o estado como «bo». Necesítase un valor de a-s/px "
+"válido e distinto de 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:296
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Almacenar o estado «bo» para %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:390
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Actualizando desde o cartafol: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:439
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 sobreposicións (%2 novas, %3 eliminadas) %4 resoltas"
 
 #: skycomponents/imageoverlaycomponent.cpp:441
 #: skycomponents/imageoverlaycomponent.cpp:560
 #: skycomponents/imageoverlaycomponent.cpp:849
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Imaxes sobrepostas. %1 imaxes, %2 dispoñíbeis."
 
 #: skycomponents/imageoverlaycomponent.cpp:455
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "Estanse a cargar as imaxes…"
+msgstr "Cargando ficheiros de imaxes…"
 
 #: skycomponents/imageoverlaycomponent.cpp:461
-#, fuzzy, kde-format
-#| msgid "Dark library files cleared."
+#, kde-format
 msgid "%1 image files loaded."
-msgstr "Elimináronse os ficheiros da biblioteca de fotogramas escuros."
+msgstr "Cargáronse %1 ficheiros de imaxes."
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "Proceso"
+msgstr "Sen procesar"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Ficheiro"
+msgstr "Ficheiro incorrecto"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Solve Failed"
-msgstr "Campo de visión do resolvedor"
+msgstr "A resolución fallou"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "&OK"
+#, kde-format
 msgid "OK"
-msgstr "&Aceptar"
+msgstr "Bo"
 
 #: skycomponents/imageoverlaycomponent.cpp:546
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "Esquerda ou dereita"
+msgstr "Oeste á dereita"
 
 #: skycomponents/imageoverlaycomponent.cpp:547
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Rotar á dereita"
+msgstr "Leste á dereita"
 
 #: skycomponents/imageoverlaycomponent.cpp:601
-#, fuzzy, kde-format
-#| msgid "Solving %1 ..."
+#, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr "Resolvendo %1…"
+msgstr "Resolvendo: %1. %2 en cola."
 
 #: skycomponents/imageoverlaycomponent.cpp:603
-#, fuzzy, kde-format
-#| msgid "Solving %1 ..."
+#, kde-format
 msgid "Solving: %1."
-msgstr "Resolvendo %1…"
+msgstr "Resolvendo: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Non é posíbel amosar %1. Non se resolveu por placas."
 
 #: skycomponents/imageoverlaycomponent.cpp:673
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Non é posíbel amosar %1. Non se cargou a imaxe."
 
 #: skycomponents/imageoverlaycomponent.cpp:706
-#, fuzzy, kde-format
-#| msgid "Autoguiding aborted."
+#, kde-format
 msgid "Solving aborted."
-msgstr "Interrompeuse o proceso automático de guía."
+msgstr "Interrompeuse a resolución."
 
 #: skycomponents/imageoverlaycomponent.cpp:741
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Omitindo o xa resolto: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:760
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "Xa se resolveu %1. Omitirase."
 
 #: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr ""
+msgstr "Recargando. As imaxes sobrepostas desactiváronse temporalmente."
 
 #: skycomponents/imageoverlaycomponent.cpp:797
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Esgotouse o tempo límite do resolvedor."
+msgstr "Esgotouse o tempo límite do resolvedor en %1 s."
 
 #: skycomponents/imageoverlaycomponent.cpp:803
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "Campo de visión do resolvedor"
+msgstr "O resolvedor fallou en %1 s."
 
 #: skycomponents/imageoverlaycomponent.cpp:816
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "O resolvedor funcionou en %1 s: α %2, δ %3, escala %4, ángulo %5."
 
 #: skycomponents/imageoverlaycomponent.cpp:848
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "Non hai información dispoñíbel da imaxe."
+msgstr "Rematou a resolución. %1 dispoñíbel."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
@@ -78352,8 +78331,7 @@ msgid "Loading Small Magellanic Clouds"
 msgstr "Estanse a cargar as Nubes Pequenas de Magalláns"
 
 #: skycomponents/notifyupdatesui.cpp:21
-#, fuzzy, kde-format
-#| msgid "New Supernova(e) Discovered"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Supernova(e) Discovered"
 msgstr "Descubríronse novas supernovas"
@@ -78411,8 +78389,7 @@ msgid "Update %1 satellites"
 msgstr "Actualizar %1 satélites"
 
 #: skycomponents/satellitescomponent.cpp:156
-#, fuzzy, kde-format
-#| msgid "Satellite Orbital Elements Update"
+#, kde-format
 msgctxt "@title:window"
 msgid "Satellite Orbital Elements Update"
 msgstr "Actualización dos elementos orbitais dos satélites"
@@ -78459,10 +78436,9 @@ msgid "Downloading Supernovae updates..."
 msgstr "Descargando as actualizacións de supernovas…"
 
 #: skycomponents/supernovaecomponent.cpp:350
-#, fuzzy, kde-format
-#| msgid "Error downloading asteroids data: %1"
+#, kde-format
 msgid "Error downloading supernova data: %1"
-msgstr "Erro ao descargar os datos de asteroides: %1"
+msgstr "Erro ao descargar os datos de supernovas: %1"
 
 #: skymap.cpp:404 skymaplite.cpp:355
 #, kde-format
@@ -78489,16 +78465,13 @@ msgid "Keep Position"
 msgstr "Manter a posición"
 
 #: skymap.cpp:498
-#, fuzzy, kde-format
-#| msgid ""
-#| "Digitized Sky Survey image provided by the Space Telescope Science "
-#| "Institute [public domain]."
+#, kde-format
 msgid ""
 "Digitized Sky Survey image provided by the Space Telescope Science Institute "
 "[free for non-commercial use]."
 msgstr ""
 "Imaxe da Digitized Sky Survey fornecida polo Space Telescope Science "
-"Institute [dominio público]."
+"Institute [gratis para uso non comercial]."
 
 #: skymap.cpp:537
 #, kde-format
@@ -78562,11 +78535,10 @@ msgid "Object Details"
 msgstr "Detalles do obxecto"
 
 #: skymapdrawabstract.cpp:191
-#, fuzzy, kde-format
-#| msgid "AZ"
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "Ac"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format
@@ -78953,11 +78925,15 @@ msgstr "omega"
 #, kde-format
 msgid "Failed to load terrain. Set terrain file in Settings."
 msgstr ""
+"Non foi posíbel cargar o terreo. Defina o ficheiro de terreo na "
+"configuración."
 
 #: terrain/terrainrenderer.cpp:368
 #, kde-format
 msgid "Failed to load terrain image (%1). Set terrain file in Settings."
 msgstr ""
+"Non foi posíbel cargar a imaxe de terreo (%1). Defina o ficheiro de terreo "
+"na configuración."
 
 #: time/timezonerule.cpp:37
 #, kde-format
@@ -79087,15 +79063,7 @@ msgstr ""
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:53
-#, fuzzy, kde-format
-#| msgid ""
-#| "\t\t<p>Help us improve the KStars project! Visit our website at http://"
-#| "edu.kde.org/kstars and join our mailing list at kstars-devel@kde.org to "
-#| "learn more. We welcome you to help us with bug reports, contributions of "
-#| "astronomy know-how and knowledge, code contributions, translations and "
-#| "many more kinds of contributions!\n"
-#| "\t\t</p>\n"
-#| "\t\n"
+#, kde-format
 msgid ""
 "\t\t<p>Help us improve the KStars project! Visit our website at https://edu."
 "kde.org/kstars and join our mailing list at kstars-devel@kde.org to learn "
@@ -79105,10 +79073,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Axúdenos a mellorar o proxecto KStars! Visite o noso sitio web http://"
-"edu.kde.org/kstars e únase á nosa lista d correo kstars-devel@kde.org para "
-"informarse mellor. Agradecémoslle que colabore con informes de fallo, "
-"compartindo os seus coñecementos de astronomía, achegando código, "
+"\t\t<p>Axúdenos a mellorar o proxecto KStars! Visite o noso sitio web "
+"https://edu.kde.org/kstars e únase á nosa lista d correo kstars-devel@kde."
+"org para informarse mellor. Agradecémoslle que colabore con informes de "
+"fallo, compartindo os seus coñecementos de astronomía, achegando código, "
 "traducindo, ou colaborando de calquera outro xeito!\n"
 "\t\t</p>\n"
 "\t\n"
@@ -79539,13 +79507,7 @@ msgstr ""
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:249
-#, fuzzy, kde-format
-#| msgid ""
-#| "\t\t<p>With the What's Up Tonight? tool (Ctrl+U), you can tell at a "
-#| "glance what\n"
-#| "\t\t\tobjects will be visible from your location on a given night.\n"
-#| "\t\t</p>\n"
-#| "\t\n"
+#, kde-format
 msgid ""
 "\t\t<p>With the What's up Tonight? tool (Ctrl+U), you can tell at a glance "
 "what\n"
@@ -79676,15 +79638,7 @@ msgstr ""
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:312
-#, fuzzy, kde-format
-#| msgid ""
-#| "\t\t<p>To add your own custom Object Catalogs, select \"Import Catalog\" "
-#| "or \n"
-#| "\t\t\t\"Load Catalog\" from the Catalogs tab in the KStars Configuration "
-#| "window.\n"
-#| "\t\t\tSee the Handbook for instructions on formatting your catalog file.\n"
-#| "\t\t</p>\n"
-#| "\t\n"
+#, kde-format
 msgid ""
 "\t\t<p>To add your own custom Object Catalogs, select \"Import Catalog...\" "
 "or \n"
@@ -79695,8 +79649,8 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Para engadir os teus catálogos de obxectos personalizados escolle\n"
-"\t\t\t«Importar un catálogo» ou «Cargar un catálogo» do separador "
-"«Catálogos» na xanela de configuración de KStars.\n"
+"\t\t\t«Importar un catálogo…» ou «Crear un catálogo…» da páxina «Catálogos» "
+"na xanela de configuración de KStars.\n"
 "\t\t\tConsulta o manual para ter instrucións detalladas sobre o formato do "
 "ficheiro.\n"
 "\t\t</p>\n"
@@ -80214,8 +80168,7 @@ msgstr ""
 "\t\n"
 
 #: tools/altvstime.cpp:47
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgctxt "@title:window"
 msgid "Altitude vs. Time"
 msgstr "Altitude fronte a tempo"
@@ -80241,20 +80194,15 @@ msgid "Print the Altitude vs. time plot"
 msgstr "Imprimir a representación altitude/tempo"
 
 #: tools/altvstime.cpp:579 tools/altvstime.cpp:949
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
-#| "deviation in arcseconds"
-#| msgid ""
-#| "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</"
-#| "td></tr><tr><td>DE:   </td><td>%3 \"</td></tr></table>"
+#, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
 "tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitude:   </td><td>%4</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>α:   </td><td>%2 \"</td></"
-"tr><tr><td>δ:   </td><td>%3 \"</td></tr></table>"
+"<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
+"tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitude:   </td><td>%4</td></"
+"tr></table>"
 
 #: tools/altvstime.cpp:1405
 #, kde-format
@@ -80406,17 +80354,14 @@ msgstr "Lista de opcións axustábeis"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, OptionName)
 #: tools/argchangeviewoption.ui:33
-#, fuzzy, kde-format
-#| msgid ""
-#| "Select an option from this list to set its value.  You may also select "
-#| "the option using an organized Tree List using the \"Browse Tree\" button."
+#, kde-format
 msgid ""
 "Select an option from this list to set its value.  You may also select the "
 "option using an organized Tree List using the \"Browse Tree...\" button."
 msgstr ""
 "Escolle unha opción desta lista para definir o seu valor. Tamén podes "
 "escoller a opción mediante unha lista en árbore co botón «Árbore de "
-"navegación»."
+"navegación…»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: tools/argchangeviewoption.ui:56
@@ -80445,10 +80390,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, TreeButton)
 #: tools/argchangeviewoption.ui:69
-#, fuzzy, kde-format
-#| msgid "Browse Tree"
+#, kde-format
 msgid "Browse Tree..."
-msgstr "Árbore de navegación"
+msgstr "Árbore de navegación…"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:76
@@ -80458,14 +80402,7 @@ msgstr "o valor da opción escollida"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:79
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the value for the selected view option here.  Make sure the value you "
-#| "enter matches the data type expected by the option.  For example, the "
-#| "\"UseAltAz\" option expects a boolean value, so you should enter \"true"
-#| "\", \"false\", \"1\", or \"0\".  If you are unsure what data type is "
-#| "expected, examine the Tree View of options using the \"Browse Tree\" "
-#| "button."
+#, kde-format
 msgid ""
 "Set the value for the selected view option here.  Make sure the value you "
 "enter matches the data type expected by the option.  For example, the "
@@ -80478,7 +80415,7 @@ msgstr ""
 "exemplo, a opción «UseAltAz» toma un valor lóxico; por iso deberás indicar "
 "«true», «false», «1» ou «0». Se non estás seguro do tipo de datos que se "
 "espera, consulta a vista das opcións en árbore co botón «Árbore de "
-"navegación»."
+"navegación…»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argchangeviewoption.ui:102
@@ -80518,10 +80455,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, FindButton)
 #: tools/argfindobject.ui:47 tools/arglooktoward.ui:116
-#, fuzzy, kde-format
-#| msgid "Any Object"
+#, kde-format
 msgid "Object..."
-msgstr "Calquera obxecto"
+msgstr "Obxecto…"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/arglooktoward.ui:30
@@ -80582,18 +80518,15 @@ msgstr "Nome do país"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, CountryName)
 #: tools/argsetgeolocation.ui:56
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enter the Country name for the desired location.  It might be easier to "
-#| "use the \"Find City\" location to choose your location from the list of "
-#| "predefined cities."
+#, kde-format
 msgid ""
 "Enter the Country name for the desired location.  It might be easier to use "
 "the \"Find City...\" button to choose your location from the list of "
 "predefined cities."
 msgstr ""
-"Insire o nome do país onde está o lugar desexado. Pode ser máis fácil usar "
-"«Atopar a cidade» para escoller o lugar na lista de cidades predefinidas."
+"Insire o nome do país onde está o lugar desexado. Pode ser máis fácil usaro "
+"botón «Atopar a cidade…» para escoller o lugar na lista de cidades "
+"predefinidas."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CityName)
 #: tools/argsetgeolocation.ui:77
@@ -80603,18 +80536,15 @@ msgstr "Nome da cidade"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, CityName)
 #: tools/argsetgeolocation.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enter the City name for the desired location.  It might be easier to use "
-#| "the \"Find City\" location to choose your location from the list of "
-#| "predefined cities."
+#, kde-format
 msgid ""
 "Enter the City name for the desired location.  It might be easier to use the "
 "\"Find City...\" button to choose your location from the list of predefined "
 "cities."
 msgstr ""
-"Insire o nome da cidade para o lugar desexado. Pode ser máis fácil de usar "
-"\"Atopar a cidade\" para escoller o lugar na lista de cidades predefinidas."
+"Insire o nome da cidade para o lugar desexado. Pode ser máis fácil de usaro "
+"botón «Atopar a cidade…» para escoller o lugar na lista de cidades "
+"predefinidas."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ProvinceName)
 #: tools/argsetgeolocation.ui:87
@@ -80624,18 +80554,14 @@ msgstr "Nome da provincia"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ProvinceName)
 #: tools/argsetgeolocation.ui:90
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enter the Province name for the desired location.  It might be easier to "
-#| "use the \"Find City\" location to choose your location from the list of "
-#| "predefined cities."
+#, kde-format
 msgid ""
 "Enter the Province name for the desired location.  It might be easier to use "
 "the \"Find City...\" button to choose your location from the list of "
 "predefined cities."
 msgstr ""
 "Insire o nome da provincia onde está o lugar desexado. Poderá ser máis fácil "
-"de usar «Atopar a cidade» para escoller o lugar na lista de cidades "
+"de usar o botón «Atopar a cidade…» para escoller o lugar na lista de cidades "
 "predefinidas."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, FindCityButton)
@@ -80660,10 +80586,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, FindCityButton)
 #: tools/argsetgeolocation.ui:129
-#, fuzzy, kde-format
-#| msgid "Find City"
+#, kde-format
 msgid "Find City..."
-msgstr "Atopar a cidade"
+msgstr "Atopar a cidade…"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CheckTrack)
 #: tools/argsettrack.ui:30
@@ -80814,20 +80739,7 @@ msgstr ""
 "UL></QT>"
 
 #: tools/astrocalc.cpp:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "<QT>Section with algorithms for the conversion of different astronomical "
-#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
-#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
-#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
-#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
-#| "Computation of azimuth and elevation for a given source, time, and "
-#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
-#| "angular distance between two objects whose positions are given in "
-#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
-#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
-#| "heliocentric, geocentric and topocentric radial velocity of a source from "
-#| "its LSR velocity</LI></UL></QT>"
+#, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -80848,10 +80760,11 @@ msgstr ""
 "coordenadas ecuatoriais actuais para unha época dada</LI><LI><B>Eclíptica:</"
 "B> Converte entre coordenadas eclípticas e ecuatoriais</"
 "LI><LI><B>Horizontais:</B> Calcula o acimut e a elevación para unha fonte, "
-"hora e lugar dados na Terra</LI> <LI><B>Distancia Angular:</B> Calcula a "
-"distancia angular entre dous obxectos dos que se coñecen as posicións en "
-"coordenadas ecuatoriais</LI><LI><B>Coordenadas xeodésicas</B>: Conversión "
-"entre coordenadas xeodésicas/XYZ</LI><LI><B>Velocidade LSR:</B> Cálculo das "
+"hora e lugar dados na Terra</LI> <LI><B>Simple:</B> Conversión entre ángulos "
+"en horas e graos</LI><LI><B>Distancia Angular:</B> Calcula a distancia "
+"angular entre dous obxectos dos que se coñecen as posicións en coordenadas "
+"ecuatoriais</LI><LI><B>Coordenadas xeodésicas:</B> Conversión entre "
+"coordenadas xeodésicas/XYZ</LI><LI><B>Velocidade LSR:</B> Cálculo das "
 "velocidades radiais heliocéntrica, xeocéntrica e topocéntrica dunha fonte a "
 "partir da velocidade LSR</LI></UL></QT>"
 
@@ -80869,8 +80782,7 @@ msgstr ""
 "Terra.</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:112
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr "Calculadora"
@@ -80936,10 +80848,9 @@ msgid "Horizontal Coordinates"
 msgstr "Coordenadas horizontais"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "Copiar as coordenadas"
+msgstr "Coordenadas simples"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
@@ -80995,10 +80906,9 @@ msgid "Julian date"
 msgstr "Día xuliano"
 
 #: tools/conjunctions.cpp:93
-#, fuzzy, kde-format
-#| msgid "Single Object..."
+#, kde-format
 msgid "Single Object"
-msgstr "Único obxecto…"
+msgstr "Obxecto único"
 
 #: tools/conjunctions.cpp:116
 #, kde-format
@@ -81026,8 +80936,7 @@ msgid "Separation"
 msgstr "Separación"
 
 #: tools/conjunctions.cpp:206
-#, fuzzy, kde-format
-#| msgid "Save Conjunctions"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Conjunctions"
 msgstr "Gardar as conxuncións"
@@ -81061,8 +80970,7 @@ msgid "Compute conjunction..."
 msgstr "Calcular a conxunción…"
 
 #: tools/conjunctions.cpp:351
-#, fuzzy, kde-format
-#| msgid "Conjunction"
+#, kde-format
 msgctxt "@title:window"
 msgid "Conjunction"
 msgstr "Conxunción"
@@ -81174,8 +81082,7 @@ msgid "CSV Files (*.csv)"
 msgstr "Ficheiros CSV (*.csv)"
 
 #: tools/eclipsetool.cpp:217
-#, fuzzy, kde-format
-#| msgid "Export Eclipses"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Eclipses"
 msgstr "Exportar os eclipses"
@@ -81222,8 +81129,7 @@ msgid "Winter solstice:"
 msgstr "Solsticio de inverno:"
 
 #: tools/exporteyepieceview.cpp:40
-#, fuzzy, kde-format
-#| msgid "Export eyepiece view"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export eyepiece view"
 msgstr "Exportar a vista ocular"
@@ -81262,8 +81168,7 @@ msgstr ""
 "cunha predefinición como a «de Dobson»."
 
 #: tools/exporteyepieceview.cpp:174
-#, fuzzy, kde-format
-#| msgid "Save image as"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Image as"
 msgstr "Gardar a imaxe como"
@@ -81274,8 +81179,7 @@ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
 msgstr "Ficheiros de imaxe (*.png *.jpg *.xpm *.bmp *.gif)"
 
 #: tools/eyepiecefield.cpp:37
-#, fuzzy, kde-format
-#| msgid "Eyepiece Field View"
+#, kde-format
 msgctxt "@title:window"
 msgid "Eyepiece Field View"
 msgstr "Vista ocular do campo"
@@ -81327,8 +81231,7 @@ msgid "Failed to download DSS/SDSS image."
 msgstr "Non foi posíbel descargar a imaxe DSS ou SDSS."
 
 #: tools/flagmanager.cpp:51
-#, fuzzy, kde-format
-#| msgid "Flag Manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Flag Manager"
 msgstr "Xestor de bandeiras"
@@ -81397,8 +81300,7 @@ msgstr "Icona:"
 
 #. i18n: ectx: property (text), widget (QPushButton, saveButton)
 #: tools/flagmanager.ui:140
-#, fuzzy, kde-format
-#| msgid "Save changes"
+#, kde-format
 msgid "Save Changes"
 msgstr "Gardar os cambios"
 
@@ -81409,14 +81311,12 @@ msgid "Slew to the flag coordinates"
 msgstr "Apuntar ás coordenadas da marca"
 
 #: tools/horizonmanager.cpp:54 tools/horizonmanager.cpp:195
-#, fuzzy, kde-format
-#| msgid "Region is valid"
+#, kde-format
 msgid "Region is invalid."
-msgstr "A rexión é correcta."
+msgstr "A rexión é incorrecta."
 
 #: tools/horizonmanager.cpp:57
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon Manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Xestor do horizonte artificial"
@@ -81451,10 +81351,9 @@ msgid "Region %1"
 msgstr "Rexión %1"
 
 #: tools/horizonmanager.cpp:369
-#, fuzzy, kde-format
-#| msgid "%1 polygon is invalid."
+#, kde-format
 msgid "%1 region is invalid."
-msgstr "O polígono %1 é incorrecto."
+msgstr "A rexión %1 é incorrecta."
 
 #: tools/horizonmanager.cpp:566
 #, kde-format
@@ -81481,10 +81380,9 @@ msgstr "Retirar a rexión"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleCeilingB)
 #: tools/horizonmanager.ui:92
-#, fuzzy, kde-format
-#| msgid "Toggle flags"
+#, kde-format
 msgid "Toggle Ceiling"
-msgstr "Conmutar as bandeiras"
+msgstr "Conmutar o teito."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:130

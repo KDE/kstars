@@ -36,6 +36,9 @@
 >Analyse</guilabel
 > kan ook gegevens van de huidige opnamesessie weergeven. </para>
         <para
+>Wanneer een nieuwe sessie begint (bijv. Ekos is bij het ochtendgloren losgekoppeld, daarna opnieuw verbonden bij zonsondergang) zal het systeem starten met het schrijven van een nieuw bestand .analyze. (Dit gedrag kan gecontroleerd worden vanuit de Analyse-instellingen bereikbaar via klikken op de optieknoppen rechtsonder.) </para
+>        
+        <para
 >Er zijn twee hoofdgrafieken, <guilabel
 >Tijdlijn</guilabel
 > en <guilabel
@@ -54,7 +57,7 @@
 >.analyze</filename
 >-bestanden in te lezen, in het afrolmenu van <guilabel
 >Invoer</guilabel
->. Door <guilabel
+>. De &lt;&lt; en &gt;&gt; knoppen te gebruiken kunt u de vorige of de volgende bestanden .analyze chronologisch tonen. Door <guilabel
 >Volle Breedte</guilabel
 > te kiezen ziet u alle gegevens en met <guilabel
 >Laatste</guilabel
@@ -71,9 +74,9 @@
 > staat wanneer opnames werden gemaakt (witter groene voor RGB of met kleur gecodeerd door het filter) en wanneer afgebroken (als rode secties getoond). Klikken op een opnamesectie geeft informatie over die afbeelding, na dubbelklikken ziet u de  opgenomen afbeelding in een fitsviewer (programma voor het tonen van een fits-afbeelding), indien aanwezig. </para>
         <note>
             <para
->Indien u de opgenomen afbeelding verplaatst, kunt u de <guilabel
+>Indien u de opgenomen afbeelding verplaatst, kunt u een <guilabel
 >andere map</guilabel
-> in het invoermenu instellen naar een map die de basis is van een deel van het oorspronkelijke pad van het bestand. </para>
+> in de pagina analyse-instellingen instellen via de knop Opties rechtsonder. Deze andere map zou vooraf het basisdeel van het originele bestand hebben en zou gecontroleerd worden of het afbeeldingsbestand niet op zijn originele locatie staat. </para>
         </note>
         <para
 >Klikken op een <guilabel

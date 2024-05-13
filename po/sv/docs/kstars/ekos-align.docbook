@@ -1,4 +1,4 @@
-<sect2 id="ekos-align">
+<sect1 id="ekos-align">
     <title
 >Inriktning</title>
     <indexterm>
@@ -9,7 +9,7 @@
         <tertiary
 >Inriktning</tertiary>
     </indexterm>
-    <sect3 id="ekos-align-introduction">
+    <sect2 id="ekos-align-introduction">
         <title
 >Inledning</title>
         <screenshot>
@@ -39,9 +39,9 @@
 >Ekos tillhandahåller också en polärinriktningsguide för att korrigera polära inriktningsfel. Den tar tre bilder, flyttar mellan bilderna, och beräknar positionen mellan stativaxeln och polaxeln. Den ger återkoppling till användaren med höjd- och azimutjusteringar som behövs för att rikta in axlarna. Bilderna är vanligtvis tagna nära himmelspolen (nära Polaris på norra halvklotet) men kan fungera bra tagna från var som helst, vanligtvis med början nära meridianen och antingen förflytta åt öster eller åt väster. </para>
         <para
 >Du behöver allra minst en CCD/webbkamera och ett teleskop som stöder förflyttnings- och synkroniseringskommandon. De flesta kommersiella teleskop stöder nuförtiden sådana kommandon. </para>
-    </sect3>
+    </sect2>
 
-        <sect3 id="ekos-align-typical">
+        <sect2 id="ekos-align-typical">
             <title
 >Typisk användning</title>
             <para
@@ -104,9 +104,9 @@
 >: Lös bara bilden och visa lösningskoordinaterna. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
     
-    <sect3 id="ekos-solver-options">
+    <sect2 id="ekos-solver-options">
       <title
 >Anpassa alternativ för StellarSolver </title>
         <screenshot>
@@ -148,9 +148,9 @@
 >: Världskoordinatsystemet är ett system för att inbädda ekvatoriell koordinatinformation i bilden. När du tittar på en löst bild, kan du hålla musen över bilden och se koordinaten för varje bildpunkt. Du kan också klicka var som helst på bilden och skicka ett kommando till teleskopet att förflytta sig dit. Det rekommenderas starkt att behålla alternativet på. <guilabel
 >Överlagra</guilabel
 > överlagrar tagna bilder på &kstars; himmelskarta. </para>
-    </sect3>
+    </sect2>
     
-    <sect3 id="ekos-solver-external">
+    <sect2 id="ekos-solver-external">
       <title
 >Anpassa StellarSolver externa program </title>
         <screenshot>
@@ -176,9 +176,9 @@
 >Du måste se till att sökvägarna är korrekta för det lösningsverktyg du väljer. Toppmenyalternativet <guilabel 
 >Välj för att läsa in en av standarduppsättningarna</guilabel 
 > ställer vanligtvis in rutorna korrekt. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-solver-scale">
+    <sect2 id="ekos-solver-scale">
       <title
 >Anpassa StellarSolver skala och position </title>
         <screenshot>
@@ -218,9 +218,9 @@
 > ska avmarkeras tills problemen är lösta. Det resulterar som nämnt i längre lösningstider. <guilabel
 >Automatisk uppdatering</guilabel
 > fyller i positionsrutan med positionen från den senaste lyckade lösningen. En förflyttning uppdaterar dock positionen till den position teleskopet tror att det pekar efter förflyttningen. </para>
-    </sect3>
+    </sect2>
 
-    <sect3 id="ekos-align-profiles">
+    <sect2 id="ekos-align-profiles">
       <title
 >Anpassa StellarSolver-profiler </title>
         <screenshot>
@@ -288,7 +288,7 @@
 >Alla inmatningsfält har verktygstips som visas om du håller musen över inmatningsrutan. </para
 ><para
 >Du kan göra ändringar i värdena och spara profilen om du vill, eller återställa profilens ursprungliga värden. </para>
-        <sect4 id="profile-star-extraction">
+        <sect3 id="profile-star-extraction">
           <title
 >Parametrar för stjärnextrahering</title>
           <para
@@ -321,10 +321,10 @@
 > bör justeras till ungefär vad som syns i ditt område i bildpunkter. Bilden jämnas ut med det värdet innan stjärndetektering inleds.</para
 ></listitem>
         </itemizedlist>
-        </sect4
+        </sect3
 >    
 
-        <sect4 id="profile-star-filtering">
+        <sect3 id="profile-star-filtering">
         <title
 >Parametrar för stjärnfiltrering</title>
           <para
@@ -369,9 +369,9 @@
 > tar bort stjärnor vars bildpunktsvärde överstiger procentandelen av det maximala bildpunktsvärdet, för att ta bort mättade stjärnor.</para
 ></listitem>
              </itemizedlist>
-        </sect4>
+        </sect3>
 
-        <sect4 id="profile-plate-solving">
+        <sect3 id="profile-plate-solving">
           <title
 >Parametrar för lösning av astrobilder</title>
           <para
@@ -392,12 +392,12 @@
 > är det maximala antalet sekunder som lösning av astrobilder körs innan tidsgränsen överskrids.</para
 ></listitem>
              </itemizedlist>
-        </sect4
+        </sect3
 >    
-    </sect3
+    </sect2
 >    
     
-    <sect3 id="ekos-align-download-index-files">
+    <sect2 id="ekos-align-download-index-files">
       <title
 >Ladda ner indexfiler</title>
       <para
@@ -410,7 +410,7 @@
 >. </para>
         <para
 >För lokala lösningsverktyg (och fjärrlösningsverktyg), behövs indexfiler för att lösningsverktyget ska fungera. Hela samlingen av indexfiler är mycket stor (över 30 GB), men du behöver bara ladda ner vad som är nödvändigt för inställningen av din utrustning. Indexfiler sorteras enligt det synfältsområde (FOV) de täcker. Det finns två metoder att hämta nödvändiga indexfiler: Det nya nerladdningsstödet i inriktningsmodulen och det gamla manuella sättet. </para>
-        <sect4 id="ekos-align-automatic-download">
+        <sect3 id="ekos-align-automatic-download">
             <title
 >Automatisk nerladdning</title>
             <screenshot>
@@ -472,8 +472,8 @@
 >Du måste ladda ner alla filer som krävs, och om du har mycket hårddiskutrymme över kan du också ladda ner de rekommenderade indexfilerna. Om en indexfil är installerad ska den vara markerad, markera den annars för att ladda ner relevant indexfil. Ladda bara ner en fil åt gången, särskilt för stora filer. Du kan bli tillfrågad om att skriva in administratörslösenordet (förvalt värde i StellarMate är <userinput
 >smate</userinput
 >) för att installera filerna. När du väl har installerat alla nödvändiga filer, kan du omedelbart börja använda det lokala astrometry.net lösningsverktyget. </para>
-        </sect4>
-        <sect4 id="ekos-align-manual-download">
+        </sect3>
+        <sect3 id="ekos-align-manual-download">
                 <title
 >Manuell nerladdning</title>
                 <para
@@ -684,10 +684,10 @@
 >DownThemAll!</ulink
 > för &firefox; för att ladda ner Debian-paketen eftersom nerladdningshanterare inbyggda i webbläsare kan ha problem med att ladda ner stora paket. </para>
                 </note>
-            </sect4>
-        </sect3>
+            </sect3>
+        </sect2>
 
-    <sect3 id="ekos-align-get-astrometry">
+    <sect2 id="ekos-align-get-astrometry">
         <title
 >Hämta valfritt astrometry.net</title>
 
@@ -781,9 +781,9 @@
                 </listitem>
             </varlistentry>
         </variablelist>
-    </sect3>
+    </sect2>
     
-        <sect3 id="ekos-align-how-to-use">
+        <sect2 id="ekos-align-how-to-use">
             <title
 >Hur ska man använda det?</title>
             <para
@@ -812,9 +812,9 @@
 >aldrig</emphasis
 > en bild nära eller vid himmelspolen (om inte Ekos polära inriktningsguide används). Förflytta åtminstone 20 grader från himmelspolen innan den första bilden löses. Att lösa mycket nära polerna gör stativets pekande värre, så undvik det. </para>
             </warning>
-        </sect3>
+        </sect2>
         
-        <sect3 id="ekos-align-alignment-settings">
+        <sect2 id="ekos-align-alignment-settings">
             <title
 >Inriktningsinställningar</title>
             <para
@@ -865,9 +865,9 @@
 >: Om subtraktionsmetoden för mörka bilder ska användas innan den tagna bilden analyseras. </para>
                 </listitem>
             </itemizedlist>
-        </sect3>
+        </sect2>
 
-        <sect3 id="ekos-align-polaralignment">
+        <sect2 id="ekos-align-polaralignment">
             <title
 >Polärinriktning</title>
                 <para
@@ -925,7 +925,7 @@
                     </mediaobject>
                 </screenshot>
 
-            <sect4 id="ekos-align-platesolvecorrection">
+            <sect3 id="ekos-align-platesolvecorrection">
                 <title
 >Analys av astrobilder korrigeringsmetod</title>
                 
@@ -986,8 +986,8 @@
                         </textobject>
                     </mediaobject>
                 </screenshot>
-                </sect4>
-                <sect4 id="ekos-align-move-star-correction">
+                </sect3>
+                <sect3 id="ekos-align-move-star-correction">
                 <title
 >Korrigeringsmetoden flytta stjärna</title>
 
@@ -1011,6 +1011,6 @@
 > och flytta stjärnan med ögonmått tills den är nära det slutliga målet. Ett exempel på hur tekniken används visas i den här videon: <ulink url="https://www.youtube.com/watch?v=iOp7hrxw0oU"
 >https://www.youtube.com/watch?v=iOp7hrxw0oU</ulink
 > </para>
-            </sect4>
-        </sect3>
-</sect2>
+            </sect3>
+        </sect2>
+</sect1>
