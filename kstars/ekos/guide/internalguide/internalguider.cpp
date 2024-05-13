@@ -1003,11 +1003,11 @@ bool InternalGuider::processGuiding()
     else
         emit frameCaptureRequested();
 
-    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
+    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING || state == GUIDE_DITHERING_SETTLE)
         return true;
 
-    // Hy 9/13/21: Check above just looks for GUIDE_DITHERING or GUIDE_MANUAL_DITHERING
-    // but not the other dithering possibilities (error, success, settle).
+    // Hy 9/13/21: Check above just looks for GUIDE_DITHERING or GUIDE_MANUAL_DITHERING or GUIDE_DITHERING_SETTLE
+    // but not the other dithering possibilities (error, success).
     // Not sure if they should be included above, so conservatively not changing the
     // code, but don't think they should broadcast the newAxisDelta which might
     // interrup a capture.
