@@ -484,7 +484,7 @@ public:
      * @brief previewImageCompletedAction Activities required when a preview image has been captured.
      * @return IPS_OK if a preview has been completed, IPS_IDLE otherwise
      */
-    IPState previewImageCompletedAction(QSharedPointer<FITSData> imageData);
+    IPState previewImageCompletedAction();
 
     /**
      * @brief updateCompletedCaptureCounters Update counters if an image has been captured

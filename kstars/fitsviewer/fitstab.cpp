@@ -573,6 +573,12 @@ void FITSTab::setStretchValues(double shadows, double midtones, double highlight
         stretchUI->setStretchValues(shadows, midtones, highlights);
 }
 
+void FITSTab::setAutoStretch()
+{
+    if (!m_View->getAutoStretch())
+        m_View->setAutoStretchParams();
+}
+
 namespace
 {
 const QList<SSolver::Parameters> getSSolverParametersList(Ekos::ProfileGroup module)

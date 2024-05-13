@@ -56,10 +56,9 @@
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
-  <!ENTITY tool-ekos SYSTEM "ekos.docbook">
+  <!ENTITY ekos SYSTEM "ekos.docbook">
   <!ENTITY tool-ekos-align SYSTEM "ekos-align.docbook">
   <!ENTITY tool-ekos-capture SYSTEM "ekos-capture.docbook">
-  <!ENTITY tool-ekos-fits-viewer SYSTEM "ekos-fits-viewer.docbook">
   <!ENTITY tool-ekos-focus SYSTEM "ekos-focus.docbook">
   <!ENTITY tool-ekos-guide SYSTEM "ekos-guide.docbook">
   <!ENTITY tool-ekos-logs SYSTEM "ekos-logs.docbook">
@@ -71,7 +70,7 @@
   <!ENTITY tool-ekos-tutorials SYSTEM "ekos-tutorials.docbook">
   <!ENTITY tool-ekos-user-interface SYSTEM "ekos-user-interface.docbook">
   <!ENTITY tool-eyepieceview SYSTEM "eyepieceview.docbook">
-  <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
+  <!ENTITY fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
@@ -91,18 +90,8 @@
 <bookinfo>
 
 <authorgroup>
-<author
-><firstname
->Jason</firstname
-> <surname
->Harris</surname
-> <affiliation
-> <address
->&Jason.Harris.mail;</address>
-</affiliation>
-</author>
 
-<othercredit role="developer"
+<author
 ><firstname
 >Jasem</firstname
 > <surname
@@ -113,6 +102,19 @@
 </affiliation>
 <contrib
 >Huvudutvecklare och underhåll</contrib>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> <affiliation
+> <address
+>&Jason.Harris.mail;</address>
+</affiliation>
+<contrib
+>Ursprunglig upphovsman</contrib>
 </othercredit>
 
 <othercredit role="developer"
@@ -289,7 +291,7 @@
 > <affiliation
 ><address
 ><email
->stefan.asserhall@bredband.net</email
+>stefan.asserhall@gmail.com</email
 ></address
 ></affiliation
 > <contrib
@@ -301,7 +303,7 @@
 
 <copyright>
 <year
->2001-2023</year>
+>2001-2024</year>
 <holder
 >&Jason.Harris; och &kstars;-gruppen</holder>
 </copyright>
@@ -310,16 +312,39 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2023-08-01</date>
+>2024-03-31</date>
 <releaseinfo
->3.6.6</releaseinfo>
+>3.7.0</releaseinfo>
 
 <abstract>
 <para
->&kstars; är fri astronomiprogramvara med öppen källkod för flera plattformar. Den tillhandahåller en noggrann grafisk simulering av natthimlen från vilken plats som helst på jorden, vid godtyckligt datum och tid. Skärmen omfattar upp till 100 miljoner stjärnor, 13 000 avlägsna himmelskroppar, alla åtta planeterna, solen och månen, samt tusentals kometer, asteroider, supernovor och satelliter. Både för elever och lärare stöder den justerbar simuleringshastighet för att kunna visa fenomen som sker över långa tidsrymder, &kstars; astronomiräknare för att förutsäga konjunktioner, och många vanliga astronomiska beräkningar. För amatörastronomen tillhandahåller den observationsplanering, en himmelskalender, och en synfältseditor för att beräkna utrustningars synfält och visa dem. Upptäck intressanta objekt i verktyget <quote
+>&kstars; är fri astronomiprogramvara med öppen källkod för flera plattformar. Den tillhandahåller &kstars; himmelskarta, ett digitalt planetarium med överlagringar och simuleringsverktyg, Ekos svit för astrofotografering som fungerar som en klient för INDI-enhetsdrivrutiner, och FITS-visningen som visar tagna himmelsbilder. </para>
+
+<para>
+<itemizedlist>
+ <listitem>
+   <para
+>en noggrann grafisk simulering av natthimlen från vilken plats som helst på jorden, vid godtyckligt datum och tid. Skärmen omfattar upp till 100 miljoner stjärnor, 13 000 avlägsna himmelskroppar, alla åtta planeterna, solen och månen, samt tusentals kometer, asteroider, supernovor och satelliter.  </para>
+   <para
+>Den är till för både för elever och lärare, stöder justerbar simuleringshastighet för att kunna visa fenomen som sker över långa tidsrymder, samt &kstars; astronomiräknare för att förutsäga konjunktioner och utföra många vanliga astronomiska beräkningar. För amatörastronomen tillhandahåller den observationsplanering, en himmelskalender, och en synfältseditor för att beräkna utrustningars synfält och visa dem. Upptäck intressanta objekt i verktyget <quote
 >Vad händer i natt</quote
->, rita upp diagram över höjd mot tid för vilket objekt som helst, skriv ut himmelskartor med hög kvalitet, och få tillgång till mängder med information och resurser för att hjälpa till att utforska universum. HiPS progressiva himmelsöverlagring erbjuder fantastiska vyer från talrika kartläggningar som omfattar hela det elektromagnetiska spektret. Ekos-sviten för astrofotografering ingår i &kstars;: en fullständig lösning för astrofotografering som kan styra alla INDI-enheter inklusive ett stort antal teleskop, CCD:er, digitala spegelreflexkameror, filter med mera. Ekos stöder följning med hög noggrannhet genom att använda astrometrilösare på nätet eller lokalt, möjlighet till autofokus och automatisk guidning, samt tagning av enstaka eller flera bilder med den kraftfulla, inbyggda, sekvenshanteraren. </para>
+>, rita upp diagram över höjd mot tid för vilket objekt som helst, skriv ut himmelskartor med hög kvalitet, och få tillgång till mängder med information och resurser för att hjälpa till att utforska universum. HiPS progressiva himmelsöverlagring erbjuder fantastiska vyer från talrika kartläggningar som omfattar hela det elektromagnetiska spektret. </para>
+ </listitem>
+
+ <listitem>
+   <para
+>Ekos är en fullständig lösning för astrofotografering som tillhandahåller allt som behövs för automatiserad eller manuell avbildning av avlägsna himmelsobjekt. Det kan styra INDI-enheter, inklusive ett stort antal teleskop, CCD- och CMOS-astronomikameror, digitala spegelreflexkameror, fokuseringsenheter, rotatörer, kupoler, med mera. Ekos stöder mycket noggrann följning med astrometrilösningsverktyg på nätet och lokalt, möjlighet till automatisk fokusering och guidning, och tagning av enstaka eller flera bilder med dess kraftfulla, inbyggda schemaläggning. Det är väl integrerat med himmelskartan och FITS-visningen. Det har också verktyg för polär inriktning och mätning av optisk aberration. </para>
+ </listitem>
+
+ <listitem>
+   <para
+>FITS-visningen kan visa FITS och andra bildformat, inklusive de som tas av Ekos. Det går att zooma och panorera, visa utsträckta versioner av bilder, se bildhistogram, lösa astrobilder och hitta stjärnor och koordinater i bilderna. </para>
+ </listitem>
+
+</itemizedlist>
+</para>
 </abstract>
+   
 
 <keywordset>
 <keyword
@@ -389,28 +414,32 @@
 >HiPS progressiv himmelsöverlagring</link
 > för att hämta högupplösta bilder och visa dem direkt på himmelskartan. Det går att välja mellan talrika kataloger sammanställda från olika jord- och rymdbaserade program. Funktionen kräver en snabb Internetanslutning för att ladda ner bilderna. Bilderna lagras lokalt för att reducera bandbredd. Det går att optimera lagringsalternativen för att få bäst balans mellan diskutrymme och bandbredd. </para>
 <para
->Dock är &kstars; inte bara till för studenter. Du kan styra teleskop och kameror med &kstars;, med hjälp av det eleganta och kraftfulla <link linkend="indi"
+>&kstars; är också till för astrofotografering. Du kan styra teleskop och kameror med hjälp av det eleganta och kraftfulla <link linkend="indi"
 >INDI</link
->-protokollet. &kstars; stöder flera populära teleskop, bland annat Meades LX200-familj och Celestron GPS. Flera populära CCD-kameror, webbkameror och datoriserade fokuseringsutrustningar stöds också. Enkla kommandon för att flytta eller följa objekt är direkt integrerade i huvudfönstrets meny, och INDI-inställningsrutan ger möjlighet att komma åt alla teleskopets funktioner. INDI:s klient-serverarkitektur tillåter sömlös styrning av ett godtyckligt antal <link linkend="indi-kstars-setup"
+>-protokollet. Ekos stöder många populära teleskop, bland annat Meades LX200-familj och Celestron GPS. Många populära CCD-kameror, webbkameror och datoriserade fokuseringsenheter stöds också. Enkla kommandon för att flytta eller följa objekt är direkt integrerade i himmelskartans sammanhangsberoende meny, och INDI-inställningsrutan ger möjlighet att komma åt alla teleskopets funktioner. INDI:s klient-serverarkitektur tillåter sömlös styrning av ett godtyckligt antal <link linkend="indi-kstars-setup"
 >lokala teleskop</link
 > eller <link linkend="indi-remote-control"
 >fjärrteleskop</link
-> från en enda &kstars;-session. För avancerade användare tillhandahåller &kstars; Ekos, en fullständig programsvit för astronomiska fotograferingsuppgifter. <ulink url="https://indilib.org/about/ekos.html"
+> från en enda &kstars;-session. För avancerade användare tillhandahåller &kstars; Ekos, en fullständig svit för astrofotografering för Linux, Mac och Windows. <ulink url="https://indilib.org/about/ekos.html"
 >Ekos</ulink
-> är baserat på ett modulärt utökningsbart ramverk för att utföra vanliga astrofotografiska uppgifter. Det omfattar mycket noggranna GÅ TILL med användning av en astrometrilösare, möjlighet att mäta och korrigera polära inriktningsfel, möjlighet till automatisk fokusering och guidning, och tagning av enstaka bilder eller bildföljder med stöd för filterhjul. </para>
+> är baserat på ett modulärt utökningsbart ramverk för att utföra vanliga astrofotografiska uppgifter. Det omfattar mycket noggranna GÅ TILL med användning av en astrometrilösningsverktyg, möjlighet att mäta och korrigera polära inriktningsfel, möjlighet till automatisk fokusering och guidning, och tagning av enstaka bilder eller bildföljder med stöd för filterhjul, rotatörer och kupoler. Komplexa jobb kan schemaläggas och automatiskt utföras med Ekos schemaläggning, som tar hänsyn till prioritet, höjd, terräng, månen och skymningsbegränsningar. Du kan visa förloppet för en natts astrofotograferingssession genom att använda Ekos analysmodul, och visa tagna bilder med användning av FITS-visningen. Ekos beskrivs i <link linkend="ekos"
+>Kapitel 5</link
+>. </para>
 <para
 >Vi är mycket intresserade av dina kommentarer. Rapportera gärna fel eller önskemål om funktioner till &kstars; e-postlista för utvecklare: <email
 >kstars-devel SNABELA kde.org</email
 >. Du kan också använda det automatiska felrapporteringsverktyget, som du kommer åt från hjälpmenyn. </para>
 <para
 >Översättning Stefan Asserhäll <email
->stefan.asserhall@bredband.net</email
+>stefan.asserhall@gmail.com</email
 ></para
 > &underFDL; </chapter>
 
 &quicktour;   <!--A Quick Tour of &kstars;-->
 &config;      <!--Configuring &kstars;-->
 &commands;    <!--Command Reference-->
+&ekos;        <!--Ekos-->
+&fitsviewer;        <!--FITS Viewer-->
 &tools;       <!--&kstars; Tools-->
 &dumpmode;    <!--Command-line image-dump mode-->
 &indi;        <!-- INDI-->

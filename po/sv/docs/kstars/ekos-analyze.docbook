@@ -1,4 +1,4 @@
-<sect2 id="ekos-analyze">
+<sect1 id="ekos-analyze">
     <title
 >Analysera</title>
     <indexterm>
@@ -22,7 +22,7 @@
             </textobject>
         </mediaobject>
     </screenshot>
-    <sect3 id="analyze-Introduction">
+    <sect2 id="analyze-Introduction">
         <title
 >Inledning</title>
         <para
@@ -36,6 +36,9 @@
 >Analysera</guilabel
 > kan också visa data från den nuvarande tagningssessionen. </para>
         <para
+>När en ny session börjar (t.ex. om Ekos kopplas ner i gryningen och sedan ansluts igen vid solnedgången) börjar systemet skriva en ny .analyze-fil (beteendet kan styras från analysinställningarna som nås genom att klicka på alternativknappen längst ner till höger). </para
+>        
+        <para
 >Det finns två huvuddiagram, <guilabel
 >Tidslinje</guilabel
 > och <guilabel
@@ -46,7 +49,7 @@
 >Statistik</guilabel
 > visar klocktid. X-axeln kan zoomas in och ut med knapparna <guibutton
 >+/-</guibutton
->, samt vanliga snabbtangenter (t.ex. zooma in == <keycombo
+>, samt vanliga snabbtangenter (t.ex. zooma in med <keycombo
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
@@ -61,8 +64,8 @@
 > visar senaste data (du kan styra bredden genom att zooma). </para>
         <para
 >De tre huvudskärmarna kan döljas för att lämna mer utrymme för övriga skärmar. Det finns kryssrutor till vänster om sektionsrubrikerna (Tidslinje, Statistik och Detaljinformation) som aktiverar och döljer skärmarna. </para>
-    </sect3>
-    <sect3 id="analyze-timeline">
+    </sect2>
+    <sect2 id="analyze-timeline">
         <title
 >Tidslinje</title>
         <para
@@ -71,9 +74,9 @@
 > när bilder tas (Withergrön för RGB eller färgkodat av filtret) och när tagning avbröts (röda sektioner). Att klicka på en tagen sektion ger information om den bilden, och att dubbelklicka på en visar då bilden som togs i FITS-visningen, om den är tillgänglig. </para>
         <note>
             <para
->Om de tagna bilderna har flyttats, kan du ange <guilabel
->alternativkatalog</guilabel
-> i menyn med användning av en katalog som är basen för en del av den ursprungliga filsökvägen. </para>
+>Om de tagna bilderna har flyttats, kan du ange en <guilabel
+>alternativ katalog</guilabel
+> på sidan med analysinställningar som går att nå med knappen Alternativ längst ner till höger. De alternativa katalogen läggs till först i basen av delen av den ursprungliga filsökvägen, och kontrolleras om bildfilen inte finns på sin ursprungliga plats. </para>
         </note>
         <para
 >Att klicka på ett segment i <guilabel
@@ -81,8 +84,8 @@
 > visar information om fokuseringssessionen och visar position mot HFR-mätningar från sessionen. Att klicka på ett segment i <guilabel
 >Guidning</guilabel
 > visar ett avdriftsdiagram från sessionen, (om guidning pågår) och statistik över sessionens kvadratiska medelvärdesfel. Andra tidslinjer visar statusinformation när de klickas. </para>
-    </sect3>
-    <sect3 id="analyze-statistics">
+    </sect2>
+    <sect2 id="analyze-statistics">
         <title
 >Statistik</title>
         <para
@@ -99,5 +102,5 @@
 >Den vänstra axeln som visas är inledningsvis endast lämplig för RA/Dek-fel, avdrift, RMS-fel, RA/Dek-pulser och HFR, ritade i bågsekunder och med ett intervall på -2 till 5 bågsekunder. Om du däremot klickar på en av rutorna under statistikdiagrammet (som visar ett statistikvärde) ställer in statistikens intervall som intervallet som visas på vänster axel. Genom att dubbelklicka på den rutan visas en meny där du kan justera statistikens uppritade y-område (t.ex. ställa in den till automatisk, ställa in intervallet explicit, återställa det till standardvärdet och även ändra färgen på den uppritade statistiken). </para>
         <para
 >Statistiken som visas på den vänstra axeln kan också skalas (med svårighet) genom att använda mushjulet. Den kan panoreras genom att dra musen uppåt eller neråt över den vänstra axelns nummer. Genom att klicka någonstans i statistikdiagrammet fylls värdena i den visade statistiken i. Att markera den sista rutan gör att de senaste värdena (från en realtidssession) blir den visade statistiken. Diagrammet zoomas och panoreras horisontellt i samordning med tidslinjen. </para>
-    </sect3>
-</sect2>
+    </sect2>
+</sect1>

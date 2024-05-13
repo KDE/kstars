@@ -428,7 +428,7 @@
 >. </para>
 
 <para
->Standardformatet för att ta bilder är FITS. När en bild väl har tagits och laddats ner, visas den i &kstars; <link linkend="tool-fitsviewer"
+>Standardformatet för att ta bilder är FITS. När en bild väl har tagits och laddats ner, visas den automatiskt i &kstars; <link linkend="fitsviewer"
 >FITS-visning</link
 >. </para>
 </sect1>

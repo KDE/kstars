@@ -1,20 +1,18 @@
-<sect1 id="tool-fitsviewer">
+<chapter id="fitsviewer">
 <title
 ><acronym
 >FITS</acronym
->-visningsverktyg</title>
+>-visning</title>
 <indexterm
 ><primary
->Verktyg</primary>
-<secondary
->FITS-visning</secondary>
-</indexterm>
+>FITS-visning</primary
+></indexterm>
 
 <para
->FITS (Flexible Image Transport System) är standardformatet för att representera bilder och data i astronomi. FITS-visningsverktyget i &kstars; är ett verktyg för att visa bilderna. Det är inte konstruerat för att redigera FITS-bilder.</para>
+>FITS (Flexible Image Transport System) är standardformatet för att representera bilder och data i astronomi. FITS-visning i &kstars; är ett verktyg för att visa bilderna. Det är inte konstruerat för att redigera FITS-bilder.</para>
 
 <para
->FITS-visningsverktyget startas automatiskt när nya bilder tas emot från kameran. Det kan också startas direkt från huvudmenyn i &kstars;. Välj menyalternativet <menuchoice
+>FITS-visning startas automatiskt när nya bilder tas emot från kameran. Det kan också startas direkt från huvudmenyn i &kstars;. Välj menyalternativet <menuchoice
 ><guimenu
 >Arkiv</guimenu
 > <guimenuitem
@@ -28,41 +26,41 @@
 
 <screenshot>
   <screeninfo
->FITS-visningsverktyget</screeninfo>
+>FITS-visningen</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer1.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->FITS-visningsverktyg</phrase>
+>FITS-visningen</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
 
 <para
->Diagrammet ovan illustrerar FITS-visningsverktygets huvudarbetsområde och fönster. Det finns också ett dolt område som kan exponeras genom att hålla musen över de sex små prickarna på vänster sida (ungefär mitt på bilden vertikalt) och klicka med och hålla nere musknappen, och låta den glida över en bit till höger.</para>
+>Diagrammet ovan illustrerar FITS-visningens huvudarbetsområde och fönster. Det finns också ett dolt område som kan exponeras genom att hålla musen över de sex små prickarna på vänster sida (ungefär mitt på bilden vertikalt) och klicka med och hålla nere musknappen, och låta den glida över en bit till höger.</para>
 
 <screenshot>
   <screeninfo
->FITS-visningsverktyget med skjutpanel öppen</screeninfo>
+>FITS-visning med skjutpanel öppen</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer2.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->FITS-visningsverktyget med skjutpanel öppen</phrase>
+>FITS-visning med skjutpanel öppen</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
 
-<sect2 id="fits-viewer-main-controls">
+<sect1 id="fits-viewer-main-controls">
     <title
 >Huvudstyrning</title>
 
 <para
->De olika kontrollerna och skärmarna för FITS-visningsverktyget visas nedan. Verktyget tillhandahåller grundläggande funktioner för att visa bilder. Även om verktyget följer FITS-standarden, stöder det inte alla möjliga funktioner i FITS:</para>
+>De olika kontrollerna och skärmarna för FITS-visningen visas nedan. Verktyget tillhandahåller grundläggande funktioner för att visa bilder. Även om verktyget följer FITS-standarden, stöder det inte alla möjliga funktioner i FITS:</para>
 <itemizedlist>
   <listitem
 ><para
@@ -76,7 +74,7 @@
 ></listitem>
 </itemizedlist>
 <para
->FITS-visningsverktygets fönster är uppdelat i följande områden:</para>
+>FITS-visningens fönster är uppdelat i följande områden:</para>
 <orderedlist>
     <listitem
 ><para
@@ -287,14 +285,14 @@
 >Tangenten Ctrl: Om tangenten Ctrl hålls ner och muspekaren sedan flyttas visas en förstorad del av bilden.</para>
 <screenshot>
   <screeninfo
->Förstoringsglaset i FITS-visningsverktyget</screeninfo>
+>Förstoringsglaset i FITS-visningen</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer-magnifier.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->Förstoringsglaset i FITS-visningsverktyget</phrase>
+>Förstoringsglaset i FITS-visningen</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -334,14 +332,14 @@
 >Utsträckningskontroller</para>
 <screenshot>
   <screeninfo
->Utsträckningskontroller i FITS-visningsverktyget</screeninfo>
+>Utsträckningskontroller i FITS-visningen</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer-stretch.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->Utsträckningskontroller i FITS-visningsverktyget</phrase>
+>Utsträckningskontroller i FITS-visningen</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -383,14 +381,14 @@
 >Statusrad</para>
 <screenshot>
   <screeninfo
->Statusvisningen i FITS-visningsverktyget</screeninfo>
+>Statusvisningen i FITS-visningen</screeninfo>
   <mediaobject>
     <imageobject>
       <imagedata fileref="fitsviewer-status.png" format="PNG"/>
     </imageobject>
     <textobject>
       <phrase
->Statusvisningen i FITS-visningsverktyget</phrase>
+>Statusvisningen i FITS-visningen</phrase>
     </textobject>
   </mediaobject>
 </screenshot>
@@ -467,8 +465,8 @@
 </screenshot>
 <para
 >Hålls musen över vilket alternativ som helst ska ett detaljerat verktygstips visas som förklarar dess funktion. </para>
-</sect2>
-<sect2 id="fits-viewer-features">
+</sect1>
+<sect1 id="fits-viewer-features">
     <title
 >Funktioner</title>
     <variablelist>
@@ -510,9 +508,9 @@
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-solver">
+<sect1 id="fits-viewer-solver">
     <title
 >Lösningsverktyg i FITS-visningen</title>
     <screenshot>
@@ -607,9 +605,9 @@
             </itemizedlist>
             <para
 >För att inspektera eller ändra profilen kan användaren öppna fliken Inriktning i Ekos, gå till menyn Alternativ, välja alternativfliken StellarSolver, se till att rätt alternativprofil är vald och klicka på pennan för att visa eller redigera profilen. </para>
-</sect2>
+</sect1>
 
-<sect2 id="fits-viewer-embedded">
+<sect1 id="fits-viewer-embedded">
     <title
 >Inbäddad FITS-visning</title>
     <screenshot>
@@ -670,10 +668,10 @@
         </listitem>
     </itemizedlist>
     <para
->Den flyttbara raden döljs automatiskt när musen lämnar den inbäddade visningens område. Det går att använda musen för att panorera och zooma precis som i det fristående FITS-visningsverktyget. Den gröna följningsrutan kan användas för att välja en specifik stjärna eller ett område på bilden, exempelvis för att välja en guidestjärna. </para>
-</sect2>
+>Den flyttbara raden döljs automatiskt när musen lämnar det inbäddade visningsområdet. Det går att använda musen för att panorera och zooma precis som i den fristående FITS-visningen. Den gröna följningsrutan kan användas för att välja en specifik stjärna eller ett område på bilden, exempelvis för att välja en guidestjärna. </para>
+</sect1>
 
-<sect2 id="fits-viewer-3d-star-profile">
+<sect1 id="fits-viewer-3d-star-profile">
 <title
 >Tredimensionell stjärnprofil och datavisualiseringsverktyg</title>
 <screenshot>
@@ -786,5 +784,5 @@
             </textobject>
         </mediaobject>
     </screenshot>
-</sect2>
 </sect1>
+</chapter>

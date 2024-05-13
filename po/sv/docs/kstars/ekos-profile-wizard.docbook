@@ -1,4 +1,4 @@
-<sect2 id="ekos-profile-wizard">
+<sect1 id="ekos-profile-wizard">
     <title
 >Profilguide</title>
     <indexterm>
@@ -145,4 +145,4 @@
 >I exemplet ovan har vi valt drivrutinerna fjärrastrometri, vakthund och SkySafari. Detaljerade förklaringar för var och en tillhandahålls i verktygstipset när musen hålls över dem. När du väl är klar, klicka på knappen <guibutton
 >Skapa profil</guibutton
 >. Nu ska profileditorn visas för dig. </para>
-</sect2>
+</sect1>

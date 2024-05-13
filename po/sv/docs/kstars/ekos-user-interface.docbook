@@ -1,4 +1,4 @@
-<sect2>
+<sect1>
     <title
 >Användargränssnitt</title>
     <indexterm>
@@ -24,6 +24,11 @@
 >Schemaläggningsmodul </para>
         </listitem>
 
+        <listitem>
+            <para
+>Analysmodul </para>
+        </listitem>
+        
         <listitem>
             <para
 >Tagningsmodul </para>
@@ -84,6 +89,14 @@
         </varlistentry>
         <varlistentry>
             <term
+>Analysmodul</term>
+            <listitem>
+                <para
+>Analys visar en högnivåsummering av  vad som hände under en tagningssession. Den visar diagram och grafer som beskriver de många tagningarna som gjordes under en natt, fokuseringssessionerna, guidningen, stativrörelser, meridianvändningar, etc. Använd den för att få en känsla av "vad som hände förra natten" eller för att se systemets aktuella tillstånd. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
 >Tagningsmodul</term>
             <listitem>
                 <para
@@ -115,4 +128,4 @@
             </listitem>
         </varlistentry>
     </variablelist>
-</sect2>
+</sect1>

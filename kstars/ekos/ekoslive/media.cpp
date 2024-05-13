@@ -17,6 +17,8 @@
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/guide/guide.h"
 #include "ekos/align/align.h"
+#include "ekos/capture/capture.h"
+#include "ekos/capture/captureprocess.h"
 #include "kspaths.h"
 #include "Options.h"
 
@@ -373,6 +375,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
         {"highlights", stretchParameters.grey_red.highlights},
         {"hasWCS", imageData->hasWCS()},
         {"hfr", imageData->getHFR()},
+        {"view", view->objectName()},
         {"ext", ext}
     };
 
@@ -550,14 +553,22 @@ void Media::registerCameras()
         {
             camera->disconnect(this);
             connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame);
-            connect(camera, &ISD::Camera::newView, this, [this](const QSharedPointer<FITSView> &view)
-            {
-                QString uuid = QUuid::createUuid().toString();
-                uuid = uuid.remove(re);
-                sendView(view, uuid);
-            });
         }
     }
+
+    auto captureModule = m_Manager->captureModule();
+    if (!captureModule)
+        return;
+
+    auto process = captureModule->process().get();
+    process->disconnect(this);
+    connect(process, &Ekos::CaptureProcess::newView, this, [this](const QSharedPointer<FITSView> &view)
+    {
+        // Set UUID for each view
+        QString uuid = QUuid::createUuid().toString();
+        uuid = uuid.remove(re);
+        sendView(view, uuid);
+    });
 }
 
 void Media::resetPolarView()
