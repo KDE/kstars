@@ -267,7 +267,7 @@ class Align : public QWidget, public Ui::Align
         {
             return m_LogText.join("\n");
         }
-        void clearLog();
+        Q_SCRIPTABLE void clearLog();
 
         /**
              * @brief getFOVScale Returns calculated FOV values

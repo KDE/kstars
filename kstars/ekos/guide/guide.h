@@ -174,7 +174,7 @@ class Guide : public QWidget, public Ui::Guide
         /**
              * @brief clearLog As the name suggests
              */
-        void clearLog();
+        Q_SCRIPTABLE void clearLog();
         QStringList logText()
         {
             return m_LogText;

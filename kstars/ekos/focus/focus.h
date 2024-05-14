@@ -237,7 +237,7 @@ class Focus : public QWidget, public Ui::Focus
         void setupFilterManager();
         void connectFilterManager();
 
-        void clearLog();
+        Q_SCRIPTABLE void clearLog();
         QStringList logText()
         {
             return m_LogText;
