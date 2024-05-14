@@ -33,6 +33,7 @@ class Message : public QObject
         // Module Status Updates
         void updateMountStatus(const QJsonObject &status, bool throttle = false);
         void updateCaptureStatus(const QJsonObject &status);
+        void updateAlignStatus(const QJsonObject &status);
         void updateFocusStatus(const QJsonObject &status);
         void updateGuideStatus(const QJsonObject &status);
         void updateDomeStatus(const QJsonObject &status);

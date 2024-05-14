@@ -2323,6 +2323,11 @@ void Message::updateCaptureStatus(const QJsonObject &status)
     sendResponse(commands[NEW_CAPTURE_STATE], status);
 }
 
+void Message::updateAlignStatus(const QJsonObject &status)
+{
+    sendResponse(commands[NEW_ALIGN_STATE], status);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
