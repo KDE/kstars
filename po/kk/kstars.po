@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"POT-Creation-Date: 2024-05-14 01:44+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -6611,7 +6611,7 @@ msgstr "Есеп шығарғыш %1 секундтан кейін доғары�
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:1264 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1210 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -16512,7 +16512,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
 #: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
-#: ekos/guide/guide.cpp:981
+#: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure timeout. Restarting exposure..."
@@ -21807,224 +21807,224 @@ msgstr ""
 msgid "Connection to the guide CCD is lost."
 msgstr ""
 
-#: ekos/guide/guide.cpp:805
+#: ekos/guide/guide.cpp:816
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to CCD."
 msgid "Error: lost connection to CCD."
 msgstr "Қате: CCD-мен байланыс үзілді."
 
-#: ekos/guide/guide.cpp:975
+#: ekos/guide/guide.cpp:986
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/guide/guide.cpp:1003
+#: ekos/guide/guide.cpp:1014
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/guide/guide.cpp:1005
+#: ekos/guide/guide.cpp:1016
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Камера/CCD түсірілімін бастау. Экспозициясы - секундаларда."
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1027
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/guide/guide.cpp:1364
+#: ekos/guide/guide.cpp:1375
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1467
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1481
+#: ekos/guide/guide.cpp:1492
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Бастапқы орнына қайтып бұралу..."
 
-#: ekos/guide/guide.cpp:1497
+#: ekos/guide/guide.cpp:1508
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Экар тауы"
 
-#: ekos/guide/guide.cpp:1499
+#: ekos/guide/guide.cpp:1510
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Бастапқы орнына қайтып бұралу..."
 
-#: ekos/guide/guide.cpp:1562
+#: ekos/guide/guide.cpp:1573
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration is cleared."
 msgstr "Калибрлеу бітті."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1594
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1601
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1618
+#: ekos/guide/guide.cpp:1629
 #, kde-format
 msgid "Calibration completed."
 msgstr "Калибрлеу бітті."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1647
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration started."
 msgstr "Калибрлеу бітті."
 
-#: ekos/guide/guide.cpp:1643
+#: ekos/guide/guide.cpp:1654
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Guiding resumed."
 msgstr "Дәлдеу жылдамдығы, x15\"/сек"
 
-#: ekos/guide/guide.cpp:1646
+#: ekos/guide/guide.cpp:1657
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Автодәлдеу басталды."
 
-#: ekos/guide/guide.cpp:1658
+#: ekos/guide/guide.cpp:1669
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Autoguiding aborted."
 msgstr "Автодәлдеу басталды."
 
-#: ekos/guide/guide.cpp:1663
+#: ekos/guide/guide.cpp:1674
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Guiding suspended."
 msgstr "Автодәлдеу тоқталды."
 
-#: ekos/guide/guide.cpp:1672
+#: ekos/guide/guide.cpp:1683
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Manual dithering in progress."
 msgstr "Доум-Крик"
 
-#: ekos/guide/guide.cpp:1676
+#: ekos/guide/guide.cpp:1687
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering in progress."
 msgstr "Доум-Крик"
 
-#: ekos/guide/guide.cpp:1680
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 
-#: ekos/guide/guide.cpp:1685
+#: ekos/guide/guide.cpp:1696
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"
 msgid "Dithering failed."
 msgstr "Басқа"
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1707
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Dithering completed successfully."
 msgstr "Телескоп шебері сәтті аяқтады."
 
-#: ekos/guide/guide.cpp:1742
+#: ekos/guide/guide.cpp:1753
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "%1x%1 guide binning is not supported."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/guide/guide.cpp:1764
+#: ekos/guide/guide.cpp:1775
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot change guider type while active."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/guide/guide.cpp:1981
+#: ekos/guide/guide.cpp:1992
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2365
+#: ekos/guide/guide.cpp:2376
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration failed to start."
 msgstr "Калибрлеу"
 
-#: ekos/guide/guide.cpp:2516
+#: ekos/guide/guide.cpp:2527
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Auto star selected."
 msgstr "%1 жұлдыз көрінді."
 
-#: ekos/guide/guide.cpp:2520
+#: ekos/guide/guide.cpp:2531
 #, fuzzy, kde-format
 #| msgid "Set box size to select a focus star."
 msgid "Failed to select an auto star."
 msgstr "Тоғыстағы жұлдызды таңдау тікбұрыш өлшемін орнату."
 
-#: ekos/guide/guide.cpp:2529
+#: ekos/guide/guide.cpp:2540
 #, fuzzy, kde-format
 #| msgid "2. Select guide star"
 msgid "Select a guide star to calibrate."
 msgstr "2. Дәлдеу үшін жұлдызды таңдау"
 
-#: ekos/guide/guide.cpp:2779
+#: ekos/guide/guide.cpp:2790
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "x (pixels)"
 msgstr "пиксел"
 
-#: ekos/guide/guide.cpp:2780
+#: ekos/guide/guide.cpp:2791
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "y (pixels)"
 msgstr "пиксел"
 
-#: ekos/guide/guide.cpp:2896 ekos/guide/guide.cpp:3022
+#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2900 ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22032,7 +22032,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3193
+#: ekos/guide/guide.cpp:3204
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""

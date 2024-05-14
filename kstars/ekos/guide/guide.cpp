@@ -770,7 +770,10 @@ bool Guide::capture()
 {
     // Only capture if we're not already capturing.
     //
-    // The situation I'm seeting this fire is with the internal guider, using GPG,
+    // This is necessary due to the possibility of multiple asncronous actions in the guider.
+    // It would be better to have a syncronous guider, but that is not the current guider.
+    //
+    // One situation I'm seeting this fire is with the internal guider, using GPG,
     // set to suspend guiding during focus, when focus has been completed and guiding moves
     // back from suspended to guiding. Here's why:
     // During focus, even though guiding is suspended and not sending guide pulses, it still
@@ -781,6 +784,14 @@ bool Guide::capture()
     // calls Guide::capture().  So, there would likely be a call to capture() while the previous
     // gpg-induced capture is still running (above setCaptureComplete case GUIDE_SUSPENDED).
     // I'm leaving this behavior in the code, as this seems like an ok solution.
+    //
+    // Similarly, this duplicate capturing can happen during ordinary guiding and dithering. Guiding
+    // captures, then recieves an image. Around the same time capture recieves an image and decides it's
+    // time to dither (guiding hasn't yet processed the image it received). For whatever reason, guiding
+    // does the dither processing first (say it's one-pulse-dither and it's done quickly, and emits the
+    // signal that generates the dither pulses). Then the previous guide processing happens, and it
+    // completes and sends out its guide pulses followed by a signal to recapture. Then the dither settle
+    // happens and it tries to recapture after its settle time completes.
     if (guiderType == GUIDE_INTERNAL && captureTimeout.isActive() && captureTimeout.remainingTime() > 0)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Internal guider skipping capture, already running with remaining seconds =" <<
