@@ -37,6 +37,7 @@ class Message : public QObject
         void updateGuideStatus(const QJsonObject &status);
         void updateDomeStatus(const QJsonObject &status);
         void updateCapStatus(const QJsonObject &status);
+        void updateAlignStatus(const QJsonObject &status);
 
         // Send devices as they come
         void sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);

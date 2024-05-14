@@ -2044,6 +2044,16 @@ void Manager::initAlign()
     int index = addModuleTab(EkosModule::Align, alignModule(), QIcon(":/icons/ekos_align.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
     connect(alignModule(), &Ekos::Align::newLog, this, &Ekos::Manager::updateLog);
+    connect(alignModule(), &Ekos::Align::newLog, ekosLiveClient.get()->message(),
+            [this]()
+    {
+        QJsonObject cStatus =
+        {
+            {"log", alignModule()->getLogText()}
+        };
+
+        ekosLiveClient.get()->message()->updateAlignStatus(cStatus);
+    });
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -2076,6 +2086,16 @@ void Manager::initFocus()
     connect(focusModule(), &Ekos::Focus::newStarPixmap, focusManager, &Ekos::FocusManager::updateFocusStarPixmap);
     connect(focusModule(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
     connect(focusModule(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
+    connect(focusModule(), &Ekos::Focus::newLog, ekosLiveClient.get()->message(),
+            [this]()
+    {
+        QJsonObject cStatus =
+        {
+            {"log", focusModule()->getLogText()}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
 
     // connect HFR plot widget
     connect(focusModule(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
@@ -2240,6 +2260,16 @@ void Manager::initGuide()
         {
             QJsonObject status = { { "drift_ra", ra}, {"drift_de", de} };
             ekosLiveClient.get()->message()->updateGuideStatus(status);
+        });
+        connect(guideModule(), &Ekos::Guide::newLog, ekosLiveClient.get()->message(),
+                [this]()
+        {
+            QJsonObject cStatus =
+            {
+                {"log", guideModule()->getLogText()}
+            };
+
+            ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
         });
 
         if (Options::ekosLeftIcons())
