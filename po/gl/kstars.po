@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 01:46+0000\n"
-"PO-Revision-Date: 2024-05-12 07:36+0200\n"
+"POT-Creation-Date: 2024-05-14 01:44+0000\n"
+"PO-Revision-Date: 2024-05-13 10:47+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -6376,7 +6376,7 @@ msgstr "O resolvedor interrompeuse despois de %1 segundos."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:1264 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1210 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -10562,39 +10562,32 @@ msgstr "Entrada:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Representar o ángulo horario da montura.</p></body></"
+"<html><head/><body><p>Amosar o ficheiro «.analyze» anterior.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
-#, fuzzy, kde-format
-#| msgid "<"
+#, kde-format
 msgid "<<"
-msgstr "<"
+msgstr "←"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the Petzval surface.</p></body></"
-#| "html>"
+#, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marcar para amosar a superficie de Petzval.</p></"
-"body></html>"
+"<html><head/><body><p>Amosar o seguinte ficheiro «.analyze».</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
-#, fuzzy, kde-format
-#| msgid ">"
+#, kde-format
 msgid ">>"
-msgstr ">"
+msgstr "→"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, inputCombo)
 #: ekos/analyze/analyze.ui:161
@@ -16175,7 +16168,7 @@ msgstr ""
 "controlador."
 
 #: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
-#: ekos/guide/guide.cpp:981
+#: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "A exposición fallou. Reiniciándoa…"
@@ -21263,151 +21256,151 @@ msgstr ""
 msgid "Connection to the guide CCD is lost."
 msgstr "Perdeuse a conexión ao dispositivo de carga acoplada (CCD) de guía."
 
-#: ekos/guide/guide.cpp:805
+#: ekos/guide/guide.cpp:816
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "Erro: perdeuse a conexión ao dispositivo de carga acoplada (CCD)."
 
-#: ekos/guide/guide.cpp:975
+#: ekos/guide/guide.cpp:986
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Esgotouse o tempo límite de exposición, pero suspendeuse. Ignorando…"
 
-#: ekos/guide/guide.cpp:1003
+#: ekos/guide/guide.cpp:1014
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr ""
 "Tempo límite de exposición. Interrompendo o proceso de guía automática."
 
-#: ekos/guide/guide.cpp:1005
+#: ekos/guide/guide.cpp:1016
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Tempo límite de exposición. Interrompendo o tramado…"
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Tempo límite de exposición. Interrompendo a calibración…"
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1027
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "A exposición fallou. Demasiadas. Reiniciarase o controlador."
 
-#: ekos/guide/guide.cpp:1364
+#: ekos/guide/guide.cpp:1375
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "A montura está estacionada. Desestaciónea para iniciar o proceso de guía."
 
-#: ekos/guide/guide.cpp:1467
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Detectouse un cambio do lado de observación. Baleirando a calibración."
 
-#: ekos/guide/guide.cpp:1481
+#: ekos/guide/guide.cpp:1492
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "A montura está en movemento. Redefinindo a calibración…"
 
-#: ekos/guide/guide.cpp:1497
+#: ekos/guide/guide.cpp:1508
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "A montura está estacionando. Interrompendo o proceso de guía…"
 
-#: ekos/guide/guide.cpp:1499
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "A montura está movéndose. Interrompendo o proceso de guía…"
 
-#: ekos/guide/guide.cpp:1562
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Baleirouse a calibración."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1594
 #, kde-format
 msgid "External guider connected."
 msgstr "Conectouse unha guía externa."
 
-#: ekos/guide/guide.cpp:1601
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Desconectouse unha guía externa."
 
-#: ekos/guide/guide.cpp:1618
+#: ekos/guide/guide.cpp:1629
 #, kde-format
 msgid "Calibration completed."
 msgstr "Rematou a calibración."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1647
 #, kde-format
 msgid "Calibration started."
 msgstr "Comezou a calibración."
 
-#: ekos/guide/guide.cpp:1643
+#: ekos/guide/guide.cpp:1654
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Continuouse o proceso de guía."
 
-#: ekos/guide/guide.cpp:1646
+#: ekos/guide/guide.cpp:1657
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Iniciouse o guiado automático."
 
-#: ekos/guide/guide.cpp:1658
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Interrompeuse o proceso automático de guía."
 
-#: ekos/guide/guide.cpp:1663
+#: ekos/guide/guide.cpp:1674
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Suspendeuse o proceso de guía."
 
-#: ekos/guide/guide.cpp:1672
+#: ekos/guide/guide.cpp:1683
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Tramado manual en progreso."
 
-#: ekos/guide/guide.cpp:1676
+#: ekos/guide/guide.cpp:1687
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Tramado en progreso."
 
-#: ekos/guide/guide.cpp:1680
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Asentamento post-tramado durante %1 segundo…"
 msgstr[1] "Asentamento post-tramado durante %1 segundos…"
 
-#: ekos/guide/guide.cpp:1685
+#: ekos/guide/guide.cpp:1696
 #, kde-format
 msgid "Dithering failed."
 msgstr "O tramado fallou."
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1707
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Completouse o tramado."
 
-#: ekos/guide/guide.cpp:1742
+#: ekos/guide/guide.cpp:1753
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Non se permite a eliminación de ruído con guía de %1×%1."
 
-#: ekos/guide/guide.cpp:1764
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "A exposición fallou. Reiniciándoa…"
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Non é posíbel cambiar o tipo de guía mentres está cativo."
 
-#: ekos/guide/guide.cpp:1981
+#: ekos/guide/guide.cpp:1992
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -21416,37 +21409,37 @@ msgstr ""
 "Aviso: o restablecemento da calibración de guía está activada. Recoméndase "
 "desactivar esta opción para PHD2."
 
-#: ekos/guide/guide.cpp:2365
+#: ekos/guide/guide.cpp:2376
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Non foi posíbel iniciar a calibración."
 
-#: ekos/guide/guide.cpp:2516
+#: ekos/guide/guide.cpp:2527
 #, kde-format
 msgid "Auto star selected."
 msgstr "Seleccionouse unha estrela automaticamente."
 
-#: ekos/guide/guide.cpp:2520
+#: ekos/guide/guide.cpp:2531
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Non foi posíbel seleccionar unha estrela automática."
 
-#: ekos/guide/guide.cpp:2529
+#: ekos/guide/guide.cpp:2540
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccione unha estrela guía para calibrar."
 
-#: ekos/guide/guide.cpp:2779
+#: ekos/guide/guide.cpp:2790
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (píxeles)"
 
-#: ekos/guide/guide.cpp:2780
+#: ekos/guide/guide.cpp:2791
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (píxeles)"
 
-#: ekos/guide/guide.cpp:2896 ekos/guide/guide.cpp:3022
+#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -21455,7 +21448,7 @@ msgstr ""
 "A cámara PHD2 non está dispoñíbel para Ekos así que vostede non pode ver as "
 "imaxes capturadas. Pero aínda así verá a imaxe de estrela de guía cando guíe."
 
-#: ekos/guide/guide.cpp:2900 ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -21466,7 +21459,7 @@ msgstr ""
 "desmarcar «Subfotograma». Desmarcarase agora para activar as súas capturas "
 "de imaxe. Pode activar a opción de novo antes da guía"
 
-#: ekos/guide/guide.cpp:3193
+#: ekos/guide/guide.cpp:3204
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -25050,10 +25043,10 @@ msgid "You must restart KStars for this change to take effect."
 msgstr "Debe reiniciar KStars para que o cambio xurda efecto."
 
 #: ekos/opsekos.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set an alternate base directory for your captured images"
+#, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "Definir un cartafol base alternativo para as imaxes capturadas."
+msgstr ""
+"Definir un cartafol base alternativo para as imaxes capturadas de Analyze."
 
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
 #: ekos/opsekos.ui:14

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"POT-Creation-Date: 2024-05-14 01:44+0000\n"
 "PO-Revision-Date: 2024-05-12 21:51+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -6387,7 +6387,7 @@ msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:1264 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1210 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -16102,7 +16102,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
 #: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
-#: ekos/guide/guide.cpp:981
+#: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Čas za osvetlitev je potekel. Ponovno zaganjanje osvetljevanja …"
@@ -21195,119 +21195,119 @@ msgstr ""
 msgid "Connection to the guide CCD is lost."
 msgstr "Povezava s CCD vodnika je bila izgubljena."
 
-#: ekos/guide/guide.cpp:805
+#: ekos/guide/guide.cpp:816
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "Napaka: povezava s CCD-jem izgubljena."
 
-#: ekos/guide/guide.cpp:975
+#: ekos/guide/guide.cpp:986
 #, fuzzy, kde-format
 #| msgid "Exposure timeout. Aborting..."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Čas za osvetlitev je potekel. Prekinjanje …"
 
-#: ekos/guide/guide.cpp:1003
+#: ekos/guide/guide.cpp:1014
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Časovna uganka izpostavljenosti. Ugašam Avtoguide."
 
-#: ekos/guide/guide.cpp:1005
+#: ekos/guide/guide.cpp:1016
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Časovna uganka izpostavljenosti. Prekinitev ditheringa."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1018
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Časovna uganka izpostavljenosti. Ukinitev kalibracije."
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1027
 #, fuzzy, kde-format
 #| msgid "Exposure timeout. Restarting exposure..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Čas za osvetlitev je potekel. Ponovno zaganjanje osvetljevanja …"
 
-#: ekos/guide/guide.cpp:1364
+#: ekos/guide/guide.cpp:1375
 #, fuzzy, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Nosilec je parkiran. Odparkirajte ga, da začnete voditi."
 
-#: ekos/guide/guide.cpp:1467
+#: ekos/guide/guide.cpp:1478
 #, fuzzy, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Zaznana sprememba pomola. Umerjanje klira."
 
-#: ekos/guide/guide.cpp:1481
+#: ekos/guide/guide.cpp:1492
 #, fuzzy, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Stativ se premika. Ponastavljanje umerjanja …"
 
-#: ekos/guide/guide.cpp:1497
+#: ekos/guide/guide.cpp:1508
 #, fuzzy, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount je parkiranje. Vodnik za prekinitev…"
 
-#: ekos/guide/guide.cpp:1499
+#: ekos/guide/guide.cpp:1510
 #, fuzzy, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Mount je nateg. Vodnik za prekinitev…"
 
-#: ekos/guide/guide.cpp:1562
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Umerjanje je počiščeno."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1594
 #, kde-format
 msgid "External guider connected."
 msgstr "Zunanji vodnik povezan."
 
-#: ekos/guide/guide.cpp:1601
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Prekinjena povezava z zunanjim vodnikom."
 
-#: ekos/guide/guide.cpp:1618
+#: ekos/guide/guide.cpp:1629
 #, kde-format
 msgid "Calibration completed."
 msgstr "Umerjanje zaključeno."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1647
 #, kde-format
 msgid "Calibration started."
 msgstr "Umerjanje začeto."
 
-#: ekos/guide/guide.cpp:1643
+#: ekos/guide/guide.cpp:1654
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Vodenje se nadaljuje."
 
-#: ekos/guide/guide.cpp:1646
+#: ekos/guide/guide.cpp:1657
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Samodejno vodenje se je začelo."
 
-#: ekos/guide/guide.cpp:1658
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Samodejno vodenje prekinjeno."
 
-#: ekos/guide/guide.cpp:1663
+#: ekos/guide/guide.cpp:1674
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Vodenje v pripravljenosti."
 
-#: ekos/guide/guide.cpp:1672
+#: ekos/guide/guide.cpp:1683
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Ročno razprševanje poteka."
 
-#: ekos/guide/guide.cpp:1676
+#: ekos/guide/guide.cpp:1687
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Razprševanje poteka."
 
-#: ekos/guide/guide.cpp:1680
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -21316,33 +21316,33 @@ msgstr[1] "Umirjanje po razprševanju za %1 sekundo …"
 msgstr[2] "Umirjanje po razprševanju za %1 sekundi …"
 msgstr[3] "Umirjanje po razprševanju za %1 sekunde …"
 
-#: ekos/guide/guide.cpp:1685
+#: ekos/guide/guide.cpp:1696
 #, kde-format
 msgid "Dithering failed."
 msgstr "Razprševanje ni uspelo."
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1707
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Razprševanje se je uspešno zaključilo."
 
-#: ekos/guide/guide.cpp:1742
+#: ekos/guide/guide.cpp:1753
 #, fuzzy, kde-format
 #| msgid "Bit depth %1 is not supported."
 msgid "%1x%1 guide binning is not supported."
 msgstr "Bitna globina %1 ni podprta."
 
-#: ekos/guide/guide.cpp:1764
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja …"
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Ni mogoče spremeniti vrste vodnika med dejavnostjo."
 
-#: ekos/guide/guide.cpp:1981
+#: ekos/guide/guide.cpp:1992
 #, fuzzy, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -21351,37 +21351,37 @@ msgstr ""
 "Opozorilo: Ponastavi umerjanje s smernicami je omogočeno. To možnost je "
 "priporočljivo izklopiti za PHD2."
 
-#: ekos/guide/guide.cpp:2365
+#: ekos/guide/guide.cpp:2376
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Umerjanja se ni uspelo zagnati."
 
-#: ekos/guide/guide.cpp:2516
+#: ekos/guide/guide.cpp:2527
 #, kde-format
 msgid "Auto star selected."
 msgstr "Izbrana samodejno zaznana zvezda."
 
-#: ekos/guide/guide.cpp:2520
+#: ekos/guide/guide.cpp:2531
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Izbor samodejno zaznane zvezde ni uspel."
 
-#: ekos/guide/guide.cpp:2529
+#: ekos/guide/guide.cpp:2540
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Za umerjanje izberite vodilno zvezdo."
 
-#: ekos/guide/guide.cpp:2779
+#: ekos/guide/guide.cpp:2790
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (pikslov)"
 
-#: ekos/guide/guide.cpp:2780
+#: ekos/guide/guide.cpp:2791
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (pikslov)"
 
-#: ekos/guide/guide.cpp:2896 ekos/guide/guide.cpp:3022
+#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
 #, fuzzy, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -21390,7 +21390,7 @@ msgstr ""
 "Kamera PHD2 za Ekos ni na voljo, zato zajetih slik ne morete videti.  Toda "
 "še vedno boste videli sliko zvezde vodnika, ko boste vodnik."
 
-#: ekos/guide/guide.cpp:2900 ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
 #, fuzzy, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -21401,7 +21401,7 @@ msgstr ""
 "podframe počistiti.  Zdaj ga snemate, da omogočite zajemanje slik.  Lahko ga "
 "ponovno omogočite, preden"
 
-#: ekos/guide/guide.cpp:3193
+#: ekos/guide/guide.cpp:3204
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"POT-Creation-Date: 2024-05-14 01:44+0000\n"
 "PO-Revision-Date: 2024-04-29 09:47+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6375,7 +6375,7 @@ msgstr "Решаването е прекъснато след %1 секунди.
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:1264 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1210 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -16214,7 +16214,7 @@ msgstr ""
 "рестартира..."
 
 #: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
-#: ekos/guide/guide.cpp:981
+#: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Изчакване на експозицията. Експозицията се рестартира..."
@@ -21309,152 +21309,152 @@ msgstr ""
 msgid "Connection to the guide CCD is lost."
 msgstr "Загубена е връзката с направляващия CCD."
 
-#: ekos/guide/guide.cpp:805
+#: ekos/guide/guide.cpp:816
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "Грешка: загубена връзка с CCD."
 
-#: ekos/guide/guide.cpp:975
+#: ekos/guide/guide.cpp:986
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr ""
 "Времето на изчакване на експозицията изтече, но е преустановено. "
 "Игнориране..."
 
-#: ekos/guide/guide.cpp:1003
+#: ekos/guide/guide.cpp:1014
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Изчакване на експозицията. Прекъсване на автоматичното гидиране."
 
-#: ekos/guide/guide.cpp:1005
+#: ekos/guide/guide.cpp:1016
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Изчакване на експозицията. Прекратяване на дитъринга."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Изчакване на експозицията. Прекъсване на калибрирането."
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1027
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Изчакване на експозицията. Драйверът се рестартира..."
 
-#: ekos/guide/guide.cpp:1364
+#: ekos/guide/guide.cpp:1375
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "Монтировката е паркирана. Отпаркирайте, за да започнете да направлявате."
 
-#: ekos/guide/guide.cpp:1467
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Открита е промяна на страната на статива. Изчистване на калибрирането."
 
-#: ekos/guide/guide.cpp:1481
+#: ekos/guide/guide.cpp:1492
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Монтировката се движи. Нулиране на калибрирането..."
 
-#: ekos/guide/guide.cpp:1497
+#: ekos/guide/guide.cpp:1508
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Монтировката се паркира. Прекъсване на гидирането..."
 
-#: ekos/guide/guide.cpp:1499
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Монтировката се завъртва. Прекъсване на гидирането..."
 
-#: ekos/guide/guide.cpp:1562
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Калибрирането е изчистено."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1594
 #, kde-format
 msgid "External guider connected."
 msgstr "Свързан външен гид модул."
 
-#: ekos/guide/guide.cpp:1601
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Външният гид модул е изключен."
 
-#: ekos/guide/guide.cpp:1618
+#: ekos/guide/guide.cpp:1629
 #, kde-format
 msgid "Calibration completed."
 msgstr "Калибрирането е завършено."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1647
 #, kde-format
 msgid "Calibration started."
 msgstr "Калибрирането започна."
 
-#: ekos/guide/guide.cpp:1643
+#: ekos/guide/guide.cpp:1654
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Гидирането е подновено."
 
-#: ekos/guide/guide.cpp:1646
+#: ekos/guide/guide.cpp:1657
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Автонасочването започна."
 
-#: ekos/guide/guide.cpp:1658
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Автоматичното насочване е прекъснато."
 
-#: ekos/guide/guide.cpp:1663
+#: ekos/guide/guide.cpp:1674
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Гидирането е преустановено."
 
-#: ekos/guide/guide.cpp:1672
+#: ekos/guide/guide.cpp:1683
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Извършва се ръчно дитъринг."
 
-#: ekos/guide/guide.cpp:1676
+#: ekos/guide/guide.cpp:1687
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Извършва се дитъринг."
 
-#: ekos/guide/guide.cpp:1680
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Пост-дитериране се установява за %1 секунда..."
 msgstr[1] "Установяване след дитер за %1 секунди..."
 
-#: ekos/guide/guide.cpp:1685
+#: ekos/guide/guide.cpp:1696
 #, kde-format
 msgid "Dithering failed."
 msgstr "Неуспешно дитериране."
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1707
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Дитърингът завърши успешно."
 
-#: ekos/guide/guide.cpp:1742
+#: ekos/guide/guide.cpp:1753
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "%1x%1 биниране на гидиране не се поддържа."
 
-#: ekos/guide/guide.cpp:1764
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Експозицията е неуспешна. Рестартиране на експозицията..."
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Не може да промени видът на гидирането, докато то е активно."
 
-#: ekos/guide/guide.cpp:1981
+#: ekos/guide/guide.cpp:1992
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -21463,37 +21463,37 @@ msgstr ""
 "Предупреждение: Разрешено е нулиране на водещото калибриране. Препоръчва се "
 "тази опция да бъде изключена за PHD2."
 
-#: ekos/guide/guide.cpp:2365
+#: ekos/guide/guide.cpp:2376
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Неуспешно стартиране на калибрирането."
 
-#: ekos/guide/guide.cpp:2516
+#: ekos/guide/guide.cpp:2527
 #, kde-format
 msgid "Auto star selected."
 msgstr "Избрана е автоматична звезда."
 
-#: ekos/guide/guide.cpp:2520
+#: ekos/guide/guide.cpp:2531
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Неуспешно избиране на автоматична звезда."
 
-#: ekos/guide/guide.cpp:2529
+#: ekos/guide/guide.cpp:2540
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Избор на водеща звезда за калибриране."
 
-#: ekos/guide/guide.cpp:2779
+#: ekos/guide/guide.cpp:2790
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (пиксела)"
 
-#: ekos/guide/guide.cpp:2780
+#: ekos/guide/guide.cpp:2791
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (пиксела)"
 
-#: ekos/guide/guide.cpp:2896 ekos/guide/guide.cpp:3022
+#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -21503,7 +21503,7 @@ msgstr ""
 "изображения.  Но все пак ще виждате изображението на водещата звезда, когато "
 "насочвате."
 
-#: ekos/guide/guide.cpp:2900 ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -21515,7 +21515,7 @@ msgstr ""
 "за да активирате заснемането на изображения.  Можете да го активирате отново "
 "преди гидирането"
 
-#: ekos/guide/guide.cpp:3193
+#: ekos/guide/guide.cpp:3204
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Не може да се промени активният оптична система, докато PHD2 е свързан"

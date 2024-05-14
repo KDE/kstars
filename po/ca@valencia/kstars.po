@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 01:46+0000\n"
+"POT-Creation-Date: 2024-05-14 01:44+0000\n"
 "PO-Revision-Date: 2024-05-12 15:33+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6467,7 +6467,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:1264 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1210 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
@@ -16480,7 +16480,7 @@ msgstr ""
 "el controlador."
 
 #: ekos/capture/captureprocess.cpp:2052 ekos/focus/focus.cpp:5314
-#: ekos/guide/guide.cpp:981
+#: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició…"
@@ -21652,152 +21652,152 @@ msgstr ""
 msgid "Connection to the guide CCD is lost."
 msgstr "S'ha perdut la connexió amb CCD guia."
 
-#: ekos/guide/guide.cpp:805
+#: ekos/guide/guide.cpp:816
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "S'ha produït un error: s'ha perdut la connexió amb CCD."
 
-#: ekos/guide/guide.cpp:975
+#: ekos/guide/guide.cpp:986
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "S'ha excedit el temps d'exposició, però està suspesa. S'ignora…"
 
-#: ekos/guide/guide.cpp:1003
+#: ekos/guide/guide.cpp:1014
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1005
+#: ekos/guide/guide.cpp:1016
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el tramat."
 
-#: ekos/guide/guide.cpp:1007
+#: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el calibratge."
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1027
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "S'ha excedit el temps d'exposició. Es torna a iniciar el controlador."
 
-#: ekos/guide/guide.cpp:1364
+#: ekos/guide/guide.cpp:1375
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#: ekos/guide/guide.cpp:1467
+#: ekos/guide/guide.cpp:1478
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
 "calibratge."
 
-#: ekos/guide/guide.cpp:1481
+#: ekos/guide/guide.cpp:1492
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La muntura s'està movent. S'està restablint el calibratge…"
 
-#: ekos/guide/guide.cpp:1497
+#: ekos/guide/guide.cpp:1508
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "S'està aparcant la muntura. S'interromp el guiatge…"
 
-#: ekos/guide/guide.cpp:1499
+#: ekos/guide/guide.cpp:1510
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "S'està orientant la muntura. S'interromp el guiatge…"
 
-#: ekos/guide/guide.cpp:1562
+#: ekos/guide/guide.cpp:1573
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "S'ha netejat el calibratge."
 
-#: ekos/guide/guide.cpp:1583
+#: ekos/guide/guide.cpp:1594
 #, kde-format
 msgid "External guider connected."
 msgstr "S'ha connectat un sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1601
+#: ekos/guide/guide.cpp:1612
 #, kde-format
 msgid "External guider disconnected."
 msgstr "S'ha desconnectat el sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1618
+#: ekos/guide/guide.cpp:1629
 #, kde-format
 msgid "Calibration completed."
 msgstr "S'ha completat el calibratge."
 
-#: ekos/guide/guide.cpp:1636
+#: ekos/guide/guide.cpp:1647
 #, kde-format
 msgid "Calibration started."
 msgstr "S'ha iniciat el calibratge."
 
-#: ekos/guide/guide.cpp:1643
+#: ekos/guide/guide.cpp:1654
 #, kde-format
 msgid "Guiding resumed."
 msgstr "S'ha représ el guiatge."
 
-#: ekos/guide/guide.cpp:1646
+#: ekos/guide/guide.cpp:1657
 #, kde-format
 msgid "Autoguiding started."
 msgstr "S'ha iniciat el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1658
+#: ekos/guide/guide.cpp:1669
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "S'ha interromput el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1663
+#: ekos/guide/guide.cpp:1674
 #, kde-format
 msgid "Guiding suspended."
 msgstr "S'ha suspés el guiatge."
 
-#: ekos/guide/guide.cpp:1672
+#: ekos/guide/guide.cpp:1683
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Tramat manual en curs."
 
-#: ekos/guide/guide.cpp:1676
+#: ekos/guide/guide.cpp:1687
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Tramat en curs."
 
-#: ekos/guide/guide.cpp:1680
+#: ekos/guide/guide.cpp:1691
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Posicionament del posttramat durant %1 segon…"
 msgstr[1] "Posicionament del posttramat durant %1 segons…"
 
-#: ekos/guide/guide.cpp:1685
+#: ekos/guide/guide.cpp:1696
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ha fallat el tramat."
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1707
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "S'ha completat amb èxit el tramat."
 
-#: ekos/guide/guide.cpp:1742
+#: ekos/guide/guide.cpp:1753
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "No s'admet l'agrupament %1x%1 del guiatge."
 
-#: ekos/guide/guide.cpp:1764
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "No s'ha pogut fer l'exposició. Es reinicia l'exposició…"
 
-#: ekos/guide/guide.cpp:1890
+#: ekos/guide/guide.cpp:1901
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "No es pot canviar el tipus del sistema de guiatge mentre està actiu."
 
-#: ekos/guide/guide.cpp:1981
+#: ekos/guide/guide.cpp:1992
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -21806,37 +21806,37 @@ msgstr ""
 "Avís: Està actiu el reinici del calibratge del guiatge. Es recomana "
 "desseleccionar esta opció per a PHD2."
 
-#: ekos/guide/guide.cpp:2365
+#: ekos/guide/guide.cpp:2376
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "No s'ha pogut iniciar el calibratge."
 
-#: ekos/guide/guide.cpp:2516
+#: ekos/guide/guide.cpp:2527
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrela seleccionada automàticament."
 
-#: ekos/guide/guide.cpp:2520
+#: ekos/guide/guide.cpp:2531
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "No s'ha pogut seleccionar una estrela automàtica."
 
-#: ekos/guide/guide.cpp:2529
+#: ekos/guide/guide.cpp:2540
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccioneu una estrela guia que s'haja de calibrar."
 
-#: ekos/guide/guide.cpp:2779
+#: ekos/guide/guide.cpp:2790
 #, kde-format
 msgid "x (pixels)"
 msgstr "x (píxels)"
 
-#: ekos/guide/guide.cpp:2780
+#: ekos/guide/guide.cpp:2791
 #, kde-format
 msgid "y (pixels)"
 msgstr "y (píxels)"
 
-#: ekos/guide/guide.cpp:2896 ekos/guide/guide.cpp:3022
+#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -21847,7 +21847,7 @@ msgstr ""
 "quan feu el guiatge."
 
 # skip-rule: punctuation-period-no
-#: ekos/guide/guide.cpp:2900 ekos/guide/guide.cpp:3026
+#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -21859,7 +21859,7 @@ msgstr ""
 "activar les captures d'imatge. La podreu tornar a seleccionar abans del "
 "guiatge."
 
-#: ekos/guide/guide.cpp:3193
+#: ekos/guide/guide.cpp:3204
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No es pot canviar el tren òptic actual mentre PHD2 està connectat"
