@@ -112,6 +112,7 @@ class FITSViewer : public KXmlGuiWindow
         void ZoomAllOut();
         void ZoomDefault();
         void ZoomToFit();
+        void FitToZoom();
         void updateAction(const QString &name, bool enable);
         void updateTabStatus(bool clean, const QUrl &imageURL);
         void closeTab(int index);

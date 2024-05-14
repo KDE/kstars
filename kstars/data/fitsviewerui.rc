@@ -74,6 +74,7 @@
 	<Action name="view_zoom_out" />	
 	<Action name="view_actual_size"/>
         <Action name="view_zoom_fit"/>
+        <Action name="view_fit_page"/>
         <Separator/>
         <Action name="rotate_right" />
         <Action name="rotate_left" />

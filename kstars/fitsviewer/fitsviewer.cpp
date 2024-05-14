@@ -267,6 +267,11 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setText(i18n("Zoom To Fit"));
     connect(action, &QAction::triggered, this, &FITSViewer::ZoomToFit);
 
+    action = actionCollection()->addAction("view_fit_page");
+    action->setIcon(QIcon::fromTheme("zoom-original"));
+    action->setText(i18n("Fit Page to Zoom"));
+    connect(action, &QAction::triggered, this, &FITSViewer::FitToZoom);
+
     action = actionCollection()->addAction("next_tab");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Tab));
     action->setText(i18n("Next Tab"));
@@ -1187,6 +1192,31 @@ void FITSViewer::ZoomToFit()
     QSharedPointer<FITSView> currentView;
     if (getCurrentView(currentView))
         currentView->ZoomToFit();
+}
+
+// Adjust the (top-level) window size to fit the current zoom, so that there
+// are no scroll bars and minimal empty space in the view. Note, if the zoom
+// is such that it would be larger than the display size than this can't be
+// accomplished and the windowing will do its best.
+void FITSViewer::FitToZoom()
+{
+    if (m_Tabs.empty())
+        return;
+
+    QSharedPointer<FITSView> currentView;
+    if (!getCurrentView(currentView))
+        return;
+
+    const double zoom = currentView->getCurrentZoom() * .01;
+    const int w = zoom * currentView->imageData()->width();
+    const int h = zoom * currentView->imageData()->height();
+    const int extraW = width() - currentView->width();
+    const int extraH = height() - currentView->height();
+    // These 4s seem to be needed to make sure we don't wind up with scroll bars.
+    // Not sure why, would be great to figure out how to remove them.
+    const int wNeeded = w + extraW + 4;
+    const int hNeeded = h + extraH + 4;
+    resize(wNeeded, hNeeded);
 }
 
 void FITSViewer::updateAction(const QString &name, bool enable)
