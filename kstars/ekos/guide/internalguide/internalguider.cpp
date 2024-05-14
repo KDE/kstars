@@ -991,8 +991,12 @@ bool InternalGuider::processGuiding()
     if (isPoorGuiding(out))
         return true;
 
-    bool sendPulses = !pmath->isStarLost();
+    // This is an old guide computaion that should be ignored.
+    // One-pulse-dither sends out its own pulse signal.
+    if ((state == GUIDE_DITHERING_SETTLE || state == GUIDE_DITHERING) && Options::ditherWithOnePulse())
+        return true;
 
+    bool sendPulses = !pmath->isStarLost();
 
     // Send pulse if we have one active direction at least.
     if (sendPulses && (out->pulse_dir[GUIDE_RA] != NO_DIR || out->pulse_dir[GUIDE_DEC] != NO_DIR))
