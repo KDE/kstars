@@ -3300,7 +3300,8 @@ void Capture::loadGlobalSettings()
     // All Line Edits
     for (auto &oneWidget : findChildren<QLineEdit*>())
     {
-        if (oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
+        // Target name and spinbox line-edits should be skipped
+        if (oneWidget->objectName() == "targetNameT" || oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
             continue;
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -3349,7 +3350,9 @@ void Capture::connectSyncSettings()
     // All Line Edits
     for (auto &oneWidget : findChildren<QLineEdit*>())
     {
-        if (oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
+        // Target Name should never be saved since it is set by Ekos
+        // Ekos read-only and spinbox edits
+        if (oneWidget->objectName() == "targetNameT" || oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
             continue;
         connect(oneWidget, &QLineEdit::textChanged, this, &Ekos::Capture::syncSettings);
     }
