@@ -265,6 +265,11 @@ public:
     void cleanupScheduler();
 
     /**
+     * @brief readCurrentTemperature Read the current temperature value from the temperature field
+     */
+    double readCurrentTemperature(Ekos::Capture *captureModule);
+
+    /**
      * @brief getSimpleEsqContent Create a simple lights capture sequence file
      * @param settings overall settings
      * @param jobs list of sequence jobs

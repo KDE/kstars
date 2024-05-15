@@ -18,6 +18,7 @@
 namespace Ekos
 {
 class Capture;
+class Camera;
 }
 
 class DSLRInfo : public QDialog, public Ui::DSLRInfo
@@ -39,6 +40,7 @@ class DSLRInfo : public QDialog, public Ui::DSLRInfo
         double sensorPixelW = 0, sensorPixelH = 0;
 
         friend class Ekos::Capture;
+        friend class Ekos::Camera;
 };
 
 #endif

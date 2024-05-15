@@ -185,6 +185,14 @@ void TestEkosCaptureHelper::cleanupScheduler()
     Ekos::Manager::Instance()->schedulerModule()->process()->removeAllJobs();
 }
 
+double TestEkosCaptureHelper::readCurrentTemperature(Ekos::Capture *captureModule)
+{
+    // check if the capture module is available
+    QString tempText = captureModule->cameraUI->temperatureOUT->text();
+    tempText.chop(1);
+    return tempText.toDouble();
+}
+
 QStringList TestEkosCaptureHelper::getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs,
         ESQVersion version)
 {

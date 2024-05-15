@@ -112,9 +112,9 @@ void SequenceEditor::onStandAloneShow()
     // Add extra load and save buttons at the bottom of the window.
     m_capture->cameraUI->loadSaveBox->setEnabled(true);
     m_capture->cameraUI->loadSaveBox->setVisible(true);
-    connect(m_capture->cameraUI->esqSaveAsB, &QPushButton::clicked, m_capture.get(), &Capture::saveSequenceQueueAs);
-    connect(m_capture->cameraUI->esqLoadB, &QPushButton::clicked, m_capture.get(),
-            static_cast<void(Capture::*)()>(&Capture::loadSequenceQueue));
+    connect(m_capture->cameraUI->esqSaveAsB, &QPushButton::clicked, m_capture.get()->cameraUI, &Camera::saveSequenceQueueAs);
+    connect(m_capture->cameraUI->esqLoadB, &QPushButton::clicked, m_capture.get()->cameraUI,
+            static_cast<void(Camera::*)()>(&Camera::loadSequenceQueue));
 
     m_capture->cameraUI->FilterPosCombo->clear();
     if (m_Settings.contains(KEY_FILTERS))

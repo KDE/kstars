@@ -442,10 +442,11 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     KTRY_CLICK(capture, startB);
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+    // Read the current temperature from the UI
+    double currentTemp = m_CaptureHelper->readCurrentTemperature(capture);
     // check if the temperature is at the expected level
-    QTRY_VERIFY2(std::abs(capture->cameraUI->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->cameraUI->temperatureOUT->text()).arg(
-                     targetTemp).toLocal8Bit());
+    QTRY_VERIFY2(std::abs(currentTemp - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(currentTemp).arg(targetTemp).toLocal8Bit());
 
     // stop capturing
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
@@ -458,10 +459,11 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     KTRY_CLICK(capture, startB);
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 20000);
+    // Read the current temperature from the UI
+    currentTemp = m_CaptureHelper->readCurrentTemperature(capture);
     // check if the temperature is at the expected level
-    QTRY_VERIFY2(std::abs(capture->cameraUI->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->cameraUI->temperatureOUT->text()).arg(
-                     targetTemp).toLocal8Bit());
+    QTRY_VERIFY2(std::abs(currentTemp - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2C").arg(currentTemp).arg(targetTemp).toLocal8Bit());
 
     // stop capturing
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
@@ -471,7 +473,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
 
     // change temperature back to initial value
     SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_CCDDevice, "CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", initTemp);
-    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->cameraUI->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(),
+    QTRY_VERIFY_WITH_TIMEOUT(std::abs(m_CaptureHelper->readCurrentTemperature(capture) - initTemp) <=
+                             Options::maxTemperatureDiff(),
                              60000);
 
     // start capturing for a second time
@@ -479,11 +482,11 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     KTRY_CLICK(capture, startB);
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+    // Read the current temperature from the UI
+    currentTemp = m_CaptureHelper->readCurrentTemperature(capture);
     // check if the temperature is at the expected level
-    QTRY_VERIFY2(std::abs(capture->cameraUI->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->cameraUI->temperatureOUT->text()).arg(
-                     targetTemp).toLocal8Bit());
-
+    QTRY_VERIFY2(std::abs(currentTemp - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(currentTemp).arg(targetTemp).toLocal8Bit());
 }
 
 void TestEkosCaptureWorkflow::testCaptureWaitingForRotator()

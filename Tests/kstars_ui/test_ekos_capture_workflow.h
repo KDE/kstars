@@ -73,6 +73,7 @@ class TestEkosCaptureWorkflow : public QObject
         explicit TestEkosCaptureWorkflow(QObject *parent = nullptr);
         explicit TestEkosCaptureWorkflow(QString guider, QObject *parent = nullptr);
 
+    
 protected:
         // destination where images will be located
         QTemporaryDir *destination;

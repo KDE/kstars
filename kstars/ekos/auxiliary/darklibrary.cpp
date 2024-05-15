@@ -580,7 +580,7 @@ void DarkLibrary::closeEvent(QCloseEvent *ev)
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->setAllSettings(m_CaptureModuleSettings);
+        m_CaptureModule->cameraUI->setAllSettings(m_CaptureModuleSettings);
     }
 }
 
@@ -598,7 +598,7 @@ void DarkLibrary::setCompleted()
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->setAllSettings(m_CaptureModuleSettings);
+        m_CaptureModule->cameraUI->setAllSettings(m_CaptureModuleSettings);
     }
 
     m_Camera->disconnect(this);
@@ -1184,8 +1184,8 @@ void DarkLibrary::generateDarkJobs()
                 settings["fileDirectoryT"] = QString(prefix + QString("sequence_%1").arg(sequence));
                 settings["captureCountN"] = countSpin->value();
 
-                m_CaptureModule->setAllSettings(settings);
-                m_CaptureModule->createJob();
+                m_CaptureModule->cameraUI->setAllSettings(settings);
+                m_CaptureModule->cameraUI->createJob();
             }
         }
     }

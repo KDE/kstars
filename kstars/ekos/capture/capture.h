@@ -8,7 +8,6 @@
 
 #include "ui_capture.h"
 
-#include "sequencejob.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
@@ -104,15 +103,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
-        typedef enum
-        {
-            NOT_PREVIEW,
-            LOCAL_PREVIEW,
-            REMOTE_PREVIEW
-        } FilenamePreviewType;
-
         Capture(bool standAlone = false);
-        ~Capture();
 
         /** @defgroup CaptureDBusInterface Ekos DBus Interface - Capture Module
              * Ekos::Capture interface provides advanced scripting capabilities to capture image sequences.
@@ -142,7 +133,10 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Aborts any current jobs and remove all sequence queue jobs.
              */
-        Q_SCRIPTABLE Q_NOREPLY void clearSequenceQueue();
+        Q_SCRIPTABLE Q_NOREPLY void clearSequenceQueue()
+        {
+            cameraUI->clearSequenceQueue();
+        }
 
         /** DBUS interface function.
              * Returns the overall sequence queue status. If there are no jobs pending, it returns "Invalid". If all jobs are idle, it returns "Idle". If all jobs are complete, it returns "Complete". If one or more jobs are aborted
@@ -158,27 +152,39 @@ class Capture : public QWidget, public Ui::Capture
              * @param fileURL full URL of the filename
              * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "")
+        {
+            return cameraUI->loadSequenceQueue(fileURL, targetName);
+        }
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
              * @param fileURL full URL of the filename
              */
-        Q_SCRIPTABLE bool saveSequenceQueue(const QString &path);
+        Q_SCRIPTABLE bool saveSequenceQueue(const QString &path)
+        {
+            return cameraUI->saveSequenceQueue(path);
+        }
 
         /** DBUS interface function.
              * Enables or disables the maximum guiding deviation and sets its value.
              * @param enable If true, enable the guiding deviation check, otherwise, disable it.
              * @param value if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviation(bool enable, double value);
+        Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviation(bool enable, double value)
+        {
+            cameraUI->setMaximumGuidingDeviation(enable, value);
+        }
 
         /** DBUS interface function.
              * Enables or disables the in sequence focus and sets Half-Flux-Radius (HFR) limit.
              * @param enable If true, enable the in sequence auto focus check, otherwise, disable it.
              * @param HFR if enable is true, it sets HFR in pixels. After each exposure, the HFR is re-measured and if it exceeds the specified value, an autofocus operation will be commanded.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
+        Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR)
+        {
+            cameraUI->setInSequenceFocus(enable, HFR);
+        }
 
         /** DBUS interface function.
              * Does the CCD has a cooler control (On/Off) ?
@@ -204,7 +210,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE bool isActiveJobPreview()
         {
-            return state() && state()->isActiveJobPreview();
+            return cameraUI->isActiveJobPreview();
         }
 
         /** DBUS interface function.
@@ -313,7 +319,10 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
              */
-        Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR();
+        Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR()
+        {
+            cameraUI->clearAutoFocusHFR();
+        }
 
         /** DBUS interface function.
              * Jobs will NOT be checked for progress against the file system and will be always assumed as new jobs.
@@ -371,12 +380,6 @@ class Capture : public QWidget, public Ui::Capture
         bool updateCamera();
 
         /**
-         * @brief Add new Filter Wheel
-         * @param name device name of the new filter wheel
-        */
-        void setFilterWheel(QString name);
-
-        /**
          * @brief setDome Set dome device
          * @param device pointer to dome device
          * @return true if successfull, false otherewise.
@@ -396,17 +399,8 @@ class Capture : public QWidget, public Ui::Capture
         void registerNewModule(const QString &name);
 
         // ////////////////////////////////////////////////////////////////////
-        // Synchronize UI with device parameters
-        // ////////////////////////////////////////////////////////////////////
-
-        void syncFrameType(const QString &name);
-        void syncCameraInfo();
-
-        // ////////////////////////////////////////////////////////////////////
         // Optical Train handling
         // ////////////////////////////////////////////////////////////////////
-        void setupOpticalTrainManager();
-        void refreshOpticalTrain();
 
         QString opticalTrain() const
         {
@@ -416,16 +410,6 @@ class Capture : public QWidget, public Ui::Capture
         {
             cameraUI->opticalTrainCombo->setCurrentText(value);
         }
-
-        // ////////////////////////////////////////////////////////////////////
-        // Filter Manager and filters
-        // ////////////////////////////////////////////////////////////////////
-        void setupFilterManager();
-
-        /**
-         * @brief checkFilter Refreshes the filter wheel information in the capture module.
-         */
-        void refreshFilterSettings();
 
         // ////////////////////////////////////////////////////////////////////
         // Read and write access for EkosLive
@@ -447,25 +431,6 @@ class Capture : public QWidget, public Ui::Capture
          * @return True if value is updated, false otherwise.
          */
         bool setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS);
-
-        // ////////////////////////////////////////////////////////////////////
-        // DSLR handling
-        // ////////////////////////////////////////////////////////////////////
-
-        /**
-         * @brief addDSLRInfo Save DSLR Info the in the database. If the interactive dialog was open, close it.
-         * @param model Camera name
-         * @param maxW Maximum width in pixels
-         * @param maxH Maximum height in pixels
-         * @param pixelW Pixel horizontal size in microns
-         * @param pixelH Pizel vertical size in microns
-         */
-        void addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH);
-
-        // ////////////////////////////////////////////////////////////////////
-        // Settings
-        // ////////////////////////////////////////////////////////////////////
-        void setAllSettings(const QVariantMap &settings);
 
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
 
@@ -491,7 +456,10 @@ class Capture : public QWidget, public Ui::Capture
              *    If no, the user is asked whether the jobs should be reset. If the user declines,
              *    starting is aborted.
              */
-        Q_SCRIPTABLE Q_NOREPLY void start();
+        Q_SCRIPTABLE Q_NOREPLY void start()
+        {
+            cameraUI->start();
+        }
 
         /** DBUS interface function.
              * Stops currently running jobs:
@@ -502,14 +470,17 @@ class Capture : public QWidget, public Ui::Capture
              *        CAPTURE_SUSPEND: capture suspended and waiting to be restarted
              * @param targetState status of the job after stop
              */
-        Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE);
+        Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE)
+        {
+            cameraUI->stop(targetState);
+        }
 
         /** DBUS interface function.
              * Aborts all jobs and mark current state as ABORTED. It simply calls stop(CAPTURE_ABORTED)
              */
         Q_SCRIPTABLE Q_NOREPLY void abort()
         {
-            stop(CAPTURE_ABORTED);
+            cameraUI->abort();
         }
 
         /** DBUS interface function.
@@ -521,12 +492,15 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void suspend()
         {
-            stop(CAPTURE_SUSPENDED);
+            cameraUI->suspend();
         }
         /** DBUS interface function.
          * @brief pause Pauses the Sequence Queue progress AFTER the current capture is complete.
          */
-        Q_SCRIPTABLE Q_NOREPLY void pause();
+        Q_SCRIPTABLE Q_NOREPLY void pause()
+        {
+            cameraUI->pause();
+        }
 
         /** DBUS interface function.
          * @brief toggleSequence Toggle sequence state depending on its current state.
@@ -534,14 +508,20 @@ class Capture : public QWidget, public Ui::Capture
          * 2. If idle or completed, then start sequence.
          * 3. Otherwise, abort current sequence.
          */
-        Q_SCRIPTABLE Q_NOREPLY void toggleSequence();
+        Q_SCRIPTABLE Q_NOREPLY void toggleSequence()
+        {
+            cameraUI->toggleSequence();
+        }
 
 
         /** DBUS interface function.
              * Toggle video streaming if supported by the device.
              * @param enabled Set to true to start video streaming, false to stop it if active.
              */
-        Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled);
+        Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled)
+        {
+            cameraUI->toggleVideo(enabled);
+        }
 
 
         /** DBus interface function
@@ -549,12 +529,18 @@ class Capture : public QWidget, public Ui::Capture
          * @param name Name of camera to restart. If a driver defined multiple cameras, they would be removed and added again
          * after driver restart.
          */
-        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name);
+        Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name)
+        {
+            cameraUI->restartCamera(name);
+        }
 
         /** DBus interface function
          * @brief Set the name of the target to be captured.
          */
-        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName);
+        Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName)
+        {
+            cameraUI->setTargetName(newTargetName);
+        }
 
         Q_SCRIPTABLE QString getTargetName();
 
@@ -563,17 +549,12 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void setObserverName(const QString &value)
         {
-            state()->setObserverName(value);
+            cameraUI->setObserverName(value);
         };
         Q_SCRIPTABLE QString getObserverName()
         {
-            return state()->observerName();
+            return cameraUI->getObserverName();
         }
-
-        // Sequence Queue
-        void loadSequenceQueue();
-        void saveSequenceQueue();
-        void saveSequenceQueueAs();
 
         /** @}*/
 
@@ -586,102 +567,17 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         // ////////////////////////////////////////////////////////////////////
-        // Capture actions
-        // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief captureStarted Change the UI after the capturing process
-         * has been started.
-         */
-        void jobStarting();
-        /**
-         * @brief capturePreview Capture a single preview image
-         */
-        void capturePreview();
-
-        /**
-         * @brief startFraming Like captureOne but repeating.
-         */
-        void startFraming();
-
-        /**
-         * @brief generateDarkFlats Generate a list of dark flat jobs from available flat frames.
-         */
-        void generateDarkFlats();
-
-        /**
-         * @brief updateJobFromUI Update all job attributes from the UI settings.
-         */
-        void updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview = NOT_PREVIEW);
-
-        /**
-         * @brief addJob Add a new job to the UI. This is used when a job is loaded from a capture sequence file. In
-         * contrast to {@see #createJob()}, the job's attributes are taken from the file and only the UI gehts updated.
-         */
-        void addJob(SequenceJob *job);
-
-        /**
-         * @brief createJob Create a new job with the settings given in the GUI.
-         * @param jobtype batch, preview, looping or dark flat job.
-         * @param filenamePreview if the job is to generate a preview filename
-         * @return pointer to job created or nullptr otherwise.
-         */
-        SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH,
-                               FilenamePreviewType filenamePreview = NOT_PREVIEW);
-
-        /**
-         * @brief jobEditFinished Editing of an existing job finished, update its
-         *        attributes from the UI settings. The job under edit is taken from the
-         *        selection in the job table.
-         * @return true if job updated succeeded.
-         */
-        void editJobFinished();
-
-        // ////////////////////////////////////////////////////////////////////
         // public capture settings
         // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief seqCount Set required number of images to capture in one sequence job
-         * @param count number of images to capture
-         */
-        void setCount(uint16_t count)
-        {
-            cameraUI->captureCountN->setValue(count);
-        }
-
-        /**
-         * @brief setDelay Set delay between capturing images within a sequence in seconds
-         * @param delay numbers of seconds to wait before starting the next image.
-         */
-        void setDelay(uint16_t delay)
-        {
-            cameraUI->captureDelayN->setValue(delay);
-        }
-
         /**
          * @brief Slot receiving the update of the current target distance.
          * @param targetDiff distance to the target in arcseconds.
          */
-        void updateTargetDistance(double targetDiff);
+        void updateTargetDistance(double targetDiff)
+        {
+            cameraUI->updateTargetDistance(targetDiff);
+        }
 
-        /**
-             * @brief checkCamera Refreshes the CCD information in the capture module.
-             */
-        void refreshCameraSettings();
-
-        /**
-             * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
-             * @param nvp pointer to number property.
-             */
-        void processCameraNumber(INDI::Property prop);
-
-
-        /**
-         * @brief removeJob Remove a job sequence from the queue
-         * @param index Row index for job to remove, if left as -1 (default), the currently selected row will be removed.
-         *        if no row is selected, the last job shall be removed.
-         * @param true if sequence is removed. False otherwise.
-         */
-        bool removeJob(int index = -1);
 
         /**
          * @brief MeridianFlipState Access to the meridian flip state machine
@@ -693,32 +589,8 @@ class Capture : public QWidget, public Ui::Capture
         void setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate);
 
         // ////////////////////////////////////////////////////////////////////
-        // UI controls
-        // ////////////////////////////////////////////////////////////////////
-
-        void removeJobFromQueue();
-
-        /**
-          * @brief moveJobUp Move the job in the sequence queue one place up or down.
-          */
-        void moveJob(bool up);
-
-        /**
-         * @brief updateTargetName React upon a new capture target name
-         */
-        void newTargetName(const QString &name);
-
-        // Clear Camera Configuration
-        void clearCameraConfiguration();
-
-        // ////////////////////////////////////////////////////////////////////
         // slots handling device and module events
         // ////////////////////////////////////////////////////////////////////
-
-        /**
-         * @brief captureStarted Manage the result when capturing has been started
-         */
-        void captureRunning();
 
         /**
              * @brief setGuideDeviation Set the guiding deviation as measured by the guiding module. Abort capture
@@ -735,12 +607,11 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setFocusStatus Forward the new focus state to the capture module state machine
          */
-        void setFocusStatus(FocusState newstate);
+        void setFocusStatus(FocusState newstate)
+        {
+            cameraUI->setFocusStatus(newstate);
+        }
 
-        /**
-         * @brief updateFocusStatus Handle new focus state
-         */
-        void updateFocusStatus(FocusState newstate);
 
         // Adaptive Focus
         /**
@@ -749,7 +620,7 @@ class Capture : public QWidget, public Ui::Capture
         void focusAdaptiveComplete(bool success)
         {
             // directly forward it to the state machine
-            state()->updateAdaptiveFocusState(success);
+            cameraUI->focusAdaptiveComplete(success);
         }
 
         /**
@@ -762,9 +633,6 @@ class Capture : public QWidget, public Ui::Capture
          * @brief setHFR Receive the measured HFR value of the latest frame
          */
         void setHFR(double newHFR, int position, bool inAutofocus);
-
-        // Filter
-        void setFilterStatus(FilterState filterState);
 
         // Guide
         void setGuideStatus(GuideState newstate);
@@ -789,33 +657,6 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // UI controls
         // ////////////////////////////////////////////////////////////////////
-        void updateCaptureCountDown(int deltaMillis);
-        void saveFITSDirectory();
-
-        // Jobs
-        void resetJobs();
-        bool selectJob(QModelIndex i);
-        void editJob(QModelIndex i);
-        void resetJobEdit(bool cancelled = false);
-
-        // Observer
-        void showObserverDialog();
-
-        // ////////////////////////////////////////////////////////////////////
-        // slots handling device and module events
-        // ////////////////////////////////////////////////////////////////////
-
-        /**
-         * @brief Listen to device property changes (temperature, rotator) that are triggered by
-         *        SequenceJob.
-         */
-        void updatePrepareState(CaptureState prepareState);
-
-        /**
-         * @brief setDownloadProgress update the Capture Module and Summary
-         *        Screen's estimate of how much time is left in the download
-         */
-        void updateDownloadProgress(double downloadTimeLeft);
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
@@ -860,81 +701,13 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // capture process steps
         // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief captureImageStarted Image capturing for the active job has started.
-         */
-        void captureImageStarted();
-
-        /**
-         * @brief jobPreparationStarted Preparation actions for the current active job have beenstarted.
-         */
-        void jobExecutionPreparationStarted();
-
-        /**
-         * @brief jobPrepared Select the job that is currently in preparation.
-         */
-        void jobPrepared(SequenceJob *job);
-
-        /**
-         * @brief imageCapturingCompleted Capturing a single frame completed
-         */
-        void imageCapturingCompleted();
-
-        /**
-         * @brief captureStopped Capturing has stopped
-         */
-        void captureStopped();
-
-        /**
-         * @brief processFITSfinished processing new FITS data received from camera finished.
-         * @param success true iff processing was successful
-         */
-        void processingFITSfinished(bool success);
 
         // Propagate meridian flip state changes to the UI
         void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
         // ////////////////////////////////////////////////////////////////////
-        // Job table handling
-        // ////////////////////////////////////////////////////////////////////
-
-
-        /**
-         * @brief updateJobTable Update the table row values for the given sequence job. If the job
-         * is null, all rows will be updated
-         * @param job as identifier for the row
-         * @param full if false, then only the status and the counter will be updated.
-         */
-        void updateJobTable(SequenceJob *job, bool full = false);
-
-
-        /**
-         * @brief Update the style of the job's row, depending on the job's state
-         */
-        void updateRowStyle(SequenceJob *job);
-
-        /**
-         * @brief updateCellStyle Update the cell's style. If active is true, set a bold and italic font and
-         * a regular font otherwise.
-         */
-        void updateCellStyle(QTableWidgetItem *cell, bool active);
-
-        /**
-         * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job
-         */
-        void updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell);
-
-        // ////////////////////////////////////////////////////////////////////
         // helper functions
         // ////////////////////////////////////////////////////////////////////
-        // check if the upload paths are filled correctly
-        bool checkUploadPaths(FilenamePreviewType filenamePreview);
-
-        // create a new row in the job table and fill it with the given job's values
-        void createNewJobTableRow(SequenceJob *job);
-
-        // Create a Json job from the current job table row
-        QJsonObject createJsonJob(SequenceJob *job, int currentRow);
 
         // shortcut for the module state
         QSharedPointer<CaptureModuleState> state() const
@@ -957,17 +730,6 @@ class Capture : public QWidget, public Ui::Capture
             return cameraUI->activeCamera();
         }
 
-        // Filename preview
-        void generatePreviewFilename();
-        QString previewFilename(FilenamePreviewType = LOCAL_PREVIEW);
-
-        void setBusy(bool enable);
-
-        /* Capture */
-        void createDSLRDialog();
-
-        void resetFrameToZero();
-
         /**
          * @brief Sync refocus options to the GUI settings
          */
@@ -976,65 +738,6 @@ class Capture : public QWidget, public Ui::Capture
         // ////////////////////////////////////////////////////////////////////
         // UI controls
         // ////////////////////////////////////////////////////////////////////
-
-        // reset = 0 --> Do not reset
-        // reset = 1 --> Full reset
-        // reset = 2 --> Only update limits if needed
-        void updateFrameProperties(int reset = 0);
-
-        /**
-         * @brief updateCaptureFormats Update encoding and transfer formats
-         */
-        void updateCaptureFormats();
-
-        /**
-         * @brief updateHFRCheckAlgo Update the in-sequence HFR check algorithm
-         */
-        void updateHFRCheckAlgo();
-
-        /**
-         * @brief syncGUIToJob Update UI to job settings
-         */
-        void syncGUIToJob(SequenceJob *job);
-
-        // DSLR Info
-        void cullToDSLRLimits();
-        //void syncDriverToDSLRLimits();
-
-        // selection of a job
-        void selectedJobChanged(QModelIndex current, QModelIndex previous);
-
-        // Change filter name in INDI
-        void editFilterName();
-        bool editFilterNameInternal(const QStringList &labels, QStringList &newLabels);
-
-        /**
-         * @brief syncControl Sync setting to widget. The value depends on the widget type.
-         * @param settings Map of all settings
-         * @param key name of widget to sync
-         * @param widget pointer of widget to set
-         * @return True if sync successful, false otherwise
-         */
-        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
-
-        /**
-         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
-         * global and per-train settings.
-         */
-        void syncSettings();
-
-        /**
-         * @brief Connect GUI elements to sync settings once updated.
-         */
-        void connectSyncSettings();
-        /**
-         * @brief Stop updating settings when GUI elements are updated.
-         */
-        void disconnectSyncSettings();
-        /**
-         * @brief loadSettings Load setting from Options and set them accordingly.
-         */
-        void loadGlobalSettings();
 
         // ////////////////////////////////////////////////////////////////////
         // device control
@@ -1059,21 +762,15 @@ class Capture : public QWidget, public Ui::Capture
         QPointer<QDBusInterface> mountInterface;
 
         QStringList m_LogText;
-        bool m_JobUnderEdit { false };
 
         // Flat field automation
         QMap<ScriptTypes, QString> m_Scripts;
-
-        QUrl dirPath;
-
-        std::unique_ptr<DSLRInfo> dslrInfoDialog;
 
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
         double OffsetSpinSpecialValue { INVALID_VALUE };
 
         QVariantMap m_Metadata;
-        QVariantMap m_GlobalSettings;
 };
 
 }
