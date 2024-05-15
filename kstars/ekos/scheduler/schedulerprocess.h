@@ -55,7 +55,7 @@ public:
     /**
      * @brief execute Execute the schedule, start if idle or paused.
      */
-    void execute();
+    Q_SCRIPTABLE void execute();
 
     /**
      * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate.
@@ -66,7 +66,7 @@ public:
     /**
      * @brief stopCurrentJobAction Stop whatever action taking place in the current job (eg. capture, guiding...etc).
      */
-    void stopCurrentJobAction();
+    Q_SCRIPTABLE void stopCurrentJobAction();
 
     /**
       * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
@@ -78,7 +78,7 @@ public:
     /**
      * @brief wakeUpScheduler Wake up scheduler from sleep state
      */
-    void wakeUpScheduler();
+    Q_SCRIPTABLE void wakeUpScheduler();
 
     /** DBUS interface function.
      * @brief Setup the main loop and start.
@@ -112,7 +112,7 @@ public:
     /** DBUS interface function.
      * @brief Resets all jobs to IDLE
      */
-    Q_SCRIPTABLE void resetAllJobs();
+    Q_SCRIPTABLE Q_NOREPLY void resetAllJobs();
 
     /**
      * @brief shouldSchedulerSleep Check if the scheduler needs to sleep until the job is ready
@@ -124,29 +124,29 @@ public:
     /**
      * @brief startSlew DBus call for initiating slew
      */
-    void startSlew();
+    Q_SCRIPTABLE Q_NOREPLY void startSlew();
 
     /**
      * @brief startFocusing DBus call for feeding ekos the specified settings and initiating focus operation
      */
-    void startFocusing();
+    Q_SCRIPTABLE Q_NOREPLY void startFocusing();
 
     /**
      * @brief startAstrometry initiation of the capture and solve operation. We change the job state
      * after solver is started
      */
-    void startAstrometry();
+    Q_SCRIPTABLE Q_NOREPLY void startAstrometry();
 
     /**
      * @brief startGuiding After ekos is fed the calibration options, we start the guiding process
      * @param resetCalibration By default calibration is not reset until it is explicitly requested
      */
-    void startGuiding(bool resetCalibration = false);
+    Q_SCRIPTABLE Q_NOREPLY void startGuiding(bool resetCalibration = false);
 
     /**
      * @brief stopGuiding After guiding is done we need to stop the process
      */
-    void stopGuiding();
+    Q_SCRIPTABLE Q_NOREPLY void stopGuiding();
 
     /**
      * @brief processGuidingTimer Check the guiding timer, and possibly restart guiding.
@@ -158,7 +158,7 @@ public:
      * @param restart Set to true if the goal to restart an existing sequence. The only difference is that when a sequence is restarted, sequence file
      * is not loaded from disk again since that results in erasing all the history of the capture process.
      */
-    void startCapture(bool restart = false);
+    Q_SCRIPTABLE Q_NOREPLY void startCapture(bool restart = false);
 
     /**
      * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
@@ -193,12 +193,12 @@ public:
      * @brief completeShutdown Try to complete the scheduler shutdown
      * @return false iff some further action is required
      */
-    bool completeShutdown();
+    Q_SCRIPTABLE bool completeShutdown();
 
     /**
      * @brief disconnectINDI disconnect all INDI devices from server.
      */
-    void disconnectINDI();
+    Q_SCRIPTABLE Q_NOREPLY void disconnectINDI();
 
     /**
      * @brief manageConnectionLoss Mitigate loss of connection with the INDI server.
@@ -226,28 +226,28 @@ public:
      * @brief checkParkWaitState Check park wait state.
      * @return If parking/unparking in progress, return false. If parking/unparking complete, return true.
      */
-    bool checkParkWaitState();
+    Q_SCRIPTABLE bool checkParkWaitState();
 
     /**
      * @brief runStartupProcedure Execute the startup of the scheduler itself to be prepared
      * for running scheduler jobs.
      */
-    void runStartupProcedure();
+    Q_SCRIPTABLE Q_NOREPLY void runStartupProcedure();
 
     /**
      * @brief runShutdownProcedure Shutdown the scheduler itself and EKOS (if configured to do so).
      */
-    void runShutdownProcedure();
+    Q_SCRIPTABLE Q_NOREPLY void runShutdownProcedure();
 
     /**
      * @brief setPaused pausing the scheduler
      */
-    void setPaused();
+    Q_SCRIPTABLE Q_NOREPLY void setPaused();
 
     /**
      * @brief resetJobs Reset all jobs counters
      */
-    void resetJobs();
+    Q_SCRIPTABLE Q_NOREPLY void resetJobs();
 
     /**
      * @brief selectActiveJob Select the job that should be executed
@@ -257,13 +257,13 @@ public:
     /**
      * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
      */
-    void startJobEvaluation();
+    Q_SCRIPTABLE Q_NOREPLY void startJobEvaluation();
 
     /**
      * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
      * Given that score, the scheduler will decide which is the best job that needs to be executed.
      */
-    void evaluateJobs(bool evaluateOnly);
+    Q_SCRIPTABLE Q_NOREPLY void evaluateJobs(bool evaluateOnly);
 
     /**
      * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it calls evaluateJobs() when no job is current or executeJob() if a job is selected.
@@ -303,33 +303,33 @@ public:
      * @param path path of a file
      * @return true on success, false on failure.
      */
-    bool saveScheduler(const QUrl &fileURL);
+    Q_SCRIPTABLE bool saveScheduler(const QUrl &fileURL);
 
     /**
      * @brief appendEkosScheduleList Append the contents of an ESL file to the queue.
      * @param fileURL File URL to load contents from.
      * @return True if contents were loaded successfully, else false.
      */
-    bool appendEkosScheduleList(const QString &fileURL);
+    Q_SCRIPTABLE bool appendEkosScheduleList(const QString &fileURL);
 
     /**
      * @brief appendLogText Append a new line to the logging.
      */
-    void appendLogText(const QString &logentry) override;
+    Q_SCRIPTABLE Q_NOREPLY void appendLogText(const QString &logentry) override;
 
     /**
      * @brief clearLog Clear log entry
      */
-    void clearLog();
+    Q_SCRIPTABLE void clearLog();
 
     /**
      * @return True if mount is parked
      */
-    bool isMountParked();
+    Q_SCRIPTABLE bool isMountParked();
     /**
      * @return True if dome is parked
      */
-    bool isDomeParked();
+    Q_SCRIPTABLE bool isDomeParked();
 
     void simClockScaleChanged(float);
     void simClockTimeChanged();

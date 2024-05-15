@@ -37,8 +37,9 @@
 namespace Ekos
 {
 CaptureProcess::CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState,
-                               QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor) : QObject()
+                               QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor) : QObject(KStars::Instance())
 {
+    setObjectName("CaptureProcess");
     m_State = newModuleState;
     m_DeviceAdaptor = newDeviceAdaptor;
 

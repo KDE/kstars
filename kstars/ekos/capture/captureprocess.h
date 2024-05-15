@@ -222,7 +222,7 @@ public:
      * 2. If idle or completed, then start sequence.
      * 3. Otherwise, abort current sequence.
      */
-    void toggleSequence();
+    Q_SCRIPTABLE void toggleSequence();
 
     /**
      * @brief startNextPendingJob Start the next pending job.
@@ -258,7 +258,7 @@ public:
      * @brief pauseCapturing Pauses capturing as soon as the current
      * capture is complete.
      */
-    void pauseCapturing();
+    Q_SCRIPTABLE void pauseCapturing();
 
     /**
      * @brief startJob Start the execution of a selected sequence job:
@@ -304,7 +304,7 @@ public:
     /**
      * @brief executeJob Start the execution of #activeJob by initiating updatePreCaptureCalibrationStatus().
      */
-    void executeJob();
+    Q_SCRIPTABLE void executeJob();
 
     /**
      * @brief refreshOpticalTrain Refresh the devices from the optical train configuration
@@ -451,7 +451,7 @@ public:
     /**
      * @brief resetFrame Reset frame settings of the camera
      */
-    void resetFrame();
+    Q_SCRIPTABLE void resetFrame();
 
     // ////////////////////////////////////////////////////////////////////
     // capturing actions

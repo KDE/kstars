@@ -35,8 +35,9 @@ namespace Ekos
 {
 
 SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, const QString &ekosPathStr,
-                                   const QString &ekosInterfaceStr)
+                                   const QString &ekosInterfaceStr) : QObject(KStars::Instance())
 {
+    setObjectName("SchedulerProcess");
     m_moduleState = state;
     m_GreedyScheduler = new GreedyScheduler();
     connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &SchedulerProcess::applyConfig);
@@ -4550,14 +4551,14 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
             int count = 0;
 
             QMap<QString, uint16_t>::const_iterator const earlierRunIterator =
-              moduleState()->capturedFramesCount().constFind(signature);
-            
+                moduleState()->capturedFramesCount().constFind(signature);
+
             if (moduleState()->capturedFramesCount().constEnd() != earlierRunIterator)
-              // If signature was processed during an earlier run, use the earlier count.
-              count = earlierRunIterator.value();
+                // If signature was processed during an earlier run, use the earlier count.
+                count = earlierRunIterator.value();
             else
-              // else recount captures already stored
-              count =  PlaceholderPath::getCompletedFiles(signature);
+                // else recount captures already stored
+                count =  PlaceholderPath::getCompletedFiles(signature);
 
             newFramesCount[signature] = count;
             newJobFramesCount[signature] = count;
