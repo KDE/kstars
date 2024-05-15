@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 01:44+0000\n"
+"POT-Creation-Date: 2024-05-15 01:42+0000\n"
 "PO-Revision-Date: 2024-05-12 06:55+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -1688,7 +1688,7 @@ msgid "Main Toolbar"
 msgstr "Huvudverktygsrad"
 
 #. i18n: ectx: ToolBar (processToolBar)
-#: data/fitsviewerui.rc:97
+#: data/fitsviewerui.rc:98
 #, kde-format
 msgid "Process ToolBar"
 msgstr "Behandla verktygsrad"
@@ -2874,8 +2874,8 @@ msgstr "Typavbildning"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
-#: fitsviewer/fitsviewer.cpp:720
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:724
+#: fitsviewer/fitsviewer.cpp:725
 #, kde-format
 msgid "Preview"
 msgstr "Förhandsgranskning"
@@ -10320,10 +10320,10 @@ msgstr "Kan inte visa temporär bildfil: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:377
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2071
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2081
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:464
+#: fitsviewer/fitsviewer.cpp:469
 #, kde-format
 msgid "Focus"
 msgstr "Fokus"
@@ -10333,7 +10333,7 @@ msgstr "Fokus"
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2045 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
-#: fitsviewer/fitsviewer.cpp:472
+#: fitsviewer/fitsviewer.cpp:477
 #, kde-format
 msgid "Align"
 msgstr "Inrikta"
@@ -10344,9 +10344,9 @@ msgstr "Inrikta"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2230
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2250
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
 #, kde-format
 msgid "Guide"
 msgstr "Hjälplinjer"
@@ -10360,7 +10360,7 @@ msgstr "Vänd"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2155 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2175 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Stativ"
@@ -12605,7 +12605,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2270
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2300
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -22076,19 +22076,19 @@ msgstr "Guidningskalibrering misslyckades"
 msgid "Guiding calibration completed successfully"
 msgstr "Guidningskalibrering avslutades med lyckat resultat"
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1107
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Förlorade guidestjärnan. Söker efter guidestjärnor..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1105
+#: ekos/guide/internalguide/internalguider.cpp:1109
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Delta kvadratiska medelvärdesfel tröskelvärde överskridet. Söker efter "
 "guidestjärnor..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1289
+#: ekos/guide/internalguide/internalguider.cpp:1293
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Misslyckades hitta lämpliga guidestjärnor. Avbryter..."
@@ -23577,47 +23577,47 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2287
+#: ekos/manager.cpp:2317
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Guidningsport från %1 är redo."
 
-#: ekos/manager.cpp:2476
+#: ekos/manager.cpp:2506
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Är du säker på att du vill ta bort profilen?"
 
-#: ekos/manager.cpp:2477
+#: ekos/manager.cpp:2507
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Bekräfta borttagning"
 
-#: ekos/manager.cpp:2529
+#: ekos/manager.cpp:2559
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Platsinformation uppdaterad till %1."
 
-#: ekos/manager.cpp:2531
+#: ekos/manager.cpp:2561
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Misslyckades uppdatera platsinformation till %1. Staden hittades inte."
 
-#: ekos/manager.cpp:2783
+#: ekos/manager.cpp:2813
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2791
+#: ekos/manager.cpp:2821
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2819
+#: ekos/manager.cpp:2849
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 igen ..."
 
-#: ekos/manager.cpp:2831
+#: ekos/manager.cpp:2861
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 igen ..."
@@ -29373,8 +29373,8 @@ msgid "Y Offset:"
 msgstr "Y-position:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:500
-#: fitsviewer/fitsviewer.cpp:1585
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
+#: fitsviewer/fitsviewer.cpp:1615
 #, kde-format
 msgid "Ready."
 msgstr "Redo."
@@ -29716,13 +29716,13 @@ msgid "View Star Profile..."
 msgstr "Visa stjärnprofil..."
 
 #: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1273
+#: fitsviewer/fitsviewer.cpp:1303
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Visa ekvatoriella hjälplinjer"
 
 #: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1275
+#: fitsviewer/fitsviewer.cpp:1305
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Visa objekt på bild"
@@ -29808,7 +29808,7 @@ msgstr "&Markeringsstatistik"
 msgid "Show Clipping"
 msgstr "Visa klippning"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1284
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1314
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29824,128 +29824,133 @@ msgstr "Anpassa"
 
 #: fitsviewer/fitsviewer.cpp:272
 #, kde-format
+msgid "Fit Page to Zoom"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:277
+#, kde-format
 msgid "Next Tab"
 msgstr "Nästa flik"
 
-#: fitsviewer/fitsviewer.cpp:277
+#: fitsviewer/fitsviewer.cpp:282
 #, kde-format
 msgid "Previous Tab"
 msgstr "Föregående flik"
 
-#: fitsviewer/fitsviewer.cpp:282
+#: fitsviewer/fitsviewer.cpp:287
 #, kde-format
 msgid "Next Blink Image"
 msgstr "Nästa blinkningsbild"
 
-#: fitsviewer/fitsviewer.cpp:287
+#: fitsviewer/fitsviewer.cpp:292
 #, kde-format
 msgid "Previous Blink Image"
 msgstr "Föregående blinkningsbild"
 
-#: fitsviewer/fitsviewer.cpp:292
+#: fitsviewer/fitsviewer.cpp:297
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr "Zooma in alla flikar"
 
-#: fitsviewer/fitsviewer.cpp:297
+#: fitsviewer/fitsviewer.cpp:302
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr "Zooma ut alla flikar"
 
-#: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1558
+#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1588
 #, kde-format
 msgid "Mark Stars"
 msgstr "Markera stjärnor"
 
-#: fitsviewer/fitsviewer.cpp:310 fitsviewer/fitsviewer.cpp:824
-#: fitsviewer/fitsviewer.cpp:1521
+#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:829
+#: fitsviewer/fitsviewer.cpp:1551
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Visa tredimensionellt diagram"
 
-#: fitsviewer/fitsviewer.cpp:330
+#: fitsviewer/fitsviewer.cpp:335
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Kstars FITS-visning"
 
-#: fitsviewer/fitsviewer.cpp:408
+#: fitsviewer/fitsviewer.cpp:413
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "HFR:%2 Exc:%3 %1 stjärna."
 msgstr[1] "HFR:%2 Exc:%3 %1 stjärnor."
 
-#: fitsviewer/fitsviewer.cpp:414
+#: fitsviewer/fitsviewer.cpp:419
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "HFR:%2, %1 stjärna."
 msgstr[1] "HFR:%2, %1 stjärnor."
 
-#: fitsviewer/fitsviewer.cpp:673
+#: fitsviewer/fitsviewer.cpp:678
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "Kan inte hitta en flik med användar-id %1 i FITS-visningen"
 
-#: fitsviewer/fitsviewer.cpp:806
+#: fitsviewer/fitsviewer.cpp:811
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "currentView tredimensionellt diagram"
 
-#: fitsviewer/fitsviewer.cpp:807 fitsviewer/fitsviewer.cpp:1429
+#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1459
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Hårkors"
 
-#: fitsviewer/fitsviewer.cpp:808 fitsviewer/fitsviewer.cpp:1443
+#: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:1473
 #, kde-format
 msgid "Clipping"
 msgstr "Klippning"
 
-#: fitsviewer/fitsviewer.cpp:809 fitsviewer/fitsviewer.cpp:1456
+#: fitsviewer/fitsviewer.cpp:814 fitsviewer/fitsviewer.cpp:1486
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Ekvatoriella hjälplinjer"
 
-#: fitsviewer/fitsviewer.cpp:810 fitsviewer/fitsviewer.cpp:1495
+#: fitsviewer/fitsviewer.cpp:815 fitsviewer/fitsviewer.cpp:1525
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objekt på bilden"
 
-#: fitsviewer/fitsviewer.cpp:811 fitsviewer/fitsviewer.cpp:1508
+#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1538
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Bildpunktshjälplinjer"
 
-#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1469
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1499
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "HiPS-överlagring"
 
-#: fitsviewer/fitsviewer.cpp:864
+#: fitsviewer/fitsviewer.cpp:869
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Blinkningstoppkatalog"
 
-#: fitsviewer/fitsviewer.cpp:992
+#: fitsviewer/fitsviewer.cpp:997
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Öppna bild"
 
-#: fitsviewer/fitsviewer.cpp:1250
+#: fitsviewer/fitsviewer.cpp:1280
 #, kde-format
 msgid "Hide %1"
 msgstr "Dölj %1"
 
-#: fitsviewer/fitsviewer.cpp:1255
+#: fitsviewer/fitsviewer.cpp:1285
 #, kde-format
 msgid "Show %1"
 msgstr "Visa %1"
 
-#: fitsviewer/fitsviewer.cpp:1279
+#: fitsviewer/fitsviewer.cpp:1309
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29954,7 +29959,7 @@ msgstr ""
 "Centrera teleskop\n"
 "*Redo*"
 
-#: fitsviewer/fitsviewer.cpp:1291
+#: fitsviewer/fitsviewer.cpp:1321
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -29963,7 +29968,7 @@ msgstr ""
 "Visa ekvatoriella hjälplinjer\n"
 "*Ingen information om världskoordinatsystem*"
 
-#: fitsviewer/fitsviewer.cpp:1293
+#: fitsviewer/fitsviewer.cpp:1323
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29972,7 +29977,7 @@ msgstr ""
 "Centrera teleskop\n"
 "*Ingen information om världskoordinatsystem*"
 
-#: fitsviewer/fitsviewer.cpp:1295
+#: fitsviewer/fitsviewer.cpp:1325
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -29981,36 +29986,36 @@ msgstr ""
 "Visa objekt i bild\n"
 "*Ingen information om världskoordinatsystem*"
 
-#: fitsviewer/fitsviewer.cpp:1327 fitsviewer/fitsviewer.cpp:1482
+#: fitsviewer/fitsviewer.cpp:1357 fitsviewer/fitsviewer.cpp:1512
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Markeringsrektangel"
 
-#: fitsviewer/fitsviewer.cpp:1356 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1386 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Storlek"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1364 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1394 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "Bredd"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1365 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1395 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "Höjd"
 
-#: fitsviewer/fitsviewer.cpp:1563
+#: fitsviewer/fitsviewer.cpp:1593
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Avmarkera stjärnor"
 
-#: fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitsviewer.cpp:1609
 #, kde-format
 msgid "Processing %1..."
 msgstr "Behandlar %1..."

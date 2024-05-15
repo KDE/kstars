@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 01:44+0000\n"
-"PO-Revision-Date: 2024-05-13 10:47+0200\n"
+"POT-Creation-Date: 2024-05-15 01:42+0000\n"
+"PO-Revision-Date: 2024-05-14 09:27+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1700,7 +1700,7 @@ msgid "Main Toolbar"
 msgstr "Barra de ferramentas principal"
 
 #. i18n: ectx: ToolBar (processToolBar)
-#: data/fitsviewerui.rc:97
+#: data/fitsviewerui.rc:98
 #, kde-format
 msgid "Process ToolBar"
 msgstr "Barra de ferramentas de procesamento"
@@ -2888,8 +2888,8 @@ msgstr "Asociación de tipos"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
-#: fitsviewer/fitsviewer.cpp:720
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:724
+#: fitsviewer/fitsviewer.cpp:725
 #, kde-format
 msgid "Preview"
 msgstr "Vista previa"
@@ -10371,10 +10371,10 @@ msgstr "Non é posíbel amosar o ficheiro temporal de imaxe: %1."
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:377
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2071
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2081
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:464
+#: fitsviewer/fitsviewer.cpp:469
 #, kde-format
 msgid "Focus"
 msgstr "Foco"
@@ -10384,7 +10384,7 @@ msgstr "Foco"
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2045 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
-#: fitsviewer/fitsviewer.cpp:472
+#: fitsviewer/fitsviewer.cpp:477
 #, kde-format
 msgid "Align"
 msgstr "Aliñar"
@@ -10395,9 +10395,9 @@ msgstr "Aliñar"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2230
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2250
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
 #, kde-format
 msgid "Guide"
 msgstr "Guía"
@@ -10411,7 +10411,7 @@ msgstr "Voltear"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2155 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2175 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Montaxe"
@@ -12683,7 +12683,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2270
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2300
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -22250,17 +22250,17 @@ msgstr "A calibración de guía fallou."
 msgid "Guiding calibration completed successfully"
 msgstr "Completouse a calibración de guía."
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1107
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Perdeuse a pista da estrela de guía. Buscando estrelas guía…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1105
+#: ekos/guide/internalguide/internalguider.cpp:1109
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Superouse o valor de limiar de RMS de delta. Buscando estrelas guía…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1289
+#: ekos/guide/internalguide/internalguider.cpp:1293
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Non foi posíbel atopar estrelas guía axeitadas. Interrompendo…"
@@ -23765,49 +23765,49 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2287
+#: ekos/manager.cpp:2317
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "O porto guieiro de %1 está preparado."
 
-#: ekos/manager.cpp:2476
+#: ekos/manager.cpp:2506
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Seguro que quere eliminar o perfil?"
 
-#: ekos/manager.cpp:2477
+#: ekos/manager.cpp:2507
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirme a eliminación"
 
-#: ekos/manager.cpp:2529
+#: ekos/manager.cpp:2559
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Actualizouse a localización do sitio a %1."
 
-#: ekos/manager.cpp:2531
+#: ekos/manager.cpp:2561
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Non foi posíbel actualizar a localización do sitio a %1. Non se atopou a "
 "cidade."
 
-#: ekos/manager.cpp:2783
+#: ekos/manager.cpp:2813
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Activando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2791
+#: ekos/manager.cpp:2821
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Desactivando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2819
+#: ekos/manager.cpp:2849
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Activando de novo o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2831
+#: ekos/manager.cpp:2861
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Desactivando de novo o sistema de rexistro de depuración para %1…"
@@ -25603,26 +25603,27 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se Analyze está en execución e Ekos se desconecta e "
+"despois reconecta, crearase un novo ficheiro «.analyze» no que escribir, e "
+"as gráficas de Analyze só amosarán a nova sesión.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:923
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr ""
+msgstr "Reiniciar Analyze cando Ekos se reinicie."
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:947
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Alternative Image Directory: "
-msgstr "Definir un cartafol base alternativo para ficheiros de imaxe"
+msgstr "Cartafol alternativo de imaxes: "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:966
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "Definir un cartafol base alternativo para ficheiros de imaxe"
+msgstr "Definir o cartafol alternativo de imaxes para Analyze."
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -29657,8 +29658,8 @@ msgid "Y Offset:"
 msgstr "Desprazamento en Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:500
-#: fitsviewer/fitsviewer.cpp:1585
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
+#: fitsviewer/fitsviewer.cpp:1615
 #, kde-format
 msgid "Ready."
 msgstr "Listo."
@@ -30001,13 +30002,13 @@ msgid "View Star Profile..."
 msgstr "Ver o perfil da estrela…"
 
 #: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1273
+#: fitsviewer/fitsviewer.cpp:1303
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostras as liñas da grade ecuatorial"
 
 #: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1275
+#: fitsviewer/fitsviewer.cpp:1305
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Amosar os obxectos na imaxe"
@@ -30093,7 +30094,7 @@ msgstr "Estatísticas da &selección"
 msgid "Show Clipping"
 msgstr "Amosar o recorte."
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1284
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1314
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30109,130 +30110,135 @@ msgstr "Axustar á vista"
 
 #: fitsviewer/fitsviewer.cpp:272
 #, kde-format
+msgid "Fit Page to Zoom"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:277
+#, kde-format
 msgid "Next Tab"
 msgstr "Seguinte lapela"
 
-#: fitsviewer/fitsviewer.cpp:277
+#: fitsviewer/fitsviewer.cpp:282
 #, kde-format
 msgid "Previous Tab"
 msgstr "Lapela anterior"
 
-#: fitsviewer/fitsviewer.cpp:282
+#: fitsviewer/fitsviewer.cpp:287
 #, kde-format
 msgid "Next Blink Image"
 msgstr "Seguinte imaxe de chisco"
 
-#: fitsviewer/fitsviewer.cpp:287
+#: fitsviewer/fitsviewer.cpp:292
 #, kde-format
 msgid "Previous Blink Image"
 msgstr "Imaxe de chisco anterior"
 
-#: fitsviewer/fitsviewer.cpp:292
+#: fitsviewer/fitsviewer.cpp:297
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr "Achegar todas as lapelas"
 
-#: fitsviewer/fitsviewer.cpp:297
+#: fitsviewer/fitsviewer.cpp:302
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr "Afastar todas as lapelas"
 
-#: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1558
+#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1588
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marcar as estrelas"
 
-#: fitsviewer/fitsviewer.cpp:310 fitsviewer/fitsviewer.cpp:824
-#: fitsviewer/fitsviewer.cpp:1521
+#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:829
+#: fitsviewer/fitsviewer.cpp:1551
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Ver o gráfico en 3D"
 
-#: fitsviewer/fitsviewer.cpp:330
+#: fitsviewer/fitsviewer.cpp:335
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Visor de FITS de KStars"
 
-#: fitsviewer/fitsviewer.cpp:408
+#: fitsviewer/fitsviewer.cpp:413
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "HFR: %2. Ecc: %3. %1 estrela."
 msgstr[1] "HFR: %2. Ecc: %3. %1 estrelas."
 
-#: fitsviewer/fitsviewer.cpp:414
+#: fitsviewer/fitsviewer.cpp:419
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "HFR: %2. %1 estrela."
 msgstr[1] "HFR: %2. %1 estrelas."
 
-#: fitsviewer/fitsviewer.cpp:673
+#: fitsviewer/fitsviewer.cpp:678
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 "Non é posíbel atopar unha lapela con identificador único %1 no visor de FITS."
 
-#: fitsviewer/fitsviewer.cpp:806
+#: fitsviewer/fitsviewer.cpp:811
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Gráfico en 3D da vista actual"
 
-#: fitsviewer/fitsviewer.cpp:807 fitsviewer/fitsviewer.cpp:1429
+#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1459
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Miras"
 
-#: fitsviewer/fitsviewer.cpp:808 fitsviewer/fitsviewer.cpp:1443
+#: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:1473
 #, kde-format
 msgid "Clipping"
 msgstr "Recorte"
 
 # skip-rule: noPT-2010-dual_grid
-#: fitsviewer/fitsviewer.cpp:809 fitsviewer/fitsviewer.cpp:1456
+#: fitsviewer/fitsviewer.cpp:814 fitsviewer/fitsviewer.cpp:1486
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Liñas da grade ecuatorial"
 
-#: fitsviewer/fitsviewer.cpp:810 fitsviewer/fitsviewer.cpp:1495
+#: fitsviewer/fitsviewer.cpp:815 fitsviewer/fitsviewer.cpp:1525
 #, kde-format
 msgid "Objects in Image"
 msgstr "Obxectos na imaxe"
 
-#: fitsviewer/fitsviewer.cpp:811 fitsviewer/fitsviewer.cpp:1508
+#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1538
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Liñas de grade de píxel"
 
-#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1469
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1499
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Sobreposición de HiPS"
 
-#: fitsviewer/fitsviewer.cpp:864
+#: fitsviewer/fitsviewer.cpp:869
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Cartafol superior de chisco"
 
-#: fitsviewer/fitsviewer.cpp:992
+#: fitsviewer/fitsviewer.cpp:997
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Abrir a imaxe"
 
-#: fitsviewer/fitsviewer.cpp:1250
+#: fitsviewer/fitsviewer.cpp:1280
 #, kde-format
 msgid "Hide %1"
 msgstr "Agochar %1"
 
-#: fitsviewer/fitsviewer.cpp:1255
+#: fitsviewer/fitsviewer.cpp:1285
 #, kde-format
 msgid "Show %1"
 msgstr "Amosar %1"
 
-#: fitsviewer/fitsviewer.cpp:1279
+#: fitsviewer/fitsviewer.cpp:1309
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30241,7 +30247,7 @@ msgstr ""
 "Centrar o telescopio\n"
 "*Preparado*"
 
-#: fitsviewer/fitsviewer.cpp:1291
+#: fitsviewer/fitsviewer.cpp:1321
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -30250,7 +30256,7 @@ msgstr ""
 "Mostras as liñas da grade ecuatorial\n"
 "*Non hai información de SCM*"
 
-#: fitsviewer/fitsviewer.cpp:1293
+#: fitsviewer/fitsviewer.cpp:1323
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30259,7 +30265,7 @@ msgstr ""
 "Centrar o telescopio\n"
 "*Non hai información de SCM*"
 
-#: fitsviewer/fitsviewer.cpp:1295
+#: fitsviewer/fitsviewer.cpp:1325
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -30268,36 +30274,36 @@ msgstr ""
 "Amosar os obxectos na imaxe\n"
 "*Non hai información de SCM*"
 
-#: fitsviewer/fitsviewer.cpp:1327 fitsviewer/fitsviewer.cpp:1482
+#: fitsviewer/fitsviewer.cpp:1357 fitsviewer/fitsviewer.cpp:1512
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rectángulo de selección"
 
-#: fitsviewer/fitsviewer.cpp:1356 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1386 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Tamaño"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1364 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1394 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "Anchura"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1365 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1395 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "Altura"
 
-#: fitsviewer/fitsviewer.cpp:1563
+#: fitsviewer/fitsviewer.cpp:1593
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Desmarcar as estrelas"
 
-#: fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitsviewer.cpp:1609
 #, kde-format
 msgid "Processing %1..."
 msgstr "Procesando %1…"
@@ -39412,12 +39418,16 @@ msgid ""
 "analyze file will be created and written to, and the graphs in Analyze will "
 "only show the new session."
 msgstr ""
+"Se Analyze está en execución e Ekos se desconecta e despois reconecta, "
+"crearase un novo ficheiro «.analyze» no que escribir, e as gráficas de "
+"Analyze só amosarán a nova sesión."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeImageDirectory), group (Analyze)
 #: kstars.kcfg:3174
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
+"Cartafol alternativo que usar para buscar ficheiros de imaxe de Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3178
@@ -81450,10 +81460,43 @@ msgid ""
 "text-indent:0px;\">Defining regions is easier when used in conjunction with "
 "the Terrain background feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>O horizonte artificial úsase para definir <span style="
+"\" font-weight:600;\">rexións</span> no mapa celeste que <span style=\" font-"
+"style:italic;\">non poden verse</span> desde onde estás (p. ex. por mor de "
+"árbores ou edificios). As rexións poden ser zonas sobre ou baixo segmentos "
+"que insira.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Para debuxar unha <span style=\" font-weight:600;"
+"\">rexión</span>, insira unha lista de <span style=\" font-weight:600;"
+"\">puntos</span> (2 como <span style=\" font-style:italic;\">mínimo</span>) "
+"que describan a parte superior da zona bloqueada (<span style=\" font-"
+"weight:600;\">o bloqueo está debaixo</span> dos segmentos).</li><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Definir o "
+"<span style=\" font-style:italic;\">modo de teito ou xanela</span> para unha "
+"lista de puntos fai que <span style=\" font-weight:600;\">o bloqueo estea "
+"debaixo</span> dos segmentos.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Engada os puntos manualmente, ou a poder ser seleccionándoos "
+"no mapa celeste tras premer o botón <span style=\" font-style:italic;"
+"\">Seleccionar os puntos</span>. </li></ul><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Para activar unha rexión <span style=\" font-style:italic;"
+"\">marque a súa caixa</span>. </li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Ao seleccionar unha rexión, os seus puntos amósanse no mapa "
+"celeste. </li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Cando "
+"remate, prema <span style=\" font-style:italic;\">Aplicar</span>.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Definir rexións é máis "
+"doado cando se fai xunto coa funcionalidade de fondo de terreo.</li></ul></"
+"body></html>"
 
 #: tools/jmoontool.cpp:30
-#, fuzzy, kde-format
-#| msgid "Jupiter Moons Tool"
+#, kde-format
 msgctxt "@title:window"
 msgid "Jupiter Moons Tool"
 msgstr "Ferramenta de lúas de Xúpiter"
@@ -81568,17 +81611,15 @@ msgstr "Distancia angular:"
 
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel_2)
 #: tools/modcalcangdist.ui:338
-#, fuzzy, kde-format
-#| msgid "Position Angle:"
+#, kde-format
 msgid "Position angle:"
 msgstr "Ángulo da posición:"
 
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel_3)
 #: tools/modcalcangdist.ui:363
-#, fuzzy, kde-format
-#| msgid "Degrees E of N"
+#, kde-format
 msgid "degrees E of N"
-msgstr "Graos de L a N"
+msgstr "graos de L a N"
 
 #. i18n: ectx: attribute (title), widget (QWidget, batch)
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
@@ -81855,8 +81896,7 @@ msgstr "Modo en Lote"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/modcalcdaylength.ui:843
-#, fuzzy, kde-format
-#| msgid "Specify dates for the calculation in the input file."
+#, kde-format
 msgid "Specify Dates for the Calculation in the Input File"
 msgstr "Indica as datas para o cálculo no ficheiro de entrada."
 
@@ -81875,10 +81915,9 @@ msgstr "Ficheiro de saída: "
 #. i18n: ectx: property (text), widget (QPushButton, ViewButtonBatch)
 #: tools/modcalcdaylength.ui:914 tools/modcalcjd.ui:233
 #: tools/modcalcsidtime.ui:326 tools/modcalcvizequinox.ui:319
-#, fuzzy, kde-format
-#| msgid "View output"
+#, kde-format
 msgid "View Output..."
-msgstr "Ver o resultado"
+msgstr "Ver o resultado…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -82259,41 +82298,35 @@ msgstr "Ler do ficheiro de entrada"
 
 #. i18n: ectx: property (text), widget (QLabel, HelpLabel)
 #: tools/modcalcsidtime.ui:271
-#, fuzzy, kde-format
-#| msgid "Specify local time in the input file."
+#, kde-format
 msgid "Specify Local Time in the Input File"
-msgstr "Indica a hora local no ficheiro de entrada."
+msgstr "Indicar a hora local no ficheiro de entrada"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (hh:mm:ss)"
+#, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "α (hh:mm:ss)"
+msgstr "Ángulo (hh:mm:ss,s) "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "Resultados"
+msgstr "Ángulo resultado"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
 #, kde-format
 msgid "Angle (dd.d)"
-msgstr ""
+msgstr "Ángulo (dd,d)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dec (dd:mm:ss)"
+#, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "δ (dd:mm:ss)"
+msgstr "Ángulo (dd mm ss,s)"
 
 #: tools/modcalcvizequinox.cpp:33
 #, kde-format
@@ -82349,8 +82382,7 @@ msgstr "1 de xan de 2007  00:00"
 
 #. i18n: ectx: property (text), widget (QLabel, HelpLabel)
 #: tools/modcalcvizequinox.ui:264
-#, fuzzy, kde-format
-#| msgid "Specify years for the calculation in the input file."
+#, kde-format
 msgid "Specify Years for the Calculation in the Input File"
 msgstr "Indica os anos para o cálculo no ficheiro de entrada."
 
@@ -82473,8 +82505,7 @@ msgid "Resolved %1 successfully."
 msgstr "Resolveuse %1."
 
 #: tools/observinglist.cpp:77
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observation Planner"
 msgstr "Planificador de observacións"
@@ -82526,12 +82557,13 @@ msgid "In hole"
 msgstr "No burato"
 
 #: tools/observinglist.cpp:262
-#, fuzzy, kde-format
-#| msgid "Unnamed stars are not supported in the observing lists"
+#, kde-format
 msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
 "observing lists"
-msgstr "Non se admiten estrelas sen nome nas listas de observación"
+msgstr ""
+"As estrelas e obxectos cuxo nome KStars descoñeza non poden usarse nas "
+"listas de observación."
 
 #: tools/observinglist.cpp:274
 #, kde-format
@@ -82587,16 +82619,14 @@ msgid "%1 mag %2 in %3"
 msgstr "%1 mag %2 en %3"
 
 #: tools/observinglist.cpp:775
-#, fuzzy, kde-format
-#| msgid "Save the observing session"
+#, kde-format
 msgid "Batch add to observing session"
-msgstr "Gardar a sesión de observación"
+msgstr "Engadir un lote á sesión de observación"
 
 #: tools/observinglist.cpp:775
-#, fuzzy, kde-format
-#| msgid "Add to Observing WishList"
+#, kde-format
 msgid "Batch add to observing wishlist"
-msgstr "Engadir á lista de desexos de observación"
+msgstr "Engadir un lote á lista de desexos de observación"
 
 #: tools/observinglist.cpp:776
 #, kde-format
@@ -82606,14 +82636,17 @@ msgid ""
 "settings, to the CDS Sesame resolver. Objects that are internet resolved "
 "will be added to the database."
 msgstr ""
+"Indicar unha lista de obxectos, un por liña, para engadir. KStars debe "
+"coñecer os nomes ou, se o resolvedor de Internet está activado na "
+"configuración, o resolvedor CDS Sesame debe coñecer os nomes. Os obxectos "
+"que se resolvan por Internet engadiranse á base de datos."
 
 #: tools/observinglist.cpp:808
-#, fuzzy, kde-format
-#| msgid "Object named %1 not found"
+#, kde-format
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
-msgstr[0] "Non se atopou ningún obxecto chamado %1"
-msgstr[1] "Non se atopou ningún obxecto chamado %1"
+msgstr[0] "Engadido en lote: non se atopou %1 obxecto"
+msgstr[1] "Engadido en lote: non se atoparon %1 obxectos"
 
 #: tools/observinglist.cpp:809
 #, kde-format
@@ -82624,11 +82657,14 @@ msgid_plural ""
 "%1 objects could not be found in the database or resolved, and hence could "
 "not be added. See the details for more."
 msgstr[0] ""
+"Non foi posíbel atopar %1 obxecto na base de datos nin resolvelo, e polo "
+"tanto non foi posíbel engadilo. Consulte os detalles para máis información."
 msgstr[1] ""
+"Non foi posíbel atopar %1 obxectos na base de datos nin resolvelos, e polo "
+"tanto non foi posíbel engadilos. Consulte os detalles para máis información."
 
 #: tools/observinglist.cpp:883
-#, fuzzy, kde-format
-#| msgid "Open Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "Abrir a lista de observación"
@@ -82639,6 +82675,8 @@ msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
+"O ficheiro indicado é incorrecto. Esperábase un ficheiro XML baseado no "
+"esquema OpenAstronomyLog."
 
 #: tools/observinglist.cpp:954
 #, kde-format
@@ -82666,8 +82704,7 @@ msgid "Save Current session?"
 msgstr "Gardar esta sesión?"
 
 #: tools/observinglist.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Save Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "Gardar a lista de observación"
@@ -82678,31 +82715,31 @@ msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
 "changes will not be saved. Check if the location is writable and not full."
 msgstr ""
+"Non foi posíbel abrir o ficheiro %1 de lista de desexos de observación para "
+"escribir nel. Os cambios na lista de desexos non se gardarán. Comprobe que a "
+"localización non está chea e pode escribirse nela."
 
 #: tools/observinglist.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Could not save the observer list to the file."
+#, kde-format
 msgid "Could not save observing wishlist"
-msgstr "Non foi posíbel gravar a lista de observadores no ficheiro."
+msgstr "Non foi posíbel gardar a lista de desexos de observación"
 
 #: tools/observinglist.cpp:1082 tools/observinglist.cpp:1197
 #: tools/obslistwizard.cpp:34
-#, fuzzy, kde-format
-#| msgid "Observing List Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr "Asistente da lista de observación"
 
 #: tools/observinglist.cpp:1083
-#, fuzzy, kde-format
-#| msgid "Please wait while loading objects..."
+#, kde-format
 msgid "Please wait while loading observing wishlist..."
-msgstr "Agarde mentres se cargan os obxectos…"
+msgstr "Agarde mentres se carga a lista de desexos de observación…"
 
 #: tools/observinglist.cpp:1106
 #, kde-format
 msgid "Canceling this will truncate your wishlist"
-msgstr ""
+msgstr "Cancelar recortará a lista de desexos"
 
 #: tools/observinglist.cpp:1107
 #, kde-format
@@ -82711,13 +82748,18 @@ msgid ""
 "following objects will be removed from the wishlist when you exit KStars. "
 "Are you sure this is okay?"
 msgstr ""
+"Se cancela esta operación, a lista de desexos recortarase e os seguintes "
+"obxectos retiraranse da lista de desexos cando saia de KStars. Seguro que "
+"quere cancelar?"
 
 #: tools/observinglist.cpp:1149
 #, kde-format
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
 msgstr[0] ""
+"Recortouse a lista de desexos de observación: non se atopou %1 obxecto."
 msgstr[1] ""
+"Recortouse a lista de desexos de observación: non se atoparon %1 obxectos."
 
 #: tools/observinglist.cpp:1150
 #, kde-format
@@ -82731,7 +82773,13 @@ msgid_plural ""
 "backup, whereby you can later use the Batch Add feature in the Observation "
 "Planner to add them back using internet search."
 msgstr[0] ""
+"Non foi posíbel atopar %1 obxecto na base de datos, así que retirarase da "
+"lista de desexos de observación. Recoméndase copiar o seu nome como "
+"salvagarda para poder engadilo máis tarde."
 msgstr[1] ""
+"Non foi posíbel atopar %1 obxectos na base de datos, así que retiraranse da "
+"lista de desexos de observación. Recoméndase copiar os seus nomes como "
+"salvagarda para poder engadilos máis tarde."
 
 #: tools/observinglist.cpp:1163
 #, kde-format
@@ -82832,10 +82880,9 @@ msgstr "Gardar a lista de observación actual no disco, indicando un nome"
 
 #. i18n: ectx: property (text), widget (QPushButton, OALExport)
 #: tools/observinglist.ui:152
-#, fuzzy, kde-format
-#| msgid "Export to OAL"
+#, kde-format
 msgid "Export to OAL..."
-msgstr "Exportar a OAL"
+msgstr "Exportar a OAL…"
 
 #. i18n: ectx: property (text), widget (QPushButton, SetLocation)
 #: tools/observinglist.ui:192
@@ -82858,8 +82905,7 @@ msgstr "Actualizar a táboa e a representación para a nova data e o novo lugar.
 
 #. i18n: ectx: property (text), widget (QLabel, refLabel)
 #: tools/observinglist.ui:242
-#, fuzzy, kde-format
-#| msgid "Reference Images:"
+#, kde-format
 msgid "Reference images:"
 msgstr "Imaxes de referencia:"
 
@@ -82889,8 +82935,7 @@ msgstr "Eliminar todas as imaxes"
 
 #. i18n: ectx: property (text), widget (QLabel, addLabel)
 #: tools/observinglist.ui:279
-#, fuzzy, kde-format
-#| msgid "Adding Objects:"
+#, kde-format
 msgid "Adding objects:"
 msgstr "Engadir obxectos:"
 
@@ -82913,10 +82958,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, WizardButton)
 #: tools/observinglist.ui:310
-#, fuzzy, kde-format
-#| msgid "Wizard"
+#, kde-format
 msgid "Wizard..."
-msgstr "Asistente"
+msgstr "Asistente…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, FindButton)
 #: tools/observinglist.ui:323
@@ -82938,29 +82982,25 @@ msgstr "Abrir o diálogo QPEN"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:345
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the What's up tonight dialog, from which objects can be added to "
-#| "the list"
+#, kde-format
 msgid ""
 "Opens the What's up Tonight dialog, from which objects can be added to the "
 "list"
 msgstr ""
-"Abrir o diálogo Que pasa esta noite, do cal se poden engadir obxectos á lista"
+"Abrir o diálogo «Que pasa esta noite», do cal se poden engadir obxectos á "
+"lista."
 
 #. i18n: ectx: property (text), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:348
-#, fuzzy, kde-format
-#| msgid "What's up Tonight"
+#, kde-format
 msgid "What's up Tonight..."
-msgstr "Que pasa esta noite"
+msgstr "Que pasa esta noite…"
 
 #. i18n: ectx: property (text), widget (QPushButton, batchAddButton)
 #: tools/observinglist.ui:355
-#, fuzzy, kde-format
-#| msgid "Batch Mode"
+#, kde-format
 msgid "Batch add"
-msgstr "Modo en lote"
+msgstr "Engadido en lote"
 
 #. i18n: ectx: attribute (title), widget (QWidget, WishList)
 #: tools/observinglist.ui:404
@@ -82982,8 +83022,7 @@ msgstr "Hora programada"
 
 #. i18n: ectx: property (text), widget (QLabel, quickInfoLabel)
 #: tools/observinglist.ui:545
-#, fuzzy, kde-format
-#| msgid "Select an object to view information here."
+#, kde-format
 msgid "Select an Object to View Information here"
 msgstr "Selecciona aquí un obxecto para ver a súa información."
 
@@ -83001,10 +83040,9 @@ msgstr "Información dos metadatos da imaxe"
 
 #. i18n: ectx: property (text), widget (QPushButton, SearchImage)
 #: tools/observinglist.ui:648
-#, fuzzy, kde-format
-#| msgid "Replace from Internet"
+#, kde-format
 msgid "Replace from Internet..."
-msgstr "Substituír de Internet"
+msgstr "Substituír de Internet…"
 
 #. i18n: ectx: property (text), widget (QPushButton, DeleteImage)
 #: tools/observinglist.ui:661
@@ -83120,11 +83158,10 @@ msgid "Sun, moon, planets"
 msgstr "Sol, Lúa e planetas"
 
 #: tools/obslistwizard.cpp:353
-#, fuzzy, kde-format
-#| msgid "Illegal circle specified, no region selection possible."
+#, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
 msgstr ""
-"Indicouse un círculo inaceptábel; non é posíbel seleccionar unha rexión."
+"Indicouse un rectángulo inaceptábel; non é posíbel seleccionar unha rexión."
 
 #: tools/obslistwizard.cpp:392
 #, kde-format
@@ -83351,14 +83388,13 @@ msgstr ""
 #: tools/obslistwizard.ui:603
 #, kde-format
 msgid "Center RA (in Hours):"
-msgstr ""
+msgstr "α do centro (en horas):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Raio (graos):"
+msgstr "δ do centro (en graos):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -83487,8 +83523,7 @@ msgid "Option Name"
 msgstr "Nome da opción"
 
 #: tools/planetviewer.cpp:50
-#, fuzzy, kde-format
-#| msgid "Solar System Viewer"
+#, kde-format
 msgctxt "@title:window"
 msgid "Solar System Viewer"
 msgstr "Visor do sistema solar"
@@ -83541,10 +83576,9 @@ msgstr "Hora actual"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/polarishourangle.ui:128
-#, fuzzy, kde-format
-#| msgid "Set local time"
+#, kde-format
 msgid "Set Local Time"
-msgstr "Estabelecer a hora local"
+msgstr "Definir a hora local"
 
 #. i18n: ectx: property (text), widget (QRadioButton, twelveHourR)
 #: tools/polarishourangle.ui:150
@@ -83559,25 +83593,22 @@ msgid "24 Hours"
 msgstr "24 horas"
 
 #: tools/scriptbuilder.cpp:54
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "Options"
 msgstr "Opcións"
 
 #: tools/scriptbuilder.cpp:124
-#, fuzzy, kde-format
-#| msgid "Script Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Script Data"
-msgstr "Datos do script"
+msgstr "Datos do guión"
 
 #: tools/scriptbuilder.cpp:165
-#, fuzzy, kde-format
-#| msgid "Script Builder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Script Builder"
-msgstr "Construtor de scripts"
+msgstr "Construtor de guións"
 
 #: tools/scriptbuilder.cpp:175
 #, kde-format
@@ -84239,10 +84270,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:101
-#, fuzzy, kde-format
-#| msgid "Open Script"
+#, kde-format
 msgid "Open Script..."
-msgstr "Abrir un script"
+msgstr "Abrir un guión…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:104
@@ -84294,16 +84324,13 @@ msgstr "Probar o guión"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
-#, fuzzy, kde-format
-#| msgid ""
-#| "Executes the script in the KStars main window.  You may want to "
-#| "reposition the Script Builder tool so that the Sky map is visible.  "
+#, kde-format
 msgid ""
 "Executes the script in the KStars main window. You may want to reposition "
 "the Script Builder tool so that the Sky map is visible."
 msgstr ""
 "Executa o guión na xanela principal de KStars. Quizais queiras recolocar de "
-"novo o Construtor de guións para que o mapa celeste estea visíbel. "
+"novo o Construtor de guións para que o mapa celeste estea visíbel."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/scriptbuilder.ui:235
@@ -84313,12 +84340,7 @@ msgstr "Script actual"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ScriptListBox)
 #: tools/scriptbuilder.ui:279
-#, fuzzy, kde-format
-#| msgid ""
-#| "This shows the list of commands present in the current working script.  "
-#| "Highlighting any command will present a widget where you can specify its "
-#| "arguments below.  Use the action buttons at right to copy, remove, or "
-#| "change the position of the selected command.  "
+#, kde-format
 msgid ""
 "This shows the list of commands present in the current working script. "
 "Highlighting any command will present a widget where you can specify its "
@@ -84328,7 +84350,7 @@ msgstr ""
 "Isto amosa a lista de ordes presentes no guión actual. Se realza algunha "
 "orde, aparecerá en baixo un trebello onde has poder indicar os argumentos. "
 "Usa os botóns de acción da dereita para copiar, retirar ou cambiar a "
-"posición da orde escollida. "
+"posición da orde escollida."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
@@ -84469,8 +84491,7 @@ msgid "Script name:"
 msgstr "Nome do guión:"
 
 #: tools/skycalendar.cpp:45
-#, fuzzy, kde-format
-#| msgid "Sky Calendar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Sky Calendar"
 msgstr "Calendario celeste"
@@ -84510,16 +84531,14 @@ msgid "%1 transits"
 msgstr "%1 tránsitos"
 
 #: tools/skycalendar.cpp:406
-#, fuzzy, kde-format
-#| msgid "Print sky calendar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print sky calendar"
 msgstr "Imprimir o calendario celeste"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/skycalendar.ui:86
-#, fuzzy, kde-format
-#| msgid "Grids and labels"
+#, kde-format
 msgid "Grids and Labels"
 msgstr "Grades e etiquetas"
 
@@ -84707,12 +84726,7 @@ msgstr "9  "
 
 #. i18n: ectx: property (text), widget (QLabel, bortleHelpText)
 #: tools/whatsinteresting/wilpsettings.ui:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"right\">For help: <a href=\"http://en."
-#| "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-"
-#| "decoration: underline; color:#004183;\">Wikipedia Link for Bortle dark-"
-#| "sky scale</span></a></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"right\">For help: <a href=\"https://en."
 "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: "
@@ -84745,8 +84759,7 @@ msgid "Size: %1"
 msgstr "Tamaño: %1"
 
 #: tools/wutdialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "What's up Tonight"
+#, kde-format
 msgctxt "@title:window"
 msgid "What's up Tonight"
 msgstr "Que pasa esta noite"
@@ -84864,10 +84877,7 @@ msgstr "Escoller unha data nova"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new date for the \"What's Up Tonight\" "
-#| "tool.  Note that the date of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new date for the \"What's up Tonight\" tool.  "
 "Note that the date of the main window is not changed."
@@ -84895,10 +84905,7 @@ msgstr "Escolle un lugar xeográfico novo"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new geographic location for the \"What's Up "
-#| "Tonight\" tool.  Note that the location of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new geographic location for the \"What's up "
 "Tonight\" tool.  Note that the location of the main window is not changed."
@@ -84927,13 +84934,7 @@ msgstr "Escoller o intervalo de tempo"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "By default, the \"What's Up Tonight\" tool displays all objects which are "
-#| "above the horizon between sunset and midnight (i.e., \"in the evening"
-#| "\").  You can also choose to show objects which are up between midnight "
-#| "and dawn (i.e., \"in the morning\"), or objects which are up at any time "
-#| "between sunset and sunrise (i.e., \"any time tonight\")"
+#, kde-format
 msgid ""
 "By default, the \"What's up Tonight\" tool displays all objects which are "
 "above the horizon between sunset and midnight (i.e., \"in the evening\").  "
@@ -84943,7 +84944,7 @@ msgid ""
 msgstr ""
 "De maneira predeterminada, a ferramenta \"Que pasa esta noite\" mostra todos "
 "os obxectos acima do horizonte entre o solpor e a medianoite (é dicir, "
-"\"durante a noite\"). Tamén podes optar por mostrar os obxectos que estean "
+"\"durante a noite\"). Tamén podes optar por amosar os obxectos que estean "
 "visíbeis entre a medianoite e o abrente (é dicir, \"de madrugada\") ou os "
 "obxectos visíbeis en calquera momento entre o solpor e o amencer (é dicir, "
 "\"a calquera hora desta noite\")"
@@ -85184,10 +85185,9 @@ msgstr "Abre a xanela de detalles do obxecto realzado."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetailButton)
 #: tools/wutdialog.ui:480
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgid "Object Details..."
-msgstr "Detalles do obxecto"
+msgstr "Detalles do obxecto…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:487
@@ -85335,19 +85335,17 @@ msgid "Lat:"
 msgstr "Lat:"
 
 #: widgets/infoboxwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "HA"
+#, kde-format
 msgctxt "Hour Angle"
 msgid "HA"
 msgstr "ω"
 
 # Zenith Angle
 #: widgets/infoboxwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "ZA:"
+#, kde-format
 msgctxt "Zenith Angle"
 msgid "ZA"
-msgstr "AC:"
+msgstr "AC"
 
 #: widgets/timespinbox.cpp:116 widgets/timespinbox.cpp:117
 #: widgets/timespinbox.cpp:118 widgets/timespinbox.cpp:119
@@ -85481,22 +85479,22 @@ msgstr ""
 #: widgets/timeunitbox.cpp:29
 #, kde-format
 msgid "Increase Time Scale"
-msgstr ""
+msgstr "Aumentar a escala do tempo"
 
 #: widgets/timeunitbox.cpp:30
 #, kde-format
 msgid "Increase time scale to the next largest unit"
-msgstr ""
+msgstr "Aumentar a escala do tempo á seguinte unidade."
 
 #: widgets/timeunitbox.cpp:40
 #, kde-format
 msgid "Decrease Time Scale"
-msgstr ""
+msgstr "Diminuír a escala do tempo"
 
 #: widgets/timeunitbox.cpp:41
 #, kde-format
 msgid "Decrease time scale to the next smallest unit"
-msgstr ""
+msgstr "Diminuír a escala do tempo á seguinte unidade."
 
 #: xplanet/opsxplanet.cpp:31
 #, kde-format
@@ -85588,22 +85586,19 @@ msgid "FIFO files are not supported on Windows"
 msgstr "Os ficheiros FIFO non son compatíbeis con Windows"
 
 #: xplanet/opsxplanet.cpp:219
-#, fuzzy, kde-format
-#| msgid "Select XPlanet Config File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Config File"
 msgstr "Seleccionar o ficheiro de configuración de XPlanet"
 
 #: xplanet/opsxplanet.cpp:231
-#, fuzzy, kde-format
-#| msgid "Select XPlanet Star Map File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Star Map File"
 msgstr "Seleccionar o ficheiro de mapa de estrelas de XPlanet"
 
 #: xplanet/opsxplanet.cpp:244
-#, fuzzy, kde-format
-#| msgid "Select XPlanet Arc File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
 msgstr "Seleccionar o ficheiro de arco de XPlanet"
@@ -85612,7 +85607,7 @@ msgstr "Seleccionar o ficheiro de arco de XPlanet"
 #: xplanet/opsxplanet.ui:45
 #, kde-format
 msgid "Xplanet binary is internal to the application bundle"
-msgstr ""
+msgstr "O executábel de Xplanet está dentro do paquete da aplicación."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetPath)
 #: xplanet/opsxplanet.ui:55
@@ -85665,17 +85660,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: xplanet/opsxplanet.ui:169
-#, fuzzy, kde-format
-#| msgid "XPlanet Timeout"
+#, kde-format
 msgid "XPlanet timeout:"
-msgstr "Tempo límite de XPlanet"
+msgstr "Tempo límite de XPlanet:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: xplanet/opsxplanet.ui:176
-#, fuzzy, kde-format
-#| msgid "Animation Delay"
+#, kde-format
 msgid "Animation delay:"
-msgstr "Atraso das animacións"
+msgstr "Atraso das animacións:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetAnimationDelay)
 #: xplanet/opsxplanet.ui:183
@@ -85685,10 +85678,9 @@ msgstr "O atraso entre fotogramas das animacións"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:216
-#, fuzzy, kde-format
-#| msgid "Use kstars's FOV?"
+#, kde-format
 msgid "Use KStars's FOV?"
-msgstr "Empregar o FOV do kstars?"
+msgstr "Usar o FOV do KStars?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:219
@@ -85804,8 +85796,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetGlare)
 #: xplanet/opsxplanet.ui:462
-#, fuzzy, kde-format
-#| msgid "Glare of Sun:"
+#, kde-format
 msgid "Glare of sun:"
 msgstr "Resplandor do Sol:"
 
@@ -85930,10 +85921,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:784
-#, fuzzy, kde-format
-#| msgid "Show label"
+#, kde-format
 msgid "Show label:"
-msgstr "Amosar a etiqueta"
+msgstr "Amosar a etiqueta:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: xplanet/opsxplanet.ui:796
@@ -85985,10 +85975,9 @@ msgstr "Escribir os límites dos marcadores en:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetLatLong)
 #: xplanet/opsxplanet.ui:884
-#, fuzzy, kde-format
-#| msgid "Place the observer above latitude "
+#, kde-format
 msgid "Place the observer above latitude: "
-msgstr "Situar o observador na latitude "
+msgstr "Situar o observador na latitude: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLatitude)
 #: xplanet/opsxplanet.ui:897
@@ -86002,10 +85991,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetLongitude)
 #: xplanet/opsxplanet.ui:910
-#, fuzzy, kde-format
-#| msgid " and longitude "
+#, kde-format
 msgid " and longitude: "
-msgstr " e lonxitude "
+msgstr " e lonxitude: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLongitude)
 #: xplanet/opsxplanet.ui:920

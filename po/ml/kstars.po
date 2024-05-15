@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 01:44+0000\n"
+"POT-Creation-Date: 2024-05-15 01:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -1759,7 +1759,7 @@ msgid "Main Toolbar"
 msgstr ""
 
 #. i18n: ectx: ToolBar (processToolBar)
-#: data/fitsviewerui.rc:97
+#: data/fitsviewerui.rc:98
 #, kde-format
 msgid "Process ToolBar"
 msgstr ""
@@ -2921,8 +2921,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:719
-#: fitsviewer/fitsviewer.cpp:720
+#: ekos/capture/captureprocess.cpp:2449 fitsviewer/fitsviewer.cpp:724
+#: fitsviewer/fitsviewer.cpp:725
 #, fuzzy, kde-format
 msgid "Preview"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
@@ -10096,10 +10096,10 @@ msgstr "GStreamer ഫയല്‍ ഔട്ട്പുട്ട് നിര്
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:377
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2071
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2081
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:464
+#: fitsviewer/fitsviewer.cpp:469
 #, kde-format
 msgid "Focus"
 msgstr ""
@@ -10109,7 +10109,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2045 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
-#: fitsviewer/fitsviewer.cpp:472
+#: fitsviewer/fitsviewer.cpp:477
 #, fuzzy, kde-format
 msgid "Align"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
@@ -10120,9 +10120,9 @@ msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2230
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2250
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
 #, kde-format
 msgid "Guide"
 msgstr ""
@@ -10138,7 +10138,7 @@ msgstr "ബേക്കര്‍സ്‌ഫീല്‍ഡ്"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2155 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2175 ekos/manager.ui:665
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "എണ്ണം"
@@ -12275,7 +12275,7 @@ msgstr "നക്ഷത്രക്കൂട്ടം"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2270
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2300
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -21170,17 +21170,17 @@ msgstr "കാലിയെന്റെ"
 msgid "Guiding calibration completed successfully"
 msgstr "കാലിയെന്റെ"
 
-#: ekos/guide/internalguide/internalguider.cpp:1103
+#: ekos/guide/internalguide/internalguider.cpp:1107
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1105
+#: ekos/guide/internalguide/internalguider.cpp:1109
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1289
+#: ekos/guide/internalguide/internalguider.cpp:1293
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
@@ -22523,47 +22523,47 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD B"
 
-#: ekos/manager.cpp:2287
+#: ekos/manager.cpp:2317
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2476
+#: ekos/manager.cpp:2506
 #, fuzzy, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/manager.cpp:2477
+#: ekos/manager.cpp:2507
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "ശബ്ദ ഫയലിന്റെ യു.ആര്‍.ഐ (URI)"
 
-#: ekos/manager.cpp:2529
+#: ekos/manager.cpp:2559
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2531
+#: ekos/manager.cpp:2561
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2783
+#: ekos/manager.cpp:2813
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2791
+#: ekos/manager.cpp:2821
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2819
+#: ekos/manager.cpp:2849
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2831
+#: ekos/manager.cpp:2861
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -28044,8 +28044,8 @@ msgid "Y Offset:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:500
-#: fitsviewer/fitsviewer.cpp:1585
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
+#: fitsviewer/fitsviewer.cpp:1615
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Radio"
@@ -28397,13 +28397,13 @@ msgid "View Star Profile..."
 msgstr "അര്രസീഫ്"
 
 #: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1273
+#: fitsviewer/fitsviewer.cpp:1303
 #, fuzzy, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "ഭൂമദ്ധ്യരേഖാ ചട്ടക്കൂട്"
 
 #: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1275
+#: fitsviewer/fitsviewer.cpp:1305
 #, fuzzy, kde-format
 msgid "Show Objects in Image"
 msgstr "ഫയലിന്റെ _പേരു്:"
@@ -28496,7 +28496,7 @@ msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 msgid "Show Clipping"
 msgstr "വേര്‍ഷന്‍ പ്രിന്‍റ് ചെയ്തു് പുറത്തു് കടക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1284
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1314
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -28509,54 +28509,59 @@ msgid "Zoom To Fit"
 msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:272
+#, kde-format
+msgid "Fit Page to Zoom"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:277
 #, fuzzy, kde-format
 msgid "Next Tab"
 msgstr "_അടുത്ത ഗാനം"
 
-#: fitsviewer/fitsviewer.cpp:277
+#: fitsviewer/fitsviewer.cpp:282
 #, fuzzy, kde-format
 msgid "Previous Tab"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:282
+#: fitsviewer/fitsviewer.cpp:287
 #, fuzzy, kde-format
 msgid "Next Blink Image"
 msgstr "ഫയലിന്റെ _പേരു്:"
 
-#: fitsviewer/fitsviewer.cpp:287
+#: fitsviewer/fitsviewer.cpp:292
 #, fuzzy, kde-format
 msgid "Previous Blink Image"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:292
+#: fitsviewer/fitsviewer.cpp:297
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:297
+#: fitsviewer/fitsviewer.cpp:302
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:302 fitsviewer/fitsviewer.cpp:1558
+#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Mars"
 msgid "Mark Stars"
 msgstr "ചൊവ്വ"
 
-#: fitsviewer/fitsviewer.cpp:310 fitsviewer/fitsviewer.cpp:824
-#: fitsviewer/fitsviewer.cpp:1521
+#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:829
+#: fitsviewer/fitsviewer.cpp:1551
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:330
+#: fitsviewer/fitsviewer.cpp:335
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "%s പ്രവര്‍ത്തിപ്പിയ്ക്കാനൊരുങ്ങുന്നു.\\n"
 
-#: fitsviewer/fitsviewer.cpp:408
+#: fitsviewer/fitsviewer.cpp:413
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -28564,7 +28569,7 @@ msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "നക്ഷത്രം"
 msgstr[1] "നക്ഷത്രം"
 
-#: fitsviewer/fitsviewer.cpp:414
+#: fitsviewer/fitsviewer.cpp:419
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
@@ -28572,131 +28577,131 @@ msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "നക്ഷത്രം"
 msgstr[1] "നക്ഷത്രം"
 
-#: fitsviewer/fitsviewer.cpp:673
+#: fitsviewer/fitsviewer.cpp:678
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:806
+#: fitsviewer/fitsviewer.cpp:811
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:807 fitsviewer/fitsviewer.cpp:1429
+#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1459
 #, fuzzy, kde-format
 msgid "Cross Hairs"
 msgstr "<b>ഗാനങ്ങളുടെ പേരു്</b>"
 
-#: fitsviewer/fitsviewer.cpp:808 fitsviewer/fitsviewer.cpp:1443
+#: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:1473
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "ഫിലിപ്പൈന്‍സ്"
 
-#: fitsviewer/fitsviewer.cpp:809 fitsviewer/fitsviewer.cpp:1456
+#: fitsviewer/fitsviewer.cpp:814 fitsviewer/fitsviewer.cpp:1486
 #, fuzzy, kde-format
 msgid "Equatorial Gridlines"
 msgstr "ഭൂമദ്ധ്യരേഖാ ചട്ടക്കൂട്"
 
-#: fitsviewer/fitsviewer.cpp:810 fitsviewer/fitsviewer.cpp:1495
+#: fitsviewer/fitsviewer.cpp:815 fitsviewer/fitsviewer.cpp:1525
 #, fuzzy, kde-format
 msgid "Objects in Image"
 msgstr "ഫയലിന്റെ _പേരു്:"
 
-#: fitsviewer/fitsviewer.cpp:811 fitsviewer/fitsviewer.cpp:1508
+#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1538
 #, fuzzy, kde-format
 msgid "Pixel Gridlines"
 msgstr "നക്ഷത്രരാശിയുടെ കലാരൂപത്തിന്റെ തീവ്രത"
 
-#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1469
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1499
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:864
+#: fitsviewer/fitsviewer.cpp:869
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "തനത് ക്രമീകരണം ലോഡ് ചെയ്യുക: "
 
-#: fitsviewer/fitsviewer.cpp:992
+#: fitsviewer/fitsviewer.cpp:997
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "_ഫോള്‍ഡര്‍ തുറക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:1250
+#: fitsviewer/fitsviewer.cpp:1280
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1255
+#: fitsviewer/fitsviewer.cpp:1285
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "കാണിക്കുക "
 
-#: fitsviewer/fitsviewer.cpp:1279
+#: fitsviewer/fitsviewer.cpp:1309
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*Ready*"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:1291
+#: fitsviewer/fitsviewer.cpp:1321
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1293
+#: fitsviewer/fitsviewer.cpp:1323
 #, fuzzy, kde-format
 msgid ""
 "Center Telescope\n"
 "*No WCS Info*"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:1295
+#: fitsviewer/fitsviewer.cpp:1325
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1327 fitsviewer/fitsviewer.cpp:1482
+#: fitsviewer/fitsviewer.cpp:1357 fitsviewer/fitsviewer.cpp:1512
 #, fuzzy, kde-format
 msgid "Selection Rectangle"
 msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 
-#: fitsviewer/fitsviewer.cpp:1356 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1386 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "വലിപ്പം:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1364 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1394 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, fuzzy, kde-format
 msgid "Width"
 msgstr "വീതി സൂക്ഷ്മത"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1365 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1395 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, fuzzy, kde-format
 msgid "Height"
 msgstr "ഏറ്റവും കൂടിയ ദൃശ്യസൂക്ഷ്മത"
 
-#: fitsviewer/fitsviewer.cpp:1563
+#: fitsviewer/fitsviewer.cpp:1593
 #, fuzzy, kde-format
 #| msgid "Mars"
 msgid "Unmark Stars"
 msgstr "ചൊവ്വ"
 
-#: fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitsviewer.cpp:1609
 #, fuzzy, kde-format
 msgid "Processing %1..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
