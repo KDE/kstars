@@ -367,6 +367,13 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         m_SequenceEditor->raise();
     });
 
+    m_JobUpdateDebounce.setSingleShot(true);
+    m_JobUpdateDebounce.setInterval(1000);
+    connect(&m_JobUpdateDebounce, &QTimer::timeout, this, [this]()
+    {
+        emit jobsUpdated(moduleState()->getJSONJobs());
+    });
+
     moduleState()->calculateDawnDusk();
     process()->loadProfiles();
 
@@ -1460,7 +1467,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
             captureCountCell->tableWidget()->resizeColumnToContents(captureCountCell->column());
     }
 
-    emit jobsUpdated(moduleState()->getJSONJobs());
+    m_JobUpdateDebounce.start();
 }
 
 void Scheduler::insertJobTableRow(int row, bool above)
@@ -1576,7 +1583,6 @@ void Scheduler::removeJob()
 
     watchJobChanges(true);
     process()->evaluateJobs(true);
-    emit jobsUpdated(moduleState()->getJSONJobs());
     updateJobTable();
     // disable moving and deleting, since selection is cleared
     setJobManipulation(false, false);

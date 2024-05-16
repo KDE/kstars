@@ -539,6 +539,7 @@ private:
 
         QSharedPointer<SequenceEditor> m_SequenceEditor;
 
+        QTimer m_JobUpdateDebounce;
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
 };
