@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-16 02:05+0000\n"
-"PO-Revision-Date: 2024-05-15 23:05+0300\n"
+"POT-Creation-Date: 2024-05-17 01:42+0000\n"
+"PO-Revision-Date: 2024-05-16 22:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -413,7 +413,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1127
-#: ekos/scheduler/scheduler.cpp:1805
+#: ekos/scheduler/scheduler.cpp:1811
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -563,7 +563,7 @@ msgstr "İptal"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1103 ekos/manager.cpp:1118
-#: ekos/manager.cpp:1148 ekos/scheduler/scheduler.cpp:1326
+#: ekos/manager.cpp:1148 ekos/scheduler/scheduler.cpp:1333
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -1969,9 +1969,9 @@ msgstr "Durum:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1319
-#: ekos/scheduler/scheduler.cpp:1976 ekos/scheduler/scheduler.cpp:2214
-#: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2232
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1326
+#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2220
+#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
@@ -2345,8 +2345,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Büyüklük bilinmiyorsa işaretleyin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1327
-#: ekos/scheduler/scheduler.cpp:1991 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1334
+#: ekos/scheduler/scheduler.cpp:1997 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2592,8 +2592,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1081 ekos/capture/camera.cpp:1136
-#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1705
-#: ekos/scheduler/scheduler.cpp:1815 fitsviewer/fitstab.cpp:530
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1711
+#: ekos/scheduler/scheduler.cpp:1821 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6480,7 +6480,7 @@ msgstr "Yakalama hatası. İptal ediliyor…"
 #: ekos/capture/captureprocess.cpp:2106
 #, kde-format
 msgid "Restarting capture attempt #%1"
-msgstr "Yakalama denemesi #%1 yeniden başlatılıyor"
+msgstr "№%1. yakalama denemesi yeniden başlatılıyor"
 
 #: ekos/align/align.cpp:3414
 #, kde-format
@@ -6560,7 +6560,7 @@ msgstr "Çözüm Noktalarını Dışa Aktar"
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1080
 #: ekos/capture/camera.cpp:1135 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:1704 ekos/scheduler/scheduler.cpp:1814
+#: ekos/scheduler/scheduler.cpp:1710 ekos/scheduler/scheduler.cpp:1820
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -6932,7 +6932,7 @@ msgstr "Koyu"
 #: ekos/align/align.ui:609
 #, kde-format
 msgid "Camera binning"
-msgstr "Kamera birleştirmesi"
+msgstr "Kamera gruplaması"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
 #: ekos/align/align.ui:628 ekos/focus/focus.ui:651
@@ -10281,7 +10281,7 @@ msgid "Parking"
 msgstr "Park ediliyor"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1977 indi/indimount.cpp:31
+#: ekos/scheduler/scheduler.cpp:1983 indi/indimount.cpp:31
 #, kde-format
 msgid "Slewing"
 msgstr "Çevriliyor"
@@ -10415,7 +10415,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3429 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1325
+#: ekos/scheduler/scheduler.cpp:1332
 #, kde-format
 msgid "Aborted"
 msgstr "İptal edildi"
@@ -10431,7 +10431,7 @@ msgid "Disconnected"
 msgstr "Bağlantı kesildi"
 
 #: ekos/analyze/analyze.cpp:3435 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1990
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Capturing"
 msgstr "Yakalanıyor"
@@ -10473,7 +10473,7 @@ msgstr "Kalibre edildi"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3451 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1988
+#: ekos/scheduler/scheduler.cpp:1994
 #, kde-format
 msgid "Guiding"
 msgstr "Kılavuzluk yapılıyor"
@@ -11776,7 +11776,7 @@ msgstr "Kusurlar"
 #: ekos/capture/captureprocessoverlay.ui:433
 #, kde-format
 msgid "Binning:"
-msgstr "Birleştirme:"
+msgstr "Gruplama:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/darklibrary.ui:213
@@ -12373,7 +12373,7 @@ msgstr "Kalibre ediliyor..."
 #: ekos/auxiliary/ledstatuswidget.cpp:64
 #, kde-format
 msgid "Meridian flip..."
-msgstr "Meridyen ters çevriliyor..."
+msgstr "Meridyen geçişi..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:74
 #, kde-format
@@ -12997,15 +12997,15 @@ msgid ""
 "guider interface device (like Shoestring GPUSB) then select it as the Guider."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kılavuz düzeltme darbelerini alan aygıtı seçin. Bu, "
+"<html><head/><body><p>Kılavuzluk düzeltme darbelerini alan aygıtı seçin. Bu, "
 "aşağıdaki aygıtlardan biri olabilir:</p><p><span style=\" font-weight:600;"
 "\">Kaide</span>: Kaide, kılavuz düzeltme darbeleri alabiliyorsa darbelerin "
 "doğrudan kaideye gönderilmeleri için onu seçmek en iyisidir. Bu önerilen "
 "seçenektir.</p><p><span style=\" font-weight:600;\">ST4</span>: Kılavuz "
 "kamera ile kaide parçası arasında ST4 kablo kullanılıyorsa Kılavuz Kamerayı "
-"yön gösterici olarak seçmelisiniz.</p><p><span style=\" font-weight:600;"
-"\">Özel Yön Gösterici</span>: Özel bir kılavuz arayüz aygıtı kullanıyorsanız "
-"(Shoestring GPUSB gibi), bunu yön gösterici olarak seçin.</p></body></html>"
+"kılavuz olarak seçmelisiniz.</p><p><span style=\" font-weight:600;\">Özel "
+"Kılavuz</span>: Özel bir kılavuz arayüz aygıtı kullanıyorsanız (Shoestring "
+"GPUSB gibi), bunu kılavuz olarak seçin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:301
@@ -13372,7 +13372,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofile.cpp:122
 #, kde-format
 msgid "Default guider star-extraction."
-msgstr "Öntanımlı yol gösterici yıldız çıkarımı."
+msgstr "Öntanımlı kılavuz yıldız çıkarımı."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:190
 #, kde-format
@@ -14379,22 +14379,19 @@ msgid "Downloading..."
 msgstr "İndiriliyor..."
 
 #: ekos/capture/camera.cpp:508 ekos/capture/camera.cpp:509
-#, fuzzy, kde-format
-#| msgid "Focus complete"
+#, kde-format
 msgid "Focus complete."
-msgstr "Odaklanma tamamlandı"
+msgstr "Odaklanma tamamlandı."
 
 #: ekos/capture/camera.cpp:513
-#, fuzzy, kde-format
-#| msgid "Autofocus complete."
+#, kde-format
 msgid "Autofocus failed."
-msgstr "Otomatik odaklanma tamamlandı"
+msgstr "Kendiliğinden odaklanılamadı."
 
 #: ekos/capture/camera.cpp:699
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing %1-second %2 image..."
-msgstr "Görüntü yakalanıyor..."
+msgstr "%1 saniyelik %2 görseli yakalanıyor..."
 
 #: ekos/capture/camera.cpp:770
 #, kde-format
@@ -14402,6 +14399,8 @@ msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
+"Uyarı: Sıralı odaklama seçildi; ancak kendiliğinden odaklama işlemi "
+"başlatılmadı."
 
 #: ekos/capture/camera.cpp:773
 #, kde-format
@@ -14409,38 +14408,36 @@ msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
+"Uyarı: Sıcaklık farkı denetimi seçildi; ancak kendiliğinden odaklama işlemi "
+"başlatılmadı."
 
 #: ekos/capture/camera.cpp:808
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 karanlık düzler işi oluşturuldu."
+msgstr[1] "%1 karanlık düzler işi oluşturuldu."
 
 #: ekos/capture/camera.cpp:853
 #, kde-format
 msgid "Job #%1 changes applied."
-msgstr "#%1 işinin değişiklikleri uygulandı."
+msgstr "№%1. iş değişiklikleri uygulandı."
 
 #: ekos/capture/camera.cpp:866
-#, fuzzy, kde-format
-#| msgctxt "City in Massachusetts USA"
-#| msgid "Framingham"
+#, kde-format
 msgid "Framing..."
-msgstr "Framingham"
+msgstr "Kareleniyor..."
 
 #: ekos/capture/camera.cpp:877
-#, fuzzy, kde-format
-#| msgid "Capture Image Sequence"
+#, kde-format
 msgid "Captured image received"
-msgstr "Resmi Kaydetme Sırası"
+msgstr "Yakalanan görsel alındı"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
 #: ekos/capture/camera.cpp:895 ekos/capture/camera.ui:2615
-#, fuzzy, kde-format
-#| msgid "Expose:"
+#, kde-format
 msgid "Expose (-/-):"
-msgstr "Pozlama:"
+msgstr "Pozlama (-/-):"
 
 #: ekos/capture/camera.cpp:929
 #, kde-format
@@ -14453,93 +14450,82 @@ msgid "Resume Sequence"
 msgstr "Sekansı Sürdür"
 
 #: ekos/capture/camera.cpp:966
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Setting temperature to %1 °C..."
-msgstr "Sıcaklığı %1 C olarak ayarlar..."
+msgstr "Sıcaklık %1 °C olarak ayarlanıyor..."
 
 #: ekos/capture/camera.cpp:967
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Set Temp to %1 °C..."
-msgstr "Sıcaklığı %1 C olarak ayarlar..."
+msgstr "Sıcaklığı %1 °C Olarak Ayarla..."
 
 #: ekos/capture/camera.cpp:971
-#, fuzzy, kde-format
-#| msgid "Guiding resumed."
+#, kde-format
 msgid "Waiting for guide drift below %1\"..."
-msgstr "Kılavuzluk devam ediliyor."
+msgstr "Kılavuzun %1\" altına kayması bekleniyor..."
 
 #: ekos/capture/camera.cpp:972
 #, kde-format
 msgid "Wait for Guider < %1\"..."
-msgstr ""
+msgstr "Kılavuzun %1\" Altında Olmasını Bekle..."
 
 #: ekos/capture/camera.cpp:976
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Setting camera to %1 degrees E of N..."
-msgstr "Sıcaklığı %1 C olarak ayarlar..."
+msgstr "Kamera, doğunun %1 derece kuzeyine ayarlanıyor..."
 
 #: ekos/capture/camera.cpp:977
-#, fuzzy, kde-format
-#| msgid "Set Location..."
+#, kde-format
 msgid "Set Camera to %1 deg..."
-msgstr "Konumu Ayarla..."
+msgstr "Kamerayı %1 Dereceye Ayarla..."
 
 #: ekos/capture/camera.cpp:1072
-#, fuzzy, kde-format
-#| msgid "Open Ekos Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
-msgstr "Ekos Seri Kuyruğu Aç"
+msgstr "Ekos Sekansı Kuyruğunu Aç"
 
 #: ekos/capture/camera.cpp:1105
-#, fuzzy, kde-format
-#| msgid "Save Ekos Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
-msgstr "Ekos Seri Kuyruğunu Kaydet"
+msgstr "Ekos Sekansı Kuyruğunu Kaydet"
 
 #: ekos/capture/camera.cpp:1127
 #, kde-format
 msgid "Failed to save sequence queue"
-msgstr "Seri kuyruğunu kaydetme başarısız"
+msgstr "Sekans kuyruğu kaydedilemedi"
 
 #: ekos/capture/camera.cpp:1184 ekos/capture/camera.cpp:2202
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Dark Flat"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Karanlık Düz"
 
 #: ekos/capture/camera.cpp:1897 ekos/scheduler/framingassistant.cpp:221
-#, fuzzy, kde-format
-#| msgid "FITS Save Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS Kayıt Dizini"
 
 #: ekos/capture/camera.cpp:1994
-#, fuzzy, kde-format
-#| msgid "Use the specified configuration file"
+#, kde-format
 msgid "Reset %1 configuration to default?"
-msgstr "Belirtilmiş yapılandırma dosyasını kullan"
+msgstr "%1 yapılandırması öntanımlılara sıfırlansın mı?"
 
 #: ekos/capture/camera.cpp:1996
-#, fuzzy, kde-format
-#| msgid "Configuration"
+#, kde-format
 msgid "Confirmation"
-msgstr "Yapılandırma"
+msgstr "Onay"
 
 #: ekos/capture/camera.cpp:2179
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
-msgstr ""
+msgstr "Uzak dizini hem yerel hem de her iki kip için ayarlamalısınız."
 
 #: ekos/capture/camera.cpp:2185
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
-msgstr ""
+msgstr "Yerel dizini hem istemci hem de her iki kip için ayarlamalısınız."
 
 #: ekos/capture/camera.cpp:3373
 #, kde-format
@@ -14582,17 +14568,15 @@ msgid "Set Temperature Regulation"
 msgstr "Sıcaklık Regülasyonunu Ayarla"
 
 #: ekos/capture/camera.cpp:3443
-#, fuzzy, kde-format
-#| msgid "Observer:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
-msgstr "Gözlemci:"
+msgstr "Geçerli Gözlemciyi Seç"
 
 #: ekos/capture/camera.cpp:3445
-#, fuzzy, kde-format
-#| msgid "Observer:"
+#, kde-format
 msgid "Current Observer:"
-msgstr "Gözlemci:"
+msgstr "Geçerli gözlemci:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
 #: ekos/capture/camera.cpp:3456 oal/execute.cpp:38 oal/observeradd.ui:26
@@ -14611,10 +14595,9 @@ msgid "Cooler is off"
 msgstr "Soğutucu kapalı"
 
 #: ekos/capture/camera.cpp:3658
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Filter set to %1."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Süzgeç %1 olarak ayarlandı."
 
 #: ekos/capture/camera.cpp:3688
 #, kde-format
@@ -14629,17 +14612,17 @@ msgstr "İş durumunu sıfırla"
 #: ekos/capture/camera.cpp:3741
 #, kde-format
 msgid "Editing job #%1..."
-msgstr "Düzenleme işi #%1..."
+msgstr "№%1. iş düzenleniyor..."
 
-#: ekos/capture/camera.cpp:3744 ekos/scheduler/scheduler.cpp:1164
+#: ekos/capture/camera.cpp:3744 ekos/scheduler/scheduler.cpp:1171
 #, kde-format
 msgid "Apply job changes."
-msgstr "İş değişikliklerini uygula."
+msgstr "İş değişikliklerini uygulayın."
 
 #: ekos/capture/camera.cpp:3745
 #, kde-format
 msgid "Cancel job changes."
-msgstr "İş değişikliklerini iptal et"
+msgstr "İş değişikliklerini iptal edin."
 
 #: ekos/capture/camera.cpp:3758
 #, kde-format
@@ -14666,36 +14649,33 @@ msgstr "CCD karesi ve boyut değerlerini öntanımlı değerlere sıfırla"
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/camera.ui:247
-#, fuzzy, kde-format
-#| msgid "Rotator Settings"
+#, kde-format
 msgid "Capture Settings"
-msgstr "Döndürücü Ayarları"
+msgstr "Yakalama Ayarları"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/camera.ui:268
 #, kde-format
 msgid "Horizontal and Vertical binning"
-msgstr "Yatay ve Dikey katlama"
+msgstr "Yatay ve dikey gruplama"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
 #: ekos/capture/camera.ui:286
-#, fuzzy, kde-format
-#| msgid "Image captured..."
+#, kde-format
 msgid "Image capture format"
-msgstr "Görüntü yakalandı..."
+msgstr "Görsel yakalama biçimi"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureEncodingS)
 #: ekos/capture/camera.ui:293
-#, fuzzy, kde-format
-#| msgid "Image Format"
+#, kde-format
 msgid "Image transfer format"
-msgstr "Resim Biçimi"
+msgstr "Görsel aktarım biçimi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/capture/camera.ui:302
 #, kde-format
 msgid "Native"
-msgstr ""
+msgstr "Yerel"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
@@ -14708,16 +14688,13 @@ msgstr "Biçim:"
 #: ekos/capture/camera.ui:319
 #, kde-format
 msgid "Set the exposure time in seconds for individual images, if applicable"
-msgstr ""
-"Eğer uygulanabiliyorsa, her bir resim için ışıklandırma süresini saniye "
-"olarak ayarla."
+msgstr "Varsa tek tek görseller için pozlama süresini saniye türünden ayarla"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/camera.ui:397
-#, fuzzy, kde-format
-#| msgid "City filter:"
+#, kde-format
 msgid "Edit filter names"
-msgstr "Şehir süzgeci:"
+msgstr "Süzgeç adlarını düzenle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
@@ -14727,19 +14704,19 @@ msgstr "Şehir süzgeci:"
 #: ekos/capture/limits.ui:375 ekos/focus/focus.ui:726
 #, kde-format
 msgid "Number of images to capture"
-msgstr "Yakalanacak resim sayısı"
+msgstr "Yakalanacak görsel sayısı"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
 #: ekos/capture/camera.ui:443
 #, kde-format
 msgid "W:"
-msgstr "B:"
+msgstr "W:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
 #: ekos/capture/camera.ui:514
 #, kde-format
 msgid "Turn cooler on"
-msgstr ""
+msgstr "Soğutucuyu aç"
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
 #: ekos/capture/camera.ui:525
@@ -14751,7 +14728,7 @@ msgstr "Açık"
 #: ekos/capture/camera.ui:556
 #, kde-format
 msgid "Turn cooler off"
-msgstr ""
+msgstr "Soğutucuyu kapat"
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: property (text), widget (QRadioButton, offR)
@@ -14763,10 +14740,9 @@ msgstr "Kapalı"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/camera.ui:600
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay in seconds before capturing an image"
-msgstr "Ardışık resimler arasındaki saniye olarak gecikme"
+msgstr "Bir görsel yakalamadan önceki saniye türünden gecikme"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -14779,32 +14755,31 @@ msgstr "Gecikme:"
 #: ekos/capture/camera.ui:652
 #, kde-format
 msgid "Horizontal binning"
-msgstr "Yatay katlama"
+msgstr "Yatay gruplama"
 
 #. i18n: ectx: property (text), widget (QLabel, captureBinYLabel)
 #: ekos/capture/camera.ui:674
-#, fuzzy, kde-format
-#| msgid "FOV:"
+#, kde-format
 msgid "V:"
-msgstr "FOV:"
+msgstr "V:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinVN)
 #: ekos/capture/camera.ui:687
 #, kde-format
 msgid "Vertical binning"
-msgstr "Dikey katlama"
+msgstr "Dikey gruplama"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_12)
 #: ekos/capture/camera.ui:724
 #, kde-format
 msgid "Frame:"
-msgstr "Çerçeve:"
+msgstr "Kare:"
 
 #. i18n: ectx: property (text), widget (QLabel, coolerLabel)
 #: ekos/capture/camera.ui:731
 #, kde-format
 msgid "Cooler:"
-msgstr ""
+msgstr "Soğutucu:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_13)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -14826,147 +14801,120 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/camera.ui:890
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "Mevcut Betik"
+msgstr "Geçerli kamera kazancı"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/camera.ui:912
-#, fuzzy, kde-format
-#| msgid "Never load device configuration?"
+#, kde-format
 msgid "Target camera gain"
-msgstr "Aygıt yapılandırmasını hiçbir zaman yükleme?"
+msgstr "Hedef kamera kazancı"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:930 ekos/capture/rotatorsettings.ui:400
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Camera Offset"
-msgstr "UTC Ofset"
+msgstr "Kamera ofseti"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, offsetLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/camera.ui:936 ekos/capture/captureprocessoverlay.ui:154
 #: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1032
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "Offset:"
-msgstr "Konum"
+msgstr "Ofset:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/camera.ui:954
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "UTC Ofset"
+msgstr "Geçerli kamera ofseti"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/camera.ui:976
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "UTC Ofset"
+msgstr "Hedef kamera ofseti"
 
 #. i18n: ectx: property (text), widget (QLabel, darksLibraryLabel)
 #: ekos/capture/camera.ui:1020
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgid "Dark Lib."
-msgstr "Kitaplık"
+msgstr "Karanklık kitaplık"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
 #: ekos/capture/camera.ui:1079 ekos/capture/rotatorsettings.ui:20
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion Control"
+#, kde-format
 msgid "Rotator Control"
-msgstr "Hareket Kontrolü"
+msgstr "Döndürücü Denetimi"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCalculationLabel)
 #: ekos/capture/camera.ui:1104
 #, kde-format
 msgid "Exp. Calc."
-msgstr ""
+msgstr "Pozlama hesaplaması"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
 #: ekos/capture/camera.ui:1126
-#, fuzzy, kde-format
-#| msgctxt "City in Texas USA"
-#| msgid "Clear Lake City"
+#, kde-format
 msgid "Create and manage Dark Library"
-msgstr "Clear Lake City"
+msgstr "Karanlık kitaplık oluştur ve yönet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/camera.ui:1164
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Exposure calculator</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Pozlama hesaplayıcısı</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, calibrationB)
 #: ekos/capture/camera.ui:1205
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
-msgstr ""
+msgstr "Karanlık ve düz karelerin kendiliğinden kalibrasyon seçenekleri"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #: ekos/capture/camera.ui:1230 ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
-msgstr "Ayarlama"
+msgstr "Kalibrasyon"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
 #: ekos/capture/camera.ui:1261
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Generate Dark Flats after adding Flat frames to the "
 "sequence queue.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Sekans kuyruğuna düz kareler ekledikten sonra karanlık "
+"düzler oluşturun.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/camera.ui:1286
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Dark Flats"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Karanlık Düzler"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/camera.ui:1314
 #, kde-format
 msgid "Manage INDI sequence properties"
-msgstr ""
+msgstr "INDI sekansı özelliklerini yönet"
 
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
 #: ekos/capture/camera.ui:1339
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Val."
-msgstr "Özel"
+msgstr "Özel değer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/camera.ui:1355
-#, fuzzy, kde-format
-#| msgid "Configure Hidden Objects"
+#, kde-format
 msgid "Configure Guide & Focus limits"
-msgstr "Gizli cisimleri Yapılandır"
+msgstr "Kılavuz ve odak sınırlarını yapılandır"
 
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
@@ -14978,32 +14926,28 @@ msgstr "Sınırlar"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
 #: ekos/capture/camera.ui:1402
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgid "Manage sequence scripts"
-msgstr "Gözlemcileri Yönet"
+msgstr "Sekans betiklerini yönet"
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1427 ekos/profileeditor.ui:721
-#, fuzzy, kde-format
-#| msgid "Script:"
+#, kde-format
 msgid "Scripts"
-msgstr "Betik:"
+msgstr "Betikler"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/camera.ui:1476
-#, fuzzy, kde-format
-#| msgid "Set CCD temperature"
+#, kde-format
 msgid "Current CCD temperature"
-msgstr "CCD sıcaklığını ayarla"
+msgstr "Geçerli CCD sıcaklığı"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
 #: ekos/capture/camera.ui:1510
-#, fuzzy, kde-format
-#| msgid "Set CCD temperature"
+#, kde-format
 msgid "Desired CCD temperature"
-msgstr "CCD sıcaklığını ayarla"
+msgstr "İstenilen CCD sıcaklığı"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
 #: ekos/capture/camera.ui:1538
@@ -15012,14 +14956,14 @@ msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bir görseli yakalamadan önce sıcaklık değerini zorunlu "
+"kıl</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
 #: ekos/capture/camera.ui:1541
 #, kde-format
 msgid "Tº"
-msgstr "Tº"
+msgstr "Sº"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
 #: ekos/capture/camera.ui:1572
@@ -15029,31 +14973,25 @@ msgstr "CCD sıcaklığını ayarla"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/camera.ui:1610
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Temperature K"
+#, kde-format
 msgid "Temperature regulation"
-msgstr "Sıcaklık K"
+msgstr "Sıcaklık regülasyonu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1635
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "File Settings"
-msgstr "Benzetici Ayarları"
+msgstr "Dosya Ayarları"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/camera.ui:1663
-#, fuzzy, kde-format
-#| msgid "Local"
+#, kde-format
 msgid "Locally"
 msgstr "Yerel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/camera.ui:1668
-#, fuzzy, kde-format
-#| msgid "Remote"
+#, kde-format
 msgid "Remotely"
 msgstr "Uzak"
 
@@ -15071,14 +15009,9 @@ msgstr "Hedef"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/camera.ui:1694
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Taban yerel yakalama dizini</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -15089,10 +15022,9 @@ msgstr "Dizin:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/camera.ui:1725
-#, fuzzy, kde-format
-#| msgid "Use the specified configuration file"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Belirtilmiş yapılandırma dosyasını kullan"
+msgstr "Yer tutucu biçimini öntanımlıya sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1745
@@ -15102,12 +15034,15 @@ msgid ""
 "is available to be used in the filename Format via the %t or %type "
 "placeholder tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Hedef, hedeflenen nesnenin adıdır.</p><p>%t veya %type "
+"yer tutucu etiketi aracılığıyla dosya adı biçiminde kullanılabilir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/camera.ui:1761
 #, kde-format
 msgid "/home/pi"
-msgstr ""
+msgstr "/home/pi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1768
@@ -15132,6 +15067,25 @@ msgid ""
 "where the remote images are saved to. By default, all captured images are "
 "saved <span style=\" font-style:italic;\">Locally</span>.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Yakalanan görsellerin nasıl karşıya yükleneceğini "
+"seçin:</p><ol style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Yerel</span>: Yakalanan "
+"görseller yerel olarak yukarıda belirtilen dizindeki diske kaydedilir.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Uzak</span>: Uzak bir aygıta bağlanırken görselleri yalnızca "
+"uzak aygıta kaydetmek için bu seçeneği seçin. Ekos'a hiçbir görsel yüklenmez."
+"</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Her ikisi de</span>: Yakalanan görseller hem uzaktaki "
+"bilgisayara <span style=\" font-weight:600;\">hem de</span> yerel diske "
+"kaydedilir.</li></ol><p><span style=\" font-style:italic;\">Uzak</span> veya "
+"<span style=\" font-style:italic;\">Her ikisi de</span> seçilirse uzak "
+"görsellerin kaydedileceği uzak dizini belirtmeniz gerekir. Öntanımlı olarak, "
+"tüm yakalanan görseller <span style=\" font-style:italic;\">Yerel</span> "
+"olarak kaydedilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1771
@@ -15141,22 +15095,19 @@ msgstr "Kaydet:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/camera.ui:1781
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Sekans numarasını dosya adına eklemek için kullanılan "
+"basamak sayısı.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/camera.ui:1784
 #, no-c-format, kde-format
 msgid "_%s"
-msgstr ""
+msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:1800
@@ -15236,6 +15187,80 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Biçim, yer tutucu etiketler kullanılarak görsel "
+"dosyası adlarını tanımlamak için kullanılır.</p><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
+"font-weight:704;\"> %f</span> veya <span style=\" font-weight:704;\">"
+"%filename</span>: .esq dosyasının uzantısız adı.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Yer tutucu<span style=\" font-weight:704;\"> "
+"%D</span> veya <span style=\" font-weight:704;\">%Datetime</span>: <span "
+"style=\" font-weight:704;\">Dosya kaydedildiğindeki tarih ve zaman.</span></"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
+"font-weight:704;\"> %T</span> veya <span style=\" font-weight:704;\">%Type</"
+"span>: Kare türü; örneğin: \"Aydınlık\", \"Eğilim\", \"Karanlık\", \"Düz\"..."
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
+"font-weight:704;\"> %e</span> veya <span style=\" font-weight:704;\">"
+"%exposure</span>: Soneki \"_secs\" olan, saniye türünden pozlama süresi.</"
+"li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Yer tutucu<span style=\" font-weight:704;\"> %E</span> or "
+"<span style=\" font-weight:704;\">%exp</span>: Sonek olarak herhangi bir "
+"birim olmadan, düz sayı olarak saniye türünden pozlama süresi.</li></ul><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
+"font-weight:704;\"> %F</span> or <span style=\" font-weight:704;\">%Filter</"
+"span>: Etkin süzgeç adı.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Yer tutucu<span style=\" font-weight:704;\"> %t</span> veya <span style="
+"\" font-weight:704;\">%target</span>: Hedef adı.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Yer tutucu <span style=\" font-weight:600;\">"
+"%C</span> or <span style=\" font-weight:600;\">%temperature</span>: "
+"Yakalamanın kamera sıcaklığı.</li><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu <span style=\" "
+"font-weight:600;\">%B</span> veya <span style=\" font-weight:600;\">%bin</"
+"span>: Yakalama için yapılandırılmış gruplama.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Yer tutucu <span style=\" font-weight:600;\">"
+"%G</span> or <span style=\" font-weight:600;\">%gain</span>: Yakalama için "
+"yapılandırılmış kazanç.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Yer tutucu <span style=\" font-weight:600;\">%O</span> veya "
+"<span style=\" font-weight:600;\">%offset</span>: Yakalama için "
+"yapılandırılmış ofset.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Yer tutucu <span style=\" font-weight:600;"
+"\">%I</span> veya <span style=\" font-weight:600;\">%iso</span>: ISO değeri "
+"(yalnızca DSLR'lar).</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Yer tutucu <span style=\" font-weight:600;\">%P</span> veya "
+"<span style=\" font-weight:600;\">%pierside</span>: Geçerli kaidenin iskele "
+"yanı.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span "
+"style=\" font-weight:704;\"> %s*</span> veya <span style=\" font-weight:704;"
+"\">%sequence</span>: Görsel dizisi tanımlayıcısı; burada *, kullanılan "
+"basamak sayısıdır (1-9). <span style=\" font-weight:704;\">Bu etiket "
+"zorunludur ve biçimdeki son öge olmalıdır.</span></li></ul><p>Biçim dizisine "
+"<span style=\" font-weight:704;\">% ve \\ karakterleri dışında rastgele "
+"metin de eklenebilir.</span> /yol karakteri isteğe bağlı dizinleri "
+"tanımlamak için kullanılabilir.</p><p>Notlar:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Etiketler "
+"hem kısa hem de uzun biçimlerinde BÜYÜK/küçük harf duyarlıdır.</li><li style="
+"\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">%Datetime etiketini yalnızca biçimin "
+"dosya adı bölümünde kullanın, yol tanımında kullanmayın.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1835
@@ -15244,6 +15269,8 @@ msgid ""
 "When storing images on remote devices, specify the directory where captured "
 "images are saved to."
 msgstr ""
+"Görselleri uzak aygıtlara kaydederken, yakalanan görsellerin kaydedileceği "
+"dizini belirtin."
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
@@ -15256,7 +15283,7 @@ msgstr "Uzak:"
 #: ekos/capture/camera.ui:1882
 #, kde-format
 msgid "Sequence Queue"
-msgstr "Dizi Kuyruğu"
+msgstr "Sekans Kuyruğu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/capture/camera.ui:2066
@@ -15266,31 +15293,27 @@ msgstr "Tüm işlerin durumlarını sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/camera.ui:2091
-#, fuzzy, kde-format
-#| msgid "Observer"
+#, kde-format
 msgid "Select Observer..."
-msgstr "Gözlemci"
+msgstr "Gözlemciyi Seç..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/capture/camera.ui:2132
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "Load Capture Sequence from File..."
-msgstr "Süpernova seçenekleri"
+msgstr "Dosyadan Yakalama Sekansı Yükle..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/capture/camera.ui:2166
-#, fuzzy, kde-format
-#| msgid "Capture Image Sequence..."
+#, kde-format
 msgid "Save Capture Sequence..."
-msgstr "Resim kaydetme Sırası..."
+msgstr "Yakalama Sekansını Kaydet..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/capture/camera.ui:2200
-#, fuzzy, kde-format
-#| msgid "Capture Image Sequence..."
+#, kde-format
 msgid "Save Capture Sequence As..."
-msgstr "Resim kaydetme Sırası..."
+msgstr "Yakalama Sekansını Farklı Kaydet..."
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -15313,25 +15336,23 @@ msgstr "Sayı"
 #: ekos/capture/camera.ui:2249
 #, kde-format
 msgid "Exp"
-msgstr "Exp"
+msgstr "Poz"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/capture/camera.ui:2259
 #, kde-format
 msgid "Bin"
-msgstr "Katlama"
+msgstr "Gru"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/capture/camera.ui:2264
 #, kde-format
 msgid "ISO/Gain"
-msgstr ""
+msgstr "ISO/Kazanç"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/camera.ui:2290
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Video"
 
@@ -15340,62 +15361,53 @@ msgstr "Video"
 #: ekos/capture/camera.ui:2320 ekos/guide/guide.ui:247
 #, kde-format
 msgid "Loop"
-msgstr ""
+msgstr "Döngü"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
 #: ekos/capture/camera.ui:2342
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Start Framing (Looping)..."
-msgstr "Buradan başlayan:"
+msgstr "Karelemeyi (döngülemeyi) başlat)..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
 #: ekos/capture/camera.ui:2383
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
+#, kde-format
 msgid "Start Sequence"
-msgstr "Seri &Başlat"
+msgstr "Sekansı başlat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
 #: ekos/capture/camera.ui:2411 ekos/focus/focus.ui:698
-#, fuzzy, kde-format
-#| msgid "Live Video"
+#, kde-format
 msgid "Live Video..."
-msgstr "Canlı Video"
+msgstr "Canlı video..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
 #: ekos/capture/camera.ui:2481
-#, fuzzy, kde-format
-#| msgid "Capture Image Sequence"
+#, kde-format
 msgid "Capture a Preview..."
-msgstr "Resmi Kaydetme Sırası"
+msgstr "Bir önizleme yakala..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
 #: ekos/capture/camera.ui:2528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically apply dark subtraction on preview images "
 "if a suitable dark frame is available.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Uygun bir koyu kare varsa önizleme görsellerine "
+"kendiliğinden karanlık çıkarma işlemi uygulayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/capture/camera.ui:2559
-#, fuzzy, kde-format
-#| msgid "Sequence:"
+#, kde-format
 msgid "Pause Sequence"
-msgstr "Seri:"
+msgstr "Sekansı duraklat"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/camera.ui:2602
-#, fuzzy, kde-format
-#| msgid "Load Image"
+#, kde-format
 msgid "Total remaining:"
-msgstr "Görüntüyü Yükle"
+msgstr "Kalan toplam:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
@@ -15418,32 +15430,27 @@ msgstr "--:--:--"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.ui:2667
-#, fuzzy, kde-format
-#| msgid "<b>Port:</b>"
+#, kde-format
 msgid "<b>Progress</b>"
-msgstr "<b>Port:</b>"
+msgstr "<b>İlerleme</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
 #: ekos/capture/camera.ui:2696
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Avg. Download:"
-msgstr "İndir"
+msgstr "Ortalama indirma:"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
 #: ekos/capture/camera.ui:2706
-#, fuzzy, kde-format
-#| msgctxt "second"
-#| msgid "sec"
+#, kde-format
 msgid "sec"
-msgstr "sn"
+msgstr "san"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
 #: ekos/capture/camera.ui:2730
-#, fuzzy, kde-format
-#| msgid "Target:"
+#, kde-format
 msgid "Target drift:"
-msgstr "Hedef:"
+msgstr "Hedef kayma:"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftUnit)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
@@ -15457,24 +15464,21 @@ msgstr "\""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
 #: ekos/capture/camera.ui:2797
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "Load a new sequence file"
-msgstr "Süpernova seçenekleri"
+msgstr "Yeni bir sekans dosyası yükle"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
 #: ekos/capture/camera.ui:2800
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Load..."
-msgstr "Yükleniyor..."
+msgstr "Yükle..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/camera.ui:2819
-#, fuzzy, kde-format
-#| msgid "Failed to save sequence queue"
+#, kde-format
 msgid "Save to a new sequence file"
-msgstr "Seri kuyruğunu kaydetme başarısız"
+msgstr "Yeni bir sekans dosyasına kaydet"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #. i18n: ectx: property (text), widget (QPushButton, AddPreset)
@@ -15486,41 +15490,38 @@ msgstr "Farklı Kaydet..."
 #: ekos/capture/capture.cpp:272
 #, kde-format
 msgid "Paused..."
-msgstr "Durduruldu..."
+msgstr "Duraklatıldı..."
 
 #: ekos/capture/capture.cpp:277
 #, kde-format
 msgid "Meridian Flip..."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen Geçişi..."
 
 #: ekos/capture/capture.cpp:278
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip started"
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi başladı"
 
 #: ekos/capture/capture.cpp:282
-#, fuzzy, kde-format
-#| msgid "Align complete"
+#, kde-format
 msgid "Flip complete."
-msgstr "Hizalama tamamlandı"
+msgstr "Döndürme tamamlandı."
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
 #: ekos/capture/capturecountswidget.cpp:116
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
-#, fuzzy, kde-format
-#| msgid "Sequence:"
+#, kde-format
 msgid "Sequence"
-msgstr "Seri:"
+msgstr "Sekans"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
 #: ekos/capture/capturecountswidget.cpp:119
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
-msgstr ""
+msgstr "Toplam"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CaptureCountsWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CapturePreviewWidget)
@@ -15541,30 +15542,26 @@ msgstr "Ekos"
 #: ekos/capture/capturecountswidget.ui:371
 #, kde-format
 msgid "Progress of the currently active capture."
-msgstr ""
+msgstr "Şu anda etkin olan yakalamanın ilerlemesi."
 
 #. i18n: ectx: property (text), widget (QLabel, gr_frameDetailsLabel)
 #. i18n: ectx: property (text), widget (QLabel, frameDetailsLabel)
 #: ekos/capture/capturecountswidget.ui:169
 #: ekos/capture/capturecountswidget.ui:586
-#, fuzzy, kde-format
-#| msgid "Exposure:"
+#, kde-format
 msgid "exposure: 360 sec"
-msgstr "Pozlandırma:"
+msgstr "Pozlandırma: 360 san"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gr_sequenceRemainingTime)
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceRemainingTime)
 #: ekos/capture/capturecountswidget.ui:185
 #: ekos/capture/capturecountswidget.ui:562
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Remaining time to complete the active capture "
 "sequence</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
+"<html><head/><body><p>Etkin yakalama sekansını tamamlamak için kalan zaman</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_frameLabel)
@@ -15573,37 +15570,29 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:466
 #, kde-format
 msgid "Light Luminance"
-msgstr ""
+msgstr "Açık aydınlık"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, gr_sequenceProgressBar)
 #: ekos/capture/capturecountswidget.ui:232
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Captured images in active sequence</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Etkin sekansta yakalanan görseller</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, gr_overallProgressBar)
 #: ekos/capture/capturecountswidget.ui:251
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Percentage of total images captured</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Toplam yakalanan görsellerin yüzdesi</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, switchToTextButton)
 #: ekos/capture/capturecountswidget.ui:276
 #, kde-format
 msgid "Switch to the text display of capture counts display."
-msgstr ""
+msgstr "Yakalama sayısını metin olarak görüntüle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gr_frameRemainingTime)
 #. i18n: ectx: property (toolTip), widget (QLabel, frameRemainingTime)
@@ -15611,39 +15600,31 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:413
 #, kde-format
 msgid "Remaining time for current capture"
-msgstr ""
+msgstr "Geçerli yakalamanın kalan zamanı"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gr_overallRemainingTime)
 #. i18n: ectx: property (toolTip), widget (QLabel, overallRemainingTime)
 #: ekos/capture/capturecountswidget.ui:320
 #: ekos/capture/capturecountswidget.ui:495
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Tamamlanmaya kalan zaman</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, jobRemainingTime)
 #: ekos/capture/capturecountswidget.ui:438
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Remaining time to complete one job iteration</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bir iş yinelemesini tamamlamak için kalan zaman</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, frameInfoLabel)
 #: ekos/capture/capturecountswidget.ui:463
 #, kde-format
 msgid "Type and filter (if present) of the currently active capture."
-msgstr ""
+msgstr "Şu anda etkin olan yakalamanın türü ve süzgeci (varsa)."
 
 #. i18n: ectx: property (text), widget (QLabel, overallLabel)
 #: ekos/capture/capturecountswidget.ui:511
@@ -15655,28 +15636,22 @@ msgstr "Toplam"
 #: ekos/capture/capturecountswidget.ui:614
 #, kde-format
 msgid "Switch display to the graphical mode of capture counts display."
-msgstr ""
+msgstr "Yakalama sayısını grafiksel olarak görüntüle"
 
 #: ekos/capture/capturedeviceadaptor.cpp:656
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the guider camera if not equipped with a shutter, cover the telescope "
-#| "or camera in order to take a dark exposure."
+#, kde-format
 msgid "Remove cover from the telescope in order to continue."
-msgstr ""
-"Kılavuz kamera kapağı yoksa, karanlık bir poz almak yerine teleskopu veya "
-"kamerayı örtün."
+msgstr "Sürdürmek için teleskopun kapağını kaldırın."
 
 #: ekos/capture/capturedeviceadaptor.cpp:657
-#, fuzzy, kde-format
-#| msgid "Telescope Coordinates"
+#, kde-format
 msgid "Telescope Covered"
-msgstr "Teleskop Koordinatları"
+msgstr "Teleskop Kapalı"
 
 #: ekos/capture/capturedeviceadaptor.cpp:789
 #, kde-format
 msgid "Does %1 have a shutter?"
-msgstr ""
+msgstr "%1 üzerinde bir deklanşör var mı?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:790
 #: ekos/capture/sequencejobstate.cpp:403
@@ -15689,94 +15664,87 @@ msgstr "Karanlık Pozlama"
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
+"Uyarı: Kılavuz sapması seçili; ancak kendiliğinden kılavuz işlemi "
+"başlatılmadı."
 
 #: ekos/capture/capturemodulestate.cpp:217
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Dithering succeeded."
-msgstr "Kıpırdatılıyor..."
+msgstr "Kıpırdatma başarılı oldu."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/capturemodulestate.cpp:224
-#, fuzzy, kde-format
-#| msgid "Solver completed in %1 second."
-#| msgid_plural "Solver completed in %1 seconds."
+#, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
-msgstr "Çözücü %1 saniye içinde tamamlandı."
+msgstr "Kıpırdatma tamamlandı. %1 saniye içinde sürdürülüyor..."
 
 #: ekos/capture/capturemodulestate.cpp:232
 #, kde-format
 msgid "Dither complete."
-msgstr "Kıpırdama tamamlandı."
+msgstr "Kıpırdatma tamamlandı."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/capturemodulestate.cpp:246
-#, fuzzy, kde-format
-#| msgid "Dithering failed. Autoguiding aborted."
+#, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
-msgstr "Kıpırdatma başarısız. Otomatik gütme başarısız."
+msgstr "Uyarı: Kıpırdatma başarısız oldu. %1 saniye içinde sürdürülüyor..."
 
 #: ekos/capture/capturemodulestate.cpp:255
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Warning: Dithering failed."
-msgstr "Kıpırdatılıyor..."
+msgstr "Uyarı: Kıpırdatma başarısız oldu."
 
 #: ekos/capture/capturemodulestate.cpp:485
 #, kde-format
 msgid "Meridian flip is successfully completed"
-msgstr ""
+msgstr "Meridyen geçişi başarıyla tamamlandı"
 
 #: ekos/capture/capturemodulestate.cpp:581
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
-msgstr "Döndürme sonrası yeniden kalibrason ve kılavuzluk yapılıyor..."
+msgstr "Döndürme sonrası yeniden kalibrasyon ve kılavuzluk yapılıyor..."
 
 #: ekos/capture/capturemodulestate.cpp:594
-#, fuzzy, kde-format
-#| msgid "Post meridian flip calibration completed successfully."
+#, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
-msgstr "Öğleden sonra kalibrasyonu tamamlandı."
+msgstr "Meridyen geçişi sonrası kalibrasyonu hatası. Yeniden başlatılıyor..."
 
 #: ekos/capture/capturemodulestate.cpp:614
-#, fuzzy, kde-format
-#| msgid "Autoguiding stopped."
+#, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
-msgstr "Otomatik kılavuz durduruldu."
+msgstr ""
+"Kendiliğinden kılavuzluk durduruldu. Kendiliğinden odaklamanın bitmesi "
+"bekleniyor..."
 
 #: ekos/capture/capturemodulestate.cpp:623
-#, fuzzy, kde-format
-#| msgid "Autoguiding stopped."
+#, kde-format
 msgid "Autoguiding stopped. Aborting..."
-msgstr "Otomatik kılavuz durduruldu."
+msgstr "Kendiliğinden kılavuzluk durduruldu. İptal ediliyor..."
 
 #: ekos/capture/capturemodulestate.cpp:630
-#, fuzzy, kde-format
-#| msgid "Post meridian flip calibration completed successfully."
+#, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
-msgstr "Öğleden sonra kalibrasyonu tamamlandı."
+msgstr "Meridyen geçişi sonrası kalibrasyonu hatası. İptal ediliyor..."
 
 #: ekos/capture/capturemodulestate.cpp:652
-#, fuzzy, kde-format
-#| msgid "Focus complete"
+#, kde-format
 msgid "Adaptive focus complete."
-msgstr "Odaklanma tamamlandı"
+msgstr "Uyarlanır odak tamamlandı."
 
 #: ekos/capture/capturemodulestate.cpp:676
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
-msgstr "Otomatik odaklama başarısız. Pozlama iptal ediliyor..."
+msgstr "Kendiliğinden odaklama başarısız oldu. Pozlama iptal ediliyor..."
 
 #: ekos/capture/capturemodulestate.cpp:718
 #, kde-format
 msgid "Limit: %1 °C"
-msgstr ""
+msgstr "Sınır: %1 °C"
 
 #: ekos/capture/capturemodulestate.cpp:722
-#, fuzzy, kde-format
-#| msgid "Limits"
+#, kde-format
 msgid "Limit: %1 mins"
-msgstr "Sınırlar"
+msgstr "Sınır: %1 dakika"
 
 #: ekos/capture/capturemodulestate.cpp:860
 #, kde-format
@@ -15784,66 +15752,47 @@ msgid "Performing post flip re-alignment..."
 msgstr "Döndürme sonrası yeniden hizalama yapılıyor..."
 
 #: ekos/capture/capturemodulestate.cpp:878
-#, fuzzy, kde-format
-#| msgid "Guiding timed out."
+#, kde-format
 msgid "Guide module timed out."
-msgstr "Kılavuzluk zaman aşımı."
+msgstr "Kılavuz modülü zaman aşımına uğradı."
 
 #: ekos/capture/capturemodulestate.cpp:910
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-#| "resuming exposure."
+#, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
-"%1 kılavuzluk sapması şimdide, %2 arcsec sınırının altında, pozlamaya devam "
-"ediliyor."
+"Başlangıç kılavuzluk sapması %1, %2 yay saniyesi sınır değerinin altında"
 
 #: ekos/capture/capturemodulestate.cpp:919
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-#| "resuming exposure."
+#, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
-msgstr ""
-"%1 kılavuzluk sapması şimdide, %2 arcsec sınırının altında, pozlamaya devam "
-"ediliyor."
+msgstr "Başlangıç kılavuzluk sapması %1, %2 yay saniyesi sınır değerini aştı"
 
 #: ekos/capture/capturemodulestate.cpp:941
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
-msgstr "Öğleden sonra kalibrasyonu tamamlandı."
+msgstr "Meridyen geçişi sonrası kalibrasyonu başarıyla tamamlandı."
 
 #: ekos/capture/capturemodulestate.cpp:955
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-#| "resuming exposure."
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"%1 kılavuzluk sapması şimdide, %2 arcsec sınırının altında, pozlamaya devam "
-"ediliyor."
+"%1 yakalama başlangıcındaki kılavuzluk sapması %2 yay saniyesi sınırını aştı."
 
 #: ekos/capture/capturemodulestate.cpp:969
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-#| "resuming exposure."
+#, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
-"%1 kılavuzluk sapması şimdide, %2 arcsec sınırının altında, pozlamaya devam "
-"ediliyor."
+"%1 yakalama başlangıcındaki kılavuzluk sapması %2 yay saniyesi değerinin "
+"altında."
 
 #: ekos/capture/capturemodulestate.cpp:996
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
-#| "exposure."
+#, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
-"%1 kılavuzluk sapması, %2 arcsecs sınırını aştı, pozlama iptal ediliyor."
+"%1 kılavuzluk sapması ardışık %4 örnek için %2 yay saniyelik sınır değerini "
+"aştı, pozlama askıya alındı ve kılavuz %3 saniyeye kadar bekleniyor."
 
 #: ekos/capture/capturemodulestate.cpp:1043
 #, kde-format
@@ -15851,64 +15800,52 @@ msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
-"%1 kılavuzluk sapması, şimdi %2 arcsec sınırının altında; pozlama "
-"sürdürülüyor."
+"%1 kılavuzluk sapması artık %2 yay saniyelik sınır değerinden daha düşük, "
+"pozlama sürdürülüyor."
 
 #: ekos/capture/capturemodulestate.cpp:1047
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-#| "resuming exposure."
+#, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
-"%1 kılavuzluk sapması şimdide, %2 arcsec sınırının altında, pozlamaya devam "
-"ediliyor."
+"%1 kılavuzluk sapması artık %2 yay saniyelik sınır değerinden daha düşük, "
+"pozlama %3 saniye içinde sürdürülecek."
 
 #: ekos/capture/capturemodulestate.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-#| "resuming exposure."
+#, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
-msgstr ""
-"%1 kılavuzluk sapması şimdide, %2 arcsec sınırının altında, pozlamaya devam "
-"ediliyor."
+msgstr "%1 kılavuzluk sapması hâlâ %2 yay saniyelik sınır değerinden yüksek."
 
 #: ekos/capture/capturemodulestate.cpp:1444
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
-msgstr "Döndürme sonra yeniden hizlama başarıyla tamamlandı."
+msgstr "Geçiş sonrası yeniden hizalaması başarıyla tamamlandı."
 
 #: ekos/capture/capturemodulestate.cpp:1463
-#, fuzzy, kde-format
-#| msgid "%1 alignment failed!"
+#, kde-format
 msgid "Post-flip alignment failed."
-msgstr "%1 hizalaması başarısız oldu!"
+msgstr "Geçiş sonrası hizalaması başarısız oldu."
 
 #: ekos/capture/capturemodulestate.cpp:1468
-#, fuzzy, kde-format
-#| msgid "%1 alignment failed!"
+#, kde-format
 msgid "Post-flip alignment failed. Retrying..."
-msgstr "%1 hizalaması başarısız oldu!"
+msgstr "Geçiş sonrası hizalaması başarısız oldu. Yeniden deneniyor..."
 
 #: ekos/capture/capturepreviewwidget.cpp:143
 #, kde-format
 msgid "Delete directly, do not move to trash."
-msgstr ""
+msgstr "Çöp kutusuna taşımadan doğrudan silin."
 
 #: ekos/capture/capturepreviewwidget.cpp:200
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Do you really want to delete %1 from the file system?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "%1 ögesini dosya sisteminizden silmeyi gerçekten istiyor musunuz?"
 
 #: ekos/capture/capturepreviewwidget.cpp:202
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete %1"
-msgstr "Sil"
+msgstr "Sil: %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
 #: ekos/capture/capturepreviewwidget.cpp:202
@@ -15921,78 +15858,69 @@ msgstr "Sil"
 
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: ekos/capture/capturepreviewwidget.ui:111
-#, fuzzy, kde-format
-#| msgid "Target:"
+#, kde-format
 msgid "Target: "
-msgstr "Hedef:"
+msgstr "Hedef: "
 
 #: ekos/capture/captureprocess.cpp:200 ekos/capture/captureprocess.cpp:593
-#, fuzzy, kde-format
-#| msgid "Image Format"
+#, kde-format
 msgid "Image Transfer"
-msgstr "Resim Biçimi"
+msgstr "Görsel Aktarımı"
 
 #: ekos/capture/captureprocess.cpp:219
-#, fuzzy, kde-format
-#| msgid "Sequence Queue"
+#, kde-format
 msgid "Sequence resumed."
-msgstr "Dizi Kuyruğu"
+msgstr "Sekans sürdürüldü."
 
 #: ekos/capture/captureprocess.cpp:255
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
-msgstr "Beklenen bir iş bulunamadı. Lütfen sıra kuyruğuna bir iş ekleyin."
+msgstr "Bekleyen iş yok. Lütfen sekans kuyruğuna bir iş ekleyin."
 
 #: ekos/capture/captureprocess.cpp:269
-#, fuzzy, kde-format
-#| msgid "Scheduler complete. Starting shutdown procedure..."
+#, kde-format
 msgid "No new job created."
-msgstr "Zamanlayıcı tamamlandı. Kapatma yordamı başlatılıyor..."
+msgstr "Oluşturulan yeni iş yok."
 
 #: ekos/capture/captureprocess.cpp:292 ekos/capture/captureprocess.cpp:839
 #, kde-format
 msgid "Cannot capture while focus module is busy."
-msgstr ""
+msgstr "Oda modülü meşgulken yakalama yapılamıyor."
 
 #: ekos/capture/captureprocess.cpp:299
-#, fuzzy, kde-format
-#| msgid "Starting solver..."
+#, kde-format
 msgid "Starting framing..."
-msgstr "Çözücü başlatılıyor..."
+msgstr "Kareleme başlatılıyor..."
 
 #: ekos/capture/captureprocess.cpp:329
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "CCD capture suspended"
-msgstr "Süpernova seçenekleri"
+msgstr "CCD yakalaması askıya alındı"
 
 #: ekos/capture/captureprocess.cpp:334
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "Yakalama iptal edildi."
+msgstr "CCD yakalaması tamamlandı"
 
 #: ekos/capture/captureprocess.cpp:339
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Dur"
+msgstr "Kareleme durduruldu"
 
 #: ekos/capture/captureprocess.cpp:339 ekos/capture/captureprocess.cpp:344
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
+#, kde-format
 msgid "CCD capture stopped"
-msgstr "Yakalama iptal edildi."
+msgstr "CCD yakalaması durduruldu"
 
 #: ekos/capture/captureprocess.cpp:418
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
-msgstr ""
+msgstr "Yalnızca kare yakalaması sürerken duraklatma yapılabilir."
 
 #: ekos/capture/captureprocess.cpp:425
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
-msgstr ""
+msgstr "Geçerli pozlama tamamlandıktan sonra sekans duraklatılacaktır."
 
 #: ekos/capture/captureprocess.cpp:456
 #, kde-format
@@ -16002,10 +15930,9 @@ msgstr ""
 "etkinleştirilsin mi?"
 
 #: ekos/capture/captureprocess.cpp:457
-#, fuzzy, kde-format
-#| msgid "Display view toolbar?"
+#, kde-format
 msgid "Display preview"
-msgstr "Görünüm araç çubuğunu gösterilsin mi?"
+msgstr "Önizlemeyi Görüntüle"
 
 #: ekos/capture/captureprocess.cpp:541
 #, kde-format
@@ -16013,6 +15940,8 @@ msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
+"İş %1 saniyelik %2 görsel gerektiriyor, halihazırda %3/%4 yakalama var ve "
+"çalıştırılmasına gerek yok."
 
 #: ekos/capture/captureprocess.cpp:554
 #, kde-format
@@ -16020,28 +15949,28 @@ msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
+"İş, %1 saniyelik %2 görsel gerektiriyor, yakalanmış %3/%4 kare var ve "
+"işlenecek."
 
 #: ekos/capture/captureprocess.cpp:785
-#, fuzzy, kde-format
-#| msgid "Guiding resumed."
+#, kde-format
 msgid "Autoguiding resumed."
-msgstr "Kılavuzluk devam ediliyor."
+msgstr "Kendiliğinden kılavuzluk sürdürüldü."
 
 #: ekos/capture/captureprocess.cpp:829
 #, kde-format
 msgid "Failed to set sub frame."
-msgstr "Alt çerçeve ayarlama başarısız."
+msgstr "Alt kare ayarlanamadı."
 
 #: ekos/capture/captureprocess.cpp:834
 #, kde-format
 msgid "Failed to set binning."
-msgstr "Katlama ayarlama başarısız."
+msgstr "Gruplama ayarlanamadı."
 
 #: ekos/capture/captureprocess.cpp:991
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Dosya %1 konumuna kaydedildi"
 
 #: ekos/capture/captureprocess.cpp:1001
 #, kde-format
@@ -16049,36 +15978,34 @@ msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
+"Görsel %1 konumuna yazılamadı\n"
+"Lütfen klasörü, dosya adını ve izinlerini denetleyin."
 
 #: ekos/capture/captureprocess.cpp:1003
-#, fuzzy, kde-format
-#| msgid "Image received."
+#, kde-format
 msgid "Image Write Failed"
-msgstr "Görüntü alındı."
+msgstr "Görsel Yazılamadı"
 
 #: ekos/capture/captureprocess.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Data file saved to %1"
+#, kde-format
 msgid "Remote image saved to %1"
-msgstr "Veri dosyası %1 konumuna kaydedildi"
+msgstr "Uzak görsel %1 konumuna kaydedildi"
 
 #: ekos/capture/captureprocess.cpp:1252
-#, fuzzy, kde-format
-#| msgid "Guiding suspended."
+#, kde-format
 msgid "Autoguiding suspended."
-msgstr "Kılavuzluk bekletmede."
+msgstr "Kendiliğinden kılavuzluk askıya alındı."
 
 #: ekos/capture/captureprocess.cpp:1281
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
-msgstr ""
+msgstr "Uyarı: Kalibrasyon işlemi zamanından önce sonlandırıldı."
 
 #. i18n("CCD capture sequence completed"));
 #: ekos/capture/captureprocess.cpp:1347
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "CCD capture sequence completed"
-msgstr "Süpernova seçenekleri"
+msgstr "CCD yakalama sekansı tamamlandı"
 
 #: ekos/capture/captureprocess.cpp:1404
 #, kde-format
@@ -16088,90 +16015,86 @@ msgstr "Hata: CCD bağlantısı kayboldu."
 #: ekos/capture/captureprocess.cpp:1432
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
-msgstr ""
+msgstr "FITS olmayan görsellerde ADU düzeyleri hesaplanamıyor."
 
 #: ekos/capture/captureprocess.cpp:1557 ekos/capture/captureprocess.cpp:2098
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
-msgstr "Yakalama başarısız. Ayrıntılar için INDI Denetim Panelini denetleyin."
+msgstr "Yakalama başarısız. Ayrıntılar için INDI Denetim Paneli'ne bakın."
 
 #: ekos/capture/captureprocess.cpp:1658
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
-msgstr ""
+msgstr "İndirme zamanı: %1 sn, yeni indirme zamanı tahmini: %2 sn"
 
 #: ekos/capture/captureprocess.cpp:1724
 #, kde-format
 msgid "Received image %1 out of %2."
-msgstr "Alınan resim %1, kalan %2."
+msgstr "%1/%2 görsel alındı."
 
 #: ekos/capture/captureprocess.cpp:1758
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Captured %1"
-msgstr "Yakala"
+msgstr "%1 yakalandı"
 
 #: ekos/capture/captureprocess.cpp:1764
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
+"UYARI: %2 içinde kalmış ve potansiyel olarak bilinmeyen yer tutucular %1"
 
 #: ekos/capture/captureprocess.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Executing script %1 ..."
+#, kde-format
 msgid "Executing capture script %1"
-msgstr "Çalışan betik %1 ..."
+msgstr "Yakalama betiği %1 yürütülüyor"
 
 #: ekos/capture/captureprocess.cpp:1812
 #, kde-format
 msgid "Pre capture script finished with code %1."
-msgstr ""
+msgstr "Yakalama öncesi betiği %1 koduyla bitti."
 
 #: ekos/capture/captureprocess.cpp:1820
 #, kde-format
 msgid "Post capture script finished with code %1."
-msgstr ""
+msgstr "Yakalama sonrası betiği %1 koduyla bitti."
 
 #: ekos/capture/captureprocess.cpp:1832
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Processing meridian flip..."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi işleniyor..."
 
 #: ekos/capture/captureprocess.cpp:1842
 #, kde-format
 msgid "Pre job script finished with code %1."
-msgstr ""
+msgstr "İş öncesi betiği %1 koduyla bitti."
 
 #: ekos/capture/captureprocess.cpp:1847
 #, kde-format
 msgid "Post job script finished with code %1."
-msgstr ""
+msgstr "İş sonrası betiği %1 koduyla bitti."
 
 #: ekos/capture/captureprocess.cpp:2028 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Exposure timeout. Aborting..."
-msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
+msgstr "Pozlama zaman aşımı. İptal ediliyor..."
 
 #: ekos/capture/captureprocess.cpp:2035
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
+"Pozlama zaman aşımı. 3'ten fazlası algılandı, sürücü yeniden başlatılacak."
 
 #: ekos/capture/captureprocess.cpp:2053 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:992
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Exposure timeout. Restarting exposure..."
-msgstr "Otomatik odaklama başarısız. Pozlama iptal ediliyor..."
+msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor..."
 
 #: ekos/capture/captureprocess.cpp:2079
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
-msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
+msgstr "Pozlama zaman aşımı. Çok fazla oldu. İptal ediliyor..."
 
 #: ekos/capture/captureprocess.cpp:2157
 #, kde-format
@@ -16179,31 +16102,30 @@ msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
+"Düz kalibrasyonu başarısız oldu. ADU %2 istemesine rağmen yakalanan görsel "
+"yalnızca %1 bit."
 
 #: ekos/capture/captureprocess.cpp:2168
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
-msgstr ""
+msgstr "Geçerli görsel doymuş (%1). Sonraki pozlama %2 saniye içinde olacak."
 
 #: ekos/capture/captureprocess.cpp:2190
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
-msgstr ""
+msgstr "Geçerli ADU %1, ADU tolerans erimi içinde."
 
 #: ekos/capture/captureprocess.cpp:2219
-#, fuzzy, kde-format
-#| msgid ""
-#| "Unable to calculate optimal exposure settings, please take the flats "
-#| "manually."
+#, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
-msgstr "En uygun pozlama ayarları hesaplanamıyor, lütfen flatleri elle yapın."
+msgstr "Eniyi pozlama ayarları hesaplanamıyor; lütfen düzleri elle yakalayın."
 
 #: ekos/capture/captureprocess.cpp:2227
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
-msgstr ""
+msgstr "Geçerli ADU %1. Sonraki pozlama %2 saniye içinde olacak."
 
 #: ekos/capture/captureprocess.cpp:2447
 #, kde-format
@@ -16922,23 +16844,19 @@ msgstr "Otomatik odaklama eğer HFR >"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:269
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Meridyen geçişi sonrası bir kendiliğinden odaklama "
+"zorlamak için işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:272 ekos/capture/refocusstate.cpp:68
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Refocus after meridian flip"
-msgstr "Teleskop, meridyen döndürmeyi tamamladı."
+msgstr "Meridyen geçişi sonrası yeniden odaklan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceRefocusEveryN)
 #: ekos/capture/limits.ui:282
@@ -17413,7 +17331,7 @@ msgid "In Progress"
 msgstr "Sürüyor"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1324
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1331
 #, kde-format
 msgid "Complete"
 msgstr "Tamamlanma"
@@ -17533,6 +17451,8 @@ msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
+"Meridyen geçişi yapılandırması kaide modülüne aktarıldı. Lütfen meridyen "
+"geçişini orada yapılandırın."
 
 #: ekos/capture/sequencequeue.cpp:260
 #, fuzzy, kde-format
@@ -17562,7 +17482,7 @@ msgstr "Bekleniyor"
 msgid "Image Received"
 msgstr "Görüntü Alındı"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1980
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1986
 #, kde-format
 msgid "Focusing"
 msgstr "Odaklanıyor"
@@ -17599,17 +17519,16 @@ msgstr "Sıcaklığı %1 C olarak ayarlar..."
 msgid "Setting Rotator"
 msgstr "Başlangıç yıldızı seç:"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1983
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Aligning"
 msgstr "Hizalanıyor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, MeridianFlipGroup)
 #: ekos/ekos.h:75 ekos/mount/mount.ui:276
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian Flip"
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen Geçişi"
 
 #: ekos/ekos.h:118 ekos/ekos.h:138
 #, kde-format
@@ -17659,7 +17578,7 @@ msgstr "Bulanıklaştır"
 msgid "Startup"
 msgstr "Başlat"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1322
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1329
 #, kde-format
 msgid "Running"
 msgstr "Çalışıyor"
@@ -21607,10 +21526,9 @@ msgid "Dithering completed successfully."
 msgstr "Döndürme sonra yeniden hizlama başarıyla tamamlandı."
 
 #: ekos/guide/guide.cpp:1753
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "%1x%1 guide binning is not supported."
-msgstr "Bit derinliği %1 desteklenmiyor."
+msgstr "%1 × %1 kılavuz gruplaması desteklenmiyor."
 
 #: ekos/guide/guide.cpp:1775
 #, fuzzy, kde-format
@@ -21792,6 +21710,8 @@ msgstr "Görüntüyü iyileştirmek için yakaladıktan sonra filtre uygula"
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
+"Kılavuz kamera gruplaması. Bölmeyi 2 × 2 veya daha yüksek bir değere "
+"ayarlamanız önerilir."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rAGuideEnabled)
 #: ekos/guide/guide.ui:418
@@ -24331,68 +24251,62 @@ msgid "guide star"
 msgstr "Kılavuz"
 
 #: ekos/manager/meridianflipstate.cpp:127
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Meridian flip inactive (no scope connected)"
-msgstr "Durum:"
+msgstr "Meridyen geçişi etkin değil (takılı dürbün yok)"
 
 #: ekos/manager/meridianflipstate.cpp:134
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Meridian flip inactive (flip not requested)"
-msgstr "Durum:"
+msgstr "Meridyen geçişi etkin değil (geçiş istenmedi)"
 
 #: ekos/manager/meridianflipstate.cpp:141
 #: ekos/manager/meridianflipstate.cpp:542
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip inactive (parked)"
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi etkin değil (park durumunda)"
 
 #: ekos/manager/meridianflipstate.cpp:147
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Meridian flip inactive (no target set)"
-msgstr "Durum:"
+msgstr "Meridyen geçişi etkin değil (ayarlı hedef yok)"
 
 #: ekos/manager/meridianflipstate.cpp:186
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi etkin değil (meridyen sonrası çevirme)"
 
 #: ekos/manager/meridianflipstate.cpp:202
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip in %1"
-msgstr "Meridyen Döndürme..."
+msgstr "%1 içindeki meridyen geçişi"
 
 #: ekos/manager/meridianflipstate.cpp:253
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
+"Meridyen geçişinin tamamlandığı varsayılıyor; ancak iskele tarafından bilgi "
+"yok."
 
 #: ekos/manager/meridianflipstate.cpp:277
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi başarısız oldu, 4 dakika içinde yeniden denenecek"
 
 #: ekos/manager/meridianflipstate.cpp:281
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
-msgstr ""
+msgstr "Başarılı bir meridyen geçişi olmadı, gecikme pek fazla"
 
 #: ekos/manager/meridianflipstate.cpp:288
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip completed OK."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi başarıyla tamamlandı."
 
 #: ekos/manager/meridianflipstate.cpp:364
 #, kde-format
 msgid "Telescope completed the meridian flip."
-msgstr "Teleskop, meridyen döndürmeyi tamamladı."
+msgstr "Teleskop meridyen geçişini tamamladı."
 
 #: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1028
 #: ekos/observatory/observatory.cpp:1039
@@ -24404,41 +24318,35 @@ msgid "Status: inactive"
 msgstr "Durum:"
 
 #: ekos/manager/meridianflipstate.cpp:423
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip planned..."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi planlandı..."
 
 #: ekos/manager/meridianflipstate.cpp:427
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip waiting..."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi bekliyor..."
 
 #: ekos/manager/meridianflipstate.cpp:431
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip ready to start..."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi başlamaya hazır..."
 
 #: ekos/manager/meridianflipstate.cpp:435
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip running..."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi sürüyor..."
 
 #: ekos/manager/meridianflipstate.cpp:439
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian flip completed."
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi tamamlandı."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, statusText)
 #: ekos/mount/meridianflipstatuswidget.ui:32
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Meridian Flip Status"
-msgstr "Meridyen Döndürme..."
+msgstr "Meridyen geçişi durumu"
 
 #: ekos/mount/mount.cpp:97
 #, fuzzy, kde-format
@@ -24504,11 +24412,12 @@ msgstr ""
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
+"Kutup hizalaması sırasında meridyen geçişi etkin değil olarak ayarlandı."
 
 #: ekos/mount/mount.cpp:821
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
-msgstr ""
+msgstr "Kutup hizalaması hareketleri bitti, meridyen geçişi etkinleştirildi."
 
 #: ekos/mount/mount.cpp:844
 #, kde-format
@@ -24654,9 +24563,9 @@ msgid ""
 "specified value. Capture and Guiding will be suspended and resumed after the "
 "flip is complete.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Saat açısı belirtilen değeri aşarsa bir boylam dönüşü "
-"talep edin. Yakalama ve Kılavuzluk, çevirme tamamlandıktan sonra askıya "
-"alınacak ve kaldığı yerden sürer.</p></body></html>"
+"<html><head/><body><p>Saat açısı belirtilen değeri aşarsa meridyen geçişi "
+"isteyin. Yakalama ve kılavuzluk askıya alınacak ve geçiş tamamlandıktan "
+"sonra yeniden başlatılacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:300
@@ -24672,6 +24581,8 @@ msgid ""
 "RA position in degrees behind the meridian where the meridian flip should be "
 "activated."
 msgstr ""
+"Meridyen geçişinin etkinleştirilmesi gereken meridyenin arkasındaki derece "
+"türünden RA konumu."
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
@@ -25354,7 +25265,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2139
+#: ekos/scheduler/scheduler.cpp:2145
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Scheduler"
@@ -25958,13 +25869,17 @@ msgid ""
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bir meridyen geçişinin saniye türünden en düşük "
+"süresi. Ekos, iskele tarafının değişmemesi nedeniyle meridyen geçişinin "
+"başarısız olduğunu bildirirse bu değeri artırın. Bu değer için iyi bir "
+"tahmin, bir meridyen geçişinin tipik süresinin en az %​50'sidir.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/opsekos.ui:701
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Minimal meridian flip duration: "
-msgstr "Meridyen Döndürme..."
+msgstr "En düşük meridyen geçişi süresi: "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:730
@@ -25984,10 +25899,9 @@ msgstr "Otomatik Kalibrasyon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/opsekos.ui:743
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Reset mount model after meridian flip"
-msgstr "Teleskop, meridyen döndürmeyi tamamladı."
+msgstr "Meridyen geçişi sonrası kaide modelini sıfırla"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/opsekos.ui:750
@@ -27872,14 +27786,14 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:673
+#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:680
 #, fuzzy, kde-format
 #| msgid "Select Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Seri Kuyruğu Seç"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:675
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:682
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Ekos Seri Kuyruğu (*.esq)"
@@ -28002,7 +27916,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:343 ekos/scheduler/scheduler.cpp:1931
+#: ekos/scheduler/scheduler.cpp:343 ekos/scheduler/scheduler.cpp:1937
 #: ekos/scheduler/schedulerprocess.cpp:3250
 #, kde-format
 msgid ""
@@ -28010,80 +27924,80 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:563
+#: ekos/scheduler/scheduler.cpp:570
 #, fuzzy, kde-format
 #| msgid "Select FITS Image"
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "FITS Görüntüsü Seç"
 
-#: ekos/scheduler/scheduler.cpp:613
+#: ekos/scheduler/scheduler.cpp:620
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:632
+#: ekos/scheduler/scheduler.cpp:639
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:683
+#: ekos/scheduler/scheduler.cpp:690
 #, fuzzy, kde-format
 #| msgid "Select Startup Script"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Başlangıç Betiği Seç"
 
-#: ekos/scheduler/scheduler.cpp:685 ekos/scheduler/scheduler.cpp:700
+#: ekos/scheduler/scheduler.cpp:692 ekos/scheduler/scheduler.cpp:707
 #, kde-format
 msgid "Script (*)"
 msgstr "Betik (*)"
 
-#: ekos/scheduler/scheduler.cpp:698
+#: ekos/scheduler/scheduler.cpp:705
 #, fuzzy, kde-format
 #| msgid "Select Shutdown Script"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Kapatma Betiği Seç"
 
-#: ekos/scheduler/scheduler.cpp:748
+#: ekos/scheduler/scheduler.cpp:755
 #, fuzzy, kde-format
 #| msgid "Target name is required."
 msgid "Warning: Target name is required."
 msgstr "Hedef isim gerekli."
 
-#: ekos/scheduler/scheduler.cpp:754
+#: ekos/scheduler/scheduler.cpp:761
 #, fuzzy, kde-format
 #| msgid "Sequence file is required."
 msgid "Warning: Sequence file is required."
 msgstr "Kuyruk dosyası gerekli."
 
-#: ekos/scheduler/scheduler.cpp:761
+#: ekos/scheduler/scheduler.cpp:768
 #, fuzzy, kde-format
 #| msgid "Target coordinates are required."
 msgid "Warning: Target coordinates are required."
 msgstr "Hedef koordinatları gerekli."
 
-#: ekos/scheduler/scheduler.cpp:771
+#: ekos/scheduler/scheduler.cpp:778
 #, fuzzy, kde-format
 #| msgid "RA value %1 is invalid."
 msgid "Warning: RA value %1 is invalid."
 msgstr "RA değeri %1 geçerli değil."
 
-#: ekos/scheduler/scheduler.cpp:777
+#: ekos/scheduler/scheduler.cpp:784
 #, fuzzy, kde-format
 #| msgid "DEC value %1 is invalid."
 msgid "Warning: DEC value %1 is invalid."
 msgstr "DEC değeri %1 geçerli değil."
 
-#: ekos/scheduler/scheduler.cpp:892
+#: ekos/scheduler/scheduler.cpp:899
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:900
+#: ekos/scheduler/scheduler.cpp:907
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -28091,178 +28005,178 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:908
+#: ekos/scheduler/scheduler.cpp:915
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1071
+#: ekos/scheduler/scheduler.cpp:1078
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 %2 %3"
 msgstr "%1, %2 ve %3"
 
-#: ekos/scheduler/scheduler.cpp:1140
+#: ekos/scheduler/scheduler.cpp:1147
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1158
+#: ekos/scheduler/scheduler.cpp:1165
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1320
+#: ekos/scheduler/scheduler.cpp:1327
 #, kde-format
 msgid "Evaluating"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1321
+#: ekos/scheduler/scheduler.cpp:1328
 #, kde-format
 msgid "Scheduled"
 msgstr "Zamanlanmış"
 
-#: ekos/scheduler/scheduler.cpp:1323
+#: ekos/scheduler/scheduler.cpp:1330
 #, kde-format
 msgid "Invalid"
 msgstr "Geçersiz"
 
-#: ekos/scheduler/scheduler.cpp:1604
+#: ekos/scheduler/scheduler.cpp:1610
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler pause planned..."
 msgstr "Dosya şuraya kaydedildi, %1"
 
-#: ekos/scheduler/scheduler.cpp:1608
+#: ekos/scheduler/scheduler.cpp:1614
 #, fuzzy, kde-format
 #| msgid "Scheduler"
 msgid "Resume Scheduler"
 msgstr "Zamanlayıcı"
 
-#: ekos/scheduler/scheduler.cpp:1623
+#: ekos/scheduler/scheduler.cpp:1629
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1653
+#: ekos/scheduler/scheduler.cpp:1659
 #, kde-format
 msgid "Scheduler aborted."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1662
+#: ekos/scheduler/scheduler.cpp:1668
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1670 ekos/scheduler/scheduler.ui:1151
+#: ekos/scheduler/scheduler.cpp:1676 ekos/scheduler/scheduler.ui:1151
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Start Scheduler"
 msgstr "Seri &Başlat"
 
-#: ekos/scheduler/scheduler.cpp:1693
+#: ekos/scheduler/scheduler.cpp:1699
 #, fuzzy, kde-format
 #| msgid "Open Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Ekos Zamanlayıcı Listesini Aç"
 
-#: ekos/scheduler/scheduler.cpp:1786
+#: ekos/scheduler/scheduler.cpp:1792
 #, fuzzy, kde-format
 #| msgid "Save Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Ekos Zamanlayıcı Listesini Kaydet"
 
-#: ekos/scheduler/scheduler.cpp:1805
+#: ekos/scheduler/scheduler.cpp:1811
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Zamanlayıcı listesi kaydetme başarısız"
 
-#: ekos/scheduler/scheduler.cpp:1950
+#: ekos/scheduler/scheduler.cpp:1956
 #, kde-format
 msgid ""
 "Turning off astronomial twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1952
+#: ekos/scheduler/scheduler.cpp:1958
 #, kde-format
 msgid "Astronomial Twilight Warning"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1978
+#: ekos/scheduler/scheduler.cpp:1984
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Slew complete"
 msgstr "tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:1982
+#: ekos/scheduler/scheduler.cpp:1988
 #, kde-format
 msgid "Focus complete"
 msgstr "Odaklanma tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:1984
+#: ekos/scheduler/scheduler.cpp:1990
 #, kde-format
 msgid "Align complete"
 msgstr "Hizalama tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1991
 #, kde-format
 msgid "Repositioning"
 msgstr "Repositioning"
 
-#: ekos/scheduler/scheduler.cpp:1986
+#: ekos/scheduler/scheduler.cpp:1992
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Repositioning complete"
 msgstr "Kalibrasyon tamamlandı."
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1995
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Guiding complete"
 msgstr "Hizalama tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2066
+#: ekos/scheduler/scheduler.cpp:2072
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Hava koşulları Tamam."
 
-#: ekos/scheduler/scheduler.cpp:2070
+#: ekos/scheduler/scheduler.cpp:2076
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Uyarı: hava koşulları UYARI bölgesindedir."
 
-#: ekos/scheduler/scheduler.cpp:2074
+#: ekos/scheduler/scheduler.cpp:2080
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Dikkat: hava koşulları TEHLİKE bölgesinde!"
 
-#: ekos/scheduler/scheduler.cpp:2094
+#: ekos/scheduler/scheduler.cpp:2100
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2103
+#: ekos/scheduler/scheduler.cpp:2109
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2127
+#: ekos/scheduler/scheduler.cpp:2133
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "Dosya şuraya kaydedildi, %1"
 
-#: ekos/scheduler/scheduler.cpp:2190
+#: ekos/scheduler/scheduler.cpp:2196
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual startup procedure completed successfully."
 msgstr "Teleskop Sihirbazı başarıyla tamamlandı."
 
-#: ekos/scheduler/scheduler.cpp:2194
+#: ekos/scheduler/scheduler.cpp:2200
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -37546,10 +37460,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:1736
-#, fuzzy, kde-format
-#| msgid "Default hour angle to perform meridian flip"
+#, kde-format
 msgid "Default hour angle to perform meridian flip in degrees."
-msgstr "Meridyen döndürmesi için varsayılan saat açısı"
+msgstr ""
+"Derece türünden meridyen geçişi gerçekleştirmek için öntanımlı saat açısı."
 
 #. i18n: ectx: whatsthis, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:1737
@@ -37569,16 +37483,13 @@ msgstr "Saat açısı için öntanımlı en yüksek sınır."
 
 #. i18n: ectx: whatsthis, entry (MaximumHaLimit), group (Mount)
 #: kstars.kcfg:1742
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum telescope altitude limit. If the telescope is above this limit, "
-#| "it will be commanded to stop."
+#, kde-format
 msgid ""
 "Maximum limit for the hour angle of the telescope. If the hour angle of the "
 "telescope is above this limit, a meridian flip will be forced."
 msgstr ""
-"Teleskopun azami yükseklik sınırı. Eğer bu sınırın üstündeyse, otomatik "
-"olarak kapanacaktır."
+"Teleskopun saat açısı için en yüksek sınır. Teleskopun saat açısı bu sınırın "
+"üzerindeyse meridyen geçişi zorlanacaktır."
 
 #. i18n: ectx: label, entry (EnableHaLimit), group (Mount)
 #: kstars.kcfg:1746
@@ -37797,24 +37708,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RefocusAfterMeridianFlip), group (Capture)
 #: kstars.kcfg:1844
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Refocus after meridian flip is done"
-msgstr "Teleskop, meridyen döndürmeyi tamamladı."
+msgstr "Meridyen geçişi tamamlandıktan sonra yeniden odaklan"
 
 #. i18n: ectx: label, entry (ResetMountModelAfterMeridian), group (Capture)
 #: kstars.kcfg:1848
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Reset mount model after meridian flip."
-msgstr "Teleskop, meridyen döndürmeyi tamamladı."
+msgstr "Meridyen geçişi sonrası kaide modelini sıfırla"
 
 #. i18n: ectx: label, entry (ForcedFlip), group (Capture)
 #: kstars.kcfg:1852
-#, fuzzy, kde-format
-#| msgid "Flips the mount when reaching the meridian, if supported."
+#, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Meridyen alınırken bağlamı döndürür, eğer destekleniyorsa."
+msgstr "Destekleniyorsa zorlanan meridyen geçişlerini kullanın."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:1856
@@ -38050,7 +37958,7 @@ msgstr ""
 #: kstars.kcfg:1970
 #, kde-format
 msgid "Minimal duration of a meridian flip."
-msgstr ""
+msgstr "Bir meridyen geçişinin en düşük süresi."
 
 #. i18n: ectx: label, entry (CapturePosition), group (Capture)
 #: kstars.kcfg:1974
@@ -38140,17 +38048,15 @@ msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
 
 #. i18n: ectx: label, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:2024
-#, fuzzy, kde-format
-#| msgid "Vertical binning"
+#, kde-format
 msgid "Default Camera binning"
-msgstr "Dikey katlama"
+msgstr "Öntanımlı kamera gruplaması"
 
 #. i18n: ectx: whatsthis, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:2025
-#, fuzzy, kde-format
-#| msgid "Set vertical binning of CCD camera while in focus mode."
+#, kde-format
 msgid "Set binning of camera while in focus mode."
-msgstr "Odaklama kipinde varsayılan CCD Y katlama"
+msgstr "Odak kipindeyken kameranın gruplandırılmasını ayarlayın."
 
 #. i18n: ectx: label, entry (FocusGain), group (Focus)
 #: kstars.kcfg:2029
@@ -38910,10 +38816,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlignBinning), group (Align)
 #: kstars.kcfg:2460
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera binning in alignment mode"
-msgstr "Hizalama kipindeyken varsayılan CCD Y katlama"
+msgstr "Hizalama kipinde öntanımlı kamera gruplaması"
 
 #. i18n: ectx: label, entry (AlignGain), group (Align)
 #: kstars.kcfg:2464
@@ -39333,10 +39238,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GuideBinning), group (Guide)
 #: kstars.kcfg:2695
-#, fuzzy, kde-format
-#| msgid "Failed to set binning."
+#, kde-format
 msgid "Guide binning."
-msgstr "Katlama ayarlama başarısız."
+msgstr "Kılavuz gruplaması."
 
 #. i18n: ectx: label, entry (GuideAutoStar), group (Guide)
 #: kstars.kcfg:2699
@@ -40478,6 +40382,8 @@ msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
 "auto selection downsampling."
 msgstr ""
+"Çözmeden önce örnekleme hızını azaltın. Binning de denir. Sıfır değeri, "
+"kendiliğinden seçimli alt örneklemeyle sonuçlanacaktır."
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
@@ -71715,7 +71621,7 @@ msgstr "Eğilim"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Binning"
-msgstr "Katlama"
+msgstr "Gruplama"
 
 #: libindi_strings.cpp:45
 #, kde-kuit-format
