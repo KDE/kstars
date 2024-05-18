@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-17 01:42+0000\n"
-"PO-Revision-Date: 2024-05-16 22:06+0300\n"
+"PO-Revision-Date: 2024-05-17 20:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16133,10 +16133,9 @@ msgid "%1 Preview"
 msgstr "%1 Önizleme"
 
 #: ekos/capture/captureprocess.cpp:2566
-#, fuzzy, kde-format
-#| msgid "Sequence Queue"
+#, kde-format
 msgid "Sequence paused."
-msgstr "Dizi Kuyruğu"
+msgstr "Sekans duraklatıldı."
 
 #: ekos/capture/captureprocess.cpp:2616
 #, kde-format
@@ -16144,7 +16143,7 @@ msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr ""
-"Tüm işler tamamlandı. Tüm işlerin durumunu sıfırlamak ve yakalmayı yeniden "
+"Tüm işler tamamlandı. Tüm işlerin durumunu sıfırlamak ve yakalamayı yeniden "
 "başlatmak istiyor musunuz?"
 
 #: ekos/capture/captureprocess.cpp:2630
@@ -16153,129 +16152,113 @@ msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
+"Uyarı: \"Başlarken sekansı her zaman sıfırla\" etkin ve sekans sayısını "
+"sıfırlayacaktır."
 
 #: ekos/capture/captureprocess.cpp:2745
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "%1 kamera sürücüsünü yeniden başlatmak istediğinizden emin misiniz?"
 
 #: ekos/capture/captureprocess.cpp:2746
-#, fuzzy, kde-format
-#| msgid "Restart"
+#, kde-format
 msgid "Driver Restart"
-msgstr "Yeniden Başlat"
+msgstr "Sürücüyü Yeniden Başlat"
 
 #: ekos/capture/captureprocessoverlay.cpp:106
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "No target"
-msgstr "Hedef"
+msgstr "Hedef yok"
 
 #. i18n: ectx: property (text), widget (QLabel, captureStatisticsHeader)
 #: ekos/capture/captureprocessoverlay.ui:49
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgid "Capture statistics"
-msgstr "İstatistikler"
+msgstr "Yakalama istatistikleri"
 
 #. i18n: ectx: property (text), widget (QLabel, offsetValue)
 #: ekos/capture/captureprocessoverlay.ui:166
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "<offset>"
-msgstr "Konum"
+msgstr "<ofset>"
 
 #. i18n: ectx: property (text), widget (QLabel, gainValue)
 #: ekos/capture/captureprocessoverlay.ui:178
 #, kde-format
 msgid "<gain>"
-msgstr ""
+msgstr "<kazanç>"
 
 #. i18n: ectx: property (text), widget (QLabel, captureDate)
 #: ekos/capture/captureprocessoverlay.ui:227
-#, fuzzy, kde-format
-#| msgid "M/d/yyyy h:mm AP"
+#, kde-format
 msgid "dd.mm.yyyy hh:mm"
-msgstr "M/d/yyyy h:mm AP"
+msgstr "dd.mm.yyyy hh:mm"
 
 #. i18n: ectx: property (text), widget (QLabel, historyCountsLabel)
 #: ekos/capture/captureprocessoverlay.ui:242
 #, kde-format
 msgid "(xx/yy)"
-msgstr ""
+msgstr "(xx/yy)"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureValue)
 #: ekos/capture/captureprocessoverlay.ui:310
 #, kde-format
 msgid "<exp>"
-msgstr ""
+msgstr "<poz>"
 
 #. i18n: ectx: property (text), widget (QLabel, filenameValue)
 #: ekos/capture/captureprocessoverlay.ui:322
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "<Filename>"
-msgstr "Dosya adı"
+msgstr "<dosya adı>"
 
 #. i18n: ectx: property (text), widget (QLabel, isoValue)
 #: ekos/capture/captureprocessoverlay.ui:334
 #, kde-format
 msgid "<ISO>"
-msgstr ""
+msgstr "<ISO>"
 
 #. i18n: ectx: property (text), widget (QLabel, frameTypeLabel)
 #: ekos/capture/captureprocessoverlay.ui:352
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Light Red"
-msgstr "Işık"
+msgstr "Kırmızı ışık"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, deleteCurrentFrameButton)
 #: ekos/capture/captureprocessoverlay.ui:371
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Delete current frame</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Geçerli kareyi sil</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, geometryValue)
 #: ekos/capture/captureprocessoverlay.ui:421
 #, kde-format
 msgid "<width x height>"
-msgstr ""
+msgstr "<genişlik × yükseklik>"
 
 #. i18n: ectx: property (text), widget (QLabel, binningValue)
 #: ekos/capture/captureprocessoverlay.ui:445
 #, kde-format
 msgid "<bin>"
-msgstr ""
+msgstr "<grup"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
 #: ekos/capture/captureprocessoverlay.ui:457
-#, fuzzy, kde-format
-#| msgid "Target:"
+#, kde-format
 msgid "Target Drift:"
-msgstr "Hedef:"
+msgstr "Hedef kayma:"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftValue)
 #: ekos/capture/captureprocessoverlay.ui:469
 #, kde-format
 msgid "<drift>"
-msgstr ""
+msgstr "<kayma>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CustomProperties)
 #: ekos/capture/customproperties.ui:14
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Scope Properties"
+#, kde-format
 msgid "Custom Capture Properties"
-msgstr "Saha Özellikleri"
+msgstr "Özel Yakalama Özellikleri"
 
 #. i18n: ectx: property (text), widget (QLabel, tipLabel)
 #: ekos/capture/customproperties.ui:20
@@ -16287,37 +16270,33 @@ msgid ""
 "Properties</span> section. Click <span style=\" font-weight:600;\">Apply</"
 "span> to record the property values.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sekans işi toplu kipte yürütüldüğünde ayarlanacak özel "
+"özellikleri seçin. INDI Denetim Paneli'nde istenen özellik değeri "
+"ayarlandıktan sonra onu <span style=\" font-weight:600;\">İş Özellikleri</"
+"span> bölümüne ekleyin. Özellik değerlerini kaydetmek için <span style=\" "
+"font-weight:600;\">Uygula</span> düğmesine tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/customproperties.ui:34
-#, fuzzy, kde-format
-#| msgid "2. Select Devices"
+#, kde-format
 msgid "Available Properties"
-msgstr "2. Aygıtları Seç"
+msgstr "Kullanılabilir özellikler"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/customproperties.ui:142
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Scope Properties"
+#, kde-format
 msgid "Job Properties"
-msgstr "Saha Özellikleri"
+msgstr "İş özellikleri"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, DSLRInfo)
 #: ekos/capture/dslrinfo.ui:14
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "DSLR Camera Settings"
-msgstr "Kalibrasyon Seçenekleri"
+msgstr "DSLR Kamera Ayarları"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/dslrinfo.ui:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"right\">For help: <a href=\"http://en."
-#| "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-"
-#| "decoration: underline; color:#004183;\">Wikipedia Link for Bortle dark-"
-#| "sky scale</span></a></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Please fill the required information below. This is a "
 "one-time setup. You can obtain these values from your camera manual or from "
@@ -16325,10 +16304,11 @@ msgid ""
 "text-decoration: underline; color:#007af4;\">Digital Camera Database</span></"
 "a>.</p></body></html>"
 msgstr ""
-"<p align=\"right\">Yardım için: <a href=\"http://en.wikipedia.org/wiki/"
-"Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: underline; color:"
-"#004183;\">Bortle kara gökyüzü ölçüsü için Wikipedia bağlantısı</span></a></"
-"p></body></html>"
+"<html><head/><body><p>Lütfen aşağıda istenen bilgileri doldurun. Bu bir kez "
+"yapılır. Bu değerleri kamera kılavuzunuzdan veya <a href=\"https://www."
+"digicamdb.com/\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">Digital Camera Database</span></a> gibi çevrimiçi kaynaklardan "
+"alabilirsiniz.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/dslrinfo.ui:58
@@ -16336,14 +16316,14 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Sensor resolution in pixels (W x H)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Piksel türünden algılayıcı çözünürlüğü (G x Y)</p></"
+"<html><head/><body><p>Piksel türünden algılayıcı çözünürlüğü (G × Y)</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/dslrinfo.ui:61
 #, kde-format
 msgid "Sensor Resolution:"
-msgstr "Algılayıcı Çözünürlüğü"
+msgstr "Algılayıcı çözünürlüğü:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
 #: ekos/capture/dslrinfo.ui:115
@@ -16353,354 +16333,316 @@ msgid ""
 "put the same value in the horizontal and vertical pixel pitches.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Mikrometre türünden piksel aralığı. Kare pikselli "
+"kameralar için yatay ve dikey piksel aralıklarına aynı değeri koyun.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/dslrinfo.ui:118
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Pixel size X"
+#, kde-format
 msgid "Pixel Pitch:"
-msgstr "Piksel boyutu X"
+msgstr "Piksel aralığı:"
 
 #: ekos/capture/dslrinfodialog.cpp:39
 #, kde-format
 msgid "Invalid values. Please set all values."
-msgstr ""
+msgstr "Geçersiz değerler. Lütfen tüm değerleri ayarlayın."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
-#, fuzzy, kde-format
-#| msgid "Time Calculators"
+#, kde-format
 msgid "Exposure Calculator"
-msgstr "Zaman hesaplayıcıları"
+msgstr "Pozlama Hesaplayıcısı"
 
 #. i18n: ectx: property (text), widget (QLabel, SQMLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:92
-#, fuzzy, kde-format
-#| msgid "JPEG Quality"
+#, kde-format
 msgid "Sky Quality"
-msgstr "JPEG Kalitesi"
+msgstr "Gökyüzü Kalitesi"
 
 #. i18n: ectx: property (text), widget (QLabel, indiFocalRationLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:105
 #: ekos/guide/guide.ui:700 oal/equipmentwriter.ui:611
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Boca Raton"
+#, kde-format
 msgid "Focal Ratio"
-msgstr "Boca Raton"
+msgstr "Odak oranı"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:118
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "Süzgeç Sayısı"
+msgstr "Süzgeç bant genişliği"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:137
-#, fuzzy, kde-format
-#| msgid "Adjust the balance of the two noise sources"
+#, kde-format
 msgid "Alter the bias of the noise sources"
-msgstr "İki parazit kaynağının dengesini ayarla"
+msgstr "Gürültü kaynaklarının eğilimini değiştir"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:182
-#, fuzzy, kde-format
-#| msgid "Orbit class:"
+#, kde-format
 msgid "Bortle Class"
-msgstr "Yörünge sınıfı:"
+msgstr "Bortle sınıfı"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:227
 #, kde-format
 msgid "Gain"
-msgstr ""
+msgstr "Kazanç"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, gainSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:252
-#, fuzzy, kde-format
-#| msgid "Vertical binning"
+#, kde-format
 msgid "Select Camera Sensor Gain"
-msgstr "Dikey katlama"
+msgstr "Kamera algılayıcısı kazancını seç"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, gainISODiscreteSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:271
-#, fuzzy, kde-format
-#| msgid "Select FITS Image"
+#, kde-format
 msgid "Select DSLR ISO Value"
-msgstr "FITS Görüntüsü Seç"
+msgstr "DSLR ISO değerini seç"
 
 #. i18n: ectx: property (text), widget (QLabel, gainISOSelectorLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:290
-#, fuzzy, kde-format
-#| msgid "ISO:"
+#, kde-format
 msgid "ISO"
-msgstr "ISO:"
+msgstr "ISO"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSelectionFixedLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:309
 #, kde-format
 msgid "Read noise constant"
-msgstr "Parazit sabitini oku"
+msgstr "Gürültü sabitini oku"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:375
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
-msgstr "Işık kirliliğinden kaynaklanan alt açıklıktaki parazit"
+msgstr "Işık kirliliğinden kaynaklanan alt pozlamadaki gürültü"
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:391
 #, kde-format
 msgid "Total Noise"
-msgstr "Toplam Parazit"
+msgstr "Toplam gürültü"
 
 #. i18n: ectx: property (text), widget (QLabel, subPollutionLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:398
-#, fuzzy, kde-format
-#| msgid "Light Pollution Settings"
+#, kde-format
 msgid "Pollution Electrons"
-msgstr "Işık Kirliliği Ayarları"
+msgstr "Kirlilik elektronları"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subTotalNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:417
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
-msgstr "Alt açıklıktaki toplam parazit (ışık kirliliği + okunan parazit)"
+msgstr "Alt pozlamadaki toplam gürültü (ışık kirliliği + okunan gürültü)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:433
 #, kde-format
 msgid "Shot Noise"
-msgstr "Atış Sesi"
+msgstr "Çekim gürültüsü"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
 msgid "Estimated light pollution electrons in the sub-exposure."
-msgstr ""
+msgstr "Alt pozlamadaki tahmini ışık kirliliği elektronları."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:506
 #, kde-format
 msgid "Duration of Sub-exposure"
-msgstr ""
+msgstr "Alt pozlamanın süresi"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:522
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Exposure Time (sec)"
-msgstr "Toplam Pozlama Süresi (ms)"
+msgstr "Pozlama süresi (san)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:562
-#, fuzzy, kde-format
-#| msgid "Download Extra Data Files"
+#, kde-format
 msgid "Download additional camera data files"
-msgstr "Ek Veri Dosyaları İndir"
+msgstr "Ek kamera veri dosyaları indir"
 
 #. i18n: ectx: property (toolTip), widget (QWidget, skyQualityColor)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:593
 #, kde-format
 msgid "Bortle Zone Color"
-msgstr ""
+msgstr "Bortle alanı rengi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:612
 #, kde-format
 msgid "Bortle class value"
-msgstr ""
+msgstr "Bortle sınıfı değeri"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:615
 #, kde-format
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
-msgstr ""
+msgstr "Çoklu okuma kipine sahip kameralardaki okuma kipini seçin."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:657
 #, kde-format
 msgid "Adjust the quality of the sky"
-msgstr ""
+msgstr "Gökyüzünün kalitesini ayarla"
 
 #. i18n: ectx: property (text), widget (QLabel, indiCameraReadMode)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:667
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Camera Model"
+#, kde-format
 msgid "Read Mode"
-msgstr "Kamera Modeli"
+msgstr "Okuma kipi"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, filterBandwidth)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:692
 #, kde-format
 msgid "Apply a compensation for an optical filter"
-msgstr ""
+msgstr "Optik süzgeç için bir telafi uygula"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
-#, fuzzy, kde-format
-#| msgid "DSS Download"
+#, kde-format
 msgid "Camera Data Selection"
-msgstr "DSS İndirme..."
+msgstr "Kamera verisi seçimi"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:750
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Potential exposure time graph"
-msgstr "Toplam Pozlama Süresi (ms)"
+msgstr "Potansiyel pozlama zamanı grafiği"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:769
-#, fuzzy, no-c-format, kde-format
-#| msgid "Noise Increase (%)"
+#, no-c-format, kde-format
 msgid "Noise Increase %"
-msgstr "Parazit Artımı (%)"
+msgstr "Gürültü artımı (%)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:789
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Table"
-msgstr "Etkinleştir"
+msgstr "Tablo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:821
-#, fuzzy, kde-format
-#| msgid "Geographic"
+#, kde-format
 msgid "Graph"
-msgstr "Coğrafik"
+msgstr "Grafik"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCountDifferential)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:854
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
-msgstr ""
+msgstr "Geçerli pozlama sayımında zaman-gürültü oranı eğrisinin eğimi"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:876
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Exposure"
+#, kde-format
 msgid "Exposures"
-msgstr "Pozlama"
+msgstr "Pozlamalar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureCount)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:895
 #, kde-format
 msgid "Calculated exposure count for integration"
-msgstr ""
+msgstr "Tümleşim için hesaplanan pozlama sayısı"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:917
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "International Space Station"
+#, kde-format
 msgid "Integration Time to Noise Ratio"
-msgstr "Uluslararası Uzay İstasyonu"
+msgstr "Tümleşim süresi/Gürültü oranı"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:949
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Noise Reduction"
+#, kde-format
 msgid "Time/Noise Ratio"
-msgstr "Parazit Azaltma"
+msgstr "Zaman/Gürültü oranı"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:968
 #, kde-format
 msgid "dy ="
-msgstr ""
+msgstr "dy ="
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetNoiseRatio)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:981
 #, kde-format
 msgid "Integration time to noise ratio (potential quality)"
-msgstr ""
+msgstr "Tümleşim zaman/gürültü oranı (potansiyel kalite)"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
-#, fuzzy, kde-format
-#| msgid "DSS Download"
+#, kde-format
 msgid "Camera Data Download"
-msgstr "DSS İndirme..."
+msgstr "Kamera Verisi İndir"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, fuzzy, kde-format
-#| msgid "Select all items in the list"
+#, kde-format
 msgid "Select all cameras you wish to use:"
-msgstr "Listedeki tüm ögeleri seç"
+msgstr "Kullanılacak kameraları seç:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focus in"
+#, kde-format
 msgid "Guide & Focus Limits"
-msgstr "Odaklan"
+msgstr "Kılavuz ve Odak Sınırları"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guideGroupBox)
 #: ekos/capture/limits.ui:35
-#, fuzzy, kde-format
-#| msgid "AO Limits"
+#, kde-format
 msgid "Guide Limits"
-msgstr "AO Sınırları"
+msgstr "Kılavuz Sınırları"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/capture/limits.ui:57 ekos/guide/opsdither.ui:170 ekos/opsekos.ui:490
-#, fuzzy, kde-format
-#| msgid "Frame:"
+#, kde-format
 msgid "frames"
-msgstr "Çerçeve:"
+msgstr "kare"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, guideDeviationReps)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceGuideDeviation)
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:67 ekos/capture/limits.ui:131
 #: ekos/capture/limits.ui:167
-#, fuzzy, kde-format
-#| msgid "Abort sequence if guiding deviation exceed this value"
+#, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
-msgstr "Kılavuzluk sapması bu değeri aşıyorsa, sırayı iptal et"
+msgstr "Kılavuz sapma bu değeri art arda N kez aşarsa sekansı iptal et"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, guideDitherPerJobFrequency)
 #: ekos/capture/limits.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If global dither is enabled, then dither every N "
 "number of frames for this job. Set to 0 to use global dither frequency.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Global kıpırdatma etkinse bu iş için her N sayıda "
+"karede kıpırdatın. Global kıpırdatma frekansını kullanmak için 0'a ayarlayın."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
 #: ekos/capture/limits.ui:134
-#, fuzzy, kde-format
-#| msgid "Guiding Deviation <"
+#, kde-format
 msgid "Abort if guide deviation >:"
-msgstr "Kılavuzluk Sapması <"
+msgstr "Kılavuz sapması şundan büyükse iptal et:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceStartGuiderDrift)
 #: ekos/capture/limits.ui:147
@@ -16709,58 +16651,36 @@ msgid ""
 "Start capturing only if guide deviation is below the given threshold "
 "(ignored for previews)"
 msgstr ""
+"Yalnızca kılavuz sapması verilen eşiğin altındaysa yakalamaya başlayın "
+"(önizlemeler için yok sayılır)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceStartGuiderDrift)
 #: ekos/capture/limits.ui:150
-#, fuzzy, kde-format
-#| msgid "Guiding Deviation <"
+#, kde-format
 msgid "Only start if guide deviation <:"
-msgstr "Kılavuzluk Sapması <"
+msgstr "Yalnızca kılavuz sapması şundan küçükse başlat:"
 
 #. i18n: ectx: property (text), widget (QLabel, limitGuideDeviationLabel)
 #: ekos/capture/limits.ui:170
 #, kde-format
 msgid "consecutive times"
-msgstr ""
+msgstr "kez ard arda"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/limits.ui:177
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dither per job every:"
-msgstr "Dome Creek"
+msgstr "İş başına titretme:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:187
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focus in"
+#, kde-format
 msgid "Focus Limits"
-msgstr "Odaklan"
+msgstr "Odak Sınırları"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:193
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Length scale of the short-range kernel in \n"
-#| "          seconds.</p><p>This is a measure of the scale of the non-"
-#| "periodic short-term noise, caused by things such\n"
-#| "          as:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent:\n"
-#| "          1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0;\n"
-#| "          text-indent:0px;\">Grit in the gearchain,</li><li style=\" "
-#| "margin-top:12px; margin-bottom:12px;\n"
-#| "          margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Wind gusts,</li><li style=\"\n"
-#| "          margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0;\n"
-#| "          text-indent:0px;\">Structural vibrations, such as footsteps or "
-#| "traffic,</li><li style=\" margin-top:12px;\n"
-#| "          margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-#| "block-indent:0; text-indent:0px;\">Swinging or dragging\n"
-#| "          cables.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -16780,67 +16700,60 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Saniye türünden kısa erimli çekirdeğin uzunluk ölçeği."
-"</p>\n"
-"<p>Bu, aşağıdaki gibi şeylerin neden olduğu, periyodik olmayan kısa süreli "
-"parazit ölçeğinin bir ölçüsüdür:</p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent:\n"
-"1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0;\n"
-"text-indent:0px;\">Dişli zincirindeki kum,</li><li style=\" margin-top:12px; "
-"margin-bottom:12px;\n"
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Yel esintileri,</li><li style=\"\n"
-"margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0;\n"
-"text-indent:0px;\">Ayak sesleri veya trafik gibi yapısal titreşimler,</"
-"li><li style=\" margin-top:12px;\n"
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Kabloları sallamak veya sürüklemek.</li></ul>\n"
-"</body></html>"
+"<html><head/><body><p>HFR denetimi algoritması:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Son kendiliğinden odaklama</span>: Bu, öntanımlı "
+"algoritmadır ve denetim için referans olarak en son Kendiliğinden Odaklama "
+"çalıştırmasındaki HFR değerini kullanır.</li></ul><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Sabit</span>: Bu algoritma, kullanıcının "
+"denetimde kullanılacak sabit bir HFR'yi belirlemesine olanak tanır.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Ortanca ölçü</span>: Bu algoritma, Kendiliğinden Odaklama ve "
+"HFR denetimlerinden veri noktalarını toplar, verileri sıralı bir listede "
+"tutar ve ortanca değeri bir sonraki HFR denetimi için referans olarak "
+"kullanır.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:200
-#, fuzzy, kde-format
-#| msgid "Auto Focus:"
+#, kde-format
 msgid "Last Autofocus"
-msgstr "Otomatik Odaklama:"
+msgstr "Son kendiliğinden odaklanma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:205
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Fixed"
-msgstr "Adımlar:"
+msgstr "Sabit"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:210
-#, fuzzy, kde-format
-#| msgid "Measure Az Error"
+#, kde-format
 msgid "Median Measure"
-msgstr "Az Hatasını Ölç"
+msgstr "Ortanca ölçü"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceAutofocusOnTemperature)
 #: ekos/capture/limits.ui:259
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus when the change in "
 "temperature since last focus exceeded this value.  Reference temperature is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Son odaklamadan bu yana sıcaklıktaki değişiklik bu "
+"değeri aştığında kendiliğinden odaklamayı zorlamak için işaretleyin. "
+"Referans sıcaklığı her kendiliğinden odaklamada sıfırlanır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusOnTemperature)
 #: ekos/capture/limits.ui:262
-#, fuzzy, kde-format
-#| msgid "Autofocus if HFR >"
+#, kde-format
 msgid "Refocus if ΔT°  >:"
-msgstr "Otomatik odaklama eğer HFR >"
+msgstr "ΔT° şundan büyükse yeniden odaklan:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:269
@@ -16860,55 +16773,49 @@ msgstr "Meridyen geçişi sonrası yeniden odaklan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceRefocusEveryN)
 #: ekos/capture/limits.ui:282
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus every N minutes.  Timer is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Her N dakikada bir kendiliğinden odaklamayı zorlamak "
+"için işaretleyin. Zamanlayıcı her kendiliğinden odaklamada sıfırlanır.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceRefocusEveryN)
 #: ekos/capture/limits.ui:285
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Refocus every:"
-msgstr "piksel"
+msgstr "Yeniden odaklama aralığı:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceAutofocusHFR)
 #: ekos/capture/limits.ui:295
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
 "Check may result in an Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Alt kareler arasında HFR denetimi gerçekleştirmek için "
+"işaretleyin. Denetim, kendiliğinden odaklamayla sonuçlanabilir.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusHFR)
 #: ekos/capture/limits.ui:298
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
-msgstr ""
+msgstr "ΔHFR üzerine yeniden odaklanın. Şunu kullanın:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:305
 #, kde-format
 msgid "Run in-sequence HFR check after this many frames."
-msgstr ""
+msgstr "Bu kadar kareden sonra sekans içi HFR denetimini çalıştırın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:308
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Check every:"
-msgstr "piksel"
+msgstr "Denetim aralığı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, inSequenceCheckFrames)
 #: ekos/capture/limits.ui:318
@@ -25892,10 +25799,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:733
-#, fuzzy, kde-format
-#| msgid "Automatic Calibration"
+#, kde-format
 msgid "Always reset sequence when starting"
-msgstr "Otomatik Kalibrasyon"
+msgstr "Başlarken sekansı her zaman sıfırla"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/opsekos.ui:743

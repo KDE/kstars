@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-17 01:42+0000\n"
-"PO-Revision-Date: 2024-05-14 14:06+0200\n"
+"PO-Revision-Date: 2024-05-17 17:09+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -30207,7 +30207,7 @@ msgstr "Оптимално мащабиране"
 #: fitsviewer/fitsviewer.cpp:272
 #, kde-format
 msgid "Fit Page to Zoom"
-msgstr ""
+msgstr "Напасване на страницата към мащаба"
 
 #: fitsviewer/fitsviewer.cpp:277
 #, kde-format
