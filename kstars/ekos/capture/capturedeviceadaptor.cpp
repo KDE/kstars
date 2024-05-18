@@ -148,7 +148,6 @@ void CaptureDeviceAdaptor::connectMount(SequenceJobState *state)
 
     connect(state, &SequenceJobState::slewTelescope, this, &CaptureDeviceAdaptor::slewTelescope);
     connect(state, &SequenceJobState::setScopeTracking, this, &CaptureDeviceAdaptor::setScopeTracking);
-    connect(state, &SequenceJobState::readCurrentMountParkState, this, &CaptureDeviceAdaptor::readCurrentMountParkState);
     connect(state, &SequenceJobState::setScopeParked, this, &CaptureDeviceAdaptor::setScopeParked);
 
     connect(this, &CaptureDeviceAdaptor::scopeStatusChanged, state, &SequenceJobState::scopeStatusChanged);
@@ -444,12 +443,6 @@ void CaptureDeviceAdaptor::readCurrentState(CaptureState state)
             qWarning(KSTARS_EKOS_CAPTURE) << "Reading device state " << state << " not implemented!";
             break;
     }
-}
-
-void CaptureDeviceAdaptor::readCurrentMountParkState()
-{
-    if (m_ActiveMount != nullptr)
-        emit scopeParkStatusChanged(m_ActiveMount->parkStatus());
 }
 
 void CaptureDeviceAdaptor::setCCDTemperature(double temp)

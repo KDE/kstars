@@ -501,31 +501,24 @@ IPState SequenceJobState::checkPreMountParkReady()
 {
     if (m_CaptureModuleState->hasTelescope)
     {
-        switch (m_CaptureModuleState->getScopeParkState())
+        if (m_CaptureModuleState->getScopeParkState() == ISD::PARK_ERROR)
         {
-            case ISD::PARK_PARKED:
-                break;
-            case ISD::PARK_ERROR:
-                emit newLog(i18n("Parking mount failed, aborting..."));
-                emit abortCapture();
-                return IPS_ALERT;
-            case ISD::PARK_PARKING:
-                return IPS_BUSY;
-            case ISD::PARK_UNPARKED:
-            case ISD::PARK_UNPARKING:
-                // park the scope
-                emit setScopeParked(true);
-                emit newLog(i18n("Parking mount prior to calibration frames capture..."));
-                return IPS_BUSY;
-            case ISD::PARK_UNKNOWN:
-                // retrieve the mount park state
-                emit readCurrentMountParkState();
-                return IPS_BUSY;
+            emit newLog(i18n("Parking mount failed, aborting..."));
+            emit abortCapture();
+            return IPS_ALERT;
+        }
+        else if (m_CaptureModuleState->getScopeParkState() == ISD::PARK_PARKING)
+            return IPS_BUSY;
+        else if (m_CaptureModuleState->getScopeParkState() != ISD::PARK_PARKED)
+        {
+            m_CaptureModuleState->setScopeParkState(ISD::PARK_PARKING);
+            emit setScopeParked(true);
+            emit newLog(i18n("Parking mount prior to calibration frames capture..."));
+            return IPS_BUSY;
         }
     }
     // everything ready
     return IPS_OK;
-
 }
 
 IPState SequenceJobState::checkPreDomeParkReady()
@@ -826,18 +819,10 @@ void SequenceJobState::scopeStatusChanged(ISD::Mount::Status status)
             if (wpScopeStatus == WP_SLEWING || wpScopeStatus == WP_TRACKING_BUSY)
                 wpScopeStatus = WP_TRACKING_OFF;
             break;
-        case ISD::Mount::MOUNT_PARKING:
-            // Ensure the parking state to avoid double park calls
-            m_CaptureModuleState->setScopeParkState(ISD::PARK_PARKING);
-            break;
         default:
             // do nothing
             break;
     }
-    // do nothing if no new state
-    if (m_CaptureModuleState->getScopeState() == status)
-        return;
-
     m_CaptureModuleState->setScopeState(status);
     // re-run checks
     checkAllActionsReady();
@@ -845,10 +830,6 @@ void SequenceJobState::scopeStatusChanged(ISD::Mount::Status status)
 
 void SequenceJobState::scopeParkStatusChanged(ISD::ParkStatus status)
 {
-    // do nothing if no new state
-    if (status == m_CaptureModuleState->getScopeParkState())
-        return;
-
     m_CaptureModuleState->setScopeParkState(status);
     // re-run checks
     checkAllActionsReady();

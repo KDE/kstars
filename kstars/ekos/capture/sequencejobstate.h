@@ -246,8 +246,6 @@ class SequenceJobState: public QObject
         void prepareState(Ekos::CaptureState state);
         // ask for the current device state
         void readCurrentState(Ekos::CaptureState state);
-        // ask for the current mount park state
-        void readCurrentMountParkState();
         // Capture preparation complete(d)
         void prepareComplete(bool success = true);
         // Capture initialization complete(d)

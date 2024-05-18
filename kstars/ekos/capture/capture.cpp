@@ -132,8 +132,6 @@ Capture::Capture(bool standAlone)
     // connections between state machine and device adaptor
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::pierSideChanged,
             m_captureModuleState.data(), &CaptureModuleState::setPierSide);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeParkStatusChanged,
-            m_captureModuleState.data(), &CaptureModuleState::setScopeParkState);
 
     // Generate Meridian Flip State
     getMeridianFlipState();
