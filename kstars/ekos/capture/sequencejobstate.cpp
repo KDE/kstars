@@ -790,22 +790,10 @@ void SequenceJobState::dustCapStateChanged(ISD::DustCap::Status status)
     switch (status)
     {
         case ISD::DustCap::CAP_ERROR:
-            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_ERROR);
             emit abortCapture();
             break;
-        case ISD::DustCap::CAP_PARKED:
-            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKED);
-            emit newLog(i18n("Dust cap parked."));
-            break;
-        case ISD::DustCap::CAP_IDLE:
-            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_IDLE);
-            emit newLog(i18n("Dust cap unparked."));
-            break;
-        case ISD::DustCap::CAP_UNPARKING:
-            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_UNPARKING);
-            break;
-        case ISD::DustCap::CAP_PARKING:
-            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKING);
+        default:
+            // do nothing
             break;
     }
 
@@ -834,29 +822,18 @@ void SequenceJobState::scopeStatusChanged(ISD::Mount::Status status)
             // do nothing
             break;
     }
-    // do nothing if no new state
-    if (m_CaptureModuleState->getScopeState() == status)
-        return;
-
-    m_CaptureModuleState->setScopeState(status);
     // re-run checks
     checkAllActionsReady();
 }
 
-void SequenceJobState::scopeParkStatusChanged(ISD::ParkStatus status)
+void SequenceJobState::scopeParkStatusChanged(ISD::ParkStatus)
 {
-    // do nothing if no new state
-    if (status == m_CaptureModuleState->getScopeParkState())
-        return;
-
-    m_CaptureModuleState->setScopeParkState(status);
     // re-run checks
     checkAllActionsReady();
 }
 
-void SequenceJobState::domeStatusChanged(ISD::Dome::Status status)
+void SequenceJobState::domeStatusChanged(ISD::Dome::Status)
 {
-    m_CaptureModuleState->setDomeState(status);
     // re-run checks
     checkAllActionsReady();
 }

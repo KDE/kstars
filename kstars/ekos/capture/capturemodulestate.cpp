@@ -286,6 +286,31 @@ void CaptureModuleState::setCurrentFilterPosition(int position, const QString &n
     }
 }
 
+void CaptureModuleState::dustCapStateChanged(ISD::DustCap::Status status)
+{
+    switch (status)
+    {
+        case ISD::DustCap::CAP_ERROR:
+            setDustCapState(CaptureModuleState::CAP_ERROR);
+            emit newLog(i18n("Dust cap error."));
+            break;
+        case ISD::DustCap::CAP_PARKED:
+            setDustCapState(CaptureModuleState::CAP_PARKED);
+            emit newLog(i18n("Dust cap parked."));
+            break;
+        case ISD::DustCap::CAP_IDLE:
+            setDustCapState(CaptureModuleState::CAP_IDLE);
+            emit newLog(i18n("Dust cap unparked."));
+            break;
+        case ISD::DustCap::CAP_UNPARKING:
+            setDustCapState(CaptureModuleState::CAP_UNPARKING);
+            break;
+        case ISD::DustCap::CAP_PARKING:
+            setDustCapState(CaptureModuleState::CAP_PARKING);
+            break;
+    }
+}
+
 QSharedPointer<MeridianFlipState> CaptureModuleState::getMeridianFlipState()
 {
     // lazy instantiation

@@ -130,10 +130,16 @@ Capture::Capture(bool standAlone)
     connect(m_captureProcess.data(), &CaptureProcess::driverTimedout, this, &Capture::driverTimedout);
 
     // connections between state machine and device adaptor
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeStatusChanged,
+            m_captureModuleState.data(), &CaptureModuleState::setScopeState);
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::pierSideChanged,
             m_captureModuleState.data(), &CaptureModuleState::setPierSide);
     connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeParkStatusChanged,
             m_captureModuleState.data(), &CaptureModuleState::setScopeParkState);
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::domeStatusChanged,
+            m_captureModuleState.data(), &CaptureModuleState::setDomeState);
+    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::dustCapStatusChanged,
+            m_captureModuleState.data(), &CaptureModuleState::dustCapStateChanged);
 
     // Generate Meridian Flip State
     getMeridianFlipState();

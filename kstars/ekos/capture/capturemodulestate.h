@@ -339,6 +339,11 @@ class CaptureModuleState: public QObject
             m_lightBoxLightEnabled = value;
         }
 
+        /**
+         * @brief dust cap status change
+         */
+        void dustCapStateChanged(ISD::DustCap::Status status);
+
         CapState getDustCapState() const
         {
             return m_dustCapState;
