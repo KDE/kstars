@@ -4103,7 +4103,7 @@ void Focus::updateProperty(INDI::Property prop)
                 if (focuserAdditionalMovement == 0)
                 {
                     m_RestartState = RESTART_NONE;
-                    inAutoFocus = inAdjustFocus = inScanStartPos = false;
+                    inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                     adaptFocus->setInAdaptiveFocus(false);
                     appendLogText(i18n("Restarting autofocus process..."));
                     runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
@@ -4118,7 +4118,7 @@ void Focus::updateProperty(INDI::Property prop)
                 // processing already done in completeFocusProcedure
                 completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FORCE_ABORT);
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inScanStartPos = false;
+                inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 return;
             }
@@ -4184,7 +4184,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inScanStartPos = false;
+                inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
@@ -4196,7 +4196,7 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FORCE_ABORT);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inScanStartPos = false;
+            inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
             return;
         }
@@ -4250,7 +4250,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inScanStartPos = false;
+                inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
@@ -4262,7 +4262,7 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FORCE_ABORT);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inScanStartPos = false;
+            inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
             return;
         }
@@ -4288,7 +4288,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
-                inAutoFocus = inAdjustFocus = inScanStartPos = false;
+                inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
@@ -4300,7 +4300,7 @@ void Focus::updateProperty(INDI::Property prop)
             // Abort the autofocus run now the focuser has finished moving to its start position
             completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FORCE_ABORT);
             m_RestartState = RESTART_NONE;
-            inAutoFocus = inAdjustFocus = inScanStartPos = false;
+            inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
             return;
         }
