@@ -348,6 +348,10 @@ public slots:
          * @param state device state that needs to be read directly
          */
         void readCurrentState(CaptureState state);
+        /**
+         * @brief Slot that reads the current park state of the mount and publishes it.
+         */
+        void readCurrentMountParkState();
 
 private:
         // the state machine for the current sequence job
