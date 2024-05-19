@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 01:42+0000\n"
+"POT-Creation-Date: 2024-05-19 01:45+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -6596,7 +6596,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "FITS failas įrašytas į %1"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:229 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -12488,7 +12488,7 @@ msgid "Waiting..."
 msgstr "Laukiama..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:391
+#: ekos/capture/capturemodulestate.cpp:416
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -15610,22 +15610,22 @@ msgstr "Nepavyko atverti „%1“ failo."
 msgid "Save As..."
 msgstr "Įrašyti scenarijų kaip..."
 
-#: ekos/capture/capture.cpp:272
+#: ekos/capture/capture.cpp:280
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:277
+#: ekos/capture/capture.cpp:285
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "Mičiganas"
 
-#: ekos/capture/capture.cpp:278
+#: ekos/capture/capture.cpp:286
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "Mičiganas"
 
-#: ekos/capture/capture.cpp:282
+#: ekos/capture/capture.cpp:290
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
@@ -15764,23 +15764,23 @@ msgstr "Vietinis laikas"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:656
+#: ekos/capture/capturedeviceadaptor.cpp:663
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:657
+#: ekos/capture/capturedeviceadaptor.cpp:664
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Telescope Covered"
 msgstr "Pažymėkite įvesties koordinates"
 
-#: ekos/capture/capturedeviceadaptor.cpp:789
+#: ekos/capture/capturedeviceadaptor.cpp:796
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:790
+#: ekos/capture/capturedeviceadaptor.cpp:797
 #: ekos/capture/sequencejobstate.cpp:403
 #, fuzzy, kde-format
 #| msgid "Exposure:"
@@ -15827,134 +15827,152 @@ msgstr "Įkeliamos žvaigždės"
 msgid "Warning: Dithering failed."
 msgstr "Papildymas"
 
-#: ekos/capture/capturemodulestate.cpp:485
+#: ekos/capture/capturemodulestate.cpp:295
+#, fuzzy, kde-format
+#| msgid "Count:"
+msgid "Dust cap error."
+msgstr "Kiekis:"
+
+#: ekos/capture/capturemodulestate.cpp:299
+#, fuzzy, kde-format
+#| msgid "Count:"
+msgid "Dust cap parked."
+msgstr "Kiekis:"
+
+#: ekos/capture/capturemodulestate.cpp:303
+#, fuzzy, kde-format
+#| msgid "Count:"
+msgid "Dust cap unparked."
+msgstr "Kiekis:"
+
+#: ekos/capture/capturemodulestate.cpp:510
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:581
+#: ekos/capture/capturemodulestate.cpp:606
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:594
+#: ekos/capture/capturemodulestate.cpp:619
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:639
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/capturemodulestate.cpp:623
+#: ekos/capture/capturemodulestate.cpp:648
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/capturemodulestate.cpp:630
+#: ekos/capture/capturemodulestate.cpp:655
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:652
+#: ekos/capture/capturemodulestate.cpp:677
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Adaptive focus complete."
 msgstr "baigta"
 
-#: ekos/capture/capturemodulestate.cpp:676
+#: ekos/capture/capturemodulestate.cpp:701
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:718
+#: ekos/capture/capturemodulestate.cpp:743
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:722
+#: ekos/capture/capturemodulestate.cpp:747
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Limit: %1 mins"
 msgstr "Dabartinių spalvų nuostatos"
 
-#: ekos/capture/capturemodulestate.cpp:860
+#: ekos/capture/capturemodulestate.cpp:885
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:878
+#: ekos/capture/capturemodulestate.cpp:903
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Guide module timed out."
 msgstr "Įkeliamos žvaigždės"
 
-#: ekos/capture/capturemodulestate.cpp:910
+#: ekos/capture/capturemodulestate.cpp:935
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:919
+#: ekos/capture/capturemodulestate.cpp:944
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:941
+#: ekos/capture/capturemodulestate.cpp:966
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:955
+#: ekos/capture/capturemodulestate.cpp:980
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:969
+#: ekos/capture/capturemodulestate.cpp:994
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:996
+#: ekos/capture/capturemodulestate.cpp:1021
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1043
+#: ekos/capture/capturemodulestate.cpp:1068
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1047
+#: ekos/capture/capturemodulestate.cpp:1072
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1062
+#: ekos/capture/capturemodulestate.cpp:1087
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1444
+#: ekos/capture/capturemodulestate.cpp:1469
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:1463
+#: ekos/capture/capturemodulestate.cpp:1488
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Post-flip alignment failed."
 msgstr "Lygiavimas"
 
-#: ekos/capture/capturemodulestate.cpp:1468
+#: ekos/capture/capturemodulestate.cpp:1493
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Post-flip alignment failed. Retrying..."
@@ -17381,7 +17399,7 @@ msgstr "Naudoti žymeklių failą"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dust cap..."
@@ -17399,7 +17417,7 @@ msgid "Turn light box light on..."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:592
+#: ekos/capture/sequencejobstate.cpp:599
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
@@ -17419,46 +17437,34 @@ msgstr "Klientas"
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Klientas"
 
-#: ekos/capture/sequencejobstate.cpp:506
+#: ekos/capture/sequencejobstate.cpp:509
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount failed, aborting..."
 msgstr "Radijo teleskopas"
 
-#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/capture/sequencejobstate.cpp:518
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Prasideda:"
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:537
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome failed, aborting..."
 msgstr "Radijo teleskopas"
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:547
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Prasideda:"
 
-#: ekos/capture/sequencejobstate.cpp:776
+#: ekos/capture/sequencejobstate.cpp:783
 #, kde-format
 msgid "Light box on."
 msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:791
-#, fuzzy, kde-format
-#| msgid "Count:"
-msgid "Dust cap parked."
-msgstr "Kiekis:"
-
-#: ekos/capture/sequencejobstate.cpp:795
-#, fuzzy, kde-format
-#| msgid "Count:"
-msgid "Dust cap unparked."
-msgstr "Kiekis:"
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format

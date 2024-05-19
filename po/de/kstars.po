@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 01:42+0000\n"
+"POT-Creation-Date: 2024-05-19 01:45+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -6471,7 +6471,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Lösung abgebrochen nach %1 Sekunden."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:229 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -12423,7 +12423,7 @@ msgid "Waiting..."
 msgstr "Warten ..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:391
+#: ekos/capture/capturemodulestate.cpp:416
 #, kde-format
 msgid "Dithering..."
 msgstr "Dithering ..."
@@ -15572,22 +15572,22 @@ msgstr "Die Datei %1 kann nicht geöffnet werden"
 msgid "Save As..."
 msgstr "Speichern unter ..."
 
-#: ekos/capture/capture.cpp:272
+#: ekos/capture/capture.cpp:280
 #, kde-format
 msgid "Paused..."
 msgstr "Angehalten ..."
 
-#: ekos/capture/capture.cpp:277
+#: ekos/capture/capture.cpp:285
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Umschwenken am Meridian ..."
 
-#: ekos/capture/capture.cpp:278
+#: ekos/capture/capture.cpp:286
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Umschwenken am Meridian begonnen"
 
-#: ekos/capture/capture.cpp:282
+#: ekos/capture/capture.cpp:290
 #, kde-format
 msgid "Flip complete."
 msgstr "Umschwenken beendet."
@@ -15725,22 +15725,22 @@ msgstr "Ortszeit:"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:656
+#: ekos/capture/capturedeviceadaptor.cpp:663
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Entfernen Sie die Abdeckung vom Teleskop, um fortzufahren."
 
-#: ekos/capture/capturedeviceadaptor.cpp:657
+#: ekos/capture/capturedeviceadaptor.cpp:664
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Teleskop abgedeckt"
 
-#: ekos/capture/capturedeviceadaptor.cpp:789
+#: ekos/capture/capturedeviceadaptor.cpp:796
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:790
+#: ekos/capture/capturedeviceadaptor.cpp:797
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -15783,76 +15783,97 @@ msgstr ""
 msgid "Warning: Dithering failed."
 msgstr "Achtung: Dithering ist fehlgeschlagen."
 
-#: ekos/capture/capturemodulestate.cpp:485
+#: ekos/capture/capturemodulestate.cpp:295
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap error."
+msgstr "Dome Creek"
+
+#: ekos/capture/capturemodulestate.cpp:299
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap parked."
+msgstr "Dome Creek"
+
+#: ekos/capture/capturemodulestate.cpp:303
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap unparked."
+msgstr "Dome Creek"
+
+#: ekos/capture/capturemodulestate.cpp:510
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Umschwenken am Meridian erfolgreich abgeschlossen"
 
-#: ekos/capture/capturemodulestate.cpp:581
+#: ekos/capture/capturemodulestate.cpp:606
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 "Neue Kalibrierung und Nachführung nach dem Umschwenken wird durchgeführt ..."
 
-#: ekos/capture/capturemodulestate.cpp:594
+#: ekos/capture/capturemodulestate.cpp:619
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Der Teleskop-Assistent wurde erfolgreich abgeschlossen."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:639
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped. Aborting..."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Die automatische Nachführung wurde angehalten."
 
-#: ekos/capture/capturemodulestate.cpp:623
+#: ekos/capture/capturemodulestate.cpp:648
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Die automatische Nachführung wurde angehalten. Abbruch ..."
 
-#: ekos/capture/capturemodulestate.cpp:630
+#: ekos/capture/capturemodulestate.cpp:655
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Der Teleskop-Assistent wurde erfolgreich abgeschlossen."
 
-#: ekos/capture/capturemodulestate.cpp:652
+#: ekos/capture/capturemodulestate.cpp:677
 #, fuzzy, kde-format
 #| msgid "Focus complete."
 msgid "Adaptive focus complete."
 msgstr "Fokussierung ist abgeschlossen."
 
-#: ekos/capture/capturemodulestate.cpp:676
+#: ekos/capture/capturemodulestate.cpp:701
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 "Die automatische Fokussierung ist fehlgeschlagen, die Belichtung wird "
 "abgebrochen ..."
 
-#: ekos/capture/capturemodulestate.cpp:718
+#: ekos/capture/capturemodulestate.cpp:743
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:722
+#: ekos/capture/capturemodulestate.cpp:747
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
 msgid "Limit: %1 mins"
 msgstr "Simulator-Einstellungen"
 
-#: ekos/capture/capturemodulestate.cpp:860
+#: ekos/capture/capturemodulestate.cpp:885
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Neue Ausrichtung nach dem Umschwenken wird durchgeführt ..."
 
-#: ekos/capture/capturemodulestate.cpp:878
+#: ekos/capture/capturemodulestate.cpp:903
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Zeitüberschreitung beim Nachführungsmodul."
 
-#: ekos/capture/capturemodulestate.cpp:910
+#: ekos/capture/capturemodulestate.cpp:935
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15862,7 +15883,7 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:919
+#: ekos/capture/capturemodulestate.cpp:944
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15872,13 +15893,13 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:941
+#: ekos/capture/capturemodulestate.cpp:966
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Der Teleskop-Assistent wurde erfolgreich abgeschlossen."
 
-#: ekos/capture/capturemodulestate.cpp:955
+#: ekos/capture/capturemodulestate.cpp:980
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15888,7 +15909,7 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:969
+#: ekos/capture/capturemodulestate.cpp:994
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15898,7 +15919,7 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:996
+#: ekos/capture/capturemodulestate.cpp:1021
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -15910,7 +15931,7 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 überschreitet den Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird abgebrochen."
 
-#: ekos/capture/capturemodulestate.cpp:1043
+#: ekos/capture/capturemodulestate.cpp:1068
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15919,7 +15940,7 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:1047
+#: ekos/capture/capturemodulestate.cpp:1072
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15928,7 +15949,7 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder in %3 Sekunden fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:1062
+#: ekos/capture/capturemodulestate.cpp:1087
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -15938,18 +15959,18 @@ msgstr ""
 "Die Nachführungs-Abweichung %1 liegt jetzt unter dem Grenzwert von %2 "
 "Bogensekunden, die Belichtung wird wieder fortgesetzt."
 
-#: ekos/capture/capturemodulestate.cpp:1444
+#: ekos/capture/capturemodulestate.cpp:1469
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 "Die erneute Ausrichtung nach dem Umschwenken wurde erfolgreich abgeschlossen."
 
-#: ekos/capture/capturemodulestate.cpp:1463
+#: ekos/capture/capturemodulestate.cpp:1488
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Das erneute Ausrichtung nach dem Umschwenken ist fehlgeschlagen."
 
-#: ekos/capture/capturemodulestate.cpp:1468
+#: ekos/capture/capturemodulestate.cpp:1493
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
@@ -17439,7 +17460,7 @@ msgstr "Dunkelbild"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Decken Sie das Teleskop ab, um eine Dunkelbelichtung aufzunehmen."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Unparking dust cap..."
@@ -17457,7 +17478,7 @@ msgid "Turn light box light on..."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:592
+#: ekos/capture/sequencejobstate.cpp:599
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
@@ -17480,48 +17501,34 @@ msgstr "Kalibrierung abgeschlossen."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Kalibrierung abgeschlossen."
 
-#: ekos/capture/sequencejobstate.cpp:506
+#: ekos/capture/sequencejobstate.cpp:509
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking mount failed, aborting..."
 msgstr "FITS-Bild kann nicht geladen werden, Aktion wird abgebrochen ..."
 
-#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/capture/sequencejobstate.cpp:518
 #, fuzzy, kde-format
 #| msgid "Restarting autofocus process..."
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Automatische Fokussierung neu starten ..."
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:537
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking dome failed, aborting..."
 msgstr "FITS-Bild kann nicht geladen werden, Aktion wird abgebrochen ..."
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:547
 #, fuzzy, kde-format
 #| msgid "Restarting autofocus process..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Automatische Fokussierung neu starten ..."
 
-#: ekos/capture/sequencejobstate.cpp:776
+#: ekos/capture/sequencejobstate.cpp:783
 #, kde-format
 msgid "Light box on."
 msgstr ""
-
-#: ekos/capture/sequencejobstate.cpp:791
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
-msgid "Dust cap parked."
-msgstr "Dome Creek"
-
-#: ekos/capture/sequencejobstate.cpp:795
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
-msgid "Dust cap unparked."
-msgstr "Dome Creek"
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format

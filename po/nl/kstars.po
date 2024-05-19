@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 01:42+0000\n"
+"POT-Creation-Date: 2024-05-19 01:45+0000\n"
 "PO-Revision-Date: 2024-05-15 09:43+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -6384,7 +6384,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Oplossen gestopt na %1 seconden."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:229 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -12375,7 +12375,7 @@ msgid "Waiting..."
 msgstr "Wachten..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:391
+#: ekos/capture/capturemodulestate.cpp:416
 #, kde-format
 msgid "Dithering..."
 msgstr "Ditheren ..."
@@ -15515,22 +15515,22 @@ msgstr "Naar een nieuw reeksbestand opslaan"
 msgid "Save As..."
 msgstr "Opslaan als..."
 
-#: ekos/capture/capture.cpp:272
+#: ekos/capture/capture.cpp:280
 #, kde-format
 msgid "Paused..."
 msgstr "Tijdelijk gestopt..."
 
-#: ekos/capture/capture.cpp:277
+#: ekos/capture/capture.cpp:285
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Meridiaanflip..."
 
-#: ekos/capture/capture.cpp:278
+#: ekos/capture/capture.cpp:286
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Meridiaanflip gestart"
 
-#: ekos/capture/capture.cpp:282
+#: ekos/capture/capture.cpp:290
 #, kde-format
 msgid "Flip complete."
 msgstr "Flip voltooid."
@@ -15670,22 +15670,22 @@ msgstr ""
 "Scherm omschakelen naar de grafische modus van het tonen van het aantal "
 "opnamen."
 
-#: ekos/capture/capturedeviceadaptor.cpp:656
+#: ekos/capture/capturedeviceadaptor.cpp:663
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Verwijder lenskap van de telescoop voordat u verder gaat."
 
-#: ekos/capture/capturedeviceadaptor.cpp:657
+#: ekos/capture/capturedeviceadaptor.cpp:664
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescoop bedekt"
 
-#: ekos/capture/capturedeviceadaptor.cpp:789
+#: ekos/capture/capturedeviceadaptor.cpp:796
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Heeft %1 een sluiter?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:790
+#: ekos/capture/capturedeviceadaptor.cpp:797
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -15724,96 +15724,112 @@ msgstr "Waarschuwing: Ditheren mislukt. Wordt hervat binnen %1 seconden..."
 msgid "Warning: Dithering failed."
 msgstr "Waarschuwing: ditheren is mislukt."
 
-#: ekos/capture/capturemodulestate.cpp:485
+#: ekos/capture/capturemodulestate.cpp:295
+#, fuzzy, kde-format
+#| msgid "Dust cap parked."
+msgid "Dust cap error."
+msgstr "Stofkap in parkeerstand."
+
+#: ekos/capture/capturemodulestate.cpp:299
+#, kde-format
+msgid "Dust cap parked."
+msgstr "Stofkap in parkeerstand."
+
+#: ekos/capture/capturemodulestate.cpp:303
+#, kde-format
+msgid "Dust cap unparked."
+msgstr "Stofkap uit parkeerstand"
+
+#: ekos/capture/capturemodulestate.cpp:510
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Meridiaanflip is met succes voltooid"
 
-#: ekos/capture/capturemodulestate.cpp:581
+#: ekos/capture/capturemodulestate.cpp:606
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Opnieuw uitlijnen en volgen na meridiaanflip telescoop..."
 
-#: ekos/capture/capturemodulestate.cpp:594
+#: ekos/capture/capturemodulestate.cpp:619
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Calibratie na meridiaanflip mislukt. Wordt herstart..."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:639
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Autovolgen gestopt. Wacht op eindigen van autofocus..."
 
-#: ekos/capture/capturemodulestate.cpp:623
+#: ekos/capture/capturemodulestate.cpp:648
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Autovolgen gestopt. Wordt afgebroken..."
 
-#: ekos/capture/capturemodulestate.cpp:630
+#: ekos/capture/capturemodulestate.cpp:655
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Calibratie na meridiaanflip mislukt. Wordt afgebroken..."
 
-#: ekos/capture/capturemodulestate.cpp:652
+#: ekos/capture/capturemodulestate.cpp:677
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Aanpassend focusseren voltooid."
 
-#: ekos/capture/capturemodulestate.cpp:676
+#: ekos/capture/capturemodulestate.cpp:701
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Autofocus is mislukt. Belichten afgebroken..."
 
-#: ekos/capture/capturemodulestate.cpp:718
+#: ekos/capture/capturemodulestate.cpp:743
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Limiet: %1 °C"
 
-#: ekos/capture/capturemodulestate.cpp:722
+#: ekos/capture/capturemodulestate.cpp:747
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Limiet: %1 minuten"
 
-#: ekos/capture/capturemodulestate.cpp:860
+#: ekos/capture/capturemodulestate.cpp:885
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Opnieuw uitlijnen telescoop na meridiaanflip..."
 
-#: ekos/capture/capturemodulestate.cpp:878
+#: ekos/capture/capturemodulestate.cpp:903
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Volgtijd is verlopen."
 
-#: ekos/capture/capturemodulestate.cpp:910
+#: ekos/capture/capturemodulestate.cpp:935
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Initiële volgafwijking %1 is onder de grenswaarde van %2 boogseconden."
 
-#: ekos/capture/capturemodulestate.cpp:919
+#: ekos/capture/capturemodulestate.cpp:944
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Initiële volgafwijking %1 is boven de grenswaarde van %2 boogseconden."
 
-#: ekos/capture/capturemodulestate.cpp:941
+#: ekos/capture/capturemodulestate.cpp:966
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Calibratie na meridiaanflip met succes voltooid."
 
-#: ekos/capture/capturemodulestate.cpp:955
+#: ekos/capture/capturemodulestate.cpp:980
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Volgafwijking bij begin van opname %1 is boven de grenswaarde van %2 "
 "boogseconden."
 
-#: ekos/capture/capturemodulestate.cpp:969
+#: ekos/capture/capturemodulestate.cpp:994
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Volgafwijking bij begin van opname %1 is onder de grenswaarde van %2 "
 "boogseconden."
 
-#: ekos/capture/capturemodulestate.cpp:996
+#: ekos/capture/capturemodulestate.cpp:1021
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -15822,7 +15838,7 @@ msgstr ""
 "Volgafwijking %1 meer dan toegestane %2 boogseconden voor %4 opeenvolgende "
 "samples, belichting gestopt. Tot %3 seconden wachten op opstarten van volger."
 
-#: ekos/capture/capturemodulestate.cpp:1043
+#: ekos/capture/capturemodulestate.cpp:1068
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15830,7 +15846,7 @@ msgid ""
 msgstr ""
 "Volgafwijking %1 is nu &lt; toegestane %2 boogseconden, belichting hervat."
 
-#: ekos/capture/capturemodulestate.cpp:1047
+#: ekos/capture/capturemodulestate.cpp:1072
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15839,22 +15855,22 @@ msgstr ""
 "Volgafwijking %1 is nu lager dan de toegestane %2 boogseconden, belichting "
 "wordt binnen %3 seconden hervat."
 
-#: ekos/capture/capturemodulestate.cpp:1062
+#: ekos/capture/capturemodulestate.cpp:1087
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "Volgafwijking %1 is nog groter dan de toegestane %2 boogseconden."
 
-#: ekos/capture/capturemodulestate.cpp:1444
+#: ekos/capture/capturemodulestate.cpp:1469
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Opnieuw uitlijnen na meridiaanflip met succes voltooid."
 
-#: ekos/capture/capturemodulestate.cpp:1463
+#: ekos/capture/capturemodulestate.cpp:1488
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Uitlijnen na flip is mislukt!"
 
-#: ekos/capture/capturemodulestate.cpp:1468
+#: ekos/capture/capturemodulestate.cpp:1493
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Uitlijnen na flip is mislukt! Wordt opnieuw geprobeerd..."
@@ -17288,7 +17304,7 @@ msgstr "Flat Frame"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Plaats lenskap op telescoop voor een dark exposure."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Verwijderen stofkap......"
@@ -17304,7 +17320,7 @@ msgid "Turn light box light on..."
 msgstr "Licht van lichtbox aanzetten..."
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:592
+#: ekos/capture/sequencejobstate.cpp:599
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Licht van lichtbox uitzetten..."
@@ -17324,40 +17340,30 @@ msgstr "Naar muurpositie draaien voltooid, volgen stoppen."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Naar muurpositie draaien voltooid, volgen is gestopt."
 
-#: ekos/capture/sequencejobstate.cpp:506
+#: ekos/capture/sequencejobstate.cpp:509
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Opstelling parkeren mislukt, wordt afgebroken..."
 
-#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/capture/sequencejobstate.cpp:518
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Opstelling parkeren vóór kalibratie opnemen van frames..."
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:537
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Koepel parkeren mislukt, wordt afgebroken..."
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:547
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Koepel parkeren vóór kalibratie opnemen van frames..."
 
-#: ekos/capture/sequencejobstate.cpp:776
+#: ekos/capture/sequencejobstate.cpp:783
 #, kde-format
 msgid "Light box on."
 msgstr "Lichtbox aan."
-
-#: ekos/capture/sequencejobstate.cpp:791
-#, kde-format
-msgid "Dust cap parked."
-msgstr "Stofkap in parkeerstand."
-
-#: ekos/capture/sequencejobstate.cpp:795
-#, kde-format
-msgid "Dust cap unparked."
-msgstr "Stofkap uit parkeerstand"
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format

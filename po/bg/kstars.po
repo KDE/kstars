@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 01:42+0000\n"
+"POT-Creation-Date: 2024-05-19 01:45+0000\n"
 "PO-Revision-Date: 2024-05-17 17:09+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6374,7 +6374,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Решаването е прекъснато след %1 секунди."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:229 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -12421,7 +12421,7 @@ msgid "Waiting..."
 msgstr "Изчакване..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:391
+#: ekos/capture/capturemodulestate.cpp:416
 #, kde-format
 msgid "Dithering..."
 msgstr "Смесване..."
@@ -15591,22 +15591,22 @@ msgstr "Запазване на файл със заснета последов�
 msgid "Save As..."
 msgstr "Запазване като..."
 
-#: ekos/capture/capture.cpp:272
+#: ekos/capture/capture.cpp:280
 #, kde-format
 msgid "Paused..."
 msgstr "На пауза..."
 
-#: ekos/capture/capture.cpp:277
+#: ekos/capture/capture.cpp:285
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Обръщане на меридиана..."
 
-#: ekos/capture/capture.cpp:278
+#: ekos/capture/capture.cpp:286
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Обръщането на меридиана започна"
 
-#: ekos/capture/capture.cpp:282
+#: ekos/capture/capture.cpp:290
 #, kde-format
 msgid "Flip complete."
 msgstr "Обръщането е завършено."
@@ -15747,22 +15747,22 @@ msgstr ""
 "Превключване на дисплея в графичен режим на показване на броячите за "
 "заснемане."
 
-#: ekos/capture/capturedeviceadaptor.cpp:656
+#: ekos/capture/capturedeviceadaptor.cpp:663
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Свалете капака на телескопа, за да продължите."
 
-#: ekos/capture/capturedeviceadaptor.cpp:657
+#: ekos/capture/capturedeviceadaptor.cpp:664
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Покрит телескоп"
 
-#: ekos/capture/capturedeviceadaptor.cpp:789
+#: ekos/capture/capturedeviceadaptor.cpp:796
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Има ли %1 затвор?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:790
+#: ekos/capture/capturedeviceadaptor.cpp:797
 #: ekos/capture/sequencejobstate.cpp:403
 #, kde-format
 msgid "Dark Exposure"
@@ -15804,100 +15804,116 @@ msgstr ""
 msgid "Warning: Dithering failed."
 msgstr "Предупреждение: Дитърингът е неуспешен."
 
-#: ekos/capture/capturemodulestate.cpp:485
+#: ekos/capture/capturemodulestate.cpp:295
+#, fuzzy, kde-format
+#| msgid "Dust cap parked."
+msgid "Dust cap error."
+msgstr "Противопрахова капачка е паркирана."
+
+#: ekos/capture/capturemodulestate.cpp:299
+#, kde-format
+msgid "Dust cap parked."
+msgstr "Противопрахова капачка е паркирана."
+
+#: ekos/capture/capturemodulestate.cpp:303
+#, kde-format
+msgid "Dust cap unparked."
+msgstr "Противопраховият капак е разпаркиран."
+
+#: ekos/capture/capturemodulestate.cpp:510
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Меридианното обръщане е завършено успешно"
 
-#: ekos/capture/capturemodulestate.cpp:581
+#: ekos/capture/capturemodulestate.cpp:606
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Извършване на повторно калибриране след обръщане и насочване..."
 
-#: ekos/capture/capturemodulestate.cpp:594
+#: ekos/capture/capturemodulestate.cpp:619
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Грешка при калибрирането след обръщането на меридиана. Рестартиране..."
 
-#: ekos/capture/capturemodulestate.cpp:614
+#: ekos/capture/capturemodulestate.cpp:639
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Автоматичното насочване спря. Изчаква се автофокусът да приключи..."
 
-#: ekos/capture/capturemodulestate.cpp:623
+#: ekos/capture/capturemodulestate.cpp:648
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Автоматичното насочване спря. Прекъсване..."
 
-#: ekos/capture/capturemodulestate.cpp:630
+#: ekos/capture/capturemodulestate.cpp:655
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Грешка при калибрирането след обръщането на меридиана. Прекъсване..."
 
-#: ekos/capture/capturemodulestate.cpp:652
+#: ekos/capture/capturemodulestate.cpp:677
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Завършен адаптивен фокус."
 
-#: ekos/capture/capturemodulestate.cpp:676
+#: ekos/capture/capturemodulestate.cpp:701
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Автофокусът е неуспешен. Прекъсване на експозицията..."
 
-#: ekos/capture/capturemodulestate.cpp:718
+#: ekos/capture/capturemodulestate.cpp:743
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Ограничение: %1 °C"
 
-#: ekos/capture/capturemodulestate.cpp:722
+#: ekos/capture/capturemodulestate.cpp:747
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Ограничение: %1 мин"
 
-#: ekos/capture/capturemodulestate.cpp:860
+#: ekos/capture/capturemodulestate.cpp:885
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Извършване на пренастройване след обръщане..."
 
-#: ekos/capture/capturemodulestate.cpp:878
+#: ekos/capture/capturemodulestate.cpp:903
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Времето за изчакване на модула за гидиране изтече."
 
-#: ekos/capture/capturemodulestate.cpp:910
+#: ekos/capture/capturemodulestate.cpp:935
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Първоначално отклонение в гидирането %1 е под граничната стойност от %2 "
 "дъгови секунди"
 
-#: ekos/capture/capturemodulestate.cpp:919
+#: ekos/capture/capturemodulestate.cpp:944
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Първоначалното отклонение в гидирането %1 е надвишило граничната стойност от "
 "%2 дъгови секунди"
 
-#: ekos/capture/capturemodulestate.cpp:941
+#: ekos/capture/capturemodulestate.cpp:966
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Калибрирането след обръщането на меридиана е завършено успешно."
 
-#: ekos/capture/capturemodulestate.cpp:955
+#: ekos/capture/capturemodulestate.cpp:980
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Отклонението в гидирането при стартиране на заснемането %1 е надвишило "
 "границата %2 дъгови секунди."
 
-#: ekos/capture/capturemodulestate.cpp:969
+#: ekos/capture/capturemodulestate.cpp:994
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Отклонението в гидирането при стартиране на заснемането %1 е под граничната "
 "стойност от %2 дъгови секунди"
 
-#: ekos/capture/capturemodulestate.cpp:996
+#: ekos/capture/capturemodulestate.cpp:1021
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -15907,7 +15923,7 @@ msgstr ""
 "секунди за %4 последователни проби, спиране на експозицията и изчакване на "
 "гидирането до %3 секунди."
 
-#: ekos/capture/capturemodulestate.cpp:1043
+#: ekos/capture/capturemodulestate.cpp:1068
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15916,7 +15932,7 @@ msgstr ""
 "Отклонението в гидирането %1 вече е по-ниско от граничната стойност от %2 "
 "дъгови секунди, възобновяване на експозицията."
 
-#: ekos/capture/capturemodulestate.cpp:1047
+#: ekos/capture/capturemodulestate.cpp:1072
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -15925,24 +15941,24 @@ msgstr ""
 "Отклонението в гидирането %1 сега е по-ниско от граничната стойност от %2 "
 "дъгови секунди, възобновяване на експозицията след %3 секунди."
 
-#: ekos/capture/capturemodulestate.cpp:1062
+#: ekos/capture/capturemodulestate.cpp:1087
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Отклонението в гидирането %1 все още е по-високо от граничната стойност от "
 "%2 дъгови секунди."
 
-#: ekos/capture/capturemodulestate.cpp:1444
+#: ekos/capture/capturemodulestate.cpp:1469
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторното подреждане след обръщането е завършено успешно."
 
-#: ekos/capture/capturemodulestate.cpp:1463
+#: ekos/capture/capturemodulestate.cpp:1488
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Подравняването след обръщане е неуспешно."
 
-#: ekos/capture/capturemodulestate.cpp:1468
+#: ekos/capture/capturemodulestate.cpp:1493
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Неуспешно подравняване след обръщане. Повторен опит..."
@@ -17384,7 +17400,7 @@ msgstr "Плосък кадър"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Покрийте телескопа, за да направите тъмна експозиция."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:606
+#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Разпаркиране на праховия капак.."
@@ -17400,7 +17416,7 @@ msgid "Turn light box light on..."
 msgstr "Включете светлината на светлинната кутия..."
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:592
+#: ekos/capture/sequencejobstate.cpp:599
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Изключете светлината на светлинната кутия..."
@@ -17422,40 +17438,30 @@ msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 "Завъртането до позицията на стената е завършено, проследяването е спряно."
 
-#: ekos/capture/sequencejobstate.cpp:506
+#: ekos/capture/sequencejobstate.cpp:509
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Неуспешно монтиране при паркиране, прекъсване..."
 
-#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/capture/sequencejobstate.cpp:518
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Паркиране на монтировката преди заснемане на кадрите за калибриране..."
 
-#: ekos/capture/sequencejobstate.cpp:530
+#: ekos/capture/sequencejobstate.cpp:537
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Паркирането на купола е неуспешно, прекъсва се..."
 
-#: ekos/capture/sequencejobstate.cpp:540
+#: ekos/capture/sequencejobstate.cpp:547
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Паркиране на купола преди заснемане на кадри за калибриране..."
 
-#: ekos/capture/sequencejobstate.cpp:776
+#: ekos/capture/sequencejobstate.cpp:783
 #, kde-format
 msgid "Light box on."
 msgstr "Включена е светлинната кутия."
-
-#: ekos/capture/sequencejobstate.cpp:791
-#, kde-format
-msgid "Dust cap parked."
-msgstr "Противопрахова капачка е паркирана."
-
-#: ekos/capture/sequencejobstate.cpp:795
-#, kde-format
-msgid "Dust cap unparked."
-msgstr "Противопраховият капак е разпаркиран."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
