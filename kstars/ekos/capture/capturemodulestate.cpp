@@ -1402,7 +1402,6 @@ void CaptureModuleState::addCapturedFrame(const QString &signature)
     if (m_capturedFramesMap.end() != frame_item)
         frame_item.value()++;
     else m_capturedFramesMap[signature] = 1;
-
 }
 
 void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint16_t count)
@@ -1410,11 +1409,12 @@ void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint
     CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
     if (m_capturedFramesMap.end() != frame_item)
     {
-        // remove the frame count
-        frame_item.value() = frame_item.value() - count;
-        // clear signature entry if none left
-        if (frame_item.value() <= 0)
+        if (frame_item.value() <= count)
+            // clear signature entry if none will be left
             m_capturedFramesMap.remove(signature);
+        else
+            // remove the frame count
+            frame_item.value() = frame_item.value() - count;
     }
 }
 

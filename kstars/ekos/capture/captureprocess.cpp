@@ -1144,9 +1144,6 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
                    &CaptureProcess::setExposureProgress);
         DarkLibrary::Instance()->disconnect(this);
     }
-    // update counters
-    // This will set activeJob to be a nullptr if it's a preview.
-    updateCompletedCaptureCountersAction();
 
     QString filename;
     bool alreadySaved = false;
@@ -1167,11 +1164,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
                 thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
                 // save current image since the image satisfies the calibration requirements
                 if (checkSavingReceivedImage(data, extension, filename))
-                {
-                    /* Increase the sequence's current capture count */
-                    updatedCaptureCompleted(activeJob()->getCompleted() + 1);
                     alreadySaved = true;
-                }
             }
             else
             {
@@ -1186,6 +1179,9 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
             qWarning(KSTARS_EKOS_CAPTURE) << "Job completed with frametype NONE!";
             return;
     }
+    // update counters
+    // This will set activeJob to be a nullptr if it's a preview.
+    updateCompletedCaptureCountersAction();
 
     if (thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION_COMPLETE)
         thejob->setCalibrationStage(SequenceJobState::CAL_CAPTURING);
