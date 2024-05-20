@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 01:45+0000\n"
+"POT-Creation-Date: 2024-05-20 01:43+0000\n"
 "PO-Revision-Date: 2024-04-26 11:01+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2809,7 +2809,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2450 fitsviewer/fitsviewer.cpp:724
+#: ekos/capture/captureprocess.cpp:2446 fitsviewer/fitsviewer.cpp:724
 #: fitsviewer/fitsviewer.cpp:725
 #, kde-format
 msgid "Preview"
@@ -6299,8 +6299,8 @@ msgstr ""
 msgid "Capture error. Aborting..."
 msgstr ""
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1565
-#: ekos/capture/captureprocess.cpp:2106
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
+#: ekos/capture/captureprocess.cpp:2102
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6400,7 +6400,7 @@ msgstr "Nelze zapisovat do souboru %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2716
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2499 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
 #: ekos/scheduler/schedulerprocess.cpp:4397
@@ -7013,7 +7013,7 @@ msgid "Open Ekos Alignment List"
 msgstr ""
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
-#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2498 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4416
 #, kde-format
@@ -13740,7 +13740,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Opravdu si přejete resetovat stavy všech úloh?"
 
-#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2613
 #, kde-format
 msgid "Reset job status"
 msgstr "Resetovat stav úlohy"
@@ -15005,154 +15005,154 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1226
+#: ekos/capture/captureprocess.cpp:1222
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1252
+#: ekos/capture/captureprocess.cpp:1248
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1281
+#: ekos/capture/captureprocess.cpp:1277
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1347
+#: ekos/capture/captureprocess.cpp:1343
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Zachytávací sekvence CCD dokončena"
 
-#: ekos/capture/captureprocess.cpp:1404
+#: ekos/capture/captureprocess.cpp:1400
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1432
+#: ekos/capture/captureprocess.cpp:1428
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1557 ekos/capture/captureprocess.cpp:2098
+#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2094
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1658
+#: ekos/capture/captureprocess.cpp:1654
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1724
+#: ekos/capture/captureprocess.cpp:1720
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1758
+#: ekos/capture/captureprocess.cpp:1754
 #, kde-format
 msgid "Captured %1"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1764
+#: ekos/capture/captureprocess.cpp:1760
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1797
+#: ekos/capture/captureprocess.cpp:1793
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Spouštím zachytávací skript %1"
 
-#: ekos/capture/captureprocess.cpp:1812
+#: ekos/capture/captureprocess.cpp:1808
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1820
+#: ekos/capture/captureprocess.cpp:1816
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1832
+#: ekos/capture/captureprocess.cpp:1828
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1842
+#: ekos/capture/captureprocess.cpp:1838
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1847
+#: ekos/capture/captureprocess.cpp:1843
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2028 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2024 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2035
+#: ekos/capture/captureprocess.cpp:2031
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2053 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2049 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2079
+#: ekos/capture/captureprocess.cpp:2075
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2157
+#: ekos/capture/captureprocess.cpp:2153
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2168
+#: ekos/capture/captureprocess.cpp:2164
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2190
+#: ekos/capture/captureprocess.cpp:2186
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2219
+#: ekos/capture/captureprocess.cpp:2215
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2227
+#: ekos/capture/captureprocess.cpp:2223
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2447
+#: ekos/capture/captureprocess.cpp:2443
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Náhled"
 
-#: ekos/capture/captureprocess.cpp:2566
+#: ekos/capture/captureprocess.cpp:2562
 #, kde-format
 msgid "Sequence paused."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2616
+#: ekos/capture/captureprocess.cpp:2612
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15161,19 +15161,19 @@ msgstr ""
 "Všechny úlohy byly dokončeny. Opravdu si přejete resetovat stavy všech úloh "
 "a restartovat zachytávání?"
 
-#: ekos/capture/captureprocess.cpp:2630
+#: ekos/capture/captureprocess.cpp:2626
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2745
+#: ekos/capture/captureprocess.cpp:2741
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Opravdu si přejete restartovat %1 ovladač fotoaparátu?"
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2742
 #, kde-format
 msgid "Driver Restart"
 msgstr "Restartovat ovladač"

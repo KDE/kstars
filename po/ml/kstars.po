@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 01:45+0000\n"
+"POT-Creation-Date: 2024-05-20 01:43+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -2921,7 +2921,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2450 fitsviewer/fitsviewer.cpp:724
+#: ekos/capture/captureprocess.cpp:2446 fitsviewer/fitsviewer.cpp:724
 #: fitsviewer/fitsviewer.cpp:725
 #, fuzzy, kde-format
 msgid "Preview"
@@ -6469,8 +6469,8 @@ msgstr ""
 msgid "Capture error. Aborting..."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1565
-#: ekos/capture/captureprocess.cpp:2106
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
+#: ekos/capture/captureprocess.cpp:2102
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6574,7 +6574,7 @@ msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില�
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2716
-#: ekos/capture/captureprocess.cpp:2503 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2499 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
 #: ekos/scheduler/schedulerprocess.cpp:4397
@@ -7207,7 +7207,7 @@ msgid "Open Ekos Alignment List"
 msgstr "വിതരണ പട്ടിക"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
-#: ekos/capture/captureprocess.cpp:2502 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2498 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4416
 #, fuzzy, kde-format
@@ -14162,7 +14162,7 @@ msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രി�
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2617
+#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2613
 #, kde-format
 msgid "Reset job status"
 msgstr ""
@@ -15488,177 +15488,177 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/capture/captureprocess.cpp:1226
+#: ekos/capture/captureprocess.cpp:1222
 #, fuzzy, kde-format
 msgid "Remote image saved to %1"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/capture/captureprocess.cpp:1252
+#: ekos/capture/captureprocess.cpp:1248
 #, fuzzy, kde-format
 msgid "Autoguiding suspended."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/capture/captureprocess.cpp:1281
+#: ekos/capture/captureprocess.cpp:1277
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1347
+#: ekos/capture/captureprocess.cpp:1343
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Anderson"
 msgid "CCD capture sequence completed"
 msgstr "ആന്‍ഡര്‍സണ്‍ "
 
-#: ekos/capture/captureprocess.cpp:1404
+#: ekos/capture/captureprocess.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "ബന്ധം"
 
-#: ekos/capture/captureprocess.cpp:1432
+#: ekos/capture/captureprocess.cpp:1428
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1557 ekos/capture/captureprocess.cpp:2098
+#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2094
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1658
+#: ekos/capture/captureprocess.cpp:1654
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1724
+#: ekos/capture/captureprocess.cpp:1720
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1758
+#: ekos/capture/captureprocess.cpp:1754
 #, fuzzy, kde-format
 msgid "Captured %1"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/capture/captureprocess.cpp:1764
+#: ekos/capture/captureprocess.cpp:1760
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1797
+#: ekos/capture/captureprocess.cpp:1793
 #, fuzzy, kde-format
 msgid "Executing capture script %1"
 msgstr "ലോക്കല്‍ സ്ക്രിപ്റ്റ്: "
 
-#: ekos/capture/captureprocess.cpp:1812
+#: ekos/capture/captureprocess.cpp:1808
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1820
+#: ekos/capture/captureprocess.cpp:1816
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1832
+#: ekos/capture/captureprocess.cpp:1828
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "തീയതി കാണിക്കേണ്ട വിധം: "
 
-#: ekos/capture/captureprocess.cpp:1842
+#: ekos/capture/captureprocess.cpp:1838
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1847
+#: ekos/capture/captureprocess.cpp:1843
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2028 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2024 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/capture/captureprocess.cpp:2035
+#: ekos/capture/captureprocess.cpp:2031
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2053 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2049 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/capture/captureprocess.cpp:2079
+#: ekos/capture/captureprocess.cpp:2075
 #, fuzzy, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/capture/captureprocess.cpp:2157
+#: ekos/capture/captureprocess.cpp:2153
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2168
+#: ekos/capture/captureprocess.cpp:2164
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2190
+#: ekos/capture/captureprocess.cpp:2186
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2219
+#: ekos/capture/captureprocess.cpp:2215
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2227
+#: ekos/capture/captureprocess.cpp:2223
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2447
+#: ekos/capture/captureprocess.cpp:2443
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
 
-#: ekos/capture/captureprocess.cpp:2566
+#: ekos/capture/captureprocess.cpp:2562
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "ആവൃത്തി:"
 
-#: ekos/capture/captureprocess.cpp:2616
+#: ekos/capture/captureprocess.cpp:2612
 #, fuzzy, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/capture/captureprocess.cpp:2630
+#: ekos/capture/captureprocess.cpp:2626
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2745
+#: ekos/capture/captureprocess.cpp:2741
 #, fuzzy, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/capture/captureprocess.cpp:2746
+#: ekos/capture/captureprocess.cpp:2742
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
