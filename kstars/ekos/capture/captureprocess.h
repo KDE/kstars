@@ -586,6 +586,7 @@ public:
      * @brief updateFITSViewer display new image in the configured FITSViewer tab.
      */
     void updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode, const FITSScale &captureFilter, const QString &filename, const QString &deviceName);
+    void updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename);
 
     // ////////////////////////////////////////////////////////////////////
     // XML capture sequence file handling
@@ -802,5 +803,10 @@ private:
      * @return true iff everything worked as expected
      */
     bool checkSavingReceivedImage(const QSharedPointer<FITSData> &data, const QString &extension, QString &filename);
+
+    /**
+     * @brief createTabText Create the tab to be displayed in the FITSViewer tab
+     */
+    QString createTabTitle(const FITSMode &captureMode, const QString &deviceName);
 };
 } // Ekos namespace

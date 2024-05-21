@@ -1160,7 +1160,10 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
                     thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
             {
                 if (checkFlatCalibration(state()->imageData(), state()->exposureRange().min, state()->exposureRange().max) == false)
+                {
+                    updateFITSViewer(data, tChip, filename);
                     return; /* calibration not completed */
+                }
                 thejob->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
                 // save current image since the image satisfies the calibration requirements
                 if (checkSavingReceivedImage(data, extension, filename))
@@ -1191,11 +1194,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
     {
         // Check to save and show the new image in the FITS viewer
         if (alreadySaved || checkSavingReceivedImage(data, extension, filename))
-        {
-            FITSMode captureMode = tChip->getCaptureMode();
-            FITSScale captureFilter = tChip->getCaptureFilter();
-            updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
-        }
+            updateFITSViewer(data, tChip, filename);
 
         // Set image metadata and emit captureComplete
         updateImageMetadataAction(state()->imageData());
@@ -1624,13 +1623,12 @@ IPState CaptureProcess::continueFramingAction(const QSharedPointer<FITSData> &im
         {
             QTimer::singleShot(seqDelay, this, [this]()
             {
-                activeJob()->startCapturing(state()->getRefocusState()->isAutoFocusReady(),
-                                            FITS_NORMAL);
+                if (activeJob() != nullptr)
+                    activeJob()->startCapturing(state()->getRefocusState()->isAutoFocusReady(), FITS_NORMAL);
             });
         }
-        else
-            activeJob()->startCapturing(state()->getRefocusState()->isAutoFocusReady(),
-                                        FITS_NORMAL);
+        else if (activeJob() != nullptr)
+            activeJob()->startCapturing(state()->getRefocusState()->isAutoFocusReady(), FITS_NORMAL);
     }
     return IPS_OK;
 
@@ -2410,6 +2408,35 @@ void CaptureProcess::updateFilterInfo()
     }
 }
 
+QString Ekos::CaptureProcess::createTabTitle(const FITSMode &captureMode, const QString &deviceName)
+{
+    const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
+    if (isPreview && Options::singlePreviewFITS())
+    {
+        // If we are displaying all images from all cameras in a single FITS
+        // Viewer window, then we prefix the camera name to the "Preview" string
+        if (Options::singleWindowCapturedFITS())
+            return (i18n("%1 Preview", deviceName));
+        else
+            // Otherwise, just use "Preview"
+            return(i18n("Preview"));
+    }
+    else if (captureMode == FITS_CALIBRATE)
+    {
+        if (activeJob())
+        {
+            const QString filtername = activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString();
+            if (filtername == "")
+                return(QString(i18n("Flat Calibration")));
+            else
+                return(QString("%1 %2").arg(filtername).arg(i18n("Flat Calibration")));
+        }
+        else
+            return(i18n("Calibration"));
+    }
+    return "";
+}
+
 void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode,
                                       const FITSScale &captureFilter, const QString &filename, const QString &deviceName)
 {
@@ -2426,27 +2453,17 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
             {
                 QUrl fileURL = QUrl::fromLocalFile(filename);
                 bool success = false;
+                // If image is preview and we should display all captured images in a
+                // single tab called "Preview", then set the title to "Preview". Similar if we are calibrating flats.
+                // Otherwise, the title will be the captured image name
+                QString tabTitle = createTabTitle(captureMode, deviceName);
+
                 int tabIndex = -1;
                 int *tabID = &m_fitsvViewerTabIDs.normalTabID;
-                const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
                 if (*tabID == -1 || Options::singlePreviewFITS() == false)
                 {
-                    // If image is preview and we should display all captured images in a
-                    // single tab called "Preview", then set the title to "Preview",
-                    // Otherwise, the title will be the captured image name
-                    QString previewTitle;
-                    if (isPreview && Options::singlePreviewFITS())
-                    {
-                        // If we are displaying all images from all cameras in a single FITS
-                        // Viewer window, then we prefix the camera name to the "Preview" string
-                        if (Options::singleWindowCapturedFITS())
-                            previewTitle = i18n("%1 Preview", deviceName);
-                        else
-                            // Otherwise, just use "Preview"
-                            previewTitle = i18n("Preview");
-                    }
 
-                    success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
+                    success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, tabTitle);
 
                     //Setup any necessary connections
                     auto tabs = getFITSViewer()->tabs();
@@ -2463,9 +2480,7 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
                 }
                 else
                 {
-                    if (isPreview)
-                        fileURL = QUrl::fromLocalFile("Preview");
-                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
+                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureMode, captureFilter, tabTitle);
                 }
 
                 if (!success)
@@ -2486,6 +2501,13 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
         default:
             break;
     }
+}
+
+void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename)
+{
+    FITSMode captureMode = tChip == nullptr ? FITS_UNKNOWN : tChip->getCaptureMode();
+    FITSScale captureFilter = tChip == nullptr ? FITS_NONE : tChip->getCaptureFilter();
+    updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
 }
 
 bool CaptureProcess::loadSequenceQueue(const QString &fileURL,

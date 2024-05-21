@@ -64,7 +64,7 @@ class FITSViewer : public KXmlGuiWindow
 
         void updateFile(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE);
         bool updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
-                        FITSScale filter = FITS_NONE, FITSMode mode = FITS_UNKNOWN);
+                        FITSMode mode = FITS_UNKNOWN, FITSScale filter = FITS_NONE, const QString &tabTitle = QString());
         bool removeFITS(int fitsUID);
 
         bool isStarsMarked()
@@ -145,7 +145,7 @@ class FITSViewer : public KXmlGuiWindow
         // Shared utilites between the standard and "FromData" addFITS and updateFITS.
         bool addFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName,
                            FITSMode mode, const QString &previewText);
-        bool updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName);
+        bool updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName, const QString tabTitle = "");
 
         QTabWidget *fitsTabWidget { nullptr };
         QUndoGroup *undoGroup { nullptr };

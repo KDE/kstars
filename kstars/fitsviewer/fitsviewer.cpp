@@ -707,14 +707,16 @@ void FITSViewer::updateFile(const QUrl &imageName, int fitsUID, FITSScale filter
     tab->loadFile(imageName, tab->getView()->getMode(), filter);
 }
 
-bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName)
+bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl &imageName, const QString tabTitle)
 {
     // On tab load success
     int tabIndex = fitsTabWidget->indexOf(tab.get());
     if (tabIndex == -1)
         return false;
 
-    if (tab->getView()->getMode() == FITS_NORMAL)
+    if (tabTitle != "")
+        fitsTabWidget->setTabText(tabIndex, tabTitle);
+    else if (tab->getView()->getMode() == FITS_NORMAL)
     {
         if ((imageName.fileName() == "Preview" ||
                 imageName.path().startsWith(QLatin1String("/tmp")) ||
@@ -725,6 +727,8 @@ bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl
         else if (tab->getPreviewText() != i18n("Preview") || imageName.fileName().size() > 0)
             fitsTabWidget->setTabText(tabIndex, imageName.fileName());
     }
+    else if (imageName.isValid())
+        fitsTabWidget->setTabText(tabIndex, imageName.fileName());
 
     tab->getUndoStack()->clear();
 
@@ -744,8 +748,8 @@ bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl
     return true;
 }
 
-bool FITSViewer::updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
-                            FITSScale filter, FITSMode mode)
+bool FITSViewer::updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid, FITSMode mode,
+                            FITSScale filter, const QString &tabTitle)
 {
     auto tab = fitsMap.value(fitsUID);
 
@@ -761,7 +765,7 @@ bool FITSViewer::updateData(const QSharedPointer<FITSData> &data, const QUrl &im
     if (!tab->loadData(data, tab->getView()->getMode(), filter))
         return false;
 
-    if (!updateFITSCommon(tab, imageName))
+    if (!updateFITSCommon(tab, imageName, tabTitle))
         return false;
 
     *tab_uid = tab->getUID();
