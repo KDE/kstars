@@ -128,7 +128,9 @@ void TestEkosSimulator::testMountSlew()
             emit dialog->reject();
         }
     });
-    bool const slew_result = ekos->mountModule()->slew(RA, DEC);
+    dms ra = dms::fromString(RA, false);
+    dms de = dms::fromString(DEC, true);
+    bool const slew_result = ekos->mountModule()->slew(ra.Hours(), de.Degrees());
     if (under_horizon_or_close_to_sun)
         QEXPECT_FAIL(NAME.toStdString().c_str(),
                      QString("Slew target '%1' is expected to be over the horizon during night time.").arg(NAME).toStdString().c_str(), Abort);

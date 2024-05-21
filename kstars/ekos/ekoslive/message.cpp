@@ -710,7 +710,9 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[MOUNT_SYNC_RADE])
     {
         mount->setJ2000Enabled(payload["isJ2000"].toBool());
-        mount->sync(payload["ra"].toString(), payload["de"].toString());
+        auto ra = dms::fromString(payload["ra"].toString(), false);
+        auto de = dms::fromString(payload["de"].toString(), true);
+        mount->sync(ra.Hours(), de.Degrees());
     }
     else if (command == commands[MOUNT_SYNC_TARGET])
     {
@@ -719,7 +721,9 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[MOUNT_GOTO_RADE])
     {
         mount->setJ2000Enabled(payload["isJ2000"].toBool());
-        mount->slew(payload["ra"].toString(), payload["de"].toString());
+        auto ra = dms::fromString(payload["ra"].toString(), false);
+        auto de = dms::fromString(payload["de"].toString(), true);
+        mount->slew(ra.Hours(), de.Degrees());
     }
     else if (command == commands[MOUNT_GOTO_TARGET])
     {

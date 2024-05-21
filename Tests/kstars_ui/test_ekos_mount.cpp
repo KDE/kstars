@@ -279,7 +279,9 @@ void TestEkosMount::testMountCtrlGoto()
         QTRY_VERIFY_WITH_TIMEOUT(DEText != deText->property("text"), 1000);
 
         // check GOTO RA/Dec
-        ekos->mountModule()->slew(raText->property("text").toString(), deText->property("text").toString());
+        dms ra = dms::fromString(raText->property("text").toString(), false);
+        auto de = dms::fromString(deText->property("text").toString(), true);
+        ekos->mountModule()->slew(ra.Hours(), de.Degrees());
         QTRY_VERIFY_WITH_TIMEOUT(fabs(RA.Hours() -  dms::fromString(raValue->property("text").toString(),
                                       false).Hours()) < hourPrecision, 30000);
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
@@ -301,7 +303,9 @@ void TestEkosMount::testMountCtrlGoto()
         deText->setProperty("text", QVariant(Alt.toDMSString()));
 
         // check GOTO Az/Alt
-        ekos->mountModule()->slew(raText->property("text").toString(), deText->property("text").toString());
+        dms ra = dms::fromString(raText->property("text").toString(), false);
+        auto de = dms::fromString(deText->property("text").toString(), true);
+        ekos->mountModule()->slew(ra.Hours(), de.Degrees());
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Az.Degrees() -  dms::fromString(azValue->property("text").toString(),
                                       true).Degrees()) < degreePrecision * 120.0, 30000);
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Alt.Degrees() -  dms::fromString(altValue->property("text").toString(),
@@ -343,7 +347,9 @@ void TestEkosMount::testMountCtrlGoto()
         QTRY_VERIFY_WITH_TIMEOUT(DEText != deText->property("text"), 1000);
 
         // check GOTO RA/Dec
-        ekos->mountModule()->slew(raText->property("text").toString(), deText->property("text").toString());
+        dms ra = dms::fromString(raText->property("text").toString(), false);
+        auto de = dms::fromString(deText->property("text").toString(), true);
+        ekos->mountModule()->slew(ra.Hours(), de.Degrees());
         QTRY_VERIFY_WITH_TIMEOUT(fabs(HA.Hours() -  dms::fromString(haValue->property("text").toString(),
                                       false).Hours()) < hourPrecision * 120, 30000);
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
@@ -388,7 +394,9 @@ void TestEkosMount::testMountCtrlSync()
         QTRY_VERIFY_WITH_TIMEOUT(DEText != deText->property("text"), 1000);
 
         // check SYNC RA/Dec
-        ekos->mountModule()->sync(raText->property("text").toString(), deText->property("text").toString());
+        dms ra = dms::fromString(raText->property("text").toString(), false);
+        auto de = dms::fromString(deText->property("text").toString(), true);
+        ekos->mountModule()->sync(ra.Hours(), de.Degrees());
         QTRY_VERIFY_WITH_TIMEOUT(fabs(RA.Hours() -  dms::fromString(raValue->property("text").toString(),
                                       false).Hours()) < hourPrecision, 30000);
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
@@ -410,7 +418,9 @@ void TestEkosMount::testMountCtrlSync()
         deText->setProperty("text", QVariant(Alt.toDMSString()));
 
         // check SYNC Az/Alt
-        ekos->mountModule()->sync(raText->property("text").toString(), deText->property("text").toString());
+        dms ra = dms::fromString(raText->property("text").toString(), false);
+        auto de = dms::fromString(deText->property("text").toString(), true);
+        ekos->mountModule()->sync(ra.Hours(), de.Degrees());
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Az.Degrees() -  dms::fromString(azValue->property("text").toString(),
                                       true).Degrees()) < degreePrecision * 20, 20000);
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Alt.Degrees() -  dms::fromString(altValue->property("text").toString(),
@@ -452,7 +462,9 @@ void TestEkosMount::testMountCtrlSync()
         QTRY_VERIFY_WITH_TIMEOUT(DEText != deText->property("text"), 1000);
 
         // check SYNC RA/Dec
-        ekos->mountModule()->sync(raText->property("text").toString(), deText->property("text").toString());
+        dms ra = dms::fromString(raText->property("text").toString(), false);
+        auto de = dms::fromString(deText->property("text").toString(), true);
+        ekos->mountModule()->sync(ra.Hours(), de.Degrees());
         QTRY_VERIFY_WITH_TIMEOUT(fabs(HA.Hours() -  dms::fromString(haValue->property("text").toString(),
                                       false).Hours()) < hourPrecision * 2, 30000);
         QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),

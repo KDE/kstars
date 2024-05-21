@@ -162,6 +162,7 @@ if (INDI_FOUND)
             ekos/focus/advisor.ui
             # Mount
             ekos/mount/mount.ui
+            ekos/mount/mountcontrolpanel.ui
             ekos/mount/meridianflipstatuswidget.ui
             # Guide
             ekos/guide/guide.ui
@@ -294,6 +295,7 @@ if (INDI_FOUND)
             # Mount
             ekos/mount/mount.cpp
             ekos/mount/meridianflipstatuswidget.cpp
+            ekos/mount/mountcontrolpanel.cpp
 
             # Align
             ekos/align/align.cpp
@@ -1291,7 +1293,8 @@ IF (NOT ANDROID)
     )
 
     add_library(KStarsLib STATIC ${kstars_SRCS}
-        indi/collimationOptions.ui)
+        indi/collimationOptions.ui
+    )
 
     if (BUILD_PYKSTARS)
       set_target_properties(KStarsLib PROPERTIES POSITION_INDEPENDENT_CODE ON)

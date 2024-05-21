@@ -617,7 +617,9 @@ void TestEkosFocus::testStarDetection()
     KTELL(QString(NAME + "\nSync to %1/%2 to make the mount teleport to the object.").arg(qPrintable(RA)).arg(qPrintable(DEC)));
     QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000);
     ekos->mountModule()->setMeridianFlipValues(false, 0);
-    QVERIFY(ekos->mountModule()->sync(RA, DEC));
+    dms ra = dms::fromString(RA, false);
+    dms de = dms::fromString(DEC, true);
+    QVERIFY(ekos->mountModule()->sync(ra.Hours(), de.Degrees()));
     ekos->mountModule()->setTrackEnabled(true);
 
     KTELL(NAME + "\nWait for Focus to come up\nSwitch to Focus tab.");

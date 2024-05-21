@@ -41,17 +41,8 @@
         <file>qml/whatisinteresting/settingsIcon.png</file>
         <file>qml/whatisinteresting/visibleIcon.png</file>
         <file>qml/whatisinteresting/wiview.qml</file>
-        <file>qml/mount/go-east.png</file>
-        <file>qml/mount/go-north.png</file>
-        <file>qml/mount/go-northeast.png</file>
-        <file>qml/mount/go-northwest.png</file>
-        <file>qml/mount/go-south.png</file>
-        <file>qml/mount/go-southeast.png</file>
-        <file>qml/mount/go-southwest.png</file>
-        <file>qml/mount/go-west.png</file>
         <file>qml/mount/mountbox.qml</file>
         <file>qml/mount/timer.qml</file>
-        <file>qml/mount/stop.png</file>
         <file>icons/kstars_terrain.png</file>
         <file>icons/kstars_imageoverlay.png</file>
         <file>icons/kstars_developer.png</file>
@@ -70,6 +61,15 @@
         <file>icons/StellarSolverIcon.png</file>
         <file>icons/select_stat.png</file>
         <file>icons/sensorgraphic.png</file>
+        <file>icons/go-east.png</file>
+        <file>icons/go-north.png</file>
+        <file>icons/go-northeast.png</file>
+        <file>icons/go-northwest.png</file>
+        <file>icons/go-south.png</file>
+        <file>icons/go-southeast.png</file>
+        <file>icons/go-southwest.png</file>
+        <file>icons/go-west.png</file>
+        <file>icons/stop.png</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

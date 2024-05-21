@@ -7,7 +7,6 @@
 #ifndef MOUNT_H
 #define MOUNT_H
 
-#include <QQmlContext>
 #include "ui_mount.h"
 
 #include "indi/indistd.h"
@@ -28,6 +27,7 @@ namespace Ekos
 
 class OpticalTrainManager;
 class MeridianFlipState;
+class MountControlPanel;
 
 class Mount : public QWidget, public Ui::Mount
 {
@@ -228,11 +228,6 @@ class Mount : public QWidget, public Ui::Mount
              */
         Q_INVOKABLE Q_SCRIPTABLE bool slew(double RA, double DEC);
 
-        /**
-              @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
-            */
-        Q_INVOKABLE bool slew(const QString &RA, const QString &DEC);
-
         /** DBUS interface function.
              * Slew the mount to the target. Target name must be valid in KStars.
              * @param target name
@@ -254,11 +249,6 @@ class Mount : public QWidget, public Ui::Mount
              * @return true if the command is sent successfully, false otherwise.
              */
         Q_INVOKABLE Q_SCRIPTABLE bool syncTarget(const QString &target);
-
-        /**
-              @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
-            */
-        Q_INVOKABLE bool sync(const QString &RA, const QString &DEC);
 
         /** DBUS interface function.
              * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
@@ -337,8 +327,6 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE void setJ2000Enabled(bool enabled);
 
         /** @}*/
-
-        Q_INVOKABLE void findTarget();
 
         // target coord conversions for displaying
         Q_INVOKABLE bool raDecToAzAlt(QString qsRA, QString qsDec);
@@ -607,6 +595,8 @@ class Mount : public QWidget, public Ui::Mount
         SkyPoint *targetPosition {nullptr};
         QString lastNotificationMessage;
 
+        QSharedPointer<MountControlPanel> m_ControlPanel;
+
         // Auto Park
         QTimer autoParkTimer;
 
@@ -625,21 +615,7 @@ class Mount : public QWidget, public Ui::Mount
 
         // Settings
         QVariantMap m_Settings;
-        QVariantMap m_GlobalSettings;
-
-        QQuickView *m_BaseView = nullptr;
-        QQuickItem *m_BaseObj  = nullptr;
-        QQmlContext *m_Ctxt    = nullptr;
-
-        QQuickItem *m_SpeedSlider = nullptr, *m_SpeedLabel = nullptr,
-                    *m_raValue = nullptr, *m_deValue = nullptr, *m_azValue = nullptr,
-                     *m_altValue = nullptr, *m_haValue = nullptr, *m_zaValue = nullptr,
-                      *m_targetText = nullptr, *m_targetRAText = nullptr,
-                       *m_targetDEText = nullptr, *m_Park = nullptr, *m_Unpark = nullptr,
-                        *m_statusText = nullptr, *m_J2000Check = nullptr,
-                         *m_JNowCheck = nullptr, *m_equatorialCheck = nullptr,
-                          *m_horizontalCheck = nullptr, *m_haEquatorialCheck = nullptr,
-                           *m_leftRightCheck = nullptr, *m_upDownCheck = nullptr;
+        QVariantMap m_GlobalSettings;        
 };
 }
 
