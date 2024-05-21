@@ -14718,10 +14718,9 @@ msgid "Warning: Dithering failed."
 msgstr ""
 
 #: ekos/capture/capturemodulestate.cpp:295
-#, fuzzy, kde-format
-#| msgid "Critical error"
+#, kde-format
 msgid "Dust cap error."
-msgstr "Kritická chyba"
+msgstr ""
 
 #: ekos/capture/capturemodulestate.cpp:299
 #, kde-format

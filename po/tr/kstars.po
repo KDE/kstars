@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-20 01:43+0000\n"
-"PO-Revision-Date: 2024-05-17 20:58+0300\n"
+"PO-Revision-Date: 2024-05-20 20:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15646,7 +15646,7 @@ msgstr "Sürdürmek için teleskopun kapağını kaldırın."
 #: ekos/capture/capturedeviceadaptor.cpp:664
 #, kde-format
 msgid "Telescope Covered"
-msgstr "Teleskop Kapalı"
+msgstr "Teleskop Örtülü"
 
 #: ekos/capture/capturedeviceadaptor.cpp:796
 #, kde-format
@@ -15695,25 +15695,19 @@ msgid "Warning: Dithering failed."
 msgstr "Uyarı: Kıpırdatma başarısız oldu."
 
 #: ekos/capture/capturemodulestate.cpp:295
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dust cap error."
-msgstr "Dome Creek"
+msgstr "Toz kapağı hatası."
 
 #: ekos/capture/capturemodulestate.cpp:299
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dust cap parked."
-msgstr "Dome Creek"
+msgstr "Toz kapağı park edildi."
 
 #: ekos/capture/capturemodulestate.cpp:303
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dust cap unparked."
-msgstr "Dome Creek"
+msgstr "Toz kapağı park edilmemiş."
 
 #: ekos/capture/capturemodulestate.cpp:510
 #, kde-format
@@ -16840,39 +16834,32 @@ msgstr "Denetim aralığı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, inSequenceCheckFrames)
 #: ekos/capture/limits.ui:318
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run HFR check after this many sub-frames.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bu kadar çok alt kareden sonra HFR denetimini "
+"çalıştırın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, hFRThresholdPercentage)
 #: ekos/capture/limits.ui:331
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Specify the % to apply to the HFR Check value "
 "appropriate to the selected algorithm, to use as the threshold to perform "
 "the HFR Check.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>HFR denetimini gerçekleştirmek üzere eşik olarak "
+"kullanılacak algoritmaya uygun HFR denetim değerine uygulanacak yüzdeyi "
+"belirtin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
 #: ekos/capture/limits.ui:344 ekos/focus/opsfocusprocess.ui:449
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "Threshold:"
-msgstr "Freehold"
+msgstr "Eşik:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/capture/limits.ui:361
@@ -16889,63 +16876,66 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Piksel türünden HFR denetimi değeri. Bu, son "
+"kendiliğinden odaklama veya göreceli ölçüm seçildiğinde bir çıkış ve sabit "
+"için bir giriş alanıdır. Her durumda kullanıcı sistem tarafından oluşturulan "
+"değeri geçersiz kılabilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
-#, fuzzy, kde-format
-#| msgid "Frame:"
+#, kde-format
 msgid "frames.   HFR:"
-msgstr "Çerçeve:"
+msgstr "kare. HFR:"
 
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
 msgid "User initiated ad-hoc in-sequence Autofocus..."
 msgstr ""
+"Kullanıcı tarafından başlatılan geçici, sekans içi kendiliğinden odaklama..."
 
 #: ekos/capture/refocusstate.cpp:45
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Scheduled refocus starting after %1 seconds..."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Zamanlanan yeniden odaklama %1 saniye sonra başlatılıyor..."
 
 #: ekos/capture/refocusstate.cpp:59
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Refocus starting because of temperature change of %1 °C..."
-msgstr "Sıcaklığı %1 C olarak ayarlar..."
+msgstr "%1 °C sıcaklık değişiminden dolayı yeniden odaklama başlatılıyor..."
 
 #: ekos/capture/refocusstate.cpp:76
 #, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr ""
+msgstr "HFR tabanlı sekans içi yeniden odaklama başlatılıyor..."
 
 #: ekos/capture/refocusstate.cpp:84
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Uyarlanabilir Optikler"
+msgstr "Uyarlanabilir odak başlatılıyor..."
 
 #: ekos/capture/refocusstate.cpp:103
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Ekos will refocus in %1 seconds."
-msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
+msgstr "Ekos, %1 saniye içinde yeniden odaklanacak."
 
 #: ekos/capture/refocusstate.cpp:108
 #, kde-format
 msgid "Ekos will refocus in %1 seconds, last procedure was %2 seconds ago."
 msgstr ""
+"Ekos, %1 saniye içinde yeniden odaklanacak; son prosedür %2 saniye önceydi."
 
 #: ekos/capture/refocusstate.cpp:113
 #, kde-format
 msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
+"Ekos, olabildiğince çabuk yeniden odaklanacak; son prosedür %1 saniye "
+"önceydi."
 
 #: ekos/capture/rotatorsettings.cpp:123
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr ""
+msgstr "Başlangıç döndürücü açısı %1° başarıyla okundu."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -16962,6 +16952,9 @@ msgid ""
 "angle (yellow) and the raw rotator angle (gray). Calibrate the rotator by "
 "plate solving in the Align module.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Döndürücü göstergesi, gerçek kamera konumu açısını "
+"(sarı) ve ham döndürücü açısını (gri) görüntüler. Hizalama modülünde plaka "
+"çözerek döndürücüyü kalibre edin.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, rotatorGauge)
 #: ekos/capture/rotatorsettings.ui:131
@@ -16971,6 +16964,9 @@ msgid ""
 "angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, "
 "capture and solve an image in the Align module.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Döndürücü göstergesi, gerçek kamera konumu açısını "
+"(sarı) ve ham döndürücü açısını (gri) görüntüler. Döndürücüyü kalibre etmek "
+"için Hizalama modülünde bir görüntü yakalayın ve çözün.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
 #: ekos/capture/rotatorsettings.ui:157
@@ -16981,64 +16977,53 @@ msgid ""
 "rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
 "of the rotator in order to have a reasonable display.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Döndürücü göstergesi, gerçek kamera konumu açısını "
+"(sarı) ve ham döndürücü açısını (gri) görüntüler. Makul bir görüntü elde "
+"etmek için, döndürücüyü yeni bir şekilde monte ettikten sonra döndürücüyü "
+"kalibre ettiğinizden emin olun (döndürücü açısını piersie WEST'te sıfıra "
+"eşzamanlayın).</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion Control"
+#, kde-format
 msgid "Preserve Rotator Angle"
-msgstr "Hareket Kontrolü"
+msgstr "Döndürücü açısını koru"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:217
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Preserve Position Angle"
-msgstr "Konum Açısı"
+msgstr "Konum açısını koru"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The current pierside of the mount. A red frame "
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>Kaidenin geçerli iskele tarafı. Kırmızı çerçeve "
+"bilinmeyen bir iskele tarafını gösterir. Kaide park edilmişse bu normaldir.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:233
-#, fuzzy, kde-format
-#| msgid "Current time"
+#, kde-format
 msgid "Current Pierside"
-msgstr "Şimdiki zaman"
+msgstr "Geçerli İskele Tarafı"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current pierside of the mount</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Kaidenin geçerli iskele tarafı</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
 #: ekos/capture/rotatorsettings.ui:289
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Kamera ofset açısı</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
@@ -17051,24 +17036,25 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Döndürme Politikası</"
+"span>, bir döndürme sonrasında döndürücünün nasıl tepki vereceğini veya "
+"çözülmüş bir başvuru görselin sonucunun, asıl iskele kenarına göre farklı "
+"bir iskele tarafı rapor edip etmediğini belirler.</p><p>Döndürme politikası, "
+"<span style=\" font-size:12pt;\">\"Döndürücü Ayarları\"</span> altındaki "
+"<span style=\" font-weight:600;\">Hizalama Seçenekleri</span> bölümünden "
+"değiştirilebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Flip Policy"
-msgstr "Döndürme görünümü"
+msgstr "Döndürme politikası"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Ham döndürücü açısı</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:382
@@ -17079,14 +17065,15 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Döndürücü aygıtının ham döndürücü tam daire açısı; bu, "
+"iskele tarafı BATI'daki Kuzey'e veya iskele tarafı DOĞU'daki Güney'e ilişkin "
+"döndürücü orijin farkı (sıfır açı) olarak hesaplanır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:385
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion Control"
+#, kde-format
 msgid "Rotator Angle"
-msgstr "Hareket Kontrolü"
+msgstr "Döndürücü açısı"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/capture/rotatorsettings.ui:397
@@ -17099,12 +17086,12 @@ msgid ""
 "Align module. </p><p>The camera offset is measured in position angle scope "
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Döndürücü orijin yönüne göre kamera dik yönünün açısı "
-"(bkz. Görüş Alanı). Kamera ofseti, Hizalama modülünde otomatik olarak bir "
-"<span style=\" font-weight:700;\">Yakala ve Çöz</span> veya bir <span style="
-"\" font-weight:700;\">Yükle ve Çevir</span> tarafından belirlenir. </"
-"p><p>Kamera ofseti, konum açısı kapsamında ölçülür (-179,99°'den 180,00°'e)."
-"</p></body></html>"
+"<html><head/><body><p>Döndürücünün başlangıç yönüne göre kamera dik yönünün "
+"açısı (bkz. FOV). Kamera ofseti, Hizalama modülündeki bir <span style=\" "
+"font-weight:700;\">Yakala ve Çöz</span> veya bir <span style=\" font-"
+"weight:700;\">Yükle ve Çevir</span> tarafından kendiliğinden belirlenir.</"
+"p><p>Kamera ofseti, kamera açısı kapsamı ile (-179,99°-180,00° arası) "
+"türünden ölçülür.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
@@ -17119,75 +17106,72 @@ msgid ""
 "p><p>The position angle is measured East of North in degrees.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Kamera konumu açısının ayarlanması döndürücüyü hareket "
+"ettirecektir. Gösterge, döndürücünün durumunu yansıtır. Döndürücünün "
+"doğruluğuna bağlı olarak bitiş konumu açısında bir miktar sapma olabilir.</"
+"p><p>Eğer <span style=\" font-weight:700;\">Sekansa kamera konum açısını "
+"kaydet</span> etkinse yakalama öncesinde sekans kuyruğuna eklenen herhangi "
+"bir iş her zaman bu konum açısına dönecektir.</p><p>Konum açısı, derece "
+"türünden kuzeyin doğusuna hesaplanır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Camera Position Angle"
-msgstr "Konum Açısı"
+msgstr "Kamera konumu açısı"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
-#, fuzzy, kde-format
-#| msgid "Reverse Direction"
+#, kde-format
 msgid "Reverse Direction of Rotator"
-msgstr "Yönü Tersine Çevir"
+msgstr "Döndürücünün yönünü tersine çevir"
 
 #. i18n: ectx: property (text), widget (QPushButton, AlignOptions)
 #: ekos/capture/rotatorsettings.ui:570
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Align Options"
-msgstr "Kutupsal Hizalama"
+msgstr "Hizalama Seçenekleri"
 
 #: ekos/capture/scriptsmanager.cpp:42
-#, fuzzy, kde-format
-#| msgid "New Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Pre Job Script"
-msgstr "Yeni Betik"
+msgstr "İş Öncesi Betiği"
 
 #: ekos/capture/scriptsmanager.cpp:44
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Post Job Script"
-msgstr "Mevcut Betik"
+msgstr "İş Sonrası Betiği"
 
 #: ekos/capture/scriptsmanager.cpp:46
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Post Capture Script"
-msgstr "Mevcut Betik"
+msgstr "Yakalama Sonrası Betiği"
 
 #: ekos/capture/scriptsmanager.cpp:48
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Pre Capture Script"
-msgstr "Mevcut Betik"
+msgstr "Yakalama Öncesi Betiği"
 
 #: ekos/capture/scriptsmanager.cpp:59
-#, fuzzy, kde-format
-#| msgid "Bit depth %1 is not supported."
+#, kde-format
 msgid "File %1 is not executable."
-msgstr "Bit derinliği %1 desteklenmiyor."
+msgstr "%1 dosyası yürütülebilir değil."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ScriptsManager)
 #: ekos/capture/scriptsmanager.ui:14
-#, fuzzy, kde-format
-#| msgid "Script name:"
+#, kde-format
 msgid "Script Manager"
-msgstr "Betik adı:"
+msgstr "Betik Yöneticisi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/scriptsmanager.ui:22
-#, fuzzy, kde-format
-#| msgid "New Script"
+#, kde-format
 msgid "Pre-job script:"
-msgstr "Yeni Betik"
+msgstr "İş öncesi betiği:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, preJobScript)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, preCaptureScript)
@@ -17195,31 +17179,27 @@ msgstr "Yeni Betik"
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, postJobScript)
 #: ekos/capture/scriptsmanager.ui:35 ekos/capture/scriptsmanager.ui:80
 #: ekos/capture/scriptsmanager.ui:125 ekos/capture/scriptsmanager.ui:170
-#, fuzzy, kde-format
-#| msgid "Script executed."
+#, kde-format
 msgid "Script Executable"
-msgstr "Betik çalıştırıldı."
+msgstr "Yürütülebilir betik"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/scriptsmanager.ui:67
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Pre-capture script:"
-msgstr "Mevcut Betik"
+msgstr "Yakalama sonrası betiği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/scriptsmanager.ui:112
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Post-capture script:"
-msgstr "Mevcut Betik"
+msgstr "Yakalama sonrası betiği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/scriptsmanager.ui:157
-#, fuzzy, kde-format
-#| msgid "Test Script"
+#, kde-format
 msgid "Post-job script:"
-msgstr "Betiği Dene"
+msgstr "İş sonrası betiği:"
 
 #: ekos/capture/sequenceeditor.cpp:99
 #, kde-format
@@ -17228,6 +17208,9 @@ msgid ""
 "your desired camera/filterbank at least once before using the Sequence "
 "Editor. </font></b><p>"
 msgstr ""
+"<b><font color=\"red\">Lütfen Sekans Düzenleyicisi'ni kullanmadan önce "
+"INDI'ye bağlı Yakalama sekmesini istediğiniz kamerayla/süzgeç bankasıyla en "
+"az bir kez çalıştırın.</font></b><p>"
 
 #: ekos/capture/sequenceeditor.cpp:103
 #, kde-format
@@ -17237,20 +17220,23 @@ msgid ""
 "sequence using the Capture tab.<br>It is not recommended to overwrite a "
 "sequence file currently running, please rename it instead.</p><p>"
 msgstr ""
+"<b>%1 saatinde başlayan yakalama oturumundaki kamera ve süzgeç tekerleği "
+"öznitelikleri kullanılıyor.</b><p>Başka kameraları/süzgeç bankalarını "
+"kullanmak istiyorsanız sekansı Yakalama sekmesini kullanarak düzenleyin."
+"<br>Şu anda çalışan bir sekans dosyasının üzerine yazılması önerilmez, bunun "
+"yerine başka bir tane oluşturun.</p><p>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SequenceEditorUI)
 #: ekos/capture/sequenceeditorui.ui:20
-#, fuzzy, kde-format
-#| msgid "Sequence:"
+#, kde-format
 msgid "Capture Sequence Editor"
-msgstr "Seri:"
+msgstr "Yakalama Sekansı Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceEditorComment)
 #: ekos/capture/sequenceeditorui.ui:26
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "<comment>"
-msgstr "Yorum"
+msgstr "<açıklama>"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -17262,102 +17248,83 @@ msgstr "Sürüyor"
 #: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1331
 #, kde-format
 msgid "Complete"
-msgstr "Tamamlanma"
+msgstr "Tamamlandı"
 
 #: ekos/capture/sequencejobstate.cpp:390
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the guider camera if not equipped with a shutter, cover the telescope "
-#| "or camera in order to take a dark exposure."
+#, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
-msgstr ""
-"Kılavuz kamera kapağı yoksa, karanlık bir poz almak yerine teleskopu veya "
-"kamerayı örtün."
+msgstr "Teleskopu eşit olarak aydınlatılmış bir ışık kaynağıyla örtün."
 
 #: ekos/capture/sequencejobstate.cpp:391
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Flat Frame"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Düz Kare"
 
 #: ekos/capture/sequencejobstate.cpp:402
-#, fuzzy, kde-format
-#| msgid ""
-#| "If the guider camera if not equipped with a shutter, cover the telescope "
-#| "or camera in order to take a dark exposure."
+#, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
-msgstr ""
-"Kılavuz kamera kapağı yoksa, karanlık bir poz almak yerine teleskopu veya "
-"kamerayı örtün."
+msgstr "Karanlık bir poz elde etmek için teleskopun üzerini örtün."
 
 #: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
-#, fuzzy, kde-format
-#| msgid "Parking dome..."
+#, kde-format
 msgid "Unparking dust cap..."
-msgstr "Dom park ediliyor."
+msgstr "Toz kapağı açılıyor..."
 
 #: ekos/capture/sequencejobstate.cpp:432
-#, fuzzy, kde-format
-#| msgid "Parking dome..."
+#, kde-format
 msgid "Parking dust cap..."
-msgstr "Dom park ediliyor."
+msgstr "Toz kapağı park ediliyor..."
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #, kde-format
 msgid "Turn light box light on..."
-msgstr ""
+msgstr "Işık kutusu ışığı açılıyor..."
 
 #: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
 #: ekos/capture/sequencejobstate.cpp:599
 #, kde-format
 msgid "Turn light box light off..."
-msgstr ""
+msgstr "Işık kutusu ışığı kapatılıyor..."
 
 #: ekos/capture/sequencejobstate.cpp:462
-#, fuzzy, kde-format
-#| msgid "Mount slewing to wall position..."
+#, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
-msgstr "Kaide, duvar konumuna çevriliyor..."
+msgstr "Kaide, duvar konumuna çevriliyor (az =%1 yük = %2)..."
 
 #: ekos/capture/sequencejobstate.cpp:474
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
-msgstr "Duvar konumuna çevirme tamamlandı; izlemeyi durdurun."
+msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
 
 #: ekos/capture/sequencejobstate.cpp:478
-#, fuzzy, kde-format
-#| msgid "Slew to wall position complete, stop tracking."
+#, kde-format
 msgid "Slew to wall position complete, tracking stopped."
-msgstr "Duvar konumuna çevirme tamamlandı; izlemeyi durdurun."
+msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
 
 #: ekos/capture/sequencejobstate.cpp:509
-#, fuzzy, kde-format
-#| msgid "Startup script failed, aborting..."
+#, kde-format
 msgid "Parking mount failed, aborting..."
-msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
+msgstr "Kaideyi park başarısız oldu, iptal ediliyor..."
 
 #: ekos/capture/sequencejobstate.cpp:518
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
+#, kde-format
 msgid "Parking mount prior to calibration frames capture..."
-msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
+msgstr "Kalibrasyon kareleri yakalama öncesinde kaide park ediliyor..."
 
 #: ekos/capture/sequencejobstate.cpp:537
-#, fuzzy, kde-format
-#| msgid "Startup script failed, aborting..."
+#, kde-format
 msgid "Parking dome failed, aborting..."
-msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
+msgstr "Kubbeyi park etme başarısız, iptal ediliyor..."
 
 #: ekos/capture/sequencejobstate.cpp:547
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
+#, kde-format
 msgid "Parking dome prior to calibration frames capture..."
-msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
+msgstr "Kalibrasyon kareleri yakalama öncesinde kubbe park ediliyor..."
 
 #: ekos/capture/sequencejobstate.cpp:783
 #, kde-format
 msgid "Light box on."
-msgstr ""
+msgstr "Işık kutusu açık."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -17369,22 +17336,19 @@ msgstr ""
 "geçişini orada yapılandırın."
 
 #: ekos/capture/sequencequeue.cpp:260
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Could not open file"
-msgstr "%1 dosyası açılamadı"
+msgstr "Dosya açılamadı"
 
 #: ekos/capture/sequencequeue.cpp:298
 #, kde-format
 msgid "Sequence queue saved to %1"
-msgstr "Seri kuyruğu, %1 üzerine kaydedildi"
+msgstr "Sekans kuyruğu, %1 üzerine kaydedildi"
 
 #: ekos/ekos.h:71
-#, fuzzy, kde-format
-#| msgctxt "City in Switzerland"
-#| msgid "Lausanne"
+#, kde-format
 msgid "Pause Planned"
-msgstr "Lozan"
+msgstr "Duraklatma Planlandı"
 
 #: ekos/ekos.h:72
 #, kde-format
@@ -17394,7 +17358,7 @@ msgstr "Bekleniyor"
 #: ekos/ekos.h:72
 #, kde-format
 msgid "Image Received"
-msgstr "Görüntü Alındı"
+msgstr "Görsel Alındı"
 
 #: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1986
 #, kde-format
@@ -17402,36 +17366,29 @@ msgid "Focusing"
 msgstr "Odaklanıyor"
 
 #: ekos/ekos.h:73
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-format
 msgid "Filter Focus"
-msgstr "Süzgeç Sayısı"
+msgstr "Süzgeç Odağı"
 
 #: ekos/ekos.h:73 ekos/ekos.h:120 ekos/ekos.h:161
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Changing Filter"
-msgstr "Süzgeç %1 olarak değiştiriliyor..."
+msgstr "Süzgeç Değişikliği"
 
 #: ekos/ekos.h:73
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "Guider Settling"
-msgstr "Benzetici Ayarları"
+msgstr "Kılavuz Yerleştirmesi"
 
 #: ekos/ekos.h:74
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Setting Temperature"
-msgstr "Sıcaklığı %1 C olarak ayarlar..."
+msgstr "Sıcaklık Ayarlanıyor"
 
 #: ekos/ekos.h:74
-#, fuzzy, kde-format
-#| msgid "Select begin star:"
+#, kde-format
 msgid "Setting Rotator"
-msgstr "Başlangıç yıldızı seç:"
+msgstr "Döndürücü Ayarlanıyor"
 
 #: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1989
 #, kde-format
@@ -17450,47 +17407,39 @@ msgid "Failed"
 msgstr "Başarısız"
 
 #: ekos/ekos.h:119
-#, fuzzy, kde-format
-#| msgid "Input:"
+#, kde-format
 msgid "User Input"
-msgstr "Girdi:"
+msgstr "Kullanıcı Girdisi"
 
 #: ekos/ekos.h:120
-#, fuzzy, kde-format
-#| msgctxt "City in Massachusetts USA"
-#| msgid "Framingham"
+#, kde-format
 msgid "Framing"
-msgstr "Framingham"
+msgstr "Kareleme"
 
 #: ekos/ekos.h:139
-#, fuzzy, kde-format
-#| msgid "Success"
+#, kde-format
 msgid "Successful"
 msgstr "Başarılı"
 
 #: ekos/ekos.h:140
-#, fuzzy, kde-format
-#| msgid "Sync"
+#, kde-format
 msgid "Syncing"
-msgstr "Eşle"
+msgstr "Eşzamanlanıyor"
 
 #: ekos/ekos.h:140
-#, fuzzy, kde-format
-#| msgid "Rotation:"
+#, kde-format
 msgid "Rotating"
-msgstr "Dönme:"
+msgstr "Döndürülüyor"
 
 #: ekos/ekos.h:161
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus Offset"
-msgstr "Bulanıklaştır"
+msgstr "Odak Ofseti"
 
 #: ekos/ekos.h:198
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Startup"
-msgstr "Başlat"
+msgstr "Başlangıç"
 
 #: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1329
 #, kde-format
@@ -17503,54 +17452,49 @@ msgid "Shutdown"
 msgstr "Kapat"
 
 #: ekos/ekos.h:200
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading"
-msgstr "Yükleniyor..."
+msgstr "Yükleniyor"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
-msgstr "Ekos Live Hizmeti"
+msgstr "EkosLive Sunucuları Seç"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Offline"
+#, kde-format
 msgid "Offline:"
-msgstr "Çevrimdışı"
+msgstr "Çevrimdışı:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
-#, fuzzy, kde-format
-#| msgid "Online"
+#, kde-format
 msgid "Online:"
-msgstr "Çevrimiçi"
+msgstr "Çevrimiçi:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
-#, fuzzy, kde-format
-#| msgid "Ekos Mode"
+#, kde-format
 msgid "Ekos Live"
-msgstr "Ekos Kipi"
+msgstr "EkosLive"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/ekoslive/ekoslivedialog.ui:58
 #, kde-format
 msgid "Ekos Live Service"
-msgstr "Ekos Live Hizmeti"
+msgstr "EkosLive Hizmeti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/ekoslive/ekoslivedialog.ui:82
 #, kde-format
 msgid "Password:"
-msgstr ""
+msgstr "Parola:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rememberCredentialsCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:99
 #, kde-format
 msgid "Remember Credentials"
-msgstr ""
+msgstr "Kimlik bilgilerini anımsa"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/ekoslive/ekoslivedialog.ui:109
@@ -17560,17 +17504,15 @@ msgstr "Kullanıcı adı:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoStartCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:199
-#, fuzzy, kde-format
-#| msgid "Automatically select the calibration star."
+#, kde-format
 msgid "Automatically connect to EkosLive service on startup."
-msgstr "Kalibrasyon yıldızını otomatik olarak seç."
+msgstr "Başlangıçta EkosLive hizmetine kendiliğinden bağlan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoStartCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:202
-#, fuzzy, kde-format
-#| msgid "Auto Star"
+#, kde-format
 msgid "Auto Start"
-msgstr "Otomatik Yıldız"
+msgstr "Kendiliğinden başlat"
 
 #. i18n: ectx: property (text), widget (QLabel, onlineLabel)
 #: ekos/ekoslive/ekoslivedialog.ui:237
@@ -17585,31 +17527,29 @@ msgid "Offline"
 msgstr "Çevrimdışı"
 
 #: ekos/ekoslive/message.cpp:959
-#, fuzzy, kde-format
-#| msgid "Rescaling image failed."
+#, kde-format
 msgid "Mosaic import failed."
-msgstr "Görüntü yeniden ölçeklenemedi."
+msgstr "Mozaik içe aktarma başarısız."
 
 #: ekos/ekoslive/nodemanager.cpp:158
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
-msgstr ""
+msgstr "EkosLive sunucusu ile kimlik doğrulanırken hata: %1"
 
 #: ekos/ekoslive/nodemanager.cpp:169
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error parsing server response: %1"
-msgstr "Resim okuma hatası: %1"
+msgstr "Sunucu yanıtı ayrıştırılırken hata: %1"
 
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
 msgid "Aberration Inspector - Run %1"
-msgstr ""
+msgstr "Görüntü Sapması Denetçisi - %1. Çalıştırma"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
 msgid "Tile"
-msgstr ""
+msgstr "Karo"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
@@ -17628,103 +17568,88 @@ msgid "Solution"
 msgstr "Çözüm"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "Delta (ticks)"
-msgstr "Tıklar"
+msgstr "Fark (Tikler)"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Delta"
+#, kde-format
 msgid "Delta (μm)"
-msgstr "Delta"
+msgstr "Fark (μm)"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgid "Mark Stars"
+#, kde-format
 msgid "Num Stars"
-msgstr "Yıldızları İşaretle"
+msgstr "Yıldız Sayısı"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
 #, kde-format
 msgid "R²"
-msgstr ""
+msgstr "R²"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Exclude"
-msgstr ""
+msgstr "Dışla"
 
 #: ekos/focus/aberrationinspector.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
+#, kde-format
 msgid "Focuser Solution"
-msgstr "Odaklayıcı Benzeticisi"
+msgstr "Odaklayıcı Çözümü"
 
 #: ekos/focus/aberrationinspector.cpp:101
-#, fuzzy, kde-format
-#| msgid "Default Focuser step ticks"
+#, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Öntanımlı Odaklayıcı adımı işaretleri"
+msgstr "Tik türünden merkezi karodan olan fark"
 
 #: ekos/focus/aberrationinspector.cpp:102
-#, fuzzy, kde-format
-#| msgid "Size of chip or film, in millimeters"
+#, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr "Yonga veya filmin milimetre olarak boyutu"
+msgstr "Mikrometre türünden merkezi karodan olan fark"
 
 #: ekos/focus/aberrationinspector.cpp:103
 #, kde-format
 msgid "Min / max number of stars detected in the focus run"
-msgstr ""
+msgstr "Odak çalıştırmasında algılanan en az/en çok yıldız sayısı"
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr ""
+msgstr "Satırı hesaplamalardan dışlamak için işaretle"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
 #: ekos/focus/aberrationinspector.cpp:583
 #: ekos/focus/aberrationinspector.cpp:584
-#, fuzzy, kde-format
-#| msgctxt "Not Applicable"
-#| msgid "N/A"
+#, kde-format
 msgid "N/A"
 msgstr "Yok"
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Algılayıcıyı düzleyici yakınında hareket ettir"
 
 #: ekos/focus/aberrationinspector.cpp:572
 #, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Algılayıcıyı düzleyiciden uzağa hareket ettir"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
 #: ekos/focus/aberrationinspector.ui:23 ekos/focus/focus.ui:921
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Aberration Inspector"
-msgstr "Gözlem Planlayıcısı"
+msgstr "Görüntü Sapması Denetçisi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowLabels)
 #: ekos/focus/aberrationinspector.ui:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Grafikteki etiketleri göstermek için işaretleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -17737,10 +17662,9 @@ msgstr "Etiketler"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/aberrationinspector.ui:64
-#, fuzzy, kde-format
-#| msgid "Files"
+#, kde-format
 msgid "Tiles:"
-msgstr "Dosyalar"
+msgstr "Karolar:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:74
@@ -17750,6 +17674,9 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Çözümleme için kullanılacak mozaik karo kombinasyonunu "
+"seçin:</p><p>- Tüm görüntülerde tüm 9 karo.</p><p>- Merkez ve dış köşeler.</"
+"p><p>- Merkez ve iç karo.<br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
@@ -17760,115 +17687,83 @@ msgstr "Tümü"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:86
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and outer corners"
-msgstr "Ortala ve İzle"
+msgstr "Merkez ve dış köşeler"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:91
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and inner diamond"
-msgstr "Ortala ve İzle"
+msgstr "Merkez ve iç karo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowCFZ)
 #: ekos/focus/aberrationinspector.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Grafikte Kritik Odak Bölgesi'ni göstermek için "
+"işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: property (text), widget (QPushButton, cfzB)
 #: ekos/focus/aberrationinspector.ui:108 ekos/focus/focus.ui:928
 #, kde-format
 msgid "CFZ"
-msgstr ""
+msgstr "KOB"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsOptCentres)
 #: ekos/focus/aberrationinspector.ui:118
 #, kde-format
 msgid "Optimise Tile Centres"
-msgstr ""
+msgstr "Karo merkezlerini eniyile"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr "Alt sol"
+msgstr "Alt-üst kaydırma:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:241
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total Tilt:"
-msgstr "Toplam Zaman:"
+msgstr "Toplam kaydırma:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Backfocus delta is the difference in focus position "
 "between the sensor centre and the average of the centre corners.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Geri odak farkı, algılayıcı merkezi ile orta köşelerin "
+"ortalaması arasındaki odak konumu farkıdır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/aberrationinspector.ui:271
 #, kde-format
 msgid "Backfocus Δ:"
-msgstr ""
+msgstr "Geri odak Δ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "Left-Right Tilt:"
-msgstr "Sağ/Sol"
+msgstr "Sağ-sol kaydırma:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
+#, kde-format
 msgid "Selection:"
-msgstr "Yön"
+msgstr "Seçim:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Length scale of the short-range kernel in \n"
-#| "          seconds.</p><p>This is a measure of the scale of the non-"
-#| "periodic short-term noise, caused by things such\n"
-#| "          as:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent:\n"
-#| "          1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0;\n"
-#| "          text-indent:0px;\">Grit in the gearchain,</li><li style=\" "
-#| "margin-top:12px; margin-bottom:12px;\n"
-#| "          margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Wind gusts,</li><li style=\"\n"
-#| "          margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0;\n"
-#| "          text-indent:0px;\">Structural vibrations, such as footsteps or "
-#| "traffic,</li><li style=\" margin-top:12px;\n"
-#| "          margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-#| "block-indent:0; text-indent:0px;\">Swinging or dragging\n"
-#| "          cables.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
 "REC-html40/strict.dtd\">\n"
@@ -17889,25 +17784,24 @@ msgid ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
 "slice through the graphic.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Saniye türünden kısa erimli çekirdeğin uzunluk ölçeği."
-"</p>\n"
-"<p>Bu, aşağıdaki gibi şeylerin neden olduğu, periyodik olmayan kısa süreli "
-"parazit ölçeğinin bir ölçüsüdür:</p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent:\n"
-"1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0;\n"
-"text-indent:0px;\">Dişli zincirindeki kum,</li><li style=\" margin-top:12px; "
-"margin-bottom:12px;\n"
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Yel esintileri,</li><li style=\"\n"
-"margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0;\n"
-"text-indent:0px;\">Ayak sesleri veya trafik gibi yapısal titreşimler,</"
-"li><li style=\" margin-top:12px;\n"
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Kabloları sallamak veya sürüklemek.</li></ul>\n"
-"</body></html>"
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
+"size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">3B grafiğin seçim kipi:</"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Yok.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Öge, en yakın veri "
+"noktasını seçer.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Dilim, grafikten geçen "
+"bir 2B dilim üretir.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:127
@@ -17919,168 +17813,141 @@ msgstr "Öge"
 #: ekos/focus/aberrationinspector.ui:350
 #, kde-format
 msgid "Slice"
-msgstr ""
+msgstr "Dilim"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
-#, fuzzy, kde-format
-#| msgid "&Themes"
+#, kde-format
 msgid "Theme:"
-msgstr "&Temalar"
+msgstr "Tema:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:365
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>3B grafiğin renk temasını seçin.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
 #, kde-format
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:377
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Primary"
+#, kde-format
 msgid "Primary Colors"
-msgstr "Birincil"
+msgstr "Birincil renkler"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid "Digia"
-msgstr ""
+msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:387
 #, kde-format
 msgid "Stone Moss"
-msgstr ""
+msgstr "Yosun"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:392
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Blue"
+#, kde-format
 msgid "Army Blue"
-msgstr "Mavi"
+msgstr "Ordu mavisi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:397
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Detroit"
+#, kde-format
 msgid "Retro"
-msgstr "Detroit"
+msgstr "Retro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:402
 #, kde-format
 msgid "Ebony"
-msgstr ""
+msgstr "Fildişi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:407
-#, fuzzy, kde-format
-#| msgctxt "Region/state in France"
-#| msgid "Moselle"
+#, kde-format
 msgid "Isabelle"
-msgstr "Moselle"
+msgstr "İzabel"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
 #: ekos/focus/aberrationinspector.ui:415
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Mozaik karo algılayıcı etiketlerini görüntülemek için "
+"işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Algılayıcı veri geçmişini temizle</p></body></html>"
+"<html><head/><body><p>Algılayıcıyı görüntülemek için işaretleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
-#, fuzzy, kde-format
-#| msgid "Sensor FOV"
+#, kde-format
 msgid "Sensor"
-msgstr "Algılayıcı Görüş Alanı"
+msgstr "Algılayıcı"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Petzval yüzeyi örgüsünü görüntülemek için işaretleyin."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
 #, kde-format
 msgid "Petzval Wire"
-msgstr ""
+msgstr "Petzval Kablosu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:454
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bu optik kuyruk izi için görselleme kamerasını seçin.</"
-"p></body></html>"
+"<html><head/><body><p>Petzval yüzeyini görüntülemek için işaretleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
 #, kde-format
 msgid "Petzval Surface"
-msgstr ""
+msgstr "Petzval Yüzeyi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:470
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Benzetim kipinde 3B grafikleri etkinleştirmek için "
+"işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Sim Mode"
-msgstr "Kip"
+msgstr "Benzetim kipi"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
 #: ekos/focus/aberrationinspector.ui:483
@@ -18098,8 +17965,7 @@ msgstr "<html><head/><body><p>Soldan sağa kaydırma sürgüsü</p></body></html
 #: ekos/focus/aberrationinspector.ui:521
 #, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Yukarıdan aşağıya kaydırma sürgüsü</p></body></html>"
+msgstr "<html><head/><body><p>Üstten alta kaydırma sürgüsü</p></body></html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:106
 #, kde-format
@@ -18111,102 +17977,108 @@ msgid ""
 "color='%1'><table><tr><td>Tile: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
+"<style>table { background-color: white;}</style><font "
+"color='%1'><table><tr><td>Karo: </td><td>%2 (%3)</td></tr><tr><td>Konum:  </"
+"td><td>%4</td></tr><tr><td>Değer:  </td><td>%5</td></tr></table></font>"
 
 #: ekos/focus/adaptivefocus.cpp:152
 #, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
-msgstr ""
+msgstr "Uyarlanır odak: Hareket yok (eşiğin altında)"
 
 #: ekos/focus/adaptivefocus.cpp:163
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
+"Uyarlanır odak askıya alındı. Toplam hareket, en yüksek hareket sınırını "
+"aşardı."
 
 #: ekos/focus/adaptivefocus.cpp:171
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
-msgstr ""
+msgstr "Uyarlanır odak askıya alındı. Toplam hareket, uyarlanır sınırı aşardı."
 
 #: ekos/focus/adaptivefocus.cpp:179
 #, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
 msgstr ""
+"Uyarlanır odak: %1 konumundan %2 konumuna hareket ediliyor (Sıcaklık Δ %3"
 
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
 msgid "; AltΔ %1"
-msgstr ""
+msgstr "; yükseklik Δ %1"
 
 #: ekos/focus/adaptivefocus.cpp:182
 #, kde-format
 msgid "; Pos Error %1)"
-msgstr ""
+msgstr "; konum hatası %1)"
 
 #: ekos/focus/adaptivefocus.cpp:197
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr ""
+msgstr "Uyarlanır odak, odaklayıcıyı hareket ettiremiyor"
 
 #: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
+"Uyarlanır başlangıç noktası, son AF çözümü en yüksek hareket sınırının "
+"dışında, yok sayılıyor"
 
 #: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr ""
+msgstr "Uyarlanır başlangıç noktası, kullanılabilir sıcaklık kaynağı yok"
 
 #: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
-msgstr ""
+msgstr "Uyarlanır başlangıç noktası, son AF çözümü için sıcaklık yok"
 
 #: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
-msgstr ""
+msgstr "Uyarlanır başlangıç noktası, çok büyük sıcaklık farkı, yok sayılıyor"
 
 #: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
-msgstr ""
+msgstr "Uyarlanır başlangıç noktası, son AF çözümü için yükseklik kaydedilmedi"
 
 #: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
-msgstr ""
+msgstr "Uyarlanır başlangıç noktası, çok büyük yükseklik farkı, yok sayılıyor"
 
 #: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
+"Uyarlanır başlangıç noktası, hedef konum en yüksek hareket sınırının "
+"dışında, yok sayılıyor"
 
 #: ekos/focus/adaptivefocus.cpp:418
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
-msgstr "Gezegen Adı"
+msgstr "Uyarlanır başlangıç noktası [%1] aşırı hareketine izin verilmiyor"
 
 #: ekos/focus/adaptivefocus.cpp:432
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
-msgstr "Gezegen Adı"
+msgstr "Başlangıç noktası [%1], %2 konumundan %3 konumuna uyarlanıyor"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7286
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus Advisor"
-msgstr "Bulanıklaştır"
+msgstr "Odak Danışmanı"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSettingsLabel)
 #: ekos/focus/advisor.ui:59
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Settings Parameters:"
-msgstr "Girdi Parametreleri"
+msgstr "Ayar parametreleri:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvProcessTab)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCamera)
@@ -18231,127 +18103,104 @@ msgid ""
 "Make sure you configure the CFZ tab to give an appropriate value for your "
 "system.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Adım boyutu, öntanımlı olarak Kritik Odak Bölgesi "
+"olarak ayarlanabilir. Sisteminiz için uygun bir değer verecek biçimde KOB "
+"sekmesini yapılandırdığınızdan emin olun.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvProcessLabel)
 #: ekos/focus/advisor.ui:142
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Process Parameters:"
-msgstr "Girdi Parametreleri"
+msgstr "Süreç parametreleri:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvLabel)
 #: ekos/focus/advisor.ui:149
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus Advisor:"
-msgstr "Bulanıklaştır"
+msgstr "Odak danışmanı:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:178
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Step size can be defaulted to the Critical Focus Zone.."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Adım boyutu, öntanımlı olarak Kritik Odak Bölgesi "
+"olarak ayarlanabilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvStepSizeLabel)
 #: ekos/focus/advisor.ui:181
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Step Size:"
-msgstr "Adımlar:"
+msgstr "Adım boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvMechanicsLabel)
 #: ekos/focus/advisor.ui:213
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Mechanics Parameters:"
-msgstr "Girdi Parametreleri"
+msgstr "Mekanikler parametreleri:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:226
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Update Focus Parameters to Focus Advisor suggestions "
 "where the associated Update box is checked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>İlgili güncelleme kutusunun işaretlendiği odak "
+"parametrelerini Odak Danışmanı önerilerine güncelleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, focusAdvReset)
 #: ekos/focus/advisor.ui:229
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Update GPS"
+#, kde-format
 msgid "Update Params"
-msgstr "GPS'i Güncelle"
+msgstr "Parametreleri Güncelle"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvCameraLabel)
 #: ekos/focus/advisor.ui:242
-#, fuzzy, kde-format
-#| msgid "Filter Wheel"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters:"
-msgstr "Filtre Tekeri"
+msgstr "Kamera ve süzgeç tekerleği parametreleri:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusAdvHelp)
 #: ekos/focus/advisor.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
+"<html><head/><body><p>Odak Danışmanı Yardımı iletişim kutusunu başlatın.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusAdvSEPLabel)
 #: ekos/focus/advisor.ui:271
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "SEP Parameters:"
-msgstr "Girdi Parametreleri"
+msgstr "SEP parametreleri:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusCFZDialog)
 #: ekos/focus/cfz.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "Focus CFZ"
-msgstr "Odak"
+msgstr "Odak KOB"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/cfz.ui:87
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Tolerance (τ):"
-msgstr "Tolerans:"
+msgstr "Tolerans (τ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZLabel)
 #: ekos/focus/cfz.ui:103
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>KOB:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/cfz.ui:119
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Aperture (mm)"
+#, kde-format
 msgid "Aperture (A):"
-msgstr "Açıklık (mm)"
+msgstr "Açıklık (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/cfz.ui:138
