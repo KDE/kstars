@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 01:43+0000\n"
+"POT-Creation-Date: 2024-05-22 01:46+0000\n"
 "PO-Revision-Date: 2024-05-07 12:17+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -1825,18 +1825,21 @@ msgstr "Barre d'outils Télescope"
 msgid "Dome Toolbar"
 msgstr "Barre d'outils Dôme"
 
-#: data/qml/mount/mountbox.qml:428
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: data/qml/mount/mountbox.qml:428 ekos/mount/mountcontrolpanel.ui:418
+#, kde-format, kde-kuit-format
 msgid "Reverse"
 msgstr "Inverser"
 
-#: data/qml/mount/mountbox.qml:437
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QCheckBox, upDownCheckObject)
+#: data/qml/mount/mountbox.qml:437 ekos/mount/mountcontrolpanel.ui:425
+#, kde-format, kde-kuit-format
 msgid "Up/Down"
 msgstr "Haut/Bas"
 
-#: data/qml/mount/mountbox.qml:452
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QCheckBox, leftRightCheckObject)
+#: data/qml/mount/mountbox.qml:452 ekos/mount/mountcontrolpanel.ui:432
+#, kde-format, kde-kuit-format
 msgid "Left/Right"
 msgstr "Gauche/Droite"
 
@@ -1850,6 +1853,8 @@ msgstr "1x"
 #. i18n: ectx: property (text), widget (QLabel, raLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -1858,17 +1863,20 @@ msgstr "1x"
 #: data/qml/mount/mountbox.qml:545 data/qml/mount/mountbox.qml:737
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:789 ekos/mount/mount.ui:166 tools/altvstime.ui:97
-#: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
+#: ekos/manager.ui:789 ekos/mount/mount.ui:166
+#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:756
+#: tools/altvstime.ui:97 tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, kde-format, kde-kuit-format
 msgid "RA:"
 msgstr "AD"
 
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/qml/mount/mountbox.qml:565 data/qml/mount/mountbox.qml:868
 #: ekos/manager.ui:757 ekos/mount/mount.ui:203
+#: ekos/mount/mountcontrolpanel.ui:666
 #, kde-format, kde-kuit-format
 msgid "AZ:"
 msgstr "AZ"
@@ -1876,111 +1884,133 @@ msgstr "AZ"
 #. i18n: ectx: property (text), widget (QLabel, decLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, label_17)
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:773
+#: ekos/manager.ui:773 ekos/mount/mountcontrolpanel.ui:495
+#: ekos/mount/mountcontrolpanel.ui:792
 #, kde-format, kde-kuit-format
 msgid "DE:"
 msgstr "DEC"
 
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:604 data/qml/mount/mountbox.qml:869
-#: ekos/manager.ui:741
+#: ekos/manager.ui:741 ekos/mount/mountcontrolpanel.ui:581
 #, kde-format, kde-kuit-format
 msgid "AL:"
 msgstr "AL"
 
+#. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:623 data/qml/mount/mountbox.qml:910
-#: ekos/mount/mount.ui:237
+#: ekos/mount/mount.ui:237 ekos/mount/mountcontrolpanel.ui:568
 #, kde-format, kde-kuit-format
 msgid "HA:"
 msgstr "AH"
 
-#: data/qml/mount/mountbox.qml:642
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: data/qml/mount/mountbox.qml:642 ekos/mount/mountcontrolpanel.ui:630
+#, kde-format, kde-kuit-format
 msgid "ZA:"
 msgstr "ZA"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
+#. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: data/qml/mount/mountbox.qml:668 ekos/capture/camera.ui:1751
-#: ekos/scheduler/scheduler.ui:160
+#: ekos/mount/mountcontrolpanel.ui:689 ekos/scheduler/scheduler.ui:160
 #, kde-format, kde-kuit-format
 msgid "Target:"
 msgstr "Cible"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_17)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, typeLabel)
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:832
-#: indi/collimationOptions.ui:427 oal/equipmentwriter.ui:198
-#: oal/equipmentwriter.ui:983 oal/execute.ui:146 printing/detailstable.cpp:318
+#: ekos/mount/mountcontrolpanel.ui:822 indi/collimationOptions.ui:427
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
+#: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
 msgstr "Type"
 
-#: data/qml/mount/mountbox.qml:818
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QRadioButton, equatorialCheckObject)
+#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:829
+#, kde-format, kde-kuit-format
 msgid "RA/DE"
 msgstr "AD/DEC"
 
-#: data/qml/mount/mountbox.qml:859
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
+#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:842
+#, kde-format, kde-kuit-format
 msgid "AZ/AL"
 msgstr "AZ/AL"
 
-#: data/qml/mount/mountbox.qml:899
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QRadioButton, haEquatorialCheckObject)
+#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:852
+#, kde-format, kde-kuit-format
 msgid "HA/DE"
 msgstr "AH/DE"
 
 #. i18n: ectx: property (text), widget (QLabel, epochLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_19)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel2)
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:940 dialogs/focusdialog.ui:114
-#: tools/flagmanager.ui:64 tools/modcalcapcoord.ui:127
-#: tools/modcalcapcoord.ui:215 tools/modcalcapcoord.ui:527
-#: tools/modcalcgalcoord.ui:214 tools/modcalcvlsr.ui:521
+#: ekos/mount/mountcontrolpanel.ui:882 tools/flagmanager.ui:64
+#: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
+#: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
+#: tools/modcalcvlsr.ui:521
 #, kde-format, kde-kuit-format
 msgid "Epoch:"
 msgstr "Date de référence (epoch)"
 
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
+#. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #: data/qml/mount/mountbox.qml:954 dialogs/focusdialog.ui:74
+#: ekos/mount/mountcontrolpanel.ui:889
 #, kde-format, kde-kuit-format
 msgid "JNow"
 msgstr "JNow"
 
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
+#. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #: data/qml/mount/mountbox.qml:967 dialogs/focusdialog.ui:84
+#: ekos/mount/mountcontrolpanel.ui:902
 #, kde-format, kde-kuit-format
 msgid "J2000"
 msgstr "J2000"
 
-#: data/qml/mount/mountbox.qml:987
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, gotoButtonObject)
+#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:932
+#, kde-format, kde-kuit-format
 msgid "GOTO"
 msgstr "GOTO"
 
-#: data/qml/mount/mountbox.qml:1000
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
+#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:939
+#, kde-format, kde-kuit-format
 msgid "SYNC"
 msgstr "SYNC"
 
-#: data/qml/mount/mountbox.qml:1013
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, parkButtonObject)
+#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:946
+#, kde-format, kde-kuit-format
 msgid "PARK"
 msgstr "PARQUER"
 
-#: data/qml/mount/mountbox.qml:1025
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
+#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:953
+#, kde-format, kde-kuit-format
 msgid "UNPARK"
 msgstr "DEPARQUER"
 
@@ -2922,8 +2952,8 @@ msgstr "Type de correspondance"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2446 fitsviewer/fitsviewer.cpp:724
-#: fitsviewer/fitsviewer.cpp:725
+#: ekos/capture/captureprocess.cpp:2422 fitsviewer/fitsviewer.cpp:726
+#: fitsviewer/fitsviewer.cpp:727
 #, kde-format
 msgid "Preview"
 msgstr "Aperçu"
@@ -4058,6 +4088,12 @@ msgstr "AD (J2000.0)"
 #. i18n: ectx: property (text), widget (QLabel, AzRise)
 #. i18n: ectx: property (text), widget (QLabel, AltTransit)
 #. i18n: ectx: property (text), widget (QLabel, AzSet)
+#. i18n: ectx: property (text), widget (QLabel, azValueObject)
+#. i18n: ectx: property (text), widget (QLabel, altValueObject)
+#. i18n: ectx: property (text), widget (QLabel, deValueObject)
+#. i18n: ectx: property (text), widget (QLabel, raValueObject)
+#. i18n: ectx: property (text), widget (QLabel, haValueObject)
+#. i18n: ectx: property (text), widget (QLabel, zaValueObject)
 #. i18n: ectx: property (text), widget (QLabel, countdownLabel)
 #. i18n: ectx: property (text), widget (QLabel, AngDist)
 #: dialogs/details_position.ui:185 dialogs/details_position.ui:243
@@ -4065,7 +4101,10 @@ msgstr "AD (J2000.0)"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:521 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:521 ekos/mount/mountcontrolpanel.ui:482
+#: ekos/mount/mountcontrolpanel.ui:515 ekos/mount/mountcontrolpanel.ui:535
+#: ekos/mount/mountcontrolpanel.ui:555 ekos/mount/mountcontrolpanel.ui:604
+#: ekos/mount/mountcontrolpanel.ui:653 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr "00:00:00"
@@ -6433,7 +6472,7 @@ msgstr "La résolution a été annulée après %1 secondes."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
@@ -6546,8 +6585,8 @@ msgstr "Le système WCS est désactivé."
 msgid "Capture error. Aborting..."
 msgstr "Erreur d'acquisition. Annulation en cours…"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
-#: ekos/capture/captureprocess.cpp:2102
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1560
+#: ekos/capture/captureprocess.cpp:2100
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Nouvel essai d'acquisition #%1"
@@ -6647,7 +6686,7 @@ msgstr "Impossible d'écrire le fichier %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2716
-#: ekos/capture/captureprocess.cpp:2499 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
 #: ekos/scheduler/schedulerprocess.cpp:4397
@@ -7306,7 +7345,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Ouvrir une liste d'alignement Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
-#: ekos/capture/captureprocess.cpp:2498 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4416
 #, kde-format
@@ -14780,7 +14819,7 @@ msgstr "Filtre positionné à %1"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Voulez-vous vraiment réinitialiser l'état de toutes les tâches ?"
 
-#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2613
+#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2635
 #, kde-format
 msgid "Reset job status"
 msgstr "Réinitialiser l'état des tâches"
@@ -15058,7 +15097,8 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Options de calibration automatique pour les darks et les flats"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1230 ekos/guide/guide.cpp:69
+#: ekos/capture/camera.ui:1230 ekos/capture/captureprocess.cpp:2435
+#: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
 msgstr "Calibration"
@@ -16213,121 +16253,121 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Échec de l'écriture de l'image"
 
-#: ekos/capture/captureprocess.cpp:1222
+#: ekos/capture/captureprocess.cpp:1221
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Image distante enregistrée dans %1"
 
-#: ekos/capture/captureprocess.cpp:1248
+#: ekos/capture/captureprocess.cpp:1247
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Guidage automatique suspendu."
 
-#: ekos/capture/captureprocess.cpp:1277
+#: ekos/capture/captureprocess.cpp:1276
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Attention : le processus de calibration s'est terminé prématurément."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1343
+#: ekos/capture/captureprocess.cpp:1342
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Séquence d'acquisition CCD terminée"
 
-#: ekos/capture/captureprocess.cpp:1400
+#: ekos/capture/captureprocess.cpp:1399
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Erreur : connexion CCD perdue."
 
-#: ekos/capture/captureprocess.cpp:1428
+#: ekos/capture/captureprocess.cpp:1427
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Impossible de calculer les niveaux ADU dans des images non FITS."
 
-#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2094
+#: ekos/capture/captureprocess.cpp:1552 ekos/capture/captureprocess.cpp:2092
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "Échec de l'acquisition. Veuillez vérifier le tableau de bord INDI pour plus "
 "de détails."
 
-#: ekos/capture/captureprocess.cpp:1654
+#: ekos/capture/captureprocess.cpp:1652
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 "Temps de téléchargement : %1 s, nouvelle estimation du temps de "
 "téléchargement : %2 s"
 
-#: ekos/capture/captureprocess.cpp:1720
+#: ekos/capture/captureprocess.cpp:1718
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Trame %1 sur %2 reçue"
 
-#: ekos/capture/captureprocess.cpp:1754
+#: ekos/capture/captureprocess.cpp:1752
 #, kde-format
 msgid "Captured %1"
 msgstr "Image %1 enregistrée"
 
-#: ekos/capture/captureprocess.cpp:1760
+#: ekos/capture/captureprocess.cpp:1758
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "AVERTISSEMENT : espaces %1 restants et potentiellement inconnus dans %2"
 
-#: ekos/capture/captureprocess.cpp:1793
+#: ekos/capture/captureprocess.cpp:1791
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Exécution du script d'acquisition %1"
 
-#: ekos/capture/captureprocess.cpp:1808
+#: ekos/capture/captureprocess.cpp:1806
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Le script de pré-acquisition s'est terminé avec le code %1."
 
-#: ekos/capture/captureprocess.cpp:1816
+#: ekos/capture/captureprocess.cpp:1814
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Le script de post-acquisition s'est terminé avec le code %1."
 
-#: ekos/capture/captureprocess.cpp:1828
+#: ekos/capture/captureprocess.cpp:1826
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Retournement au méridien en cours…"
 
-#: ekos/capture/captureprocess.cpp:1838
+#: ekos/capture/captureprocess.cpp:1836
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Le script d'initialisation de la tâche s'est terminé avec le code %1."
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Le script de fin de tâche s'est terminé avec le code de %1."
 
-#: ekos/capture/captureprocess.cpp:2024 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Durée d'exposition écoulée. Annulation…"
 
-#: ekos/capture/captureprocess.cpp:2031
+#: ekos/capture/captureprocess.cpp:2029
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2049 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Durée d'exposition écoulée. Redémarrage de l'exposition…"
 
-#: ekos/capture/captureprocess.cpp:2075
+#: ekos/capture/captureprocess.cpp:2073
 #, fuzzy, kde-format
 #| msgid "Exposure timeout. Aborting..."
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Durée d'exposition écoulée. Annulation…"
 
-#: ekos/capture/captureprocess.cpp:2153
+#: ekos/capture/captureprocess.cpp:2151
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16336,19 +16376,19 @@ msgstr ""
 "Échec de la calibration du flat. L'image acquise n'est que de %1 bits alors "
 "que la valeur ADU demandée est %2."
 
-#: ekos/capture/captureprocess.cpp:2164
+#: ekos/capture/captureprocess.cpp:2162
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "L'image courante est saturée (%1). La prochaine exposition est prévue dans "
 "%2 secondes."
 
-#: ekos/capture/captureprocess.cpp:2186
+#: ekos/capture/captureprocess.cpp:2184
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "La valeur courante ADU %1 est dans la plage de tolérance."
 
-#: ekos/capture/captureprocess.cpp:2215
+#: ekos/capture/captureprocess.cpp:2213
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16357,23 +16397,29 @@ msgstr ""
 "Impossible de calculer les paramètres optimaux d'exposition. Veuillez "
 "acquérir manuellement les flats."
 
-#: ekos/capture/captureprocess.cpp:2223
+#: ekos/capture/captureprocess.cpp:2221
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 "La valeur courante ADU est %1. La prochaine exposition est dans %2 secondes."
 
-#: ekos/capture/captureprocess.cpp:2443
+#: ekos/capture/captureprocess.cpp:2419
 #, kde-format
 msgid "%1 Preview"
 msgstr "Aperçu %1"
 
-#: ekos/capture/captureprocess.cpp:2562
+#: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
+#, fuzzy, kde-format
+#| msgid "Calibration"
+msgid "Flat Calibration"
+msgstr "Calibration"
+
+#: ekos/capture/captureprocess.cpp:2584
 #, kde-format
 msgid "Sequence paused."
 msgstr "Séquence en pause."
 
-#: ekos/capture/captureprocess.cpp:2612
+#: ekos/capture/captureprocess.cpp:2634
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16382,7 +16428,7 @@ msgstr ""
 "Toutes les tâches sont terminées. Voulez-vous réinitialiser l'état de toutes "
 "les tâches et relancer l'acquisition ?"
 
-#: ekos/capture/captureprocess.cpp:2626
+#: ekos/capture/captureprocess.cpp:2648
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16391,12 +16437,12 @@ msgstr ""
 "Attention : l'option « Toujours réinitialiser la séquence au démarrage » est "
 "activée et réinitialisera les compteurs de séquence."
 
-#: ekos/capture/captureprocess.cpp:2741
+#: ekos/capture/captureprocess.cpp:2763
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Voulez-vous vraiment relancer le pilote de la camera %1 ?"
 
-#: ekos/capture/captureprocess.cpp:2742
+#: ekos/capture/captureprocess.cpp:2764
 #, kde-format
 msgid "Driver Restart"
 msgstr "Redémarrage du pilote"
@@ -17767,7 +17813,7 @@ msgstr "En ligne"
 msgid "Offline"
 msgstr "Hors ligne"
 
-#: ekos/ekoslive/message.cpp:959
+#: ekos/ekoslive/message.cpp:963
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Échec de l'importation de la mosaïque."
@@ -24315,33 +24361,41 @@ msgstr "Retournement au méridien terminé."
 msgid "Meridian Flip Status"
 msgstr "État du retournement au méridien"
 
-#: ekos/mount/mount.cpp:97
+#: ekos/mount/mount.cpp:100
 #, kde-format
 msgid "Are you sure you want to clear all mount configurations?"
 msgstr "Voulez-vous vraiment effacer toutes les configurations de la monture ?"
 
-#: ekos/mount/mount.cpp:98
+#: ekos/mount/mount.cpp:101
 #, kde-format
 msgid "Mount Configuration"
 msgstr "Configuration de la monture"
 
-#. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:152 ekos/mount/mount.ui:599
-#, kde-format
-msgid "Mount Control"
-msgstr "Contrôle de la monture"
-
-#: ekos/mount/mount.cpp:515
+#: ekos/mount/mount.cpp:475 ekos/mount/mount.cpp:483
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Voulez-vous vraiment arrêter le pointage de la monture ?"
 
-#: ekos/mount/mount.cpp:516
+#: ekos/mount/mount.cpp:476 ekos/mount/mount.cpp:484
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Suivi de la monture"
 
-#: ekos/mount/mount.cpp:603
+#: ekos/mount/mount.cpp:477
+#, fuzzy, kde-format
+#| msgid "Yes"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "Oui"
+
+#: ekos/mount/mount.cpp:478
+#, fuzzy, kde-format
+#| msgid "No"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Non"
+
+#: ekos/mount/mount.cpp:573
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -24349,7 +24403,7 @@ msgstr ""
 "L'altitude du télescope est en dessous de la limite minimale d'élévation de "
 "%1. Annulation du déplacement…"
 
-#: ekos/mount/mount.cpp:619
+#: ekos/mount/mount.cpp:589
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -24357,7 +24411,7 @@ msgstr ""
 "L'élévation du télescope est au dessus de la limite maximale d'élévation de "
 "%1. Annulation du déplacement…"
 
-#: ekos/mount/mount.cpp:671
+#: ekos/mount/mount.cpp:641
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -24366,86 +24420,86 @@ msgstr ""
 "L'angle horaire du télescope est plus grand que l'angle horaire maximale de "
 "%1. Annulation du déplacement…"
 
-#: ekos/mount/mount.cpp:807
+#: ekos/mount/mount.cpp:777
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "Le retournement au méridien est inactif pendant l'alignement polaire."
 
-#: ekos/mount/mount.cpp:821
+#: ekos/mount/mount.cpp:791
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Les déplacements d'alignement polaire sont terminés. Le retournement au "
 "méridien est activé."
 
-#: ekos/mount/mount.cpp:844
+#: ekos/mount/mount.cpp:814
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1442
+#: ekos/mount/mount.cpp:1289
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "Effacement du modèle d'alignement."
 
-#: ekos/mount/mount.cpp:1446
+#: ekos/mount/mount.cpp:1293
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Échec de l'effacement du modèle d'alignement."
 
-#: ekos/mount/mount.cpp:1556 ekos/scheduler/schedulerprocess.cpp:3885
+#: ekos/mount/mount.cpp:1403 ekos/scheduler/schedulerprocess.cpp:3885
 #, kde-format
 msgid "Mount already parked."
 msgstr "Monture déjà parquée."
 
-#: ekos/mount/mount.cpp:1581
+#: ekos/mount/mount.cpp:1428
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Impossible que l'heure de parcage soit dans le passé."
 
-#: ekos/mount/mount.cpp:1590
+#: ekos/mount/mount.cpp:1437
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 "Le temps de mise en sécurité doit être dans les 24 heures à partir de "
 "l'heure actuelle."
 
-#: ekos/mount/mount.cpp:1595
+#: ekos/mount/mount.cpp:1442
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 "Attention ! Le temps de mise en sécurité est encore au delà des 12 heures."
 
-#: ekos/mount/mount.cpp:1597
+#: ekos/mount/mount.cpp:1444
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Attention : ne pas utiliser la mise en sécurité automatique quand "
 "l'ordonnanceur est activé."
 
-#: ekos/mount/mount.cpp:1617
+#: ekos/mount/mount.cpp:1464
 #, kde-format
 msgid "Parking timer is up."
 msgstr "La temporisation de la mise en sécurité est activée."
 
-#: ekos/mount/mount.cpp:1627
+#: ekos/mount/mount.cpp:1474
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Démarrage de la mise en sécurité automatique…"
 
-#: ekos/mount/mount.cpp:2120
+#: ekos/mount/mount.cpp:1967
 #, fuzzy, kde-format
 #| msgid "Updating from directory: %1"
 msgid "Updating master time source to %1."
 msgstr "Mise à jour depuis le dossier : %1"
 
-#: ekos/mount/mount.cpp:2141
+#: ekos/mount/mount.cpp:1988
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:2149
+#: ekos/mount/mount.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Site location updated to %1."
 msgid "Updating master location source to %1."
@@ -24589,6 +24643,12 @@ msgstr "Démarrer automatiquement le minuteur de parcage au démarrage"
 #, kde-format
 msgid "Every day"
 msgstr "Tous les jours"
+
+#. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
+#: ekos/mount/mount.ui:599
+#, kde-format
+msgid "Mount Control"
+msgstr "Contrôle de la monture"
 
 #. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.ui:611
@@ -24746,6 +24806,28 @@ msgstr "Activer les limites AH"
 #, kde-format
 msgid "Max. Alt:"
 msgstr "Alt max"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
+#: ekos/mount/mountcontrolpanel.ui:17
+#, fuzzy, kde-format
+#| msgid "Toggle Mount Control Panel"
+msgid "Mount Control Panel"
+msgstr "(Dés)active le tableau de bord de la monture"
+
+#. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
+#: ekos/mount/mountcontrolpanel.ui:453
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Speed"
+msgid "Speed"
+msgstr "Vitesse"
+
+#. i18n: ectx: property (text), widget (QLabel, statusTextObject)
+#: ekos/mount/mountcontrolpanel.ui:973
+#, fuzzy, kde-format
+#| msgid "Status:"
+msgid "Status: Idle"
+msgstr "État"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -29920,7 +30002,7 @@ msgstr "Décalage en Y"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
-#: fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:1619
 #, kde-format
 msgid "Ready."
 msgstr "Prêt."
@@ -30267,13 +30349,13 @@ msgid "View Star Profile..."
 msgstr "Afficher le profil de l'étoile…"
 
 #: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1303
+#: fitsviewer/fitsviewer.cpp:1307
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Afficher le quadrillage équatorial"
 
 #: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1305
+#: fitsviewer/fitsviewer.cpp:1309
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Afficher des objets dans une image"
@@ -30359,7 +30441,7 @@ msgstr "&Sélection de statistiques"
 msgid "Show Clipping"
 msgstr "Afficher le découpage"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1314
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1318
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30408,13 +30490,13 @@ msgstr "Zoom avant de tous les onglets"
 msgid "Zoom all tabs out"
 msgstr "Zoom arrière de tous les onglets"
 
-#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1588
+#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1592
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marquer des étoiles"
 
-#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:829
-#: fitsviewer/fitsviewer.cpp:1551
+#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:833
+#: fitsviewer/fitsviewer.cpp:1555
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Afficher en graphique 3D"
@@ -30444,64 +30526,64 @@ msgstr[1] "HFR = %2 %1 étoiles"
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "Impossible de trouver l'onglet d'UID %1 dans l'afficheur FITS"
 
-#: fitsviewer/fitsviewer.cpp:811
+#: fitsviewer/fitsviewer.cpp:815
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Graphique 3D currentView"
 
-#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1459
+#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1463
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Réticules"
 
-#: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1477
 #, kde-format
 msgid "Clipping"
 msgstr "Découpage"
 
-#: fitsviewer/fitsviewer.cpp:814 fitsviewer/fitsviewer.cpp:1486
+#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1490
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Quadrillage équatorial"
 
-#: fitsviewer/fitsviewer.cpp:815 fitsviewer/fitsviewer.cpp:1525
+#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1529
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objets dans une image"
 
-#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1538
+#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1542
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Lignes de quadrillage en pixels"
 
-#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1499
+#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1503
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Superposition HiPS"
 
-#: fitsviewer/fitsviewer.cpp:869
+#: fitsviewer/fitsviewer.cpp:873
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Faire clignoter le dossier racine"
 
-#: fitsviewer/fitsviewer.cpp:997
+#: fitsviewer/fitsviewer.cpp:1001
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Ouvrir une image"
 
-#: fitsviewer/fitsviewer.cpp:1280
+#: fitsviewer/fitsviewer.cpp:1284
 #, kde-format
 msgid "Hide %1"
 msgstr "Cacher %1"
 
-#: fitsviewer/fitsviewer.cpp:1285
+#: fitsviewer/fitsviewer.cpp:1289
 #, kde-format
 msgid "Show %1"
 msgstr "Afficher %1"
 
-#: fitsviewer/fitsviewer.cpp:1309
+#: fitsviewer/fitsviewer.cpp:1313
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30510,7 +30592,7 @@ msgstr ""
 "Centrer le télescope\n"
 "* Prêt *"
 
-#: fitsviewer/fitsviewer.cpp:1321
+#: fitsviewer/fitsviewer.cpp:1325
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -30519,7 +30601,7 @@ msgstr ""
 "Afficher les lignes de grille équatoriale\n"
 "* Aucune information WCS *"
 
-#: fitsviewer/fitsviewer.cpp:1323
+#: fitsviewer/fitsviewer.cpp:1327
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30528,7 +30610,7 @@ msgstr ""
 "Centrer le télescope\n"
 "* Aucune information WCS *"
 
-#: fitsviewer/fitsviewer.cpp:1325
+#: fitsviewer/fitsviewer.cpp:1329
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -30537,36 +30619,36 @@ msgstr ""
 "Afficher les objets dans l'image\n"
 "* Aucune information WCS *"
 
-#: fitsviewer/fitsviewer.cpp:1357 fitsviewer/fitsviewer.cpp:1512
+#: fitsviewer/fitsviewer.cpp:1361 fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Sélection d'un rectangle"
 
-#: fitsviewer/fitsviewer.cpp:1386 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1390 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Taille"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1394 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1398 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "Largeur"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1395 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1399 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "Hauteur"
 
-#: fitsviewer/fitsviewer.cpp:1593
+#: fitsviewer/fitsviewer.cpp:1597
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Décocher des étoiles"
 
-#: fitsviewer/fitsviewer.cpp:1609
+#: fitsviewer/fitsviewer.cpp:1613
 #, kde-format
 msgid "Processing %1..."
 msgstr "Traitement de %1 en cours…"

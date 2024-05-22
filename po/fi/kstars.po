@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 01:43+0000\n"
+"POT-Creation-Date: 2024-05-22 01:46+0000\n"
 "PO-Revision-Date: 2023-05-15 16:19+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1835,20 +1835,23 @@ msgstr "Kaukoputken portti:"
 msgid "Dome Toolbar"
 msgstr "Näyttötyökalurivi"
 
-#: data/qml/mount/mountbox.qml:428
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: data/qml/mount/mountbox.qml:428 ekos/mount/mountcontrolpanel.ui:418
+#, kde-format, kde-kuit-format
 msgid "Reverse"
 msgstr "Käänteisesti"
 
-#: data/qml/mount/mountbox.qml:437
-#, fuzzy, kde-kuit-format
+#. i18n: ectx: property (text), widget (QCheckBox, upDownCheckObject)
+#: data/qml/mount/mountbox.qml:437 ekos/mount/mountcontrolpanel.ui:425
+#, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City in California USA"
 #| msgid "Downey"
 msgid "Up/Down"
 msgstr "Downey"
 
-#: data/qml/mount/mountbox.qml:452
-#, fuzzy, kde-kuit-format
+#. i18n: ectx: property (text), widget (QCheckBox, leftRightCheckObject)
+#: data/qml/mount/mountbox.qml:452 ekos/mount/mountcontrolpanel.ui:432
+#, fuzzy, kde-format, kde-kuit-format
 #| msgid "Height:"
 msgid "Left/Right"
 msgstr "Korkeus:"
@@ -1863,6 +1866,8 @@ msgstr "1×"
 #. i18n: ectx: property (text), widget (QLabel, raLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -1871,17 +1876,20 @@ msgstr "1×"
 #: data/qml/mount/mountbox.qml:545 data/qml/mount/mountbox.qml:737
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:789 ekos/mount/mount.ui:166 tools/altvstime.ui:97
-#: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
+#: ekos/manager.ui:789 ekos/mount/mount.ui:166
+#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:756
+#: tools/altvstime.ui:97 tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, kde-format, kde-kuit-format
 msgid "RA:"
 msgstr "RA:"
 
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/qml/mount/mountbox.qml:565 data/qml/mount/mountbox.qml:868
 #: ekos/manager.ui:757 ekos/mount/mount.ui:203
+#: ekos/mount/mountcontrolpanel.ui:666
 #, kde-format, kde-kuit-format
 msgid "AZ:"
 msgstr "AZ:"
@@ -1889,113 +1897,135 @@ msgstr "AZ:"
 #. i18n: ectx: property (text), widget (QLabel, decLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, label_17)
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:773
+#: ekos/manager.ui:773 ekos/mount/mountcontrolpanel.ui:495
+#: ekos/mount/mountcontrolpanel.ui:792
 #, kde-format, kde-kuit-format
 msgid "DE:"
 msgstr "DE:"
 
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:604 data/qml/mount/mountbox.qml:869
-#: ekos/manager.ui:741
+#: ekos/manager.ui:741 ekos/mount/mountcontrolpanel.ui:581
 #, kde-format, kde-kuit-format
 msgid "AL:"
 msgstr "AL:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:623 data/qml/mount/mountbox.qml:910
-#: ekos/mount/mount.ui:237
+#: ekos/mount/mount.ui:237 ekos/mount/mountcontrolpanel.ui:568
 #, kde-format, kde-kuit-format
 msgid "HA:"
 msgstr "HA:"
 
-#: data/qml/mount/mountbox.qml:642
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: data/qml/mount/mountbox.qml:642 ekos/mount/mountcontrolpanel.ui:630
+#, kde-format, kde-kuit-format
 msgid "ZA:"
 msgstr "ZA:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
+#. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: data/qml/mount/mountbox.qml:668 ekos/capture/camera.ui:1751
-#: ekos/scheduler/scheduler.ui:160
+#: ekos/mount/mountcontrolpanel.ui:689 ekos/scheduler/scheduler.ui:160
 #, kde-format, kde-kuit-format
 msgid "Target:"
 msgstr "Kohde:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_17)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, typeLabel)
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:832
-#: indi/collimationOptions.ui:427 oal/equipmentwriter.ui:198
-#: oal/equipmentwriter.ui:983 oal/execute.ui:146 printing/detailstable.cpp:318
+#: ekos/mount/mountcontrolpanel.ui:822 indi/collimationOptions.ui:427
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
+#: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
 msgstr "Tyyppi:"
 
-#: data/qml/mount/mountbox.qml:818
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QRadioButton, equatorialCheckObject)
+#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:829
+#, kde-format, kde-kuit-format
 msgid "RA/DE"
 msgstr "RA/DE"
 
-#: data/qml/mount/mountbox.qml:859
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
+#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:842
+#, kde-format, kde-kuit-format
 msgid "AZ/AL"
 msgstr "AZ/AL"
 
-#: data/qml/mount/mountbox.qml:899
-#, fuzzy, kde-kuit-format
+#. i18n: ectx: property (text), widget (QRadioButton, haEquatorialCheckObject)
+#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:852
+#, fuzzy, kde-format, kde-kuit-format
 #| msgid "RA/DE"
 msgid "HA/DE"
 msgstr "RA/DE"
 
 #. i18n: ectx: property (text), widget (QLabel, epochLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_19)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel2)
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:940 dialogs/focusdialog.ui:114
-#: tools/flagmanager.ui:64 tools/modcalcapcoord.ui:127
-#: tools/modcalcapcoord.ui:215 tools/modcalcapcoord.ui:527
-#: tools/modcalcgalcoord.ui:214 tools/modcalcvlsr.ui:521
+#: ekos/mount/mountcontrolpanel.ui:882 tools/flagmanager.ui:64
+#: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
+#: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
+#: tools/modcalcvlsr.ui:521
 #, kde-format, kde-kuit-format
 msgid "Epoch:"
 msgstr "Epookki:"
 
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
+#. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #: data/qml/mount/mountbox.qml:954 dialogs/focusdialog.ui:74
+#: ekos/mount/mountcontrolpanel.ui:889
 #, kde-format, kde-kuit-format
 msgid "JNow"
 msgstr "JNow"
 
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
+#. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #: data/qml/mount/mountbox.qml:967 dialogs/focusdialog.ui:84
+#: ekos/mount/mountcontrolpanel.ui:902
 #, kde-format, kde-kuit-format
 msgid "J2000"
 msgstr "J2000"
 
-#: data/qml/mount/mountbox.qml:987
-#, fuzzy, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, gotoButtonObject)
+#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:932
+#, fuzzy, kde-format, kde-kuit-format
 #| msgid "Batch Mode"
 msgid "GOTO"
 msgstr "Eräajotila"
 
-#: data/qml/mount/mountbox.qml:1000
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
+#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:939
+#, kde-format, kde-kuit-format
 msgid "SYNC"
 msgstr "SYNC"
 
-#: data/qml/mount/mountbox.qml:1013
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, parkButtonObject)
+#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:946
+#, kde-format, kde-kuit-format
 msgid "PARK"
 msgstr "PARK"
 
-#: data/qml/mount/mountbox.qml:1025
-#, kde-kuit-format
+#. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
+#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:953
+#, kde-format, kde-kuit-format
 msgid "UNPARK"
 msgstr "UNPARK"
 
@@ -2920,8 +2950,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2305
 #: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2446 fitsviewer/fitsviewer.cpp:724
-#: fitsviewer/fitsviewer.cpp:725
+#: ekos/capture/captureprocess.cpp:2422 fitsviewer/fitsviewer.cpp:726
+#: fitsviewer/fitsviewer.cpp:727
 #, kde-format
 msgid "Preview"
 msgstr "Esikatselu"
@@ -4109,6 +4139,12 @@ msgstr "RA (J2000.0):"
 #. i18n: ectx: property (text), widget (QLabel, AzRise)
 #. i18n: ectx: property (text), widget (QLabel, AltTransit)
 #. i18n: ectx: property (text), widget (QLabel, AzSet)
+#. i18n: ectx: property (text), widget (QLabel, azValueObject)
+#. i18n: ectx: property (text), widget (QLabel, altValueObject)
+#. i18n: ectx: property (text), widget (QLabel, deValueObject)
+#. i18n: ectx: property (text), widget (QLabel, raValueObject)
+#. i18n: ectx: property (text), widget (QLabel, haValueObject)
+#. i18n: ectx: property (text), widget (QLabel, zaValueObject)
 #. i18n: ectx: property (text), widget (QLabel, countdownLabel)
 #. i18n: ectx: property (text), widget (QLabel, AngDist)
 #: dialogs/details_position.ui:185 dialogs/details_position.ui:243
@@ -4116,7 +4152,10 @@ msgstr "RA (J2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:521 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:521 ekos/mount/mountcontrolpanel.ui:482
+#: ekos/mount/mountcontrolpanel.ui:515 ekos/mount/mountcontrolpanel.ui:535
+#: ekos/mount/mountcontrolpanel.ui:555 ekos/mount/mountcontrolpanel.ui:604
+#: ekos/mount/mountcontrolpanel.ui:653 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr "00:00:00"
@@ -6472,7 +6511,7 @@ msgstr "FITS-tiedosto tallennettu kohteeseen %1"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:830
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
@@ -6589,8 +6628,8 @@ msgstr "Valitse tulostiedoston kentät"
 msgid "Capture error. Aborting..."
 msgstr "Ota kuva"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1561
-#: ekos/capture/captureprocess.cpp:2102
+#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1560
+#: ekos/capture/captureprocess.cpp:2100
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6700,7 +6739,7 @@ msgstr "Tiedostoon %1 ei voitu kirjoittaa"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2716
-#: ekos/capture/captureprocess.cpp:2499 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
 #: ekos/scheduler/schedulerprocess.cpp:4397
@@ -7368,7 +7407,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Avaa havaintoluettelo"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
-#: ekos/capture/captureprocess.cpp:2498 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4416
 #, kde-format
@@ -14598,7 +14637,7 @@ msgstr "Tallennettu tiedostoon %1"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Haluatko varmasti nollata kaikkien töiden tilan?"
 
-#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2613
+#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2635
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -14900,7 +14939,8 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1230 ekos/guide/guide.cpp:69
+#: ekos/capture/camera.ui:1230 ekos/capture/captureprocess.cpp:2435
+#: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
 msgstr "Kalibrointi"
@@ -15978,164 +16018,170 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Kuvan kirjoittaminen epäonnistui"
 
-#: ekos/capture/captureprocess.cpp:1222
+#: ekos/capture/captureprocess.cpp:1221
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Aineistotiedosto tallennettu kohteeseen %1"
 
-#: ekos/capture/captureprocess.cpp:1248
+#: ekos/capture/captureprocess.cpp:1247
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "Ladataan tähtiä"
 
-#: ekos/capture/captureprocess.cpp:1277
+#: ekos/capture/captureprocess.cpp:1276
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1343
+#: ekos/capture/captureprocess.cpp:1342
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "Supernovajäänne"
 
-#: ekos/capture/captureprocess.cpp:1400
+#: ekos/capture/captureprocess.cpp:1399
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "Yhteys"
 
-#: ekos/capture/captureprocess.cpp:1428
+#: ekos/capture/captureprocess.cpp:1427
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1553 ekos/capture/captureprocess.cpp:2094
+#: ekos/capture/captureprocess.cpp:1552 ekos/capture/captureprocess.cpp:2092
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1654
+#: ekos/capture/captureprocess.cpp:1652
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1720
+#: ekos/capture/captureprocess.cpp:1718
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1754
+#: ekos/capture/captureprocess.cpp:1752
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Kaappaa"
 
-#: ekos/capture/captureprocess.cpp:1760
+#: ekos/capture/captureprocess.cpp:1758
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1793
+#: ekos/capture/captureprocess.cpp:1791
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Suoritetaan komentosarjaa: %1"
 
-#: ekos/capture/captureprocess.cpp:1808
+#: ekos/capture/captureprocess.cpp:1806
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1816
+#: ekos/capture/captureprocess.cpp:1814
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1828
+#: ekos/capture/captureprocess.cpp:1826
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "Näytä FITS automaattisesti valotuksen jälkeen"
 
-#: ekos/capture/captureprocess.cpp:1838
+#: ekos/capture/captureprocess.cpp:1836
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:1843
+#: ekos/capture/captureprocess.cpp:1841
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2024 ekos/focus/focus.cpp:5309
+#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5309
 #: ekos/focus/focus.cpp:5333
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/captureprocess.cpp:2031
+#: ekos/capture/captureprocess.cpp:2029
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2049 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5314
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/captureprocess.cpp:2075
+#: ekos/capture/captureprocess.cpp:2073
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/captureprocess.cpp:2153
+#: ekos/capture/captureprocess.cpp:2151
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2164
+#: ekos/capture/captureprocess.cpp:2162
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2186
+#: ekos/capture/captureprocess.cpp:2184
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2215
+#: ekos/capture/captureprocess.cpp:2213
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2223
+#: ekos/capture/captureprocess.cpp:2221
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2443
+#: ekos/capture/captureprocess.cpp:2419
 #, kde-format
 msgid "%1 Preview"
 msgstr "Esikatselu – %1"
 
-#: ekos/capture/captureprocess.cpp:2562
+#: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
+#, fuzzy, kde-format
+#| msgid "Calibration"
+msgid "Flat Calibration"
+msgstr "Kalibrointi"
+
+#: ekos/capture/captureprocess.cpp:2584
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Taajuus:"
 
-#: ekos/capture/captureprocess.cpp:2612
+#: ekos/capture/captureprocess.cpp:2634
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -16143,20 +16189,20 @@ msgid ""
 "restart capturing?"
 msgstr "Haluatko varmasti poistaa linkin %1?"
 
-#: ekos/capture/captureprocess.cpp:2626
+#: ekos/capture/captureprocess.cpp:2648
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2741
+#: ekos/capture/captureprocess.cpp:2763
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Haluatko varmasti poistaa asiakkaan %1?"
 
-#: ekos/capture/captureprocess.cpp:2742
+#: ekos/capture/captureprocess.cpp:2764
 #, kde-format
 msgid "Driver Restart"
 msgstr "Ajurin uudelleenkäynnistys"
@@ -17540,7 +17586,7 @@ msgstr ""
 "Poissa verkosta|/|$[aseta tilanmuutos 'poistui verkosta' "
 "omantilanmuutoslause 'Olet poistunut verkosta.']"
 
-#: ekos/ekoslive/message.cpp:959
+#: ekos/ekoslive/message.cpp:963
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -23664,136 +23710,142 @@ msgstr "Näytä FITS automaattisesti valotuksen jälkeen"
 msgid "Meridian Flip Status"
 msgstr "Näytä FITS automaattisesti valotuksen jälkeen"
 
-#: ekos/mount/mount.cpp:97
+#: ekos/mount/mount.cpp:100
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to clear all mount configurations?"
 msgstr "Haluatko varmasti poistaa asiakkaan %1?"
 
-#: ekos/mount/mount.cpp:98
+#: ekos/mount/mount.cpp:101
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Mount Configuration"
 msgstr "Määritykset"
 
-#. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:152 ekos/mount/mount.ui:599
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Montreal"
-msgid "Mount Control"
-msgstr "Montreal"
-
-#: ekos/mount/mount.cpp:515
+#: ekos/mount/mount.cpp:475 ekos/mount/mount.cpp:483
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Haluatko varmasti poistaa asiakkaan %1?"
 
-#: ekos/mount/mount.cpp:516
+#: ekos/mount/mount.cpp:476 ekos/mount/mount.cpp:484
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "Seuraa"
 
-#: ekos/mount/mount.cpp:603
+#: ekos/mount/mount.cpp:477
+#, fuzzy, kde-format
+#| msgid "Yes"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "Kyllä"
+
+#: ekos/mount/mount.cpp:478
+#, fuzzy, kde-format
+#| msgid "No"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Ei"
+
+#: ekos/mount/mount.cpp:573
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:619
+#: ekos/mount/mount.cpp:589
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:671
+#: ekos/mount/mount.cpp:641
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:807
+#: ekos/mount/mount.cpp:777
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:821
+#: ekos/mount/mount.cpp:791
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:844
+#: ekos/mount/mount.cpp:814
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1442
+#: ekos/mount/mount.cpp:1289
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Alignment Model cleared."
 msgstr "Caliente"
 
-#: ekos/mount/mount.cpp:1446
+#: ekos/mount/mount.cpp:1293
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Failed to clear Alignment Model."
 msgstr "Kohdistettu: "
 
-#: ekos/mount/mount.cpp:1556 ekos/scheduler/schedulerprocess.cpp:3885
+#: ekos/mount/mount.cpp:1403 ekos/scheduler/schedulerprocess.cpp:3885
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1581
+#: ekos/mount/mount.cpp:1428
 #, fuzzy, kde-format
 #| msgid "The Name field cannot be empty"
 msgid "Parking time cannot be in the past."
 msgstr "Nimikenttä ei voi olla tyhjä"
 
-#: ekos/mount/mount.cpp:1590
+#: ekos/mount/mount.cpp:1437
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1595
+#: ekos/mount/mount.cpp:1442
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1597
+#: ekos/mount/mount.cpp:1444
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1617
+#: ekos/mount/mount.cpp:1464
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking timer is up."
 msgstr "Radioteleskooppi"
 
-#: ekos/mount/mount.cpp:1627
+#: ekos/mount/mount.cpp:1474
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting auto park..."
 msgstr "Farmington"
 
-#: ekos/mount/mount.cpp:2120
+#: ekos/mount/mount.cpp:1967
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:2141
+#: ekos/mount/mount.cpp:1988
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:2149
+#: ekos/mount/mount.cpp:1996
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr ""
@@ -23938,6 +23990,14 @@ msgstr "Vaihda koordinaattiruudukon näyttö"
 #, kde-format
 msgid "Every day"
 msgstr "Päivittäin"
+
+#. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
+#: ekos/mount/mount.ui:599
+#, fuzzy, kde-format
+#| msgctxt "City in Quebec Canada"
+#| msgid "Montreal"
+msgid "Mount Control"
+msgstr "Montreal"
 
 #. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.ui:611
@@ -24090,6 +24150,28 @@ msgstr "Lopetusdeklinaatio:"
 #| msgid "Palo Alto"
 msgid "Max. Alt:"
 msgstr "Palo Alto"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
+#: ekos/mount/mountcontrolpanel.ui:17
+#, fuzzy, kde-format
+#| msgid "INDI Control Panel"
+msgid "Mount Control Panel"
+msgstr "INDI-ohjauspaneeli"
+
+#. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
+#: ekos/mount/mountcontrolpanel.ui:453
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Speed"
+msgid "Speed"
+msgstr "Nopeus"
+
+#. i18n: ectx: property (text), widget (QLabel, statusTextObject)
+#: ekos/mount/mountcontrolpanel.ui:973
+#, fuzzy, kde-format
+#| msgid "Status:"
+msgid "Status: Idle"
+msgstr "Tila:"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -29071,7 +29153,7 @@ msgstr "Y-siirtymä:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
-#: fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:1619
 #, kde-format
 msgid "Ready."
 msgstr "Valmis."
@@ -29435,14 +29517,14 @@ msgid "View Star Profile..."
 msgstr "Arrecife"
 
 #: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1303
+#: fitsviewer/fitsviewer.cpp:1307
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Ekvatoriaaliset koordinaatit"
 
 #: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1305
+#: fitsviewer/fitsviewer.cpp:1309
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -29535,7 +29617,7 @@ msgstr "Tilastoja"
 msgid "Show Clipping"
 msgstr "Näytä tulostusikkuna"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1314
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1318
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29586,13 +29668,13 @@ msgstr ""
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1588
+#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1592
 #, kde-format
 msgid "Mark Stars"
 msgstr "Merkitse tähdet"
 
-#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:829
-#: fitsviewer/fitsviewer.cpp:1551
+#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:833
+#: fitsviewer/fitsviewer.cpp:1555
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -29625,69 +29707,69 @@ msgstr[1] "tähti"
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:811
+#: fitsviewer/fitsviewer.cpp:815
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:812 fitsviewer/fitsviewer.cpp:1459
+#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1463
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Ristikko"
 
-#: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1477
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filippiinit"
 
-#: fitsviewer/fitsviewer.cpp:814 fitsviewer/fitsviewer.cpp:1486
+#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1490
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Ekvatoriaaliset koordinaatit"
 
-#: fitsviewer/fitsviewer.cpp:815 fitsviewer/fitsviewer.cpp:1525
+#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1529
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Näytä kohteet"
 
-#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1538
+#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1542
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Kuvapisteruudukot"
 
-#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1499
+#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1503
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:869
+#: fitsviewer/fitsviewer.cpp:873
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Kansio:"
 
-#: fitsviewer/fitsviewer.cpp:997
+#: fitsviewer/fitsviewer.cpp:1001
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Avaa kuva"
 
-#: fitsviewer/fitsviewer.cpp:1280
+#: fitsviewer/fitsviewer.cpp:1284
 #, kde-format
 msgid "Hide %1"
 msgstr "Piilota %1"
 
-#: fitsviewer/fitsviewer.cpp:1285
+#: fitsviewer/fitsviewer.cpp:1289
 #, kde-format
 msgid "Show %1"
 msgstr "Näytä %1"
 
-#: fitsviewer/fitsviewer.cpp:1309
+#: fitsviewer/fitsviewer.cpp:1313
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29696,14 +29778,14 @@ msgstr ""
 "Keskitä kaukoputki\n"
 "*Valmis*"
 
-#: fitsviewer/fitsviewer.cpp:1321
+#: fitsviewer/fitsviewer.cpp:1325
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1323
+#: fitsviewer/fitsviewer.cpp:1327
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -29712,43 +29794,43 @@ msgstr ""
 "Keskitä kaukoputki\n"
 "*Ei WCS-tietoa*"
 
-#: fitsviewer/fitsviewer.cpp:1325
+#: fitsviewer/fitsviewer.cpp:1329
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1357 fitsviewer/fitsviewer.cpp:1512
+#: fitsviewer/fitsviewer.cpp:1361 fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Valintanelikulmio"
 
-#: fitsviewer/fitsviewer.cpp:1386 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1390 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Koko"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1394 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1398 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "Leveys"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1395 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1399 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "Korkeus"
 
-#: fitsviewer/fitsviewer.cpp:1593
+#: fitsviewer/fitsviewer.cpp:1597
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Poista tähtimerkinnät"
 
-#: fitsviewer/fitsviewer.cpp:1609
+#: fitsviewer/fitsviewer.cpp:1613
 #, kde-format
 msgid "Processing %1..."
 msgstr "Käsitellään: %1…"

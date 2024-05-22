@@ -1511,7 +1511,7 @@
 >Stellarium</ulink
 >. Els detalls per a la creació d'imatges són els mateixos. </para>
 <para
->Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Aquest tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborri/sigui transparent i desar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè eventualment es pugui alinear amb el mapa del cel. Un cop fet tot això, el mapa del cel podrà simular la vista al cel local, inclòs el terreny local. </para>
+>Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Aquest tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborri/sigui transparent i desar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè finalment es pugui alinear amb el mapa del cel. Un cop fet tot això, el mapa del cel podrà simular la vista al cel local, inclòs el terreny local. </para>
 <para
 >Una vegada es creï la imatge, serà possible carregar-la a través de la pàgina <guilabel
 >Terreny</guilabel
