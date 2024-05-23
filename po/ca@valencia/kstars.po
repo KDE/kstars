@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-22 01:46+0000\n"
-"PO-Revision-Date: 2024-05-19 22:30+0200\n"
+"PO-Revision-Date: 2024-05-22 13:28+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2036,7 +2036,7 @@ msgstr "Estat:"
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
 msgid "Idle"
-msgstr "Inactiu"
+msgstr "En espera"
 
 #: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:460
 #, kde-format, kde-kuit-format
@@ -16586,10 +16586,9 @@ msgid "%1 Preview"
 msgstr "Vista prèvia %1"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "Calibratge"
+msgstr "Calibratge dels plans"
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -19033,7 +19032,7 @@ msgstr " nm"
 #: ekos/focus/focus.cpp:112
 #, kde-format
 msgid "Idle."
-msgstr "Inactiu."
+msgstr "En espera."
 
 #: ekos/focus/focus.cpp:134
 #, kde-format
@@ -24616,15 +24615,13 @@ msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
 #: ekos/mount/mount.cpp:477
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Sí"
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "No"
@@ -25042,25 +25039,21 @@ msgstr "Alt màx.:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
 #: ekos/mount/mountcontrolpanel.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "Mostra o oculta el quadro de control de la muntura"
+msgstr "Quadro de control de la muntura"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountcontrolpanel.ui:453
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Velocitat"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:973
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "Estat:"
+msgstr "Estat: En espera"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -25077,7 +25070,7 @@ msgstr "Sostre desplegable"
 #: ekos/observatory/observatory.cpp:255
 #, kde-format
 msgid "%1 is idle."
-msgstr "%1 està inactiu/va."
+msgstr "%1 està en espera."
 
 #: ekos/observatory/observatory.cpp:265 ekos/observatory/observatory.cpp:318
 #: ekos/observatory/observatory.cpp:387

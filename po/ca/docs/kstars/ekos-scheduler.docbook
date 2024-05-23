@@ -75,7 +75,7 @@
         <para
 >La taula del programador (a dalt) llista les tasques en ordre de prioritat, amb les tasques més altes (en files amb nombres més baixos) que tenen més prioritat que les tasques més avall de la llista (amb files amb nombres més alts). </para>
         <para
->El programador planifica regularment (i replanifica) quines tasques s'han d'executar, i quan. Pot començar a executar una tasca determinada, i després avançar-la per una de nova. Pot quedar-se inactiu si no es poden executar tasques (&pex;, a la llum del dia), i dormir fins que torni a estar actiu. El seu objectiu és mantenir l'equip el més ocupat possible, respectant les prioritats de la taula de programació. Així és com funciona. </para>
+>El programador planifica regularment (i replanifica) quines tasques s'han d'executar, i quan. Pot començar a executar una tasca determinada, i després avançar-la per una de nova. Pot quedar-se en espera si no es poden executar tasques (&pex;, a la llum del dia), i dormir fins que torni a estar actiu. El seu objectiu és mantenir l'equip el més ocupat possible, respectant les prioritats de la taula de programació. Així és com funciona. </para>
         <para
 >Quan s'inicia el planificador (o quan replanifica, que ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la tasca de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, comença aquesta tasca, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es compleixen les seves restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, compleix la restricció d'altitud mínima, no ha completat totes les imatges desitjades,... </para>
     <para

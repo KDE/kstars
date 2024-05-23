@@ -15609,10 +15609,9 @@ msgid "%1 Preview"
 msgstr "%1 的预览"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "校准"
+msgstr ""
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -22669,18 +22668,16 @@ msgid "Mount Tracking"
 msgstr "赤道仪跟踪"
 
 #: ekos/mount/mount.cpp:477
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "是"
+msgstr ""
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "否"
+msgstr ""
 
 #: ekos/mount/mount.cpp:573
 #, kde-format
@@ -23063,25 +23060,21 @@ msgstr "最大高度角:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
 #: ekos/mount/mountcontrolpanel.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "切换支架控制面板"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountcontrolpanel.ui:453
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
-msgstr "速率"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:973
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "状态："
+msgstr ""
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format

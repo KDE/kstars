@@ -449,7 +449,7 @@
 ><imagedata fileref="media-playback-start.png" format="PNG"/></imageobject
 ></inlinemediaobject
 > per a començar a executar les tasques. Un estat de la tasca canviarà d'<guilabel
->Inactiva</guilabel
+>En espera</guilabel
 > a <guilabel
 >En progrés</guilabel
 > i, finalment, a <guilabel
