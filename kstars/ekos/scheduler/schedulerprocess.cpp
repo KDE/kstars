@@ -4141,6 +4141,30 @@ void SchedulerProcess::setProfile(const QString &newProfile)
     moduleState()->setCurrentProfile(newProfile);
 }
 
+QString SchedulerProcess::currentJobName()
+{
+    auto job = moduleState()->activeJob();
+    return ( job != nullptr ? job->getName() : QString() );
+}
+
+QString SchedulerProcess::currentJobJson()
+{
+    auto job = moduleState()->activeJob();
+    if( job != nullptr )
+    {
+        return QString( QJsonDocument( job->toJson() ).toJson() );
+    }
+    else
+    {
+        return QString();
+    }
+}
+
+QString SchedulerProcess::jsonJobs()
+{
+    return QString( QJsonDocument( moduleState()->getJSONJobs() ).toJson() );
+}
+
 QStringList SchedulerProcess::logText()
 {
     return moduleState()->logText();

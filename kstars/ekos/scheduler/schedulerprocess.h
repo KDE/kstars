@@ -36,6 +36,9 @@ class SchedulerProcess : public QObject, public ModuleLogger
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Scheduler")
     Q_PROPERTY(Ekos::SchedulerState status READ status NOTIFY newStatus)
     Q_PROPERTY(QString profile READ profile WRITE setProfile)
+    Q_PROPERTY(QString currentJobName READ currentJobName)
+    Q_PROPERTY(QString currentJobJson READ currentJobJson)
+    Q_PROPERTY(QString jsonJobs READ jsonJobs)
     Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
 public:
@@ -551,6 +554,10 @@ public:
 
     const QString &profile() const;
     void setProfile(const QString &newProfile);
+
+    QString currentJobName();
+    QString currentJobJson();
+    QString jsonJobs();
 
     QStringList logText();
 

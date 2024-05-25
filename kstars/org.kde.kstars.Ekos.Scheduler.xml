@@ -2,6 +2,9 @@
 <node>
   <interface name="org.kde.kstars.Ekos.Scheduler">
   <property name="profile" type="s" access="readwrite"/>
+  <property name="currentJobName" type="s" access="read"/>
+  <property name="currentJobJson" type="s" access="read"/>
+  <property name="jsonJobs" type="s" access="read"/>
   <property name="logText" type="as" access="read"/>
   <property name="status" type="i" access="read">
     <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::SchedulerState"/>

@@ -1025,6 +1025,7 @@ QJsonObject SchedulerJob::toJson() const
         {"startupTime", startupTime.isValid() ? startupTime.toString() : "--"},
         {"completionTime", completionTime.isValid() ? completionTime.toString() : "--"},
         {"altitude", alt},
+        {"sequence", sequenceFile.toString() },
     };
 }
 } // Ekos namespace
