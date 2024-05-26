@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-22 01:46+0000\n"
+"POT-Creation-Date: 2024-05-26 01:40+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -6412,7 +6412,7 @@ msgstr "URL tidak sah"
 #: ekos/align/align.cpp:3957 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2893
-#: ekos/scheduler/schedulerprocess.cpp:4396
+#: ekos/scheduler/schedulerprocess.cpp:4420
 #, fuzzy, kde-format
 msgid "Unable to write to file %1"
 msgstr "gagal baca fail rpm [%s] dari media \"%s\""
@@ -6422,8 +6422,8 @@ msgstr "gagal baca fail rpm [%s] dari media \"%s\""
 #: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
-#: ekos/scheduler/schedulerprocess.cpp:4397
-#: ekos/scheduler/schedulerprocess.cpp:4417 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4421
+#: ekos/scheduler/schedulerprocess.cpp:4441 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -7034,7 +7034,7 @@ msgstr "Senarai Dibenarkan"
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
 #: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
-#: ekos/scheduler/schedulerprocess.cpp:4416
+#: ekos/scheduler/schedulerprocess.cpp:4440
 #, fuzzy, kde-format
 msgid "Unable to open file %1"
 msgstr "tidak dapat membuka fail tetapan `%s': %s"
@@ -26929,24 +26929,24 @@ msgstr "Tetapan Rangkaian"
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4178
+#: ekos/scheduler/schedulerprocess.cpp:4202
 #, fuzzy, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
 "ready..."
 msgstr "Bandar nama"
 
-#: ekos/scheduler/schedulerprocess.cpp:4455
+#: ekos/scheduler/schedulerprocess.cpp:4479
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4460
+#: ekos/scheduler/schedulerprocess.cpp:4484
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4521
+#: ekos/scheduler/schedulerprocess.cpp:4545
 #, fuzzy, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "Bandar nama"

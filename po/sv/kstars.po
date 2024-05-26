@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-22 01:46+0000\n"
-"PO-Revision-Date: 2024-05-19 11:49+0200\n"
+"POT-Creation-Date: 2024-05-26 01:40+0000\n"
+"PO-Revision-Date: 2024-05-25 11:01+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6590,7 +6590,7 @@ msgstr "Ogiltig webbadress: %1"
 #: ekos/align/align.cpp:3957 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2893
-#: ekos/scheduler/schedulerprocess.cpp:4396
+#: ekos/scheduler/schedulerprocess.cpp:4420
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Kan inte skriva till filen %1"
@@ -6600,8 +6600,8 @@ msgstr "Kan inte skriva till filen %1"
 #: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
-#: ekos/scheduler/schedulerprocess.cpp:4397
-#: ekos/scheduler/schedulerprocess.cpp:4417 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4421
+#: ekos/scheduler/schedulerprocess.cpp:4441 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -7250,7 +7250,7 @@ msgstr "Öppna Ekos inriktningslista"
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
 #: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
-#: ekos/scheduler/schedulerprocess.cpp:4416
+#: ekos/scheduler/schedulerprocess.cpp:4440
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Kunde inte öppna filen %1"
@@ -16154,10 +16154,9 @@ msgid "%1 Preview"
 msgstr "Förhandsgranskning av %1"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "Kalibrering"
+msgstr "Plankalibrering"
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -23962,15 +23961,13 @@ msgid "Mount Tracking"
 msgstr "Stativföljning"
 
 #: ekos/mount/mount.cpp:477
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Ja"
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Nej"
@@ -24373,25 +24370,21 @@ msgstr "Max elevation:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
 #: ekos/mount/mountcontrolpanel.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "Visa stativkontrollruta"
+msgstr "Stativkontrollruta"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountcontrolpanel.ui:453
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Hastighet"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:973
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "Status:"
+msgstr "Status: Overksam"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -29131,7 +29124,7 @@ msgstr "Frigör kupol..."
 msgid "Dome already unparked."
 msgstr "Kupol redan frigjord."
 
-#: ekos/scheduler/schedulerprocess.cpp:4178
+#: ekos/scheduler/schedulerprocess.cpp:4202
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -29140,17 +29133,17 @@ msgstr ""
 "Väntar %1 för uppdatering av simuleringsklockan till nästa observationsjobb "
 "är redo..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4455
+#: ekos/scheduler/schedulerprocess.cpp:4479
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Startskript misslyckades, avbryter..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4460
+#: ekos/scheduler/schedulerprocess.cpp:4484
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Avstängningsskript misslyckades, avbryter..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4521
+#: ekos/scheduler/schedulerprocess.cpp:4545
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""

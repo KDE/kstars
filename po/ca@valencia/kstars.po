@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-22 01:46+0000\n"
+"POT-Creation-Date: 2024-05-26 01:40+0000\n"
 "PO-Revision-Date: 2024-05-22 13:28+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6717,7 +6717,7 @@ msgstr "URL no vàlid: %1"
 #: ekos/align/align.cpp:3957 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2893
-#: ekos/scheduler/schedulerprocess.cpp:4396
+#: ekos/scheduler/schedulerprocess.cpp:4420
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "No es pot escriure en el fitxer %1"
@@ -6727,8 +6727,8 @@ msgstr "No es pot escriure en el fitxer %1"
 #: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
-#: ekos/scheduler/schedulerprocess.cpp:4397
-#: ekos/scheduler/schedulerprocess.cpp:4417 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4421
+#: ekos/scheduler/schedulerprocess.cpp:4441 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -7401,7 +7401,7 @@ msgstr "Obriu la llista d'alineació d'Ekos"
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
 #: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
-#: ekos/scheduler/schedulerprocess.cpp:4416
+#: ekos/scheduler/schedulerprocess.cpp:4440
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "No s'ha pogut en obrir el fitxer %1"
@@ -29943,7 +29943,7 @@ msgstr "S'està desaparcant la cúpula…"
 msgid "Dome already unparked."
 msgstr "La cúpula ja està desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4178
+#: ekos/scheduler/schedulerprocess.cpp:4202
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -29952,17 +29952,17 @@ msgstr ""
 "En repòs durant %1 per a la simulació d'actualització del rellotge fins que "
 "la tasca d'observació següent estiga llesta…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4455
+#: ekos/scheduler/schedulerprocess.cpp:4479
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "L'script d'inici ha fallat. S'interromp…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4460
+#: ekos/scheduler/schedulerprocess.cpp:4484
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "L'script de tancament ha fallat. S'interromp…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4521
+#: ekos/scheduler/schedulerprocess.cpp:4545
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
