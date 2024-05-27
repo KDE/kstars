@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 01:40+0000\n"
-"PO-Revision-Date: 2024-05-12 23:22+0100\n"
+"PO-Revision-Date: 2024-05-26 07:22+0200\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15682,10 +15682,9 @@ msgid "Warning: Dithering failed."
 msgstr "Averto: Dithering malsukcesis."
 
 #: ekos/capture/capturemodulestate.cpp:295
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap error."
-msgstr "Polvĉapo parkita."
+msgstr "Polvĉapa eraro."
 
 #: ekos/capture/capturemodulestate.cpp:299
 #, kde-format
@@ -16130,10 +16129,9 @@ msgid "%1 Preview"
 msgstr "%1 Antaŭrigardo"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "Kalibrado"
+msgstr "Plata Kalibrado"
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -16337,7 +16335,7 @@ msgid ""
 "put the same value in the horizontal and vertical pixel pitches.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Piksela tonalto en mikrometroj. Por kvadrataj "
+"<html><head/><body><p>Rastrumera tonalto en mikrometroj. Por kvadrataj "
 "rastrumeraj fotiloj, metu la saman valoron en la horizontalaj kaj vertikalaj "
 "rastrumeroj.</p></body></html>"
 
@@ -16345,7 +16343,7 @@ msgstr ""
 #: ekos/capture/dslrinfo.ui:118
 #, kde-format
 msgid "Pixel Pitch:"
-msgstr "Piksela Tonalto:"
+msgstr "Rastrumera Tonalto:"
 
 #: ekos/capture/dslrinfodialog.cpp:39
 #, kde-format
@@ -22714,7 +22712,7 @@ msgstr ""
 "margin-left:0px; margin-right:0px;\n"
 " -qt-block-indent:0; text-indent:0px;\">Termikaj variadoj.</li></ul><p>Ĉi "
 "tio verŝajne estu plurfoje\n"
-"-oble pli granda ol la ĉefa periodo.</p></body></html>"
+" oble pli granda ol la ĉefa periodo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas0a)
 #: ekos/guide/opsgpg.ui:355
@@ -23896,15 +23894,13 @@ msgid "Mount Tracking"
 msgstr "Spurado de Muntaĵo"
 
 #: ekos/mount/mount.cpp:477
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Jes"
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Ne"
@@ -24305,25 +24301,21 @@ msgstr "Maks. Alt:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
 #: ekos/mount/mountcontrolpanel.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "Baskuligi Muntaĵan Stirpanelon"
+msgstr "Muntaĵa Stirpanelo"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountcontrolpanel.ui:453
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
-msgstr "Rapido"
+msgstr "Rapideco"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:973
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "Statuso:"
+msgstr "Statuso: Senokupa"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -36213,7 +36205,7 @@ msgid ""
 "Automatically process World-Coordinate-System (WCS) data when loading a FITS "
 "file."
 msgstr ""
-"Aŭtomate prilabori datumojn de Monda-Koordinata-Sistemo (WCS) dum ŝarĝo de "
+"Aŭtomate prilabori datumojn de Monda-Koordinata-Sistemo (WCS) dum ŝargo de "
 "FITS-dosiero."
 
 #. i18n: ectx: label, entry (LimitedResourcesMode), group (FITSViewer)
@@ -37343,7 +37335,7 @@ msgid ""
 "Relative percentage strength of centroid edge pixel strength to average "
 "pixel value."
 msgstr ""
-"Relativa elcentforto de centroida rando pikselforto al averaĝa rastrumera "
+"Relativa elcentforto de centroida rando rastrumerforto al averaĝa rastrumera "
 "valoro."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
