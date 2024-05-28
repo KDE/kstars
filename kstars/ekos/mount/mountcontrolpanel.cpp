@@ -128,9 +128,10 @@ MountControlPanel::MountControlPanel(QWidget *parent) : QDialog(parent)
 
     // Coordinate Button Group
     targetRATextObject->setUnits(dmsBox::HOURS);
+    coordinateButtonGroup->setId(horizontalCheckObject, 1000);
     connect(coordinateButtonGroup, &QButtonGroup::idPressed, this, [this](int id)
     {
-        targetRATextObject->setUnits(id == 1 ? dmsBox::DEGREES : dmsBox::HOURS);
+        targetRATextObject->setUnits(id == 1000 ? dmsBox::DEGREES : dmsBox::HOURS);
     });
 
     // GOTO
