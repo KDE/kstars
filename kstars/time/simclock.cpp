@@ -31,7 +31,12 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) : QObject(parent
 
 void SimClock::tick()
 {
-    if (!m_ManualMode) //only tick if ManualMode is false
+    if (m_RealTime)
+    {
+        m_UTC = KStarsDateTime(QDateTime::currentDateTimeUtc());
+        emit timeAdvanced();
+    }
+    else if (!m_ManualMode) //only tick if ManualMode is false
     {
         long mselapsed = m_SystemMark.elapsed();
         if (mselapsed < m_LastElapsed)
@@ -80,8 +85,35 @@ void SimClock::setManualMode(bool on)
     m_ManualMode = on;
 }
 
+void SimClock::setRealTime(bool on)
+{
+    if(on == m_RealTime)
+        return;
+
+    m_RealTime = on;
+    emit realtimeToogled(m_RealTime);
+    if (m_RealTime)
+    {
+        m_InternalTimer.start(TimerInterval);
+        emit clockToggled(false);
+        emit scaleChanged(1.0);
+        emit timeChanged();
+    }
+    else
+    {
+        m_SystemMark.start();
+        m_JulianMark  = m_UTC.djd();
+        m_LastElapsed = 0;
+        emit scaleChanged(m_Scale);
+        emit timeChanged();
+    }
+}
+
 void SimClock::manualTick(bool force, bool backward)
 {
+    if (m_RealTime)
+        return;
+
     if (force || (m_ManualMode && m_ManualActive))
     {
         //The single shot timer is needed because otherwise the animation is happening so frequently
@@ -103,6 +135,9 @@ bool SimClock::isActive()
 
 void SimClock::stop()
 {
+    if (m_RealTime)
+        return;
+
     if (m_ManualMode && m_ManualActive)
     {
         m_ManualActive = false;
@@ -119,6 +154,9 @@ void SimClock::stop()
 
 void SimClock::start()
 {
+    if (m_RealTime)
+        return;
+
     if (m_ManualMode && !m_ManualActive)
     {
         m_ManualActive = true;
@@ -146,6 +184,9 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
     //qDebug() << Q_FUNC_INFO << newtime.toString();
     //qDebug() << Q_FUNC_INFO << "is dateTime valid? " << newtime.isValid();
 
+    if (m_RealTime)
+        return;
+
     if (newtime.isValid())
     {
         m_UTC = newtime;
@@ -168,7 +209,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
 
 void SimClock::setClockScale(double scale)
 {
-    if (m_Scale != scale)
+    if (m_Scale != scale && !m_RealTime)
     {
         qCInfo(KSTARS) << "New clock scale: " << scale << " sec";
         emit scaleChanged(scale);

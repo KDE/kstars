@@ -1496,6 +1496,33 @@ void KStars::slotToggleTimer()
     Options::setRunClock(data()->clock()->isActive());
 }
 
+void KStars::slotRealTimeToogled(bool checked)
+{
+    KToggleAction *ta = static_cast<KToggleAction*>(actionCollection()->action("clock_realtime"));
+    if (checked)
+    {
+        QAction *a = nullptr;
+        a = actionCollection()->action("clock_startstop"); if (a)a->setDisabled(true);
+        a = actionCollection()->action("time_step_forward"); if (a)a->setDisabled(true);
+        a = actionCollection()->action("time_step_backward"); if (a)a->setDisabled(true);
+        a = actionCollection()->action("time_to_now"); if (a)a->setDisabled(true);
+        a = actionCollection()->action("time_dialog"); if (a)a->setDisabled(true);
+        m_TimeStepBox->setDisabled(true);
+        if (ta)ta->setChecked(true);
+    }
+    else
+    {
+        QAction *a = nullptr;
+        a = actionCollection()->action("clock_startstop"); if (a)a->setDisabled(false);
+        a = actionCollection()->action("time_step_forward"); if (a)a->setDisabled(false);
+        a = actionCollection()->action("time_step_backward"); if (a)a->setDisabled(false);
+        a = actionCollection()->action("time_to_now"); if (a)a->setDisabled(false);
+        a = actionCollection()->action("time_dialog"); if (a)a->setDisabled(false);
+        m_TimeStepBox->setDisabled(false);
+        if (ta)ta->setChecked(false);
+    }
+}
+
 void KStars::slotStepForward()
 {
     if (data()->clock()->isActive())

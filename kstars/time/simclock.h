@@ -50,7 +50,10 @@ class SimClock : public QObject
         /** @returns the current timestep setting */
         double scale() const
         {
-            return m_Scale;
+            if (m_RealTime)
+                return 1.0;
+            else
+                return m_Scale;
         }
 
         /** Manual Mode is a new (04/2002) addition to the SimClock.  It is
@@ -70,6 +73,11 @@ class SimClock : public QObject
 
         /**Sets Manual Mode on/off according to the bool argument. */
         void setManualMode(bool on = true);
+
+        bool isRealTime() const
+        {
+            return m_RealTime;
+        }
 
     public Q_SLOTS:
 #ifndef KSTARS_LITE
@@ -127,6 +135,12 @@ class SimClock : public QObject
 
         void manualTick(bool force = false, bool backward = false);
 
+        /**
+         * Realtime mode will lock SimClock with system clock. This should prevent
+         * issues that occur when system goes to sleep and clock stops ticking.
+         */
+        void setRealTime(bool on = true);
+
     signals:
         /** The time has changed (emitted by setUTC() ) */
         void timeChanged();
@@ -142,6 +156,9 @@ class SimClock : public QObject
                 that we can bind it to KToggleAction::slotToggled(bool) */
         void clockToggled(bool);
 
+        /** Emitted when realtime clock is toggled */
+        void realtimeToogled(bool);
+
     private:
         long double m_JulianMark { 0 };
         KStarsDateTime m_UTC;
@@ -151,6 +168,7 @@ class SimClock : public QObject
         int m_LastElapsed { 0 };
         bool m_ManualMode { false };
         bool m_ManualActive { false };
+        bool m_RealTime { false };
 
         // used to generate names for dcop interfaces
         //static int idgen;

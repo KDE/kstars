@@ -195,6 +195,10 @@ void KStars::initActions()
         ka->toggle();
     QObject::connect(ka, SIGNAL(triggered()), this, SLOT(slotToggleTimer()));
 
+    actionCollection()->add<KToggleAction>("clock_realtime", data()->clock(), &SimClock::setRealTime)
+            << i18n("Run clock in realtime")
+            << QIcon::fromTheme("clock");
+
     // If we are started in --paused state make sure the icon reflects that now
     if (StartClockRunning == false)
     {
@@ -915,6 +919,7 @@ void KStars::datainitFinished()
     {
         updateTime();
     });
+    connect(data()->clock(), &SimClock::realtimeToogled, this, &KStars::slotRealTimeToogled);
 
     //Add GUI elements to main window
     buildGUI();

@@ -609,6 +609,9 @@ class KStars : public KXmlGuiWindow
         /** action slot: toggle whether kstars clock is running or not */
         void slotToggleTimer();
 
+        /** realtime kstars clock was enabled */
+        void slotRealTimeToogled(bool checked);
+
         /** action slot: advance one step forward in time */
         void slotStepForward();
 

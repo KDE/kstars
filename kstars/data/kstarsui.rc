@@ -20,6 +20,7 @@
         <Menu name="time" noMerge="1"><text>T&amp;ime</text>
                 <Action name="time_to_now" />
                 <Action name="time_dialog" />
+                <Action name="clock_realtime" />
                 <Separator />
                 <Action name="time_step_backward" />
                 <Action name="clock_startstop" />

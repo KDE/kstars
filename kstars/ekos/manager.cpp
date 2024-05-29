@@ -648,12 +648,8 @@ void Manager::start()
 
     managedDrivers.clear();
 
-    // If clock was paused, unpaused it and sync time
-    if (KStarsData::Instance()->clock()->isActive() == false)
-    {
-        KStarsData::Instance()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
-        KStarsData::Instance()->clock()->start();
-    }
+    // Set clock to realtime mode
+    KStarsData::Instance()->clock()->setRealTime(true);
 
     // Reset Ekos Manager
     reset();
