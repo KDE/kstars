@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-26 01:40+0000\n"
+"POT-Creation-Date: 2024-05-30 01:45+0000\n"
 "PO-Revision-Date: 2024-05-23 08:38+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -558,8 +558,8 @@ msgstr "Cancelar"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1103 ekos/manager.cpp:1118
-#: ekos/manager.cpp:1148 ekos/scheduler/scheduler.cpp:1333
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1099 ekos/manager.cpp:1114
+#: ekos/manager.cpp:1144 ekos/scheduler/scheduler.cpp:1333
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -1680,21 +1680,21 @@ msgid "&Edit"
 msgstr "&Editar"
 
 #. i18n: ectx: Menu (view)
-#: data/fitsviewerui.rc:24 data/kstarsui.rc:42
+#: data/fitsviewerui.rc:24 data/kstarsui.rc:43
 #, kde-format
 msgid "&View"
 msgstr "&Vista"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:53 data/kstarsui.rc:143 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:53 data/kstarsui.rc:144 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr "&Axuda"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:67 data/kstarsui.rc:158
+#: data/fitsviewerui.rc:67 data/kstarsui.rc:159
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Barra de ferramentas principal"
@@ -1712,85 +1712,85 @@ msgid "T&ime"
 msgstr "H&ora"
 
 #. i18n: ectx: Menu (focus)
-#: data/kstarsui.rc:29
+#: data/kstarsui.rc:30
 #, kde-format
 msgid "&Pointing"
 msgstr "A&puntar"
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:57
+#: data/kstarsui.rc:58
 #, kde-format
 msgid "&Projection"
 msgstr "&Proxección"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:68
+#: data/kstarsui.rc:69
 #, kde-format
 msgid "&Tools"
 msgstr "Ferramen&tas"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:70
+#: data/kstarsui.rc:71
 #, kde-format
 msgid "&Devices"
 msgstr "&Dispositivos"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:93
+#: data/kstarsui.rc:94
 #, kde-format
 msgid "&Data"
 msgstr "&Datos"
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:97
+#: data/kstarsui.rc:98
 #, kde-format
 msgid "&Updates"
 msgstr "Act&ualizacións"
 
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:104
+#: data/kstarsui.rc:105
 #, kde-format
 msgid "&Observation"
 msgstr "&Observación"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:111
+#: data/kstarsui.rc:112
 #, kde-format
 msgid "&Settings"
 msgstr "&Configuración"
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:112
+#: data/kstarsui.rc:113
 #, kde-format
 msgid "&Info Boxes"
 msgstr "Paneis &informativos"
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:120
+#: data/kstarsui.rc:121
 #, kde-format
 msgid "&Statusbar"
 msgstr "Barra de e&stado"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:176
+#: data/kstarsui.rc:177
 #, kde-format
 msgid "View Toolbar"
 msgstr "Barra de ferramentas de vista"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:195
+#: data/kstarsui.rc:196
 #, kde-format
 msgid "INDI Toolbar"
 msgstr "Barras de ferramentas de INDI"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:205
+#: data/kstarsui.rc:206
 #, kde-format
 msgid "Telescope Toolbar"
 msgstr "Barra de ferramentas do telescopio"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:216
+#: data/kstarsui.rc:217
 #, kde-format
 msgid "Dome Toolbar"
 msgstr "Barra de ferramentas da bóveda"
@@ -2011,7 +2011,7 @@ msgstr "Estado:"
 msgid "Idle"
 msgstr "Desocupado"
 
-#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:460
+#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:464
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "Que hai de interesante…"
@@ -4302,7 +4302,7 @@ msgstr "Posición da lenda:"
 msgid "Any"
 msgstr "Calquera"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1124 kstarsinit.cpp:488
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1124 kstarsinit.cpp:492
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -6415,7 +6415,7 @@ msgstr "O resolvedor interrompeuse despois de %1 segundos."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:800
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
@@ -10410,7 +10410,7 @@ msgstr "Non é posíbel amosar o ficheiro temporal de imaxe: %1."
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:377
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2081
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2077
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:469
@@ -10421,7 +10421,7 @@ msgstr "Foco"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2045 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2041 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:477
 #, kde-format
@@ -10434,7 +10434,7 @@ msgstr "Aliñar"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2250
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2246
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
 #, kde-format
@@ -10450,7 +10450,7 @@ msgstr "Voltear"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2175 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2171 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Montaxe"
@@ -12722,7 +12722,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2300
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2296
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -14178,8 +14178,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1329 indi/indidriver.cpp:735 kstarsactions.cpp:1876
-#: kstarsinit.cpp:858 kstarsinit.cpp:859 tools/exporteyepieceview.cpp:57
+#: indi/drivermanager.cpp:1329 indi/indidriver.cpp:735 kstarsactions.cpp:1903
+#: kstarsinit.cpp:862 kstarsinit.cpp:863 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -15640,7 +15640,7 @@ msgstr "Xeral"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1160 kstarsinit.cpp:470
+#: kstarsactions.cpp:1160 kstarsinit.cpp:474
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -23550,14 +23550,14 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:844 ekos/manager.cpp:870
+#: ekos/manager.cpp:840 ekos/manager.cpp:866
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 "Ekos require cando menos un dispositivo de carga acoplada (CCD) ou Guieiro "
 "para funcionar."
 
-#: ekos/manager.cpp:932
+#: ekos/manager.cpp:928
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -23566,17 +23566,17 @@ msgstr ""
 "Ekos detectou unha cámara PTP que podería impedir a unha Canon ou unha Nikon "
 "conectarse a Ekos. Quere saír da cámara PTP agora?"
 
-#: ekos/manager.cpp:933
+#: ekos/manager.cpp:929
 #, kde-format
 msgid "PTP Camera"
 msgstr "Cámara de PTP"
 
-#: ekos/manager.cpp:948
+#: ekos/manager.cpp:944
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Iniciando os servizos de INDI…"
 
-#: ekos/manager.cpp:979
+#: ekos/manager.cpp:975
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23586,47 +23586,47 @@ msgstr ""
 "antes de iniciar a nova?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:981 indi/opsindi.ui:284
+#: ekos/manager.cpp:977 indi/opsindi.ui:284
 #, kde-format
 msgid "INDI Server"
 msgstr "Servidor de INDI"
 
-#: ekos/manager.cpp:996
+#: ekos/manager.cpp:992
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Conectando ao servidor remoto de INDI en %1 no porto %2…"
 
-#: ekos/manager.cpp:1016
+#: ekos/manager.cpp:1012
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Non foi posíbel iniciar o perfil no xestor web remoto de INDI."
 
-#: ekos/manager.cpp:1020
+#: ekos/manager.cpp:1016
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Iniciando o perfil no xestor web remoto de INDI…"
 
-#: ekos/manager.cpp:1033
+#: ekos/manager.cpp:1029
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Estabelecendo unha comunicación co xestor web remoto de INDI…"
 
-#: ekos/manager.cpp:1053
+#: ekos/manager.cpp:1049
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Aviso: o xestor web de INDI non está en liña."
 
-#: ekos/manager.cpp:1076
+#: ekos/manager.cpp:1072
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Os servizos de INDI iniciáronse no porto %1."
 
-#: ekos/manager.cpp:1079
+#: ekos/manager.cpp:1075
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Os servizos de INDI iniciáronse no porto %1. Conecte os dispositivos."
 
-#: ekos/manager.cpp:1084
+#: ekos/manager.cpp:1080
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -23635,27 +23635,27 @@ msgstr ""
 "Iniciáronse os servizos de INDI. Conectouse co servidor remoto de INDI %1:"
 "%2. Agardando polos dispositivos…"
 
-#: ekos/manager.cpp:1094
+#: ekos/manager.cpp:1090
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Non foi posíbel conectar co servidor local de INDI %1:%2."
 
-#: ekos/manager.cpp:1096
+#: ekos/manager.cpp:1092
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Non foi posíbel conectar co servidor remoto de INDI %1:%2."
 
-#: ekos/manager.cpp:1109
+#: ekos/manager.cpp:1105
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Perdeuse a conexión ao servidor de INDI local %1:%2."
 
-#: ekos/manager.cpp:1111
+#: ekos/manager.cpp:1107
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Perdeuse a conexión ao servidor de INDI remoto %1:%2."
 
-#: ekos/manager.cpp:1188
+#: ekos/manager.cpp:1184
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -23663,7 +23663,7 @@ msgstr ""
 "Non foi posíbel conectar a %1. Asegúrese de que o dispositivo está conectado "
 "e acendido."
 
-#: ekos/manager.cpp:1190
+#: ekos/manager.cpp:1186
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23674,7 +23674,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que cada dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1218
+#: ekos/manager.cpp:1214
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23685,13 +23685,13 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1222 ekos/manager.cpp:1230 ekos/manager.cpp:1260
-#: ekos/manager.cpp:1268
+#: ekos/manager.cpp:1218 ekos/manager.cpp:1226 ekos/manager.cpp:1256
+#: ekos/manager.cpp:1264
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Erro de inicio de Ekos"
 
-#: ekos/manager.cpp:1226
+#: ekos/manager.cpp:1222
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23702,7 +23702,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que os dispositivos están conectados e acendidos."
 
-#: ekos/manager.cpp:1256
+#: ekos/manager.cpp:1252
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23713,7 +23713,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1264
+#: ekos/manager.cpp:1260
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23724,32 +23724,32 @@ msgstr ""
 "%1\n"
 "Asegúrese de que os dispositivos están conectados e acendidos."
 
-#: ekos/manager.cpp:1319
+#: ekos/manager.cpp:1315
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Estanse a conectar os dispositivos INDI…"
 
-#: ekos/manager.cpp:1330
+#: ekos/manager.cpp:1326
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Estanse a desconectar os dispositivos INDI…"
 
-#: ekos/manager.cpp:1369
+#: ekos/manager.cpp:1365
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Detivéronse os servizos de INDI."
 
-#: ekos/manager.cpp:1442
+#: ekos/manager.cpp:1438
 #, kde-format
 msgid "Remote devices established."
 msgstr "Estabelecéronse os servizos remotos."
 
-#: ekos/manager.cpp:1444
+#: ekos/manager.cpp:1440
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Estabelecéronse os servizos remotos. Conecte os dispositivos."
 
-#: ekos/manager.cpp:1505
+#: ekos/manager.cpp:1501
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -23758,106 +23758,106 @@ msgstr ""
 "%1 non puido conectarse.\n"
 "Asegúrese de que o dispositivo está conectado e acendido."
 
-#: ekos/manager.cpp:1512
+#: ekos/manager.cpp:1508
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 está desconectado."
 
-#: ekos/manager.cpp:1531 ekos/manager.cpp:1540 ekos/manager.cpp:1573
+#: ekos/manager.cpp:1527 ekos/manager.cpp:1536 ekos/manager.cpp:1569
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 está en liña."
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1544
 #, kde-format
 msgid "%1 filter is online."
 msgstr "O filtro %1 está en liña."
 
-#: ekos/manager.cpp:1557
+#: ekos/manager.cpp:1553
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "O focalizador %1 está en liña."
 
-#: ekos/manager.cpp:1564
+#: ekos/manager.cpp:1560
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "O rotor %1 está en liña."
 
-#: ekos/manager.cpp:1580
+#: ekos/manager.cpp:1576
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "A meteoroloxía de %1 está en liña."
 
-#: ekos/manager.cpp:1587
+#: ekos/manager.cpp:1583
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "O GPS de %1 está en liña."
 
-#: ekos/manager.cpp:1596
+#: ekos/manager.cpp:1592
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "A cuberta de %1 está en liña."
 
-#: ekos/manager.cpp:1603
+#: ekos/manager.cpp:1599
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 A caixa luminosa está conectada."
 
-#: ekos/manager.cpp:1753
+#: ekos/manager.cpp:1749
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 está desconectado."
 
-#: ekos/manager.cpp:1992
+#: ekos/manager.cpp:1988
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2317
+#: ekos/manager.cpp:2313
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "O porto guieiro de %1 está preparado."
 
-#: ekos/manager.cpp:2506
+#: ekos/manager.cpp:2502
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Seguro que quere eliminar o perfil?"
 
-#: ekos/manager.cpp:2507
+#: ekos/manager.cpp:2503
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirme a eliminación"
 
-#: ekos/manager.cpp:2559
+#: ekos/manager.cpp:2555
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Actualizouse a localización do sitio a %1."
 
-#: ekos/manager.cpp:2561
+#: ekos/manager.cpp:2557
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Non foi posíbel actualizar a localización do sitio a %1. Non se atopou a "
 "cidade."
 
-#: ekos/manager.cpp:2813
+#: ekos/manager.cpp:2809
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Activando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2821
+#: ekos/manager.cpp:2817
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Desactivando o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2849
+#: ekos/manager.cpp:2845
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Activando de novo o sistema de rexistro de depuración para %1…"
 
-#: ekos/manager.cpp:2861
+#: ekos/manager.cpp:2857
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Desactivando de novo o sistema de rexistro de depuración para %1…"
@@ -23896,7 +23896,7 @@ msgid "Remove profile"
 msgstr "Retirar perfil"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:528
+#: ekos/manager.ui:272 kstarsinit.cpp:532
 #, kde-format
 msgid "Custom Drivers..."
 msgstr "Controladores personalizados…"
@@ -23920,7 +23920,7 @@ msgid "Ekos Live..."
 msgstr "Ekos Live…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:421 kstarsinit.cpp:531
+#: ekos/manager.ui:421 kstarsinit.cpp:535
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "Panel de control de INDI…"
@@ -32714,7 +32714,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Amosar unha imaxe da DSS"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:989
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:994
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:514 skyobjects/skyobject.h:26
@@ -32912,17 +32912,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:315 kstarsactions.cpp:1562 skymap.cpp:430
+#: kstars.cpp:315 kstarsactions.cpp:1589 skymap.cpp:430
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Parar de seguir"
 
-#: kstars.cpp:323 kstarsactions.cpp:1729 kstarsinit.cpp:267
+#: kstars.cpp:323 kstarsactions.cpp:1756 kstarsinit.cpp:271
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Pasar á vista da esfera celeste (&coordenadas ecuatoriais)"
 
-#: kstars.cpp:324 kstarsactions.cpp:1710 kstarsinit.cpp:268
+#: kstars.cpp:324 kstarsactions.cpp:1737 kstarsinit.cpp:272
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Pasar á vista horizontal (&coordenadas horizontais)"
@@ -68633,22 +68633,22 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr "Desenvolvemento"
 
-#: kstarsactions.cpp:1193 kstarsactions.cpp:2004 kstarsinit.cpp:277
+#: kstarsactions.cpp:1193 kstarsactions.cpp:2031 kstarsinit.cpp:281
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Agochar o terreo"
 
-#: kstarsactions.cpp:1193 kstarsactions.cpp:2004 kstarsinit.cpp:278
+#: kstarsactions.cpp:1193 kstarsactions.cpp:2031 kstarsinit.cpp:282
 #, kde-format
 msgid "Show Terrain"
 msgstr "Amosar o terreo"
 
-#: kstarsactions.cpp:1197 kstarsactions.cpp:2014 kstarsinit.cpp:282
+#: kstarsactions.cpp:1197 kstarsactions.cpp:2041 kstarsinit.cpp:286
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Agochar as imaxes sobrepostas"
 
-#: kstarsactions.cpp:1197 kstarsactions.cpp:2014 kstarsinit.cpp:283
+#: kstarsactions.cpp:1197 kstarsactions.cpp:2041 kstarsinit.cpp:287
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Amosar as imaxes sobrepostas"
@@ -68735,75 +68735,75 @@ msgstr "Cambiar o esquema de cores"
 msgid "Do Not Switch"
 msgstr "Non cambiar"
 
-#: kstarsactions.cpp:1539 kstarsinit.cpp:240
+#: kstarsactions.cpp:1566 kstarsinit.cpp:244
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Ac&tivar o seguimento"
 
-#: kstarsactions.cpp:1653
+#: kstarsactions.cpp:1680
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "FOV aproximado: %1 graos"
 
-#: kstarsactions.cpp:1658
+#: kstarsactions.cpp:1685
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "FOV aproximado: %1 minutos de arco"
 
-#: kstarsactions.cpp:1664
+#: kstarsactions.cpp:1691
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "FOV aproximado: %1 segundos de arco"
 
-#: kstarsactions.cpp:1681
+#: kstarsactions.cpp:1708
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Insire o ángulo do campo de visión"
 
-#: kstarsactions.cpp:1682
+#: kstarsactions.cpp:1709
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Insire o ángulo do campo de visión en graos: "
 
-#: kstarsactions.cpp:1713 kstarsinit.cpp:736
+#: kstarsactions.cpp:1740 kstarsinit.cpp:740
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Norte &arriba"
 
-#: kstarsactions.cpp:1716 kstarsinit.cpp:745
+#: kstarsactions.cpp:1743 kstarsinit.cpp:749
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norte a&baixo"
 
-#: kstarsactions.cpp:1732 kstarsinit.cpp:736
+#: kstarsactions.cpp:1759 kstarsinit.cpp:740
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "Cénit &arriba"
 
-#: kstarsactions.cpp:1735 kstarsinit.cpp:745
+#: kstarsactions.cpp:1762 kstarsinit.cpp:749
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "Cénit a&baixo"
 
-#: kstarsactions.cpp:1956
+#: kstarsactions.cpp:1983
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr "Intentar determinalo a partir da imaxe"
 
-#: kstarsactions.cpp:1958
+#: kstarsactions.cpp:1985
 #, kde-format
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "Vista ocular: Escolla un campo de visión"
 
-#: kstarsactions.cpp:1959
+#: kstarsactions.cpp:1986
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr "Campo de visión para renderizar a vista ocular para:"
@@ -69044,331 +69044,337 @@ msgstr "Axustar a &hora…"
 msgid "Stop &Clock"
 msgstr "Deter o &reloxo"
 
-#: kstarsinit.cpp:215
+#: kstarsinit.cpp:199
+#, fuzzy, kde-format
+#| msgid "Run clock"
+msgid "Run clock in realtime"
+msgstr "Usar o reloxo"
+
+#: kstarsinit.cpp:219
 #, kde-format
 msgid "Resume Clock"
 msgstr "Continuar o reloxo"
 
-#: kstarsinit.cpp:215
+#: kstarsinit.cpp:219
 #, kde-format
 msgid "Stop Clock"
 msgstr "Deter o reloxo"
 
-#: kstarsinit.cpp:221
+#: kstarsinit.cpp:225
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr "Avanzar un paso no tempo"
 
-#: kstarsinit.cpp:225
+#: kstarsinit.cpp:229
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr "Retroceder un paso no tempo"
 
-#: kstarsinit.cpp:230
+#: kstarsinit.cpp:234
 #, kde-format
 msgid "&Zenith"
 msgstr "&Cénit"
 
-#: kstarsinit.cpp:231
+#: kstarsinit.cpp:235
 #, kde-format
 msgid "&North"
 msgstr "&Norte"
 
-#: kstarsinit.cpp:232
+#: kstarsinit.cpp:236
 #, kde-format
 msgid "&East"
 msgstr "&Leste"
 
-#: kstarsinit.cpp:233
+#: kstarsinit.cpp:237
 #, kde-format
 msgid "&South"
 msgstr "&Sur"
 
-#: kstarsinit.cpp:234
+#: kstarsinit.cpp:238
 #, kde-format
 msgid "&West"
 msgstr "&Oeste"
 
-#: kstarsinit.cpp:237
+#: kstarsinit.cpp:241
 #, kde-format
 msgid "&Find Object..."
 msgstr "&Atopar un obxecto…"
 
-#: kstarsinit.cpp:244
+#: kstarsinit.cpp:248
 #, kde-format
 msgid "Set Coordinates &Manually..."
 msgstr "Indicar as coordenadas &manualmente…"
 
-#: kstarsinit.cpp:256
+#: kstarsinit.cpp:260
 #, kde-format
 msgid "&Default Zoom"
 msgstr "A&mpliación predeterminada"
 
-#: kstarsinit.cpp:259
+#: kstarsinit.cpp:263
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "&Ampliación ata o tamaño angular…"
 
-#: kstarsinit.cpp:273
+#: kstarsinit.cpp:277
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr "Vista reflectida"
 
-#: kstarsinit.cpp:287
+#: kstarsinit.cpp:291
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "Equiárea acimutal de &Lambert"
 
-#: kstarsinit.cpp:290
+#: kstarsinit.cpp:294
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "&Acimutal equidistante"
 
-#: kstarsinit.cpp:293
+#: kstarsinit.cpp:297
 #, kde-format
 msgid "&Orthographic"
 msgstr "&Orthográfica"
 
-#: kstarsinit.cpp:296
+#: kstarsinit.cpp:300
 #, kde-format
 msgid "&Equirectangular"
 msgstr "&Equirectangular"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:303
 #, kde-format
 msgid "&Stereographic"
 msgstr "E&stereográfica"
 
-#: kstarsinit.cpp:302
+#: kstarsinit.cpp:306
 #, kde-format
 msgid "&Gnomonic"
 msgstr "&Gnomónica"
 
-#: kstarsinit.cpp:308
+#: kstarsinit.cpp:312
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "Amosar paneis &informativos"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:317
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "Amosar caixa de &tempo"
 
-#: kstarsinit.cpp:320
+#: kstarsinit.cpp:324
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "Amosar caixa de &foco"
 
-#: kstarsinit.cpp:327
+#: kstarsinit.cpp:331
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "Amosar caixa de &localización"
 
-#: kstarsinit.cpp:334
+#: kstarsinit.cpp:338
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "Amosar a barra de ferramentas principal"
 
-#: kstarsinit.cpp:336
+#: kstarsinit.cpp:340
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "Amosar a barra de ferramentas de vistas"
 
-#: kstarsinit.cpp:340
+#: kstarsinit.cpp:344
 #, kde-format
 msgid "Show Statusbar"
 msgstr "Amosar a barra de estado"
 
-#: kstarsinit.cpp:341
+#: kstarsinit.cpp:345
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "Amosar o campo A/a"
 
-#: kstarsinit.cpp:342
+#: kstarsinit.cpp:346
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "Amosar o campo de α/δ"
 
-#: kstarsinit.cpp:343
+#: kstarsinit.cpp:347
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "Amosar o campo de α/δ J2000.0"
 
-#: kstarsinit.cpp:350
+#: kstarsinit.cpp:354
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "Esquemas de C&or"
 
-#: kstarsinit.cpp:351
+#: kstarsinit.cpp:355
 #, kde-format
 msgid "&Classic"
 msgstr "&Clásica"
 
-#: kstarsinit.cpp:352
+#: kstarsinit.cpp:356
 #, kde-format
 msgid "&Star Chart"
 msgstr "Carta e&stelar"
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:357
 #, kde-format
 msgid "&Night Vision"
 msgstr "&Visión nocturna"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:358
 #, kde-format
 msgid "&Moonless Night"
 msgstr "Noite se&n Lúa"
 
-#: kstarsinit.cpp:374
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "Símbolos &FOV"
 
-#: kstarsinit.cpp:382
+#: kstarsinit.cpp:386
 #, kde-format
 msgid "&Views"
 msgstr "&Vistas"
 
-#: kstarsinit.cpp:390
+#: kstarsinit.cpp:394
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr "Sobreposición de todo o ceo de HiPS"
 
-#: kstarsinit.cpp:397
+#: kstarsinit.cpp:401
 #, kde-format
 msgid "Skymap Orientation"
 msgstr "Orientación do mapa celeste"
 
-#: kstarsinit.cpp:403
+#: kstarsinit.cpp:407
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "Posición &xeográfica…"
 
-#: kstarsinit.cpp:420
+#: kstarsinit.cpp:424
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "Asistente de arranque…"
 
-#: kstarsinit.cpp:425
+#: kstarsinit.cpp:429
 #, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "Xestionar os catálogos de obxectos do espazo profundo"
 
-#: kstarsinit.cpp:429
+#: kstarsinit.cpp:433
 #, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "Actualizar os elementos orbitais dos cometas"
 
-#: kstarsinit.cpp:431
+#: kstarsinit.cpp:435
 #, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "Actualizar os elementos orbitais dos asteroides"
 
-#: kstarsinit.cpp:433
+#: kstarsinit.cpp:437
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr "Actualizar os datos das supernovas recentes"
 
-#: kstarsinit.cpp:435
+#: kstarsinit.cpp:439
 #, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "Actualizar os elementos orbitais dos satélites"
 
-#: kstarsinit.cpp:439
+#: kstarsinit.cpp:443
 #, kde-format
 msgid "Calculator"
 msgstr "Calculadora"
 
-#: kstarsinit.cpp:449
+#: kstarsinit.cpp:453
 #, kde-format
 msgid "Observation Planner"
 msgstr "Planificador de observacións"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:452 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:456 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Altitude fronte a tempo"
 
-#: kstarsinit.cpp:455
+#: kstarsinit.cpp:459
 #, kde-format
 msgid "What's up Tonight"
 msgstr "Que pasa esta noite"
 
-#: kstarsinit.cpp:464
+#: kstarsinit.cpp:468
 #, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "Simulador do Sistema Solar XPlanet"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:466 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
+#: kstarsinit.cpp:470 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "Calendario celeste"
 
-#: kstarsinit.cpp:484
+#: kstarsinit.cpp:488
 #, kde-format
 msgid "Script Builder"
 msgstr "Construtor de guións"
 
-#: kstarsinit.cpp:492
+#: kstarsinit.cpp:496
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr "Lúas de Xúpiter"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:495 options/opsguides.ui:284
+#: kstarsinit.cpp:499 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "Bandeiras"
 
-#: kstarsinit.cpp:498
+#: kstarsinit.cpp:502
 #, kde-format
 msgid "List your &Equipment..."
 msgstr "Describir o &equipo…"
 
-#: kstarsinit.cpp:500
+#: kstarsinit.cpp:504
 #, kde-format
 msgid "Manage Observer..."
 msgstr "Xestionar o observador…"
 
-#: kstarsinit.cpp:504
+#: kstarsinit.cpp:508
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr "Horizonte artificial…"
 
-#: kstarsinit.cpp:508
+#: kstarsinit.cpp:512
 #, kde-format
 msgid "Execute the Session Plan..."
 msgstr "Executar o plan da sesión…"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:516
 #, kde-format
 msgid "Polaris Hour Angle..."
 msgstr "Ángulo horario da estrela polar…"
 
-#: kstarsinit.cpp:519
+#: kstarsinit.cpp:523
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "Asistente do telescopio…"
 
-#: kstarsinit.cpp:524
+#: kstarsinit.cpp:528
 #, kde-format
 msgid "Device Manager..."
 msgstr "Xestor de dispositivos…"
 
-#: kstarsinit.cpp:543
+#: kstarsinit.cpp:547
 #, kde-format
 msgid "Displays the Tip of the Day"
 msgstr "Amosa a Suxestión do día"
 
-#: kstarsinit.cpp:551
+#: kstarsinit.cpp:555
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -69384,315 +69390,315 @@ msgstr ""
 "En pasos de tempo maiores de 10 minutos, as imaxes amósanse nun intervalo de "
 "«X»."
 
-#: kstarsinit.cpp:560
+#: kstarsinit.cpp:564
 #, kde-format
 msgid "Time step control"
 msgstr "Control do paso do tempo"
 
-#: kstarsinit.cpp:569
+#: kstarsinit.cpp:573
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "Estrelas"
 
-#: kstarsinit.cpp:571
+#: kstarsinit.cpp:575
 #, kde-format
 msgid "Toggle stars"
 msgstr "Conmutar as estrelas"
 
-#: kstarsinit.cpp:573
+#: kstarsinit.cpp:577
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "Espazo profundo"
 
-#: kstarsinit.cpp:575
+#: kstarsinit.cpp:579
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "Conmutar os obxectos do espazo profundo"
 
-#: kstarsinit.cpp:577
+#: kstarsinit.cpp:581
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "Sistema Solar"
 
-#: kstarsinit.cpp:579
+#: kstarsinit.cpp:583
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "Conmutar os obxectos do Sistema Solar"
 
-#: kstarsinit.cpp:581
+#: kstarsinit.cpp:585
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "Liñas de constelación"
 
-#: kstarsinit.cpp:583
+#: kstarsinit.cpp:587
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "Conmutar as liñas das constelacións"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:589
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "Nomes das constelacións"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:591
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "Conmutar os nomes das constelacións"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:593
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "Limiar das constelacións"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:595
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "Conmutar os limiares das constelacións"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:597
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr "Símbolos das constelacións (beta)"
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:599
 #, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "Alternar os símbolos das constelacións (beta)"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:601
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "Vía Láctea"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:603
 #, kde-format
 msgid "Toggle milky way"
 msgstr "Conmutar a Vía Láctea"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:605
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "Grade de coordenadas ecuatoriais"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:607
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "Conmutar a grade de coordenadas ecuatoriais"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:609
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "Grade de coordenadas horizontais"
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:611
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "Conmutar a grade de coordenadas"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:613
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "Chan"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:615
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "Conmutar o terreo"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:617
 #, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "Día"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:619
 #, kde-format
 msgid "Toggle daytime simulation"
 msgstr "Conmutar a simulación diúrna"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:621
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "Bandeiras"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:623
 #, kde-format
 msgid "Toggle flags"
 msgstr "Conmutar as bandeiras"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:625
 #, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "Satélites"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:627
 #, kde-format
 msgid "Toggle satellites"
 msgstr "Conmutar os satélites"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:629
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "Supernovas"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:631
 #, kde-format
 msgid "Toggle supernovae"
 msgstr "Conmutar as supernovas"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:633
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "Que hai de interesante"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:635
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr "Conmutar «Que hai de interesante»"
 
-#: kstarsinit.cpp:636
+#: kstarsinit.cpp:640
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: kstarsinit.cpp:638
+#: kstarsinit.cpp:642
 #, kde-format
 msgid "Toggle Ekos"
 msgstr "Alternar Ekos"
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:644
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "Panel de control de INDI"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:646
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr "Alternar o panel de control de INDI"
 
-#: kstarsinit.cpp:645
+#: kstarsinit.cpp:649
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "Visor de FITS"
 
-#: kstarsinit.cpp:647
+#: kstarsinit.cpp:651
 #, kde-format
 msgid "Toggle FITS Viewer"
 msgstr "Alternar o visor de FITS"
 
-#: kstarsinit.cpp:651
+#: kstarsinit.cpp:655
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "Campo de visión do sensor"
 
-#: kstarsinit.cpp:653
+#: kstarsinit.cpp:657
 #, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "Conmutar o campo de visión do sensor"
 
-#: kstarsinit.cpp:658
+#: kstarsinit.cpp:662
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr "Panel de mosaico"
 
-#: kstarsinit.cpp:660
+#: kstarsinit.cpp:664
 #, kde-format
 msgid "Toggle Mosaic Panel"
 msgstr "Conmutar o panel de mosaico"
 
-#: kstarsinit.cpp:665
+#: kstarsinit.cpp:669
 #, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "Control da montura"
 
-#: kstarsinit.cpp:667
+#: kstarsinit.cpp:671
 #, kde-format
 msgid "Toggle Mount Control Panel"
 msgstr "Conmutar o panel de control da montura"
 
-#: kstarsinit.cpp:671
+#: kstarsinit.cpp:675
 #, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "Centrar o telescopio"
 
-#: kstarsinit.cpp:673
+#: kstarsinit.cpp:677
 #, kde-format
 msgid "Toggle Lock Telescope Center"
 msgstr "Conmutar o bloqueo do centro do telescopio"
 
-#: kstarsinit.cpp:677
+#: kstarsinit.cpp:681
 #, kde-format
 msgid "Toggle Telescope Tracking"
 msgstr "Conmutar o seguimento de telescopio"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:685
 #, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "Mover o telescopio ao obxecto enfocado"
 
-#: kstarsinit.cpp:685
+#: kstarsinit.cpp:689
 #, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "Sincronizar o telescopio co obxecto enfocado"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:693
 #, kde-format
 msgid "Abort telescope motions"
 msgstr "Interromper os movementos do telescopio"
 
-#: kstarsinit.cpp:694
+#: kstarsinit.cpp:698
 #, kde-format
 msgid "Park telescope"
 msgstr "Estacionar o telescopio"
 
-#: kstarsinit.cpp:698
+#: kstarsinit.cpp:702
 #, kde-format
 msgid "Unpark telescope"
 msgstr "Desestacionar o telescopio"
 
-#: kstarsinit.cpp:704
+#: kstarsinit.cpp:708
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "Mover o telescopio á posición do punteiro do rato"
 
-#: kstarsinit.cpp:707
+#: kstarsinit.cpp:711
 #, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "Sincronizar o telescopio coa posición do punteiro do rato"
 
-#: kstarsinit.cpp:714
+#: kstarsinit.cpp:718
 #, kde-format
 msgid "Park dome"
 msgstr "Estacionar a bóveda"
 
-#: kstarsinit.cpp:718
+#: kstarsinit.cpp:722
 #, kde-format
 msgid "Unpark dome"
 msgstr "Desestacionar a bóveda"
 
-#: kstarsinit.cpp:740
+#: kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -69706,7 +69712,7 @@ msgstr ""
 "está arriba na vertical. Isto sería a escolla natural para unha mira de "
 "atopador de imaxe erecta ou para a simple vista."
 
-#: kstarsinit.cpp:749
+#: kstarsinit.cpp:753
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -69720,14 +69726,14 @@ msgstr ""
 "abaixo na vertical. Isto sería a escolla natural para unha mira de atopador "
 "de imaxe invertida, refractor ou Cassegrain sen prisma erecto, ou de Dobson."
 
-#: kstarsinit.cpp:754
+#: kstarsinit.cpp:758
 #, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
 msgstr "Arbitraria"
 
-#: kstarsinit.cpp:758
+#: kstarsinit.cpp:762
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -69739,13 +69745,13 @@ msgstr ""
 "coa acción de rato Maiús + arrastrar, para informarlle de que a orientación "
 "é arbitraria."
 
-#: kstarsinit.cpp:765
+#: kstarsinit.cpp:769
 #, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "Sen corrección"
 
-#: kstarsinit.cpp:769
+#: kstarsinit.cpp:773
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -69755,7 +69761,7 @@ msgstr ""
 "Seleccione isto se está a usar unha cámara no telescopio, ou ten a "
 "visualización do mapa celeste montada no telescopio."
 
-#: kstarsinit.cpp:775
+#: kstarsinit.cpp:779
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -69763,7 +69769,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "Corrección do observador erecto, zurda"
 
-#: kstarsinit.cpp:779
+#: kstarsinit.cpp:783
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -69781,7 +69787,7 @@ msgstr ""
 "baixa, a diferenza da cámara, que rotaría co telescopio. Adoita ter sentido "
 "combinar isto coa orientación do cénit abaixo."
 
-#: kstarsinit.cpp:785
+#: kstarsinit.cpp:789
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -69789,7 +69795,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "Corrección do observador erecto, destra"
 
-#: kstarsinit.cpp:789
+#: kstarsinit.cpp:793
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -69807,44 +69813,44 @@ msgstr ""
 "baixa, a diferenza da cámara, que rotaría co telescopio. Adoita ter sentido "
 "combinar isto coa orientación do cénit abaixo."
 
-#: kstarsinit.cpp:813
+#: kstarsinit.cpp:817
 #, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Arbitraria"
 
-#: kstarsinit.cpp:816
+#: kstarsinit.cpp:820
 #, kde-format
 msgid "Edit Views..."
 msgstr "Editar as vistas…"
 
-#: kstarsinit.cpp:843
+#: kstarsinit.cpp:847
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "Editar os símbolos do FOV…"
 
-#: kstarsinit.cpp:880
+#: kstarsinit.cpp:884
 #, kde-format
 msgid "HiPS Settings..."
 msgstr "Configuración de HiPS…"
 
-#: kstarsinit.cpp:887
+#: kstarsinit.cpp:891
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " Recibe a benvida a KStars "
 
-#: kstarsinit.cpp:986 kstarsliteinit.cpp:65 skymap.cpp:377 skymaplite.cpp:324
+#: kstarsinit.cpp:991 kstarsliteinit.cpp:65 skymap.cpp:377 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "nada"
 
-#: kstarsinit.cpp:1041 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1046 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "A posición inicial está por baixo do horizonte"
 
-#: kstarsinit.cpp:1043 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1048 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -69853,17 +69859,17 @@ msgstr ""
 "A posición inicial está por baixo do horizonte.\n"
 "Quere volver á posición predeterminada?"
 
-#: kstarsinit.cpp:1044
+#: kstarsinit.cpp:1049
 #, kde-format
 msgid "Reset Position"
 msgstr "Reiniciar a posición"
 
-#: kstarsinit.cpp:1045
+#: kstarsinit.cpp:1050
 #, kde-format
 msgid "Do Not Reset"
 msgstr "Non reiniciar"
 
-#: kstarsinit.cpp:1100
+#: kstarsinit.cpp:1105
 #, kde-format
 msgid "&Themes"
 msgstr "&Temas"

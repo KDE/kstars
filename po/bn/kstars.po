@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-26 01:40+0000\n"
+"POT-Creation-Date: 2024-05-30 01:45+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -600,8 +600,8 @@ msgstr "কান"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1103 ekos/manager.cpp:1118
-#: ekos/manager.cpp:1148 ekos/scheduler/scheduler.cpp:1333
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1099 ekos/manager.cpp:1114
+#: ekos/manager.cpp:1144 ekos/scheduler/scheduler.cpp:1333
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -1800,21 +1800,21 @@ msgid "&Edit"
 msgstr "সম্পাদন..."
 
 #. i18n: ectx: Menu (view)
-#: data/fitsviewerui.rc:24 data/kstarsui.rc:42
+#: data/fitsviewerui.rc:24 data/kstarsui.rc:43
 #, fuzzy, kde-format
 msgid "&View"
 msgstr "&নতুন"
 
 #. i18n: ectx: Menu (help)
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: data/fitsviewerui.rc:53 data/kstarsui.rc:143 indi/telescopewizard.ui:54
+#: data/fitsviewerui.rc:53 data/kstarsui.rc:144 indi/telescopewizard.ui:54
 #, kde-format
 msgid "&Help"
 msgstr ""
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #. i18n: ectx: ToolBar (kstarsToolBar)
-#: data/fitsviewerui.rc:67 data/kstarsui.rc:158
+#: data/fitsviewerui.rc:67 data/kstarsui.rc:159
 #, fuzzy, kde-format
 msgid "Main Toolbar"
 msgstr "মূল টুলবার দেখাও"
@@ -1832,37 +1832,37 @@ msgid "T&ime"
 msgstr "স&ময়"
 
 #. i18n: ectx: Menu (focus)
-#: data/kstarsui.rc:29
+#: data/kstarsui.rc:30
 #, kde-format
 msgid "&Pointing"
 msgstr "নির্দে&শক"
 
 #. i18n: ectx: Menu (projection)
-#: data/kstarsui.rc:57
+#: data/kstarsui.rc:58
 #, fuzzy, kde-format
 msgid "&Projection"
 msgstr "সংযোগ"
 
 #. i18n: ectx: Menu (tools)
-#: data/kstarsui.rc:68
+#: data/kstarsui.rc:69
 #, fuzzy, kde-format
 msgid "&Tools"
 msgstr "টু&লবার"
 
 #. i18n: ectx: Menu (devices)
-#: data/kstarsui.rc:70
+#: data/kstarsui.rc:71
 #, kde-format
 msgid "&Devices"
 msgstr "ডিভা&ইস"
 
 #. i18n: ectx: Menu (data)
-#: data/kstarsui.rc:93
+#: data/kstarsui.rc:94
 #, kde-format
 msgid "&Data"
 msgstr ""
 
 #. i18n: ectx: Menu (updates)
-#: data/kstarsui.rc:97
+#: data/kstarsui.rc:98
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "&Updates"
@@ -1870,7 +1870,7 @@ msgstr "আপডেট করো"
 
 # FIXME
 #. i18n: ectx: Menu (observation)
-#: data/kstarsui.rc:104
+#: data/kstarsui.rc:105
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dyer Observatory"
@@ -1878,45 +1878,45 @@ msgid "&Observation"
 msgstr "ডিয়ের মানমন্দির"
 
 #. i18n: ectx: Menu (settings)
-#: data/kstarsui.rc:111
+#: data/kstarsui.rc:112
 #, kde-format
 msgid "&Settings"
 msgstr ""
 
 #. i18n: ectx: Menu (infopanel)
-#: data/kstarsui.rc:112
+#: data/kstarsui.rc:113
 #, kde-format
 msgid "&Info Boxes"
 msgstr "&তথ্যমূলক বাক্স"
 
 #. i18n: ectx: Menu (statusbar)
-#: data/kstarsui.rc:120
+#: data/kstarsui.rc:121
 #, kde-format
 msgid "&Statusbar"
 msgstr "স্ট্যাটা&সবার"
 
 #. i18n: ectx: ToolBar (viewToolBar)
-#: data/kstarsui.rc:176
+#: data/kstarsui.rc:177
 #, kde-format
 msgid "View Toolbar"
 msgstr "টুলবার প্রদর্শন করো"
 
 #. i18n: ectx: ToolBar (INDIToolBar)
-#: data/kstarsui.rc:195
+#: data/kstarsui.rc:196
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "INDI Toolbar"
 msgstr "টুলবার"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
-#: data/kstarsui.rc:205
+#: data/kstarsui.rc:206
 #, fuzzy, kde-format
 #| msgid "Telescope port:"
 msgid "Telescope Toolbar"
 msgstr "দূরবীক্ষণ যন্ত্রের পোর্ট:"
 
 #. i18n: ectx: ToolBar (DomeToolBar)
-#: data/kstarsui.rc:216
+#: data/kstarsui.rc:217
 #, fuzzy, kde-format
 #| msgid "View Toolbar"
 msgid "Dome Toolbar"
@@ -2156,7 +2156,7 @@ msgstr "অবস্থা"
 msgid "Idle"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:460
+#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:464
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "What's up Tonight..."
 msgid "What's Interesting..."
@@ -4571,7 +4571,7 @@ msgstr "অবস্থান ঠিক রাখো"
 msgid "Any"
 msgstr "যে কোন"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1124 kstarsinit.cpp:488
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1124 kstarsinit.cpp:492
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:96
@@ -6745,7 +6745,7 @@ msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়ে
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
 #: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1940 ekos/mount/mount.cpp:800
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
@@ -10630,7 +10630,7 @@ msgstr "এই ফাইলটি মোছা যায় নি: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:377
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2081
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2077
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:469
@@ -10641,7 +10641,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2045 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2041 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:477
 #, fuzzy, kde-format
@@ -10655,7 +10655,7 @@ msgstr "ফোকাসকৃত বস্তু: "
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2250
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2246
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
 #, fuzzy, kde-format
@@ -10672,7 +10672,7 @@ msgstr "ফেয়ারফিল্ড"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2175 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2171 ekos/manager.ui:665
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Mount"
@@ -12860,7 +12860,7 @@ msgstr "মিলযুক্ত খ-বস্তু:"
 # FIXME
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2300
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2296
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -14267,8 +14267,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1329 indi/indidriver.cpp:735 kstarsactions.cpp:1876
-#: kstarsinit.cpp:858 kstarsinit.cpp:859 tools/exporteyepieceview.cpp:57
+#: indi/drivermanager.cpp:1329 indi/indidriver.cpp:735 kstarsactions.cpp:1903
+#: kstarsinit.cpp:862 kstarsinit.cpp:863 tools/exporteyepieceview.cpp:57
 #: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -15704,7 +15704,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1160 kstarsinit.cpp:470
+#: kstarsactions.cpp:1160 kstarsinit.cpp:474
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -23150,31 +23150,31 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "ফোকাসকৃত বস্তু: "
 
-#: ekos/manager.cpp:844 ekos/manager.cpp:870
+#: ekos/manager.cpp:840 ekos/manager.cpp:866
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 
-#: ekos/manager.cpp:932
+#: ekos/manager.cpp:928
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:933
+#: ekos/manager.cpp:929
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "PTP Camera"
 msgstr "ক্যামেরা"
 
-#: ekos/manager.cpp:948
+#: ekos/manager.cpp:944
 #, fuzzy, kde-format
 #| msgid "Configure INDI..."
 msgid "Starting INDI services..."
 msgstr "INDI কনফিগার করো..."
 
-#: ekos/manager.cpp:979
+#: ekos/manager.cpp:975
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23182,88 +23182,88 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:981 indi/opsindi.ui:284
+#: ekos/manager.cpp:977 indi/opsindi.ui:284
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "INDI Server"
 msgstr "সার্ভার"
 
-#: ekos/manager.cpp:996
+#: ekos/manager.cpp:992
 #, fuzzy, kde-format
 #| msgid "Configure INDI..."
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "INDI কনফিগার করো..."
 
-#: ekos/manager.cpp:1016
+#: ekos/manager.cpp:1012
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: ekos/manager.cpp:1020
+#: ekos/manager.cpp:1016
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1033
+#: ekos/manager.cpp:1029
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: ekos/manager.cpp:1053
+#: ekos/manager.cpp:1049
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1076
+#: ekos/manager.cpp:1072
 #, fuzzy, kde-format
 msgid "INDI services started on port %1."
 msgstr "সার্ভার লগ"
 
-#: ekos/manager.cpp:1079
+#: ekos/manager.cpp:1075
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1084
+#: ekos/manager.cpp:1080
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1094
+#: ekos/manager.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: ekos/manager.cpp:1096
+#: ekos/manager.cpp:1092
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: ekos/manager.cpp:1109
+#: ekos/manager.cpp:1105
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "সংযোগ স্থাপন করো"
 
-#: ekos/manager.cpp:1111
+#: ekos/manager.cpp:1107
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: ekos/manager.cpp:1188
+#: ekos/manager.cpp:1184
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1190
+#: ekos/manager.cpp:1186
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23271,7 +23271,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1218
+#: ekos/manager.cpp:1214
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23279,13 +23279,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1222 ekos/manager.cpp:1230 ekos/manager.cpp:1260
-#: ekos/manager.cpp:1268
+#: ekos/manager.cpp:1218 ekos/manager.cpp:1226 ekos/manager.cpp:1256
+#: ekos/manager.cpp:1264
 #, fuzzy, kde-format
 msgid "Ekos startup error"
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/manager.cpp:1226
+#: ekos/manager.cpp:1222
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23293,7 +23293,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1256
+#: ekos/manager.cpp:1252
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23301,7 +23301,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1264
+#: ekos/manager.cpp:1260
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23309,150 +23309,150 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1319
+#: ekos/manager.cpp:1315
 #, fuzzy, kde-format
 #| msgid "Configure INDI..."
 msgid "Connecting INDI devices..."
 msgstr "INDI কনফিগার করো..."
 
-#: ekos/manager.cpp:1330
+#: ekos/manager.cpp:1326
 #, fuzzy, kde-format
 #| msgid "Configure INDI..."
 msgid "Disconnecting INDI devices..."
 msgstr "INDI কনফিগার করো..."
 
-#: ekos/manager.cpp:1369
+#: ekos/manager.cpp:1365
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1442
+#: ekos/manager.cpp:1438
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Remote devices established."
 msgstr "সার্ভার"
 
-#: ekos/manager.cpp:1444
+#: ekos/manager.cpp:1440
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1505
+#: ekos/manager.cpp:1501
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1512
+#: ekos/manager.cpp:1508
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "%1 is disconnected."
 msgstr "সংযোগ বিচ্ছিন্ন করো"
 
-#: ekos/manager.cpp:1531 ekos/manager.cpp:1540 ekos/manager.cpp:1573
+#: ekos/manager.cpp:1527 ekos/manager.cpp:1536 ekos/manager.cpp:1569
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1544
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 filter is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1557
+#: ekos/manager.cpp:1553
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 focuser is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1564
+#: ekos/manager.cpp:1560
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1580
+#: ekos/manager.cpp:1576
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Weather is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1587
+#: ekos/manager.cpp:1583
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1596
+#: ekos/manager.cpp:1592
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Dust cap is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1603
+#: ekos/manager.cpp:1599
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Light box is online."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1753
+#: ekos/manager.cpp:1749
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 is offline."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/manager.cpp:1992
+#: ekos/manager.cpp:1988
 #, fuzzy, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "সি.সি.ডি.বি."
 
-#: ekos/manager.cpp:2317
+#: ekos/manager.cpp:2313
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2506
+#: ekos/manager.cpp:2502
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/manager.cpp:2507
+#: ekos/manager.cpp:2503
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Confirm Delete"
 msgstr "ফাইল খুলতে সমস্যা"
 
-#: ekos/manager.cpp:2559
+#: ekos/manager.cpp:2555
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2561
+#: ekos/manager.cpp:2557
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2813
+#: ekos/manager.cpp:2809
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2821
+#: ekos/manager.cpp:2817
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2849
+#: ekos/manager.cpp:2845
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2861
+#: ekos/manager.cpp:2857
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -23495,7 +23495,7 @@ msgid "Remove profile"
 msgstr "গতিপথ অপসারণ করো"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:528
+#: ekos/manager.ui:272 kstarsinit.cpp:532
 #, fuzzy, kde-format
 #| msgid "Telescope Properties..."
 msgid "Custom Drivers..."
@@ -23522,7 +23522,7 @@ msgid "Ekos Live..."
 msgstr "ফোকাসকৃত বস্তু: "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:421 kstarsinit.cpp:531
+#: ekos/manager.ui:421 kstarsinit.cpp:535
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "INDI নিয়ন্ত্রণ প্যানেল..."
@@ -32259,7 +32259,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "SEDS ছবি প্রদর্শন করো"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:989
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:994
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:514 skyobjects/skyobject.h:26
@@ -32480,18 +32480,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "কে-স্টার্স"
 
-#: kstars.cpp:315 kstarsactions.cpp:1562 skymap.cpp:430
+#: kstars.cpp:315 kstarsactions.cpp:1589 skymap.cpp:430
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&অনুসরণ বন্ধ করো"
 
-#: kstars.cpp:323 kstarsactions.cpp:1729 kstarsinit.cpp:267
+#: kstars.cpp:323 kstarsactions.cpp:1756 kstarsinit.cpp:271
 #, fuzzy, kde-format
 #| msgid "Equatorial &Coordinates"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "নি&রক্ষীয় স্থানাঙ্ক"
 
-#: kstars.cpp:324 kstarsactions.cpp:1710 kstarsinit.cpp:268
+#: kstars.cpp:324 kstarsactions.cpp:1737 kstarsinit.cpp:272
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -73589,24 +73589,24 @@ msgstr "গ্রহ"
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1193 kstarsactions.cpp:2004 kstarsinit.cpp:277
+#: kstarsactions.cpp:1193 kstarsactions.cpp:2031 kstarsinit.cpp:281
 #, fuzzy, kde-format
 msgid "Hide Terrain"
 msgstr "থান্ডার বে"
 
-#: kstarsactions.cpp:1193 kstarsactions.cpp:2004 kstarsinit.cpp:278
+#: kstarsactions.cpp:1193 kstarsactions.cpp:2031 kstarsinit.cpp:282
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Show Terrain"
 msgstr "বিস্তারিত"
 
-#: kstarsactions.cpp:1197 kstarsactions.cpp:2014 kstarsinit.cpp:282
+#: kstarsactions.cpp:1197 kstarsactions.cpp:2041 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "&Save Sky Image..."
 msgid "Hide Image Overlays"
 msgstr "আকাশের ছবি সং&রক্ষণ করো..."
 
-#: kstarsactions.cpp:1197 kstarsactions.cpp:2014 kstarsinit.cpp:283
+#: kstarsactions.cpp:1197 kstarsactions.cpp:2041 kstarsinit.cpp:287
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Image Overlays"
@@ -73701,48 +73701,48 @@ msgstr "রং বিন্যাস বদলাও"
 msgid "Do Not Switch"
 msgstr "বদলাবে না"
 
-#: kstarsactions.cpp:1539 kstarsinit.cpp:240
+#: kstarsactions.cpp:1566 kstarsinit.cpp:244
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "&অনুসরণ আরম্ভ করো"
 
-#: kstarsactions.cpp:1653
+#: kstarsactions.cpp:1680
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1658
+#: kstarsactions.cpp:1685
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1664
+#: kstarsactions.cpp:1691
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1681
+#: kstarsactions.cpp:1708
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "আকাঙ্খিত ফিল্ড-অব-ভিউ কোণের মান লিখুন"
 
-#: kstarsactions.cpp:1682
+#: kstarsactions.cpp:1709
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "ডিগ্রি এককে একটি ফিল্ড-অব-ভিউ কোণের মান লিখুন: "
 
-#: kstarsactions.cpp:1713 kstarsinit.cpp:736
+#: kstarsactions.cpp:1740 kstarsinit.cpp:740
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "&উত্তর"
 
-#: kstarsactions.cpp:1716 kstarsinit.cpp:745
+#: kstarsactions.cpp:1743 kstarsinit.cpp:749
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Norton"
@@ -73750,32 +73750,32 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "নর্টন"
 
-#: kstarsactions.cpp:1732 kstarsinit.cpp:736
+#: kstarsactions.cpp:1759 kstarsinit.cpp:740
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "সুবিন্দু (&স)"
 
-#: kstarsactions.cpp:1735 kstarsinit.cpp:745
+#: kstarsactions.cpp:1762 kstarsinit.cpp:749
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "সুবিন্দু (&স)"
 
-#: kstarsactions.cpp:1956
+#: kstarsactions.cpp:1983
 #, kde-format
 msgid "Attempt to determine from image"
 msgstr ""
 
-#: kstarsactions.cpp:1958
+#: kstarsactions.cpp:1985
 #, fuzzy, kde-format
 #| msgid "Select a shape for the field-of-view symbol"
 msgid "Eyepiece View: Choose a field-of-view"
 msgstr "ফিল্ড-অব-ভিউ প্রতীকের আকৃতি বেছে নিন"
 
-#: kstarsactions.cpp:1959
+#: kstarsactions.cpp:1986
 #, kde-format
 msgid "FOV to render eyepiece view for:"
 msgstr ""
@@ -74018,256 +74018,262 @@ msgstr "&সময় নির্দিষ্ট করো..."
 msgid "Stop &Clock"
 msgstr "&ঘড়ি বন্ধ করো"
 
-#: kstarsinit.cpp:215
+#: kstarsinit.cpp:199
+#, fuzzy, kde-format
+#| msgid "&Handbook"
+msgid "Run clock in realtime"
+msgstr "নির্দেশিকা (&ন)"
+
+#: kstarsinit.cpp:219
 #, fuzzy, kde-format
 #| msgid "&Handbook"
 msgid "Resume Clock"
 msgstr "নির্দেশিকা (&ন)"
 
-#: kstarsinit.cpp:215
+#: kstarsinit.cpp:219
 #, kde-format
 msgid "Stop Clock"
 msgstr "ঘড়ি বন্ধ করো"
 
-#: kstarsinit.cpp:221
+#: kstarsinit.cpp:225
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr ""
 
-#: kstarsinit.cpp:225
+#: kstarsinit.cpp:229
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr ""
 
-#: kstarsinit.cpp:230
+#: kstarsinit.cpp:234
 #, kde-format
 msgid "&Zenith"
 msgstr "সুবিন্দু (&স)"
 
-#: kstarsinit.cpp:231
+#: kstarsinit.cpp:235
 #, kde-format
 msgid "&North"
 msgstr "&উত্তর"
 
-#: kstarsinit.cpp:232
+#: kstarsinit.cpp:236
 #, kde-format
 msgid "&East"
 msgstr "পূর্ব (&প)"
 
-#: kstarsinit.cpp:233
+#: kstarsinit.cpp:237
 #, kde-format
 msgid "&South"
 msgstr "&দক্ষিণ"
 
-#: kstarsinit.cpp:234
+#: kstarsinit.cpp:238
 #, kde-format
 msgid "&West"
 msgstr "পশ্চিম (&শ)"
 
-#: kstarsinit.cpp:237
+#: kstarsinit.cpp:241
 #, kde-format
 msgid "&Find Object..."
 msgstr "&বস্তু খোঁজো..."
 
-#: kstarsinit.cpp:244
+#: kstarsinit.cpp:248
 #, fuzzy, kde-format
 #| msgid "Set Focus &Manually..."
 msgid "Set Coordinates &Manually..."
 msgstr "নিজেই ফোকা&স নির্দিষ্ট করুন..."
 
-#: kstarsinit.cpp:256
+#: kstarsinit.cpp:260
 #, kde-format
 msgid "&Default Zoom"
 msgstr "ডি&ফল্ট জুমমাত্রা"
 
-#: kstarsinit.cpp:259
+#: kstarsinit.cpp:263
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "কৌণিক আকার অনুযায়ী জু&ম করো..."
 
-#: kstarsinit.cpp:273
+#: kstarsinit.cpp:277
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr ""
 
-#: kstarsinit.cpp:287
+#: kstarsinit.cpp:291
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr ""
 
-#: kstarsinit.cpp:290
+#: kstarsinit.cpp:294
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr ""
 
-#: kstarsinit.cpp:293
+#: kstarsinit.cpp:297
 #, fuzzy, kde-format
 msgid "&Orthographic"
 msgstr "ভৌগলিক"
 
-#: kstarsinit.cpp:296
+#: kstarsinit.cpp:300
 #, fuzzy, kde-format
 msgid "&Equirectangular"
 msgstr "চতুর্ভূজাকৃতি"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:303
 #, fuzzy, kde-format
 msgid "&Stereographic"
 msgstr "ভৌগলিক"
 
-#: kstarsinit.cpp:302
+#: kstarsinit.cpp:306
 #, kde-format
 msgid "&Gnomonic"
 msgstr ""
 
-#: kstarsinit.cpp:308
+#: kstarsinit.cpp:312
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "&তথ্যমূলক বাক্স দেখাও"
 
-#: kstarsinit.cpp:313
+#: kstarsinit.cpp:317
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "&সময় প্রদানকারী বাক্স দেখাও"
 
-#: kstarsinit.cpp:320
+#: kstarsinit.cpp:324
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "ফোকাস বাক্স দেখা&ও"
 
-#: kstarsinit.cpp:327
+#: kstarsinit.cpp:331
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "&অবস্থানসূচক বাক্স প্রদর্শন করো"
 
-#: kstarsinit.cpp:334
+#: kstarsinit.cpp:338
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "মূল টুলবার দেখাও"
 
-#: kstarsinit.cpp:336
+#: kstarsinit.cpp:340
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "ভিউ টুলবার দেখাও"
 
-#: kstarsinit.cpp:340
+#: kstarsinit.cpp:344
 #, kde-format
 msgid "Show Statusbar"
 msgstr "স্ট্যাটাসবার দেখাও"
 
-#: kstarsinit.cpp:341
+#: kstarsinit.cpp:345
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "দিগংশ/উন্নতি প্রদর্শক ঘর দেখাও"
 
-#: kstarsinit.cpp:342
+#: kstarsinit.cpp:346
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "বিষুবাংশ/বিষুবলম্ব প্রদর্শক ঘর দেখাও"
 
-#: kstarsinit.cpp:343
+#: kstarsinit.cpp:347
 #, fuzzy, kde-format
 #| msgid "Show RA/Dec Field"
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "বিষুবাংশ/বিষুবলম্ব প্রদর্শক ঘর দেখাও"
 
-#: kstarsinit.cpp:350
+#: kstarsinit.cpp:354
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "রং বিন্যা&স"
 
-#: kstarsinit.cpp:351
+#: kstarsinit.cpp:355
 #, fuzzy, kde-format
 msgid "&Classic"
 msgstr "শ্যামপেইন"
 
-#: kstarsinit.cpp:352
+#: kstarsinit.cpp:356
 #, kde-format
 msgid "&Star Chart"
 msgstr "তারা মা&নচিত্র"
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:357
 #, kde-format
 msgid "&Night Vision"
 msgstr "নৈ&শ দৃষ্টি"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:358
 #, kde-format
 msgid "&Moonless Night"
 msgstr "চাঁ&দহীন রাত"
 
-#: kstarsinit.cpp:374
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "FOV প্রতী&ক"
 
-#: kstarsinit.cpp:382
+#: kstarsinit.cpp:386
 #, fuzzy, kde-format
 msgid "&Views"
 msgstr "&নতুন"
 
-#: kstarsinit.cpp:390
+#: kstarsinit.cpp:394
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr ""
 
-#: kstarsinit.cpp:397
+#: kstarsinit.cpp:401
 #, fuzzy, kde-format
 #| msgid "Skymap Options"
 msgid "Skymap Orientation"
 msgstr "খ-মানচিত্র সংক্রান্ত অপশন"
 
-#: kstarsinit.cpp:403
+#: kstarsinit.cpp:407
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "ভৌ&গলিক..."
 
-#: kstarsinit.cpp:420
+#: kstarsinit.cpp:424
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "আরম্ভকালীন উইজার্ড..."
 
-#: kstarsinit.cpp:425
+#: kstarsinit.cpp:429
 #, fuzzy, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "দূর-আকাশের বস্তু"
 
-#: kstarsinit.cpp:429
+#: kstarsinit.cpp:433
 #, fuzzy, kde-format
 #| msgid "Creating Planets"
 msgid "Update Comets Orbital Elements"
 msgstr "গ্রহ তৈরি করা হচ্ছে"
 
-#: kstarsinit.cpp:431
+#: kstarsinit.cpp:435
 #, fuzzy, kde-format
 #| msgid "Creating Planets"
 msgid "Update Asteroids Orbital Elements"
 msgstr "গ্রহ তৈরি করা হচ্ছে"
 
-#: kstarsinit.cpp:433
+#: kstarsinit.cpp:437
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr ""
 
-#: kstarsinit.cpp:435
+#: kstarsinit.cpp:439
 #, fuzzy, kde-format
 #| msgid "Creating Planets"
 msgid "Update Satellites Orbital Elements"
 msgstr "গ্রহ তৈরি করা হচ্ছে"
 
-#: kstarsinit.cpp:439
+#: kstarsinit.cpp:443
 #, kde-format
 msgid "Calculator"
 msgstr "ক্যালকুলেটর"
 
 # FIXME
-#: kstarsinit.cpp:449
+#: kstarsinit.cpp:453
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dyer Observatory"
@@ -74275,94 +74281,94 @@ msgid "Observation Planner"
 msgstr "ডিয়ের মানমন্দির"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:452 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:456 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "উন্নতি বনাম সময়"
 
-#: kstarsinit.cpp:455
+#: kstarsinit.cpp:459
 #, kde-format
 msgid "What's up Tonight"
 msgstr "আজ রাতে কি দেখা যাবে?"
 
-#: kstarsinit.cpp:464
+#: kstarsinit.cpp:468
 #, fuzzy, kde-format
 #| msgid "Solar System Viewer"
 msgid "XPlanet Solar System Simulator"
 msgstr "সৌরজগৎ‍ প্রদর্শক"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:466 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
+#: kstarsinit.cpp:470 tools/skycalendar.cpp:421 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr ""
 
-#: kstarsinit.cpp:484
+#: kstarsinit.cpp:488
 #, kde-format
 msgid "Script Builder"
 msgstr "স্ক্রিপ্ট বিল্ডার"
 
-#: kstarsinit.cpp:492
+#: kstarsinit.cpp:496
 #, fuzzy, kde-format
 #| msgid "Jupiter's Moons..."
 msgid "Jupiter's Moons"
 msgstr "বৃহস্পতির উপগ্রহ..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:495 options/opsguides.ui:284
+#: kstarsinit.cpp:499 options/opsguides.ui:284
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Flagstaff"
 msgid "Flags"
 msgstr "ফ্ল্যাগস্টাফ"
 
-#: kstarsinit.cpp:498
+#: kstarsinit.cpp:502
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "List your &Equipment..."
 msgstr "আড়ালকৃত বস্তু কনফিগার করো"
 
-#: kstarsinit.cpp:500
+#: kstarsinit.cpp:504
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observer..."
 msgstr "সার্ভার"
 
-#: kstarsinit.cpp:504
+#: kstarsinit.cpp:508
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr ""
 
-#: kstarsinit.cpp:508
+#: kstarsinit.cpp:512
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Ascension Island"
 msgid "Execute the Session Plan..."
 msgstr "এসেশোন দ্বীপ"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:516
 #, fuzzy, kde-format
 #| msgid "Hour angle:"
 msgid "Polaris Hour Angle..."
 msgstr "ঘন্টা কোণ:"
 
-#: kstarsinit.cpp:519
+#: kstarsinit.cpp:523
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "দূরবীক্ষণ যন্ত্র বিষয়ক উইজার্ড..."
 
-#: kstarsinit.cpp:524
+#: kstarsinit.cpp:528
 #, kde-format
 msgid "Device Manager..."
 msgstr "ডিভাইস ব্যবস্থাপক..."
 
-#: kstarsinit.cpp:543
+#: kstarsinit.cpp:547
 #, fuzzy, kde-format
 #| msgid "Tip of the Day"
 msgid "Displays the Tip of the Day"
 msgstr "আজকের পরামর্শ"
 
-#: kstarsinit.cpp:551
+#: kstarsinit.cpp:555
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -74373,51 +74379,51 @@ msgid ""
 "of 'X'."
 msgstr ""
 
-#: kstarsinit.cpp:560
+#: kstarsinit.cpp:564
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Time step control"
 msgstr "মন্ট্রিল"
 
-#: kstarsinit.cpp:569
+#: kstarsinit.cpp:573
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "তারা"
 
-#: kstarsinit.cpp:571
+#: kstarsinit.cpp:575
 #, fuzzy, kde-format
 #| msgid "Toggle Stars"
 msgid "Toggle stars"
 msgstr "তারা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:573
+#: kstarsinit.cpp:577
 #, fuzzy, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "দূর-&আকাশ"
 
-#: kstarsinit.cpp:575
+#: kstarsinit.cpp:579
 #, fuzzy, kde-format
 #| msgid "Toggle Deep Sky Objects"
 msgid "Toggle deep sky objects"
 msgstr "দূর আকাশের বস্তু দেখানোর মোড পাল্টাও"
 
-#: kstarsinit.cpp:577
+#: kstarsinit.cpp:581
 #, fuzzy, kde-format
 #| msgid "Solar System"
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "সৌরজগত্‍"
 
-#: kstarsinit.cpp:579
+#: kstarsinit.cpp:583
 #, fuzzy, kde-format
 msgid "Toggle Solar system objects"
 msgstr "সরে যাওয়ার সময় কি সৌরজগতের সদস্যদের আড়াল করা হবে?"
 
-#: kstarsinit.cpp:581
+#: kstarsinit.cpp:585
 #, fuzzy, kde-format
 #| msgctxt "Constellation Line"
 #| msgid "Constell. Line"
@@ -74425,13 +74431,13 @@ msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "তারামণ্ডলের রেখা"
 
-#: kstarsinit.cpp:583
+#: kstarsinit.cpp:587
 #, fuzzy, kde-format
 #| msgid "Toggle Constellation Lines"
 msgid "Toggle constellation lines"
 msgstr "তারামণ্ডলের রেখা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:589
 #, fuzzy, kde-format
 #| msgctxt "Constellation Name"
 #| msgid "Constell. Name"
@@ -74439,13 +74445,13 @@ msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "তারামণ্ডলের নাম"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:591
 #, fuzzy, kde-format
 #| msgid "Toggle Constellation Names"
 msgid "Toggle constellation names"
 msgstr "তারামণ্ডলের নাম প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:593
 #, fuzzy, kde-format
 #| msgctxt "Constellation Boundary"
 #| msgid "Constell. Boundary"
@@ -74453,89 +74459,89 @@ msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "তারামণ্ডলের সীমারেখা"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:595
 #, fuzzy, kde-format
 #| msgid "Toggle Constellation Boundaries"
 msgid "Toggle constellation boundaries"
 msgstr "তারামণ্ডলের সীমারেখা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:597
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr ""
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:599
 #, fuzzy, kde-kuit-format
 #| msgid "Toggle Constellation Names"
 msgid "Toggle constellation art (BETA)"
 msgstr "তারামণ্ডলের নাম প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:601
 #, fuzzy, kde-format
 #| msgid "Milky Way"
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "আকাশ গঙ্গা"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:603
 #, fuzzy, kde-format
 #| msgid "Toggle Milky Way"
 msgid "Toggle milky way"
 msgstr "আকাশ গঙ্গা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:605
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "নিরক্ষীয় স্থানাঙ্ক"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:607
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Toggle equatorial coordinate grid"
 msgstr "স্থানাংক রেখা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:609
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "অনুভূমিক স্থানাঙ্ক"
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:611
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Toggle horizontal coordinate grid"
 msgstr "স্থানাংক রেখা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:613
 #, fuzzy, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "আর্মার"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:615
 #, fuzzy, kde-format
 #| msgid "Toggle Ground"
 msgid "Toggle opaque ground"
 msgstr "ভূমি প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:617
 #, fuzzy, kde-format
 #| msgid "Local Time"
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "স্থানীয় সময়"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:619
 #, fuzzy, kde-format
 #| msgid "Toggle Stars"
 msgid "Toggle daytime simulation"
 msgstr "তারা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Flagstaff"
@@ -74543,116 +74549,116 @@ msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "ফ্ল্যাগস্টাফ"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:623
 #, fuzzy, kde-format
 #| msgid "Toggle Stars"
 msgid "Toggle flags"
 msgstr "তারা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Center && Track"
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "কেন্দ্রে আনো ও অনুসরণ করো"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:627
 #, fuzzy, kde-format
 #| msgid "Toggle Constellation Lines"
 msgid "Toggle satellites"
 msgstr "তারামণ্ডলের রেখা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:629
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "সুপারনোভার অবশিষ্টাংশ"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:631
 #, fuzzy, kde-format
 #| msgid "Toggle Stars"
 msgid "Toggle supernovae"
 msgstr "তারা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:633
 #, fuzzy, kde-format
 #| msgid "What's up Tonight..."
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "আজ রাতে কি দেখা যাবে..."
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:635
 #, fuzzy, kde-format
 #| msgid "What's up Tonight..."
 msgid "Toggle What's Interesting"
 msgstr "আজ রাতে কি দেখা যাবে..."
 
-#: kstarsinit.cpp:636
+#: kstarsinit.cpp:640
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "ফোকাসকৃত বস্তু: "
 
-#: kstarsinit.cpp:638
+#: kstarsinit.cpp:642
 #, fuzzy, kde-format
 #| msgid "Toggle Stars"
 msgid "Toggle Ekos"
 msgstr "তারা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:644
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "INDI নিয়ন্ত্রণ প্যানেল"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:646
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle INDI Control Panel"
 msgstr "INDI নিয়ন্ত্রণ প্যানেল"
 
-#: kstarsinit.cpp:645
+#: kstarsinit.cpp:649
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "কে-স্টার্স-এর FITS প্রদর্শকের পক্ষ থেকে স্বাগতম"
 
-#: kstarsinit.cpp:647
+#: kstarsinit.cpp:651
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Toggle FITS Viewer"
 msgstr "কে-স্টার্স-এর FITS প্রদর্শকের পক্ষ থেকে স্বাগতম"
 
-#: kstarsinit.cpp:651
+#: kstarsinit.cpp:655
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "কোন FOV নেই"
 
-#: kstarsinit.cpp:653
+#: kstarsinit.cpp:657
 #, fuzzy, kde-format
 #| msgid "Toggle Stars"
 msgid "Toggle Sensor FOV"
 msgstr "তারা প্রদর্শনের মোড পাল্টাও"
 
-#: kstarsinit.cpp:658
+#: kstarsinit.cpp:662
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr ""
 
-#: kstarsinit.cpp:660
+#: kstarsinit.cpp:664
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle Mosaic Panel"
 msgstr "INDI নিয়ন্ত্রণ প্যানেল"
 
-#: kstarsinit.cpp:665
+#: kstarsinit.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -74660,84 +74666,84 @@ msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "মন্ট্রিল"
 
-#: kstarsinit.cpp:667
+#: kstarsinit.cpp:671
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle Mount Control Panel"
 msgstr "INDI নিয়ন্ত্রণ প্যানেল"
 
 # FIXME
-#: kstarsinit.cpp:671
+#: kstarsinit.cpp:675
 #, fuzzy, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "দূরবীক্ষণ যন্ত্রকে কেন্দ্রে আনো"
 
-#: kstarsinit.cpp:673
+#: kstarsinit.cpp:677
 #, fuzzy, kde-format
 #| msgid "Radiotelescope diameter:"
 msgid "Toggle Lock Telescope Center"
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্রের ব্যাস:"
 
-#: kstarsinit.cpp:677
+#: kstarsinit.cpp:681
 #, fuzzy, kde-format
 #| msgid "Radiotelescope diameter:"
 msgid "Toggle Telescope Tracking"
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্রের ব্যাস:"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:685
 #, fuzzy, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "বস্তুর ধরন নির্বাচন করুন:"
 
-#: kstarsinit.cpp:685
+#: kstarsinit.cpp:689
 #, fuzzy, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "বস্তুর ধরন নির্বাচন করুন:"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:693
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Abort telescope motions"
 msgstr "দূরবীক্ষণ যন্ত্র"
 
-#: kstarsinit.cpp:694
+#: kstarsinit.cpp:698
 #, fuzzy, kde-format
 #| msgid "Setup Telescopes"
 msgid "Park telescope"
 msgstr "দূরবীক্ষণ যন্ত্রকে প্রস্তুত করো"
 
 # FIXME
-#: kstarsinit.cpp:698
+#: kstarsinit.cpp:702
 #, fuzzy, kde-format
 msgid "Unpark telescope"
 msgstr "দূরবীক্ষণ যন্ত্রকে কেন্দ্রে আনো"
 
-#: kstarsinit.cpp:704
+#: kstarsinit.cpp:708
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "খ-মানচিত্রে দূরবীক্ষণ যন্ত্রের অবস্থান প্রদর্শন করো"
 
-#: kstarsinit.cpp:707
+#: kstarsinit.cpp:711
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "খ-মানচিত্রে দূরবীক্ষণ যন্ত্রের অবস্থান প্রদর্শন করো"
 
-#: kstarsinit.cpp:714
+#: kstarsinit.cpp:718
 #, fuzzy, kde-format
 #| msgid "Save Script"
 msgid "Park dome"
 msgstr "স্ক্রিপ্ট সংরক্ষণ করো"
 
-#: kstarsinit.cpp:718
+#: kstarsinit.cpp:722
 #, fuzzy, kde-format
 #| msgid "Mars"
 msgid "Unpark dome"
 msgstr "মঙ্গলগ্রহ (মার্স)"
 
-#: kstarsinit.cpp:740
+#: kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -74747,7 +74753,7 @@ msgid ""
 "eye view."
 msgstr ""
 
-#: kstarsinit.cpp:749
+#: kstarsinit.cpp:753
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -74757,7 +74763,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 
-#: kstarsinit.cpp:754
+#: kstarsinit.cpp:758
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -74766,7 +74772,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "জিবরাল্টার"
 
-#: kstarsinit.cpp:758
+#: kstarsinit.cpp:762
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -74775,13 +74781,13 @@ msgid ""
 "arbitrary"
 msgstr ""
 
-#: kstarsinit.cpp:765
+#: kstarsinit.cpp:769
 #, fuzzy, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "সংযোগ"
 
-#: kstarsinit.cpp:769
+#: kstarsinit.cpp:773
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -74789,7 +74795,7 @@ msgid ""
 "display mounted on your telescope"
 msgstr ""
 
-#: kstarsinit.cpp:775
+#: kstarsinit.cpp:779
 #, fuzzy, kde-format
 #| msgid "Target object or direction"
 msgctxt ""
@@ -74798,7 +74804,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "লক্ষ্যকৃত খ-বস্তু বা দিক"
 
-#: kstarsinit.cpp:779
+#: kstarsinit.cpp:783
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -74810,7 +74816,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:785
+#: kstarsinit.cpp:789
 #, fuzzy, kde-format
 #| msgid "Target object or direction"
 msgctxt ""
@@ -74819,7 +74825,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "লক্ষ্যকৃত খ-বস্তু বা দিক"
 
-#: kstarsinit.cpp:789
+#: kstarsinit.cpp:793
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -74831,7 +74837,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:813
+#: kstarsinit.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Gibraltar"
@@ -74839,40 +74845,40 @@ msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "জিবরাল্টার"
 
-#: kstarsinit.cpp:816
+#: kstarsinit.cpp:820
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Edit Views..."
 msgstr "লিঙ্ক সম্পাদন করো..."
 
-#: kstarsinit.cpp:843
+#: kstarsinit.cpp:847
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "FOV প্রতীক সম্পাদন..."
 
-#: kstarsinit.cpp:880
+#: kstarsinit.cpp:884
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "HiPS Settings..."
 msgstr "বর্তমান রঙের বৈশিষ্ট্য"
 
-#: kstarsinit.cpp:887
+#: kstarsinit.cpp:891
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " কে-স্টার্স এর পক্ষ থেকে স্বাগতম"
 
-#: kstarsinit.cpp:986 kstarsliteinit.cpp:65 skymap.cpp:377 skymaplite.cpp:324
+#: kstarsinit.cpp:991 kstarsliteinit.cpp:65 skymap.cpp:377 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "কিছু না"
 
-#: kstarsinit.cpp:1041 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1046 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr " প্রাথমিক অবস্থান দিগন্তের নিচে অবস্থিত"
 
-#: kstarsinit.cpp:1043 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1048 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -74881,17 +74887,17 @@ msgstr ""
 "প্রাথমিক অবস্থান দিগন্তের নিচে অবস্থিত।\n"
 "আপনি কি ডিফল্ট অবস্থানে ফিরে যেতে চান?"
 
-#: kstarsinit.cpp:1044
+#: kstarsinit.cpp:1049
 #, kde-format
 msgid "Reset Position"
 msgstr "অবস্থান রিসেট করো"
 
-#: kstarsinit.cpp:1045
+#: kstarsinit.cpp:1050
 #, kde-format
 msgid "Do Not Reset"
 msgstr "রিসেট করবে না"
 
-#: kstarsinit.cpp:1100
+#: kstarsinit.cpp:1105
 #, kde-format
 msgid "&Themes"
 msgstr ""
