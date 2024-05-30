@@ -4154,6 +4154,9 @@ void Focus::updateProperty(INDI::Property prop)
         IPState newState = nvp->s;
         if (pos && newState == IPS_OK)
         {
+            if (focuserAdditionalMovement == 0)
+                resetButtons();
+
             currentPosition += pos->value;
             absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
             emit absolutePositionChanged(currentPosition);
@@ -4217,6 +4220,9 @@ void Focus::updateProperty(INDI::Property prop)
         IPState newState = nvp->s;
         if (pos && newState == IPS_OK)
         {
+            if (focuserAdditionalMovement == 0)
+                resetButtons();
+
             currentPosition += pos->value * (m_LastFocusDirection == FOCUS_IN ? -1 : 1);
             qCDebug(KSTARS_EKOS_FOCUS)
                     << QString("Rel Focuser position moved %1 by %2 to %3")
@@ -4316,6 +4322,9 @@ void Focus::updateProperty(INDI::Property prop)
                         << QString("Timer Focuser position moved %1 by %2 to %3")
                         .arg((m_LastFocusDirection == FOCUS_IN) ? "in" : "out").arg(pos->value).arg(currentPosition);
             }
+
+            if (pos && newState == IPS_OK && focuserAdditionalMovement == 0)
+                resetButtons();
 
             if (inAdjustFocus && newState == IPS_OK)
             {
