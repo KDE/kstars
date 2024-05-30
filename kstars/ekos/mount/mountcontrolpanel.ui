@@ -727,7 +727,8 @@ QPushButton:!pressed
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="search"/>
+        <iconset theme="search">
+         <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -740,12 +741,9 @@ QPushButton:!pressed
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_9">
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label_16">
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="0">
+      <widget class="QLabel" name="targetRALabel">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -757,7 +755,7 @@ QPushButton:!pressed
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="1">
       <widget class="dmsBox" name="targetRATextObject">
        <property name="minimumSize">
         <size>
@@ -773,15 +771,8 @@ QPushButton:!pressed
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_10">
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label_17">
+     <item row="1" column="0">
+      <widget class="QLabel" name="targetDECLabel">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -793,7 +784,7 @@ QPushButton:!pressed
        </property>
       </widget>
      </item>
-     <item>
+     <item row="1" column="1">
       <widget class="dmsBox" name="targetDETextObject">
        <property name="minimumSize">
         <size>

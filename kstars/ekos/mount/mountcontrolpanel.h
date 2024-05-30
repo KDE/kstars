@@ -21,14 +21,15 @@ class MountControlPanel : public QDialog, public Ui::MountControlPanel
         MountControlPanel(QWidget *parent);
 
     protected:
-        void keyPressEvent(QKeyEvent *event);
-        void keyReleaseEvent(QKeyEvent *event);
+        void keyPressEvent(QKeyEvent *event) override;
+        void keyReleaseEvent(QKeyEvent *event) override;
 
     private:
         void findTarget();
         void processSlew();
         void processSync();
         bool processCoords(dms &ra, dms &de);
+        void updateTargetLabels(int id);
         bool m_isJ2000 {false};
 
     signals:

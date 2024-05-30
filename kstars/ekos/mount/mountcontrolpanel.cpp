@@ -12,6 +12,10 @@
 #include "ekos/manager.h"
 #include "dialogs/finddialog.h"
 
+#define EQ_BUTTON_ID  0
+#define HOR_BUTTON_ID 1
+#define HA_BUTTON_ID  2
+
 namespace Ekos
 {
 MountControlPanel::MountControlPanel(QWidget *parent) : QDialog(parent)
@@ -128,11 +132,10 @@ MountControlPanel::MountControlPanel(QWidget *parent) : QDialog(parent)
 
     // Coordinate Button Group
     targetRATextObject->setUnits(dmsBox::HOURS);
-    coordinateButtonGroup->setId(horizontalCheckObject, 1000);
-    connect(coordinateButtonGroup, &QButtonGroup::idPressed, this, [this](int id)
-    {
-        targetRATextObject->setUnits(id == 1000 ? dmsBox::DEGREES : dmsBox::HOURS);
-    });
+    coordinateButtonGroup->setId(equatorialCheckObject, EQ_BUTTON_ID);
+    coordinateButtonGroup->setId(horizontalCheckObject, HOR_BUTTON_ID);
+    coordinateButtonGroup->setId(haEquatorialCheckObject, HA_BUTTON_ID);
+    connect(coordinateButtonGroup, &QButtonGroup::idPressed, this, &MountControlPanel::updateTargetLabels);
 
     // GOTO
     connect(gotoButtonObject, &QPushButton::clicked, this, &MountControlPanel::processSlew);
@@ -214,6 +217,30 @@ bool MountControlPanel::processCoords(dms &ra, dms &de)
     }
 
     return raOK && deOK;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+///
+/////////////////////////////////////////////////////////////////////////////////////////
+void MountControlPanel::updateTargetLabels(int id)
+{
+    switch (id)
+    {
+        case HOR_BUTTON_ID:
+            targetRALabel->setText("AZ:");
+            targetDECLabel->setText("AL:");
+            targetRATextObject->setUnits(dmsBox::HOURS);
+            break;
+        case HA_BUTTON_ID:
+            targetRALabel->setText("HA:");
+            targetDECLabel->setText("DE:");
+            targetRATextObject->setUnits(dmsBox::HOURS);
+            break;
+        default:
+            targetRALabel->setText("RA:");
+            targetDECLabel->setText("DE:");
+            targetRATextObject->setUnits(dmsBox::DEGREES);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
