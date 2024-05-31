@@ -7,13 +7,12 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-30 01:45+0000\n"
-"PO-Revision-Date: 2024-05-22 09:43+0200\n"
+"POT-Creation-Date: 2024-05-31 01:55+0000\n"
+"PO-Revision-Date: 2024-05-30 10:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1842,7 +1841,7 @@ msgstr "1x"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_16)
+#. i18n: ectx: property (text), widget (QLabel, targetRALabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -1852,7 +1851,7 @@ msgstr "1x"
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
 #: ekos/manager.ui:789 ekos/mount/mount.ui:166
-#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:756
+#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:754
 #: tools/altvstime.ui:97 tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, kde-format, kde-kuit-format
@@ -1876,12 +1875,12 @@ msgstr "AZ:"
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, label_17)
+#. i18n: ectx: property (text), widget (QLabel, targetDECLabel)
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
 #: ekos/manager.ui:773 ekos/mount/mountcontrolpanel.ui:495
-#: ekos/mount/mountcontrolpanel.ui:792
+#: ekos/mount/mountcontrolpanel.ui:783
 #, kde-format, kde-kuit-format
 msgid "DE:"
 msgstr "Dec:"
@@ -1929,7 +1928,7 @@ msgstr "Objectiu:"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:832
-#: ekos/mount/mountcontrolpanel.ui:822 indi/collimationOptions.ui:427
+#: ekos/mount/mountcontrolpanel.ui:813 indi/collimationOptions.ui:427
 #: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -1937,19 +1936,19 @@ msgid "Type:"
 msgstr "Tipus:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, equatorialCheckObject)
-#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:829
+#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:820
 #, kde-format, kde-kuit-format
 msgid "RA/DE"
 msgstr "AR/Dec"
 
 #. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
-#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:842
+#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:833
 #, kde-format, kde-kuit-format
 msgid "AZ/AL"
 msgstr "AZ/AL"
 
 #. i18n: ectx: property (text), widget (QRadioButton, haEquatorialCheckObject)
-#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:852
+#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:843
 #, kde-format, kde-kuit-format
 msgid "HA/DE"
 msgstr "AH/Dec"
@@ -1961,7 +1960,7 @@ msgstr "AH/Dec"
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:940 dialogs/focusdialog.ui:114
-#: ekos/mount/mountcontrolpanel.ui:882 tools/flagmanager.ui:64
+#: ekos/mount/mountcontrolpanel.ui:873 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -1972,7 +1971,7 @@ msgstr "Època:"
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #: data/qml/mount/mountbox.qml:954 dialogs/focusdialog.ui:74
-#: ekos/mount/mountcontrolpanel.ui:889
+#: ekos/mount/mountcontrolpanel.ui:880
 #, kde-format, kde-kuit-format
 msgid "JNow"
 msgstr "JNow"
@@ -1980,31 +1979,31 @@ msgstr "JNow"
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #: data/qml/mount/mountbox.qml:967 dialogs/focusdialog.ui:84
-#: ekos/mount/mountcontrolpanel.ui:902
+#: ekos/mount/mountcontrolpanel.ui:893
 #, kde-format, kde-kuit-format
 msgid "J2000"
 msgstr "J2000"
 
 #. i18n: ectx: property (text), widget (QPushButton, gotoButtonObject)
-#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:932
+#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:923
 #, kde-format, kde-kuit-format
 msgid "GOTO"
 msgstr "GOTO"
 
 #. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
-#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:939
+#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:930
 #, kde-format, kde-kuit-format
 msgid "SYNC"
 msgstr "SYNC"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkButtonObject)
-#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:946
+#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:937
 #, kde-format, kde-kuit-format
 msgid "PARK"
 msgstr "PARK"
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
-#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:953
+#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:944
 #, kde-format, kde-kuit-format
 msgid "UNPARK"
 msgstr "UNPARK"
@@ -6243,7 +6242,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: s'ha perdut la connexió amb la roda de filtres."
 
 #: ekos/align/align.cpp:1494 ekos/capture/captureprocess.cpp:199
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5257
+#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5266
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6449,7 +6448,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4359
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -6618,7 +6617,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
 #: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3179
-#: ekos/focus/focus.cpp:5145
+#: ekos/focus/focus.cpp:5154
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Ha fallat l'operació del filtre."
@@ -16328,8 +16327,8 @@ msgstr "L'script %1 anterior a la tasca ha finalitzat amb el codi %1."
 msgid "Post job script finished with code %1."
 msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5309
-#: ekos/focus/focus.cpp:5333
+#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5318
+#: ekos/focus/focus.cpp:5342
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp..."
@@ -16341,7 +16340,7 @@ msgstr ""
 "S'ha excedit el temps d'exposició. S'han detectat més de 3, es reiniciarà el "
 "controlador."
 
-#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5323
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -18358,7 +18357,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Punt d'inici adaptatiu [%1] des de %2 a %3"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7286
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7295
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Assessor d'enfocament"
@@ -18860,7 +18859,7 @@ msgstr "Finalment s'ha trobat la font de temperatura %1"
 msgid "No Focuser connected."
 msgstr "No s'ha connectat cap enfocador."
 
-#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4398
+#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4407
 #, kde-format
 msgid "No CCD connected."
 msgstr "No s'ha connectat cap CCD."
@@ -19299,8 +19298,8 @@ msgstr ""
 "de la tolerància."
 
 #: ekos/focus/focus.cpp:3943 ekos/focus/focus.cpp:3966
-#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4207
-#: ekos/focus/focus.cpp:4273 ekos/focus/focus.cpp:4342
+#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4210
+#: ekos/focus/focus.cpp:4279 ekos/focus/focus.cpp:4351
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Error de l'enfocador, comproveu el plafó de l'INDI."
@@ -19310,68 +19309,68 @@ msgstr "Error de l'enfocador, comproveu el plafó de l'INDI."
 msgid "Simulate focuser comms failure..."
 msgstr "Simula una fallada de les comunicacions amb l'enfocador..."
 
-#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4189
-#: ekos/focus/focus.cpp:4255 ekos/focus/focus.cpp:4293
+#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4192
+#: ekos/focus/focus.cpp:4261 ekos/focus/focus.cpp:4299
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "S'està reiniciant el procés d'enfocament automàtic..."
 
-#: ekos/focus/focus.cpp:4414
+#: ekos/focus/focus.cpp:4423
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "S'està iniciant l'exposició contínua..."
 
-#: ekos/focus/focus.cpp:4703
+#: ekos/focus/focus.cpp:4712
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "S'ha desactivat la selecció automàtica d'estrella, ja que la casella de "
 "selecció d'estrella s'ha mogut manualment."
 
-#: ekos/focus/focus.cpp:4708
+#: ekos/focus/focus.cpp:4717
 #, kde-format
 msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrella a enfocar."
 
-#: ekos/focus/focus.cpp:4852
+#: ekos/focus/focus.cpp:4861
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "No s'ha seleccionat cap estrella. S'està emprant l'última posició coneguda..."
 
-#: ekos/focus/focus.cpp:4858
+#: ekos/focus/focus.cpp:4867
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "No s'ha seleccionat cap estrella. S'interromp..."
 
-#: ekos/focus/focus.cpp:4869
+#: ekos/focus/focus.cpp:4878
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "L'enfocador ja és a %1..."
 
-#: ekos/focus/focus.cpp:4975
+#: ekos/focus/focus.cpp:4984
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Enquadrat de l'enfocament"
 
-#: ekos/focus/focus.cpp:5357
+#: ekos/focus/focus.cpp:5366
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Ha fallat en desar la imatge. S'interromp..."
 
-#: ekos/focus/focus.cpp:5372 ekos/focus/focus.cpp:5397
+#: ekos/focus/focus.cpp:5381 ekos/focus/focus.cpp:5406
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Fallada de l'exposició. S'interromp..."
 
-#: ekos/focus/focus.cpp:5689
+#: ekos/focus/focus.cpp:5698
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil relatiu"
 
-#: ekos/focus/focus.cpp:7259
+#: ekos/focus/focus.cpp:7268
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -19420,7 +19419,7 @@ msgstr ""
 "ho ara a la pestanya ZCE i reinicieu l'assessor d'enfocament.\n"
 "\n"
 
-#: ekos/focus/focus.cpp:7275
+#: ekos/focus/focus.cpp:7284
 #, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
@@ -24767,7 +24766,7 @@ msgid "Speed"
 msgstr "Velocitat"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
-#: ekos/mount/mountcontrolpanel.ui:973
+#: ekos/mount/mountcontrolpanel.ui:964
 #, kde-format
 msgid "Status: Idle"
 msgstr "Estat: En espera"
@@ -69448,10 +69447,9 @@ msgid "Stop &Clock"
 msgstr "Atura el &rellotge"
 
 #: kstarsinit.cpp:199
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Run clock in realtime"
-msgstr "Engega el rellotge"
+msgstr "Executa el rellotge en l'hora real"
 
 #: kstarsinit.cpp:219
 #, kde-format
@@ -86717,491 +86715,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid ""
-#~ "Action to take if solver if successful (Sync, Slew to Target, or None)"
-#~ msgstr ""
-#~ "Acció a efectuar si el solucionador ha reeixit (Sincronitza, Orienta a "
-#~ "l'objectiu o Cap)"
-
-#~ msgid "Capturing image again..."
-#~ msgstr "S'està tornant a capturar una imatge..."
-
-#~ msgid "Exposure failure. Restarting exposure..."
-#~ msgstr "Fallada de l'exposició. Es reinicia l'exposició..."
-
-#~ msgid "Detection in progress, please wait."
-#~ msgstr "La detecció està en curs, espereu."
-
-#~| msgid "Calibration"
-#~ msgid "Calibraton"
-#~ msgstr "Calibratge"
-
-#~ msgid "<b>File Settings</b>"
-#~ msgstr "<b>Configuració del fitxer</b>"
-
-#~ msgid "Darks..."
-#~ msgstr "Foscos..."
-
-#~ msgid "Limits..."
-#~ msgstr "Límits..."
-
-#~ msgid "Scripts..."
-#~ msgstr "Scripts..."
-
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr ""
-#~ "S'ha detectat un controlador del GPS. El KStars i la configuració de "
-#~ "l'hora i emplaçament de la muntura ara se sincronitzaran amb el "
-#~ "controlador del GPS."
-
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr ""
-#~ "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament "
-#~ "al del GPS?"
-
-#~ msgid "GPS Settings"
-#~ msgstr "Configuració del GPS"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "El fitxer %1 s'ha desat a %2"
-
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr ""
-#~ "Seleccioneu la configuració de la sincronització de l'hora i de "
-#~ "l'emplaçament entre el KStars i dispositius INDI"
-
-#~ msgid "Time && Location Updates"
-#~ msgstr "Actualitzacions de l'hora i emplaçament"
-
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El KStars és la font mestra de la configuració de "
-#~ "l'hora i de l'emplaçament. Tots els dispositius INDI sincronitzaran "
-#~ "aquesta configuració amb la del KStars.</p></body></html>"
-
-#~ msgid "KStars updates all devices"
-#~ msgstr "El KStars actualitza tots els dispositius"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr ""
-#~ "Sincronitza automàticament la data i hora del KStars amb la de la font "
-#~ "d'actualització."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El comandament de la muntura és la font mestra de "
-#~ "la configuració de l'hora i de l'emplaçament. El KStars sincronitzarà "
-#~ "aquesta configuració amb la del controlador.</p></body></html>"
-
-#~ msgid "Mount updates KStars"
-#~ msgstr "La muntura actualitza el KStars"
-
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr ""
-#~ "Sincronitza la configuració de l'emplaçament del KStars des de la font "
-#~ "d'actualització."
-
-#~ msgid "Location"
-#~ msgstr "Emplaçament"
-
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El controlador del GPS és la font mestra de la "
-#~ "configuració de l'hora i de l'emplaçament. El KStars sincronitzarà "
-#~ "aquesta configuració amb la del GPS.</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "El GPS actualitza el KStars"
-
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr "Uso el KStars per a la sincronització de l'hora i de l'emplaçament?"
-
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr ""
-#~ "Uso la muntura per a la sincronització de l'hora i de l'emplaçament?"
-
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr "Uso el GPS per a la sincronització de l'hora i de l'emplaçament?"
-
-#~ msgid ""
-#~ "Subtract dark frame. If no suitable dark frame is available, a dark frame "
-#~ "shall be captured."
-#~ msgstr ""
-#~ "Resta el fotograma fosc. Si no hi ha cap fotograma fosc adequat, es "
-#~ "capturarà un fotograma fosc."
-
-#~ msgid "Use dark frames from the library."
-#~ msgstr "Usa els fotogrames foscos des de la biblioteca."
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "The sun"
-#~ msgstr "El Sol"
-
-#~ msgid "The moon"
-#~ msgstr "La Lluna"
-
-#~ msgid "Camera frame types when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Tipus de fotogrames de càmera quan s'utilitza un editor independent "
-#~ "d'«esq»."
-
-#~ msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Formats de fotogrames de càmera quan s'utilitza un editor independent "
-#~ "d'«esq»."
-
-#~ msgid "Camera frame encodings when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Codificacions de fotogrames de càmera quan s'utilitza un editor "
-#~ "independent d'«esq»."
-
-#~ msgid "Camera ISOs when using stand-alone esq editor."
-#~ msgstr "ISO de càmera quan s'utilitza un editor independent d'«esq»."
-
-#~ msgid "Camera ISO choice when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Selecció d'ISO de càmera quan s'utilitza un editor independent d'«esq»."
-
-#~ msgid "Filter names when using stand-alone esq editor."
-#~ msgstr "Noms de filtre quan s'utilitza un editor independent d'«esq»."
-
-#~ msgid ""
-#~ "Width,Height of sensor size remembered for stand-alone esq editor, and "
-#~ "Gain/Offset keywords."
-#~ msgstr ""
-#~ "Amplada, alçada de la mida del sensor recordada per l'editor independent "
-#~ "«esq», i paraules clau Guany/Desplaçament."
-
-#~ msgid "Camera temperature properties for stand-alone esq editor."
-#~ msgstr ""
-#~ "Propietats de la temperatura de la càmera per a l'editor independent "
-#~ "d'«esq»."
-
-#~ msgid "Local time that the CaptureStandAlone options were set."
-#~ msgstr ""
-#~ "Hora local en la qual s'han establert les opcions de CaptureStandAlone."
-
-#~ msgid ""
-#~ "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
-#~ "parameters?"
-#~ msgstr ""
-#~ "Primer ús del Tren òptic: %1. Preferiríeu que l'assessor d'enfocament "
-#~ "optimitzi els paràmetres?"
-
-#~ msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-#~ msgstr "<html><head/><body><p>Mida màx. del pas:</p></body></html>"
-
-#~ msgid "Wall coordinates are invalid."
-#~ msgstr "Les coordenades de la paret no són vàlides."
-
-#~ msgid ""
-#~ "<html><head/><body><p>A good figure to start with is 5. An exception is "
-#~ "if you have a scope with a central obstruction that turns stars to donuts "
-#~ "when they are out of focus. When this happens the system will struggle to "
-#~ "identify stars correctly. To avoid this situation reduce either the step "
-#~ "size or the number of steps.</p><p>To check this situation, start at "
-#~ "focus and move away by &quot;step size&quot; * &quot;number of "
-#~ "steps&quot; steps. Take a focus frame and zoom in on the fitsviewer to "
-#~ "see whether stars appear as stars or donuts.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Una bona xifra per a començar és 5. Una excepció és "
-#~ "si teniu un telescopi amb una obstrucció central que converteix les "
-#~ "estrelles en dònuts quan estan fora de focus. Quan això passa, el sistema "
-#~ "tindrà problemes per a identificar les estrelles correctament. Per a "
-#~ "evitar aquesta situació reduïu la mida del pas o el nombre de passos.</"
-#~ "p><p>Per a verificar aquesta situació, comenceu al focus i allunyeu-vos "
-#~ "tants passos com la «mida del pas» * «nombre de passos». Preneu un "
-#~ "fotograma d'enfocament i apropeu el zoom en el visualitzador de FITS per "
-#~ "a veure si les estrelles apareixen com a estrelles o com a dònuts.</p></"
-#~ "body></html>"
-
-#~ msgid ""
-#~ "Autofocus failed to reach proper focus. Try increasing tolerance value."
-#~ msgstr ""
-#~ "L'enfocament automàtic no ha aconseguit enfocar. Proveu d'incrementar el "
-#~ "valor de la tolerància."
-
-#~ msgid ""
-#~ " You have a scope with a central obstruction so be careful not to move "
-#~ "too far away from focus as stars will appear as donuts and will not be "
-#~ "detected properly. Experiment by finding focus and moving Step Size * Out "
-#~ "Step Multiple ticks away from focus and take a focus frame. Zoom in to "
-#~ "observe star detection. If it is poor then move the focuser back towards "
-#~ "focus until star detection is acceptable. Adjust Out Step Multiple to "
-#~ "correspond to this range of focuser motion."
-#~ msgstr ""
-#~ " Teniu un telescopi amb una obstrucció central, per tant, aneu amb compte "
-#~ "de no allunyar-vos massa del focus, ja que les estrelles apareixeran com "
-#~ "a dònuts i no es detectaran correctament. Experimenteu cercant el focus i "
-#~ "movent la mida del pas * multiplicador de pas exterior algunes marques "
-#~ "lluny del focus i prenent un fotograma d'enfocament. Amplieu per a "
-#~ "observar la detecció d'estrelles. Si és pobre llavors moveu l'enfocador "
-#~ "de nou cap a l'enfocament fins que la detecció d'estrelles sigui "
-#~ "acceptable. Ajusteu el multiplicador de pas exterior per a correspondre a "
-#~ "aquest interval de moviment de l'enfocador."
-
-#~ msgid "Whether to accept Focus Advisor recommendation on Out Step Multiple."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'assessor d'enfocament sobre el "
-#~ "multiplicador de pas exterior."
-
-#~ msgid "CCD capture aborted"
-#~ msgstr "Captura interrompuda del CCD"
-
-#~ msgid "PHD2: Guiding resumed."
-#~ msgstr "PHD2: S'ha reprès el guiatge."
-
-#~ msgid "No job running"
-#~ msgstr "No hi ha cap tasca executant-se"
-
-#~ msgid "Open FITS"
-#~ msgstr "Obre el FITS"
-
-#~ msgid "No Target - Please pick an object."
-#~ msgstr "Sense objectiu - Trieu un objecte."
-
-#~ msgid "Focus Out"
-#~ msgstr "Enfoca enfora"
-
-#~ msgid "Focus In"
-#~ msgstr "Enfoca endins"
-
-#~ msgid "Toggle full screen"
-#~ msgstr "Commuta a pantalla completa"
-
-#~ msgid "Help"
-#~ msgstr "Ajuda"
-
-#~ msgid "Directory"
-#~ msgstr "Directori"
-
-#~ msgid "Save capture sequence"
-#~ msgstr "Desa la seqüència de captura"
-
-#~ msgid "Load"
-#~ msgstr "Carrega"
-
-#~ msgid ""
-#~ "Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit"
-#~ msgstr ""
-#~ "Realitza l'enfocament automàtic quan el valor del radi de semiflux (Half-"
-#~ "Flux-Radius -HFR-) superi aquest límit"
-
-#~ msgid "Autofocus if HFR >"
-#~ msgstr "Enfocament automàtic si HFR >"
-
-#~ msgid ""
-#~ "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value "
-#~ "to File\" is not enabled. Current HFR value will not be written to "
-#~ "sequence file."
-#~ msgstr ""
-#~ "Avís: s'ha establert l'enfocament automàtic basat en HFR, però no s'ha "
-#~ "activat l'opció «Desa el valor HFR de la seqüència a un fitxer». El valor "
-#~ "actual de l'HFR no s'escriurà al fitxer de seqüències."
-
-#~ msgid "AZ"
-#~ msgstr "AZ"
-
-#~ msgid "ALT"
-#~ msgstr "ALT"
-
-#~ msgid "HA"
-#~ msgstr "AH"
-
-#~ msgid "LST"
-#~ msgstr "TSL"
-
-#~ msgid "Purge all configuration"
-#~ msgstr "Purga tota la configuració"
-
-#~ msgid "In-Sequence Focus"
-#~ msgstr "Enfocament en seqüència"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Set HFR Threshold percentage gain. When an "
-#~ "autofocus operation is completed, the autofocus HFR value is increased by "
-#~ "this threshold percentage value and stored within the capture module. If "
-#~ "In-Sequence-Focus is engaged, the autofocus module only performs "
-#~ "autofocusing procedure if current HFR value exceeds the capture module "
-#~ "HFR threshold. Increase value to permit more relaxed changes in HFR "
-#~ "values without requiring a full autofocus run.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Estableix el guany en percentatge del llindar HFR. "
-#~ "Quan es completa una operació d'enfocament automàtic, el valor HFR de "
-#~ "l'enfocament automàtic augmenta amb aquest valor de percentatge del "
-#~ "llindar i s'emmagatzema en el mòdul de captura. Si l'enfocament en "
-#~ "seqüència està ocupat, el mòdul d'enfocament automàtic només executarà el "
-#~ "procediment d'enfocament automàtic si el valor HFR actual excedeix el "
-#~ "llindar HFR del mòdul de captura. L'augmenteu aquest valor per a permetre "
-#~ "canvis més relaxats en els valors HFR sense requerir una execució "
-#~ "completa d'enfocament automàtic.</p></body></html>"
-
-#~ msgid "HFR threshold modifier:"
-#~ msgstr "Modificador del llindar HFR:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Calculate median focus value after each autofocus "
-#~ "operation is complete. If the autofocus results become progressively "
-#~ "worse with time, the median value shall reflect this trend and prevent "
-#~ "unnecessary autofocus operations when the seeing conditions deteriorate.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Calcula la mediana del valor de l'enfocament "
-#~ "després de completar cada operació d'enfocament automàtic. Si els "
-#~ "resultats de l'enfocament automàtic esdevenen progressivament pitjors amb "
-#~ "els temps, el valor de la mediana reflectirà aquesta tendència i evitarà "
-#~ "operacions d'enfocament innecessàries quan les condicions de «seeing» es "
-#~ "deteriorin.</p></body></html>"
-
-#~ msgid "Use median focus"
-#~ msgstr "Usa la mediana de l'enfocament"
-
-#~ msgid ""
-#~ "<html><head/><body><p>In-sequence HFR threshold value controls when the "
-#~ "autofocus process is started. If the measured HFR value exceeds the HFR "
-#~ "threshold, autofocus process is initiated. If the HFR threshold value is "
-#~ "zero initially (default), then the autofocus process best HFR value is "
-#~ "used to set the new HFR threshold, after applying the HFR threshold "
-#~ "modifier percentage. This new HFR threshold is then used for subsequent "
-#~ "In-Sequence focus checks. If this option is enabled, the HFR threshold "
-#~ "value is constant and gets saved to the sequence file.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El valor del llindar HFR en seqüència controla quan "
-#~ "s'iniciarà el procés d'enfocament automàtic. Si el valor HFR mesurat "
-#~ "excedeix el llindar HFR, s'iniciarà el procés d'enfocament automàtic. Si "
-#~ "el valor del llindar HFR és inicialment zero (predeterminat), llavors "
-#~ "s'usarà el millor valor HFR del procés d'enfocament automàtic per a "
-#~ "establir el nou llindar HFR, després d'aplicar el percentatge del "
-#~ "modificador del llindar HFR. Aquest nou llindar HFR s'usarà per a les "
-#~ "verificacions de l'enfocament en seqüència posteriors. Si aquesta opció "
-#~ "està activada, el valor de llindar HFR serà constant i es desarà al "
-#~ "fitxer de seqüències.</p></body></html>"
-
-#~ msgid "Save sequence HFR value to file"
-#~ msgstr "Desa el valor HFR de la seqüència a un fitxer"
-
-#~ msgid "Capture sequence file editor"
-#~ msgstr "Editor de fitxer de seqüències de captura"
-
-#~ msgid "Save schedule"
-#~ msgstr "Desa la programació"
-
-#~ msgid "O&n"
-#~ msgstr "E&ncén"
-
-#~ msgid "File name"
-#~ msgstr "Nom del fitxer"
-
-#~ msgid "Recording options"
-#~ msgstr "Opcions d'enregistrament"
-
-#~ msgid "Collimation overlay options"
-#~ msgstr "Opcions de la superposició de col·limació"
-
-#~ msgid ""
-#~ "Calculate median focus value after each autofocus operation is complete."
-#~ msgstr ""
-#~ "Calcula la mediana del valor de l'enfocament després de completar cada "
-#~ "operació d'enfocament automàtic."
-
-#~ msgid ""
-#~ "When saving a sequence file, save current HFR threshold value. By "
-#~ "default, zero value is used."
-#~ msgstr ""
-#~ "Quan deseu un fitxer de seqüències, deseu el valor del llindar HFR "
-#~ "actual. De manera predeterminada, s'usa el valor zero."
-
-#~ msgid "Timeout"
-#~ msgstr "Temps d'espera"
-
-#~ msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
-#~ msgstr ""
-#~ "Enfocament adaptatiu: delta de la temp. %1 marques; delta de l'alt. %2 "
-#~ "marques"
-
-#~ msgid "Not sleeping as current job no longer scheduled"
-#~ msgstr "No entra en repòs perquè la tasca actual ja no està programada"
-
-#~ msgid "Inspector"
-#~ msgstr "Inspector"
-
-#~ msgid ""
-#~ "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Paràmetres de configuració general d'enfocament</"
-#~ "p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Paràmetres d'enfocament que tenen a veure amb el "
-#~ "procés d'enfocament automàtic.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
-#~ "the focuser.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Paràmetres d'enfocament que tenen a veure amb la "
-#~ "mecànica de moure l'enfocador.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Parameters to do with configuring the Critical "
-#~ "Focus Zone (CFZ). This is not necessary for Autofocus, but provides "
-#~ "useful information.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Paràmetres que tenen a veure amb la configuració de "
-#~ "la Zona Crítica d'Enfocament (ZCE). Això no és necessari per a "
-#~ "l'enfocament automàtic, però proporciona informació útil.</p></body></"
-#~ "html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus Advisor help utility to assist with setting "
-#~ "up Focus parameters.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Utilitat d'ajuda de l'assessor d'enfocament per a "
-#~ "configurar els paràmetres de l'enfocament.</p></body></html>"
-
-#~ msgid ""
-#~ "Warning: You cannot add or modify a job while the scheduler is running."
-#~ msgstr ""
-#~ "Avís: no podeu afegir o modificar una tasca mentre el programador està en "
-#~ "execució."
-
-#~ msgid ""
-#~ "Warning: you cannot add or modify a job while the scheduler is running."
-#~ msgstr ""
-#~ "Avís: no podeu afegir o modificar una tasca mentre el programador està en "
-#~ "execució."
-
-#~ msgid ""
-#~ "Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
-#~ "mosaic style mask"
-#~ msgstr ""
-#~ "Tipus de màscara d'enfocament: 0 = S'usen totes les estrelles en enfocar, "
-#~ "1 = Màscara d'anell, 2 = Màscara a l'estil d'un mosaic de 3x3"
-
-#~| msgid "Color:"
-#~ msgid "Colour:"
-#~ msgstr "Color:"
-
-#~ msgid "Differential slewing complete."
-#~ msgstr "S'ha completat l'orientació diferencial."

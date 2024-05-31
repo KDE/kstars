@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-30 01:45+0000\n"
+"POT-Creation-Date: 2024-05-31 01:55+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -3005,7 +3005,7 @@ msgstr "1x"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_16)
+#. i18n: ectx: property (text), widget (QLabel, targetRALabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -3015,7 +3015,7 @@ msgstr "1x"
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
 #: ekos/manager.ui:789 ekos/mount/mount.ui:166
-#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:756
+#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:754
 #: tools/altvstime.ui:97 tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, kde-format, kde-kuit-format
@@ -3036,12 +3036,12 @@ msgstr "AZ:"
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, label_17)
+#. i18n: ectx: property (text), widget (QLabel, targetDECLabel)
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
 #: ekos/manager.ui:773 ekos/mount/mountcontrolpanel.ui:495
-#: ekos/mount/mountcontrolpanel.ui:792
+#: ekos/mount/mountcontrolpanel.ui:783
 #, kde-format, kde-kuit-format
 msgid "DE:"
 msgstr "DE:"
@@ -3085,7 +3085,7 @@ msgstr "Destino:"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:832
-#: ekos/mount/mountcontrolpanel.ui:822 indi/collimationOptions.ui:427
+#: ekos/mount/mountcontrolpanel.ui:813 indi/collimationOptions.ui:427
 #: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -3093,19 +3093,19 @@ msgid "Type:"
 msgstr "Tipo:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, equatorialCheckObject)
-#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:829
+#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:820
 #, kde-format, kde-kuit-format
 msgid "RA/DE"
 msgstr "AR/DE"
 
 #. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
-#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:842
+#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:833
 #, kde-format, kde-kuit-format
 msgid "AZ/AL"
 msgstr "AZ/AL"
 
 #. i18n: ectx: property (text), widget (QRadioButton, haEquatorialCheckObject)
-#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:852
+#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:843
 #, kde-format, kde-kuit-format
 msgid "HA/DE"
 msgstr "AH/DE"
@@ -3117,7 +3117,7 @@ msgstr "AH/DE"
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:940 dialogs/focusdialog.ui:114
-#: ekos/mount/mountcontrolpanel.ui:882 tools/flagmanager.ui:64
+#: ekos/mount/mountcontrolpanel.ui:873 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -3128,7 +3128,7 @@ msgstr "Época:"
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #: data/qml/mount/mountbox.qml:954 dialogs/focusdialog.ui:74
-#: ekos/mount/mountcontrolpanel.ui:889
+#: ekos/mount/mountcontrolpanel.ui:880
 #, kde-format, kde-kuit-format
 msgid "JNow"
 msgstr "JNow"
@@ -3136,31 +3136,31 @@ msgstr "JNow"
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #: data/qml/mount/mountbox.qml:967 dialogs/focusdialog.ui:84
-#: ekos/mount/mountcontrolpanel.ui:902
+#: ekos/mount/mountcontrolpanel.ui:893
 #, kde-format, kde-kuit-format
 msgid "J2000"
 msgstr "J2000"
 
 #. i18n: ectx: property (text), widget (QPushButton, gotoButtonObject)
-#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:932
+#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:923
 #, kde-format, kde-kuit-format
 msgid "GOTO"
 msgstr "GOTO"
 
 #. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
-#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:939
+#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:930
 #, kde-format, kde-kuit-format
 msgid "SYNC"
 msgstr "SINC"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkButtonObject)
-#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:946
+#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:937
 #, kde-format, kde-kuit-format
 msgid "PARK"
 msgstr "BLOQ"
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
-#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:953
+#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:944
 #, kde-format, kde-kuit-format
 msgid "UNPARK"
 msgstr "DESBLOQ"
@@ -7414,7 +7414,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Erro: perdeu-se a ligação à roda de filtros."
 
 #: ekos/align/align.cpp:1494 ekos/capture/captureprocess.cpp:199
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5257
+#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5266
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7624,7 +7624,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "A resolução interrompeu-se ao fim de %1 segundos."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4359
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -7787,7 +7787,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (arcsec)"
 
 #: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3179
-#: ekos/focus/focus.cpp:5145
+#: ekos/focus/focus.cpp:5154
 #, kde-format
 msgid "Filter operation failed."
 msgstr "A operação do filtro foi mal-sucedida."
@@ -17581,8 +17581,8 @@ msgstr "O programa de pré-tarefa terminou com o código %1."
 msgid "Post job script finished with code %1."
 msgstr "O programa de pós-tarefa terminou com o código %1."
 
-#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5309
-#: ekos/focus/focus.cpp:5333
+#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5318
+#: ekos/focus/focus.cpp:5342
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Expirou o tempo-limite da exposição. A interromper..."
@@ -17592,7 +17592,7 @@ msgstr "Expirou o tempo-limite da exposição. A interromper..."
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5323
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -19722,7 +19722,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "A adaptar o ponto inicial [%1] from %2 to %3"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7286
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7295
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Conselheiro de Focagem"
@@ -20243,7 +20243,7 @@ msgstr "Fonte de temperatura da focagem"
 msgid "No Focuser connected."
 msgstr "Não está nenhum sistema de focagem ligado."
 
-#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4398
+#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4407
 #, kde-format
 msgid "No CCD connected."
 msgstr "Não está nenhum CCD ligado."
@@ -20692,8 +20692,8 @@ msgstr ""
 "valor de tolerância."
 
 #: ekos/focus/focus.cpp:3943 ekos/focus/focus.cpp:3966
-#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4207
-#: ekos/focus/focus.cpp:4273 ekos/focus/focus.cpp:4342
+#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4210
+#: ekos/focus/focus.cpp:4279 ekos/focus/focus.cpp:4351
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Erro na focagem; verifique o painel do INDI."
@@ -20703,68 +20703,68 @@ msgstr "Erro na focagem; verifique o painel do INDI."
 msgid "Simulate focuser comms failure..."
 msgstr "Simular uma falha de comunicação com o sistema de focagem..."
 
-#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4189
-#: ekos/focus/focus.cpp:4255 ekos/focus/focus.cpp:4293
+#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4192
+#: ekos/focus/focus.cpp:4261 ekos/focus/focus.cpp:4299
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "A reiniciar o processo de focagem automática..."
 
-#: ekos/focus/focus.cpp:4414
+#: ekos/focus/focus.cpp:4423
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "A iniciar a exposição contínua..."
 
-#: ekos/focus/focus.cpp:4703
+#: ekos/focus/focus.cpp:4712
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "A desactivar a Selecção Automática de Estrelas, dado que a área de selecção "
 "foi movida manualmente."
 
-#: ekos/focus/focus.cpp:4708
+#: ekos/focus/focus.cpp:4717
 #, kde-format
 msgid "Focus star is selected."
 msgstr "A estrela de focagem está seleccionada."
 
-#: ekos/focus/focus.cpp:4852
+#: ekos/focus/focus.cpp:4861
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "Não foi seleccionada nenhuma estrela. A usar a última posição conhecida..."
 
-#: ekos/focus/focus.cpp:4858
+#: ekos/focus/focus.cpp:4867
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Não foi seleccionada nenhuma estrela. A interromper..."
 
-#: ekos/focus/focus.cpp:4869
+#: ekos/focus/focus.cpp:4878
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4975
+#: ekos/focus/focus.cpp:4984
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Imagem de Focagem"
 
-#: ekos/focus/focus.cpp:5357
+#: ekos/focus/focus.cpp:5366
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Não foi possível gravar a imagem. A interromper..."
 
-#: ekos/focus/focus.cpp:5372 ekos/focus/focus.cpp:5397
+#: ekos/focus/focus.cpp:5381 ekos/focus/focus.cpp:5406
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "A exposição foi mal-sucedida. A interromper..."
 
-#: ekos/focus/focus.cpp:5689
+#: ekos/focus/focus.cpp:5698
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Perfil Relativo"
 
-#: ekos/focus/focus.cpp:7259
+#: ekos/focus/focus.cpp:7268
 #, fuzzy, kde-format
 #| msgid ""
 #| "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -20832,7 +20832,7 @@ msgstr ""
 "O terceiro passo é definir o Multiplicador do Passo para Fora. Comece com o "
 "valor predefinido sugerido."
 
-#: ekos/focus/focus.cpp:7275
+#: ekos/focus/focus.cpp:7284
 #, fuzzy, kde-format
 #| msgid ""
 #| "\n"
@@ -26218,7 +26218,7 @@ msgid "Speed"
 msgstr "Velocidade"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
-#: ekos/mount/mountcontrolpanel.ui:973
+#: ekos/mount/mountcontrolpanel.ui:964
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Status: Idle"

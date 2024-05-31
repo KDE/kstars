@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-30 01:45+0000\n"
+"POT-Creation-Date: 2024-05-31 01:55+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -1886,7 +1886,7 @@ msgstr "1"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_16)
+#. i18n: ectx: property (text), widget (QLabel, targetRALabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -1896,7 +1896,7 @@ msgstr "1"
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
 #: ekos/manager.ui:789 ekos/mount/mount.ui:166
-#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:756
+#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:754
 #: tools/altvstime.ui:97 tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, fuzzy, kde-format, kde-kuit-format
@@ -1917,12 +1917,12 @@ msgstr "RA/DE: "
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, label_17)
+#. i18n: ectx: property (text), widget (QLabel, targetDECLabel)
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
 #: ekos/manager.ui:773 ekos/mount/mountcontrolpanel.ui:495
-#: ekos/mount/mountcontrolpanel.ui:792
+#: ekos/mount/mountcontrolpanel.ui:783
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "First letter in 'Center'"
 #| msgid "C"
@@ -1970,7 +1970,7 @@ msgstr "അര്‍ജെന്റിയ"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:832
-#: ekos/mount/mountcontrolpanel.ui:822 indi/collimationOptions.ui:427
+#: ekos/mount/mountcontrolpanel.ui:813 indi/collimationOptions.ui:427
 #: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -1978,20 +1978,20 @@ msgid "Type:"
 msgstr "തരം:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, equatorialCheckObject)
-#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:829
+#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:820
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "RA/Dec"
 msgid "RA/DE"
 msgstr "RA/Dec"
 
 #. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
-#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:842
+#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:833
 #, kde-format, kde-kuit-format
 msgid "AZ/AL"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, haEquatorialCheckObject)
-#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:852
+#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:843
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "RA/Dec"
 msgid "HA/DE"
@@ -2004,7 +2004,7 @@ msgstr "RA/Dec"
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:940 dialogs/focusdialog.ui:114
-#: ekos/mount/mountcontrolpanel.ui:882 tools/flagmanager.ui:64
+#: ekos/mount/mountcontrolpanel.ui:873 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -2015,7 +2015,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #: data/qml/mount/mountbox.qml:954 dialogs/focusdialog.ui:74
-#: ekos/mount/mountcontrolpanel.ui:889
+#: ekos/mount/mountcontrolpanel.ui:880
 #, kde-format, kde-kuit-format
 msgid "JNow"
 msgstr ""
@@ -2023,32 +2023,32 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #: data/qml/mount/mountbox.qml:967 dialogs/focusdialog.ui:84
-#: ekos/mount/mountcontrolpanel.ui:902
+#: ekos/mount/mountcontrolpanel.ui:893
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "2000.0"
 msgid "J2000"
 msgstr "2000.0"
 
 #. i18n: ectx: property (text), widget (QPushButton, gotoButtonObject)
-#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:932
+#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:923
 #, fuzzy, kde-format, kde-kuit-format
 msgid "GOTO"
 msgstr "മറുപടി രീതി"
 
 #. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
-#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:939
+#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:930
 #, kde-format, kde-kuit-format
 msgid "SYNC"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, parkButtonObject)
-#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:946
+#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:937
 #, kde-format, kde-kuit-format
 msgid "PARK"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
-#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:953
+#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:944
 #, kde-format, kde-kuit-format
 msgid "UNPARK"
 msgstr ""
@@ -6218,7 +6218,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "ബന്ധം"
 
 #: ekos/align/align.cpp:1494 ekos/capture/captureprocess.cpp:199
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5257
+#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5266
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6399,7 +6399,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4350
+#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4359
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:800
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -6559,7 +6559,7 @@ msgid "dDE (arcsec)"
 msgstr "സെക്കന്റുകള്‍"
 
 #: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3179
-#: ekos/focus/focus.cpp:5145
+#: ekos/focus/focus.cpp:5154
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -15617,8 +15617,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5309
-#: ekos/focus/focus.cpp:5333
+#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5318
+#: ekos/focus/focus.cpp:5342
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
@@ -15628,7 +15628,7 @@ msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സ�
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5314
+#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5323
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -17522,7 +17522,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "ഗ്രഹത്തിന്റെ പേരു്"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7286
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7295
 #, fuzzy, kde-format
 msgid "Focus Advisor"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
@@ -17977,7 +17977,7 @@ msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 msgid "No Focuser connected."
 msgstr "വിഛേദിക്കുക"
 
-#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4398
+#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4407
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "No CCD connected."
@@ -18388,8 +18388,8 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focus.cpp:3943 ekos/focus/focus.cpp:3966
-#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4207
-#: ekos/focus/focus.cpp:4273 ekos/focus/focus.cpp:4342
+#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4210
+#: ekos/focus/focus.cpp:4279 ekos/focus/focus.cpp:4351
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
@@ -18399,65 +18399,65 @@ msgstr ""
 msgid "Simulate focuser comms failure..."
 msgstr "പ്രാദേശികം(കണ്ട്രി)"
 
-#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4189
-#: ekos/focus/focus.cpp:4255 ekos/focus/focus.cpp:4293
+#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4192
+#: ekos/focus/focus.cpp:4261 ekos/focus/focus.cpp:4299
 #, fuzzy, kde-format
 msgid "Restarting autofocus process..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/focus/focus.cpp:4414
+#: ekos/focus/focus.cpp:4423
 #, fuzzy, kde-format
 msgid "Starting continuous exposure..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/focus/focus.cpp:4703
+#: ekos/focus/focus.cpp:4712
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4708
+#: ekos/focus/focus.cpp:4717
 #, fuzzy, kde-format
 msgid "Focus star is selected."
 msgstr "തിരഞ്ഞെടുത്ത വസ്തുവിലേക്ക് പോവുക [SPACE]"
 
-#: ekos/focus/focus.cpp:4852
+#: ekos/focus/focus.cpp:4861
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4858
+#: ekos/focus/focus.cpp:4867
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4869
+#: ekos/focus/focus.cpp:4878
 #, fuzzy, kde-format
 msgid "Focuser already at %1..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/focus/focus.cpp:4975
+#: ekos/focus/focus.cpp:4984
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/focus/focus.cpp:5357
+#: ekos/focus/focus.cpp:5366
 #, fuzzy, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/focus/focus.cpp:5372 ekos/focus/focus.cpp:5397
+#: ekos/focus/focus.cpp:5381 ekos/focus/focus.cpp:5406
 #, fuzzy, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിലെ സമയവലിപ്പം സെക്കന്റുകളില്‍"
 
-#: ekos/focus/focus.cpp:5689
+#: ekos/focus/focus.cpp:5698
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "എല്ലാം ചവറ്റുകുട്ടയിലേക്കു് നീക്കുക"
 
-#: ekos/focus/focus.cpp:7259
+#: ekos/focus/focus.cpp:7268
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -18483,7 +18483,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ekos/focus/focus.cpp:7275
+#: ekos/focus/focus.cpp:7284
 #, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
@@ -23339,7 +23339,7 @@ msgid "Speed"
 msgstr "വേഗത:"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
-#: ekos/mount/mountcontrolpanel.ui:973
+#: ekos/mount/mountcontrolpanel.ui:964
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Status: Idle"
