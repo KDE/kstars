@@ -4,6 +4,94 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.1 (MULTI):
+
+df6cce9f0 2024-05-30 Wolfgang Reissenberger Making target labels dependent on the selected coordinates mode
+f78c02c56 2024-05-30 John Evans           Bugfix for relative focusers (DSLR), timed and manual focusers not resetting buttons after focuser move
+ce898c0a4 2024-05-29 Dušan Poizl          Add realtime simclock that is locked with systen clock´
+090044ab5 2024-05-28 Jasem Mutlaq         Fix azimuth unit in mount control panel
+bf082ea64 2024-05-25 Philip Mair          Added more scheduler dbus properties
+5e0900c9e 2024-05-25 Wolfgang Reissenberger Bugfix camera logging
+3930b5e36 2024-05-21 Wolfgang Reissenberger Bugfix calibration show fitsviewer
+47dcf6b34 2024-05-21 Jasem Mutlaq         New mount panel
+0491d3a22 2024-05-19 Wolfgang Reissenberger Bugfix for captured flat frames counting
+c98667632 2024-05-18 Wolfgang Reissenberger Bugfix for device state handling
+c07117c93 2024-05-18 Wolfgang Reissenberger Bugfix of mount parking for flats etc
+58a32c7e6 2024-05-18 John Evans           Build Filter Offsets Hanging Bug
+c3676a2c2 2024-05-16 Jasem Mutlaq         Debounce jobs updated signal
+8564f6ab7 2024-05-15 Jasem Mutlaq         Capture and Scheduler process are now children of KStars::Instance. Add Q_SCRIPTABLE to a few function calls where it makes sense to use
+6a14e1672 2024-05-15 Wolfgang Reissenberger Multiple cameras | step 4
+50f05b907 2024-05-14 Hy Murveit           Add fit-page-to-zoom button to the fitsviewer
+1ad2b09a6 2024-05-14 Hy Murveit           Another guiding-concurrency fix
+73e3aa1ae 2024-05-14 Jasem Mutlaq         Add Q_SCRIPTABLE to clearLogs
+7422be352 2024-05-14 Jasem Mutlaq         Do not save target name in optical train settings since it is set by Ekos
+121540c1d 2024-05-14 Jasem Mutlaq         Send logs to EkosLive
+45e784d42 2024-05-13 Hy Murveit           One more guiding-concurrency fix
+cc7e87918 2024-05-13 Jasem Mutlaq         Fix bug in profile external guider port settings
+ef501cfd9 2024-05-12 Jasem Mutlaq         Fix issue with INDI::Camera refactor that move FITS Viewer handling to CaptureProcess. Add stretch and autostretch function to the view directly
+a35490ed6 2024-05-12 Hy Murveit           Add documentation
+191f44c0b 2024-05-11 Jasem Mutlaq         Fix radio options in train settings
+c9db3003f 2024-05-11 Wolfgang Reissenberger Multiple cameras | step 3
+8af1fa2c6 2024-05-10 Hy Murveit           fix options bug
+eb8ce8e05 2024-05-09 Hy Murveit           Stop guider from concurrent capturing.
+b16ee8884 2024-05-10 Hy Murveit           Go to analyze options tab when clicking analyze options button
+209ecb3da 2024-05-10 Hy Murveit           Moving among Analyze sessions etc
+622d0d13a 2024-05-10 Wolfgang Reissenberger Bug fix: setting extension before loading image from buffer
+aff30fbca 2024-05-10 Wolfgang Reissenberger Bugfix: capture hanging when no FITSViewer is used
+9cc625c11 2024-05-09 Jasem Mutlaq         If parked, clear target name
+f29584204 2024-05-08 Wolfgang Reissenberger Bugfix for cmake on RaspbianOS bullseye
+251281b7e 2024-05-07 Wolfgang Reissenberger Avoid font size less than 4px
+bacebf70e 2024-05-07 Wolfgang Reissenberger Enable Qt6 in cmake configurations
+4137a23f8 2024-05-07 Hy Murveit           Fix countdown
+e3f9feaf0 2024-05-05 Hy Murveit           Internal guider should not auto-capture in dither-settle state.
+be3084312 2024-05-05 Wolfgang Reissenberger Bugfix for capturing previews
+1d3a44b9f 2024-05-03 Akarsh Simha         Improvements to FOV symbols
+308fac43d 2024-05-02 Hy Murveit           Fix bug where internal guider with one-pulse-dither would trigger two concurrent guide exposures.
+51158c176 2024-05-02 Jasem Mutlaq         Fix crash when timer is activated after clearning pending properties
+51372a49f 2024-05-02 Wolfgang Reissenberger Multiple cameras | step 2
+b2b6aa484 2024-04-30 Hy Murveit           Fix bug where tooltip does not display progress when job names are duplicated.
+d09ba0d6d 2024-04-30 Hy Murveit           Left align the capture temperature display
+7ac5e4c20 2024-04-28 Hy Murveit           Allow focus to recover when camera driver crashes
+bcec2c66c 2024-04-28 Jasem Mutlaq         Add guide gain
+7b017e791 2024-04-24 John Evans           Autofocus Restart Bug
+3e41593eb 2024-04-24 John Evans           Focus Abort Bug
+0f3a315c6 2024-04-23 Hy Murveit           Attempt to fix issue where camera driver crash does not recover.
+02633c4d6 2024-04-23 Jasem Mutlaq         Add function to return all DSO designations
+07e004659 2024-04-22 Yuri Chornoivan      Fix minor typo
+7b764cd8d 2024-04-21 Hy Murveit           Fix crash on driver restart
+c3ac36c19 2024-04-21 Wolfgang Reissenberger Multiple cameras | step 1
+1dab46fae 2024-04-17 Hy Murveit           Fix fitsviewer tab labels for calibrate and preview
+f43bdf968 2024-04-17 Hy Murveit           Screen the moon
+377454925 2024-04-18 Hy Murveit           Fix bad label on fitsviewer tab for first captured image.
+0e02c6c27 2024-04-16 Hy Murveit           Emit captureComplete a little later so calibration knows the filename.
+01cbe4ff4 2024-04-15 Jasem Mutlaq         Fix elevation value
+7bd0cc4f9 2024-04-13 Jasem Mutlaq         Since FITS Viewer no longer triggers an upload, we send raw data directly
+595e8c84d 2024-04-12 Hy Murveit           fix simulate daytime bug
+286956d7d 2024-04-11 Jasem Mutlaq         Add convenience call to get KStars location info
+ea57674c8 2024-04-11 Hy Murveit           Fix Milky Way rendering when simulate daytime is enabled.
+a5a149102 2024-04-11 Jasem Mutlaq         Use a more comperhensive list to return all object names
+3a0883643 2024-04-10 Hy Murveit           Make Zoom-to-Fit actually fit.
+6e99a364f 2024-04-10 Hy Murveit           Render the full field in stereographic projection (instead of just in front of the viewer)
+7dd2a4550 2024-04-10 Hy Murveit           Simulate Daytime
+ddee14276 2024-04-10 Jasem Mutlaq         Location & time sources
+9fcfd9afc 2024-04-10 Toni Schriber        Load FITSFile with QUrl() to prevent empty fits field in scheduler
+4973e9952 2024-04-10 Jasem Mutlaq         KStars 3.7.1 development cycle
+32578a1eb 2024-04-10 Wolfgang Reissenberger Flats Speedup
+d1d6d365b 2024-04-09 Wolfgang Reissenberger Bugfix capture testcases 02
+c6ffd22e5 2024-04-09 Eric Dejouhanet      fix(ci): move Microsoft Signing to the publish stage.
+f33c8ca70 2024-04-08 Jasem Mutlaq         Allow concrete devices internal slots to run first before firing external signals
+b3313500a 2024-04-06 Pino Toscano         ekos: fix build without QtDataVisualization
+a3a27db10 2024-04-05 Jasem Mutlaq         Add support to obtain all object names
+7f248af9e 2024-04-05 Jasem Mutlaq         For partial match, use object full name
+018e73af4 2024-04-04 Jasem Mutlaq         Add scheduler clearLog
+5bc7fce40 2024-04-03 Jasem Mutlaq         Add scheduler & sequence XML Schema Definition files
+04d196b16 2024-04-03 Nicolas Fella        Fix dependency name in CI config
+e2b310a42 2024-04-02 Eric Dejouhanet      fix(ci): adjust custom build to fix needs on master.
+597896ec6 2024-04-02 Eric Dejouhanet      feat(cd): provide CD pipelines
+353ccf321 2024-04-01 Jasem Mutlaq         Pass exact instead of hard-coding it
+ea57c140a 2024-04-01 Jasem Mutlaq         Pass exact instead of hard-coding it
+213420d90 2024-04-01 Yuri Chornoivan      Fix minor typos
+
 3.7.0 (Blink):
 
 4236bcd19 2024-03-28 Jasem Mutlaq         For partial object name search, exact flag should be passed down and a partial search should take place
