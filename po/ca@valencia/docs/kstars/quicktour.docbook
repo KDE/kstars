@@ -55,7 +55,7 @@
 
 <para
 >L'última pàgina de l'assistent d'iniciada permet descarregar dades addicionals que no estan incloses amb la distribució estàndard de &kstars;. Premeu el botó <guilabel
->Descarrega dades extres...</guilabel
+>Descarrega dades extres…</guilabel
 > per a obrir l'eina <guilabel
 >Obtín novetats candents</guilabel
 >. Una vegada fet, premeu el botó <guilabel
@@ -114,7 +114,7 @@
 ><guimenu
 >Visualitza</guimenu
 > <guimenuitem
->Amplia a una mida angular...</guimenuitem
+>Amplia a una mida angular…</guimenuitem
 ></menuchoice
 >. Açò us permetrà especificar en graus l'angle del camp de visió per a la vista.</para>
 </listitem>
@@ -151,7 +151,7 @@
 ><guimenu
 >Configuració</guimenu
 ><guisubmenu
->Configura &kstars;...</guisubmenu
+>Configura &kstars;…</guisubmenu
 ></menuchoice
 >. Seleccioneu la pàgina <guilabel
 >Guies</guilabel
@@ -253,7 +253,7 @@
 >. En la pestanya <guilabel
 >Enllaços</guilabel
 > utilitzeu el botó <guibutton
->Afig un enllaç...</guibutton
+>Afig un enllaç…</guibutton
 >. </para>
 </sect2>
 
@@ -279,7 +279,7 @@
 ><guimenu
 >Apunta</guimenu
 > <guimenuitem
->Busca un objecte...</guimenuitem
+>Busca un objecte…</guimenuitem
 ></menuchoice
 > o prement <keycombo action="simul"
 >&Ctrl;<keycap
@@ -322,11 +322,11 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 ></menuchoice
 >). Si se selecciona esta casella de selecció, quan s'introduïsca un nom d'objecte desconegut per &kstars; al diàleg <guilabel
 >Busca</guilabel
->, &kstars; contactarà amb els serveis en línia per a aprendre sobre l'objecte desitjat i després l'afegirà directament a la base de dades de &kstars;. Els objectes adquirits d'esta manera, s'emmagatzemen en un catàleg fals, anomenat «_Internet_Resolved». Per tant, podreu activar o desactivar la visualització d'estos objectes marcant o desmarcant el catàleg «_Internet_Resolved» de la llista de catàlegs. Recordeu que no podreu eliminar este catàleg fals, com ho feu amb un catàleg personalitzat. Si no se selecciona esta casella de selecció, llavors el diàleg <guilabel
+>, &kstars; contactarà amb els serveis en línia per a aprendre sobre l'objecte desitjat i després l'afegirà directament a la base de dades de &kstars;. Els objectes adquirits d'esta manera, s'emmagatzemen en un catàleg fals, anomenat «_Internet_Resolved». Per tant, podreu activar o desactivar la visualització d'estos objectes marcant o desmarcant el catàleg «_Internet_Resolved» de la llista de catàlegs. Recordeu que no podreu eliminar este catàleg fals, com ho feu amb un catàleg personalitzat. Si no es marca esta casella de selecció, llavors el diàleg <guilabel
 >Busca un objecte</guilabel
 > serà exactament el mateix, a excepció d'un xicotet canvi: el botó de busca en línia ja no serà visible. </para>
 <screenshot>

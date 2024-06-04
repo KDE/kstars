@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 01:55+0000\n"
-"PO-Revision-Date: 2024-05-20 20:35+0300\n"
+"PO-Revision-Date: 2024-06-03 22:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16185,13 +16185,12 @@ msgstr "Geçerli ADU %1. Sonraki pozlama %2 saniye içinde olacak."
 #: ekos/capture/captureprocess.cpp:2419
 #, kde-format
 msgid "%1 Preview"
-msgstr "%1 Önizleme"
+msgstr "%1 Önizlemesi"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "Kalibrasyon"
+msgstr "Düz Kalibrasyon"
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -18250,68 +18249,53 @@ msgstr "Açıklık (A):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/cfz.ui:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Başarılı bir Kendiliğinden Odaklama çalıştırmasının "
+"ardından CFZ'yi V eğrisi üzerinde görüntülemek için işaretleyin.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/cfz.ui:141
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display:"
-msgstr "Görüntü"
+msgstr "Görüntü:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/cfz.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bu optik kuyruk izi için görselleme kamerasını seçin.</"
-"p></body></html>"
+"<html><head/><body><p>Teleskopunuzun açıklığını mm olarak ayarlayın. Bu, "
+"seçilen optik katardan öntanımlı olarak ayarlanmıştır.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)
 #: ekos/focus/cfz.ui:163 ekos/scheduler/framingassistant.ui:87
-#, fuzzy, kde-format
-#| msgid "mm"
+#, kde-format
 msgid " mm"
-msgstr "mm"
+msgstr " mm"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZCameraSteps)
 #: ekos/focus/cfz.ui:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bu optik kuyruk izi için görselleme kamerasını seçin.</"
-"p></body></html>"
+"<html><head/><body><p>Etkin optik katardaki kameranın CFZ'si (çözünürlük "
+"sınırı).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/cfz.ui:204
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>μm olarak hesaplanan CFZ.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/cfz.ui:223
@@ -18321,37 +18305,31 @@ msgid ""
 "the classic CFZ calculation of 4.88 λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Tolerans=t değerini 0 ile 1 arasında ayarlayın. Bu, "
+"4,88 λ f<span style=\" vertical-align:super;\">2</span>'lik klasik CFZ "
+"hesaplamasını ölçeklendirir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZFinal)
 #: ekos/focus/cfz.ui:248
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Nihai CFZ, hesaplanan CFZ ve kamera CFZ'sinden büyük "
+"olanıdır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/focus/cfz.ui:264
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Step size:</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Adım boyutu:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/focus/cfz.ui:280
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "CFZ camera:"
-msgstr "Kamera:"
+msgstr "CFZ kamerası:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/cfz.ui:296
@@ -18364,6 +18342,12 @@ msgid ""
 "background-color:#ffffff;\"> as a percentage of total seeing.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-family:'Arial','Helvetica','sans-"
+"serif'; font-size:medium; color:#000000; background-color:#ffffff;\">Odak "
+"toleransını ayarlayın, </span>τ<span style=\" font-"
+"family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
+"background-color:#ffffff;\"> toplam görüşün yüzdesidir.</span></p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZTau)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusThreshold)
@@ -18382,40 +18366,31 @@ msgstr " %"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZSteps)
 #: ekos/focus/cfz.ui:324
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Adımlarla hesaplanan CFZ.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/cfz.ui:340
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>CFZ = 4,88 t λ f<span style=\" vertical-align:super;"
+"\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
 #: ekos/focus/cfz.ui:359
 #, kde-format
 msgid "CFZ:"
-msgstr ""
+msgstr "CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZWavelengthLabel)
 #: ekos/focus/cfz.ui:375
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavelength (λ):"
-msgstr "Dalga uzunluğu:"
+msgstr "Dalga boyu (λ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/cfz.ui:391
@@ -18428,53 +18403,51 @@ msgid ""
 "and convert this to microns. Note how many steps you have moved the focuser. "
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Odaklayıcınızın adım boyutunu (mikron türünden) "
+"ayarlayın. Bunu hesaplamak için odaklayıcınızı yolculuğunun bir ucundan "
+"diğer ucuna hareket ettirin (odaklayıcıyı sınırlarının ötesine zorlamamaya "
+"dikkat edin). Çektirme borusunun hareket ettiği uzaklığı olabildiğince doğru "
+"bir biçimde ölçün (örneğin kumpas kullanarak) ve bunu mikrona dönüştürün. "
+"Odaklayıcıyı kaç adım hareket ettirdiğinize dikkat edin. Adım boyutu = "
+"mikron olarak uzaklık / adım_sayısı.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/cfz.ui:394
 #, kde-format
 msgid " μm"
-msgstr ""
+msgstr " μm"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZSeeing)
 #: ekos/focus/cfz.ui:419
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Toplam görülen FWHM (yay saniyesi türünden).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/cfz.ui:447
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Reset Wavelength,  Aperture,  Focal ratio to values "
 "from the currently selected filter and optical train</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Dalga Boyu, Açıklık ve Odak oranını seçili süzgeç ve "
+"optik katardaki değerlere sıfırla</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetToOTB)
 #: ekos/focus/cfz.ui:450
-#, fuzzy, kde-format
-#| msgid "Reset to Now"
+#, kde-format
 msgid "Reset To OT"
-msgstr "Saati Şimdiye Ayarla"
+msgstr "OT'ye Sıfırla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/focus/cfz.ui:463
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Boca Raton"
+#, kde-format
 msgid "Focal ratio (f):"
-msgstr "Boca Raton"
+msgstr "Odak oranı (f):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/cfz.ui:501
@@ -18501,6 +18474,26 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Kritik Odak Bölgesi (CFZ) algoritmasını seçin:</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Klasik</span>: CFZ = 4.88 t λ f<span "
+"style=\" vertical-align:super;\">2</span> formülünü kullanır. Temel formül "
+"için toleransı t=1 olarak ayarlayın. Bazıları ampirik olarak t=1/3'ü önerir."
+"</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Dalga cephesi: </span>CFZ = "
+"4 t λ f<span style=\" vertical-align:super;\">2</span> formülünü kullanır. "
+"Dalga cephesi sapma teorisinden türetilen formül. Bazıları t=1/3, hatta "
+"t=1/10'u önerir.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Altın: "
+"</span>CFZ = 0.00225 √τ θ f<span style=\" vertical-align:super;\">2</span> "
+"formülünü kullanır. Ayrıntılar için http://www.goldastro.com/goldfocus/ncfz."
+"php for sayfasına bakın.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
@@ -18512,63 +18505,54 @@ msgstr "Klasik"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/cfz.ui:513
-#, fuzzy, kde-format
-#| msgid "Wavelength:"
+#, kde-format
 msgid "Wavefront"
-msgstr "Dalga uzunluğu:"
+msgstr "Dalga cephesi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #: ekos/focus/cfz.ui:518
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Golden"
+#, kde-format
 msgid "Gold"
-msgstr "Golden"
+msgstr "Altın"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/cfz.ui:532
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the F# to use. This is defaulted from the selected "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kullanılacak F numarasını ayarlayın. Bu, seçilen optik "
+"katardan öntanımlı olarak ayarlanmıştır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/focus/cfz.ui:560
 #, kde-format
 msgid "Final CFZ:"
-msgstr ""
+msgstr "Nihai CFZ:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZSeeingLabel)
 #: ekos/focus/cfz.ui:576
 #, kde-format
 msgid "FWHM (θ):"
-msgstr ""
+msgstr "FWHM (θ):"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/cfz.ui:592
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the light wavelength to use. This is defaulted "
 "from the Filter Settings popup for the selected filter. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kullanılacak ışık dalga boyunu ayarlayın. Bu, seçilen "
+"süzgeç için Süzgeç Ayarları açılır penceresinden öntanımlı olarak "
+"ayarlanmıştır.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZWavelength)
 #: ekos/focus/cfz.ui:595
-#, fuzzy, kde-format
-#| msgid "mm"
+#, kde-format
 msgid " nm"
-msgstr "mm"
+msgstr " nm"
 
 #: ekos/focus/focus.cpp:112
 #, kde-format
@@ -18578,7 +18562,7 @@ msgstr "Boşta."
 #: ekos/focus/focus.cpp:134
 #, kde-format
 msgid "Focus Options Profile Editor"
-msgstr "Odak Seçenekleri Profilleri Düzenleyicisi"
+msgstr "Odak Seçenekleri Profili Düzenleyicisi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
@@ -18592,324 +18576,297 @@ msgstr "Ayarlar"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
 #: ekos/focus/focus.cpp:191 ekos/focus/opsfocussettings.ui:14
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Focus Settings"
-msgstr "Ayarlar"
+msgstr "Odak Ayarları"
 
 #: ekos/focus/focus.cpp:195
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Process"
-msgstr "İşleniyor"
+msgstr "Süreç"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
 #: ekos/focus/focus.cpp:195 ekos/focus/opsfocusprocess.ui:14
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgid "Focus Process"
-msgstr "Arc dosyası"
+msgstr "Odak Süreci"
 
 #: ekos/focus/focus.cpp:199
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Buchans"
+#, kde-format
 msgid "Mechanics"
-msgstr "Buchans"
+msgstr "Mekanikler"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
 #: ekos/focus/focus.cpp:199 ekos/focus/opsfocusmechanics.ui:14
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Buchans"
+#, kde-format
 msgid "Focus Mechanics"
-msgstr "Buchans"
+msgstr "Odak Mekanikleri"
 
 #: ekos/focus/focus.cpp:932
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
+#, kde-format
 msgid "Finally found temperature source %1"
-msgstr "Odaklayıcı Benzeticisi"
+msgstr "En sonunda %1 sıcaklık kaynağı bulundu"
 
 #: ekos/focus/focus.cpp:1024
-#, fuzzy, kde-format
-#| msgid "INDI devices connected."
+#, kde-format
 msgid "No Focuser connected."
-msgstr "INDI cihazları bağlandı."
+msgstr "Bağlı odaklayıcı yok."
 
 #: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4407
-#, fuzzy, kde-format
-#| msgid "INDI devices connected."
+#, kde-format
 msgid "No CCD connected."
-msgstr "INDI cihazları bağlandı."
+msgstr "Bağlı CCD yok."
 
 #: ekos/focus/focus.cpp:1038
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
+"Başlangıç nabız adımı pek düşük. Adım boyutunu %1 veya daha yüksek bir "
+"değere ayarlayın..."
 
 #: ekos/focus/focus.cpp:1049
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
+"Kendiliğinden odaklama halihazırda çalışıyor, başlatma isteği yok sayılıyor."
 
 #: ekos/focus/focus.cpp:1056
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
-msgstr ""
+msgstr "Yapı ofseti halihazırda çalışıyor, kendiliğinden odaklama reddedildi."
 
 #: ekos/focus/focus.cpp:1064
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
-msgstr ""
+msgstr "Odak döngüsünde; kendiliğinden odaklama reddedildi."
 
 #: ekos/focus/focus.cpp:1076
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
 msgstr ""
+"Kendiliğinden odaklama başlatma isteği - kendiliğinden odaklamanın "
+"tamamlanması için 10 saniye bekleniyor."
 
 #: ekos/focus/focus.cpp:1084
 #, kde-format
 msgid "Discarding Autofocus start request - AdjustFocus in progress."
 msgstr ""
+"Kendiliğinden odaklama başlatma isteği yok sayılıyor - kendiliğinden "
+"odaklama yapılıyor."
 
 #: ekos/focus/focus.cpp:1094
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
 msgstr ""
+"Kendiliğinden odaklama başlatma isteği - uyarlanır odağın tamamlanması için "
+"10 saniye bekleniyor."
 
 #: ekos/focus/focus.cpp:1102
 #, kde-format
 msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
 msgstr ""
+"Kendiliğinden odaklama başlatma isteği yok sayılıyor - uyarlanır odak "
+"yapılıyor."
 
 #: ekos/focus/focus.cpp:1260
 #, kde-format
 msgid "Autofocus in progress..."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "Kendiliğinden odaklama yapılıyor..."
 
 #: ekos/focus/focus.cpp:1262
 #, kde-format
 msgid "Please wait until image capture is complete..."
-msgstr "Görüntü yakalama tamamlanana kadar lütfen bekleyiniz..."
+msgstr "Görüntü yakalama tamamlanana kadar lütfen bekleyin..."
 
 #: ekos/focus/focus.cpp:1276
-#, fuzzy, kde-format
-#| msgid "Autofocus Options"
+#, kde-format
 msgid "Autofocus operation started"
-msgstr "Otomatik Odaklama Seçenekleri"
+msgstr "Kendiliğinden odaklama işlemi başladı"
 
 #: ekos/focus/focus.cpp:1340
-#, fuzzy, kde-format
-#| msgid "Autofocus failed, moving back to initial focus position %1."
+#, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr ""
-"Otomatik odaklama başarısız oldu, %1 başlangıç odak konumuna geri dönülüyor."
+msgstr "Odaklayıcının başlangıç konumu için tarama başlatılıyor..."
 
 #: ekos/focus/focus.cpp:1341
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Scanning for starting position..."
-msgstr "Otomatik odaklama başarısız. Pozlama iptal ediliyor..."
+msgstr "Başlama konumu taranıyor..."
 
 #: ekos/focus/focus.cpp:1401
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Capture in progress, retrying in 1s..."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "Yakalama sürüyor, 1 saniye içinde yeniden denenecek..."
 
 #: ekos/focus/focus.cpp:1413
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek..."
 
 #: ekos/focus/focus.cpp:1446
-#, fuzzy, kde-format
-#| msgid "Autofocus complete."
+#, kde-format
 msgid "Autofocus aborted."
-msgstr "Otomatik odaklanma tamamlandı"
+msgstr "Kendiliğinden odaklama iptal edildi."
 
 #: ekos/focus/focus.cpp:1547
 #, kde-format
 msgid "Error: No Camera detected."
-msgstr ""
+msgstr "Hata: Algılanan kamera yok."
 
 #: ekos/focus/focus.cpp:1554
-#, fuzzy, kde-format
-#| msgid "Error: Lost connection to Focuser."
+#, kde-format
 msgid "Error: Lost connection to Camera."
-msgstr "Hata: Odaklayıcıya bağlantı koptu."
+msgstr "Hata: Kameraya olan bağlantı koptu."
 
 #: ekos/focus/focus.cpp:1575
 #, kde-format
 msgid "Error: No Filter Wheel detected."
-msgstr ""
+msgstr "Hata: Algılanan süzgeç tekerleği yok."
 
 #: ekos/focus/focus.cpp:1581
-#, fuzzy, kde-format
-#| msgid "Error: Lost connection to filter wheel."
+#, kde-format
 msgid "Error: Lost connection to Filter Wheel."
-msgstr "Hata: Süzgeç tekerine bağlantı koptu."
+msgstr "Hata: Süzgeç tekerleğine olan bağlantı koptu."
 
 #: ekos/focus/focus.cpp:1699
-#, fuzzy, kde-format
-#| msgid "Right Ascension of focus position"
+#, kde-format
 msgid "At minimum focus position %1..."
-msgstr "Odak konumunun Sağ Açıklığı"
+msgstr "En düşük odak konumu %1 üzerinde..."
 
 #: ekos/focus/focus.cpp:1710
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
+#, kde-format
 msgid "Moving to minimum focus position %1..."
-msgstr "Özgün konumuna geri döndürülüyor..."
+msgstr "En düşük odak konumu %1 üzerine hareket ediliyor..."
 
 #: ekos/focus/focus.cpp:1719
-#, fuzzy, kde-format
-#| msgid "Right Ascension of focus position"
+#, kde-format
 msgid "At maximum focus position %1..."
-msgstr "Odak konumunun Sağ Açıklığı"
+msgstr "En yüksek odak konumu %1 üzerinde..."
 
 #: ekos/focus/focus.cpp:1730
-#, fuzzy, kde-format
-#| msgid "Right Ascension of focus position"
+#, kde-format
 msgid "Moving to maximum focus position %1..."
-msgstr "Odak konumunun Sağ Açıklığı"
+msgstr "En yüksek odak konumu %1 üzerine hareket ediliyor..."
 
 #: ekos/focus/focus.cpp:1757
 #, kde-format
 msgid "Error: No Focuser detected."
-msgstr ""
+msgstr "Hata: Algılanan odaklayıcı yok."
 
 #: ekos/focus/focus.cpp:1764
 #, kde-format
 msgid "Error: Lost connection to Focuser."
-msgstr "Hata: Odaklayıcıya bağlantı koptu."
+msgstr "Hata: Odaklayıcıya olan bağlantı koptu."
 
 #: ekos/focus/focus.cpp:1778
-#, fuzzy, kde-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Seward"
+#, kde-format
 msgid "outward"
-msgstr "Seward"
+msgstr "dışa"
 
 #: ekos/focus/focus.cpp:1778
-#, fuzzy, kde-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Seward"
+#, kde-format
 msgid "inward"
-msgstr "Seward"
+msgstr "içe"
 
 #: ekos/focus/focus.cpp:1795
-#, fuzzy, kde-format
-#| msgid "Focusing inward..."
+#, kde-format
 msgid "Focusing %2 by %1 steps..."
-msgstr "İçe doğru odaklanıyor..."
+msgstr "%1 adım %2 odaklanılıyor..."
 
 #: ekos/focus/focus.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Focusing inward..."
+#, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
-msgstr[0] "İçe doğru odaklanıyor..."
-msgstr[1] "İçe doğru odaklanıyor..."
+msgstr[0] "%1 adım %2 odaklanılıyor..."
+msgstr[1] "%1 adım %2 odaklanılıyor..."
 
 #: ekos/focus/focus.cpp:1807
-#, fuzzy, kde-format
-#| msgid "Focusing inward..."
+#, kde-format
 msgid "Focusing %2 by %1 ms..."
-msgstr "İçe doğru odaklanıyor..."
+msgstr "%1 ms %2 odaklanılıyor..."
 
 #: ekos/focus/focus.cpp:1842
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Focuser is still timing out. Aborting..."
-msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
+msgstr "Odaklayıcı hâlâ zaman aşımına uğruyor. İptal ediliyor..."
 
 #: ekos/focus/focus.cpp:1849
-#, fuzzy, kde-format
-#| msgid "Focusing outward..."
+#, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
-msgstr "Dışa doğru odaklanıyor..."
+msgstr ""
+"Odak hareketi zaman aşımına uğradı (%1). Odak sürücüsü %2 yeniden "
+"başlatılıyor..."
 
 #: ekos/focus/focus.cpp:1860
-#, fuzzy, kde-format
-#| msgid "Focusing outward..."
+#, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
-msgstr "Dışa doğru odaklanıyor..."
+msgstr ""
+"Odak hareketi zaman aşımına uğradı (%1). %2 adıma yeniden odaklanılıyor..."
 
 #: ekos/focus/focus.cpp:1906
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
-msgstr ""
+msgstr "Odaklayıcıya yeniden bağlanma deneniyor: %1"
 
 #: ekos/focus/focus.cpp:1915
-#, fuzzy, kde-format
-#| msgid "Capture aborted."
+#, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
-msgstr "Yakalama iptal edildi."
+msgstr "Odaklayıcıya yeniden bağlanılamıyor: %1. İptal ediliyor..."
 
 #: ekos/focus/focus.cpp:1973
-#, fuzzy, kde-format
-#| msgid "Align complete"
+#, kde-format
 msgid "Detection complete."
-msgstr "Hizalama tamamlandı"
+msgstr "Algılama tamamlandı."
 
 #: ekos/focus/focus.cpp:2164
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "Detecting sources..."
-msgstr "İndiriliyor..."
+msgstr "Kaynaklar algılanıyor..."
 
 #: ekos/focus/focus.cpp:2267
-#, fuzzy, kde-format
-#| msgid "Post flip re-alignment completed successfully."
+#, kde-format
 msgid "Autofocus operation completed successfully"
-msgstr "Döndürme sonra yeniden hizlama başarıyla tamamlandı."
+msgstr "Kendiliğinden odaklama işlemi başarıyla tamamlandı"
 
 #: ekos/focus/focus.cpp:2280
-#, fuzzy, kde-format
-#| msgid "Autofocus Options"
+#, kde-format
 msgid "Autofocus operation failed"
-msgstr "Otomatik Odaklama Seçenekleri"
+msgstr "Kendiliğinden odaklam işlemi başarısız oldu"
 
 #: ekos/focus/focus.cpp:2347
-#, fuzzy, kde-format
-#| msgid "Autofocus complete."
+#, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
-msgstr[0] "Otomatik odaklanma tamamlandı"
-msgstr[1] "Otomatik odaklanma tamamlandı"
+msgstr[0] "%1 yineleme sonrası odak prosedürü tamamlandı."
+msgstr[1] "%1 yineleme sonrası odak prosedürü tamamlandı."
 
 #: ekos/focus/focus.cpp:2433
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Settling for %1s..."
-msgstr "Ayarlar"
+msgstr "%1 sn için yerleşiliyor..."
 
 #: ekos/focus/focus.cpp:2441
-#, fuzzy, kde-format
-#| msgid "Align complete"
+#, kde-format
 msgid "Settling complete."
-msgstr "Hizalama tamamlandı"
+msgstr "Yerleşim tamamlandı."
 
 #: ekos/focus/focus.cpp:2454
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
-"Otomatik odaklama başarısız oldu, %1 başlangıç odak konumuna geri dönülüyor."
+"Kendiliğinden odaklama başarısız oldu, %1 başlangıç odak konumuna geri "
+"dönülüyor."
 
 #: ekos/focus/focus.cpp:2491
 #, kde-format
 msgid "FITS received. No stars detected."
-msgstr "FITS alındı. Hiç bir yıldız algılanamadı."
+msgstr "FITS alındı. Algılanan yıldız yok."
 
 #: ekos/focus/focus.cpp:2767
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
-msgstr "Bir yıldızı otomatik seçme başarısız. Lütfen elle bir yıldız seçin."
+msgstr "Kendiliğinden bir yıldız seçilemedi. Lütfen bir tanesini elle seçin."
 
 #: ekos/focus/focus.cpp:2861
 #, kde-format
@@ -18917,106 +18874,100 @@ msgid "Capture complete. Select a star to focus."
 msgstr "Yakalama tamamlandı. Odaklanacak bir yıldız seçin."
 
 #: ekos/focus/focus.cpp:2892
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
-msgstr "Herhangi bir yıldız algılanamadı, tekrar yakalanıyor..."
+msgstr "HFR sınanırken bir yıldız algılanmadı, yeniden yakalanıyor..."
 
 #: ekos/focus/focus.cpp:2912
-#, fuzzy, kde-format
-#| msgctxt "Half Flux Radius"
-#| msgid "HFR: %1"
+#, kde-format
 msgid "HFR %1 > Limit %2"
-msgstr "HFR: %1"
+msgstr "HFR %1 > Sınır %2"
 
 #: ekos/focus/focus.cpp:3026
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
+"Kendiliğinden odaklama başarısız oldu: En yüksek yineleme sayısı %1 aşıldı"
 
 #: ekos/focus/focus.cpp:3037 ekos/focus/focus.cpp:3273
 #: ekos/focus/focus.cpp:3859
 #, kde-format
 msgid "No stars detected, capturing again..."
-msgstr "Herhangi bir yıldız algılanamadı, tekrar yakalanıyor..."
+msgstr "Algılanan yıldız yok, yeniden yakalanıyor..."
 
 #: ekos/focus/focus.cpp:3043 ekos/focus/focus.cpp:3865
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
-msgstr "Bir yıldızı otomatik seçme başarısız. Lütfen elle bir yıldız seçin."
+msgstr "%1 konumunda bir yıldız algılanamadı. Sürdürülüyor..."
 
 #: ekos/focus/focus.cpp:3049 ekos/focus/focus.cpp:3871
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
-msgstr "Bir yıldızı otomatik seçme başarısız. Lütfen elle bir yıldız seçin."
+msgstr ""
+"Herhangi bir yıldız algılanamadı. Kareyi sıfırlayın ve yeniden deneyin."
 
 #: ekos/focus/focus.cpp:3236
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
-msgstr ""
+msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılamıyor..."
 
 #: ekos/focus/focus.cpp:3256
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
-msgstr ""
+msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılıyor..."
 
 #: ekos/focus/focus.cpp:3280
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid "Failed to detect any stars. Aborting..."
-msgstr "Bir yıldızı otomatik seçme başarısız. Lütfen elle bir yıldız seçin."
+msgstr "Hiçbir yıldız algılanamadı. İptal ediliyor..."
 
 #: ekos/focus/focus.cpp:3289
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
-msgstr ""
+msgstr "Tarama başlangıcı konumu: En yüksek yineleme sayısı %1 aşıldı"
 
 #: ekos/focus/focus.cpp:3307
 #, kde-format
 msgid "Scanning for starting position %1/%2"
-msgstr ""
+msgstr "Başlangıç konumu %1/%2 taranıyor..."
 
 #: ekos/focus/focus.cpp:3321
 #, kde-format
 msgid "No scan minimum - widening search..."
-msgstr ""
+msgstr "Tarama en düşüğü yok - arama genişletiliyor..."
 
 #: ekos/focus/focus.cpp:3331
 #, kde-format
 msgid "Scan Start Position %1 Found"
-msgstr ""
+msgstr "Tarama başlangıcı konumu %1 bulundu"
 
 #: ekos/focus/focus.cpp:3332
 #, kde-format
 msgid "Scan Start Position %1 found"
-msgstr ""
+msgstr "Tarama Başlangıcı Konumu %1 Bulundu"
 
 #: ekos/focus/focus.cpp:3393
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
+"Eğim uyumu denetimi başarısız R2=%1 focusR2Limit=%2 yeniden deneniyor..."
 
 #: ekos/focus/focus.cpp:3395
-#, fuzzy, kde-format
-#| msgctxt "Half Flux Radius"
-#| msgid "HFR: %1"
+#, kde-format
 msgid "R2=%1 < Limit=%2"
-msgstr "HFR: %1"
+msgstr "R2=%1 < Sınır=%2"
 
 #: ekos/focus/focus.cpp:3403
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
+"Eğim uyumu denetimi yine başarısız R2=%1 focusR2Limit=%2; ancak "
+"sürdürülüyor..."
 
 #: ekos/focus/focus.cpp:3413
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
-msgstr ""
+msgstr "Doğrusal kendiliğinden algılama algoritması iptal edildi: %1"
 
 #: ekos/focus/focus.cpp:3448
 #, kde-format
@@ -19034,39 +18985,44 @@ msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
-"HFT içinde değiştirme çok yavaş, adım boyutunu artırmayı ya da toleransı "
+"HFR'deki değişiklik pek küçük; adım boyutunu artırmayı veya toleransı "
 "azaltmayı deneyin."
 
 #: ekos/focus/focus.cpp:3518
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
-msgstr ""
+msgstr "Karedeki odak yıldızı algılanamadı. Bir odak yıldızı yakalayıp seçin."
 
 #: ekos/focus/focus.cpp:3623
 #, kde-format
 msgid "Found polynomial solution @ %1"
-msgstr ""
+msgstr "%1 konumunda polinom çözümü bulundu."
 
 #: ekos/focus/focus.cpp:3687
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
+"Odaklayıcı daha ileriye gidemiyor, aygıt sınırlarına erişildi. Kendiliğinden "
+"odaklama iptal ediliyor."
 
 #: ekos/focus/focus.cpp:3698
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
+"Kararsız dalgalanmalar. İlk adım boyutunu veya pozlama süresini artırmayı "
+"deneyin."
 
 #: ekos/focus/focus.cpp:3708
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
-msgstr "Tıkanma oluştu. Lütfen farklı bir ayar ile tekrar deneyin."
+msgstr "Tıkanma oluştu. Lütfen farklı bir ayar ile yeniden deneyin."
 
 #: ekos/focus/focus.cpp:3737
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
+"En yüksek hareket sınırına ulaşıldı. Kendiliğinden odaklama iptal ediliyor."
 
 #: ekos/focus/focus.cpp:3844
 #, fuzzy, kde-format

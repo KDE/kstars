@@ -32,7 +32,7 @@
 > en el camp d'entrada i prémer &Intro; o el botó <guibutton
 >Dibuixa</guibutton
 >. Si el text que introduïu es troba en la base de dades d'objectes, la corba de l'objecte serà afegida al gràfic. També podeu prémer el botó <guibutton
->Busca un objecte...</guibutton
+>Busca un objecte…</guibutton
 > per a obrir la <link linkend="findobjects"
 >finestra «Busca un objecte»</link
 > per a seleccionar-ne un de la llista d'objectes coneguts. Si voleu afegir un punt que no existia en la base de dades, senzillament introduïu un nom per al punt i després completeu les coordenades en els camps d'entrada <guilabel
@@ -72,7 +72,7 @@
 >L'altitud d'un objecte dependrà d'on esteu sobre la Terra i de la data. De manera predeterminada, l'eina adopta l'emplaçament i la data de la configuració actual de &kstars;. Podeu canviar estos paràmetres en la pestanya <guilabel
 >Data i emplaçament</guilabel
 >. Per a canviar l'emplaçament, podeu prémer el botó <guibutton
->Tria la ciutat...</guibutton
+>Tria la ciutat…</guibutton
 > per a obrir la finestra <link linkend="setgeo"
 >Establiu l'emplaçament geogràfic</link
 > o introduir els valors de la longitud i latitud manualment en els camps d'entrada i prémer el botó <guibutton

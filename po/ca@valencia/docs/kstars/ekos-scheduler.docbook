@@ -75,7 +75,7 @@
         <para
 >El programador planifica regularment (i replanifica) quines tasques s'han d'executar, i quan. Pot començar a executar una tasca determinada, i després avançar-la per una de nova. Pot quedar-se inactiu si no es poden executar tasques (&pex;, en la llum del dia), i descansar fins que torne a estar actiu. El seu objectiu és mantindre l'equip el més ocupat possible, respectant les prioritats de la taula de programació. Així és com funciona. </para>
         <para
->Quan s'inicia el programador (o quan es torna a planificar, el qual ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat l'obtenció de totes les imatges desitjades... </para>
+>Quan s'inicia el programador (o quan es torna a planificar, el qual ho fa cada segon mentre està actiu), revisa tota la llista de tasques començant per la de prioritat màxima, i continuant fins a la prioritat més baixa, si cal. Quan troba una tasca que pot executar, la comença, possiblement anticipant-se a la tasca actualment en execució. Una tasca pot executar-se si es complixen les seues restriccions, &pex;, l'objectiu no està bloquejat pel terreny local, complix la restricció d'altitud mínima, no ha completat l'obtenció de totes les imatges desitjades… </para>
     <para
 >L'algoritme mostra les hores d'inici i les hores de parada previstes per a totes les tasques en la taula del programador. També mostra la seua estimació de les vegades que les tasques s'executaran durant les properes 48 hores en el quadro de registre a la part inferior de la finestra. Vegeu la captura de pantalla de la finestra del programador a la part superior d'esta secció. </para>
         <para
@@ -209,7 +209,7 @@
         <para
 >Entre les configuracions que es mostren a dalt, una important es coneix com a <guilabel
 >Recorda el progrés de la tasca</guilabel
->. Quan esta casella està marcada i s'està executant una tasca, el programador mirarà les imatges del treball que ja estan capturades en el disc i no tornarà a capturar les que ja hi són. L'avantatge és que si es reinicia una tasca, es tornarà a executar una altra nit, o si s'executen múltiples tasques juntes, s'paren i s'iniciaran quan es puguen executar, les tasques es reiniciaran just on es van quedar. Açò treballa bé amb l'opció <guilabel
+>. Quan es marca esta casella i s'està executant una tasca, el programador mirarà les imatges del treball que ja estan capturades en el disc i no tornarà a capturar les que ja hi són. L'avantatge és que si es reinicia una tasca, es tornarà a executar una altra nit, o si s'executen múltiples tasques juntes, s'paren i s'iniciaran quan es puguen executar, les tasques es reiniciaran just on es van quedar. Açò treballa bé amb l'opció <guilabel
 >Repetix fins que es finalitze</guilabel
 > de compleció de tasques. Si <guilabel
 >Recorda el progrés de la tasca</guilabel
@@ -251,7 +251,7 @@
         <para
 >Hi ha una casella de selecció i una entrada de número just davall de la taula de tasques del programador que permet repetir tota la planificació N vegades. Açò es pot utilitzar per a alternar entre les tasques. Podeu senzillament llistar les tasques en la planificació, establiu-la perquè es repetisca N vegades i les tasques es repetiran. Tot i açò, este canvi és incompatible amb <guilabel
 >Recorda el progrés de la tasca</guilabel
-> (a dalt) i no estarà disponible si se selecciona. (Nota: recordeu que es recomana esta última opció). </para>
+> (a dalt) i no estarà disponible si està marcada. (Nota: recordeu que es recomana esta última opció). </para>
        </sect3>
     </sect2>
     <sect2 id="editing-running-jobs">
@@ -305,7 +305,7 @@
 > en l'editor). </para>
         <important>
         <para
->És important entendre que les seqüències de captura depenen fins a cert punt de la roda de filtres i de la càmera que s'utilitzen (&pex;, els noms dels filtres, els possibles valors ISO...). L'<guilabel
+>És important entendre que les seqüències de captura depenen fins a cert punt de la roda de filtres i de la càmera que s'utilitzen (&pex;, els noms dels filtres, els possibles valors ISO…). L'<guilabel
 >Editor de la seqüència de captura</guilabel
 >, el qual no està connectat amb els controladors del dispositiu, no té accés directe a esta informació. En canvi, utilitza els valors de l'última vegada que la pestanya <guilabel
 >Captura</guilabel
@@ -520,12 +520,12 @@ import os
 import time
 import sys
 
-print "S'està encenent l'equip de l'observatori...
+print "S'està encenent l'equip de l'observatori…
 sys.stdout.flush()
 
 time.sleep(5)
 
-print "S'estan comprovant els commutadors de seguretat..."
+print "S'estan comprovant els commutadors de seguretat…"
 sys.stdout.flush()
 
 time.sleep(5)

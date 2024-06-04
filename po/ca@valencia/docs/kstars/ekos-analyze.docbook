@@ -36,6 +36,13 @@
 >Analitza</guilabel
 > també pot mostrar dades de la sessió actual d'obtenció d'imatges. </para>
         <para
+>Quan comença una sessió nova (&pex;, Ekos es desconnecta a l'alba i després es torna a connectar a la posta del Sol), el sistema començarà a escriure un fitxer <literal role="extension"
+>.analyze</literal
+> nou. (Este comportament es pot controlar des de la pàgina de configuració a «Analitza», a la qual es pot accedir des del botó <guibutton
+>Opcions</guibutton
+> que hi ha en la part inferior dreta). </para
+>        
+        <para
 >Hi ha dos gràfics principals, <guilabel
 >Línia de temps</guilabel
 > i <guilabel
@@ -54,7 +61,13 @@
 >.analyze</literal
 >, utilitzant la llista desplegable <guilabel
 >Entrada</guilabel
->. Si seleccioneu <guilabel
+>. Utilitzant els botons <guibutton
+>&lt;&lt;</guibutton
+> i <guibutton
+>&gt;&gt;</guibutton
+> podreu mostrar els fitxers <literal role="extension"
+>.analyze</literal
+> anteriors o següents cronològicament. Si marqueu <guilabel
 >Amplària total</guilabel
 >, es mostraran totes les dades i <guilabel
 >Últim</guilabel
@@ -73,7 +86,9 @@
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel
 >Directori alternatiu</guilabel
-> en el menú d'entrada a un directori que serà la base d'una part del camí del fitxer original. </para>
+> en la pàgina de configuració «Analitza», a la qual es pot accedir des del botó <guibutton
+>Opcions</guibutton
+> que hi ha en la part inferior dreta. Este directori alternatiu s'anteposarà a la base de part del camí del fitxer original i es verificarà si el fitxer d'imatge no es troba a la seua ubicació original. </para>
         </note>
         <para
 >En fer clic damunt d'un segment a <guilabel

@@ -62,11 +62,11 @@
 >Al llarg de la part superior de la finestra, hi ha una fila de botons que operen sobre tot l'script. D'esquerra a dreta, són: <guibutton
 >Script nou</guibutton
 >, <guibutton
->Obri un script...</guibutton
+>Obri un script…</guibutton
 >, <guibutton
 >Guarda l'script</guibutton
 >, <guibutton
->Anomena i guarda l'script...</guibutton
+>Anomena i guarda l'script…</guibutton
 > i <guibutton
 >Prova l'script</guibutton
 >. La funció d'estos botons hauria de resultar òbvia, a excepció potser de l'últim botó. El fet de prémer <guibutton
@@ -105,7 +105,7 @@
 >, abreujament per a direcció. Esta és la direcció en la qual la vista haurà d'apuntar. El quadro combinat tan sols conté els punts cardinals, no la Lluna o cap altre objecte. Podeu introduir la <quote
 >Lluna</quote
 > en el quadro manualment o prement el botó <guibutton
->Objecte...</guibutton
+>Objecte…</guibutton
 > per a emprar la finestra <guilabel
 >Busca un objecte</guilabel
 > per a seleccionar la Lluna des de la llista d'objectes. Cal tindre present que, com és habitual, el fet de centrar en un objecte inicia automàticament el mode de seguiment d'este, i per açò no hi ha cap necessitat d'afegir la funció <firstterm
@@ -129,7 +129,7 @@
 > (fals). Per a canviar qualsevol opció de la vista, utilitzeu la funció <firstterm
 >changeViewOption</firstterm
 >. Afegiu esta funció a l'script i examineu el quadro Arguments de la funció. Hi haurà una llista desplegable que conté el llistat de totes les Opcions de la vista que pot ajustar changeViewOption. Atés que sabem que volem l'opció UseAltAz, nosaltres podríem senzillament seleccionar-la des del quadro combinat. No obstant açò, resulta que la llista és inversemblantment llarga i no hi ha explicacions de per què servix cada element. Per tant, podria ser més fàcil prémer el botó <guibutton
->Navega per l'arbre...</guibutton
+>Navega per l'arbre…</guibutton
 >, el qual obrirà una finestra que conté una vista en arbre de les opcions de la vista, organitzada per assumpte. A més, cada element disposa d'una curta explicació del que fa esta opció, i el tipus de dades del valor de l'opció. Trobarem UseAltAz davall la categoria <guilabel
 >Opcions per al mapa celeste</guilabel
 >. Senzillament ressalteu este element, premeu <guibutton
@@ -162,7 +162,7 @@
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Executa un script...</guimenuitem
+>Executa un script…</guimenuitem
 ></menuchoice
 >. </para>
 </sect2>

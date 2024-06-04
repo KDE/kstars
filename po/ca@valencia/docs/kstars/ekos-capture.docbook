@@ -50,7 +50,7 @@
                 <para
 ><guilabel
 >Refrigerador</guilabel
->: Encendre/apagar la refrigeració. Establiu la temperatura desitjada, si la vostra càmera està equipada amb un refrigerador. Seleccioneu l'opció per a forçar l'opció de la temperatura abans de qualsevol captura. El procés de captura només s'iniciarà després que la temperatura mesurada es trobe dins de la tolerància de la temperatura requerida. La tolerància <emphasis
+>: Encendre/apagar la refrigeració. Establiu la temperatura desitjada, si la vostra càmera està equipada amb un refrigerador. Marqueu l'opció per a forçar l'opció de la temperatura abans de qualsevol captura. El procés de captura només s'iniciarà després que la temperatura mesurada es trobe dins de la tolerància de la temperatura requerida. La tolerància <emphasis
 >predeterminada</emphasis
 > és de 0,1 graus centígrads, però es pot ajustar en les opcions de <guilabel
 >Captura</guilabel
@@ -266,7 +266,7 @@
 >%T</emphasis
 > o <emphasis role="bold"
 >%Type</emphasis
->: el tipus de fotograma, &pex; «Lluminós», «Biaix», «Fosc», «Pla»... </para>
+>: el tipus de fotograma, &pex; «Lluminós», «Biaix», «Fosc», «Pla»… </para>
                     </listitem>
                     <listitem>
                         <para
@@ -399,7 +399,7 @@
                 <para
 ><guilabel
 >Desviació del guiatge</guilabel
->: Si se selecciona, es forçarà un límit a la desviació màxima admissible del guiatge per a l'exposició, si s'utilitza el guiatge automàtic. Si la desviació del guiatge supera este límit en segons d'arc, s'interromprà la seqüència de l'exposició. Es reprendrà automàticament de nou la seqüència de l'exposició una vegada que la desviació del guiatge baixe d'este límit.</para>
+>: Si està marcada, es forçarà un límit a la desviació màxima admissible del guiatge per a l'exposició, si s'utilitza el guiatge automàtic. Si la desviació del guiatge supera este límit en segons d'arc, s'interromprà la seqüència de l'exposició. Es reprendrà automàticament de nou la seqüència de l'exposició una vegada que la desviació del guiatge baixe d'este límit.</para>
             </listitem>
             <listitem>
                 <para
@@ -578,7 +578,7 @@
                 <para
 ><guilabel
 >Obscuritat automàtica</guilabel
->: Podeu capturar una imatge i sostraure automàticament l'obscuritat seleccionant esta opció. Cal tindre en compte que esta opció només s'aplicarà quan s'utilitza la <guilabel
+>: Podeu capturar una imatge i sostraure automàticament l'obscuritat marcant esta opció. Cal tindre en compte que esta opció només s'aplicarà quan s'utilitza la <guilabel
 >Vista prèvia</guilabel
 >, no es pot utilitzar en la cua en seqüència en el mode de treball per lots. </para>
             </listitem>
@@ -628,7 +628,7 @@
 >desplaçament</emphasis
 > i un <emphasis
 >multiplicador</emphasis
-> a l'angle brut per a produir l'angle de posició. El diàleg del rotor d'Ekos permet el control directe de l'angle brut i també de l'AP. El desplaçament i el multiplicador es poden canviar manualment per a sincronitzar l'angle brut del rotor amb l'AP real. Seleccioneu <guilabel
+> a l'angle brut per a produir l'angle de posició. El diàleg del rotor d'Ekos permet el control directe de l'angle brut i també de l'AP. El desplaçament i el multiplicador es poden canviar manualment per a sincronitzar l'angle brut del rotor amb l'AP real. Marqueu <guilabel
 >Sincronitza CDV amb l'AP</guilabel
 > per a fer girar l'actual indicador del camp de visió (CDV) en el mapa celeste amb el valor AP a mesura que el canvieu en el diàleg. </para>
 

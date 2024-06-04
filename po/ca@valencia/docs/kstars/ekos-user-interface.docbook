@@ -26,6 +26,11 @@
 
         <listitem>
             <para
+>El mòdul «Analitza» </para>
+        </listitem>
+        
+        <listitem>
+            <para
 >El mòdul «Captura» </para>
         </listitem>
 
@@ -80,6 +85,14 @@
             <listitem>
                 <para
 >Una vegada domineu Ekos, s'anima als usuaris a aprendre a utilitzar este mòdul, ja que facilita enormement tot el procés d'observació. Permet seleccionar múltiples objectius, especificar quines condicions i requisits s'han de complir i quins fotogrames cal capturar. Després, el programador calcularà de manera intel·ligent el millor temps de l'observació per a cada objecte i després controlarà l'observatori des de l'inici fins al tancament. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>El mòdul «Analitza»</term>
+            <listitem>
+                <para
+>El mòdul «Analitza» mostra un resum d'alt nivell del que ha succeït durant una sessió de captura d'imatges. Mostra diagrames i gràfics que descriuen les nombroses captures realitzades durant una nit, les sessions d'enfocament, el guiatge, el moviment de la muntura, les inversions del meridià, &etc; Utilitzeu-lo per a tindre una idea de «què va passar ahir a la nit» o per a veure l'estat actual del sistema. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

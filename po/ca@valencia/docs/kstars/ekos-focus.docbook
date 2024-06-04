@@ -209,7 +209,15 @@
     </itemizedlist>
 
     <para
->Els paràmetres d'enfocament es guarden automàticament per a cada tren òptic.</para>
+>Els paràmetres de l'enfocament es guarden automàticament per «Tren òptic» i, per tant, es poden configurar múltiples trens per a gestionar configuracions diferents amb paràmetres diferents.</para>
+
+    <para
+>Quan es crea un tren òptic nou, l'enfocament intentarà ajustar els paràmetres predeterminats des d'altres trens òptics similars. Els atributs que hauran de coincidir per a açò són «Enfocador» i el tipus d'instrument de visió. Si este és el primer tren per a l'enfocador  i el tipus d'instrument de visió seleccionats, llavors es crearan els paràmetres predeterminats.</para>
+
+    <para
+>Es recomana utilitzar l'eina <link linkend="focus-advisor"
+>Assessor d'enfocament</link
+> en els trens òptics nous per a configurar els paràmetres de manera adequada.</para>
   </sect2>
 
   <sect2 id="focus-focuser-group">
@@ -503,7 +511,7 @@
       <listitem>
         <para
 >El botó <guibutton
->Inspector de l'aberració...</guibutton
+>Inspector de l'aberració…</guibutton
 > comença una execució de l'<link linkend="focus-aberration-inspector"
 >Inspector de l'aberració</link
 >. Es pot utilitzar el botó <guibutton
@@ -513,7 +521,7 @@
       <listitem>
         <para
 >El botó <guibutton
->ZCE...</guibutton
+>ZCE…</guibutton
 > inicia l'eina <link linkend="focus-cfz"
 >Zona crítica d'enfocament</link
 >. </para>
@@ -521,10 +529,16 @@
       <listitem>
         <para
 >El botó <guibutton
->Assessor...</guibutton
+>Assessor…</guibutton
 > inicia l'eina <link linkend="focus-advisor"
 >Assessor d'enfocament</link
 >. </para>
+      </listitem>
+      <listitem>
+        <para
+>La casella de selecció <guilabel
+>Força un EA</guilabel
+> es pot utilitzar quan hi ha activada una seqüència a «Captura» o al «Programador». Quan es marca, s'activarà un enfocament automàtic quan finalitze el submarc actiu. </para>
       </listitem>
     </itemizedlist>
   </sect2>
@@ -551,7 +565,7 @@
 
   <para
 >Als paràmetres per a configurar «Enfocament» s'accedix prement el botó <guibutton
->Opcions...</guibutton
+>Opcions…</guibutton
 >. Llançarà el diàleg «Opcions» amb tres subfinestres:</para>
 
   <itemizedlist>
@@ -621,7 +635,7 @@
         <para
 ><guilabel
 >Fotograma fosc</guilabel
->: Seleccioneu esta opció per a portar a terme una sostracció del fotograma fosc. Esta opció pot ser útil en imatges amb soroll, quan prèviament es pren un fotograma i se sostrau de la imatge enfocada abans de continuar el processament.</para>
+>: Marqueu esta opció per a portar a terme una sostracció del fotograma fosc. Esta opció pot ser útil en imatges amb soroll, quan prèviament es pren un fotograma i se sostrau de la imatge enfocada abans de continuar el processament.</para>
 
         <para
 >Si els píxels cremats causen problemes amb l'enfocament, seleccioneu Fotogrames foscos i configureu un <guilabel
@@ -788,18 +802,18 @@
               <para
 ><guilabel
 >Pos. d'inici adaptativa</guilabel
->: Seleccioneu-la per a permetre que l'enfocament adaptatiu calcule la posició inicial per a una execució d'enfocament automàtic. La posició inicial és l'última posició bona resolta per al filtre seleccionat, adaptada als canvis de l'entorn.</para>
+>: Marqueu-la per a permetre que l'enfocament adaptatiu calcule la posició inicial per a una execució d'enfocament automàtic. La posició inicial és l'última posició bona resolta per al filtre seleccionat, adaptada als canvis de l'entorn.</para>
 
               <para
 >Per exemple, si la posició actual de l'enfocador és 1000, la temperatura = 4C, i si se selecciona el filtre roig (l'última posició bona de l'enfocament per al roig serà 990 a 5C i Ekos està configurat per a moure +3 <guilabel
 >Marques / °C</guilabel
->). Llavors, si la posició d'inici adaptativa està desactivada, l'enfocament automàtic començarà a 1000. Però si se selecciona, l'enfocament automàtic començarà a 990 + (5 - 4) * 3 = 993.</para>
+>). Llavors, si la posició d'inici adaptativa està desactivada, l'enfocament automàtic començarà a 1000. Però si està marcada, l'enfocament automàtic començarà a 990 + (5 - 4) * 3 = 993.</para>
 
               <para
 >Esta característica és útil per a assegurar que l'enfocament automàtic comença des de prop del punt d'enfocament, el qual significarà una corba V més simètrica. És especialment útil quan es canvia entre filtres que tenen diferències grans en els punts d'enfocament.</para>
 
               <para
->És possible utilitzar esta característica per si mateixa sense l'enfocament adaptatiu. Senzillament seleccioneu la casella de selecció i deixeu les marques per grau C establides a zero. D'esta manera, la posició inicial de l'enfocament automàtic dependrà del filtre i iniciarà cada execució d'enfocament automàtic en el punt d'enfocament de l'última execució d'enfocament automàtic correcta per a este filtre.</para>
+>És possible utilitzar esta característica per si mateixa sense l'enfocament adaptatiu. Senzillament marqueu la casella de selecció i deixeu les marques per grau C establides a zero. D'esta manera, la posició inicial de l'enfocament automàtic dependrà del filtre i iniciarà cada execució d'enfocament automàtic en el punt d'enfocament de l'última execució d'enfocament automàtic correcta per a este filtre.</para>
             </listitem>
 
             <listitem>
@@ -895,7 +909,21 @@
 >Perfil SEP</guilabel
 >: Si l'algorisme de detecció d'estreles s'establix a <emphasis
 >SEP</emphasis
->, llavors trieu un perfil de paràmetres que s'utilitzarà amb l'algorisme. Es recomana utilitzar el perfil predeterminat 1-Focus-Default com a punt de partida.</para>
+>, llavors trieu un perfil de paràmetres que s'utilitzarà amb l'algorisme. Es recomana el següent:</para>
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default:</emphasis
+> per a instruments de visió que no tenen una obstrucció central com un refractor.</para>
+          </listitem>
+          <listitem>
+            <para
+><emphasis role="bold"
+>1-Focus-Default-Donut:</emphasis
+> per a instruments de visió que tenen una obstrucció central com un Newtonià, SCT, RASA, Ritchey-Chrétien, &etc;</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1078,13 +1106,13 @@
         <para
 ><guilabel
 >Utilitza les ponderacions</guilabel
->: Esta és una opció experimental només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba Hipèrbola i Paràbola. Requerix que se seleccione el Camp complet. L'opció calcularà la desviació estàndard de la Mesura de les estreles i utilitza el quadrat d'esta (matemàticament la variància) com a ponderació en el procés d'ajust de la corba. L'avantatge d'açò és que els punts de dades amb dades menys fiables i, per tant, les desviacions estàndard HFR més grans tindran menys pes que els punts de dades més fiables. Si no se selecciona, i per a totes les altres coincidències de corba on no es permet l'opció, tots els punts de dades tindran el mateix pes en el procés d'ajust de la corba.</para>
+>: Esta és una opció experimental només disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba Hipèrbola i Paràbola. Requerix que se seleccione el Camp complet. L'opció calcularà la desviació estàndard de la Mesura de les estreles i utilitza el quadrat d'esta (matemàticament la variància) com a ponderació en el procés d'ajust de la corba. L'avantatge d'açò és que els punts de dades amb dades menys fiables i, per tant, les desviacions estàndard HFR més grans tindran menys pes que els punts de dades més fiables. Si no es marca esta opció, i per a totes les altres coincidències de corba on no es permet l'opció, tots els punts de dades tindran el mateix pes en el procés d'ajust de la corba.</para>
 
         <para
 >La desviació estàndard es dibuixa en la corba V per a cada punt de dades com una barra d'error.</para>
 
         <para
->Es recomana seleccionar esta opció.</para>
+>Es recomana marcar esta opció.</para>
 
         <para
 >Per a més detalls, vegeu el <link linkend="Levenberg-Marquardt"
@@ -1108,7 +1136,7 @@
         <para
 ><guilabel
 >Refina l'ajust de la corba</guilabel
->: Esta opció només estarà disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si se selecciona, llavors al final de l'agranat dels punts de dades, Ekos ajustarà una corba i mesurarà la R². A continuació, aplicarà el criteri de Peirce basat en la metodologia de Gould per a la identificació de valors atípics. Vegeu el <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
+>: Esta opció només estarà disponible amb l'algorisme d'enfocament lineal d'1 pas i els ajustos de corba d'hipèrbola i paràbola. Si està marcada, llavors al final de l'agranat dels punts de dades, Ekos ajustarà una corba i mesurarà la R². A continuació, aplicarà el criteri de Peirce basat en la metodologia de Gould per a la identificació de valors atípics. Vegeu el <ulink url="https://en.wikipedia.org/wiki/Peirce%27s_criterion"
 >Criteri de Peirce</ulink
 > per a més detalls incloent el document original de Peirce i el document de Gould als quals es fa referència en les notes. Si el criteri de Peirce detecta 1 o més valors atípics, llavors s'intentarà un altre ajust de la corba amb els valors atípics eliminats. De nou es calcularà la R² i es compararà amb l'ajust original de la corba R². Si la R² és millor, llavors s'utilitzarà l'última execució, si no, s'utilitzarà l'ajust de la corba original (amb els valors atípics inclosos).</para>
 
@@ -1116,7 +1144,7 @@
 >Els valors atípics estan clarament marcats en la corba V amb una X a través del punt de dades.</para>
 
         <para
->Es recomana seleccionar esta opció.</para>
+>Es recomana marcar esta opció.</para>
       </listitem>
 
       <listitem>
@@ -1127,32 +1155,88 @@
       </listitem>
 
       <listitem>
-        <warning>
+        <para
+><guilabel
+>Mitjana de la comprovació HFR</guilabel
+>: Idea pareixent a <guilabel
+>Mitjana superior</guilabel
+>, però en este cas és el punt de dades de la comprovació HFR, del qual es fa la mitjana sobre el nombre de fotogrames seleccionat. A més, si l'<guilabel
+>Algoritme</guilabel
+> és «Lineal d'1 pas», també es fa una mitjana de l'últim punt de dades d'una execució d'enfocament automàtic, el qual és el punt de dades enfocat, en este nombre de fotogrames. Establiu un valor d'1 per a començar. Açò es podrà augmentar si hi ha problemes amb l'execució de l'enfocament automàtic de la comprovació HFR que s'activa per punts de dades perifèrics quan s'executa la comprovació de l'HFR.</para>
+      </listitem>
+
+      <listitem>
         <para
 ><guilabel
 >Reductor de dònuts</guilabel
->: Esta és una característica experimental i s'ha d'utilitzar amb precaució. La intenció del reductor de dònuts és millorar l'enfocament dels telescopis amb obstruccions centrals que creen estreles en forma de dònut quan es desenfoquen. En el futur és probable que es desenvolupen més funcionalitats per al reductor de dònuts. En esta versió, la funcionalitat està dirigida a l'arreplegada de dades per tal d'investigar mètodes per a millorar l'enfocament.</para>
-        </warning>
-      </listitem>
-      <listitem>
-        <warning>
+>: Esta és una característica experimental i s'ha d'utilitzar amb precaució. La intenció del reductor de dònuts és millorar l'enfocament dels telescopis amb obstruccions centrals que creen estreles en forma de dònut quan es desenfoquen, &pex;, Newtonians, SCT, RASA, Ritchey-Chrétien, &etc;</para>
+
         <para
 ><guilabel
->Factor de dilatació del temps</guilabel
->: Esta és una característica experimental del reductor de dònuts i s'ha d'utilitzar amb precaució. Esta característica escala el temps d'exposició durant l'enfocament automàtic a partir del valor d'exposició introduït al camp <guilabel
+>Reductor de dònuts</guilabel
+> només estarà disponible per a «Lineal d'1 pas», camins de «Fix» i «Barreja ZCE», ajustos de la corba en «Hipèrbola» i «Paràbola», així com mesures de l'enfocament de: HFR, HFR ajustada i FWHM.</para>
+
+        <para
+>Quan es marca <guilabel
+>Reductor de dònuts</guilabel
+>, l'ajustament de la corba intermitent se suspendrà i només s'activarà al final de l'agranat de l'enfocament. Açò permet que el reductor de dònuts processe millor els punts de dades de la vora que es puguen veure afectats pels dònuts.</para>
+
+        <para
+>Hi ha disponibles les subopcions següents a Reductor de dònuts:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Dilatació x del temps</guilabel
+>: Esta característica escala el temps d'exposició durant l'enfocament automàtic a partir del valor introduït al camp <guilabel
 >Exposició:</guilabel
 > per als punts de dades més allunyats de l'enfocament. Els punts de dades propers a l'enfocament es prenen amb una exposició sense escala. Per exemple, si l'enfocament està configurat amb una <guilabel
 >Exposició:</guilabel
-> de 2 s i el <guilabel
->Factor de dilatació del temps</guilabel
-> s'establix a 4, aleshores quan l'enfocament automàtic es desplace per a prendre el primer punt de dades, s'utilitzarà una <guilabel
+> de 2 s i una <guilabel
+>Dilatació x del temps</guilabel
+> s'establix a 4, aleshores quan l'enfocament automàtic es desplace per a prendre el seu primer punt de dades, s'utilitzarà una <guilabel
 >Exposició:</guilabel
 > de 2 s * 4 = 8 s. En cada punt de dades successiu, l'exposició es reduirà a 2 segons al voltant del punt d'enfocament òptim. A mesura que l'enfocador es moga fins a l'enfocament, l'exposició s'escalarà fins als 8 segons per a l'últim punt de dades.</para>
-        <para
+
+            <para
 >L'objectiu d'esta característica és fer augmentar la brillantor dels punts de dades desenfocats que seran més tènues que els punts de dades enfocats i, per tant, més difícil que la detecció d'estreles es resolga a partir del soroll de fons.</para>
-        <para
->Esta característica suposa que l'enfocament automàtic s'executa des de l'enfocament proper fins a l'òptim.</para>
-        </warning>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Rebuig dels valors atípics</guilabel
+>: Este és un factor per a escalar l'agressivitat de l'algoritme quan es marca <guilabel
+>Refina l'ajust de la corba</guilabel
+>. Com més alt siga el valor, més valors atípics seran exclosos del procés d'ajustament de la corba. El valor predeterminat és 0,2.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><guilabel
+>Explora per a la posició inicial</guilabel
+>: Marqueu esta opció perquè l'enfocament explore al voltant de la posició actual per a trobar una posició d'enfocament òptima aproximada. El propòsit d'açò és assegurar-se que l'enfocament automàtic s'inicia prop de la posició d'enfocament. Hi ha disponibles les subopcions següents:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para
+><guilabel
+>Nombre de punts de dades</guilabel
+>: El nombre de punts de dades que s'utilitzaran a cada exploració. 5 és un bon punt per a començar.</para>
+              </listitem>
+
+              <listitem>
+                <para
+><guilabel
+>Mida x del pas inicial</guilabel
+>: Un factor multiplicatiu que s'aplica a la <guilabel
+>Mida del pas inicial</guilabel
+> per a utilitzar-lo a «Explora» per a la «Posició inicial». El valor predeterminat és 1,0.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
@@ -1412,6 +1496,13 @@
   <listitem>
     <para
 ><guilabel
+>Retard de l'EA excessiva</guilabel
+>: Retard entre la finalització del moviment cap enfora d'una sobreexploració i el moviment cap endins. En general, la majoria dels enfocadors funcionen bé sense retard.</para>
+  </listitem>
+
+  <listitem>
+    <para
+><guilabel
 >Temps d'espera de la captura</guilabel
 >: La quantitat de temps en segons que s'esperarà fins que es reba una imatge capturada abans de declarar l'exhauriment. Açò només s'hauria d'activar si hi ha problemes amb la càmera durant el procés d'enfocament, de manera que establiu un valor prou alt per a que no es produïsca durant una operació normal.</para>
   </listitem>
@@ -1566,7 +1657,7 @@
     <para
 ><guilabel
 >Pantalla</guilabel
->: Seleccioneu esta casella per a mostrar la ZCE calculada en la corba V després d'una execució d'enfocament automàtic correcta. Es mostrarà com un bigot groc.</para>
+>: Marqueu esta casella per a mostrar la ZCE calculada en la corba V després d'una execució d'enfocament automàtic correcta. Es mostrarà com un bigot groc.</para>
   </listitem>
 
   <listitem>
@@ -1690,14 +1781,7 @@
     <para
 ><guilabel
 >Mida del pas</guilabel
->: És és la mida suggerida del pas d'enfocament que s'utilitzarà. Este és un paràmetre crítica. Està predeterminat des del diàleg «Zona crítica d'enfocament (ZCE)». Per tant, el primer que cal fer és establir este diàleg i obtindre un valor raonable per a la ZCE. De manera alternativa, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Múltiples passos enfora</guilabel
->: Són els múltiples passos enfora que s'aconsella utilitzar.</para>
+>: És és la mida suggerida del pas d'enfocament que s'utilitzarà. Este és un paràmetre crítica. Està predeterminat des del diàleg «Zona crítica d'enfocament (ZCE)» si sabeu com configurar-lo. De manera alternativa, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
     </listitem>
 
     <listitem>
@@ -1734,6 +1818,13 @@
 >: Establix els paràmetres a <link linkend="focus-mechanics"
 >Mecànica de l'enfocament</link
 >. En passar el ratolí per damunt d'esta etiqueta, veureu en el consell d'eina quins valors recomana l'«Assessor de l'enfocament».</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>Paràmetres del SEP</guilabel
+>: Establix el perfil de paràmetres del SEP adequat per al tipus d'instrument de visió adjunt al «Tren òptic» seleccionat. Si passeu el ratolí per damunt d'esta etiqueta, veureu en el consell d'eina quins valors recomana l'«Assessor d'enfocament».</para>
     </listitem>
 
     <listitem>
@@ -1799,7 +1890,7 @@
 >. Esta permet, per exemple, que els filtres de banda estreta utilitzen una exposició més llarga que els filtres de banda ampla durant l'enfocament automàtic.</para>
 
           <para
->Seleccioneu <guilabel
+>Marqueu <guilabel
 >Enfocament automàtic</guilabel
 > per a utilitzar el filtre d'esta manera.</para>
         </listitem>
@@ -1813,7 +1904,7 @@
 > sempre que es realitza una captura per a astrometria.</para>
 
           <para
->Per a utilitzar un filtre d'esta manera, seleccioneu <guilabel
+>Per a utilitzar un filtre d'esta manera, marqueu <guilabel
 >Enfocament automàtic</guilabel
 >, especifiqueu <guilabel
 >Bloqueja el filtre</guilabel
@@ -1878,7 +1969,7 @@
               <para
 ><guilabel
 >Enfocament automàtic</guilabel
->: Seleccioneu esta opció per a portar a terme un enfocament automàtic sempre que el filtre es canvie a este.</para>
+>: Marqueu esta opció per a portar a terme un enfocament automàtic sempre que el filtre es canvie a este.</para>
           </listitem>
           <listitem>
               <para
@@ -2388,7 +2479,7 @@
       <listitem>
         <para
 ><guibutton
->Perfil relatiu...</guibutton
+>Perfil relatiu…</guibutton
 >: Invoca el missatge emergent del <link linkend="focus-relative-profile"
 >Perfil relatiu</link
 >.</para>

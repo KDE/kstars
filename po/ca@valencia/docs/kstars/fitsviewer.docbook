@@ -16,7 +16,7 @@
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Obri una imatge...</guimenuitem
+>Obri una imatge…</guimenuitem
 ></menuchoice
 > o bé premeu <keycombo action="simul"
 >&Ctrl;<keycap
@@ -87,11 +87,11 @@
                 <listitem
 ><para
 >Les accions estàndard són <guimenuitem
->Obri...</guimenuitem
+>Obri…</guimenuitem
 >, <guimenuitem
 >Guarda</guimenuitem
 > i <guimenuitem
->Anomena i guarda...</guimenuitem
+>Anomena i guarda…</guimenuitem
 >.</para
 ></listitem>
                 <listitem
@@ -444,7 +444,7 @@
 ></listitem>
                 <listitem
 ><para
->Estreles retallades: si se selecciona el bote <guibutton
+>Estreles retallades: si es marca el bote <guibutton
 >Mostra el retallat</guibutton
 > en la barra d'eines principal, es mostrarà el nombre de píxels possiblement retallats. A dalt és de Retallats:403.</para
 ></listitem>
@@ -617,7 +617,7 @@
 ></listitem>
                 <listitem
 ><para
->Imatge: Per a qualsevol imatge on s'han detectat estreles, si se selecciona el botó <guibutton
+>Imatge: Per a qualsevol imatge on s'han detectat estreles, si es marca el botó <guibutton
 >Marca les estreles</guibutton
 > sobre la visualització de la imatge, les estreles detectades apareixeran en un cercle roig.</para>
     <screenshot>
@@ -650,7 +650,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>

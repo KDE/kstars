@@ -29,7 +29,7 @@
 > <guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Obri una imatge...</guimenuitem
+>Obri una imatge…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -44,7 +44,7 @@
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Guarda la imatge del cel...</guimenuitem
+>Guarda la imatge del cel…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -65,7 +65,7 @@
 > <guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Executa un script...</guimenuitem
+>Executa un script…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -80,7 +80,7 @@
 ><guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Assistent d'impressió...</guimenuitem
+>Assistent d'impressió…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -101,7 +101,7 @@
 > <guimenu
 >Fitxer</guimenu
 > <guimenuitem
->Imprimix...</guimenuitem
+>Imprimix…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -172,7 +172,7 @@
 > <guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix la data i l'hora...</guimenuitem
+>Establix la data i l'hora…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -352,7 +352,7 @@
 > <guimenu
 >Apunta</guimenu
 > <guimenuitem
->Establix manualment les coordenades...</guimenuitem
+>Establix manualment les coordenades…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -375,7 +375,7 @@
 > <guimenu
 >Apunta</guimenu
 > <guimenuitem
->Busca un objecte...</guimenuitem
+>Busca un objecte…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -490,7 +490,7 @@
 > <guimenu
 >Visualitza</guimenu
 > <guimenuitem
->Amplia a una mida angular...</guimenuitem
+>Amplia a una mida angular…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -710,7 +710,7 @@
 <listitem
 ><para
 >Un submenú que llista les superposicions del cel que hi ha habilitades. Seleccioneu l'element de menú <guimenuitem
->Configuració HiPS...</guimenuitem
+>Configuració HiPS…</guimenuitem
 > per a configurar les superposicions del cel de <link linkend="hips"
 >HiPS</link
 >.</para
@@ -773,7 +773,7 @@
 ></keycombo
 > </shortcut
 > <guimenuitem
->Llista l'equip...</guimenuitem
+>Llista l'equip…</guimenuitem
 ></menuchoice
 ></term>
     <listitem
@@ -787,7 +787,7 @@
 > i <guilabel
 >Filtre</guilabel
 >. Podeu afegir un equip nou, completant les seues característiques i prement el botó <guibutton
->Afig nou...</guibutton
+>Afig nou…</guibutton
 >. També pot guardar o eliminar un equip de la llista.</para
 ></listitem>
   </varlistentry>
@@ -818,7 +818,7 @@
 ></keycombo
 ></shortcut
 > <guimenuitem
->Gestor de dispositius...</guimenuitem
+>Gestor de dispositius…</guimenuitem
 ></menuchoice
 ></term>
     <listitem
@@ -830,7 +830,7 @@
   <varlistentry>
     <term
 ><guimenuitem
->Controladors personalitzats...</guimenuitem
+>Controladors personalitzats…</guimenuitem
 ></term>
     <listitem
 ><para
@@ -841,7 +841,7 @@
   <varlistentry>
     <term
 ><guimenuitem
->Quadro de control INDI...</guimenuitem
+>Quadro de control INDI…</guimenuitem
 ></term>
     <listitem
 ><para
@@ -928,7 +928,7 @@
 > <guimenu
 >Eines</guimenu
 > <guimenuitem
->Què hi ha d'interessant...</guimenuitem
+>Què hi ha d'interessant…</guimenuitem
 > </menuchoice
 ></term>
 <listitem>
@@ -1091,7 +1091,7 @@
 > <guimenu
 >Dades</guimenu
 > <guimenuitem
->Descarrega dades noves...</guimenuitem
+>Descarrega dades noves…</guimenuitem
 ></menuchoice
 ></term>
     <listitem
@@ -1182,7 +1182,7 @@
 > <guimenu
 >Observació</guimenu
 > <guimenuitem
->Executa la planificació de la sessió...</guimenuitem
+>Executa la planificació de la sessió…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1199,7 +1199,7 @@
 ><guimenu
 >Observació</guimenu
 > <guimenuitem
->Angle horari de Polaris...</guimenuitem
+>Angle horari de Polaris…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1326,7 +1326,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura les barres d'eines...</guimenuitem
+>Configura les barres d'eines…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
@@ -1343,7 +1343,7 @@
 ><guimenu
 >Configuració</guimenu
 ><guimenuitem
->Configura les barres d'eines...</guimenuitem
+>Configura les barres d'eines…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
@@ -1414,7 +1414,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura les barres d'eines...</guimenuitem
+>Configura les barres d'eines…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
@@ -1505,7 +1505,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura les barres d'eines...</guimenuitem
+>Configura les barres d'eines…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
@@ -1546,7 +1546,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura les barres d'eines...</guimenuitem
+>Configura les barres d'eines…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
@@ -1659,7 +1659,7 @@
     <listitem
 ><para
 >Este submenú llista els símbols de camp de visió (CDV) disponibles. El símbol CDV es dibuixa en el centre de la vista. El podeu escollir des de la llista de símbols predefinits (Prismàtic 7x35, Visor del punt roig, Un grau, HST WFPC2 o 30 m a 1,3 cm) marcant la seua casella de selecció específica o no utilitzar cap símbol desmarcant tots els elements de la llista de símbols. També podeu definir-ne un de propi (o modificar els existents) emprant l'element de menú <guimenuitem
->Edita els símbols de CDV...</guimenuitem
+>Edita els símbols de CDV…</guimenuitem
 >.</para
 ></listitem>
   </varlistentry>
@@ -1670,7 +1670,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guisubmenu
->Horitzó artificial...</guisubmenu
+>Horitzó artificial…</guisubmenu
 > </menuchoice
 ></term>
     <listitem
@@ -1701,7 +1701,7 @@
 > <guimenu
 >Configuració</guimenu
 > <guimenuitem
->Gestiona l'observador...</guimenuitem
+>Gestiona l'observador…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1734,7 +1734,7 @@
 > <guimenu
 >Configuració</guimenu
 > <guimenuitem
->Emplaçament geogràfic...</guimenuitem
+>Emplaçament geogràfic…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1751,7 +1751,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura les dreceres de teclat...</guimenuitem
+>Configura les dreceres de teclat…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1788,7 +1788,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1805,7 +1805,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Assistent d'iniciada...</guimenuitem
+>Assistent d'iniciada…</guimenuitem
 > </menuchoice
 ></term>
     <listitem
@@ -1846,7 +1846,7 @@
 ><guimenu
 >Dades</guimenu
 > <guimenuitem
->Descarrega les dades extres...</guimenuitem
+>Descarrega les dades extres…</guimenuitem
 ></menuchoice
 >.</para
 ></listitem>
@@ -1925,7 +1925,7 @@
 <listitem
 ><para
 ><guimenuitem
->Afig un indicador...</guimenuitem
+>Afig un indicador…</guimenuitem
 >: Obri la finestra «Gestor dels indicadors» a &kstars;. Ací podreu gestionar els vostres indicadors i utilitzar algunes de les característiques de &kstars;. La finestra «Gestor dels indicadors» s'obrirà per a un objecte seleccionat, els quadros de text <guilabel
 >Ascensió recta</guilabel
 > i <guilabel
@@ -1960,7 +1960,7 @@
 <listitem
 ><para
 ><guimenuitem
->Distància angular a...</guimenuitem
+>Distància angular a…</guimenuitem
 >: Entra en el «mode de distàncies angulars». En este mode es dibuixa una línia de punts des del primer objecte de l'objectiu fins a la posició actual del ratolí. Quan feu clic amb el &BDR; sobre un segon objecte, este mostrarà a prop del segon la distància angular entre tots dos objectes. Podeu prémer la tecla &Esc; per a eixir del mode de distàncies angulars sense mesurar cap angle. </para
 ></listitem>
 </varlistentry>
@@ -2907,7 +2907,7 @@
 > <guimenuitem
 >Barra d'estat</guimenuitem
 ></menuchoice
->. Ací podreu triar quins sistemes de coordenades mostrarà &kstars; en la barra d'estat. A més, pot amagar la barra d'estat desseleccionant la casella de selecció <guilabel
+>. Ací podreu triar quins sistemes de coordenades mostrarà &kstars; en la barra d'estat. A més, pot amagar la barra d'estat desmmarcant la casella de selecció <guilabel
 >Mostra la barra d'estat</guilabel
 >. </para
 ></listitem>

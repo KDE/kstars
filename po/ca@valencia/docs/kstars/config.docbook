@@ -113,7 +113,7 @@
 ><guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix l temps...</guimenuitem
+>Establix l temps…</guimenuitem
 ></menuchoice
 > o bé prement la icona <guiicon
 >Establix el temps</guiicon
@@ -155,7 +155,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 ></menuchoice
 >. La finestra es representa davall: <screenshot>
 <screeninfo
@@ -450,7 +450,7 @@
 ><guimenu
 >Dades</guimenu
 > <guimenuitem
->Descarrega dades noves...</guimenuitem
+>Descarrega dades noves…</guimenuitem
 ></menuchoice
 >. Podeu triar entre una llista de catàlegs, inclosos (però no limitat a): <itemizedlist>
 
@@ -671,7 +671,7 @@
 ></indexterm
 >La secció <guilabel
 >Estreles</guilabel
-> permet gestionar com es mostraran les estreles a &kstars;. Podeu optar per veure-les o no, seleccionant la casella de selecció <guilabel
+> permet gestionar com es mostraran les estreles a &kstars;. Podeu optar per veure-les o no, marcant la casella de selecció <guilabel
 >Catàlegs d'estreles</guilabel
 >. Si la marqueu, s'habilitaran múltiples opcions. Per tant, podreu establir quantes estreles es dibuixaran en el mapa emprant el control lliscant <guilabel
 >Densitat d'estreles:</guilabel
@@ -694,7 +694,7 @@
 ><guimenu
 >Dades</guimenu
 > <guimenuitem
->Descarrega dades noves...</guimenuitem
+>Descarrega dades noves…</guimenuitem
 ></menuchoice
 >, des d'on podreu descarregar els catàlegs proporcionats per l'equip de &kstars; i la comunitat a través del <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
 >repositori de paquets de catàlegs</ulink
@@ -706,7 +706,7 @@
 >Densitat d'etiquetes:</guilabel
 > controla la densitat percebuda d'etiquetes per als DSO. Si les etiquetes es comencen a superposar i el mapa celeste comença a veure's massa ple, proveu ajustant esta opció. El <guilabel
 >Límit mínim de brillantor amb el zoom al màxim/mínim:</guilabel
-> regula fins a quina magnitud es mostraran els objectes en el mapa celeste (una magnitud més alta és més feble). Si se selecciona <guilabel
+> regula fins a quina magnitud es mostraran els objectes en el mapa celeste (una magnitud més alta és més feble). Si es marca <guilabel
 >Mostra els objectes de magnitud desconeguda</guilabel
 >, sempre es mostraran els objectes de magnitud desconeguda. </para>
 <para
@@ -765,7 +765,7 @@
 ><guimenu
 >Dades</guimenu
 > <guimenuitem
->Gestiona els catàlegs DSO...</guimenuitem
+>Gestiona els catàlegs DSO…</guimenuitem
 ></menuchoice
 > i es mostra <link linkend="dso_manager"
 >a continuació</link
@@ -792,7 +792,7 @@
 ><guimenu
 >Dades</guimenu
 > <guimenuitem
->Descarrega dades noves...</guimenuitem
+>Descarrega dades noves…</guimenuitem
 ></menuchoice
 > generalment són immutables, mentre que els catàlegs creats per l'usuari no ho són. Sempre podreu clonar un catàleg perquè siga mutable. </para>
 <para
@@ -801,7 +801,7 @@
 <varlistentry id="import">
 <term
 ><guibutton
->Importa un catàleg...</guibutton
+>Importa un catàleg…</guibutton
 ></term>
 <listitem>
   <para
@@ -818,7 +818,7 @@
 <varlistentry>
 <term
 ><guibutton
->Crea un catàleg...</guibutton
+>Crea un catàleg…</guibutton
 ></term>
 <listitem>
   <para
@@ -855,7 +855,7 @@
 <varlistentry>
 <term
 ><guibutton
->Exporta...</guibutton
+>Exporta…</guibutton
 ></term>
 <listitem>
   <para
@@ -865,7 +865,7 @@
   <para
 >El fitxer resultant es pot importar amb el botó <link linkend="import"
 ><guibutton
->Importa un catàleg...</guibutton
+>Importa un catàleg…</guibutton
 ></link
 >. </para>
 </listitem>
@@ -874,7 +874,7 @@
 <varlistentry>
 <term
 ><guibutton
->Clona...</guibutton
+>Clona…</guibutton
 ></term>
 <listitem>
   <para
@@ -888,7 +888,7 @@
 ><guimenu
 >Dades</guimenu
 ><guimenuitem
->Descarrega dades noves...</guimenuitem
+>Descarrega dades noves…</guimenuitem
 ></menuchoice
 >. </para>
     </note>
@@ -912,7 +912,7 @@
 <varlistentry>
 <term
 ><guibutton
->Més...</guibutton
+>Més…</guibutton
 ></term>
 <listitem>
   <para
@@ -1015,7 +1015,7 @@
 <varlistentry>
 <term
 ><guibutton
->Edita...</guibutton
+>Edita…</guibutton
 ></term>
 <listitem>
   <para
@@ -1044,7 +1044,7 @@
     <term
 ><menuchoice>
         <guimenu
->Edita la metainformació del catàleg...</guimenu>
+>Edita la metainformació del catàleg…</guimenu>
     </menuchoice
 ></term>
     <listitem>
@@ -1056,7 +1056,7 @@
   <varlistentry>
     <term
 ><guibutton
->Afig un objecte...</guibutton
+>Afig un objecte…</guibutton
 ></term>
     <listitem>
       <para
@@ -1067,7 +1067,7 @@
   <varlistentry>
     <term
 ><guibutton
->Importa CSV...</guibutton
+>Importa CSV…</guibutton
 ></term>
     <listitem>
       <para
@@ -1250,7 +1250,7 @@
 > o <quote
 >;</quote
 >, però poden aparéixer altres separadors. Finalment, podeu optar per ometre una sèrie de línies al començament del fitxer. El botó <guibutton
->Selecciona/Llig...</guibutton
+>Selecciona/Llig…</guibutton
 > permet triar un fitxer CSV per a llegir-lo amb la configuració anterior. Després d'açò, el diàleg es veurà com en la captura de pantalla a continuació. </para>
 <screenshot>
 <screeninfo
@@ -1369,7 +1369,7 @@
 >Colors</guilabel
 > des de la mateixa finestra <guilabel
 >Configuració - &kstars;</guilabel
->. A més, els satèl·lits es poden dibuixar de la mateixa manera que les estreles regulars, seleccionant la casella de selecció <guilabel
+>. A més, els satèl·lits es poden dibuixar de la mateixa manera que les estreles regulars, marcant la casella de selecció <guilabel
 >Mostra tant els satèl·lits com les estreles</guilabel
 >. Per a només visualitzar els satèl·lits visibles des del vostre emplaçament geogràfic i el temps actuals, seleccioneu <guilabel
 >Mostra únicament els satèl·lits visibles</guilabel
@@ -1423,7 +1423,7 @@
 ></indexterm
 >La pàgina <guilabel
 >Supernoves</guilabel
-> permet decidir si es mostraran o no les supernoves, seleccionant la casella de selecció <guilabel
+> permet decidir si es mostraran o no les supernoves, marcant la casella de selecció <guilabel
 >Mostra les supernoves</guilabel
 >. De manera predeterminada, les supernoves es dibuixaran com una xicoteta marca <quote
 >+</quote
@@ -1705,7 +1705,7 @@
 >, la qual només utilitza capes de roig per a protegir la visió adaptada a l'obscuritat i la <guilabel
 >Lluna nova</guilabel
 >, un tema més realista i obscur. De manera addicional, podeu guardar la configuració actual com a un esquema de color a mida fent clic en el botó <guibutton
->Anomena i guarda...</guibutton
+>Anomena i guarda…</guibutton
 >. Se us demanarà per un nom per a l'esquema nou i aleshores este apareixerà en la llista en totes les sessions futures de &kstars;. Per a eliminar a un esquema personalitzat, senzillament ressalteu-lo en la llista i premeu el botó <guibutton
 >Elimina</guibutton
 >. </para>
@@ -2097,9 +2097,9 @@
 
 <para
 >La llista dels símbols de CDV definits es mostra a l'esquerra. A la dreta es troben els botons per a afegir-ne un de nou, editar les propietats del seleccionat i eliminar-lo de la llista. Cal tindre en compte que també podeu modificar o eliminar els quatre símbols predefinits (si els elimineu tots els predefinits, es restauraran la pròxima vegada que inicieu &kstars;). A davall d'estos tres botons es troba la pantalla de vista prèvia gràfica que mostra el símbol seleccionat en la llista. Quan premeu algun dels botons <guibutton
->Nou...</guibutton
+>Nou…</guibutton
 > o <guibutton
->Edita...</guibutton
+>Edita…</guibutton
 >, s'obrirà la finestra <guilabel
 >Símbol nou de CDV</guilabel
 >: </para>
@@ -2149,6 +2149,8 @@
   <para
 >Primer, trieu el sistema de coordenades que coincidisca amb la muntura. Per a un instrument muntat equatorialment, canvieu al mode de Coordenades equatorials al menú <guimenu
 >Visualitza</guimenu
+> o prement la tecla <keycap
+>Espai</keycap
 >. S'hauria de veure l'opció per a canviar el sistema de coordenades <guilabel
 >Canvia a la vista horitzontal (coordenades horitzontals)</guilabel
 > quan el mode actual siga coordenades equatorials. Per a un instrument muntat en altazimut o vista senzilla, canvieu a Coordenades horitzontals, de manera que l'opció al menú <guimenu
@@ -2163,27 +2165,37 @@
 ><guimenuitem
 >Vista emmirallada</guimenuitem
 ></menuchoice
+> o utilitzant la drecera <keycombo
+>&Ctrl;&Maj;<keycap
+>M</keycap
+></keycombo
 >. </para>
   <para
->A continuació, per a fer girar lliurement el mapa celeste, podeu mantindre premuda la tecla &Maj; i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostrarà la direcció nord i zenit en el punt, i que mostrarà l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla &Maj; o el botó del ratolí, es pararà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu sobre objectes diferents, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència serà el nord quan s'utilitzen les coordenades equatorials i el zenit quan s'utilitzen les coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. Per a les dues orientacions habituals, dret i invertides, el gir es pot establir o restablir utilitzant el submenú <menuchoice
+>A continuació, per a fer girar lliurement el mapa celeste, podeu mantindre premuda la tecla &Maj; i arrossegar el ratolí sobre el mapa celeste. Apareixerà una superposició temporal que mostrarà la direcció nord i zenit en el punt, i que mostrarà l'angle que fan amb la vertical en sentit contrari a les agulles del rellotge. Les orientacions del zenit i del nord s'actualitzaran a mesura que gireu el mapa celeste. Deixant anar la tecla &Maj; o el botó del ratolí, es pararà l'operació de gir. A mesura que desplaceu el mapa celeste o l'enfoqueu sobre objectes diferents, el gir que establiu es mantindrà com un desplaçament des de la direcció de referència. La direcció de referència serà el nord quan s'utilitzen les coordenades equatorials i el zenit quan s'utilitzen les coordenades horitzontals. Com a recordatori, la direcció de referència és sòlida i més brillant en la superposició temporal. La superposició temporal també marca la direcció Est, la qual serà en sentit horari des del nord quan es reflectisca i en sentit antihorari quan no es reflectisca. Per a les dues orientacions habituals, erecta i invertida, el gir es pot establir o restablir utilitzant el submenú <menuchoice
 ><guimenu
 >Visualitza</guimenu
 ><guisubmenu
 >Orientació del mapa celeste</guisubmenu
 ></menuchoice
->). Seleccioneu «Nord cap avall» o «Zenit cap avall» segons s'aplique per a establir una orientació de 180 graus. </para>
+>). Seleccioneu <guilabel
+>Nord cap avall</guilabel
+> o <guilabel
+>Zenit cap avall</guilabel
+> segons s'aplique per a establir una orientació de 180 graus. </para>
   <para
->Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgeu de fer una mica més de correcció. Per al cas comú d'un telescopi gran de Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), ajudarà una correcció addicional sistemàtica. Esta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que tinga el tub del telescopi amb el terra. De manera que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per a fer que el mapa celeste coincidisca amb la vista a través de l'ocular. Esta correcció s'activa seleccionant la casella de selecció <guilabel
->Correcció de l'observador estant dret</guilabel
-> des del submenú <menuchoice
+>Si esteu observant visualment a través de l'ocular d'un instrument, és possible que hàgeu de fer una mica més de correcció. Per al cas comú d'un telescopi gran de Dobson (o més generalment un disseny newtonià muntat en una muntura altazimutal), ajudarà una correcció sistemàtica addicional. Esta correcció s'aplica perquè estem en posició dreta mentre utilitzem el telescopi independentment de l'angle que tinga el tub del telescopi amb el terra. De manera que mentre movem el telescopi en altitud, cal aplicar una correcció addicional depenent de l'altitud de l'objecte per a fer que el mapa celeste coincidisca amb la vista a través de l'ocular on l'observador està dret. Esta correcció s'activa seleccionant l'opció correcta de «Correcció de l'observador estant dret» des del submenú <menuchoice
 ><guimenu
 >Visualitza</guimenu
 ><guisubmenu
 >Orientació del mapa celeste</guisubmenu
 ></menuchoice
+>. La correcció dependrà d'en quin costat ha col·locat el fabricant l'enfocador del telescopi. Si quan observeu just per damunt de l'horitzó a través de l'ocular, el cel es troba al costat dret de l'observador (i l'espill a l'esquerra), trieu l'opció <guilabel
+>Correcció de l'observador estant dret, mà dreta</guilabel 
+>. De la mateixa manera, si el cel es troba a l'esquerra de l'observador, trieu l'opció <guilabel
+>Correcció de l'observador estant dret, mà esquerra</guilabel 
 >. Esta correcció només té sentit en el mode de Coordenades horitzontals i estarà desactivada quan s'utilitzen les Coordenades equatorials. </para>
   <para
->Finalment, proporcionem alguns exemples de com utilitzar estes opcions de configuració per a diversos instruments: <itemizedlist>
+>Ara proporcionem alguns exemples de com utilitzar estes opcions de configuració per a diversos instruments: <itemizedlist>
       <listitem
 ><para
 >Observació a simple vista: Seleccioneu Coordenades horitzontals i una orientació de <guilabel
@@ -2218,7 +2230,13 @@
 ></listitem>
       <listitem
 ><para
->Utilitzant un instrument de visió buscador RACI en un telescopi muntat en altazimut: la mateixa configuració que amb l'observació a simple vista, excepte que potser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
+>Utilitzant un instrument de visió buscador RACI en un telescopi muntat en altazimut, mirant-hi directament: la mateixa configuració que amb l'observació a simple vista, excepte que potser haureu d'ajustar manualment una vegada l'orientació si el teniu muntat en un angle.</para
+></listitem>
+      <listitem
+><para
+>Utilitzant un visor de busca RACI en un telescopi muntat en altazimut, mirant-hi des del costat: a més de l'esmentat anteriorment, seleccioneu <guilabel
+>Correcció de l'observador estant dret, mà «…»</guilabel
+> per al costat adequat.</para
 ></listitem>
       <listitem
 ><para
@@ -2242,11 +2260,93 @@
 ></menuchoice
 >, seleccioneu <guilabel
 >Zenit cap avall</guilabel
-> i seleccioneu l'opció <guilabel
->Correcció de l'observador estant dret</guilabel
->. Després ajusteu manualment una vegada l'orientació per a fer coincidir la vista de l'ocular del telescopi, i d'ara en avant el seguiment hauria de ser correcte.</para
+> i activeu la correcció de l'observador estant dret. Després ajusteu manualment l'orientació una vegada perquè coincidisca amb la vista de l'ocular del telescopi, i d'ara en avant l'hauria de seguir correctament.</para
 ></listitem>
     </itemizedlist>
   </para>
+  <para
+>En astronomia visual és típic utilitzar com a mínim tres instruments diferents: l'ull humà, instrument de visió i el telescopi principal. Les orientacions d'estos tres tindran configuracions diferents i necessitaran modificacions freqüents de totes les opcions abans esmentades. Per a facilitar l'ajust d'estes configuracions, &kstars; proporciona la característica <guilabel
+>Vistes</guilabel
+>. S'hi pot accedir mitjançant el menú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Vistes</guisubmenu
+></menuchoice
+> i les opcions que conté. La vista <guilabel
+>Arbitrària</guilabel
+> no és una vista real, sinó l'opció que se selecciona quan es modifica manualment l'orientació del mapa celeste a través de les opcions descrites anteriorment. La resta de les vistes són vistes de bona fe. Se n'hi poden afegir noves o editar, eliminar o tornar a ordenar utilitzant l'opció <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Vistes</guisubmenu
+><guimenuitem
+>Edita les vistes…</guimenuitem
+></menuchoice
+>. En triar açò, apareixerà una finestra per a gestionar les vistes: </para>
+  <screenshot>
+    <screeninfo
+>Diàleg per a gestionar les vistes del mapa celeste</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="viewmanager.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Gestioneu les vistes del mapa celeste</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+  <para
+>Per a eliminar una vista, senzillament seleccioneu-la des de la llista i premeu el botó <guibutton
+>Elimina</guibutton
+>. Per a tornar a ordenar les vistes, utilitzeu el ratolí per a arrossegar la vista que voleu moure i deixeu-la anar a la seua destinació entre dues entrades. Per a editar una vista, seleccioneu-la des de la llista i feu clic en <guibutton
+>Edita…</guibutton
+>. Per a crear una vista nova, feu clic en el botó <guibutton
+>Nova…</guibutton
+>. </para>
+  <screenshot>
+    <screeninfo
+>Diàleg per a crear una vista nova o editar-ne una existent</screeninfo>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="newview.png" format="PNG"/>
+      </imageobject>
+      <textobject>
+	<phrase
+>Editeu o creeu una vista</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+
+  <para
+>El camp <guilabel
+>Nom:</guilabel
+> té un nom únic per a la vista. El <guilabel
+>Tipus de muntura:</guilabel
+> determina si la direcció de referència utilitzada per a l'orientació serà nord o zenit. Normalment, es configuraria segons el tipus de muntura utilitzada per al telescopi. Tot i açò, quan s'utilitzen refractors i telescopis Schmidt-Cassegrain (els SCT) amb una diagonal giratòria, l'observador tendirà a tornar a orientar l'ocular per a la seua comoditat, de manera que romanga en un angle fix respecte al zenit. Per esta raó, té sentit triar la muntura <guilabel
+>Altazimutal</guilabel
+> fins i tot quan el telescopi estiga en realitat sobre una muntura equatorial. Seleccioneu la muntura <guilabel
+>Equatorial</guilabel
+> quan no es reorienti l'enfocador, com quan s'utilitza una càmera en un telescopi muntat a l'equatorial. Per als telescopis newtonians que invertixen (&ead;, giren 180 graus però no canvien l'orientació lateral) la vista, trieu l'opció <guilabel
+>Invertida</guilabel
+>. Esta també és l'opció correcta per als refractors i els instruments de visió. Quan s'utilitza una diagonal de prisma erecte, el prisma aixeca la imatge invertida capgirant-la cap amunt i cap avall. Açò resulta en general en una imatge reflectida d'esquerra cap a dreta. Per tant, per als telescopis que utilitzen un prisma erecte, trieu <guilabel
+>Emmirallada</guilabel
+>. Un tipus especial de prisma anomenat prisma de sostre Amici no només erigix la imatge verticalment, sinó que també impedix que es reflectisca d'esquerra cap a dreta. Els instruments de visió que incorporen esta diagonal normalment s'anomenen instruments de visió d'«imatge correcta en angle recte» o visors RACI. Estes diagonals també es poden utilitzar en els refractors i SCT. Quan utilitzeu un prisma que produïsca una imatge correcta, trieu l'opció <guilabel
+>Correcta</guilabel
+>. L'opció <guilabel
+>Emmirallada sobre l'eix vertical</guilabel
+> no es troba als instruments d'astronomia típics, però es proporciona perquè estiga completa. Cal considerar dos factors més: un és l'angle de l'ocular pel que fa a la direcció de referència (nord/zenit), i l'altre és l'orientació del cap de l'observador (i noció de vertical) el qual expliquem quan descriguem la característica de correcció de l'observador estant dret. Estos dos aspectes es configuren utilitzant l'únic control lliscant anomenat <guilabel
+>Angle de l'ocular:</guilabel
+>. Dues il·lustracions davall el control lliscant mostren la interpretació d'este ajustament. A l'esquerra, vist de cara, més convenient per als telescopis newtonians, i a la dreta, vist des del darrere, més convenient per als refractors i Cassegrain. L'observador se situa naturalment a la banda que fa més còmode mirar a través de l'ocular, de manera que la correcció de l'observador estant dret s'ajustarà automàticament en conseqüència. Per als angles de l'ocular que siguen inferiors a -1 graus al control lliscant, s'aplicarà l'opció <guilabel
+>Correcció de l'observador estant dret, mà dreta</guilabel
+>. De manera similar, per als angles que siguen superiors a +1 graus, s'aplicarà l'opció <guilabel
+>Correcció de l'observador estant dret, mà esquerra</guilabel
+>. A 0 graus no s'aplicarà cap correcció. Esta correcció s'indica mitjançant la silueta d'una persona parada a la banda corresponent del telescopi. A la nostra convenció, la majoria dels Dobsonians fabricats en massa pareixen tindre una correcció al voltant de +45 graus. Per cert, esta correcció també és útil per a instruments de visió amb diagonals. És possible que vulgueu desactivar explícitament esta correcció fins i tot quan l'angle de l'ocular no siga zero. Açò és útil en cas que la vista provinga d'una càmera CCD que no canvia d'angle respecte al cos del telescopi (a diferència del cap d'un observador), o si la pantalla que mostra el mapa celeste de &kstars; està muntada al cos del telescopi. En este cas, es pot seleccionar l'opció <guilabel
+>Pantalla muntada en el telescopi</guilabel
+>. Per a l'efecte oposat, &ead;, quan l'angle de l'ocular és zero, però l'observador s'inclina per a mirar a través de l'ocular des d'un dels dos costats, ajusteu l'angle de l'ocular en més o menys 2 graus per a permetre esta correcció -la diferència xicoteta no es notarà-. Finalment, possiblement voldreu alternar la vista per a establir també el camp de visió del mapa celeste, per exemple, establir CDV d'un instrument de visió. En este cas, podreu marcar la casella <guilabel
+>Establix també el camp de visió</guilabel
+> i es podrà especificar un camp de visió aproximat per a ajustar-lo. Si no està marcada, el nivell de zoom del mapa celeste no es modificarà quan s'aplique esta vista. </para>
+
 </sect1
 >&hips; </chapter>

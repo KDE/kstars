@@ -32,9 +32,9 @@
 > (<quote
 >What's Up Tonight?</quote
 > - WUT) mostra una llista dels objectes que estaran visibles durant la nit des de qualsevol emplaçament, a qualsevol data. De manera predeterminada, la data i l'emplaçament són agafades de les opcions en la finestra principal, però les podeu canviar a qualsevol valor emprant els botons <guibutton
->Canvia la data...</guibutton
+>Canvia la data…</guibutton
 > i <guibutton
->Canvia l'emplaçament...</guibutton
+>Canvia l'emplaçament…</guibutton
 > a la part superior de la finestra. </para>
 <para
 >L'eina WUT també mostra un curt almanac de les dades per a la data seleccionada: les hores d'eixida i posta per al Sol i la Lluna, la duració de la nit, i la fracció de Lluna il·luminada. </para>
@@ -46,7 +46,7 @@
 >. Per exemple, en la captura de pantalla, hi ha seleccionada la categoria <guilabel
 >Planetes</guilabel
 >, i en esta es mostren tres planetes que estaran amunt en la nit seleccionada (Mart, Júpiter i Saturn). Quan se selecciona un objecte en la llista, les seues hores d'eixida, posta i de trànsit són mostrades en el quadro que hi ha davall, a la dreta (&ead;, Mart ix a les 17.13, transita a les 21.46 i es pon a les 02.16). A més, podeu prémer el botó <guibutton
->Detalls de l'objecte...</guibutton
+>Detalls de l'objecte…</guibutton
 > per a obrir la <link linkend="tool-details"
 >finestra amb informació detallada</link
 > per a este objecte. </para>

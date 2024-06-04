@@ -70,7 +70,7 @@
 > <guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Gestor de dispositius...</guimenuitem
+>Gestor de dispositius…</guimenuitem
 ></menuchoice
 >. </para>
 
@@ -159,7 +159,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Geogràfic...</guimenuitem
+>Geogràfic…</guimenuitem
 ></menuchoice
 >, o prement la icona en forma de <guiicon
 >Globus</guiicon
@@ -176,7 +176,7 @@
 ><guimenu
 >Temps</guimenu
 ><guimenuitem
->Establix el temps...</guimenuitem
+>Establix el temps…</guimenuitem
 ></menuchoice
 >, o prement la icona amb forma de <guiicon
 >rellotge</guiicon
@@ -199,7 +199,7 @@
 > <guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Gestor de dispositius...</guimenuitem
+>Gestor de dispositius…</guimenuitem
 ></menuchoice
 >. </para>
 </listitem>
@@ -339,7 +339,7 @@
 > <guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Quadro de control INDI...</guimenuitem
+>Quadro de control INDI…</guimenuitem
 ></menuchoice
 > i canvieu el port davall la pestanya del vostre dispositiu. </para
 ></important>
@@ -351,7 +351,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 ></menuchoice
 >. Utilitzant la pàgina <guilabel
 >INDI</guilabel
@@ -374,7 +374,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 ></menuchoice
 >. </para>
 
@@ -417,10 +417,10 @@
 ><guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Gestor de dispositius...</guimenuitem
+>Gestor de dispositius…</guimenuitem
 ></menuchoice
 >. Igualment a tots els dispositius INDI, podreu accedir a alguns dels controls dels dispositius des del mapa celeste. El dispositiu es pot controlar totalment des del <guimenuitem
->Quadro de control INDI...</guimenuitem
+>Quadro de control INDI…</guimenuitem
 >. </para>
 
 <para
@@ -448,7 +448,7 @@
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Configura &kstars;...</guimenuitem
+>Configura &kstars;…</guimenuitem
 ></menuchoice
 >. La finestra es dividix en diverses categories principals: General, Actualitzacions del dispositiu, Pantalla i Port del servidor: </para>
 
@@ -548,7 +548,7 @@
 ><para
 ><guilabel
 >Punt de mira del telescopi:</guilabel
-> Quan se selecciona, &kstars; mostrarà el punt de mira de l'objectiu del telescopi en el mapa celeste. El punt de mira es mostra després d'una connexió amb èxit amb el telescopi, i el seu emplaçament és actualitzat periòdicament. El nom del telescopi es mostra al costat del punt de mira. &kstars; mostrarà un punt de mira per a cada telescopi connectat. Per a canviar el color del punt de mira del telescopi, obriu la finestra <link linkend="viewops"
+> Quan es marca, &kstars; mostrarà el punt de mira de l'objectiu del telescopi en el mapa celeste. El punt de mira es mostra després d'una connexió amb èxit amb el telescopi, i el seu emplaçament és actualitzat periòdicament. El nom del telescopi es mostra al costat del punt de mira. &kstars; mostrarà un punt de mira per a cada telescopi connectat. Per a canviar el color del punt de mira del telescopi, obriu la finestra <link linkend="viewops"
 >Configuració de &kstars;</link
 >. Seleccioneu la pàgina <guilabel
 >Colors</guilabel
@@ -781,7 +781,7 @@
 > <guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Gestor de dispositius...</guimenuitem
+>Gestor de dispositius…</guimenuitem
 ></menuchoice
 > i feu clic damunt de la pestanya <guilabel
 >Client</guilabel
@@ -834,7 +834,7 @@
 >indiserver</command
 > [opcions] controlador [<filename
 >controlador</filename
-> «...»] </para>
+> «…»] </para>
 
 <para
 ><screen
@@ -904,7 +904,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 >port_remot</varname
 > [<filename
 >controlador</filename
->...]</para>
+>…]</para>
 
 <para
 >En segon pla, en la màquina local, s'iniciarà &kstars; i després obrirà un <guimenuitem
@@ -987,7 +987,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 > <guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Quadro de control INDI...</guimenuitem
+>Quadro de control INDI…</guimenuitem
 ></menuchoice
 >. </para>
 </answer>
@@ -1065,7 +1065,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 > <guisubmenu
 >Dispositius</guisubmenu
 > <guimenuitem
->Quadro de control INDI...</guimenuitem
+>Quadro de control INDI…</guimenuitem
 ></menuchoice
 > i establiu el port correcte en el diàleg <guilabel
 >Quadro de control INDI</guilabel

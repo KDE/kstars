@@ -209,7 +209,7 @@
 >aw</guilabel
 >) o l'amplària del píxel en segons d'arc (<guilabel
 >app</guilabel
->). Totes haurien de funcionar, però es recomana utilitzar segons d'arc per píxel. Normalment voldreu utilitzar esta restricció per a una solució més ràpida, de manera que recomanem que seleccioneu esta casella. El sistema no requerix que l'escala siga exactament correcta -permet desviacions del 10 fins al 20%-. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a la utilització d'una escala inexacta. Per tant, si teniu problemes en la resolució de plaques, possiblement voldreu desmarcar <guilabel
+>). Totes haurien de funcionar, però es recomana utilitzar segons d'arc per píxel. Normalment voldreu utilitzar esta restricció per a una solució més ràpida, de manera que recomanem que marqueu esta casella. El sistema no requerix que l'escala siga exactament correcta -permet desviacions del 10 fins al 20%-. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a la utilització d'una escala inexacta. Per tant, si teniu problemes en la resolució de plaques, possiblement voldreu desmarcar <guilabel
 >Utilitza l'escala</guilabel
 > fins que es resolguen estos problemes. Açò probablement donarà lloc a temps de solució més llargs. L'<guilabel
 >Actualització automàtica</guilabel
@@ -219,7 +219,7 @@
 >Radi:</guilabel
 >. La resolució de plaques fracassarà si la posició especificada està més enllà. Normalment voldreu activar <guilabel
 >Utilitza la posició</guilabel
-> per a una resolució més ràpida, així que vos recomanem que seleccioneu esta casella. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a l'ús d'una estimació deficient de la posició (&pex;, el telescopi està significativament desalineat). Per tant, si teniu problemes en la resolució de plaques, és possible que vulgueu desmarcar <guilabel
+> per a una resolució més ràpida, així que vos recomanem que marqueu esta casella. No obstant açò, sovint els problemes relacionats amb la resolució es deuen a l'ús d'una estimació deficient de la posició (&pex;, el telescopi està significativament desalineat). Per tant, si teniu problemes en la resolució de plaques, és possible que vulgueu desmarcar <guilabel
 >Utilitza la posició</guilabel
 > fins que es resolguen estos problemes. Com s'ha dit anteriorment, açò donarà lloc a temps de resolució més llargs. L'<guilabel
 >Actualització automàtica</guilabel
@@ -389,7 +389,7 @@
 ><para
 ><guilabel
 >Radi de la busca:</guilabel
-> és la distància des de la posició estimada en graus que es pot buscar si se selecciona <guilabel
+> és la distància des de la posició estimada en graus que es pot buscar si està marcada <guilabel
 >Utilitza la posició</guilabel
 >. </para
 ></listitem>
@@ -818,7 +818,7 @@
                 <listitem>
                     <para
 ><guilabel
->Carrega i orienta...</guilabel
+>Carrega i orienta…</guilabel
 >: Carrega un fitxer FITS o JPEG, el resol i després s'hi desplaça. </para>
                 </listitem>
             </itemizedlist>
