@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 01:55+0000\n"
-"PO-Revision-Date: 2024-05-19 09:47+0200\n"
+"PO-Revision-Date: 2024-06-04 14:21+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16311,10 +16311,9 @@ msgid "%1 Preview"
 msgstr "%1 Преглед"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "Калибриране"
+msgstr "Калибриране с плоско поле"
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -24229,15 +24228,13 @@ msgid "Mount Tracking"
 msgstr "Монтиране на проследяването"
 
 #: ekos/mount/mount.cpp:477
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Да"
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Не"
@@ -24653,25 +24650,21 @@ msgstr "Макс. височина:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
 #: ekos/mount/mountcontrolpanel.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "Превключване на контролния панел на монтировката"
+msgstr "Контролен панел на монтировката"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountcontrolpanel.ui:453
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Скорост"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:964
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "Състояние:"
+msgstr "Състояние: неактивно"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -69244,10 +69237,9 @@ msgid "Stop &Clock"
 msgstr "Спиране/пускане на &часовника"
 
 #: kstarsinit.cpp:199
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Run clock in realtime"
-msgstr "Стартиране на часовник"
+msgstr "Пускане на часовника в реално време"
 
 #: kstarsinit.cpp:219
 #, kde-format
