@@ -32,9 +32,10 @@ android_qt515:
 craft_appimage_qt515_x86_64:
   needs:
     - suse_tumbleweed_qt515
-    - build-and-test-stable
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
     - when: manual
       allow_failure: true
@@ -42,19 +43,22 @@ craft_appimage_qt515_x86_64:
 craft_windows_qt515_x86_64:
   needs:
     - windows_qt515
-    - build-and-test-stable
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
     - when: manual
       allow_failure: true
 
 craft_macos_x86_64:
   needs:
-    - build-and-test-stable
+    - suse_tumbleweed_qt515 # we don't have a macos check build
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       allow_failure: true # MacOS build is unstable
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
     - when: manual
       allow_failure: true
@@ -80,6 +84,8 @@ microsoftstore_qt515:
     when: always
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
     - allow_failure: true
       when: manual
   before_script:
