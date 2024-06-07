@@ -132,7 +132,7 @@ void NodeManager::authenticate()
 
     request.setUrl(authURL);
 
-    QJsonObject json = {{"username", m_Username}, {"password", m_Password}};
+    QJsonObject json = {{"username", m_Username}, {"password", m_Password}, {"machine_id", QString::fromUtf8(QSysInfo::machineUniqueId())}};
 
     auto postData = QJsonDocument(json).toJson(QJsonDocument::Compact);
 
