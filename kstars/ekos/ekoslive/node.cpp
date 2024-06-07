@@ -42,6 +42,8 @@ void Node::connectServer()
     query.addQueryItem("token", m_AuthResponse["token"].toString());
     if (m_AuthResponse.contains("remoteToken"))
         query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
+    if (m_AuthResponse.contains("machine_id"))
+        query.addQueryItem("machine_id", m_AuthResponse["machine_id"].toString());
     query.addQueryItem("cloudEnabled", Options::ekosLiveCloud() ? "true" : "false");
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
@@ -49,6 +51,7 @@ void Node::connectServer()
     query.addQueryItem("plan_id", m_AuthResponse["plan_id"].toString());
     query.addQueryItem("type", m_AuthResponse["type"].toString());
     query.addQueryItem("version", KSTARS_VERSION);
+
 
     requestURL.setPath(m_Path);
     requestURL.setQuery(query);
