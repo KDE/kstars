@@ -163,6 +163,9 @@ if (INDI_FOUND)
             # Mount
             ekos/mount/mount.ui
             ekos/mount/mountcontrolpanel.ui
+            ekos/mount/mountmotionwidget.ui
+            ekos/mount/mountpositionwidget.ui
+            ekos/mount/mounttargetwidget.ui
             ekos/mount/meridianflipstatuswidget.ui
             # Guide
             ekos/guide/guide.ui
@@ -296,6 +299,9 @@ if (INDI_FOUND)
             ekos/mount/mount.cpp
             ekos/mount/meridianflipstatuswidget.cpp
             ekos/mount/mountcontrolpanel.cpp
+            ekos/mount/mountmotionwidget.cpp
+            ekos/mount/mountpositionwidget.cpp
+            ekos/mount/mounttargetwidget.cpp
 
             # Align
             ekos/align/align.cpp

@@ -151,6 +151,19 @@ Mount::Mount()
     connect(m_ControlPanel.get(), &MountControlPanel::leftrightReversed, this, &Mount::setLeftRightReversed);
     connect(m_ControlPanel.get(), &MountControlPanel::center, this, &Mount::centerMount);
 
+    connect(mountMotion, &MountMotionWidget::newMotionCommand, this, &Mount::motionCommand);
+    connect(mountMotion, &MountMotionWidget::newSlewRate, this, &Mount::setSlewRate);
+    connect(mountMotion, &MountMotionWidget::aborted, this, &Mount::abort);
+    connect(mountMotion, &MountMotionWidget::updownReversed, this, &Mount::setUpDownReversed);
+    connect(mountMotion, &MountMotionWidget::leftrightReversed, this, &Mount::setLeftRightReversed);
+
+    // forward J2000 selection to the target widget, which does not have its own selection
+    connect(mountPosition, &MountPositionWidget::J2000Enabled, mountTarget, &MountTargetWidget::setJ2000Enabled);
+
+    // forward target commands
+    connect(mountTarget, &MountTargetWidget::slew, this, &Mount::slew);
+    connect(mountTarget, &MountTargetWidget::sync, this, &Mount::sync);
+
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
@@ -178,22 +191,22 @@ void Mount::setupParkUI()
         switch(m_Mount->parkStatus())
         {
             case ISD::PARK_PARKED:
-                parkingTitle->setTitle("Parked");
+                parkingLabel->setText("Parked");
                 break;
             case ISD::PARK_PARKING:
-                parkingTitle->setTitle("Parking");
+                parkingLabel->setText("Parking");
                 break;
             case ISD::PARK_UNPARKING:
-                parkingTitle->setTitle("Unparking");
+                parkingLabel->setText("Unparking");
                 break;
             case ISD::PARK_UNPARKED:
-                parkingTitle->setTitle("Unparked");
+                parkingLabel->setText("Unparked");
                 break;
             case ISD::PARK_ERROR:
-                parkingTitle->setTitle("Park Error");
+                parkingLabel->setText("Park Error");
                 break;
             case ISD::PARK_UNKNOWN:
-                parkingTitle->setTitle("Park Status Unknown");
+                parkingLabel->setText("Park Status Unknown");
                 break;
         }
         parkB->setEnabled(m_Mount->parkStatus() == ISD::PARK_UNPARKED);
@@ -203,7 +216,7 @@ void Mount::setupParkUI()
     {
         parkB->setEnabled(false);
         unparkB->setEnabled(false);
-        parkingTitle->setTitle("");
+        parkingLabel->setText("");
     }
 }
 
@@ -419,23 +432,9 @@ void Mount::syncTelescopeInfo()
         return;
 
     auto svp = m_Mount->getSwitch("TELESCOPE_SLEW_RATE");
-
-    if (svp)
-    {
-        int index = svp->findOnSwitchIndex();
-        m_ControlPanel->speedSliderObject->setEnabled(true);
-        m_ControlPanel->speedSliderObject->setMaximum(svp->count() - 1);
-        m_ControlPanel->speedSliderObject->setValue(index);
-
-        m_ControlPanel->speedLabelObject->setText(i18nc(libindi_strings_context, svp->at(index)->getLabel()));
-        m_ControlPanel->speedLabelObject->setEnabled(true);
-    }
-    else
-    {
-        // QtQuick
-        m_ControlPanel->speedSliderObject->setEnabled(false);
-        m_ControlPanel->speedLabelObject->setEnabled(false);
-    }
+    // sync speed info on the UI and tht separate mount control
+    mountMotion->syncSpeedInfo(svp);
+    m_ControlPanel->mountMotion->syncSpeedInfo(svp);
 
     if (m_Mount->canPark())
     {
@@ -461,7 +460,9 @@ void Mount::syncTelescopeInfo()
     svp = m_Mount->getSwitch("TELESCOPE_TRACK_STATE");
     if (svp)
     {
-        trackingGroup->setEnabled(true);
+        trackingLabel->setEnabled(true);
+        trackOnB->setEnabled(true);
+        trackOffB->setEnabled(true);
         trackOnB->disconnect();
         trackOffB->disconnect();
         connect(trackOnB, &QPushButton::clicked, this, [&]()
@@ -491,13 +492,15 @@ void Mount::syncTelescopeInfo()
     }
     else
     {
+        trackingLabel->setEnabled(false);
         trackOnB->setChecked(false);
+        trackOnB->setEnabled(false);
         trackOffB->setChecked(false);
-        trackingGroup->setEnabled(false);
+        trackOffB->setEnabled(false);
     }
 
-    m_ControlPanel->leftRightCheckObject->setProperty("checked", m_Mount->isReversed(AXIS_RA));
-    m_ControlPanel->upDownCheckObject->setProperty("checked", m_Mount->isReversed(AXIS_DE));
+    m_ControlPanel->mountMotion->leftRightCheckObject->setProperty("checked", m_Mount->isReversed(AXIS_RA));
+    m_ControlPanel->mountMotion->upDownCheckObject->setProperty("checked", m_Mount->isReversed(AXIS_DE));
 }
 
 void Mount::registerNewModule(const QString &name)
@@ -516,50 +519,15 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
     telescopeCoord = position;
 
+    // forward the position to the position widget and control panel
+    mountPosition->updateTelescopeCoords(position, ha);
+    m_ControlPanel->mountPosition->updateTelescopeCoords(position, ha);
+
     // No need to update coords if we are still parked.
     if (m_Status == ISD::Mount::MOUNT_PARKED && m_Status == m_Mount->status())
         return;
 
-    // Ekos Mount Tab coords are always in JNow
-    raOUT->setText(telescopeCoord.ra().toHMSString());
-    decOUT->setText(telescopeCoord.dec().toDMSString());
-
-    // Mount Control Panel coords depend on the switch
-    if (m_ControlPanel->jnowCheckObject->property("checked").toBool())
-    {
-        m_ControlPanel->raValueObject->setProperty("text", telescopeCoord.ra().toHMSString());
-        m_ControlPanel->deValueObject->setProperty("text", telescopeCoord.dec().toDMSString());
-    }
-    else
-    {
-        m_ControlPanel->raValueObject->setProperty("text", telescopeCoord.ra0().toHMSString());
-        m_ControlPanel->deValueObject->setProperty("text", telescopeCoord.dec0().toDMSString());
-    }
-
-    // Get horizontal coords
-    azOUT->setText(telescopeCoord.az().toDMSString());
-    m_ControlPanel->azValueObject->setProperty("text", telescopeCoord.az().toDMSString());
-    altOUT->setText(telescopeCoord.alt().toDMSString());
-    m_ControlPanel->altValueObject->setProperty("text", telescopeCoord.alt().toDMSString());
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    dms haSigned(ha);
-    QChar sgn('+');
-
-    if (haSigned.Hours() > 12.0)
-    {
-        haSigned.setH(24.0 - haSigned.Hours());
-        sgn = '-';
-    }
-
-    haOUT->setText(QString("%1%2").arg(sgn).arg(haSigned.toHMSString()));
-
-    m_ControlPanel->haValueObject->setProperty("text", haOUT->text());
-    lstOUT->setText(lst.toHMSString());
-
     double currentAlt = telescopeCoord.altRefracted().Degrees();
-
-    m_ControlPanel->zaValueObject->setProperty("text", dms(90 - currentAlt).toDMSString());
 
     if (minimumAltLimit->isEnabled() && (currentAlt < minimumAltLimit->value() || currentAlt > maximumAltLimit->value()))
     {
@@ -679,7 +647,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     }
 
     bool isTracking = (currentStatus == ISD::Mount::MOUNT_TRACKING);
-    if (trackingGroup->isEnabled())
+    if (trackOnB->isEnabled())
     {
         trackOnB->setChecked(isTracking);
         trackOffB->setChecked(!isTracking);
@@ -722,9 +690,8 @@ void Mount::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("TELESCOPE_SLEW_RATE"))
     {
         auto svp = prop.getSwitch();
-        auto index = svp->findOnSwitchIndex();
-        m_ControlPanel->speedSliderObject->setProperty("value", index);
-        m_ControlPanel->speedLabelObject->setProperty("text", i18nc(libindi_strings_context, svp->at(index)->getLabel()));
+        mountMotion->updateSpeedInfo(svp);
+        m_ControlPanel->mountMotion->updateSpeedInfo(svp);
     }
 }
 
@@ -966,7 +933,8 @@ bool Mount::hourAngleLimitEnabled()
 
 void Mount::setJ2000Enabled(bool enabled)
 {
-    m_ControlPanel->j2000CheckObject->setProperty("checked", enabled);
+    m_ControlPanel->setJ2000Enabled(enabled);
+    mountPosition->setJ2000Enabled(enabled);
 }
 
 bool Mount::gotoTarget(const QString &target)
@@ -985,6 +953,12 @@ bool Mount::gotoTarget(const QString &target)
 bool Mount::gotoTarget(const SkyPoint &target)
 {
     return slew(target.ra().Hours(), target.dec().Degrees());
+}
+
+void Mount::setTargetName(const QString &name)
+{
+    mountTarget->setTargetName(name);
+    m_ControlPanel->setTargetName(name);
 }
 
 bool Mount::syncTarget(const QString &target)
@@ -1014,6 +988,9 @@ bool Mount::slew(double RA, double DEC)
 
     mf_state->setTargetPosition(targetPosition);
     mf_state->resetMeridianFlip();
+
+    m_ControlPanel->setTargetPosition(new SkyPoint(RA, DEC));
+    mountTarget->setTargetPosition(new SkyPoint(RA, DEC));
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                targetPosition->ra().toHMSString() <<
@@ -1141,131 +1118,32 @@ void Mount::toggleMountToolBox()
 
 bool Mount::raDecToAzAlt(QString qsRA, QString qsDec)
 {
-    dms RA, Dec;
-
-    if (!RA.setFromString(qsRA, false) || !Dec.setFromString(qsDec, true))
-        return false;
-
-    SkyPoint targetCoord(RA, Dec);
-
-    targetCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(),
-                                       KStarsData::Instance()->geo()->lat());
-
-    m_ControlPanel->targetRATextObject->setProperty("text", targetCoord.az().toDMSString());
-    m_ControlPanel->targetDETextObject->setProperty("text", targetCoord.alt().toDMSString());
-
-    return true;
+    return m_ControlPanel->mountTarget->raDecToAzAlt(qsRA, qsDec);
 }
 
 bool  Mount::raDecToHaDec(QString qsRA)
 {
-    dms RA;
-
-    if (!RA.setFromString(qsRA, false))
-        return false;
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-
-    dms HA = (lst - RA + dms(360.0)).reduce();
-
-    QChar sgn('+');
-    if (HA.Hours() > 12.0)
-    {
-        HA.setH(24.0 - HA.Hours());
-        sgn = '-';
-    }
-
-    m_ControlPanel->targetRATextObject->setProperty("text", QString("%1%2").arg(sgn).arg(HA.toHMSString()));
-
-    return true;
+    return m_ControlPanel->mountTarget->raDecToHaDec(qsRA);
 }
 
 bool  Mount::azAltToRaDec(QString qsAz, QString qsAlt)
 {
-    dms Az, Alt;
-
-    if (!Az.setFromString(qsAz, true) || !Alt.setFromString(qsAlt, true))
-        return false;
-
-    SkyPoint targetCoord;
-    targetCoord.setAz(Az);
-    targetCoord.setAlt(Alt);
-
-    targetCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
-                                       KStars::Instance()->data()->geo()->lat());
-
-    m_ControlPanel->targetRATextObject->setProperty("text", targetCoord.ra().toHMSString());
-    m_ControlPanel->targetDETextObject->setProperty("text", targetCoord.dec().toDMSString());
-
-    return true;
+    return m_ControlPanel->mountTarget->azAltToRaDec(qsAz, qsAlt);
 }
 
 bool  Mount::azAltToHaDec(QString qsAz, QString qsAlt)
 {
-    dms Az, Alt;
-
-    if (!Az.setFromString(qsAz, true) || !Alt.setFromString(qsAlt, true))
-        return false;
-
-    SkyPoint targetCoord;
-    targetCoord.setAz(Az);
-    targetCoord.setAlt(Alt);
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-
-    targetCoord.HorizontalToEquatorial(&lst, KStars::Instance()->data()->geo()->lat());
-
-    dms HA = (lst - targetCoord.ra() + dms(360.0)).reduce();
-
-    QChar sgn('+');
-    if (HA.Hours() > 12.0)
-    {
-        HA.setH(24.0 - HA.Hours());
-        sgn = '-';
-    }
-
-    m_ControlPanel->targetRATextObject->setProperty("text", QString("%1%2").arg(sgn).arg(HA.toHMSString()));
-    m_ControlPanel->targetDETextObject->setProperty("text", targetCoord.dec().toDMSString());
-
-
-    return true;
+    return m_ControlPanel->mountTarget->azAltToHaDec(qsAz, qsAlt);
 }
 
 bool  Mount::haDecToRaDec(QString qsHA)
 {
-    dms HA;
-
-    if (!HA.setFromString(qsHA, false))
-        return false;
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    dms RA = (lst - HA + dms(360.0)).reduce();
-
-    m_ControlPanel->targetRATextObject->setProperty("text", RA.toHMSString());
-
-    return true;
+    return m_ControlPanel->mountTarget->haDecToRaDec(qsHA);
 }
 
 bool  Mount::haDecToAzAlt(QString qsHA, QString qsDec)
 {
-    dms HA, Dec;
-
-    if (!HA.setFromString(qsHA, false) || !Dec.setFromString(qsDec, true))
-        return false;
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    dms RA = (lst - HA + dms(360.0)).reduce();
-
-    SkyPoint targetCoord;
-    targetCoord.setRA(RA);
-    targetCoord.setDec(Dec);
-
-    targetCoord.EquatorialToHorizontal(&lst, KStars::Instance()->data()->geo()->lat());
-
-    m_ControlPanel->targetRATextObject->setProperty("text", targetCoord.az().toDMSString());
-    m_ControlPanel->targetDETextObject->setProperty("text", targetCoord.alt().toDMSString());
-
-    return true;
+    return m_ControlPanel->mountTarget->haDecToAzAlt(qsHA, qsDec);
 }
 
 //---- end: converters for target coordinate display in Mount Control box
@@ -1480,9 +1358,9 @@ void Mount::startAutoPark()
 void Mount::syncAxisReversed(INDI_EQ_AXIS axis, bool reversed)
 {
     if (axis == AXIS_RA)
-        m_ControlPanel->leftRightCheckObject->setProperty("checked", reversed);
+        m_ControlPanel->mountMotion->leftRightCheckObject->setProperty("checked", reversed);
     else
-        m_ControlPanel->upDownCheckObject->setProperty("checked", reversed);
+        m_ControlPanel->mountMotion->upDownCheckObject->setProperty("checked", reversed);
 }
 
 void Mount::setupOpticalTrainManager()

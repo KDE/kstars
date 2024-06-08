@@ -472,6 +472,11 @@ class Mount : public QWidget, public Ui::Mount
         bool gotoTarget(const SkyPoint &target);
 
         /**
+         * @brief setTargetName Set the name of the current target
+         */
+        void setTargetName(const QString &name);
+
+        /**
          * @brief syncAxisReversed Update Mount Control GUI on the reverse motion toggled state.
          * @param axis RA (left/right) or DE (up/down)
          * @param reversed True if reversed, false otherwise.

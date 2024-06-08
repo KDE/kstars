@@ -20,16 +20,24 @@ class MountControlPanel : public QDialog, public Ui::MountControlPanel
     public:
         MountControlPanel(QWidget *parent);
 
+        // set target position and target name
+        void setTargetPosition(SkyPoint *target)
+        {
+            mountTarget->setTargetPosition(target);
+        }
+        void setTargetName(const QString &name)
+        {
+            mountTarget->setTargetName(name);
+        }
+
+        void setJ2000Enabled(bool enabled);
+
     protected:
         void keyPressEvent(QKeyEvent *event) override;
         void keyReleaseEvent(QKeyEvent *event) override;
 
     private:
-        void findTarget();
-        void processSlew();
-        void processSync();
         bool processCoords(dms &ra, dms &de);
-        void updateTargetLabels(int id);
         bool m_isJ2000 {false};
 
     signals:

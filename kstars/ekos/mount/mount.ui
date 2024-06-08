@@ -6,11 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>672</width>
-    <height>397</height>
+    <width>822</width>
+    <height>578</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,10">
    <property name="spacing">
     <number>3</number>
    </property>
@@ -27,121 +33,55 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="mainLayout" stretch="2,1">
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <item>
+    <layout class="QGridLayout" name="mainLayout" rowstretch="0,0,1" columnstretch="1,1,0">
+     <item row="1" column="0">
       <layout class="QVBoxLayout" name="LeftLayout">
        <property name="spacing">
-        <number>3</number>
+        <number>12</number>
        </property>
        <item>
-        <layout class="QGridLayout" name="Train">
-         <item row="0" column="0">
-          <widget class="QLabel" name="trainLabel">
-           <property name="text">
-            <string>Train:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="trainB">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset theme="document-edit"/>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="2">
-          <widget class="QComboBox" name="opticalTrainCombo">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Optical Train</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QComboBox" name="timeSource"/>
-         </item>
-         <item row="2" column="2">
-          <widget class="QComboBox" name="locationSource"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="useTimeUpdate">
-           <property name="toolTip">
-            <string>Enable time synchronization upon connection between KStars and INDI</string>
-           </property>
-           <property name="text">
-            <string>Time Source:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="useGeographicUpdate">
-           <property name="toolTip">
-            <string>Enable geographic location synchronization upon connection between KStars and INDI</string>
-           </property>
-           <property name="text">
-            <string>Location Source:</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="minimumSize">
+          <size>
+           <width>270</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Position</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="Ekos::MountPositionWidget" name="mountPosition" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>270</width>
+              <height>100</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="Coordinates">
+        <widget class="QGroupBox" name="MeridianFlipGroup">
          <property name="title">
-          <string>Coordinates</string>
+          <string>Meridian Flip</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_2">
+         <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
           <property name="leftMargin">
            <number>3</number>
           </property>
@@ -157,635 +97,71 @@
           <property name="spacing">
            <number>3</number>
           </property>
+          <item row="2" column="0" colspan="3">
+           <widget class="QLabel" name="pierSideLabel">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
+           <widget class="QCheckBox" name="executeMeridianFlip">
             <property name="toolTip">
-             <string>Right Ascension</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>RA:</string>
+             <string>Flip if HA &gt;:</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="raOUT">
-            <property name="readOnly">
-             <bool>true</bool>
+           <widget class="QDoubleSpinBox" name="meridianFlipOffsetDegrees">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>RA position in degrees behind the meridian where the meridian flip should be activated.</string>
+            </property>
+            <property name="toolTipDuration">
+             <number>-1</number>
+            </property>
+            <property name="maximum">
+             <double>120.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>5.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>5.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="Ekos::MeridianFlipStatusWidget" name="meridianFlipStatusWidget" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLabel" name="label_7">
-            <property name="toolTip">
-             <string>Declination</string>
+           <widget class="QLabel" name="degLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="text">
-             <string>DEC:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLineEdit" name="decOUT">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="toolTip">
-             <string>Azimuth</string>
-            </property>
-            <property name="text">
-             <string>AZ:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="azOUT">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="label_8">
-            <property name="toolTip">
-             <string>Altitude</string>
-            </property>
-            <property name="text">
-             <string>ALT:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="altOUT">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="toolTip">
-             <string>Hour Angle</string>
-            </property>
-            <property name="text">
-             <string>HA:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="haOUT">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_10">
-            <property name="toolTip">
-             <string>Local Sidereal TIme</string>
-            </property>
-            <property name="text">
-             <string>LST:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLineEdit" name="lstOUT">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,1">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
-          <widget class="QGroupBox" name="MeridianFlipGroup">
-           <property name="title">
-            <string>Meridian Flip</string>
-           </property>
-           <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,1">
-            <property name="leftMargin">
-             <number>3</number>
-            </property>
-            <property name="topMargin">
-             <number>3</number>
-            </property>
-            <property name="rightMargin">
-             <number>3</number>
-            </property>
-            <property name="bottomMargin">
-             <number>3</number>
-            </property>
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QCheckBox" name="executeMeridianFlip">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Flip if HA &gt;:</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QDoubleSpinBox" name="meridianFlipOffsetDegrees">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>RA position in degrees behind the meridian where the meridian flip should be activated.</string>
-              </property>
-              <property name="toolTipDuration">
-               <number>-1</number>
-              </property>
-              <property name="maximum">
-               <double>120.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>5.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>5.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="degLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>deg</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="3">
-             <widget class="Ekos::MeridianFlipStatusWidget" name="meridianFlipStatusWidget" native="true">
-              <property name="minimumSize">
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="3">
-             <widget class="QLabel" name="pierSideLabel">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="title">
-            <string>Reset</string>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_6">
-            <property name="leftMargin">
-             <number>3</number>
-            </property>
-            <property name="topMargin">
-             <number>3</number>
-            </property>
-            <property name="rightMargin">
-             <number>3</number>
-            </property>
-            <property name="bottomMargin">
-             <number>3</number>
-            </property>
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="clearParkingB">
-              <property name="text">
-               <string>Clear Parking</string>
-              </property>
-              <property name="icon">
-               <iconset theme="xml-attribute-delete"/>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QPushButton" name="clearAlignmentModelB">
-              <property name="toolTip">
-               <string>Deletes all mount alignment points</string>
-              </property>
-              <property name="text">
-               <string>Clear  Model</string>
-              </property>
-              <property name="icon">
-               <iconset theme="edit-clear-all"/>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="2">
-             <widget class="QPushButton" name="purgeConfigB">
-              <property name="text">
-               <string>Purge All Configuration</string>
-              </property>
-              <property name="icon">
-               <iconset theme="delete"/>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="AutoPark">
-         <property name="title">
-          <string>Auto Park</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Park at:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTimeEdit" name="autoParkTime">
-            <property name="time">
-             <time>
-              <hour>3</hour>
-              <minute>0</minute>
-              <second>0</second>
-             </time>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="parkEveryDay">
-            <property name="toolTip">
-             <string>Automatically start the park timer on startup</string>
-            </property>
-            <property name="text">
-             <string>Every day</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="countdownLabel">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>26</pointsize>
-              <italic>false</italic>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
-            </property>
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="text">
-             <string>00:00:00</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="startTimerB">
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="media-playback-start"/>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="stopTimerB">
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="media-playback-stop"/>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="RightLayout">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="mountToolBoxB">
-         <property name="font">
-          <font>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Mount Control</string>
-         </property>
-         <property name="icon">
-          <iconset theme="draw-text"/>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+S</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-         <property name="default">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="trackingGroup">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="title">
-          <string>Tracking</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="trackOnB">
-            <property name="minimumSize">
-             <size>
-              <width>48</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>48</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-            </property>
-            <property name="text">
-             <string>ON</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="trackOffB">
-            <property name="minimumSize">
-             <size>
-              <width>48</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>48</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-            </property>
-            <property name="text">
-             <string>OFF</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="parkingTitle">
-         <property name="title">
-          <string>Parking Status</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <property name="spacing">
-           <number>3</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item alignment="Qt::AlignBottom">
-           <widget class="QPushButton" name="parkB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>64</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>64</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-            </property>
-            <property name="text">
-             <string>Park</string>
-            </property>
-           </widget>
-          </item>
-          <item alignment="Qt::AlignBottom">
-           <widget class="QPushButton" name="unparkB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>64</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>64</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:checked
-{
-background-color: maroon;
-border: 1px outset;
-font-weight:bold;
-}</string>
-            </property>
-            <property name="text">
-             <string>UnPark</string>
+             <string>deg</string>
             </property>
            </widget>
           </item>
@@ -806,23 +182,96 @@ font-weight:bold;
          <property name="title">
           <string>Limits</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
+         <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,0">
           <property name="leftMargin">
-           <number>3</number>
+           <number>9</number>
           </property>
           <property name="topMargin">
-           <number>3</number>
+           <number>9</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>9</number>
           </property>
           <property name="bottomMargin">
-           <number>3</number>
+           <number>9</number>
           </property>
           <property name="spacing">
-           <number>3</number>
+           <number>6</number>
           </property>
-          <item row="4" column="2">
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="minimumAltLimit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="minimum">
+             <double>-90.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>90.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>90.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="minAltLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.</string>
+            </property>
+            <property name="text">
+             <string>Min. Alt:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="maximumAltLimit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="minimum">
+             <double>-90.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>90.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>90.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QCheckBox" name="enableAltitudeLimits">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Enable Alt limits</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
            <widget class="QDoubleSpinBox" name="maximumHaLimit">
             <property name="enabled">
              <bool>false</bool>
@@ -850,103 +299,7 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="3">
-           <widget class="QCheckBox" name="enableAltitudeLimits">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Enable Alt limits</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="minimumAltLimit">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="minimum">
-             <double>-90.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>90.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>90.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="maximumAltLimit">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum telescope altitude limit. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="minimum">
-             <double>-90.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>90.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>90.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="minAltLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Minimum telescope altitude limit. If the telescope is below this limit, it will be commanded to stop.</string>
-            </property>
-            <property name="text">
-             <string>Min. Alt:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" colspan="2">
-           <widget class="QLabel" name="maxHaLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum Hour Angle limit if the mount has not flipped. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Max. HA (hours):</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QCheckBox" name="enableHaLimit">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount Hour Angle limit. Once enabled, Ekos monitors the mount's hour angle while slewing or tracking. If the mount slews/tracks past the limit while the Pier Side is in the state that does not allow that, it shall be commanded to stop and tracking will be turned off. Requires a mount that reports the pier side correctly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Enable HA limits</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="maxAltLabel">
             <property name="enabled">
              <bool>false</bool>
@@ -959,7 +312,30 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="3">
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="enableHaLimit">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount Hour Angle limit. Once enabled, Ekos monitors the mount's hour angle while slewing or tracking. If the mount slews/tracks past the limit while the Pier Side is in the state that does not allow that, it shall be commanded to stop and tracking will be turned off. Requires a mount that reports the pier side correctly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Enable HA limits</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="maxHaLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum Hour Angle limit if the mount has not flipped. If the telescope is above this limit, it will be commanded to stop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Max. HA (hours):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2">
            <widget class="Line" name="line_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -970,6 +346,601 @@ font-weight:bold;
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="1" column="1">
+      <layout class="QVBoxLayout" name="MiddleLayout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="targetGroup">
+         <property name="title">
+          <string>Target</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="Ekos::MountTargetWidget" name="mountTarget" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>140</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="Ekos::MountMotionWidget" name="mountMotion" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>235</width>
+           <height>230</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <layout class="QHBoxLayout" name="opticalTrainLayout">
+       <item>
+        <widget class="QLabel" name="trainLabel">
+         <property name="text">
+          <string>Train:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="opticalTrainCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Optical Train</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="trainB">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset theme="document-edit">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QGroupBox" name="AutoPark">
+       <property name="title">
+        <string>Auto Park</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Park at:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTimeEdit" name="autoParkTime">
+          <property name="time">
+           <time>
+            <hour>3</hour>
+            <minute>0</minute>
+            <second>0</second>
+           </time>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="parkEveryDay">
+          <property name="toolTip">
+           <string>Automatically start the park timer on startup</string>
+          </property>
+          <property name="text">
+           <string>Every day</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="countdownLabel">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+            <pointsize>26</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="lineWidth">
+           <number>2</number>
+          </property>
+          <property name="text">
+           <string>00:00:00</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="startTimerB">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset theme="media-playback-start">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="stopTimerB">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset theme="media-playback-stop">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="2" rowspan="2">
+      <layout class="QVBoxLayout" name="RightLayout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="mountStatusGroup">
+         <property name="title">
+          <string>Status</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="2">
+           <widget class="QPushButton" name="trackOffB">
+            <property name="minimumSize">
+             <size>
+              <width>64</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
+            <property name="text">
+             <string>OFF</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="trackOnB">
+            <property name="minimumSize">
+             <size>
+              <width>64</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>48</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
+            <property name="text">
+             <string>ON</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="parkB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>64</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
+            <property name="text">
+             <string>Park</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="unparkB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>64</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>48</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked
+{
+background-color: maroon;
+border: 1px outset;
+font-weight:bold;
+}</string>
+            </property>
+            <property name="text">
+             <string>UnPark</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="trackingLabel">
+            <property name="text">
+             <string>Tracking</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="parkingLabel">
+            <property name="text">
+             <string>Parking Status</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Sources</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="useTimeUpdate">
+            <property name="toolTip">
+             <string>Enable time synchronization upon connection between KStars and INDI</string>
+            </property>
+            <property name="text">
+             <string>Time:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="locationSource"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="timeSource"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="useGeographicUpdate">
+            <property name="toolTip">
+             <string>Enable geographic location synchronization upon connection between KStars and INDI</string>
+            </property>
+            <property name="text">
+             <string>Location:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Reset</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="clearAlignmentModelB">
+            <property name="toolTip">
+             <string>Deletes all mount alignment points</string>
+            </property>
+            <property name="text">
+             <string>Clear  Model</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-clear-all">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="clearParkingB">
+            <property name="text">
+             <string>Clear Parking</string>
+            </property>
+            <property name="icon">
+             <iconset theme="xml-attribute-delete">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QPushButton" name="purgeConfigB">
+            <property name="text">
+             <string>Purge All Configuration</string>
+            </property>
+            <property name="icon">
+             <iconset theme="delete">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mountToolBoxB">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Mount Control</string>
+       </property>
+       <property name="icon">
+        <iconset theme="draw-text">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -985,10 +956,13 @@ font-weight:bold;
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>0</height>
+       <height>20</height>
       </size>
      </property>
     </spacer>
@@ -1002,19 +976,27 @@ font-weight:bold;
    <header>ekos/mount/meridianflipstatuswidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>Ekos::MountMotionWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/mount/mountmotionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Ekos::MountPositionWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/mount/mountpositionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Ekos::MountTargetWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/mount/mounttargetwidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>mountToolBoxB</tabstop>
-  <tabstop>trackOnB</tabstop>
-  <tabstop>trackOffB</tabstop>
-  <tabstop>raOUT</tabstop>
-  <tabstop>decOUT</tabstop>
-  <tabstop>azOUT</tabstop>
-  <tabstop>altOUT</tabstop>
-  <tabstop>haOUT</tabstop>
-  <tabstop>lstOUT</tabstop>
   <tabstop>minimumAltLimit</tabstop>
-  <tabstop>maximumAltLimit</tabstop>
  </tabstops>
  <resources/>
  <connections/>

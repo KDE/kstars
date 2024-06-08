@@ -2712,6 +2712,9 @@ void Manager::setTarget(const QString &name)
     capturePreview->mountTarget->setVisible(!name.isEmpty());
     capturePreview->mountTarget->setText(name);
     ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", name}}));
+    // forward it to the mount tab
+    if (mountModule())
+        mountModule()->setTargetName(name);
 }
 
 void Manager::showEkosOptions()
