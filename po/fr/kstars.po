@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: kstars_3.7.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 01:55+0000\n"
-"PO-Revision-Date: 2024-05-07 12:17+0200\n"
+"PO-Revision-Date: 2024-06-01 17:48+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -59,10 +59,9 @@ msgid "Sky"
 msgstr "Ciel"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Sky Flat"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Flat du ciel"
+msgstr "Heure du ciel"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -10689,37 +10688,30 @@ msgstr "Entrée"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tracer la valeur de l'angle horaire de la monture.</"
-"p></body></html>"
+"<html><head/><body><p>Afficher le fichier .analyze précédent.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
-#, fuzzy, kde-format
-#| msgid "<"
+#, kde-format
 msgid "<<"
-msgstr "<"
+msgstr "<<"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to display the Petzval surface.</p></body></"
-#| "html>"
+#, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cochez pour afficher la surface de Petzval.</p></"
-"body></html>"
+"<html><head/><body><p>Afficher le prochian fichier .analyze.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
-#, fuzzy, kde-format
-#| msgid ">"
+#, kde-format
 msgid ">>"
 msgstr ">"
 
@@ -14864,10 +14856,9 @@ msgstr "Réinitialiser les paramètres de taille CCD à leurs valeurs par défau
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/camera.ui:247
-#, fuzzy, kde-format
-#| msgid "<b>Capture Settings</b>"
+#, kde-format
 msgid "Capture Settings"
-msgstr "<b>Options d'acquisition</b>"
+msgstr "Options d'acquisition"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/camera.ui:268
@@ -15059,8 +15050,7 @@ msgstr "Décalage caméra cible"
 
 #. i18n: ectx: property (text), widget (QLabel, darksLibraryLabel)
 #: ekos/capture/camera.ui:1020
-#, fuzzy, kde-format
-#| msgid "Dark Library"
+#, kde-format
 msgid "Dark Lib."
 msgstr "Bibliothèque de darks"
 
@@ -15075,7 +15065,7 @@ msgstr "Contrôle du rotateur"
 #: ekos/capture/camera.ui:1104
 #, kde-format
 msgid "Exp. Calc."
-msgstr ""
+msgstr "Calc. d'exp."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
 #: ekos/capture/camera.ui:1126
@@ -15115,10 +15105,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/camera.ui:1286
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Dark Flats"
-msgstr "Dark Flat"
+msgstr "Dark Flats"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/camera.ui:1314
@@ -15128,10 +15117,9 @@ msgstr "Gérer les propriétés INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
 #: ekos/capture/camera.ui:1339
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Val."
-msgstr "Personnalisé"
+msgstr "Valeurs personnalisées"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/camera.ui:1355
@@ -15202,10 +15190,9 @@ msgstr "Régulation de température"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1635
-#, fuzzy, kde-format
-#| msgid "Filter Settings"
+#, kde-format
 msgid "File Settings"
-msgstr "Réglages des filtres"
+msgstr "Réglages du fichier"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/camera.ui:1663
@@ -15582,9 +15569,7 @@ msgstr "ISO/Gain"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/camera.ui:2290
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Vidéo"
 
@@ -15929,10 +15914,9 @@ msgid "Warning: Dithering failed."
 msgstr "Avertissement : échec du décalage."
 
 #: ekos/capture/capturemodulestate.cpp:295
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap error."
-msgstr "Parcage du capuchon anti-poussière effectuée."
+msgstr "Erreur du capuchon anti-poussière."
 
 #: ekos/capture/capturemodulestate.cpp:299
 #, kde-format
@@ -16234,10 +16218,9 @@ msgid "Failed to set binning."
 msgstr "Impossible de définir un regroupement de pixels (binning)."
 
 #: ekos/capture/captureprocess.cpp:991
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "file saved to %1"
-msgstr "Fichier enregistré dans %1"
+msgstr "fichier enregistré dans %1"
 
 #: ekos/capture/captureprocess.cpp:1001
 #, kde-format
@@ -16354,6 +16337,8 @@ msgstr "Durée d'exposition écoulée. Annulation…"
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
+"Délai d'exposition. Plus de 3 délais ont été détecté, le pilote sera "
+"redémarré."
 
 #: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5323
 #: ekos/guide/guide.cpp:992
@@ -16362,10 +16347,9 @@ msgid "Exposure timeout. Restarting exposure..."
 msgstr "Durée d'exposition écoulée. Redémarrage de l'exposition…"
 
 #: ekos/capture/captureprocess.cpp:2073
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting..."
+#, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
-msgstr "Durée d'exposition écoulée. Annulation…"
+msgstr "Durée d'exposition écoulée. Trop. Annulation…"
 
 #: ekos/capture/captureprocess.cpp:2151
 #, kde-format
@@ -16409,10 +16393,9 @@ msgid "%1 Preview"
 msgstr "Aperçu %1"
 
 #: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Flat Calibration"
-msgstr "Calibration"
+msgstr "Calibration Flat"
 
 #: ekos/capture/captureprocess.cpp:2584
 #, kde-format
@@ -17520,10 +17503,9 @@ msgstr "Modificateur de séquence d'acquisition"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceEditorComment)
 #: ekos/capture/sequenceeditorui.ui:26
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "<comment>"
-msgstr "Commentaire"
+msgstr "<Commentaire>"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -18967,10 +18949,9 @@ msgid "Capture in progress, retrying in 1s..."
 msgstr "Acquisition en cours, nouvel essai dans 1 seconde…"
 
 #: ekos/focus/focus.cpp:1413
-#, fuzzy, kde-format
-#| msgid "Capture in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Acquisition en cours, nouvel essai dans 1 seconde…"
+msgstr "Détection de l'étoile en cours, nouvel essai dans 1 seconde…"
 
 #: ekos/focus/focus.cpp:1446
 #, kde-format
@@ -21487,10 +21468,9 @@ msgid "Error: lost connection to CCD."
 msgstr "Erreur : perte de connexion au CCD."
 
 #: ekos/guide/guide.cpp:986
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Aborting..."
+#, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
-msgstr "Durée d'exposition écoulée. Annulation…"
+msgstr "Durée d'exposition écoulée, opération suspendue et ignorée…"
 
 #: ekos/guide/guide.cpp:1014
 #, kde-format
@@ -21508,10 +21488,9 @@ msgid "Exposure timeout. Aborting Calibration."
 msgstr "Délai d'exposition dépassé. Annulation de la calibration."
 
 #: ekos/guide/guide.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Exposure timeout. Restarting exposure..."
+#, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
-msgstr "Durée d'exposition écoulée. Redémarrage de l'exposition…"
+msgstr "Durée d'exposition écoulée. Trop d'essais. Redémarrage du pilote…"
 
 #: ekos/guide/guide.cpp:1375
 #, kde-format
@@ -24382,15 +24361,13 @@ msgid "Mount Tracking"
 msgstr "Suivi de la monture"
 
 #: ekos/mount/mount.cpp:477
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Oui"
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Non"
@@ -24489,21 +24466,19 @@ msgid "Starting auto park..."
 msgstr "Démarrage de la mise en sécurité automatique…"
 
 #: ekos/mount/mount.cpp:1967
-#, fuzzy, kde-format
-#| msgid "Updating from directory: %1"
+#, kde-format
 msgid "Updating master time source to %1."
-msgstr "Mise à jour depuis le dossier : %1"
+msgstr "Mise à jour de la source de l'heure vers %1"
 
 #: ekos/mount/mount.cpp:1988
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
-msgstr ""
+msgstr "Mise à jour de la source de la position vers %1. Mise à jour du GPS…"
 
 #: ekos/mount/mount.cpp:1996
-#, fuzzy, kde-format
-#| msgid "Site location updated to %1."
+#, kde-format
 msgid "Updating master location source to %1."
-msgstr "Position du site mis à jour à %1."
+msgstr "Mise à jour de la source de la position vers %1."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:120
@@ -24514,10 +24489,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #: ekos/mount/mount.ui:123
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Time Source:"
-msgstr "Délai limite"
+msgstr "Source de l'heure"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:130
@@ -24531,10 +24505,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:133
-#, fuzzy, kde-format
-#| msgid "Location:"
+#, kde-format
 msgid "Location Source:"
-msgstr "Position"
+msgstr "Source de la position"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/mount/mount.ui:183
@@ -24809,25 +24782,21 @@ msgstr "Alt max"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
 #: ekos/mount/mountcontrolpanel.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "(Dés)active le tableau de bord de la monture"
+msgstr "Tableau de bord de la monture"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountcontrolpanel.ui:453
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Vitesse"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:964
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "État"
+msgstr "État : inactif"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -25367,10 +25336,9 @@ msgid "You must restart KStars for this change to take effect."
 msgstr "Vous devez redémarrer KStars pour que cette modification prenne effet."
 
 #: ekos/opsekos.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set an alternate base directory for your captured images"
+#, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "Définir un dossier racine alternatif pour vos images"
+msgstr "Définir un dossier racine alternatif pour les images du module Analyse"
 
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
 #: ekos/opsekos.ui:14
@@ -25929,26 +25897,28 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Si le module Analyse est en cours et qu'Ekos est "
+"déconnecté puis reconnecté, un nouveau fichier d'analyse .analyze sera créé "
+"et utilisé, et les graphiques du module Analyse n'afficheront que la "
+"nouvelle session.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:923
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr ""
+msgstr "Redémarrez le module Analyse quand Ekos redémarre"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:947
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Alternative Image Directory: "
-msgstr "Dossier racine alternatif pour les fichiers d'images"
+msgstr "Dossier alternatif pour les fichiers d'images"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:966
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "Dossier racine alternatif pour les fichiers d'images"
+msgstr "Dossier alternatif pour les fichiers d'images"
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -30458,7 +30428,7 @@ msgstr "Zoomer pour ajuster"
 #: fitsviewer/fitsviewer.cpp:272
 #, kde-format
 msgid "Fit Page to Zoom"
-msgstr ""
+msgstr "Zoom à la taille de la page"
 
 #: fitsviewer/fitsviewer.cpp:277
 #, kde-format
@@ -33691,12 +33661,14 @@ msgstr "Notifications de messages INDI"
 #, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
 msgstr ""
+"Source principale pour l'heure (KStars, monture ou un périphérique INDI)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:215
 #, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
 msgstr ""
+"Source principale pour la position (KStars, monture ou périphérique INDI)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:219
@@ -34698,17 +34670,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "Simuler la vue à l'oculaire"
+msgstr "Simuler la journée"
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Si cette case est cochée, Mars sera dessinée sur la carte."
+msgstr "Si cette case est cochée, le ciel sera clair durant la journée."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
@@ -36025,17 +35995,15 @@ msgstr "La couleur employée pour l'arrière-plan du ciel."
 
 #. i18n: ectx: label, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1104
-#, fuzzy, kde-format
-#| msgid "Color of supernovae"
+#, kde-format
 msgid "Color of sky during the daytime"
-msgstr "Couleur des supernova"
+msgstr "Couleur du ciel durant la journée"
 
 #. i18n: ectx: whatsthis, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1105
-#, fuzzy, kde-format
-#| msgid "The color for the sky background."
+#, kde-format
 msgid "The color for the sky background during daytime."
-msgstr "La couleur employée pour l'arrière-plan du ciel."
+msgstr "La couleur du fond du ciel durant la journée."
 
 #. i18n: ectx: label, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1109
@@ -37159,10 +37127,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1569
-#, fuzzy, kde-format
-#| msgid ""
-#| "JSON storing the assignment of profile indices to module profiles for the "
-#| "FITS Viewer Solver"
+#, kde-format
 msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
@@ -39974,12 +39939,15 @@ msgid ""
 "analyze file will be created and written to, and the graphs in Analyze will "
 "only show the new session."
 msgstr ""
+"Si le module Analyse est en cours d'exécution et qu'Ekos est déconnecté puis "
+"reconnecté, un nouveau fichier .analyze sera créé et utilisé ; les "
+"graphiques du module Analyze ne montreront que cette nouvelle session."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeImageDirectory), group (Analyze)
 #: kstars.kcfg:3174
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
-msgstr ""
+msgstr "Dossier alternatif pour la recherche de fichiers image .analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3178
@@ -69997,17 +69965,15 @@ msgid "Toggle opaque ground"
 msgstr "(Dés)active le sol opaque"
 
 #: kstarsinit.cpp:617
-#, fuzzy, kde-format
-#| msgid "Lead time"
+#, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
-msgstr "Durée totale"
+msgstr "Journée"
 
 #: kstarsinit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Toggle Ceiling"
+#, kde-format
 msgid "Toggle daytime simulation"
-msgstr "(Dés)activer le plafond"
+msgstr "(Dés)activer la simulation de la journée"
 
 #: kstarsinit.cpp:621
 #, kde-format
@@ -76996,17 +76962,15 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Si cette case est cochée, Mars sera dessinée sur la carte."
+msgstr "Si cette case est cochée, le ciel sera clair durant la journée."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "Simuler la vue à l'oculaire"
+msgstr "Simuler la journée"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
