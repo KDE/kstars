@@ -14,42 +14,12 @@
    <item>
     <widget class="QTabWidget" name="cameraTabs">
      <property name="currentIndex">
-      <number>0</number>
+      <number>-1</number>
      </property>
-     <widget class="QWidget" name="camera_1">
-      <attribute name="title">
-       <string>Camera</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="wholeLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="Ekos::Camera" name="cameraUI" native="true"/>
-       </item>
-      </layout>
-     </widget>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Ekos::Camera</class>
-   <extends>QWidget</extends>
-   <header>ekos/capture/camera.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

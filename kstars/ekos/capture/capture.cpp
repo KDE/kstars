@@ -46,9 +46,8 @@ namespace Ekos
 Capture::Capture(bool standAlone)
 {
     setupUi(this);
-    cameraUI->m_standAlone = standAlone;
 
-    if (!cameraUI->m_standAlone)
+    if (!standAlone)
     {
         qRegisterMetaType<CaptureState>("CaptureState");
         qDBusRegisterMetaType<CaptureState>();
@@ -58,10 +57,9 @@ Capture::Capture(bool standAlone)
     m_captureDeviceAdaptor.reset(new CaptureDeviceAdaptor());
     m_captureProcess.reset(new CaptureProcess(state(), m_captureDeviceAdaptor));
 
-    cameraUI->setDeviceAdaptor(m_captureDeviceAdaptor);
-    cameraUI->setCaptureProcess(m_captureProcess);
-    cameraUI->setCaptureModuleState(m_captureModuleState);
-    cameraUI->initCamera();
+    // Add a single camera
+    cameraUI = addCamera();
+    cameraUI->m_standAlone = standAlone;
 
     if (!cameraUI->m_standAlone)
     {
@@ -76,39 +74,6 @@ Capture::Capture(bool standAlone)
         // ensure that the mount interface is present
         registerNewModule("Mount");
     }
-
-    //isAutoGuiding   = false;
-
-    // connect(darkB, &QAbstractButton::toggled, this, [this]()
-    // {
-    //     Options::setAutoDark(darkB->isChecked());
-    // });
-
-    //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Capture::checkSeqFile(QString)));
-
-    // connect(cameraUI->rotatorB, &QPushButton::clicked, cameraUI->m_RotatorControlPanel.get(), &Capture::show);
-
-    // forward signals from the camera
-    connect(cameraUI, &Camera::newLog, this, &Capture::appendLogText);
-    connect(cameraUI, &Camera::sequenceChanged, this, &Capture::sequenceChanged);
-    connect(cameraUI, &Camera::newLocalPreview, this, &Capture::newLocalPreview);
-    connect(cameraUI, &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);
-    connect(cameraUI, &Camera::trainChanged, this, &Capture::trainChanged);
-    connect(cameraUI, &Camera::settingsUpdated, this, &Capture::settingsUpdated);
-    connect(cameraUI, &Camera::filterManagerUpdated, this, &Capture::filterManagerUpdated);
-    connect(cameraUI, &Camera::newFilterStatus, this, &Capture::newFilterStatus);
-    connect(cameraUI, &Camera::ready, this, &Capture::ready);
-    connect(cameraUI, &Camera::newExposureProgress, this, &Capture::newExposureProgress);
-    connect(cameraUI, &Camera::captureComplete, this, &Capture::captureComplete);
-    connect(cameraUI, &Camera::captureStarting, this, &Capture::captureStarting);
-    connect(cameraUI, &Camera::captureAborted, this, &Capture::captureAborted);
-    connect(cameraUI, &Camera::checkFocus, this, &Capture::checkFocus);
-    connect(cameraUI, &Camera::newImage, this, &Capture::newImage);
-    connect(cameraUI, &Camera::runAutoFocus, this, &Capture::runAutoFocus);
-    connect(cameraUI, &Camera::resetFocus, this, &Capture::resetFocus);
-    connect(cameraUI, &Camera::abortFocus, this, &Capture::abortFocus);
-    connect(cameraUI, &Camera::adaptiveFocus, this, &Capture::adaptiveFocus);
-    connect(cameraUI, &Camera::captureTarget, this, &Capture::captureTarget);
 
     DarkLibrary::Instance()->setCaptureModule(this);
 
@@ -143,8 +108,42 @@ Capture::Capture(bool standAlone)
 
     // Generate Meridian Flip State
     getMeridianFlipState();
+}
 
-    //Update the filename preview
+
+Camera* Capture::addCamera()
+{
+    Camera *camera = new Camera();
+    cameraTabs->addTab(camera, "new Camera");
+
+    camera->setDeviceAdaptor(m_captureDeviceAdaptor);
+    camera->setCaptureProcess(m_captureProcess);
+    camera->setCaptureModuleState(m_captureModuleState);
+    camera->initCamera();
+
+    // forward signals from the camera
+    connect(camera, &Camera::newLog, this, &Capture::appendLogText);
+    connect(camera, &Camera::sequenceChanged, this, &Capture::sequenceChanged);
+    connect(camera, &Camera::newLocalPreview, this, &Capture::newLocalPreview);
+    connect(camera, &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);
+    connect(camera, &Camera::trainChanged, this, &Capture::trainChanged);
+    connect(camera, &Camera::settingsUpdated, this, &Capture::settingsUpdated);
+    connect(camera, &Camera::filterManagerUpdated, this, &Capture::filterManagerUpdated);
+    connect(camera, &Camera::newFilterStatus, this, &Capture::newFilterStatus);
+    connect(camera, &Camera::ready, this, &Capture::ready);
+    connect(camera, &Camera::newExposureProgress, this, &Capture::newExposureProgress);
+    connect(camera, &Camera::captureComplete, this, &Capture::captureComplete);
+    connect(camera, &Camera::captureStarting, this, &Capture::captureStarting);
+    connect(camera, &Camera::captureAborted, this, &Capture::captureAborted);
+    connect(camera, &Camera::checkFocus, this, &Capture::checkFocus);
+    connect(camera, &Camera::newImage, this, &Capture::newImage);
+    connect(camera, &Camera::runAutoFocus, this, &Capture::runAutoFocus);
+    connect(camera, &Camera::resetFocus, this, &Capture::resetFocus);
+    connect(camera, &Camera::abortFocus, this, &Capture::abortFocus);
+    connect(camera, &Camera::adaptiveFocus, this, &Capture::adaptiveFocus);
+    connect(camera, &Camera::captureTarget, this, &Capture::captureTarget);
+
+    return camera;
 }
 
 bool Capture::updateCamera()

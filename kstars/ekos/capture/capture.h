@@ -8,6 +8,7 @@
 
 #include "ui_capture.h"
 
+#include "camera.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
@@ -61,6 +62,7 @@ class QTableWidgetItem;
 namespace Ekos
 {
 
+class Capture;
 class CaptureDeviceAdaptor;
 class CaptureModuleState;
 class CaptureProcess;
@@ -369,12 +371,18 @@ class Capture : public QWidget, public Ui::Capture
 
 
         // ////////////////////////////////////////////////////////////////////
+        // UI controls
+        // ////////////////////////////////////////////////////////////////////
+
+        // TODO: This is only available during refactoring towards multi camera handling
+        Camera *cameraUI;
+
+        // ////////////////////////////////////////////////////////////////////
         // Changing the devices used by Capture
         // ////////////////////////////////////////////////////////////////////
 
         /**
          * @brief Add new Camera
-         * @param device pointer to camera device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
         bool updateCamera();
@@ -699,6 +707,15 @@ class Capture : public QWidget, public Ui::Capture
 
     private:
         // ////////////////////////////////////////////////////////////////////
+        // camera handling
+        // ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief addCamera Add a new camera under capture control
+         */
+        Camera *addCamera();
+
+        // ////////////////////////////////////////////////////////////////////
         // capture process steps
         // ////////////////////////////////////////////////////////////////////
 
@@ -734,10 +751,6 @@ class Capture : public QWidget, public Ui::Capture
          * @brief Sync refocus options to the GUI settings
          */
         //void syncRefocusOptionsFromGUI();
-
-        // ////////////////////////////////////////////////////////////////////
-        // UI controls
-        // ////////////////////////////////////////////////////////////////////
 
         // ////////////////////////////////////////////////////////////////////
         // device control
