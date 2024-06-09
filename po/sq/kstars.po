@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 01:55+0000\n"
+"POT-Creation-Date: 2024-06-09 01:41+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -1328,13 +1328,14 @@ msgstr ""
 msgid "This allows you to select a viewing location"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, LocationLabel)
 #. i18n: ectx: property (text), widget (QLabel, LocationLabelBatch)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, locationLabel)
-#: auxiliary/xplanetimageviewer.cpp:246 oal/execute.ui:41
-#: tools/modcalcaltaz.ui:109 tools/modcalcdaylength.ui:38
+#: auxiliary/xplanetimageviewer.cpp:246 ekos/mount/mount.ui:813
+#: oal/execute.ui:41 tools/modcalcaltaz.ui:109 tools/modcalcdaylength.ui:38
 #: tools/modcalcdaylength.ui:792 tools/modcalcsidtime.ui:130
 #: tools/modcalcsidtime.ui:222 tools/modcalcvlsr.ui:81
 #: tools/observinglist.ui:185
@@ -1861,20 +1862,20 @@ msgid "Dome Toolbar"
 msgstr "Shiriti Kryesor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: data/qml/mount/mountbox.qml:428 ekos/mount/mountcontrolpanel.ui:418
+#: data/qml/mount/mountbox.qml:428 ekos/mount/mountmotionwidget.ui:424
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Local"
 msgid "Reverse"
 msgstr "Lokale"
 
 #. i18n: ectx: property (text), widget (QCheckBox, upDownCheckObject)
-#: data/qml/mount/mountbox.qml:437 ekos/mount/mountcontrolpanel.ui:425
+#: data/qml/mount/mountbox.qml:437 ekos/mount/mountmotionwidget.ui:431
 #, kde-format, kde-kuit-format
 msgid "Up/Down"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftRightCheckObject)
-#: data/qml/mount/mountbox.qml:452 ekos/mount/mountcontrolpanel.ui:432
+#: data/qml/mount/mountbox.qml:452 ekos/mount/mountmotionwidget.ui:438
 #, kde-format, kde-kuit-format
 msgid "Left/Right"
 msgstr ""
@@ -1891,17 +1892,17 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, targetRALabel)
-#. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QCheckBox, raCheckBatch)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QCheckBox, RACheckBatch)
 #: data/qml/mount/mountbox.qml:545 data/qml/mount/mountbox.qml:737
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:789 ekos/mount/mount.ui:166
-#: ekos/mount/mountcontrolpanel.ui:617 ekos/mount/mountcontrolpanel.ui:754
-#: tools/altvstime.ui:97 tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
+#: ekos/manager.ui:789 ekos/mount/mountpositionwidget.ui:148
+#: ekos/mount/mounttargetwidget.ui:42 tools/altvstime.ui:97
+#: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
 #, kde-format, kde-kuit-format
 msgid "RA:"
@@ -1909,10 +1910,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/qml/mount/mountbox.qml:565 data/qml/mount/mountbox.qml:868
-#: ekos/manager.ui:757 ekos/mount/mount.ui:203
-#: ekos/mount/mountcontrolpanel.ui:666
+#: ekos/manager.ui:757 ekos/mount/mountpositionwidget.ui:351
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "SAH"
@@ -1927,8 +1926,8 @@ msgstr "SAH"
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:773 ekos/mount/mountcontrolpanel.ui:495
-#: ekos/mount/mountcontrolpanel.ui:783
+#: ekos/manager.ui:773 ekos/mount/mountpositionwidget.ui:263
+#: ekos/mount/mounttargetwidget.ui:117
 #, kde-format, kde-kuit-format
 msgid "DE:"
 msgstr ""
@@ -1936,7 +1935,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:604 data/qml/mount/mountbox.qml:869
-#: ekos/manager.ui:741 ekos/mount/mountcontrolpanel.ui:581
+#: ekos/manager.ui:741 ekos/mount/mountpositionwidget.ui:280
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "SAH"
@@ -1944,9 +1943,8 @@ msgid "AL:"
 msgstr "SAH"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:623 data/qml/mount/mountbox.qml:910
-#: ekos/mount/mount.ui:237 ekos/mount/mountcontrolpanel.ui:568
+#: ekos/mount/mountpositionwidget.ui:60
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "HAND"
@@ -1954,7 +1952,7 @@ msgid "HA:"
 msgstr "DORA"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: data/qml/mount/mountbox.qml:642 ekos/mount/mountcontrolpanel.ui:630
+#: data/qml/mount/mountbox.qml:642 ekos/mount/mountpositionwidget.ui:131
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "SAH"
@@ -1962,10 +1960,9 @@ msgid "ZA:"
 msgstr "SAH"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
-#. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: data/qml/mount/mountbox.qml:668 ekos/capture/camera.ui:1751
-#: ekos/mount/mountcontrolpanel.ui:689 ekos/scheduler/scheduler.ui:160
+#: ekos/scheduler/scheduler.ui:160
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Stars"
 msgid "Target:"
@@ -1979,7 +1976,7 @@ msgstr "Yjet"
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:799 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:832
-#: ekos/mount/mountcontrolpanel.ui:813 indi/collimationOptions.ui:427
+#: ekos/mount/mounttargetwidget.ui:148 indi/collimationOptions.ui:427
 #: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -1987,31 +1984,29 @@ msgid "Type:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, equatorialCheckObject)
-#: data/qml/mount/mountbox.qml:818 ekos/mount/mountcontrolpanel.ui:820
+#: data/qml/mount/mountbox.qml:818 ekos/mount/mounttargetwidget.ui:155
 #, kde-format, kde-kuit-format
 msgid "RA/DE"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
-#: data/qml/mount/mountbox.qml:859 ekos/mount/mountcontrolpanel.ui:833
-#, kde-format, kde-kuit-format
+#: data/qml/mount/mountbox.qml:859
+#, kde-kuit-format
 msgid "AZ/AL"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, haEquatorialCheckObject)
-#: data/qml/mount/mountbox.qml:899 ekos/mount/mountcontrolpanel.ui:843
+#: data/qml/mount/mountbox.qml:899 ekos/mount/mounttargetwidget.ui:178
 #, kde-format, kde-kuit-format
 msgid "HA/DE"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, epochLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_19)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel)
 #. i18n: ectx: property (text), widget (QLabel, EpochLabel2)
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:940 dialogs/focusdialog.ui:114
-#: ekos/mount/mountcontrolpanel.ui:873 tools/flagmanager.ui:64
+#: ekos/mount/mountpositionwidget.ui:190 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -2022,7 +2017,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #: data/qml/mount/mountbox.qml:954 dialogs/focusdialog.ui:74
-#: ekos/mount/mountcontrolpanel.ui:880
+#: ekos/mount/mountpositionwidget.ui:197
 #, kde-format, kde-kuit-format
 msgid "JNow"
 msgstr ""
@@ -2030,33 +2025,33 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #: data/qml/mount/mountbox.qml:967 dialogs/focusdialog.ui:84
-#: ekos/mount/mountcontrolpanel.ui:893
+#: ekos/mount/mountpositionwidget.ui:207
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "RA (2000.0):"
 msgid "J2000"
 msgstr "RA (2000.0):"
 
 #. i18n: ectx: property (text), widget (QPushButton, gotoButtonObject)
-#: data/qml/mount/mountbox.qml:987 ekos/mount/mountcontrolpanel.ui:923
+#: data/qml/mount/mountbox.qml:987 ekos/mount/mounttargetwidget.ui:208
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Mode"
 msgid "GOTO"
 msgstr "Mënyra"
 
 #. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
-#: data/qml/mount/mountbox.qml:1000 ekos/mount/mountcontrolpanel.ui:930
+#: data/qml/mount/mountbox.qml:1000 ekos/mount/mounttargetwidget.ui:215
 #, kde-format, kde-kuit-format
 msgid "SYNC"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, parkButtonObject)
-#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:937
+#: data/qml/mount/mountbox.qml:1013 ekos/mount/mountcontrolpanel.ui:82
 #, kde-format, kde-kuit-format
 msgid "PARK"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
-#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:944
+#: data/qml/mount/mountbox.qml:1025 ekos/mount/mountcontrolpanel.ui:75
 #, kde-format, kde-kuit-format
 msgid "UNPARK"
 msgstr ""
@@ -3727,9 +3722,11 @@ msgctxt ""
 msgid "%1 in %2"
 msgstr ""
 
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, domeAzimuthPositionLabel)
 #. i18n: ectx: attribute (title), widget (QWidget, XplanetTabPosition)
-#: dialogs/detaildialog.cpp:553 ekos/observatory/observatory.ui:109
+#: dialogs/detaildialog.cpp:553 ekos/mount/mount.ui:51
+#: ekos/observatory/observatory.ui:109
 #: kstarslite/qml/dialogs/DetailsDialog.qml:38 xplanet/opsxplanet.ui:874
 #, kde-format, kde-kuit-format
 msgid "Position"
@@ -4182,10 +4179,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
-#. i18n: ectx: property (title), widget (QGroupBox, Coordinates)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: ekos/mount/mount.ui:142 kstarslite/qml/dialogs/DetailsDialog.qml:236
-#: printing/detailstable.cpp:509
+#: kstarslite/qml/dialogs/DetailsDialog.qml:236 printing/detailstable.cpp:509
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
 msgstr "Koordinatat"
@@ -4214,12 +4209,12 @@ msgstr "RA (2000.0):"
 #. i18n: ectx: property (text), widget (QLabel, AzRise)
 #. i18n: ectx: property (text), widget (QLabel, AltTransit)
 #. i18n: ectx: property (text), widget (QLabel, AzSet)
-#. i18n: ectx: property (text), widget (QLabel, azValueObject)
-#. i18n: ectx: property (text), widget (QLabel, altValueObject)
-#. i18n: ectx: property (text), widget (QLabel, deValueObject)
 #. i18n: ectx: property (text), widget (QLabel, raValueObject)
 #. i18n: ectx: property (text), widget (QLabel, haValueObject)
 #. i18n: ectx: property (text), widget (QLabel, zaValueObject)
+#. i18n: ectx: property (text), widget (QLabel, deValueObject)
+#. i18n: ectx: property (text), widget (QLabel, altValueObject)
+#. i18n: ectx: property (text), widget (QLabel, azValueObject)
 #. i18n: ectx: property (text), widget (QLabel, countdownLabel)
 #. i18n: ectx: property (text), widget (QLabel, AngDist)
 #: dialogs/details_position.ui:185 dialogs/details_position.ui:243
@@ -4227,10 +4222,10 @@ msgstr "RA (2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:521 ekos/mount/mountcontrolpanel.ui:482
-#: ekos/mount/mountcontrolpanel.ui:515 ekos/mount/mountcontrolpanel.ui:535
-#: ekos/mount/mountcontrolpanel.ui:555 ekos/mount/mountcontrolpanel.ui:604
-#: ekos/mount/mountcontrolpanel.ui:653 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:569 ekos/mount/mountpositionwidget.ui:90
+#: ekos/mount/mountpositionwidget.ui:117 ekos/mount/mountpositionwidget.ui:178
+#: ekos/mount/mountpositionwidget.ui:249 ekos/mount/mountpositionwidget.ui:310
+#: ekos/mount/mountpositionwidget.ui:337 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr "00:00:00"
@@ -4640,8 +4635,7 @@ msgid "RA/Dec"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, decLabel)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_7)
-#: dialogs/focusdialog.ui:61 ekos/manager.ui:770 ekos/mount/mount.ui:180
+#: dialogs/focusdialog.ui:61 ekos/manager.ui:770
 #, kde-format
 msgid "Declination"
 msgstr "Këndi"
@@ -4660,8 +4654,7 @@ msgid "Set Epoch to J2000"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, raLabel)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: dialogs/focusdialog.ui:104 ekos/manager.ui:786 ekos/mount/mount.ui:163
+#: dialogs/focusdialog.ui:104 ekos/manager.ui:786
 #, kde-format
 msgid "Right Ascension"
 msgstr "Hyrja e Djathtë"
@@ -4682,8 +4675,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, azLabel)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#: dialogs/focusdialog.ui:148 ekos/manager.ui:754 ekos/mount/mount.ui:200
+#: dialogs/focusdialog.ui:148 ekos/manager.ui:754
 #: kstarslite/qml/dialogs/DetailsDialog.qml:264
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Azimuth:"
@@ -5349,9 +5341,8 @@ msgid "Compute FOV"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
-#. i18n: ectx: attribute (title), widget (QWidget, camera_1)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
-#: dialogs/newfov.ui:433 ekos/capture/capture.ui:21
+#: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #, kde-format
 msgid "Camera"
@@ -6507,8 +6498,8 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Skedari FITS u regjistrua tek %1"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:237 ekos/focus/focus.cpp:4359
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:800
+#: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4359
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
@@ -6786,7 +6777,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, opticalTrainLabel)
 #: ekos/align/align.ui:32 ekos/auxiliary/darklibrary.ui:49
 #: ekos/capture/camera.ui:57 ekos/focus/focus.ui:68 ekos/guide/guide.ui:44
-#: ekos/mount/mount.ui:44
+#: ekos/mount/mount.ui:419
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgid "Train:"
@@ -7990,7 +7981,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:445
+#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:492
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Park"
@@ -10316,9 +10307,9 @@ msgstr ""
 msgid "Moving"
 msgstr "Duke ngarkuar FITS"
 
-#. i18n: ectx: property (title), widget (QGroupBox, trackingGroup)
+#. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/analyze/analyze.cpp:137 ekos/analyze/analyze.cpp:156
-#: ekos/mount/mount.ui:627 indi/indidome.cpp:21 indi/indimount.cpp:32
+#: ekos/mount/mount.ui:771 indi/indidome.cpp:21 indi/indimount.cpp:32
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Tracking"
@@ -11840,8 +11831,9 @@ msgid "Master Dark:"
 msgstr "asterism"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
+#. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/auxiliary/darklibrary.ui:680 oal/execute.ui:417
+#: ekos/auxiliary/darklibrary.ui:680 ekos/mount/mount.ui:797 oal/execute.ui:417
 #: printing/loggingform.cpp:41
 #, kde-format
 msgid "Time:"
@@ -11949,7 +11941,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:883
-#: ekos/guide/manualpulse.ui:140 ekos/mount/mount.ui:368
+#: ekos/guide/manualpulse.ui:140 ekos/mount/mount.ui:823
 #, kde-format
 msgid "Reset"
 msgstr ""
@@ -12800,7 +12792,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
-#: ekos/auxiliary/opticaltrains.ui:126 ekos/mount/mount.ui:107
+#: ekos/auxiliary/opticaltrains.ui:126 ekos/mount/mount.ui:438
 #, kde-format
 msgid "Optical Train"
 msgstr ""
@@ -14816,7 +14808,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/camera.ui:1380 ekos/mount/mount.ui:807
+#: ekos/capture/camera.ui:1380 ekos/mount/mount.ui:183
 #: tools/scriptbuilder.cpp:685
 #, kde-format
 msgid "Limits"
@@ -14906,7 +14898,10 @@ msgid "Both"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#: ekos/capture/camera.ui:1684
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
+#: ekos/capture/camera.ui:1684 ekos/mount/mount.ui:358
+#: ekos/mount/mountcontrolpanel.ui:58
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Target"
@@ -15129,11 +15124,13 @@ msgstr "ngelje e një supernova"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#. i18n: ectx: property (title), widget (QGroupBox, mountStatusGroup)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/camera.ui:2234 ekos/ekoslive/ekoslivedialog.ui:119
-#: ekos/scheduler/scheduler.ui:1092 indi/drivermanager.ui:66
-#: indi/drivermanager.ui:322 skycomponents/imageoverlaycomponent.cpp:64
+#: ekos/mount/mount.ui:642 ekos/scheduler/scheduler.ui:1092
+#: indi/drivermanager.ui:66 indi/drivermanager.ui:322
+#: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "Status"
 msgstr "Gjendja"
@@ -15310,22 +15307,22 @@ msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 msgid "Save As..."
 msgstr "Në skedar..."
 
-#: ekos/capture/capture.cpp:280
+#: ekos/capture/capture.cpp:279
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:285
+#: ekos/capture/capture.cpp:284
 #, kde-format
 msgid "Meridian Flip..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:286
+#: ekos/capture/capture.cpp:285
 #, kde-format
 msgid "Meridian flip started"
 msgstr ""
 
-#: ekos/capture/capture.cpp:290
+#: ekos/capture/capture.cpp:289
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Flip complete."
@@ -17212,7 +17209,7 @@ msgid "Aligning"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, MeridianFlipGroup)
-#: ekos/ekos.h:75 ekos/mount/mount.ui:276
+#: ekos/ekos.h:75 ekos/mount/mount.ui:82
 #, kde-format
 msgid "Meridian Flip"
 msgstr ""
@@ -23048,22 +23045,22 @@ msgstr ""
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2809
+#: ekos/manager.cpp:2812
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2817
+#: ekos/manager.cpp:2820
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2845
+#: ekos/manager.cpp:2848
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2857
+#: ekos/manager.cpp:2860
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -23175,9 +23172,8 @@ msgid "3. Connect && Disconnect Devices"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:738 ekos/mount/mount.ui:217 ekos/scheduler/scheduler.ui:1107
+#: ekos/manager.ui:738 ekos/scheduler/scheduler.ui:1107
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:97
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Altitude:"
@@ -23383,193 +23379,133 @@ msgstr "A jeni i sigurtë që doni ta hiqni klientin %1?"
 msgid "Mount Configuration"
 msgstr "Fshije Konfirmimin"
 
-#: ekos/mount/mount.cpp:475 ekos/mount/mount.cpp:483
+#: ekos/mount/mount.cpp:476 ekos/mount/mount.cpp:484
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "A jeni i sigurtë që doni ta hiqni klientin %1?"
 
-#: ekos/mount/mount.cpp:476 ekos/mount/mount.cpp:484
+#: ekos/mount/mount.cpp:477 ekos/mount/mount.cpp:485
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Mount Tracking"
 msgstr "Ndalo &Gjurmimin"
 
-#: ekos/mount/mount.cpp:477
+#: ekos/mount/mount.cpp:478
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr ""
 
-#: ekos/mount/mount.cpp:478
+#: ekos/mount/mount.cpp:479
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "@action:button"
 msgid "No"
 msgstr "Asnjë"
 
-#: ekos/mount/mount.cpp:573
+#: ekos/mount/mount.cpp:541
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:589
+#: ekos/mount/mount.cpp:557
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:641
+#: ekos/mount/mount.cpp:609
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:777
+#: ekos/mount/mount.cpp:744
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:791
+#: ekos/mount/mount.cpp:758
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:814
+#: ekos/mount/mount.cpp:781
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr ""
 
-#: ekos/mount/mount.cpp:1289
+#: ekos/mount/mount.cpp:1167
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Alignment Model cleared."
 msgstr "Këndi"
 
-#: ekos/mount/mount.cpp:1293
+#: ekos/mount/mount.cpp:1171
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Failed to clear Alignment Model."
 msgstr "Këndi"
 
-#: ekos/mount/mount.cpp:1403 ekos/scheduler/schedulerprocess.cpp:3885
+#: ekos/mount/mount.cpp:1281 ekos/scheduler/schedulerprocess.cpp:3885
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1428
+#: ekos/mount/mount.cpp:1306
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Parking time cannot be in the past."
 msgstr "Teleskopi"
 
-#: ekos/mount/mount.cpp:1437
+#: ekos/mount/mount.cpp:1315
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1442
+#: ekos/mount/mount.cpp:1320
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1444
+#: ekos/mount/mount.cpp:1322
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1464
+#: ekos/mount/mount.cpp:1342
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Parking timer is up."
 msgstr "Teleskopi"
 
-#: ekos/mount/mount.cpp:1474
+#: ekos/mount/mount.cpp:1352
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Starting auto park..."
 msgstr "Teleskopi"
 
-#: ekos/mount/mount.cpp:1967
+#: ekos/mount/mount.cpp:1845
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1988
+#: ekos/mount/mount.cpp:1866
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1996
+#: ekos/mount/mount.cpp:1874
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
-#: ekos/mount/mount.ui:120
-#, kde-format
-msgid "Enable time synchronization upon connection between KStars and INDI"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
-#: ekos/mount/mount.ui:123
-#, fuzzy, kde-format
-#| msgid "Date and time"
-msgid "Time Source:"
-msgstr "Data dhe ora"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
-#: ekos/mount/mount.ui:130
-#, kde-format
-msgid ""
-"Enable geographic location synchronization upon connection between KStars "
-"and INDI"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
-#: ekos/mount/mount.ui:133
-#, fuzzy, kde-format
-#| msgid "Position"
-msgid "Location Source:"
-msgstr "Pozicioni"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/mount/mount.ui:183
-#, kde-format
-msgid "DEC:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/mount/mount.ui:220
-#, kde-format
-msgid "ALT:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/mount/mount.ui:234
-#, fuzzy, kde-format
-#| msgid "Horizon"
-msgid "Hour Angle"
-msgstr "Horizonti"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_10)
-#: ekos/mount/mount.ui:251
-#, fuzzy, kde-format
-#| msgid "Local"
-msgid "Local Sidereal TIme"
-msgstr "Lokale"
-
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/mount/mount.ui:254
-#, kde-format
-msgid "LST:"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
-#: ekos/mount/mount.ui:297
+#: ekos/mount/mount.ui:110
 #, kde-format
 msgid ""
 "<html><head/><body><p>Request a meridian flip if the hour angle exceeds the "
@@ -23578,13 +23514,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
-#: ekos/mount/mount.ui:300
+#: ekos/mount/mount.ui:113
 #, kde-format
 msgid "Flip if HA >:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, meridianFlipOffsetDegrees)
-#: ekos/mount/mount.ui:316
+#: ekos/mount/mount.ui:129
 #, kde-format
 msgid ""
 "RA position in degrees behind the meridian where the meridian flip should be "
@@ -23593,130 +23529,52 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:341 oal/equipmentwriter.ui:502
+#: ekos/mount/mount.ui:164 oal/equipmentwriter.ui:502
 #, kde-format
 msgid "deg"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, clearParkingB)
-#: ekos/mount/mount.ui:389
-#, fuzzy, kde-format
-#| msgid "Telescope"
-msgid "Clear Parking"
-msgstr "Teleskopi"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
-#: ekos/mount/mount.ui:405
-#, fuzzy, kde-format
-#| msgid "Telescope"
-msgid "Deletes all mount alignment points"
-msgstr "Teleskopi"
-
-#. i18n: ectx: property (text), widget (QPushButton, clearAlignmentModelB)
-#: ekos/mount/mount.ui:408
-#, fuzzy, kde-format
-#| msgid "Declination"
-msgid "Clear  Model"
-msgstr "Këndi"
-
-#. i18n: ectx: property (text), widget (QPushButton, purgeConfigB)
-#. i18n: ectx: property (text), widget (QPushButton, purgeAllConfigB)
-#: ekos/mount/mount.ui:424 options/opsadvanced.ui:387
-#, fuzzy, kde-format
-#| msgid "Delete Confirmation"
-msgid "Purge All Configuration"
-msgstr "Fshije Konfirmimin"
-
-#. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/mount/mount.ui:466
-#, fuzzy, kde-format
-#| msgid "Coordinates"
-msgid "Park at:"
-msgstr "Koordinatat"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
-#: ekos/mount/mount.ui:484
-#, fuzzy, kde-format
-#| msgid "Declination"
-msgid "Automatically start the park timer on startup"
-msgstr "Këndi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, parkEveryDay)
-#: ekos/mount/mount.ui:487
-#, kde-format
-msgid "Every day"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.ui:599
-#, fuzzy, kde-format
-#| msgid "Main Toolbar"
-msgid "Mount Control"
-msgstr "Shiriti Kryesor"
-
-#. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.ui:611
-#, kde-format
-msgid "Ctrl+S"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, trackOnB)
-#: ekos/mount/mount.ui:668
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SON"
-msgid "ON"
-msgstr "DJALI"
-
-#. i18n: ectx: property (text), widget (QPushButton, trackOffB)
-#: ekos/mount/mount.ui:701
-#, kde-format
-msgid "OFF"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, parkingTitle)
-#: ekos/mount/mount.ui:714
-#, fuzzy, kde-format
-#| msgid "Telescope"
-msgid "Parking Status"
-msgstr "Teleskopi"
-
-#. i18n: ectx: property (text), widget (QPushButton, parkB)
-#. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:758 ekos/observatory/observatory.cpp:266
-#: ekos/observatory/observatory.cpp:314 ekos/observatory/observatory.cpp:343
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
-#, kde-format
-msgid "Park"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, unparkB)
-#. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
-#: ekos/mount/mount.ui:788 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:659
-#, fuzzy, kde-format
-#| msgid "Telescope"
-msgid "UnPark"
-msgstr "Teleskopi"
-
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
-#: ekos/mount/mount.ui:804
+#: ekos/mount/mount.ui:180
 #, kde-format
 msgid "<html><head/><body><p><br/></p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
-#. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:837 ekos/mount/mount.ui:932
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minimumAltLimit)
+#: ekos/mount/mount.ui:213
 #, kde-format
 msgid ""
-"<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
-"If the telescope is above this limit, it will be commanded to stop.</p></"
-"body></html>"
+"<html><head/><body><p>Minimum telescope altitude limit. If the telescope is "
+"below this limit, it will be commanded to stop.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
+#. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
+#: ekos/mount/mount.ui:232 kstars.kcfg:1719
+#, kde-format
+msgid ""
+"Minimum telescope altitude limit. If the telescope is below this limit, it "
+"will be commanded to stop."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, minAltLabel)
+#: ekos/mount/mount.ui:235
+#, fuzzy, kde-format
+#| msgid "Altitude:"
+msgid "Min. Alt:"
+msgstr "Lartësia:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
+#. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
+#: ekos/mount/mount.ui:251 ekos/mount/mount.ui:308
+#, kde-format
+msgid ""
+"<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
+"above this limit, it will be commanded to stop.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableAltitudeLimits)
-#: ekos/mount/mount.ui:856
+#: ekos/mount/mount.ui:267
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount travel range limits. Once "
@@ -23726,54 +23584,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
-#: ekos/mount/mount.ui:859
+#: ekos/mount/mount.ui:270
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
 msgid "Enable Alt limits"
 msgstr "Hollësitë"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minimumAltLimit)
-#: ekos/mount/mount.ui:875
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
+#. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
+#: ekos/mount/mount.ui:286 ekos/mount/mount.ui:331
 #, kde-format
 msgid ""
-"<html><head/><body><p>Minimum telescope altitude limit. If the telescope is "
-"below this limit, it will be commanded to stop.</p></body></html>"
+"<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
+"If the telescope is above this limit, it will be commanded to stop.</p></"
+"body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
-#. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:900 ekos/mount/mount.ui:955
-#, kde-format
-msgid ""
-"<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
-"above this limit, it will be commanded to stop.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
-#. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:919 kstars.kcfg:1719
-#, kde-format
-msgid ""
-"Minimum telescope altitude limit. If the telescope is below this limit, it "
-"will be commanded to stop."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:922
+#. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
+#: ekos/mount/mount.ui:311
 #, fuzzy, kde-format
 #| msgid "Altitude:"
-msgid "Min. Alt:"
+msgid "Max. Alt:"
 msgstr "Lartësia:"
 
-#. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:935
-#, kde-format
-msgid "Max. HA (hours):"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:942
+#: ekos/mount/mount.ui:318
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -23785,40 +23621,171 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:945
+#: ekos/mount/mount.ui:321
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
 msgid "Enable HA limits"
 msgstr "Hollësitë"
 
-#. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:958
+#. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
+#: ekos/mount/mount.ui:334
+#, kde-format
+msgid "Max. HA (hours):"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ekos/mount/mount.ui:513
 #, fuzzy, kde-format
-#| msgid "Altitude:"
-msgid "Max. Alt:"
-msgstr "Lartësia:"
+#| msgid "Coordinates"
+msgid "Park at:"
+msgstr "Koordinatat"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
+#: ekos/mount/mount.ui:531
+#, fuzzy, kde-format
+#| msgid "Declination"
+msgid "Automatically start the park timer on startup"
+msgstr "Këndi"
+
+#. i18n: ectx: property (text), widget (QCheckBox, parkEveryDay)
+#: ekos/mount/mount.ui:534
+#, kde-format
+msgid "Every day"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, trackOffB)
+#: ekos/mount/mount.ui:668
+#, kde-format
+msgid "OFF"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, trackOnB)
+#: ekos/mount/mount.ui:698
+#, fuzzy, kde-format
+#| msgctxt "Constellation name (optional)"
+#| msgid "SON"
+msgid "ON"
+msgstr "DJALI"
+
+#. i18n: ectx: property (text), widget (QPushButton, parkB)
+#. i18n: ectx: property (text), widget (QPushButton, domePark)
+#: ekos/mount/mount.ui:734 ekos/observatory/observatory.cpp:266
+#: ekos/observatory/observatory.cpp:314 ekos/observatory/observatory.cpp:343
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
+#, kde-format
+msgid "Park"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, unparkB)
+#. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
+#: ekos/mount/mount.ui:764 ekos/observatory/observatory.ui:498
+#: kspopupmenu.cpp:659
+#, fuzzy, kde-format
+#| msgid "Telescope"
+msgid "UnPark"
+msgstr "Teleskopi"
+
+#. i18n: ectx: property (text), widget (QLabel, parkingLabel)
+#: ekos/mount/mount.ui:778
+#, fuzzy, kde-format
+#| msgid "Telescope"
+msgid "Parking Status"
+msgstr "Teleskopi"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#. i18n: ectx: attribute (title), widget (QWidget, tab1)
+#: ekos/mount/mount.ui:788 hips/hipsmanager.cpp:104 tools/altvstime.ui:46
+#, kde-format
+msgid "Sources"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
+#: ekos/mount/mount.ui:794
+#, kde-format
+msgid "Enable time synchronization upon connection between KStars and INDI"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
+#: ekos/mount/mount.ui:810
+#, kde-format
+msgid ""
+"Enable geographic location synchronization upon connection between KStars "
+"and INDI"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
+#: ekos/mount/mount.ui:844
+#, fuzzy, kde-format
+#| msgid "Telescope"
+msgid "Deletes all mount alignment points"
+msgstr "Teleskopi"
+
+#. i18n: ectx: property (text), widget (QPushButton, clearAlignmentModelB)
+#: ekos/mount/mount.ui:847
+#, fuzzy, kde-format
+#| msgid "Declination"
+msgid "Clear  Model"
+msgstr "Këndi"
+
+#. i18n: ectx: property (text), widget (QPushButton, clearParkingB)
+#: ekos/mount/mount.ui:864
+#, fuzzy, kde-format
+#| msgid "Telescope"
+msgid "Clear Parking"
+msgstr "Teleskopi"
+
+#. i18n: ectx: property (text), widget (QPushButton, purgeConfigB)
+#. i18n: ectx: property (text), widget (QPushButton, purgeAllConfigB)
+#: ekos/mount/mount.ui:881 options/opsadvanced.ui:387
+#, fuzzy, kde-format
+#| msgid "Delete Confirmation"
+msgid "Purge All Configuration"
+msgstr "Fshije Konfirmimin"
+
+#. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
+#: ekos/mount/mount.ui:922
+#, fuzzy, kde-format
+#| msgid "Main Toolbar"
+msgid "Mount Control"
+msgstr "Shiriti Kryesor"
+
+#. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
+#: ekos/mount/mount.ui:935
+#, kde-format
+msgid "Ctrl+S"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MountControlPanel)
-#: ekos/mount/mountcontrolpanel.ui:17
+#. i18n: ectx: property (windowTitle), widget (QWidget, MountMotionWidget)
+#. i18n: ectx: property (windowTitle), widget (QWidget, MountPositionWidget)
+#. i18n: ectx: property (windowTitle), widget (QWidget, MountTargetWidget)
+#: ekos/mount/mountcontrolpanel.ui:17 ekos/mount/mountmotionwidget.ui:23
+#: ekos/mount/mountpositionwidget.ui:29 ekos/mount/mounttargetwidget.ui:17
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Mount Control Panel"
 msgstr "Paneli i Kontrollit INDI"
 
+#. i18n: ectx: property (text), widget (QLabel, statusTextObject)
+#: ekos/mount/mountcontrolpanel.ui:103
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Status: Idle"
+msgstr "Gjendja"
+
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
-#: ekos/mount/mountcontrolpanel.ui:453
+#: ekos/mount/mountmotionwidget.ui:459
 #, fuzzy, kde-format
 #| msgid "Adjust time step"
 msgid "Speed"
 msgstr "Rregulloni kohën"
 
-#. i18n: ectx: property (text), widget (QLabel, statusTextObject)
-#: ekos/mount/mountcontrolpanel.ui:964
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Status: Idle"
-msgstr "Gjendja"
+#. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
+#: ekos/mount/mounttargetwidget.ui:168
+#, kde-format
+msgid "Alt/AZ"
+msgstr ""
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -30199,12 +30166,6 @@ msgstr ""
 #| msgid "&South"
 msgid "Cache"
 msgstr "&Jugu"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab1)
-#: hips/hipsmanager.cpp:104 tools/altvstime.ui:46
-#, kde-format
-msgid "Sources"
-msgstr ""
 
 #: hips/opships.cpp:42
 #, kde-format
@@ -85468,6 +85429,26 @@ msgstr ""
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Date and time"
+#~ msgid "Time Source:"
+#~ msgstr "Data dhe ora"
+
+#, fuzzy
+#~| msgid "Position"
+#~ msgid "Location Source:"
+#~ msgstr "Pozicioni"
+
+#, fuzzy
+#~| msgid "Horizon"
+#~ msgid "Hour Angle"
+#~ msgstr "Horizonti"
+
+#, fuzzy
+#~| msgid "Local"
+#~ msgid "Local Sidereal TIme"
+#~ msgstr "Lokale"
 
 #, fuzzy
 #~| msgid "Capture Image"
