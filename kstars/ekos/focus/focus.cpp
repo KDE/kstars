@@ -55,12 +55,13 @@
 #include "aberrationinspectorutils.h"
 #endif
 
-#define MAXIMUM_ABS_ITERATIONS   51
-#define MAXIMUM_RESET_ITERATIONS 3
-#define AUTO_STAR_TIMEOUT        45000
-#define MINIMUM_PULSE_TIMER      32
-#define MAX_RECAPTURE_RETRIES    3
-#define MINIMUM_POLY_SOLUTIONS   2
+#define MAXIMUM_ABS_ITERATIONS     51
+#define MAXIMUM_RESET_ITERATIONS   3
+#define MAXIMUM_RESTART_ITERATIONS 3
+#define AUTO_STAR_TIMEOUT          45000
+#define MINIMUM_PULSE_TIMER        32
+#define MAX_RECAPTURE_RETRIES      3
+#define MINIMUM_POLY_SOLUTIONS     2
 
 const QString FOCUSER_SIMULATOR = "Focuser Simulator";
 
@@ -1066,14 +1067,12 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
         return;
     }
 
-    if (inAdjustFocus)
+    if (inAdjustFocus || adaptFocus->inAdaptiveFocus())
     {
-        if (++AFStartRetries < MAXIMUM_RESET_ITERATIONS)
+        QString str = inAdjustFocus ? i18n("Adjust Focus") : i18n("Adaptive Focus");
+        if (++m_StartRetries < MAXIMUM_RESTART_ITERATIONS)
         {
-            // Its possible that a start request can be triggered whilst an Adjust Focus is completing
-            // This was reported by a user. The conditions require align resetting a filter and an offset
-            // on the filter needing to be applied. So retry 3 times (10s interval) and fail if still a problem
-            appendLogText(i18n("Autofocus start request - Waiting 10sec for AdjustFocus to complete."));
+            appendLogText(i18n("Autofocus start request - Waiting 10sec for %1 to complete.", str));
             QTimer::singleShot(10 * 1000, this, [this]()
             {
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
@@ -1081,25 +1080,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
             return;
         }
 
-        appendLogText(i18n("Discarding Autofocus start request - AdjustFocus in progress."));
-        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_INTERNAL);
-        return;
-    }
-
-    if (adaptFocus->inAdaptiveFocus())
-    {
-        // Protective code added as per the above else if. This scenario is unlikely
-        if (++AFStartRetries < MAXIMUM_RESET_ITERATIONS)
-        {
-            appendLogText(i18n("Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."));
-            QTimer::singleShot(10 * 1000, this, [this]()
-            {
-                runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
-            });
-            return;
-        }
-
-        appendLogText(i18n("Discarding Autofocus start request - AdaptiveFocus in progress."));
+        appendLogText(i18n("Discarding Autofocus start request - %1 in progress.", str));
         completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_INTERNAL);
         return;
     }
@@ -1112,7 +1093,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
     }
     inAutoFocus = true;
     m_AFRun++;
-    AFStartRetries = 0;
+    m_StartRetries = 0;
     m_LastFocusDirection = FOCUS_NONE;
 
     waitStarSelectTimer.stop();
@@ -1480,7 +1461,7 @@ void Focus::stop(Ekos::FocusState completionState)
     noStarCount = 0;
     starMeasureFrames.clear();
     m_abInsOn = false;
-    AFStartRetries = 0;
+    m_StartRetries = 0;
 
     // Check if CCD was not removed due to crash or other reasons.
     if (m_Camera)
@@ -4729,9 +4710,37 @@ void Focus::focusStarSelected(int x, int y)
 
 void Focus::checkFocus(double requiredHFR)
 {
-    if (inAutoFocus || inFocusLoop || inAdjustFocus || adaptFocus->inAdaptiveFocus() || inBuildOffsets)
+    if (inAutoFocus || inAdjustFocus || adaptFocus->inAdaptiveFocus())
     {
-        qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus rejected, focus procedure is already running.";
+        QString str;
+        if (inAutoFocus)
+            str = i18n("Autofocus");
+        else if (inAdjustFocus)
+            str = i18n("Adjust Focus");
+        else
+            str = i18n("Adaptive Focus");
+
+        if (++m_StartRetries < MAXIMUM_RESTART_ITERATIONS)
+        {
+            appendLogText(i18n("Check focus request - Waiting 10sec for %1 to complete.", str));
+            QTimer::singleShot(10 * 1000, this, [this, requiredHFR]()
+            {
+                checkFocus(requiredHFR);
+            });
+            return;
+        }
+
+        appendLogText(i18n("Discarding Check Focus request - %1 in progress.", str));
+        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_INTERNAL);
+        return;
+    }
+
+    m_StartRetries = 0;
+
+    if (inFocusLoop || inBuildOffsets)
+    {
+        QString str = inFocusLoop ? "Focus Looping" : " Build Offsets";
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Check Focus rejected, %1 is already running.").arg(str);
     }
     else
     {
@@ -4948,19 +4957,26 @@ void Focus::showFITSViewer()
 
 void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
 {
-    // Allow focuser adjustments during looping to honour Filter Offsets
-    if (inAdjustFocus)
+    // Allow focuser adjustments during looping & autofocus to honour Filter Offsets
+    if (inAdjustFocus || adaptFocus->inAdaptiveFocus())
     {
-        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inAdjustFocus in progress. Ignoring...";
+        QString str = inAdjustFocus ? i18n("Adjust Focus") : i18n("Adaptive Focus");
+        if (++m_StartRetries < MAXIMUM_RESTART_ITERATIONS)
+        {
+            appendLogText(i18n("Adjust focus request - Waiting 10sec for %1 to complete.", str));
+            QTimer::singleShot(10 * 1000, this, [this, value, useAbsoluteOffset] ()
+            {
+                adjustFocusOffset(value, useAbsoluteOffset);
+            });
+            return;
+        }
+
+        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst %1 in progress. Ignoring...", str;
+        emit focusPositionAdjusted();
         return;
     }
 
-    if (adaptFocus->inAdaptiveFocus())
-    {
-        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst inAdaptiveFocus. Ignoring...";
-        return;
-    }
-
+    m_StartRetries = 0;
     inAdjustFocus = true;
 
     // Get the new position

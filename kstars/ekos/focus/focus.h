@@ -1075,8 +1075,8 @@ class Focus : public QWidget, public Ui::Focus
         double R2 = 0;
         // Counter to retry the auto focus run if the R2Limit has not been reached
         int R2Retries = 0;
-        // Counter to retry starting auto focus if the focuser is still active
-        int AFStartRetries = 0;
+        // Counter to retry starting focus operation (autofocus, adjust focus, etc) if the focuser is still active
+        int m_StartRetries = 0;
         // Reason code for the Autofocus run - passed to Analyze
         AutofocusReason m_AutofocusReason = AutofocusReason::FOCUS_NONE;
         // Extra information about m_AutofocusReason
