@@ -26,6 +26,11 @@
 
         <listitem>
             <para
+>Module Analyse </para>
+        </listitem>
+        
+        <listitem>
+            <para
 >Module Acquisition </para>
         </listitem>
 
@@ -80,6 +85,14 @@
             <listitem>
                 <para
 >Après la prise en main de Ekos, les utilisateurs sont encouragés à utiliser le module Ordonnanceur puisqu'il facilite grandement tout le processus d'observation. Il vous permet de choisir plusieurs cibles, de spécifier les conditions à respecter et les trames nécessaires à l'acquisition. Cela fait, l'ordonnanceur calcule le meilleur horaire d'observation pour chaque objet et ensuite prend le contrôle total de la session d'observation, du début jusqu'à la fin. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>Module Analyse</term>
+            <listitem>
+                <para
+>Le module Analyse affiche un résumé synoptique de ce qui s'est passé lors d'une séance d'imagerie. Il montre des tracés et des graphiques décrivant les nombreuses captures prises au cours d'une nuit, les séances de mise au point, le guidage, le mouvement de montage, les retournements de méridiens, etc. Utilisez-le pour avoir une idée de « ce qui s'est passé la nuit dernière » ou pour voir l'état actuel du système. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

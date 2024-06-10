@@ -36,6 +36,9 @@
 >Analyse</guilabel
 > peut également afficher les données de la session d'acquisition courante. </para>
         <para
+>Lorsqu'une nouvelle session commence (par exemple, Ekos est déconnecté à l'aube, puis reconnecté au coucher du soleil), le système commence à écrire un nouveau fichier .analyze. (Ce comportement peut être contrôlé à partir des paramètres d'analyse atteints en cliquant sur le bouton des options en bas à droite.) </para
+>        
+        <para
 >Il y a deux graphiques principaux, <guilabel
 >Chronologie</guilabel
 > et <guilabel
@@ -56,7 +59,7 @@
 >.analyze</literal
 > avec la liste déroulante <guilabel
 >Entrée</guilabel
->. En cochant la case <guilabel
+>. Les touches &lt;&lt; permettent d'afficher les fichiers .analyze précédents ou suivants selon un ordre chronologique. En cochant la case <guilabel
 >Plein champ</guilabel
 >, vous verrez toutes les données alors que la case <guilabel
 >Dernier</guilabel
@@ -75,7 +78,7 @@
             <para
 >Si vous avez déplacé vos images vous pouvez configurer un <guilabel
 >dossier alternatif</guilabel
-> dans le menu d'entrée en indiquant l'emplacement de base du fichier. </para>
+> dans le menu de configuration du module Analyse. Le nom du dossier alternatif sera préfixé par le chemin du fichier original et sera vérifié si le fichier de l'image ne se trouve pas à l'endroit original. </para>
         </note>
         <para
 >En cliquant sur un segment de <guilabel
