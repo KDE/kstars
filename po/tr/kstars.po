@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-10 02:04+0000\n"
+"POT-Creation-Date: 2024-06-11 01:47+0000\n"
 "PO-Revision-Date: 2024-06-03 22:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3808,7 +3808,7 @@ msgstr "0,0 pc"
 #: ekos/capture/camera.cpp:1588 ekos/capture/camera.cpp:1628
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:130 ekos/capture/sequenceeditor.cpp:133
-#: ekos/focus/focus.cpp:455 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
+#: ekos/focus/focus.cpp:456 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6196,7 +6196,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı kesildi."
 
 #: ekos/align/align.cpp:1494 ekos/capture/captureprocess.cpp:199
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5266
+#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5282
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6235,13 +6235,13 @@ msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Hiçbir uzak astrometri sürücüsü algılanmadı, StellarSolver’a geçiliyor."
 
-#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1655
+#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1636
 #, kde-format
 msgid "Capturing image..."
 msgstr "Görsel yakalanıyor…"
 
 #: ekos/align/align.cpp:1716 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2681
+#: ekos/focus/focus.cpp:2662
 #, kde-format
 msgid "Image received."
 msgstr "Görsel alındı."
@@ -6384,7 +6384,7 @@ msgid "Refresh is complete."
 msgstr "Yenileme tamamlandı."
 
 #: ekos/align/align.cpp:2551 ekos/auxiliary/darklibrary.cpp:1409
-#: ekos/focus/focus.cpp:1396
+#: ekos/focus/focus.cpp:1377
 #, kde-format
 msgid "Capture aborted."
 msgstr "Yakalama iptal edildi."
@@ -6395,7 +6395,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Çözücü %1 saniye ardından iptal edildi."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
-#: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4359
+#: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -6555,7 +6555,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (yaysan)"
 
 #: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3179
-#: ekos/focus/focus.cpp:5154
+#: ekos/focus/focus.cpp:5170
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Süzme işlemi başarısız oldu."
@@ -16125,8 +16125,8 @@ msgstr "İş öncesi betiği %1 koduyla bitti."
 msgid "Post job script finished with code %1."
 msgstr "İş sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5318
-#: ekos/focus/focus.cpp:5342
+#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5334
+#: ekos/focus/focus.cpp:5358
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor..."
@@ -16137,7 +16137,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Pozlama zaman aşımı. 3'ten fazlası algılandı, sürücü yeniden başlatılacak."
 
-#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5323
+#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5339
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -18111,7 +18111,7 @@ msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Başlangıç noktası [%1], %2 konumundan %3 konumuna uyarlanıyor"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
-#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7295
+#: ekos/focus/advisor.ui:14 ekos/focus/focus.cpp:7311
 #, kde-format
 msgid "Focus Advisor"
 msgstr "Odak Danışmanı"
@@ -18551,12 +18551,12 @@ msgstr ""
 msgid " nm"
 msgstr " nm"
 
-#: ekos/focus/focus.cpp:112
+#: ekos/focus/focus.cpp:113
 #, kde-format
 msgid "Idle."
 msgstr "Boşta."
 
-#: ekos/focus/focus.cpp:134
+#: ekos/focus/focus.cpp:135
 #, kde-format
 msgid "Focus Options Profile Editor"
 msgstr "Odak Seçenekleri Profili Düzenleyicisi"
@@ -18565,56 +18565,56 @@ msgstr "Odak Seçenekleri Profili Düzenleyicisi"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:191 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:192 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:899 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
 msgstr "Ayarlar"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:191 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:192 ekos/focus/opsfocussettings.ui:14
 #, kde-format
 msgid "Focus Settings"
 msgstr "Odak Ayarları"
 
-#: ekos/focus/focus.cpp:195
+#: ekos/focus/focus.cpp:196
 #, kde-format
 msgid "Process"
 msgstr "Süreç"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:195 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:196 ekos/focus/opsfocusprocess.ui:14
 #, kde-format
 msgid "Focus Process"
 msgstr "Odak Süreci"
 
-#: ekos/focus/focus.cpp:199
+#: ekos/focus/focus.cpp:200
 #, kde-format
 msgid "Mechanics"
 msgstr "Mekanikler"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:199 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:200 ekos/focus/opsfocusmechanics.ui:14
 #, kde-format
 msgid "Focus Mechanics"
 msgstr "Odak Mekanikleri"
 
-#: ekos/focus/focus.cpp:932
+#: ekos/focus/focus.cpp:933
 #, kde-format
 msgid "Finally found temperature source %1"
 msgstr "En sonunda %1 sıcaklık kaynağı bulundu"
 
-#: ekos/focus/focus.cpp:1024
+#: ekos/focus/focus.cpp:1025
 #, kde-format
 msgid "No Focuser connected."
 msgstr "Bağlı odaklayıcı yok."
 
-#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4407
+#: ekos/focus/focus.cpp:1032 ekos/focus/focus.cpp:4388
 #, kde-format
 msgid "No CCD connected."
 msgstr "Bağlı CCD yok."
 
-#: ekos/focus/focus.cpp:1038
+#: ekos/focus/focus.cpp:1039
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
@@ -18622,361 +18622,366 @@ msgstr ""
 "Başlangıç nabız adımı pek düşük. Adım boyutunu %1 veya daha yüksek bir "
 "değere ayarlayın..."
 
-#: ekos/focus/focus.cpp:1049
+#: ekos/focus/focus.cpp:1050
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 "Kendiliğinden odaklama halihazırda çalışıyor, başlatma isteği yok sayılıyor."
 
-#: ekos/focus/focus.cpp:1056
+#: ekos/focus/focus.cpp:1057
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr "Yapı ofseti halihazırda çalışıyor, kendiliğinden odaklama reddedildi."
 
-#: ekos/focus/focus.cpp:1064
+#: ekos/focus/focus.cpp:1065
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Odak döngüsünde; kendiliğinden odaklama reddedildi."
 
-#: ekos/focus/focus.cpp:1076
-#, kde-format
-msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#: ekos/focus/focus.cpp:1072 ekos/focus/focus.cpp:4719
+#: ekos/focus/focus.cpp:4963
+#, fuzzy, kde-format
+#| msgid "Auto Focus"
+msgid "Adjust Focus"
+msgstr "Kendiliğinden Odakla"
+
+#. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
+#: ekos/focus/focus.cpp:1072 ekos/focus/focus.cpp:4721
+#: ekos/focus/focus.cpp:4963 ekos/focus/opsfocussettings.ui:445
+#: ekos/focus/opsfocussettings.ui:525
+#, fuzzy, kde-format
+#| msgid "Adaptive Optics"
+msgid "Adaptive Focus"
+msgstr "Uyarlanabilir Optikler"
+
+#: ekos/focus/focus.cpp:1075
+#, fuzzy, kde-format
+#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Kendiliğinden odaklama başlatma isteği - kendiliğinden odaklamanın "
 "tamamlanması için 10 saniye bekleniyor."
 
-#: ekos/focus/focus.cpp:1084
-#, kde-format
-msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#: ekos/focus/focus.cpp:1083
+#, fuzzy, kde-format
+#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 "Kendiliğinden odaklama başlatma isteği yok sayılıyor - kendiliğinden "
 "odaklama yapılıyor."
 
-#: ekos/focus/focus.cpp:1094
-#, kde-format
-msgid "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-msgstr ""
-"Kendiliğinden odaklama başlatma isteği - uyarlanır odağın tamamlanması için "
-"10 saniye bekleniyor."
-
-#: ekos/focus/focus.cpp:1102
-#, kde-format
-msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
-msgstr ""
-"Kendiliğinden odaklama başlatma isteği yok sayılıyor - uyarlanır odak "
-"yapılıyor."
-
-#: ekos/focus/focus.cpp:1260
+#: ekos/focus/focus.cpp:1241
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "Kendiliğinden odaklama yapılıyor..."
 
-#: ekos/focus/focus.cpp:1262
+#: ekos/focus/focus.cpp:1243
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr "Görüntü yakalama tamamlanana kadar lütfen bekleyin..."
 
-#: ekos/focus/focus.cpp:1276
+#: ekos/focus/focus.cpp:1257
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "Kendiliğinden odaklama işlemi başladı"
 
-#: ekos/focus/focus.cpp:1340
+#: ekos/focus/focus.cpp:1321
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Odaklayıcının başlangıç konumu için tarama başlatılıyor..."
 
-#: ekos/focus/focus.cpp:1341
+#: ekos/focus/focus.cpp:1322
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Başlama konumu taranıyor..."
 
-#: ekos/focus/focus.cpp:1401
+#: ekos/focus/focus.cpp:1382
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Yakalama sürüyor, 1 saniye içinde yeniden denenecek..."
 
-#: ekos/focus/focus.cpp:1413
+#: ekos/focus/focus.cpp:1394
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek..."
 
-#: ekos/focus/focus.cpp:1446
+#: ekos/focus/focus.cpp:1427
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Kendiliğinden odaklama iptal edildi."
 
-#: ekos/focus/focus.cpp:1547
+#: ekos/focus/focus.cpp:1528
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Hata: Algılanan kamera yok."
 
-#: ekos/focus/focus.cpp:1554
+#: ekos/focus/focus.cpp:1535
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Hata: Kameraya olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1575
+#: ekos/focus/focus.cpp:1556
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Hata: Algılanan süzgeç tekerleği yok."
 
-#: ekos/focus/focus.cpp:1581
+#: ekos/focus/focus.cpp:1562
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1699
+#: ekos/focus/focus.cpp:1680
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "En düşük odak konumu %1 üzerinde..."
 
-#: ekos/focus/focus.cpp:1710
+#: ekos/focus/focus.cpp:1691
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "En düşük odak konumu %1 üzerine hareket ediliyor..."
 
-#: ekos/focus/focus.cpp:1719
+#: ekos/focus/focus.cpp:1700
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "En yüksek odak konumu %1 üzerinde..."
 
-#: ekos/focus/focus.cpp:1730
+#: ekos/focus/focus.cpp:1711
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "En yüksek odak konumu %1 üzerine hareket ediliyor..."
 
-#: ekos/focus/focus.cpp:1757
+#: ekos/focus/focus.cpp:1738
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Hata: Algılanan odaklayıcı yok."
 
-#: ekos/focus/focus.cpp:1764
+#: ekos/focus/focus.cpp:1745
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Hata: Odaklayıcıya olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1778
+#: ekos/focus/focus.cpp:1759
 #, kde-format
 msgid "outward"
 msgstr "dışa"
 
-#: ekos/focus/focus.cpp:1778
+#: ekos/focus/focus.cpp:1759
 #, kde-format
 msgid "inward"
 msgstr "içe"
 
-#: ekos/focus/focus.cpp:1795
+#: ekos/focus/focus.cpp:1776
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "%1 adım %2 odaklanılıyor..."
 
-#: ekos/focus/focus.cpp:1801
+#: ekos/focus/focus.cpp:1782
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "%1 adım %2 odaklanılıyor..."
 msgstr[1] "%1 adım %2 odaklanılıyor..."
 
-#: ekos/focus/focus.cpp:1807
+#: ekos/focus/focus.cpp:1788
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "%1 ms %2 odaklanılıyor..."
 
-#: ekos/focus/focus.cpp:1842
+#: ekos/focus/focus.cpp:1823
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Odaklayıcı hâlâ zaman aşımına uğruyor. İptal ediliyor..."
 
-#: ekos/focus/focus.cpp:1849
+#: ekos/focus/focus.cpp:1830
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Odak hareketi zaman aşımına uğradı (%1). Odak sürücüsü %2 yeniden "
 "başlatılıyor..."
 
-#: ekos/focus/focus.cpp:1860
+#: ekos/focus/focus.cpp:1841
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Odak hareketi zaman aşımına uğradı (%1). %2 adıma yeniden odaklanılıyor..."
 
-#: ekos/focus/focus.cpp:1906
+#: ekos/focus/focus.cpp:1887
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Odaklayıcıya yeniden bağlanma deneniyor: %1"
 
-#: ekos/focus/focus.cpp:1915
+#: ekos/focus/focus.cpp:1896
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Odaklayıcıya yeniden bağlanılamıyor: %1. İptal ediliyor..."
 
-#: ekos/focus/focus.cpp:1973
+#: ekos/focus/focus.cpp:1954
 #, kde-format
 msgid "Detection complete."
 msgstr "Algılama tamamlandı."
 
-#: ekos/focus/focus.cpp:2164
+#: ekos/focus/focus.cpp:2145
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Kaynaklar algılanıyor..."
 
-#: ekos/focus/focus.cpp:2267
+#: ekos/focus/focus.cpp:2248
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Kendiliğinden odaklama işlemi başarıyla tamamlandı"
 
-#: ekos/focus/focus.cpp:2280
+#: ekos/focus/focus.cpp:2261
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Kendiliğinden odaklam işlemi başarısız oldu"
 
-#: ekos/focus/focus.cpp:2347
+#: ekos/focus/focus.cpp:2328
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "%1 yineleme sonrası odak prosedürü tamamlandı."
 msgstr[1] "%1 yineleme sonrası odak prosedürü tamamlandı."
 
-#: ekos/focus/focus.cpp:2433
+#: ekos/focus/focus.cpp:2414
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "%1 sn için yerleşiliyor..."
 
-#: ekos/focus/focus.cpp:2441
+#: ekos/focus/focus.cpp:2422
 #, kde-format
 msgid "Settling complete."
 msgstr "Yerleşim tamamlandı."
 
-#: ekos/focus/focus.cpp:2454
+#: ekos/focus/focus.cpp:2435
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Kendiliğinden odaklama başarısız oldu, %1 başlangıç odak konumuna geri "
 "dönülüyor."
 
-#: ekos/focus/focus.cpp:2491
+#: ekos/focus/focus.cpp:2472
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS alındı. Algılanan yıldız yok."
 
-#: ekos/focus/focus.cpp:2767
+#: ekos/focus/focus.cpp:2748
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Kendiliğinden bir yıldız seçilemedi. Lütfen bir tanesini elle seçin."
 
-#: ekos/focus/focus.cpp:2861
+#: ekos/focus/focus.cpp:2842
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Yakalama tamamlandı. Odaklanacak bir yıldız seçin."
 
-#: ekos/focus/focus.cpp:2892
+#: ekos/focus/focus.cpp:2873
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "HFR sınanırken bir yıldız algılanmadı, yeniden yakalanıyor..."
 
-#: ekos/focus/focus.cpp:2912
+#: ekos/focus/focus.cpp:2893
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Sınır %2"
 
-#: ekos/focus/focus.cpp:3026
+#: ekos/focus/focus.cpp:3007
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Kendiliğinden odaklama başarısız oldu: En yüksek yineleme sayısı %1 aşıldı"
 
-#: ekos/focus/focus.cpp:3037 ekos/focus/focus.cpp:3273
-#: ekos/focus/focus.cpp:3859
+#: ekos/focus/focus.cpp:3018 ekos/focus/focus.cpp:3254
+#: ekos/focus/focus.cpp:3840
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Algılanan yıldız yok, yeniden yakalanıyor..."
 
-#: ekos/focus/focus.cpp:3043 ekos/focus/focus.cpp:3865
+#: ekos/focus/focus.cpp:3024 ekos/focus/focus.cpp:3846
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "%1 konumunda bir yıldız algılanamadı. Sürdürülüyor..."
 
-#: ekos/focus/focus.cpp:3049 ekos/focus/focus.cpp:3871
+#: ekos/focus/focus.cpp:3030 ekos/focus/focus.cpp:3852
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Herhangi bir yıldız algılanamadı. Kareyi sıfırlayın ve yeniden deneyin."
 
-#: ekos/focus/focus.cpp:3236
+#: ekos/focus/focus.cpp:3217
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılamıyor..."
 
-#: ekos/focus/focus.cpp:3256
+#: ekos/focus/focus.cpp:3237
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılıyor..."
 
-#: ekos/focus/focus.cpp:3280
+#: ekos/focus/focus.cpp:3261
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Hiçbir yıldız algılanamadı. İptal ediliyor..."
 
-#: ekos/focus/focus.cpp:3289
+#: ekos/focus/focus.cpp:3270
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Tarama başlangıcı konumu: En yüksek yineleme sayısı %1 aşıldı"
 
-#: ekos/focus/focus.cpp:3307
+#: ekos/focus/focus.cpp:3288
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Başlangıç konumu %1/%2 taranıyor..."
 
-#: ekos/focus/focus.cpp:3321
+#: ekos/focus/focus.cpp:3302
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Tarama en düşüğü yok - arama genişletiliyor..."
 
-#: ekos/focus/focus.cpp:3331
+#: ekos/focus/focus.cpp:3312
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Tarama başlangıcı konumu %1 bulundu"
 
-#: ekos/focus/focus.cpp:3332
+#: ekos/focus/focus.cpp:3313
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Tarama Başlangıcı Konumu %1 Bulundu"
 
-#: ekos/focus/focus.cpp:3393
+#: ekos/focus/focus.cpp:3374
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Eğim uyumu denetimi başarısız R2=%1 focusR2Limit=%2 yeniden deneniyor..."
 
-#: ekos/focus/focus.cpp:3395
+#: ekos/focus/focus.cpp:3376
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Sınır=%2"
 
-#: ekos/focus/focus.cpp:3403
+#: ekos/focus/focus.cpp:3384
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Eğim uyumu denetimi yine başarısız R2=%1 focusR2Limit=%2; ancak "
 "sürdürülüyor..."
 
-#: ekos/focus/focus.cpp:3413
+#: ekos/focus/focus.cpp:3394
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Doğrusal kendiliğinden algılama algoritması iptal edildi: %1"
 
-#: ekos/focus/focus.cpp:3448
+#: ekos/focus/focus.cpp:3429
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS alındı. HFR %1 @ %2. Delta (%​%3)"
 
-#: ekos/focus/focus.cpp:3450
+#: ekos/focus/focus.cpp:3431
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS alındı. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3511
+#: ekos/focus/focus.cpp:3492
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -18985,24 +18990,24 @@ msgstr ""
 "HFR'deki değişiklik pek küçük; adım boyutunu artırmayı veya toleransı "
 "azaltmayı deneyin."
 
-#: ekos/focus/focus.cpp:3518
+#: ekos/focus/focus.cpp:3499
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr "Karedeki odak yıldızı algılanamadı. Bir odak yıldızı yakalayıp seçin."
 
-#: ekos/focus/focus.cpp:3623
+#: ekos/focus/focus.cpp:3604
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "%1 konumunda polinom çözümü bulundu."
 
-#: ekos/focus/focus.cpp:3687
+#: ekos/focus/focus.cpp:3668
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Odaklayıcı daha ileriye gidemiyor, aygıt sınırlarına erişildi. Kendiliğinden "
 "odaklama iptal ediliyor."
 
-#: ekos/focus/focus.cpp:3698
+#: ekos/focus/focus.cpp:3679
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19010,24 +19015,24 @@ msgstr ""
 "Kararsız dalgalanmalar. İlk adım boyutunu veya pozlama süresini artırmayı "
 "deneyin."
 
-#: ekos/focus/focus.cpp:3708
+#: ekos/focus/focus.cpp:3689
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Tıkanma oluştu. Lütfen farklı bir ayar ile yeniden deneyin."
 
-#: ekos/focus/focus.cpp:3737
+#: ekos/focus/focus.cpp:3718
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "En yüksek hareket sınırına ulaşıldı. Kendiliğinden odaklama iptal ediliyor."
 
-#: ekos/focus/focus.cpp:3844
+#: ekos/focus/focus.cpp:3825
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS oluştu. HFR %1. Delta (%2%)"
 
-#: ekos/focus/focus.cpp:3848
+#: ekos/focus/focus.cpp:3829
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19035,59 +19040,89 @@ msgstr ""
 "Uygun odağa ulaşmak için otomatik odaklanma başarısız oldu. Tolerans "
 "değerini ayarlamayı deneyin."
 
-#: ekos/focus/focus.cpp:3943 ekos/focus/focus.cpp:3966
-#: ekos/focus/focus.cpp:4130 ekos/focus/focus.cpp:4210
-#: ekos/focus/focus.cpp:4279 ekos/focus/focus.cpp:4351
+#: ekos/focus/focus.cpp:3924 ekos/focus/focus.cpp:3947
+#: ekos/focus/focus.cpp:4111 ekos/focus/focus.cpp:4191
+#: ekos/focus/focus.cpp:4260 ekos/focus/focus.cpp:4332
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Odaklayıcı hatası, INDI panelini denetleyin."
 
-#: ekos/focus/focus.cpp:4027 ekos/focus/focus.cpp:4146
+#: ekos/focus/focus.cpp:4008 ekos/focus/focus.cpp:4127
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Simulate focuser comms failure..."
 msgstr "Otomatik odaklanma tamamlandı"
 
-#: ekos/focus/focus.cpp:4108 ekos/focus/focus.cpp:4192
-#: ekos/focus/focus.cpp:4261 ekos/focus/focus.cpp:4299
+#: ekos/focus/focus.cpp:4089 ekos/focus/focus.cpp:4173
+#: ekos/focus/focus.cpp:4242 ekos/focus/focus.cpp:4280
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
 
-#: ekos/focus/focus.cpp:4423
+#: ekos/focus/focus.cpp:4404
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Sürekli pozlama başlatılıyor..."
 
-#: ekos/focus/focus.cpp:4712
+#: ekos/focus/focus.cpp:4693
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4717
+#: ekos/focus/focus.cpp:4698
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "1 yıldız algılandı."
 
-#: ekos/focus/focus.cpp:4861
+#: ekos/focus/focus.cpp:4717
+#, fuzzy, kde-format
+#| msgid "Auto Focus:"
+msgid "Autofocus"
+msgstr "Otomatik Odaklama:"
+
+#: ekos/focus/focus.cpp:4725
+#, fuzzy, kde-format
+#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+msgid "Check focus request - Waiting 10sec for %1 to complete."
+msgstr ""
+"Kendiliğinden odaklama başlatma isteği - kendiliğinden odaklamanın "
+"tamamlanması için 10 saniye bekleniyor."
+
+#: ekos/focus/focus.cpp:4733
+#, fuzzy, kde-format
+#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+msgid "Discarding Check Focus request - %1 in progress."
+msgstr ""
+"Kendiliğinden odaklama başlatma isteği yok sayılıyor - kendiliğinden "
+"odaklama yapılıyor."
+
+#: ekos/focus/focus.cpp:4870
 #, fuzzy, kde-format
 #| msgid "No star was selected. Aborting..."
 msgid "No star was selected. Using last known position..."
 msgstr "Seçili yıldız yok. İptal ediliyor..."
 
-#: ekos/focus/focus.cpp:4867
+#: ekos/focus/focus.cpp:4876
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Seçili yıldız yok. İptal ediliyor..."
 
-#: ekos/focus/focus.cpp:4878
+#: ekos/focus/focus.cpp:4887
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4984
+#: ekos/focus/focus.cpp:4966
+#, fuzzy, kde-format
+#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+msgid "Adjust focus request - Waiting 10sec for %1 to complete."
+msgstr ""
+"Kendiliğinden odaklama başlatma isteği - kendiliğinden odaklamanın "
+"tamamlanması için 10 saniye bekleniyor."
+
+#: ekos/focus/focus.cpp:5000
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -19095,26 +19130,26 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Odak Zamanlayıcısı"
 
-#: ekos/focus/focus.cpp:5366
+#: ekos/focus/focus.cpp:5382
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save image. Aborting..."
 msgstr "Alt çerçeve ayarlama başarısız."
 
-#: ekos/focus/focus.cpp:5381 ekos/focus/focus.cpp:5406
+#: ekos/focus/focus.cpp:5397 ekos/focus/focus.cpp:5422
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
 
-#: ekos/focus/focus.cpp:5698
+#: ekos/focus/focus.cpp:5714
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Yol Kaldır"
 
-#: ekos/focus/focus.cpp:7268
+#: ekos/focus/focus.cpp:7284
 #, kde-format
 msgid ""
 "Focus Advisor (FA) is designed to help you with focus parameters.\n"
@@ -19140,7 +19175,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ekos/focus/focus.cpp:7284
+#: ekos/focus/focus.cpp:7300
 #, kde-format
 msgid ""
 "The third step is to set the remaining focus parameters to sensible values. "
@@ -20636,14 +20671,6 @@ msgstr ""
 "<html><head/><body><p>Odaklama dışında bırakılacak dış dairenin çapı. Çap, "
 "görsel köşegeninin yüzdesi olarak verilir. Algılayıcının dış kenarlarını "
 "içermek için %​100'e ayarlayın. </p></body></html>"
-
-#. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/opsfocussettings.ui:445 ekos/focus/opsfocussettings.ui:525
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
-msgid "Adaptive Focus"
-msgstr "Uyarlanabilir Optikler"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/opsfocussettings.ui:472
@@ -86514,6 +86541,17 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
+
+#~ msgid ""
+#~ "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
+#~ msgstr ""
+#~ "Kendiliğinden odaklama başlatma isteği - uyarlanır odağın tamamlanması "
+#~ "için 10 saniye bekleniyor."
+
+#~ msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
+#~ msgstr ""
+#~ "Kendiliğinden odaklama başlatma isteği yok sayılıyor - uyarlanır odak "
+#~ "yapılıyor."
 
 #, fuzzy
 #~| msgid "Time out:"
