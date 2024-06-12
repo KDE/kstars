@@ -4319,6 +4319,18 @@ void Align::loadGlobalSettings()
         }
     }
 
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
     m_GlobalSettings = m_Settings = settings;
 }
 
@@ -4394,6 +4406,10 @@ QVariantMap Align::getAllSettings() const
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    // All Radio Buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     return settings;
