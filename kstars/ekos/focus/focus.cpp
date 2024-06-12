@@ -7632,8 +7632,8 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
-        if (value != pRadioButton->isChecked())
-            pRadioButton->setChecked(value);
+        if (value)
+            pRadioButton->click();
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
