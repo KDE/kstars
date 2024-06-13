@@ -5517,7 +5517,7 @@ void Focus::loadGlobalSettings()
 
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
-        if (value.isValid())
+        if (value.isValid() && oneWidget->count() > 0)
         {
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
