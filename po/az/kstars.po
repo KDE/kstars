@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
 "PO-Revision-Date: 2022-07-31 23:14+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -6611,12 +6611,12 @@ msgstr ""
 msgid "Polar Alignment"
 msgstr ""
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, kde-format
 msgid "Capture timed out."
 msgstr ""
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""

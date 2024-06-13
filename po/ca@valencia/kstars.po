@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
-"PO-Revision-Date: 2024-05-31 21:43+0200\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
+"PO-Revision-Date: 2024-06-12 15:14+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3747,7 +3747,7 @@ msgstr "No s'ha trobat cap muntura connectada."
 #: tools/whatsinteresting/wiview.cpp:350
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
-msgstr "La muntura «%1» no està en línia. Connecteu-la i torneu-ho a intentar."
+msgstr "La muntura «%1» no està en línia. Connecteu-la i torneu-ho a provar."
 
 #: dialogs/detaildialog.cpp:1127
 #, kde-format
@@ -6748,12 +6748,12 @@ msgstr "Els punts de la solució s'han guardat com: %1"
 msgid "Polar Alignment"
 msgstr "Alineació polar"
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, kde-format
 msgid "Capture timed out."
 msgstr "La captura ha excedit el temps."
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -7332,7 +7332,7 @@ msgstr "S'està iniciant el solucionador…"
 #: ekos/align/remoteastrometryparser.cpp:248
 #, kde-format
 msgid "Solver failed. Try again."
-msgstr "El solucionador ha fallat. Torneu-ho a intentar."
+msgstr "El solucionador ha fallat. Torneu-ho a provar."
 
 #: ekos/align/astapastrometryparser.cpp:148
 #, kde-format
@@ -9993,7 +9993,7 @@ msgstr "La informació WCS ara és vàlida. Es capturarà el fotograma següent�
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "No s'ha pogut processar el sistema de coordenades mundial: %1. Torneu-ho a "
-"intentar."
+"provar."
 
 #: ekos/align/polaralignmentassistant.cpp:1176
 #, kde-format
@@ -19117,10 +19117,9 @@ msgstr "Bucle d'enfocament, s'ha rebutjat l'enfocament automàtic."
 
 #: ekos/focus/focus.cpp:1072 ekos/focus/focus.cpp:4719
 #: ekos/focus/focus.cpp:4963
-#, fuzzy, kde-format
-#| msgid "Auto Focus"
+#, kde-format
 msgid "Adjust Focus"
-msgstr "Enfocament automàtic"
+msgstr "Ajustament de l'enfocament"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
@@ -19132,20 +19131,17 @@ msgid "Adaptive Focus"
 msgstr "Enfocament adaptatiu"
 
 #: ekos/focus/focus.cpp:1075
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
-"Sol·licitud d'inici d'enfocament automàtic: S'esperen 10 s per a completar "
-"l'ajustament de l'enfocament."
+"Sol·licitud d'inici d'ajustament de l'enfocament: S'esperen 10 s per a "
+"completar %1."
 
 #: ekos/focus/focus.cpp:1083
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: l'ajustament de "
-"l'enfocament està en curs."
+"Es descarta la sol·licitud d'inici d'enfocament automàtic: %1 està en curs."
 
 #: ekos/focus/focus.cpp:1241
 #, kde-format
@@ -19390,7 +19386,7 @@ msgstr "No s'ha pogut detectar cap estrela a la posició %1. S'està continuant�
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "No s'han pogut detectar les estreles. Reinicieu el fotograma i torneu-ho a "
-"intentar."
+"provar."
 
 #: ekos/focus/focus.cpp:3217
 #, kde-format
@@ -19564,26 +19560,20 @@ msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrela que s'enfocarà."
 
 #: ekos/focus/focus.cpp:4717
-#, fuzzy, kde-format
-#| msgid "Auto focus:"
+#, kde-format
 msgid "Autofocus"
-msgstr "Enfocament automàtic:"
+msgstr "Enfocament automàtic"
 
 #: ekos/focus/focus.cpp:4725
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
-"Sol·licitud d'inici d'enfocament automàtic: S'esperen 10 s per a completar "
-"l'ajustament de l'enfocament."
+"Es comprova la sol·licitud d'enfocament: S'esperen 10 s per a completar %1."
 
 #: ekos/focus/focus.cpp:4733
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
-msgstr ""
-"Es descarta la sol·licitud d'inici d'enfocament automàtic: l'ajustament de "
-"l'enfocament està en curs."
+msgstr "Es descarta comprovar la sol·licitud d'enfocament: %1 està en curs."
 
 #: ekos/focus/focus.cpp:4870
 #, kde-format
@@ -19602,12 +19592,10 @@ msgid "Focuser already at %1..."
 msgstr "L'enfocador ja es troba a %1.."
 
 #: ekos/focus/focus.cpp:4966
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
-"Sol·licitud d'inici d'enfocament automàtic: S'esperen 10 s per a completar "
-"l'ajustament de l'enfocament."
+"Sol·licitud d'ajustament de l'enfocament: S'esperen 10 s per a completar %1."
 
 #: ekos/focus/focus.cpp:5000
 #, kde-format
@@ -21397,7 +21385,7 @@ msgid ""
 "try again."
 msgstr ""
 "Només s'admet Lin-Guider v4.1.0 o posterior. Si su plau, actualitzeu-lo i "
-"torneu-ho a intentar."
+"torneu-ho a provar."
 
 #: ekos/guide/externalguide/linguider.cpp:166
 #, kde-format
@@ -25049,7 +25037,7 @@ msgstr "Velocitat"
 #: ekos/mount/mounttargetwidget.ui:168
 #, kde-format
 msgid "Alt/AZ"
-msgstr ""
+msgstr "«Alt»/AZ"
 
 #: ekos/observatory/observatory.cpp:243
 #, kde-format
@@ -59389,9 +59377,7 @@ msgid "Preston"
 msgstr "Preston"
 
 #: kstars_i18n.cpp:3196
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Preston"
+#, kde-kuit-format
 msgctxt "City in Lancashire United Kingdom"
 msgid "Preston"
 msgstr "Preston"
@@ -65544,12 +65530,10 @@ msgid "Komárom-Esztergom"
 msgstr "Komárom-Esztergom"
 
 #: kstars_i18n.cpp:4220
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in New Hampshire USA"
-#| msgid "Lancaster"
+#, kde-kuit-format
 msgctxt "Region/state in United Kingdom"
 msgid "Lancashire"
-msgstr "Lancaster"
+msgstr "Lancashire"
 
 #: kstars_i18n.cpp:4221
 #, kde-kuit-format
@@ -71058,7 +71042,7 @@ msgid ""
 "Please, switch on the location service, and retry"
 msgstr ""
 "No hi ha cap servei d'ubicació (GPS, servei mòbil, etc.) disponible.\n"
-"Canvieu el servei d'ubicació i torneu-ho a intentar"
+"Canvieu el servei d'ubicació i torneu-ho a provar"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:150
 #, kde-kuit-format
@@ -71070,7 +71054,7 @@ msgstr ""
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:160
 #, kde-kuit-format
 msgid "Timeout occurred. Try again."
-msgstr "S'ha excedit el temps. Torneu-ho a intentar."
+msgstr "S'ha excedit el temps. Torneu-ho a provar."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:175
 #, kde-kuit-format
@@ -82423,8 +82407,7 @@ msgstr "Coordenades no vàlides."
 #: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
-msgstr ""
-"El telescopi «%1» no està en línia. Connecteu-lo i torneu-ho a intentar."
+msgstr "El telescopi «%1» no està en línia. Connecteu-lo i torneu-ho a provar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/flagmanager.ui:101
@@ -87339,37 +87322,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-#~ msgstr ""
-#~ "Sol·licitud d'inici d'enfocament automàtic - S'esperen 10 s per a "
-#~ "completar l'enfocament adaptatiu."
-
-#~ msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
-#~ msgstr ""
-#~ "Es descarta la sol·licitud d'inici d'enfocament automàtic: L'enfocament "
-#~ "adaptatiu està en curs."
-
-#~ msgid "Time Source:"
-#~ msgstr "Font del temps:"
-
-#~ msgid "Location Source:"
-#~ msgstr "Font de l'emplaçament:"
-
-#~ msgid "DEC:"
-#~ msgstr "Dec:"
-
-#~ msgid "ALT:"
-#~ msgstr "Alt:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Hour Angle"
-#~ msgstr "Angle horari."
-
-# skip-rule: punctuation-period-no
-#~ msgid "Local Sidereal TIme"
-#~ msgstr "Temps sideral local."
-
-#~ msgid "LST:"
-#~ msgstr "TSL:"

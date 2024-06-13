@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -6858,13 +6858,13 @@ msgstr "Výsledné súradnice"
 msgid "Polar Alignment"
 msgstr "Meranie polárneho vyrovnania"
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, fuzzy, kde-format
 #| msgid "Capture failed."
 msgid "Capture timed out."
 msgstr "Zachytenie zhyhalo."
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."

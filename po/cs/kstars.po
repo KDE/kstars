@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
 "PO-Revision-Date: 2024-04-26 11:01+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -6463,12 +6463,12 @@ msgstr ""
 msgid "Polar Alignment"
 msgstr ""
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, kde-format
 msgid "Capture timed out."
 msgstr ""
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -17822,7 +17822,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:4717
 #, kde-format
 msgid "Autofocus"
-msgstr ""
+msgstr "Autofocus"
 
 #: ekos/focus/focus.cpp:4725
 #, kde-format
@@ -55146,12 +55146,10 @@ msgid "Preston"
 msgstr "Preston"
 
 #: kstars_i18n.cpp:3196
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Preston"
+#, kde-kuit-format
 msgctxt "City in Lancashire United Kingdom"
 msgid "Preston"
-msgstr "Preston"
+msgstr ""
 
 #: kstars_i18n.cpp:3197
 #, kde-kuit-format
@@ -61292,12 +61290,10 @@ msgid "Komárom-Esztergom"
 msgstr "Komárno-Ostřihom"
 
 #: kstars_i18n.cpp:4220
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in New Hampshire USA"
-#| msgid "Lancaster"
+#, kde-kuit-format
 msgctxt "Region/state in United Kingdom"
 msgid "Lancashire"
-msgstr "Lancaster"
+msgstr ""
 
 #: kstars_i18n.cpp:4221
 #, kde-kuit-format

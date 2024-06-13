@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -6585,12 +6585,12 @@ msgstr "यादी रिकामी करा"
 msgid "Polar Alignment"
 msgstr "जुळवा (&A)"
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "कॅपचर: %1"
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""

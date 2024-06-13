@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -6436,12 +6436,12 @@ msgstr "ក្រឡា​ចត្រង្គ​កូអរដោណេ"
 msgid "Polar Alignment"
 msgstr "ផ្សេងៗ"
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "ផ្ទុកឡើង"
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "របារ​ឧបករណ៍"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-12 01:46+0000\n"
-"PO-Revision-Date: 2024-06-09 08:30+0200\n"
+"POT-Creation-Date: 2024-06-13 01:39+0000\n"
+"PO-Revision-Date: 2024-06-12 20:43+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6621,12 +6621,12 @@ msgstr "Lösningspunkter sparade som: %1"
 msgid "Polar Alignment"
 msgstr "Polärinriktning"
 
-#: ekos/align/align.cpp:4541
+#: ekos/align/align.cpp:4557
 #, kde-format
 msgid "Capture timed out."
 msgstr "Tidsgräns för tagning överskriden."
 
-#: ekos/align/align.cpp:4550
+#: ekos/align/align.cpp:4566
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Tagning pågår fortfarande. Försöker igen om %1 sekunder..."
@@ -18609,10 +18609,9 @@ msgstr "I fokuseringsupprepning. Automatisk fokusering avvisad."
 
 #: ekos/focus/focus.cpp:1072 ekos/focus/focus.cpp:4719
 #: ekos/focus/focus.cpp:4963
-#, fuzzy, kde-format
-#| msgid "Auto Focus"
+#, kde-format
 msgid "Adjust Focus"
-msgstr "Automatisk fokusering"
+msgstr "Justera fokus"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
@@ -18624,20 +18623,16 @@ msgid "Adaptive Focus"
 msgstr "Adaptiv fokusering"
 
 #: ekos/focus/focus.cpp:1075
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
-"Begäran om start av automatisk fokusering: Väntar 10 s på att "
-"fokuseringsinriktning ska bli färdig."
+"Begäran om start av automatisk fokusering: Väntar 10 s på att %1 ska bli "
+"färdig."
 
 #: ekos/focus/focus.cpp:1083
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
-msgstr ""
-"Bortser från begäran att starta automatisk fokusering: fokuseringsinriktning "
-"pågår."
+msgstr "Bortser från begäran om att starta automatisk fokusering: %1 pågår."
 
 #: ekos/focus/focus.cpp:1241
 #, kde-format
@@ -19047,26 +19042,19 @@ msgid "Focus star is selected."
 msgstr "Fokuseringsstjärna har valts."
 
 #: ekos/focus/focus.cpp:4717
-#, fuzzy, kde-format
-#| msgid "Auto focus:"
+#, kde-format
 msgid "Autofocus"
-msgstr "Automatisk fokusering:"
+msgstr "Automatisk fokusering"
 
 #: ekos/focus/focus.cpp:4725
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
-msgstr ""
-"Begäran om start av automatisk fokusering: Väntar 10 s på att "
-"fokuseringsinriktning ska bli färdig."
+msgstr "Begäran om kontroll av fokus: Väntar 10 s på att %1 ska bli färdig."
 
 #: ekos/focus/focus.cpp:4733
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
-msgstr ""
-"Bortser från begäran att starta automatisk fokusering: fokuseringsinriktning "
-"pågår."
+msgstr "Bortser från begäran om att kontrollera fokusering: %1 pågår."
 
 #: ekos/focus/focus.cpp:4870
 #, kde-format
@@ -19084,12 +19072,9 @@ msgid "Focuser already at %1..."
 msgstr "Fokusering är redan på %1..."
 
 #: ekos/focus/focus.cpp:4966
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
-msgstr ""
-"Begäran om start av automatisk fokusering: Väntar 10 s på att "
-"fokuseringsinriktning ska bli färdig."
+msgstr "Begäran om justering av fokus: Väntar 10 s på att %1 ska bli färdig."
 
 #: ekos/focus/focus.cpp:5000
 #, kde-format
@@ -58039,9 +58024,7 @@ msgid "Preston"
 msgstr "Preston"
 
 #: kstars_i18n.cpp:3196
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Preston"
+#, kde-kuit-format
 msgctxt "City in Lancashire United Kingdom"
 msgid "Preston"
 msgstr "Preston"
@@ -64185,12 +64168,10 @@ msgid "Komárom-Esztergom"
 msgstr "Komárom-Esztergom"
 
 #: kstars_i18n.cpp:4220
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in New Hampshire USA"
-#| msgid "Lancaster"
+#, kde-kuit-format
 msgctxt "Region/state in United Kingdom"
 msgid "Lancashire"
-msgstr "Lancaster"
+msgstr "Lancashire"
 
 #: kstars_i18n.cpp:4221
 #, kde-kuit-format
