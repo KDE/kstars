@@ -3728,8 +3728,10 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
 {
     ISD::Weather::Status newStatus = status;
 
-    if (newStatus != moduleState()->weatherStatus())
-        moduleState()->setWeatherStatus(newStatus);
+    if (newStatus == moduleState()->weatherStatus())
+        return;
+
+    moduleState()->setWeatherStatus(newStatus);
 
     // Shutdown scheduler if it was started and not already in shutdown
     // and if weather checkbox is checked.
@@ -4243,6 +4245,12 @@ void SchedulerProcess::checkInterfaceReady(QDBusInterface * iface)
         if (capInterface()->property("canPark").isValid())
             moduleState()->setCapReady(true);
     }
+    else if (iface == observatoryInterface())
+    {
+        QVariant status = observatoryInterface()->property("status");
+        if (status.isValid())
+            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
+    }
     else if (iface == weatherInterface())
     {
         QVariant status = weatherInterface()->property("status");
@@ -4317,6 +4325,15 @@ void SchedulerProcess::registerNewModule(const QString &name)
         connect(guideInterface(), SIGNAL(newStatus(Ekos::GuideState)), this,
                 SLOT(setGuideStatus(Ekos::GuideState)), Qt::UniqueConnection);
     }
+    else if (name == "Observatory")
+    {
+        delete observatoryInterface();
+        setObservatoryInterface(new QDBusInterface(kstarsInterfaceString, observatoryPathString, observatoryInterfaceString,
+                                QDBusConnection::sessionBus(), this));
+        connect(observatoryInterface(), SIGNAL(newStatus(ISD::Weather::Status)), this,
+                SLOT(setWeatherStatus(ISD::Weather::Status)), Qt::UniqueConnection);
+        checkInterfaceReady(observatoryInterface());
+    }
 }
 
 void SchedulerProcess::registerNewDevice(const QString &name, int interface)
@@ -4342,26 +4359,26 @@ void SchedulerProcess::registerNewDevice(const QString &name, int interface)
         }
     }
 
-    if (interface & INDI::BaseDevice::WEATHER_INTERFACE)
-    {
-        QList<QVariant> dbusargs;
-        dbusargs.append(INDI::BaseDevice::WEATHER_INTERFACE);
-        QDBusReply<QStringList> paths = indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
-                                        dbusargs);
-        if (paths.error().type() == QDBusError::NoError)
-        {
-            // Select last device in case a restarted caused multiple instances in the tree
-            setWeatherPathString(paths.value().last());
-            delete weatherInterface();
-            setWeatherInterface(new QDBusInterface(kstarsInterfaceString, weatherPathString,
-                                                   weatherInterfaceString,
-                                                   QDBusConnection::sessionBus(), this));
-            connect(weatherInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-            connect(weatherInterface(), SIGNAL(newStatus(ISD::Weather::Status)), this,
-                    SLOT(setWeatherStatus(ISD::Weather::Status)));
-            checkInterfaceReady(weatherInterface());
-        }
-    }
+    // if (interface & INDI::BaseDevice::WEATHER_INTERFACE)
+    // {
+    //     QList<QVariant> dbusargs;
+    //     dbusargs.append(INDI::BaseDevice::WEATHER_INTERFACE);
+    //     QDBusReply<QStringList> paths = indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
+    //                                     dbusargs);
+    //     if (paths.error().type() == QDBusError::NoError)
+    //     {
+    //         // Select last device in case a restarted caused multiple instances in the tree
+    //         setWeatherPathString(paths.value().last());
+    //         delete weatherInterface();
+    //         setWeatherInterface(new QDBusInterface(kstarsInterfaceString, weatherPathString,
+    //                                                weatherInterfaceString,
+    //                                                QDBusConnection::sessionBus(), this));
+    //         connect(weatherInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
+    //         connect(weatherInterface(), SIGNAL(newStatus(ISD::Weather::Status)), this,
+    //                 SLOT(setWeatherStatus(ISD::Weather::Status)));
+    //         checkInterfaceReady(weatherInterface());
+    //     }
+    // }
 
     if (interface & INDI::BaseDevice::DUSTCAP_INTERFACE)
     {

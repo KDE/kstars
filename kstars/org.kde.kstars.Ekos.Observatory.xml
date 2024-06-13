@@ -2,8 +2,13 @@
 <node>
   <interface name="org.kde.kstars.Ekos.Observatory">
     <property name="logText" type="as" access="read"/>
+    <property name="status" type="i" access="read">
+        <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Weather::Status"/>
+    </property>
     <signal name="newStatus">
-        <arg name="isReady" type="b" direction="out"/>
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Weather::Status"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Weather::Status"/>
     </signal>
   </interface>
 </node>
