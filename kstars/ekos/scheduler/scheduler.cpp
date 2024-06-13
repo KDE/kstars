@@ -2035,7 +2035,9 @@ void Scheduler::interfaceReady(QDBusInterface *iface)
         QVariant status = process()->weatherInterface()->property("status");
         if (status.isValid())
         {
-            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
+            // auto newStatus = static_cast<ISD::Weather::Status>(status.toInt());
+            // if (newStatus != m_moduleState->weatherStatus())
+            //     setWeatherStatus(newStatus);
             schedulerWeather->setEnabled(true);
         }
         else
@@ -2084,42 +2086,39 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             break;
     }
 
-    if (newStatus != moduleState()->weatherStatus())
+    qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
+
+    if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_OK)
+        weatherLabel->setPixmap(
+            QIcon::fromTheme("security-high")
+            .pixmap(QSize(32, 32)));
+    else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_WARNING)
     {
-        qCDebug(KSTARS_EKOS_SCHEDULER) << statusString;
-
-        if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_OK)
-            weatherLabel->setPixmap(
-                QIcon::fromTheme("security-high")
-                .pixmap(QSize(32, 32)));
-        else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_WARNING)
-        {
-            weatherLabel->setPixmap(
-                QIcon::fromTheme("security-medium")
-                .pixmap(QSize(32, 32)));
-            KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"),
-                                  KSNotification::Scheduler, KSNotification::Warn);
-        }
-        else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT)
-        {
-            weatherLabel->setPixmap(
-                QIcon::fromTheme("security-low")
-                .pixmap(QSize(32, 32)));
-            KSNotification::event(QLatin1String("WeatherAlert"),
-                                  i18n("Weather conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler,
-                                  KSNotification::Alert);
-        }
-        else
-            weatherLabel->setPixmap(QIcon::fromTheme("chronometer")
-                                    .pixmap(QSize(32, 32)));
-
-        weatherLabel->show();
-        weatherLabel->setToolTip(statusString);
-
-        process()->appendLogText(statusString);
-
-        emit weatherChanged(moduleState()->weatherStatus());
+        weatherLabel->setPixmap(
+            QIcon::fromTheme("security-medium")
+            .pixmap(QSize(32, 32)));
+        KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"),
+                              KSNotification::Scheduler, KSNotification::Warn);
     }
+    else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT)
+    {
+        weatherLabel->setPixmap(
+            QIcon::fromTheme("security-low")
+            .pixmap(QSize(32, 32)));
+        KSNotification::event(QLatin1String("WeatherAlert"),
+                              i18n("Weather conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler,
+                              KSNotification::Alert);
+    }
+    else
+        weatherLabel->setPixmap(QIcon::fromTheme("chronometer")
+                                .pixmap(QSize(32, 32)));
+
+    weatherLabel->show();
+    weatherLabel->setToolTip(statusString);
+
+    process()->appendLogText(statusString);
+
+    emit weatherChanged(moduleState()->weatherStatus());
 }
 
 void Scheduler::handleSchedulerSleeping(bool shutdown, bool sleep)

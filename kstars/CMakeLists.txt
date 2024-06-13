@@ -1250,8 +1250,7 @@ IF (NOT ANDROID)
             qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
             qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
             qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/schedulerprocess.h Ekos::SchedulerProcess)
-            # TODO enable back observatory
-            #qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
+            qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
         ELSE()
             # INDI
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
@@ -1267,8 +1266,7 @@ IF (NOT ANDROID)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/schedulerprocess.h Ekos::SchedulerProcess)
-            # TODO enable back observatory
-            #qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
 	ENDIF()
     ENDIF ()
 

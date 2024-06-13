@@ -411,6 +411,17 @@ public:
         guidePathString = interface;
     }
 
+    QString observatoryInterfaceString { "org.kde.kstars.Ekos.Observatory" };
+    void setObservatoryInterfaceString(const QString &interface)
+    {
+        observatoryInterfaceString = interface;
+    }
+    QString observatoryPathString { "/KStars/Ekos/Observatory" };
+    void setObservatoryPathString(const QString &interface)
+    {
+        observatoryPathString = interface;
+    }
+
     QString domeInterfaceString { "org.kde.kstars.INDI.Dome" };
     void setDomeInterfaceString(const QString &interface)
     {
@@ -500,6 +511,14 @@ public:
     void setGuideInterface(QPointer<QDBusInterface> newInterface)
     {
         m_guideInterface = newInterface;
+    }
+    QPointer<QDBusInterface> observatoryInterface() const
+    {
+        return m_observatoryInterface;
+    }
+    void setObservatoryInterface(QPointer<QDBusInterface> newInterface)
+    {
+        m_observatoryInterface = newInterface;
     }
     QPointer<QDBusInterface> domeInterface() const
     {
@@ -690,6 +709,7 @@ private:
     QPointer<QDBusInterface> m_mountInterface { nullptr };
     QPointer<QDBusInterface> m_alignInterface { nullptr };
     QPointer<QDBusInterface> m_guideInterface { nullptr };
+    QPointer<QDBusInterface> m_observatoryInterface { nullptr };
     QPointer<QDBusInterface> m_domeInterface { nullptr };
     QPointer<QDBusInterface> m_weatherInterface { nullptr };
     QPointer<QDBusInterface> m_capInterface { nullptr };

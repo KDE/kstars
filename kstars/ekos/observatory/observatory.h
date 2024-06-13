@@ -35,12 +35,18 @@ class Observatory : public QWidget, public Ui::Observatory
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Observatory")
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
+        Q_PROPERTY(ISD::Weather::Status status READ status NOTIFY newStatus)
 
     public:
         Observatory();
 
         bool setDome(ISD::Dome *device);
         bool addWeatherSource(ISD::Weather *device);
+
+        ISD::Weather::Status status()
+        {
+            return m_WeatherStatus;
+        }
 
         // Logging
         QStringList logText()
@@ -69,8 +75,8 @@ class Observatory : public QWidget, public Ui::Observatory
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
-
-        void newWeatherData(const QJsonArray &data);
+        Q_SCRIPTABLE void newWeatherData(const QJsonArray &data);
+        Q_SCRIPTABLE void newStatus(ISD::Weather::Status status);
 
     private:
         // motion control
@@ -123,8 +129,7 @@ class Observatory : public QWidget, public Ui::Observatory
         void updateSensorGraph(const QString &sensor_label, QDateTime now, double value);
 
         // hold all sensor data received from the weather station
-        QJsonArray m_WeatherData;
-        void weatherChanged(ISD::Weather::Status status);
+        QJsonArray m_WeatherData;        
 
         /**
          * @brief Activate or deactivate the weather warning actions
@@ -218,3 +223,4 @@ class Observatory : public QWidget, public Ui::Observatory
         void startWarningTimer();
 };
 }
+

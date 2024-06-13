@@ -7,6 +7,7 @@
 #include "kstarsdata.h"
 
 #include "observatory.h"
+#include "observatoryadaptor.h"
 #include "Options.h"
 
 #include "ekos_observatory_debug.h"
@@ -15,6 +16,12 @@ namespace Ekos
 {
 Observatory::Observatory()
 {
+    qRegisterMetaType<ISD::Weather::Status>("ISD::Weather::Status");
+    qDBusRegisterMetaType<ISD::Weather::Status>();
+
+    new ObservatoryAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Observatory", this);
+
     setupUi(this);
 
     // status control
@@ -445,9 +452,21 @@ bool Observatory::addWeatherSource(ISD::Weather *device)
     for (auto &oneWeatherSource : m_WeatherSources)
         oneWeatherSource->disconnect(this);
 
-    m_WeatherSource = device;
+    // If default source is empty or matches current device then let's set the current weather source to it
+    auto defaultSource = Options::defaultObservatoryWeatherSource();
+    if (defaultSource.isEmpty() || device->getDeviceName() == defaultSource)
+        m_WeatherSource = device;
     m_WeatherSources.append(device);
-    weatherSourceCombo->addItem(device->getDeviceName());
+
+    weatherSourceCombo->blockSignals(true);
+    weatherSourceCombo->clear();
+    for (auto &oneSource : m_WeatherSources)
+        weatherSourceCombo->addItem(oneSource->getDeviceName());
+    if (defaultSource.isEmpty())
+        Options::setDefaultObservatoryWeatherSource(weatherSourceCombo->currentText());
+    else
+        weatherSourceCombo->setCurrentText(defaultSource);
+    weatherSourceCombo->blockSignals(false);
 
     initWeather();
 
@@ -494,7 +513,9 @@ void Observatory::enableMotionControl(bool enabled)
     if (m_Dome->isRolloffRoof())
     {
         motionCWButton->setText(i18n("Open"));
+        motionCWButton->setToolTip(QString());
         motionCCWButton->setText(i18n("Close"));
+        motionCCWButton->setToolTip(QString());
         motionCWButton->setEnabled(enabled);
         motionCCWButton->setEnabled(enabled);
         motionMoveAbsButton->setVisible(false);
@@ -620,6 +641,9 @@ void Observatory::updateSensorGraph(const QString &sensor_label, QDateTime now, 
 
 void Observatory::updateSensorData(const QJsonArray &data)
 {
+    if (data.empty())
+        return;
+
     QDateTime now = KStarsData::Instance()->lt();
 
     for (const auto &oneEntry : qAsConst(data))
@@ -631,14 +655,14 @@ void Observatory::updateSensorData(const QJsonArray &data)
 
         if (sensorDataWidgets[id] == nullptr)
         {
-            QPushButton* labelWidget = new QPushButton(label);
+            QPushButton* labelWidget = new QPushButton(label, this);
             labelWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
             labelWidget->setCheckable(true);
             labelWidget->setStyleSheet("QPushButton:checked\n{\nbackground-color: maroon;\nborder: 1px outset;\nfont-weight:bold;\n}");
             // we need the object name since the label may contain '&' for keyboard shortcuts
             labelWidget->setObjectName(label);
 
-            QLineEdit* valueWidget = new QLineEdit(QString().setNum(value, 'f', 2));
+            QLineEdit* valueWidget = new QLineEdit(QString().setNum(value, 'f', 2), this);
             // fix width to enable stretching of the graph
             valueWidget->setMinimumWidth(96);
             valueWidget->setMaximumWidth(96);
@@ -735,22 +759,29 @@ void Observatory::setWeatherStatus(ISD::Weather::Status status)
             case ISD::Weather::WEATHER_OK:
                 label = "security-high";
                 appendLogText(i18n("Weather is OK"));
+                warningTimer.stop();
+                alertTimer.stop();
                 break;
             case ISD::Weather::WEATHER_WARNING:
                 label = "security-medium";
                 appendLogText(i18n("Weather Warning"));
+                alertTimer.stop();
+                startWarningTimer();
                 break;
             case ISD::Weather::WEATHER_ALERT:
                 label = "security-low";
                 appendLogText(i18n("Weather Alert"));
+                warningTimer.stop();
+                startAlertTimer();
                 break;
             default:
-                label = "";
+                label = QString();
                 break;
         }
 
         weatherStatusLabel->setPixmap(QIcon::fromTheme(label).pixmap(QSize(28, 28)));
         m_WeatherStatus = status;
+        emit newStatus(m_WeatherStatus);
     }
 
     // update weather sensor data
@@ -879,7 +910,6 @@ void Observatory::setWarningActions(WeatherActions actions)
             startWarningTimer();
     }
 }
-
 
 void Observatory::setAlertActions(WeatherActions actions)
 {
@@ -1039,28 +1069,6 @@ QString Observatory::getAlertActionsStatus()
     return i18n("Status: inactive");
 }
 
-void Observatory::weatherChanged(ISD::Weather::Status status)
-{
-    switch (status)
-    {
-        case ISD::Weather::WEATHER_OK:
-            warningTimer.stop();
-            alertTimer.stop();
-            break;
-        case ISD::Weather::WEATHER_WARNING:
-            alertTimer.stop();
-            startWarningTimer();
-            break;
-        case ISD::Weather::WEATHER_ALERT:
-            warningTimer.stop();
-            startAlertTimer();
-            break;
-        default:
-            break;
-    }
-    //emit newStatus(status);
-}
-
 void Observatory::execute(WeatherActions actions)
 {
     if (!m_Dome)
@@ -1128,14 +1136,20 @@ void Observatory::setWeatherSource(const QString &name)
 
             m_WeatherSource = oneWeatherSource;
 
-            connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
-            connect(m_WeatherSource, &ISD::Weather::Disconnected, this, &Ekos::Observatory::shutdownWeather);
-
+            // Must delete all the Buttons and Line-edits
+            for (auto &oneWidget : sensorDataWidgets)
+            {
+                auto pair = oneWidget.second;
+                sensorDataBoxLayout->removeWidget(pair->first);
+                sensorDataBoxLayout->removeWidget(pair->second);
+                pair->first->deleteLater();
+                pair->second->deleteLater();
+            }
+            sensorDataWidgets.clear();
+            initWeather();
             return;
         }
     }
-
-
 }
 
 }
