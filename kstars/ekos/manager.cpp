@@ -1783,13 +1783,13 @@ void Manager::processUpdateProperty(INDI::Property prop)
             prop.isNameMatch("CCD_FRAME") ||
             prop.isNameMatch("GUIDER_FRAME"))
     {
-        if (focusModule() != nullptr)
+        if (focusModule() != nullptr && focusModule()->camera() == prop.getDeviceName())
             focusModule()->syncCameraInfo();
 
-        if (guideModule() != nullptr)
+        if (guideModule() != nullptr && guideModule()->camera() == prop.getDeviceName())
             guideModule()->syncCameraInfo();
 
-        if (alignModule() != nullptr)
+        if (alignModule() != nullptr && alignModule()->camera() == prop.getDeviceName())
             alignModule()->syncCameraInfo();
 
         return;
