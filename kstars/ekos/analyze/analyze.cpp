@@ -1925,7 +1925,7 @@ void Analyze::statsMousePress(QMouseEvent *event)
     QCPAxis *yAxis = activeYAxis;
     if (!yAxis) return;
 
-    // If we're on the legend, adjust the y-axis.
+    // If we're on the y-axis, adjust the y-axis.
     if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
     {
         yAxisInitialPos = yAxis->pixelToCoord(event->y());
@@ -1945,7 +1945,7 @@ void Analyze::statsMouseMove(QMouseEvent *event)
     QCPAxis *yAxis = activeYAxis;
     if (!yAxis) return;
 
-    // If we're on the legend, adjust the y-axis.
+    // If we're on the y-axis, adjust the y-axis.
     if (statsPlot->xAxis->pixelToCoord(event->x()) < plotStart)
     {
         auto range = yAxis->range();
@@ -2520,13 +2520,46 @@ void Analyze::initStatsPlot()
     statsPlot->legend->setVisible(true);
     statsPlot->legend->setFont(QFont("Helvetica", 6));
     statsPlot->legend->setTextColor(Qt::white);
-    // Legend background is black and ~75% opaque.
-    statsPlot->legend->setBrush(QBrush(QColor(0, 0, 0, 190)));
+    // Legend background is transparent.
+    statsPlot->legend->setBrush(QBrush(QColor(0, 0, 0, 50)));
     // Legend stacks vertically.
     statsPlot->legend->setFillOrder(QCPLegend::foRowsFirst);
     // Rows pretty tightly packed.
-    statsPlot->legend->setRowSpacing(-3);
+    statsPlot->legend->setRowSpacing(-10);
+
     statsPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignTop);
+    statsPlot->legend->setSelectableParts(QCPLegend::spLegendBox);
+
+    // Make the lines part of the legend less long.
+    statsPlot->legend->setIconSize(10, 18);
+    statsPlot->legend->setIconTextPadding(3);
+
+    // Clicking on the legend makes it very small (and thus less obscuring the plot).
+    // Clicking again restores it to its original size.
+    connect(statsPlot, &QCustomPlot::legendClick, [ = ](QCPLegend * legend, QCPAbstractLegendItem * item, QMouseEvent * event)
+    {
+        Q_UNUSED(legend);
+        Q_UNUSED(item);
+        Q_UNUSED(event);
+        if (statsPlot->legend->font().pointSize() < 6)
+        {
+            // Restore the original legend.
+            statsPlot->legend->setRowSpacing(-10);
+            statsPlot->legend->setIconSize(10, 18);
+            statsPlot->legend->setFont(QFont("Helvetica", 6));
+            statsPlot->legend->setBrush(QBrush(QColor(0, 0, 0, 50)));
+        }
+        else
+        {
+            // Make the legend very small (unreadable, but clickable).
+            statsPlot->legend->setRowSpacing(-10);
+            statsPlot->legend->setIconSize(5, 5);
+            statsPlot->legend->setFont(QFont("Helvetica", 1));
+            statsPlot->legend->setBrush(QBrush(QColor(0, 0, 0, 0)));
+        }
+        statsPlot->replot();
+    });
+
 
     // Add the graphs.
     QString shortName = "HFR";
