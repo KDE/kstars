@@ -52,6 +52,7 @@ craft_windows_qt515_x86_64:
       allow_failure: true
 
 craft_macos_x86_64:
+  timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
     - suse_tumbleweed_qt515 # we don't have a macos check build
   rules:
