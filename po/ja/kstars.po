@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-13 01:39+0000\n"
+"POT-Creation-Date: 2024-06-14 01:37+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2140,15 +2140,15 @@ msgstr "状態"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3427 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3460 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1326
-#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2219
+#: ekos/scheduler/scheduler.cpp:2227 ekos/scheduler/scheduler.cpp:2237
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
@@ -3861,7 +3861,7 @@ msgid "Never rises"
 msgstr "昇らない"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
-#: ekos/observatory/observatory.cpp:164
+#: ekos/observatory/observatory.cpp:171
 #: kstarslite/dialogs/detaildialoglite.cpp:532
 #: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:632
 #: printing/detailstable.cpp:633
@@ -6727,10 +6727,10 @@ msgstr "画像を保存"
 msgid "Solver aborted after %1 seconds."
 msgstr "FITS ファイルを %1 に保存しました。"
 
-#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
+#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
 #: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:767
-#: ekos/observatory/observatory.cpp:952
+#: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6953,7 +6953,7 @@ msgstr "不正な URL: %1"
 #: ekos/align/align.cpp:3957 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2893
-#: ekos/scheduler/schedulerprocess.cpp:4420
+#: ekos/scheduler/schedulerprocess.cpp:4437
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
@@ -6964,8 +6964,8 @@ msgstr "画像を保存できません: %1 "
 #: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
-#: ekos/scheduler/schedulerprocess.cpp:4421
-#: ekos/scheduler/schedulerprocess.cpp:4441 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4438
+#: ekos/scheduler/schedulerprocess.cpp:4458 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -7645,7 +7645,7 @@ msgstr "観測リスト"
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
 #: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
-#: ekos/scheduler/schedulerprocess.cpp:4440
+#: ekos/scheduler/schedulerprocess.cpp:4457
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -8974,8 +8974,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:350 ekos/observatory/observatory.cpp:393
-#: ekos/observatory/observatory.cpp:397 ekos/observatory/observatory.cpp:496
+#: ekos/observatory/observatory.cpp:357 ekos/observatory/observatory.cpp:400
+#: ekos/observatory/observatory.cpp:404 ekos/observatory/observatory.cpp:515
 #: ekos/observatory/observatory.ui:673
 #, fuzzy, kde-format
 #| msgid "FITS Open"
@@ -10579,7 +10579,7 @@ msgid "Failed to find solver settings."
 msgstr "画像のロードに失敗"
 
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
-#: ekos/observatory/observatory.cpp:356 indi/indidome.cpp:21
+#: ekos/observatory/observatory.cpp:363 indi/indidome.cpp:21
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #, fuzzy, kde-format
 #| msgctxt "City in Australia"
@@ -10588,7 +10588,7 @@ msgid "Parked"
 msgstr "パークス"
 
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:150
-#: ekos/observatory/observatory.cpp:283 ekos/observatory/observatory.cpp:299
+#: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #, fuzzy, kde-format
 #| msgctxt "City in China"
@@ -10718,7 +10718,7 @@ msgstr "枚数:"
 msgid "Job"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2541
+#: ekos/analyze/analyze.cpp:2574
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10726,7 +10726,7 @@ msgid ""
 "will have their HFRs computed."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:2557
+#: ekos/analyze/analyze.cpp:2590
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10734,7 +10734,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3429 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3462 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1332
@@ -10743,64 +10743,64 @@ msgstr ""
 msgid "Aborted"
 msgstr "中止"
 
-#: ekos/analyze/analyze.cpp:3431 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3464 ekos/ekos.h:22
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connected"
 msgstr "接続"
 
-#: ekos/analyze/analyze.cpp:3433 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3466 ekos/ekos.h:23
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Disconnected"
 msgstr "切断"
 
-#: ekos/analyze/analyze.cpp:3435 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing"
 msgstr "画像を保存"
 
-#: ekos/analyze/analyze.cpp:3437 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3470 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3439 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3472 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Subtracting"
 msgstr "カリエンテ"
 
-#: ekos/analyze/analyze.cpp:3441 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframing"
 msgstr "名前:"
 
-#: ekos/analyze/analyze.cpp:3443 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:28
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selecting star"
 msgstr "恒星を選択"
 
-#: ekos/analyze/analyze.cpp:3445 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3478 ekos/ekos.h:29 ekos/ekos.h:74
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibrating"
 msgstr "カリエンテ"
 
-#: ekos/analyze/analyze.cpp:3447 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:30
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration error"
 msgstr "カリエンテ"
 
-#: ekos/analyze/analyze.cpp:3449 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:31
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -10808,27 +10808,27 @@ msgid "Calibrated"
 msgstr "カリエンテ"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3451 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1994
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
 msgstr "ガイド線"
 
-#: ekos/analyze/analyze.cpp:3453 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3486 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspended"
 msgstr "ガイド線"
 
-#: ekos/analyze/analyze.cpp:3455 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Reacquiring"
 msgstr "画像を保存"
 
-#: ekos/analyze/analyze.cpp:3457 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:35 ekos/ekos.h:73
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -10836,26 +10836,26 @@ msgid "Dithering"
 msgstr "その他"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3459 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Manual Dithering"
 msgstr "その他"
 
-#: ekos/analyze/analyze.cpp:3461 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:37
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering error"
 msgstr "ドームクリーク"
 
-#: ekos/analyze/analyze.cpp:3463 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3465 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling"
@@ -12915,10 +12915,10 @@ msgstr "デフォルト"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
 #. i18n: ectx: property (text), widget (QCheckBox, useDomeCB)
-#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:244
-#: ekos/observatory/observatory.cpp:255 ekos/observatory/observatory.cpp:295
-#: ekos/observatory/observatory.cpp:310 ekos/observatory/observatory.cpp:325
-#: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.ui:57
+#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:251
+#: ekos/observatory/observatory.cpp:262 ekos/observatory/observatory.cpp:302
+#: ekos/observatory/observatory.cpp:317 ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:339 ekos/observatory/observatory.ui:57
 #: ekos/observatory/observatory.ui:722
 #, fuzzy, kde-format
 #| msgctxt "Show the selected object in the telescope"
@@ -13682,8 +13682,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
 #: ekos/auxiliary/serialportassistant.ui:264
 #: ekos/ekoslive/ekoslivedialog.ui:334 ekos/indihub.ui:165
-#: ekos/observatory/observatory.cpp:382 ekos/observatory/observatory.cpp:387
-#: ekos/observatory/observatory.cpp:497 ekos/observatory/observatory.ui:631
+#: ekos/observatory/observatory.cpp:389 ekos/observatory/observatory.cpp:394
+#: ekos/observatory/observatory.cpp:517 ekos/observatory/observatory.ui:631
 #: indi/guimanager.cpp:76 kstarslite/qml/modules/tutorial/TutorialPopup.qml:61
 #, kde-format, kde-kuit-format
 msgid "Close"
@@ -24142,8 +24142,8 @@ msgstr "メリディアン"
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1028
-#: ekos/observatory/observatory.cpp:1039
+#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, fuzzy, kde-format
@@ -24282,7 +24282,7 @@ msgstr "カリエンテ"
 msgid "Failed to clear Alignment Model."
 msgstr "バッチモード"
 
-#: ekos/mount/mount.cpp:1281 ekos/scheduler/schedulerprocess.cpp:3885
+#: ekos/mount/mount.cpp:1281 ekos/scheduler/schedulerprocess.cpp:3887
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
@@ -24504,8 +24504,8 @@ msgstr "北"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:734 ekos/observatory/observatory.cpp:266
-#: ekos/observatory/observatory.cpp:314 ekos/observatory/observatory.cpp:343
+#: ekos/mount/mount.ui:734 ekos/observatory/observatory.cpp:273
+#: ekos/observatory/observatory.cpp:321 ekos/observatory/observatory.cpp:350
 #: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
 #, fuzzy, kde-format
 #| msgctxt "City in Australia"
@@ -24629,174 +24629,174 @@ msgstr "速度:"
 msgid "Alt/AZ"
 msgstr ""
 
-#: ekos/observatory/observatory.cpp:243
+#: ekos/observatory/observatory.cpp:250
 #, kde-format
 msgid "%1 error. See INDI log for details."
 msgstr ""
 
-#: ekos/observatory/observatory.cpp:244 ekos/observatory/observatory.cpp:255
-#: ekos/observatory/observatory.cpp:295 ekos/observatory/observatory.cpp:310
-#: ekos/observatory/observatory.cpp:325 ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:251 ekos/observatory/observatory.cpp:262
+#: ekos/observatory/observatory.cpp:302 ekos/observatory/observatory.cpp:317
+#: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.cpp:339
 #, kde-format
 msgid "Rolloff roof"
 msgstr ""
 
-#: ekos/observatory/observatory.cpp:255
+#: ekos/observatory/observatory.cpp:262
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is idle."
 msgstr "ドームクリーク"
 
-#: ekos/observatory/observatory.cpp:265 ekos/observatory/observatory.cpp:318
-#: ekos/observatory/observatory.cpp:387
+#: ekos/observatory/observatory.cpp:272 ekos/observatory/observatory.cpp:325
+#: ekos/observatory/observatory.cpp:394
 #, fuzzy, kde-format
 #| msgid "FITS Open"
 msgid "Opening"
 msgstr "FITS オープン"
 
-#: ekos/observatory/observatory.cpp:266 ekos/observatory/observatory.cpp:314
+#: ekos/observatory/observatory.cpp:273 ekos/observatory/observatory.cpp:321
 #, fuzzy, kde-format
 #| msgctxt "City in China"
 #| msgid "Peking"
 msgid "Unparking"
 msgstr "北京"
 
-#: ekos/observatory/observatory.cpp:267
+#: ekos/observatory/observatory.cpp:274
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Rolloff roof opening..."
 msgstr "バッチモード"
 
-#: ekos/observatory/observatory.cpp:271
+#: ekos/observatory/observatory.cpp:278
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Dome is moving clockwise..."
 msgstr "バッチモード"
 
-#: ekos/observatory/observatory.cpp:282 ekos/observatory/observatory.cpp:303
-#: ekos/observatory/observatory.cpp:397
+#: ekos/observatory/observatory.cpp:289 ekos/observatory/observatory.cpp:310
+#: ekos/observatory/observatory.cpp:404
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Closing"
 msgstr "閉じる"
 
-#: ekos/observatory/observatory.cpp:283 ekos/observatory/observatory.cpp:299
-#: ekos/observatory/observatory.cpp:357
+#: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
+#: ekos/observatory/observatory.cpp:364
 #, fuzzy, kde-format
 #| msgctxt "City in Australia"
 #| msgid "Parkes"
 msgid "Unpark"
 msgstr "パークス"
 
-#: ekos/observatory/observatory.cpp:284
+#: ekos/observatory/observatory.cpp:291
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Rolloff roof is closing..."
 msgstr "バッチモード"
 
-#: ekos/observatory/observatory.cpp:288
+#: ekos/observatory/observatory.cpp:295
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Dome is moving counter clockwise..."
 msgstr "バッチモード"
 
-#: ekos/observatory/observatory.cpp:295
+#: ekos/observatory/observatory.cpp:302
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is parked."
 msgstr "ドームクリーク"
 
-#: ekos/observatory/observatory.cpp:310
+#: ekos/observatory/observatory.cpp:317
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is parking..."
 msgstr "ドームクリーク"
 
-#: ekos/observatory/observatory.cpp:325
+#: ekos/observatory/observatory.cpp:332
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is unparking..."
 msgstr "ドームクリーク"
 
-#: ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:339
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is tracking."
 msgstr "ドームクリーク"
 
-#: ekos/observatory/observatory.cpp:344
+#: ekos/observatory/observatory.cpp:351
 #, fuzzy, kde-format
 #| msgctxt "City in Australia"
 #| msgid "Parkes"
 msgid "Unparked"
 msgstr "パークス"
 
-#: ekos/observatory/observatory.cpp:363 ekos/observatory/observatory.cpp:392
+#: ekos/observatory/observatory.cpp:370 ekos/observatory/observatory.cpp:399
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Closed"
 msgstr "閉じる"
 
-#: ekos/observatory/observatory.cpp:381
+#: ekos/observatory/observatory.cpp:388
 #, fuzzy, kde-format
 #| msgid "FITS Open"
 msgid "Opened"
 msgstr "FITS オープン"
 
-#: ekos/observatory/observatory.cpp:383
+#: ekos/observatory/observatory.cpp:390
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Shutter is open."
 msgstr "FITS ファイルを %1 に保存しました。"
 
-#: ekos/observatory/observatory.cpp:388
+#: ekos/observatory/observatory.cpp:395
 #, kde-format
 msgid "Shutter is opening..."
 msgstr ""
 
-#: ekos/observatory/observatory.cpp:394
+#: ekos/observatory/observatory.cpp:401
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Shutter is closed."
 msgstr "停止中の時計を再開"
 
-#: ekos/observatory/observatory.cpp:398
+#: ekos/observatory/observatory.cpp:405
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Shutter is closing..."
 msgstr "設定(&S)"
 
-#: ekos/observatory/observatory.cpp:686
+#: ekos/observatory/observatory.cpp:710
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 = %2 @ %3"
 msgstr "%1, %2 と %3"
 
-#: ekos/observatory/observatory.cpp:737
+#: ekos/observatory/observatory.cpp:761
 #, fuzzy, kde-format
 #| msgid "Weather:"
 msgid "Weather is OK"
 msgstr "天候:"
 
-#: ekos/observatory/observatory.cpp:741
+#: ekos/observatory/observatory.cpp:767
 #, fuzzy, kde-format
 #| msgctxt "City in Volga Region Russia"
 #| msgid "Saratov"
 msgid "Weather Warning"
 msgstr "サラトフ"
 
-#: ekos/observatory/observatory.cpp:745
+#: ekos/observatory/observatory.cpp:773
 #, fuzzy, kde-format
 #| msgid "Weather:"
 msgid "Weather Alert"
 msgstr "天候:"
 
-#: ekos/observatory/observatory.cpp:1025 ekos/observatory/observatory.cpp:1036
+#: ekos/observatory/observatory.cpp:1055 ekos/observatory/observatory.cpp:1066
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format
@@ -25062,7 +25062,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2144
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stop Scheduler"
@@ -27770,17 +27770,17 @@ msgstr "カリエンテ"
 msgid "Guiding complete"
 msgstr "完了"
 
-#: ekos/scheduler/scheduler.cpp:2072
+#: ekos/scheduler/scheduler.cpp:2074
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2076
+#: ekos/scheduler/scheduler.cpp:2078
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2080
+#: ekos/scheduler/scheduler.cpp:2082
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
@@ -27795,19 +27795,19 @@ msgstr ""
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2132
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "FITS ファイルを %1 に保存しました。"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2195
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Manual startup procedure completed successfully."
 msgstr "入力座標を選択"
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2199
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -29244,108 +29244,108 @@ msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3739
+#: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3764
+#: ekos/scheduler/schedulerprocess.cpp:3766
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Manual shutdown procedure completed successfully."
 msgstr "入力座標を選択"
 
-#: ekos/scheduler/schedulerprocess.cpp:3770
+#: ekos/scheduler/schedulerprocess.cpp:3772
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3785
+#: ekos/scheduler/schedulerprocess.cpp:3787
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3808
+#: ekos/scheduler/schedulerprocess.cpp:3810
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking Cap..."
 msgstr "電波望遠鏡"
 
-#: ekos/scheduler/schedulerprocess.cpp:3814
+#: ekos/scheduler/schedulerprocess.cpp:3816
 #, kde-format
 msgid "Cap already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3823
+#: ekos/scheduler/schedulerprocess.cpp:3825
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3845
+#: ekos/scheduler/schedulerprocess.cpp:3847
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking cap..."
 msgstr "電波望遠鏡"
 
-#: ekos/scheduler/schedulerprocess.cpp:3851
+#: ekos/scheduler/schedulerprocess.cpp:3853
 #, kde-format
 msgid "Cap already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3860
+#: ekos/scheduler/schedulerprocess.cpp:3862
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3918
+#: ekos/scheduler/schedulerprocess.cpp:3920
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount in progress..."
 msgstr "電波望遠鏡"
 
-#: ekos/scheduler/schedulerprocess.cpp:3932
+#: ekos/scheduler/schedulerprocess.cpp:3934
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3958
+#: ekos/scheduler/schedulerprocess.cpp:3960
 #, kde-format
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4056
+#: ekos/scheduler/schedulerprocess.cpp:4058
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4079
+#: ekos/scheduler/schedulerprocess.cpp:4081
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome..."
 msgstr "電波望遠鏡"
 
-#: ekos/scheduler/schedulerprocess.cpp:4085
+#: ekos/scheduler/schedulerprocess.cpp:4087
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4095
+#: ekos/scheduler/schedulerprocess.cpp:4097
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4115
+#: ekos/scheduler/schedulerprocess.cpp:4117
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dome..."
 msgstr "電波望遠鏡"
 
-#: ekos/scheduler/schedulerprocess.cpp:4121
+#: ekos/scheduler/schedulerprocess.cpp:4123
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4202
+#: ekos/scheduler/schedulerprocess.cpp:4204
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -29354,17 +29354,17 @@ msgid ""
 "ready..."
 msgstr "カリエンテ"
 
-#: ekos/scheduler/schedulerprocess.cpp:4479
+#: ekos/scheduler/schedulerprocess.cpp:4496
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4484
+#: ekos/scheduler/schedulerprocess.cpp:4501
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4545
+#: ekos/scheduler/schedulerprocess.cpp:4562
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"

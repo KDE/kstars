@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-13 01:39+0000\n"
+"POT-Creation-Date: 2024-06-14 01:37+0000\n"
 "PO-Revision-Date: 2024-06-12 18:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -1982,15 +1982,15 @@ msgstr "Стан:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3427 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3460 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1326
-#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2219
+#: ekos/scheduler/scheduler.cpp:2227 ekos/scheduler/scheduler.cpp:2237
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format, kde-kuit-format
@@ -3616,7 +3616,7 @@ msgid "Never rises"
 msgstr "Ніколи не сходить"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
-#: ekos/observatory/observatory.cpp:164
+#: ekos/observatory/observatory.cpp:171
 #: kstarslite/dialogs/detaildialoglite.cpp:532
 #: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:632
 #: printing/detailstable.cpp:633
@@ -6400,10 +6400,10 @@ msgstr "Захоплення перервано."
 msgid "Solver aborted after %1 seconds."
 msgstr "Розв'язування перервано за %1 секунд."
 
-#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4082
+#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
 #: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:767
-#: ekos/observatory/observatory.cpp:952
+#: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6609,7 +6609,7 @@ msgstr "Некоректна адреса: %1"
 #: ekos/align/align.cpp:3957 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2893
-#: ekos/scheduler/schedulerprocess.cpp:4420
+#: ekos/scheduler/schedulerprocess.cpp:4437
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
@@ -6619,8 +6619,8 @@ msgstr "Не вдалося виконати запис до файла %1"
 #: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
-#: ekos/scheduler/schedulerprocess.cpp:4421
-#: ekos/scheduler/schedulerprocess.cpp:4441 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4438
+#: ekos/scheduler/schedulerprocess.cpp:4458 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:257
@@ -7279,7 +7279,7 @@ msgstr "Відкриття списку вирівнювання Ekos"
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
 #: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
-#: ekos/scheduler/schedulerprocess.cpp:4440
+#: ekos/scheduler/schedulerprocess.cpp:4457
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Не вдалося відкрити файл %1"
@@ -8752,8 +8752,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:350 ekos/observatory/observatory.cpp:393
-#: ekos/observatory/observatory.cpp:397 ekos/observatory/observatory.cpp:496
+#: ekos/observatory/observatory.cpp:357 ekos/observatory/observatory.cpp:400
+#: ekos/observatory/observatory.cpp:404 ekos/observatory/observatory.cpp:515
 #: ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
@@ -10359,14 +10359,14 @@ msgid "Failed to find solver settings."
 msgstr "Не вдалося знайти параметри розв'язка."
 
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
-#: ekos/observatory/observatory.cpp:356 indi/indidome.cpp:21
+#: ekos/observatory/observatory.cpp:363 indi/indidome.cpp:21
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #, kde-format
 msgid "Parked"
 msgstr "Запарковано"
 
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:150
-#: ekos/observatory/observatory.cpp:283 ekos/observatory/observatory.cpp:299
+#: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #, kde-format
 msgid "Parking"
@@ -10481,7 +10481,7 @@ msgstr "Лафет"
 msgid "Job"
 msgstr "Завдання"
 
-#: ekos/analyze/analyze.cpp:2541
+#: ekos/analyze/analyze.cpp:2574
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10492,7 +10492,7 @@ msgstr ""
 "встановлено. Без цього ви не отримаєте значень РПП. Щойно значення буде "
 "встановлено, для новостворених зображень буде обчислено РПП."
 
-#: ekos/analyze/analyze.cpp:2557
+#: ekos/analyze/analyze.cpp:2590
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10504,7 +10504,7 @@ msgstr ""
 "зображенні. Щойно значення буде встановлено, для новостворених зображень "
 "буде обчислено кількість зірок."
 
-#: ekos/analyze/analyze.cpp:3429 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3462 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1332
@@ -10512,97 +10512,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Перервано"
 
-#: ekos/analyze/analyze.cpp:3431 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3464 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "З'єднано"
 
-#: ekos/analyze/analyze.cpp:3433 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3466 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Від'єднано"
 
-#: ekos/analyze/analyze.cpp:3435 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Capturing"
 msgstr "Захоплення"
 
-#: ekos/analyze/analyze.cpp:3437 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3470 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Цикл"
 
-#: ekos/analyze/analyze.cpp:3439 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3472 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Віднімаємо"
 
-#: ekos/analyze/analyze.cpp:3441 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Формуємо підкадр"
 
-#: ekos/analyze/analyze.cpp:3443 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Вибираємо зірку"
 
-#: ekos/analyze/analyze.cpp:3445 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3478 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Калібруємо"
 
-#: ekos/analyze/analyze.cpp:3447 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Помилка калібрування"
 
-#: ekos/analyze/analyze.cpp:3449 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Калібровано"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3451 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1994
 #, kde-format
 msgid "Guiding"
 msgstr "Наведення"
 
-#: ekos/analyze/analyze.cpp:3453 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3486 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Призупинено"
 
-#: ekos/analyze/analyze.cpp:3455 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Повторне отримання"
 
-#: ekos/analyze/analyze.cpp:3457 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Малий рух"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3459 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Малий рух вручну"
 
-#: ekos/analyze/analyze.cpp:3461 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Помилка малого руху"
 
-#: ekos/analyze/analyze.cpp:3463 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Успішний малий рух"
 
-#: ekos/analyze/analyze.cpp:3465 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Встановлення"
@@ -12675,10 +12675,10 @@ msgstr "&Типовий"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
 #. i18n: ectx: property (text), widget (QCheckBox, useDomeCB)
-#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:244
-#: ekos/observatory/observatory.cpp:255 ekos/observatory/observatory.cpp:295
-#: ekos/observatory/observatory.cpp:310 ekos/observatory/observatory.cpp:325
-#: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.ui:57
+#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:251
+#: ekos/observatory/observatory.cpp:262 ekos/observatory/observatory.cpp:302
+#: ekos/observatory/observatory.cpp:317 ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:339 ekos/observatory/observatory.ui:57
 #: ekos/observatory/observatory.ui:722
 #, kde-format
 msgid "Dome"
@@ -13444,8 +13444,8 @@ msgstr "Тепер ви можете з'єднуватися із вашим о�
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
 #: ekos/auxiliary/serialportassistant.ui:264
 #: ekos/ekoslive/ekoslivedialog.ui:334 ekos/indihub.ui:165
-#: ekos/observatory/observatory.cpp:382 ekos/observatory/observatory.cpp:387
-#: ekos/observatory/observatory.cpp:497 ekos/observatory/observatory.ui:631
+#: ekos/observatory/observatory.cpp:389 ekos/observatory/observatory.cpp:394
+#: ekos/observatory/observatory.cpp:517 ekos/observatory/observatory.ui:631
 #: indi/guimanager.cpp:76 kstarslite/qml/modules/tutorial/TutorialPopup.qml:61
 #, kde-format, kde-kuit-format
 msgid "Close"
@@ -24210,8 +24210,8 @@ msgstr "Перехід за меридіаном успішно завершен
 msgid "Telescope completed the meridian flip."
 msgstr "Телескопом успішно виконано перехід за меридіаном."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1028
-#: ekos/observatory/observatory.cpp:1039
+#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, kde-format
@@ -24328,7 +24328,7 @@ msgstr "Дані моделі вирівнювання вилучено."
 msgid "Failed to clear Alignment Model."
 msgstr "Не вдалося вилучити дані моделі вирівнювання."
 
-#: ekos/mount/mount.cpp:1281 ekos/scheduler/schedulerprocess.cpp:3885
+#: ekos/mount/mount.cpp:1281 ekos/scheduler/schedulerprocess.cpp:3887
 #, kde-format
 msgid "Mount already parked."
 msgstr "Лафет уже запарковано."
@@ -24565,8 +24565,8 @@ msgstr "❙"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:734 ekos/observatory/observatory.cpp:266
-#: ekos/observatory/observatory.cpp:314 ekos/observatory/observatory.cpp:343
+#: ekos/mount/mount.ui:734 ekos/observatory/observatory.cpp:273
+#: ekos/observatory/observatory.cpp:321 ekos/observatory/observatory.cpp:350
 #: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
 #, kde-format
 msgid "Park"
@@ -24674,142 +24674,142 @@ msgstr "Швидкість"
 msgid "Alt/AZ"
 msgstr "Вис/Аз"
 
-#: ekos/observatory/observatory.cpp:243
+#: ekos/observatory/observatory.cpp:250
 #, kde-format
 msgid "%1 error. See INDI log for details."
 msgstr "Помилка %1. Докладніший опис можна знайти у журналі INDI."
 
-#: ekos/observatory/observatory.cpp:244 ekos/observatory/observatory.cpp:255
-#: ekos/observatory/observatory.cpp:295 ekos/observatory/observatory.cpp:310
-#: ekos/observatory/observatory.cpp:325 ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:251 ekos/observatory/observatory.cpp:262
+#: ekos/observatory/observatory.cpp:302 ekos/observatory/observatory.cpp:317
+#: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.cpp:339
 #, kde-format
 msgid "Rolloff roof"
 msgstr "Розсувний дах"
 
-#: ekos/observatory/observatory.cpp:255
+#: ekos/observatory/observatory.cpp:262
 #, kde-format
 msgid "%1 is idle."
 msgstr "%1 бездіяльний."
 
-#: ekos/observatory/observatory.cpp:265 ekos/observatory/observatory.cpp:318
-#: ekos/observatory/observatory.cpp:387
+#: ekos/observatory/observatory.cpp:272 ekos/observatory/observatory.cpp:325
+#: ekos/observatory/observatory.cpp:394
 #, kde-format
 msgid "Opening"
 msgstr "Відкриваємо"
 
-#: ekos/observatory/observatory.cpp:266 ekos/observatory/observatory.cpp:314
+#: ekos/observatory/observatory.cpp:273 ekos/observatory/observatory.cpp:321
 #, kde-format
 msgid "Unparking"
 msgstr "Знімаємо з паркування"
 
-#: ekos/observatory/observatory.cpp:267
+#: ekos/observatory/observatory.cpp:274
 #, kde-format
 msgid "Rolloff roof opening..."
 msgstr "Відкриваємо розсувний дах…"
 
-#: ekos/observatory/observatory.cpp:271
+#: ekos/observatory/observatory.cpp:278
 #, kde-format
 msgid "Dome is moving clockwise..."
 msgstr "Купол рухається за годинниковою стрілкою…"
 
-#: ekos/observatory/observatory.cpp:282 ekos/observatory/observatory.cpp:303
-#: ekos/observatory/observatory.cpp:397
+#: ekos/observatory/observatory.cpp:289 ekos/observatory/observatory.cpp:310
+#: ekos/observatory/observatory.cpp:404
 #, kde-format
 msgid "Closing"
 msgstr "Закриваємо"
 
-#: ekos/observatory/observatory.cpp:283 ekos/observatory/observatory.cpp:299
-#: ekos/observatory/observatory.cpp:357
+#: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
+#: ekos/observatory/observatory.cpp:364
 #, kde-format
 msgid "Unpark"
 msgstr "Зняти з паркування"
 
-#: ekos/observatory/observatory.cpp:284
+#: ekos/observatory/observatory.cpp:291
 #, kde-format
 msgid "Rolloff roof is closing..."
 msgstr "Закриваємо розсувний дах…"
 
-#: ekos/observatory/observatory.cpp:288
+#: ekos/observatory/observatory.cpp:295
 #, kde-format
 msgid "Dome is moving counter clockwise..."
 msgstr "Купол рухається проти годинникової стрілки…"
 
-#: ekos/observatory/observatory.cpp:295
+#: ekos/observatory/observatory.cpp:302
 #, kde-format
 msgid "%1 is parked."
 msgstr "%1 запарковано."
 
-#: ekos/observatory/observatory.cpp:310
+#: ekos/observatory/observatory.cpp:317
 #, kde-format
 msgid "%1 is parking..."
 msgstr "Паркуємо %1…"
 
-#: ekos/observatory/observatory.cpp:325
+#: ekos/observatory/observatory.cpp:332
 #, kde-format
 msgid "%1 is unparking..."
 msgstr "Знімаємо з паркування %1…"
 
-#: ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:339
 #, kde-format
 msgid "%1 is tracking."
 msgstr "Стежимо за пристроєм «%1»."
 
-#: ekos/observatory/observatory.cpp:344
+#: ekos/observatory/observatory.cpp:351
 #, kde-format
 msgid "Unparked"
 msgstr "Знято з паркування"
 
-#: ekos/observatory/observatory.cpp:363 ekos/observatory/observatory.cpp:392
+#: ekos/observatory/observatory.cpp:370 ekos/observatory/observatory.cpp:399
 #, kde-format
 msgid "Closed"
 msgstr "Закрито"
 
-#: ekos/observatory/observatory.cpp:381
+#: ekos/observatory/observatory.cpp:388
 #, kde-format
 msgid "Opened"
 msgstr "Відкрито"
 
-#: ekos/observatory/observatory.cpp:383
+#: ekos/observatory/observatory.cpp:390
 #, kde-format
 msgid "Shutter is open."
 msgstr "Затвор відкрито."
 
-#: ekos/observatory/observatory.cpp:388
+#: ekos/observatory/observatory.cpp:395
 #, kde-format
 msgid "Shutter is opening..."
 msgstr "Відкриваємо затвор…"
 
-#: ekos/observatory/observatory.cpp:394
+#: ekos/observatory/observatory.cpp:401
 #, kde-format
 msgid "Shutter is closed."
 msgstr "Затвор закрито."
 
-#: ekos/observatory/observatory.cpp:398
+#: ekos/observatory/observatory.cpp:405
 #, kde-format
 msgid "Shutter is closing..."
 msgstr "Закриваємо затвор…"
 
-#: ekos/observatory/observatory.cpp:686
+#: ekos/observatory/observatory.cpp:710
 #, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/observatory/observatory.cpp:737
+#: ekos/observatory/observatory.cpp:761
 #, kde-format
 msgid "Weather is OK"
 msgstr "Сприятлива погода"
 
-#: ekos/observatory/observatory.cpp:741
+#: ekos/observatory/observatory.cpp:767
 #, kde-format
 msgid "Weather Warning"
 msgstr "Попередження щодо погоди"
 
-#: ekos/observatory/observatory.cpp:745
+#: ekos/observatory/observatory.cpp:773
 #, kde-format
 msgid "Weather Alert"
 msgstr "Застереження щодо погоди"
 
-#: ekos/observatory/observatory.cpp:1025 ekos/observatory/observatory.cpp:1036
+#: ekos/observatory/observatory.cpp:1055 ekos/observatory/observatory.cpp:1066
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format
@@ -25085,7 +25085,7 @@ msgstr "Закрити затвор"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2144
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Припинити виконання плану"
@@ -27894,17 +27894,17 @@ msgstr "Зміну позиції завершено"
 msgid "Guiding complete"
 msgstr "Наведення завершено"
 
-#: ekos/scheduler/scheduler.cpp:2072
+#: ekos/scheduler/scheduler.cpp:2074
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Погодні умови є СПРИЯТЛИВИМИ."
 
-#: ekos/scheduler/scheduler.cpp:2076
+#: ekos/scheduler/scheduler.cpp:2078
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Попередження! Погодні умови можуть змінитися на НЕСПРИЯТЛИВІ!"
 
-#: ekos/scheduler/scheduler.cpp:2080
+#: ekos/scheduler/scheduler.cpp:2082
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Увага! Погодні умови перебувають у зоні РИЗИКУ!"
@@ -27919,17 +27919,17 @@ msgstr "Погодні умови близькі до несприятливих
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Погодні умови є критичними. Вимикання обсерваторії не уникнути."
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2132
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Планувальник перебуває у режимі сну"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2195
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Процедуру запуску вручну успішно завершено."
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2199
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Процедуру запуску вручну перервано через помилки."
@@ -29410,108 +29410,108 @@ msgstr ""
 "Увага! Лафет запарковано під час виконання завдання «%1» планувальника. "
 "Перериваємо обробку."
 
-#: ekos/scheduler/schedulerprocess.cpp:3739
+#: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr "Починаємо процедуру вимикання через несприятливі погодні умови."
 
-#: ekos/scheduler/schedulerprocess.cpp:3764
+#: ekos/scheduler/schedulerprocess.cpp:3766
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Процедуру вимикання вручну успішно завершено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3770
+#: ekos/scheduler/schedulerprocess.cpp:3772
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Процедуру вимикання вручну перервано через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:3785
+#: ekos/scheduler/schedulerprocess.cpp:3787
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 "Надіслано запит щодо паркування протипилової кришки, але протипилових кришок "
 "не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3808
+#: ekos/scheduler/schedulerprocess.cpp:3810
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Паркуємо кришку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3814
+#: ekos/scheduler/schedulerprocess.cpp:3816
 #, kde-format
 msgid "Cap already parked."
 msgstr "Кришку уже запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:3823
+#: ekos/scheduler/schedulerprocess.cpp:3825
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 "Надіслано запит щодо зняття протипилової кришки з паркування, але "
 "протипилових кришок не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3845
+#: ekos/scheduler/schedulerprocess.cpp:3847
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Знімаємо з паркування кришку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3851
+#: ekos/scheduler/schedulerprocess.cpp:3853
 #, kde-format
 msgid "Cap already unparked."
 msgstr "Кришку уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:3860
+#: ekos/scheduler/schedulerprocess.cpp:3862
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr "Надіслано запит щодо паркування лафета, але лафетів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3918
+#: ekos/scheduler/schedulerprocess.cpp:3920
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Паркуємо лафет…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3932
+#: ekos/scheduler/schedulerprocess.cpp:3934
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 "Надіслано запит щодо зняття лафета з паркування, але лафетів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3958
+#: ekos/scheduler/schedulerprocess.cpp:3960
 #, kde-format
 msgid "Mount already unparked."
 msgstr "Лафет уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:4056
+#: ekos/scheduler/schedulerprocess.cpp:4058
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Надіслано запит щодо паркування купола, але куполів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4079
+#: ekos/scheduler/schedulerprocess.cpp:4081
 #, kde-format
 msgid "Parking dome..."
 msgstr "Паркуємо купол…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4085
+#: ekos/scheduler/schedulerprocess.cpp:4087
 #, kde-format
 msgid "Dome already parked."
 msgstr "Купол уже запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:4095
+#: ekos/scheduler/schedulerprocess.cpp:4097
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 "Надіслано запит щодо зняття купола з паркування, але куполів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4115
+#: ekos/scheduler/schedulerprocess.cpp:4117
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Знімаємо з паркування купол…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4121
+#: ekos/scheduler/schedulerprocess.cpp:4123
 #, kde-format
 msgid "Dome already unparked."
 msgstr "Купол уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:4202
+#: ekos/scheduler/schedulerprocess.cpp:4204
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -29520,17 +29520,17 @@ msgstr ""
 "Присипляємо на %1 за годинником оновлення імітації, до того, як буде готове "
 "наступне завдання зі спостереження…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4479
+#: ekos/scheduler/schedulerprocess.cpp:4496
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Не вдалося виконати скрипт запуску. Перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4484
+#: ekos/scheduler/schedulerprocess.cpp:4501
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Не вдалося виконати скрипт завершення роботи. Перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4545
+#: ekos/scheduler/schedulerprocess.cpp:4562
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
