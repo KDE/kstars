@@ -29,6 +29,7 @@
 
 ServerManager::ServerManager(const QString &inHost, int inPort) : host(inHost), port(inPort)
 {
+    connect(this, &ServerManager::scriptDriverStarted, this, &ServerManager::connectScriptDriver, Qt::BlockingQueuedConnection);
 }
 
 ServerManager::~ServerManager()
@@ -251,6 +252,7 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
     // Sleep for PostDelay seconds if required.
     if (PostDelay > 0)
     {
+        emit scriptDriverStarted(driver);
         qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver delay for" << PreDelay << "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(PostDelay));
     }
@@ -498,4 +500,25 @@ QString ServerManager::getLogBuffer()
 
     serverBuffer.open();
     return serverBuffer.readAll();
+}
+
+void ServerManager::connectScriptDriver(const QSharedPointer<DriverInfo> &driver)
+{
+    // If we have post delay, ensure all devices are connected for this driver
+    auto host = driver->getRemoteHost().isEmpty() ? driver->getHost() : driver->getRemoteHost();
+    auto port = driver->getRemoteHost().isEmpty() ? driver->getPort() : driver->getRemotePort().toInt();
+    auto manager = new ClientManager();
+    manager->setServer(host.toLatin1().constData(), port);
+    connect(manager, &ClientManager::newINDIProperty, [manager](INDI::Property property)
+    {
+        if (QString(property.getName()) == "CONNECTION")
+            manager->connectDevice(property.getDeviceName());
+    });
+    manager->establishConnection();
+    // Destory after 5 seconds in all cases
+    QTimer::singleShot(5000, this, [manager]()
+    {
+        manager->disconnect();
+        manager->deleteLater();
+    });
 }

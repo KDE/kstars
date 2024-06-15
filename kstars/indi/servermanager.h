@@ -87,6 +87,7 @@ class ServerManager : public QObject
     public slots:
         void processServerError(QProcess::ProcessError);
         void processStandardError();
+        void connectScriptDriver(const QSharedPointer<DriverInfo> &driver);
 
     private:
         QTcpSocket serverSocket;
@@ -110,13 +111,12 @@ class ServerManager : public QObject
         void stopped();
         void failed(const QString &message);
         void terminated(const QString &message);
-
-
         void newServerLog();
 
         // Driver Signals
         void driverStarted(const QSharedPointer<DriverInfo> &driver);
         void driverStopped(const QSharedPointer<DriverInfo> &driver);
         void driverRestarted(const QSharedPointer<DriverInfo> &driver);
+        void scriptDriverStarted(const QSharedPointer<DriverInfo> &driver);
         void driverFailed(const QSharedPointer<DriverInfo> &driver, const QString &message);
 };
