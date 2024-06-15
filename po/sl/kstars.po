@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-14 01:37+0000\n"
-"PO-Revision-Date: 2024-05-31 18:11+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2024-06-14 22:28+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -49,9 +49,9 @@ msgid "Sky"
 msgstr "Nebo"
 
 #: auxiliary/colorscheme.cpp:30
-#, kde-format
+#, fuzzy, kde-format
 msgid "Sky Daytime"
-msgstr ""
+msgstr "Nebo podnevi"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -841,12 +841,12 @@ msgid "North Down"
 msgstr "Sever dol"
 
 #: auxiliary/skymapview.cpp:91
-#, kde-format
+#, fuzzy, kde-format
 msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "SCT z diagonalo navzgor"
 
 #: auxiliary/skymapview.cpp:100
 #, kde-format
@@ -5603,9 +5603,9 @@ msgstr "Dodaj/uredi pogled"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
-#, kde-format
+#, fuzzy, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr ""
+msgstr "Iskalnik 9x50 RACI na Dobu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
@@ -5628,29 +5628,31 @@ msgstr "Azimutna"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "**Note:** Choose mount type \"Altazimuth\" when visually observing through "
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
+"**Opomba:** Pri vizualnem opazovanju skozi SCT / refraktorje izberite vrsto "
+"nosilca »Altazimut«, ne glede na dejansko montažo."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
-#, kde-format
+#, fuzzy, kde-format
 msgid "Correct (e.g. RACI finder or refractor with Amici roof prism)"
-msgstr ""
+msgstr "Pravilno (npr. iskalnik RACI ali refraktor s krovno prizmo Amici)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, mirroredViewType)
 #: dialogs/newview.ui:115
-#, kde-format
+#, fuzzy, kde-format
 msgid "Mirrored (e.g. Cassegrain or refractor with erecting prism)"
-msgstr ""
+msgstr "Zrcalno (npr. Cassegrain ali refraktor z erekcijsko prizmo)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedViewType)
 #: dialogs/newview.ui:122
-#, kde-format
+#, fuzzy, kde-format
 msgid "Inverted (e.g. straight through finder, Newtonian)"
-msgstr ""
+msgstr "Obrnjeno (npr. naravnost skozi iskalnik, newtonski)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
@@ -5660,9 +5662,9 @@ msgstr "Vrsta pogleda:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
-#, kde-format
+#, fuzzy, kde-format
 msgid "Mirrored on the vertical axis (i.e. inverted and mirrored)"
-msgstr ""
+msgstr "Zrcaljeno na navpični osi (tj. obrnjeno in zrcalno)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
@@ -5691,37 +5693,40 @@ msgstr "Teleskopi z okularjem na vrhu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/newview.ui:223
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "The human silhouette indicates on which side of the telescope the observer "
 "is assumed to stand."
 msgstr ""
+"Človeška silhueta kaže, na kateri strani teleskopa naj bi opazovalec stal."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/newview.ui:259
-#, kde-format
+#, fuzzy, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
-msgstr ""
+msgstr "(predogled prikazuje pogled navzdol po newtonski cevi)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
-#, kde-format
+#, fuzzy, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr ""
+msgstr "(predogled prikazuje pogled hrbtne strani SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
+"Zaslon, nameščen na teleskopu (preverite tudi, če namesto opazovanja z "
+"gledanjem uporabljate kamero)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, kde-format
+#, fuzzy, kde-format
 msgid "Also set the field of view"
-msgstr ""
+msgstr "Nastavite tudi vidno polje"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5750,10 +5755,12 @@ msgid "Now"
 msgstr "Sedaj"
 
 #: dialogs/viewsdialog.cpp:41
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
 msgstr ""
+"Upravljanje pogledov zvezdne karte/zemljevida neba (poenoti po celem kstars."
+"po)"
 
 #: dialogs/viewsdialog.cpp:198
 #, kde-format
@@ -5768,22 +5775,24 @@ msgid "New View"
 msgstr "Novi pogled"
 
 #: dialogs/viewsdialog.cpp:321
-#, kde-format
+#, fuzzy, kde-format
 msgid "Conflicting View Name"
-msgstr ""
+msgstr "Sporno ime pogleda"
 
 #: dialogs/viewsdialog.cpp:322
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "There already exists a view with the name you attempted to use. Please "
 "choose a different name for this view."
 msgstr ""
+"Obstaja že pogled z imenom, ki ste ga poskušali uporabiti. Izberite drugo "
+"ime za ta pogled."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ViewsDialog)
 #: dialogs/viewsdialog.ui:14
-#, kde-format
+#, fuzzy, kde-format
 msgid "Edit Sky Map Views"
-msgstr ""
+msgstr "Uredi poglede zemljevida neba/zvezdne karte"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
@@ -5793,37 +5802,41 @@ msgstr "Dodaj novi pogled"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
+"Na seznam dodajte nov pogled.  Določite lahko pariteto, usmerjenost in druge "
+"parametre."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, kde-format
+#, fuzzy, kde-format
 msgid "Modify the highlighted View"
-msgstr ""
+msgstr "Spremeni poudarjeni pogled"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
+"Pritisnite ta gumb, če želite spremeniti poudarjeni pogled.  Njegove "
+"parametre lahko spremenite."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, kde-format
+#, fuzzy, kde-format
 msgid "Remove highlighted View"
-msgstr ""
+msgstr "Odstrani poudarjeni pogled"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, kde-format
+#, fuzzy, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr ""
+msgstr "Pritisnite ta gumb, da odstranite poudarjeni pogled s seznama."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -10544,10 +10557,11 @@ msgstr "Vhod:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:123
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Prikažite prejšnjo datoteko .analyze.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
@@ -10557,9 +10571,11 @@ msgstr "<<"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:145
-#, kde-format
+#, fuzzy, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Prikažite naslednjo datoteko .analyze.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
@@ -16100,9 +16116,11 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Čas za osvetlitev je potekel. Prekinjanje …"
 
 #: ekos/capture/captureprocess.cpp:2029
-#, kde-format
+#, fuzzy, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
+"Časovna omejitev ekspozicije. Zaznane so bile več kot 3, gonilnik bo znova "
+"zagnan."
 
 #: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5339
 #: ekos/guide/guide.cpp:992
@@ -17240,9 +17258,9 @@ msgstr "Urejevalnik zaporedja zajemov"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceEditorComment)
 #: ekos/capture/sequenceeditorui.ui:26
-#, kde-format
+#, fuzzy, kde-format
 msgid "<comment>"
-msgstr ""
+msgstr "<komentar>"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -25629,9 +25647,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:923
-#, kde-format
+#, fuzzy, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr ""
+msgstr "Vnovično zaženi analizo ob ponovnem zagonu Ekosa"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:947
@@ -34677,9 +34695,9 @@ msgstr "Preklopi izris Sonca na zvezdni karti."
 
 #. i18n: ectx: label, entry (SunScale), group (View)
 #: kstars.kcfg:657
-#, kde-format
+#, fuzzy, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr ""
+msgstr "Za ta faktor povečajte velikost Sonca."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:661
@@ -34695,9 +34713,9 @@ msgstr "Preklopi izris Lune na zvezdni karti."
 
 #. i18n: ectx: label, entry (MoonScale), group (View)
 #: kstars.kcfg:666
-#, kde-format
+#, fuzzy, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr ""
+msgstr "Za ta faktor povečajte velikost Lune."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:670
@@ -37682,9 +37700,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:1981
-#, kde-format
+#, fuzzy, kde-format
 msgid "Go to specific coordinates on calibration."
-msgstr ""
+msgstr "Pojdite na določene koordinate pri umerjanju."
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkMount), group (Capture)
 #: kstars.kcfg:1985
@@ -77558,15 +77576,15 @@ msgstr "Uporabi merilo"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
-#, kde-format
+#, fuzzy, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Merilo izrisa Sonca."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
-#, kde-format
+#, fuzzy, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Za ta faktor povečajte velikost Sonca."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -77594,15 +77612,15 @@ msgstr "Če je označeno, bo Luna izrisana na zvezdni karti."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:237
-#, kde-format
+#, fuzzy, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Merilo izrisa Lune."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
-#, kde-format
+#, fuzzy, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Za ta faktor povečajte velikost Lune."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
@@ -86789,234 +86807,3 @@ msgstr "Nastavite barvo ozadja."
 #~ msgstr ""
 #~ "Zavračanje zahteve za začetek samodejnega ostrenja – poteka prilagodljivo "
 #~ "ostrenje."
-
-#, fuzzy
-#~| msgid "Time out:"
-#~ msgid "Time Source:"
-#~ msgstr "Časovna omejitev:"
-
-#, fuzzy
-#~| msgid "Location:"
-#~ msgid "Location Source:"
-#~ msgstr "Lega:"
-
-#, fuzzy
-#~ msgid "DEC:"
-#~ msgstr "σDEC:"
-
-#, fuzzy
-#~ msgid "ALT:"
-#~ msgstr "VIŠ.:"
-
-#~ msgid "Hour Angle"
-#~ msgstr "Urni kot"
-
-#~ msgid "Local Sidereal TIme"
-#~ msgstr "Krajevni zvezdni čas"
-
-#, fuzzy
-#~ msgid "LST:"
-#~ msgstr "LST:"
-
-#~ msgid ""
-#~ "Action to take if solver if successful (Sync, Slew to Target, or None)"
-#~ msgstr ""
-#~ "Kaj naj se zgodi, če je reševalnik uspešen (uskladi, obrni na cilj, nič)"
-
-#~ msgid "Capturing image again..."
-#~ msgstr "Ponovno zajemanje slike …"
-
-#~ msgid "Exposure failure. Restarting exposure..."
-#~ msgstr "Osvetljevanje ni uspelo. Ponovno zaganjanje osvetljevanja…"
-
-#~ msgid "Detection in progress, please wait."
-#~ msgstr "Zaznavanje je v teku, počakajte …"
-
-#, fuzzy
-#~| msgid "Calibration"
-#~ msgid "Calibraton"
-#~ msgstr "Umerjanje"
-
-#~ msgid "<b>File Settings</b>"
-#~ msgstr "<b>Nastavitve datotek</b>"
-
-#~ msgid "Darks..."
-#~ msgstr "Teme …"
-
-#~ msgid "Limits..."
-#~ msgstr "Meje …"
-
-#~ msgid "Scripts..."
-#~ msgstr "Skripti …"
-
-#, fuzzy
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr ""
-#~ "Gps gonilnik zaznan. KStars ter nastavitve časa namestitve in lokacije so "
-#~ "zdaj sinhronizirane z gonilnikom GPS."
-
-#, fuzzy
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr "GPS je zaznan. Ali želite preklopiti čas in vir lokacije na GPS?"
-
-#~ msgid "GPS Settings"
-#~ msgstr "Nastavitve GPS"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "Datoteka %1 shranjena v %2"
-
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr ""
-#~ "Izberite nastavitve usklajevanja časa in položaja med KStars in napravami "
-#~ "INDI"
-
-#, fuzzy
-#~| msgid "Date && Location"
-#~ msgid "Time && Location Updates"
-#~ msgstr "Datum in lega"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>KStars je glavni vir za nastavitve časa in "
-#~ "lokacije. Vse nastavitve časa in lokacij INDI naprav so sinhronizirane z "
-#~ "nastavitvami programa KStars.</p></body></html>"
-
-#, fuzzy
-#~ msgid "KStars updates all devices"
-#~ msgstr "KStars posodablja vse naprave"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr "Samodejno usklajuj datum in čas iz vira posodobitev."
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Slušalka mount je glavni vir časovnih in "
-#~ "lokacijskih nastavitev. Nastavitve časa in lokacije KStars so "
-#~ "sinhronizirane z nastavitvami krmilnika.</p></body></html>"
-
-#, fuzzy
-#~| msgid "Multiple Star"
-#~ msgid "Mount updates KStars"
-#~ msgstr "Večzvezdje"
-
-#, fuzzy
-#~| msgid "Synchronize KStars location settings from the update source"
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr "Usklajuj nastavitve lege iz vira posodobitev"
-
-#, fuzzy
-#~| msgid "Location:"
-#~ msgid "Location"
-#~ msgstr "Mesto"
-
-#, fuzzy
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Gonilnik GPS je glavni vir časovnih in lokacijskih "
-#~ "nastavitev. Nastavitve časa in lokacije KStars so sinhronizirane z "
-#~ "nastavitvami GPS.</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "GPS posodobi KStars"
-
-#, fuzzy
-#~| msgid "Use computer time and location for synchronization?"
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr "Uporaba računalnikovega časa in položaja za usklajevanje?"
-
-#, fuzzy
-#~| msgid "Use computer time and location for synchronization?"
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr "Uporaba računalnikovega časa in položaja za usklajevanje?"
-
-#, fuzzy
-#~| msgid "Use device time and location for synchronization?"
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr "Uporaba časa in položaja naprave za usklajevanje?"
-
-#~ msgid ""
-#~ "Subtract dark frame. If no suitable dark frame is available, a dark frame "
-#~ "shall be captured."
-#~ msgstr ""
-#~ "Odštej posnetek teme. Če primerni posnetek teme ni na voljo, bo zajet."
-
-#, fuzzy
-#~ msgid "Use dark frames from the library."
-#~ msgstr "Uporabite posnetke teme iz knjižnice."
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "The sun"
-#~ msgstr "Sonce"
-
-#~ msgid "The moon"
-#~ msgstr "Luna"
-
-#, fuzzy
-#~ msgid "Camera frame types when using stand-alone esq editor."
-#~ msgstr "Vrste sličic kamere, ko uporabljate samostojni urejevalnik esq."
-
-#, fuzzy
-#~ msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgstr "Formati sličic kamere pri uporabi samostojnega urejevalnika esq."
-
-#~ msgid "Camera frame encodings when using stand-alone esq editor."
-#~ msgstr "Kodiranje sličic kamere pri uporabi samostojnega urejevalnika esq."
-
-#~ msgid "Camera ISOs when using stand-alone esq editor."
-#~ msgstr "ISO vrednosti kamere pri uporabi samostojnega urejevalnika esq."
-
-#~ msgid "Camera ISO choice when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Izbira ISO fotoaparata/kamere pri uporabi samostojnega urejevalnika esq."
-
-#~ msgid "Filter names when using stand-alone esq editor."
-#~ msgstr "Filtrirajte imena pri uporabi samostojnega urejevalnika esq."
-
-#, fuzzy
-#~ msgid ""
-#~ "Width,Height of sensor size remembered for stand-alone esq editor, and "
-#~ "Gain/Offset keywords."
-#~ msgstr ""
-#~ "Širina, višina velikosti tipala, pomnjena za samostojni urejevalnik esq "
-#~ "in ključni besedi Ojačitev/Zamik."
-
-#, fuzzy
-#~ msgid "Camera temperature properties for stand-alone esq editor."
-#~ msgstr "Formati sličic kamere pri uporabi samostojnega urejevalnika esq."
-
-#~ msgid "Local time that the CaptureStandAlone options were set."
-#~ msgstr "Krajevni čas, ko so bile nastavljene možnosti CaptureStandAlone."
-
-#, fuzzy
-#~ msgid ""
-#~ "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
-#~ "parameters?"
-#~ msgstr ""
-#~ "Prva uporaba optičnega vlaka: %1. Želite, da svetovalnik ostrine "
-#~ "optimizira parametre?"
-
-#, fuzzy
-#~ msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-#~ msgstr "<html><head/><body><p><br/></p></body></html>"
-
-#~ msgid "Wall coordinates are invalid."
-#~ msgstr "Koordinate zidu so neveljavne."
