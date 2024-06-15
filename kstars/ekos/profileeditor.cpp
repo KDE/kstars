@@ -1086,6 +1086,7 @@ void ProfileEditor::executeScriptEditor()
         currentDrivers << oneCombo->currentText();
     currentDrivers.removeAll("--");
     currentDrivers.removeAll("");
+    currentDrivers << ui->remoteDrivers->text();
     currentDrivers.sort();
     ProfileScriptDialog dialog(currentDrivers, pi->scripts, this);
     dialog.exec();
