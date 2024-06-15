@@ -878,9 +878,11 @@ void Manager::start()
     QList<QSharedPointer<DriverInfo>> sortedList;
     for (const auto &oneRule : qAsConst(profileScripts))
     {
-        auto matchingDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(), [oneRule](const auto & oneDriver)
+        auto driver = oneRule.toObject()["Driver"].toString();
+        auto matchingDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(), [oneRule, driver](const auto & oneDriver)
         {
-            return oneDriver->getLabel() == oneRule.toObject()["Driver"].toString();
+            // Account for both local and remote drivers
+            return oneDriver->getLabel() == driver || (driver.startsWith("@") && !oneDriver->getRemoteHost().isEmpty());
         });
 
         if (matchingDriver != managedDrivers.end())
