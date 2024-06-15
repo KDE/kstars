@@ -454,7 +454,7 @@ bool Observatory::addWeatherSource(ISD::Weather *device)
 
     // If default source is empty or matches current device then let's set the current weather source to it
     auto defaultSource = Options::defaultObservatoryWeatherSource();
-    if (defaultSource.isEmpty() || device->getDeviceName() == defaultSource)
+    if (m_WeatherSource == nullptr || defaultSource.isEmpty() || device->getDeviceName() == defaultSource)
         m_WeatherSource = device;
     m_WeatherSources.append(device);
 
